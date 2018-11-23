@@ -374,8 +374,8 @@ export default class PostList extends React.PureComponent {
                     element.scrollIntoView();
                     this.atBottom = this.checkBottom();
                 }
+                this.previousScrollHeight = postList.scrollHeight;
             }
-            this.previousScrollHeight = postList.scrollHeight;
             this.props.actions.checkAndSetMobileView();
         });
     }

@@ -71,56 +71,51 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         const {metadata} = props.post;
         const hasLargeImage = metadata && metadata.images && metadata.images[imageUrl] && imageUrl ? this.hasLargeImage(metadata.images[imageUrl]) : false;
 
-        if (!props.post.metadata && imageUrl) {
-            this.loadImage(imageUrl);
-        }
-
         this.state = {
-            imageLoaded: false,
+            imageLoaded: Boolean(metadata),
             hasLargeImage,
             removePreview,
             imageUrl,
         };
     }
 
+    componentDidMount() {
+        if (!this.props.post.metadata) {
+            this.fetchData(this.props.link);
+            if (this.state.imageUrl) {
+                this.loadImage(this.state.imageUrl);
+            }
+        }
+    }
+
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (!Utils.areObjectsEqual(nextProps.post, this.props.post)) {
             const removePreview = this.isRemovePreview(nextProps.post, nextProps.currentUser);
+            this.setState({
+                removePreview,
+            });
+        }
+
+        if (!Utils.areObjectsEqual(nextProps.openGraphData, this.props.openGraphData)) {
             const imageUrl = this.getBestImageUrl(nextProps.openGraphData);
             const {metadata} = nextProps.post;
             const hasLargeImage = metadata && metadata.images && metadata.images[imageUrl] && imageUrl ? this.hasLargeImage(metadata.images[imageUrl]) : false;
-            if (!nextProps.post.metadata && imageUrl) {
-                this.loadImage(imageUrl);
-            }
 
             this.setState({
                 hasLargeImage,
-                removePreview,
                 imageUrl,
             });
         }
+
         if (nextProps.link !== this.props.link && !nextProps.post.metadata) {
             this.fetchData(nextProps.link);
         }
     }
 
-    componentDidUpdate() {
-        setTimeout(postListScrollChange, 0);
-    }
-
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
-        const removePreview = this.isRemovePreview(this.props.post, this.props.currentUser);
-        if (!this.props.post.metadata) {
-            this.setState({
-                imageLoaded: false,
-                hasLargeImage: false,
-            });
-
-            this.fetchData(this.props.link);
+    componentDidUpdate(prevProps, prevState) {
+        if (!this.props.post.metadata && (this.state.imageUrl !== prevState.imageUrl)) {
+            this.loadImage(this.state.imageUrl);
         }
-        this.setState({
-            removePreview,
-        });
     }
 
     fetchData = (url) => {
@@ -154,19 +149,14 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
     }
 
     onImageLoad = (image) => {
-        this.imageRatio = image.target.naturalWidth / image.target.naturalHeight;
-        if (
-            image.target.naturalWidth >= this.largeImageMinWidth &&
-           this.imageRatio >= this.largeImageMinRatio &&
-           !this.state.hasLargeImage
-        ) {
-            this.setState({
-                hasLargeImage: true,
-            });
-        }
+        const hasLargeImage = this.hasLargeImage({width: image.target.naturalWidth, height: image.target.naturalHeight});
+
         this.setState({
+            hasLargeImage,
             imageLoaded: true,
         });
+
+        postListScrollChange();
     }
 
     loadImage(src) {
@@ -200,17 +190,16 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
     imageTag(imageUrl, renderingForLargeImage = false) {
         let element = null;
         const {metadata} = this.props.post;
-        if (!metadata) {
-            return element;
-        }
 
         if (
             imageUrl && renderingForLargeImage === this.state.hasLargeImage &&
             (!renderingForLargeImage || (renderingForLargeImage && this.props.isEmbedVisible))
         ) {
-            if (this.props.post.metadata || (!this.props.post.metadata && this.state.imageLoaded)) {
+            if (this.state.imageLoaded) {
+                const imagesDimensions = metadata && metadata.images && metadata.images[imageUrl];
+
                 if (renderingForLargeImage) {
-                    const imageDimensions = getFileDimensionsForDisplay(metadata.images && metadata.images[imageUrl], MAX_DIMENSIONS_LARGE_IMAGE);
+                    const imageDimensions = getFileDimensionsForDisplay(imagesDimensions, MAX_DIMENSIONS_LARGE_IMAGE);
 
                     element = (
                         <img
@@ -220,7 +209,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                         />
                     );
                 } else {
-                    const imageDimensions = getFileDimensionsForDisplay(metadata.images && metadata.images[imageUrl], MAX_DIMENSIONS_SMALL_IMAGE);
+                    const imageDimensions = getFileDimensionsForDisplay(imagesDimensions, MAX_DIMENSIONS_SMALL_IMAGE);
                     element = this.wrapInSmallImageContainer(
                         <img
                             className={'attachment__image attachment__image--opengraph'}
@@ -229,14 +218,12 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                         />
                     );
                 }
-            } else if (!this.state.imageLoaded) {
-                if (renderingForLargeImage) {
-                    element = <img className={'attachment__image attachment__image--opengraph loading large_image'}/>;
-                } else {
-                    element = this.wrapInSmallImageContainer(
-                        <img className={'attachment__image attachment__image--opengraph loading '}/>
-                    );
-                }
+            } else if (renderingForLargeImage) {
+                element = <img className={'attachment__image attachment__image--opengraph loading large_image'}/>;
+            } else {
+                element = this.wrapInSmallImageContainer(
+                    <img className={'attachment__image attachment__image--opengraph loading '}/>
+                );
             }
         }
         return element;
