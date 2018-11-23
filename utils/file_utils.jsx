@@ -77,7 +77,7 @@ export function getFileTypeFromMime(mimetype) {
         if (mimeTypeSuffix === 'pdf') {
             return 'pdf';
         } else if (mimeTypeSuffix.includes('vnd.ms-excel') || mimeTypeSuffix.includes('spreadsheetml') || mimeTypeSuffix.includes('vnd.sun.xml.calc') || mimeTypeSuffix.includes('opendocument.spreadsheet')) {
-             return 'spreadsheet';
+            return 'spreadsheet';
         } else if (mimeTypeSuffix.includes('vnd.ms-powerpoint') || mimeTypeSuffix.includes('presentationml') || mimeTypeSuffix.includes('vnd.sun.xml.impress') || mimeTypeSuffix.includes('opendocument.presentation')) {
              return 'presentation';
         } else if ((mimeTypeSuffix === 'msword') || mimeTypeSuffix.includes('vnd.ms-word') || mimeTypeSuffix.includes('officedocument.wordprocessingml') || mimeTypeSuffix.includes('application/x-mswrite')) {
