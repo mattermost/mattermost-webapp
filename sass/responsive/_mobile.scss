@@ -633,10 +633,6 @@
         margin-bottom: 30px;
         padding: 60px 10px 0;
 
-        .min-height--fill {
-            min-height: calc(100vh - 526px);
-        }
-
         .signup-team__name {
             font-size: 2em;
         }
@@ -1813,10 +1809,43 @@
     }
 }
 
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 803px) {
     .signup-team__container {
-        .min-height--fill {
-            min-height: 0;
+        .terms-of-service-error__height--fill {
+            min-height: calc(100vh - 121px - 4em);
+            height: calc(100vh - 121px - 4em);
+        }
+    }
+}
+
+@media screen and (max-width: 449px) {
+    .signup-team__container {
+        .terms-of-service-error__height--fill {
+            min-height: calc(100vh - 138px - 4em);
+            height: calc(100vh - 138px - 4em);
+        }
+    }
+}
+
+@media screen and (max-width: 351px) {
+    .signup-team__container {
+        .terms-of-service-error__height--fill {
+            min-height: calc(100vh - 145px - 4em);
+            height: calc(100vh - 145px - 4em);
+        }
+    }
+}
+
+@media screen and (max-width: 263px) {
+    .signup-team__container {
+        .terms-of-service-error__height--fill {
+            min-height: calc(100vh - 173px - 4em);
+            height: calc(100vh - 173px - 4em);
+        }
+
+        .terms-of-service__height--fill {
+            min-height: calc(100vh - 100px - 3em);
+            height: calc(100vh - 100px - 3em);
         }
     }
 }

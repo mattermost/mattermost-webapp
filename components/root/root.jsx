@@ -285,7 +285,7 @@ export default class Root extends React.Component {
                         path={'/help'}
                         component={HelpController}
                     />
-                    <LoggedInHFTRoute
+                    <LoggedInRoute
                         path={'/terms_of_service'}
                         component={TermsOfService}
                     />
