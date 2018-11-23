@@ -2572,6 +2572,7 @@
   "suggestion.mention.channels": "My Channels",
   "suggestion.mention.here": "Notifies everyone in the channel and online",
   "suggestion.mention.members": "Channel Members",
+  "suggestion.mention.moremembers": "Other Members",
   "suggestion.mention.morechannels": "Other Channels",
   "suggestion.mention.nonmembers": "Not in Channel",
   "suggestion.mention.special": "Special Mentions",

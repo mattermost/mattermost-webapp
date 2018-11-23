@@ -23,7 +23,7 @@ import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
 import EmojiIcon from 'components/svg/emoji_icon';
-import Textbox from 'components/textbox.jsx';
+import Textbox from 'components/textbox';
 import TutorialTip from 'components/tutorial/tutorial_tip';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -527,7 +527,7 @@ export default class CreatePost extends React.Component {
 
     focusTextbox = (keepFocus = false) => {
         if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
-            this.refs.textbox.focus();
+            this.refs.textbox.getWrappedInstance().focus();
         }
     }
 
@@ -538,7 +538,9 @@ export default class CreatePost extends React.Component {
 
         if (allowSending) {
             e.persist();
-            this.refs.textbox.blur();
+            if (this.refs.textbox) {
+                this.refs.textbox.getWrappedInstance().blur();
+            }
 
             if (withClosedCodeBlock && message) {
                 this.setState({message}, () => this.handleSubmit(e));
@@ -728,7 +730,11 @@ export default class CreatePost extends React.Component {
     }
 
     getFileUploadTarget = () => {
-        return this.refs.textbox;
+        if (this.refs.textbox) {
+            return this.refs.textbox.getWrappedInstance();
+        }
+
+        return null;
     }
 
     getCreatePostControls = () => {
@@ -781,7 +787,7 @@ export default class CreatePost extends React.Component {
             type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         }
         if (this.refs.textbox) {
-            this.refs.textbox.blur();
+            this.refs.textbox.getWrappedInstance().blur();
         }
         this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, 'post_textbox', type);
     }
