@@ -39,45 +39,59 @@ export async function switchFromLdapToEmail(email, password, token, ldapPassword
     }
 }
 
-export async function loadProfilesAndTeamMembers(page, perPage, teamId = getCurrentTeamId(getState()), success) {
-    const {data} = await UserActions.getProfilesInTeam(teamId, page, perPage)(dispatch, getState);
-    loadTeamMembersForProfilesList(data, teamId, success);
-    dispatch(loadStatusesForProfilesList(data));
+export function loadProfilesAndTeamMembers(page, perPage, teamId) {
+    return async (doDispatch, doGetState) => {
+        const newTeamId = teamId || getCurrentTeamId(doGetState());
+        const {data} = await doDispatch(UserActions.getProfilesInTeam(newTeamId, page, perPage));
+        if (data) {
+            doDispatch(loadTeamMembersForProfilesList(data, newTeamId));
+            doDispatch(loadStatusesForProfilesList(data));
+        }
+
+        return {data: true};
+    };
 }
 
-export async function loadProfilesAndTeamMembersAndChannelMembers(page, perPage, teamId = getCurrentTeamId(getState()), channelId = getCurrentChannelId(getState()), success, error) {
-    const {data} = await UserActions.getProfilesInChannel(channelId, page, perPage)(dispatch, getState);
-
-    loadTeamMembersForProfilesList(
-        data,
-        teamId,
-        () => {
-            loadChannelMembersForProfilesList(data, channelId, success, error);
-            dispatch(loadStatusesForProfilesList(data));
+export function loadProfilesAndTeamMembersAndChannelMembers(page, perPage, teamId, channelId) {
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const teamIdParam = teamId || getCurrentTeamId(state);
+        const channelIdParam = channelId || getCurrentChannelId(state);
+        const {data} = await doDispatch(UserActions.getProfilesInChannel(channelIdParam, page, perPage));
+        if (data) {
+            const {data: listData} = await doDispatch(loadTeamMembersForProfilesList(data, teamIdParam));
+            if (listData) {
+                doDispatch(loadChannelMembersForProfilesList(data, channelIdParam));
+                doDispatch(loadStatusesForProfilesList(data));
+            }
         }
-    );
+
+        return {data: true};
+    };
 }
 
-export function loadTeamMembersForProfilesList(profiles, teamId = getCurrentTeamId(getState()), success, error) {
-    const state = getState();
-    const membersToLoad = {};
-    for (let i = 0; i < profiles.length; i++) {
-        const pid = profiles[i].id;
+export function loadTeamMembersForProfilesList(profiles, teamId) {
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const teamIdParam = teamId || getCurrentTeamId(state);
+        const membersToLoad = {};
+        for (let i = 0; i < profiles.length; i++) {
+            const pid = profiles[i].id;
 
-        if (!getTeamMember(state, teamId, pid)) {
-            membersToLoad[pid] = true;
+            if (!getTeamMember(state, teamIdParam, pid)) {
+                membersToLoad[pid] = true;
+            }
         }
-    }
 
-    const list = Object.keys(membersToLoad);
-    if (list.length === 0) {
-        if (success) {
-            success({});
+        const userIdsToLoad = Object.keys(membersToLoad);
+        if (userIdsToLoad.length === 0) {
+            return {data: true};
         }
-        return;
-    }
 
-    loadTeamMembersForProfiles(list, teamId, success, error);
+        await doDispatch(getTeamMembersByIds(teamIdParam, userIdsToLoad));
+
+        return {data: true};
+    };
 }
 
 export async function loadProfilesWithoutTeam(page, perPage, success) {
@@ -89,78 +103,42 @@ export async function loadProfilesWithoutTeam(page, perPage, success) {
     }
 }
 
-async function loadTeamMembersForProfiles(userIds, teamId, success, error) {
-    const {data, error: err} = await getTeamMembersByIds(teamId, userIds)(dispatch, getState);
+export function loadTeamMembersAndChannelMembersForProfilesList(profiles, teamId, channelId) {
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const teamIdParam = teamId || getCurrentTeamId(state);
+        const channelIdParam = channelId || getCurrentChannelId(state);
+        const {data} = await doDispatch(loadTeamMembersForProfilesList(profiles, teamIdParam));
+        if (data) {
+            doDispatch(loadChannelMembersForProfilesList(profiles, channelIdParam));
+        }
 
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
+        return {data: true};
+    };
 }
 
-export function loadChannelMembersForProfilesMap(profiles, channelId = getCurrentChannelId(getState()), success, error) {
-    const membersToLoad = {};
-    for (const pid in profiles) {
-        if (!profiles.hasOwnProperty(pid)) {
-            continue;
+export function loadChannelMembersForProfilesList(profiles, channelId) {
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const channelIdParam = channelId || getCurrentChannelId(state);
+        const membersToLoad = {};
+        for (let i = 0; i < profiles.length; i++) {
+            const pid = profiles[i].id;
+
+            const members = getChannelMembersInChannels(state)[channelIdParam];
+            if (!members || !members[pid]) {
+                membersToLoad[pid] = true;
+            }
         }
 
-        const members = getChannelMembersInChannels(getState())[channelId];
-        if (!members || !members[pid]) {
-            membersToLoad[pid] = true;
+        const list = Object.keys(membersToLoad);
+        if (list.length === 0) {
+            return {data: true};
         }
-    }
 
-    const list = Object.keys(membersToLoad);
-    if (list.length === 0) {
-        if (success) {
-            success({});
-        }
-        return;
-    }
-
-    dispatch(getChannelMembersByIds(channelId, list)).then((result) => {
-        if (result.error) {
-            error(result.error);
-        } else {
-            success(result.data);
-        }
-    });
-}
-
-export function loadTeamMembersAndChannelMembersForProfilesList(profiles, teamId = getCurrentTeamId(getState()), channelId = getCurrentChannelId(getState()), success, error) {
-    loadTeamMembersForProfilesList(profiles, teamId, () => {
-        loadChannelMembersForProfilesList(profiles, channelId, success, error);
-    }, error);
-}
-
-export function loadChannelMembersForProfilesList(profiles, channelId = getCurrentChannelId(getState()), success, error) {
-    const membersToLoad = {};
-    for (let i = 0; i < profiles.length; i++) {
-        const pid = profiles[i].id;
-
-        const members = getChannelMembersInChannels(getState())[channelId];
-        if (!members || !members[pid]) {
-            membersToLoad[pid] = true;
-        }
-    }
-
-    const list = Object.keys(membersToLoad);
-    if (list.length === 0) {
-        if (success) {
-            success({});
-        }
-        return;
-    }
-
-    dispatch(getChannelMembersByIds(channelId, list)).then((result) => {
-        if (result.error) {
-            error(result.error);
-        } else {
-            success(result.data);
-        }
-    });
+        await doDispatch(getChannelMembersByIds(channelIdParam, list));
+        return {data: true};
+    };
 }
 
 export async function loadNewDMIfNeeded(channelId) {

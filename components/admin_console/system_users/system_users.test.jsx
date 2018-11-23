@@ -22,6 +22,7 @@ describe('components/admin_console/system_users', () => {
             getTeamStats: jest.fn().mockImplementation(() => Promise.resolve()),
             getUser: jest.fn().mockImplementation(() => Promise.resolve()),
             getUserAccessToken: jest.fn().mockImplementation(() => Promise.resolve()),
+            loadProfilesAndTeamMembers: jest.fn(),
             setSystemUsersSearch: jest.fn().mockImplementation(() => Promise.resolve()),
         },
     };
