@@ -231,10 +231,6 @@ export default class PostInfo extends React.PureComponent {
                         <div>
                             <EmojiPickerOverlay
                                 show={this.state.showEmojiPicker}
-
-                                // - removing allows picker to be added on top
-                                //   of everything for mobile fullscreen support
-                                // container={this.props.getPostList}
                                 target={this.getDotMenu}
                                 onHide={this.hideEmojiPicker}
                                 onEmojiClose={this.reactEmojiClose}

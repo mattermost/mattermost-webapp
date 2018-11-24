@@ -1069,10 +1069,6 @@ export default class CreatePost extends React.Component {
                 >
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
-
-                        // - removing allows picker to be added on top
-                        //   of everything for mobile fullscreen support
-                        // container={getChannelView}
                         target={this.getCreatePostControls}
                         onHide={this.hideEmojiPicker}
                         onEmojiClose={this.handleEmojiClose}

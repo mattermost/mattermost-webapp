@@ -156,7 +156,7 @@ class DotMenu extends Component {
         e.preventDefault();
 
         // to be safe, make sure the handler function has been defined
-        if (typeof this.props.handleAddReactionClick === 'function') {
+        if (this.props.handleAddReactionClick) {
             this.props.handleAddReactionClick();
         }
     }
@@ -212,10 +212,10 @@ class DotMenu extends Component {
             if (!this.props.isReadOnly && this.props.enableEmojiPicker) {
                 menuItems.push(
                     <DotMenuItem
-                        key={'react'}
+                        key={'add_reaction'}
                         menuItemText={
                             <FormattedMessage
-                                id={'rhs_root.mobile.react'}
+                                id={'rhs_root.mobile.add_reaction'}
                                 defaultMessage={'Add Reaction'}
                             />
                         }

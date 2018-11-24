@@ -139,7 +139,6 @@ export default class EmojiPicker extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.handleEmojiPickerClose = this.handleEmojiPickerClose.bind(this);
         this.handleCategoryClick = this.handleCategoryClick.bind(this);
         this.handleFilterChange = this.handleFilterChange.bind(this);
         this.handleItemOver = this.handleItemOver.bind(this);
@@ -251,7 +250,7 @@ export default class EmojiPicker extends React.PureComponent {
         this.searchInput = input;
     };
 
-    handleEmojiPickerClose() {
+    handleEmojiPickerClose = () => {
         this.props.onEmojiClose();
     }
 

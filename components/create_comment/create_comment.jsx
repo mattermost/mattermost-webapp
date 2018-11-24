@@ -842,10 +842,6 @@ export default class CreateComment extends React.PureComponent {
                 >
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
-
-                        // - removing allows picker to be added on top
-                        //   of everything for mobile fullscreen support
-                        // container={this.props.getSidebarBody}
                         target={this.getCreateCommentControls}
                         onHide={this.hideEmojiPicker}
                         onEmojiClose={this.hideEmojiPicker}
