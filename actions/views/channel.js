@@ -13,9 +13,8 @@ import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {getLastViewedChannelName} from 'selectors/local_storage';
 
 import {browserHistory} from 'utils/browser_history';
-import {ActionTypes} from 'utils/constants.jsx';
+import {Constants, ActionTypes} from 'utils/constants.jsx';
 import {isMobile} from 'utils/utils.jsx';
-import Constants from '../../utils/constants';
 
 export function checkAndSetMobileView() {
     return (dispatch) => {
