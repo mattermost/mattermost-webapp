@@ -8,6 +8,7 @@ import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {showGetPostLinkModal} from 'actions/global_actions.jsx';
+import Permissions from 'mattermost-redux/constants/permissions';
 
 import {ModalIdentifiers, UNSET_POST_EDIT_TIME_LIMIT} from 'utils/constants.jsx';
 import DeletePostModal from 'components/delete_post_modal';
@@ -19,10 +20,12 @@ import {t} from 'utils/i18n';
 import Pluggable from 'plugins/pluggable';
 
 import DotMenuItem from './dot_menu_item.jsx';
+import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 
 class DotMenu extends Component {
     static propTypes = {
         post: PropTypes.object.isRequired,
+        teamId: PropTypes.string,
         location: PropTypes.oneOf(['CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH']).isRequired,
         commentCount: PropTypes.number,
         isFlagged: PropTypes.bool,
@@ -211,16 +214,22 @@ class DotMenu extends Component {
             // add menu item to support adding reactions to posts
             if (!this.props.isReadOnly && this.props.enableEmojiPicker) {
                 menuItems.push(
-                    <DotMenuItem
+                    <ChannelPermissionGate
                         key={'add_reaction'}
-                        menuItemText={
-                            <FormattedMessage
-                                id={'rhs_root.mobile.add_reaction'}
-                                defaultMessage={'Add Reaction'}
-                            />
-                        }
-                        handleMenuItemActivated={this.handleAddReactionenuItemActivated}
-                    />
+                        channelId={this.props.post.channel_id}
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.ADD_REACTION]}
+                    >
+                        <DotMenuItem
+                            menuItemText={
+                                <FormattedMessage
+                                    id={'rhs_root.mobile.add_reaction'}
+                                    defaultMessage={'Add Reaction'}
+                                />
+                            }
+                            handleMenuItemActivated={this.handleAddReactionenuItemActivated}
+                        />
+                    </ChannelPermissionGate>
                 );
             }
             let text = (
