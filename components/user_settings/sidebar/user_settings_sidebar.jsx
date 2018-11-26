@@ -733,9 +733,8 @@ export default class UserSettingsSidebar extends React.Component {
                     </h3>
                     <div className='divider-dark first'/>
                     {channelOrganizationSection}
-                    {showChannelOrganization && <div className='divider-light'/>}
                     {channelSwitcherSection}
-                    {showUnusedOption && <div className='divider-light'/>}
+                    {showUnusedOption ? <div className='divider-light'/> : <div className='divider-dark'/>}
                     {autoCloseDMSection}
                 </div>
             </div>
