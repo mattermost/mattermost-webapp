@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import throttle from 'lodash/throttle';
-import {FormattedMessage} from 'react-intl';
 
 import * as Emoji from 'utils/emoji.jsx';
 import {t} from 'utils/i18n';
 import imgTrans from 'images/img_trans.gif';
 
+import EmojiPickerHeader from './components/emoji_picker_header';
 import EmojiPickerCategory from './components/emoji_picker_category';
 import EmojiPickerItem from './components/emoji_picker_item';
 import EmojiPickerCategorySection from './emoji_picker_category_section';
@@ -481,28 +481,6 @@ export default class EmojiPicker extends React.PureComponent {
         return <div className='emoji-picker__categories'>{emojiPickerCategories}</div>;
     }
 
-    // create header markup for fullscreen picker on web mobile
-    emojiHeader() {
-        return (
-            <div className='emoji-picker__header modal-header'>
-                <button
-                    type='button'
-                    className='close emoji-picker__header-close-button'
-                    onClick={this.handleEmojiPickerClose}
-                >
-                    <span aria-hidden='true'>{'×'}</span>
-                    <span className='sr-only'>{Utils.localizeMessage('emoji_picker.close', 'Close')}</span>
-                </button>
-                <h4 className='modal-title emoji-picker__header-title'>
-                    <FormattedMessage
-                        id={'emoji_picker.header'}
-                        defaultMessage={'Emoji Picker'}
-                    />
-                </h4>
-            </div>
-        );
-    }
-
     emojiSearch() {
         return (
             <div className='emoji-picker__search-container'>
@@ -631,7 +609,7 @@ export default class EmojiPicker extends React.PureComponent {
     render() {
         return (
             <div className='emoji-picker__inner'>
-                {this.emojiHeader()}
+                <EmojiPickerHeader handleEmojiPickerClose={this.handleEmojiPickerClose}/>
                 {this.emojiSearch()}
                 {this.emojiCategories()}
                 {this.emojiCurrentResults()}

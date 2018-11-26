@@ -7,20 +7,20 @@ import React, {Component} from 'react';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
-import {showGetPostLinkModal} from 'actions/global_actions.jsx';
 import Permissions from 'mattermost-redux/constants/permissions';
 
+import {showGetPostLinkModal} from 'actions/global_actions.jsx';
 import {ModalIdentifiers, UNSET_POST_EDIT_TIME_LIMIT} from 'utils/constants.jsx';
 import DeletePostModal from 'components/delete_post_modal';
 import DelayedAction from 'utils/delayed_action.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
+import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 
 import Pluggable from 'plugins/pluggable';
 
 import DotMenuItem from './dot_menu_item.jsx';
-import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 
 class DotMenu extends Component {
     static propTypes = {

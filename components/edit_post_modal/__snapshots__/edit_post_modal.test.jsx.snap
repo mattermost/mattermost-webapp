@@ -126,9 +126,6 @@ exports[`components/EditPostModal should match with default config 1`] = `
       />
     </button>
   </ModalFooter>
-  <div
-    className="modal-emoji-container"
-  />
 </Modal>
 `;
 
@@ -290,7 +287,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
     </ModalTitle>
   </ModalHeader>
   <ModalBody
-    bsClass="modal-body edit-modal-body"
+    bsClass="modal-body edit-modal-body edit-modal-body--add-reaction"
     componentClass="div"
   >
     <Connect(Textbox)
@@ -364,9 +361,6 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
       />
     </button>
   </ModalFooter>
-  <div
-    className="modal-emoji-container"
-  />
 </Modal>
 `;
 
@@ -502,8 +496,5 @@ exports[`components/EditPostModal should show errors when it is set in the state
       />
     </button>
   </ModalFooter>
-  <div
-    className="modal-emoji-container"
-  />
 </Modal>
 `;

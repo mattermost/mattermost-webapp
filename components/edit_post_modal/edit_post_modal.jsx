@@ -295,7 +295,6 @@ export default class EditPostModal extends React.PureComponent {
         }
 
         let emojiPicker = null;
-        let emojiPickerContainer = null;
         if (this.props.config.EnableEmojiPicker === 'true') {
             emojiPicker = (
                 <span className='emoji-picker__container'>
@@ -342,7 +341,7 @@ export default class EditPostModal extends React.PureComponent {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body
-                    bsClass={`modal-body edit-modal-body${this.state.showEmojiPicker ? ' edit-modal-body--add-reaction' : ' '}`}
+                    bsClass={`modal-body edit-modal-body${this.state.showEmojiPicker ? ' edit-modal-body--add-reaction' : ''}`}
                     ref='editModalBody'
                 >
                     <Textbox
