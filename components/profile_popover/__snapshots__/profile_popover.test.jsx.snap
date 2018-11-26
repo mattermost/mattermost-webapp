@@ -5,10 +5,19 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
   bsClass="popover"
   id="user-profile-popover"
   placement="right"
-  title="@some username"
+  title={
+    <span>
+      <span
+        className="user-popover__username"
+      >
+        @some_username
+      </span>
+       
+    </span>
+  }
 >
   <img
-    alt="some username profile image"
+    alt="some_username profile image"
     className="user-popover__image"
     height="128"
     key="user-popover-image"
@@ -21,7 +30,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
     user={
       Object {
         "name": "some name",
-        "username": "some username",
+        "username": "some_username",
       }
     }
   />
@@ -54,7 +63,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
         "manage_public_channel_members",
       ]
     }
-    teamId=""
+    teamId="team_id"
   >
     <div
       className="popover__row first"
@@ -69,7 +78,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
             Object {
               "user": Object {
                 "name": "some name",
-                "username": "some username",
+                "username": "some_username",
               },
             }
           }
@@ -96,7 +105,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
     user={
       Object {
         "name": "some name",
-        "username": "some username",
+        "username": "some_username",
       }
     }
   />

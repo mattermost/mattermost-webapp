@@ -10,14 +10,18 @@ describe('components/ProfilePopover', () => {
     const baseProps = {
         user: {
             name: 'some name',
-            username: 'some username',
+            username: 'some_username',
         },
         src: 'src',
         currentUserId: '',
-        currentTeamId: '',
+        currentTeamId: 'team_id',
+        isChannelAdmin: false,
+        isTeamAdmin: false,
         teamUrl: '',
         actions: {
+            getMembershipForCurrentEntities: jest.fn(),
             openDirectChannelToUserId: jest.fn(),
+            openModal: jest.fn(),
         },
     };
 
