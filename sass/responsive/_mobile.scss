@@ -1869,7 +1869,8 @@
         }
     }
 
-    .emoji-picker__header {
+    .emoji-picker__header,
+    .modal-body .emoji-picker .emoji-picker__header {
         display: block;
     }
 
@@ -1906,6 +1907,19 @@
         width: 100%;
         height: 60px;
         padding: 10px 10px 0;
+    }
+
+    // overides edit modal body element's css position
+    // to allow emoji picker to fill the screen on mobile screens < 480
+    .edit-modal-body--add-reaction {
+        position: static;
+
+        .emoji-picker {
+            top: -1px !important;
+            left: -1px !important;
+            width: calc(100% + 2px);
+            height: calc(100% + 2px);
+        }
     }
 }
 
