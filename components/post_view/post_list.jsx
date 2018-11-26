@@ -441,6 +441,7 @@ export default class PostList extends React.PureComponent {
             // Only count as user scroll if we've already performed our first load scroll
             this.hasScrolled = this.hasScrolledToNewMessageSeparator || this.hasScrolledToFocusedPost;
             const postList = this.postListRef.current;
+            const postListScrollTop = postList.scrollTop;
 
             if (postList.scrollHeight === this.previousScrollHeight) {
                 this.atBottom = this.checkBottom();
@@ -462,7 +463,9 @@ export default class PostList extends React.PureComponent {
                 });
             }
 
-            if (postList.scrollTop <= 0.5 * postList.clientHeight && !this.state.loadingPosts && !this.state.atEnd && this.state.autoRetryEnable) {
+            const didScrollPastLoadingPoint = postListScrollTop < 0.3 * (postList.scrollHeight - postList.clientHeight);
+
+            if ((didScrollPastLoadingPoint || postListScrollTop < 300) && !this.state.loadingPosts && !this.state.atEnd && this.state.autoRetryEnable) {
                 this.setState({loadingPosts: true});
                 this.loadMorePosts();
             }
