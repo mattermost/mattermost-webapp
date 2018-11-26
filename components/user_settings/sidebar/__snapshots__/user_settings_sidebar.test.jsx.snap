@@ -92,9 +92,6 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     <div
       className="divider-light"
     />
-    <div
-      className="divider-light"
-    />
     <SettingItemMin
       describe={
         <FormattedMessage
@@ -113,6 +110,9 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
         />
       }
       updateSection={[Function]}
+    />
+    <div
+      className="divider-dark"
     />
   </div>
 </div>
