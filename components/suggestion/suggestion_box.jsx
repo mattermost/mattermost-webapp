@@ -4,8 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {debounce} from 'mattermost-redux/actions/helpers';
-
 import QuickInput from 'components/quick_input.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -146,6 +144,9 @@ export default class SuggestionBox extends React.Component {
         // on a per-provider basis. There's probably a better solution by re-architecting providers to control how their
         // dividers work on a per-provider basis so this wouldn't be necessary.
         this.allowDividers = true;
+
+        // Used for debouncing pretext changes
+        this.timeoutId = '';
 
         // pretext: the text before the cursor
         // matchedPretext: a list of the text before the cursor that will be replaced if the corresponding autocomplete term is selected
@@ -427,7 +428,16 @@ export default class SuggestionBox extends React.Component {
                         matchedPretext = this.state.matchedPretext[i];
                     }
                 }
-                this.handleCompleteWord(this.state.selection, matchedPretext);
+
+                // If these don't match, the user typed quickly and pressed enter before we could
+                // update the pretext, so update the pretext before completing
+                if (this.pretext.endsWith(matchedPretext)) {
+                    this.handleCompleteWord(this.state.selection, matchedPretext);
+                } else {
+                    clearTimeout(this.timeoutId);
+                    this.nonDebouncedPretextChanged(this.pretext, true);
+                }
+
                 if (this.props.onKeyDown) {
                     this.props.onKeyDown(e);
                 }
@@ -472,13 +482,26 @@ export default class SuggestionBox extends React.Component {
             components: newComponents,
             matchedPretext: newPretext,
         });
+
+        return {selection, matchedPretext: suggestions.matchedPretext};
     }
 
-    handlePretextChanged = debounce((pretext) => {
+    handleReceivedSuggestionsAndComplete = (suggestions) => {
+        const {selection, matchedPretext} = this.handleReceivedSuggestions(suggestions);
+        if (selection) {
+            this.handleCompleteWord(selection, matchedPretext);
+        }
+    }
+
+    nonDebouncedPretextChanged = (pretext, complete = false) => {
         this.pretext = pretext;
         let handled = false;
+        let callback = this.handleReceivedSuggestions;
+        if (complete) {
+            callback = this.handleReceivedSuggestionsAndComplete;
+        }
         for (const provider of this.props.providers) {
-            handled = provider.handlePretextChanged(pretext, this.handleReceivedSuggestions) || handled;
+            handled = provider.handlePretextChanged(pretext, callback) || handled;
 
             if (handled) {
                 if (provider.constructor.name === 'SearchDateProvider') {
@@ -499,7 +522,17 @@ export default class SuggestionBox extends React.Component {
         if (!handled) {
             this.clear();
         }
-    }, Constants.SEARCH_TIMEOUT_MILLISECONDS)
+    }
+
+    debouncedPretextChanged = (pretext) => {
+        clearTimeout(this.timeoutId);
+        this.timeoutId = setTimeout(() => this.nonDebouncedPretextChanged(pretext), Constants.SEARCH_TIMEOUT_MILLISECONDS);
+    };
+
+    handlePretextChanged = (pretext) => {
+        this.pretext = pretext;
+        this.debouncedPretextChanged(pretext);
+    }
 
     blur = () => {
         this.refs.input.blur();

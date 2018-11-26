@@ -13,7 +13,7 @@ import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {getLastViewedChannelName} from 'selectors/local_storage';
 
 import {browserHistory} from 'utils/browser_history';
-import {ActionTypes} from 'utils/constants.jsx';
+import {Constants, ActionTypes} from 'utils/constants.jsx';
 import {isMobile} from 'utils/utils.jsx';
 
 export function checkAndSetMobileView() {
@@ -58,6 +58,9 @@ export function switchToChannel(channel) {
                 return {error: true};
             }
             browserHistory.push(`${teamUrl}/messages/@${channel.name}`);
+        } else if (channel.type === Constants.GM_CHANNEL) {
+            const gmChannel = getChannel(state, channel.id);
+            browserHistory.push(`${teamUrl}/channels/${gmChannel.name}`);
         } else {
             browserHistory.push(`${teamUrl}/channels/${channel.name}`);
         }
