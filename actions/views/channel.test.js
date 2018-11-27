@@ -4,6 +4,8 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
+import {leaveChannel} from 'mattermost-redux/actions/channels';
+
 import {browserHistory} from 'utils/browser_history';
 import * as Actions from 'actions/views/channel';
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
@@ -18,6 +20,12 @@ jest.mock('utils/browser_history', () => ({
 
 jest.mock('actions/channel_actions.jsx', () => ({
     openDirectChannelToUserId: jest.fn(() => {
+        return {type: ''};
+    }),
+}));
+
+jest.mock('mattermost-redux/actions/channels', () => ({
+    leaveChannel: jest.fn(() => {
         return {type: ''};
     }),
 }));
@@ -72,6 +80,14 @@ describe('channel view actions', () => {
         test('switch to gm channel', async () => {
             await store.dispatch(Actions.switchToChannel(gmChannel));
             expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/channels/${gmChannel.name}`);
+        });
+    });
+
+    describe('leaveChannel', () => {
+        test('leave a channel successfully', async () => {
+            await store.dispatch(Actions.leaveChannel('channelid'));
+            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/channels/town-square`);
+            expect(leaveChannel).toHaveBeenCalledWith('channelid');
         });
     });
 });

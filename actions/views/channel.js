@@ -78,6 +78,9 @@ export function leaveChannel(channelId) {
             dispatch(unfavoriteChannel(channelId));
         }
 
+        const teamUrl = getCurrentRelativeTeamUrl(state);
+        browserHistory.push(teamUrl + '/channels/' + Constants.DEFAULT_CHANNEL);
+
         const {error} = await dispatch(leaveChannelRedux(channelId));
         if (error) {
             return {error};
