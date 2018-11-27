@@ -115,6 +115,7 @@ export default class PostList extends React.PureComponent {
         this.postListContentRef = React.createRef();
         this.scrollAnimationFrame = null;
         this.resizeAnimationFrame = null;
+        this.atBottom = false;
 
         this.state = {
             atEnd: false,
@@ -157,6 +158,7 @@ export default class PostList extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+        this.previousScrollHeight = snapshot && snapshot.previousScrollHeight;
         if (this.props.focusedPostId && this.props.focusedPostId !== prevProps.focusedPostId) {
             this.hasScrolledToFocusedPost = false;
             this.hasScrolledToNewMessageSeparator = false;
@@ -165,7 +167,7 @@ export default class PostList extends React.PureComponent {
             this.hasScrolled = false;
             this.hasScrolledToFocusedPost = false;
             this.hasScrolledToNewMessageSeparator = false;
-
+            this.atBottom = false;
             this.extraPagesLoaded = 0;
 
             this.setState({atEnd: false, isDoingInitialLoad: !this.props.posts, unViewedCount: 0}); // eslint-disable-line react/no-did-update-set-state
@@ -205,6 +207,7 @@ export default class PostList extends React.PureComponent {
                 const rect = element.getBoundingClientRect();
                 const listHeight = postList.clientHeight / 2;
                 postList.scrollTop = (rect.top - listHeight) + postList.scrollTop;
+                this.atBottom = this.checkBottom();
             } else if (snapshot.previousScrollHeight !== postlistScrollHeight && posts[0].id === prevPosts[0].id) {
                 postList.scrollTop = snapshot.previousScrollTop + (postlistScrollHeight - snapshot.previousScrollHeight);
             }
@@ -241,6 +244,7 @@ export default class PostList extends React.PureComponent {
             }
 
             if (doScrollToBottom) {
+                this.atBottom = true;
                 postList.scrollTop = postlistScrollHeight;
                 return;
             }
@@ -310,6 +314,7 @@ export default class PostList extends React.PureComponent {
         }
 
         // Scroll to bottom since we don't have unread posts or we can show every new post in the screen
+        this.atBottom = true;
         postList.scrollTop = postList.scrollHeight;
         return true;
     }
@@ -359,7 +364,7 @@ export default class PostList extends React.PureComponent {
         this.resizeAnimationFrame = window.requestAnimationFrame(() => {
             const postList = this.postListRef.current;
             const messageSeparator = this.refs.newMessageSeparator;
-            const doScrollToBottom = this.checkBottom() || forceScrollToBottom;
+            const doScrollToBottom = this.atBottom || forceScrollToBottom;
 
             if (postList) {
                 if (doScrollToBottom) {
@@ -367,9 +372,10 @@ export default class PostList extends React.PureComponent {
                 } else if (!this.hasScrolled && messageSeparator) {
                     const element = ReactDOM.findDOMNode(messageSeparator);
                     element.scrollIntoView();
+                    this.atBottom = this.checkBottom();
                 }
+                this.previousScrollHeight = postList.scrollHeight;
             }
-
             this.props.actions.checkAndSetMobileView();
         });
     }
@@ -435,6 +441,10 @@ export default class PostList extends React.PureComponent {
             // Only count as user scroll if we've already performed our first load scroll
             this.hasScrolled = this.hasScrolledToNewMessageSeparator || this.hasScrolledToFocusedPost;
             const postList = this.postListRef.current;
+
+            if (postList.scrollHeight === this.previousScrollHeight) {
+                this.atBottom = this.checkBottom();
+            }
 
             this.updateFloatingTimestamp();
 
