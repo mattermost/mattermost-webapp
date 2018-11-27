@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {postListScrollChange} from 'actions/global_actions';
 import LoadingImagePreview from 'components/loading_image_preview';
 import * as PostUtils from 'utils/post_utils.jsx';
 import {getFileDimensionsForDisplay} from 'utils/file_utils';
@@ -91,6 +92,7 @@ export default class PostImageEmbed extends React.PureComponent {
             errored: false,
         });
 
+        postListScrollChange();
         if (this.props.onLinkLoaded) {
             this.props.onLinkLoaded();
         }
@@ -114,6 +116,9 @@ export default class PostImageEmbed extends React.PureComponent {
     render() {
         const imageDimensions = getFileDimensionsForDisplay(this.props.dimensions, MAX_IMAGE_DIMENSIONS);
         if (this.state.errored || !this.state.loaded) {
+            if (!this.props.dimensions) {
+                return null;
+            }
             return (
                 <div style={{...imageDimensions, marginBottom: '13px'}}>
                     <LoadingImagePreview
