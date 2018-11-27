@@ -6,6 +6,7 @@ import React from 'react';
 
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
+import {getFileDimensionsForDisplay} from 'utils/file_utils';
 import {FileTypes} from 'utils/constants.jsx';
 import {
     getFileType,
@@ -109,28 +110,6 @@ export default class SingleImageView extends React.PureComponent {
         this.imageLoaded = node;
     }
 
-    computeImageDimensions = () => {
-        const {fileInfo} = this.props;
-        const viewPortWidth = this.state.viewPortWidth;
-
-        let previewWidth = fileInfo.width;
-        let previewHeight = fileInfo.height;
-
-        if (viewPortWidth && previewWidth > viewPortWidth) {
-            const origRatio = fileInfo.height / fileInfo.width;
-            previewWidth = Math.min(PREVIEW_IMAGE_MAX_WIDTH, fileInfo.width, viewPortWidth);
-            previewHeight = previewWidth * origRatio;
-        }
-
-        if (previewHeight > PREVIEW_IMAGE_MAX_HEIGHT) {
-            const heightRatio = PREVIEW_IMAGE_MAX_HEIGHT / previewHeight;
-            previewHeight = PREVIEW_IMAGE_MAX_HEIGHT;
-            previewWidth *= heightRatio;
-        }
-
-        return {previewWidth, previewHeight};
-    }
-
     toggleEmbedVisibility = () => {
         this.props.actions.toggleEmbedVisibility(this.props.postId);
     }
@@ -142,7 +121,12 @@ export default class SingleImageView extends React.PureComponent {
             viewPortWidth,
         } = this.state;
 
-        const {previewHeight, previewWidth} = this.computeImageDimensions();
+        const maxWidth = viewPortWidth !== 0 && viewPortWidth < PREVIEW_IMAGE_MAX_WIDTH ? viewPortWidth : PREVIEW_IMAGE_MAX_WIDTH;
+        const dimensions = getFileDimensionsForDisplay(fileInfo, {maxHeight: PREVIEW_IMAGE_MAX_HEIGHT, maxWidth});
+
+        const previewHeight = dimensions.height;
+        const previewWidth = dimensions.width;
+
         let minPreviewClass = '';
         if (
             previewWidth < PREVIEW_IMAGE_MIN_DIMENSION ||
