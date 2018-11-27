@@ -56,6 +56,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                 name: team.team_display_name,
                 collapsed: this.state.collapsed[team.team_id],
                 id: team.team_id,
+                implicit: false,
             });
         });
 
@@ -76,6 +77,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                     name: channel.team_display_name,
                     collapsed: this.state.collapsed[channel.team_id],
                     id: channel.team_id,
+                    implicit: true,
                 });
             }
         });
