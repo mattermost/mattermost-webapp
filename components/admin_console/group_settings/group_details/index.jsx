@@ -14,8 +14,8 @@ function mapStateToProps(state, props) {
     const group = getGroup(state, groupID);
     const groupTeams = getGroupTeams(state, groupID);
     const groupChannels = getGroupChannels(state, groupID);
-    let members = getGroupMembers(state, groupID);
-    let memberCount = getGroupMemberCount(state, groupID);
+    const members = getGroupMembers(state, groupID);
+    const memberCount = getGroupMemberCount(state, groupID);
 
     return {
         groupID,

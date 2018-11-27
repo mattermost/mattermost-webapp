@@ -54,7 +54,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
     });
 
     test('should call onToggleCollapse on caret click', () => {
-        const onToggleCollapse = jest.fn()
+        const onToggleCollapse = jest.fn();
         const wrapper = shallow(
             <GroupTeamsAndChannelsRow
                 id='xxxxxxxxxxxxxxxxxxxxxxxxxx'
@@ -66,12 +66,12 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
                 onToggleCollapse={onToggleCollapse}
             />
         );
-        wrapper.find('.fa-caret-right').simulate('click')
+        wrapper.find('.fa-caret-right').simulate('click');
         expect(onToggleCollapse).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx');
     });
 
     test('should call onRemoveItem on remove link click', () => {
-        const onRemoveItem = jest.fn()
+        const onRemoveItem = jest.fn();
         const wrapper = shallow(
             <GroupTeamsAndChannelsRow
                 id='xxxxxxxxxxxxxxxxxxxxxxxxxx'
@@ -83,7 +83,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
                 onToggleCollapse={jest.fn()}
             />
         );
-        wrapper.find('.btn-link').simulate('click')
+        wrapper.find('.btn-link').simulate('click');
         expect(onRemoveItem).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'public-team');
     });
 });

@@ -15,6 +15,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 import TeamSelectorModal from 'components/team_selector_modal';
 import ChannelSelectorModal from 'components/channel_selector_modal';
+import {Constants} from 'utils/constants.jsx';
 
 export default class GroupDetails extends React.PureComponent {
     static propTypes = {
@@ -193,6 +194,7 @@ export default class GroupDetails extends React.PureComponent {
                         onModalDismissed={this.closeAddChannel}
                         onChannelsSelected={this.addChannels}
                         alreadySelected={this.props.groupChannels.map((channel) => channel.channel_id)}
+                        excludeNames={[Constants.DEFAULT_CHANNEL, Constants.OFFTOPIC_CHANNEL]}
                     />
                 }
 

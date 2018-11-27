@@ -27,6 +27,7 @@ export default class ChannelSelectorModal extends React.Component {
         channels: PropTypes.array.isRequired,
         onModalDismissed: PropTypes.func,
         onChannelsSelected: PropTypes.func,
+        excludeNames: PropTypes.arrayOf(PropTypes.string),
         actions: PropTypes.shape({
             loadChannels: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
@@ -46,6 +47,7 @@ export default class ChannelSelectorModal extends React.Component {
             loadingChannels: true,
             confirmAddModal: false,
             confirmAddChannel: null,
+            excludeNames: [],
         };
     }
 
@@ -219,6 +221,7 @@ export default class ChannelSelectorModal extends React.Component {
             channels = this.props.channels.filter((channel) => channel.delete_at === 0);
             channels = channels.filter((channel) => channel.scheme_id !== this.currentSchemeId);
             channels = channels.filter((channel) => this.props.alreadySelected.indexOf(channel.id) === -1);
+            channels = channels.filter((channel) => this.props.excludeNames.indexOf(channel.name) === -1);
             channels.sort((a, b) => {
                 const aName = a.display_name.toUpperCase();
                 const bName = b.display_name.toUpperCase();

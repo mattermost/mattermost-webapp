@@ -33,7 +33,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
                 team_display_name: 'Team 1',
                 channel_id: '44444444444444444444444444',
                 channel_type: 'O',
-                channel_display_name:'Channel 4',
+                channel_display_name: 'Channel 4',
             },
             {
                 team_id: '99999999999999999999999999',
@@ -41,7 +41,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
                 team_display_name: 'Team 9',
                 channel_id: '55555555555555555555555555',
                 channel_type: 'P',
-                channel_display_name:'Channel 5',
+                channel_display_name: 'Channel 5',
             },
             {
                 team_id: '99999999999999999999999999',
@@ -49,7 +49,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
                 team_display_name: 'Team 9',
                 channel_id: '55555555555555555555555555',
                 channel_type: 'P',
-                channel_display_name:'Channel 5',
+                channel_display_name: 'Channel 5',
             },
         ],
         loading: false,
@@ -60,12 +60,22 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
     };
 
     test('should match snapshot, with teams, with channels and loading', () => {
-        const wrapper = shallow(<GroupTeamsAndChannels {...defaultProps} loading={true}/>);
+        const wrapper = shallow(
+            <GroupTeamsAndChannels
+                {...defaultProps}
+                loading={true}
+            />
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, with teams, with channels and loaded', () => {
-        const wrapper = shallow(<GroupTeamsAndChannels {...defaultProps} loading={false}/>);
+        const wrapper = shallow(
+            <GroupTeamsAndChannels
+                {...defaultProps}
+                loading={false}
+            />
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -95,7 +105,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
 
     test('should toggle the collapse for an element', () => {
         const wrapper = shallow(<GroupTeamsAndChannels {...defaultProps}/>);
-        const instance = wrapper.instance()
+        const instance = wrapper.instance();
         expect(Boolean(wrapper.state().collapsed['11111111111111111111111111'])).toBe(false);
         expect(Boolean(wrapper.state().collapsed['22222222222222222222222222'])).toBe(false);
         instance.onToggleCollapse('11111111111111111111111111');
@@ -111,25 +121,30 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
             unlink: jest.fn().mockReturnValue(Promise.resolve()),
             getGroupSyncables: jest.fn().mockReturnValue(Promise.resolve()),
         };
-        const wrapper = shallow(<GroupTeamsAndChannels {...defaultProps} actions={actions}/>);
-        const instance = wrapper.instance()
+        const wrapper = shallow(
+            <GroupTeamsAndChannels
+                {...defaultProps}
+                actions={actions}
+            />
+        );
+        const instance = wrapper.instance();
         await instance.onRemoveItem('11111111111111111111111111', 'public-team');
         expect(actions.unlink).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '11111111111111111111111111', 'team');
         expect(actions.getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'team');
-        actions.unlink.mockClear()
-        actions.getGroupSyncables.mockClear()
+        actions.unlink.mockClear();
+        actions.getGroupSyncables.mockClear();
 
         await instance.onRemoveItem('22222222222222222222222222', 'private-team');
         expect(actions.unlink).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '22222222222222222222222222', 'team');
         expect(actions.getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'team');
-        actions.unlink.mockClear()
-        actions.getGroupSyncables.mockClear()
+        actions.unlink.mockClear();
+        actions.getGroupSyncables.mockClear();
 
         await instance.onRemoveItem('44444444444444444444444444', 'public-channel');
         expect(actions.unlink).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '44444444444444444444444444', 'channel');
         expect(actions.getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'channel');
-        actions.unlink.mockClear()
-        actions.getGroupSyncables.mockClear()
+        actions.unlink.mockClear();
+        actions.getGroupSyncables.mockClear();
 
         await instance.onRemoveItem('55555555555555555555555555', 'private-channel');
         expect(actions.unlink).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '55555555555555555555555555', 'channel');
