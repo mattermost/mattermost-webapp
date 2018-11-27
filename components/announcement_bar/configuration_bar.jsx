@@ -105,7 +105,7 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
             }
         }
 
-        if (!(this.props.config.SendEmailNotifications === 'true') &&
+        if (this.props.config.SendEmailNotifications !== 'true' &&
             this.props.config.EnablePreviewModeBanner === 'true') {
             return (
                 <AnnouncementBar
