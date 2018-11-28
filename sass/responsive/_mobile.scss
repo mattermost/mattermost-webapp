@@ -1273,12 +1273,14 @@
 
         .sidebar__search-clear {
             color: inherit;
-            display: block;
             height: 32px;
             margin-right: 0;
             text-align: center;
             top: 0;
             width: 42px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
             &.visible {
                 visibility: visible;
