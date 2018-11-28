@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 
-import {existsInCustomEmojis} from 'mattermost-redux/selectors/entities/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
@@ -19,13 +18,14 @@ function mapStateToProps(state, ownProps) {
 
     let imageUrl = '';
     let displayTextOnly = false;
-    if (emoji) {
+    if (state.entities.emojis.nonExistentEmoji.has(emojiName)) {
+        displayTextOnly = true;
+    } else if (emoji) {
         imageUrl = getEmojiImageUrl(emoji);
+    } else if (getConfig(state).EnableCustomEmoji !== 'true' || getCurrentUserId(state) === '') {
+        displayTextOnly = false;
     } else {
-        displayTextOnly = state.entities.emojis.nonExistentEmoji.has(emojiName) ||
-            !existsInCustomEmojis(state, emojiName) ||
-            getConfig(state).EnableCustomEmoji !== 'true' ||
-            getCurrentUserId(state) === '';
+        displayTextOnly = true;
     }
 
     return {
