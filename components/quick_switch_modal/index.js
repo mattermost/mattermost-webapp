@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {switchToChannel} from 'actions/views/channel';
+import {joinChannelById, switchToChannel} from 'actions/views/channel';
 
 import QuickSwitchModal from './quick_switch_modal.jsx';
 
@@ -17,6 +17,7 @@ function mapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            joinChannelById,
             switchToChannel,
         }, dispatch),
     };
