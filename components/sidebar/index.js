@@ -20,6 +20,7 @@ import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {switchToChannelById} from 'actions/views/channel';
+import {openModal} from 'actions/views/modals';
 import {close} from 'actions/views/lhs';
 import {getIsLhsOpen} from 'selectors/lhs';
 
@@ -74,6 +75,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             close,
             switchToChannelById,
+            openModal,
         }, dispatch),
     };
 }

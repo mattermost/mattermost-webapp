@@ -13,15 +13,15 @@ import {SpringSystem, MathUtil} from 'rebound';
 
 import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {ActionTypes, Constants} from 'utils/constants.jsx';
+import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import favicon from 'images/favicon/favicon-16x16.png';
 import redFavicon from 'images/favicon/redfavicon-16x16.png';
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
+import QuickSwitchModal from 'components/quick_switch_modal';
 import NewChannelFlow from 'components/new_channel_flow';
 import UnreadChannelIndicator from 'components/unread_channel_indicator.jsx';
 import Pluggable from 'plugins/pluggable';
@@ -136,6 +136,7 @@ export default class Sidebar extends React.PureComponent {
         actions: PropTypes.shape({
             close: PropTypes.func.isRequired,
             switchToChannelById: PropTypes.func.isRequired,
+            openModal: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -512,8 +513,9 @@ export default class Sidebar extends React.PureComponent {
 
     openQuickSwitcher = (e) => {
         e.preventDefault();
-        AppDispatcher.handleViewAction({
-            type: ActionTypes.TOGGLE_QUICK_SWITCH_MODAL,
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.QUICK_SWITCH,
+            dialogType: QuickSwitchModal,
         });
     }
 
