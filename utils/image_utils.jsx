@@ -20,7 +20,7 @@ export function createPlaceholderImage(width, height) {
 export function loadImage(src, onLoad) {
     const image = new Image();
 
-    // Use a regular function instead of a named function so that "this" gets bound the the Image
+    // Use a regular function instead of a named function so that "this" gets bound to the image
     image.onload = function() { // eslint-disable-line func-names
         onLoad(this);
     };
