@@ -117,7 +117,7 @@ export default class GroupDetails extends React.PureComponent {
                     <div className='banner__content'>
                         <FormattedMarkdownMessage
                             id='admin.group_settings.group_detail.introBanner'
-                            defaultMessage={'TODO (The link): [Configure default teams and channels](!/todo) and view users belonging to this group.'}
+                            defaultMessage={'Configure default teams and channels and view users belonging to this group.'}
                         />
                     </div>
                 </div>
@@ -139,7 +139,7 @@ export default class GroupDetails extends React.PureComponent {
                     titleId={t('admin.group_settings.group_detail.groupTeamsAndChannelsTitle')}
                     titleDefaultMessage='Team and Channel Membership'
                     subtitleId={t('admin.group_settings.group_detail.groupTeamsAndChannelsDescription')}
-                    subtitleDefaultMessage='Specify teams and channels group members will default membership in.'
+                    subtitleDefaultMessage='Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically.'
                     action={(
                         <div className='group-profile-add-menu'>
                             <button

@@ -1284,7 +1284,8 @@ export default {
                             label: t('admin.ldap.groupFilterTitle'),
                             label_default: 'Group Filter:',
                             help_text: t('admin.ldap.groupFilterFilterDesc'),
-                            help_text_default: '(Optional) Enter an AD/LDAP Filter to use when searching for group objects.',
+                            help_text_markdown: true,
+                            help_text_default: '(Optional) Enter an AD/LDAP Filter to user when searching for group objects. Only the groups selected by the query will be available to Mattermost. From [Groups](/admin_console/access-control/groups), select which AD/LDAP groups should be linked and configured.',
                             placeholder: t('admin.ldap.groupFilterEx'),
                             placeholder_default: 'E.g.: "(objectClass=group)"',
                             isDisabled: needsUtils.or(
