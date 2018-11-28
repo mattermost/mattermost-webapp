@@ -26,6 +26,8 @@ const ru = require('./ru.json');
 
 const tr = require('./tr.json');
 
+const uk = require('./uk.json');
+
 const zhTW = require('./zh-TW.json');
 
 const zhCN = require('./zh-CN.json');
@@ -44,6 +46,7 @@ import ptLocaleData from 'react-intl/locale-data/pt';
 import roLocaleData from 'react-intl/locale-data/ro';
 import ruLocaleData from 'react-intl/locale-data/ru';
 import trLocaleData from 'react-intl/locale-data/tr';
+import ukLocaleData from 'react-intl/locale-data/uk';
 import zhLocaleData from 'react-intl/locale-data/zh';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
@@ -84,13 +87,13 @@ const languages = {
     ja: {
         value: 'ja',
         name: '日本語',
-        order: 14,
+        order: 15,
         url: ja,
     },
     ko: {
         value: 'ko',
         name: '한국어 (Alpha)',
-        order: 11,
+        order: 12,
         url: ko,
     },
     nl: {
@@ -120,25 +123,31 @@ const languages = {
     ru: {
         value: 'ru',
         name: 'Pусский (Alpha)',
-        order: 9,
+        order: 10,
         url: ru,
     },
     tr: {
         value: 'tr',
         name: 'Türkçe',
-        order: 10,
+        order: 9,
         url: tr,
+    },
+    uk: {
+        value: 'uk',
+        name: 'Yкраїнська (Beta)',
+        order: 11,
+        url: uk,
     },
     'zh-TW': {
         value: 'zh-TW',
         name: '中文 (繁體)',
-        order: 13,
+        order: 14,
         url: zhTW,
     },
     'zh-CN': {
         value: 'zh-CN',
         name: '中文 (简体)',
-        order: 12,
+        order: 13,
         url: zhCN,
     },
 };
@@ -180,6 +189,7 @@ export function safariFix(callback) {
         'intl/locale-data/jsonp/ro.js',
         'intl/locale-data/jsonp/ru.js',
         'intl/locale-data/jsonp/tr.js',
+        'intl/locale-data/jsonp/uk.js',
         'intl/locale-data/jsonp/zh.js',
     ], (require) => {
         require('intl');
@@ -196,6 +206,7 @@ export function safariFix(callback) {
         require('intl/locale-data/jsonp/ro.js');
         require('intl/locale-data/jsonp/ru.js');
         require('intl/locale-data/jsonp/tr.js');
+        require('intl/locale-data/jsonp/uk.js');
         require('intl/locale-data/jsonp/zh.js');
         callback();
     });
@@ -215,5 +226,6 @@ export function doAddLocaleData() {
     addLocaleData(roLocaleData);
     addLocaleData(ruLocaleData);
     addLocaleData(trLocaleData);
+    addLocaleData(ukLocaleData);
     addLocaleData(zhLocaleData);
 }
