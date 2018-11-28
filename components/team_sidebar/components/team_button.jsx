@@ -161,5 +161,5 @@ TeamButton.propTypes = {
     mentions: PropTypes.number,
     placement: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
     teamIconUrl: PropTypes.string,
-    switchTeam: PropTypes.func,
+    switchTeam: PropTypes.func.isRequired,
 };
