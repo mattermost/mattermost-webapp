@@ -33,9 +33,10 @@ export default class QuickSwitchModal extends React.PureComponent {
         showTeamSwitcher: PropTypes.bool,
 
         actions: PropTypes.shape({
+            joinChannelById: PropTypes.func.isRequired,
             switchToChannel: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -66,7 +67,7 @@ export default class QuickSwitchModal extends React.PureComponent {
     setSwitchBoxRef = (input) => {
         this.switchBox = input;
         this.focusTextbox();
-    }
+    };
 
     onShow = () => {
         this.setState({
@@ -91,7 +92,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                 }
             });
         }
-    }
+    };
 
     onChange = (e) => {
         this.setState({text: e.target.value});
@@ -104,14 +105,19 @@ export default class QuickSwitchModal extends React.PureComponent {
         }
     };
 
-    handleSubmit = (selected) => {
+    handleSubmit = async (selected) => {
         if (!selected) {
             return;
         }
 
         if (this.state.mode === CHANNEL_MODE) {
+            const {joinChannelById, switchToChannel} = this.props.actions;
             const selectedChannel = selected.channel;
-            this.props.actions.switchToChannel(selectedChannel).then((result) => {
+
+            if (selected.type === Constants.MENTION_MORE_CHANNELS && selectedChannel.type === Constants.OPEN_CHANNEL) {
+                await joinChannelById(selectedChannel.id);
+            }
+            switchToChannel(selectedChannel).then((result) => {
                 if (result.data) {
                     this.onHide();
                 }
