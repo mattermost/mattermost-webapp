@@ -54,6 +54,8 @@ export default class MarkdownImage extends React.PureComponent {
     loadImage = () => {
         const image = loadImage(this.props.src, this.handleLoad);
 
+        image.onerror = this.handleError();
+
         if (!this.props.dimensions) {
             this.waitForHeight(image);
         }
