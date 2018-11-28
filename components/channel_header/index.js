@@ -35,6 +35,8 @@ import {
     updateRhsState,
 } from 'actions/views/rhs';
 import {getRhsState} from 'selectors/rhs';
+import {isModalOpen} from 'selectors/views/modals';
+import {ModalIdentifiers} from 'utils/constants';
 
 import ChannelHeader from './channel_header';
 
@@ -58,6 +60,7 @@ const mapStateToProps = (state) => {
         isFavorite: isCurrentChannelFavorite(state),
         isReadOnly: isCurrentChannelReadOnly(state),
         isMuted: isCurrentChannelMuted(state),
+        isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
     };
 };
 
