@@ -1,94 +1,77 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {removeLicenseFile, uploadLicenseFile} from 'actions/admin_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {t} from 'utils/i18n';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
 
-const holders = defineMessages({
-    removing: {
-        id: t('admin.license.removing'),
-        defaultMessage: 'Removing License...',
-    },
-    uploading: {
-        id: t('admin.license.uploading'),
-        defaultMessage: 'Uploading License...',
-    },
-});
+export default class LicenseSettings extends React.Component {
+    static propTypes = {
+        license: PropTypes.object.isRequired,
+        config: PropTypes.object,
+    }
 
-class LicenseSettings extends React.Component {
     constructor(props) {
         super(props);
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleRemove = this.handleRemove.bind(this);
 
         this.state = {
             fileSelected: false,
             fileName: null,
             serverError: null,
+            removing: false,
+            uploading: false,
         };
     }
 
-    handleChange() {
-        const element = $(ReactDOM.findDOMNode(this.refs.fileInput));
-        if (element.prop('files').length > 0) {
-            this.setState({fileSelected: true, fileName: element.prop('files')[0].name});
+    handleChange = () => {
+        const element = this.refs.fileInput;
+        if (element && element.files.length > 0) {
+            this.setState({fileSelected: true, fileName: element.files[0].name});
         }
     }
 
-    handleSubmit(e) {
+    handleSubmit = (e) => {
         e.preventDefault();
 
-        const element = $(ReactDOM.findDOMNode(this.refs.fileInput));
-        if (element.prop('files').length === 0) {
+        const element = this.refs.fileInput;
+        if (!element || element.files.length === 0) {
             return;
         }
-        const file = element.prop('files')[0];
+        const file = element.files[0];
 
-        $('#upload-button').button('loading');
+        this.setState({uploading: true});
 
         uploadLicenseFile(
             file,
             () => {
-                Utils.clearFileInput(element[0]);
-                $('#upload-button').button('reset');
-                this.setState({fileSelected: false, fileName: null, serverError: null});
+                this.setState({fileSelected: false, fileName: null, serverError: null, uploading: false});
                 window.location.reload(true);
             },
             (error) => {
                 Utils.clearFileInput(element[0]);
-                $('#upload-button').button('reset');
-                this.setState({fileSelected: false, fileName: null, serverError: error.message});
+                this.setState({fileSelected: false, fileName: null, serverError: error.message, uploading: false});
             }
         );
     }
 
-    handleRemove(e) {
+    handleRemove = (e) => {
         e.preventDefault();
 
-        $('#remove-button').button('loading');
+        this.setState({removing: true});
 
         removeLicenseFile(
             () => {
-                $('#remove-button').button('reset');
-                this.setState({fileSelected: false, fileName: null, serverError: null});
+                this.setState({fileSelected: false, fileName: null, serverError: null, removing: false});
                 window.location.reload(true);
             },
             (error) => {
-                $('#remove-button').button('reset');
-                this.setState({fileSelected: false, fileName: null, serverError: error.message});
+                this.setState({fileSelected: false, fileName: null, serverError: error.message, removing: false});
             }
         );
     }
@@ -104,25 +87,29 @@ class LicenseSettings extends React.Component {
             btnClass = 'btn btn-primary';
         }
 
+        const {license} = this.props;
+
         let edition;
         let licenseType;
         let licenseKey;
 
-        const issued = Utils.displayDate(parseInt(this.props.license.IssuedAt, 10)) + ' ' + Utils.displayTime(parseInt(this.props.license.IssuedAt, 10), true);
-        const startsAt = Utils.displayDate(parseInt(this.props.license.StartsAt, 10));
-        const expiresAt = Utils.displayDate(parseInt(this.props.license.ExpiresAt, 10));
+        const issued = Utils.displayDate(parseInt(license.IssuedAt, 10)) + ' ' + Utils.displayTime(parseInt(license.IssuedAt, 10), true);
+        const startsAt = Utils.displayDate(parseInt(license.StartsAt, 10));
+        const expiresAt = Utils.displayDate(parseInt(license.ExpiresAt, 10));
 
-        if (this.props.license.IsLicensed === 'true') {
+        if (license.IsLicensed === 'true') {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
+            const sku = license.SkuShortName ? <React.Fragment>{`Edition: Mattermost Enterprise Edition ${license.SkuShortName}`}<br/></React.Fragment> : null;
             edition = 'Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key and a valid subscription.';
             licenseType = (
                 <div>
                     <p>
                         {'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.\n\nYour subscription details are as follows:'}
                     </p>
-                    {`Name: ${this.props.license.Name}`}<br/>
-                    {`Company or organization name: ${this.props.license.Company}`}<br/>
-                    {`Number of users: ${this.props.license.Users}`}<br/>
+                    {`Name: ${license.Name}`}<br/>
+                    {`Company or organization name: ${license.Company}`}<br/>
+                    {sku}
+                    {`Number of users: ${license.Users}`}<br/>
                     {`License issued: ${issued}`}<br/>
                     {`Start date of license: ${startsAt}`}<br/>
                     {`Expiry date of license: ${expiresAt}`}<br/>
@@ -131,18 +118,29 @@ class LicenseSettings extends React.Component {
                 </div>
             );
 
+            let removeButtonText = (
+                <FormattedMessage
+                    id='admin.license.keyRemove'
+                    defaultMessage='Remove Enterprise License and Downgrade Server'
+                />
+            );
+            if (this.state.removing) {
+                removeButtonText = (
+                    <FormattedMessage
+                        id='admin.license.removing'
+                        defaultMessage='Removing License...'
+                    />
+                );
+            }
+
             licenseKey = (
                 <div className='col-sm-8'>
                     <button
                         className='btn btn-danger'
                         onClick={this.handleRemove}
                         id='remove-button'
-                        data-loading-text={'<span class=\'fa fa-refresh icon--rotate\' title=\'' + Utils.localizeMessage('generic_icons.reload', 'Reload Icon') + '\'></span> ' + this.props.intl.formatMessage(holders.removing)}
                     >
-                        <FormattedMessage
-                            id='admin.license.keyRemove'
-                            defaultMessage='Remove Enterprise License and Downgrade Server'
-                        />
+                        {removeButtonText}
                     </button>
                     <br/>
                     <br/>
@@ -180,6 +178,21 @@ class LicenseSettings extends React.Component {
                 );
             }
 
+            let uploadButtonText = (
+                <FormattedMessage
+                    id='admin.license.upload'
+                    defaultMessage='Upload'
+                />
+            );
+            if (this.state.uploading) {
+                uploadButtonText = (
+                    <FormattedMessage
+                        id='admin.license.uploading'
+                        defaultMessage='Uploading License...'
+                    />
+                );
+            }
+
             licenseKey = (
                 <div className='col-sm-8'>
                     <div className='file__upload'>
@@ -201,12 +214,8 @@ class LicenseSettings extends React.Component {
                         disabled={!this.state.fileSelected}
                         onClick={this.handleSubmit}
                         id='upload-button'
-                        data-loading-text={'<span class=\'fa fa-refresh icon--rotate\' title=\'' + Utils.localizeMessage('generic_icons.reload', 'Reload Icon') + '\'></span> ' + this.props.intl.formatMessage(holders.uploading)}
                     >
-                        <FormattedMessage
-                            id='admin.license.upload'
-                            defaultMessage='Upload'
-                        />
+                        {uploadButtonText}
                     </button>
                     <div className='help-text no-margin'>
                         {fileName}
@@ -275,11 +284,3 @@ class LicenseSettings extends React.Component {
         );
     }
 }
-
-LicenseSettings.propTypes = {
-    license: PropTypes.object.isRequired,
-    intl: intlShape.isRequired,
-    config: PropTypes.object,
-};
-
-export default injectIntl(LicenseSettings);
