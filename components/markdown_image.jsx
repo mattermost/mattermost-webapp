@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {createPlaceholderImage, loadImage} from 'utils/image_utils';
+
 const WAIT_FOR_HEIGHT_TIMEOUT = 100;
 
 export default class MarkdownImage extends React.PureComponent {
@@ -17,25 +19,31 @@ export default class MarkdownImage extends React.PureComponent {
         /*
          * A callback that is called as soon as the image component has a height value
          */
-        onHeightReceived: PropTypes.func,
+        onHeightReceived: PropTypes.func.isRequired,
+
+        /*
+         * The source URL of the image
+         */
+        src: PropTypes.string.isRequired,
     }
 
     constructor(props) {
         super(props);
-        if (!props.dimensions) {
-            this.heightTimeout = 0;
-        }
+
+        this.state = {
+            loaded: false,
+        };
+
+        this.heightTimeout = 0;
     }
 
     componentDidMount() {
-        if (!this.props.dimensions) {
-            this.waitForHeight();
-        }
+        this.loadImage();
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.href !== prevProps.href) {
-            this.waitForHeight();
+        if (this.props.src !== prevProps.src) {
+            this.loadImage();
         }
     }
 
@@ -43,14 +51,22 @@ export default class MarkdownImage extends React.PureComponent {
         this.stopWaitingForHeight();
     }
 
-    waitForHeight = () => {
-        if (this.refs.image && this.refs.image.height) {
+    loadImage = () => {
+        const image = loadImage(this.props.src, this.handleLoad);
+
+        if (!this.props.dimensions) {
+            this.waitForHeight(image);
+        }
+    }
+
+    waitForHeight = (image) => {
+        if (image && image.height) {
             if (this.props.onHeightReceived) {
-                this.props.onHeightReceived(this.refs.image.height);
+                this.props.onHeightReceived(image.height);
             }
             this.heightTimeout = 0;
         } else {
-            this.heightTimeout = setTimeout(this.waitForHeight, WAIT_FOR_HEIGHT_TIMEOUT);
+            this.heightTimeout = setTimeout(() => this.waitForHeight(image), WAIT_FOR_HEIGHT_TIMEOUT);
         }
     }
 
@@ -63,15 +79,16 @@ export default class MarkdownImage extends React.PureComponent {
         return false;
     }
 
-    handleLoad = () => {
+    handleLoad = (image) => {
         const wasWaiting = this.stopWaitingForHeight();
 
-        // image is loaded but still havent recived new post webscoket event for metadata
-        // so meanwhile correct manually
-
         if ((wasWaiting || !this.props.dimensions) && this.props.onHeightReceived) {
-            this.props.onHeightReceived(this.refs.image.height);
+            this.props.onHeightReceived(image.height);
         }
+
+        this.setState({
+            loaded: true,
+        });
     };
 
     handleError = () => {
@@ -79,19 +96,26 @@ export default class MarkdownImage extends React.PureComponent {
     };
 
     render() {
-        const props = {...this.props};
+        const {
+            dimensions,
+            ...props
+        } = this.props;
+
         Reflect.deleteProperty(props, 'onHeightReceived');
-        Reflect.deleteProperty(props, 'dimensions');
+
+        let src;
+        if (!this.state.loaded && dimensions) {
+            // Generate a blank image as a placeholder because that will scale down to fit the available space
+            // while maintaining the correct aspect ratio
+            src = createPlaceholderImage(dimensions.width, dimensions.height);
+        } else {
+            src = this.props.src;
+        }
 
         return (
             <img
-                ref='image'
                 {...props}
-                onLoad={this.handleLoad}
-                onError={this.handleError}
-                style={{
-                    height: this.props.dimensions ? this.props.dimensions.height : 'initial',
-                }}
+                src={src}
             />
         );
     }
