@@ -15,6 +15,7 @@
                 padding: 20px 25px;
                 display: flex;
                 align-items: center;
+                border-bottom: 1px solid #ddd;
 
                 .close {
                     color: inherit;
@@ -49,7 +50,7 @@
         }
 
         .modal-body {
-            padding: 16px 25px;
+            padding: 15px 25px;
             max-height: calc(100vh - 220px);
         }
 
