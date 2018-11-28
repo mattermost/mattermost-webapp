@@ -3,21 +3,17 @@
 
 import * as PostActions from 'mattermost-redux/actions/posts';
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
+import {logError} from 'mattermost-redux/actions/errors';
+
+import {ActionTypes, AnnouncementBarTypes} from 'utils/constants.jsx';
 
 export function editPost(post) {
     return async (dispatch, getState) => {
         const result = await PostActions.editPost(post)(dispatch, getState);
 
-        if (result.error) {
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_ERROR,
-                err: {
-                    id: result.error.server_error_id,
-                    ...result.error,
-                },
-            });
+        // Send to error bar if it's an edit post error about time limit.
+        if (result.error && result.error.server_error_id === 'api.post.update_post.permissions_time_limit.app_error') {
+            dispatch(logError({type: AnnouncementBarTypes.ANNOUNCEMENT, message: result.error.message}, true));
         }
 
         return result;
