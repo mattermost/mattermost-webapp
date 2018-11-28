@@ -4,21 +4,26 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {getCurrentUserId, getProfilesInCurrentChannel, getProfilesNotInCurrentChannel} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, makeGetProfilesInChannel, makeGetProfilesNotInChannel} from 'mattermost-redux/selectors/entities/users';
 
 import {autocompleteUsersInChannel} from 'actions/views/channel';
 
 import Textbox from './textbox.jsx';
 
-const mapStateToProps = (state) => ({
-    currentUserId: getCurrentUserId(state),
-    profilesInChannel: getProfilesInCurrentChannel(state),
-    profilesNotInChannel: getProfilesNotInCurrentChannel(state),
-});
+const mapStateToProps = () => {
+    const getProfilesInChannel = makeGetProfilesInChannel();
+    const getProfilesNotInChannel = makeGetProfilesNotInChannel();
 
-const mapDispatchToProps = (dispatch) => ({
+    return (state, ownProps) => ({
+        currentUserId: getCurrentUserId(state),
+        profilesInChannel: getProfilesInChannel(state, ownProps.channelId, true),
+        profilesNotInChannel: getProfilesNotInChannel(state, ownProps.channelId, true),
+    });
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
     actions: bindActionCreators({
-        autocompleteUsersInChannel,
+        autocompleteUsersInChannel: (prefix) => autocompleteUsersInChannel(prefix, ownProps.channelId),
     }, dispatch),
 });
 
