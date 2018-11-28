@@ -60,8 +60,9 @@ export default class PostImageEmbed extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
+    componentDidMount() {
         this.loadImg(this.props.link);
+        this.mounted = true;
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -79,6 +80,10 @@ export default class PostImageEmbed extends React.PureComponent {
         }
     }
 
+    componentWillUnmount() {
+        this.mounted = false;
+    }
+
     loadImg(src) {
         const img = new Image();
         img.onload = this.handleLoadComplete;
@@ -87,11 +92,12 @@ export default class PostImageEmbed extends React.PureComponent {
     }
 
     handleLoadComplete() {
-        this.setState({
-            loaded: true,
-            errored: false,
-        });
-
+        if (this.mounted) {
+            this.setState({
+                loaded: true,
+                errored: false,
+            });
+        }
         postListScrollChange();
         if (this.props.onLinkLoaded) {
             this.props.onLinkLoaded();
@@ -99,10 +105,13 @@ export default class PostImageEmbed extends React.PureComponent {
     }
 
     handleLoadError() {
-        this.setState({
-            errored: true,
-            loaded: true,
-        });
+        if (this.mouted) {
+            this.setState({
+                errored: true,
+                loaded: true,
+            });
+        }
+
         if (this.props.onLinkLoadError) {
             this.props.onLinkLoadError();
         }

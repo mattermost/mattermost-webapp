@@ -56,6 +56,7 @@ export default class FileAttachment extends React.PureComponent {
 
     componentDidMount() {
         this.loadFiles();
+        this.mounted = true;
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -74,6 +75,10 @@ export default class FileAttachment extends React.PureComponent {
         }
     }
 
+    componentWillUnmount() {
+        this.mounted = false;
+    }
+
     loadFiles = () => {
         const fileInfo = this.props.fileInfo;
         const fileType = getFileType(fileInfo.extension);
@@ -88,9 +93,11 @@ export default class FileAttachment extends React.PureComponent {
     }
 
     handleImageLoaded = () => {
-        this.setState({
-            loaded: true,
-        });
+        if (this.mounted) {
+            this.setState({
+                loaded: true,
+            });
+        }
     }
 
     onAttachmentClick = (e) => {

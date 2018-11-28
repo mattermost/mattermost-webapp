@@ -86,6 +86,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                 this.loadImage(this.state.imageUrl);
             }
         }
+        this.mounted = true;
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -116,6 +117,10 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         if (!this.props.post.metadata && (this.state.imageUrl !== prevState.imageUrl)) {
             this.loadImage(this.state.imageUrl);
         }
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
     }
 
     fetchData = (url) => {
@@ -150,11 +155,12 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
     onImageLoad = (image) => {
         const hasLargeImage = this.hasLargeImage({width: image.target.naturalWidth, height: image.target.naturalHeight});
-
-        this.setState({
-            hasLargeImage,
-            imageLoaded: true,
-        });
+        if (this.mounted) {
+            this.setState({
+                hasLargeImage,
+                imageLoaded: true,
+            });
+        }
 
         postListScrollChange();
     }
@@ -250,7 +256,9 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
         const {data} = await this.props.actions.editPost(patchedPost);
         if (data) {
-            this.setState({removePreview: true});
+            if (this.mounted) {
+                this.setState({removePreview: true});
+            }
         }
     }
 

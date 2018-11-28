@@ -58,14 +58,24 @@ export default class MessageAttachment extends React.PureComponent {
         };
     }
 
+    componentDidMount() {
+        this.mounted = true;
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
+    }
+
     handleHeightReceived = (height) => {
         if (height > 0) {
             // Increment checkOverflow to indicate change in height
             // and recompute textContainer height at ShowMore component
             // and see whether overflow text of show more/less is necessary or not.
-            this.setState((prevState) => {
-                return {checkOverflow: prevState.checkOverflow + 1};
-            });
+            if (this.mounted) {
+                this.setState((prevState) => {
+                    return {checkOverflow: prevState.checkOverflow + 1};
+                });
+            }
 
             postListScrollChange();
         }

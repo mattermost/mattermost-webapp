@@ -192,15 +192,19 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     }
 
     handleLinkLoadError() {
-        this.setState({
-            linkLoadError: true,
-        });
+        if (this.mounted) {
+            this.setState({
+                linkLoadError: true,
+            });
+        }
     }
 
     handleLinkLoaded() {
-        this.setState({
-            linkLoaded: true,
-        });
+        if (this.mounted) {
+            this.setState({
+                linkLoaded: true,
+            });
+        }
     }
 
     handleImageClick = () => {

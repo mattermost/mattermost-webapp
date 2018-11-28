@@ -51,6 +51,7 @@ export default class SingleImageView extends React.PureComponent {
         window.addEventListener('resize', this.handleResize);
         this.setViewPortWidth();
         this.loadImage(this.props.fileInfo);
+        this.mounted = true;
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -63,6 +64,7 @@ export default class SingleImageView extends React.PureComponent {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
+        this.mounted = false;
     }
 
     handleResize = () => {
@@ -92,8 +94,9 @@ export default class SingleImageView extends React.PureComponent {
             if (this.imageLoaded) {
                 this.imageLoaded.src = previewURL;
             }
-
-            this.setState({loaded: true});
+            if (this.mounted) {
+                this.setState({loaded: true});
+            }
         };
     }
 
