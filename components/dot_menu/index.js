@@ -19,12 +19,10 @@ import {
 import DotMenu from './dot_menu.jsx';
 
 function mapStateToProps(state) {
-    const teamId = getCurrentTeamId(state);
-
     return {
         postEditTimeLimit: getConfig(state).PostEditTimeLimit,
         isLicensed: getLicense(state).IsLicensed === 'true',
-        teamId,
+        teamId: getCurrentTeamId(state),
         pluginMenuItems: state.plugins.components.PostDropdownMenu,
     };
 }

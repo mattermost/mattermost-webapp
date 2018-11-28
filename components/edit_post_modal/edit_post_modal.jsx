@@ -115,11 +115,6 @@ export default class EditPostModal extends React.PureComponent {
         }
     }
 
-    handleEmojiClose = () => {
-        this.setState({showEmojiPicker: false});
-        this.editbox.focus();
-    }
-
     handleEmojiClick = (emoji) => {
         const emojiAlias = emoji && (emoji.name || (emoji.aliases && emoji.aliases[0]));
 
@@ -303,7 +298,6 @@ export default class EditPostModal extends React.PureComponent {
                         container={this.getContainer}
                         target={this.getEditPostControls}
                         onHide={this.hideEmojiPicker}
-                        onEmojiClose={this.handleEmojiClose}
                         onEmojiClick={this.handleEmojiClick}
                         onGifClick={this.handleGifClick}
                         enableGifPicker={this.props.config.EnableGifPicker === 'true'}

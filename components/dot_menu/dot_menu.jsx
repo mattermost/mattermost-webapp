@@ -155,7 +155,7 @@ class DotMenu extends Component {
     }
 
     // listen to clicks/taps on add reaction menu item and pass to parent handler
-    handleAddReactionenuItemActivated = (e) => {
+    handleAddReactionMenuItemActivated = (e) => {
         e.preventDefault();
 
         // to be safe, make sure the handler function has been defined
@@ -227,7 +227,7 @@ class DotMenu extends Component {
                                     defaultMessage={'Add Reaction'}
                                 />
                             }
-                            handleMenuItemActivated={this.handleAddReactionenuItemActivated}
+                            handleMenuItemActivated={this.handleAddReactionMenuItemActivated}
                         />
                     </ChannelPermissionGate>
                 );
