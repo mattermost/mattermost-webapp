@@ -87,13 +87,13 @@ const languages = {
     ja: {
         value: 'ja',
         name: '日本語',
-        order: 14,
+        order: 15,
         url: ja,
     },
     ko: {
         value: 'ko',
         name: '한국어 (Alpha)',
-        order: 11,
+        order: 12,
         url: ko,
     },
     nl: {
@@ -123,31 +123,31 @@ const languages = {
     ru: {
         value: 'ru',
         name: 'Pусский (Alpha)',
-        order: 9,
+        order: 10,
         url: ru,
     },
     tr: {
         value: 'tr',
         name: 'Türkçe',
-        order: 11,
+        order: 9,
         url: tr,
     },
     uk: {
         value: 'uk',
         name: 'Yкраїнська (Beta)',
-        order: 10,
+        order: 11,
         url: uk,
     },
     'zh-TW': {
         value: 'zh-TW',
         name: '中文 (繁體)',
-        order: 13,
+        order: 14,
         url: zhTW,
     },
     'zh-CN': {
         value: 'zh-CN',
         name: '中文 (简体)',
-        order: 12,
+        order: 13,
         url: zhCN,
     },
 };
