@@ -114,7 +114,7 @@ export default class QuickSwitchModal extends React.PureComponent {
             const {joinChannelById, switchToChannel} = this.props.actions;
             const selectedChannel = selected.channel;
 
-            if (selected.type === Constants.MENTION_MORE_CHANNELS && selectedChannel.type !== Constants.DM_CHANNEL) {
+            if (selected.type === Constants.MENTION_MORE_CHANNELS && selectedChannel.type === Constants.OPEN_CHANNEL) {
                 await joinChannelById(selectedChannel.id);
             }
             switchToChannel(selectedChannel).then((result) => {
