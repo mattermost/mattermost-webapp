@@ -12,7 +12,7 @@ import {
     getFileType,
     localizeMessage,
 } from 'utils/utils';
-
+import {postListScrollChange} from 'actions/global_actions.jsx';
 import LoadingImagePreview from 'components/loading_image_preview';
 import ViewImageModal from 'components/view_image';
 
@@ -52,6 +52,9 @@ export default class SingleImageView extends React.PureComponent {
         window.addEventListener('resize', this.handleResize);
         this.setViewPortWidth();
         this.loadImage(this.props.fileInfo);
+
+        // Timeout used to delay execution until after current render cycle
+        setTimeout(postListScrollChange, 0);
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
