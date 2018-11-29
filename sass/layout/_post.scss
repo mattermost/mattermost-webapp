@@ -1894,12 +1894,16 @@
 
 .post-collapse {
     bottom: 0;
+    pointer-events: none;
     position: absolute;
     width: 100%;
 
     .post-collapse__gradient, .post-attachment-collapse__gradient {
-        pointer-events: none;
         position: relative;
+    }
+
+    .post-collapse__show-more {
+        pointer-events: auto;
     }
 }
 
