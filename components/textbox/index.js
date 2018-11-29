@@ -10,7 +10,7 @@ import {autocompleteUsersInChannel} from 'actions/views/channel';
 
 import Textbox from './textbox.jsx';
 
-const mapStateToProps = () => {
+const makeMapStateToProps = () => {
     const getProfilesInChannel = makeGetProfilesInChannel();
     const getProfilesNotInChannel = makeGetProfilesNotInChannel();
 
@@ -21,10 +21,10 @@ const mapStateToProps = () => {
     });
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators({
-        autocompleteUsersInChannel: (prefix) => autocompleteUsersInChannel(prefix, ownProps.channelId),
+        autocompleteUsersInChannel,
     }, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps, null, {withRef: true})(Textbox);
+export default connect(makeMapStateToProps, mapDispatchToProps, null, {withRef: true})(Textbox);
