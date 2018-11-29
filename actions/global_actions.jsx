@@ -396,9 +396,11 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
 }
 
 export function toggleSideBarRightMenuAction() {
-    dispatch(closeRightHandSide());
-    dispatch(closeLhs());
-    dispatch(closeRhsMenu());
+    return (doDispatch) => {
+        doDispatch(closeRightHandSide());
+        doDispatch(closeLhs());
+        doDispatch(closeRhsMenu());
+    };
 }
 
 export function emitBrowserFocus(focus) {
