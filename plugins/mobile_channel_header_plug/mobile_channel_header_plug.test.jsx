@@ -41,8 +41,8 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         expect(wrapper).toMatchSnapshot();
 
         wrapper.instance().fireAction = jest.fn();
+        expect(wrapper.find('li').exists()).toEqual(true);
         expect(wrapper.find('button').exists()).toEqual(true);
-        expect(wrapper.find('li').exists()).toEqual(false);
 
         wrapper.find('button').first().simulate('click');
         expect(wrapper.instance().fireAction).toHaveBeenCalledTimes(1);
