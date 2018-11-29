@@ -73,11 +73,16 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
               message="short text"
             />
           </Connect(ShowMore)>
-          <img
+          <SizeAwareImage
             className="attachment__image"
-            height={200}
+            dimensions={
+              Object {
+                "height": 200,
+                "width": 200,
+              }
+            }
+            onHeightReceived={[Function]}
             src="image_url"
-            width={200}
           />
           <div
             className="attachment-actions"
@@ -97,10 +102,15 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
         <div
           className="attachment__thumb-container"
         >
-          <img
-            height={75}
+          <SizeAwareImage
+            dimensions={
+              Object {
+                "height": 200,
+                "width": 200,
+              }
+            }
+            onHeightReceived={[Function]}
             src="thumb_url"
-            width={75}
           />
         </div>
         <div
@@ -189,20 +199,30 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
               message="short text"
             />
           </Connect(ShowMore)>
-          <img
+          <SizeAwareImage
             className="attachment__image"
-            height={200}
+            dimensions={
+              Object {
+                "height": 200,
+                "width": 200,
+              }
+            }
+            onHeightReceived={[Function]}
             src="image_url"
-            width={200}
           />
         </div>
         <div
           className="attachment__thumb-container"
         >
-          <img
-            height={75}
+          <SizeAwareImage
+            dimensions={
+              Object {
+                "height": 200,
+                "width": 200,
+              }
+            }
+            onHeightReceived={[Function]}
             src="thumb_url"
-            width={75}
           />
         </div>
         <div
