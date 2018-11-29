@@ -8,7 +8,9 @@ import {createPlaceholderImage, loadImage} from 'utils/image_utils';
 
 const WAIT_FOR_HEIGHT_TIMEOUT = 100;
 
-export default class MarkdownImage extends React.PureComponent {
+// SizeAwareImage is a component used for rendering images where the dimensions of the image are important for
+// ensuring that the page is laid out correctly.
+export default class SizeAwareImage extends React.PureComponent {
     static propTypes = {
 
         /*
