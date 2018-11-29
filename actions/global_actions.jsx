@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import debounce from 'lodash/debounce';
+import {batchActions} from 'redux-batched-actions';
 
 import {
     getChannel,
@@ -19,7 +20,8 @@ import {Client4} from 'mattermost-redux/client';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getTeam, getMyTeams, getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentChannelStats, getCurrentChannelId, getChannelByName} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChannelMember as selectMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
+import {ChannelTypes} from 'mattermost-redux/action_types';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
@@ -66,6 +68,7 @@ export function emitChannelClickEvent(channel) {
         const teamId = chan.team_id || getCurrentTeamId(state);
         const isRHSOpened = getIsRhsOpen(state);
         const isPinnedPostsShowing = getRhsState(state) === RHSStates.PIN;
+        const member = selectMyChannelMember(state, chan.id);
 
         getMyChannelMemberPromise.then(() => {
             dispatch(getChannelStats(chan.id));
@@ -89,11 +92,15 @@ export function emitChannelClickEvent(channel) {
 
         loadProfilesForSidebar();
 
-        AppDispatcher.handleViewAction({
-            type: ActionTypes.CLICK_CHANNEL,
-            id: chan.id,
-            team_id: teamId,
-        });
+        dispatch(batchActions([{
+            type: ChannelTypes.SELECT_CHANNEL,
+            data: chan.id,
+        }, {
+            type: ActionTypes.SELECT_CHANNEL_WITH_MEMBER,
+            data: chan.id,
+            channel: chan,
+            member,
+        }]));
     }
 
     if (channel.fake) {
@@ -167,20 +174,6 @@ export async function emitPostFocusEvent(postId, returnTo = '') {
     await doFocusPost(channelId, postId, data);
 }
 
-export function emitUserPostedEvent(post) {
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.CREATE_POST,
-        post,
-    });
-}
-
-export function emitUserCommentedEvent(post) {
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.CREATE_COMMENT,
-        post,
-    });
-}
-
 export function toggleShortcutsModal() {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_SHORTCUTS_MODAL,
@@ -231,76 +224,6 @@ export function showLeavePrivateChannelModal(channel) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL,
         value: channel,
-    });
-}
-
-export function emitSuggestionPretextChanged(suggestionId, pretext) {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.SUGGESTION_PRETEXT_CHANGED,
-        id: suggestionId,
-        pretext,
-    });
-}
-
-export function emitSelectNextSuggestion(suggestionId) {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.SUGGESTION_SELECT_NEXT,
-        id: suggestionId,
-    });
-}
-
-export function emitSelectPreviousSuggestion(suggestionId) {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.SUGGESTION_SELECT_PREVIOUS,
-        id: suggestionId,
-    });
-}
-
-export function emitCompleteWordSuggestion(suggestionId, term = '') {
-    AppDispatcher.handleViewAction({
-        type: Constants.ActionTypes.SUGGESTION_COMPLETE_WORD,
-        id: suggestionId,
-        term,
-    });
-}
-
-export function emitClearSuggestions(suggestionId) {
-    AppDispatcher.handleViewAction({
-        type: Constants.ActionTypes.SUGGESTION_CLEAR_SUGGESTIONS,
-        id: suggestionId,
-    });
-}
-
-export function emitPreferenceChangedEvent(preference) {
-    AppDispatcher.handleServerAction({
-        type: Constants.ActionTypes.RECEIVED_PREFERENCE,
-        preference,
-    });
-
-    if (addedNewDmUser(preference)) {
-        loadProfilesForSidebar();
-    }
-}
-
-export function emitPreferencesChangedEvent(preferences) {
-    AppDispatcher.handleServerAction({
-        type: Constants.ActionTypes.RECEIVED_PREFERENCES,
-        preferences,
-    });
-
-    if (preferences.findIndex(addedNewDmUser) !== -1) {
-        loadProfilesForSidebar();
-    }
-}
-
-function addedNewDmUser(preference) {
-    return preference.category === Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW && preference.value === 'true';
-}
-
-export function emitPreferencesDeletedEvent(preferences) {
-    AppDispatcher.handleServerAction({
-        type: Constants.ActionTypes.DELETED_PREFERENCES,
-        preferences,
     });
 }
 
@@ -362,15 +285,6 @@ export function emitLocalUserTypingEvent(channelId, parentPostId) {
     };
 
     return dispatch(userTyping);
-}
-
-export function emitRemoteUserTypingEvent(channelId, userId, postParentId) {
-    AppDispatcher.handleViewAction({
-        type: Constants.ActionTypes.USER_TYPING,
-        channelId,
-        userId,
-        postParentId,
-    });
 }
 
 export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = true, userAction = true) {
