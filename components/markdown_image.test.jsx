@@ -20,6 +20,8 @@ describe('components/MarkdownImage', () => {
         src: 'https://example.com/image.png',
     };
 
+    loadImage.mockReturnValue(() => ({}));
+
     test('should render a placeholder when first mounted with dimensions', () => {
         createPlaceholderImage.mockImplementation(() => 'data:image/png;base64,abc123');
 
@@ -62,7 +64,11 @@ describe('components/MarkdownImage', () => {
 
     test('should call onHeightReceived on load when dimensions are needed', () => {
         const height = 123;
-        loadImage.mockImplementation((src, onLoad) => onLoad({height}));
+        loadImage.mockImplementation((src, onLoad) => {
+            onLoad({height});
+
+            return {};
+        });
 
         const props = {...baseProps};
         Reflect.deleteProperty(props, 'dimensions');
@@ -73,7 +79,11 @@ describe('components/MarkdownImage', () => {
     });
 
     test('should not call onHeightReceived when dimensions are provided', () => {
-        loadImage.mockImplementation((src, onLoad) => onLoad({path: [{height: 100}]}));
+        loadImage.mockImplementation((src, onLoad) => {
+            onLoad({height: 100});
+
+            return {};
+        });
 
         shallow(<MarkdownImage {...baseProps}/>);
 
