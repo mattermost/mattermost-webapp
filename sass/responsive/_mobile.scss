@@ -1558,9 +1558,24 @@
             }
 
             .more-modal {
+                .modal-content {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .modal-header {
+                    flex: 0 0 56px;
+                }
+
                 .modal-body {
-                    max-height: calc(100vh - 62px);
-                    padding-bottom: 5px;
+                    flex: 1 1 auto;
+                    max-height: 100%;
+                    display: flex;
+                }
+
+                .filtered-user-list {
+                    flex: 1 1 auto;
+                    height: auto;
                 }
             }
         }
