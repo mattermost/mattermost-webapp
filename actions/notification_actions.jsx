@@ -67,11 +67,14 @@ export function sendDesktopNotification(post, msgProps) {
         const config = getConfig(state);
         let username = '';
         if (post.props.override_username && config.EnablePostUsernameOverride === 'true') {
-            username = post.props.override_username;
+            username = '@' + post.props.override_username;
         } else if (userFromPost) {
-            username = displayUsername(userFromPost, getTeammateNameDisplaySetting(state), false);
+            if(getTeammateNameDisplaySetting(state) != 'full_name') {
+                username = '@';
+            }
+            username += displayUsername(userFromPost, getTeammateNameDisplaySetting(state), false);
         } else {
-            username = Utils.localizeMessage('channel_loader.someone', 'Someone');
+            username = '@' + Utils.localizeMessage('channel_loader.someone', 'Someone');
         }
 
         let title = Utils.localizeMessage('channel_loader.posted', 'Posted');
@@ -114,7 +117,7 @@ export function sendDesktopNotification(post, msgProps) {
             strippedMarkdownNotifyText = strippedMarkdownNotifyText.substring(0, NOTIFY_TEXT_MAX_LENGTH - 1) + '...';
         }
 
-        let body = `@${username}`;
+        let body = `${username}`;
         if (strippedMarkdownNotifyText.length === 0) {
             if (msgProps.image) {
                 body += Utils.localizeMessage('channel_loader.uploadedImage', ' uploaded an image');
