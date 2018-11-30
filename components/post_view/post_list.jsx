@@ -663,8 +663,8 @@ export default class PostList extends React.PureComponent {
                 />
                 <ScrollToBottomArrows
                     isScrolling={this.state.isScrolling}
-                    atBottom={this.checkBottom()}
-                    onClick={this.atBottom}
+                    atBottom={this.atBottom}
+                    onClick={this.scrollToBottom}
                 />
                 <NewMessageIndicator
                     newMessages={this.state.unViewedCount}
