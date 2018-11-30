@@ -209,7 +209,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         submit={[Function]}
         title={
           <FormattedMessage
-            defaultMessage="Channel Display Mode"
+            defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
             values={Object {}}
           />
