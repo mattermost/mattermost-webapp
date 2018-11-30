@@ -13,13 +13,13 @@ import {getCurrentUserLocale} from 'mattermost-redux/selectors/entities/i18n';
 import {haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
+import {logError} from 'mattermost-redux/actions/errors';
 
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
 import ArchiveIcon from 'components/svg/archive_icon';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import store from 'stores/redux_store.jsx';
-import {ActionTypes, Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants.jsx';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -153,10 +153,7 @@ export default class SearchChannelWithPermissionsProvider extends Provider {
             const {data} = await channelsAsync;
             channelsFromServer = data;
         } catch (err) {
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_ERROR,
-                err,
-            });
+            store.dispatch(logError(err));
         }
 
         if (this.shouldCancelDispatch(channelPrefix)) {
