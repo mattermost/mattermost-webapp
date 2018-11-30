@@ -5,8 +5,6 @@ import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/genera
 import * as UserActions from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 
-import LocalStorageStore from 'stores/local_storage_store';
-
 import {ActionTypes} from 'utils/constants';
 
 export function loadMeAndConfig() {
@@ -17,7 +15,7 @@ export function loadMeAndConfig() {
             dispatch(getLicenseConfig()),
         ];
 
-        if (document.cookie.indexOf('MMUSERID=') > -1 && LocalStorageStore.getWasLoggedIn()) {
+        if (document.cookie.indexOf('MMUSERID=') > -1) {
             promises.push(dispatch(UserActions.loadMe()));
         }
 
