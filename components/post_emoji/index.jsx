@@ -12,19 +12,19 @@ import {getEmojiMap} from 'selectors/emojis';
 import PostEmoji from './post_emoji.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const emojiName = ownProps.name;
     const emojiMap = getEmojiMap(state);
-    const emoji = emojiMap.get(emojiName);
+    const emoji = emojiMap.get(ownProps.name);
 
     let imageUrl = '';
-    let displayTextOnly = false;
-    if (state.entities.emojis.nonExistentEmoji.has(emojiName)) {
-        displayTextOnly = true;
-    } else if (emoji) {
+    let displayTextOnly = true;
+    if (emoji) {
         imageUrl = getEmojiImageUrl(emoji);
-    } else if (getConfig(state).EnableCustomEmoji !== 'true' || getCurrentUserId(state) === '') {
         displayTextOnly = false;
-    } else {
+    } else if (
+        state.entities.emojis.nonExistentEmoji.has(ownProps.name) ||
+        getConfig(state).EnableCustomEmoji !== 'true' ||
+        getCurrentUserId(state) === ''
+    ) {
         displayTextOnly = true;
     }
 
