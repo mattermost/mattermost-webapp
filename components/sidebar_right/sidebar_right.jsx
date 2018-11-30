@@ -27,7 +27,6 @@ export default class SidebarRight extends React.PureComponent {
         isPinnedPosts: PropTypes.bool,
         previousRhsState: PropTypes.string,
         actions: PropTypes.shape({
-            getPinnedPosts: PropTypes.func.isRequired,
             setRhsExpanded: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
         }),
@@ -40,6 +39,11 @@ export default class SidebarRight extends React.PureComponent {
         if (!wasOpen && isOpen) {
             trackEvent('ui', 'ui_rhs_opened');
             setTimeout(postListScrollChange, 0);
+        }
+
+        const {actions, isPinnedPosts, channel} = this.props;
+        if (isPinnedPosts && prevProps.isPinnedPosts === isPinnedPosts && channel.id !== prevProps.channel.id) {
+            actions.showPinnedPosts(channel.id);
         }
     }
 

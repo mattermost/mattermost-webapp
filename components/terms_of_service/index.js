@@ -2,7 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
+import {getTermsOfService, updateMyTermsOfServiceStatus} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import TermsOfService from './terms_of_service';
@@ -10,12 +12,17 @@ import TermsOfService from './terms_of_service';
 function mapStateToProps(state) {
     const config = getConfig(state);
     return {
-        customTermsOfServiceId: config.CustomTermsOfServiceId,
-        privacyPolicyLink: config.PrivacyPolicyLink,
-        siteName: config.SiteName,
         termsEnabled: config.EnableCustomTermsOfService === 'true',
-        termsOfServiceLink: config.TermsOfServiceLink,
     };
 }
 
-export default connect(mapStateToProps)(TermsOfService);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            getTermsOfService,
+            updateMyTermsOfServiceStatus,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TermsOfService);

@@ -22,7 +22,7 @@ export default class SettingItemMax extends React.PureComponent {
         /**
          * Array of inputs selection
          */
-        inputs: PropTypes.array,
+        inputs: PropTypes.node,
 
         /**
          * Styles for main component
@@ -203,7 +203,14 @@ export default class SettingItemMax extends React.PureComponent {
 
         let title;
         if (this.props.title) {
-            title = <li className='col-sm-12 section-title'>{this.props.title}</li>;
+            title = (
+                <li
+                    id='settingTitle'
+                    className='col-sm-12 section-title'
+                >
+                    {this.props.title}
+                </li>
+            );
         }
 
         let listContent = (

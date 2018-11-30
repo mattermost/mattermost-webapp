@@ -1,22 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {batchActions} from 'redux-batched-actions';
-import {PreferenceTypes} from 'mattermost-redux/action_types';
-import {createDirectChannel, leaveChannel as leaveChannelRedux, unfavoriteChannel} from 'mattermost-redux/actions/channels';
-import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {getChannel, getChannelByName} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+import {leaveChannel as leaveChannelRedux, joinChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
+import {getChannel, getChannelByName, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
+import {autocompleteUsers} from 'mattermost-redux/actions/users';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {getLastViewedChannelName} from 'selectors/local_storage';
 
 import {browserHistory} from 'utils/browser_history';
-import {ActionTypes, Preferences} from 'utils/constants.jsx';
-import {getDirectChannelName, isMobile} from 'utils/utils.jsx';
+import {Constants, ActionTypes} from 'utils/constants.jsx';
+import {isMobile} from 'utils/utils.jsx';
 
 export function checkAndSetMobileView() {
     return (dispatch) => {
@@ -60,6 +58,9 @@ export function switchToChannel(channel) {
                 return {error: true};
             }
             browserHistory.push(`${teamUrl}/messages/@${channel.name}`);
+        } else if (channel.type === Constants.GM_CHANNEL) {
+            const gmChannel = getChannel(state, channel.id);
+            browserHistory.push(`${teamUrl}/channels/${gmChannel.name}`);
         } else {
             browserHistory.push(`${teamUrl}/channels/${channel.name}`);
         }
@@ -68,44 +69,13 @@ export function switchToChannel(channel) {
     };
 }
 
-export function openDirectChannelToUserId(userId) {
+export function joinChannelById(channelId) {
     return async (dispatch, getState) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
-        const channelName = getDirectChannelName(currentUserId, userId);
-        const channel = getChannelByName(state, channelName);
+        const currentTeamId = getCurrentTeamId(state);
 
-        if (!channel) {
-            return dispatch(createDirectChannel(currentUserId, userId));
-        }
-
-        trackEvent('api', 'api_channels_join_direct');
-        const now = Date.now();
-        const prefDirect = {
-            category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW,
-            name: userId,
-            value: 'true',
-        };
-        const prefOpenTime = {
-            category: Preferences.CATEGORY_CHANNEL_OPEN_TIME,
-            name: channel.id,
-            value: now.toString(),
-        };
-        const actions = [{
-            type: PreferenceTypes.RECEIVED_PREFERENCES,
-            data: [prefDirect],
-        }, {
-            type: PreferenceTypes.RECEIVED_PREFERENCES,
-            data: [prefOpenTime],
-        }];
-        dispatch(batchActions(actions));
-
-        dispatch(savePreferences(currentUserId, [
-            {user_id: currentUserId, ...prefDirect},
-            {user_id: currentUserId, ...prefOpenTime},
-        ]));
-
-        return {data: channel};
+        return dispatch(joinChannel(currentUserId, currentTeamId, channelId));
     };
 }
 
@@ -118,6 +88,9 @@ export function leaveChannel(channelId) {
             dispatch(unfavoriteChannel(channelId));
         }
 
+        const teamUrl = getCurrentRelativeTeamUrl(state);
+        browserHistory.push(teamUrl + '/channels/' + Constants.DEFAULT_CHANNEL);
+
         const {error} = await dispatch(leaveChannelRedux(channelId));
         if (error) {
             return {error};
@@ -128,3 +101,14 @@ export function leaveChannel(channelId) {
         };
     };
 }
+
+export function autocompleteUsersInChannel(prefix) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const currentTeamId = getCurrentTeamId(state);
+        const currentChannelId = getCurrentChannelId(state);
+
+        return dispatch(autocompleteUsers(prefix, currentTeamId, currentChannelId));
+    };
+}
+

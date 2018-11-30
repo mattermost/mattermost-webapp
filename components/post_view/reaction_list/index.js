@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as Actions from 'mattermost-redux/actions/posts';
+import {addReaction, getReactionsForPost as getReactionsForPostAction} from 'mattermost-redux/actions/posts';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
@@ -33,8 +33,8 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getReactionsForPost: Actions.getReactionsForPost,
-            addReaction: Actions.addReaction,
+            addReaction,
+            getReactionsForPost: getReactionsForPostAction,
         }, dispatch),
     };
 }

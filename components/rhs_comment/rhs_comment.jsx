@@ -11,7 +11,6 @@ import {
 } from 'mattermost-redux/utils/post_utils';
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -172,7 +171,6 @@ export default class RhsComment extends React.Component {
         });
         const emojiName = emoji.name || emoji.aliases[0];
         this.props.actions.addReaction(this.props.post.id, emojiName);
-        emitEmojiPosted(emojiName);
     };
 
     getClassName = (post, isSystemMessage) => {

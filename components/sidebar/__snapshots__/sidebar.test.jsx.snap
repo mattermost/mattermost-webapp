@@ -1,0 +1,2543 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on sidebar not show the channel switcher 1`] = `
+<div
+  className="sidebar--left"
+  id="sidebar-left"
+  key="sidebar-left"
+>
+  <Connect(NewChannelFlow)
+    canCreatePrivateChannel={true}
+    canCreatePublicChannel={true}
+    channelType=""
+    onModalDismissed={[Function]}
+    show={false}
+  />
+  <Connect(SidebarHeader)
+    currentUser={
+      Object {
+        "id": "my-user-id",
+      }
+    }
+    teamDescription="Test team description"
+    teamDisplayName="Test team display name"
+    teamId="team_id"
+    teamName="test-team"
+    teamType="team-type"
+  />
+  <div
+    className="sidebar--left__icons"
+  >
+    <Connect(Pluggable)
+      pluggableName="LeftSidebarHeader"
+    />
+  </div>
+  <div
+    className="sidebar--left__list"
+  >
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-top"
+      name="Top"
+      onClick={[Function]}
+      show={false}
+    />
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-bottom"
+      name="Bottom"
+      onClick={[Function]}
+      show={false}
+    />
+    <Scrollbars
+      autoHeight={false}
+      autoHeightMax={200}
+      autoHeightMin={0}
+      autoHide={true}
+      autoHideDuration={500}
+      autoHideTimeout={500}
+      hideTracksWhenNotNeeded={false}
+      onScroll={[Function]}
+      renderThumbHorizontal={[Function]}
+      renderThumbVertical={[Function]}
+      renderTrackHorizontal={[Function]}
+      renderTrackVertical={[Function]}
+      renderView={[Function]}
+      style={
+        Object {
+          "position": "absolute",
+        }
+      }
+      tagName="div"
+      thumbMinSize={30}
+      universal={false}
+    >
+      <div
+        className="nav-pills__container"
+        id="sidebarChannelContainer"
+      >
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="public"
+        >
+          <li>
+            <h4
+              id="publicChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PUBLIC CHANNELS"
+                sectionType="public"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="public"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={true}
+            channelId="c1"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c1"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c2"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c2"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="public"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="private"
+        >
+          <li>
+            <h4
+              id="privateChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PRIVATE CHANNELS"
+                sectionType="private"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="private"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c3"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c3"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c4"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c4"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="private"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="direct"
+        >
+          <li>
+            <h4
+              id="directChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="DIRECT MESSAGES"
+                sectionType="direct"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="direct"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c5"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c5"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c6"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c6"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="direct"
+          />
+        </ul>
+      </div>
+    </Scrollbars>
+  </div>
+  <div
+    className="sidebar__switcher"
+  >
+    <button
+      className="btn btn-link"
+      id="sidebarSwitcherButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Switch Channels"
+        id="channel_switch_modal.title"
+        values={Object {}}
+      />
+      <span
+        className="switch__shortcut hidden-xs"
+      >
+        <FormattedMessage
+          defaultMessage="- CTRL+K"
+          id="quick_switch_modal.channelsShortcut.windows"
+          values={Object {}}
+        />
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on sidebar show 1`] = `
+<div
+  className="sidebar--left"
+  id="sidebar-left"
+  key="sidebar-left"
+>
+  <Connect(NewChannelFlow)
+    canCreatePrivateChannel={true}
+    canCreatePublicChannel={true}
+    channelType=""
+    onModalDismissed={[Function]}
+    show={false}
+  />
+  <Connect(SidebarHeader)
+    currentUser={
+      Object {
+        "id": "my-user-id",
+      }
+    }
+    teamDescription="Test team description"
+    teamDisplayName="Test team display name"
+    teamId="team_id"
+    teamName="test-team"
+    teamType="team-type"
+  />
+  <div
+    className="sidebar--left__icons"
+  >
+    <Connect(Pluggable)
+      pluggableName="LeftSidebarHeader"
+    />
+  </div>
+  <div
+    className="sidebar--left__list"
+  >
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-top"
+      name="Top"
+      onClick={[Function]}
+      show={false}
+    />
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-bottom"
+      name="Bottom"
+      onClick={[Function]}
+      show={false}
+    />
+    <Scrollbars
+      autoHeight={false}
+      autoHeightMax={200}
+      autoHeightMin={0}
+      autoHide={true}
+      autoHideDuration={500}
+      autoHideTimeout={500}
+      hideTracksWhenNotNeeded={false}
+      onScroll={[Function]}
+      renderThumbHorizontal={[Function]}
+      renderThumbVertical={[Function]}
+      renderTrackHorizontal={[Function]}
+      renderTrackVertical={[Function]}
+      renderView={[Function]}
+      style={
+        Object {
+          "position": "absolute",
+        }
+      }
+      tagName="div"
+      thumbMinSize={30}
+      universal={false}
+    >
+      <div
+        className="nav-pills__container"
+        id="sidebarChannelContainer"
+      >
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="public"
+        >
+          <li>
+            <h4
+              id="publicChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PUBLIC CHANNELS"
+                sectionType="public"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="public"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={true}
+            channelId="c1"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c1"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c2"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c2"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="public"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="private"
+        >
+          <li>
+            <h4
+              id="privateChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PRIVATE CHANNELS"
+                sectionType="private"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="private"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c3"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c3"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c4"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c4"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="private"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="direct"
+        >
+          <li>
+            <h4
+              id="directChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="DIRECT MESSAGES"
+                sectionType="direct"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="direct"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c5"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c5"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c6"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c6"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="direct"
+          />
+        </ul>
+      </div>
+    </Scrollbars>
+  </div>
+  <div
+    className="sidebar__switcher"
+  >
+    <button
+      className="btn btn-link"
+      id="sidebarSwitcherButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Switch Channels"
+        id="channel_switch_modal.title"
+        values={Object {}}
+      />
+      <span
+        className="switch__shortcut hidden-xs"
+      >
+        <FormattedMessage
+          defaultMessage="- CTRL+K"
+          id="quick_switch_modal.channelsShortcut.windows"
+          values={Object {}}
+        />
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on sidebar show with favorites 1`] = `
+<div
+  className="sidebar--left"
+  id="sidebar-left"
+  key="sidebar-left"
+>
+  <Connect(NewChannelFlow)
+    canCreatePrivateChannel={true}
+    canCreatePublicChannel={true}
+    channelType=""
+    onModalDismissed={[Function]}
+    show={false}
+  />
+  <Connect(SidebarHeader)
+    currentUser={
+      Object {
+        "id": "my-user-id",
+      }
+    }
+    teamDescription="Test team description"
+    teamDisplayName="Test team display name"
+    teamId="team_id"
+    teamName="test-team"
+    teamType="team-type"
+  />
+  <div
+    className="sidebar--left__icons"
+  >
+    <Connect(Pluggable)
+      pluggableName="LeftSidebarHeader"
+    />
+  </div>
+  <div
+    className="sidebar--left__list"
+  >
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-top"
+      name="Top"
+      onClick={[Function]}
+      show={false}
+    />
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-bottom"
+      name="Bottom"
+      onClick={[Function]}
+      show={false}
+    />
+    <Scrollbars
+      autoHeight={false}
+      autoHeightMax={200}
+      autoHeightMin={0}
+      autoHide={true}
+      autoHideDuration={500}
+      autoHideTimeout={500}
+      hideTracksWhenNotNeeded={false}
+      onScroll={[Function]}
+      renderThumbHorizontal={[Function]}
+      renderThumbVertical={[Function]}
+      renderTrackHorizontal={[Function]}
+      renderTrackVertical={[Function]}
+      renderView={[Function]}
+      style={
+        Object {
+          "position": "absolute",
+        }
+      }
+      tagName="div"
+      thumbMinSize={30}
+      universal={false}
+    >
+      <div
+        className="nav-pills__container"
+        id="sidebarChannelContainer"
+      >
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="public"
+        >
+          <li>
+            <h4
+              id="publicChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PUBLIC CHANNELS"
+                sectionType="public"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="public"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={true}
+            channelId="c1"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c1"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c2"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c2"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="public"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="private"
+        >
+          <li>
+            <h4
+              id="privateChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PRIVATE CHANNELS"
+                sectionType="private"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="private"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c3"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c3"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c4"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c4"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="private"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="direct"
+        >
+          <li>
+            <h4
+              id="directChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="DIRECT MESSAGES"
+                sectionType="direct"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="direct"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c5"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c5"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c6"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c6"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="direct"
+          />
+        </ul>
+      </div>
+    </Scrollbars>
+  </div>
+  <div
+    className="sidebar__switcher"
+  >
+    <button
+      className="btn btn-link"
+      id="sidebarSwitcherButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Switch Channels"
+        id="channel_switch_modal.title"
+        values={Object {}}
+      />
+      <span
+        className="switch__shortcut hidden-xs"
+      >
+        <FormattedMessage
+          defaultMessage="- CTRL+K"
+          id="quick_switch_modal.channelsShortcut.windows"
+          values={Object {}}
+        />
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on sidebar show with unreads 1`] = `
+<div
+  className="sidebar--left"
+  id="sidebar-left"
+  key="sidebar-left"
+>
+  <Connect(NewChannelFlow)
+    canCreatePrivateChannel={true}
+    canCreatePublicChannel={true}
+    channelType=""
+    onModalDismissed={[Function]}
+    show={false}
+  />
+  <Connect(SidebarHeader)
+    currentUser={
+      Object {
+        "id": "my-user-id",
+      }
+    }
+    teamDescription="Test team description"
+    teamDisplayName="Test team display name"
+    teamId="team_id"
+    teamName="test-team"
+    teamType="team-type"
+  />
+  <div
+    className="sidebar--left__icons"
+  >
+    <Connect(Pluggable)
+      pluggableName="LeftSidebarHeader"
+    />
+  </div>
+  <div
+    className="sidebar--left__list"
+  >
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-top"
+      name="Top"
+      onClick={[Function]}
+      show={false}
+    />
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-bottom"
+      name="Bottom"
+      onClick={[Function]}
+      show={false}
+    />
+    <Scrollbars
+      autoHeight={false}
+      autoHeightMax={200}
+      autoHeightMin={0}
+      autoHide={true}
+      autoHideDuration={500}
+      autoHideTimeout={500}
+      hideTracksWhenNotNeeded={false}
+      onScroll={[Function]}
+      renderThumbHorizontal={[Function]}
+      renderThumbVertical={[Function]}
+      renderTrackHorizontal={[Function]}
+      renderTrackVertical={[Function]}
+      renderView={[Function]}
+      style={
+        Object {
+          "position": "absolute",
+        }
+      }
+      tagName="div"
+      thumbMinSize={30}
+      universal={false}
+    >
+      <div
+        className="nav-pills__container"
+        id="sidebarChannelContainer"
+      >
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="public"
+        >
+          <li>
+            <h4
+              id="publicChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PUBLIC CHANNELS"
+                sectionType="public"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="public"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={true}
+            channelId="c1"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c1"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c2"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c2"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="public"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="private"
+        >
+          <li>
+            <h4
+              id="privateChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PRIVATE CHANNELS"
+                sectionType="private"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="private"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c3"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c3"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c4"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c4"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="private"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="direct"
+        >
+          <li>
+            <h4
+              id="directChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="DIRECT MESSAGES"
+                sectionType="direct"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="direct"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c5"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c5"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c6"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c6"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="direct"
+          />
+        </ul>
+      </div>
+    </Scrollbars>
+  </div>
+  <div
+    className="sidebar__switcher"
+  >
+    <button
+      className="btn btn-link"
+      id="sidebarSwitcherButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Switch Channels"
+        id="channel_switch_modal.title"
+        values={Object {}}
+      />
+      <span
+        className="switch__shortcut hidden-xs"
+      >
+        <FormattedMessage
+          defaultMessage="- CTRL+K"
+          id="quick_switch_modal.channelsShortcut.windows"
+          values={Object {}}
+        />
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, when render as an empty div because no have a team or a user 1`] = `<div />`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, when render as an empty div because no have a team or a user 2`] = `<div />`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly more channels modal 1`] = `
+<div
+  className="sidebar--left"
+  id="sidebar-left"
+  key="sidebar-left"
+>
+  <Connect(NewChannelFlow)
+    canCreatePrivateChannel={true}
+    canCreatePublicChannel={true}
+    channelType=""
+    onModalDismissed={[Function]}
+    show={false}
+  />
+  <Connect(MoreChannels)
+    handleNewChannel={[Function]}
+    onModalDismissed={[Function]}
+  />
+  <Connect(SidebarHeader)
+    currentUser={
+      Object {
+        "id": "my-user-id",
+      }
+    }
+    teamDescription="Test team description"
+    teamDisplayName="Test team display name"
+    teamId="team_id"
+    teamName="test-team"
+    teamType="team-type"
+  />
+  <div
+    className="sidebar--left__icons"
+  >
+    <Connect(Pluggable)
+      pluggableName="LeftSidebarHeader"
+    />
+  </div>
+  <div
+    className="sidebar--left__list"
+  >
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-top"
+      name="Top"
+      onClick={[Function]}
+      show={false}
+    />
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-bottom"
+      name="Bottom"
+      onClick={[Function]}
+      show={false}
+    />
+    <Scrollbars
+      autoHeight={false}
+      autoHeightMax={200}
+      autoHeightMin={0}
+      autoHide={true}
+      autoHideDuration={500}
+      autoHideTimeout={500}
+      hideTracksWhenNotNeeded={false}
+      onScroll={[Function]}
+      renderThumbHorizontal={[Function]}
+      renderThumbVertical={[Function]}
+      renderTrackHorizontal={[Function]}
+      renderTrackVertical={[Function]}
+      renderView={[Function]}
+      style={
+        Object {
+          "position": "absolute",
+        }
+      }
+      tagName="div"
+      thumbMinSize={30}
+      universal={false}
+    >
+      <div
+        className="nav-pills__container"
+        id="sidebarChannelContainer"
+      >
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="public"
+        >
+          <li>
+            <h4
+              id="publicChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PUBLIC CHANNELS"
+                sectionType="public"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="public"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={true}
+            channelId="c1"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c1"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c2"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c2"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="public"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="private"
+        >
+          <li>
+            <h4
+              id="privateChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PRIVATE CHANNELS"
+                sectionType="private"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="private"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c3"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c3"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c4"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c4"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="private"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="direct"
+        >
+          <li>
+            <h4
+              id="directChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="DIRECT MESSAGES"
+                sectionType="direct"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="direct"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c5"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c5"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c6"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c6"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="direct"
+          />
+        </ul>
+      </div>
+    </Scrollbars>
+  </div>
+  <div
+    className="sidebar__switcher"
+  >
+    <button
+      className="btn btn-link"
+      id="sidebarSwitcherButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Switch Channels"
+        id="channel_switch_modal.title"
+        values={Object {}}
+      />
+      <span
+        className="switch__shortcut hidden-xs"
+      >
+        <FormattedMessage
+          defaultMessage="- CTRL+K"
+          id="quick_switch_modal.channelsShortcut.windows"
+          values={Object {}}
+        />
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly more channels modal 2`] = `
+<div
+  className="sidebar--left"
+  id="sidebar-left"
+  key="sidebar-left"
+>
+  <Connect(NewChannelFlow)
+    canCreatePrivateChannel={true}
+    canCreatePublicChannel={true}
+    channelType=""
+    onModalDismissed={[Function]}
+    show={false}
+  />
+  <Connect(SidebarHeader)
+    currentUser={
+      Object {
+        "id": "my-user-id",
+      }
+    }
+    teamDescription="Test team description"
+    teamDisplayName="Test team display name"
+    teamId="team_id"
+    teamName="test-team"
+    teamType="team-type"
+  />
+  <div
+    className="sidebar--left__icons"
+  >
+    <Connect(Pluggable)
+      pluggableName="LeftSidebarHeader"
+    />
+  </div>
+  <div
+    className="sidebar--left__list"
+  >
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-top"
+      name="Top"
+      onClick={[Function]}
+      show={false}
+    />
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-bottom"
+      name="Bottom"
+      onClick={[Function]}
+      show={false}
+    />
+    <Scrollbars
+      autoHeight={false}
+      autoHeightMax={200}
+      autoHeightMin={0}
+      autoHide={true}
+      autoHideDuration={500}
+      autoHideTimeout={500}
+      hideTracksWhenNotNeeded={false}
+      onScroll={[Function]}
+      renderThumbHorizontal={[Function]}
+      renderThumbVertical={[Function]}
+      renderTrackHorizontal={[Function]}
+      renderTrackVertical={[Function]}
+      renderView={[Function]}
+      style={
+        Object {
+          "position": "absolute",
+        }
+      }
+      tagName="div"
+      thumbMinSize={30}
+      universal={false}
+    >
+      <div
+        className="nav-pills__container"
+        id="sidebarChannelContainer"
+      >
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="public"
+        >
+          <li>
+            <h4
+              id="publicChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PUBLIC CHANNELS"
+                sectionType="public"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="public"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={true}
+            channelId="c1"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c1"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c2"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c2"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="public"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="private"
+        >
+          <li>
+            <h4
+              id="privateChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PRIVATE CHANNELS"
+                sectionType="private"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="private"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c3"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c3"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c4"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c4"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="private"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="direct"
+        >
+          <li>
+            <h4
+              id="directChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="DIRECT MESSAGES"
+                sectionType="direct"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="direct"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c5"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c5"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c6"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c6"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="direct"
+          />
+        </ul>
+      </div>
+    </Scrollbars>
+  </div>
+  <div
+    className="sidebar__switcher"
+  >
+    <button
+      className="btn btn-link"
+      id="sidebarSwitcherButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Switch Channels"
+        id="channel_switch_modal.title"
+        values={Object {}}
+      />
+      <span
+        className="switch__shortcut hidden-xs"
+      >
+        <FormattedMessage
+          defaultMessage="- CTRL+K"
+          id="quick_switch_modal.channelsShortcut.windows"
+          values={Object {}}
+        />
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly more direct channels modal 1`] = `
+<div
+  className="sidebar--left"
+  id="sidebar-left"
+  key="sidebar-left"
+>
+  <Connect(NewChannelFlow)
+    canCreatePrivateChannel={true}
+    canCreatePublicChannel={true}
+    channelType=""
+    onModalDismissed={[Function]}
+    show={false}
+  />
+  <Connect(MoreDirectChannels)
+    isExistingChannel={false}
+    onModalDismissed={[Function]}
+  />
+  <Connect(SidebarHeader)
+    currentUser={
+      Object {
+        "id": "my-user-id",
+      }
+    }
+    teamDescription="Test team description"
+    teamDisplayName="Test team display name"
+    teamId="team_id"
+    teamName="test-team"
+    teamType="team-type"
+  />
+  <div
+    className="sidebar--left__icons"
+  >
+    <Connect(Pluggable)
+      pluggableName="LeftSidebarHeader"
+    />
+  </div>
+  <div
+    className="sidebar--left__list"
+  >
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-top"
+      name="Top"
+      onClick={[Function]}
+      show={false}
+    />
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-bottom"
+      name="Bottom"
+      onClick={[Function]}
+      show={false}
+    />
+    <Scrollbars
+      autoHeight={false}
+      autoHeightMax={200}
+      autoHeightMin={0}
+      autoHide={true}
+      autoHideDuration={500}
+      autoHideTimeout={500}
+      hideTracksWhenNotNeeded={false}
+      onScroll={[Function]}
+      renderThumbHorizontal={[Function]}
+      renderThumbVertical={[Function]}
+      renderTrackHorizontal={[Function]}
+      renderTrackVertical={[Function]}
+      renderView={[Function]}
+      style={
+        Object {
+          "position": "absolute",
+        }
+      }
+      tagName="div"
+      thumbMinSize={30}
+      universal={false}
+    >
+      <div
+        className="nav-pills__container"
+        id="sidebarChannelContainer"
+      >
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="public"
+        >
+          <li>
+            <h4
+              id="publicChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PUBLIC CHANNELS"
+                sectionType="public"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="public"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={true}
+            channelId="c1"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c1"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c2"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c2"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="public"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="private"
+        >
+          <li>
+            <h4
+              id="privateChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PRIVATE CHANNELS"
+                sectionType="private"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="private"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c3"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c3"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c4"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c4"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="private"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="direct"
+        >
+          <li>
+            <h4
+              id="directChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="DIRECT MESSAGES"
+                sectionType="direct"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="direct"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c5"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c5"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c6"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c6"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="direct"
+          />
+        </ul>
+      </div>
+    </Scrollbars>
+  </div>
+  <div
+    className="sidebar__switcher"
+  >
+    <button
+      className="btn btn-link"
+      id="sidebarSwitcherButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Switch Channels"
+        id="channel_switch_modal.title"
+        values={Object {}}
+      />
+      <span
+        className="switch__shortcut hidden-xs"
+      >
+        <FormattedMessage
+          defaultMessage="- CTRL+K"
+          id="quick_switch_modal.channelsShortcut.windows"
+          values={Object {}}
+        />
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly more direct channels modal 2`] = `
+<div
+  className="sidebar--left"
+  id="sidebar-left"
+  key="sidebar-left"
+>
+  <Connect(NewChannelFlow)
+    canCreatePrivateChannel={true}
+    canCreatePublicChannel={true}
+    channelType=""
+    onModalDismissed={[Function]}
+    show={false}
+  />
+  <Connect(SidebarHeader)
+    currentUser={
+      Object {
+        "id": "my-user-id",
+      }
+    }
+    teamDescription="Test team description"
+    teamDisplayName="Test team display name"
+    teamId="team_id"
+    teamName="test-team"
+    teamType="team-type"
+  />
+  <div
+    className="sidebar--left__icons"
+  >
+    <Connect(Pluggable)
+      pluggableName="LeftSidebarHeader"
+    />
+  </div>
+  <div
+    className="sidebar--left__list"
+  >
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-top"
+      name="Top"
+      onClick={[Function]}
+      show={false}
+    />
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-bottom"
+      name="Bottom"
+      onClick={[Function]}
+      show={false}
+    />
+    <Scrollbars
+      autoHeight={false}
+      autoHeightMax={200}
+      autoHeightMin={0}
+      autoHide={true}
+      autoHideDuration={500}
+      autoHideTimeout={500}
+      hideTracksWhenNotNeeded={false}
+      onScroll={[Function]}
+      renderThumbHorizontal={[Function]}
+      renderThumbVertical={[Function]}
+      renderTrackHorizontal={[Function]}
+      renderTrackVertical={[Function]}
+      renderView={[Function]}
+      style={
+        Object {
+          "position": "absolute",
+        }
+      }
+      tagName="div"
+      thumbMinSize={30}
+      universal={false}
+    >
+      <div
+        className="nav-pills__container"
+        id="sidebarChannelContainer"
+      >
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="public"
+        >
+          <li>
+            <h4
+              id="publicChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PUBLIC CHANNELS"
+                sectionType="public"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="public"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={true}
+            channelId="c1"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c1"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c2"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c2"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="public"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="private"
+        >
+          <li>
+            <h4
+              id="privateChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PRIVATE CHANNELS"
+                sectionType="private"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="private"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c3"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c3"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c4"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c4"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="private"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="direct"
+        >
+          <li>
+            <h4
+              id="directChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="DIRECT MESSAGES"
+                sectionType="direct"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="direct"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c5"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c5"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c6"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c6"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="direct"
+          />
+        </ul>
+      </div>
+    </Scrollbars>
+  </div>
+  <div
+    className="sidebar__switcher"
+  >
+    <button
+      className="btn btn-link"
+      id="sidebarSwitcherButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Switch Channels"
+        id="channel_switch_modal.title"
+        values={Object {}}
+      />
+      <span
+        className="switch__shortcut hidden-xs"
+      >
+        <FormattedMessage
+          defaultMessage="- CTRL+K"
+          id="quick_switch_modal.channelsShortcut.windows"
+          values={Object {}}
+        />
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly new channel modal 1`] = `
+<div
+  className="sidebar--left"
+  id="sidebar-left"
+  key="sidebar-left"
+>
+  <Connect(NewChannelFlow)
+    canCreatePrivateChannel={true}
+    canCreatePublicChannel={true}
+    channelType="P"
+    onModalDismissed={[Function]}
+    show={true}
+  />
+  <Connect(SidebarHeader)
+    currentUser={
+      Object {
+        "id": "my-user-id",
+      }
+    }
+    teamDescription="Test team description"
+    teamDisplayName="Test team display name"
+    teamId="team_id"
+    teamName="test-team"
+    teamType="team-type"
+  />
+  <div
+    className="sidebar--left__icons"
+  >
+    <Connect(Pluggable)
+      pluggableName="LeftSidebarHeader"
+    />
+  </div>
+  <div
+    className="sidebar--left__list"
+  >
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-top"
+      name="Top"
+      onClick={[Function]}
+      show={false}
+    />
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-bottom"
+      name="Bottom"
+      onClick={[Function]}
+      show={false}
+    />
+    <Scrollbars
+      autoHeight={false}
+      autoHeightMax={200}
+      autoHeightMin={0}
+      autoHide={true}
+      autoHideDuration={500}
+      autoHideTimeout={500}
+      hideTracksWhenNotNeeded={false}
+      onScroll={[Function]}
+      renderThumbHorizontal={[Function]}
+      renderThumbVertical={[Function]}
+      renderTrackHorizontal={[Function]}
+      renderTrackVertical={[Function]}
+      renderView={[Function]}
+      style={
+        Object {
+          "position": "absolute",
+        }
+      }
+      tagName="div"
+      thumbMinSize={30}
+      universal={false}
+    >
+      <div
+        className="nav-pills__container"
+        id="sidebarChannelContainer"
+      >
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="public"
+        >
+          <li>
+            <h4
+              id="publicChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PUBLIC CHANNELS"
+                sectionType="public"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="public"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={true}
+            channelId="c1"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c1"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c2"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c2"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="public"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="private"
+        >
+          <li>
+            <h4
+              id="privateChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PRIVATE CHANNELS"
+                sectionType="private"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="private"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c3"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c3"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c4"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c4"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="private"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="direct"
+        >
+          <li>
+            <h4
+              id="directChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="DIRECT MESSAGES"
+                sectionType="direct"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="direct"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c5"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c5"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c6"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c6"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="direct"
+          />
+        </ul>
+      </div>
+    </Scrollbars>
+  </div>
+  <div
+    className="sidebar__switcher"
+  >
+    <button
+      className="btn btn-link"
+      id="sidebarSwitcherButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Switch Channels"
+        id="channel_switch_modal.title"
+        values={Object {}}
+      />
+      <span
+        className="switch__shortcut hidden-xs"
+      >
+        <FormattedMessage
+          defaultMessage="- CTRL+K"
+          id="quick_switch_modal.channelsShortcut.windows"
+          values={Object {}}
+        />
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly new channel modal 2`] = `
+<div
+  className="sidebar--left"
+  id="sidebar-left"
+  key="sidebar-left"
+>
+  <Connect(NewChannelFlow)
+    canCreatePrivateChannel={true}
+    canCreatePublicChannel={true}
+    channelType=""
+    onModalDismissed={[Function]}
+    show={false}
+  />
+  <Connect(SidebarHeader)
+    currentUser={
+      Object {
+        "id": "my-user-id",
+      }
+    }
+    teamDescription="Test team description"
+    teamDisplayName="Test team display name"
+    teamId="team_id"
+    teamName="test-team"
+    teamType="team-type"
+  />
+  <div
+    className="sidebar--left__icons"
+  >
+    <Connect(Pluggable)
+      pluggableName="LeftSidebarHeader"
+    />
+  </div>
+  <div
+    className="sidebar--left__list"
+  >
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-top"
+      name="Top"
+      onClick={[Function]}
+      show={false}
+    />
+    <UnreadChannelIndicator
+      content={
+        <FormattedMessage
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+          values={Object {}}
+        />
+      }
+      extraClass="nav-pills__unread-indicator-bottom"
+      name="Bottom"
+      onClick={[Function]}
+      show={false}
+    />
+    <Scrollbars
+      autoHeight={false}
+      autoHeightMax={200}
+      autoHeightMin={0}
+      autoHide={true}
+      autoHideDuration={500}
+      autoHideTimeout={500}
+      hideTracksWhenNotNeeded={false}
+      onScroll={[Function]}
+      renderThumbHorizontal={[Function]}
+      renderThumbVertical={[Function]}
+      renderTrackHorizontal={[Function]}
+      renderTrackVertical={[Function]}
+      renderView={[Function]}
+      style={
+        Object {
+          "position": "absolute",
+        }
+      }
+      tagName="div"
+      thumbMinSize={30}
+      universal={false}
+    >
+      <div
+        className="nav-pills__container"
+        id="sidebarChannelContainer"
+      >
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="public"
+        >
+          <li>
+            <h4
+              id="publicChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PUBLIC CHANNELS"
+                sectionType="public"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="public"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={true}
+            channelId="c1"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c1"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c2"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c2"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="public"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="private"
+        >
+          <li>
+            <h4
+              id="privateChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="PRIVATE CHANNELS"
+                sectionType="private"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="private"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c3"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c3"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c4"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c4"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="private"
+          />
+        </ul>
+        <ul
+          className="nav nav-pills nav-stacked"
+          key="direct"
+        >
+          <li>
+            <h4
+              id="directChannel"
+            >
+              <ChannelName
+                browsePublicDirectChannels={[Function]}
+                channelName="DIRECT MESSAGES"
+                sectionType="direct"
+              />
+              <ChannelCreate
+                canCreatePrivateChannel={true}
+                canCreatePublicChannel={true}
+                createDirectMessage={[Function]}
+                createPrivateChannel={[Function]}
+                createPublicChannel={[Function]}
+                createPublicDirectChannel={[Function]}
+                sectionType="direct"
+              />
+            </h4>
+          </li>
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c5"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c5"
+          />
+          <Connect(SidebarChannel)
+            active={false}
+            channelId="c6"
+            currentTeamName="test-team"
+            currentUserId="my-user-id"
+            key="c6"
+          />
+          <ChannelMore
+            browsePublicDirectChannels={[Function]}
+            moreChannels={[Function]}
+            moreDirectMessages={[Function]}
+            sectionType="direct"
+          />
+        </ul>
+      </div>
+    </Scrollbars>
+  </div>
+  <div
+    className="sidebar__switcher"
+  >
+    <button
+      className="btn btn-link"
+      id="sidebarSwitcherButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Switch Channels"
+        id="channel_switch_modal.title"
+        values={Object {}}
+      />
+      <span
+        className="switch__shortcut hidden-xs"
+      >
+        <FormattedMessage
+          defaultMessage="- CTRL+K"
+          id="quick_switch_modal.channelsShortcut.windows"
+          values={Object {}}
+        />
+      </span>
+    </button>
+  </div>
+</div>
+`;

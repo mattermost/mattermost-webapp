@@ -9,42 +9,14 @@
 }
 
 .post-attachment-dropdown {
-    position: relative;
-
-    &:hover {
+    .select-suggestion-container {
         &:after {
-            opacity: .6;
+            left: 20rem;
         }
     }
 
-    &:after {
-        @include single-transition(opacity, .15s, ease);
-        content: '\F107';
-        display: inline-block;
-        font: normal normal normal 14px/1 FontAwesome;
-        font-size: inherit;
-        text-rendering: auto;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        top: 8px;
-        position: absolute;
-        left: 20rem;
-        opacity: .4;
-        font-size: 16px;
-        pointer-events: none;
-    }
-
     .form-control {
-        cursor: pointer;
-        font-size: 13px;
-        height: auto;
-        max-width: 100%;
         width: 22rem;
-        padding-right: 3rem;
-    }
-
-    .suggestion-list__content {
-        border-radius: 3px 3px 3px 0;
     }
 }
 
@@ -329,6 +301,8 @@
         .attachment-actions {
             margin-top: 9px;
             position: relative;
+            display: flex;
+            flex-wrap: wrap;
 
             button {
                 @include border-radius(3px);
@@ -339,6 +313,7 @@
                 height: 30px;
                 font-size: 13px;
                 font-weight: 700;
+                white-space: nowrap;
             }
 
             .alert {

@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ReactionListView Should match snapshot for reactions and should call getReactionsForPost as there is no metadata 1`] = `
+<div
+  className="post-reaction-list"
+>
+  <Connect(Reaction)
+    emojiName="expressionless"
+    emojis={Object {}}
+    key="expressionless"
+    post={
+      Object {
+        "has_reactions": true,
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "expressionless",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <div
+    className="post-add-reaction"
+  >
+    <span
+      className="emoji-picker__container"
+    >
+      <EmojiPickerOverlay
+        enableGifPicker={false}
+        onEmojiClick={[Function]}
+        onHide={[Function]}
+        rightOffset={15}
+        show={false}
+        spaceRequiredAbove={476}
+        spaceRequiredBelow={497}
+        target={[Function]}
+        topOffset={-5}
+      />
+      <OverlayTrigger
+        defaultOverlayShown={false}
+        delayShow={400}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            id="addReactionTooltip"
+            placement="right"
+          >
+            <FormattedMessage
+              defaultMessage="Add reaction"
+              id="reaction_list.addReactionTooltip"
+              values={Object {}}
+            />
+          </Tooltip>
+        }
+        placement="top"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
+      >
+        <Connect(ChannelPermissionGate)
+          permissions={
+            Array [
+              "add_reaction",
+            ]
+          }
+          teamId="teamId"
+        >
+          <div
+            className="post-reaction"
+            onClick={[Function]}
+          >
+            <span
+              className="post-reaction__add"
+            >
+              +
+            </span>
+          </div>
+        </Connect(ChannelPermissionGate)>
+      </OverlayTrigger>
+    </span>
+  </div>
+</div>
+`;

@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
@@ -22,11 +23,16 @@ function mapStateToProps(state) {
         currentUserId,
         currentTeamId,
         show,
-        actions: {
-            removeUserFromTeam,
-            toggleSideBarRightMenu: toggleSideBarRightMenuAction,
-        },
     };
 }
 
-export default connect(mapStateToProps)(LeaveTeamModal);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            removeUserFromTeam,
+            toggleSideBarRightMenu: toggleSideBarRightMenuAction,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LeaveTeamModal);

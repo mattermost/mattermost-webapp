@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getChannelAndMyMember} from 'mattermost-redux/actions/channels';
+import {getChannelAndMyMember, getChannelMembersByIds} from 'mattermost-redux/actions/channels';
 import {deletePreferences as deletePreferencesRedux, savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
 import {getMyTeamMembers, getMyTeamUnreads, getTeamMembersByIds} from 'mattermost-redux/actions/teams';
 import * as UserActions from 'mattermost-redux/actions/users';
@@ -17,10 +17,8 @@ import {
 import {getBool, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {browserHistory} from 'utils/browser_history';
-import {getChannelMembersForUserIds} from 'actions/channel_actions.jsx';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -41,45 +39,59 @@ export async function switchFromLdapToEmail(email, password, token, ldapPassword
     }
 }
 
-export async function loadProfilesAndTeamMembers(page, perPage, teamId = getCurrentTeamId(getState()), success) {
-    const {data} = await UserActions.getProfilesInTeam(teamId, page, perPage)(dispatch, getState);
-    loadTeamMembersForProfilesList(data, teamId, success);
-    dispatch(loadStatusesForProfilesList(data));
+export function loadProfilesAndTeamMembers(page, perPage, teamId) {
+    return async (doDispatch, doGetState) => {
+        const newTeamId = teamId || getCurrentTeamId(doGetState());
+        const {data} = await doDispatch(UserActions.getProfilesInTeam(newTeamId, page, perPage));
+        if (data) {
+            doDispatch(loadTeamMembersForProfilesList(data, newTeamId));
+            doDispatch(loadStatusesForProfilesList(data));
+        }
+
+        return {data: true};
+    };
 }
 
-export async function loadProfilesAndTeamMembersAndChannelMembers(page, perPage, teamId = getCurrentTeamId(getState()), channelId = getCurrentChannelId(getState()), success, error) {
-    const {data} = await UserActions.getProfilesInChannel(channelId, page, perPage)(dispatch, getState);
-
-    loadTeamMembersForProfilesList(
-        data,
-        teamId,
-        () => {
-            loadChannelMembersForProfilesList(data, channelId, success, error);
-            dispatch(loadStatusesForProfilesList(data));
+export function loadProfilesAndTeamMembersAndChannelMembers(page, perPage, teamId, channelId) {
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const teamIdParam = teamId || getCurrentTeamId(state);
+        const channelIdParam = channelId || getCurrentChannelId(state);
+        const {data} = await doDispatch(UserActions.getProfilesInChannel(channelIdParam, page, perPage));
+        if (data) {
+            const {data: listData} = await doDispatch(loadTeamMembersForProfilesList(data, teamIdParam));
+            if (listData) {
+                doDispatch(loadChannelMembersForProfilesList(data, channelIdParam));
+                doDispatch(loadStatusesForProfilesList(data));
+            }
         }
-    );
+
+        return {data: true};
+    };
 }
 
-export function loadTeamMembersForProfilesList(profiles, teamId = getCurrentTeamId(getState()), success, error) {
-    const state = getState();
-    const membersToLoad = {};
-    for (let i = 0; i < profiles.length; i++) {
-        const pid = profiles[i].id;
+export function loadTeamMembersForProfilesList(profiles, teamId) {
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const teamIdParam = teamId || getCurrentTeamId(state);
+        const membersToLoad = {};
+        for (let i = 0; i < profiles.length; i++) {
+            const pid = profiles[i].id;
 
-        if (!getTeamMember(state, teamId, pid)) {
-            membersToLoad[pid] = true;
+            if (!getTeamMember(state, teamIdParam, pid)) {
+                membersToLoad[pid] = true;
+            }
         }
-    }
 
-    const list = Object.keys(membersToLoad);
-    if (list.length === 0) {
-        if (success) {
-            success({});
+        const userIdsToLoad = Object.keys(membersToLoad);
+        if (userIdsToLoad.length === 0) {
+            return {data: true};
         }
-        return;
-    }
 
-    loadTeamMembersForProfiles(list, teamId, success, error);
+        await doDispatch(getTeamMembersByIds(teamIdParam, userIdsToLoad));
+
+        return {data: true};
+    };
 }
 
 export async function loadProfilesWithoutTeam(page, perPage, success) {
@@ -91,66 +103,42 @@ export async function loadProfilesWithoutTeam(page, perPage, success) {
     }
 }
 
-async function loadTeamMembersForProfiles(userIds, teamId, success, error) {
-    const {data, error: err} = await getTeamMembersByIds(teamId, userIds)(dispatch, getState);
+export function loadTeamMembersAndChannelMembersForProfilesList(profiles, teamId, channelId) {
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const teamIdParam = teamId || getCurrentTeamId(state);
+        const channelIdParam = channelId || getCurrentChannelId(state);
+        const {data} = await doDispatch(loadTeamMembersForProfilesList(profiles, teamIdParam));
+        if (data) {
+            doDispatch(loadChannelMembersForProfilesList(profiles, channelIdParam));
+        }
 
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
+        return {data: true};
+    };
 }
 
-export function loadChannelMembersForProfilesMap(profiles, channelId = getCurrentChannelId(getState()), success, error) {
-    const membersToLoad = {};
-    for (const pid in profiles) {
-        if (!profiles.hasOwnProperty(pid)) {
-            continue;
+export function loadChannelMembersForProfilesList(profiles, channelId) {
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const channelIdParam = channelId || getCurrentChannelId(state);
+        const membersToLoad = {};
+        for (let i = 0; i < profiles.length; i++) {
+            const pid = profiles[i].id;
+
+            const members = getChannelMembersInChannels(state)[channelIdParam];
+            if (!members || !members[pid]) {
+                membersToLoad[pid] = true;
+            }
         }
 
-        const members = getChannelMembersInChannels(getState())[channelId];
-        if (!members || !members[pid]) {
-            membersToLoad[pid] = true;
+        const list = Object.keys(membersToLoad);
+        if (list.length === 0) {
+            return {data: true};
         }
-    }
 
-    const list = Object.keys(membersToLoad);
-    if (list.length === 0) {
-        if (success) {
-            success({});
-        }
-        return;
-    }
-
-    getChannelMembersForUserIds(channelId, list, success, error);
-}
-
-export function loadTeamMembersAndChannelMembersForProfilesList(profiles, teamId = getCurrentTeamId(getState()), channelId = getCurrentChannelId(getState()), success, error) {
-    loadTeamMembersForProfilesList(profiles, teamId, () => {
-        loadChannelMembersForProfilesList(profiles, channelId, success, error);
-    }, error);
-}
-
-export function loadChannelMembersForProfilesList(profiles, channelId = getCurrentChannelId(getState()), success, error) {
-    const membersToLoad = {};
-    for (let i = 0; i < profiles.length; i++) {
-        const pid = profiles[i].id;
-
-        const members = getChannelMembersInChannels(getState())[channelId];
-        if (!members || !members[pid]) {
-            membersToLoad[pid] = true;
-        }
-    }
-
-    const list = Object.keys(membersToLoad);
-    if (list.length === 0) {
-        if (success) {
-            success({});
-        }
-        return;
-    }
-
-    getChannelMembersForUserIds(channelId, list, success, error);
+        await doDispatch(getChannelMembersByIds(channelIdParam, list));
+        return {data: true};
+    };
 }
 
 export async function loadNewDMIfNeeded(channelId) {
@@ -349,15 +337,6 @@ export async function searchUsers(term, teamId = getCurrentTeamId(getState()), o
     }
 }
 
-export async function autocompleteUsersInChannel(username, channelId, success) {
-    const channel = getChannel(getState(), channelId);
-    const teamId = channel ? channel.team_id : getCurrentTeamId(getState());
-    const {data} = await UserActions.autocompleteUsers(username, teamId, channelId)(dispatch, getState);
-    if (success) {
-        success(data);
-    }
-}
-
 export async function autocompleteUsersInTeam(username, success) {
     const {data} = await UserActions.autocompleteUsers(username, getCurrentTeamId(getState()))(dispatch, getState);
     if (success) {
@@ -381,15 +360,6 @@ export async function updateUser(user, success, error) {
     }
 }
 
-export async function generateMfaSecret(success, error) {
-    const {data, error: err} = await UserActions.generateMfaSecret(Selectors.getCurrentUserId(getState()))(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function updateUserNotifyProps(props, success, error) {
     const {data, error: err} = await UserActions.updateMe({notify_props: props})(dispatch, getState);
     if (data && success) {
@@ -402,40 +372,6 @@ export async function updateUserNotifyProps(props, success, error) {
 export async function updateUserRoles(userId, newRoles, success, error) {
     const {data, error: err} = await UserActions.updateUserRoles(userId, newRoles)(dispatch, getState);
     if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function activateMfa(code, success, error) {
-    const {data, error: err} = await UserActions.updateUserMfa(Selectors.getCurrentUserId(getState()), true, code)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function deactivateMfa(success, error) {
-    const {data, error: err} = await UserActions.updateUserMfa(Selectors.getCurrentUserId(getState()), false)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function checkMfa(loginId, success, error) {
-    const config = getConfig(getState());
-
-    if (config.EnableMultifactorAuthentication !== 'true') {
-        success(false);
-        return;
-    }
-
-    const {data, error: err} = await UserActions.checkMfa(loginId)(dispatch, getState);
-    if (data != null && success) {
         success(data);
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
@@ -499,78 +435,6 @@ export async function resendVerification(email, success, error) {
     if (data && success) {
         success(data);
     } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function loginById(userId, password, mfaToken, success, error) {
-    const {data: ok, error: err} = await UserActions.loginById(userId, password, mfaToken)(dispatch, getState);
-    if (ok && success) {
-        success();
-    } else if (err && error) {
-        if (err.server_error_id === 'api.context.mfa_required.app_error') {
-            if (success) {
-                success();
-            }
-            return;
-        }
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function createUserWithInvite(user, token, inviteId, success, error) {
-    const {data: resp, error: err} = await UserActions.createUser(user, token, inviteId)(dispatch, getState);
-    if (resp && success) {
-        success(resp);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function webLogin(loginId, password, token, success, error) {
-    const {data: ok, error: err} = await UserActions.login(loginId, password, token)(dispatch, getState);
-    if (ok && success) {
-        success();
-    } else if (err && error) {
-        if (err.server_error_id === 'api.context.mfa_required.app_error') {
-            if (success) {
-                success();
-            }
-            return;
-        }
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function updateTermsOfServiceStatus(termsOfServiceId, accepted, success, error) {
-    const {data, error: err} = await UserActions.updateTermsOfServiceStatus(termsOfServiceId, accepted)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function getTermsOfService(success, error) {
-    const {data, error: err} = await UserActions.getTermsOfService()(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function webLoginByLdap(loginId, password, token, success, error) {
-    const {data: ok, error: err} = await UserActions.login(loginId, password, token, true)(dispatch, getState);
-    if (ok && success) {
-        success();
-    } else if (err && error) {
-        if (err.server_error_id === 'api.context.mfa_required.app_error') {
-            if (success) {
-                success();
-            }
-            return;
-        }
         error({id: err.server_error_id, ...err});
     }
 }

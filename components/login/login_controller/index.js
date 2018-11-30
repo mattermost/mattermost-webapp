@@ -2,10 +2,17 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getTeamByName, getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {RequestStatus} from 'mattermost-redux/constants';
+
+import {addUserToTeamFromInvite} from 'actions/team_actions';
+
+import {login} from 'actions/views/login';
+import {checkMfa} from 'actions/views/mfa';
 
 import LoginController from './login_controller.jsx';
 
@@ -69,4 +76,14 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(LoginController);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            checkMfa,
+            login,
+            addUserToTeamFromInvite,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginController);

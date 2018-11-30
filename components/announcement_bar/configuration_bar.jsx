@@ -105,11 +105,11 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
             }
         }
 
-        if (!this.props.config.SendEmailNotifications === 'true' &&
+        if (this.props.config.SendEmailNotifications !== 'true' &&
             this.props.config.EnablePreviewModeBanner === 'true') {
             return (
                 <AnnouncementBar
-                    type={AnnouncementBarTypes.CRITICAL}
+                    type={AnnouncementBarTypes.ANNOUNCEMENT}
                     message={
                         <FormattedMessage
                             id={AnnouncementBarMessages.PREVIEW_MODE}
@@ -169,7 +169,7 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
         if (this.props.user && !this.props.user.email_verified && this.props.config.RequireEmailVerification === 'true') {
             return (
                 <AnnouncementBar
-                    type={AnnouncementBarTypes.CRITICAL}
+                    type={AnnouncementBarTypes.ANNOUNCEMENT}
                     message={
                         <React.Fragment>
                             <FormattedHTMLMessage

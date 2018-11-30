@@ -11,7 +11,7 @@
     z-index: 10;
 
     body.announcement-bar--fixed & {
-        height: calc(100% - $announcement-bar-height);
+        height: calc(100% - #{$announcement-bar-height});
     }
 
     &.sidebar--padded {
@@ -199,6 +199,11 @@
             > li + li {
                 margin: 0;
             }
+        }
+
+        .public_direct_name {
+            flex: 1;
+            cursor: pointer;
         }
 
         li {
