@@ -9,7 +9,6 @@ import {Link} from 'react-router-dom';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
-import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -38,6 +37,7 @@ export default class SelectTeam extends React.Component {
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired,
             loadRolesIfNeeded: PropTypes.func.isRequired,
+            addUserToTeamFromInvite: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -63,20 +63,18 @@ export default class SelectTeam extends React.Component {
         actions.loadRolesIfNeeded(currentUserRoles.split(' '));
     }
 
-    handleTeamClick = (team) => {
+    handleTeamClick = async (team) => {
         this.setState({loadingTeamId: team.id});
 
-        addUserToTeamFromInvite('', team.invite_id,
-            () => {
-                this.props.history.push(`/${team.name}/channels/town-square`);
-            },
-            (error) => {
-                this.setState({
-                    error,
-                    loadingTeamId: '',
-                });
-            }
-        );
+        const {data, error} = await this.props.actions.addUserToTeamFromInvite('', team.invite_id);
+        if (data) {
+            this.props.history.push(`/${team.name}/channels/town-square`);
+        } else if (error) {
+            this.setState({
+                error,
+                loadingTeamId: '',
+            });
+        }
     };
 
     handleLogoutClick = (e) => {

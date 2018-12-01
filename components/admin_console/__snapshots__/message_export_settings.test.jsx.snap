@@ -53,7 +53,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
         }
         value={false}
       />
-      <TextSetting
+      <AdminTextSetting
         disabled={true}
         helpText={
           <FormattedHTMLMessage
@@ -70,11 +70,9 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
             values={Object {}}
           />
         }
-        maxLength={null}
         onChange={[Function]}
         placeholder="E.g.: \\"02:00\\""
         setByEnv={false}
-        type="input"
         value="01:00"
       />
       <DropdownSetting
@@ -232,7 +230,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
         }
         value={false}
       />
-      <TextSetting
+      <AdminTextSetting
         disabled={true}
         helpText={
           <FormattedHTMLMessage
@@ -249,11 +247,9 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
             values={Object {}}
           />
         }
-        maxLength={null}
         onChange={[Function]}
         placeholder="E.g.: \\"02:00\\""
         setByEnv={false}
-        type="input"
         value="01:00"
       />
       <DropdownSetting
@@ -335,7 +331,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
             ]
           }
         />
-        <TextSetting
+        <AdminTextSetting
           disabled={true}
           helpText={
             <FormattedMessage
@@ -352,14 +348,12 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
               values={Object {}}
             />
           }
-          maxLength={null}
           onChange={[Function]}
           placeholder="E.g.: \\"globalRelayUser\\""
           setByEnv={false}
-          type="input"
           value="globalRelayUser"
         />
-        <TextSetting
+        <AdminTextSetting
           disabled={true}
           helpText={
             <FormattedMessage
@@ -376,14 +370,12 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
               values={Object {}}
             />
           }
-          maxLength={null}
           onChange={[Function]}
           placeholder="E.g.: \\"globalRelayPassword\\""
           setByEnv={false}
-          type="input"
           value="globalRelayPassword"
         />
-        <TextSetting
+        <AdminTextSetting
           disabled={true}
           helpText={
             <FormattedHTMLMessage
@@ -400,11 +392,9 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
               values={Object {}}
             />
           }
-          maxLength={null}
           onChange={[Function]}
           placeholder="E.g.: \\"globalrelay@mattermost.com\\""
           setByEnv={false}
-          type="input"
           value="globalRelay@mattermost.com"
         />
       </SettingsGroup>
@@ -521,7 +511,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
         }
         value={true}
       />
-      <TextSetting
+      <AdminTextSetting
         disabled={false}
         helpText={
           <FormattedHTMLMessage
@@ -538,11 +528,9 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
             values={Object {}}
           />
         }
-        maxLength={null}
         onChange={[Function]}
         placeholder="E.g.: \\"02:00\\""
         setByEnv={false}
-        type="input"
         value="01:00"
       />
       <DropdownSetting
@@ -700,7 +688,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
         }
         value={true}
       />
-      <TextSetting
+      <AdminTextSetting
         disabled={false}
         helpText={
           <FormattedHTMLMessage
@@ -717,11 +705,9 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
             values={Object {}}
           />
         }
-        maxLength={null}
         onChange={[Function]}
         placeholder="E.g.: \\"02:00\\""
         setByEnv={false}
-        type="input"
         value="01:00"
       />
       <DropdownSetting
@@ -803,7 +789,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
             ]
           }
         />
-        <TextSetting
+        <AdminTextSetting
           disabled={false}
           helpText={
             <FormattedMessage
@@ -820,14 +806,12 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
               values={Object {}}
             />
           }
-          maxLength={null}
           onChange={[Function]}
           placeholder="E.g.: \\"globalRelayUser\\""
           setByEnv={false}
-          type="input"
           value="globalRelayUser"
         />
-        <TextSetting
+        <AdminTextSetting
           disabled={false}
           helpText={
             <FormattedMessage
@@ -844,14 +828,12 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
               values={Object {}}
             />
           }
-          maxLength={null}
           onChange={[Function]}
           placeholder="E.g.: \\"globalRelayPassword\\""
           setByEnv={false}
-          type="input"
           value="globalRelayPassword"
         />
-        <TextSetting
+        <AdminTextSetting
           disabled={false}
           helpText={
             <FormattedHTMLMessage
@@ -868,11 +850,9 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
               values={Object {}}
             />
           }
-          maxLength={null}
           onChange={[Function]}
           placeholder="E.g.: \\"globalrelay@mattermost.com\\""
           setByEnv={false}
-          type="input"
           value="globalRelay@mattermost.com"
         />
       </SettingsGroup>

@@ -24,10 +24,28 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
     providers={
       Array [
         AtMentionProvider {
-          "channelId": undefined,
+          "autocompleteUsersInChannel": [MockFunction],
+          "currentUserId": "currentUserId",
+          "data": null,
           "disableDispatches": false,
           "latestComplete": true,
           "latestPrefix": "",
+          "profilesInChannel": Array [
+            Object {
+              "id": "id1",
+            },
+            Object {
+              "id": "id2",
+            },
+          ],
+          "profilesNotInChannel": Array [
+            Object {
+              "id": "id3",
+            },
+            Object {
+              "id": "id4",
+            },
+          ],
           "requestStarted": false,
         },
         ChannelMentionProvider {
@@ -156,10 +174,28 @@ exports[`components/TextBox should throw error when new property is too long 1`]
     providers={
       Array [
         AtMentionProvider {
-          "channelId": undefined,
+          "autocompleteUsersInChannel": [MockFunction],
+          "currentUserId": "currentUserId",
+          "data": null,
           "disableDispatches": false,
           "latestComplete": true,
           "latestPrefix": "",
+          "profilesInChannel": Array [
+            Object {
+              "id": "id1",
+            },
+            Object {
+              "id": "id2",
+            },
+          ],
+          "profilesNotInChannel": Array [
+            Object {
+              "id": "id3",
+            },
+            Object {
+              "id": "id4",
+            },
+          ],
           "requestStarted": false,
         },
         ChannelMentionProvider {
@@ -288,10 +324,28 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
     providers={
       Array [
         AtMentionProvider {
-          "channelId": undefined,
+          "autocompleteUsersInChannel": [MockFunction],
+          "currentUserId": "currentUserId",
+          "data": null,
           "disableDispatches": false,
           "latestComplete": true,
           "latestPrefix": "",
+          "profilesInChannel": Array [
+            Object {
+              "id": "id1",
+            },
+            Object {
+              "id": "id2",
+            },
+          ],
+          "profilesNotInChannel": Array [
+            Object {
+              "id": "id3",
+            },
+            Object {
+              "id": "id4",
+            },
+          ],
           "requestStarted": false,
         },
         ChannelMentionProvider {

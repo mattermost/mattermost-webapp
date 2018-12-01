@@ -23,6 +23,15 @@ export default class MessageAttachmentList extends React.PureComponent {
          * Options specific to text formatting
          */
         options: PropTypes.object,
+
+        /**
+         * Images object used for creating placeholders to prevent scroll popup
+         */
+        imagesMetadata: PropTypes.object,
+    }
+
+    static defaultProps = {
+        imagesMetadata: {},
     }
 
     render() {
@@ -34,6 +43,7 @@ export default class MessageAttachmentList extends React.PureComponent {
                     postId={this.props.postId}
                     key={'att_' + i}
                     options={this.props.options}
+                    imagesMetadata={this.props.imagesMetadata}
                 />
             );
         });

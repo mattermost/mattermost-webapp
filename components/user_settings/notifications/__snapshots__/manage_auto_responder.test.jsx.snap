@@ -89,6 +89,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
     >
       <li
         className="col-sm-12 section-title"
+        id="settingTitle"
       >
         <FormattedMessage
           defaultMessage="Automatic Direct Message Replies"
@@ -308,6 +309,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
     >
       <li
         className="col-sm-12 section-title"
+        id="settingTitle"
       >
         <FormattedMessage
           defaultMessage="Automatic Direct Message Replies"

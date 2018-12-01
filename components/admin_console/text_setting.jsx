@@ -4,98 +4,27 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Setting from './setting.jsx';
+import TextSetting from 'components/widgets/settings/text_setting';
 
-export default class TextSetting extends React.Component {
-    static get propTypes() {
-        return {
-            id: PropTypes.string.isRequired,
-            label: PropTypes.node.isRequired,
-            placeholder: PropTypes.string,
-            helpText: PropTypes.node,
-            value: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number,
-            ]).isRequired,
-            maxLength: PropTypes.number,
-            onChange: PropTypes.func,
-            disabled: PropTypes.bool,
-            setByEnv: PropTypes.bool.isRequired,
-            type: PropTypes.oneOf([
-                'number',
-                'input',
-                'textarea',
-            ]),
-        };
-    }
+import SetByEnv from './set_by_env';
 
-    static get defaultProps() {
-        return {
-            type: 'input',
-            maxLength: null,
-        };
-    }
+const AdminTextSetting = (props) => {
+    const {setByEnv, disabled, ...sharedProps} = props;
 
-    handleChange = (e) => {
-        if (this.props.type === 'number') {
-            this.props.onChange(this.props.id, parseInt(e.target.value, 10));
-        } else {
-            this.props.onChange(this.props.id, e.target.value);
-        }
-    }
+    return (
+        <TextSetting
+            {...sharedProps}
+            labelClassName='col-sm-4'
+            inputClassName='col-sm-8'
+            disabled={disabled || setByEnv}
+            footer={setByEnv ? <SetByEnv/> : null}
+        />
+    );
+};
 
-    render() {
-        let input = null;
-        if (this.props.type === 'input') {
-            input = (
-                <input
-                    id={this.props.id}
-                    className='form-control'
-                    type='text'
-                    placeholder={this.props.placeholder}
-                    value={this.props.value}
-                    maxLength={this.props.maxLength}
-                    onChange={this.handleChange}
-                    disabled={this.props.disabled || this.props.setByEnv}
-                />
-            );
-        } else if (this.props.type === 'number') {
-            input = (
-                <input
-                    id={this.props.id}
-                    className='form-control'
-                    type='number'
-                    placeholder={this.props.placeholder}
-                    value={this.props.value}
-                    maxLength={this.props.maxLength}
-                    onChange={this.handleChange}
-                    disabled={this.props.disabled || this.props.setByEnv}
-                />
-            );
-        } else if (this.props.type === 'textarea') {
-            input = (
-                <textarea
-                    id={this.props.id}
-                    className='form-control'
-                    rows='5'
-                    placeholder={this.props.placeholder}
-                    value={this.props.value}
-                    maxLength={this.props.maxLength}
-                    onChange={this.handleChange}
-                    disabled={this.props.disabled || this.props.setByEnv}
-                />
-            );
-        }
+AdminTextSetting.propTypes = {
+    ...TextSetting.propTypes,
+    setByEnv: PropTypes.bool.isRequired,
+};
 
-        return (
-            <Setting
-                label={this.props.label}
-                helpText={this.props.helpText}
-                inputId={this.props.id}
-                setByEnv={this.props.setByEnv}
-            >
-                {input}
-            </Setting>
-        );
-    }
-}
+export default AdminTextSetting;

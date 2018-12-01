@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {inviteMembers} from 'actions/team_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -54,7 +53,11 @@ class InviteMemberModal extends React.PureComponent {
         currentUser: PropTypes.object.isRequired,
         defaultChannelName: PropTypes.string.isRequired,
         teamType: PropTypes.string.isRequired,
+        teamId: PropTypes.string.isRequired,
         onHide: PropTypes.func.isRequired,
+        actions: PropTypes.shape({
+            sendEmailInvitesToTeam: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -76,22 +79,23 @@ class InviteMemberModal extends React.PureComponent {
         this.setState({show: false});
     }
 
-    handleSubmit = () => {
+    handleSubmit = async () => {
         if (!this.props.sendEmailNotifications) {
             return;
         }
 
-        var inviteIds = this.state.inviteIds;
-        var count = inviteIds.length;
-        var invites = [];
-        var emailErrors = this.state.emailErrors;
-        var firstNameErrors = this.state.firstNameErrors;
-        var lastNameErrors = this.state.lastNameErrors;
-        var valid = true;
+        const inviteIds = this.state.inviteIds;
+        const count = inviteIds.length;
+        const invites = [];
+        const emails = [];
+        const emailErrors = this.state.emailErrors;
+        const firstNameErrors = this.state.firstNameErrors;
+        const lastNameErrors = this.state.lastNameErrors;
+        let valid = true;
 
-        for (var i = 0; i < count; i++) {
-            var invite = {};
-            var index = inviteIds[i];
+        for (let i = 0; i < count; i++) {
+            const invite = {};
+            const index = inviteIds[i];
             invite.email = ReactDOM.findDOMNode(this.refs['email' + index]).value.trim();
             invite.firstName = ReactDOM.findDOMNode(this.refs['first_name' + index]).value.trim();
             invite.lastName = ReactDOM.findDOMNode(this.refs['last_name' + index]).value.trim();
@@ -112,28 +116,26 @@ class InviteMemberModal extends React.PureComponent {
             return;
         }
 
-        var data = {};
-        data.invites = invites;
+        invites.forEach((i) => {
+            emails.push(i.email);
+        });
 
         this.setState({isSendingEmails: true});
 
-        inviteMembers(
-            data,
-            () => {
-                this.handleHide(false);
-                this.setState({isSendingEmails: false});
-            },
-            (err) => {
-                if (err.id === 'api.team.invite_members.already.app_error') {
-                    emailErrors[err.detailed_error] = err.message;
-                    this.setState({emailErrors});
-                } else {
-                    this.setState({serverError: err.message});
-                }
-
-                this.setState({isSendingEmails: false});
+        const {data, error} = await this.props.actions.sendEmailInvitesToTeam(this.props.teamId, emails);
+        if (data) {
+            this.handleHide(false);
+            this.setState({isSendingEmails: false});
+        } else if (error) {
+            if (error.id === 'api.team.invite_members.already.app_error') {
+                emailErrors[error.detailed_error] = error.message;
+                this.setState({emailErrors});
+            } else {
+                this.setState({serverError: error.message});
             }
-        );
+
+            this.setState({isSendingEmails: false});
+        }
     }
 
     handleHide = (requireConfirm) => {

@@ -1,0 +1,241 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/CustomTermsOfServiceSettings should match snapshot 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <AdminHeader>
+    <FormattedMessage
+      defaultMessage="Custom Terms of Service"
+      id="admin.support.termsOfServiceTitle"
+      values={Object {}}
+    />
+  </AdminHeader>
+  <form
+    className="form-horizontal"
+    onSubmit={[Function]}
+    role="form"
+  >
+    <LoadingScreen
+      position="relative"
+      style={Object {}}
+    />
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
+      </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`components/admin_console/CustomTermsOfServiceSettings should match snapshot 2`] = `
+<div
+  className="wrapper--fixed"
+>
+  <AdminHeader>
+    <FormattedMessage
+      defaultMessage="Custom Terms of Service"
+      id="admin.support.termsOfServiceTitle"
+      values={Object {}}
+    />
+  </AdminHeader>
+  <form
+    className="form-horizontal"
+    onSubmit={[Function]}
+    role="form"
+  >
+    <LoadingScreen
+      position="relative"
+      style={Object {}}
+    />
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
+      </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`components/admin_console/CustomTermsOfServiceSettings should match snapshot 3`] = `
+<div
+  className="wrapper--fixed"
+>
+  <AdminHeader>
+    <FormattedMessage
+      defaultMessage="Custom Terms of Service"
+      id="admin.support.termsOfServiceTitle"
+      values={Object {}}
+    />
+  </AdminHeader>
+  <form
+    className="form-horizontal"
+    onSubmit={[Function]}
+    role="form"
+  >
+    <LoadingScreen
+      position="relative"
+      style={Object {}}
+    />
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
+      </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`components/admin_console/CustomTermsOfServiceSettings should match snapshot 4`] = `
+<div
+  className="wrapper--fixed"
+>
+  <AdminHeader>
+    <FormattedMessage
+      defaultMessage="Custom Terms of Service"
+      id="admin.support.termsOfServiceTitle"
+      values={Object {}}
+    />
+  </AdminHeader>
+  <form
+    className="form-horizontal"
+    onSubmit={[Function]}
+    role="form"
+  >
+    <LoadingScreen
+      position="relative"
+      style={Object {}}
+    />
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
+      </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
+    </div>
+  </form>
+</div>
+`;

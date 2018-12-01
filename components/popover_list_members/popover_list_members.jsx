@@ -179,7 +179,7 @@ export default class PopoverListMembers extends React.Component {
         if (this.state.showChannelMembersModal) {
             channelMembersModal = (
                 <ChannelMembersModal
-                    onModalDismissed={this.hideChannelMembersModal}
+                    onHide={this.hideChannelMembersModal}
                     showInviteModal={this.showChannelInviteModal}
                     channel={this.props.channel}
                 />

@@ -2,6 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
+import {sendEmailInvitesToTeam} from 'mattermost-redux/actions/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -26,7 +29,16 @@ function mapStateToProps(state) {
         currentUser: getCurrentUser(state),
         defaultChannelName: defaultChannel ? defaultChannel.display_name : '',
         teamType: team ? team.type : '',
+        teamId: team ? team.id : '',
     };
 }
 
-export default connect(mapStateToProps)(InviteMemberModal);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            sendEmailInvitesToTeam,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(InviteMemberModal);
