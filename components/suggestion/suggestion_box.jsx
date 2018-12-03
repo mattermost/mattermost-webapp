@@ -134,16 +134,7 @@ export default class SuggestionBox extends React.Component {
         // Keep track of whether we're composing a CJK character so we can make suggestions for partial characters
         this.composing = false;
 
-        // Keep track of whether a list based or date based suggestion provider has been triggered
-        this.presentationType = 'text';
-
         this.pretext = '';
-
-        // An override of the provided prop to indicate whether dividers should be shown in the autocomplete results.
-        // This isn't ideal, because the component accepts a `renderDividers` prop which this is being used to override
-        // on a per-provider basis. There's probably a better solution by re-architecting providers to control how their
-        // dividers work on a per-provider basis so this wouldn't be necessary.
-        this.allowDividers = true;
 
         // Used for debouncing pretext changes
         this.timeoutId = '';
@@ -162,6 +153,8 @@ export default class SuggestionBox extends React.Component {
             terms: [],
             components: [],
             selection: '',
+            allowDividers: true,
+            presentationType: 'text',
         };
     }
 
@@ -444,7 +437,7 @@ export default class SuggestionBox extends React.Component {
                 e.preventDefault();
             } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
                 this.clear();
-                this.presentationType = 'text';
+                this.setState({presentationType: 'text'});
                 e.preventDefault();
                 e.stopPropagation();
             } else if (this.props.onKeyDown) {
@@ -504,17 +497,10 @@ export default class SuggestionBox extends React.Component {
             handled = provider.handlePretextChanged(pretext, callback) || handled;
 
             if (handled) {
-                if (provider.constructor.name === 'SearchDateProvider') {
-                    this.presentationType = 'date';
-                } else {
-                    this.presentationType = 'text';
-                }
-
-                if (provider.constructor.name === 'SearchUserProvider') {
-                    this.allowDividers = false;
-                } else {
-                    this.allowDividers = true;
-                }
+                this.setState({
+                    presentationType: provider.presentationType(),
+                    allowDividers: provider.allowDividers(),
+                });
 
                 break;
             }
@@ -563,7 +549,7 @@ export default class SuggestionBox extends React.Component {
             ...props
         } = this.props;
 
-        const renderDividers = this.props.renderDividers && this.allowDividers;
+        const renderDividers = this.props.renderDividers && this.state.allowDividers;
 
         // Don't pass props used by SuggestionBox
         Reflect.deleteProperty(props, 'providers');
@@ -599,7 +585,7 @@ export default class SuggestionBox extends React.Component {
                     onCompositionEnd={this.handleCompositionEnd}
                     onKeyDown={this.handleKeyDown}
                 />
-                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.presentationType === 'text' &&
+                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
                     <SuggestionListComponent
                         ref='list'
                         open={this.state.focused}
@@ -616,7 +602,7 @@ export default class SuggestionBox extends React.Component {
                         components={this.state.components}
                     />
                 }
-                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.presentationType === 'date' &&
+                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'date' &&
                     <SuggestionDateComponent
                         ref='date'
                         items={this.state.items}
