@@ -63,7 +63,7 @@ export default class Textbox extends React.Component {
                 currentUserId: this.props.currentUserId,
                 profilesInChannel: this.props.profilesInChannel,
                 profilesNotInChannel: this.props.profilesNotInChannel,
-                autocompleteUsersInChannel: this.props.actions.autocompleteUsersInChannel,
+                autocompleteUsersInChannel: (prefix) => this.props.actions.autocompleteUsersInChannel(prefix, props.channelId),
             }),
             new ChannelMentionProvider(),
             new EmoticonProvider(),
@@ -180,7 +180,7 @@ export default class Textbox extends React.Component {
                         currentUserId: nextProps.currentUserId,
                         profilesInChannel: nextProps.profilesInChannel,
                         profilesNotInChannel: nextProps.profilesNotInChannel,
-                        autocompleteUsersInChannel: nextProps.actions.autocompleteUsersInChannel,
+                        autocompleteUsersInChannel: (prefix) => nextProps.actions.autocompleteUsersInChannel(prefix, nextProps.channelId),
                     });
                 }
             }
