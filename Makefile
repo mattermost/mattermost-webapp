@@ -40,10 +40,10 @@ run: node_modules ## Runs app
 
 	npm run run &
 
-run-fullmap: node_modules ## Runs the app with the JS mapped to source (good for debugger)
-	@echo FULL SOURCE MAP Running mattermost Webapp for development FULL SOURCE MAP
+run-fullmap: node_modules ## Legacy alias to run
+	@echo Running mattermost Webapp for development
 
-	npm run run-fullmap &
+	npm run run &
 
 stop: ## Stops webpack
 	@echo Stopping changes watching
