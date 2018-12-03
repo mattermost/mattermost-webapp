@@ -40,4 +40,12 @@ export default class Provider {
 
         return false;
     }
+
+    allowDividers() {
+        return true;
+    }
+
+    presentationType() {
+        return 'text';
+    }
 }
