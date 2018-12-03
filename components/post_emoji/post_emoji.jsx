@@ -8,6 +8,11 @@ export default class PostEmoji extends React.PureComponent {
     static propTypes = {
 
         /*
+         * True if emoji name is not included either in the list of known and non-existent custom emojis
+         */
+        shouldCheckEmojiName: PropTypes.bool.isRequired,
+
+        /*
          * Emoji name.
          */
         name: PropTypes.string.isRequired,
@@ -21,12 +26,22 @@ export default class PostEmoji extends React.PureComponent {
          * Set to display the emoji text instead of the image.
          */
         displayTextOnly: PropTypes.bool.isRequired,
+
+        actions: PropTypes.shape({
+            getCustomEmojiByName: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     static defaultProps = {
         name: '',
         imageUrl: '',
         displayTextOnly: false,
+    }
+
+    componentDidMount() {
+        if (this.props.shouldCheckEmojiName) {
+            this.props.actions.getCustomEmojiByName(this.props.name);
+        }
     }
 
     render() {

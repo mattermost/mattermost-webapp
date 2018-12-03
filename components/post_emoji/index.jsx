@@ -2,7 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
+import {getCustomEmojiByName} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
@@ -15,23 +17,32 @@ function mapStateToProps(state, ownProps) {
     const emojiMap = getEmojiMap(state);
     const emoji = emojiMap.get(ownProps.name);
 
+    let shouldCheckEmojiName = false;
     let imageUrl = '';
-    let displayTextOnly = true;
+    let displayTextOnly = false;
     if (emoji) {
         imageUrl = getEmojiImageUrl(emoji);
-        displayTextOnly = false;
-    } else if (
-        state.entities.emojis.nonExistentEmoji.has(ownProps.name) ||
-        getConfig(state).EnableCustomEmoji !== 'true' ||
-        getCurrentUserId(state) === ''
-    ) {
-        displayTextOnly = true;
+    } else {
+        displayTextOnly = state.entities.emojis.nonExistentEmoji.has(ownProps.name) ||
+            getConfig(state).EnableCustomEmoji !== 'true' ||
+            getCurrentUserId(state) === '';
+
+        shouldCheckEmojiName = true;
     }
 
     return {
         imageUrl,
         displayTextOnly,
+        shouldCheckEmojiName,
     };
 }
 
-export default connect(mapStateToProps)(PostEmoji);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            getCustomEmojiByName,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostEmoji);
