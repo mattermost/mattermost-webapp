@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {leaveChannel as leaveChannelRedux, joinChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
-import {getChannel, getChannelByName, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getChannelByName} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
@@ -102,13 +102,12 @@ export function leaveChannel(channelId) {
     };
 }
 
-export function autocompleteUsersInChannel(prefix) {
+export function autocompleteUsersInChannel(prefix, channelId) {
     return async (dispatch, getState) => {
         const state = getState();
         const currentTeamId = getCurrentTeamId(state);
-        const currentChannelId = getCurrentChannelId(state);
 
-        return dispatch(autocompleteUsers(prefix, currentTeamId, currentChannelId));
+        return dispatch(autocompleteUsers(prefix, currentTeamId, channelId));
     };
 }
 
