@@ -238,7 +238,7 @@ export default class RhsThread extends React.Component {
         }
 
         const postsArray = this.filterPosts(this.props.posts, this.props.selected, this.state.openTime);
-        const {selected} = this.props;
+        const {selected, currentUser} = this.props;
 
         let createAt = selected.create_at;
         if (!createAt && this.props.posts.length > 0) {
@@ -274,13 +274,9 @@ export default class RhsThread extends React.Component {
                     previousPostId={previousPostId}
                     teamId={this.props.channel.team_id}
                     lastPostCount={(reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT) ? reverseCount : -1}
-                    user={p}
+                    currentUser={currentUser}
                     commentCount={postsLength}
-                    lastCommentId={postsArray.length > 0 ? postsArray[postsArray.length - 1].id : null}
-                    currentUser={this.props.currentUser}
-                    compactDisplay={this.state.compactDisplay}
-                    isFlagged={isFlagged}
-                    status={status}
+                    lastCommentId={postsArray[postsArray.length - 1].id}
                     isBusy={this.state.isBusy}
                     removePost={this.props.actions.removePost}
                     previewCollapsed={this.props.previewCollapsed}

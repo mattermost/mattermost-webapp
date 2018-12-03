@@ -46,8 +46,6 @@ export default class RhsRootPost extends React.Component {
         channelType: PropTypes.string,
         channelDisplayName: PropTypes.string,
         isRHSTextBoxFocused: PropTypes.bool.isRequired,
-        channelType: PropTypes.string,
-        channelDisplayName: PropTypes.string,
         actions: PropTypes.shape({
             addReaction: PropTypes.func.isRequired,
             hideEmojiPickerForLastMessage: PropTypes.func.isRequired,
