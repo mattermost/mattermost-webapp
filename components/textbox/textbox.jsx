@@ -127,6 +127,7 @@ export default class Textbox extends React.Component {
     handleHeightChange = (height, maxHeight) => {
         const wrapper = $(this.refs.wrapper);
         postListScrollChange();
+
         // Move over attachment icon to compensate for the scrollbar
         if (height > maxHeight) {
             wrapper.closest('.post-create').addClass('scroll');
