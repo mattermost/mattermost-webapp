@@ -52,7 +52,6 @@ describe('actions/post_utils', () => {
         user_id: 'current_user_id',
         message: 'test msg',
         channel_id: 'current_channel_id',
-        type: 'normal,',
     };
     const initialState = {
         entities: {
@@ -73,26 +72,7 @@ describe('actions/post_utils', () => {
             },
             channels: {
                 currentChannelId: 'current_channel_id',
-                myMembers: {
-                    [latestPost.channel_id]: {
-                        channel_id: 'current_channel_id',
-                        user_id: 'current_user_id',
-                        roles: 'channel_role',
-                    },
-                },
-                channels: {
-                    current_channel_id: {team_id: 'team_id'},
-                },
-            },
-            preferences: {
-                myPreferences: {
-                    'display_settings--name_format': {
-                        category: 'display_settings',
-                        name: 'name_format',
-                        user_id: 'current_user_id',
-                        value: 'username',
-                    },
-                },
+                myMembers: {[latestPost.channel_id]: {channel_id: 'current_channel_id', user_id: 'current_user_id'}},
             },
             teams: {
                 currentTeamId: 'team-1',
@@ -103,51 +83,16 @@ describe('actions/post_utils', () => {
                         displayName: 'Team 1',
                     },
                 },
-                myMembers: {
-                    'team-1': {roles: 'team_role'},
-                },
             },
             users: {
                 currentUserId: 'current_user_id',
-                profiles: {
-                    current_user_id: {
-                        id: 'current_user_id',
-                        username: 'current_username',
-                        roles: 'system_role',
-                        useAutomaticTimezone: true,
-                        automaticTimezone: '',
-                        manualTimezone: '',
-                    },
-                },
             },
-            general: {
-                license: {IsLicensed: 'false'},
-                serverVersion: '5.4.0',
-                config: {PostEditTimeLimit: -1},
-            },
-            roles: {
-                roles: {
-                    system_role: {
-                        permissions: ['edit_post'],
-                    },
-                    team_role: {
-                        permissions: [],
-                    },
-                    channel_role: {
-                        permissions: [],
-                    },
-                },
-            },
+            general: {license: {IsLicensed: 'false'}},
         },
         views: {
             posts: {
                 editingPost: {},
             },
-            channel: {
-                loadingPosts: {},
-                postVisibility: {current_channel_id: 60},
-            },
-            rhs: {searchTerms: ''},
         },
     };
 
@@ -186,62 +131,5 @@ describe('actions/post_utils', () => {
         newPost.user_id = 'current_user_id';
         await testStore.dispatch(PostActionsUtils.setChannelReadAndView(newPost, websocketProps));
         expect(testStore.getActions()).toEqual([MARK_CHANNEL_AS_READ, MARK_CHANNEL_AS_VIEWED]);
-    });
-
-    test('increasePostVisibility', async () => {
-        const testStore = await mockStore(initialState);
-
-        await testStore.dispatch(Actions.increasePostVisibility('current_channel_id'));
-        expect(testStore.getActions()).toEqual([
-            {
-                meta: {batch: true},
-                payload: [
-                    {channelId: 'current_channel_id', data: true, type: 'LOADING_POSTS'},
-                    {amount: 30, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'},
-                ],
-                type: 'BATCHING_REDUCER.BATCH',
-            },
-            {args: ['current_channel_id', 2, 30], type: 'MOCK_GET_POSTS'},
-            {channelId: 'current_channel_id', data: false, type: 'LOADING_POSTS'},
-        ]);
-
-        await testStore.dispatch(Actions.increasePostVisibility('current_channel_id', 'latest_post_id'));
-        expect(testStore.getActions()).toEqual([
-            {
-                meta: {batch: true},
-                payload: [
-                    {channelId: 'current_channel_id', data: true, type: 'LOADING_POSTS'},
-                    {amount: 30, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'},
-                ],
-                type: 'BATCHING_REDUCER.BATCH',
-            },
-            {args: ['current_channel_id', 2, 30], type: 'MOCK_GET_POSTS'},
-            {channelId: 'current_channel_id', data: false, type: 'LOADING_POSTS'},
-            {
-                meta: {batch: true},
-                payload: [
-                    {channelId: 'current_channel_id', data: true, type: 'LOADING_POSTS'},
-                    {amount: 30, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'},
-                ],
-                type: 'BATCHING_REDUCER.BATCH',
-            },
-            {
-                args: ['current_channel_id', 'latest_post_id', 2, 30],
-                type: 'MOCK_GET_POSTS_BEFORE',
-            },
-            {channelId: 'current_channel_id', data: false, type: 'LOADING_POSTS'},
-        ]);
-    });
-
-    test('searchForTerm', async () => {
-        const testStore = await mockStore(initialState);
-
-        await testStore.dispatch(Actions.searchForTerm('hello'));
-        expect(testStore.getActions()).toEqual([
-            {terms: 'hello', type: 'UPDATE_RHS_SEARCH_TERMS'},
-            {state: 'search', type: 'UPDATE_RHS_STATE'},
-            {terms: '', type: 'UPDATE_RHS_SEARCH_RESULTS_TERMS'},
-            {isGettingMore: false, type: 'SEARCH_POSTS_REQUEST'},
-        ]);
     });
 });

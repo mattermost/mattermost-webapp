@@ -130,10 +130,7 @@ function createPost({
             rhsExpanded={false}
             emojiMap={emojiMap}
             badConnection={false}
-<<<<<<< 8c21e3cf19120597f9cbecc6f41b437dba36b831:components/create_post/create_post.test.jsx
             isTimezoneEnabled={false}
-=======
->>>>>>> Removing ErrorStore. (#1976):tests/components/create_post/create_post.test.jsx
         />
     );
 }

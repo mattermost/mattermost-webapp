@@ -36,7 +36,6 @@ import {getChannel, getCurrentChannel, getCurrentChannelId} from 'mattermost-red
 import {openModal} from 'actions/views/modals';
 import {incrementWsErrorCount, resetWsErrorCount} from 'actions/views/system';
 
-import {openModal} from 'actions/views/modals';
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';

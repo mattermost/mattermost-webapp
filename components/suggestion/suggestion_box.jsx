@@ -522,7 +522,7 @@ export default class SuggestionBox extends React.Component {
         if (!handled) {
             this.clear();
         }
-    }, Constants.SEARCH_TIMEOUT_MILLISECONDS)
+    }
 
     debouncedPretextChanged = (pretext) => {
         clearTimeout(this.timeoutId);

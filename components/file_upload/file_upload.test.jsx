@@ -38,10 +38,7 @@ describe('components/FileUpload', () => {
     beforeEach(() => {
         uploadFile = jest.fn(() => ({
             end: emptyFunction,
-<<<<<<< eea42a967103c95450f1bfa1a6a119e015dd2064:components/file_upload/file_upload.test.jsx
             on: emptyFunction,
-=======
->>>>>>> MM-12585 Complete migration of file_actions to redux actions (#1955):tests/components/file_upload/file_upload.test.jsx
         }));
 
         baseProps = {
