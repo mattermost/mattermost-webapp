@@ -472,16 +472,26 @@
                         }
                     }
 
+                    .flag-icon__container {
+                        .sidebar--right & {
+                            left: 26px;
+                        }
+                    }
+
                     .post__time {
                         display: inline-block;
                         font-size: 11px;
-                        left: -14px;
+                        left: -18px;
                         line-height: 20px;
                         position: absolute;
                         text-align: right;
                         text-rendering: auto;
                         top: 4px;
                         width: 51px;
+
+                        .sidebar--right & {
+                            left: -24px;
+                        }
 
                         &:hover {
                             text-decoration: underline;

@@ -589,34 +589,43 @@
         }
     }
 
-    .modal-tabs .nav-tabs > li {
-        background: white;
-        margin-right: 0px;
-        width: 50%;
-        text-align: center;
-        border: none;
-        border-bottom: 2px $light-gray solid;
-    }
+    .modal-tabs {
+        .nav-tabs {
+            margin: 0 0 16px;
 
+            > li {
+                margin-right: 0px;
+                width: 50%;
+                text-align: center;
+                border: none;
+                border-bottom: 2px $light-gray solid;
 
-    .modal-tabs .nav-tabs > li.active {
-        border-bottom: 2px $primary-color solid;
-    }
+                &.active {
+                    border-bottom: 2px $primary-color solid;
 
-    .modal-tabs .nav-tabs > li > a {
-        background: white;
-        color: $light-gray;
-        height: 56px;
-        outline: none;
-        border: none;
-        display: flex;
-        font-weight: 900;
-        justify-content: center;
-        align-items: center;
-    }
+                    a {
+                        opacity: 1;
+                    }
+                }
 
-    .modal-tabs .nav-tabs > li > a:active {
-        color: $primary-color;
+                > a {
+                    opacity: .5;
+                    color: inherit;
+                    height: 40px;
+                    padding-bottom: 12px;
+                    outline: none;
+                    border: none;
+                    display: flex;
+                    font-weight: 900;
+                    justify-content: center;
+                    align-items: center;
+
+                    &:active {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
     }
 }
 
