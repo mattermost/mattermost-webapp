@@ -1120,7 +1120,7 @@
   "admin.service.tlsCertFileDescription": "Fișierul certificatului de utilizat.",
   "admin.service.tlsKeyFile": "Fișier cheie TLS:",
   "admin.service.tlsKeyFileDescription": "Fișierul cheii private de utilizat.",
-  "admin.service.useLetsEncrypt": "Utilizare Să criptați:",
+  "admin.service.useLetsEncrypt": "Utilizare Let's Encrypt:",
   "admin.service.useLetsEncryptDescription": "Activați recuperarea automată a certificatelor de la Let&#39;s Encrypt. Certificatul va fi preluat când un client încearcă să se conecteze dintr-un domeniu nou. Acest lucru va funcționa cu mai multe domenii.",
   "admin.service.useLetsEncryptDescription.disabled": "Activați recuperarea automată a certificatelor de la Let's Encrypt. Certificatul va fi preluat când un client încearcă să se conecteze dintr-un domeniu nou. Acest lucru va funcționa cu mai multe domenii.\n \nAceastă setare nu poate fi activată decât dacă setarea [Forward port 80 to 443](#Forward80to443) este setată la true.",
   "admin.service.userAccessTokensDescription": "Când este adevărat, utilizatorii pot crea [jetoane personale de acces](!https://about.mattermost.com/default-user-access-tokens) pentru integrarea în **Setări cont > Securitate** . Acestea pot fi utilizate pentru autentificarea împotriva API-ului și pentru accesul deplin la cont.\n\n Pentru a gestiona cine poate crea jetoane de acces personale sau pentru a căuta utilizatori prin codul de identificare, accesați pagina **Consola sistem > Utilizatori**.",
