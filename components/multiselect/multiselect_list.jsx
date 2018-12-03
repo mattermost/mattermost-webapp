@@ -43,7 +43,11 @@ export default class MultiSelectList extends React.Component {
         }
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(_, prevState) {
+        if (prevState.selected === this.state.selected) {
+            return;
+        }
+
         if (this.refs.list && this.refs.selected) {
             const elemTop = this.refs.selected.getBoundingClientRect().top;
             const elemBottom = this.refs.selected.getBoundingClientRect().bottom;
