@@ -1301,7 +1301,7 @@ export default {
                             label_default: 'Group Display Name Attribute:',
                             help_text: t('admin.ldap.groupDisplayNameAttributeDesc'),
                             help_text_markdown: true,
-                            help_text_default: '',
+                            help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the Group Name. Defaults to ‘Common name’ when blank.',
                             placeholder: t('admin.ldap.groupDisplayNameAttributeEx'),
                             placeholder_default: 'E.g.: "cn"',
                             isDisabled: needsUtils.or(
@@ -1317,7 +1317,7 @@ export default {
                             label_default: 'Group ID Attribute:',
                             help_text: t('admin.ldap.groupIdAttributeDesc'),
                             help_text_markdown: true,
-                            help_text_default: '',
+                            help_text_default: 'The attribute in the AD/LDAP server used as unique identifier for Groups. This should be a AD/LDAP attribute with a value that does not change.',
                             placeholder: t('admin.ldap.groupIdAttributeEx'),
                             placeholder_default: 'E.g.: "entryUUID"',
                             isDisabled: needsUtils.or(
