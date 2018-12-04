@@ -69,6 +69,8 @@ export default class MultiSelectSetting extends React.Component {
         }, []);
     };
 
+    getOptionLabel = ({text}) => text;
+
     render() {
         return (
             <Setting
@@ -80,7 +82,7 @@ export default class MultiSelectSetting extends React.Component {
                 <ReactSelect
                     id={this.props.id}
                     isMulti={true}
-                    getOptionLabel={({text}) => text}
+                    getOptionLabel={this.getOptionLabel}
                     options={this.props.values}
                     delimiter={','}
                     clearable={false}
