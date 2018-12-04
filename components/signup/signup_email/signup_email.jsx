@@ -42,70 +42,61 @@ export default class SignupEmail extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = this.getInviteInfo();
+        const data = (new URLSearchParams(this.props.location.search)).get('d');
+        const token = (new URLSearchParams(this.props.location.search)).get('t');
+        const inviteId = (new URLSearchParams(this.props.location.search)).get('id');
+
+        this.state = {};
+        if (token && token.length > 0) {
+            this.state = this.getTokenData(token, data);
+        } else if (inviteId && inviteId.length > 0) {
+            this.state = {
+                loading: true,
+                inviteId,
+            };
+        }
     }
 
     componentDidMount() {
         trackEvent('signup', 'signup_user_01_welcome');
+
+        const {inviteId} = this.state;
+        if (inviteId && inviteId.length > 0) {
+            this.getInviteInfo(inviteId);
+        }
     }
 
-    getInviteInfo = async () => {
-        let data = (new URLSearchParams(this.props.location.search)).get('d');
-        let token = (new URLSearchParams(this.props.location.search)).get('t');
-        const inviteId = (new URLSearchParams(this.props.location.search)).get('id');
-        let email = '';
-        let teamDisplayName = '';
-        let teamName = '';
-        let teamId = '';
-        let loading = false;
-        const serverError = '';
-        const noOpenServerError = false;
-
-        if (token && token.length > 0) {
-            const parsedData = JSON.parse(data);
-            email = parsedData.email;
-            teamDisplayName = parsedData.display_name;
-            teamName = parsedData.name;
-            teamId = parsedData.id;
-        } else if (inviteId && inviteId.length > 0) {
-            loading = true;
-            data = null;
-            token = null;
-            const {data: inviteData, error} = await this.props.actions.getTeamInviteInfo(inviteId);
-            if (inviteData) {
-                this.setState({
-                    loading: false,
-                    serverError: '',
-                    teamDisplayName: inviteData.display_name,
-                    teamName: inviteData.name,
-                    teamId: inviteData.id,
-                });
-            } else if (error) {
-                this.setState({
-                    loading: false,
-                    noOpenServerError: true,
-                    serverError: (
-                        <FormattedMessage
-                            id='signup_user_completed.invalid_invite'
-                            defaultMessage='The invite link was invalid.  Please speak with your Administrator to receive an invitation.'
-                        />
-                    ),
-                });
-            }
-        }
+    getTokenData = (token, data) => {
+        const parsedData = JSON.parse(data);
 
         return {
-            data,
+            loading: false,
             token,
-            email,
-            teamDisplayName,
-            teamName,
-            teamId,
-            inviteId,
-            loading,
-            serverError,
-            noOpenServerError,
+            email: parsedData.email,
+            teamName: parsedData.name,
         };
+    }
+
+    getInviteInfo = async (inviteId) => {
+        const {data, error} = await this.props.actions.getTeamInviteInfo(inviteId);
+        if (data) {
+            this.setState({
+                loading: false,
+                noOpenServerError: false,
+                serverError: '',
+                teamName: data.name,
+            });
+        } else if (error) {
+            this.setState({loading: false,
+                noOpenServerError: true,
+                serverError: (
+                    <FormattedMessage
+                        id='signup_user_completed.invalid_invite'
+                        defaultMessage='The invite link was invalid.  Please speak with your Administrator to receive an invitation.'
+                    />
+                ),
+            });
+        }
     }
 
     handleSignupSuccess = (user, data) => {
