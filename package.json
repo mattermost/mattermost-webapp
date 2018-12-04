@@ -56,7 +56,7 @@
     "url-search-params-polyfill": "5.0.0",
     "whatwg-fetch": "3.0.0",
     "xregexp": "4.2.0",
-    "zen-observable": "0.2.1"
+    "zen-observable": "0.8.11"
   },
   "devDependencies": {
     "@babel/cli": "7.2.0",
