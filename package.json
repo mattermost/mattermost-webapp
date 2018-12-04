@@ -30,7 +30,7 @@
     "marked": "github:mattermost/marked#ed33baecd7d7fa97d479ba22dde9d226b083d67d",
     "mattermost-redux": "github:mattermost/mattermost-redux#632cda350e295aa0d7af07905c879b5014ca9456",
     "moment-timezone": "0.5.23",
-    "pdfjs-dist": "2.0.943",
+    "pdfjs-dist": "2.0.489",
     "perfect-scrollbar": "0.8.1",
     "prop-types": "15.6.2",
     "react": "16.6.3",
