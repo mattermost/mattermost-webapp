@@ -76,7 +76,6 @@ export default class AdminSidebar extends React.Component {
         let metricsSettings = null;
         let complianceSettings = null;
         let customTermsOfServiceSettings = null;
-        let mfaSettings = null;
         let messageExportSettings = null;
         let complianceSection = null;
 
@@ -177,20 +176,6 @@ export default class AdminSidebar extends React.Component {
                             <FormattedMessage
                                 id='admin.sidebar.customTermsOfService'
                                 defaultMessage='Custom Terms of Service'
-                            />
-                        }
-                    />
-                );
-            }
-
-            if (this.props.license.MFA === 'true') {
-                mfaSettings = (
-                    <AdminSidebarSection
-                        name='mfa'
-                        title={
-                            <FormattedMessage
-                                id='admin.sidebar.mfa'
-                                defaultMessage='MFA'
                             />
                         }
                     />
@@ -536,7 +521,15 @@ export default class AdminSidebar extends React.Component {
                                 {oauthSettings}
                                 {ldapSettings}
                                 {samlSettings}
-                                {mfaSettings}
+                                <AdminSidebarSection
+                                    name='mfa'
+                                    title={
+                                        <FormattedMessage
+                                            id='admin.sidebar.mfa'
+                                            defaultMessage='MFA'
+                                        />
+                                    }
+                                />
                             </AdminSidebarSection>
                             <AdminSidebarSection
                                 name='security'

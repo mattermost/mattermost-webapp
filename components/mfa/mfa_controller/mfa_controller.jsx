@@ -19,7 +19,7 @@ export default class MFAController extends React.Component {
         document.body.classList.add('sticky');
         document.getElementById('root').classList.add('container-fluid');
 
-        if (!this.props.mfa || !this.props.enableMultifactorAuthentication) {
+        if (!this.props.enableMultifactorAuthentication) {
             this.props.history.push('/');
         }
     }
@@ -36,7 +36,7 @@ export default class MFAController extends React.Component {
 
     render() {
         let backButton;
-        if (this.props.enforceMultifactorAuthentication) {
+        if (this.props.mfa && this.props.enforceMultifactorAuthentication) {
             backButton = (
                 <div className='signup-header'>
                     <button
