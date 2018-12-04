@@ -50,7 +50,7 @@
     "redux-batched-actions": "0.4.1",
     "redux-persist": "4.10.2",
     "redux-persist-transform-filter": "0.0.18",
-    "reselect": "3.0.1",
+    "reselect": "4.0.0",
     "superagent": "4.0.0",
     "twemoji": "11.2.0",
     "url-search-params-polyfill": "5.0.0",
