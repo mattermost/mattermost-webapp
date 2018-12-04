@@ -335,7 +335,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         expect(instance.updateScrollbarOnChannelChange).not.toBeCalled();
         expect(instance.props.actions.switchToChannelById).not.toBeCalled();
 
-        wrapper.setProps({unreadChannelIds: ['c3', 'c6']});
+        wrapper.setState({unreadChannelIds: ['c3', 'c6']});
         instance.navigateUnreadChannelShortcut(nextEvent);
         expect(instance.props.actions.switchToChannelById).lastCalledWith('c3');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c3');
@@ -471,8 +471,8 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             <Sidebar {...defaultProps}/>
         );
         const instance = wrapper.instance();
-        expect(instance.channelIdIsDisplayedForProps(instance.props, 'c1')).toBe(true);
-        expect(instance.channelIdIsDisplayedForProps(instance.props, 'c9')).toBe(false);
+        expect(instance.channelIdIsDisplayedForProps(instance.props.orderedChannelIds, 'c1')).toBe(true);
+        expect(instance.channelIdIsDisplayedForProps(instance.props.orderedChannelIds, 'c9')).toBe(false);
     });
 
     test('should handle correctly open more direct channels toggle', () => {
