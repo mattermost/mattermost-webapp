@@ -3,7 +3,8 @@
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {leaveChannel} from 'mattermost-redux/actions/channels';
+
+import {leaveChannel} from 'actions/views/channel';
 
 import LeaveChannel from './leave_channel';
 
