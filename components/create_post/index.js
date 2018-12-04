@@ -42,7 +42,7 @@ import {canUploadFiles} from 'utils/file_utils';
 
 import CreatePost from './create_post.jsx';
 
-function mapStateToProps() {
+function makeMapStateToProps() {
     const getCommentCountForPost = makeGetCommentCountForPost();
     const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.POST);
 
@@ -122,4 +122,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);
+export default connect(makeMapStateToProps, mapDispatchToProps)(CreatePost);

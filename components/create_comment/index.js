@@ -28,7 +28,7 @@ import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
 
 import CreateComment from './create_comment.jsx';
 
-function mapStateToProps() {
+function makeMapStateToProps() {
     const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT);
 
     return (state, ownProps) => {
@@ -123,4 +123,4 @@ function makeMapDispatchToProps() {
     };
 }
 
-export default connect(mapStateToProps, makeMapDispatchToProps)(CreateComment);
+export default connect(makeMapStateToProps, makeMapDispatchToProps)(CreateComment);
