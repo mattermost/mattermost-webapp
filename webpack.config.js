@@ -15,13 +15,9 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
 
 var DEV = false;
-var FULLMAP = false;
 var TEST = false;
-if (NPM_TARGET === 'run' || NPM_TARGET === 'run-fullmap') {
+if (NPM_TARGET === 'run') {
     DEV = true;
-    if (NPM_TARGET === 'run-fullmap') {
-        FULLMAP = true;
-    }
 }
 
 if (NPM_TARGET === 'test') {
@@ -32,7 +28,6 @@ if (NPM_TARGET === 'test') {
 if (NPM_TARGET === 'stats') {
     DEV = true;
     TEST = false;
-    FULLMAP = true;
 }
 
 const STANDARD_EXCLUDE = [
@@ -348,11 +343,7 @@ if (NPM_TARGET !== 'stats') {
 // Development mode configuration
 if (DEV) {
     config.mode = 'development';
-    if (FULLMAP) {
-        config.devtool = 'source-map';
-    } else {
-        config.devtool = 'cheap-module-eval-source-map';
-    }
+    config.devtool = 'source-map';
 }
 
 // Production mode configuration

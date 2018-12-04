@@ -858,7 +858,6 @@
                     .nav {
                         > li {
                             > a {
-                                border-bottom: 1px solid transparent;
                                 font-size: 1.1em;
                                 line-height: 2.7;
 
@@ -986,10 +985,9 @@
                 > li {
                     > a,
                     > button {
-                        border-bottom: 1px solid alpha-color($white, .3);
                         color: $white;
                         font-weight: 600;
-                        line-height: 35px;
+                        line-height: 32px;
                         margin: 0 auto;
                         text-align: center;
                         width: 70%;
@@ -997,6 +995,16 @@
                         &:hover {
                             background: transparent;
                         }
+                    }
+
+                    .navbar-right__icon {
+                        margin: 10px;
+                    }
+
+                    hr {
+                        border-bottom: 1px solid alpha-color($white, .3);
+                        margin: 8px auto;
+                        width: 70%;
                     }
                 }
             }

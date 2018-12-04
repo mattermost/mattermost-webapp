@@ -113,14 +113,14 @@ export default class SignupController extends React.Component {
     }
 
     getInviteInfo = async (inviteId) => {
-        const {data} = await this.props.actions.getTeamInviteInfo(inviteId);
+        const {data, error} = await this.props.actions.getTeamInviteInfo(inviteId);
         if (data) {
             this.setState({
                 serverError: '',
                 loading: false,
             });
-        } else {
-            this.handleInvalidInvite();
+        } else if (error) {
+            this.handleInvalidInvite(error);
         }
     }
 
