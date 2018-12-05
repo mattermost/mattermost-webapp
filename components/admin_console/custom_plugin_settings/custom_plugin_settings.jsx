@@ -37,9 +37,11 @@ export default class CustomPluginSettings extends SchemaAdminSettings {
             const settings = schema.settings || [];
             settings.forEach((setting) => {
                 const lowerKey = setting.key.toLowerCase();
-                const value = this.state[lowerKey] || setting.default;
-                if (value == null) {
+                const value = this.state[lowerKey];
+                if (value == null && setting.default == null) {
                     Reflect.deleteProperty(configSettings, lowerKey);
+                } else if (value == null) {
+                    configSettings[lowerKey] = setting.default;
                 } else {
                     configSettings[lowerKey] = value;
                 }
