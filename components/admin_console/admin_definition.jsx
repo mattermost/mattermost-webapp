@@ -1270,7 +1270,7 @@ export default {
                             label: t('admin.ldap.userFilterTitle'),
                             label_default: 'User Filter:',
                             help_text: t('admin.ldap.userFilterDisc'),
-                            help_text_default: '(Optional) Enter an AD/LDAP Filter to use when searching for user objects. Only the users selected by the query will be able to access Mattermost. For Active Directory, the query to filter out disabled users is (&(objectCategory=Person)(!(UserAccountControl:1.2.840.113556.1.4.803:=2))).',
+                            help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for user objects. Only the users selected by the query will be able to access Mattermost. For Active Directory, the query to filter out disabled users is (&(objectCategory=Person)(!(UserAccountControl:1.2.840.113556.1.4.803:=2))).',
                             placeholder: t('admin.ldap.userFilterEx'),
                             placeholder_default: 'Ex. "(objectClass=user)"',
                             isDisabled: needsUtils.and(
@@ -1285,7 +1285,7 @@ export default {
                             label_default: 'Group Filter:',
                             help_text: t('admin.ldap.groupFilterFilterDesc'),
                             help_text_markdown: true,
-                            help_text_default: '(Optional) Enter an AD/LDAP Filter to user when searching for group objects. Only the groups selected by the query will be available to Mattermost. From [Groups](/admin_console/access-control/groups), select which AD/LDAP groups should be linked and configured.',
+                            help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for group objects. Only the groups selected by the query will be available to Mattermost. From [Groups](/admin_console/access-control/groups), select which AD/LDAP groups should be linked and configured.',
                             placeholder: t('admin.ldap.groupFilterEx'),
                             placeholder_default: 'E.g.: "(objectClass=group)"',
                             isDisabled: needsUtils.or(
