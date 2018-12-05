@@ -498,8 +498,8 @@ export default class SuggestionBox extends React.Component {
 
             if (handled) {
                 this.setState({
-                    presentationType: provider.presentationType(),
-                    allowDividers: provider.allowDividers(),
+                    presentationType: provider.presentationType,
+                    allowDividers: provider.allowDividers,
                 });
 
                 break;
