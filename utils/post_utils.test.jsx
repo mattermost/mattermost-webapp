@@ -494,11 +494,11 @@ describe('PostUtils.postMessageOnKeyPress', () => {
     }, {
         name: 'last channel switch within threshold',
         input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true, now: 1541658920334, lastChannelSwitch: 1541658920334 - 250},
-        expected: {allowSending: false},
+        expected: {allowSending: false, ignoreKeyPress: true},
     }, {
         name: 'last channel switch at threshold',
         input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true, now: 1541658920334, lastChannelSwitch: 1541658920334 - 500},
-        expected: {allowSending: false},
+        expected: {allowSending: false, ignoreKeyPress: true},
     }, {
         name: 'last channel switch outside threshold',
         input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true, now: 1541658920334, lastChannelSwitch: 1541658920334 - 501},
