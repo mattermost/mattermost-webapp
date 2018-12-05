@@ -10,7 +10,6 @@ import Constants from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import MultiSelect from 'components/multiselect/multiselect.jsx';
-import ConfirmModal from 'components/confirm_modal.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -21,7 +20,6 @@ const CHANNELS_PER_PAGE = 50;
 
 export default class ChannelSelectorModal extends React.Component {
     static propTypes = {
-        currentSchemeId: PropTypes.string,
         alreadySelected: PropTypes.array,
         searchTerm: PropTypes.string.isRequired,
         channels: PropTypes.array.isRequired,
@@ -45,8 +43,6 @@ export default class ChannelSelectorModal extends React.Component {
             show: true,
             search: false,
             loadingChannels: true,
-            confirmAddModal: false,
-            confirmAddChannel: null,
             excludeNames: [],
         };
     }
@@ -101,18 +97,14 @@ export default class ChannelSelectorModal extends React.Component {
         this.handleHide();
     }
 
-    addValue = (value, confirmed = false) => {
-        if (value.scheme_id !== null && value.scheme_id !== '' && !confirmed) {
-            this.setState({confirmAddModal: true, confirmAddChannel: value});
-            return;
-        }
+    addValue = (value) => {
         const values = Object.assign([], this.state.values);
         const channelIds = values.map((v) => v.id);
         if (value && value.id && channelIds.indexOf(value.id) === -1) {
             values.push(value);
         }
 
-        this.setState({values, confirmAddModal: false, confirmAddChannel: null});
+        this.setState({values});
     }
 
     setChannelsLoadingState = (loadingState) => {
@@ -174,39 +166,7 @@ export default class ChannelSelectorModal extends React.Component {
         return props.data.display_name + ' (' + props.data.team_display_name + ')';
     }
 
-    renderConfirmModal(show, channel) {
-        const title = (
-            <FormattedMessage
-                id='add_channels_to_scheme.confirmation.title'
-                defaultMessage='Channel Override Scheme Change?'
-            />
-        );
-        const message = (
-            <FormattedMessage
-                id='add_channels_to_scheme.confirmation.message'
-                defaultMessage='This channel is already selected in another channel scheme, are you sure you want to move it to this channel scheme?'
-            />
-        );
-        const confirmButtonText = (
-            <FormattedMessage
-                id='add_channels_to_scheme.confirmation.accept'
-                defaultMessage='Yes, Move Channel'
-            />
-        );
-        return (
-            <ConfirmModal
-                show={show}
-                title={title}
-                message={message}
-                confirmButtonText={confirmButtonText}
-                onCancel={() => this.setState({confirmAddModal: false, confirmAddChannel: null})}
-                onConfirm={() => this.addValue(channel, true)}
-            />
-        );
-    }
-
     render() {
-        const confirmModal = this.renderConfirmModal(this.state.confirmAddModal, this.state.confirmAddChannel);
         const numRemainingText = (
             <FormattedMessage
                 id='multiselect.selectChannels'
@@ -251,7 +211,6 @@ export default class ChannelSelectorModal extends React.Component {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {confirmModal}
                     <MultiSelect
                         key='addChannelsToSchemeKey'
                         options={channels}
