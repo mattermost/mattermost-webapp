@@ -15,11 +15,17 @@ exports[`components/admin_console/email_connection_test/email_connection_test sh
         disabled={true}
         onClick={[Function]}
       >
-        <FormattedMessage
-          defaultMessage="Test Connection"
-          id="admin.email.connectionSecurityTest"
-          values={Object {}}
-        />
+        <LoadingWrapper
+          loading={false}
+          text="Testing..."
+          type="spinner"
+        >
+          <FormattedMessage
+            defaultMessage="Test Connection"
+            id="admin.email.connectionSecurityTest"
+            values={Object {}}
+          />
+        </LoadingWrapper>
       </button>
       <div />
     </div>
@@ -42,11 +48,17 @@ exports[`components/admin_console/email_connection_test/email_connection_test sh
         disabled={false}
         onClick={[Function]}
       >
-        <FormattedMessage
-          defaultMessage="Test Connection"
-          id="admin.email.connectionSecurityTest"
-          values={Object {}}
-        />
+        <LoadingWrapper
+          loading={false}
+          text="Testing..."
+          type="spinner"
+        >
+          <FormattedMessage
+            defaultMessage="Test Connection"
+            id="admin.email.connectionSecurityTest"
+            values={Object {}}
+          />
+        </LoadingWrapper>
       </button>
       <div />
     </div>

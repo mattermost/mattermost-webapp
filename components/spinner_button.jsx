@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 
-import loadingGif from 'images/load.gif';
+import LoadingWrapper from 'components/widgets/loading_wrapper.jsx';
 
 export default class SpinnerButton extends PureComponent {
     static defaultProps = {
@@ -32,22 +32,18 @@ export default class SpinnerButton extends PureComponent {
     render() {
         const {spinning, children, ...props} = this.props; // eslint-disable-line no-use-before-define
 
-        if (spinning) {
-            return (
-                <img
-                    className='spinner-button__gif'
-                    src={loadingGif}
-                />
-            );
-        }
-
         return (
-            <button
-                className='btn btn-primary'
-                {...props}
+            <LoadingWrapper
+                loading={spinning}
+                type='bars'
             >
-                {children}
-            </button>
+                <button
+                    className='btn btn-primary'
+                    {...props}
+                >
+                    {children}
+                </button>
+            </LoadingWrapper>
         );
     }
 }

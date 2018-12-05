@@ -1286,7 +1286,7 @@
   "admin.team.upload": "Upload",
   "admin.team.uploadDesc": "Customize your user experience by adding a custom image to your login screen. Recommended maximum image size is less than 2 MB.",
   "admin.team.uploaded": "Uploaded!",
-  "admin.team.uploading": "Uploading..",
+  "admin.team.uploading": "Uploading...",
   "admin.team.userCreationDescription": "When false, the ability to create accounts is disabled. The create account button displays error when pressed.",
   "admin.team.userCreationTitle": "Enable Account Creation: ",
   "admin.true": "true",

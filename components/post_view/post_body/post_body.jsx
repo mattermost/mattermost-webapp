@@ -15,8 +15,7 @@ import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageView from 'components/post_view/post_message_view';
 import ReactionList from 'components/post_view/reaction_list';
-
-import loadingGif from 'images/load.gif';
+import LoadingWrapper from 'components/widgets/loading_wrapper.jsx';
 
 const SENDING_ANIMATION_DELAY = 3000;
 
@@ -163,22 +162,17 @@ export default class PostBody extends React.PureComponent {
             );
         }
 
-        let sending;
         if (this.state.sending) {
-            sending = (
-                <img
-                    className='post-loading-gif pull-right'
-                    src={loadingGif}
-                />
-            );
-
             postClass += ' post-waiting';
         }
 
         const messageWrapper = (
             <React.Fragment>
                 {failedOptions}
-                {sending}
+                <LoadingWrapper
+                    type='bars'
+                    loading={this.state.sending}
+                />
                 <PostMessageView
                     lastPostCount={this.props.lastPostCount}
                     post={this.props.post}

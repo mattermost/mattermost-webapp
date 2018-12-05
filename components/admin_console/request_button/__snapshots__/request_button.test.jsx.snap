@@ -13,11 +13,17 @@ exports[`components/admin_console/request_button/request_button.jsx should match
         disabled={false}
         onClick={[Function]}
       >
-        <FormattedMessage
-          defaultMessage="Button Text"
-          id="test"
-          values={Object {}}
-        />
+        <LoadingWrapper
+          loading={false}
+          text=" Loading..."
+          type="spinner"
+        >
+          <FormattedMessage
+            defaultMessage="Button Text"
+            id="test"
+            values={Object {}}
+          />
+        </LoadingWrapper>
       </button>
     </div>
     <div
@@ -121,15 +127,21 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           disabled={false}
           onClick={[Function]}
         >
-          <FormattedMessage
-            defaultMessage="Button Text"
-            id="test"
-            values={Object {}}
+          <LoadingWrapper
+            loading={false}
+            text=" Loading..."
+            type="spinner"
           >
-            <span>
-              Button Text
-            </span>
-          </FormattedMessage>
+            <FormattedMessage
+              defaultMessage="Button Text"
+              id="test"
+              values={Object {}}
+            >
+              <span>
+                Button Text
+              </span>
+            </FormattedMessage>
+          </LoadingWrapper>
         </button>
         <div>
           <div
@@ -269,15 +281,21 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           disabled={false}
           onClick={[Function]}
         >
-          <FormattedMessage
-            defaultMessage="Button Text"
-            id="test"
-            values={Object {}}
+          <LoadingWrapper
+            loading={false}
+            text=" Loading..."
+            type="spinner"
           >
-            <span>
-              Button Text
-            </span>
-          </FormattedMessage>
+            <FormattedMessage
+              defaultMessage="Button Text"
+              id="test"
+              values={Object {}}
+            >
+              <span>
+                Button Text
+              </span>
+            </FormattedMessage>
+          </LoadingWrapper>
         </button>
         <div>
           <div
@@ -409,15 +427,21 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           disabled={false}
           onClick={[Function]}
         >
-          <FormattedMessage
-            defaultMessage="Button Text"
-            id="test"
-            values={Object {}}
+          <LoadingWrapper
+            loading={false}
+            text=" Loading..."
+            type="spinner"
           >
-            <span>
-              Button Text
-            </span>
-          </FormattedMessage>
+            <FormattedMessage
+              defaultMessage="Button Text"
+              id="test"
+              values={Object {}}
+            >
+              <span>
+                Button Text
+              </span>
+            </FormattedMessage>
+          </LoadingWrapper>
         </button>
         <div>
           <div
@@ -553,15 +577,21 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           disabled={false}
           onClick={[Function]}
         >
-          <FormattedMessage
-            defaultMessage="Button Text"
-            id="test"
-            values={Object {}}
+          <LoadingWrapper
+            loading={false}
+            text=" Loading..."
+            type="spinner"
           >
-            <span>
-              Button Text
-            </span>
-          </FormattedMessage>
+            <FormattedMessage
+              defaultMessage="Button Text"
+              id="test"
+              values={Object {}}
+            >
+              <span>
+                Button Text
+              </span>
+            </FormattedMessage>
+          </LoadingWrapper>
         </button>
       </div>
       <div

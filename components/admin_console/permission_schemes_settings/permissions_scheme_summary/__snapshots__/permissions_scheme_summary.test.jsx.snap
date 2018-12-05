@@ -11,11 +11,17 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
     <ConfirmModal
       confirmButtonClass="btn btn-primary"
       confirmButtonText={
-        <FormattedMessage
-          defaultMessage="Yes, Delete"
-          id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
-          values={Object {}}
-        />
+        <LoadingWrapper
+          loading={false}
+          text="Deleting..."
+          type="spinner"
+        >
+          <FormattedMessage
+            defaultMessage="Yes, Delete"
+            id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
+            values={Object {}}
+          />
+        </LoadingWrapper>
       }
       message={
         <div>
@@ -125,11 +131,17 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
     <ConfirmModal
       confirmButtonClass="btn btn-primary"
       confirmButtonText={
-        <FormattedMessage
-          defaultMessage="Yes, Delete"
-          id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
-          values={Object {}}
-        />
+        <LoadingWrapper
+          loading={false}
+          text="Deleting..."
+          type="spinner"
+        >
+          <FormattedMessage
+            defaultMessage="Yes, Delete"
+            id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
+            values={Object {}}
+          />
+        </LoadingWrapper>
       }
       message={
         <div>
@@ -314,11 +326,17 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
     <ConfirmModal
       confirmButtonClass="btn btn-primary"
       confirmButtonText={
-        <FormattedMessage
-          defaultMessage="Yes, Delete"
-          id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
-          values={Object {}}
-        />
+        <LoadingWrapper
+          loading={false}
+          text="Deleting..."
+          type="spinner"
+        >
+          <FormattedMessage
+            defaultMessage="Yes, Delete"
+            id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
+            values={Object {}}
+          />
+        </LoadingWrapper>
       }
       message={
         <div>

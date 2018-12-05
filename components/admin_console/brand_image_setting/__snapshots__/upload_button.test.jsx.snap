@@ -7,8 +7,13 @@ exports[`components/admin_console/brand_image_setting/UploadButton should match 
   id="upload-button"
   onClick={[Function]}
 >
-   
-  Upload
+  <LoadingWrapper
+    loading={false}
+    text="Uploading..."
+    type="spinner"
+  >
+    Upload
+  </LoadingWrapper>
 </button>
 `;
 
@@ -19,12 +24,13 @@ exports[`components/admin_console/brand_image_setting/UploadButton should match 
   id="upload-button"
   onClick={[Function]}
 >
-  <i
-    className="fa fa-refresh icon--rotate"
-    title="Loading Icon"
-  />
-   
-  Uploading..
+  <LoadingWrapper
+    loading={true}
+    text="Uploading..."
+    type="spinner"
+  >
+    Upload
+  </LoadingWrapper>
 </button>
 `;
 
@@ -35,12 +41,19 @@ exports[`components/admin_console/brand_image_setting/UploadButton should match 
   id="upload-button"
   onClick={[Function]}
 >
-  <i
-    className="fa fa-check"
-    title="Success Icon"
-  />
-   
-  Uploaded!
+  <LoadingWrapper
+    loading={false}
+    text="Uploading..."
+    type="spinner"
+  >
+    <i
+      className="fa fa-check"
+      key="icon"
+      title="Success Icon"
+    />
+     
+    Uploaded!
+  </LoadingWrapper>
 </button>
 `;
 
@@ -51,11 +64,18 @@ exports[`components/admin_console/brand_image_setting/UploadButton should match 
   id="upload-button"
   onClick={[Function]}
 >
-  <i
-    className="fa fa-check"
-    title="Success Icon"
-  />
-   
-  Uploaded!
+  <LoadingWrapper
+    loading={false}
+    text="Uploading..."
+    type="spinner"
+  >
+    <i
+      className="fa fa-check"
+      key="icon"
+      title="Success Icon"
+    />
+     
+    Uploaded!
+  </LoadingWrapper>
 </button>
 `;

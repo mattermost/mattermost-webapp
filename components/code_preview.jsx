@@ -7,8 +7,8 @@ import React from 'react';
 
 import Constants from 'utils/constants.jsx';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting.jsx';
-import loadingGif from 'images/load.gif';
 
+import LoadingWrapper from 'components/widgets/loading_wrapper.jsx';
 import FileInfoPreview from 'components/file_info_preview';
 
 export default class CodePreview extends React.Component {
@@ -81,10 +81,7 @@ export default class CodePreview extends React.Component {
         if (this.state.loading) {
             return (
                 <div className='view-image__loading'>
-                    <img
-                        className='loader-image'
-                        src={loadingGif}
-                    />
+                    <LoadingWrapper type='bars'/>
                 </div>
             );
         }
