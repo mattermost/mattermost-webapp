@@ -179,7 +179,7 @@ export default class Sidebar extends React.PureComponent {
             newOrderedChannelIds[0].items = prevState.unreadChannelIds;
 
             return {
-                unreadChannelIds: prevState.unreadChannelIds || [],
+                unreadChannelIds: prevState.unreadChannelIds,
                 orderedChannelIds: newOrderedChannelIds,
             };
         }
