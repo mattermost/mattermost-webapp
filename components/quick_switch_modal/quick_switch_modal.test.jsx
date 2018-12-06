@@ -13,7 +13,8 @@ describe('components/QuickSwitchModal', () => {
         onHide: jest.fn(),
         showTeamSwitcher: false,
         actions: {
-            switchToChannelById: jest.fn().mockImplementation(() => {
+            joinChannelById: jest.fn().mockResolvedValue({data: true}),
+            switchToChannel: jest.fn().mockImplementation(() => {
                 const error = {
                     message: 'Failed',
                 };
@@ -40,7 +41,7 @@ describe('components/QuickSwitchModal', () => {
 
             wrapper.instance().handleSubmit();
             expect(baseProps.onHide).not.toBeCalled();
-            expect(props.actions.switchToChannelById).not.toBeCalled();
+            expect(props.actions.switchToChannel).not.toBeCalled();
         });
 
         it('should fail to switch to a channel', (done) => {
@@ -50,7 +51,7 @@ describe('components/QuickSwitchModal', () => {
 
             const channel = {id: 'channel_id', userId: 'user_id', type: Constants.DM_CHANNEL};
             wrapper.instance().handleSubmit({channel});
-            expect(baseProps.actions.switchToChannelById).toBeCalledWith(channel.id);
+            expect(baseProps.actions.switchToChannel).toBeCalledWith(channel);
             process.nextTick(() => {
                 expect(baseProps.onHide).not.toBeCalled();
                 done();
@@ -61,7 +62,8 @@ describe('components/QuickSwitchModal', () => {
             const props = {
                 ...baseProps,
                 actions: {
-                    switchToChannelById: jest.fn().mockImplementation(() => {
+                    ...baseProps.actions,
+                    switchToChannel: jest.fn().mockImplementation(() => {
                         const data = true;
                         return Promise.resolve({data});
                     }),
@@ -74,7 +76,66 @@ describe('components/QuickSwitchModal', () => {
 
             const channel = {id: 'channel_id', userId: 'user_id', type: Constants.DM_CHANNEL};
             wrapper.instance().handleSubmit({channel});
-            expect(props.actions.switchToChannelById).toBeCalledWith(channel.id);
+            expect(props.actions.switchToChannel).toBeCalledWith(channel);
+            process.nextTick(() => {
+                expect(baseProps.onHide).toBeCalled();
+                done();
+            });
+        });
+
+        it('should join the channel before switching', (done) => {
+            const props = {
+                ...baseProps,
+                actions: {
+                    ...baseProps.actions,
+                    switchToChannel: jest.fn().mockImplementation(() => {
+                        const data = true;
+                        return Promise.resolve({data});
+                    }),
+                },
+            };
+
+            const wrapper = shallow(
+                <QuickSwitchModal {...props}/>
+            );
+
+            const channel = {id: 'channel_id', name: 'test', type: Constants.OPEN_CHANNEL};
+            const selected = {
+                type: Constants.MENTION_MORE_CHANNELS,
+                channel,
+            };
+            wrapper.instance().handleSubmit(selected);
+            expect(props.actions.joinChannelById).toBeCalledWith(channel.id);
+            process.nextTick(() => {
+                expect(props.actions.switchToChannel).toBeCalledWith(channel);
+                done();
+            });
+        });
+
+        it('should not join the channel before switching if channel is DM', (done) => {
+            const props = {
+                ...baseProps,
+                actions: {
+                    ...baseProps.actions,
+                    switchToChannel: jest.fn().mockImplementation(() => {
+                        const data = true;
+                        return Promise.resolve({data});
+                    }),
+                },
+            };
+
+            const wrapper = shallow(
+                <QuickSwitchModal {...props}/>
+            );
+
+            const channel = {id: 'channel_id', name: 'test', type: Constants.DM_CHANNEL};
+            const selected = {
+                type: Constants.MENTION_MORE_CHANNELS,
+                channel,
+            };
+            wrapper.instance().handleSubmit(selected);
+            expect(props.actions.joinChannelById).not.toHaveBeenCalled();
+            expect(props.actions.switchToChannel).toBeCalledWith(channel);
             process.nextTick(() => {
                 expect(baseProps.onHide).toBeCalled();
                 done();

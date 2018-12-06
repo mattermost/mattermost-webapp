@@ -9,13 +9,14 @@ import {Link} from 'react-router-dom';
 
 import AutosizeTextarea from 'components/autosize_textarea.jsx';
 import PostMarkdown from 'components/post_markdown';
-import AtMentionProvider from 'components/suggestion/at_mention_provider.jsx';
+import AtMentionProvider from 'components/suggestion/at_mention_provider';
 import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
 import CommandProvider from 'components/suggestion/command_provider.jsx';
 import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import Constants from 'utils/constants.jsx';
+import {postListScrollChange} from 'actions/global_actions';
 import * as Utils from 'utils/utils.jsx';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
@@ -39,6 +40,12 @@ export default class Textbox extends React.Component {
         characterLimit: PropTypes.number.isRequired,
         disabled: PropTypes.bool,
         badConnection: PropTypes.bool,
+        currentUserId: PropTypes.string.isRequired,
+        profilesInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
+        profilesNotInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
+        actions: PropTypes.shape({
+            autocompleteUsersInChannel: PropTypes.func.isRequired,
+        }),
     };
 
     static defaultProps = {
@@ -52,7 +59,12 @@ export default class Textbox extends React.Component {
         this.state = {};
 
         this.suggestionProviders = [
-            new AtMentionProvider(this.props.channelId),
+            new AtMentionProvider({
+                currentUserId: this.props.currentUserId,
+                profilesInChannel: this.props.profilesInChannel,
+                profilesNotInChannel: this.props.profilesNotInChannel,
+                autocompleteUsersInChannel: (prefix) => this.props.actions.autocompleteUsersInChannel(prefix, props.channelId),
+            }),
             new ChannelMentionProvider(),
             new EmoticonProvider(),
         ];
@@ -114,6 +126,7 @@ export default class Textbox extends React.Component {
 
     handleHeightChange = (height, maxHeight) => {
         const wrapper = $(this.refs.wrapper);
+        postListScrollChange();
 
         // Move over attachment icon to compensate for the scrollbar
         if (height > maxHeight) {
@@ -155,12 +168,20 @@ export default class Textbox extends React.Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.channelId !== this.props.channelId) {
+        if (nextProps.channelId !== this.props.channelId ||
+            nextProps.currentUserId !== this.props.currentUserId ||
+            nextProps.profilesInChannel !== this.props.profilesInChannel ||
+            nextProps.profilesNotInChannel !== this.props.profilesNotInChannel) {
             // Update channel id for AtMentionProvider.
             const providers = this.suggestionProviders;
             for (let i = 0; i < providers.length; i++) {
                 if (providers[i] instanceof AtMentionProvider) {
-                    providers[i] = new AtMentionProvider(nextProps.channelId);
+                    providers[i].setProps({
+                        currentUserId: nextProps.currentUserId,
+                        profilesInChannel: nextProps.profilesInChannel,
+                        profilesNotInChannel: nextProps.profilesNotInChannel,
+                        autocompleteUsersInChannel: (prefix) => nextProps.actions.autocompleteUsersInChannel(prefix, nextProps.channelId),
+                    });
                 }
             }
         }

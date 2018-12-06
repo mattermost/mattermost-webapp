@@ -15,7 +15,6 @@ import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import {isEmbedVisible} from 'selectors/posts';
 import {getSelectedPostId, getRhsState} from 'selectors/rhs';
 import {
@@ -175,18 +174,11 @@ export function increasePostVisibility(channelId, focusedPostId) {
             return true;
         }
 
-        dispatch(batchActions([
-            {
-                type: ActionTypes.LOADING_POSTS,
-                data: true,
-                channelId,
-            },
-            {
-                type: ActionTypes.INCREASE_POST_VISIBILITY,
-                data: channelId,
-                amount: POST_INCREASE_AMOUNT,
-            },
-        ]));
+        dispatch({
+            type: ActionTypes.LOADING_POSTS,
+            data: true,
+            channelId,
+        });
 
         const page = Math.floor(currentPostVisibility / POST_INCREASE_AMOUNT);
 
@@ -198,13 +190,25 @@ export function increasePostVisibility(channelId, focusedPostId) {
         }
         const posts = result.data;
 
-        dispatch({
+        const actions = [{
             type: ActionTypes.LOADING_POSTS,
             data: false,
             channelId,
-        });
+        }];
 
-        return posts ? posts.order.length >= POST_INCREASE_AMOUNT : false;
+        if (posts) {
+            actions.push({
+                type: ActionTypes.INCREASE_POST_VISIBILITY,
+                data: channelId,
+                amount: posts.order.length,
+            });
+        }
+
+        dispatch(batchActions(actions));
+        return {
+            moreToLoad: posts ? posts.order.length >= POST_INCREASE_AMOUNT : false,
+            error: result.error,
+        };
     };
 }
 
@@ -218,22 +222,12 @@ export function searchForTerm(term) {
 export function pinPost(postId) {
     return async (dispatch) => {
         await dispatch(PostActions.pinPost(postId));
-
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_POST_PINNED,
-            postId,
-        });
     };
 }
 
 export function unpinPost(postId) {
     return async (dispatch) => {
         await dispatch(PostActions.unpinPost(postId));
-
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_POST_UNPINNED,
-            postId,
-        });
     };
 }
 
@@ -298,12 +292,6 @@ export function deleteAndRemovePost(post) {
         dispatch({
             type: PostTypes.REMOVE_POST,
             data: post,
-        });
-
-        // Needed for search store
-        AppDispatcher.handleViewAction({
-            type: Constants.ActionTypes.REMOVE_POST,
-            post,
         });
 
         return {data: true};

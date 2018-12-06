@@ -7,6 +7,7 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+import {IntegrationTypes} from 'mattermost-redux/action_types';
 
 import {openModal} from 'actions/views/modals';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -99,6 +100,10 @@ export function executeCommand(message, args) {
         if (msg.trim() === '/logout') {
             GlobalActions.emitUserLoggedOutEvent(hasGotoLocation ? data.goto_location : '/');
             return {data: true};
+        }
+
+        if (data.trigger_id) {
+            dispatch({type: IntegrationTypes.RECEIVED_DIALOG_TRIGGER_ID, data: data.trigger_id});
         }
 
         if (hasGotoLocation) {

@@ -75,7 +75,9 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
           </Connect(ShowMore)>
           <img
             className="attachment__image"
+            height={200}
             src="image_url"
+            width={200}
           />
           <div
             className="attachment-actions"
@@ -96,7 +98,9 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
           className="attachment__thumb-container"
         >
           <img
+            height={75}
             src="thumb_url"
+            width={75}
           />
         </div>
         <div
@@ -187,14 +191,18 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
           </Connect(ShowMore)>
           <img
             className="attachment__image"
+            height={200}
             src="image_url"
+            width={200}
           />
         </div>
         <div
           className="attachment__thumb-container"
         >
           <img
+            height={75}
             src="thumb_url"
+            width={75}
           />
         </div>
         <div

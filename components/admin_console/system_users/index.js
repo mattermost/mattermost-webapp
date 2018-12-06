@@ -3,12 +3,15 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getTeams, getTeamStats} from 'mattermost-redux/actions/teams';
 import {getUser, getUserAccessToken} from 'mattermost-redux/actions/users';
 import {getTeamsList} from 'mattermost-redux/selectors/entities/teams';
 import {getUsers} from 'mattermost-redux/selectors/entities/users';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {Stats} from 'mattermost-redux/constants';
+
+import {loadProfilesAndTeamMembers} from 'actions/user_actions.jsx';
 
 import {setSystemUsersSearch} from 'actions/views/search';
 import {SearchUserTeamFilter} from 'utils/constants.jsx';
@@ -64,6 +67,7 @@ function mapDispatchToProps(dispatch) {
             getTeamStats,
             getUser,
             getUserAccessToken,
+            loadProfilesAndTeamMembers,
             setSystemUsersSearch,
         }, dispatch),
     };

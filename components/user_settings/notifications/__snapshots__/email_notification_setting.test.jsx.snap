@@ -122,6 +122,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     >
       <li
         className="col-sm-12 section-title"
+        id="settingTitle"
       >
         Email notifications
       </li>
@@ -486,6 +487,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     >
       <li
         className="col-sm-12 section-title"
+        id="settingTitle"
       >
         Email notifications
       </li>

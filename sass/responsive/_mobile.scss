@@ -263,7 +263,6 @@
         &:not(.post--compact) {
             .bot-indicator {
                 left: 6px;
-                position: absolute;
                 top: 31px;
             }
         }
@@ -633,10 +632,6 @@
         margin-bottom: 30px;
         padding: 60px 10px 0;
 
-        .min-height--fill {
-            min-height: calc(100vh - 526px);
-        }
-
         .signup-team__name {
             font-size: 2em;
         }
@@ -700,6 +695,7 @@
                 }
 
                 .close {
+                    overflow: hidden;
                     font-size: 27px;
                     font-weight: normal;
                     margin-top: -2px;
@@ -862,7 +858,6 @@
                     .nav {
                         > li {
                             > a {
-                                border-bottom: 1px solid transparent;
                                 font-size: 1.1em;
                                 line-height: 2.7;
 
@@ -990,10 +985,9 @@
                 > li {
                     > a,
                     > button {
-                        border-bottom: 1px solid alpha-color($white, .3);
                         color: $white;
                         font-weight: 600;
-                        line-height: 35px;
+                        line-height: 32px;
                         margin: 0 auto;
                         text-align: center;
                         width: 70%;
@@ -1001,6 +995,16 @@
                         &:hover {
                             background: transparent;
                         }
+                    }
+
+                    .navbar-right__icon {
+                        margin: 10px;
+                    }
+
+                    hr {
+                        border-bottom: 1px solid alpha-color($white, .3);
+                        margin: 8px auto;
+                        width: 70%;
                     }
                 }
             }
@@ -1277,12 +1281,14 @@
 
         .sidebar__search-clear {
             color: inherit;
-            display: block;
             height: 32px;
             margin-right: 0;
             text-align: center;
             top: 0;
             width: 42px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
             &.visible {
                 visibility: visible;
@@ -1294,7 +1300,6 @@
             font-weight: 700;
             line-height: 0;
             position: relative;
-            top: 9px;
         }
 
         .sidebar--right__close {
@@ -1440,6 +1445,12 @@
 }
 
 @media screen and (max-width: 640px) {
+    body {
+        &.browser--ie {
+            min-width: 600px;
+        }
+    }
+
     .multi-select__help {
         flex-direction: column;
 
@@ -1507,6 +1518,23 @@
             }
 
             .about-modal {
+                .modal-content {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .modal-header {
+                    flex: 0 0 70px;
+                    padding: 0 25px;
+                }
+
+                .modal-footer {
+                    position: relative;
+                }
+
+                .modal-body {
+                    max-height: 100%;
+                }
                 .about-modal__content {
                     display: block;
                 }
@@ -1539,9 +1567,24 @@
             }
 
             .more-modal {
+                .modal-content {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .modal-header {
+                    flex: 0 0 56px;
+                }
+
                 .modal-body {
-                    max-height: calc(100vh - 62px);
-                    padding-bottom: 5px;
+                    flex: 1 1 auto;
+                    max-height: 100%;
+                    display: flex;
+                }
+
+                .filtered-user-list {
+                    flex: 1 1 auto;
+                    height: auto;
                 }
             }
         }
@@ -1813,10 +1856,43 @@
     }
 }
 
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 803px) {
     .signup-team__container {
-        .min-height--fill {
-            min-height: 0;
+        .terms-of-service-error__height--fill {
+            min-height: calc(100vh - 121px - 4em);
+            height: calc(100vh - 121px - 4em);
+        }
+    }
+}
+
+@media screen and (max-width: 449px) {
+    .signup-team__container {
+        .terms-of-service-error__height--fill {
+            min-height: calc(100vh - 138px - 4em);
+            height: calc(100vh - 138px - 4em);
+        }
+    }
+}
+
+@media screen and (max-width: 351px) {
+    .signup-team__container {
+        .terms-of-service-error__height--fill {
+            min-height: calc(100vh - 145px - 4em);
+            height: calc(100vh - 145px - 4em);
+        }
+    }
+}
+
+@media screen and (max-width: 263px) {
+    .signup-team__container {
+        .terms-of-service-error__height--fill {
+            min-height: calc(100vh - 173px - 4em);
+            height: calc(100vh - 173px - 4em);
+        }
+
+        .terms-of-service__height--fill {
+            min-height: calc(100vh - 100px - 3em);
+            height: calc(100vh - 100px - 3em);
         }
     }
 }

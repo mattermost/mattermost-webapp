@@ -22,7 +22,7 @@ import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
-import Textbox from 'components/textbox.jsx';
+import Textbox from 'components/textbox';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export default class CreateComment extends React.PureComponent {
@@ -445,7 +445,9 @@ export default class CreateComment extends React.PureComponent {
 
         if (allowSending) {
             e.persist();
-            this.refs.textbox.blur();
+            if (this.refs.textbox) {
+                this.refs.textbox.getWrappedInstance().blur();
+            }
 
             if (withClosedCodeBlock && message) {
                 const {draft} = this.state;
@@ -496,7 +498,7 @@ export default class CreateComment extends React.PureComponent {
         if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.UP) && message === '') {
             e.preventDefault();
             if (this.refs.textbox) {
-                this.refs.textbox.blur();
+                this.refs.textbox.getWrappedInstance().blur();
             }
 
             const {data: canEditNow} = this.props.onEditLatestPost();
@@ -646,7 +648,7 @@ export default class CreateComment extends React.PureComponent {
     }
 
     getFileUploadTarget = () => {
-        return this.refs.textbox;
+        return this.refs.textbox.getWrappedInstance();
     }
 
     getCreateCommentControls = () => {
@@ -655,7 +657,7 @@ export default class CreateComment extends React.PureComponent {
 
     focusTextbox = (keepFocus = false) => {
         if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
-            this.refs.textbox.focus();
+            this.refs.textbox.getWrappedInstance().focus();
         }
     }
 

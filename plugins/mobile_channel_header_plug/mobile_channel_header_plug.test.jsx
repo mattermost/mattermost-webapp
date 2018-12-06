@@ -26,6 +26,9 @@ describe('plugins/MobileChannelHeaderPlug', () => {
             />
         );
         expect(wrapper).toMatchSnapshot();
+
+        // Render nothing
+        expect(wrapper.find('li').exists()).toBe(false);
     });
 
     test('should match snapshot with one extended component', () => {
@@ -40,10 +43,11 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         );
         expect(wrapper).toMatchSnapshot();
 
-        wrapper.instance().fireAction = jest.fn();
-        expect(wrapper.find('button').exists()).toEqual(true);
-        expect(wrapper.find('li').exists()).toEqual(false);
+        // Render a single list item containing a button
+        expect(wrapper.find('li')).toHaveLength(1);
+        expect(wrapper.find('button')).toHaveLength(1);
 
+        wrapper.instance().fireAction = jest.fn();
         wrapper.find('button').first().simulate('click');
         expect(wrapper.instance().fireAction).toHaveBeenCalledTimes(1);
         expect(wrapper.instance().fireAction).toBeCalledWith(testPlug);
@@ -60,6 +64,9 @@ describe('plugins/MobileChannelHeaderPlug', () => {
             />
         );
         expect(wrapper).toMatchSnapshot();
+
+        // Render nothing
+        expect(wrapper.find('li').exists()).toBe(false);
     });
 
     test('should match snapshot with no extended component, in dropdown', () => {
@@ -73,6 +80,9 @@ describe('plugins/MobileChannelHeaderPlug', () => {
             />
         );
         expect(wrapper).toMatchSnapshot();
+
+        // Render nothing
+        expect(wrapper.find('li').exists()).toBe(false);
     });
 
     test('should match snapshot with one extended component, in dropdown', () => {
@@ -87,9 +97,9 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         );
         expect(wrapper).toMatchSnapshot();
 
-        wrapper.instance().fireAction = jest.fn();
-        expect(wrapper.find('button').exists()).toEqual(true);
-        expect(wrapper.find('li').exists()).toEqual(false);
+        // Render a single list item containing a button
+        expect(wrapper.find('li')).toHaveLength(1);
+        expect(wrapper.find('button')).toHaveLength(1);
     });
 
     test('should match snapshot with two extended components, in dropdown', () => {
@@ -104,9 +114,12 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         );
         expect(wrapper).toMatchSnapshot();
 
+        // Render a two list items containing anchors
+        expect(wrapper.find('li')).toHaveLength(2);
+        expect(wrapper.find('button')).toHaveLength(0);
+        expect(wrapper.find('a')).toHaveLength(2);
+
         wrapper.instance().fireAction = jest.fn();
-        expect(wrapper.find('button').exists()).toEqual(false);
-        expect(wrapper.find('li').exists()).toEqual(true);
 
         wrapper.find('a').first().simulate('click');
         expect(wrapper.instance().fireAction).toHaveBeenCalledTimes(1);

@@ -17,7 +17,6 @@ export default class CommentedOnFilesMessage extends React.PureComponent {
          * An array of file metadata for the parent post
          */
         fileInfos: PropTypes.arrayOf(PropTypes.object),
-
         actions: PropTypes.shape({
 
             /*

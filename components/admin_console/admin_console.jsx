@@ -18,6 +18,7 @@ import EmailSettings from 'components/admin_console/email_settings.jsx';
 import MessageExportSettings from 'components/admin_console/message_export_settings';
 import PasswordSettings from 'components/admin_console/password_settings.jsx';
 import GroupDetails from 'components/admin_console/group_settings/group_details';
+import CustomTermsOfServiceSettings from 'components/admin_console/custom_terms_of_service_settings';
 
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 import PushSettings from 'components/admin_console/push_settings.jsx';
@@ -502,6 +503,11 @@ export default class AdminConsole extends React.Component {
                                             ...extraProps,
                                             schema: AdminDefinition.settings.customization.legal_and_support.schema,
                                         }}
+                                    />
+                                    <SCRoute
+                                        path={`${props.match.url}/custom_terms_of_service`}
+                                        component={CustomTermsOfServiceSettings}
+                                        extraProps={extraProps}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/native_app_links`}

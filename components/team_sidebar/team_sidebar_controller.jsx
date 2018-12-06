@@ -74,6 +74,7 @@ export default class TeamSidebar extends React.PureComponent {
                         />
                     }
                     content={'+'}
+                    switchTeam={this.props.actions.switchTeam}
                 />
             );
         } else {
@@ -92,6 +93,7 @@ export default class TeamSidebar extends React.PureComponent {
                             />
                         }
                         content={'+'}
+                        switchTeam={this.props.actions.switchTeam}
                     />
                 </SystemPermissionGate>
             );

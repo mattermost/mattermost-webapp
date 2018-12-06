@@ -10,10 +10,6 @@ import CreateComment from 'components/create_comment/create_comment.jsx';
 import FileUpload from 'components/file_upload';
 import FilePreview from 'components/file_preview/file_preview.jsx';
 
-jest.mock('stores/post_store.jsx', () => ({
-    clearCommentDraftUploads: jest.fn(),
-}));
-
 describe('components/CreateComment', () => {
     const channelId = 'g6139tbospd18cmxroesdk3kkc';
     const rootId = '';
@@ -700,7 +696,9 @@ describe('components/CreateComment', () => {
         const instance = wrapper.instance();
         instance.commentMsgKeyPress = jest.fn();
         instance.focusTextbox = jest.fn();
-        instance.refs = {textbox: {blur: jest.fn(), focus: jest.fn()}};
+        const blur = jest.fn();
+        const focus = jest.fn();
+        instance.refs = {textbox: {getWrappedInstance: () => ({blur, focus})}};
 
         const commentMsgKey = {
             preventDefault: jest.fn(),
@@ -741,7 +739,7 @@ describe('components/CreateComment', () => {
         instance.handleKeyDown(upKeyForEdit);
         expect(upKeyForEdit.preventDefault).toHaveBeenCalledTimes(1);
         expect(onEditLatestPost).toHaveBeenCalledTimes(1);
-        expect(instance.refs.textbox.blur).toHaveBeenCalledTimes(1);
+        expect(blur).toHaveBeenCalledTimes(1);
 
         instance.handleKeyDown(upKeyForEdit);
         expect(upKeyForEdit.preventDefault).toHaveBeenCalledTimes(2);

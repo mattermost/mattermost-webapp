@@ -53,6 +53,7 @@ export default class ChannelHeader extends React.PureComponent {
         rhsState: PropTypes.oneOf(
             Object.values(RHSStates),
         ),
+        isQuickSwitcherOpen: PropTypes.bool,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
             unfavoriteChannel: PropTypes.func.isRequired,
@@ -79,7 +80,6 @@ export default class ChannelHeader extends React.PureComponent {
         const showSearchBar = Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE;
         this.state = {
             showSearchBar,
-            showQuickSwitch: false,
         };
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
@@ -214,17 +214,15 @@ export default class ChannelHeader extends React.PureComponent {
     }
 
     toggleQuickSwitchModal = () => {
-        const {showQuickSwitch} = this.state;
-        if (showQuickSwitch) {
+        const {isQuickSwitcherOpen} = this.props;
+        if (isQuickSwitcherOpen) {
+            this.props.actions.closeModal(ModalIdentifiers.QUICK_SWITCH);
+        } else {
             this.props.actions.openModal({
                 modalId: ModalIdentifiers.QUICK_SWITCH,
                 dialogType: QuickSwitchModal,
             });
-        } else {
-            this.props.actions.closeModal(ModalIdentifiers.QUICK_SWITCH);
         }
-
-        this.setState({showQuickSwitch: !showQuickSwitch});
     }
 
     render() {

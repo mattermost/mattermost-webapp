@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {loadProfilesAndTeamMembers, loadTeamMembersForProfilesList} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 
@@ -24,8 +23,10 @@ export default class MemberListTeam extends React.Component {
         actions: PropTypes.shape({
             searchProfiles: PropTypes.func.isRequired,
             getTeamStats: PropTypes.func.isRequired,
-            setModalSearchTerm: PropTypes.func.isRequired,
+            loadProfilesAndTeamMembers: PropTypes.func.isRequired,
             loadStatusesForProfilesList: PropTypes.func.isRequired,
+            loadTeamMembersForProfilesList: PropTypes.func.isRequired,
+            setModalSearchTerm: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -40,7 +41,12 @@ export default class MemberListTeam extends React.Component {
     }
 
     componentDidMount() {
-        loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, this.props.currentTeamId, this.loadComplete);
+        this.props.actions.loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, this.props.currentTeamId).then(({data}) => {
+            if (data) {
+                this.loadComplete();
+            }
+        });
+
         this.props.actions.getTeamStats(this.props.currentTeamId);
     }
 
@@ -61,7 +67,12 @@ export default class MemberListTeam extends React.Component {
 
             const searchTimeoutId = setTimeout(
                 async () => {
-                    const {data} = await this.props.actions.searchProfiles(searchTerm, {team_id: nextProps.currentTeamId});
+                    const {
+                        loadStatusesForProfilesList,
+                        loadTeamMembersForProfilesList,
+                        searchProfiles,
+                    } = nextProps.actions;
+                    const {data} = await searchProfiles(searchTerm, {team_id: nextProps.currentTeamId});
 
                     if (searchTimeoutId !== this.searchTimeoutId) {
                         return;
@@ -69,8 +80,12 @@ export default class MemberListTeam extends React.Component {
 
                     this.setState({loading: true});
 
-                    this.props.actions.loadStatusesForProfilesList(data);
-                    loadTeamMembersForProfilesList(data, nextProps.currentTeamId, this.loadComplete);
+                    loadStatusesForProfilesList(data);
+                    loadTeamMembersForProfilesList(data, nextProps.currentTeamId).then(({data: membersLoaded}) => {
+                        if (membersLoaded) {
+                            this.loadComplete();
+                        }
+                    });
                 },
                 Constants.SEARCH_TIMEOUT_MILLISECONDS
             );
@@ -83,8 +98,8 @@ export default class MemberListTeam extends React.Component {
         this.setState({loading: false});
     }
 
-    nextPage(page) {
-        loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE);
+    nextPage = (page) => {
+        this.props.actions.loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE);
     }
 
     search = (term) => {

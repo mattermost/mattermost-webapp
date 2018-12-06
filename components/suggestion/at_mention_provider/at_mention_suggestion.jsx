@@ -3,19 +3,12 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import XRegExp from 'xregexp';
 
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-
-import {autocompleteUsersInChannel} from 'actions/user_actions.jsx';
-import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-import store from 'stores/redux_store.jsx';
 
-import Provider from './provider.jsx';
-import Suggestion from './suggestion.jsx';
+import Suggestion from '../suggestion.jsx';
 
-class AtMentionSuggestion extends Suggestion {
+export default class AtMentionSuggestion extends Suggestion {
     render() {
         const isSelection = this.props.isSelection;
         const user = this.props.item;
@@ -105,70 +98,5 @@ class AtMentionSuggestion extends Suggestion {
                 </span>
             </div>
         );
-    }
-}
-
-export default class AtMentionProvider extends Provider {
-    constructor(channelId) {
-        super();
-
-        this.channelId = channelId;
-    }
-
-    handlePretextChanged(pretext, resultCallback) {
-        const captured = XRegExp.cache('(?:^|\\W)@([\\pL\\d\\-_.]*)$', 'i').exec(pretext.toLowerCase());
-        if (!captured) {
-            return false;
-        }
-
-        const prefix = captured[1];
-
-        this.startNewRequest(prefix);
-
-        autocompleteUsersInChannel(
-            prefix,
-            this.channelId,
-            (data) => {
-                if (this.shouldCancelDispatch(prefix)) {
-                    return;
-                }
-
-                const members = Object.assign([], data.users);
-                for (const id of Object.keys(members)) {
-                    members[id] = {...members[id], type: Constants.MENTION_MEMBERS};
-                }
-
-                const nonmembers = data.out_of_channel || [];
-                for (const id of Object.keys(nonmembers)) {
-                    nonmembers[id] = {...nonmembers[id], type: Constants.MENTION_NONMEMBERS};
-                }
-
-                let specialMentions = [];
-                if (!pretext.startsWith('/msg')) {
-                    specialMentions = ['here', 'channel', 'all'].filter((item) => {
-                        return item.startsWith(prefix);
-                    }).map((name) => {
-                        return {username: name, type: Constants.MENTION_SPECIAL};
-                    });
-                }
-
-                let users = members.concat(specialMentions).concat(nonmembers);
-                const currentUserId = getCurrentUserId(store.getState());
-                users = users.filter((user) => {
-                    return user.id !== currentUserId;
-                });
-
-                const mentions = users.map((user) => '@' + user.username);
-
-                resultCallback({
-                    matchedPretext: `@${captured[1]}`,
-                    terms: mentions,
-                    items: users,
-                    component: AtMentionSuggestion,
-                });
-            }
-        );
-
-        return true;
     }
 }

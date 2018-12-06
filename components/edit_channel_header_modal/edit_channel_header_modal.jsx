@@ -1,14 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {Modal} from 'react-bootstrap';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import {RequestStatus} from 'mattermost-redux/constants';
 
-import Textbox from 'components/textbox.jsx';
+import Textbox from 'components/textbox';
 import Constants from 'utils/constants.jsx';
 import {isMobile} from 'utils/user_agent.jsx';
 import {isKeyPressed, localizeMessage} from 'utils/utils.jsx';
@@ -109,7 +108,13 @@ class EditChannelHeaderModal extends React.PureComponent {
 
     focusTextbox = () => {
         if (this.refs.editChannelHeaderTextbox) {
-            this.refs.editChannelHeaderTextbox.focus();
+            this.refs.editChannelHeaderTextbox.getWrappedInstance().focus();
+        }
+    }
+
+    blurTextbox = () => {
+        if (this.refs.editChannelHeaderTextbox) {
+            this.refs.editChannelHeaderTextbox.getWrappedInstance().blur();
         }
     }
 
@@ -129,7 +134,7 @@ class EditChannelHeaderModal extends React.PureComponent {
         if (!isMobile() && ((ctrlSend && e.ctrlKey) || !ctrlSend)) {
             if (isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
                 e.preventDefault();
-                ReactDOM.findDOMNode(this.refs.editChannelHeaderTextbox).blur();
+                this.blurTextbox();
                 this.handleSave(e);
             }
         }
