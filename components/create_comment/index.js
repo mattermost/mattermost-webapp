@@ -28,41 +28,45 @@ import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
 
 import CreateComment from './create_comment.jsx';
 
-function mapStateToProps(state, ownProps) {
-    const err = state.requests.posts.createPost.error || {};
+function makeMapStateToProps() {
+    const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT);
 
-    const draft = getPostDraft(state, StoragePrefixes.COMMENT_DRAFT, ownProps.rootId);
-    const enableAddButton = draft.message.trim().length !== 0 || draft.fileInfos.length !== 0;
+    return (state, ownProps) => {
+        const err = state.requests.posts.createPost.error || {};
 
-    const channelMembersCount = getAllChannelStats(state)[ownProps.channelId] ? getAllChannelStats(state)[ownProps.channelId].member_count : 1;
-    const messageInHistory = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT)(state);
+        const draft = getPostDraft(state, StoragePrefixes.COMMENT_DRAFT, ownProps.rootId);
+        const enableAddButton = draft.message.trim().length !== 0 || draft.fileInfos.length !== 0;
 
-    const channel = state.entities.channels.channels[ownProps.channelId] || {};
+        const channelMembersCount = getAllChannelStats(state)[ownProps.channelId] ? getAllChannelStats(state)[ownProps.channelId].member_count : 1;
+        const messageInHistory = getMessageInHistoryItem(state);
 
-    const config = getConfig(state);
-    const enableConfirmNotificationsToChannel = config.EnableConfirmNotificationsToChannel === 'true';
-    const enableEmojiPicker = config.EnableEmojiPicker === 'true';
-    const enableGifPicker = config.EnableGifPicker === 'true';
-    const badConnection = connectionErrorCount(state) > 1;
-    const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
+        const channel = state.entities.channels.channels[ownProps.channelId] || {};
 
-    return {
-        draft,
-        messageInHistory,
-        enableAddButton,
-        channelMembersCount,
-        codeBlockOnCtrlEnter: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
-        ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
-        createPostErrorId: err.server_error_id,
-        readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL,
-        enableConfirmNotificationsToChannel,
-        enableEmojiPicker,
-        enableGifPicker,
-        locale: getCurrentLocale(state),
-        maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
-        rhsExpanded: getIsRhsExpanded(state),
-        badConnection,
-        isTimezoneEnabled,
+        const config = getConfig(state);
+        const enableConfirmNotificationsToChannel = config.EnableConfirmNotificationsToChannel === 'true';
+        const enableEmojiPicker = config.EnableEmojiPicker === 'true';
+        const enableGifPicker = config.EnableGifPicker === 'true';
+        const badConnection = connectionErrorCount(state) > 1;
+        const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
+
+        return {
+            draft,
+            messageInHistory,
+            enableAddButton,
+            channelMembersCount,
+            codeBlockOnCtrlEnter: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
+            ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
+            createPostErrorId: err.server_error_id,
+            readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL,
+            enableConfirmNotificationsToChannel,
+            enableEmojiPicker,
+            enableGifPicker,
+            locale: getCurrentLocale(state),
+            maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
+            rhsExpanded: getIsRhsExpanded(state),
+            badConnection,
+            isTimezoneEnabled,
+        };
     };
 }
 
@@ -119,4 +123,4 @@ function makeMapDispatchToProps() {
     };
 }
 
-export default connect(mapStateToProps, makeMapDispatchToProps)(CreateComment);
+export default connect(makeMapStateToProps, makeMapDispatchToProps)(CreateComment);

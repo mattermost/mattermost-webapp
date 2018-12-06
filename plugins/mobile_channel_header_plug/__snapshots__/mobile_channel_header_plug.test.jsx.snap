@@ -40,18 +40,22 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   isDropdown={false}
   theme={Object {}}
 >
-  <button
-    className="navbar-toggle navbar-right__icon"
-    onClick={[Function]}
+  <li
+    className="flex-parent--center"
   >
-    <span
-      className="icon navbar-plugin-button"
+    <button
+      className="navbar-toggle navbar-right__icon"
+      onClick={[Function]}
     >
-      <i
-        className="fa fa-anchor"
-      />
-    </span>
-  </button>
+      <span
+        className="icon navbar-plugin-button"
+      >
+        <i
+          className="fa fa-anchor"
+        />
+      </span>
+    </button>
+  </li>
 </MobileChannelHeaderPlug>
 `;
 
@@ -75,18 +79,22 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   isDropdown={true}
   theme={Object {}}
 >
-  <button
-    className="navbar-toggle navbar-right__icon"
-    onClick={[Function]}
+  <li
+    className="flex-parent--center"
   >
-    <span
-      className="icon navbar-plugin-button"
+    <button
+      className="navbar-toggle navbar-right__icon"
+      onClick={[Function]}
     >
-      <i
-        className="fa fa-anchor"
-      />
-    </span>
-  </button>
+      <span
+        className="icon navbar-plugin-button"
+      >
+        <i
+          className="fa fa-anchor"
+        />
+      </span>
+    </button>
+  </li>
 </MobileChannelHeaderPlug>
 `;
 

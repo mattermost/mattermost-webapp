@@ -601,7 +601,7 @@ export default class UserSettingsDisplay extends React.Component {
             defaultDisplay: Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
             title: {
                 id: t('user.settings.display.channelDisplayTitle'),
-                message: 'Channel Display Mode',
+                message: 'Channel Display',
             },
             firstOption: {
                 value: Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,

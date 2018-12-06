@@ -13,6 +13,7 @@ import store from 'stores/redux_store.jsx';
 import * as Emoticons from 'utils/emoticons.jsx';
 
 import Suggestion from './suggestion.jsx';
+import Provider from './provider.jsx';
 
 const MIN_EMOTICON_LENGTH = 2;
 const EMOJI_CATEGORY_SUGGESTION_BLACKLIST = ['skintone'];
@@ -49,7 +50,7 @@ class EmoticonSuggestion extends Suggestion {
     }
 }
 
-export default class EmoticonProvider {
+export default class EmoticonProvider extends Provider {
     handlePretextChanged(pretext, resultsCallback) {
         // Look for the potential emoticons at the start of the text, after whitespace, and at the start of emoji reaction commands
         const captured = (/(^|\s|^\+|^-)(:([^:\s]*))$/g).exec(pretext);

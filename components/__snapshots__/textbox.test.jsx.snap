@@ -24,7 +24,7 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
     providers={
       Array [
         AtMentionProvider {
-          "autocompleteUsersInChannel": [MockFunction],
+          "autocompleteUsersInChannel": [Function],
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
@@ -57,7 +57,12 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
           "latestPrefix": "",
           "requestStarted": false,
         },
-        EmoticonProvider {},
+        EmoticonProvider {
+          "disableDispatches": false,
+          "latestComplete": true,
+          "latestPrefix": "",
+          "requestStarted": false,
+        },
       ]
     }
     renderDividers={true}
@@ -174,7 +179,7 @@ exports[`components/TextBox should throw error when new property is too long 1`]
     providers={
       Array [
         AtMentionProvider {
-          "autocompleteUsersInChannel": [MockFunction],
+          "autocompleteUsersInChannel": [Function],
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
@@ -207,7 +212,12 @@ exports[`components/TextBox should throw error when new property is too long 1`]
           "latestPrefix": "",
           "requestStarted": false,
         },
-        EmoticonProvider {},
+        EmoticonProvider {
+          "disableDispatches": false,
+          "latestComplete": true,
+          "latestPrefix": "",
+          "requestStarted": false,
+        },
       ]
     }
     renderDividers={true}
@@ -324,7 +334,7 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
     providers={
       Array [
         AtMentionProvider {
-          "autocompleteUsersInChannel": [MockFunction],
+          "autocompleteUsersInChannel": [Function],
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
@@ -357,7 +367,12 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
           "latestPrefix": "",
           "requestStarted": false,
         },
-        EmoticonProvider {},
+        EmoticonProvider {
+          "disableDispatches": false,
+          "latestComplete": true,
+          "latestPrefix": "",
+          "requestStarted": false,
+        },
       ]
     }
     renderDividers={true}
