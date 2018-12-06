@@ -142,6 +142,12 @@ export default class SuggestionBox extends React.Component {
 
         this.pretext = '';
 
+        // An override of the provided prop to indicate whether dividers should be shown in the autocomplete results.
+        // This isn't ideal, because the component accepts a `renderDividers` prop which this is being used to override
+        // on a per-provider basis. There's probably a better solution by re-architecting providers to control how their
+        // dividers work on a per-provider basis so this wouldn't be necessary.
+        this.allowDividers = true;
+
         // pretext: the text before the cursor
         // matchedPretext: a list of the text before the cursor that will be replaced if the corresponding autocomplete term is selected
         // terms: a list of strings which the previously typed text may be replaced by
@@ -395,6 +401,12 @@ export default class SuggestionBox extends React.Component {
         });
     }
 
+    setSelection = (term) => {
+        this.setState({
+            selection: term,
+        });
+    }
+
     clear = () => {
         this.setState({
             cleared: true,
@@ -484,6 +496,12 @@ export default class SuggestionBox extends React.Component {
                     this.presentationType = 'text';
                 }
 
+                if (provider.constructor.name === 'SearchUserProvider') {
+                    this.allowDividers = false;
+                } else {
+                    this.allowDividers = true;
+                }
+
                 break;
             }
         }
@@ -517,10 +535,11 @@ export default class SuggestionBox extends React.Component {
             listComponent,
             dateComponent,
             listStyle,
-            renderDividers,
             renderNoResults,
             ...props
         } = this.props;
+
+        const renderDividers = this.props.renderDividers && this.allowDividers;
 
         // Don't pass props used by SuggestionBox
         Reflect.deleteProperty(props, 'providers');
@@ -535,6 +554,7 @@ export default class SuggestionBox extends React.Component {
         Reflect.deleteProperty(props, 'onBlur');
         Reflect.deleteProperty(props, 'containerClass');
         Reflect.deleteProperty(props, 'replaceAllInputOnSelect');
+        Reflect.deleteProperty(props, 'renderDividers');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
@@ -564,6 +584,7 @@ export default class SuggestionBox extends React.Component {
                         renderDividers={renderDividers}
                         renderNoResults={renderNoResults}
                         onCompleteWord={this.handleCompleteWord}
+                        onItemHover={this.setSelection}
                         cleared={this.state.cleared}
                         matchedPretext={this.state.matchedPretext}
                         items={this.state.items}

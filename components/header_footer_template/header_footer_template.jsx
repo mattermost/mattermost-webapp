@@ -97,12 +97,23 @@ export default class NotLoggedIn extends React.PureComponent {
                     {this.props.children}
                 </div>
                 <div className='row footer'>
-                    <div className='footer-pane col-xs-12'>
+                    <div
+                        id='footer_section'
+                        className='footer-pane col-xs-12'
+                    >
                         <div className='col-xs-12'>
-                            <span className='pull-right footer-site-name'>{'Mattermost'}</span>
+                            <span
+                                id='company_name'
+                                className='pull-right footer-site-name'
+                            >
+                                {'Mattermost'}
+                            </span>
                         </div>
                         <div className='col-xs-12'>
-                            <span className='pull-right footer-link copyright'>
+                            <span
+                                id='copyright'
+                                className='pull-right footer-link copyright'
+                            >
                                 {`© 2015-${new Date().getFullYear()} Mattermost, Inc.`}
                             </span>
                             <span className='pull-right'>

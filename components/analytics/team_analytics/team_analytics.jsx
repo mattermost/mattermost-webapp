@@ -17,6 +17,8 @@ import StatisticCount from 'components/analytics/statistic_count.jsx';
 import TableChart from 'components/analytics/table_chart.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
+
 import {getMonthLong} from 'utils/i18n';
 
 import {formatPostsPerDayData, formatUsersWithPostsPerDayData} from '../format.jsx';
@@ -234,15 +236,13 @@ export default class TeamAnalytics extends React.Component {
             <div className='wrapper--fixed team_statistics'>
                 <div className='admin-console-header team-statistics__header-row'>
                     <div className='team-statistics__header'>
-                        <h3 className='admin-console-header'>
-                            <FormattedMessage
-                                id='analytics.team.title'
-                                defaultMessage='Team Statistics for {team}'
-                                values={{
-                                    team: this.state.team.display_name,
-                                }}
-                            />
-                        </h3>
+                        <FormattedAdminHeader
+                            id='analytics.team.title'
+                            defaultMessage='Team Statistics for {team}'
+                            values={{
+                                team: this.state.team.display_name,
+                            }}
+                        />
                     </div>
                     <div className='team-statistics__team-filter'>
                         <select

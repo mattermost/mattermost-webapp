@@ -8,7 +8,6 @@ import {Overlay, OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
-import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
 import {canManageMembers} from 'utils/channel_utils.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -29,6 +28,7 @@ export default class PopoverListMembers extends React.Component {
         teamUrl: PropTypes.string,
         actions: PropTypes.shape({
             getProfilesInChannel: PropTypes.func.isRequired,
+            openDirectChannelToUserId: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -61,21 +61,16 @@ export default class PopoverListMembers extends React.Component {
     };
 
     handleShowDirectChannel = (user) => {
+        const {actions} = this.props;
         const teammateId = user.id;
 
         if (teammateId) {
-            openDirectChannelToUser(
-                teammateId,
-                (channel, channelAlreadyExisted) => {
-                    browserHistory.push(this.props.teamUrl + '/channels/' + channel.name);
-                    if (channelAlreadyExisted) {
-                        this.closePopover();
-                    }
-                },
-                () => {
-                    this.closePopover();
+            actions.openDirectChannelToUserId(teammateId).then(({data}) => {
+                if (data) {
+                    browserHistory.push(this.props.teamUrl + '/channels/' + data.name);
                 }
-            );
+                this.closePopover();
+            });
         }
     };
 

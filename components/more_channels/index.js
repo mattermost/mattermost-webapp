@@ -11,6 +11,8 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {RequestStatus} from 'mattermost-redux/constants';
 
+import {searchMoreChannels} from 'actions/channel_actions.jsx';
+
 import MoreChannels from './more_channels.jsx';
 
 const getNotArchivedOtherChannels = createSelector(
@@ -35,6 +37,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getChannels,
             joinChannel,
+            searchMoreChannels,
         }, dispatch),
     };
 }

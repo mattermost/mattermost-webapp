@@ -32,6 +32,9 @@ import FormError from 'components/form_error.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
+import AdminHeader from 'components/widgets/admin_console/admin_header.jsx';
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
+
 export default class SchemaAdminSettings extends React.Component {
     static propTypes = {
         config: PropTypes.object,
@@ -230,10 +233,19 @@ export default class SchemaAdminSettings extends React.Component {
             return '';
         }
         if (this.props.schema.translate === false) {
-            return this.props.schema.name || this.props.schema.id;
+            return (
+                <AdminHeader>
+                    {this.props.schema.name || this.props.schema.id}
+                </AdminHeader>
+            );
         }
-        return <FormattedMessage id={this.props.schema.name || this.props.schema.id}/>;
-    }
+        return (
+            <FormattedAdminHeader
+                id={this.props.schema.name || this.props.schema.id}
+                defaultMessage={this.props.schema.name_default || this.props.schema.id}
+            />
+        );
+    };
 
     renderBanner = (setting) => {
         if (!this.props.schema) {
@@ -862,9 +874,7 @@ export default class SchemaAdminSettings extends React.Component {
         }
         return (
             <div className='wrapper--fixed'>
-                <h3 className='admin-console-header'>
-                    {this.renderTitle()}
-                </h3>
+                {this.renderTitle()}
                 <form
                     className='form-horizontal'
                     role='form'

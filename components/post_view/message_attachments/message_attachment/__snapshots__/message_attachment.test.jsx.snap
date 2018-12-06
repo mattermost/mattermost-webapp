@@ -1,0 +1,316 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/MessageAttachment should call actions.doPostAction on handleAction 1`] = `
+<div
+  className="attachment attachment--pretext"
+>
+  <div
+    className="attachment__thumb-pretext"
+  >
+    <Connect(Markdown)
+      message="pretext"
+    />
+  </div>
+  <div
+    className="attachment__content"
+  >
+    <div
+      className="clearfix attachment__container"
+      style={
+        Object {
+          "borderLeftColor": "#FFF",
+        }
+      }
+    >
+      <a
+        href="author_link"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <img
+          className="attachment__author-icon"
+          height="14"
+          key="attachment__author-icon"
+          src="author_icon"
+          width="14"
+        />
+        <span
+          className="attachment__author-name"
+          key="attachment__author-name"
+        >
+          author_name
+        </span>
+      </a>
+      <h1
+        className="attachment__title"
+      >
+        <a
+          className="attachment__title-link"
+          href="title_link"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          title
+        </a>
+      </h1>
+      <div>
+        <div
+          className="attachment__body"
+          onClick={[Function]}
+        >
+          <Connect(ShowMore)
+            checkOverflow={0}
+            isAttachmentText={true}
+            maxHeight={200}
+            text="short text"
+          >
+            <Connect(Markdown)
+              imageProps={
+                Object {
+                  "onHeightReceived": [Function],
+                }
+              }
+              message="short text"
+            />
+          </Connect(ShowMore)>
+          <img
+            className="attachment__image"
+            src="image_url"
+          />
+          <div
+            className="attachment-actions"
+          >
+            <ActionButton
+              action={
+                Object {
+                  "id": "action_id_1",
+                  "name": "action_name_1",
+                }
+              }
+              handleAction={[Function]}
+              key="action_id_1"
+            />
+          </div>
+        </div>
+        <div
+          className="attachment__thumb-container"
+        >
+          <img
+            src="thumb_url"
+          />
+        </div>
+        <div
+          style={
+            Object {
+              "clear": "both",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
+<div
+  className="attachment attachment--pretext"
+>
+  <div
+    className="attachment__thumb-pretext"
+  >
+    <Connect(Markdown)
+      message="pretext"
+    />
+  </div>
+  <div
+    className="attachment__content"
+  >
+    <div
+      className="clearfix attachment__container"
+      style={
+        Object {
+          "borderLeftColor": "#FFF",
+        }
+      }
+    >
+      <a
+        href="author_link"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <img
+          className="attachment__author-icon"
+          height="14"
+          key="attachment__author-icon"
+          src="author_icon"
+          width="14"
+        />
+        <span
+          className="attachment__author-name"
+          key="attachment__author-name"
+        >
+          author_name
+        </span>
+      </a>
+      <h1
+        className="attachment__title"
+      >
+        <a
+          className="attachment__title-link"
+          href="title_link"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          title
+        </a>
+      </h1>
+      <div>
+        <div
+          className="attachment__body"
+          onClick={[Function]}
+        >
+          <Connect(ShowMore)
+            checkOverflow={0}
+            isAttachmentText={true}
+            maxHeight={200}
+            text="short text"
+          >
+            <Connect(Markdown)
+              imageProps={
+                Object {
+                  "onHeightReceived": [Function],
+                }
+              }
+              message="short text"
+            />
+          </Connect(ShowMore)>
+          <img
+            className="attachment__image"
+            src="image_url"
+          />
+        </div>
+        <div
+          className="attachment__thumb-container"
+        >
+          <img
+            src="thumb_url"
+          />
+        </div>
+        <div
+          style={
+            Object {
+              "clear": "both",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/MessageAttachment should match value on getActionView 1`] = `""`;
+
+exports[`components/post_view/MessageAttachment should match value on getActionView 2`] = `
+<div
+  className="attachment-actions"
+>
+  <ActionButton
+    action={
+      Object {
+        "id": "action_id_1",
+        "name": "action_name_1",
+      }
+    }
+    handleAction={[Function]}
+  />
+  <ActionButton
+    action={
+      Object {
+        "id": "action_id_2",
+        "name": "action_name_2",
+      }
+    }
+    handleAction={[Function]}
+  />
+  <Connect(ActionMenu)
+    action={
+      Object {
+        "data_source": "users",
+        "id": "action_id_3",
+        "name": "action_name_3",
+        "type": "select",
+      }
+    }
+    postId="post_id"
+  />
+</div>
+`;
+
+exports[`components/post_view/MessageAttachment should match value on getFieldsTable 1`] = `""`;
+
+exports[`components/post_view/MessageAttachment should match value on getFieldsTable 2`] = `
+<div>
+  <table
+    className="attachment-fields"
+  >
+    <thead>
+      <tr />
+    </thead>
+    <tbody>
+      <tr />
+    </tbody>
+  </table>
+  <table
+    className="attachment-fields"
+  >
+    <thead>
+      <tr>
+        <th
+          className="attachment-field__caption"
+          width="50%"
+        >
+          title_1
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          className="attachment-field"
+        >
+          <Connect(Markdown)
+            message="value_1"
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table
+    className="attachment-fields"
+  >
+    <thead>
+      <tr>
+        <th
+          className="attachment-field__caption"
+          width="50%"
+        >
+          title_2
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          className="attachment-field"
+        >
+          <Connect(Markdown)
+            message="value_2"
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;

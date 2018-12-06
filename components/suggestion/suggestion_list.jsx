@@ -18,6 +18,7 @@ export default class SuggestionList extends React.PureComponent {
         renderDividers: PropTypes.bool,
         renderNoResults: PropTypes.bool,
         onCompleteWord: PropTypes.func.isRequired,
+        onItemHover: PropTypes.func.isRequired,
         pretext: PropTypes.string.isRequired,
         cleared: PropTypes.bool.isRequired,
         matchedPretext: PropTypes.array.isRequired,
@@ -165,7 +166,7 @@ export default class SuggestionList extends React.PureComponent {
                     matchedPretext={this.props.matchedPretext[i]}
                     isSelection={isSelection}
                     onClick={this.props.onCompleteWord}
-                    onMouseMove={(t) => SuggestionStore.setSelectionByTerm(this.props.suggestionId, t)}
+                    onMouseMove={this.props.onItemHover}
                 />
             );
         }

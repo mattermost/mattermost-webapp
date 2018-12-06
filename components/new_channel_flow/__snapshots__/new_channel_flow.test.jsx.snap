@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/NewChannelFlow should match snapshot, with base props 1`] = `
+<span>
+  <Connect(NewChannelModal)
+    canCreatePrivateChannel={true}
+    canCreatePublicChannel={true}
+    channelData={
+      Object {
+        "displayName": "",
+        "header": "",
+        "name": "",
+        "purpose": "",
+      }
+    }
+    channelType="O"
+    onChangeURLPressed={[Function]}
+    onDataChanged={[Function]}
+    onModalDismissed={[MockFunction]}
+    onSubmitChannel={[Function]}
+    onTypeSwitched={[Function]}
+    serverError=""
+    show={true}
+  />
+  <Connect(ChangeURLModal)
+    currentURL=""
+    onModalDismissed={[Function]}
+    onModalSubmit={[Function]}
+    serverError=""
+    show={false}
+    submitButtonText=""
+    title=""
+  />
+</span>
+`;

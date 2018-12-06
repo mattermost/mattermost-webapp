@@ -7,6 +7,8 @@ import {FormattedMessage} from 'react-intl';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
+
 import LogList from './log_list.jsx';
 
 export default class Logs extends React.Component {
@@ -84,12 +86,10 @@ export default class Logs extends React.Component {
 
         return (
             <div className='wrapper--admin'>
-                <h3 className='admin-console-header'>
-                    <FormattedMessage
-                        id='admin.logs.title'
-                        defaultMessage='Server Logs'
-                    />
-                </h3>
+                <FormattedAdminHeader
+                    id='admin.logs.title'
+                    defaultMessage='Server Logs'
+                />
                 <div className='banner'>
                     <div className='banner__content'>
                         <FormattedMessage

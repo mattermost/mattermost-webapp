@@ -581,7 +581,7 @@ export default class PluginManagement extends AdminSettings {
 
             pluginsList = plugins.map((pluginStatus) => {
                 const p = this.props.plugins[pluginStatus.id];
-                const hasSettings = Boolean(p.settings_schema && (p.settings_schema.header || p.settings_schema.footer || (p.settings_schema.settings && p.settings_schema.settings.length > 0)));
+                const hasSettings = Boolean(p && p.settings_schema && (p.settings_schema.header || p.settings_schema.footer || (p.settings_schema.settings && p.settings_schema.settings.length > 0)));
                 return (
                     <PluginItem
                         key={pluginStatus.id}

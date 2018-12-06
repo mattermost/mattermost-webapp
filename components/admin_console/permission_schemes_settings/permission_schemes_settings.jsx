@@ -12,6 +12,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
+
 import PermissionsSchemeSummary from './permissions_scheme_summary';
 
 const PAGE_SIZE = 30;
@@ -140,13 +142,10 @@ export default class PermissionSchemesSettings extends React.PureComponent {
 
         return (
             <div className='wrapper--fixed'>
-                <h3 className='admin-console-header'>
-                    <FormattedMessage
-                        id='admin.permissions.permissionSchemes'
-                        defaultMessage='Permission Schemes'
-                    />
-                </h3>
-
+                <FormattedAdminHeader
+                    id='admin.permissions.permissionSchemes'
+                    defaultMessage='Permission Schemes'
+                />
                 <div className={'banner info'}>
                     <div className='banner__content'>
                         <span>
