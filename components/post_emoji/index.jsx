@@ -12,6 +12,7 @@ import {getEmojiMap} from 'selectors/emojis';
 import PostEmoji from './post_emoji.jsx';
 
 function mapStateToProps(state, ownProps) {
+    const config = getConfig(state);
     const emojiMap = getEmojiMap(state);
     const emoji = emojiMap.get(ownProps.name);
 
@@ -21,7 +22,8 @@ function mapStateToProps(state, ownProps) {
         imageUrl = getEmojiImageUrl(emoji);
     } else {
         displayTextOnly = state.entities.emojis.nonExistentEmoji.has(ownProps.name) ||
-            getConfig(state).EnableCustomEmoji !== 'true' ||
+            config.EnableCustomEmoji !== 'true' ||
+            config.ExperimentalEnablePostMetadata === 'true' ||
             getCurrentUserId(state) === '';
     }
 
