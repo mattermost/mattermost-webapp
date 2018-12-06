@@ -303,12 +303,14 @@ export default class MessageAttachment extends React.PureComponent {
         let image;
         if (attachment.image_url) {
             image = (
-                <SizeAwareImage
-                    className='attachment__image'
-                    onHeightReceived={this.handleHeightReceived}
-                    src={attachment.image_url}
-                    dimensions={this.props.imagesMetadata[attachment.image_url]}
-                />
+                <div className='attachment__image-container'>
+                    <SizeAwareImage
+                        className='attachment__image'
+                        onHeightReceived={this.handleHeightReceived}
+                        src={attachment.image_url}
+                        dimensions={this.props.imagesMetadata[attachment.image_url]}
+                    />
+                </div>
             );
         }
 

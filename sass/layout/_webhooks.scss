@@ -206,12 +206,14 @@
             width: 95px;
         }
 
+        .attachment__image-container {
+            max-width: 500px;
+        }
+
         .attachment__image {
             margin-bottom: 1em;
             max-height: 300px;
-            max-width: 500px;
             border: 1px solid transparent;
-            width: 100%;
 
             &.attachment__image--opengraph {
                 margin-bottom: 0;
