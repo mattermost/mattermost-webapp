@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ChannelHeaderDropdown/MenuItem.NotificationPreferences should match snapshot 1`] = `
+<li
+  role="presentation"
+>
+  <Connect(ModalToggleButtonRedux)
+    dialogProps={
+      Object {
+        "channel": Object {
+          "type": "O",
+        },
+        "currentUser": Object {},
+      }
+    }
+    dialogType={[Function]}
+    modalId="channel_notifications"
+    role="menuitem"
+  >
+    <FormattedMessage
+      defaultMessage="Notification Preferences"
+      id="navbar.preferences"
+      values={Object {}}
+    />
+  </Connect(ModalToggleButtonRedux)>
+</li>
+`;

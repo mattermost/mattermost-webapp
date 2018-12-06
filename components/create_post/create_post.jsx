@@ -10,23 +10,24 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx';
-import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox} from 'utils/post_utils.jsx';
+import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand} from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
-import FilePreview from 'components/file_preview.jsx';
+import FilePreview from 'components/file_preview/file_preview.jsx';
 import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
 import EmojiIcon from 'components/svg/emoji_icon';
-import Textbox from 'components/textbox.jsx';
+import Textbox from 'components/textbox';
 import TutorialTip from 'components/tutorial/tutorial_tip';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import MessageSubmitError from 'components/message_submit_error';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -239,6 +240,7 @@ export default class CreatePost extends React.Component {
             showEmojiPicker: false,
             showConfirmModal: false,
             channelMembersCount: 0,
+            uploadsProgressPercent: {},
         };
 
         this.lastBlurAt = 0;
@@ -311,9 +313,18 @@ export default class CreatePost extends React.Component {
             return;
         }
 
+        let message = this.state.message;
+        let ignoreSlash = false;
+        const serverError = this.state.serverError;
+
+        if (serverError && isErrorInvalidSlashCommand(serverError) && serverError.submittedMessage === message) {
+            message = serverError.submittedMessage;
+            ignoreSlash = true;
+        }
+
         const post = {};
         post.file_ids = [];
-        post.message = this.state.message;
+        post.message = message;
 
         if (post.message.trim().length === 0 && this.props.draft.fileInfos.length === 0) {
             return;
@@ -332,7 +343,7 @@ export default class CreatePost extends React.Component {
         this.setState({submitting: true, serverError: null});
 
         const isReaction = Utils.REACTION_PATTERN.exec(post.message);
-        if (post.message.indexOf('/') === 0) {
+        if (post.message.indexOf('/') === 0 && !ignoreSlash) {
             this.setState({message: '', postError: null, enableSendButton: false});
             const args = {};
             args.channel_id = channelId;
@@ -345,7 +356,10 @@ export default class CreatePost extends React.Component {
                             this.sendMessage(post);
                         } else {
                             this.setState({
-                                serverError: error.message,
+                                serverError: {
+                                    ...error,
+                                    submittedMessage: post.message,
+                                },
                                 message: post.message,
                             });
                         }
@@ -513,7 +527,7 @@ export default class CreatePost extends React.Component {
 
     focusTextbox = (keepFocus = false) => {
         if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
-            this.refs.textbox.focus();
+            this.refs.textbox.getWrappedInstance().focus();
         }
     }
 
@@ -524,7 +538,9 @@ export default class CreatePost extends React.Component {
 
         if (allowSending) {
             e.persist();
-            this.refs.textbox.blur();
+            if (this.refs.textbox) {
+                this.refs.textbox.getWrappedInstance().blur();
+            }
 
             if (withClosedCodeBlock && message) {
                 this.setState({message}, () => this.handleSubmit(e));
@@ -540,9 +556,16 @@ export default class CreatePost extends React.Component {
         const message = e.target.value;
         const channelId = this.props.currentChannel.id;
         const enableSendButton = this.handleEnableSendButton(message, this.props.draft.fileInfos);
+
+        let serverError = this.state.serverError;
+        if (isErrorInvalidSlashCommand(serverError)) {
+            serverError = null;
+        }
+
         this.setState({
             message,
             enableSendButton,
+            serverError,
         });
 
         const draft = {
@@ -577,6 +600,11 @@ export default class CreatePost extends React.Component {
         this.focusTextbox();
     }
 
+    handleUploadProgress = ({clientId, name, percent, type}) => {
+        const uploadsProgressPercent = {...this.state.uploadsProgressPercent, [clientId]: {percent, name, type}};
+        this.setState({uploadsProgressPercent});
+    }
+
     handleFileUploadComplete = (fileInfos, clientIds, channelId) => {
         const draft = {...this.draftsForChannel[channelId]};
 
@@ -602,10 +630,9 @@ export default class CreatePost extends React.Component {
     handleUploadError = (err, clientId, channelId) => {
         const draft = {...this.draftsForChannel[channelId]};
 
-        let message = err;
-        if (message && typeof message !== 'string') {
-            // err is an AppError from the server
-            message = err.message;
+        let serverError = err;
+        if (typeof err === 'string') {
+            serverError = new Error(err);
         }
 
         if (clientId !== -1 && draft.uploadsInProgress) {
@@ -622,7 +649,7 @@ export default class CreatePost extends React.Component {
             }
         }
 
-        this.setState({serverError: message});
+        this.setState({serverError});
     }
 
     removePreview = (id) => {
@@ -703,7 +730,11 @@ export default class CreatePost extends React.Component {
     }
 
     getFileUploadTarget = () => {
-        return this.refs.textbox;
+        if (this.refs.textbox) {
+            return this.refs.textbox.getWrappedInstance();
+        }
+
+        return null;
     }
 
     getCreatePostControls = () => {
@@ -756,7 +787,7 @@ export default class CreatePost extends React.Component {
             type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         }
         if (this.refs.textbox) {
-            this.refs.textbox.blur();
+            this.refs.textbox.getWrappedInstance().blur();
         }
         this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, 'post_textbox', type);
     }
@@ -926,9 +957,12 @@ export default class CreatePost extends React.Component {
         let serverError = null;
         if (this.state.serverError) {
             serverError = (
-                <div className='has-error'>
-                    <label className='control-label'>{this.state.serverError}</label>
-                </div>
+                <MessageSubmitError
+                    id='postServerError'
+                    error={this.state.serverError}
+                    submittedMessage={this.state.serverError.submittedMessage}
+                    handleSubmit={this.handleSubmit}
+                />
             );
         }
 
@@ -945,6 +979,7 @@ export default class CreatePost extends React.Component {
                     fileInfos={draft.fileInfos}
                     onRemove={this.removePreview}
                     uploadsInProgress={draft.uploadsInProgress}
+                    uploadsProgressPercent={this.state.uploadsProgressPercent}
                 />
             );
         }
@@ -985,6 +1020,7 @@ export default class CreatePost extends React.Component {
                     onUploadStart={this.handleUploadStart}
                     onFileUpload={this.handleFileUploadComplete}
                     onUploadError={this.handleUploadError}
+                    onUploadProgress={this.handleUploadProgress}
                     postType='post'
                 />
             );

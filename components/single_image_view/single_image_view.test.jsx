@@ -100,35 +100,6 @@ describe('components/SingleImageView', () => {
         expect(wrapper.state('showPreviewModal')).toEqual(false);
     });
 
-    test('should match dimensions on computeImageDimensions', () => {
-        const fileInfo = {
-            id: 'file_info_id',
-            post_id: 'post_id',
-            name: 'name',
-            extension: 'jpg',
-            has_preview_image: true,
-            width: 350,
-            height: 200,
-        };
-        const props = {...baseProps, fileInfo};
-        const wrapper = shallow(
-            <SingleImageView {...props}/>
-        );
-
-        expect(wrapper.instance().computeImageDimensions()).toEqual({previewHeight: 200, previewWidth: 350});
-
-        wrapper.setState({viewPortWidth: 100});
-        expect(wrapper.instance().computeImageDimensions()).toEqual({previewHeight: 57.14285714285714, previewWidth: 100});
-
-        wrapper.setState({viewPortWidth: 500});
-        expect(wrapper.instance().computeImageDimensions()).toEqual({previewHeight: 200, previewWidth: 350});
-
-        fileInfo.height = 600;
-        wrapper.setProps({fileInfo});
-        wrapper.setState({viewPortWidth: 500});
-        expect(wrapper.instance().computeImageDimensions()).toEqual({previewHeight: 350, previewWidth: 204.16666666666669});
-    });
-
     test('should call toggleEmbedVisibility with post id', () => {
         const props = {
             ...baseProps,

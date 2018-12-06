@@ -241,7 +241,7 @@ export default class RhsThread extends React.Component {
         const {selected, currentUser} = this.props;
 
         let createAt = selected.create_at;
-        if (!createAt) {
+        if (!createAt && this.props.posts.length > 0) {
             createAt = this.props.posts[this.props.posts.length - 1].create_at;
         }
         const rootPostDay = Utils.getDateForUnixTicks(createAt);
@@ -362,7 +362,7 @@ export default class RhsThread extends React.Component {
                             previewEnabled={this.props.previewEnabled}
                             isBusy={this.state.isBusy}
                         />
-                        {isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
+                        {isFakeDeletedPost && rootPostDay && <DateSeparator date={rootPostDay}/>}
                         <div
                             ref='rhspostlist'
                             className='post-right-comments-container'

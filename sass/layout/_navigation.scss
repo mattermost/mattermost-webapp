@@ -32,6 +32,11 @@
         display: flex;
     }
 
+    .flex-parent--center {
+        display: flex;
+        justify-content: center;
+    }
+
     .browser--ie & {
         .navbar-default {
             .navbar-brand {

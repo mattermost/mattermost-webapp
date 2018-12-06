@@ -14,15 +14,42 @@ import * as Utils from 'utils/utils.jsx';
 
 import NotificationSection from 'components/channel_notifications_modal/components/notification_section.jsx';
 
-export default class ChannelNotificationsModal extends React.Component {
+export default class ChannelNotificationsModal extends React.PureComponent {
     static propTypes = {
-        show: PropTypes.bool.isRequired,
+
+        /**
+         * Function that is called when modal is hidden
+         */
         onHide: PropTypes.func.isRequired,
+
+        /**
+         * Object with info about current channel
+         */
         channel: PropTypes.object.isRequired,
+
+        /**
+         * Object with info about current channel membership
+         */
         channelMember: PropTypes.object.isRequired,
+
+        /**
+         * Object with info about current user
+         */
         currentUser: PropTypes.object.isRequired,
+
+        /**
+         * Boolean whether server sends push notifications
+         */
         sendPushNotifications: PropTypes.bool.isRequired,
+
+        /*
+         * Object with redux action creators
+         */
         actions: PropTypes.shape({
+
+            /*
+             * Action creator to update channel notify props
+             */
             updateChannelNotifyProps: PropTypes.func.isRequired,
         }),
     };
@@ -31,6 +58,7 @@ export default class ChannelNotificationsModal extends React.Component {
         super(props);
 
         this.state = {
+            show: true,
             activeSection: NotificationSections.NONE,
             serverError: null,
             ...this.getStateFromNotifyProps(props.channelMember.notify_props),
@@ -55,9 +83,14 @@ export default class ChannelNotificationsModal extends React.Component {
         };
     }
 
-    handleOnHide = () => {
-        this.updateSection(NotificationSections.NONE);
+    handleHide = () => {
+        this.setState({
+            show: false,
+        });
+    }
 
+    handleExit = () => {
+        this.updateSection(NotificationSections.NONE);
         this.props.onHide();
     }
 
@@ -152,7 +185,6 @@ export default class ChannelNotificationsModal extends React.Component {
             channelMember,
             currentUser,
             sendPushNotifications,
-            show,
         } = this.props;
 
         let serverErrorTag = null;
@@ -162,10 +194,10 @@ export default class ChannelNotificationsModal extends React.Component {
 
         return (
             <Modal
-                show={show}
                 dialogClassName='settings-modal settings-modal--tabless'
-                onHide={this.handleOnHide}
-                onExited={this.handleOnHide}
+                show={this.state.show}
+                onHide={this.handleHide}
+                onExited={this.handleExit}
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>

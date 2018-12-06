@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ChannelHeaderDropdown/MenuItem.ConvertChannel should match snapshot 1`] = `
+<Connect(TeamPermissionGate)
+  permissions={
+    Array [
+      "manage_team",
+    ]
+  }
+  teamId="team_id"
+>
+  <li
+    role="presentation"
+  >
+    <Connect(ModalToggleButtonRedux)
+      dialogProps={
+        Object {
+          "channelDisplayName": "Test Channel",
+          "channelId": "channel_id",
+        }
+      }
+      dialogType={[Function]}
+      modalId="convert_channel"
+      role="menuitem"
+    >
+      <FormattedMessage
+        defaultMessage="Convert to Private Channel"
+        id="channel_header.convert"
+        values={Object {}}
+      />
+    </Connect(ModalToggleButtonRedux)>
+  </li>
+</Connect(TeamPermissionGate)>
+`;

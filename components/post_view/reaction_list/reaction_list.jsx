@@ -67,7 +67,7 @@ export default class ReactionListView extends React.PureComponent {
     }
 
     componentDidMount() {
-        if (this.props.post.has_reactions) {
+        if (this.props.post.has_reactions && !this.props.post.metadata) {
             this.props.actions.getReactionsForPost(this.props.post.id);
         }
     }

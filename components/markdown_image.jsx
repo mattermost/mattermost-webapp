@@ -10,9 +10,9 @@ export default class MarkdownImage extends React.PureComponent {
     static propTypes = {
 
         /*
-         * The href of the image to be loaded
+         * dimensions object to create empty space required to prevent scroll pop
          */
-        href: PropTypes.string,
+        dimensions: PropTypes.object,
 
         /*
          * A callback that is called as soon as the image component has a height value
@@ -22,12 +22,15 @@ export default class MarkdownImage extends React.PureComponent {
 
     constructor(props) {
         super(props);
-
-        this.heightTimeout = 0;
+        if (!props.dimensions) {
+            this.heightTimeout = 0;
+        }
     }
 
     componentDidMount() {
-        this.waitForHeight();
+        if (!this.props.dimensions) {
+            this.waitForHeight();
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -41,11 +44,10 @@ export default class MarkdownImage extends React.PureComponent {
     }
 
     waitForHeight = () => {
-        if (this.refs.image.height) {
+        if (this.refs.image && this.refs.image.height) {
             if (this.props.onHeightReceived) {
                 this.props.onHeightReceived(this.refs.image.height);
             }
-
             this.heightTimeout = 0;
         } else {
             this.heightTimeout = setTimeout(this.waitForHeight, WAIT_FOR_HEIGHT_TIMEOUT);
@@ -56,18 +58,18 @@ export default class MarkdownImage extends React.PureComponent {
         if (this.heightTimeout !== 0) {
             clearTimeout(this.heightTimeout);
             this.heightTimeout = 0;
-
             return true;
         }
-
         return false;
     }
 
     handleLoad = () => {
         const wasWaiting = this.stopWaitingForHeight();
 
-        // The image loaded before we caught its layout event, so we still need to notify that its height changed
-        if (wasWaiting && this.props.onHeightReceived) {
+        // image is loaded but still havent recived new post webscoket event for metadata
+        // so meanwhile correct manually
+
+        if ((wasWaiting || !this.props.dimensions) && this.props.onHeightReceived) {
             this.props.onHeightReceived(this.refs.image.height);
         }
     };
@@ -79,6 +81,7 @@ export default class MarkdownImage extends React.PureComponent {
     render() {
         const props = {...this.props};
         Reflect.deleteProperty(props, 'onHeightReceived');
+        Reflect.deleteProperty(props, 'dimensions');
 
         return (
             <img
@@ -86,6 +89,9 @@ export default class MarkdownImage extends React.PureComponent {
                 {...props}
                 onLoad={this.handleLoad}
                 onError={this.handleError}
+                style={{
+                    height: this.props.dimensions ? this.props.dimensions.height : 'initial',
+                }}
             />
         );
     }

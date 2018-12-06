@@ -10,8 +10,13 @@ import {RequestStatus} from 'mattermost-redux/constants';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-export default class EditChannelPurposeModal extends React.Component {
+export default class EditChannelPurposeModal extends React.PureComponent {
     static propTypes = {
+
+        /*
+         * callback to call when modal will hide
+         */
+        onHide: PropTypes.func.isRequired,
 
         /*
          * Channel info object
@@ -32,11 +37,6 @@ export default class EditChannelPurposeModal extends React.Component {
          *  Status of patch info about channel request
          */
         requestStatus: PropTypes.string.isRequired,
-
-        /*
-         * Callback to call on modal hide
-         */
-        onModalDismissed: PropTypes.func.isRequired,
 
         /*
          * Object with redux action creators
@@ -66,7 +66,7 @@ export default class EditChannelPurposeModal extends React.Component {
         const {requestStatus} = this.props;
 
         if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.SUCCESS) {
-            this.handleHide();
+            this.onHide();
         }
 
         if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.FAILURE) {
@@ -97,7 +97,7 @@ export default class EditChannelPurposeModal extends React.Component {
         Utils.placeCaretAtEnd(this.purpose);
     }
 
-    handleHide = () => {
+    onHide = () => {
         this.setState({show: false});
     }
 
@@ -180,12 +180,10 @@ export default class EditChannelPurposeModal extends React.Component {
 
         return (
             <Modal
-                className='modal-edit-channel-purpose'
-                ref='modal'
                 show={this.state.show}
-                onHide={this.handleHide}
+                onHide={this.onHide}
                 onEntering={this.handleEntering}
-                onExited={this.props.onModalDismissed}
+                onExited={this.props.onHide}
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
@@ -211,7 +209,7 @@ export default class EditChannelPurposeModal extends React.Component {
                     <button
                         type='button'
                         className='btn btn-default cancel-button'
-                        onClick={this.handleHide}
+                        onClick={this.onHide}
                     >
                         <FormattedMessage
                             id='edit_channel_purpose_modal.cancel'

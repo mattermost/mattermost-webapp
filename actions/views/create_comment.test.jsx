@@ -22,7 +22,6 @@ import {
 } from 'actions/views/create_comment';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import * as PostActions from 'actions/post_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
 import {executeCommand} from 'actions/command';
 import {StoragePrefixes} from 'utils/constants';
 
@@ -206,16 +205,6 @@ describe('rhs view actions', () => {
             parent_id: rootId,
             user_id: currentUserId,
         };
-
-        test('it calls GlobalActions.emitUserCommentedEvent with post', () => {
-            store.dispatch(submitPost(channelId, rootId, draft));
-
-            expect(GlobalActions.emitUserCommentedEvent).toHaveBeenCalled();
-
-            expect(lastCall(GlobalActions.emitUserCommentedEvent.mock.calls)[0]).toEqual(
-                expect.objectContaining(post)
-            );
-        });
 
         test('it call PostActions.createPost with post', () => {
             store.dispatch(submitPost(channelId, rootId, draft));
