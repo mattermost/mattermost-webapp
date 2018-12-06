@@ -9,9 +9,10 @@ import PluginState from 'mattermost-redux/constants/plugins';
 
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
-import AdminSettings from '../admin_settings.jsx';
-
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import ConfirmModal from 'components/confirm_modal.jsx';
+
+import AdminSettings from '../admin_settings.jsx';
 import BooleanSetting from '../boolean_setting.jsx';
 import SettingsGroup from '../settings_group.jsx';
 
@@ -412,8 +413,9 @@ export default class PluginManagement extends AdminSettings {
         this.state = Object.assign(this.state, {
             loading: true,
             fileSelected: false,
-            fileName: null,
+            file: null,
             serverError: null,
+            showOverwritePluginModal: false,
         });
     }
 
@@ -444,7 +446,7 @@ export default class PluginManagement extends AdminSettings {
     handleUpload = () => {
         const element = this.refs.fileInput;
         if (element.files.length > 0) {
-            this.setState({fileSelected: true, fileName: element.files[0].name});
+            this.setState({fileSelected: true, file: element.files[0]});
         }
     }
 
@@ -459,9 +461,36 @@ export default class PluginManagement extends AdminSettings {
 
         this.setState({uploading: true});
 
-        const {error} = await this.props.actions.uploadPlugin(file);
-        this.setState({fileSelected: false, fileName: null, uploading: false, serverError: null});
+        const {error} = await this.props.actions.uploadPlugin(file, false);
+        this.setState({uploading: false, serverError: null});
         Utils.clearFileInput(element);
+
+        if (error) {
+            if (error.server_error_id === 'app.plugin.install_id.app_error') {
+                this.setState({showOverwritePluginModal: true});
+                return;
+            }
+            this.setState({file: null, fileSelected: false});
+
+            if (error.server_error_id === 'app.plugin.activate.app_error') {
+                this.setState({serverError: Utils.localizeMessage('admin.plugin.error.activate', 'Unable to upload the plugin. It may conflict with another plugin on your server.')});
+            } else if (error.server_error_id === 'app.plugin.extract.app_error') {
+                this.setState({serverError: Utils.localizeMessage('admin.plugin.error.extract', 'Encountered an error when extracting the plugin. Review your plugin file content and try again.')});
+            } else {
+                this.setState({serverError: error.message});
+            }
+        }
+    }
+
+    handleOverwritePluginCancel = async () => {
+        this.setState({showOverwritePluginModal: false, file: null, fileSelected: false});
+    }
+
+    handleOverwritePlugin = async () => {
+        this.setState({showOverwritePluginModal: false});
+        this.setState({uploading: true});
+        const {error} = await this.props.actions.uploadPlugin(this.state.file, true);
+        this.setState({fileSelected: false, file: null, uploading: false, serverError: null});
 
         if (error) {
             if (error.server_error_id === 'app.plugin.activate.app_error') {
@@ -533,8 +562,8 @@ export default class PluginManagement extends AdminSettings {
         }
 
         let fileName;
-        if (this.state.fileName) {
-            fileName = this.state.fileName;
+        if (this.state.file) {
+            fileName = this.state.file.name;
         }
 
         let uploadButtonText;
@@ -655,6 +684,8 @@ export default class PluginManagement extends AdminSettings {
 
         const uploadBtnClass = enableUploads ? 'btn btn-primary' : 'btn';
 
+        const overwritePluginModal = this.state.showOverwritePluginModal && this.renderOverwritePluginModal();
+
         return (
             <div className='wrapper--fixed'>
                 <SettingsGroup id={'PluginSettings'}>
@@ -723,7 +754,43 @@ export default class PluginManagement extends AdminSettings {
                     </div>
                     {pluginsContainer}
                 </SettingsGroup>
+                {overwritePluginModal}
             </div>
+        );
+    }
+
+    renderOverwritePluginModal = () => {
+        const title = (
+            <FormattedMessage
+                id='admin.plugin.upload.overwrite_modal.title'
+                defaultMessage='Overwrite existing plugin?'
+            />
+        );
+
+        const message = (
+            <FormattedMessage
+                id='admin.plugin.upload.overwrite_modal.desc'
+                defaultMessage='A plugin with this ID already exists. Would you like to overwrite it?'
+            />
+        );
+
+        const overwriteButton = (
+            <FormattedMessage
+                id='admin.plugin.upload.overwrite_modal.overwrite'
+                defaultMessage='Overwrite'
+            />
+        );
+
+        return (
+            <ConfirmModal
+                show={this.state.showOverwritePluginModal}
+                title={title}
+                message={message}
+                confirmButtonClass='btn btn-danger'
+                confirmButtonText={overwriteButton}
+                onConfirm={this.handleOverwritePlugin}
+                onCancel={this.handleOverwritePluginCancel}
+            />
         );
     }
 }
