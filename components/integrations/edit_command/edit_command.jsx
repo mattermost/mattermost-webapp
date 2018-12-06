@@ -12,7 +12,8 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 import AbstractCommand from '../abstract_command.jsx';
 
 const HEADER = {id: t('integrations.edit'), defaultMessage: 'Edit'};
-const FOOTER = {id: t('edit_command.save'), defaultMessage: 'Update'};
+const FOOTER = {id: t('edit_command.update'), defaultMessage: 'Update'};
+const LOADING = {id: t('edit_command.updating'), defaultMessage: 'Updating...'};
 
 export default class EditCommand extends React.PureComponent {
     static propTypes = {
@@ -158,6 +159,7 @@ export default class EditCommand extends React.PureComponent {
                 team={this.props.team}
                 header={HEADER}
                 footer={FOOTER}
+                loading={LOADING}
                 renderExtra={this.renderExtra()}
                 action={this.editCommand}
                 serverError={this.state.serverError}

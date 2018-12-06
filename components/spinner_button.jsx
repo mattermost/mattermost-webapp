@@ -24,26 +24,32 @@ export default class SpinnerButton extends PureComponent {
         spinning: PropTypes.bool.isRequired,
 
         /**
+         * Set the text used while spinning
+         */
+        spinningText: PropTypes.string.isRequired,
+
+        /**
          * Callback function when button is clicked
          */
         onClick: PropTypes.func,
     }
 
     render() {
-        const {spinning, children, ...props} = this.props; // eslint-disable-line no-use-before-define
+        const {spinning, spinningText, children, ...props} = this.props; // eslint-disable-line no-use-before-define
 
         return (
-            <LoadingWrapper
-                loading={spinning}
-                type='bars'
+            <button
+                className='btn btn-primary'
+                disabled={spinning}
+                {...props}
             >
-                <button
-                    className='btn btn-primary'
-                    {...props}
+                <LoadingWrapper
+                    loading={spinning}
+                    text={spinningText}
                 >
                     {children}
-                </button>
-            </LoadingWrapper>
+                </LoadingWrapper>
+            </button>
         );
     }
 }

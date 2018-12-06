@@ -18,6 +18,7 @@ describe('components/integrations/AbstractOutgoingWebhook', () => {
         enablePostIconOverride: false,
         header: {id: 'add', defaultMessage: 'add'},
         footer: {id: 'save', defaultMessage: 'save'},
+        loading: {id: 'loading', defaultMessage: 'loading'},
         renderExtra: '',
         serverError: '',
     };

@@ -37,7 +37,7 @@ exports[`components/integrations/EditCommand should match snapshot 1`] = `
   footer={
     Object {
       "defaultMessage": "Update",
-      "id": "edit_command.save",
+      "id": "edit_command.update",
     }
   }
   header={
@@ -65,6 +65,12 @@ exports[`components/integrations/EditCommand should match snapshot 1`] = `
       "update_at": 1504468859001,
       "url": "https://google.com/command",
       "username": "username",
+    }
+  }
+  loading={
+    Object {
+      "defaultMessage": "Updating...",
+      "id": "edit_command.updating",
     }
   }
   renderExtra={

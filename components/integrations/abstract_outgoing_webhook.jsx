@@ -31,6 +31,11 @@ export default class AbstractOutgoingWebhook extends React.Component {
         footer: PropTypes.object.isRequired,
 
         /**
+        * The spinner loading text to render, has id and defaultMessage
+        */
+        loading: PropTypes.object.isRequired,
+
+        /**
          * Any extra component/node to render
          */
         renderExtra: PropTypes.node.isRequired,
@@ -561,6 +566,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 className='btn btn-primary'
                                 type='submit'
                                 spinning={this.state.saving}
+                                spinningText={localizeMessage(this.props.loading.id, this.props.loading.defaultMessage)}
                                 onClick={this.handleSubmit}
                             >
                                 <FormattedMessage

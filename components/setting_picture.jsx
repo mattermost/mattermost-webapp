@@ -8,7 +8,7 @@ import exif2css from 'exif2css';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {Constants} from 'utils/constants.jsx';
-import {fileSizeToString} from 'utils/utils.jsx';
+import {fileSizeToString, localizeMessage} from 'utils/utils.jsx';
 
 import LoadingWrapper from 'components/widgets/loading_wrapper.jsx';
 import FormError from 'components/form_error.jsx';
@@ -299,7 +299,6 @@ export default class SettingPicture extends Component {
                                 className='btn btn-sm btn-primary btn-file sel-btn'
                                 disabled={this.props.loadingPicture}
                             >
-                                <LoadingWrapper loading={this.props.loadingPicture}/>
                                 <FormattedMessage
                                     id='setting_picture.select'
                                     defaultMessage='Select'
@@ -312,20 +311,20 @@ export default class SettingPicture extends Component {
                                     disabled={this.props.loadingPicture}
                                 />
                             </div>
-                            <LoadingWrapper
-                                loading={this.props.loadingPicture}
-                                type='bars'
+                            <a
+                                className={confirmButtonClass}
+                                onClick={this.props.loadingPicture ? () => true : this.handleSave}
                             >
-                                <a
-                                    className={confirmButtonClass}
-                                    onClick={this.handleSave}
+                                <LoadingWrapper
+                                    loading={this.props.loadingPicture}
+                                    text={localizeMessage('setting_picture.uploading', 'Uploading...')}
                                 >
                                     <FormattedMessage
                                         id='setting_picture.save'
                                         defaultMessage='Save'
                                     />
-                                </a>
-                            </LoadingWrapper>
+                                </LoadingWrapper>
+                            </a>
                             <a
                                 className='btn btn-sm theme'
                                 href='#'

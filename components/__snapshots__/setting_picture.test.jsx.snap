@@ -57,11 +57,6 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
         >
-          <LoadingWrapper
-            loading={false}
-            text={null}
-            type="spinner"
-          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -74,22 +69,22 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             type="file"
           />
         </div>
-        <LoadingWrapper
-          loading={false}
-          text={null}
-          type="bars"
+        <a
+          className="btn btn-sm btn-primary"
+          onClick={[Function]}
         >
-          <a
-            className="btn btn-sm btn-primary"
-            onClick={[Function]}
+          <LoadingWrapper
+            loading={false}
+            text="Uploading..."
+            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Save"
               id="setting_picture.save"
               values={Object {}}
             />
-          </a>
-        </LoadingWrapper>
+          </LoadingWrapper>
+        </a>
         <a
           className="btn btn-sm theme"
           href="#"
@@ -153,11 +148,6 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
         >
-          <LoadingWrapper
-            loading={false}
-            text={null}
-            type="spinner"
-          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -170,22 +160,22 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             type="file"
           />
         </div>
-        <LoadingWrapper
-          loading={false}
-          text={null}
-          type="bars"
+        <a
+          className="btn btn-sm btn-primary"
+          onClick={[Function]}
         >
-          <a
-            className="btn btn-sm btn-primary"
-            onClick={[Function]}
+          <LoadingWrapper
+            loading={false}
+            text="Uploading..."
+            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Save"
               id="setting_picture.save"
               values={Object {}}
             />
-          </a>
-        </LoadingWrapper>
+          </LoadingWrapper>
+        </a>
         <a
           className="btn btn-sm theme"
           href="#"
@@ -260,11 +250,6 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={true}
         >
-          <LoadingWrapper
-            loading={true}
-            text={null}
-            type="spinner"
-          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -277,22 +262,22 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
             type="file"
           />
         </div>
-        <LoadingWrapper
-          loading={true}
-          text={null}
-          type="bars"
+        <a
+          className="btn btn-sm btn-inactive disabled"
+          onClick={[Function]}
         >
-          <a
-            className="btn btn-sm btn-inactive disabled"
-            onClick={[Function]}
+          <LoadingWrapper
+            loading={true}
+            text="Uploading..."
+            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Save"
               id="setting_picture.save"
               values={Object {}}
             />
-          </a>
-        </LoadingWrapper>
+          </LoadingWrapper>
+        </a>
         <a
           className="btn btn-sm theme"
           href="#"
@@ -379,11 +364,6 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
         >
-          <LoadingWrapper
-            loading={false}
-            text={null}
-            type="spinner"
-          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -396,22 +376,22 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
             type="file"
           />
         </div>
-        <LoadingWrapper
-          loading={false}
-          text={null}
-          type="bars"
+        <a
+          className="btn btn-sm btn-inactive disabled"
+          onClick={[Function]}
         >
-          <a
-            className="btn btn-sm btn-inactive disabled"
-            onClick={[Function]}
+          <LoadingWrapper
+            loading={false}
+            text="Uploading..."
+            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Save"
               id="setting_picture.save"
               values={Object {}}
             />
-          </a>
-        </LoadingWrapper>
+          </LoadingWrapper>
+        </a>
         <a
           className="btn btn-sm theme"
           href="#"
@@ -486,11 +466,6 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
         >
-          <LoadingWrapper
-            loading={false}
-            text={null}
-            type="spinner"
-          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -503,22 +478,22 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
             type="file"
           />
         </div>
-        <LoadingWrapper
-          loading={false}
-          text={null}
-          type="bars"
+        <a
+          className="btn btn-sm btn-inactive disabled"
+          onClick={[Function]}
         >
-          <a
-            className="btn btn-sm btn-inactive disabled"
-            onClick={[Function]}
+          <LoadingWrapper
+            loading={false}
+            text="Uploading..."
+            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Save"
               id="setting_picture.save"
               values={Object {}}
             />
-          </a>
-        </LoadingWrapper>
+          </LoadingWrapper>
+        </a>
         <a
           className="btn btn-sm theme"
           href="#"
@@ -600,11 +575,6 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
         >
-          <LoadingWrapper
-            loading={false}
-            text={null}
-            type="spinner"
-          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -617,22 +587,22 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
             type="file"
           />
         </div>
-        <LoadingWrapper
-          loading={false}
-          text={null}
-          type="bars"
+        <a
+          className="btn btn-sm btn-inactive disabled"
+          onClick={[Function]}
         >
-          <a
-            className="btn btn-sm btn-inactive disabled"
-            onClick={[Function]}
+          <LoadingWrapper
+            loading={false}
+            text="Uploading..."
+            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Save"
               id="setting_picture.save"
               values={Object {}}
             />
-          </a>
-        </LoadingWrapper>
+          </LoadingWrapper>
+        </a>
         <a
           className="btn btn-sm theme"
           href="#"
@@ -743,11 +713,6 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
         >
-          <LoadingWrapper
-            loading={false}
-            text={null}
-            type="spinner"
-          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -760,22 +725,22 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
             type="file"
           />
         </div>
-        <LoadingWrapper
-          loading={false}
-          text={null}
-          type="bars"
+        <a
+          className="btn btn-sm btn-inactive disabled"
+          onClick={[Function]}
         >
-          <a
-            className="btn btn-sm btn-inactive disabled"
-            onClick={[Function]}
+          <LoadingWrapper
+            loading={false}
+            text="Uploading..."
+            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Save"
               id="setting_picture.save"
               values={Object {}}
             />
-          </a>
-        </LoadingWrapper>
+          </LoadingWrapper>
+        </a>
         <a
           className="btn btn-sm theme"
           href="#"
@@ -891,11 +856,6 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
         >
-          <LoadingWrapper
-            loading={false}
-            text={null}
-            type="spinner"
-          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -908,22 +868,22 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
             type="file"
           />
         </div>
-        <LoadingWrapper
-          loading={false}
-          text={null}
-          type="bars"
+        <a
+          className="btn btn-sm btn-inactive disabled"
+          onClick={[Function]}
         >
-          <a
-            className="btn btn-sm btn-inactive disabled"
-            onClick={[Function]}
+          <LoadingWrapper
+            loading={false}
+            text="Uploading..."
+            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Save"
               id="setting_picture.save"
               values={Object {}}
             />
-          </a>
-        </LoadingWrapper>
+          </LoadingWrapper>
+        </a>
         <a
           className="btn btn-sm theme"
           href="#"

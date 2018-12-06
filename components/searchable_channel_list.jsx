@@ -73,21 +73,21 @@ export default class SearchableChannelList extends React.Component {
                     <p className='more-modal__description'>{channel.purpose}</p>
                 </div>
                 <div className='more-modal__actions'>
-                    <LoadingWrapper
-                        type='bars'
-                        loading={this.state.joiningChannel === channel.id}
+                    <button
+                        onClick={this.handleJoin.bind(this, channel)}
+                        className='btn btn-primary'
+                        disabled={this.state.joiningChannel}
                     >
-                        <button
-                            onClick={this.handleJoin.bind(this, channel)}
-                            className='btn btn-primary'
-                            disabled={this.state.joiningChannel !== '' && this.state.joiningChannel !== channel.id}
+                        <LoadingWrapper
+                            loading={this.state.joiningChannel === channel.id}
+                            text={localizeMessage('more_channels.joining', 'Joining...')}
                         >
                             <FormattedMessage
                                 id='more_channels.join'
                                 defaultMessage='Join'
                             />
-                        </button>
-                    </LoadingWrapper>
+                        </LoadingWrapper>
+                    </button>
                 </div>
             </div>
         );

@@ -10,6 +10,7 @@ import AbstractOutgoingWebhook from 'components/integrations/abstract_outgoing_w
 
 const HEADER = {id: t('integrations.add'), defaultMessage: 'Add'};
 const FOOTER = {id: t('add_outgoing_webhook.save'), defaultMessage: 'Save'};
+const LOADING = {id: t('add_outgoing_webhook.saving'), defaultMessage: 'Saving...'};
 
 export default class AddOutgoingWebhook extends React.PureComponent {
     static propTypes = {
@@ -71,6 +72,7 @@ export default class AddOutgoingWebhook extends React.PureComponent {
                 team={this.props.team}
                 header={HEADER}
                 footer={FOOTER}
+                loading={LOADING}
                 renderExtra={''}
                 action={this.addOutgoingHook}
                 serverError={this.state.serverError}
