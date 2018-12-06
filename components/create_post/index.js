@@ -42,14 +42,16 @@ import {canUploadFiles} from 'utils/file_utils';
 
 import CreatePost from './create_post.jsx';
 
-function mapStateToProps() {
+function makeMapStateToProps() {
+    const getCommentCountForPost = makeGetCommentCountForPost();
+    const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.POST);
+
     return (state, ownProps) => {
         const config = getConfig(state);
         const currentChannel = getCurrentChannel(state) || {};
         const draft = getPostDraft(state, StoragePrefixes.DRAFT, currentChannel.id);
         const recentPostIdInChannel = getMostRecentPostIdInChannel(state, currentChannel.id);
         const post = getPost(state, recentPostIdInChannel);
-        const getCommentCountForPost = makeGetCommentCountForPost();
         const latestReplyablePostId = getLatestReplyablePostId(state);
         const currentChannelMembersCount = getCurrentChannelStats(state) ? getCurrentChannelStats(state).member_count : 1;
         const enableTutorial = config.EnableTutorial === 'true';
@@ -71,7 +73,7 @@ function mapStateToProps() {
             ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
             fullWidthTextBox: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
             showTutorialTip: enableTutorial && tutorialStep === TutorialSteps.POST_POPOVER,
-            messageInHistoryItem: makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.POST)(state),
+            messageInHistoryItem: getMessageInHistoryItem(state),
             draft,
             recentPostIdInChannel,
             commentCountForPost: getCommentCountForPost(state, {post}),
@@ -120,4 +122,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);
+export default connect(makeMapStateToProps, mapDispatchToProps)(CreatePost);
