@@ -762,7 +762,7 @@ function handleUserTypingEvent(msg) {
         dispatch({
             type: WebsocketEvents.STOP_TYPING,
             data,
-        }, getState);
+        });
     }, parseInt(config.TimeBetweenUserTypingUpdatesMilliseconds, 10));
 
     if (!currentUser && userId !== currentUserId) {
