@@ -302,7 +302,7 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
         BrowserStore.clear();
         stopPeriodicStatusUpdates();
         WebsocketActions.close();
-        document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
         browserHistory.push(redirectTo);
     }).catch(() => {
         browserHistory.push(redirectTo);
