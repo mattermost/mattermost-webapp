@@ -30,7 +30,12 @@
             display: none;
         }
 
+        &:first-child,
         &:last-child {
+            display: none;
+        }
+
+        &:nth-last-of-type(3) {
             display: none;
         }
     }
