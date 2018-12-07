@@ -336,6 +336,7 @@ export default class Textbox extends React.Component {
                     renderDividers={true}
                     isRHS={this.props.isRHS}
                     disabled={this.props.disabled}
+                    contextId={this.props.channelId}
                 />
                 {preview}
                 <div className={'help__text ' + helpTextClass}>
