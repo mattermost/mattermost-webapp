@@ -5,9 +5,10 @@ import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
 import {Posts} from 'mattermost-redux/constants';
+import {SearchTypes} from 'mattermost-redux/action_types';
 
 import * as Actions from 'actions/post_actions';
-import {Constants, ActionTypes} from 'utils/constants';
+import {Constants, ActionTypes, RHSStates} from 'utils/constants';
 
 const mockStore = configureStore([thunk]);
 
@@ -17,6 +18,10 @@ jest.mock('mattermost-redux/actions/posts', () => ({
     createPostImmediately: (...args) => ({type: 'MOCK_CREATE_POST_IMMEDIATELY', args}),
     getPosts: (...args) => ({type: 'MOCK_GET_POSTS', args}),
     getPostsBefore: (...args) => ({type: 'MOCK_GET_POSTS_BEFORE', args}),
+    flagPost: (...args) => ({type: 'MOCK_FLAG_POST', args}),
+    unflagPost: (...args) => ({type: 'MOCK_UNFLAG_POST', args}),
+    pinPost: (...args) => ({type: 'MOCK_PIN_POST', args}),
+    unpinPost: (...args) => ({type: 'MOCK_UNPIN_POST', args}),
 }));
 
 jest.mock('actions/emoji_actions', () => ({
@@ -146,6 +151,7 @@ describe('Actions.Posts', () => {
                 },
             },
             emojis: {customEmoji: {}},
+            search: {results: []},
         },
         views: {
             posts: {
@@ -313,6 +319,54 @@ describe('Actions.Posts', () => {
         expect(testStore.getActions()).toEqual([
             {args: ['post_id_1', 'emoji_name_1'], type: 'MOCK_ADD_REACTION'},
             {args: ['emoji_name_1'], type: 'MOCK_ADD_RECENT_EMOJI'},
+        ]);
+    });
+
+    test('flagPost', async () => {
+        const testStore = await mockStore({...initialState, views: {rhs: {rhsState: RHSStates.FLAG}}});
+
+        const post = testStore.getState().entities.posts.posts[latestPost.id];
+
+        await testStore.dispatch(Actions.flagPost(post.id));
+        expect(testStore.getActions()).toEqual([
+            {args: [post.id], type: 'MOCK_FLAG_POST'},
+            {data: {posts: {[post.id]: post}, order: [post.id]}, type: SearchTypes.RECEIVED_SEARCH_POSTS},
+        ]);
+    });
+
+    test('unflagPost', async () => {
+        const testStore = await mockStore({views: {rhs: {rhsState: RHSStates.FLAG}}, entities: {...initialState.entities, search: {results: [latestPost.id]}}});
+
+        const post = testStore.getState().entities.posts.posts[latestPost.id];
+
+        await testStore.dispatch(Actions.unflagPost(post.id));
+        expect(testStore.getActions()).toEqual([
+            {args: [post.id], type: 'MOCK_UNFLAG_POST'},
+            {data: {posts: [], order: []}, type: SearchTypes.RECEIVED_SEARCH_POSTS},
+        ]);
+    });
+
+    test('pinPost', async () => {
+        const testStore = await mockStore({...initialState, views: {rhs: {rhsState: RHSStates.PIN}}});
+
+        const post = testStore.getState().entities.posts.posts[latestPost.id];
+
+        await testStore.dispatch(Actions.pinPost(post.id));
+        expect(testStore.getActions()).toEqual([
+            {args: [post.id], type: 'MOCK_PIN_POST'},
+            {data: {posts: {[post.id]: post}, order: [post.id]}, type: SearchTypes.RECEIVED_SEARCH_POSTS},
+        ]);
+    });
+
+    test('unpinPost', async () => {
+        const testStore = await mockStore({views: {rhs: {rhsState: RHSStates.PIN}}, entities: {...initialState.entities, search: {results: [latestPost.id]}}});
+
+        const post = testStore.getState().entities.posts.posts[latestPost.id];
+
+        await testStore.dispatch(Actions.unpinPost(post.id));
+        expect(testStore.getActions()).toEqual([
+            {args: [post.id], type: 'MOCK_UNPIN_POST'},
+            {data: {posts: [], order: []}, type: SearchTypes.RECEIVED_SEARCH_POSTS},
         ]);
     });
 });
