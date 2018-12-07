@@ -521,7 +521,7 @@ function handleLeaveTeamEvent(msg) {
 }
 
 function handleUpdateTeamEvent(msg) {
-    dispatch({type: TeamTypes.UPDATED_TEAM, data: msg.data.team});
+    dispatch({type: TeamTypes.UPDATED_TEAM, data: JSON.parse(msg.data.team)});
 }
 
 function handleDeleteTeamEvent(msg) {
