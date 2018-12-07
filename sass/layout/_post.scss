@@ -702,6 +702,9 @@
         position: relative;
         height: 40px;
         padding: 0px;
+        .loading__content {
+            height: 40px;
+        }
     }
 }
 
@@ -822,7 +825,7 @@
                     }
 
                     .flag-icon__container {
-                        left: 36px;
+                        left: 32px;
                         margin-left: 7px;
                         position: absolute;
                         top: 6px;
@@ -1141,7 +1144,7 @@
             }
 
             .flag-icon__container {
-                left: 36px;
+                left: 32px;
                 margin-left: 7px;
                 position: absolute;
                 top: 6px;
@@ -1891,12 +1894,16 @@
 
 .post-collapse {
     bottom: 0;
+    pointer-events: none;
     position: absolute;
     width: 100%;
 
     .post-collapse__gradient, .post-attachment-collapse__gradient {
-        pointer-events: none;
         position: relative;
+    }
+
+    .post-collapse__show-more, .post-attachment-collapse__show-more {
+        pointer-events: auto;
     }
 }
 
@@ -1979,6 +1986,7 @@
 
     .post-collapse__show-more, .post-attachment-collapse__show-more {
         position: relative;
+        padding-top: 10px;
     }
 
     .post-collapse__gradient, .post-attachment-collapse__gradient {

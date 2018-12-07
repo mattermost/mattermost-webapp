@@ -322,31 +322,36 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             },
             Object {
               "order": 9,
-              "text": "Pусский (Alpha)",
-              "value": "ru",
-            },
-            Object {
-              "order": 10,
               "text": "Türkçe",
               "value": "tr",
             },
             Object {
+              "order": 10,
+              "text": "Pусский (Alpha)",
+              "value": "ru",
+            },
+            Object {
               "order": 11,
+              "text": "Yкраїнська (Beta)",
+              "value": "uk",
+            },
+            Object {
+              "order": 12,
               "text": "한국어 (Alpha)",
               "value": "ko",
             },
             Object {
-              "order": 12,
+              "order": 13,
               "text": "中文 (简体)",
               "value": "zh-CN",
             },
             Object {
-              "order": 13,
+              "order": 14,
               "text": "中文 (繁體)",
               "value": "zh-TW",
             },
             Object {
-              "order": 14,
+              "order": 15,
               "text": "日本語",
               "value": "ja",
             },
@@ -431,31 +436,36 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             },
             Object {
               "order": 9,
-              "text": "Pусский (Alpha)",
-              "value": "ru",
-            },
-            Object {
-              "order": 10,
               "text": "Türkçe",
               "value": "tr",
             },
             Object {
+              "order": 10,
+              "text": "Pусский (Alpha)",
+              "value": "ru",
+            },
+            Object {
               "order": 11,
+              "text": "Yкраїнська (Beta)",
+              "value": "uk",
+            },
+            Object {
+              "order": 12,
               "text": "한국어 (Alpha)",
               "value": "ko",
             },
             Object {
-              "order": 12,
+              "order": 13,
               "text": "中文 (简体)",
               "value": "zh-CN",
             },
             Object {
-              "order": 13,
+              "order": 14,
               "text": "中文 (繁體)",
               "value": "zh-TW",
             },
             Object {
-              "order": 14,
+              "order": 15,
               "text": "日本語",
               "value": "ja",
             },

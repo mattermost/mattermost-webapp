@@ -15,7 +15,6 @@ import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import {isEmbedVisible} from 'selectors/posts';
 import {getSelectedPostId, getRhsState} from 'selectors/rhs';
 import {
@@ -223,22 +222,12 @@ export function searchForTerm(term) {
 export function pinPost(postId) {
     return async (dispatch) => {
         await dispatch(PostActions.pinPost(postId));
-
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_POST_PINNED,
-            postId,
-        });
     };
 }
 
 export function unpinPost(postId) {
     return async (dispatch) => {
         await dispatch(PostActions.unpinPost(postId));
-
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_POST_UNPINNED,
-            postId,
-        });
     };
 }
 
@@ -303,12 +292,6 @@ export function deleteAndRemovePost(post) {
         dispatch({
             type: PostTypes.REMOVE_POST,
             data: post,
-        });
-
-        // Needed for search store
-        AppDispatcher.handleViewAction({
-            type: Constants.ActionTypes.REMOVE_POST,
-            post,
         });
 
         return {data: true};

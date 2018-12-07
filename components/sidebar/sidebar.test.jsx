@@ -134,6 +134,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         actions: {
             close: jest.fn(),
             switchToChannelById: jest.fn(),
+            openModal: jest.fn(),
         },
         canCreatePublicChannel: true,
         canCreatePrivateChannel: true,

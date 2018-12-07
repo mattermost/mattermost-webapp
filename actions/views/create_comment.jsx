@@ -16,7 +16,6 @@ import {Posts} from 'mattermost-redux/constants';
 import {isPostPendingOrFailed} from 'mattermost-redux/utils/post_utils';
 
 import * as PostActions from 'actions/post_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
 import {executeCommand} from 'actions/command';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import EmojiMap from 'utils/emoji_map';
@@ -77,8 +76,6 @@ export function submitPost(channelId, rootId, draft) {
             user_id: userId,
             create_at: time,
         };
-
-        GlobalActions.emitUserCommentedEvent(post);
 
         dispatch(PostActions.createPost(post, draft.fileInfos));
     };

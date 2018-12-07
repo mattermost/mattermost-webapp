@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {batchActions} from 'redux-batched-actions';
 import {PostTypes} from 'mattermost-redux/action_types';
 import {
     markChannelAsRead,
@@ -8,6 +9,7 @@ import {
     markChannelAsViewed,
 } from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
+import {WebsocketEvents} from 'mattermost-redux/constants';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -52,7 +54,7 @@ export function lastPostActions(post, websocketMessageProps) {
         }
 
         // Need manual dispatch to remove pending post
-        dispatch({
+        const actions = [{
             type: PostTypes.RECEIVED_POSTS,
             data: {
                 order: [],
@@ -61,7 +63,16 @@ export function lastPostActions(post, websocketMessageProps) {
                 },
             },
             channelId: post.channel_id,
-        });
+        }, {
+            type: WebsocketEvents.STOP_TYPING,
+            data: {
+                id: post.channel_id + post.root_id,
+                userId: post.user_id,
+                now: post.create_at,
+            },
+        }];
+
+        dispatch(batchActions(actions));
 
         // Still needed to update unreads
 
