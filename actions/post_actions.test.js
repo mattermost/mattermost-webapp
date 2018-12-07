@@ -35,12 +35,14 @@ jest.mock('utils/user_agent', () => ({
     isIosClassic: jest.fn().mockReturnValueOnce(true).mockReturnValue(false),
 }));
 
+const POST_CREATED_TIME = Date.now();
 const RECEIVED_POSTS = {
     channelId: 'current_channel_id',
-    data: {order: [], posts: {new_post_id: {channel_id: 'current_channel_id', id: 'new_post_id', message: 'new message', type: ''}}},
+    data: {order: [], posts: {new_post_id: {channel_id: 'current_channel_id', id: 'new_post_id', message: 'new message', type: '', user_id: 'some_user_id', create_at: POST_CREATED_TIME}}},
     type: 'RECEIVED_POSTS',
 };
 const INCREASED_POST_VISIBILITY = {amount: 1, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'};
+const STOP_TYPING = {type: 'stop_typing', data: {id: 'current_channel_idundefined', now: POST_CREATED_TIME, userId: 'some_user_id'}};
 
 function getReceivedPosts(post) {
     const receivedPosts = {...RECEIVED_POSTS};
@@ -159,11 +161,18 @@ describe('Actions.Posts', () => {
 
     test('handleNewPost', async () => {
         const testStore = await mockStore(initialState);
-        const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL};
+        const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL, user_id: 'some_user_id', create_at: POST_CREATED_TIME};
         const msg = {data: {team_id: 'team_id', mentions: ['current_user_id']}};
 
         await testStore.dispatch(Actions.handleNewPost(newPost, msg));
-        expect(testStore.getActions()).toEqual([INCREASED_POST_VISIBILITY, getReceivedPosts(newPost)]);
+        expect(testStore.getActions()).toEqual([
+            INCREASED_POST_VISIBILITY,
+            {
+                meta: {batch: true},
+                payload: [getReceivedPosts(newPost), STOP_TYPING],
+                type: 'BATCHING_REDUCER.BATCH',
+            },
+        ]);
     });
 
     test('setEditingPost', async () => {

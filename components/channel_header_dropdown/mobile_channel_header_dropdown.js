@@ -54,6 +54,10 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
             isArchived,
         } = this.props;
 
+        const Divider = (
+            <li><hr/></li>
+        );
+
         return (
             <div className='dropdown'>
                 <a
@@ -78,12 +82,17 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                     role='menu'
                 >
                     <MenuItem.ViewChannelInfo channel={channel}/>
+                    <MenuItem.ToggleFavoriteChannel
+                        channel={channel}
+                        isFavorite={isFavorite}
+                    />
                     <MenuItem.ViewPinnedPosts channel={channel}/>
                     <MenuItem.NotificationPreferences
                         user={user}
                         channel={channel}
                         isArchived={isArchived}
                     />
+                    {Divider}
                     <MenuItem.AddMembers
                         channel={channel}
                         isDefault={isDefault}
@@ -93,6 +102,7 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                         channel={channel}
                         isDefault={isDefault}
                     />
+                    {Divider}
                     <MenuItem.SetChannelHeader
                         channel={channel}
                         isArchived={isArchived}
@@ -117,20 +127,16 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                         isDefault={isDefault}
                         isArchived={isArchived}
                     />
+                    {Divider}
+                    <MobileChannelHeaderPlug
+                        channel={channel}
+                        isDropdown={true}
+                    />
                     <MenuItem.LeaveChannel
                         channel={channel}
                         isDefault={isDefault}
                     />
                     <MenuItem.CloseChannel isArchived={isArchived}/>
-                    <MenuItem.ToggleFavoriteChannel
-                        channel={channel}
-                        isFavorite={isFavorite}
-                    />
-
-                    <MobileChannelHeaderPlug
-                        channel={channel}
-                        isDropdown={true}
-                    />
                     <div className='close visible-xs-block'>
                         {'×'}
                     </div>

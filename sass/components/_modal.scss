@@ -590,6 +590,27 @@
     }
 
     .modal-tabs {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .tab-content {
+            flex: 1 1 auto;
+            height: auto;
+            flex-direction: column;
+            display: flex;
+        }
+
+        .tab-pane {
+            flex: 1 1 auto;
+            height: auto;
+            display: none;
+
+            &.active {
+                display: flex;
+            }
+        }
+
         .nav-tabs {
             margin: 0 0 16px;
 

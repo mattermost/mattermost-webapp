@@ -212,7 +212,7 @@ export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, se
 
     // Don't send if we just switched channels within a threshold.
     if (lastChannelSwitchAt > 0 && now > 0 && now - lastChannelSwitchAt <= CHANNEL_SWITCH_IGNORE_ENTER_THRESHOLD_MS) {
-        return {allowSending: false};
+        return {allowSending: false, ignoreKeyPress: true};
     }
 
     if (
