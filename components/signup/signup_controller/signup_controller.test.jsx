@@ -29,7 +29,7 @@ describe('components/SignupController', () => {
         },
         noAccounts: false,
         loggedIn: true,
-        isLicensed: false,
+        isLicensed: true,
         enableOpenServer: true,
         enableSAML: true,
         enableLDAP: true,
@@ -46,9 +46,21 @@ describe('components/SignupController', () => {
         },
     };
 
-    test('should match snapshot for all signup options enabled', () => {
+    test('should match snapshot for all signup options enabled with isLicensed enabled', () => {
         const wrapper = shallow(
             <SignupController {...baseProps}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot for all signup options enabled with isLicensed disabled', () => {
+        const props = {
+            ...baseProps,
+            isLicensed: false,
+        };
+
+        const wrapper = shallow(
+            <SignupController {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
     });
