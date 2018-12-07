@@ -1,0 +1,191 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/SignupController should call addUserToTeamFromInvite if id exists in url 1`] = `
+<LoadingScreen
+  position="relative"
+  style={Object {}}
+/>
+`;
+
+exports[`components/SignupController should match snapshot for addUserToTeamFromInvite error 1`] = `
+<div>
+  <Connect(AnnouncementBarController) />
+  <BackButton
+    url="/"
+  />
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="signup-team__container"
+    >
+      <img
+        className="signup-team-logo"
+        src={null}
+      />
+      <div
+        className="signup__content"
+      >
+        <h1 />
+        <h4
+          className="color--light"
+        >
+          <FormattedMessage
+            id="web.root.signup_info"
+            values={Object {}}
+          />
+        </h4>
+        <div
+          className="margin--extra"
+        >
+          <h5>
+            <strong>
+              <FormattedMessage
+                defaultMessage="Create an account with:"
+                id="signup.title"
+                values={Object {}}
+              />
+            </strong>
+          </h5>
+        </div>
+        <div
+          className="form-group has-error"
+        >
+          <label
+            className="control-label"
+          >
+            <FormattedMessage
+              defaultMessage="The invite link was invalid.  Please speak with your Administrator to receive an invitation."
+              id="signup_user_completed.invalid_invite"
+              values={Object {}}
+            />
+          </label>
+        </div>
+      </div>
+      <span
+        className="color--light"
+      >
+        <FormattedMessage
+          defaultMessage="Already have an account?"
+          id="signup_user_completed.haveAccount"
+          values={Object {}}
+        />
+         
+        <Link
+          replace={false}
+          to="/login?id=ppni7a9t87fn3j4d56rwocdctc"
+        >
+          <FormattedMessage
+            defaultMessage="Click here to sign in."
+            id="signup_user_completed.signIn"
+            values={Object {}}
+          />
+        </Link>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/SignupController should match snapshot for all signup options enabled 1`] = `
+<div>
+  <Connect(AnnouncementBarController) />
+  <BackButton
+    url="/"
+  />
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="signup-team__container"
+    >
+      <img
+        className="signup-team-logo"
+        src={null}
+      />
+      <div
+        className="signup__content"
+      >
+        <h1 />
+        <h4
+          className="color--light"
+        >
+          <FormattedMessage
+            id="web.root.signup_info"
+            values={Object {}}
+          />
+        </h4>
+        <div
+          className="margin--extra"
+        >
+          <h5>
+            <strong>
+              <FormattedMessage
+                defaultMessage="Create an account with:"
+                id="signup.title"
+                values={Object {}}
+              />
+            </strong>
+          </h5>
+        </div>
+        <Link
+          className="btn btn-custom-login btn--full email"
+          key="email"
+          replace={false}
+          to="/signup_emailundefined"
+        >
+          <span>
+            <span
+              className="icon fa fa-envelope"
+              title="Email Icon"
+            />
+            <FormattedMessage
+              defaultMessage="Email and Password"
+              id="signup.email"
+              values={Object {}}
+            />
+          </span>
+        </Link>
+        <a
+          className="btn btn-custom-login btn--full gitlab"
+          href="/oauth/gitlab/signupundefined"
+          key="gitlab"
+        >
+          <span>
+            <span
+              className="icon"
+            />
+            <span>
+              <FormattedMessage
+                defaultMessage="GitLab Single Sign-On"
+                id="signup.gitlab"
+                values={Object {}}
+              />
+            </span>
+          </span>
+        </a>
+      </div>
+      <span
+        className="color--light"
+      >
+        <FormattedMessage
+          defaultMessage="Already have an account?"
+          id="signup_user_completed.haveAccount"
+          values={Object {}}
+        />
+         
+        <Link
+          replace={false}
+          to="/login"
+        >
+          <FormattedMessage
+            defaultMessage="Click here to sign in."
+            id="signup_user_completed.signIn"
+            values={Object {}}
+          />
+        </Link>
+      </span>
+    </div>
+  </div>
+</div>
+`;
