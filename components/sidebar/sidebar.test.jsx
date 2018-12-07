@@ -335,7 +335,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         expect(instance.updateScrollbarOnChannelChange).not.toBeCalled();
         expect(instance.props.actions.switchToChannelById).not.toBeCalled();
 
-        wrapper.setState({unreadChannelIds: ['c3', 'c6']});
+        wrapper.setProps({unreadChannelIds: ['c3', 'c6']});
         instance.navigateUnreadChannelShortcut(nextEvent);
         expect(instance.props.actions.switchToChannelById).lastCalledWith('c3');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c3');

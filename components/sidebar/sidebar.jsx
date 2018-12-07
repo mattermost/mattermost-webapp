@@ -14,7 +14,7 @@ import {SpringSystem, MathUtil} from 'rebound';
 import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
+import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import favicon from 'images/favicon/favicon-16x16.png';
@@ -161,7 +161,6 @@ export default class Sidebar extends React.PureComponent {
             showDirectChannelsModal: false,
             showMoreChannelsModal: false,
             showMorePublicChannelsModal: false,
-            unreadChannelIds: props.unreadChannelIds,
         };
 
         this.animate = new SpringSystem();
@@ -170,18 +169,17 @@ export default class Sidebar extends React.PureComponent {
         this.unreadScrollAnimate.addListener({onSpringUpdate: this.handleScrollAnimationUpdate});
     }
 
-    getSnapshotBeforeUpdate(prevProps, prevState) {
-        if (prevState.unreadChannelIds.length === this.props.unreadChannelIds.length &&
-            prevState.unreadChannelIds.includes(this.props.currentChannel.id) &&
-            this.props.orderedChannelIds[0].type === 'unreads'
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.orderedChannelIds[0].type === SidebarChannelGroups.UNREADS &&
+            prevState.orderedChannelIds[0].type === SidebarChannelGroups.UNREADS &&
+            prevState.orderedChannelIds[0].items.length === nextProps.orderedChannelIds[0].items.length &&
+            prevState.orderedChannelIds[0].items.includes(nextProps.currentChannel.id)
         ) {
-            const newOrderedChannelIds = this.props.orderedChannelIds;
-            newOrderedChannelIds[0].items = prevState.unreadChannelIds;
+            return null;
+        }
 
-            return {
-                unreadChannelIds: prevState.unreadChannelIds,
-                orderedChannelIds: newOrderedChannelIds,
-            };
+        if (nextProps.orderedChannelIds !== prevState.orderedChannelIds) {
+            return {orderedChannelIds: nextProps.orderedChannelIds};
         }
 
         return null;
@@ -193,7 +191,11 @@ export default class Sidebar extends React.PureComponent {
         document.addEventListener('keydown', this.navigateUnreadChannelShortcut);
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    UNSAFE_componentWillUpdate() { // eslint-disable-line camelcase
+        this.updateUnreadIndicators();
+    }
+
+    componentDidUpdate(prevProps) {
         // if the active channel disappeared (which can happen when dm channels autoclose), go to town square
         if (this.props.currentTeam === prevProps.currentTeam &&
             this.props.currentChannel.id === prevProps.currentChannel.id &&
@@ -222,8 +224,6 @@ export default class Sidebar extends React.PureComponent {
         this.updateTitle();
         this.setBadgesActiveAndFavicon();
         this.setFirstAndLastUnreadChannels();
-
-        this.setChannelIds(snapshot, this.props, prevState);
     }
 
     componentWillUnmount() {
@@ -233,23 +233,6 @@ export default class Sidebar extends React.PureComponent {
         this.animate.deregisterSpring(this.unreadScrollAnimate);
         this.animate.removeAllListeners();
         this.unreadScrollAnimate.destroy();
-    }
-
-    setChannelIds = (snapshot, props, prevState) => {
-        if (snapshot) {
-            this.setState({
-                orderedChannelIds: snapshot.orderedChannelIds,
-                unreadChannelIds: snapshot.unreadChannelIds,
-            });
-        } else {
-            if (props.orderedChannelIds !== prevState.orderedChannelIds) {
-                this.setState({orderedChannelIds: props.orderedChannelIds});
-            }
-
-            if (props.unreadChannelIds !== prevState.unreadChannelIds) {
-                this.setState({unreadChannelIds: props.unreadChannelIds});
-            }
-        }
     }
 
     setBadgesActiveAndFavicon() {
@@ -277,8 +260,8 @@ export default class Sidebar extends React.PureComponent {
     }
 
     setFirstAndLastUnreadChannels() {
-        const {currentChannel} = this.props;
-        const {orderedChannelIds, unreadChannelIds} = this.state;
+        const {currentChannel, unreadChannelIds} = this.props;
+        const {orderedChannelIds} = this.state;
 
         this.getDisplayedChannels(orderedChannelIds).map((channelId) => {
             if (channelId !== currentChannel.id && unreadChannelIds.includes(channelId)) {
@@ -461,7 +444,7 @@ export default class Sidebar extends React.PureComponent {
             const nextIndex = ChannelUtils.findNextUnreadChannelId(
                 this.props.currentChannel.id,
                 allChannelIds,
-                this.state.unreadChannelIds,
+                this.props.unreadChannelIds,
                 direction
             );
 
@@ -564,7 +547,7 @@ export default class Sidebar extends React.PureComponent {
     renderOrderedChannels = () => {
         const {orderedChannelIds} = this.state;
 
-        const sectionsToHide = ['unreads', 'favorite'];
+        const sectionsToHide = [SidebarChannelGroups.UNREADS, SidebarChannelGroups.FAVORITE];
 
         return (
             <Scrollbars
