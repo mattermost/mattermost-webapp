@@ -98,6 +98,44 @@
     }
 }
 
+.multi-select__radio {
+    label {
+        display: flex;
+        align-items: center;
+    }
+
+    input[type='radio'] {
+        margin-top: 0;
+        width: 13px;
+    }
+
+    .flex-parent {
+        display: flex;
+        align-items: center;
+    }
+
+    .icon {
+        display: flex;
+        height: 21px;
+        align-items: center;
+        padding-right: 1px;
+        margin-right: 6px;
+        width: 14px;
+        justify-content: center;
+
+        & + span {
+            font-weight: 600;
+            margin-right: 4px;
+        }
+    }
+
+    span {
+        &:last-child {
+            @include opacity(.8);
+        }
+    }
+}
+
 .form-control {
     &.inline {
         display: inline-block;
