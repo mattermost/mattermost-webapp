@@ -12,13 +12,12 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
-import {addReaction} from 'actions/post_actions.jsx';
+import {addReaction, hideEmojiPickerForLastMessage} from 'actions/post_actions.jsx';
 
 import {Preferences, UserStatuses} from 'utils/constants.jsx';
 import {isEmbedVisible} from 'selectors/posts';
 
 import {getRHSTextboxFocusState} from 'selectors/rhs.jsx';
-import {hideEmojiPickerForLastMessage} from 'actions/post_actions.jsx';
 
 import RhsComment from './rhs_comment.jsx';
 

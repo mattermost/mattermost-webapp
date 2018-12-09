@@ -50,7 +50,6 @@ describe('components/CreateComment', () => {
         isTimezoneEnabled: false,
         showEmojiPickerForLastMessage: jest.fn(),
         toggleRHSTextBoxFocus: jest.fn(),
-        badConnection: false,
     };
 
     test('should match snapshot, empty comment', () => {

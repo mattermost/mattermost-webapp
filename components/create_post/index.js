@@ -29,7 +29,6 @@ import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants
 import {connectionErrorCount} from 'selectors/views/system';
 
 import {
-    emitUserPostedEvent,
     postListScrollChangeToBottom,
 } from 'actions/global_actions.jsx';
 import {
