@@ -437,6 +437,11 @@ export const GroupUnreadChannels = {
     DEFAULT_OFF: 'default_off',
 };
 
+export const SidebarChannelGroups = {
+    UNREADS: 'unreads',
+    FAVORITE: 'favorite',
+};
+
 export const PermissionsScope = {
     [Permissions.INVITE_USER]: 'team_scope',
     [Permissions.ADD_USER_TO_TEAM]: 'team_scope',
