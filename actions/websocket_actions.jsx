@@ -462,14 +462,10 @@ function handlePostEditEvent(msg) {
     // Store post
     const post = JSON.parse(msg.data.post);
     dispatch({
-        type: PostTypes.RECEIVED_POSTS,
+        type: PostTypes.RECEIVED_POST,
         data: {
-            order: [],
-            posts: {
-                [post.id]: post,
-            },
+            post,
         },
-        channelId: post.channel_id,
     });
 
     getProfilesAndStatusesForPosts([post], dispatch, getState);

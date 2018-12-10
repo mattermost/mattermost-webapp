@@ -54,13 +54,11 @@ export function lastPostActions(post, websocketMessageProps) {
         }
 
         // Need manual dispatch to remove pending post
+
         const actions = [{
-            type: PostTypes.RECEIVED_POSTS,
+            type: PostTypes.RECEIVED_NEW_POST,
             data: {
-                order: [],
-                posts: {
-                    [post.id]: post,
-                },
+                ...post,
             },
             channelId: post.channel_id,
         }, {
