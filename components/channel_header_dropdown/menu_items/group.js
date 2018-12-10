@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 const DropdownMenuItemGroup = ({children, showDivider = true}) => (
     <React.Fragment>
         {children}
-        {children.length && showDivider && (
+        {children.length && children.reduce((result, child) => (child && child.props.children && child.props.children.length) || result, false) && showDivider && (
             <li className='divider'/>
         )}
     </React.Fragment>
