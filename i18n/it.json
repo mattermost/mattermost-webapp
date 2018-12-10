@@ -2640,7 +2640,7 @@
   "user_profile.account.editSettings": "Impostazioni Account",
   "user_profile.account.localTime": "Ora locale: ",
   "user_profile.add_user_to_channel": "Aggiungi al Canale",
-  "user_profile.add_user_to_channel.icon": "Icon Aggiungi Utente al Canale",
+  "user_profile.add_user_to_channel.icon": "Aggiungi Utente all'Icona Canale",
   "user_profile.send.dm": "Invia messaggio",
   "user_profile.send.dm.icon": "Icona Invia Messaggio",
   "user.settings.advance.codeBlockOnCtrlEnterSendDesc": "Se attivo, INVIO aggiunge una nuova linea nei messaggi formattati come codice e che iniziano con ```.  CTRL + INVIO invia il messaggio.",
