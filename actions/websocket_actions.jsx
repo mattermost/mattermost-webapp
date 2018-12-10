@@ -12,6 +12,7 @@ import {
     GeneralTypes,
     AdminTypes,
     IntegrationTypes,
+    PreferenceTypes,
 } from 'mattermost-redux/action_types';
 import {WebsocketEvents, General} from 'mattermost-redux/constants';
 import {
@@ -41,6 +42,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import * as StatusActions from 'actions/status_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
@@ -726,17 +728,27 @@ function handleChannelDeletedEvent(msg) {
 
 function handlePreferenceChangedEvent(msg) {
     const preference = JSON.parse(msg.data.preference);
-    GlobalActions.emitPreferenceChangedEvent(preference);
+    dispatch({type: PreferenceTypes.RECEIVED_PREFERENCES, data: [preference]});
+    if (addedNewDmUser(preference)) {
+        loadProfilesForSidebar();
+    }
 }
 
 function handlePreferencesChangedEvent(msg) {
     const preferences = JSON.parse(msg.data.preferences);
-    GlobalActions.emitPreferencesChangedEvent(preferences);
+    dispatch({type: PreferenceTypes.RECEIVED_PREFERENCES, data: preferences});
+    if (preferences.findIndex(addedNewDmUser) !== -1) {
+        loadProfilesForSidebar();
+    }
 }
 
 function handlePreferencesDeletedEvent(msg) {
     const preferences = JSON.parse(msg.data.preferences);
-    GlobalActions.emitPreferencesDeletedEvent(preferences);
+    dispatch({type: PreferenceTypes.DELETED_PREFERENCES, data: preferences});
+}
+
+function addedNewDmUser(preference) {
+    return preference.category === Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW && preference.value === 'true';
 }
 
 function handleUserTypingEvent(msg) {
