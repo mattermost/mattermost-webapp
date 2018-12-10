@@ -113,6 +113,12 @@ export default class SuggestionBox extends React.Component {
          * If true, replace all input in the suggestion box with the selected option after a select, defaults to false
          */
         replaceAllInputOnSelect: PropTypes.bool,
+
+        /**
+         * An optional, opaque identifier that distinguishes the context in which the suggestion
+         * box is rendered. This allows the reused component to otherwise respond to changes.
+         */
+        contextId: PropTypes.string,
     }
 
     static defaultProps = {
@@ -156,6 +162,15 @@ export default class SuggestionBox extends React.Component {
             allowDividers: true,
             presentationType: 'text',
         };
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.contextId !== this.props.contextId) {
+            const textbox = this.getTextbox();
+            const pretext = textbox.value.substring(0, textbox.selectionEnd).toLowerCase();
+
+            this.handlePretextChanged(pretext);
+        }
     }
 
     getTextbox = () => {
