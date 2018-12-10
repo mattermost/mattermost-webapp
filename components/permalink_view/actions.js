@@ -23,7 +23,7 @@ export function focusPost(postId, returnTo = '') {
         const state = getState();
         const channelId = data.posts[data.order[0]].channel_id;
         let channel = state.entities.channels.channels[channelId];
-        const teamId = getCurrentTeamId(getState());
+        const teamId = getCurrentTeamId(state);
 
         if (!channel) {
             const {data: channelData} = await dispatch(getChannel(channelId));
