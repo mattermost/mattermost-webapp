@@ -39,6 +39,7 @@ const AddMembers = ({channel, isDefault, isArchived}) => {
         >
             <li role='presentation'>
                 <ToggleModalButtonRedux
+                    id='channelAddMembers'
                     role='menuitem'
                     modalId={ModalIdentifiers.CHANNEL_INVITE}
                     dialogType={ChannelInviteModal}

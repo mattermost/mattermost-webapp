@@ -31,7 +31,7 @@ const SetChannelHeader = ({channel, isArchived, isReadonly}) => {
         >
             <li role='presentation'>
                 <ToggleModalButtonRedux
-                    id='editChannelHeader'
+                    id='channelEditHeader'
                     role='menuitem'
                     modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
                     dialogType={EditChannelHeaderModal}
