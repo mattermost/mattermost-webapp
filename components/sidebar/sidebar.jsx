@@ -191,10 +191,6 @@ export default class Sidebar extends React.PureComponent {
         document.addEventListener('keydown', this.navigateUnreadChannelShortcut);
     }
 
-    UNSAFE_componentWillUpdate() { // eslint-disable-line camelcase
-        this.updateUnreadIndicators();
-    }
-
     componentDidUpdate(prevProps) {
         // if the active channel disappeared (which can happen when dm channels autoclose), go to town square
         if (this.props.currentTeam === prevProps.currentTeam &&
@@ -224,6 +220,7 @@ export default class Sidebar extends React.PureComponent {
         this.updateTitle();
         this.setBadgesActiveAndFavicon();
         this.setFirstAndLastUnreadChannels();
+        this.updateUnreadIndicators();
     }
 
     componentWillUnmount() {
@@ -375,11 +372,12 @@ export default class Sidebar extends React.PureComponent {
                 showBottomUnread = true;
             }
         }
-
-        this.setState({
-            showTopUnread,
-            showBottomUnread,
-        });
+        if (showTopUnread !== this.state.showTopUnread || showBottomUnread !== this.state.showBottomUnread) {
+            this.setState({
+                showTopUnread,
+                showBottomUnread,
+            });
+        }
     }
 
     updateScrollbarOnChannelChange = (channelId) => {
