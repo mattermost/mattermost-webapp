@@ -20,6 +20,7 @@ exports[`components/ChannelHeaderDropdown/MenuItem.ConvertChannel should match s
         }
       }
       dialogType={[Function]}
+      id="channelConvert"
       modalId="convert_channel"
       role="menuitem"
     >

@@ -23,6 +23,7 @@ const NotificationPreferences = ({user, channel, isArchived}) => {
     return (
         <li role='presentation'>
             <ToggleModalButtonRedux
+                id='channelNotifications'
                 role='menuitem'
                 modalId={ModalIdentifiers.CHANNEL_NOTIFICATIONS}
                 dialogType={ChannelNotificationsModal}
