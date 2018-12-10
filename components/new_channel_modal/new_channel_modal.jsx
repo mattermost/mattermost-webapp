@@ -196,7 +196,7 @@ export default class NewChannelModal extends React.PureComponent {
         }
 
         const publicChannelDesc = (
-            <div>
+            <div className='flex-parent'>
                 <GlobeIcon className='icon icon__globe icon--body type-icon'/>
                 <FormattedMessage
                     id='channel_modal.publicName'
@@ -210,7 +210,7 @@ export default class NewChannelModal extends React.PureComponent {
         );
 
         const privateChannelDesc = (
-            <div>
+            <div className='flex-parent'>
                 <LockIcon className='icon icon__lock icon--body type-icon'/>
                 <FormattedMessage
                     id='channel_modal.privateName'
@@ -226,7 +226,10 @@ export default class NewChannelModal extends React.PureComponent {
         let typeOptions = null;
         if (enableTypeSelection) {
             typeOptions = (
-                <div key='channelType'>
+                <div
+                    key='channelType'
+                    className='multi-select__radio'
+                >
                     <div className='radio'>
                         <label>
                             <input
@@ -238,7 +241,6 @@ export default class NewChannelModal extends React.PureComponent {
                             />
                             {publicChannelDesc}
                         </label>
-                        <br/>
                     </div>
                     <div className='radio'>
                         <label>
@@ -251,7 +253,6 @@ export default class NewChannelModal extends React.PureComponent {
                             />
                             {privateChannelDesc}
                         </label>
-                        <br/>
                     </div>
                 </div>
             );
