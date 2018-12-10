@@ -309,7 +309,8 @@ function onThemeSaved(teamId, onSuccess) {
     const toDelete = [];
 
     for (const themePreference of themePreferences) {
-        if (themePreference.name === '' || themePreference.name === teamId) {
+        const name = themePreference.name;
+        if (name === '' || name === teamId) {
             continue;
         }
 
