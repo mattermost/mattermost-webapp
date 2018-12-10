@@ -27,6 +27,7 @@ const ViewAndManageMembers = ({channel, isDefault}) => {
     return (
         <li role='presentation'>
             <ToggleModalButtonRedux
+                id={'channelManageMembers'}
                 role='menuitem'
                 modalId={ModalIdentifiers.CHANNEL_MEMBERS}
                 dialogType={ChannelMembersModal}

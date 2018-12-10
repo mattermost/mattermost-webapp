@@ -24,6 +24,7 @@ exports[`components/ChannelHeaderDropdown/MenuItem.AddMembers should match snaps
         }
       }
       dialogType={[Function]}
+      id="channelAddMembers"
       modalId="channel_invite"
       role="menuitem"
     >

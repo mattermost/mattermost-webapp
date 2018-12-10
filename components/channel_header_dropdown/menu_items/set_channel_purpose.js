@@ -39,6 +39,7 @@ const SetChannelPurpose = ({channel, isArchived, isReadonly}) => {
         >
             <li role='presentation'>
                 <ToggleModalButtonRedux
+                    id='channelEditPurpose'
                     role='menuitem'
                     modalId={ModalIdentifiers.EDIT_CHANNEL_PURPOSE}
                     dialogType={EditChannelPurposeModal}
