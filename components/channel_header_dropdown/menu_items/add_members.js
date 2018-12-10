@@ -9,6 +9,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ChannelInviteModal from 'components/channel_invite_modal';
+import MoreDirectChannels from 'components/more_direct_channels';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 
 const AddMembers = ({channel, isDefault, isArchived}) => {
@@ -25,7 +26,22 @@ const AddMembers = ({channel, isDefault, isArchived}) => {
     }
 
     if (channel.type === Constants.GM_CHANNEL) {
-        return null;
+        return (
+            <li role='presentation'>
+                <ToggleModalButtonRedux
+                    id='channelAddMembersGroup'
+                    role='menuitem'
+                    modalId={ModalIdentifiers.CREATE_DM_CHANNEL}
+                    dialogType={MoreDirectChannels}
+                    dialogProps={{isExistingChannel: true}}
+                >
+                    <FormattedMessage
+                        id='channel_header.addMembers'
+                        defaultMessage='Add Members'
+                    />
+                </ToggleModalButtonRedux>
+            </li>
+        );
     }
 
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
