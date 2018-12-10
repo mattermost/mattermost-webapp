@@ -372,11 +372,12 @@ export default class Sidebar extends React.PureComponent {
                 showBottomUnread = true;
             }
         }
-
-        this.setState({
-            showTopUnread,
-            showBottomUnread,
-        });
+        if (showTopUnread !== this.state.showTopUnread || showBottomUnread !== this.state.showBottomUnread) {
+            this.setState({
+                showTopUnread,
+                showBottomUnread,
+            });
+        }
     }
 
     updateScrollbarOnChannelChange = (channelId) => {
