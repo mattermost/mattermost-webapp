@@ -403,7 +403,14 @@ export const NotificationLevels = {
     NONE: 'none',
 };
 
+export const IgnoreChannelMentions = {
+    ON: 'on',
+    OFF: 'off',
+    DEFAULT: 'default',
+};
+
 export const NotificationSections = {
+    IGNORE_CHANNEL_MENTIONS: 'ignoreChannelMentions',
     MARK_UNREAD: 'markUnread',
     DESKTOP: 'desktop',
     PUSH: 'push',
