@@ -1197,7 +1197,7 @@ export const Constants = {
     AUTOCOMPLETE_TIMEOUT: 100,
     ANIMATION_TIMEOUT: 1000,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
-    DIAGNOSTICS_SEGMENT_KEY: 'fwb7VPbFeQ7SKp3wHm1RzFUuXZudqVok',
+    DIAGNOSTICS_SEGMENT_KEY: 'placeholder_segment_key',
     TEST_ID_COUNT: 0,
     CENTER: 'center',
     RHS: 'rhs',
