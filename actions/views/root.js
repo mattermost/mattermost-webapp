@@ -8,10 +8,10 @@ import {Client4} from 'mattermost-redux/client';
 import {ActionTypes} from 'utils/constants';
 
 export function loadMeAndConfig() {
-    return (dispatch) => {
-        // if any new promise needs to be added please be mindful of the order as it is used in root.jsx for redirection
+    return async (dispatch) => {
+        // need to await for clientConfig first as it is required for loadMe
+        const clientConfig = await dispatch(getClientConfig());
         const promises = [
-            dispatch(getClientConfig()),
             dispatch(getLicenseConfig()),
         ];
 
@@ -19,7 +19,10 @@ export function loadMeAndConfig() {
             promises.push(dispatch(UserActions.loadMe()));
         }
 
-        return Promise.all(promises);
+        const resolvedPromises = await Promise.all(promises);
+
+        // if any new promise needs to be added please be mindful of the order as it is used in root.jsx for redirection
+        return [clientConfig, ...resolvedPromises];
     };
 }
 
