@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import * as Utils from 'utils/utils.jsx';
-
 export default class EmojiPickerHeader extends React.PureComponent {
     static propTypes = {
         handleEmojiPickerClose: PropTypes.func.isRequired,
@@ -21,7 +19,12 @@ export default class EmojiPickerHeader extends React.PureComponent {
                     onClick={this.props.handleEmojiPickerClose}
                 >
                     <span aria-hidden='true'>{'×'}</span>
-                    <span className='sr-only'>{Utils.localizeMessage('emoji_picker.close', 'Close')}</span>
+                    <span className='sr-only'>
+                        <FormattedMessage
+                            id={'emoji_picker.close'}
+                            defaultMessage={'Close'}
+                        />
+                    </span>
                 </button>
                 <h4 className='modal-title emoji-picker__header-title'>
                     <FormattedMessage

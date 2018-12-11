@@ -17,7 +17,11 @@ exports[`components/emoji_picker/components/EmojiPickerHeader handleEmojiPickerC
     <span
       className="sr-only"
     >
-      Close
+      <FormattedMessage
+        defaultMessage="Close"
+        id="emoji_picker.close"
+        values={Object {}}
+      />
     </span>
   </button>
   <h4
@@ -49,7 +53,11 @@ exports[`components/emoji_picker/components/EmojiPickerHeader should match snaps
     <span
       className="sr-only"
     >
-      Close
+      <FormattedMessage
+        defaultMessage="Close"
+        id="emoji_picker.close"
+        values={Object {}}
+      />
     </span>
   </button>
   <h4
