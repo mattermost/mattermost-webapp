@@ -9,20 +9,20 @@ import {ActionTypes} from 'utils/constants';
 
 export function loadMeAndConfig() {
     return async (dispatch) => {
-        // need to await for clientConfig first as it is required for loadMe
-        const clientConfig = await dispatch(getClientConfig());
+        // if any new promise needs to be added please be mindful of the order as it is used in root.jsx for redirection
         const promises = [
+            dispatch(getClientConfig()),
             dispatch(getLicenseConfig()),
         ];
 
-        if (document.cookie.indexOf('MMUSERID=') > -1) {
-            promises.push(dispatch(UserActions.loadMe()));
-        }
-
         const resolvedPromises = await Promise.all(promises);
 
-        // if any new promise needs to be added please be mindful of the order as it is used in root.jsx for redirection
-        return [clientConfig, ...resolvedPromises];
+        // need to await for clientConfig first as it is required for loadMe
+        if (document.cookie.indexOf('MMUSERID=') > -1) {
+            const loadMeResponse = await dispatch(UserActions.loadMe());
+        }
+
+        return [...resolvedPromises, loadMeResponse];
     };
 }
 
