@@ -101,7 +101,7 @@ export default class ManageTeamsModal extends React.Component {
         }
     }
 
-    handleMemberChange = async () => {
+    handleMemberChange = () => {
         this.getTeamMembers(this.props.user.id);
     };
 
