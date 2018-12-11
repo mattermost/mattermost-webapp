@@ -86,7 +86,7 @@ export default class SearchBar extends React.Component {
         // when focus is released from the search box.
         setTimeout(() => {
             this.setState({focused: false});
-        }, 100);
+        }, 200);
     }
 
     handleClear = () => {
