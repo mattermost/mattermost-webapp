@@ -10,17 +10,19 @@ import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitUserLoggedOutEvent: jest.fn(),
+    redirectUserToDefaultTeam: jest.fn(),
 }));
 
 describe('components/terms_of_service/TermsOfService', () => {
-    const getTermsOfService = jest.fn();
-    const updateMyTermsOfServiceStatus = jest.fn();
+    const getTermsOfService = jest.fn().mockResolvedValue({data: {id: 'tos_id', text: 'tos_text'}});
+    const updateMyTermsOfServiceStatus = jest.fn().mockResolvedValue({data: true});
 
     const baseProps = {
         actions: {
             getTermsOfService,
             updateMyTermsOfServiceStatus,
         },
+        location: {search: ''},
         termsEnabled: true,
     };
 
@@ -57,9 +59,9 @@ describe('components/terms_of_service/TermsOfService', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call updateTermsOfServiceStatus on registerUserAction', () => {
+    test('should call updateTermsOfServiceStatus on registerUserAction', async () => {
         const wrapper = shallow(<TermsOfService {...baseProps}/>);
-        wrapper.instance().registerUserAction({accepted: 'true', success: jest.fn()});
+        await wrapper.instance().registerUserAction(true, jest.fn());
         expect(baseProps.actions.updateMyTermsOfServiceStatus).toHaveBeenCalledTimes(1);
     });
 

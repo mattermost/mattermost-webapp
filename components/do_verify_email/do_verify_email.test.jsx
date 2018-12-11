@@ -16,8 +16,8 @@ describe('components/DoVerifyEmail', () => {
         },
         siteName: 'Mattermost',
         actions: {
-            verifyUserEmail: jest.fn(),
-            updateMe: jest.fn(),
+            verifyUserEmail: jest.fn().mockResolvedValue({data: true}),
+            updateMe: jest.fn().mockResolvedValue({data: true}),
             logError: jest.fn(),
             clearErrors: jest.fn(),
         },

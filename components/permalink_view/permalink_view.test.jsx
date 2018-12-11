@@ -85,14 +85,16 @@ describe('components/PermalinkView', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call emitPostFocusEvent on doPermalinkEvent', () => {
+    test('should call baseProps.actions.focusPost on doPermalinkEvent', async () => {
         const wrapper = shallow(
             <PermalinkView {...baseProps}/>
         );
 
-        wrapper.setState({valid: false});
-        wrapper.instance().doPermalinkEvent();
         expect(baseProps.actions.focusPost).toHaveBeenCalledTimes(1);
+
+        wrapper.setState({valid: false});
+        await wrapper.instance().doPermalinkEvent(baseProps);
+        expect(baseProps.actions.focusPost).toHaveBeenCalledTimes(2);
         expect(baseProps.actions.focusPost).toBeCalledWith(baseProps.match.params.postid, baseProps.returnTo);
     });
 
@@ -106,6 +108,7 @@ describe('components/PermalinkView', () => {
         wrapper.setState({valid: true});
         expect(wrapper).toMatchSnapshot();
     });
+
     describe('actions', () => {
         const initialState = {
             entities: {
