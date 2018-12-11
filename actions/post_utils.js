@@ -28,7 +28,8 @@ export function completePostReceive(post, websocketMessageProps) {
         const state = getState();
 
         const rootPost = PostSelectors.getPost(state, post.root_id);
-        if (post.root_id && !rootPost) {
+        const postsInChannel = PostSelectors.getPostIdsInChannel(getState(), post.channel_id);
+        if (post.root_id && !rootPost && postsInChannel && postsInChannel.length !== 0) {
             const {data: posts} = await dispatch(PostActions.getPostThread(post.root_id));
             if (posts) {
                 dispatch(lastPostActions(post, websocketMessageProps));
