@@ -16,6 +16,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
+import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview/file_preview.jsx';
 import FileUpload from 'components/file_upload';
@@ -480,7 +481,14 @@ export default class CreatePost extends React.Component {
 
         const isDirectOrGroup = ((updateChannel.type === Constants.DM_CHANNEL) || (updateChannel.type === Constants.GM_CHANNEL));
         if (!isDirectOrGroup && trimRight(this.state.message) === '/purpose') {
-            GlobalActions.showChannelPurposeUpdateModal(updateChannel);
+            const editChannelPurposeModalData = {
+                modalId: ModalIdentifiers.EDIT_CHANNEL_PURPOSE,
+                dialogType: EditChannelPurposeModal,
+                dialogProps: {channel: updateChannel},
+            };
+
+            this.props.actions.openModal(editChannelPurposeModalData);
+
             this.setState({message: ''});
             return;
         }
