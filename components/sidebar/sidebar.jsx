@@ -234,7 +234,7 @@ export default class Sidebar extends React.PureComponent {
 
     setBadgesActiveAndFavicon() {
         this.lastBadgesActive = this.badgesActive;
-        this.badgesActive = this.props.unreads.mentions;
+        this.badgesActive = this.props.unreads.mentionCount;
 
         // update the favicon to show if there are any notifications
         if (this.lastBadgesActive !== this.badgesActive) {
