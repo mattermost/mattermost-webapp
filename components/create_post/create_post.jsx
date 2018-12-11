@@ -31,6 +31,15 @@ import MessageSubmitError from 'components/message_submit_error';
 
 const KeyCodes = Constants.KeyCodes;
 
+// Temporary fix for IE-11, see MM-13423
+function trimRight(str) {
+    if (String.prototype.trimRight) {
+        return str.trimRight();
+    }
+
+    return str.replace(/\s*$/, '');
+}
+
 export default class CreatePost extends React.Component {
     static propTypes = {
 
@@ -456,7 +465,7 @@ export default class CreatePost extends React.Component {
             return;
         }
 
-        if (this.state.message.trimRight() === '/header') {
+        if (trimRight(this.state.message) === '/header') {
             const editChannelHeaderModalData = {
                 modalId: ModalIdentifiers.EDIT_CHANNEL_HEADER,
                 dialogType: EditChannelHeaderModal,
@@ -470,13 +479,13 @@ export default class CreatePost extends React.Component {
         }
 
         const isDirectOrGroup = ((updateChannel.type === Constants.DM_CHANNEL) || (updateChannel.type === Constants.GM_CHANNEL));
-        if (!isDirectOrGroup && this.state.message.trimRight() === '/purpose') {
+        if (!isDirectOrGroup && trimRight(this.state.message) === '/purpose') {
             GlobalActions.showChannelPurposeUpdateModal(updateChannel);
             this.setState({message: ''});
             return;
         }
 
-        if (!isDirectOrGroup && this.state.message.trimRight() === '/rename') {
+        if (!isDirectOrGroup && trimRight(this.state.message) === '/rename') {
             GlobalActions.showChannelNameUpdateModal(updateChannel);
             this.setState({message: ''});
             return;
