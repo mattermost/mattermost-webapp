@@ -450,23 +450,13 @@ export default class PluginManagement extends AdminSettings {
         }
     }
 
-    handleSubmitUpload = async (e) => {
-        e.preventDefault();
-
-        const element = this.refs.fileInput;
-        if (element.files.length === 0) {
-            return;
-        }
-        const file = element.files[0];
-
+    helpSubmitUpload = async (file, force) => {
         this.setState({uploading: true});
-
-        const {error} = await this.props.actions.uploadPlugin(file, false);
+        const {error} = await this.props.actions.uploadPlugin(file, force);
         this.setState({uploading: false, serverError: null});
-        Utils.clearFileInput(element);
 
         if (error) {
-            if (error.server_error_id === 'app.plugin.install_id.app_error') {
+            if (error.server_error_id === 'app.plugin.install_id.app_error' && !force) {
                 this.setState({showOverwritePluginModal: true});
                 return;
             }
@@ -482,25 +472,27 @@ export default class PluginManagement extends AdminSettings {
         }
     }
 
-    handleOverwritePluginCancel = async () => {
+    handleSubmitUpload = (e) => {
+        e.preventDefault();
+
+        const element = this.refs.fileInput;
+        if (element.files.length === 0) {
+            return;
+        }
+        const file = element.files[0];
+
+        this.helpSubmitUpload(file, false);
+        Utils.clearFileInput(element);
+    }
+
+    handleOverwritePluginCancel = () => {
         this.setState({showOverwritePluginModal: false, file: null, fileSelected: false});
     }
 
-    handleOverwritePlugin = async () => {
+    handleOverwritePlugin = () => {
         this.setState({showOverwritePluginModal: false});
-        this.setState({uploading: true});
-        const {error} = await this.props.actions.uploadPlugin(this.state.file, true);
-        this.setState({fileSelected: false, file: null, uploading: false, serverError: null});
-
-        if (error) {
-            if (error.server_error_id === 'app.plugin.activate.app_error') {
-                this.setState({serverError: Utils.localizeMessage('admin.plugin.error.activate', 'Unable to upload the plugin. It may conflict with another plugin on your server.')});
-            } else if (error.server_error_id === 'app.plugin.extract.app_error') {
-                this.setState({serverError: Utils.localizeMessage('admin.plugin.error.extract', 'Encountered an error when extracting the plugin. Review your plugin file content and try again.')});
-            } else {
-                this.setState({serverError: error.message});
-            }
-        }
+        this.helpSubmitUpload(this.state.file, true);
+        this.setState({file: null, fileSelected: false});
     }
 
     handleRemove = async (e) => {
