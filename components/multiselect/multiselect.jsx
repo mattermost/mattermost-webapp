@@ -291,6 +291,7 @@ export default class MultiSelect extends React.Component {
                 <div className='filter-row filter-row--full'>
                     <div className='multi-select__container'>
                         <ReactSelect
+                            id='selectItems'
                             ref='reactSelect'
                             isMulti={true}
                             options={this.props.options}
@@ -310,6 +311,7 @@ export default class MultiSelect extends React.Component {
                             inputValue={this.state.input}
                         />
                         <SaveButton
+                            id='saveItems'
                             saving={this.props.saving}
                             disabled={this.props.saving}
                             onClick={this.handleOnClick}
