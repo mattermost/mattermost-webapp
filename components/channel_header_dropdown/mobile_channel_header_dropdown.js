@@ -20,6 +20,7 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
         isFavorite: PropTypes.bool.isRequired,
         isReadonly: PropTypes.bool.isRequired,
         isArchived: PropTypes.bool.isRequired,
+        isMuted: PropTypes.bool.isRequired,
         teammateId: PropTypes.string,
         teammateStatus: PropTypes.string,
     }
@@ -52,6 +53,7 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
             isFavorite,
             isReadonly,
             isArchived,
+            isMuted,
         } = this.props;
 
         const Divider = (
@@ -90,6 +92,12 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                     <MenuItem.NotificationPreferences
                         user={user}
                         channel={channel}
+                        isArchived={isArchived}
+                    />
+                    <MenuItem.ToggleMuteChannel
+                        user={user}
+                        channel={channel}
+                        isMuted={isMuted}
                         isArchived={isArchived}
                     />
                     {Divider}
