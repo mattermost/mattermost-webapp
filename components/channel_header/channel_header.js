@@ -10,6 +10,7 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import 'bootstrap';
 
+import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';
 import PopoverListMembers from 'components/popover_list_members';
 import SearchBar from 'components/search_bar';
@@ -223,6 +224,21 @@ export default class ChannelHeader extends React.PureComponent {
                 dialogType: QuickSwitchModal,
             });
         }
+    }
+
+    showEditChannelHeaderModal = () => {
+        if (this.refs.headerOverlay) {
+            this.refs.headerOverlay.hide();
+        }
+
+        const {actions, channel} = this.props;
+        const modalData = {
+            modalId: ModalIdentifiers.EDIT_CHANNEL_HEADER,
+            dialogType: EditChannelHeaderModal,
+            dialogProps: {channel},
+        };
+
+        actions.openModal(modalData);
     }
 
     render() {
