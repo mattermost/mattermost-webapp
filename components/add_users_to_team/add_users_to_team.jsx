@@ -23,7 +23,7 @@ export default class AddUsersToTeam extends React.Component {
         currentTeamId: PropTypes.string.isRequired,
         searchTerm: PropTypes.string.isRequired,
         users: PropTypes.array.isRequired,
-        onModalDismissed: PropTypes.func,
+        onHide: PropTypes.func,
         actions: PropTypes.shape({
             getProfilesNotInTeam: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
@@ -83,8 +83,8 @@ export default class AddUsersToTeam extends React.Component {
     }
 
     handleExit = () => {
-        if (this.props.onModalDismissed) {
-            this.props.onModalDismissed();
+        if (this.props.onHide) {
+            this.props.onHide();
         }
     }
 

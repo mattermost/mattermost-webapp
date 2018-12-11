@@ -108,7 +108,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
           <div
             className="col__controls col__reply"
           >
-            <Connect(InjectIntl(DotMenu))
+            <Connect(DotMenu)
               handleDropdownOpened={[Function]}
               isFlagged={true}
               isReadOnly={true}
@@ -314,7 +314,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
           <div
             className="col__controls col__reply"
           >
-            <Connect(InjectIntl(DotMenu))
+            <Connect(DotMenu)
               handleDropdownOpened={[Function]}
               isFlagged={true}
               isReadOnly={true}
@@ -520,7 +520,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
           <div
             className="col__controls col__reply"
           >
-            <Connect(InjectIntl(DotMenu))
+            <Connect(DotMenu)
               handleDropdownOpened={[Function]}
               isFlagged={true}
               isReadOnly={true}

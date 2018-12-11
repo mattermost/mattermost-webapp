@@ -41,7 +41,7 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
 
         const wrapper = shallowWithIntl(
             <DotMenu {...baseProps}/>
-        ).dive({disableLifecycleMethods: true});
+        );
 
         expect(wrapper).toMatchSnapshot();
     });

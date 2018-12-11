@@ -24,7 +24,7 @@ export default class AboutBuildModal extends React.PureComponent {
         /**
          * Function that is called when the modal is dismissed
          */
-        onModalDismissed: PropTypes.func.isRequired,
+        onHide: PropTypes.func.isRequired,
 
         /**
          * Global config object
@@ -48,7 +48,7 @@ export default class AboutBuildModal extends React.PureComponent {
     }
 
     doHide() {
-        this.props.onModalDismissed();
+        this.props.onHide();
     }
 
     render() {

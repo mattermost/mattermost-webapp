@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
 import {canManageMembers} from 'utils/channel_utils.jsx';
-import Constants from 'utils/constants.jsx';
+import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
@@ -27,6 +27,7 @@ export default class PopoverListMembers extends React.Component {
         currentUserId: PropTypes.string.isRequired,
         teamUrl: PropTypes.string,
         actions: PropTypes.shape({
+            openModal: PropTypes.func.isRequired,
             getProfilesInChannel: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
         }).isRequired,
@@ -81,19 +82,13 @@ export default class PopoverListMembers extends React.Component {
     showMembersModal = (e) => {
         e.preventDefault();
 
-        this.setState({
-            showPopover: false,
-            showChannelMembersModal: true,
-        });
-    };
-
-    hideChannelMembersModal = () => {
-        this.setState({showChannelMembersModal: false});
+        this.props.actions.openModal({modalId: ModalIdentifiers.TEAM_MEMBERS, dialogType: TeamMembersModal});
+        this.setState({showPopover: false});
     };
 
     showChannelInviteModal = () => {
         this.setState({showChannelInviteModal: true});
-    };
+    }
 
     hideChannelInviteModal = () => {
         this.setState({showChannelInviteModal: false});
@@ -179,7 +174,6 @@ export default class PopoverListMembers extends React.Component {
         if (this.state.showChannelMembersModal) {
             channelMembersModal = (
                 <ChannelMembersModal
-                    onHide={this.hideChannelMembersModal}
                     showInviteModal={this.showChannelInviteModal}
                     channel={this.props.channel}
                 />

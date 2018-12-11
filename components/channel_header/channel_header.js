@@ -23,6 +23,7 @@ import ArchiveIcon from 'components/svg/archive_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
 
 import {
     Constants,
@@ -508,27 +509,23 @@ export default class ChannelHeader extends React.PureComponent {
                             >
                                 {toggleFavorite}
                                 <h2>
-                                    <button
-                                        id='channelHeaderDropdownButton'
-                                        className='dropdown-toggle theme style--none'
-                                        type='button'
-                                        data-toggle='dropdown'
-                                        aria-expanded='true'
-                                    >
-                                        <strong
-                                            id='channelHeaderTitle'
-                                            className='heading'
-                                        >
-                                            {archivedIcon}
-                                            {channelTitle}
-                                        </strong>
-                                        <span
-                                            id='channelHeaderDropdownIcon'
-                                            className='fa fa-angle-down header-dropdown__icon'
-                                            title={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'})}
-                                        />
-                                    </button>
-                                    <ChannelHeaderDropdown/>
+                                    <MenuWrapper>
+                                        <div>
+                                            <strong
+                                                id='channelHeaderTitle'
+                                                className='heading'
+                                            >
+                                                {archivedIcon}
+                                                {channelTitle}
+                                            </strong>
+                                            <span
+                                                id='channelHeaderDropdownIcon'
+                                                className='fa fa-angle-down header-dropdown__icon'
+                                                title={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'})}
+                                            />
+                                        </div>
+                                        <ChannelHeaderDropdown/>
+                                    </MenuWrapper>
                                 </h2>
                                 {muteTrigger}
                             </div>

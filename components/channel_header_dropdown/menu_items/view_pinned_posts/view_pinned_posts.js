@@ -3,25 +3,16 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage} from 'react-intl';
+
+import {localizeMessage} from 'utils/utils';
+
+import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
 
 export default class ViewPinnedPosts extends React.PureComponent {
     static propTypes = {
-
-        /**
-         * Object with info about channel
-         */
+        show: PropTypes.bool,
         channel: PropTypes.object.isRequired,
-
-        /**
-         * Bool whether the channel has pinned any posts
-         * from redux store
-         */
         hasPinnedPosts: PropTypes.bool.isRequired,
-
-        /**
-         * Object with action creators
-         */
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
@@ -49,18 +40,11 @@ export default class ViewPinnedPosts extends React.PureComponent {
 
     render() {
         return (
-            <li role='presentation'>
-                <button
-                    role='menuitem'
-                    className='style--none'
-                    onClick={this.handleClick}
-                >
-                    <FormattedMessage
-                        id='navbar.viewPinnedPosts'
-                        defaultMessage='View Pinned Posts'
-                    />
-                </button>
-            </li>
+            <MenuItemAction
+                show={this.props.show}
+                onClick={this.handleClick}
+                text={localizeMessage('navbar.viewPinnedPosts', 'View Pinned Posts')}
+            />
         );
     }
 }
