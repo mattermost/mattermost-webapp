@@ -15,11 +15,12 @@ export function loadMeAndConfig() {
             dispatch(getLicenseConfig()),
         ];
 
+        // need to await for clientConfig first as it is required for loadMe
         const resolvedPromises = await Promise.all(promises);
 
-        // need to await for clientConfig first as it is required for loadMe
+        let loadMeResponse;
         if (document.cookie.indexOf('MMUSERID=') > -1) {
-            const loadMeResponse = await dispatch(UserActions.loadMe());
+            loadMeResponse = await dispatch(UserActions.loadMe());
         }
 
         return [...resolvedPromises, loadMeResponse];
