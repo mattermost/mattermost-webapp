@@ -20,31 +20,39 @@ const SetChannelHeader = ({channel, isArchived, isReadonly}) => {
         return null;
     }
 
+    let menuItem = (
+        <li role='presentation'>
+            <ToggleModalButtonRedux
+                id='channelEditHeader'
+                role='menuitem'
+                modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
+                dialogType={EditChannelHeaderModal}
+                dialogProps={{channel}}
+            >
+                <FormattedMessage
+                    id='channel_header.setHeader'
+                    defaultMessage='Edit Channel Header'
+                />
+            </ToggleModalButtonRedux>
+        </li>
+    );
+
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const permission = isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES;
 
-    return (
-        <ChannelPermissionGate
-            channelId={channel.id}
-            teamId={channel.team_id}
-            permissions={[permission]}
-        >
-            <li role='presentation'>
-                <ToggleModalButtonRedux
-                    id='channelEditHeader'
-                    role='menuitem'
-                    modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
-                    dialogType={EditChannelHeaderModal}
-                    dialogProps={{channel}}
-                >
-                    <FormattedMessage
-                        id='channel_header.setHeader'
-                        defaultMessage='Edit Channel Header'
-                    />
-                </ToggleModalButtonRedux>
-            </li>
-        </ChannelPermissionGate>
-    );
+    if (channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL) {
+        menuItem = (
+            <ChannelPermissionGate
+                channelId={channel.id}
+                teamId={channel.team_id}
+                permissions={[permission]}
+            >
+                {menuItem}
+            </ChannelPermissionGate>
+        );
+    }
+
+    return menuItem;
 };
 
 SetChannelHeader.propTypes = {
