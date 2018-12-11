@@ -37,3 +37,27 @@ exports[`components/ChannelHeaderDropdown/MenuItem.AddMembers should match snaps
   </li>
 </Connect(ChannelPermissionGate)>
 `;
+
+exports[`components/ChannelHeaderDropdown/MenuItem.AddMembers should render correctly if the channel type is DM 1`] = `
+<li
+  role="presentation"
+>
+  <Connect(ModalToggleButtonRedux)
+    dialogProps={
+      Object {
+        "isExistingChannel": true,
+      }
+    }
+    dialogType={[Function]}
+    id="channelAddMembersGroup"
+    modalId="create_dm_channel"
+    role="menuitem"
+  >
+    <FormattedMessage
+      defaultMessage="Add Members"
+      id="channel_header.addMembers"
+      values={Object {}}
+    />
+  </Connect(ModalToggleButtonRedux)>
+</li>
+`;
