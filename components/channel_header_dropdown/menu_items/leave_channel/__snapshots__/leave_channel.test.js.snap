@@ -6,6 +6,7 @@ exports[`components/ChannelHeaderDropdown/MenuItem.LeaveChannel should match sna
 >
   <button
     className="style--none"
+    id="channelLeave"
     onClick={[Function]}
     role="menuitem"
   >

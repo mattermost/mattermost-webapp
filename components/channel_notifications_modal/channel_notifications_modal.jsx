@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
-import {NotificationLevels, NotificationSections} from 'utils/constants.jsx';
+import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import NotificationSection from 'components/channel_notifications_modal/components/notification_section.jsx';
@@ -61,25 +61,37 @@ export default class ChannelNotificationsModal extends React.PureComponent {
             show: true,
             activeSection: NotificationSections.NONE,
             serverError: null,
-            ...this.getStateFromNotifyProps(props.channelMember.notify_props),
+            ...this.getStateFromNotifyProps(props.channelMember.notify_props, props.currentUser.notify_props),
         };
     }
 
     componentDidUpdate(prevProps) {
         if (!Utils.areObjectsEqual(this.props.channelMember.notify_props, prevProps.channelMember.notify_props)) {
-            this.resetStateFromNotifyProps(this.props.channelMember.notify_props);
+            this.resetStateFromNotifyProps(this.props.channelMember.notify_props, this.props.currentUser.notify_props);
         }
     }
 
-    resetStateFromNotifyProps(notifyProps) {
-        this.setState(this.getStateFromNotifyProps(notifyProps));
+    resetStateFromNotifyProps(channelMemberNotifyProps, currentUserNotifyProps) {
+        this.setState(this.getStateFromNotifyProps(channelMemberNotifyProps, currentUserNotifyProps));
     }
 
-    getStateFromNotifyProps(notifyProps) {
+    getStateFromNotifyProps(channelMemberNotifyProps, currentUserNotifyProps) {
+        let ignoreChannelMentionsDefault = IgnoreChannelMentions.OFF;
+
+        if (currentUserNotifyProps.channel && currentUserNotifyProps.channel === 'false') {
+            ignoreChannelMentionsDefault = IgnoreChannelMentions.ON;
+        }
+
+        let ignoreChannelMentions = channelMemberNotifyProps.ignore_channel_mentions;
+        if (!ignoreChannelMentions || ignoreChannelMentions === IgnoreChannelMentions.DEFAULT) {
+            ignoreChannelMentions = ignoreChannelMentionsDefault;
+        }
+
         return {
-            desktopNotifyLevel: notifyProps.desktop || NotificationLevels.DEFAULT,
-            markUnreadNotifyLevel: notifyProps.mark_unread || NotificationLevels.ALL,
-            pushNotifyLevel: notifyProps.push || NotificationLevels.DEFAULT,
+            desktopNotifyLevel: channelMemberNotifyProps.desktop || NotificationLevels.DEFAULT,
+            markUnreadNotifyLevel: channelMemberNotifyProps.mark_unread || NotificationLevels.ALL,
+            pushNotifyLevel: channelMemberNotifyProps.push || NotificationLevels.DEFAULT,
+            ignoreChannelMentions,
         };
     }
 
@@ -102,7 +114,7 @@ export default class ChannelNotificationsModal extends React.PureComponent {
         this.setState({activeSection: section});
 
         if (section === NotificationSections.NONE) {
-            this.resetStateFromNotifyProps(this.props.channelMember.notify_props);
+            this.resetStateFromNotifyProps(this.props.channelMember.notify_props, this.props.currentUser.notify_props);
         }
     }
 
@@ -171,12 +183,30 @@ export default class ChannelNotificationsModal extends React.PureComponent {
         this.setState({pushNotifyLevel});
     }
 
+    handleUpdateIgnoreChannelMentions = (ignoreChannelMentions) => {
+        this.setState({ignoreChannelMentions});
+    }
+
+    handleSubmitIgnoreChannelMentions = () => {
+        const {channelMember} = this.props;
+        const {ignoreChannelMentions} = this.state;
+
+        if (channelMember.notify_props.ignore_channel_mentions === ignoreChannelMentions) {
+            this.updateSection('');
+            return;
+        }
+
+        const props = {ignore_channel_mentions: ignoreChannelMentions};
+        this.handleUpdateChannelNotifyProps(props);
+    }
+
     render() {
         const {
             activeSection,
             desktopNotifyLevel,
             markUnreadNotifyLevel,
             pushNotifyLevel,
+            ignoreChannelMentions,
             serverError,
         } = this.state;
 
@@ -223,6 +253,17 @@ export default class ChannelNotificationsModal extends React.PureComponent {
                                     memberNotificationLevel={markUnreadNotifyLevel}
                                     onChange={this.handleUpdateMarkUnreadLevel}
                                     onSubmit={this.handleSubmitMarkUnreadLevel}
+                                    onUpdateSection={this.updateSection}
+                                    serverError={serverError}
+                                />
+                                <div className='divider-light'/>
+                                <NotificationSection
+                                    section={NotificationSections.IGNORE_CHANNEL_MENTIONS}
+                                    expand={activeSection === NotificationSections.IGNORE_CHANNEL_MENTIONS}
+                                    memberNotificationLevel={markUnreadNotifyLevel}
+                                    ignoreChannelMentions={ignoreChannelMentions}
+                                    onChange={this.handleUpdateIgnoreChannelMentions}
+                                    onSubmit={this.handleSubmitIgnoreChannelMentions}
                                     onUpdateSection={this.updateSection}
                                     serverError={serverError}
                                 />

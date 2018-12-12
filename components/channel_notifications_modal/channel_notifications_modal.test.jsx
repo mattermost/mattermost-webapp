@@ -3,7 +3,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {NotificationLevels, NotificationSections} from 'utils/constants.jsx';
+import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants.jsx';
 
 import ChannelNotificationsModal from 'components/channel_notifications_modal/channel_notifications_modal.jsx';
 
@@ -17,6 +17,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
                 desktop: NotificationLevels.ALL,
                 mark_unread: NotificationLevels.ALL,
                 push: NotificationLevels.DEFAULT,
+                ignore_channel_mentions: IgnoreChannelMentions.DEFAULT,
             },
         },
         currentUser: {
@@ -50,6 +51,81 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         expect(wrapper.state('desktopNotifyLevel')).toEqual(NotificationLevels.DEFAULT);
         expect(wrapper.state('markUnreadNotifyLevel')).toEqual(NotificationLevels.ALL);
         expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.DEFAULT);
+        expect(wrapper.state('ignoreChannelMentions')).toEqual(IgnoreChannelMentions.OFF);
+    });
+
+    test('should provide correct default when currentUser channel notify props is true', () => {
+        const currentUser = {
+            id: 'current_user_id',
+            notify_props: {
+                desktop: NotificationLevels.ALL,
+                channel: 'true',
+            },
+        };
+        const props = {...baseProps, currentUser};
+        const wrapper = shallow(
+            <ChannelNotificationsModal {...props}/>
+        );
+
+        expect(wrapper.state('ignoreChannelMentions')).toEqual(IgnoreChannelMentions.OFF);
+    });
+
+    test('should provide correct default when currentUser channel notify props is false', () => {
+        const currentUser = {
+            id: 'current_user_id',
+            notify_props: {
+                desktop: NotificationLevels.ALL,
+                channel: 'false',
+            },
+        };
+        const props = {...baseProps, currentUser};
+        const wrapper = shallow(
+            <ChannelNotificationsModal {...props}/>
+        );
+
+        expect(wrapper.state('ignoreChannelMentions')).toEqual(IgnoreChannelMentions.ON);
+    });
+
+    test('should provide correct value for ignoreChannelMentions when channelMember channel-wide mentions are off and false on the currentUser', () => {
+        const currentUser = {
+            id: 'current_user_id',
+            notify_props: {
+                desktop: NotificationLevels.ALL,
+                channel: 'false',
+            },
+        };
+        const channelMember = {
+            notify_props: {
+                ignore_channel_mentions: IgnoreChannelMentions.OFF,
+            },
+        };
+        const props = {...baseProps, channelMember, currentUser};
+        const wrapper = shallow(
+            <ChannelNotificationsModal {...props}/>
+        );
+
+        expect(wrapper.state('ignoreChannelMentions')).toEqual(IgnoreChannelMentions.OFF);
+    });
+
+    test('should provide correct value for ignoreChannelMentions when channelMember channel-wide mentions are on but false on currentUser', () => {
+        const currentUser = {
+            id: 'current_user_id',
+            notify_props: {
+                desktop: NotificationLevels.ALL,
+                channel: 'true',
+            },
+        };
+        const channelMember = {
+            notify_props: {
+                ignore_channel_mentions: IgnoreChannelMentions.ON,
+            },
+        };
+        const props = {...baseProps, channelMember, currentUser};
+        const wrapper = shallow(
+            <ChannelNotificationsModal {...props}/>
+        );
+
+        expect(wrapper.state('ignoreChannelMentions')).toEqual(IgnoreChannelMentions.ON);
     });
 
     test('should call onHide and match state on handleOnHide', () => {
@@ -221,28 +297,31 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
     });
 
     test('should match state on resetStateFromNotifyProps', () => {
-        const notifyProps = {
+        const channelMemberNotifyProps = {
             desktop: NotificationLevels.NONE,
             mark_unread: NotificationLevels.NONE,
             push: NotificationLevels.ALL,
         };
-
+        const currentUserNotifyProps = {
+            channel: 'false',
+        };
         const wrapper = shallow(
             <ChannelNotificationsModal {...baseProps}/>
         );
 
-        wrapper.instance().resetStateFromNotifyProps(notifyProps);
+        wrapper.instance().resetStateFromNotifyProps(channelMemberNotifyProps, currentUserNotifyProps);
         expect(wrapper.state('desktopNotifyLevel')).toEqual(NotificationLevels.NONE);
         expect(wrapper.state('markUnreadNotifyLevel')).toEqual(NotificationLevels.NONE);
         expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.ALL);
+        expect(wrapper.state('ignoreChannelMentions')).toEqual(IgnoreChannelMentions.ON);
 
-        wrapper.instance().resetStateFromNotifyProps({...notifyProps, desktop: NotificationLevels.ALL});
+        wrapper.instance().resetStateFromNotifyProps({...channelMemberNotifyProps, desktop: NotificationLevels.ALL}, currentUserNotifyProps);
         expect(wrapper.state('desktopNotifyLevel')).toEqual(NotificationLevels.ALL);
 
-        wrapper.instance().resetStateFromNotifyProps({...notifyProps, mark_unread: NotificationLevels.ALL});
+        wrapper.instance().resetStateFromNotifyProps({...channelMemberNotifyProps, mark_unread: NotificationLevels.ALL}, currentUserNotifyProps);
         expect(wrapper.state('markUnreadNotifyLevel')).toEqual(NotificationLevels.ALL);
 
-        wrapper.instance().resetStateFromNotifyProps({...notifyProps, push: NotificationLevels.NONE});
+        wrapper.instance().resetStateFromNotifyProps({...channelMemberNotifyProps, push: NotificationLevels.NONE}, currentUserNotifyProps);
         expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.NONE);
     });
 });

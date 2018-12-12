@@ -28,6 +28,7 @@ const ConvertChannel = ({channel, isDefault, isArchived}) => {
         >
             <li role='presentation'>
                 <ToggleModalButtonRedux
+                    id='channelConvert'
                     role='menuitem'
                     modalId={ModalIdentifiers.CONVERT_CHANNEL}
                     dialogType={ConvertChannelModal}

@@ -13,6 +13,7 @@ exports[`components/ChannelHeaderDropdown/MenuItem.ViewChannelInfo should match 
       }
     }
     dialogType={[Function]}
+    id="channelViewInfo"
     modalId="channel_info"
     role="menuitem"
   >

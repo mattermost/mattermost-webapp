@@ -133,7 +133,7 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
 
             return (
                 <AnnouncementBar
-                    type={AnnouncementBarTypes.CRITICAL}
+                    type={AnnouncementBarTypes.ANNOUNCEMENT}
                     message={
                         <FormattedMessage
                             id={id}

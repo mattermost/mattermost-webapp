@@ -68,6 +68,7 @@ export default class LeaveChannel extends React.PureComponent {
         return (
             <li role='presentation'>
                 <button
+                    id='channelLeave'
                     role='menuitem'
                     className='style--none'
                     onClick={this.handleLeave}

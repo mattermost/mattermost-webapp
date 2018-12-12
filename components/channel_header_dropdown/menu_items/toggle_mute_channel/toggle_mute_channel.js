@@ -73,6 +73,7 @@ export default class ToggleMuteChannel extends React.PureComponent {
         return (
             <li role='presentation'>
                 <button
+                    id='channelMute'
                     className='style--none'
                     role='menuitem'
                     onClick={this.handleClick}

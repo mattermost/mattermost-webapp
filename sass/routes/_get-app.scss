@@ -31,6 +31,15 @@
         padding-bottom: 30px;
         text-align: center;
     }
+
+    .btn-primary {
+        display: block;
+        font-size: 18px;
+        margin: 2rem 0 3rem;
+        font-weight: 600;
+        border-radius: 4px;
+        line-height: 40px;
+    }
 }
 
 .get-android-app {
@@ -64,14 +73,6 @@
     .get-app__screenshot {
         width: 240px;
     }
-
-    .get-android-app__continue {
-        display: block;
-        font-size: 16px;
-        margin-bottom: 40px;
-        margin-top: 15px;
-        padding: 12px;
-    }
 }
 
 .get-ios-app {
@@ -90,13 +91,5 @@
         font-size: 18px;
         margin-bottom: 20px;
         text-align: center;
-    }
-
-    .get-ios-app__open-mattermost {
-        display: block;
-        font-size: 20px;
-        margin: auto;
-        padding: 12px;
-        width: 220px;
     }
 }

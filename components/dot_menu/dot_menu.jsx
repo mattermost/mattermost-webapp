@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {showGetPostLinkModal} from 'actions/global_actions.jsx';
@@ -20,7 +20,7 @@ import Pluggable from 'plugins/pluggable';
 
 import DotMenuItem from './dot_menu_item.jsx';
 
-export default class DotMenu extends Component {
+class DotMenu extends Component {
     static propTypes = {
         post: PropTypes.object.isRequired,
         location: PropTypes.oneOf(['CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH']).isRequired,
@@ -30,6 +30,7 @@ export default class DotMenu extends Component {
         handleDropdownOpened: PropTypes.func,
         isReadOnly: PropTypes.bool,
         pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
+        intl: intlShape.isRequired,
 
         actions: PropTypes.shape({
 
@@ -153,11 +154,13 @@ export default class DotMenu extends Component {
     }
 
     handleEditMenuItemActivated = () => {
+        const {formatMessage} = this.props.intl;
+
         this.props.actions.setEditingPost(
             this.props.post.id,
             this.props.commentCount,
             this.props.location === 'CENTER' ? 'post_textbox' : 'reply_textbox',
-            this.props.post.root_id ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post'),
+            this.props.post.root_id ? formatMessage({id: 'rhs_comment.comment', defaultMessage: 'Comment'}) : formatMessage({id: 'create_post.post', defaultMessage: 'Post'}),
             this.props.location === 'RHS_ROOT' || this.props.location === 'RHS_COMMENT',
         );
     }
@@ -342,3 +345,5 @@ export default class DotMenu extends Component {
         );
     }
 }
+
+export default injectIntl(DotMenu);
