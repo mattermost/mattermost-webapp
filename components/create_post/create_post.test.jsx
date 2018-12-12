@@ -17,7 +17,6 @@ import FileUpload from 'components/file_upload';
 jest.mock('actions/global_actions.jsx', () => ({
     emitLocalUserTypingEvent: jest.fn(),
     emitUserPostedEvent: jest.fn(),
-    showChannelPurposeUpdateModal: jest.fn(),
     showChannelNameUpdateModal: jest.fn(),
     toggleShortcutsModal: jest.fn(),
     postListScrollChange: jest.fn(),
@@ -339,10 +338,20 @@ describe('components/create_post', () => {
         form.simulate('Submit', {preventDefault: jest.fn()});
         expect(openModal).toHaveBeenCalledTimes(1);
         expect(openModal.mock.calls[0][0].modalId).toEqual(ModalIdentifiers.EDIT_CHANNEL_HEADER);
+        expect(openModal.mock.calls[0][0].dialogProps.channel).toEqual(currentChannelProp);
     });
 
     it('onSubmit test for "/purpose" message', () => {
-        const wrapper = shallow(createPost());
+        const openModal = jest.fn();
+
+        const wrapper = shallow(
+            createPost({
+                actions: {
+                    ...actionsProp,
+                    openModal,
+                },
+            })
+        );
 
         wrapper.setState({
             message: '/purpose',
@@ -350,7 +359,9 @@ describe('components/create_post', () => {
 
         const form = wrapper.find('#create_post');
         form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(GlobalActions.showChannelPurposeUpdateModal).toHaveBeenCalledWith(currentChannelProp);
+        expect(openModal).toHaveBeenCalledTimes(1);
+        expect(openModal.mock.calls[0][0].modalId).toEqual(ModalIdentifiers.EDIT_CHANNEL_PURPOSE);
+        expect(openModal.mock.calls[0][0].dialogProps.channel).toEqual(currentChannelProp);
     });
 
     it('onSubmit test for "/rename" message', () => {
@@ -363,18 +374,6 @@ describe('components/create_post', () => {
         const form = wrapper.find('#create_post');
         form.simulate('Submit', {preventDefault: jest.fn()});
         expect(GlobalActions.showChannelNameUpdateModal).toHaveBeenCalledWith(currentChannelProp);
-    });
-
-    it('onSubmit test for "/purpose" message', () => {
-        const wrapper = shallow(createPost());
-
-        wrapper.setState({
-            message: '/purpose',
-        });
-
-        const form = wrapper.find('#create_post');
-        form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(GlobalActions.showChannelPurposeUpdateModal).toHaveBeenCalledWith(currentChannelProp);
     });
 
     it('onSubmit test for "/unknown" message ', () => {
