@@ -26,7 +26,7 @@ import {getIsLhsOpen} from 'selectors/lhs';
 
 import Sidebar from './sidebar.jsx';
 
-const getTeamUnreads = createSelector(
+const getTotalUnreads = createSelector(
     getMyTeams,
     getTeamMemberships,
     (myTeams, myTeamMemberships) => {
@@ -80,7 +80,7 @@ function mapStateToProps(state) {
         canCreatePublicChannel,
         canCreatePrivateChannel,
         isOpen: getIsLhsOpen(state),
-        unreads: getTeamUnreads(state),
+        unreads: getTotalUnreads(state),
     };
 }
 
