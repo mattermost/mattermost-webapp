@@ -29,6 +29,7 @@ import {handleNewPost} from 'actions/post_actions.jsx';
 import {stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {closeRightHandSide, closeMenu as closeRhsMenu, updateRhsState} from 'actions/views/rhs';
+import {clearUserCookie} from 'actions/views/root';
 import {close as closeLhs} from 'actions/views/lhs';
 import * as WebsocketActions from 'actions/websocket_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
@@ -302,7 +303,9 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
         BrowserStore.clear();
         stopPeriodicStatusUpdates();
         WebsocketActions.close();
-        document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
+
+        clearUserCookie();
+
         browserHistory.push(redirectTo);
     }).catch(() => {
         browserHistory.push(redirectTo);
