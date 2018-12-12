@@ -55,7 +55,7 @@ export default class TeamMembersDropdown extends React.Component {
     }
 
     handleRemoveFromTeam = async () => {
-        const {data, error} = await this.props.actions.removeUserFromTeam(this.props.teamMember.team_id, this.props.user.id);
+        const {error} = await this.props.actions.removeUserFromTeam(this.props.teamMember.team_id, this.props.user.id);
         if (error) {
             this.setState({serverError: error.message});
         }
