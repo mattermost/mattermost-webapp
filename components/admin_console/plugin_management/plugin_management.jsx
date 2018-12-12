@@ -539,6 +539,41 @@ export default class PluginManagement extends AdminSettings {
         );
     }
 
+    renderOverwritePluginModal = () => {
+        const title = (
+            <FormattedMessage
+                id='admin.plugin.upload.overwrite_modal.title'
+                defaultMessage='Overwrite existing plugin?'
+            />
+        );
+
+        const message = (
+            <FormattedMessage
+                id='admin.plugin.upload.overwrite_modal.desc'
+                defaultMessage='A plugin with this ID already exists. Would you like to overwrite it?'
+            />
+        );
+
+        const overwriteButton = (
+            <FormattedMessage
+                id='admin.plugin.upload.overwrite_modal.overwrite'
+                defaultMessage='Overwrite'
+            />
+        );
+
+        return (
+            <ConfirmModal
+                show={this.state.showOverwritePluginModal}
+                title={title}
+                message={message}
+                confirmButtonClass='btn btn-danger'
+                confirmButtonText={overwriteButton}
+                onConfirm={this.handleOverwritePlugin}
+                onCancel={this.handleOverwritePluginCancel}
+            />
+        );
+    }
+
     renderSettings() {
         const {enableUploads} = this.state;
         const enable = this.props.config.PluginSettings.Enable;
@@ -748,41 +783,6 @@ export default class PluginManagement extends AdminSettings {
                 </SettingsGroup>
                 {overwritePluginModal}
             </div>
-        );
-    }
-
-    renderOverwritePluginModal = () => {
-        const title = (
-            <FormattedMessage
-                id='admin.plugin.upload.overwrite_modal.title'
-                defaultMessage='Overwrite existing plugin?'
-            />
-        );
-
-        const message = (
-            <FormattedMessage
-                id='admin.plugin.upload.overwrite_modal.desc'
-                defaultMessage='A plugin with this ID already exists. Would you like to overwrite it?'
-            />
-        );
-
-        const overwriteButton = (
-            <FormattedMessage
-                id='admin.plugin.upload.overwrite_modal.overwrite'
-                defaultMessage='Overwrite'
-            />
-        );
-
-        return (
-            <ConfirmModal
-                show={this.state.showOverwritePluginModal}
-                title={title}
-                message={message}
-                confirmButtonClass='btn btn-danger'
-                confirmButtonText={overwriteButton}
-                onConfirm={this.handleOverwritePlugin}
-                onCancel={this.handleOverwritePluginCancel}
-            />
         );
     }
 }
