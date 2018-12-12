@@ -5,16 +5,13 @@ import debounce from 'lodash/debounce';
 import {batchActions} from 'redux-batched-actions';
 
 import {
-    getChannel,
     createDirectChannel,
     getChannelByNameAndTeamName,
     getChannelStats,
     getMyChannelMember,
-    joinChannel,
     markChannelAsRead,
     selectChannel,
 } from 'mattermost-redux/actions/channels';
-import {getPostThread} from 'mattermost-redux/actions/posts';
 import {logout} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -24,10 +21,9 @@ import {getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChan
 import {ChannelTypes} from 'mattermost-redux/action_types';
 
 import {browserHistory} from 'utils/browser_history';
-import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import {stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
-import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {closeRightHandSide, closeMenu as closeRhsMenu, updateRhsState} from 'actions/views/rhs';
 import {clearUserCookie} from 'actions/views/root';
 import {close as closeLhs} from 'actions/views/lhs';
@@ -40,7 +36,7 @@ import store from 'stores/redux_store.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 
-import {ActionTypes, Constants, ErrorPageTypes, PostTypes, RHSStates} from 'utils/constants.jsx';
+import {ActionTypes, Constants, PostTypes, RHSStates} from 'utils/constants.jsx';
 import EventTypes from 'utils/event_types.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -119,60 +115,8 @@ export function emitChannelClickEvent(channel) {
     }
 }
 
-export async function doFocusPost(channelId, postId) {
-    dispatch(selectChannel(channelId));
-    dispatch({
-        type: ActionTypes.RECEIVED_FOCUSED_POST,
-        data: postId,
-    });
-
-    const member = getState().entities.channels.myMembers[channelId];
-    if (member == null) {
-        await dispatch(joinChannel(getCurrentUserId(getState()), null, channelId));
-    }
-
-    dispatch(loadChannelsForCurrentUser());
-    dispatch(getChannelStats(channelId));
-}
-
 export function emitCloseRightHandSide() {
     dispatch(closeRightHandSide());
-}
-
-export async function emitPostFocusEvent(postId, returnTo = '') {
-    dispatch(loadChannelsForCurrentUser());
-    const {data} = await dispatch(getPostThread(postId));
-
-    if (!data) {
-        browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
-        return;
-    }
-
-    const channelId = data.posts[data.order[0]].channel_id;
-    let channel = getState().entities.channels.channels[channelId];
-    const teamId = getCurrentTeamId(getState());
-
-    if (!channel) {
-        const {data: channelData} = await dispatch(getChannel(channelId));
-        if (!channelData) {
-            browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
-            return;
-        }
-        channel = channelData;
-    }
-
-    if (channel.team_id && channel.team_id !== teamId) {
-        browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
-        return;
-    }
-
-    if (channel && channel.type === Constants.DM_CHANNEL) {
-        loadNewDMIfNeeded(channel.id);
-    } else if (channel && channel.type === Constants.GM_CHANNEL) {
-        loadNewGMIfNeeded(channel.id);
-    }
-
-    await doFocusPost(channelId, postId, data);
 }
 
 export function toggleShortcutsModal() {

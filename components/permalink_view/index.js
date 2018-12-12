@@ -2,10 +2,12 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
+import {focusPost} from './actions';
 import PermalinkView from './permalink_view.jsx';
 
 function mapStateToProps(state) {
@@ -33,4 +35,12 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(PermalinkView);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            focusPost,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PermalinkView);
