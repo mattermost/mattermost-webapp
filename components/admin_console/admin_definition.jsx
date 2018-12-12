@@ -1801,6 +1801,7 @@ export default {
                             help_text_markdown: true,
                             help_text_default: 'When true, [multi-factor authentication](!https://docs.mattermost.com/deployment/auth.html) is required for login. New users will be required to configure MFA on signup. Logged in users without MFA configured are redirected to the MFA setup page until configuration is complete.\n \nIf your system has users with login methods other than AD/LDAP and email, MFA must be enforced with the authentication provider outside of Mattermost.',
                             isDisabled: needsUtils.stateValueFalse('ServiceSettings.EnableMultifactorAuthentication'),
+                            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('MFA')),
                         },
                     ],
                 },
