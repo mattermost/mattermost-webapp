@@ -14,12 +14,24 @@ describe('components/widgets/LoadingWrapper', () => {
             type: 'spinner',
             text: 'test',
             children: 'children',
+            snapshot: `
+<LoadingIndicator
+  text="test"
+  type="spinner"
+/>
+`,
         },
         {
             name: 'showing spinner without text',
             loading: true,
             type: 'spinner',
             children: 'text',
+            snapshot: `
+<LoadingIndicator
+  text={null}
+  type="spinner"
+/>
+`,
         },
         {
             name: 'showing bars with text',
@@ -27,21 +39,35 @@ describe('components/widgets/LoadingWrapper', () => {
             type: 'bars',
             text: 'test',
             children: 'text',
+            snapshot: `
+<LoadingIndicator
+  text="test"
+  type="bars"
+/>
+`,
         },
         {
             name: 'showing bars without text',
             loading: true,
             type: 'bars',
             children: 'text',
+            snapshot: `
+<LoadingIndicator
+  text={null}
+  type="bars"
+/>
+`,
         },
         {
             name: 'showing content with children',
             loading: false,
             children: 'text',
+            snapshot: '"text"',
         },
         {
             name: 'showing content without children',
             loading: false,
+            snapshot: '""',
         },
     ];
     for (const testCase of testCases) {
@@ -55,7 +81,7 @@ describe('components/widgets/LoadingWrapper', () => {
                     {testCase.children}
                 </LoadingWrapper>
             );
-            expect(wrapper).toMatchSnapshot();
+            expect(wrapper).toMatchInlineSnapshot(testCase.snapshot, '""');
         });
     }
 });

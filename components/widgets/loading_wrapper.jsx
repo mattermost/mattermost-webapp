@@ -4,9 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import * as Utils from 'utils/utils.jsx';
-
-import loadingGif from 'images/load.gif';
+import LoadingIndicator from './loading_indicator.jsx';
 
 export default class LoadingWrapper extends React.Component {
     static propTypes = {
@@ -29,26 +27,11 @@ export default class LoadingWrapper extends React.Component {
             return children;
         }
 
-        let spinner = (
-            <span
-                className='fa fa-spinner fa-pulse spinner'
-                title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
-            />
-        );
-        if (type === 'bars') {
-            spinner = (
-                <img
-                    className='spinner'
-                    src={loadingGif}
-                />
-            );
-        }
-
         return (
-            <span className={'loading-component' + (text ? ' with-text' : '')}>
-                {spinner}
-                {text}
-            </span>
+            <LoadingIndicator
+                text={text}
+                type={type}
+            />
         );
     }
 }
