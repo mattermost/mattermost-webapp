@@ -40,6 +40,7 @@ export default class Textbox extends React.Component {
         characterLimit: PropTypes.number.isRequired,
         disabled: PropTypes.bool,
         badConnection: PropTypes.bool,
+        listenForMentionKeyClick: PropTypes.bool,
         currentUserId: PropTypes.string.isRequired,
         profilesInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
         profilesNotInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -51,6 +52,7 @@ export default class Textbox extends React.Component {
     static defaultProps = {
         supportsCommands: true,
         isRHS: false,
+        listenForMentionKeyClick: false,
     };
 
     constructor(props) {
@@ -78,19 +80,6 @@ export default class Textbox extends React.Component {
 
     handleChange = (e) => {
         this.props.onChange(e);
-    }
-
-    handlePopoverMentionKeyClick = (mentionKey) => {
-        const textbox = this.refs.message.getTextbox();
-        let insertText = '@' + mentionKey;
-        const oldValue = textbox.value;
-
-        // if the current text does not end with a whitespace, then insert a space
-        if (oldValue && (/[^\s]$/).test(oldValue)) {
-            insertText = ' ' + insertText;
-        }
-
-        textbox.value = oldValue + insertText;
     }
 
     checkMessageLength = (message) => {
@@ -337,6 +326,7 @@ export default class Textbox extends React.Component {
                     isRHS={this.props.isRHS}
                     disabled={this.props.disabled}
                     contextId={this.props.channelId}
+                    listenForMentionKeyClick={this.props.listenForMentionKeyClick}
                 />
                 {preview}
                 <div className={'help__text ' + helpTextClass}>
