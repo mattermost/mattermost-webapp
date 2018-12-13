@@ -73,12 +73,16 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
               message="short text"
             />
           </Connect(ShowMore)>
-          <img
-            className="attachment__image"
-            height={200}
-            src="image_url"
-            width={200}
-          />
+          <div
+            className="attachment__image-container"
+          >
+            <img
+              className="attachment__image"
+              height={200}
+              src="image_url"
+              width={200}
+            />
+          </div>
           <div
             className="attachment-actions"
           >
@@ -189,12 +193,16 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
               message="short text"
             />
           </Connect(ShowMore)>
-          <img
-            className="attachment__image"
-            height={200}
-            src="image_url"
-            width={200}
-          />
+          <div
+            className="attachment__image-container"
+          >
+            <img
+              className="attachment__image"
+              height={200}
+              src="image_url"
+              width={200}
+            />
+          </div>
         </div>
         <div
           className="attachment__thumb-container"
