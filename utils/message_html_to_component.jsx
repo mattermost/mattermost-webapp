@@ -6,7 +6,7 @@ import {Parser, ProcessNodeDefinitions} from 'html-to-react';
 
 import AtMention from 'components/at_mention';
 import LatexBlock from 'components/latex_block';
-import MarkdownImage from 'components/markdown_image';
+import SizeAwareImage from 'components/size_aware_image';
 import PostEmoji from 'components/post_emoji';
 
 /*
@@ -14,8 +14,8 @@ import PostEmoji from 'components/post_emoji';
  * The following options can be specified:
  * - mentions - If specified, mentions are replaced with the AtMention component. Defaults to true.
  * - emoji - If specified, emoji text is replaced with the PostEmoji component. Defaults to true.
- * - images - If specified, markdown images are replaced with the MarkdownImage component. Defaults to true.
- * - imageProps - If specified, any extra props that should be passed into the MarkdownImage component.
+ * - images - If specified, markdown images are replaced with the image component. Defaults to true.
+ * - imageProps - If specified, any extra props that should be passed into the image component.
  * - latex - If specified, latex is replaced with the LatexBlock component. Defaults to true.
  */
 export function messageHtmlToComponent(html, isRHS, options = {}) {
@@ -78,15 +78,14 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     ...attribs
                 } = node.attribs;
 
-                const callMarkdownImage = (
-                    <MarkdownImage
+                return (
+                    <SizeAwareImage
                         className={className}
                         dimensions={options.imagesMetadata[attribs.src]}
                         {...attribs}
                         {...options.imageProps}
                     />
                 );
-                return callMarkdownImage;
             },
         });
     }
