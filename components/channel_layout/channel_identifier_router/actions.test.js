@@ -4,11 +4,17 @@
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
+import {joinChannel} from 'mattermost-redux/actions/channels';
+
 import {emitChannelClickEvent} from 'actions/global_actions.jsx';
-import {goToChannelByChannelName, goToDirectChannelByUserId, goToDirectChannelByUserIds} from 'components/channel_layout/channel_identifier_router/actions';
+import {goToChannelByChannelName, goToDirectChannelByUserId, goToDirectChannelByUserIds, goToChannelByChannelId} from 'components/channel_layout/channel_identifier_router/actions';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitChannelClickEvent: jest.fn(),
+}));
+
+jest.mock('mattermost-redux/actions/channels', () => ({
+    joinChannel: jest.fn(() => ({type: '', data: {channel: {id: 'channel_id3', name: 'achannel3', team_id: 'team_id1', type: 'O'}}})),
 }));
 
 const mockStore = configureStore([thunk]);
@@ -16,12 +22,13 @@ const mockStore = configureStore([thunk]);
 describe('Actions', () => {
     const channel1 = {id: 'channel_id1', name: 'achannel', team_id: 'team_id1'};
     const channel2 = {id: 'channel_id2', name: 'achannel', team_id: 'team_id2'};
+    const channel3 = {id: 'channel_id3', name: 'achannel3', team_id: 'team_id1', type: 'O'};
 
     const initialState = {
         entities: {
             channels: {
                 currentChannelId: 'channel_id1',
-                channels: {channel_id1: channel1, channel_id2: channel2},
+                channels: {channel_id1: channel1, channel_id2: channel2, channel_id3: channel3},
                 myMembers: {channel_id1: {channel_id: 'channel_id1', user_id: 'current_user_id'}, channel_id2: {channel_id: 'channel_id2', user_id: 'current_user_id'}},
                 channelsInTeam: {team_id1: ['channel_id1'], team_id2: ['channel_id2']},
             },
@@ -42,9 +49,21 @@ describe('Actions', () => {
                 currentUserId: 'current_user_id',
                 profiles: {user_id2: {id: 'user_id2', username: 'user2'}},
             },
-            general: {license: {IsLicensed: 'false'}},
+            general: {license: {IsLicensed: 'false'}, config: {}},
+            preferences: {myPreferences: {}},
         },
     };
+
+    describe('goToChannelByChannelId', () => {
+        test('switch to public channel we have locally but need to join', async () => {
+            const testStore = await mockStore(initialState);
+            const history = {replace: jest.fn()};
+
+            await testStore.dispatch(goToChannelByChannelId({params: {team: 'team1', identifier: 'channel_id3'}}, history));
+            expect(joinChannel).toHaveBeenCalledWith('current_user_id', 'team_id1', 'channel_id3', null);
+            expect(history.replace).toHaveBeenCalledWith('/team1/channels/achannel3');
+        });
+    });
 
     describe('goToChannelByChannelName', () => {
         test('switch to channel on different team with same name', async () => {
@@ -52,6 +71,14 @@ describe('Actions', () => {
 
             await testStore.dispatch(goToChannelByChannelName({params: {team: 'team2', identifier: 'achannel'}}, {}));
             expect(emitChannelClickEvent).toHaveBeenCalledWith(channel2);
+        });
+
+        test('switch to public channel we have locally but need to join', async () => {
+            const testStore = await mockStore(initialState);
+
+            await testStore.dispatch(goToChannelByChannelName({params: {team: 'team1', identifier: 'achannel3'}}, {}));
+            expect(joinChannel).toHaveBeenCalledWith('current_user_id', 'team_id1', null, 'achannel3');
+            expect(emitChannelClickEvent).toHaveBeenCalledWith(channel3);
         });
     });
 
