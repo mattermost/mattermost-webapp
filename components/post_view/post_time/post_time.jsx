@@ -52,6 +52,7 @@ export default class PostTime extends React.PureComponent {
 
         return (
             <Link
+                id={`permalink_${this.props.postId}`}
                 to={`${this.props.teamUrl}/pl/${this.props.postId}`}
                 className='post__permalink'
                 onClick={this.handleClick}

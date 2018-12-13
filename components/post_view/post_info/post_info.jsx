@@ -298,7 +298,7 @@ export default class PostInfo extends React.PureComponent {
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
 
         let flagIcon;
-        if (!isEphemeral && !post.failed && !isSystemMessage && (this.props.hover || this.props.isFlagged)) {
+        if (!isEphemeral && !post.failed && !isSystemMessage) {
             flagIcon = (
                 <PostFlagIcon
                     idPrefix='centerPostFlag'
@@ -306,6 +306,7 @@ export default class PostInfo extends React.PureComponent {
                     postId={post.id}
                     isFlagged={this.props.isFlagged}
                     isEphemeral={isEphemeral}
+                    style={{visibility: this.props.hover || this.props.isFlagged ? 'hidden' : 'visible'}}
                 />
             );
         }
@@ -345,21 +346,19 @@ export default class PostInfo extends React.PureComponent {
             );
         }
 
-        let postTime;
-        if (this.props.hover || this.props.showTimeWithoutHover) {
-            // timestamp should not be a permalink if the post has been deleted, is ephemeral message, or is pending
-            const isPermalink = !(isEphemeral ||
-                Posts.POST_DELETED === post.state ||
-                ReduxPostUtils.isPostPendingOrFailed(post));
+        // timestamp should not be a permalink if the post has been deleted, is ephemeral message, or is pending
+        const isPermalink = !(isEphemeral ||
+            Posts.POST_DELETED === post.state ||
+            ReduxPostUtils.isPostPendingOrFailed(post));
 
-            postTime = (
-                <PostTime
-                    isPermalink={isPermalink}
-                    eventTime={post.create_at}
-                    postId={post.id}
-                />
-            );
-        }
+        const postTime = (
+            <PostTime
+                isPermalink={isPermalink}
+                eventTime={post.create_at}
+                postId={post.id}
+                style={{visibility: this.props.hover || this.props.showTimeWithoutHover ? 'hidden' : 'visible'}}
+            />
+        );
 
         return (
             <div className='post__header--info'>

@@ -6,7 +6,30 @@ exports[`components/post_view/PostInfo hideEmojiPicker, should have called props
 >
   <div
     className="col"
-  />
+  >
+    <Connect(PostTime)
+      eventTime={1502715365009}
+      isPermalink={true}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
+    <Connect(PostFlagIcon)
+      idCount={-1}
+      idPrefix="centerPostFlag"
+      isEphemeral={false}
+      isFlagged={false}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
+  </div>
   <div
     className="col col__reply"
   />
@@ -19,7 +42,30 @@ exports[`components/post_view/PostInfo reactEmojiClick, should have called props
 >
   <div
     className="col"
-  />
+  >
+    <Connect(PostTime)
+      eventTime={1502715365009}
+      isPermalink={true}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
+    <Connect(PostFlagIcon)
+      idCount={-1}
+      idPrefix="centerPostFlag"
+      isEphemeral={false}
+      isFlagged={false}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
+  </div>
   <div
     className="col col__reply"
   />
@@ -32,7 +78,30 @@ exports[`components/post_view/PostInfo removePost, should have called props.acti
 >
   <div
     className="col"
-  />
+  >
+    <Connect(PostTime)
+      eventTime={1502715365009}
+      isPermalink={true}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
+    <Connect(PostFlagIcon)
+      idCount={-1}
+      idPrefix="centerPostFlag"
+      isEphemeral={false}
+      isFlagged={false}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
+  </div>
   <div
     className="col col__reply"
   />
@@ -45,7 +114,30 @@ exports[`components/post_view/PostInfo should match snapshot 1`] = `
 >
   <div
     className="col"
-  />
+  >
+    <Connect(PostTime)
+      eventTime={1502715365009}
+      isPermalink={true}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
+    <Connect(PostFlagIcon)
+      idCount={-1}
+      idPrefix="centerPostFlag"
+      isEphemeral={false}
+      isFlagged={false}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
+  </div>
   <div
     className="col col__reply"
   />
@@ -58,7 +150,30 @@ exports[`components/post_view/PostInfo should match snapshot, compact display 1`
 >
   <div
     className="col"
-  />
+  >
+    <Connect(PostTime)
+      eventTime={1502715365009}
+      isPermalink={true}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
+    <Connect(PostFlagIcon)
+      idCount={-1}
+      idPrefix="centerPostFlag"
+      isEphemeral={false}
+      isFlagged={false}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
+  </div>
   <div
     className="col col__reply"
   />
@@ -71,7 +186,30 @@ exports[`components/post_view/PostInfo should match snapshot, enable emoji picke
 >
   <div
     className="col"
-  />
+  >
+    <Connect(PostTime)
+      eventTime={1502715365009}
+      isPermalink={true}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
+    <Connect(PostFlagIcon)
+      idCount={-1}
+      idPrefix="centerPostFlag"
+      isEphemeral={false}
+      isFlagged={false}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
+  </div>
   <div
     className="col col__reply"
   />
@@ -84,7 +222,18 @@ exports[`components/post_view/PostInfo should match snapshot, ephemeral deleted 
 >
   <div
     className="col"
-  />
+  >
+    <Connect(PostTime)
+      eventTime={1502715365009}
+      isPermalink={false}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
+  </div>
   <div
     className="col col__remove"
   >
@@ -106,6 +255,16 @@ exports[`components/post_view/PostInfo should match snapshot, ephemeral post 1`]
   <div
     className="col"
   >
+    <Connect(PostTime)
+      eventTime={1502715365009}
+      isPermalink={false}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
     <span
       className="post__visibility"
     >
@@ -137,12 +296,27 @@ exports[`components/post_view/PostInfo should match snapshot, flagged post 1`] =
   <div
     className="col"
   >
+    <Connect(PostTime)
+      eventTime={1502715365009}
+      isPermalink={true}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
     <Connect(PostFlagIcon)
       idCount={-1}
       idPrefix="centerPostFlag"
       isEphemeral={false}
       isFlagged={true}
       postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "hidden",
+        }
+      }
     />
   </div>
   <div
@@ -162,6 +336,11 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
       eventTime={1502715365009}
       isPermalink={true}
       postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "hidden",
+        }
+      }
     />
     <Connect(PostFlagIcon)
       idCount={-1}
@@ -169,6 +348,11 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
       isEphemeral={false}
       isFlagged={false}
       postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "hidden",
+        }
+      }
     />
   </div>
   <div
@@ -222,7 +406,30 @@ exports[`components/post_view/PostInfo should match snapshot, military time 1`] 
 >
   <div
     className="col"
-  />
+  >
+    <Connect(PostTime)
+      eventTime={1502715365009}
+      isPermalink={true}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
+    <Connect(PostFlagIcon)
+      idCount={-1}
+      idPrefix="centerPostFlag"
+      isEphemeral={false}
+      isFlagged={false}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
+  </div>
   <div
     className="col col__reply"
   />
@@ -236,6 +443,16 @@ exports[`components/post_view/PostInfo should match snapshot, pinned post 1`] = 
   <div
     className="col"
   >
+    <Connect(PostTime)
+      eventTime={1502715365009}
+      isPermalink={true}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
     <span
       className="post__pinned-badge"
     >
@@ -245,6 +462,18 @@ exports[`components/post_view/PostInfo should match snapshot, pinned post 1`] = 
         values={Object {}}
       />
     </span>
+    <Connect(PostFlagIcon)
+      idCount={-1}
+      idPrefix="centerPostFlag"
+      isEphemeral={false}
+      isFlagged={false}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
   </div>
   <div
     className="col col__reply"
@@ -263,6 +492,23 @@ exports[`components/post_view/PostInfo should match snapshot, showTimeWithoutHov
       eventTime={1502715365009}
       isPermalink={true}
       postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "hidden",
+        }
+      }
+    />
+    <Connect(PostFlagIcon)
+      idCount={-1}
+      idPrefix="centerPostFlag"
+      isEphemeral={false}
+      isFlagged={false}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
     />
   </div>
   <div
@@ -277,7 +523,30 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
 >
   <div
     className="col"
-  />
+  >
+    <Connect(PostTime)
+      eventTime={1502715365009}
+      isPermalink={true}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
+    <Connect(PostFlagIcon)
+      idCount={-1}
+      idPrefix="centerPostFlag"
+      isEphemeral={false}
+      isFlagged={false}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      style={
+        Object {
+          "visibility": "visible",
+        }
+      }
+    />
+  </div>
   <div
     className="col col__reply"
   >
