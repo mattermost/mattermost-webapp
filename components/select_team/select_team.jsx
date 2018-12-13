@@ -34,6 +34,7 @@ export default class SelectTeam extends React.Component {
         siteName: PropTypes.string,
         canCreateTeams: PropTypes.bool.isRequired,
         canManageSystem: PropTypes.bool.isRequired,
+        history: PropTypes.object,
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired,
             loadRolesIfNeeded: PropTypes.func.isRequired,
