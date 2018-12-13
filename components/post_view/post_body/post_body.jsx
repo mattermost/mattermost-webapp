@@ -15,7 +15,7 @@ import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageView from 'components/post_view/post_message_view';
 import ReactionList from 'components/post_view/reaction_list';
-import LoadingWrapper from 'components/widgets/loading_wrapper.jsx';
+import LoadingBars from 'components/widgets/loading/loading_bars.jsx';
 
 const SENDING_ANIMATION_DELAY = 3000;
 
@@ -169,10 +169,7 @@ export default class PostBody extends React.PureComponent {
         const messageWrapper = (
             <React.Fragment>
                 {failedOptions}
-                <LoadingWrapper
-                    type='bars'
-                    loading={this.state.sending}
-                />
+                {this.state.sending && <LoadingBars/>}
                 <PostMessageView
                     lastPostCount={this.props.lastPostCount}
                     post={this.props.post}

@@ -18,7 +18,6 @@ exports[`components/admin_console/email_connection_test/email_connection_test sh
         <LoadingWrapper
           loading={false}
           text="Testing..."
-          type="spinner"
         >
           <FormattedMessage
             defaultMessage="Test Connection"
@@ -51,7 +50,6 @@ exports[`components/admin_console/email_connection_test/email_connection_test sh
         <LoadingWrapper
           loading={false}
           text="Testing..."
-          type="spinner"
         >
           <FormattedMessage
             defaultMessage="Test Connection"

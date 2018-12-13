@@ -19,7 +19,7 @@ import SearchHint from 'components/search_hint/search_hint';
 import FlagIcon from 'components/svg/flag_icon';
 import MentionsIcon from 'components/svg/mentions_icon';
 import SearchIcon from 'components/svg/search_icon';
-import LoadingWrapper from 'components/widgets/loading_wrapper.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
 
 const {KeyCodes} = Constants;
 
@@ -286,7 +286,7 @@ export default class SearchBar extends React.Component {
                                     </span>
                                 </OverlayTrigger>
                             </div>}
-                        <LoadingWrapper loading={this.props.isSearchingTerm}/>
+                        {this.props.isSearchingTerm && <LoadingSpinner/>}
                         {this.renderHintPopover()}
                     </form>
                 </div>

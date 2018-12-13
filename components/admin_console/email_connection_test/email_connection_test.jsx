@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import LoadingWrapper from 'components/widgets/loading_wrapper.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 
 import * as Utils from 'utils/utils.jsx';
 

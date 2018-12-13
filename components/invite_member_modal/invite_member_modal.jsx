@@ -15,7 +15,7 @@ import * as utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
-import LoadingWrapper from 'components/widgets/loading_wrapper.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 

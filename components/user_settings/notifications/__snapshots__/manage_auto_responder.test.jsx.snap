@@ -175,7 +175,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                 <LoadingWrapper
                   loading={false}
                   text="Saving"
-                  type="spinner"
                 >
                   Save
                 </LoadingWrapper>
@@ -465,7 +464,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                 <LoadingWrapper
                   loading={false}
                   text="Saving"
-                  type="spinner"
                 >
                   Save
                 </LoadingWrapper>

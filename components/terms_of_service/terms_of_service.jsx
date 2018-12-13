@@ -11,7 +11,7 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import AnnouncementBar from 'components/announcement_bar';
 import LoadingScreen from 'components/loading_screen.jsx';
-import LoadingWrapper from 'components/widgets/loading_wrapper.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
 
 import {browserHistory} from 'utils/browser_history';
 import messageHtmlToComponent from 'utils/message_html_to_component';
@@ -170,7 +170,7 @@ export default class TermsOfService extends React.PureComponent {
                                     onClick={this.handleAcceptTerms}
                                     type='submit'
                                 >
-                                    <LoadingWrapper loading={this.state.loadingAgree}/>
+                                    {this.state.loadingAgree && <LoadingSpinner/>}
                                     <FormattedMessage
                                         id='terms_of_service.agreeButton'
                                         defaultMessage={'I Agree'}
@@ -183,7 +183,7 @@ export default class TermsOfService extends React.PureComponent {
                                     onClick={this.handleRejectTerms}
                                     type='reset'
                                 >
-                                    <LoadingWrapper loading={this.state.loadingDisagree}/>
+                                    {this.state.loadingDisagree && <LoadingSpinner/>}
                                     <FormattedMessage
                                         id='terms_of_service.disagreeButton'
                                         defaultMessage={'I Disagree'}

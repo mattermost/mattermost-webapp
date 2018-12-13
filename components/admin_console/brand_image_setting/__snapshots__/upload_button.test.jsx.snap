@@ -10,7 +10,6 @@ exports[`components/admin_console/brand_image_setting/UploadButton should match 
   <LoadingWrapper
     loading={false}
     text="Uploading..."
-    type="spinner"
   >
     Upload
   </LoadingWrapper>
@@ -27,7 +26,6 @@ exports[`components/admin_console/brand_image_setting/UploadButton should match 
   <LoadingWrapper
     loading={true}
     text="Uploading..."
-    type="spinner"
   >
     Upload
   </LoadingWrapper>
@@ -44,7 +42,6 @@ exports[`components/admin_console/brand_image_setting/UploadButton should match 
   <LoadingWrapper
     loading={false}
     text="Uploading..."
-    type="spinner"
   >
     <i
       className="fa fa-check"
@@ -67,7 +64,6 @@ exports[`components/admin_console/brand_image_setting/UploadButton should match 
   <LoadingWrapper
     loading={false}
     text="Uploading..."
-    type="spinner"
   >
     <i
       className="fa fa-check"

@@ -76,7 +76,6 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           <LoadingWrapper
             loading={false}
             text="Uploading..."
-            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Save"
@@ -167,7 +166,6 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           <LoadingWrapper
             loading={false}
             text="Uploading..."
-            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Save"
@@ -269,7 +267,6 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
           <LoadingWrapper
             loading={true}
             text="Uploading..."
-            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Save"
@@ -383,7 +380,6 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
           <LoadingWrapper
             loading={false}
             text="Uploading..."
-            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Save"
@@ -485,7 +481,6 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
           <LoadingWrapper
             loading={false}
             text="Uploading..."
-            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Save"
@@ -594,7 +589,6 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
           <LoadingWrapper
             loading={false}
             text="Uploading..."
-            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Save"
@@ -732,7 +726,6 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
           <LoadingWrapper
             loading={false}
             text="Uploading..."
-            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Save"
@@ -875,7 +868,6 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
           <LoadingWrapper
             loading={false}
             text="Uploading..."
-            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Save"

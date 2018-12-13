@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import LoadingWrapper from 'components/widgets/loading_wrapper.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 
 export default class TextButtonWithSpinner extends React.PureComponent {
     static propTypes = {

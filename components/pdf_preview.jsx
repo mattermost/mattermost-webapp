@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import PDFJS from 'pdfjs-dist';
 
-import LoadingWrapper from 'components/widgets/loading_wrapper.jsx';
+import LoadingBars from 'components/widgets/loading/loading_bars.jsx';
 import FileInfoPreview from 'components/file_info_preview';
 
 const MAX_PDF_PAGES = 5;
@@ -130,7 +130,7 @@ export default class PDFPreview extends React.PureComponent {
         if (this.state.loading) {
             return (
                 <div className='view-image__loading'>
-                    <LoadingWrapper type='bars'/>
+                    <LoadingBars/>
                 </div>
             );
         }

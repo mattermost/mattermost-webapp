@@ -7,7 +7,7 @@ import React from 'react';
 import * as Utils from 'utils/utils.jsx';
 import {UploadStatuses} from 'utils/constants.jsx';
 
-import LoadingWrapper from 'components/widgets/loading_wrapper.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 
 export default class UploadButton extends React.PureComponent {
     static propTypes = {

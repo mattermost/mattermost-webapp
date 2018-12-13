@@ -8,7 +8,6 @@ exports[`components/SpinnerButton should match snapshot with children 1`] = `
   <LoadingWrapper
     loading={false}
     text="Test"
-    type="spinner"
   >
     <span
       id="child1"
@@ -28,7 +27,6 @@ exports[`components/SpinnerButton should match snapshot with required props 1`] 
   <LoadingWrapper
     loading={false}
     text="Test"
-    type="spinner"
   />
 </button>
 `;
@@ -41,7 +39,6 @@ exports[`components/SpinnerButton should match snapshot with spinning 1`] = `
   <LoadingWrapper
     loading={true}
     text="Test"
-    type="spinner"
   />
 </button>
 `;

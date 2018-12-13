@@ -16,7 +16,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
         <LoadingWrapper
           loading={false}
           text=" Loading..."
-          type="spinner"
         >
           <FormattedMessage
             defaultMessage="Button Text"
@@ -130,7 +129,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           <LoadingWrapper
             loading={false}
             text=" Loading..."
-            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Button Text"
@@ -284,7 +282,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           <LoadingWrapper
             loading={false}
             text=" Loading..."
-            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Button Text"
@@ -430,7 +427,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           <LoadingWrapper
             loading={false}
             text=" Loading..."
-            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Button Text"
@@ -580,7 +576,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           <LoadingWrapper
             loading={false}
             text=" Loading..."
-            type="spinner"
           >
             <FormattedMessage
               defaultMessage="Button Text"

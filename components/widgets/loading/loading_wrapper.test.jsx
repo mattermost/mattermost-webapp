@@ -6,55 +6,26 @@ import {shallow} from 'enzyme';
 
 import LoadingWrapper from './loading_wrapper.jsx';
 
-describe('components/widgets/LoadingWrapper', () => {
+describe('components/widgets/loading/LoadingWrapper', () => {
     const testCases = [
         {
             name: 'showing spinner with text',
             loading: true,
-            type: 'spinner',
             text: 'test',
             children: 'children',
             snapshot: `
-<LoadingIndicator
+<LoadingSpinner
   text="test"
-  type="spinner"
 />
 `,
         },
         {
             name: 'showing spinner without text',
             loading: true,
-            type: 'spinner',
             children: 'text',
             snapshot: `
-<LoadingIndicator
+<LoadingSpinner
   text={null}
-  type="spinner"
-/>
-`,
-        },
-        {
-            name: 'showing bars with text',
-            loading: true,
-            type: 'bars',
-            text: 'test',
-            children: 'text',
-            snapshot: `
-<LoadingIndicator
-  text="test"
-  type="bars"
-/>
-`,
-        },
-        {
-            name: 'showing bars without text',
-            loading: true,
-            type: 'bars',
-            children: 'text',
-            snapshot: `
-<LoadingIndicator
-  text={null}
-  type="bars"
 />
 `,
         },

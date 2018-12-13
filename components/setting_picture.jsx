@@ -10,7 +10,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Constants} from 'utils/constants.jsx';
 import {fileSizeToString, localizeMessage} from 'utils/utils.jsx';
 
-import LoadingWrapper from 'components/widgets/loading_wrapper.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 import FormError from 'components/form_error.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';

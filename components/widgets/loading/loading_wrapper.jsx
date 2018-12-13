@@ -4,34 +4,27 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import LoadingIndicator from './loading_indicator.jsx';
+import LoadingSpinner from './loading_spinner.jsx';
 
 export default class LoadingWrapper extends React.Component {
     static propTypes = {
         loading: PropTypes.bool.isRequired,
         text: PropTypes.string,
-        type: PropTypes.string.isRequired,
         children: PropTypes.node,
     }
 
     static defaultProps = {
         loading: true,
         text: null,
-        type: 'spinner',
         children: null,
     }
 
     render() {
-        const {text, type, loading, children} = this.props;
+        const {text, loading, children} = this.props;
         if (!loading) {
             return children;
         }
 
-        return (
-            <LoadingIndicator
-                text={text}
-                type={type}
-            />
-        );
+        return <LoadingSpinner text={text}/>;
     }
 }

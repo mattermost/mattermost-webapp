@@ -10,7 +10,6 @@ exports[`components/SaveButton should match snapshot, extraClasses 1`] = `
   <LoadingWrapper
     loading={false}
     text="Saving"
-    type="spinner"
   >
     Save
   </LoadingWrapper>
@@ -27,7 +26,6 @@ exports[`components/SaveButton should match snapshot, on defaultMessage 1`] = `
   <LoadingWrapper
     loading={false}
     text="Saving"
-    type="spinner"
   >
     Save
   </LoadingWrapper>
@@ -44,7 +42,6 @@ exports[`components/SaveButton should match snapshot, on defaultMessage 2`] = `
   <LoadingWrapper
     loading={false}
     text="Saving"
-    type="spinner"
   >
     Go
   </LoadingWrapper>
@@ -61,7 +58,6 @@ exports[`components/SaveButton should match snapshot, on savingMessage 1`] = `
   <LoadingWrapper
     loading={true}
     text="Saving"
-    type="spinner"
   >
     Save
   </LoadingWrapper>
@@ -78,7 +74,6 @@ exports[`components/SaveButton should match snapshot, on savingMessage 2`] = `
   <LoadingWrapper
     loading={true}
     text="Saving Config..."
-    type="spinner"
   >
     Save
   </LoadingWrapper>

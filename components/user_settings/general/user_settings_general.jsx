@@ -17,7 +17,7 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import LoadingWrapper from 'components/widgets/loading_wrapper.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 
 const holders = defineMessages({
     usernameReserved: {

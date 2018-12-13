@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import LoadingWrapper from 'components/widgets/loading_wrapper.jsx';
+import LoadingBars from 'components/widgets/loading/loading_bars.jsx';
 
 export default function LoadingImagePreview({loading, progress, containerClass}) {
     let progressView = null;
@@ -18,7 +18,7 @@ export default function LoadingImagePreview({loading, progress, containerClass})
 
     return (
         <div className={containerClass}>
-            <LoadingWrapper type='bars'/>
+            <LoadingBars/>
             {progressView}
         </div>
     );

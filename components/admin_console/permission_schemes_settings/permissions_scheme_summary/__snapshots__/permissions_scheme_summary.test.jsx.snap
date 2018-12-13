@@ -14,7 +14,6 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         <LoadingWrapper
           loading={false}
           text="Deleting..."
-          type="spinner"
         >
           <FormattedMessage
             defaultMessage="Yes, Delete"
@@ -134,7 +133,6 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         <LoadingWrapper
           loading={false}
           text="Deleting..."
-          type="spinner"
         >
           <FormattedMessage
             defaultMessage="Yes, Delete"
@@ -329,7 +327,6 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         <LoadingWrapper
           loading={false}
           text="Deleting..."
-          type="spinner"
         >
           <FormattedMessage
             defaultMessage="Yes, Delete"

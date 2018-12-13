@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
-import LoadingWrapper from 'components/widgets/loading_wrapper.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 
 /**
  * A button which, when clicked, performs an action and displays

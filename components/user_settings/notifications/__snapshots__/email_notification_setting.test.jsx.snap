@@ -239,7 +239,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 <LoadingWrapper
                   loading={false}
                   text="Saving"
-                  type="spinner"
                 >
                   Save
                 </LoadingWrapper>
@@ -673,7 +672,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 <LoadingWrapper
                   loading={false}
                   text="Saving"
-                  type="spinner"
                 >
                   Save
                 </LoadingWrapper>

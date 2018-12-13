@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import LoadingWrapper from 'components/widgets/loading_wrapper.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
 
 export default class SuggestionList extends React.PureComponent {
     static propTypes = {
@@ -141,7 +141,7 @@ export default class SuggestionList extends React.PureComponent {
             }
 
             if (item.loading) {
-                items.push(<LoadingWrapper key={item.type}/>);
+                items.push(<LoadingSpinner key={item.type}/>);
                 continue;
             }
 
