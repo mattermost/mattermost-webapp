@@ -59,15 +59,16 @@ export function onChannelByIdentifierEnter({match, history}) {
     };
 }
 
-function goToChannelByChannelId(match, history) {
+export function goToChannelByChannelId(match, history) {
     return async (dispatch, getState) => {
         const state = getState();
         const {team, identifier} = match.params;
         const channelId = identifier.toLowerCase();
 
         let channel = getChannel(state, channelId);
+        const member = state.entities.channels.myMembers[channelId];
         const teamObj = getTeamByName(state, team);
-        if (!channel) {
+        if (!channel || !member) {
             const {data, error} = await dispatch(joinChannel(getCurrentUserId(state), teamObj.id, channelId, null));
             if (error) {
                 handleChannelJoinError(match, history);
@@ -98,8 +99,12 @@ export function goToChannelByChannelName(match, history) {
         }
 
         let channel = getChannelsNameMapInTeam(state, teamObj.id)[channelName];
+        let member;
+        if (channel) {
+            member = state.entities.channels.myMembers[channel.id];
+        }
 
-        if (!channel) {
+        if (!channel || !member) {
             const {data, error: joinError} = await dispatch(joinChannel(getCurrentUserId(state), teamObj.id, null, channelName));
             if (joinError) {
                 const {data: data2, error: getChannelError} = await dispatch(getChannelByNameAndTeamName(team, channelName, true));
