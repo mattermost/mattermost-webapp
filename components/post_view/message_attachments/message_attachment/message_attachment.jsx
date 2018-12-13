@@ -313,11 +313,13 @@ export default class MessageAttachment extends React.PureComponent {
         if (attachment.image_url) {
             const imageDimensions = getFileDimensionsForDisplay(this.props.imagesMetadata[attachment.image_url], MAX_DIMENSIONS_IMAGE_URL);
             image = (
-                <img
-                    className='attachment__image'
-                    src={attachment.image_url}
-                    {...imageDimensions}
-                />
+                <div className='attachment__image-container'>
+                    <img
+                        className='attachment__image'
+                        src={attachment.image_url}
+                        {...imageDimensions}
+                    />
+                </div>
             );
         }
 
