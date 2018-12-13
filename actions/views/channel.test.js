@@ -4,6 +4,7 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
+import {General} from 'mattermost-redux/constants';
 import {leaveChannel} from 'mattermost-redux/actions/channels';
 
 import {browserHistory} from 'utils/browser_history';
@@ -30,8 +31,13 @@ jest.mock('mattermost-redux/actions/channels', () => ({
     }),
 }));
 
+jest.mock('selectors/local_storage', () => ({
+    getLastViewedChannelName: () => 'channel1',
+}));
+
 describe('channel view actions', () => {
-    const channel1 = {id: 'channelid1', name: 'channel1', display_name: 'Channel 1', type: 'O'};
+    const channel1 = {id: 'channelid1', name: 'channel1', display_name: 'Channel 1', type: 'O', team_id: 'teamid1'};
+    const townsquare = {id: 'channelid2', name: General.DEFAULT_CHANNEL, display_name: 'Town Square', type: 'O', team_id: 'teamid1'};
     const gmChannel = {id: 'gmchannelid', name: 'gmchannel', display_name: 'GM Channel 1', type: 'G'};
     const team1 = {id: 'teamid1', name: 'team1'};
 
@@ -47,7 +53,8 @@ describe('channel view actions', () => {
                 teams: {teamid1: team1},
             },
             channels: {
-                channels: {channelid1: channel1, gmchannelid: gmChannel},
+                currentChannelId: 'channelid1',
+                channels: {channelid1: channel1, channelid2: townsquare, gmchannelid: gmChannel},
                 myMembers: {gmchannelid: {channel_id: 'gmchannelid', user_id: 'userid1'}},
             },
             general: {
@@ -88,6 +95,13 @@ describe('channel view actions', () => {
             await store.dispatch(Actions.leaveChannel('channelid'));
             expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/channels/town-square`);
             expect(leaveChannel).toHaveBeenCalledWith('channelid');
+        });
+    });
+
+    describe('goToLastViewedChannel', () => {
+        test('should switch to town square if last viewed channel is current channel', async () => {
+            await store.dispatch(Actions.goToLastViewedChannel());
+            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/channels/${General.DEFAULT_CHANNEL}`);
         });
     });
 });
