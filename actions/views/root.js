@@ -17,13 +17,11 @@ export function loadMeAndConfig() {
 
         // need to await for clientConfig first as it is required for loadMe
         const resolvedPromises = await Promise.all(promises);
-
-        let loadMeResponse;
         if (document.cookie.indexOf('MMUSERID=') > -1) {
-            loadMeResponse = await dispatch(UserActions.loadMe());
+            resolvedPromises.push(await dispatch(UserActions.loadMe()));
         }
 
-        return [...resolvedPromises, loadMeResponse];
+        return resolvedPromises;
     };
 }
 
