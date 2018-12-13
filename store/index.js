@@ -12,6 +12,7 @@ import configureServiceStore from 'mattermost-redux/store';
 import reduxInitialState from 'mattermost-redux/store/initial_state';
 
 import {storageRehydrate} from 'actions/storage';
+import {clearUserCookie} from 'actions/views/root';
 import appReducer from 'reducers';
 import {transformSet} from 'store/utils';
 import {detect} from 'utils/network.js';
@@ -148,7 +149,7 @@ export default function configureStore(initialState) {
                         purging = true;
 
                         persistor.purge().then(() => {
-                            document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                            clearUserCookie();
 
                             // Preserve any query string parameters on logout, including parameters
                             // used by the application such as extra and redirect_to.

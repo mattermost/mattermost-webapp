@@ -21,7 +21,7 @@ describe('components/emoji/components/AddEmoji', () => {
             id: 'current-user-id',
         },
         actions: {
-            createCustomEmoji: jest.fn(),
+            createCustomEmoji: jest.fn().mockReturnValue({}),
         },
     };
 

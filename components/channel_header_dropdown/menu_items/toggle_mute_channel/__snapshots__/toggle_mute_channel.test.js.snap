@@ -6,6 +6,7 @@ exports[`components/ChannelHeaderDropdown/MenuItem.ToggleMuteChannel should matc
 >
   <button
     className="style--none"
+    id="channelMute"
     onClick={[Function]}
     role="menuitem"
   >

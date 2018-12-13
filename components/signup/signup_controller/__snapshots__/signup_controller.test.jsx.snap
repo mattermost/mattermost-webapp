@@ -1,0 +1,366 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/SignupController should call addUserToTeamFromInvite if id exists in url 1`] = `
+<LoadingScreen
+  position="relative"
+  style={Object {}}
+/>
+`;
+
+exports[`components/SignupController should match snapshot for addUserToTeamFromInvite error 1`] = `
+<div>
+  <Connect(AnnouncementBarController) />
+  <BackButton
+    url="/"
+  />
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="signup-team__container"
+    >
+      <img
+        className="signup-team-logo"
+        src={null}
+      />
+      <div
+        className="signup__content"
+      >
+        <h1 />
+        <h4
+          className="color--light"
+        >
+          <FormattedMessage
+            id="web.root.signup_info"
+            values={Object {}}
+          />
+        </h4>
+        <div
+          className="margin--extra"
+        >
+          <h5>
+            <strong>
+              <FormattedMessage
+                defaultMessage="Create an account with:"
+                id="signup.title"
+                values={Object {}}
+              />
+            </strong>
+          </h5>
+        </div>
+        <div
+          className="form-group has-error"
+        >
+          <label
+            className="control-label"
+          >
+            <FormattedMessage
+              defaultMessage="The invite link was invalid.  Please speak with your Administrator to receive an invitation."
+              id="signup_user_completed.invalid_invite"
+              values={Object {}}
+            />
+          </label>
+        </div>
+      </div>
+      <span
+        className="color--light"
+      >
+        <FormattedMessage
+          defaultMessage="Already have an account?"
+          id="signup_user_completed.haveAccount"
+          values={Object {}}
+        />
+         
+        <Link
+          replace={false}
+          to="/login?id=ppni7a9t87fn3j4d56rwocdctc"
+        >
+          <FormattedMessage
+            defaultMessage="Click here to sign in."
+            id="signup_user_completed.signIn"
+            values={Object {}}
+          />
+        </Link>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/SignupController should match snapshot for all signup options enabled with isLicensed disabled 1`] = `
+<div>
+  <Connect(AnnouncementBarController) />
+  <BackButton
+    url="/"
+  />
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="signup-team__container"
+    >
+      <img
+        className="signup-team-logo"
+        src={null}
+      />
+      <div
+        className="signup__content"
+      >
+        <h1 />
+        <h4
+          className="color--light"
+        >
+          <FormattedMessage
+            id="web.root.signup_info"
+            values={Object {}}
+          />
+        </h4>
+        <div
+          className="margin--extra"
+        >
+          <h5>
+            <strong>
+              <FormattedMessage
+                defaultMessage="Create an account with:"
+                id="signup.title"
+                values={Object {}}
+              />
+            </strong>
+          </h5>
+        </div>
+        <Link
+          className="btn btn-custom-login btn--full email"
+          key="email"
+          replace={false}
+          to="/signup_emailundefined"
+        >
+          <span>
+            <span
+              className="icon fa fa-envelope"
+              title="Email Icon"
+            />
+            <FormattedMessage
+              defaultMessage="Email and Password"
+              id="signup.email"
+              values={Object {}}
+            />
+          </span>
+        </Link>
+        <a
+          className="btn btn-custom-login btn--full gitlab"
+          href="/oauth/gitlab/signupundefined"
+          key="gitlab"
+        >
+          <span>
+            <span
+              className="icon"
+            />
+            <span>
+              <FormattedMessage
+                defaultMessage="GitLab Single Sign-On"
+                id="signup.gitlab"
+                values={Object {}}
+              />
+            </span>
+          </span>
+        </a>
+      </div>
+      <span
+        className="color--light"
+      >
+        <FormattedMessage
+          defaultMessage="Already have an account?"
+          id="signup_user_completed.haveAccount"
+          values={Object {}}
+        />
+         
+        <Link
+          replace={false}
+          to="/login"
+        >
+          <FormattedMessage
+            defaultMessage="Click here to sign in."
+            id="signup_user_completed.signIn"
+            values={Object {}}
+          />
+        </Link>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/SignupController should match snapshot for all signup options enabled with isLicensed enabled 1`] = `
+<div>
+  <Connect(AnnouncementBarController) />
+  <BackButton
+    url="/"
+  />
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="signup-team__container"
+    >
+      <img
+        className="signup-team-logo"
+        src={null}
+      />
+      <div
+        className="signup__content"
+      >
+        <h1 />
+        <h4
+          className="color--light"
+        >
+          <FormattedMessage
+            id="web.root.signup_info"
+            values={Object {}}
+          />
+        </h4>
+        <div
+          className="margin--extra"
+        >
+          <h5>
+            <strong>
+              <FormattedMessage
+                defaultMessage="Create an account with:"
+                id="signup.title"
+                values={Object {}}
+              />
+            </strong>
+          </h5>
+        </div>
+        <Link
+          className="btn btn-custom-login btn--full email"
+          key="email"
+          replace={false}
+          to="/signup_emailundefined"
+        >
+          <span>
+            <span
+              className="icon fa fa-envelope"
+              title="Email Icon"
+            />
+            <FormattedMessage
+              defaultMessage="Email and Password"
+              id="signup.email"
+              values={Object {}}
+            />
+          </span>
+        </Link>
+        <a
+          className="btn btn-custom-login btn--full gitlab"
+          href="/oauth/gitlab/signupundefined"
+          key="gitlab"
+        >
+          <span>
+            <span
+              className="icon"
+            />
+            <span>
+              <FormattedMessage
+                defaultMessage="GitLab Single Sign-On"
+                id="signup.gitlab"
+                values={Object {}}
+              />
+            </span>
+          </span>
+        </a>
+        <a
+          className="btn btn-custom-login btn--full google"
+          href="/oauth/google/signupundefined"
+          key="google"
+        >
+          <span>
+            <span
+              className="icon"
+            />
+            <span>
+              <FormattedMessage
+                defaultMessage="Google Account"
+                id="signup.google"
+                values={Object {}}
+              />
+            </span>
+          </span>
+        </a>
+        <a
+          className="btn btn-custom-login btn--full office365"
+          href="/oauth/office365/signupundefined"
+          key="office365"
+        >
+          <span>
+            <span
+              className="icon"
+            />
+            <span>
+              <FormattedMessage
+                defaultMessage="Office 365"
+                id="signup.office365"
+                values={Object {}}
+              />
+            </span>
+          </span>
+        </a>
+        <Link
+          className="btn btn-custom-login btn--full ldap"
+          key="ldap"
+          replace={false}
+          to="/login?extra=create_ldap"
+        >
+          <span>
+            <span
+              className="icon fa fa-folder-open fa--margin-top"
+              title="AD/LDAP Icon"
+            />
+            <span>
+              <FormattedMessage
+                defaultMessage="AD/LDAP Credentials"
+                id="signup.ldap"
+                values={Object {}}
+              />
+            </span>
+          </span>
+        </Link>
+        <Link
+          className="btn btn-custom-login btn--full saml"
+          key="saml"
+          replace={false}
+          to="/login/sso/samlundefined?action=signup"
+        >
+          <span>
+            <span
+              className="icon fa fa-lock fa--margin-top"
+              title="SAML Icon"
+            />
+            <span>
+              SAML
+            </span>
+          </span>
+        </Link>
+      </div>
+      <span
+        className="color--light"
+      >
+        <FormattedMessage
+          defaultMessage="Already have an account?"
+          id="signup_user_completed.haveAccount"
+          values={Object {}}
+        />
+         
+        <Link
+          replace={false}
+          to="/login"
+        >
+          <FormattedMessage
+            defaultMessage="Click here to sign in."
+            id="signup_user_completed.signIn"
+            values={Object {}}
+          />
+        </Link>
+      </span>
+    </div>
+  </div>
+</div>
+`;

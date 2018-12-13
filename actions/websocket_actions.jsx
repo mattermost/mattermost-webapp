@@ -521,7 +521,7 @@ function handleLeaveTeamEvent(msg) {
 }
 
 function handleUpdateTeamEvent(msg) {
-    dispatch({type: TeamTypes.UPDATED_TEAM, data: msg.data.team});
+    dispatch({type: TeamTypes.UPDATED_TEAM, data: JSON.parse(msg.data.team)});
 }
 
 function handleDeleteTeamEvent(msg) {
@@ -762,7 +762,7 @@ function handleUserTypingEvent(msg) {
         dispatch({
             type: WebsocketEvents.STOP_TYPING,
             data,
-        }, getState);
+        });
     }, parseInt(config.TimeBetweenUserTypingUpdatesMilliseconds, 10));
 
     if (!currentUser && userId !== currentUserId) {

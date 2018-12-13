@@ -272,10 +272,10 @@ class LoginController extends React.Component {
 
         this.props.actions.login(loginId, password, token).then(({error}) => {
             if (error) {
-                if (error.id === 'api.user.login.not_verified.app_error') {
+                if (error.server_error_id === 'api.user.login.not_verified.app_error') {
                     browserHistory.push('/should_verify_email?&email=' + encodeURIComponent(loginId));
-                } else if (error.id === 'store.sql_user.get_for_login.app_error' ||
-                    error.id === 'ent.ldap.do_login.user_not_registered.app_error') {
+                } else if (error.server_error_id === 'store.sql_user.get_for_login.app_error' ||
+                    error.server_error_id === 'ent.ldap.do_login.user_not_registered.app_error') {
                     this.setState({
                         showMfa: false,
                         loading: false,
@@ -286,7 +286,7 @@ class LoginController extends React.Component {
                             />
                         ),
                     });
-                } else if (error.id === 'api.user.check_user_password.invalid.app_error' || error.id === 'ent.ldap.do_login.invalid_password.app_error') {
+                } else if (error.server_error_id === 'api.user.check_user_password.invalid.app_error' || error.server_error_id === 'ent.ldap.do_login.invalid_password.app_error') {
                     this.setState({
                         showMfa: false,
                         loading: false,

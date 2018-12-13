@@ -8,7 +8,7 @@ import {getTeams, getTeamStats} from 'mattermost-redux/actions/teams';
 import {getUser, getUserAccessToken} from 'mattermost-redux/actions/users';
 import {getTeamsList} from 'mattermost-redux/selectors/entities/teams';
 import {getUsers} from 'mattermost-redux/selectors/entities/users';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Stats} from 'mattermost-redux/constants';
 
 import {loadProfilesAndTeamMembers} from 'actions/user_actions.jsx';
@@ -19,12 +19,10 @@ import {SearchUserTeamFilter} from 'utils/constants.jsx';
 import SystemUsers from './system_users.jsx';
 
 function mapStateToProps(state) {
-    const license = getLicense(state);
     const config = getConfig(state);
 
     const siteName = config.SiteName;
-    const mfaEnabled = (license && license.IsLicensed === 'true' && license.MFA === 'true') &&
-        config.EnableMultifactorAuthentication === 'true';
+    const mfaEnabled = config.EnableMultifactorAuthentication === 'true';
     const enableUserAccessTokens = config.EnableUserAccessTokens === 'true';
     const experimentalEnableAuthenticationTransfer = config.ExperimentalEnableAuthenticationTransfer === 'true';
 

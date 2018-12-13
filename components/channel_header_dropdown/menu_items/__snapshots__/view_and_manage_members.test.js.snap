@@ -13,6 +13,7 @@ exports[`components/ChannelHeaderDropdown/MenuItem.ViewAndManageMembers should m
       }
     }
     dialogType={[Function]}
+    id="channelManageMembers"
     modalId="channel_members"
     role="menuitem"
   >
@@ -60,6 +61,7 @@ exports[`components/ChannelHeaderDropdown/MenuItem.ViewAndManageMembers should m
       }
     }
     dialogType={[Function]}
+    id="channelManageMembers"
     modalId="channel_members"
     role="menuitem"
   >

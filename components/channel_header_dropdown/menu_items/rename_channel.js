@@ -35,6 +35,7 @@ const RenameChannel = ({channel, isArchived}) => {
         >
             <li role='presentation'>
                 <ToggleModalButtonRedux
+                    id='channelRename'
                     role='menuitem'
                     modalId={ModalIdentifiers.RENAME_CHANNEL}
                     dialogType={RenameChannelModal}

@@ -14,7 +14,7 @@ import {SpringSystem, MathUtil} from 'rebound';
 import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
+import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import favicon from 'images/favicon/favicon-16x16.png';
@@ -157,6 +157,7 @@ export default class Sidebar extends React.PureComponent {
 
         this.state = {
             newChannelModalType: '',
+            orderedChannelIds: props.orderedChannelIds,
             showDirectChannelsModal: false,
             showMoreChannelsModal: false,
             showMorePublicChannelsModal: false,
@@ -168,22 +169,34 @@ export default class Sidebar extends React.PureComponent {
         this.unreadScrollAnimate.addListener({onSpringUpdate: this.handleScrollAnimationUpdate});
     }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.orderedChannelIds[0].type === SidebarChannelGroups.UNREADS &&
+            prevState.orderedChannelIds[0].type === SidebarChannelGroups.UNREADS &&
+            prevState.orderedChannelIds[0].items.length === nextProps.orderedChannelIds[0].items.length &&
+            prevState.orderedChannelIds[0].items.includes(nextProps.currentChannel.id)
+        ) {
+            return null;
+        }
+
+        if (nextProps.orderedChannelIds !== prevState.orderedChannelIds) {
+            return {orderedChannelIds: nextProps.orderedChannelIds};
+        }
+
+        return null;
+    }
+
     componentDidMount() {
         this.updateUnreadIndicators();
         document.addEventListener('keydown', this.navigateChannelShortcut);
         document.addEventListener('keydown', this.navigateUnreadChannelShortcut);
     }
 
-    UNSAFE_componentWillUpdate() { // eslint-disable-line camelcase
-        this.updateUnreadIndicators();
-    }
-
     componentDidUpdate(prevProps) {
         // if the active channel disappeared (which can happen when dm channels autoclose), go to town square
         if (this.props.currentTeam === prevProps.currentTeam &&
             this.props.currentChannel.id === prevProps.currentChannel.id &&
-            !this.channelIdIsDisplayedForProps(this.props, this.props.currentChannel.id) &&
-            this.channelIdIsDisplayedForProps(prevProps, this.props.currentChannel.id)
+            !this.channelIdIsDisplayedForProps(this.props.orderedChannelIds, this.props.currentChannel.id) &&
+            this.channelIdIsDisplayedForProps(prevProps.orderedChannelIds, this.props.currentChannel.id)
         ) {
             this.closedDirectChannel = true;
             browserHistory.push(`/${this.props.currentTeam.name}/channels/${Constants.DEFAULT_CHANNEL}`);
@@ -207,6 +220,7 @@ export default class Sidebar extends React.PureComponent {
         this.updateTitle();
         this.setBadgesActiveAndFavicon();
         this.setFirstAndLastUnreadChannels();
+        this.updateUnreadIndicators();
     }
 
     componentWillUnmount() {
@@ -220,7 +234,7 @@ export default class Sidebar extends React.PureComponent {
 
     setBadgesActiveAndFavicon() {
         this.lastBadgesActive = this.badgesActive;
-        this.badgesActive = this.props.unreads.mentions;
+        this.badgesActive = this.props.unreads.mentionCount;
 
         // update the favicon to show if there are any notifications
         if (this.lastBadgesActive !== this.badgesActive) {
@@ -243,12 +257,10 @@ export default class Sidebar extends React.PureComponent {
     }
 
     setFirstAndLastUnreadChannels() {
-        const {
-            currentChannel,
-            unreadChannelIds,
-        } = this.props;
+        const {currentChannel, unreadChannelIds} = this.props;
+        const {orderedChannelIds} = this.state;
 
-        this.getDisplayedChannels().map((channelId) => {
+        this.getDisplayedChannels(orderedChannelIds).map((channelId) => {
             if (channelId !== currentChannel.id && unreadChannelIds.includes(channelId)) {
                 if (!this.firstUnreadChannel) {
                     this.firstUnreadChannel = channelId;
@@ -308,7 +320,7 @@ export default class Sidebar extends React.PureComponent {
 
     scrollToFirstUnreadChannel = () => {
         if (this.firstUnreadChannel) {
-            const displayedChannels = this.getDisplayedChannels();
+            const displayedChannels = this.getDisplayedChannels(this.state.orderedChannelIds);
             this.unreadScrollAnimate.setCurrentValue(this.refs.scrollbar.getScrollTop()).setAtRest();
             let position;
             if (displayedChannels.length > 0 && displayedChannels[0] === this.firstUnreadChannel) {
@@ -360,11 +372,12 @@ export default class Sidebar extends React.PureComponent {
                 showBottomUnread = true;
             }
         }
-
-        this.setState({
-            showTopUnread,
-            showBottomUnread,
-        });
+        if (showTopUnread !== this.state.showTopUnread || showBottomUnread !== this.state.showBottomUnread) {
+            this.setState({
+                showTopUnread,
+                showBottomUnread,
+            });
+        }
     }
 
     updateScrollbarOnChannelChange = (channelId) => {
@@ -383,7 +396,7 @@ export default class Sidebar extends React.PureComponent {
             }
 
             this.isSwitchingChannel = true;
-            const allChannelIds = this.getDisplayedChannels();
+            const allChannelIds = this.getDisplayedChannels(this.state.orderedChannelIds);
             const curChannelId = this.props.currentChannel.id;
             let curIndex = -1;
             for (let i = 0; i < allChannelIds.length; i++) {
@@ -417,7 +430,7 @@ export default class Sidebar extends React.PureComponent {
 
             this.isSwitchingChannel = true;
 
-            const allChannelIds = this.getDisplayedChannels();
+            const allChannelIds = this.getDisplayedChannels(this.state.orderedChannelIds);
 
             let direction = 0;
             if (Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
@@ -443,18 +456,15 @@ export default class Sidebar extends React.PureComponent {
         }
     };
 
-    getDisplayedChannels = (props = this.props) => {
-        const displayedChannels = [];
-
-        props.orderedChannelIds.forEach((section) => {
-            displayedChannels.push(...section.items);
-        });
-
-        return displayedChannels;
+    getDisplayedChannels = (orderedChannelIds = []) => {
+        return orderedChannelIds.reduce((allChannelIds, section) => {
+            allChannelIds.push(...section.items);
+            return allChannelIds;
+        }, []);
     };
 
-    channelIdIsDisplayedForProps = (props, id) => {
-        const allChannels = this.getDisplayedChannels(props);
+    channelIdIsDisplayedForProps = (orderedChannelIds = [], id) => {
+        const allChannels = this.getDisplayedChannels(orderedChannelIds);
         for (let i = 0; i < allChannels.length; i++) {
             if (allChannels[i] === id) {
                 return true;
@@ -533,9 +543,9 @@ export default class Sidebar extends React.PureComponent {
     }
 
     renderOrderedChannels = () => {
-        const {orderedChannelIds} = this.props;
+        const {orderedChannelIds} = this.state;
 
-        const sectionsToHide = ['unreads', 'favorite'];
+        const sectionsToHide = [SidebarChannelGroups.UNREADS, SidebarChannelGroups.FAVORITE];
 
         return (
             <Scrollbars

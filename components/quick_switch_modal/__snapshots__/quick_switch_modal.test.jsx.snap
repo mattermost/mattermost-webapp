@@ -38,6 +38,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
   >
     <div
       className="modal__hint"
+      id="quickSwitchHint"
     >
       <FormattedMessage
         defaultMessage="Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss."
@@ -50,9 +51,11 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
       completeOnTab={false}
       containerClass=""
       delayInputUpdate={true}
+      id="quickSwitchInput"
       isRHS={false}
       listComponent={[Function]}
       listStyle="bottom"
+      listenForMentionKeyClick={false}
       maxLength="64"
       onChange={[Function]}
       onItemSelected={[Function]}

@@ -194,6 +194,18 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               />
             }
           />
+          <AdminSidebarSection
+            name="mfa"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="MFA"
+                id="admin.sidebar.mfa"
+                values={Object {}}
+              />
+            }
+          />
         </AdminSidebarSection>
         <AdminSidebarSection
           name="security"
@@ -737,6 +749,18 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
               <FormattedMessage
                 defaultMessage="GitLab"
                 id="admin.sidebar.gitlab"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            name="mfa"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="MFA"
+                id="admin.sidebar.mfa"
                 values={Object {}}
               />
             }
