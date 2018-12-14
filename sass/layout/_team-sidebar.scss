@@ -73,8 +73,7 @@
         -webkit-overflow-scrolling: touch;
         background-color: alpha-color($black, .2);
         height: 100%;
-        overflow-x: inherit;
-        overflow-y: auto;
+        overflow: hidden;
         padding-top: 15px;
 
         .team-container {
