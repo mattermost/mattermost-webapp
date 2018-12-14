@@ -233,8 +233,8 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
       theme={Object {}}
       user={
         Object {
-          "id": "someUserId",
-          "name": "some_user_name",
+          "id": "someid",
+          "name": "name",
         }
       }
     >
@@ -246,20 +246,19 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
             "openModal": [Function],
           }
         }
-        currentTeamId="someTeamId"
-        currentUserId="someUserId"
+        currentUserId="someid"
         enableTimezone={false}
         hasMention={false}
         isChannelAdmin={false}
         isRHS={false}
         isTeamAdmin={false}
         src="src"
-        teamUrl="/someTeamName"
+        teamUrl="/somename"
         theme={Object {}}
         user={
           Object {
-            "id": "someUserId",
-            "name": "some_user_name",
+            "id": "someid",
+            "name": "name",
           }
         }
       >
@@ -329,8 +328,8 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
                 pluggableName="PopoverUserAttributes"
                 user={
                   Object {
-                    "id": "someUserId",
-                    "name": "some_user_name",
+                    "id": "someid",
+                    "name": "name",
                   }
                 }
               >
@@ -369,8 +368,8 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
                   }
                   user={
                     Object {
-                      "id": "someUserId",
-                      "name": "some_user_name",
+                      "id": "someid",
+                      "name": "name",
                     }
                   }
                 />
@@ -404,8 +403,8 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
                 pluggableName="PopoverUserActions"
                 user={
                   Object {
-                    "id": "someUserId",
-                    "name": "some_user_name",
+                    "id": "someid",
+                    "name": "name",
                   }
                 }
               >
@@ -444,8 +443,8 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
                   }
                   user={
                     Object {
-                      "id": "someUserId",
-                      "name": "some_user_name",
+                      "id": "someid",
+                      "name": "name",
                     }
                   }
                 />
@@ -498,8 +497,8 @@ exports[`plugins/Pluggable should match snapshot with overridden component 1`] =
       }
       user={
         Object {
-          "id": "someUserId",
-          "name": "some_user_name",
+          "id": "someid",
+          "name": "name",
         }
       }
     >

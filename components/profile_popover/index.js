@@ -5,11 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {
-    getCurrentTeam,
-    getCurrentRelativeTeamUrl,
-    getTeamMember,
-} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeam, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
@@ -48,12 +44,11 @@ function mapStateToProps(state, ownProps) {
     }
 
     return {
-        currentTeamId: team.id,
-        currentUserId: getCurrentUserId(state),
         enableTimezone: areTimezonesEnabledAndSupported(state),
+        currentUserId: getCurrentUserId(state),
+        teamUrl: '/' + team.name,
         isTeamAdmin,
         isChannelAdmin,
-        teamUrl: getCurrentRelativeTeamUrl(state),
     };
 }
 
