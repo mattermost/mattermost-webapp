@@ -150,7 +150,7 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
         return (
             <FormattedMessage
                 id='admin.support.termsOfServiceTitle'
-                defaultMessage='Custom Terms of Service'
+                defaultMessage='Custom Terms of Service (Beta)'
             />
         );
     }

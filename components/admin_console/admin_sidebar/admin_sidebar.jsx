@@ -175,7 +175,7 @@ export default class AdminSidebar extends React.Component {
                         title={
                             <FormattedMessage
                                 id='admin.sidebar.customTermsOfService'
-                                defaultMessage='Custom Terms of Service'
+                                defaultMessage='Custom Terms of Service (Beta)'
                             />
                         }
                     />
