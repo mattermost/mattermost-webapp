@@ -157,6 +157,7 @@ const PluginItem = ({
     let activateButton;
     const activating = pluginStatus.state === PluginState.PLUGIN_STATE_STARTING;
     const deactivating = pluginStatus.state === PluginState.PLUGIN_STATE_STOPPING;
+
     if (pluginStatus.active) {
         activateButton = (
             <a
@@ -415,7 +416,9 @@ export default class PluginManagement extends AdminSettings {
             fileSelected: false,
             file: null,
             serverError: null,
-            showOverwritePluginModal: false,
+            lastMessage: null,
+            overwriting: false,
+            confirmModal: false,
         });
     }
 
@@ -444,6 +447,7 @@ export default class PluginManagement extends AdminSettings {
     }
 
     handleUpload = () => {
+        this.setState({lastMessage: null, serverError: null});
         const element = this.refs.fileInput;
         if (element.files.length > 0) {
             this.setState({fileSelected: true, file: element.files[0]});
@@ -453,15 +457,17 @@ export default class PluginManagement extends AdminSettings {
     helpSubmitUpload = async (file, force) => {
         this.setState({uploading: true});
         const {error} = await this.props.actions.uploadPlugin(file, force);
-        this.setState({uploading: false, serverError: null});
 
         if (error) {
             if (error.server_error_id === 'app.plugin.install_id.app_error' && !force) {
-                this.setState({showOverwritePluginModal: true});
+                this.setState({confirmModal: true, overwriting: true});
                 return;
             }
-            this.setState({file: null, fileSelected: false});
-
+            this.setState({
+                file: null,
+                fileSelected: false,
+                uploading: false,
+            });
             if (error.server_error_id === 'app.plugin.activate.app_error') {
                 this.setState({serverError: Utils.localizeMessage('admin.plugin.error.activate', 'Unable to upload the plugin. It may conflict with another plugin on your server.')});
             } else if (error.server_error_id === 'app.plugin.extract.app_error') {
@@ -469,7 +475,23 @@ export default class PluginManagement extends AdminSettings {
             } else {
                 this.setState({serverError: error.message});
             }
+            this.setState({file: null, fileSelected: false});
+            return;
         }
+
+        let msg = `Successfully uploaded plugin from ${file.name}`;
+        if (this.state.overwriting) {
+            msg = `Successfully updated plugin from ${file.name}`;
+        }
+
+        this.setState({
+            file: null,
+            fileSelected: false,
+            serverError: null,
+            lastMessage: msg,
+            overwriting: false,
+            uploading: false,
+        });
     }
 
     handleSubmitUpload = (e) => {
@@ -486,16 +508,23 @@ export default class PluginManagement extends AdminSettings {
     }
 
     handleOverwritePluginCancel = () => {
-        this.setState({showOverwritePluginModal: false, file: null, fileSelected: false});
+        this.setState({
+            file: null,
+            fileSelected: false,
+            serverError: null,
+            confirmModal: false,
+            lastMessage: null,
+            uploading: false,
+        });
     }
 
     handleOverwritePlugin = () => {
-        this.setState({showOverwritePluginModal: false});
+        this.setState({confirmModal: false});
         this.helpSubmitUpload(this.state.file, true);
-        this.setState({file: null, fileSelected: false});
     }
 
     handleRemove = async (e) => {
+        this.setState({lastMessage: null, serverError: null});
         e.preventDefault();
         const pluginId = e.currentTarget.getAttribute('data-plugin-id');
         this.setState({removing: pluginId});
@@ -510,6 +539,7 @@ export default class PluginManagement extends AdminSettings {
 
     handleEnable = async (e) => {
         e.preventDefault();
+        this.setState({lastMessage: null, serverError: null});
         const pluginId = e.currentTarget.getAttribute('data-plugin-id');
 
         const {error} = await this.props.actions.enablePlugin(pluginId);
@@ -520,6 +550,7 @@ export default class PluginManagement extends AdminSettings {
     }
 
     handleDisable = async (e) => {
+        this.setState({lastMessage: null, serverError: null});
         e.preventDefault();
         const pluginId = e.currentTarget.getAttribute('data-plugin-id');
 
@@ -563,7 +594,7 @@ export default class PluginManagement extends AdminSettings {
 
         return (
             <ConfirmModal
-                show={this.state.showOverwritePluginModal}
+                show={this.state.confirmModal}
                 title={title}
                 message={message}
                 confirmButtonClass='btn btn-danger'
@@ -578,9 +609,13 @@ export default class PluginManagement extends AdminSettings {
         const {enableUploads} = this.state;
         const enable = this.props.config.PluginSettings.Enable;
         let serverError = '';
+        let lastMessage = '';
 
         if (this.state.serverError) {
             serverError = <div className='col-sm-12'><div className='form-group has-error half'><label className='control-label'>{this.state.serverError}</label></div></div>;
+        }
+        if (this.state.lastMessage) {
+            lastMessage = <div className='col-sm-12'><div className='form-group half'>{this.state.lastMessage}</div></div>;
         }
 
         let btnClass = 'btn';
@@ -711,7 +746,7 @@ export default class PluginManagement extends AdminSettings {
 
         const uploadBtnClass = enableUploads ? 'btn btn-primary' : 'btn';
 
-        const overwritePluginModal = this.state.showOverwritePluginModal && this.renderOverwritePluginModal();
+        const overwritePluginModal = this.state.confirmModal && this.renderOverwritePluginModal();
 
         return (
             <div className='wrapper--fixed'>
@@ -774,6 +809,7 @@ export default class PluginManagement extends AdminSettings {
                                 {fileName}
                             </div>
                             {serverError}
+                            {lastMessage}
                             <p className='help-text'>
                                 {uploadHelpText}
                             </p>
