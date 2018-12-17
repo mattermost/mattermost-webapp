@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {leaveChannel as leaveChannelRedux, joinChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
-import {getChannel, getChannelByName} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getChannelByName, getCurrentChannel, getDefaultChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
@@ -28,8 +28,14 @@ export function checkAndSetMobileView() {
 export function goToLastViewedChannel() {
     return async (dispatch, getState) => {
         const state = getState();
-        const lastViewedChannel = getChannelByName(state, getLastViewedChannelName(state));
-        return dispatch(switchToChannel(lastViewedChannel));
+        const currentChannel = getCurrentChannel(state);
+        let channelToSwitchTo = getChannelByName(state, getLastViewedChannelName(state));
+
+        if (currentChannel.id === channelToSwitchTo.id) {
+            channelToSwitchTo = getDefaultChannel(state);
+        }
+
+        return dispatch(switchToChannel(channelToSwitchTo));
     };
 }
 
