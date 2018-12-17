@@ -16,7 +16,7 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import PostProfilePicture from 'components/post_profile_picture';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
-import ReactionListContainer from 'components/post_view/reaction_list';
+import ReactionList from 'components/post_view/reaction_list';
 import PostTime from 'components/post_view/post_time';
 import EmojiIcon from 'components/svg/emoji_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
@@ -390,7 +390,7 @@ export default class RhsRootPost extends React.Component {
                                 />
                             </div>
                             {fileAttachment}
-                            <ReactionListContainer
+                            <ReactionList
                                 post={post}
                                 isReadOnly={isReadOnly || channelIsArchived}
                             />
