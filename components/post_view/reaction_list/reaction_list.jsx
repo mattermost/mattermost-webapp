@@ -92,7 +92,7 @@ export default class ReactionList extends React.PureComponent {
     }
 
     render() {
-        if (!(this.props.post.has_reactions && this.props.reactions)) {
+        if (!this.props.post.has_reactions || !this.props.reactions) {
             return null;
         }
 
