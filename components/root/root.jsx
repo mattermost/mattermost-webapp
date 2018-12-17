@@ -207,6 +207,10 @@ export default class Root extends React.Component {
             this.props.history.push('/get_android_app?redirect_to=' + encodeURIComponent(this.props.location.pathname) + encodeURIComponent(this.props.location.search));
             BrowserStore.setLandingPageSeen(true);
         }
+
+        if (this.props.noAccounts) {
+            this.props.history.push('/signup_user_complete');
+        }
     }
 
     redirectIfNecessary = (props) => {
