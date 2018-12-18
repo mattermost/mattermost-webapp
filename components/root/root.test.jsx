@@ -36,6 +36,7 @@ describe('components/Root', () => {
     test('should load config and license on mount and redirect to sign-up page', () => {
         const props = {
             ...baseProps,
+            diagnosticsEnabled: false,
             noAccounts: true,
             actions: {
                 ...baseProps.actions,
