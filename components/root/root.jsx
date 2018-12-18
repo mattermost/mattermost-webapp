@@ -184,6 +184,10 @@ export default class Root extends React.Component {
         const afterIntl = () => {
             initializePlugins();
 
+            if (this.props.location.pathname === '/' && this.props.noAccounts) {
+                this.props.history.push('/signup_user_complete');
+            }
+
             this.setState({configLoaded: true});
         };
         if (global.Intl) {

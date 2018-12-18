@@ -4,15 +4,17 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ReactionListView from './reaction_list.jsx';
+import ReactionList from './reaction_list.jsx';
 
-describe('components/ReactionListView', () => {
-    const reactions = [{
+describe('components/ReactionList', () => {
+    const reaction = {
         user_id: '1rj9fokoeffrigu7sk5uc8aiih',
         post_id: 'xbqfo5qb4bb4ffmj9hqfji6fiw',
         emoji_name: 'expressionless',
         create_at: 1542994995740,
-    }];
+    };
+
+    const reactions = {[reaction.user_id + '-' + reaction.emoji_name]: reaction};
 
     const post = {
         id: 'post_id',
@@ -32,12 +34,11 @@ describe('components/ReactionListView', () => {
         reactions,
         enableEmojiPicker: true,
         actions,
-        emojis: {},
     };
 
     test('Should match snapshot for reactions and should call getReactionsForPost as there is no metadata', () => {
         const wrapper = shallow(
-            <ReactionListView {...baseProps}/>
+            <ReactionList {...baseProps}/>
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -54,7 +55,7 @@ describe('components/ReactionListView', () => {
         };
 
         shallow(
-            <ReactionListView {...props}/>
+            <ReactionList {...props}/>
         );
 
         expect(actions.getReactionsForPost).not.toHaveBeenCalled();
