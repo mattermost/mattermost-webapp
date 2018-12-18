@@ -184,6 +184,10 @@ export default class Root extends React.Component {
         const afterIntl = () => {
             initializePlugins();
 
+            if (this.props.location.pathname === '/' && this.props.noAccounts) {
+                this.props.history.push('/signup_user_complete');
+            }
+
             this.setState({configLoaded: true});
         };
         if (global.Intl) {
@@ -206,10 +210,6 @@ export default class Root extends React.Component {
         } else if (androidDownloadLink && UserAgent.isAndroidWeb() && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen) {
             this.props.history.push('/get_android_app?redirect_to=' + encodeURIComponent(this.props.location.pathname) + encodeURIComponent(this.props.location.search));
             BrowserStore.setLandingPageSeen(true);
-        }
-
-        if (this.props.noAccounts) {
-            this.props.history.push('/signup_user_complete');
         }
     }
 
