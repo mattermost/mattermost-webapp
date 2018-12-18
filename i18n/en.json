@@ -2138,7 +2138,6 @@
   "login.changed": " Sign-in method changed successfully",
   "login.create": "Create one now",
   "login.createTeam": "Create a new team",
-  "login.createTeamAdminOnly": "This option is only available for System Administrators, and does not show up for other users.",
   "login.email": "Email",
   "login.forgot": "I forgot my password",
   "login.get_terms_error": "Unable to load terms of service. If this issue persists, contact your System Administrator.",

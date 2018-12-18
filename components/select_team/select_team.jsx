@@ -175,18 +175,6 @@ export default class SelectTeam extends React.Component {
             );
         }
 
-        let teamHelp = null;
-        if (canManageSystem && !canCreateTeams) {
-            teamHelp = (
-                <div>
-                    <FormattedMessage
-                        id='login.createTeamAdminOnly'
-                        defaultMessage='This option is only available for System Administrators, and does not show up for other users.'
-                    />
-                </div>
-            );
-        }
-
         const teamSignUp = (
             <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
                 <div className='margin--extra'>
@@ -200,7 +188,6 @@ export default class SelectTeam extends React.Component {
                         />
                     </Link>
                 </div>
-                {teamHelp}
             </SystemPermissionGate>
         );
 
