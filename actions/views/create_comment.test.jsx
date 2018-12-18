@@ -106,6 +106,11 @@ describe('rhs view actions', () => {
             emojis: {
                 customEmoji: {},
             },
+            general: {
+                config: {
+                    EnableCustomEmoji: 'true',
+                },
+            },
         },
         storage: {
             [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
