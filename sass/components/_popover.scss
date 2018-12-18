@@ -41,6 +41,11 @@
         overflow: hidden;
         padding: 8px 10px;
         text-overflow: ellipsis;
+
+        > span {
+            display: flex;
+            justify-content: space-between;
+        }
     }
 
     hr {
@@ -114,8 +119,6 @@
 }
 
 .user-popover__role {
-    display: inline-block;
-    float: right;
     padding: 3px 5px;
     margin-left: 10px;
     background-color: $gray;
