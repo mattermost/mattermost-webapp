@@ -695,6 +695,16 @@
     .system-users__team-filter {
         display: inline-block;
         width: 200px;
+        margin-right: 15px;
+    }
+
+    .system-users__options-label {
+        margin-right: 15px;
+    }
+
+    .system-users__options {
+        display: inline-block;
+        width: 200px;
     }
 
     label {

@@ -307,6 +307,11 @@ export const SearchUserTeamFilter = {
     NO_TEAM: 'no_team',
 };
 
+export const SearchUserOptionsFilter = {
+    ALLOW_INACTIVE: 'inactive',
+    SYSTEM_ADMIN: 'System Admin',
+};
+
 export const SearchTypes = keyMirror({
     SET_MODAL_SEARCH: null,
     SET_SYSTEM_USERS_SEARCH: null,

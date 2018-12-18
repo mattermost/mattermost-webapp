@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {getStandardAnalytics} from 'actions/admin_actions.jsx';
 import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
 import {loadProfiles, loadProfilesWithoutTeam, searchUsers} from 'actions/user_actions.jsx';
-import {Constants, UserSearchOptions, SearchUserTeamFilter} from 'utils/constants.jsx';
+import {Constants, UserSearchOptions, SearchUserTeamFilter, SearchUserOptionsFilter} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
@@ -258,8 +258,8 @@ export default class SystemUsers extends React.Component {
                 <label>
                     <span className='system-users__team-filter-label'>
                         <FormattedMessage
-                            id='filtered_user_list.show'
-                            defaultMessage='Filter:'
+                            id='filtered_user_list.team'
+                            defaultMessage='Team:'
                         />
                     </span>
                     <select
@@ -270,6 +270,21 @@ export default class SystemUsers extends React.Component {
                         <option value={SearchUserTeamFilter.ALL_USERS}>{Utils.localizeMessage('admin.system_users.allUsers', 'All Users')}</option>
                         <option value={SearchUserTeamFilter.NO_TEAM}>{Utils.localizeMessage('admin.system_users.noTeams', 'No Teams')}</option>
                         {teams}
+                    </select>
+                </label>
+                <label>
+                    <span className='system-users__options-label'>
+                        <FormattedMessage
+                            id='filtered_user_list.options'
+                            defaultMessage='Options:'
+                        />
+                    </span>
+                    <select
+                        className='form-control system-users__options'
+                    >
+                        <option value=''>{'None'}</option>
+                        <option value={SearchUserOptionsFilter.SYSTEM_ADMIN}>{Utils.localizeMessage('admin.system_users.system_admin', 'System Admin')}</option>
+                        <option value={SearchUserOptionsFilter.ALLOW_INACTIVE}>{Utils.localizeMessage('admin.system_users.inactive', 'Inactive')}</option>
                     </select>
                 </label>
             </div>
