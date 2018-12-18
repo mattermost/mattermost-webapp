@@ -113,13 +113,15 @@ describe('rhs view actions', () => {
             },
         },
         storage: {
-            [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
-                value: {
-                    message: '',
-                    fileInfos: [],
-                    uploadsInProgress: [],
+            storage: {
+                [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
+                    value: {
+                        message: '',
+                        fileInfos: [],
+                        uploadsInProgress: [],
+                    },
+                    timestamp: new Date(),
                 },
-                timestamp: new Date(),
             },
         },
     };
@@ -345,13 +347,15 @@ describe('rhs view actions', () => {
             store = mockStore({
                 ...initialState,
                 storage: {
-                    [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
-                        value: {
-                            message: 'test msg',
-                            fileInfos: [],
-                            uploadsInProgress: [],
+                    storage: {
+                        [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
+                            value: {
+                                message: 'test msg',
+                                fileInfos: [],
+                                uploadsInProgress: [],
+                            },
+                            timestamp: new Date(),
                         },
-                        timestamp: new Date(),
                     },
                 },
             });

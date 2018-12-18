@@ -14,7 +14,7 @@ import FileAttachmentListContainer from 'components/file_attachment_list';
 import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageView from 'components/post_view/post_message_view';
-import ReactionListContainer from 'components/post_view/reaction_list';
+import ReactionList from 'components/post_view/reaction_list';
 
 import loadingGif from 'images/load.gif';
 
@@ -224,7 +224,7 @@ export default class PostBody extends React.PureComponent {
                 >
                     {messageWithAdditionalContent}
                     {fileAttachmentHolder}
-                    <ReactionListContainer
+                    <ReactionList
                         post={post}
                         isReadOnly={this.props.isReadOnly}
                     />
