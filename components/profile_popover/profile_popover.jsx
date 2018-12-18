@@ -221,7 +221,7 @@ class ProfilePopover extends React.PureComponent {
                     key='user-popover-fullname'
                 >
                     <div
-                        className='overflow--ellipsis text-nowrap padding-top'
+                        className='overflow--ellipsis text-nowrap'
                     >
                         <strong>{fullname}</strong>
                     </div>
