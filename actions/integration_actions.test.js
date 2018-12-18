@@ -93,4 +93,24 @@ describe('actions/integration_actions', () => {
             expect(getProfilesByIds).not.toHaveBeenCalled();
         });
     });
+
+    describe('loadProfilesForOAuthApps', () => {
+        test('load profiles for apps including user we already have', () => {
+            const testStore = mockStore(initialState);
+            testStore.dispatch(Actions.loadProfilesForOAuthApps([{creator_id: 'current_user_id'}, {creator_id: 'user_id2'}]));
+            expect(getProfilesByIds).toHaveBeenCalledWith(expect.arrayContainingExactly(['user_id2']));
+        });
+
+        test('load profiles for apps including only users we don\'t have', () => {
+            const testStore = mockStore(initialState);
+            testStore.dispatch(Actions.loadProfilesForOAuthApps([{creator_id: 'user_id1'}, {creator_id: 'user_id2'}]));
+            expect(getProfilesByIds).toHaveBeenCalledWith(expect.arrayContainingExactly(['user_id1', 'user_id2']));
+        });
+
+        test('load profiles for empty apps', () => {
+            const testStore = mockStore(initialState);
+            testStore.dispatch(Actions.loadProfilesForOAuthApps([]));
+            expect(getProfilesByIds).not.toHaveBeenCalled();
+        });
+    });
 });

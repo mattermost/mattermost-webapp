@@ -46,7 +46,7 @@ describe('components/integrations/InstalledOAuthApps', () => {
             error: null,
         },
         actions: {
-            getOAuthApps: jest.fn(),
+            loadOAuthAppsAndProfiles: jest.fn(),
             regenOAuthAppSecret: jest.fn(),
             deleteOAuthApp: jest.fn(),
         },
@@ -63,11 +63,11 @@ describe('components/integrations/InstalledOAuthApps', () => {
         );
 
         const props = {...baseProps};
-        props.actions.getOAuthApps = newGetOAuthApps;
+        props.actions.loadOAuthAppsAndProfiles = newGetOAuthApps;
         const wrapper = shallow(
             <InstalledOAuthApps {...props}/>
         );
-        expect(wrapper.find('InstalledOAuthApp').length).toBe(2);
+        expect(wrapper.find('Connect(InstalledOAuthApp)').length).toBe(2);
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(BackstageList).props().addLink).toEqual('/test/integrations/oauth2-apps/add');
         expect(wrapper.find(BackstageList).props().addText).toEqual('Add OAuth 2.0 Application');
