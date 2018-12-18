@@ -48,6 +48,7 @@ export default class SystemUsers extends React.Component {
         totalUsers: PropTypes.number.isRequired,
         searchTerm: PropTypes.string.isRequired,
         teamId: PropTypes.string.isRequired,
+        filter: PropTypes.string.isRequired,
         users: PropTypes.object.isRequired,
 
         actions: PropTypes.shape({
@@ -83,6 +84,7 @@ export default class SystemUsers extends React.Component {
 
         this.handleTeamChange = this.handleTeamChange.bind(this);
         this.handleTermChange = this.handleTermChange.bind(this);
+        this.handleFilterChange = this.handleFilterChange.bind(this);
 
         this.doSearch = this.doSearch.bind(this);
         this.search = this.search.bind(this);
@@ -102,7 +104,7 @@ export default class SystemUsers extends React.Component {
     }
 
     componentWillUnmount() {
-        this.props.actions.setSystemUsersSearch('', '');
+        this.props.actions.setSystemUsersSearch('', '', '');
     }
 
     loadDataForTeam = async (teamId) => {
@@ -133,11 +135,16 @@ export default class SystemUsers extends React.Component {
     handleTeamChange(e) {
         const teamId = e.target.value;
         this.loadDataForTeam(teamId);
-        this.props.actions.setSystemUsersSearch(this.props.searchTerm, teamId);
+        this.props.actions.setSystemUsersSearch(this.props.searchTerm, teamId, this.props.filter);
+    }
+
+    handleFilterChange(e) {
+        const filter = e.target.value;
+        this.props.actions.setSystemUsersSearch(this.props.searchTerm, this.props.teamId, filter);
     }
 
     handleTermChange(term) {
-        this.props.actions.setSystemUsersSearch(term, this.props.teamId);
+        this.props.actions.setSystemUsersSearch(term, this.props.teamId, this.props.filter);
     }
 
     nextPage = async (page) => {
@@ -273,14 +280,16 @@ export default class SystemUsers extends React.Component {
                     </select>
                 </label>
                 <label>
-                    <span className='system-users__options-label'>
+                    <span className='system-users__filter-label'>
                         <FormattedMessage
-                            id='filtered_user_list.options'
-                            defaultMessage='Options:'
+                            id='filtered_user_list.filter'
+                            defaultMessage='Filter:'
                         />
                     </span>
                     <select
-                        className='form-control system-users__options'
+                        className='form-control system-users__filter'
+                        value={this.props.filter}
+                        onChange={this.handleFilterChange}
                     >
                         <option value=''>{'None'}</option>
                         <option value={SearchUserOptionsFilter.SYSTEM_ADMIN}>{Utils.localizeMessage('admin.system_users.system_admin', 'System Admin')}</option>
@@ -316,6 +325,7 @@ export default class SystemUsers extends React.Component {
                         mfaEnabled={this.props.mfaEnabled}
                         enableUserAccessTokens={this.props.enableUserAccessTokens}
                         experimentalEnableAuthenticationTransfer={this.props.experimentalEnableAuthenticationTransfer}
+                        filter={this.props.filter}
                     />
                 </div>
             </div>

@@ -30,9 +30,11 @@ function mapStateToProps(state) {
     let totalUsers = 0;
     let searchTerm = '';
     let teamId = '';
+    let filter = '';
     if (search) {
         searchTerm = search.term || '';
         teamId = search.team || '';
+        filter = search.filter || '';
 
         if (!teamId || teamId === SearchUserTeamFilter.ALL_USERS) {
             const stats = state.entities.admin.analytics || {[Stats.TOTAL_USERS]: 0, [Stats.TOTAL_INACTIVE_USERS]: 0};
@@ -52,6 +54,7 @@ function mapStateToProps(state) {
         totalUsers,
         searchTerm,
         teamId,
+        filter,
         enableUserAccessTokens,
         users: getUsers(state),
         experimentalEnableAuthenticationTransfer,

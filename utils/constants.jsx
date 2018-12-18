@@ -309,7 +309,7 @@ export const SearchUserTeamFilter = {
 
 export const SearchUserOptionsFilter = {
     ALLOW_INACTIVE: 'inactive',
-    SYSTEM_ADMIN: 'System Admin',
+    SYSTEM_ADMIN: 'system_admin',
 };
 
 export const SearchTypes = keyMirror({
