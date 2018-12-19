@@ -8,6 +8,7 @@ import ChannelSelectorModal from 'components/channel_selector_modal/channel_sele
 
 describe('components/ChannelSelectorModal', () => {
     const defaultProps = {
+        excludeNames: [],
         currentSchemeId: 'xxx',
         alreadySelected: ['id1'],
         searchTerm: '',

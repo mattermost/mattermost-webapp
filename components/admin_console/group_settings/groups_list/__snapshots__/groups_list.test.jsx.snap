@@ -771,7 +771,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
         id="admin.group_settings.groups_list.paginatorCount"
         values={
           Object {
-            "endCount": 10,
+            "endCount": 13,
             "startCount": 1,
             "total": 13,
           }
@@ -789,9 +789,9 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       />
     </button>
     <button
-      className="btn btn-link next "
-      disabled={false}
-      onClick={[Function]}
+      className="btn btn-link next disabled"
+      disabled={true}
+      onClick={null}
     >
       <i
         className="fa fa-chevron-right"
@@ -1017,8 +1017,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
         id="admin.group_settings.groups_list.paginatorCount"
         values={
           Object {
-            "endCount": 20,
-            "startCount": 11,
+            "endCount": 33,
+            "startCount": 201,
             "total": 33,
           }
         }
@@ -1035,9 +1035,9 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       />
     </button>
     <button
-      className="btn btn-link next "
-      disabled={false}
-      onClick={[Function]}
+      className="btn btn-link next disabled"
+      disabled={true}
+      onClick={null}
     >
       <i
         className="fa fa-chevron-right"
@@ -1159,7 +1159,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
         values={
           Object {
             "endCount": 13,
-            "startCount": 11,
+            "startCount": 201,
             "total": 13,
           }
         }

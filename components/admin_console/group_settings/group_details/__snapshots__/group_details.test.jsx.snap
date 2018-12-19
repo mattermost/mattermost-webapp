@@ -20,7 +20,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       className="banner__content"
     >
       <InjectIntl(FormattedMarkdownMessage)
-        defaultMessage="TODO (The link): [Configure default teams and channels](!/todo) and view users belonging to this group."
+        defaultMessage="Configure default teams and channels and view users belonging to this group."
         id="admin.group_settings.group_detail.introBanner"
       />
     </div>
@@ -57,7 +57,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       </div>
     }
     id="group_teams_and_channels"
-    subtitleDefaultMessage="Specify teams and channels group members will default membership in."
+    subtitleDefaultMessage="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically."
     subtitleId="admin.group_settings.group_detail.groupTeamsAndChannelsDescription"
     titleDefaultMessage="Team and Channel Membership"
     titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
@@ -105,6 +105,12 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
         "44444444444444444444444444",
         "55555555555555555555555555",
         "66666666666666666666666666",
+      ]
+    }
+    excludeNames={
+      Array [
+        "town-square",
+        "off-topic",
       ]
     }
     onChannelsSelected={[Function]}
@@ -163,7 +169,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       className="banner__content"
     >
       <InjectIntl(FormattedMarkdownMessage)
-        defaultMessage="TODO (The link): [Configure default teams and channels](!/todo) and view users belonging to this group."
+        defaultMessage="Configure default teams and channels and view users belonging to this group."
         id="admin.group_settings.group_detail.introBanner"
       />
     </div>
@@ -222,7 +228,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       </div>
     }
     id="group_teams_and_channels"
-    subtitleDefaultMessage="Specify teams and channels group members will default membership in."
+    subtitleDefaultMessage="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically."
     subtitleId="admin.group_settings.group_detail.groupTeamsAndChannelsDescription"
     titleDefaultMessage="Team and Channel Membership"
     titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
@@ -317,7 +323,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       className="banner__content"
     >
       <InjectIntl(FormattedMarkdownMessage)
-        defaultMessage="TODO (The link): [Configure default teams and channels](!/todo) and view users belonging to this group."
+        defaultMessage="Configure default teams and channels and view users belonging to this group."
         id="admin.group_settings.group_detail.introBanner"
       />
     </div>
@@ -354,7 +360,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       </div>
     }
     id="group_teams_and_channels"
-    subtitleDefaultMessage="Specify teams and channels group members will default membership in."
+    subtitleDefaultMessage="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically."
     subtitleId="admin.group_settings.group_detail.groupTeamsAndChannelsDescription"
     titleDefaultMessage="Team and Channel Membership"
     titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
@@ -460,7 +466,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       className="banner__content"
     >
       <InjectIntl(FormattedMarkdownMessage)
-        defaultMessage="TODO (The link): [Configure default teams and channels](!/todo) and view users belonging to this group."
+        defaultMessage="Configure default teams and channels and view users belonging to this group."
         id="admin.group_settings.group_detail.introBanner"
       />
     </div>
@@ -497,7 +503,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       </div>
     }
     id="group_teams_and_channels"
-    subtitleDefaultMessage="Specify teams and channels group members will default membership in."
+    subtitleDefaultMessage="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically."
     subtitleId="admin.group_settings.group_detail.groupTeamsAndChannelsDescription"
     titleDefaultMessage="Team and Channel Membership"
     titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
@@ -592,7 +598,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       className="banner__content"
     >
       <InjectIntl(FormattedMarkdownMessage)
-        defaultMessage="TODO (The link): [Configure default teams and channels](!/todo) and view users belonging to this group."
+        defaultMessage="Configure default teams and channels and view users belonging to this group."
         id="admin.group_settings.group_detail.introBanner"
       />
     </div>
@@ -629,7 +635,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       </div>
     }
     id="group_teams_and_channels"
-    subtitleDefaultMessage="Specify teams and channels group members will default membership in."
+    subtitleDefaultMessage="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically."
     subtitleId="admin.group_settings.group_detail.groupTeamsAndChannelsDescription"
     titleDefaultMessage="Team and Channel Membership"
     titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"

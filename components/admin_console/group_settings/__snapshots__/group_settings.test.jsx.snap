@@ -28,7 +28,7 @@ For more information on Groups, please see [documentation](!https://about.matter
   </div>
   <AdminPanel
     id="ldap_groups"
-    subtitleDefaultMessage="Link and configure groups from your AD/LDAP to Mattermost. Please ensure you have configured a [group filter](#)."
+    subtitleDefaultMessage="Link and configure groups from your AD/LDAP to Mattermost. Please ensure you have configured a [group filter](/admin_console/authentication/ldap)."
     subtitleId="admin.group_settings.ldapGroupsDescription"
     titleDefaultMessage="AD/LDAP Groups"
     titleId="admin.group_settings.ldapGroupsTitle"
