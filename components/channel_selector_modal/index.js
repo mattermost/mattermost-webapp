@@ -4,8 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getAllChannels as loadChannels, searchAllChannels} from 'mattermost-redux/actions/channels';
-import {getAllChannelsInAllTeams} from 'mattermost-redux/selectors/entities/channels';
 
+import {getChannelsForChannelSelector} from 'selectors/views/channel_selector_modal';
 import {setModalSearchTerm} from 'actions/views/search';
 
 import ChannelSelectorModal from './channel_selector_modal.jsx';
@@ -13,7 +13,7 @@ import ChannelSelectorModal from './channel_selector_modal.jsx';
 function mapStateToProps(state) {
     const searchTerm = state.views.search.modalSearch;
 
-    const channels = Object.values(getAllChannelsInAllTeams(state) || {}).filter((channel) => {
+    const channels = Object.values(getChannelsForChannelSelector(state) || {}).filter((channel) => {
         return channel.display_name.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
                channel.team_display_name.toLowerCase().startsWith(searchTerm.toLowerCase());
     });
