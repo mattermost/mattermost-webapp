@@ -19,7 +19,7 @@ export default class LoadingBars extends React.PureComponent {
         const {text} = this.props;
 
         return (
-            <span className={'loading-indicator' + (text ? ' with-text' : '')}>
+            <span className={'LoadingBars' + (text ? ' with-text' : '')}>
                 <img
                     className='spinner'
                     src={loadingGif}

@@ -17,7 +17,7 @@ export default class LoadingSpinner extends React.PureComponent {
 
     render() {
         return (
-            <span className={'loading-indicator' + (this.props.text ? ' with-text' : '')}>
+            <span className={'LoadingSpinner' + (this.props.text ? ' with-text' : '')}>
                 <span
                     className='fa fa-spinner fa-pulse spinner'
                     title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}

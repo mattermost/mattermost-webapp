@@ -11,7 +11,7 @@ describe('components/widgets/loadingLoadingSpinner', () => {
         const wrapper = shallow(<LoadingSpinner text='test'/>);
         expect(wrapper).toMatchInlineSnapshot(`
 <span
-  className="loading-indicator with-text"
+  className="LoadingSpinner with-text"
 >
   <span
     className="fa fa-spinner fa-pulse spinner"
@@ -25,7 +25,7 @@ describe('components/widgets/loadingLoadingSpinner', () => {
         const wrapper = shallow(<LoadingSpinner/>);
         expect(wrapper).toMatchInlineSnapshot(`
 <span
-  className="loading-indicator"
+  className="LoadingSpinner"
 >
   <span
     className="fa fa-spinner fa-pulse spinner"
