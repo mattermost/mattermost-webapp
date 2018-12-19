@@ -17,6 +17,12 @@ exports[`components/integrations/AddIncomingWebhook should match snapshot 1`] = 
       "id": "integrations.add",
     }
   }
+  loading={
+    Object {
+      "defaultMessage": "Saving...",
+      "id": "add_incoming_webhook.saving",
+    }
+  }
   serverError=""
   team={
     Object {

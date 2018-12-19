@@ -19,6 +19,7 @@ import SearchHint from 'components/search_hint/search_hint';
 import FlagIcon from 'components/svg/flag_icon';
 import MentionsIcon from 'components/svg/mentions_icon';
 import SearchIcon from 'components/svg/search_icon';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
 
 const {KeyCodes} = Constants;
 
@@ -167,16 +168,6 @@ export default class SearchBar extends React.Component {
     }
 
     render() {
-        var isSearchingTerm = null;
-        if (this.props.isSearchingTerm) {
-            isSearchingTerm = (
-                <span
-                    className={'fa fa-spin fa-spinner'}
-                    title={Utils.localizeMessage('generic_icons.searching', 'Searching Icon')}
-                />
-            );
-        }
-
         let mentionBtn;
         let flagBtn;
         if (this.props.showMentionFlagBtns) {
@@ -212,10 +203,7 @@ export default class SearchBar extends React.Component {
             );
         }
 
-        let clearClass = 'sidebar__search-clear';
-        if (!this.props.isSearchingTerm && this.props.searchTerms && this.props.searchTerms.trim() !== '') {
-            clearClass += ' visible';
-        }
+        const showClear = !this.props.isSearchingTerm && this.props.searchTerms && this.props.searchTerms.trim() !== '';
 
         let searchFormClass = 'search__form';
         if (this.state.focused) {
@@ -278,26 +266,27 @@ export default class SearchBar extends React.Component {
                             delayInputUpdate={true}
                             renderDividers={true}
                         />
-                        <div
-                            id='searchClearButton'
-                            className={clearClass}
-                            onClick={this.handleClear}
-                        >
-                            <OverlayTrigger
-                                trigger={['hover', 'focus']}
-                                delayShow={Constants.OVERLAY_TIME_DELAY}
-                                placement='bottom'
-                                overlay={searchClearTooltip}
+                        {showClear &&
+                            <div
+                                id='searchClearButton'
+                                className='sidebar__search-clear visible'
+                                onClick={this.handleClear}
                             >
-                                <span
-                                    className='sidebar__search-clear-x'
-                                    aria-hidden='true'
+                                <OverlayTrigger
+                                    trigger={['hover', 'focus']}
+                                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                                    placement='bottom'
+                                    overlay={searchClearTooltip}
                                 >
-                                    {'×'}
-                                </span>
-                            </OverlayTrigger>
-                        </div>
-                        {isSearchingTerm}
+                                    <span
+                                        className='sidebar__search-clear-x'
+                                        aria-hidden='true'
+                                    >
+                                        {'×'}
+                                    </span>
+                                </OverlayTrigger>
+                            </div>}
+                        {this.props.isSearchingTerm && <LoadingSpinner/>}
                         {this.renderHintPopover()}
                     </form>
                 </div>

@@ -15,6 +15,7 @@ import * as utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -376,20 +377,7 @@ class InviteMemberModal extends React.PureComponent {
                         defaultMessage='Send Invitation'
                     />
                 );
-                if (this.state.isSendingEmails) {
-                    sendButtonLabel = (
-                        <span>
-                            <i
-                                className='fa fa-spinner fa-spin'
-                                title={utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
-                            />
-                            <FormattedMessage
-                                id='invite_member.sending'
-                                defaultMessage=' Sending'
-                            />
-                        </span>
-                    );
-                } else if (this.state.inviteIds.length > 1) {
+                if (this.state.inviteIds.length > 1) {
                     sendButtonLabel = (
                         <FormattedMessage
                             id='invite_member.send2'
@@ -405,7 +393,12 @@ class InviteMemberModal extends React.PureComponent {
                         className='btn btn-primary'
                         disabled={this.state.isSendingEmails}
                     >
-                        {sendButtonLabel}
+                        <LoadingWrapper
+                            loading={this.state.isSendingEmails}
+                            text={utils.localizeMessage('invite_member.sending', ' Sending')}
+                        >
+                            {sendButtonLabel}
+                        </LoadingWrapper>
                     </button>
                 );
             } else if (this.props.enableUserCreation) {

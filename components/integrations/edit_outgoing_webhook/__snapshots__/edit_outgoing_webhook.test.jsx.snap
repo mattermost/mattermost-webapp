@@ -72,6 +72,12 @@ exports[`components/integrations/EditOutgoingWebhook should match snapshot 1`] =
       "update_at": 1504447824673,
     }
   }
+  loading={
+    Object {
+      "defaultMessage": "Updating...",
+      "id": "update_outgoing_webhook.updating",
+    }
+  }
   renderExtra={
     <ConfirmModal
       confirmButtonClass="btn btn-primary"
@@ -151,6 +157,12 @@ exports[`components/integrations/EditOutgoingWebhook should match snapshot when 
         "trigger2",
       ],
       "update_at": 1504447824673,
+    }
+  }
+  loading={
+    Object {
+      "defaultMessage": "Updating...",
+      "id": "update_outgoing_webhook.updating",
     }
   }
   renderExtra={

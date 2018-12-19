@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {localizeMessage} from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
-import InstalledOAuthApp from '../installed_oauth_app.jsx';
+import InstalledOAuthApp from '../installed_oauth_app';
 
 export default class InstalledOAuthApps extends React.PureComponent {
     static propTypes = {
@@ -37,7 +37,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
             /**
             * The function to call to fetch OAuth apps
             */
-            getOAuthApps: PropTypes.func.isRequired,
+            loadOAuthAppsAndProfiles: PropTypes.func.isRequired,
 
             /**
             * The function to call when Regenerate Secret link is clicked
@@ -65,7 +65,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
 
     componentDidMount() {
         if (this.props.enableOAuthServiceProvider) {
-            this.props.actions.getOAuthApps().then(
+            this.props.actions.loadOAuthAppsAndProfiles().then(
                 () => this.setState({loading: false})
             );
         }

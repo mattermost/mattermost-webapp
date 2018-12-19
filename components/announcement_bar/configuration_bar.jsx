@@ -11,6 +11,7 @@ import {isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'uti
 import {AnnouncementBarTypes, AnnouncementBarMessages} from 'utils/constants.jsx';
 
 import {t} from 'utils/i18n';
+import * as Utils from 'utils/utils';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -180,12 +181,7 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
                                 }}
                             />
                             <TextButtonWithSpinner
-                                spinningText={
-                                    <FormattedMessage
-                                        id='announcement_bar.error.sending'
-                                        defaultMessage='Sending'
-                                    />
-                                }
+                                spinningText={Utils.localizeMessage('announcement_bar.error.sending', 'Sending')}
                                 regularText={
                                     <FormattedMessage
                                         id='announcement_bar.error.send_again'

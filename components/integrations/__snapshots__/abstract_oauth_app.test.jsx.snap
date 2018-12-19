@@ -305,6 +305,7 @@ https://test.com/callback2"
           className="btn btn-primary"
           onClick={[Function]}
           spinning={false}
+          spinningText="Loading"
           type="submit"
         >
           <FormattedMessage
@@ -628,6 +629,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
           className="btn btn-primary"
           onClick={[Function]}
           spinning={false}
+          spinningText="Loading"
           type="submit"
         >
           <FormattedMessage

@@ -27,6 +27,7 @@ import FormError from 'components/form_error.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import BackButton from 'components/common/back_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 
 import LoginMfa from '../login_mfa.jsx';
 class LoginController extends React.Component {
@@ -546,28 +547,6 @@ class LoginController extends React.Component {
                 errorClass = ' has-error';
             }
 
-            let loginButton = (
-                <FormattedMessage
-                    id='login.signIn'
-                    defaultMessage='Sign in'
-                />
-            );
-
-            if (this.state.loading) {
-                loginButton = (
-                    <span id='login_button_signing'>
-                        <span
-                            className='fa fa-refresh icon--rotate'
-                            title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
-                        />
-                        <FormattedMessage
-                            id='login.signInLoading'
-                            defaultMessage='Signing in...'
-                        />
-                    </span>
-                );
-            }
-
             loginControls.push(
                 <form
                     key='loginBoxes'
@@ -611,7 +590,16 @@ class LoginController extends React.Component {
                                 type='submit'
                                 className='btn btn-primary'
                             >
-                                { loginButton }
+                                <LoadingWrapper
+                                    id='login_button_signing'
+                                    loading={this.state.loading}
+                                    text={Utils.localizeMessage('login.signInLoading', 'Signing in...')}
+                                >
+                                    <FormattedMessage
+                                        id='login.signIn'
+                                        defaultMessage='Sign in'
+                                    />
+                                </LoadingWrapper>
                             </button>
                         </div>
                     </div>

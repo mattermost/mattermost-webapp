@@ -9,6 +9,8 @@ import {checkDialogElementForError, checkIfErrorsMatchElements} from 'mattermost
 
 import SpinnerButton from 'components/spinner_button';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 import DialogElement from './dialog_element';
 
 export default class InteractiveDialog extends React.Component {
@@ -199,6 +201,7 @@ export default class InteractiveDialog extends React.Component {
                         className='btn btn-primary save-button'
                         onClick={this.handleSubmit}
                         spinning={this.state.submitting}
+                        spinningText={localizeMessage('interactive_dialog.submitting', 'Submitting...')}
                     >
                         {submitText}
                     </SpinnerButton>
