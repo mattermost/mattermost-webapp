@@ -11,6 +11,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 const HEADER = {id: t('integrations.edit'), defaultMessage: 'Edit'};
 const FOOTER = {id: t('update_incoming_webhook.update'), defaultMessage: 'Update'};
+const LOADING = {id: t('update_incoming_webhook.updating'), defaultMessage: 'Updating...'};
 
 export default class EditIncomingWebhook extends React.PureComponent {
     static propTypes = {
@@ -118,6 +119,7 @@ export default class EditIncomingWebhook extends React.PureComponent {
                 team={this.props.team}
                 header={HEADER}
                 footer={FOOTER}
+                loading={LOADING}
                 enablePostUsernameOverride={this.props.enablePostUsernameOverride}
                 enablePostIconOverride={this.props.enablePostIconOverride}
                 action={this.editIncomingHook}

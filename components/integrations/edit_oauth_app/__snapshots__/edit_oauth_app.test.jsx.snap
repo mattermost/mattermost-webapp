@@ -64,6 +64,12 @@ exports[`components/integrations/EditOAuthApp should match snapshot 1`] = `
       "update_at": 1501365458934,
     }
   }
+  loading={
+    Object {
+      "defaultMessage": "Updating...",
+      "id": "update_incoming_webhook.updating",
+    }
+  }
   renderExtra={
     <ConfirmModal
       confirmButtonClass="btn btn-primary"
@@ -135,6 +141,12 @@ exports[`components/integrations/EditOAuthApp should match snapshot when EnableO
       "is_trusted": true,
       "name": "testApp",
       "update_at": 1501365458934,
+    }
+  }
+  loading={
+    Object {
+      "defaultMessage": "Updating...",
+      "id": "update_incoming_webhook.updating",
     }
   }
   renderExtra={

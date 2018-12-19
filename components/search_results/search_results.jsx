@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
@@ -17,6 +16,7 @@ import SearchHint from 'components/search_hint/search_hint';
 import FlagPostSearchHint from 'components/search_hint/flag_post_search_hint';
 import NoResultSearchHint from 'components/search_hint/no_result_search_hint';
 import PinPostSearchHint from 'components/search_hint/pin_post_search_hint';
+import LoadingSpinner from 'components/widgets/loading/loading_wrapper.jsx';
 
 const GET_MORE_BUFFER = 30;
 
@@ -136,14 +136,7 @@ export default class SearchResults extends React.PureComponent {
             ctls = (
                 <div className='sidebar--right__subheader'>
                     <div className='sidebar--right__loading'>
-                        <i
-                            className='fa fa-spinner fa-spin'
-                            title={Utils.localizeMessage('generic_icons.searching', 'Searching Icon')}
-                        />
-                        <FormattedMessage
-                            id='search_header.loading'
-                            defaultMessage='Searching...'
-                        />
+                        <LoadingSpinner text={Utils.localizeMessage('search_header.loading', 'Searching')}/>
                     </div>
                 </div>
             );

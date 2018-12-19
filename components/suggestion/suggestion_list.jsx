@@ -7,9 +7,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import {localizeMessage} from 'utils/utils.jsx';
-
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
 
 export default class SuggestionList extends React.PureComponent {
     static propTypes = {
@@ -96,20 +95,6 @@ export default class SuggestionList extends React.PureComponent {
         );
     }
 
-    renderLoading(type) {
-        return (
-            <div
-                key={type + '-loading'}
-                className='suggestion-loader'
-            >
-                <i
-                    className='fa fa-spinner fa-pulse fa-fw margin-bottom'
-                    title={localizeMessage('generic_icons.loading', 'Loading Icon')}
-                />
-            </div>
-        );
-    }
-
     renderNoResults() {
         return (
             <div
@@ -156,7 +141,7 @@ export default class SuggestionList extends React.PureComponent {
             }
 
             if (item.loading) {
-                items.push(this.renderLoading(item.type));
+                items.push(<LoadingSpinner key={item.type}/>);
                 continue;
             }
 

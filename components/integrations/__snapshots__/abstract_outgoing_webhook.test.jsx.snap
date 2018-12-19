@@ -347,6 +347,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           className="btn btn-primary"
           onClick={[Function]}
           spinning={false}
+          spinningText="loading"
           type="submit"
         >
           <FormattedMessage

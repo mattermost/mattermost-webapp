@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import loadingGif from 'images/load.gif';
+import LoadingBars from 'components/widgets/loading/loading_bars.jsx';
 
 export default function LoadingImagePreview({loading, progress, containerClass}) {
     let progressView = null;
@@ -18,10 +18,7 @@ export default function LoadingImagePreview({loading, progress, containerClass})
 
     return (
         <div className={containerClass}>
-            <img
-                className='loader-image'
-                src={loadingGif}
-            />
+            <LoadingBars/>
             {progressView}
         </div>
     );

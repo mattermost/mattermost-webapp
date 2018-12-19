@@ -8,9 +8,9 @@ import exif2css from 'exif2css';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {Constants} from 'utils/constants.jsx';
-import {localizeMessage, fileSizeToString} from 'utils/utils.jsx';
+import {fileSizeToString, localizeMessage} from 'utils/utils.jsx';
 
-import loadingGif from 'images/load.gif';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 import FormError from 'components/form_error.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -255,42 +255,11 @@ export default class SettingPicture extends Component {
 
         const img = this.renderImg();
 
-        let confirmButton;
-        let selectButtonSpinner;
-        let fileInputDisabled = false;
-        if (this.props.loadingPicture) {
-            confirmButton = (
-                <img
-                    className='spinner'
-                    src={loadingGif}
-                />
-            );
-            selectButtonSpinner = (
-                <span
-                    className='icon fa fa-refresh icon--rotate'
-                    title={localizeMessage('generic_icons.loading', 'Loading Icon')}
-                />
-            );
-            fileInputDisabled = true;
+        let confirmButtonClass = 'btn btn-sm';
+        if (this.props.submitActive || this.state.removeSrc || this.state.setDefaultSrc) {
+            confirmButtonClass += ' btn-primary';
         } else {
-            let confirmButtonClass = 'btn btn-sm';
-            if (this.props.submitActive || this.state.removeSrc || this.state.setDefaultSrc) {
-                confirmButtonClass += ' btn-primary';
-            } else {
-                confirmButtonClass += ' btn-inactive disabled';
-            }
-
-            confirmButton = (
-                <a
-                    className={confirmButtonClass}
-                    onClick={this.handleSave}
-                >
-                    <FormattedMessage
-                        id='setting_picture.save'
-                        defaultMessage='Save'
-                    />
-                </a>
-            );
+            confirmButtonClass += ' btn-inactive disabled';
         }
 
         let helpText;
@@ -328,9 +297,8 @@ export default class SettingPicture extends Component {
                             />
                             <div
                                 className='btn btn-sm btn-primary btn-file sel-btn'
-                                disabled={fileInputDisabled}
+                                disabled={this.props.loadingPicture}
                             >
-                                {selectButtonSpinner}
                                 <FormattedMessage
                                     id='setting_picture.select'
                                     defaultMessage='Select'
@@ -340,10 +308,23 @@ export default class SettingPicture extends Component {
                                     accept='.jpg,.png,.bmp'
                                     type='file'
                                     onChange={this.handleFileChange}
-                                    disabled={fileInputDisabled}
+                                    disabled={this.props.loadingPicture}
                                 />
                             </div>
-                            {confirmButton}
+                            <a
+                                className={confirmButtonClass}
+                                onClick={this.props.loadingPicture ? () => true : this.handleSave}
+                            >
+                                <LoadingWrapper
+                                    loading={this.props.loadingPicture}
+                                    text={localizeMessage('setting_picture.uploading', 'Uploading...')}
+                                >
+                                    <FormattedMessage
+                                        id='setting_picture.save'
+                                        defaultMessage='Save'
+                                    />
+                                </LoadingWrapper>
+                            </a>
                             <a
                                 className='btn btn-sm theme'
                                 href='#'

@@ -10,6 +10,7 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
     const team = {name: 'team_name'};
     const header = {id: 'header_id', defaultMessage: 'Header'};
     const footer = {id: 'footer_id', defaultMessage: 'Footer'};
+    const loading = {id: 'loading_id', defaultMessage: 'Loading'};
     const serverError = '';
     const initialHook = {
         display_name: 'testIncomingWebhook',
@@ -31,6 +32,7 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         team,
         header,
         footer,
+        loading,
         serverError,
         initialHook,
         enablePostUsernameOverride,
