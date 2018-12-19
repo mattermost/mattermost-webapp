@@ -86,24 +86,28 @@ exports[`components/NewChannelModal should match snapshot, display only private 
             className="col-sm-9"
           >
             <div
-              className="type-container"
+              className="type-container multi-select__radio"
             >
               <div
-                className="flex-parent"
+                className="radio"
               >
-                <LockIcon
-                  className="icon icon__lock icon--body type-icon"
-                />
-                <FormattedMessage
-                  defaultMessage="Private"
-                  id="channel_modal.privateName"
-                  values={Object {}}
-                />
-                <FormattedMessage
-                  defaultMessage=" - Only invited members can join this channel."
-                  id="channel_modal.privateHint"
-                  values={Object {}}
-                />
+                <div
+                  className="flex-parent"
+                >
+                  <LockIcon
+                    className="icon icon__lock icon--body type-icon"
+                  />
+                  <FormattedMessage
+                    defaultMessage="Private"
+                    id="channel_modal.privateName"
+                    values={Object {}}
+                  />
+                  <FormattedMessage
+                    defaultMessage=" - Only invited members can join this channel."
+                    id="channel_modal.privateHint"
+                    values={Object {}}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -374,24 +378,28 @@ exports[`components/NewChannelModal should match snapshot, display only public c
             className="col-sm-9"
           >
             <div
-              className="type-container"
+              className="type-container multi-select__radio"
             >
               <div
-                className="flex-parent"
+                className="radio"
               >
-                <GlobeIcon
-                  className="icon icon__globe icon--body type-icon"
-                />
-                <FormattedMessage
-                  defaultMessage="Public"
-                  id="channel_modal.publicName"
-                  values={Object {}}
-                />
-                <FormattedMessage
-                  defaultMessage=" - Anyone can join this channel."
-                  id="channel_modal.publicHint"
-                  values={Object {}}
-                />
+                <div
+                  className="flex-parent"
+                >
+                  <GlobeIcon
+                    className="icon icon__globe icon--body type-icon"
+                  />
+                  <FormattedMessage
+                    defaultMessage="Public"
+                    id="channel_modal.publicName"
+                    values={Object {}}
+                  />
+                  <FormattedMessage
+                    defaultMessage=" - Anyone can join this channel."
+                    id="channel_modal.publicHint"
+                    values={Object {}}
+                  />
+                </div>
               </div>
             </div>
           </div>
