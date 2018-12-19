@@ -207,7 +207,7 @@ export async function loadProfilesForGM() {
             continue;
         }
 
-        const userIds = userIdsInChannels[channel.id] || new Set([]);
+        const userIds = userIdsInChannels[channel.id] || new Set();
         if (userIds.size >= Constants.MIN_USERS_IN_GM) {
             continue;
         }
