@@ -144,7 +144,7 @@ export default class SearchableChannelList extends React.Component {
             if (channelsToDisplay.length >= this.props.channelsPerPage && pageEnd < this.props.channels.length) {
                 nextButton = (
                     <button
-                        className='btn btn-default filter-control filter-control__next'
+                        className='btn btn-link filter-control filter-control__next'
                         onClick={this.nextPage}
                         disabled={this.state.nextDisabled}
                     >
@@ -159,7 +159,7 @@ export default class SearchableChannelList extends React.Component {
             if (this.state.page > 0) {
                 previousButton = (
                     <button
-                        className='btn btn-default filter-control filter-control__prev'
+                        className='btn btn-link filter-control filter-control__prev'
                         onClick={this.previousPage}
                     >
                         <FormattedMessage

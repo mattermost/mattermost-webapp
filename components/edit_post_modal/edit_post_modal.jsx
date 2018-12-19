@@ -366,7 +366,7 @@ export default class EditPostModal extends React.PureComponent {
                 <Modal.Footer>
                     <button
                         type='button'
-                        className='btn btn-default'
+                        className='btn btn-link'
                         onClick={this.handleHide}
                     >
                         <FormattedMessage

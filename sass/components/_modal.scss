@@ -211,7 +211,7 @@
     .modal-header {
         @include border-radius(0);
         @include clearfix;
-        background: $primary-color;
+        background: alpha-color($black, .85);
         border: 1px solid $light-gray;
         color: $white;
         min-height: 56px;
