@@ -258,9 +258,11 @@ export default class NewChannelModal extends React.PureComponent {
             );
         } else {
             typeOptions = (
-                <div className='type-container'>
-                    {canCreatePublicChannel ? publicChannelDesc : null}
-                    {canCreatePrivateChannel ? privateChannelDesc : null}
+                <div className='type-container multi-select__radio'>
+                    <div className='radio'>
+                        {canCreatePublicChannel ? publicChannelDesc : null}
+                        {canCreatePrivateChannel ? privateChannelDesc : null}
+                    </div>
                 </div>
             );
         }
