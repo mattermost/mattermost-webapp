@@ -103,7 +103,7 @@ export default class AtMention extends React.PureComponent {
                 >
                     <Pluggable>
                         <ProfilePopover
-                            user={user}
+                            userId={user.id}
                             src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
                             isRHS={this.props.isRHS}
                             hasMention={this.props.hasMention}

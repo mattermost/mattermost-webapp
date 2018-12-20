@@ -26,14 +26,7 @@ exports[`components/AtMention should match snapshot when mentioning current user
         hasMention={false}
         isRHS={false}
         src="/api/v4/users/abc1/image"
-        user={
-          Object {
-            "first_name": "First",
-            "id": "abc1",
-            "last_name": "Last",
-            "username": "currentuser",
-          }
-        }
+        userId="abc1"
       />
     </Connect(Pluggable)>
   </Overlay>
@@ -60,15 +53,7 @@ exports[`components/AtMention should match snapshot when mentioning user 1`] = `
         hasMention={false}
         isRHS={false}
         src="/api/v4/users/abc2/image"
-        user={
-          Object {
-            "first_name": "Other",
-            "id": "abc2",
-            "last_name": "User",
-            "nickname": "Nick",
-            "username": "user1",
-          }
-        }
+        userId="abc2"
       />
     </Connect(Pluggable)>
   </Overlay>
@@ -95,14 +80,7 @@ exports[`components/AtMention should match snapshot when mentioning user contain
         hasMention={false}
         isRHS={false}
         src="/api/v4/users/abc3/image"
-        user={
-          Object {
-            "first_name": "Dot",
-            "id": "abc3",
-            "last_name": "Matrix",
-            "username": "userdot.",
-          }
-        }
+        userId="abc3"
       />
     </Connect(Pluggable)>
   </Overlay>
@@ -130,14 +108,7 @@ exports[`components/AtMention should match snapshot when mentioning user contain
         hasMention={false}
         isRHS={false}
         src="/api/v4/users/abc3/image"
-        user={
-          Object {
-            "first_name": "Dot",
-            "id": "abc3",
-            "last_name": "Matrix",
-            "username": "userdot.",
-          }
-        }
+        userId="abc3"
       />
     </Connect(Pluggable)>
   </Overlay>
@@ -164,15 +135,7 @@ exports[`components/AtMention should match snapshot when mentioning user followe
         hasMention={false}
         isRHS={false}
         src="/api/v4/users/abc2/image"
-        user={
-          Object {
-            "first_name": "Other",
-            "id": "abc2",
-            "last_name": "User",
-            "nickname": "Nick",
-            "username": "user1",
-          }
-        }
+        userId="abc2"
       />
     </Connect(Pluggable)>
   </Overlay>
@@ -200,15 +163,7 @@ exports[`components/AtMention should match snapshot when mentioning user with di
         hasMention={false}
         isRHS={false}
         src="/api/v4/users/abc2/image"
-        user={
-          Object {
-            "first_name": "Other",
-            "id": "abc2",
-            "last_name": "User",
-            "nickname": "Nick",
-            "username": "user1",
-          }
-        }
+        userId="abc2"
       />
     </Connect(Pluggable)>
   </Overlay>
@@ -235,15 +190,7 @@ exports[`components/AtMention should match snapshot when mentioning user with mi
         hasMention={false}
         isRHS={false}
         src="/api/v4/users/abc2/image"
-        user={
-          Object {
-            "first_name": "Other",
-            "id": "abc2",
-            "last_name": "User",
-            "nickname": "Nick",
-            "username": "user1",
-          }
-        }
+        userId="abc2"
       />
     </Connect(Pluggable)>
   </Overlay>

@@ -62,14 +62,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               "user_id": "user_id",
             }
           }
-          status="hello"
-          user={
-            Object {
-              "id": "user_id",
-              "locale": "en",
-              "username": "username",
-            }
-          }
+          userId="user_id"
         />
       </div>
       <div>
@@ -80,20 +73,10 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
             className="col col__name"
           >
             <strong>
-              <UserProfile
+              <Connect(UserProfile)
                 disablePopover={false}
-                hasMention={false}
                 isRHS={true}
-                overwriteImage=""
-                overwriteName=""
-                status="hello"
-                user={
-                  Object {
-                    "id": "user_id",
-                    "locale": "en",
-                    "username": "username",
-                  }
-                }
+                userId="user_id"
               />
             </strong>
           </div>
@@ -293,14 +276,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
               "user_id": "user_id",
             }
           }
-          status="hello"
-          user={
-            Object {
-              "id": "user_id",
-              "locale": "en",
-              "username": "username",
-            }
-          }
+          userId="user_id"
         />
       </div>
       <div>
@@ -311,20 +287,10 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
             className="col col__name"
           >
             <strong>
-              <UserProfile
+              <Connect(UserProfile)
                 disablePopover={false}
-                hasMention={false}
                 isRHS={true}
-                overwriteImage=""
-                overwriteName=""
-                status="hello"
-                user={
-                  Object {
-                    "id": "user_id",
-                    "locale": "en",
-                    "username": "username",
-                  }
-                }
+                userId="user_id"
               />
             </strong>
           </div>
@@ -515,14 +481,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               "user_id": "user_id",
             }
           }
-          status="hello"
-          user={
-            Object {
-              "id": "user_id",
-              "locale": "en",
-              "username": "username",
-            }
-          }
+          userId="user_id"
         />
       </div>
       <div>
@@ -533,20 +492,10 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
             className="col col__name"
           >
             <strong>
-              <UserProfile
+              <Connect(UserProfile)
                 disablePopover={false}
-                hasMention={false}
                 isRHS={true}
-                overwriteImage=""
-                overwriteName=""
-                status="hello"
-                user={
-                  Object {
-                    "id": "user_id",
-                    "locale": "en",
-                    "username": "username",
-                  }
-                }
+                userId="user_id"
               />
             </strong>
           </div>
@@ -745,14 +694,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
               "user_id": "user_id",
             }
           }
-          status="hello"
-          user={
-            Object {
-              "id": "user_id",
-              "locale": "en",
-              "username": "username",
-            }
-          }
+          userId="user_id"
         />
       </div>
       <div>
@@ -763,20 +705,11 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
             className="col col__name"
           >
             <strong>
-              <UserProfile
+              <Connect(UserProfile)
                 disablePopover={true}
-                hasMention={false}
                 isRHS={true}
-                overwriteImage=""
                 overwriteName="overridden_username"
-                status="hello"
-                user={
-                  Object {
-                    "id": "user_id",
-                    "locale": "en",
-                    "username": "username",
-                  }
-                }
+                userId="user_id"
               />
             </strong>
           </div>

@@ -13,7 +13,7 @@ import ChannelInviteModal from 'components/channel_invite_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import ProfilePicture from 'components/profile_picture.jsx';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
-import UserProfile from 'components/user_profile.jsx';
+import UserProfile from 'components/user_profile';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -77,7 +77,8 @@ function createGMIntroMessage(channel, centeredIntro, profiles) {
                     src={Utils.imageURLForUser(profile)}
                     width='50'
                     height='50'
-                    user={profile}
+                    userId={profile.id}
+                    username={profile.username}
                 />
             );
 
@@ -147,14 +148,15 @@ function createDMIntroMessage(channel, centeredIntro) {
                         src={Utils.imageURLForUser(teammate)}
                         width='50'
                         height='50'
-                        user={teammate}
+                        userId={teammate.id}
+                        username={teammate.username}
                         hasMention={true}
                     />
                 </div>
                 <div className='channel-intro-profile'>
                     <strong>
                         <UserProfile
-                            user={teammate}
+                            userId={teammate.id}
                             disablePopover={false}
                             hasMention={true}
                         />

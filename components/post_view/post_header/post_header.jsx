@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import PostInfo from 'components/post_view/post_info';
-import UserProfile from 'components/user_profile.jsx';
+import UserProfile from 'components/user_profile';
 
 export default class PostHeader extends React.PureComponent {
     static propTypes = {
@@ -19,9 +19,9 @@ export default class PostHeader extends React.PureComponent {
         post: PropTypes.object.isRequired,
 
         /*
-         * The user who created the post
+         * The ID of user who created the post
          */
-        user: PropTypes.object,
+        userId: PropTypes.string,
 
         /*
          * Function called when the comment icon is clicked
@@ -37,16 +37,6 @@ export default class PostHeader extends React.PureComponent {
          * Set to render compactly
          */
         compactDisplay: PropTypes.bool,
-
-        /*
-         * The method for displaying the post creator's name
-         */
-        displayNameType: PropTypes.string,
-
-        /*
-         * The status of the user who created the post
-         */
-        status: PropTypes.string,
 
         /*
          * The number of replies in the same thread as this post
@@ -85,16 +75,14 @@ export default class PostHeader extends React.PureComponent {
     }
 
     render() {
-        const post = this.props.post;
+        const {post, userId} = this.props;
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
         const fromWebhook = post && post.props && post.props.from_webhook === 'true';
 
         let userProfile = (
             <UserProfile
-                user={this.props.user}
-                displayNameType={this.props.displayNameType}
-                status={this.props.status}
+                userId={userId}
                 hasMention={true}
             />
         );
@@ -105,7 +93,7 @@ export default class PostHeader extends React.PureComponent {
             if (post.props.override_username && this.props.enablePostUsernameOverride) {
                 userProfile = (
                     <UserProfile
-                        user={this.props.user}
+                        userId={userId}
                         overwriteName={post.props.override_username}
                         disablePopover={true}
                     />
@@ -113,8 +101,7 @@ export default class PostHeader extends React.PureComponent {
             } else {
                 userProfile = (
                     <UserProfile
-                        user={this.props.user}
-                        displayNameType={this.props.displayNameType}
+                        userId={userId}
                         disablePopover={true}
                     />
                 );
@@ -131,9 +118,7 @@ export default class PostHeader extends React.PureComponent {
         } else if (fromAutoResponder) {
             userProfile = (
                 <UserProfile
-                    user={this.props.user}
-                    displayNameType={this.props.displayNameType}
-                    status={this.props.status}
+                    userId={userId}
                     hasMention={true}
                 />
             );
@@ -149,7 +134,6 @@ export default class PostHeader extends React.PureComponent {
         } else if (isSystemMessage) {
             userProfile = (
                 <UserProfile
-                    user={{}}
                     overwriteName={
                         <FormattedMessage
                             id='post_info.system'

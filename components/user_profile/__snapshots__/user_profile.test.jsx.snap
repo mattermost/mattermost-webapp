@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/UserProfile should match snapshot 1`] = `
+<OverlayTrigger
+  defaultOverlayShown={false}
+  overlay={
+    <Connect(Pluggable)>
+      <Connect(InjectIntl(ProfilePopover))
+        hasMention={false}
+        hide={[Function]}
+        isBusy={false}
+        isRHS={false}
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+        userId="user_id"
+      />
+    </Connect(Pluggable)>
+  }
+  placement="right"
+  rootClose={true}
+  trigger="click"
+>
+  <div
+    className="user-popover"
+  >
+    nickname
+  </div>
+</OverlayTrigger>
+`;
+
+exports[`components/UserProfile should match snapshot, when popover is disabled 1`] = `
+<div
+  className="user-popover"
+>
+  nickname
+</div>
+`;
