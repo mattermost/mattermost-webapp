@@ -6,7 +6,7 @@ import React from 'react';
 import {autocompleteCustomEmojis} from 'mattermost-redux/actions/emojis';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
-import {getEmojiMap} from 'selectors/emojis';
+import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
 
 import store from 'stores/redux_store.jsx';
 
@@ -85,10 +85,16 @@ export default class EmoticonProvider extends Provider {
         return true;
     }
 
+    formatEmojis(emojis) {
+        return emojis.map((item) => ':' + item.name + ':')
+    }
+
     findAndSuggestEmojis(text, partialName, resultsCallback) {
+        const recentMatched = [];
         const matched = [];
 
         const emojiMap = getEmojiMap(store.getState());
+        const recentEmojis = getRecentEmojis(store.getState());
 
         // Check for named emoji
         for (const [name, emoji] of emojiMap) {
@@ -96,7 +102,11 @@ export default class EmoticonProvider extends Provider {
                 // This is a system emoji so it may have multiple names
                 for (const alias of emoji.aliases) {
                     if (!EMOJI_CATEGORY_SUGGESTION_BLACKLIST.includes(emoji.category) && alias.indexOf(partialName) !== -1) {
-                        matched.push({name: alias, emoji});
+                        let matchedArray = recentEmojis.includes(alias)
+                            ? recentMatched
+                            : matched;
+
+                        matchedArray.push({name: alias, emoji});
                         break;
                     }
                 }
@@ -112,6 +122,10 @@ export default class EmoticonProvider extends Provider {
         }
 
         // Sort the emoticons so that emoticons starting with the entered text come first
+        recentMatched.sort((a, b) => {
+            return a.name.localeCompare(b.name);
+        });
+
         matched.sort((a, b) => {
             const aName = a.name;
             const bName = b.name;
@@ -128,14 +142,22 @@ export default class EmoticonProvider extends Provider {
             return 1;
         });
 
-        const terms = matched.map((item) => ':' + item.name + ':');
+        const terms = [
+            ...this.formatEmojis(recentMatched),
+            ...this.formatEmojis(matched),
+        ];
+
+        const items = [
+            ...recentMatched,
+            ...matched,
+        ];
 
         // Required to get past the dispatch during dispatch error
 
         resultsCallback({
             matchedPretext: text,
             terms,
-            items: matched,
+            items,
             component: EmoticonSuggestion,
         });
     }
