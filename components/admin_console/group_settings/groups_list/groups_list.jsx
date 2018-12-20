@@ -151,7 +151,7 @@ export default class GroupsList extends React.PureComponent {
             return (
                 <div className='groups-list-empty'>
                     <FormattedMessage
-                        id='admin.group_settings.groups_list.no-groups-found'
+                        id='admin.group_settings.groups_list.no_groups_found'
                         defaultMessage='No groups found'
                     />
                 </div>

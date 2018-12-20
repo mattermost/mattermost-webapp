@@ -1659,3 +1659,16 @@ export function moveCursorToEnd(e) {
         e.target.value = val;
     }
 }
+
+export function compareChannels(a, b) {
+    const aDisplayName = a.display_name.toUpperCase();
+    const bDisplayName = b.display_name.toUpperCase();
+    const result = aDisplayName.localeCompare(bDisplayName);
+    if (result !== 0) {
+        return result;
+    }
+
+    const aName = a.name.toUpperCase();
+    const bName = b.name.toUpperCase();
+    return aName.localeCompare(bName);
+}

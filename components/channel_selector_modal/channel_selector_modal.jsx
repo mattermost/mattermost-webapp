@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage, compareChannels} from 'utils/utils.jsx';
 
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 
@@ -185,18 +185,7 @@ export default class ChannelSelectorModal extends React.Component {
                     (this.props.excludeNames.indexOf(channel.name) === -1)
                 );
             });
-            channels.sort((a, b) => {
-                const aDisplayName = a.display_name.toUpperCase();
-                const bDisplayName = b.display_name.toUpperCase();
-                const result = aDisplayName.localeCompare(bDisplayName);
-                if (result !== 0) {
-                    return result;
-                }
-
-                const aName = a.name.toUpperCase();
-                const bName = b.name.toUpperCase();
-                return aName.localeCompare(bName);
-            });
+            channels.sort(compareChannels);
         }
 
         return (
