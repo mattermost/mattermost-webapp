@@ -367,16 +367,71 @@ export default class EmojiPicker extends React.PureComponent {
         } : this.state.categories[key];
     }
 
+    getRecentEmojis(emojis) {
+        return Object.values(emojis).filter((emoji) => {
+            for (let i = 0; i < emoji.aliases.length; i++) {
+                if (this.props.recentEmojis.includes(emoji.aliases[i].toLowerCase())) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
+    }
+
+    getStartWithEmojis(emojis) {
+        return Object.values(emojis).filter((emoji) => {
+            for (let i = 0; i < emoji.aliases.length; i++) {
+                if (emoji.aliases[i].toLowerCase().startsWith(this.state.filter)) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
+    }
+
+    sortAlphabetically(emojis) {
+        return emojis.sort((emojiOne, emojiTwo) => {
+            if (emojiOne.aliases[0] < emojiTwo.aliases[0]) {
+                return -1;
+            }
+
+            if (emojiOne.aliases[0] > emojiTwo.aliases[0]) {
+                return 1
+            }
+
+            return 0;
+        });
+    }
+
+    sortEmojis(emojis) {
+        const emojiSet = new Set();
+
+        const recentEmojis = this.getRecentEmojis(emojis);
+        this.sortAlphabetically(recentEmojis).forEach(emoji => emojiSet.add(emoji));
+
+        const startWithEmojis = this.getStartWithEmojis(emojis);
+        this.sortAlphabetically(startWithEmojis).forEach(emoji => emojiSet.add(emoji));
+        
+        this.sortAlphabetically(emojis).forEach(emoji => emojiSet.add(emoji));
+
+        return [...emojiSet];
+    }
+
     getEmojisByCategory(category) {
         if (this.state.filter) {
-            return Object.values(this.state.allEmojis).filter((emoji) => {
+            const emojis = Object.values(this.state.allEmojis).filter((emoji) => {
                 for (let i = 0; i < emoji.aliases.length; i++) {
                     if (emoji.aliases[i].toLowerCase().includes(this.state.filter)) {
                         return true;
                     }
                 }
+                
                 return false;
             });
+
+            return this.sortEmojis(emojis);
         }
         return this.state.categories[category.name].emojiIds.map((emojiId) =>
             this.state.allEmojis[emojiId]);
@@ -512,7 +567,6 @@ export default class EmojiPicker extends React.PureComponent {
         let numEmojisLoaded = 0;
 
         let categoryComponents = [];
-
         for (let i = 0; i < categories.length; i++) {
             const category = this.getCategoriesByKey(categories[i]);
             const emojis = this.getEmojisByCategory(category);
