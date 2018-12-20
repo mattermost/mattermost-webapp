@@ -472,7 +472,7 @@ export default class PostList extends React.PureComponent {
 
             if (postListScrollTop < LOADPOSTS_MIN_HEIGHT) {
                 shouldLoadPosts = true;
-            } else if ((scrollHeightAoveFoldForLoad < LOADPOSTS_MAX_HEIGHT) && (postListScrollTop < scrollHeightAoveFoldForLoad)) {
+            } else if ((postListScrollTop < LOADPOSTS_MAX_HEIGHT) && (postListScrollTop < scrollHeightAoveFoldForLoad)) {
                 shouldLoadPosts = true;
             }
 
