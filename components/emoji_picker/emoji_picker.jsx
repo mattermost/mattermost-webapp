@@ -416,7 +416,7 @@ export default class EmojiPicker extends React.PureComponent {
                         return true;
                     }
                 }
-                
+
                 return false;
             });
 

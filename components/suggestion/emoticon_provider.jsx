@@ -86,7 +86,7 @@ export default class EmoticonProvider extends Provider {
     }
 
     formatEmojis(emojis) {
-        return emojis.map((item) => ':' + item.name + ':')
+        return emojis.map((item) => ':' + item.name + ':');
     }
 
     findAndSuggestEmojis(text, partialName, resultsCallback) {
@@ -102,9 +102,9 @@ export default class EmoticonProvider extends Provider {
                 // This is a system emoji so it may have multiple names
                 for (const alias of emoji.aliases) {
                     if (!EMOJI_CATEGORY_SUGGESTION_BLACKLIST.includes(emoji.category) && alias.indexOf(partialName) !== -1) {
-                        let matchedArray = recentEmojis.includes(alias)
-                            ? recentMatched
-                            : matched;
+                        const matchedArray = recentEmojis.includes(alias) ?
+                            recentMatched :
+                            matched;
 
                         matchedArray.push({name: alias, emoji});
                         break;
