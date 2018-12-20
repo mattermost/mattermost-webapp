@@ -8,6 +8,8 @@ import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-int
 import * as utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
+import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
+
 import SettingUpload from './setting_upload.jsx';
 
 const holders = defineMessages({
@@ -150,14 +152,7 @@ class TeamImportTab extends React.Component {
         case 'in-progress':
             messageSection = (
                 <p className='confirm-import alert alert-warning'>
-                    <i
-                        className='fa fa-spinner fa-pulse'
-                        title={utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
-                    />
-                    <FormattedMessage
-                        id='team_import_tab.importing'
-                        defaultMessage=' Importing...'
-                    />
+                    <LoadingSpinner text={utils.localizeMessage('team_import_tab.importing', 'Importing...')}/>
                 </p>
             );
             break;
