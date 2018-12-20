@@ -125,7 +125,9 @@
         i {
             margin-right: 5px;
         }
-        > span {
+        > a {
+            color: $black;
+            text-decoration: none;
             padding: 3px 5px;
             &:hover {
                 background-color: $light-gray;

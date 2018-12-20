@@ -6,7 +6,10 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 import CheckboxCheckedIcon from 'components/svg/checkbox_checked_icon.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
 
 export default class GroupRow extends React.Component {
     static propTypes = {
@@ -57,14 +60,12 @@ export default class GroupRow extends React.Component {
         }
         if (this.props.has_syncables) {
             return (
-                <div>
-                    <Link to={'/admin_console/access-control/groups/' + this.props.mattermost_group_id}>
-                        <FormattedMessage
-                            id='admin.group_settings.group_row.edit'
-                            defaultMessage='Edit'
-                        />
-                    </Link>
-                </div>
+                <Link to={'/admin_console/access-control/groups/' + this.props.mattermost_group_id}>
+                    <FormattedMessage
+                        id='admin.group_settings.group_row.edit'
+                        defaultMessage='Edit'
+                    />
+                </Link>
             );
         }
         return (
@@ -80,27 +81,21 @@ export default class GroupRow extends React.Component {
     renderLinked = () => {
         if (this.state.loading) {
             return (
-                <span>
-                    <i className='fa fa-spinner fa-pulse'/>
+                <a href='#'>
                     {this.props.mattermost_group_id &&
-                        <FormattedMessage
-                            id='admin.group_settings.group_row.unlinking'
-                            defaultMessage='Unlinking'
-                        />
+                        <LoadingSpinner text={localizeMessage('admin.group_settings.group_row.unlinking', 'Unlinking')}/>
                     }
                     {!this.props.mattermost_group_id &&
-                        <FormattedMessage
-                            id='admin.group_settings.group_row.linking'
-                            defaultMessage='Linking'
-                        />
+                        <LoadingSpinner text={localizeMessage('admin.group_settings.group_row.linking', 'Linking')}/>
                     }
-                </span>
+                </a>
             );
         }
         if (this.props.mattermost_group_id) {
             if (this.props.failed) {
                 return (
-                    <span
+                    <a
+                        href='#'
                         onClick={this.unlinkHandler}
                         className='warning'
                     >
@@ -109,22 +104,26 @@ export default class GroupRow extends React.Component {
                             id='admin.group_settings.group_row.unlink_failed'
                             defaultMessage='Unlink failed'
                         />
-                    </span>
+                    </a>
                 );
             }
             return (
-                <span onClick={this.unlinkHandler}>
+                <a
+                    href='#'
+                    onClick={this.unlinkHandler}
+                >
                     <i className='icon fa fa-link'/>
                     <FormattedMessage
                         id='admin.group_settings.group_row.linked'
                         defaultMessage='Linked'
                     />
-                </span>
+                </a>
             );
         }
         if (this.props.failed) {
             return (
-                <span
+                <a
+                    href='#'
                     onClick={this.linkHandler}
                     className='warning'
                 >
@@ -133,17 +132,20 @@ export default class GroupRow extends React.Component {
                         id='admin.group_settings.group_row.link_failed'
                         defaultMessage='Link failed'
                     />
-                </span>
+                </a>
             );
         }
         return (
-            <span onClick={this.linkHandler}>
+            <a
+                href='#'
+                onClick={this.linkHandler}
+            >
                 <i className='icon fa fa-unlink'/>
                 <FormattedMessage
                     id='admin.group_settings.group_row.not_linked'
                     defaultMessage='Not Linked'
                 />
-            </span>
+            </a>
         );
     }
 

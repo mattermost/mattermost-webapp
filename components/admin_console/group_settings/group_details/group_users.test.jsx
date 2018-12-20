@@ -19,9 +19,7 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
             last_picture_update: i,
         })),
         total: 20,
-        actions: {
-            getMembers: jest.fn().mockReturnValue(Promise.resolve()),
-        },
+        getMembers: jest.fn().mockReturnValue(Promise.resolve()),
     };
 
     test('should match snapshot, on loading without data', () => {
@@ -88,7 +86,7 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
         const wrapper = shallow(
             <GroupUsers
                 {...defaultProps}
-                actions={{getMembers}}
+                getMembers={getMembers}
             />
         );
         wrapper.instance().componentDidMount();
@@ -100,7 +98,7 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
         const wrapper = shallow(
             <GroupUsers
                 {...defaultProps}
-                actions={{getMembers}}
+                getMembers={getMembers}
                 total={55}
             />
         );
@@ -125,7 +123,7 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
         const wrapper = shallow(
             <GroupUsers
                 {...defaultProps}
-                actions={{getMembers}}
+                getMembers={getMembers}
                 total={55}
             />
         );

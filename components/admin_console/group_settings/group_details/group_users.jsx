@@ -17,9 +17,7 @@ export default class GroupUsers extends React.PureComponent {
         groupID: PropTypes.string.isRequired,
         members: PropTypes.arrayOf(PropTypes.object),
         total: PropTypes.number.isRequired,
-        actions: PropTypes.shape({
-            getMembers: PropTypes.func.isRequired,
-        }).isRequired,
+        getMembers: PropTypes.func.isRequired,
     };
 
     constructor(props) {
@@ -31,24 +29,22 @@ export default class GroupUsers extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.actions.getMembers(this.props.groupID, 0, GROUP_MEMBERS_PAGE_SIZE).then(() => {
+        this.props.getMembers(this.props.groupID, 0, GROUP_MEMBERS_PAGE_SIZE).then(() => {
             this.setState({loading: false});
         });
     }
 
     previousPage = async (e) => {
-        e.preventDefault();
         const page = this.state.page < 1 ? 0 : this.state.page - 1;
         this.setState({page, loading: true});
-        await this.props.actions.getMembers(this.props.groupID, page, GROUP_MEMBERS_PAGE_SIZE);
+        await this.props.getMembers(this.props.groupID, page, GROUP_MEMBERS_PAGE_SIZE);
         this.setState({loading: false});
     }
 
     nextPage = async (e) => {
-        e.preventDefault();
         const page = (this.state.page + 1) * GROUP_MEMBERS_PAGE_SIZE >= this.props.total ? this.state.page : this.state.page + 1;
         this.setState({page, loading: true});
-        await this.props.actions.getMembers(this.props.groupID, page, GROUP_MEMBERS_PAGE_SIZE);
+        await this.props.getMembers(this.props.groupID, page, GROUP_MEMBERS_PAGE_SIZE);
         this.setState({loading: false});
     }
 
@@ -106,7 +102,7 @@ export default class GroupUsers extends React.PureComponent {
                 </div>
                 <button
                     className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
-                    onClick={firstPage ? null : this.previousPage}
+                    onClick={this.previousPage}
                     disabled={firstPage}
                 >
                     <i
@@ -116,7 +112,7 @@ export default class GroupUsers extends React.PureComponent {
                 </button>
                 <button
                     className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
-                    onClick={lastPage ? null : this.nextPage}
+                    onClick={this.nextPage}
                     disabled={lastPage}
                 >
                     <i

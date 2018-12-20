@@ -11,7 +11,6 @@ import GroupProfile from 'components/admin_console/group_settings/group_details/
 import GroupTeamsAndChannels from 'components/admin_console/group_settings/group_details/group_teams_and_channels';
 import GroupUsers from 'components/admin_console/group_settings/group_details/group_users';
 import AdminPanel from 'components/admin_console/admin_panel.jsx';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import TeamSelectorModal from 'components/team_selector_modal';
 import ChannelSelectorModal from 'components/channel_selector_modal';
@@ -45,7 +44,6 @@ export default class GroupDetails extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            loading: true,
             loadingTeamsAndChannels: true,
             addTeamOpen: false,
             addChannelOpen: false,
@@ -55,9 +53,7 @@ export default class GroupDetails extends React.PureComponent {
 
     componentDidMount() {
         const {groupID, actions} = this.props;
-        actions.getGroup(groupID).then(() => {
-            this.setState({loading: false});
-        });
+        actions.getGroup(groupID);
         Promise.all([
             actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_TEAM),
             actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_CHANNEL),
@@ -115,9 +111,9 @@ export default class GroupDetails extends React.PureComponent {
 
                 <div className='banner info'>
                     <div className='banner__content'>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='admin.group_settings.group_detail.introBanner'
-                            defaultMessage={'Configure default teams and channels and view users belonging to this group.'}
+                            defaultMessage='Configure default teams and channels and view users belonging to this group.'
                         />
                     </div>
                 </div>
@@ -176,10 +172,8 @@ export default class GroupDetails extends React.PureComponent {
                         teams={groupTeams}
                         channels={groupChannels}
                         loading={this.state.loadingTeamsAndChannels}
-                        actions={{
-                            getGroupSyncables: this.props.actions.getGroupSyncables,
-                            unlink: this.props.actions.unlink,
-                        }}
+                        getGroupSyncables={this.props.actions.getGroupSyncables}
+                        unlink={this.props.actions.unlink}
                     />
                 </AdminPanel>
                 {this.state.addTeamOpen &&
@@ -209,9 +203,7 @@ export default class GroupDetails extends React.PureComponent {
                         members={members}
                         total={memberCount}
                         groupID={this.props.groupID}
-                        actions={{
-                            getMembers: this.props.actions.getMembers,
-                        }}
+                        getMembers={this.props.actions.getMembers}
                     />
                 </AdminPanel>
             </div>

@@ -53,10 +53,8 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
             },
         ],
         loading: false,
-        actions: {
-            getGroupSyncables: jest.fn().mockReturnValue(Promise.resolve()),
-            unlink: jest.fn(),
-        },
+        getGroupSyncables: jest.fn().mockReturnValue(Promise.resolve()),
+        unlink: jest.fn(),
     };
 
     test('should match snapshot, with teams, with channels and loading', () => {
