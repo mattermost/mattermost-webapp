@@ -186,15 +186,16 @@ export default class ChannelSelectorModal extends React.Component {
                 );
             });
             channels.sort((a, b) => {
-                const aName = a.display_name.toUpperCase();
-                const bName = b.display_name.toUpperCase();
-                if (aName === bName) {
-                    return 0;
+                const aDisplayName = a.display_name.toUpperCase();
+                const bDisplayName = b.display_name.toUpperCase();
+                const result = aDisplayName.localeCompare(bDisplayName);
+                if (result !== 0) {
+                    return result;
                 }
-                if (aName > bName) {
-                    return 1;
-                }
-                return -1;
+
+                const aName = a.name.toUpperCase();
+                const bName = b.name.toUpperCase();
+                return aName.localeCompare(bName);
             });
         }
 
