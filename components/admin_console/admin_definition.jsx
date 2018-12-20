@@ -1288,10 +1288,7 @@ export default {
                             help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for group objects. Only the groups selected by the query will be available to Mattermost. From [Groups](/admin_console/access-control/groups), select which AD/LDAP groups should be linked and configured.',
                             placeholder: t('admin.ldap.groupFilterEx'),
                             placeholder_default: 'E.g.: "(objectClass=group)"',
-                            isDisabled: needsUtils.or(
-                                needsUtils.stateValueFalse('LdapSettings.Enable'),
-                                needsUtils.stateValueFalse('LdapSettings.EnableSync'),
-                            ),
+                            isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
                             isHidden: needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')),
                         },
                         {
@@ -1303,10 +1300,7 @@ export default {
                             help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the Group Name. Defaults to ‘Common name’ when blank.',
                             placeholder: t('admin.ldap.groupDisplayNameAttributeEx'),
                             placeholder_default: 'E.g.: "cn"',
-                            isDisabled: needsUtils.or(
-                                needsUtils.stateValueFalse('LdapSettings.Enable'),
-                                needsUtils.stateValueFalse('LdapSettings.EnableSync'),
-                            ),
+                            isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
                             isHidden: needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')),
                         },
                         {
@@ -1318,10 +1312,7 @@ export default {
                             help_text_default: 'The attribute in the AD/LDAP server used as unique identifier for Groups. This should be a AD/LDAP attribute with a value that does not change.',
                             placeholder: t('admin.ldap.groupIdAttributeEx'),
                             placeholder_default: 'E.g.: "entryUUID"',
-                            isDisabled: needsUtils.or(
-                                needsUtils.stateValueFalse('LdapSettings.Enable'),
-                                needsUtils.stateValueFalse('LdapSettings.EnableSync'),
-                            ),
+                            isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
                             isHidden: needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')),
                         },
                         {
