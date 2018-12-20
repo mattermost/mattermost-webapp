@@ -31,7 +31,7 @@ const MAX_EXTRA_PAGES_LOADED = 10;
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
 
 const LOADPOSTS_MIN_HEIGHT = 300;
-const LOADPOSTS_MAX_HEIGHT = 4000;
+const LOADPOSTS_MAX_HEIGHT = 2500;
 const LOADPOSTS_SCROLL_RATIO = 0.3;
 
 export default class PostList extends React.PureComponent {
