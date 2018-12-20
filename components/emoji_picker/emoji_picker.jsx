@@ -367,56 +367,45 @@ export default class EmojiPicker extends React.PureComponent {
         } : this.state.categories[key];
     }
 
-    getRecentEmojis(emojis) {
-        return Object.values(emojis).filter((emoji) => {
+    sortEmojis(emojis) {
+        const recentEmojis = [];
+        const emojisMinusRecent = [];
+
+        Object.values(emojis).forEach((emoji) => {
+            let emojiArray = emojisMinusRecent;
             for (let i = 0; i < emoji.aliases.length; i++) {
                 if (this.props.recentEmojis.includes(emoji.aliases[i].toLowerCase())) {
-                    return true;
+                    emojiArray = recentEmojis;
                 }
             }
 
-            return false;
+            emojiArray.push(emoji);
         });
-    }
 
-    getStartWithEmojis(emojis) {
-        return Object.values(emojis).filter((emoji) => {
-            for (let i = 0; i < emoji.aliases.length; i++) {
-                if (emoji.aliases[i].toLowerCase().startsWith(this.state.filter)) {
-                    return true;
-                }
-            }
-
-            return false;
+        recentEmojis.sort((a, b) => {
+            return a.aliases[0].localeCompare(b.aliases[0]);
         });
-    }
 
-    sortAlphabetically(emojis) {
-        return emojis.sort((emojiOne, emojiTwo) => {
-            if (emojiOne.aliases[0] < emojiTwo.aliases[0]) {
+        emojisMinusRecent.sort((a, b) => {
+            const aName = a.aliases[0];
+            const bName = b.aliases[0];
+
+            const aPrefix = aName.startsWith(this.state.filter);
+            const bPrefix = bName.startsWith(this.state.filter);
+
+            if (aPrefix === bPrefix) {
+                return aName.localeCompare(bName);
+            } else if (aPrefix) {
                 return -1;
             }
 
-            if (emojiOne.aliases[0] > emojiTwo.aliases[0]) {
-                return 1
-            }
-
-            return 0;
+            return 1;
         });
-    }
 
-    sortEmojis(emojis) {
-        const emojiSet = new Set();
-
-        const recentEmojis = this.getRecentEmojis(emojis);
-        this.sortAlphabetically(recentEmojis).forEach(emoji => emojiSet.add(emoji));
-
-        const startWithEmojis = this.getStartWithEmojis(emojis);
-        this.sortAlphabetically(startWithEmojis).forEach(emoji => emojiSet.add(emoji));
-        
-        this.sortAlphabetically(emojis).forEach(emoji => emojiSet.add(emoji));
-
-        return [...emojiSet];
+        return [
+            ...recentEmojis,
+            ...emojisMinusRecent,
+        ];
     }
 
     getEmojisByCategory(category) {
