@@ -53,11 +53,11 @@ export default class ChannelSelectorModal extends React.Component {
         });
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.searchTerm !== nextProps.searchTerm) {
+    componentDidUpdate(prevProps) { // eslint-disable-line camelcase
+        if (prevProps.searchTerm !== this.props.searchTerm) {
             clearTimeout(this.searchTimeoutId);
 
-            const searchTerm = nextProps.searchTerm;
+            const searchTerm = this.props.searchTerm;
             if (searchTerm === '') {
                 return;
             }
@@ -99,8 +99,7 @@ export default class ChannelSelectorModal extends React.Component {
 
     addValue = (value) => {
         const values = Object.assign([], this.state.values);
-        const channelIds = values.map((v) => v.id);
-        if (value && value.id && channelIds.indexOf(value.id) === -1) {
+        if (value && value.id && values.findIndex((v) => v.id === value.id) === -1) {
             values.push(value);
         }
 
@@ -131,7 +130,7 @@ export default class ChannelSelectorModal extends React.Component {
     }
 
     renderOption(option, isSelected, onAdd) {
-        var rowSelected = '';
+        let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
         }
@@ -178,10 +177,14 @@ export default class ChannelSelectorModal extends React.Component {
 
         let channels = [];
         if (this.props.channels) {
-            channels = this.props.channels.filter((channel) => channel.delete_at === 0);
-            channels = channels.filter((channel) => channel.scheme_id !== this.currentSchemeId);
-            channels = channels.filter((channel) => this.props.alreadySelected.indexOf(channel.id) === -1);
-            channels = channels.filter((channel) => this.props.excludeNames.indexOf(channel.name) === -1);
+            channels = this.props.channels.filter((channel) => {
+                return (
+                    (channel.delete_at === 0) &&
+                    (channel.scheme_id !== this.currentSchemeId) &&
+                    (this.props.alreadySelected.indexOf(channel.id) === -1) &&
+                    (this.props.excludeNames.indexOf(channel.name) === -1)
+                );
+            });
             channels.sort((a, b) => {
                 const aName = a.display_name.toUpperCase();
                 const bName = b.display_name.toUpperCase();

@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {combineReducers} from 'redux';
+
 import {ChannelTypes, UserTypes} from 'mattermost-redux/action_types';
 
-export default function channelsForChannelSelector(state = {}, action) {
+function channels(state = {}, action) {
     switch (action.type) {
     case ChannelTypes.RECEIVED_ALL_CHANNELS:
         return action.data;
@@ -13,3 +15,7 @@ export default function channelsForChannelSelector(state = {}, action) {
         return state;
     }
 }
+
+export default combineReducers({
+    channels,
+});

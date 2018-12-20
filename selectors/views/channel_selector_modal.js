@@ -2,5 +2,5 @@
 // See LICENSE.txt for license information.
 
 export function getChannelsForChannelSelector(state) {
-    return state.views.channelsForChannelSelector;
+    return state.views.channelSelectorModal.channels;
 }

@@ -3,6 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -17,18 +18,16 @@ const AdminPanel = (props) => {
             >
                 <div>
                     <h3>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id={props.titleId}
                             defaultMessage={props.titleDefaultMessage}
                         />
                     </h3>
                     {props.subtitleId && (
-                        <span>
-                            <FormattedMarkdownMessage
-                                id={props.subtitleId}
-                                defaultMessage={props.subtitleDefaultMessage}
-                            />
-                        </span>
+                        <FormattedMarkdownMessage
+                            id={props.subtitleId}
+                            defaultMessage={props.subtitleDefaultMessage}
+                        />
                     )}
                 </div>
                 {props.action &&

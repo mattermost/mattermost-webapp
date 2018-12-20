@@ -15,7 +15,7 @@ import lhs from './lhs';
 import search from './search';
 import notice from './notice';
 import system from './system';
-import channelsForChannelSelector from './channel_selector_modal';
+import channelSelectorModal from './channel_selector_modal';
 
 export default combineReducers({
     admin,
@@ -30,5 +30,5 @@ export default combineReducers({
     search,
     notice,
     system,
-    channelsForChannelSelector,
+    channelSelectorModal,
 });
