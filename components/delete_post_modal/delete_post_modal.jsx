@@ -75,7 +75,7 @@ export default class DeletePostModal extends React.PureComponent {
 
     render() {
         var commentWarning = '';
-        if (this.props.commentCount > 0) {
+        if (this.props.commentCount > 0 && this.props.post.root_id === '') {
             commentWarning = (
                 <FormattedMessage
                     id='delete_post.warning'
