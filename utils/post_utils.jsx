@@ -68,7 +68,22 @@ export function canDeletePost(post) {
     return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_OTHERS_POSTS});
 }
 
-export function canEditPost(post, editDisableAction) {
+export function disableCanEditPostByTime(post, editDisableAction) {
+    const canEdit = canEditPost(post);
+    const license = getLicense(store.getState());
+    const config = getConfig(store.getState());
+
+    if (canEdit && license.IsLicensed === 'true') {
+        if (config.PostEditTimeLimit !== '-1' && config.PostEditTimeLimit !== -1) {
+            const timeLeft = (post.create_at + (config.PostEditTimeLimit * 1000)) - Utils.getTimestamp();
+            if (timeLeft > 0) {
+                editDisableAction.fireAfter(timeLeft + 1000);
+            }
+        }
+    }
+}
+
+export function canEditPost(post) {
     if (isSystemMessage(post)) {
         return false;
     }
@@ -91,9 +106,7 @@ export function canEditPost(post, editDisableAction) {
     if (canEdit && license.IsLicensed === 'true') {
         if (config.PostEditTimeLimit !== '-1' && config.PostEditTimeLimit !== -1) {
             const timeLeft = (post.create_at + (config.PostEditTimeLimit * 1000)) - Utils.getTimestamp();
-            if (timeLeft > 0) {
-                editDisableAction.fireAfter(timeLeft + 1000);
-            } else {
+            if (timeLeft <= 0) {
                 canEdit = false;
             }
         }

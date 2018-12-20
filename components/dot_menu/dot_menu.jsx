@@ -78,10 +78,10 @@ class DotMenu extends Component {
         super(props);
 
         this.editDisableAction = new DelayedAction(this.handleEditDisable);
+        PostUtils.disableCanEditPostByTime(props.post, this.editDisableAction);
 
         this.state = {
-            canDelete: PostUtils.canDeletePost(props.post),
-            canEdit: PostUtils.canEditPost(props.post, this.editDisableAction),
+            openUp: false,
         };
         this.dotMenuId = props.location + '_dropdown_' + props.post.id;
     }
@@ -89,6 +89,13 @@ class DotMenu extends Component {
     componentDidMount() {
         $('#' + this.dotMenuId).on('shown.bs.dropdown', this.handleDropdownOpened);
         $('#' + this.dotMenuId).on('hidden.bs.dropdown', () => this.props.handleDropdownOpened(false));
+    }
+
+    static getDerivedStateFromProps(props) {
+        return {
+            canDelete: PostUtils.canDeletePost(props.post),
+            canEdit: PostUtils.canEditPost(props.post),
+        };
     }
 
     componentWillUnmount() {
@@ -168,8 +175,6 @@ class DotMenu extends Component {
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
-        const canDelete = PostUtils.canDeletePost(this.props.post);
-        const canEdit = PostUtils.canEditPost(this.props.post, this.editDisableAction); // Fix this crazy
 
         const menuItems = [];
 
@@ -241,7 +246,7 @@ class DotMenu extends Component {
             }
         }
 
-        if (canDelete) {
+        if (this.state.canDelete) {
             menuItems.push(
                 <DotMenuItem
                     key={'delete'}
@@ -256,7 +261,7 @@ class DotMenu extends Component {
             );
         }
 
-        if (canEdit) {
+        if (this.state.canEdit) {
             menuItems.push(
                 <DotMenuItem
                     key={'edit'}
