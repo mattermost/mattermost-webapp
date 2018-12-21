@@ -1,0 +1,1499 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Menu should match snapshot with most of the thing disabled 1`] = `
+<Menu
+  mobile={false}
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={false}
+      onClick={[Function]}
+      show={false}
+      text="Recent Mentions"
+    />
+    <MenuItemAction
+      icon={false}
+      onClick={[Function]}
+      show={false}
+      text="Flagged Posts"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      modalId="user_settings"
+      show={true}
+      text="Account Settings"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "invite_user",
+          ]
+        }
+        teamId="team-id"
+      >
+        <MenuItemToggleModalRedux
+          dialogType={[Function]}
+          icon={false}
+          modalId="email_invite"
+          show={false}
+          text="Send Email Invite"
+        />
+      </Connect(TeamPermissionGate)>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "invite_user",
+          ]
+        }
+        teamId="team-id"
+      >
+        <MenuItemAction
+          icon={false}
+          onClick={[Function]}
+          show={false}
+          text="Get Team Invite Link"
+        />
+      </Connect(TeamPermissionGate)>
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        modalId="add_user_to_team"
+        show={true}
+        text="Add Members to Team"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        modalId="team_settings"
+        show={true}
+        text="Team Settings"
+      />
+    </Connect(TeamPermissionGate)>
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      modalId="team_members"
+      show={true}
+      text="Manage Members"
+    />
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "create_team",
+        ]
+      }
+    >
+      <MenuItemLink
+        icon={false}
+        show={true}
+        text="Create a New Team"
+        to="/create_team"
+      />
+    </Connect(SystemPermissionGate)>
+    <MenuItemLink
+      icon={false}
+      show={false}
+      text="Join Another Team"
+      to="/select_team"
+    />
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      modalId="leave_team"
+      show={true}
+      text="Leave Team"
+    />
+  </MenuGroup>
+  <MenuGroup />
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_slash_commands",
+          "manage_oauth",
+          "manage_webhooks",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemLink
+        show={false}
+        text="Integrations"
+        to="/team name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <MenuItemLink
+      show={false}
+      text="Custom Emoji"
+      to="/team name/emoji"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+    >
+      <MenuItemLink
+        icon={false}
+        show={true}
+        text="System Console"
+        to="/admin_console"
+      />
+    </Connect(SystemPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemExternalLink
+      icon={false}
+      show={false}
+      text="Help"
+      url={null}
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={true}
+      text="Keyboard Shortcuts"
+    />
+    <MenuItemExternalLink
+      icon={false}
+      show={false}
+      text="Report a Problem"
+      url={null}
+    />
+    <MenuItemExternalLink
+      icon={false}
+      show={null}
+      text="Download Apps"
+      url={null}
+    />
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      modalId="about"
+      show={true}
+      text="About Mattermost"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={false}
+      onClick={[Function]}
+      show={true}
+      text="Logout"
+    />
+  </MenuGroup>
+</Menu>
+`;
+
+exports[`components/Menu should match snapshot with most of the thing disabled in mobile 1`] = `
+<Menu
+  mobile={true}
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="mentions"
+        >
+          @
+        </i>
+      }
+      onClick={[Function]}
+      show={true}
+      text="Recent Mentions"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="fa fa-flag"
+        />
+      }
+      onClick={[Function]}
+      show={true}
+      text="Flagged Posts"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={
+        <i
+          className="fa fa-cog"
+        />
+      }
+      modalId="user_settings"
+      show={true}
+      text="Account Settings"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "invite_user",
+          ]
+        }
+        teamId="team-id"
+      >
+        <MenuItemToggleModalRedux
+          dialogType={[Function]}
+          icon={
+            <i
+              className="fa fa-user-plus"
+            />
+          }
+          modalId="email_invite"
+          show={false}
+          text="Send Email Invite"
+        />
+      </Connect(TeamPermissionGate)>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "invite_user",
+          ]
+        }
+        teamId="team-id"
+      >
+        <MenuItemAction
+          icon={
+            <i
+              className="fa fa-link"
+            />
+          }
+          onClick={[Function]}
+          show={false}
+          text="Get Team Invite Link"
+        />
+      </Connect(TeamPermissionGate)>
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-user-plus"
+          />
+        }
+        modalId="add_user_to_team"
+        show={true}
+        text="Add Members to Team"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-globe"
+          />
+        }
+        modalId="team_settings"
+        show={true}
+        text="Team Settings"
+      />
+    </Connect(TeamPermissionGate)>
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={
+        <i
+          className="fa fa-users"
+        />
+      }
+      modalId="team_members"
+      show={true}
+      text="Manage Members"
+    />
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "create_team",
+        ]
+      }
+    >
+      <MenuItemLink
+        icon={
+          <i
+            className="fa fa-plus-square"
+          />
+        }
+        show={true}
+        text="Create a New Team"
+        to="/create_team"
+      />
+    </Connect(SystemPermissionGate)>
+    <MenuItemLink
+      icon={
+        <i
+          className="fa fa-plus-square"
+        />
+      }
+      show={false}
+      text="Join Another Team"
+      to="/select_team"
+    />
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={<LeaveTeamIcon />}
+      modalId="leave_team"
+      show={true}
+      text="Leave Team"
+    />
+  </MenuGroup>
+  <MenuGroup />
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_slash_commands",
+          "manage_oauth",
+          "manage_webhooks",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemLink
+        show={false}
+        text="Integrations"
+        to="/team name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <MenuItemLink
+      show={false}
+      text="Custom Emoji"
+      to="/team name/emoji"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+    >
+      <MenuItemLink
+        icon={
+          <i
+            className="fa fa-wrench"
+          />
+        }
+        show={false}
+        text="System Console"
+        to="/admin_console"
+      />
+    </Connect(SystemPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemExternalLink
+      icon={
+        <i
+          className="fa fa-question"
+        />
+      }
+      show={false}
+      text="Help"
+      url={null}
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={false}
+      text="Keyboard Shortcuts"
+    />
+    <MenuItemExternalLink
+      icon={
+        <i
+          className="fa fa-phone"
+        />
+      }
+      show={false}
+      text="Report a Problem"
+      url={null}
+    />
+    <MenuItemExternalLink
+      icon={
+        <i
+          className="fa fa-mobile"
+        />
+      }
+      show={null}
+      text="Download Apps"
+      url={null}
+    />
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={
+        <i
+          className="fa fa-info"
+        />
+      }
+      modalId="about"
+      show={true}
+      text="About Mattermost"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="fa fa-sign-out"
+        />
+      }
+      onClick={[Function]}
+      show={true}
+      text="Logout"
+    />
+  </MenuGroup>
+</Menu>
+`;
+
+exports[`components/Menu should match snapshot with most of the thing enabled 1`] = `
+<Menu
+  mobile={false}
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={false}
+      onClick={[Function]}
+      show={false}
+      text="Recent Mentions"
+    />
+    <MenuItemAction
+      icon={false}
+      onClick={[Function]}
+      show={false}
+      text="Flagged Posts"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      modalId="user_settings"
+      show={true}
+      text="Account Settings"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "invite_user",
+          ]
+        }
+        teamId="team-id"
+      >
+        <MenuItemToggleModalRedux
+          dialogType={[Function]}
+          icon={false}
+          modalId="email_invite"
+          show={true}
+          text="Send Email Invite"
+        />
+      </Connect(TeamPermissionGate)>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "invite_user",
+          ]
+        }
+        teamId="team-id"
+      >
+        <MenuItemAction
+          icon={false}
+          onClick={[Function]}
+          show={true}
+          text="Get Team Invite Link"
+        />
+      </Connect(TeamPermissionGate)>
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        modalId="add_user_to_team"
+        show={true}
+        text="Add Members to Team"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        modalId="team_settings"
+        show={true}
+        text="Team Settings"
+      />
+    </Connect(TeamPermissionGate)>
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      modalId="team_members"
+      show={true}
+      text="Manage Members"
+    />
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "create_team",
+        ]
+      }
+    >
+      <MenuItemLink
+        icon={false}
+        show={true}
+        text="Create a New Team"
+        to="/create_team"
+      />
+    </Connect(SystemPermissionGate)>
+    <MenuItemLink
+      icon={false}
+      show={false}
+      text="Join Another Team"
+      to="/select_team"
+    />
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      modalId="leave_team"
+      show={true}
+      text="Leave Team"
+    />
+  </MenuGroup>
+  <MenuGroup />
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_slash_commands",
+          "manage_oauth",
+          "manage_webhooks",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemLink
+        show={true}
+        text="Integrations"
+        to="/team name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <MenuItemLink
+      show={true}
+      text="Custom Emoji"
+      to="/team name/emoji"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+    >
+      <MenuItemLink
+        icon={false}
+        show={true}
+        text="System Console"
+        to="/admin_console"
+      />
+    </Connect(SystemPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemExternalLink
+      icon={false}
+      show={true}
+      text="Help"
+      url="test-link-help"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={true}
+      text="Keyboard Shortcuts"
+    />
+    <MenuItemExternalLink
+      icon={false}
+      show={true}
+      text="Report a Problem"
+      url="test-report-link"
+    />
+    <MenuItemExternalLink
+      icon={false}
+      show={true}
+      text="Download Apps"
+      url="test"
+    />
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      modalId="about"
+      show={true}
+      text="About Mattermost"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={false}
+      onClick={[Function]}
+      show={true}
+      text="Logout"
+    />
+  </MenuGroup>
+</Menu>
+`;
+
+exports[`components/Menu should match snapshot with most of the thing enabled in mobile 1`] = `
+<Menu
+  mobile={true}
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="mentions"
+        >
+          @
+        </i>
+      }
+      onClick={[Function]}
+      show={true}
+      text="Recent Mentions"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="fa fa-flag"
+        />
+      }
+      onClick={[Function]}
+      show={true}
+      text="Flagged Posts"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={
+        <i
+          className="fa fa-cog"
+        />
+      }
+      modalId="user_settings"
+      show={true}
+      text="Account Settings"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "invite_user",
+          ]
+        }
+        teamId="team-id"
+      >
+        <MenuItemToggleModalRedux
+          dialogType={[Function]}
+          icon={
+            <i
+              className="fa fa-user-plus"
+            />
+          }
+          modalId="email_invite"
+          show={true}
+          text="Send Email Invite"
+        />
+      </Connect(TeamPermissionGate)>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "invite_user",
+          ]
+        }
+        teamId="team-id"
+      >
+        <MenuItemAction
+          icon={
+            <i
+              className="fa fa-link"
+            />
+          }
+          onClick={[Function]}
+          show={true}
+          text="Get Team Invite Link"
+        />
+      </Connect(TeamPermissionGate)>
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-user-plus"
+          />
+        }
+        modalId="add_user_to_team"
+        show={true}
+        text="Add Members to Team"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-globe"
+          />
+        }
+        modalId="team_settings"
+        show={true}
+        text="Team Settings"
+      />
+    </Connect(TeamPermissionGate)>
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={
+        <i
+          className="fa fa-users"
+        />
+      }
+      modalId="team_members"
+      show={true}
+      text="Manage Members"
+    />
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "create_team",
+        ]
+      }
+    >
+      <MenuItemLink
+        icon={
+          <i
+            className="fa fa-plus-square"
+          />
+        }
+        show={true}
+        text="Create a New Team"
+        to="/create_team"
+      />
+    </Connect(SystemPermissionGate)>
+    <MenuItemLink
+      icon={
+        <i
+          className="fa fa-plus-square"
+        />
+      }
+      show={false}
+      text="Join Another Team"
+      to="/select_team"
+    />
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={<LeaveTeamIcon />}
+      modalId="leave_team"
+      show={true}
+      text="Leave Team"
+    />
+  </MenuGroup>
+  <MenuGroup />
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_slash_commands",
+          "manage_oauth",
+          "manage_webhooks",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemLink
+        show={false}
+        text="Integrations"
+        to="/team name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <MenuItemLink
+      show={false}
+      text="Custom Emoji"
+      to="/team name/emoji"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+    >
+      <MenuItemLink
+        icon={
+          <i
+            className="fa fa-wrench"
+          />
+        }
+        show={false}
+        text="System Console"
+        to="/admin_console"
+      />
+    </Connect(SystemPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemExternalLink
+      icon={
+        <i
+          className="fa fa-question"
+        />
+      }
+      show={true}
+      text="Help"
+      url="test-link-help"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={false}
+      text="Keyboard Shortcuts"
+    />
+    <MenuItemExternalLink
+      icon={
+        <i
+          className="fa fa-phone"
+        />
+      }
+      show={true}
+      text="Report a Problem"
+      url="test-report-link"
+    />
+    <MenuItemExternalLink
+      icon={
+        <i
+          className="fa fa-mobile"
+        />
+      }
+      show={true}
+      text="Download Apps"
+      url="test"
+    />
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={
+        <i
+          className="fa fa-info"
+        />
+      }
+      modalId="about"
+      show={true}
+      text="About Mattermost"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="fa fa-sign-out"
+        />
+      }
+      onClick={[Function]}
+      show={true}
+      text="Logout"
+    />
+  </MenuGroup>
+</Menu>
+`;
+
+exports[`components/Menu should match snapshot with plugins 1`] = `
+<Menu
+  mobile={false}
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={false}
+      onClick={[Function]}
+      show={false}
+      text="Recent Mentions"
+    />
+    <MenuItemAction
+      icon={false}
+      onClick={[Function]}
+      show={false}
+      text="Flagged Posts"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      modalId="user_settings"
+      show={true}
+      text="Account Settings"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "invite_user",
+          ]
+        }
+        teamId="team-id"
+      >
+        <MenuItemToggleModalRedux
+          dialogType={[Function]}
+          icon={false}
+          modalId="email_invite"
+          show={false}
+          text="Send Email Invite"
+        />
+      </Connect(TeamPermissionGate)>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "invite_user",
+          ]
+        }
+        teamId="team-id"
+      >
+        <MenuItemAction
+          icon={false}
+          onClick={[Function]}
+          show={false}
+          text="Get Team Invite Link"
+        />
+      </Connect(TeamPermissionGate)>
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        modalId="add_user_to_team"
+        show={true}
+        text="Add Members to Team"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        modalId="team_settings"
+        show={true}
+        text="Team Settings"
+      />
+    </Connect(TeamPermissionGate)>
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      modalId="team_members"
+      show={true}
+      text="Manage Members"
+    />
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "create_team",
+        ]
+      }
+    >
+      <MenuItemLink
+        icon={false}
+        show={true}
+        text="Create a New Team"
+        to="/create_team"
+      />
+    </Connect(SystemPermissionGate)>
+    <MenuItemLink
+      icon={false}
+      show={false}
+      text="Join Another Team"
+      to="/select_team"
+    />
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      modalId="leave_team"
+      show={true}
+      text="Leave Team"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={false}
+      id="plugin-1_pluginmenuitem"
+      key="plugin-1_pluginmenuitem"
+      onClick={[Function]}
+      show={true}
+      text="plugin-1-text"
+    />
+    <MenuItemAction
+      icon={false}
+      id="plugin-2_pluginmenuitem"
+      key="plugin-2_pluginmenuitem"
+      onClick={[Function]}
+      show={true}
+      text="plugin-2-text"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_slash_commands",
+          "manage_oauth",
+          "manage_webhooks",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemLink
+        show={false}
+        text="Integrations"
+        to="/team name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <MenuItemLink
+      show={false}
+      text="Custom Emoji"
+      to="/team name/emoji"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+    >
+      <MenuItemLink
+        icon={false}
+        show={true}
+        text="System Console"
+        to="/admin_console"
+      />
+    </Connect(SystemPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemExternalLink
+      icon={false}
+      show={false}
+      text="Help"
+      url={null}
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={true}
+      text="Keyboard Shortcuts"
+    />
+    <MenuItemExternalLink
+      icon={false}
+      show={false}
+      text="Report a Problem"
+      url={null}
+    />
+    <MenuItemExternalLink
+      icon={false}
+      show={null}
+      text="Download Apps"
+      url={null}
+    />
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      modalId="about"
+      show={true}
+      text="About Mattermost"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={false}
+      onClick={[Function]}
+      show={true}
+      text="Logout"
+    />
+  </MenuGroup>
+</Menu>
+`;
+
+exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
+<Menu
+  mobile={true}
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="mentions"
+        >
+          @
+        </i>
+      }
+      onClick={[Function]}
+      show={true}
+      text="Recent Mentions"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="fa fa-flag"
+        />
+      }
+      onClick={[Function]}
+      show={true}
+      text="Flagged Posts"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={
+        <i
+          className="fa fa-cog"
+        />
+      }
+      modalId="user_settings"
+      show={true}
+      text="Account Settings"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "invite_user",
+          ]
+        }
+        teamId="team-id"
+      >
+        <MenuItemToggleModalRedux
+          dialogType={[Function]}
+          icon={
+            <i
+              className="fa fa-user-plus"
+            />
+          }
+          modalId="email_invite"
+          show={false}
+          text="Send Email Invite"
+        />
+      </Connect(TeamPermissionGate)>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "invite_user",
+          ]
+        }
+        teamId="team-id"
+      >
+        <MenuItemAction
+          icon={
+            <i
+              className="fa fa-link"
+            />
+          }
+          onClick={[Function]}
+          show={false}
+          text="Get Team Invite Link"
+        />
+      </Connect(TeamPermissionGate)>
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-user-plus"
+          />
+        }
+        modalId="add_user_to_team"
+        show={true}
+        text="Add Members to Team"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-globe"
+          />
+        }
+        modalId="team_settings"
+        show={true}
+        text="Team Settings"
+      />
+    </Connect(TeamPermissionGate)>
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={
+        <i
+          className="fa fa-users"
+        />
+      }
+      modalId="team_members"
+      show={true}
+      text="Manage Members"
+    />
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "create_team",
+        ]
+      }
+    >
+      <MenuItemLink
+        icon={
+          <i
+            className="fa fa-plus-square"
+          />
+        }
+        show={true}
+        text="Create a New Team"
+        to="/create_team"
+      />
+    </Connect(SystemPermissionGate)>
+    <MenuItemLink
+      icon={
+        <i
+          className="fa fa-plus-square"
+        />
+      }
+      show={false}
+      text="Join Another Team"
+      to="/select_team"
+    />
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={<LeaveTeamIcon />}
+      modalId="leave_team"
+      show={true}
+      text="Leave Team"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon="plugin-1-mobile-icon"
+      id="plugin-1_pluginmenuitem"
+      key="plugin-1_pluginmenuitem"
+      onClick={[Function]}
+      show={true}
+      text="plugin-1-text"
+    />
+    <MenuItemAction
+      icon="plugin-2-mobile-icon"
+      id="plugin-2_pluginmenuitem"
+      key="plugin-2_pluginmenuitem"
+      onClick={[Function]}
+      show={true}
+      text="plugin-2-text"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_slash_commands",
+          "manage_oauth",
+          "manage_webhooks",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemLink
+        show={false}
+        text="Integrations"
+        to="/team name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <MenuItemLink
+      show={false}
+      text="Custom Emoji"
+      to="/team name/emoji"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+    >
+      <MenuItemLink
+        icon={
+          <i
+            className="fa fa-wrench"
+          />
+        }
+        show={false}
+        text="System Console"
+        to="/admin_console"
+      />
+    </Connect(SystemPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemExternalLink
+      icon={
+        <i
+          className="fa fa-question"
+        />
+      }
+      show={false}
+      text="Help"
+      url={null}
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={false}
+      text="Keyboard Shortcuts"
+    />
+    <MenuItemExternalLink
+      icon={
+        <i
+          className="fa fa-phone"
+        />
+      }
+      show={false}
+      text="Report a Problem"
+      url={null}
+    />
+    <MenuItemExternalLink
+      icon={
+        <i
+          className="fa fa-mobile"
+        />
+      }
+      show={null}
+      text="Download Apps"
+      url={null}
+    />
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={
+        <i
+          className="fa fa-info"
+        />
+      }
+      modalId="about"
+      show={true}
+      text="About Mattermost"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="fa fa-sign-out"
+        />
+      }
+      onClick={[Function]}
+      show={true}
+      text="Logout"
+    />
+  </MenuGroup>
+</Menu>
+`;
