@@ -18,6 +18,7 @@ export default class Menu extends React.PureComponent {
         this.node = React.createRef();
     }
 
+    // Used from DotMenu component to know in which direction show the menu
     rect() {
         if (this.node && this.node.current) {
             return this.node.current.getBoundingClientRect();

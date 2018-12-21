@@ -2,10 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import menuItem from './menu_item.jsx';
 
-const MenuItemExternalLink = menuItem(({url, text}) => (
+export const MenuItemExternalLinkImpl = ({url, text}) => (
     <a
         target='_blank'
         rel='noopener noreferrer'
@@ -13,6 +14,12 @@ const MenuItemExternalLink = menuItem(({url, text}) => (
     >
         {text}
     </a>
-));
+);
+MenuItemExternalLinkImpl.propTypes = {
+    url: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+};
+
+const MenuItemExternalLink = menuItem(MenuItemExternalLinkImpl);
 MenuItemExternalLink.displayName = 'MenuItemExternalLink';
 export default MenuItemExternalLink;

@@ -28,6 +28,7 @@ export default function menuItem(Component) {
             return (
                 <li
                     className='MenuItem'
+                    role='menuitem'
                     id={id}
                 >
                     <Component

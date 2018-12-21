@@ -2,10 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import menuItem from './menu_item.jsx';
 
-const MenuItemAction = menuItem(({onClick, text, extraText}) => (
+export const MenuItemActionImpl = ({onClick, text, extraText}) => (
     <button
         className='style--none'
         onClick={onClick}
@@ -14,7 +15,14 @@ const MenuItemAction = menuItem(({onClick, text, extraText}) => (
         {extraText && <br/>}
         {extraText && <span className='extra-text'>{extraText}</span>}
     </button>
-));
+);
+MenuItemActionImpl.propTypes = {
+    onClick: PropTypes.func.isRequired,
+    text: PropTypes.string.isRequired,
+    extraText: PropTypes.string,
+};
+
+const MenuItemAction = menuItem(MenuItemActionImpl);
 MenuItemAction.displayName = 'MenuItemAction';
 
 export default MenuItemAction;
