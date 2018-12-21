@@ -74,7 +74,6 @@
         background-color: alpha-color($black, .2);
         height: 100%;
         overflow: hidden;
-        padding-top: 15px;
 
         .team-container {
             display: flex;
@@ -128,6 +127,10 @@
                 @include opacity(.5);
                 cursor: not-allowed;
             }
+        }
+
+        .scrollbar--view {
+            padding-top: 15px;
         }
 
         .team-container a:hover {
