@@ -5,12 +5,12 @@ import {combineReducers} from 'redux';
 
 import {ChannelTypes, UserTypes} from 'mattermost-redux/action_types';
 
-function channels(state = {}, action) {
+function channels(state = [], action) {
     switch (action.type) {
     case ChannelTypes.RECEIVED_ALL_CHANNELS:
-        return action.data;
+        return action.data.map((v) => v.id);
     case UserTypes.LOGOUT_SUCCESS:
-        return {};
+        return [];
     default:
         return state;
     }
