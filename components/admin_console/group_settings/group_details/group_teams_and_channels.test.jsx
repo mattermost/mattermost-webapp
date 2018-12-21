@@ -115,37 +115,36 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
     });
 
     test('should remove the item based on the item type', async () => {
-        const actions = {
-            unlink: jest.fn().mockReturnValue(Promise.resolve()),
-            getGroupSyncables: jest.fn().mockReturnValue(Promise.resolve()),
-        };
+        const unlink = jest.fn().mockReturnValue(Promise.resolve());
+        const getGroupSyncables = jest.fn().mockReturnValue(Promise.resolve());
         const wrapper = shallow(
             <GroupTeamsAndChannels
                 {...defaultProps}
-                actions={actions}
+                unlink={unlink}
+                getGroupSyncables={getGroupSyncables}
             />
         );
         const instance = wrapper.instance();
         await instance.onRemoveItem('11111111111111111111111111', 'public-team');
-        expect(actions.unlink).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '11111111111111111111111111', 'team');
-        expect(actions.getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'team');
-        actions.unlink.mockClear();
-        actions.getGroupSyncables.mockClear();
+        expect(unlink).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '11111111111111111111111111', 'team');
+        expect(getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'team');
+        unlink.mockClear();
+        getGroupSyncables.mockClear();
 
         await instance.onRemoveItem('22222222222222222222222222', 'private-team');
-        expect(actions.unlink).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '22222222222222222222222222', 'team');
-        expect(actions.getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'team');
-        actions.unlink.mockClear();
-        actions.getGroupSyncables.mockClear();
+        expect(unlink).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '22222222222222222222222222', 'team');
+        expect(getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'team');
+        unlink.mockClear();
+        getGroupSyncables.mockClear();
 
         await instance.onRemoveItem('44444444444444444444444444', 'public-channel');
-        expect(actions.unlink).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '44444444444444444444444444', 'channel');
-        expect(actions.getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'channel');
-        actions.unlink.mockClear();
-        actions.getGroupSyncables.mockClear();
+        expect(unlink).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '44444444444444444444444444', 'channel');
+        expect(getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'channel');
+        unlink.mockClear();
+        getGroupSyncables.mockClear();
 
         await instance.onRemoveItem('55555555555555555555555555', 'private-channel');
-        expect(actions.unlink).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '55555555555555555555555555', 'channel');
-        expect(actions.getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'channel');
+        expect(unlink).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '55555555555555555555555555', 'channel');
+        expect(getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'channel');
     });
 });

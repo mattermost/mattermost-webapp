@@ -1247,7 +1247,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
     >
       <FormattedMessage
         defaultMessage="No groups found"
-        id="admin.group_settings.groups_list.no-groups-found"
+        id="admin.group_settings.groups_list.no_groups_found"
         values={Object {}}
       />
     </div>

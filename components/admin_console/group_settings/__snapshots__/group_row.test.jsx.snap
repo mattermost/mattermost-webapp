@@ -21,7 +21,8 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
     <span
       className="group-description"
     >
-      <span
+      <a
+        href="#"
         onClick={[Function]}
       >
         <i
@@ -32,7 +33,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           id="admin.group_settings.group_row.not_linked"
           values={Object {}}
         />
-      </span>
+      </a>
     </span>
     <span
       className="group-actions"
@@ -60,8 +61,9 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
     <span
       className="group-description"
     >
-      <span
+      <a
         className="warning"
+        href="#"
         onClick={[Function]}
       >
         <i
@@ -72,7 +74,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           id="admin.group_settings.group_row.unlink_failed"
           values={Object {}}
         />
-      </span>
+      </a>
     </span>
     <span
       className="group-actions"
@@ -111,8 +113,9 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
     <span
       className="group-description"
     >
-      <span
+      <a
         className="warning"
+        href="#"
         onClick={[Function]}
       >
         <i
@@ -123,7 +126,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           id="admin.group_settings.group_row.link_failed"
           values={Object {}}
         />
-      </span>
+      </a>
     </span>
     <span
       className="group-actions"
@@ -151,7 +154,8 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
     <span
       className="group-description"
     >
-      <span
+      <a
+        href="#"
         onClick={[Function]}
       >
         <i
@@ -162,23 +166,21 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           id="admin.group_settings.group_row.linked"
           values={Object {}}
         />
-      </span>
+      </a>
     </span>
     <span
       className="group-actions"
     >
-      <div>
-        <Link
-          replace={false}
-          to="/admin_console/access-control/groups/group-id"
-        >
-          <FormattedMessage
-            defaultMessage="Edit"
-            id="admin.group_settings.group_row.edit"
-            values={Object {}}
-          />
-        </Link>
-      </div>
+      <Link
+        replace={false}
+        to="/admin_console/access-control/groups/group-id"
+      >
+        <FormattedMessage
+          defaultMessage="Edit"
+          id="admin.group_settings.group_row.edit"
+          values={Object {}}
+        />
+      </Link>
     </span>
   </div>
 </div>
@@ -203,7 +205,8 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
     <span
       className="group-description"
     >
-      <span
+      <a
+        href="#"
         onClick={[Function]}
       >
         <i
@@ -214,7 +217,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           id="admin.group_settings.group_row.linked"
           values={Object {}}
         />
-      </span>
+      </a>
     </span>
     <span
       className="group-actions"
@@ -253,7 +256,8 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
     <span
       className="group-description"
     >
-      <span
+      <a
+        href="#"
         onClick={[Function]}
       >
         <i
@@ -264,7 +268,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           id="admin.group_settings.group_row.not_linked"
           values={Object {}}
         />
-      </span>
+      </a>
     </span>
     <span
       className="group-actions"

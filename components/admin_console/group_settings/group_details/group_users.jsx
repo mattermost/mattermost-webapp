@@ -34,14 +34,14 @@ export default class GroupUsers extends React.PureComponent {
         });
     }
 
-    previousPage = async (e) => {
+    previousPage = async () => {
         const page = this.state.page < 1 ? 0 : this.state.page - 1;
         this.setState({page, loading: true});
         await this.props.getMembers(this.props.groupID, page, GROUP_MEMBERS_PAGE_SIZE);
         this.setState({loading: false});
     }
 
-    nextPage = async (e) => {
+    nextPage = async () => {
         const page = (this.state.page + 1) * GROUP_MEMBERS_PAGE_SIZE >= this.props.total ? this.state.page : this.state.page + 1;
         this.setState({page, loading: true});
         await this.props.getMembers(this.props.groupID, page, GROUP_MEMBERS_PAGE_SIZE);

@@ -20,8 +20,6 @@ import CustomPluginSettings from 'components/admin_console/custom_plugin_setting
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
 import Audits from './audits';
 import CustomUrlSchemesSetting from './custom_url_schemes_setting.jsx';
 import LicenseSettings from './license_settings';
