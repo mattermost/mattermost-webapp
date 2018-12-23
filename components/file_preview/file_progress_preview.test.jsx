@@ -27,4 +27,19 @@ describe('component/file_preview/file_progress_preview', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('snapshot for percent value undefined', () => {
+        const props = {
+            ...baseProps,
+            fileInfo: {
+                ...fileInfo,
+                percent: undefined,
+            },
+        };
+
+        const wrapper = shallow(
+            <FileProgressPreview {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
 });

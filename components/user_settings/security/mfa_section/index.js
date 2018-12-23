@@ -18,7 +18,7 @@ function mapStateToProps(state) {
 
     const mfaLicensed = license && license.IsLicensed === 'true' && license.MFA === 'true';
 
-    const mfaEnabled = mfaLicensed && config.EnableMultifactorAuthentication === 'true';
+    const mfaEnabled = config.EnableMultifactorAuthentication === 'true';
     const mfaEnforced = mfaLicensed && config.EnforceMultifactorAuthentication === 'true';
 
     const user = getCurrentUser(state);

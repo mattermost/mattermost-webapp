@@ -93,6 +93,10 @@ export default class ConfirmModal extends React.Component {
         document.removeEventListener('keydown', this.handleKeypress);
     }
 
+    shouldComponentUpdate(nextProps) {
+        return nextProps.show !== this.props.show;
+    }
+
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (this.props.show && !nextProps.show) {
             document.removeEventListener('keydown', this.handleKeypress);

@@ -42,7 +42,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.AddMembers', () => {
         expect(wrapper.isEmptyRender()).toBeTruthy();
     });
 
-    it('should be hidden if the channel type is DM or GM', () => {
+    it('should be hidden if the channel type is DM', () => {
         const props = {
             ...baseProps,
             channel: {...baseProps.channel},
@@ -51,8 +51,18 @@ describe('components/ChannelHeaderDropdown/MenuItem.AddMembers', () => {
 
         props.channel.type = Constants.DM_CHANNEL;
         expect(makeWrapper().isEmptyRender()).toBeTruthy();
+    });
 
-        props.channel.type = Constants.GM_CHANNEL;
-        expect(makeWrapper().isEmptyRender()).toBeTruthy();
+    it('should render correctly if the channel type is DM', () => {
+        const props = {
+            ...baseProps,
+            channel: {
+                ...baseProps.channel,
+                type: Constants.GM_CHANNEL,
+            },
+        };
+
+        const wrapper = shallow(<AddMembers {...props}/>);
+        expect(wrapper).toMatchSnapshot();
     });
 });

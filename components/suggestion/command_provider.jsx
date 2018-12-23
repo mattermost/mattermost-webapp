@@ -11,6 +11,7 @@ import store from 'stores/redux_store.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 
 import Suggestion from './suggestion.jsx';
+import Provider from './provider.jsx';
 
 export class CommandSuggestion extends Suggestion {
     render() {
@@ -38,7 +39,7 @@ export class CommandSuggestion extends Suggestion {
     }
 }
 
-export default class CommandProvider {
+export default class CommandProvider extends Provider {
     handlePretextChanged(pretext, resultCallback) {
         if (pretext.startsWith('/')) {
             const command = pretext.toLowerCase();

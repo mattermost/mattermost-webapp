@@ -11,7 +11,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
-import {removeUserFromTeam} from 'actions/team_actions.jsx';
+import {removeUserFromTeamAndGetStats} from 'actions/team_actions.jsx';
 
 import TeamMembersDropdown from './team_members_dropdown.jsx';
 
@@ -30,7 +30,7 @@ function mapDispatchToProps(dispatch) {
             getTeamStats,
             getChannelStats,
             updateTeamMemberSchemeRoles,
-            removeUserFromTeam,
+            removeUserFromTeamAndGetStats,
         }, dispatch),
     };
 }

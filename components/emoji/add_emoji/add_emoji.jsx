@@ -10,6 +10,7 @@ import BackstageHeader from 'components/backstage/components/backstage_header.js
 import FormError from 'components/form_error.jsx';
 import SpinnerButton from 'components/spinner_button.jsx';
 import {browserHistory} from 'utils/browser_history';
+import {localizeMessage} from 'utils/utils.jsx';
 
 export default class AddEmoji extends React.Component {
     static propTypes = {
@@ -297,6 +298,7 @@ export default class AddEmoji extends React.Component {
                                 className='btn btn-primary'
                                 type='submit'
                                 spinning={this.state.saving}
+                                spinningText={localizeMessage('add_emoji.saving', 'Saving...')}
                                 onClick={this.handleSubmit}
                             >
                                 <FormattedMessage

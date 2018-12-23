@@ -1,12 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/ReactionListView Should match snapshot for reactions and should call getReactionsForPost as there is no metadata 1`] = `
+exports[`components/ReactionList Should match snapshot for reactions and should call getReactionsForPost as there is no metadata 1`] = `
 <div
   className="post-reaction-list"
 >
   <Connect(Reaction)
     emojiName="expressionless"
-    emojis={Object {}}
     key="expressionless"
     post={
       Object {

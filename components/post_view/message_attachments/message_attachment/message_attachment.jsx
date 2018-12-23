@@ -8,24 +8,15 @@ import {postListScrollChange} from 'actions/global_actions';
 
 import {isUrlSafe} from 'utils/url.jsx';
 import {handleFormattedTextClick} from 'utils/utils';
-import {getFileDimensionsForDisplay} from 'utils/file_utils';
 
 import Markdown from 'components/markdown';
 import ShowMore from 'components/post_view/show_more';
+import SizeAwareImage from 'components/size_aware_image';
 
 import ActionButton from '../action_button';
 import ActionMenu from '../action_menu';
 
 const MAX_ATTACHMENT_TEXT_HEIGHT = 200;
-
-const MAX_DIMENSIONS_IMAGE_URL = {
-    maxHeight: 300,
-    maxWidth: 500,
-};
-const MAX_DIMENSIONS_THUMB_URL = {
-    maxHeight: 75,
-    maxWidth: 80,
-};
 
 export default class MessageAttachment extends React.PureComponent {
     static propTypes = {
@@ -311,26 +302,28 @@ export default class MessageAttachment extends React.PureComponent {
 
         let image;
         if (attachment.image_url) {
-            const imageDimensions = getFileDimensionsForDisplay(this.props.imagesMetadata[attachment.image_url], MAX_DIMENSIONS_IMAGE_URL);
             image = (
-                <img
-                    className='attachment__image'
-                    src={attachment.image_url}
-                    {...imageDimensions}
-                />
+                <div className='attachment__image-container'>
+                    <SizeAwareImage
+                        className='attachment__image'
+                        onHeightReceived={this.handleHeightReceived}
+                        src={attachment.image_url}
+                        dimensions={this.props.imagesMetadata[attachment.image_url]}
+                    />
+                </div>
             );
         }
 
         let thumb;
         if (attachment.thumb_url) {
-            const imageDimensions = getFileDimensionsForDisplay(this.props.imagesMetadata[attachment.thumb_url], MAX_DIMENSIONS_THUMB_URL);
             thumb = (
                 <div
                     className='attachment__thumb-container'
                 >
-                    <img
+                    <SizeAwareImage
+                        onHeightReceived={this.handleHeightReceived}
                         src={attachment.thumb_url}
-                        {...imageDimensions}
+                        dimensions={this.props.imagesMetadata[attachment.thumb_url]}
                     />
                 </div>
             );

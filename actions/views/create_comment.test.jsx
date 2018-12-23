@@ -106,15 +106,22 @@ describe('rhs view actions', () => {
             emojis: {
                 customEmoji: {},
             },
+            general: {
+                config: {
+                    EnableCustomEmoji: 'true',
+                },
+            },
         },
         storage: {
-            [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
-                value: {
-                    message: '',
-                    fileInfos: [],
-                    uploadsInProgress: [],
+            storage: {
+                [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
+                    value: {
+                        message: '',
+                        fileInfos: [],
+                        uploadsInProgress: [],
+                    },
+                    timestamp: new Date(),
                 },
-                timestamp: new Date(),
             },
         },
     };
@@ -340,13 +347,15 @@ describe('rhs view actions', () => {
             store = mockStore({
                 ...initialState,
                 storage: {
-                    [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
-                        value: {
-                            message: 'test msg',
-                            fileInfos: [],
-                            uploadsInProgress: [],
+                    storage: {
+                        [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
+                            value: {
+                                message: 'test msg',
+                                fileInfos: [],
+                                uploadsInProgress: [],
+                            },
+                            timestamp: new Date(),
                         },
-                        timestamp: new Date(),
                     },
                 },
             });

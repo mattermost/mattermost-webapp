@@ -17,11 +17,10 @@ describe('components/SaveButton', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('button').first().text()).toBe('Save');
         expect(wrapper.find('button').first().props().disabled).toBe(false);
 
         wrapper.setProps({defaultMessage: 'Go'});
-        expect(wrapper.find('button').first().text()).toBe('Go');
+        expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, on savingMessage', () => {
@@ -31,11 +30,10 @@ describe('components/SaveButton', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('button').first().text()).toBe('Saving');
         expect(wrapper.find('button').first().props().disabled).toBe(true);
 
         wrapper.setProps({savingMessage: 'Saving Config...'});
-        expect(wrapper.find('button').first().text()).toBe('Saving Config...');
+        expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, extraClasses', () => {

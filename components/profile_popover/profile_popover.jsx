@@ -156,7 +156,7 @@ class ProfilePopover extends React.PureComponent {
         if (this.props.hide) {
             this.props.hide();
         }
-        EventEmitter.emit('mention_key_click', this.props.user.username);
+        EventEmitter.emit('mention_key_click', this.props.user.username, this.props.isRHS);
     }
 
     handleEditAccountSettings(e) {
@@ -221,7 +221,7 @@ class ProfilePopover extends React.PureComponent {
                     key='user-popover-fullname'
                 >
                     <div
-                        className='overflow--ellipsis text-nowrap padding-top'
+                        className='overflow--ellipsis text-nowrap'
                     >
                         <strong>{fullname}</strong>
                     </div>

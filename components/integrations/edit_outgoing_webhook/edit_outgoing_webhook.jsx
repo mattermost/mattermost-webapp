@@ -12,6 +12,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 const HEADER = {id: 'integrations.edit', defaultMessage: 'Edit'};
 const FOOTER = {id: 'update_outgoing_webhook.update', defaultMessage: 'Update'};
+const LOADING = {id: 'update_outgoing_webhook.updating', defaultMessage: 'Updating...'};
 
 export default class EditOutgoingWebhook extends React.PureComponent {
     static propTypes = {
@@ -174,6 +175,7 @@ export default class EditOutgoingWebhook extends React.PureComponent {
                 team={this.props.team}
                 header={HEADER}
                 footer={FOOTER}
+                loading={LOADING}
                 renderExtra={this.renderExtra()}
                 action={this.editOutgoingHook}
                 serverError={this.state.serverError}

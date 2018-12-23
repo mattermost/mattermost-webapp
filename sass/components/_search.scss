@@ -85,17 +85,12 @@
         width: 100%;
     }
 
-    .fa-spin {
+    .LoadingSpinner {
         @include opacity(0.5);
         font-size: 1em;
         position: absolute;
-        right: 27px;
-        top: 27px;
-
-        .search-bar__container & {
-            right: 7px;
-            top: 7px;
-        }
+        right: 8px;
+        top: 5px;
     }
 }
 

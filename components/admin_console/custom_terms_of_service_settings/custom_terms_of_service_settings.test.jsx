@@ -10,7 +10,7 @@ describe('components/admin_console/CustomTermsOfServiceSettings', () => {
     const baseProps = {
         actions: {
             createTermsOfService: jest.fn(),
-            getTermsOfService: jest.fn(),
+            getTermsOfService: jest.fn().mockResolvedValue({data: {id: 'tos_id', text: 'tos_text'}}),
         },
         config: {
             SupportSettings: {

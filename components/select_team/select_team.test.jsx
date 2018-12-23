@@ -17,7 +17,7 @@ jest.mock('utils/policy_roles_adapter', () => ({
 }));
 
 describe('components/select_team/SelectTeam', () => {
-    const addUserToTeamFromInvite = jest.fn();
+    const addUserToTeamFromInvite = jest.fn().mockResolvedValue({data: true});
     const baseProps = {
         currentUserRoles: 'system_admin',
         isMemberOfTeam: true,
@@ -28,6 +28,7 @@ describe('components/select_team/SelectTeam', () => {
         siteName: 'Mattermost',
         canCreateTeams: false,
         canManageSystem: true,
+        history: {push: jest.fn()},
         actions: {
             getTeams: jest.fn(),
             loadRolesIfNeeded: jest.fn(),
@@ -72,9 +73,9 @@ describe('components/select_team/SelectTeam', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match state and call addUserToTeamFromInvite on handleTeamClick', () => {
+    test('should match state and call addUserToTeamFromInvite on handleTeamClick', async () => {
         const wrapper = shallow(<SelectTeam {...baseProps}/>);
-        wrapper.instance().handleTeamClick({id: 'team_id'});
+        await wrapper.instance().handleTeamClick({id: 'team_id'});
         expect(wrapper.state('loadingTeamId')).toEqual('team_id');
         expect(addUserToTeamFromInvite).toHaveBeenCalledTimes(1);
     });

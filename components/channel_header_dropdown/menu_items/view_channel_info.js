@@ -22,6 +22,7 @@ const ViewChannelInfo = ({channel}) => {
     return (
         <li role='presentation'>
             <ToggleModalButtonRedux
+                id='channelViewInfo'
                 role='menuitem'
                 modalId={ModalIdentifiers.CHANNEL_INFO}
                 dialogType={ChannelInfoModal}

@@ -451,6 +451,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           className="btn btn-primary"
           onClick={[Function]}
           spinning={false}
+          spinningText="Loading"
           type="submit"
         >
           <FormattedMessage
@@ -921,6 +922,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           className="btn btn-primary"
           onClick={[Function]}
           spinning={false}
+          spinningText="Loading"
           type="submit"
         >
           <FormattedMessage

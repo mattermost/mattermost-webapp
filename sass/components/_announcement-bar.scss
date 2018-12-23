@@ -4,7 +4,7 @@
     background-color: darken($primary-color, 5%);
     color: $white;
     padding: 2px 30px;
-    height: $announcement-bar-height;
+    min-height: $announcement-bar-height;
     position: fixed;
     text-align: center;
     top: 0;
@@ -16,6 +16,7 @@
         padding: 1px 30px;
         text-overflow: ellipsis;
         white-space: nowrap;
+        max-height: $announcement-bar-height;
     }
 
     a {

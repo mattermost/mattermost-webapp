@@ -35,6 +35,7 @@ const DeleteChannel = ({channel, isDefault, isArchived, penultimateViewedChannel
         >
             <li role='presentation'>
                 <ToggleModalButtonRedux
+                    id='channelDelete'
                     role='menuitem'
                     modalId={ModalIdentifiers.DELETE_CHANNEL}
                     dialogType={DeleteChannelModal}

@@ -403,7 +403,14 @@ export const NotificationLevels = {
     NONE: 'none',
 };
 
+export const IgnoreChannelMentions = {
+    ON: 'on',
+    OFF: 'off',
+    DEFAULT: 'default',
+};
+
 export const NotificationSections = {
+    IGNORE_CHANNEL_MENTIONS: 'ignoreChannelMentions',
     MARK_UNREAD: 'markUnread',
     DESKTOP: 'desktop',
     PUSH: 'push',
@@ -435,6 +442,11 @@ export const GroupUnreadChannels = {
     DISABLED: 'disabled',
     DEFAULT_ON: 'default_on',
     DEFAULT_OFF: 'default_off',
+};
+
+export const SidebarChannelGroups = {
+    UNREADS: 'unreads',
+    FAVORITE: 'favorite',
 };
 
 export const PermissionsScope = {
@@ -1185,7 +1197,7 @@ export const Constants = {
     AUTOCOMPLETE_TIMEOUT: 100,
     ANIMATION_TIMEOUT: 1000,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
-    DIAGNOSTICS_SEGMENT_KEY: 'fwb7VPbFeQ7SKp3wHm1RzFUuXZudqVok',
+    DIAGNOSTICS_SEGMENT_KEY: 'placeholder_segment_key',
     TEST_ID_COUNT: 0,
     CENTER: 'center',
     RHS: 'rhs',

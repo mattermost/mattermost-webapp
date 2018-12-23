@@ -4,9 +4,8 @@ exports[`component/PDFPreview should match snapshot, loading 1`] = `
 <div
   className="view-image__loading"
 >
-  <img
-    className="loader-image"
-    src={null}
+  <LoadingBars
+    text={null}
   />
 </div>
 `;

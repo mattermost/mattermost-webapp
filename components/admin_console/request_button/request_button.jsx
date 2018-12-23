@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 
 /**
  * A button which, when clicked, performs an action and displays
@@ -224,25 +225,6 @@ export default class RequestButton extends React.Component {
             );
         }
 
-        let contents = null;
-        if (this.state.busy) {
-            let loadingText = Utils.localizeMessage('admin.requestButton.loading', ' Loading...');
-            if (this.props.loadingText) {
-                loadingText = this.props.loadingText;
-            }
-            contents = (
-                <span>
-                    <span
-                        className='fa fa-refresh icon--rotate'
-                        title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
-                    />
-                    {loadingText}
-                </span>
-            );
-        } else {
-            contents = this.props.buttonText;
-        }
-
         let widgetClassNames = 'col-sm-8';
         let label = null;
         if (this.props.label) {
@@ -267,7 +249,12 @@ export default class RequestButton extends React.Component {
                             onClick={this.handleRequest}
                             disabled={this.props.disabled}
                         >
-                            {contents}
+                            <LoadingWrapper
+                                loading={this.state.busy}
+                                text={this.props.loadingText || Utils.localizeMessage('admin.requestButton.loading', ' Loading...')}
+                            >
+                                {this.props.buttonText}
+                            </LoadingWrapper>
                         </button>
                         {this.props.alternativeActionElement}
                         {message}

@@ -28,7 +28,7 @@ export default class FileProgressPreview extends React.PureComponent {
         const {fileInfo, clientId} = this.props;
         if (fileInfo) {
             percent = fileInfo.percent;
-            const percentTxt = ` (${percent.toFixed(0)}%)`;
+            const percentTxt = percent && ` (${percent.toFixed(0)}%)`;
             const fileType = getFileTypeFromMime(fileInfo.type);
             previewImage = <div className={'file-icon ' + Utils.getIconClassName(fileType)}/>;
 
@@ -57,11 +57,13 @@ export default class FileProgressPreview extends React.PureComponent {
                             </React.Fragment>
                         )}
                     </span>
-                    <ProgressBar
-                        className='post-image__progressBar'
-                        now={percent}
-                        active={percent === 100}
-                    />
+                    {percent && (
+                        <ProgressBar
+                            className='post-image__progressBar'
+                            now={percent}
+                            active={percent === 100}
+                        />
+                    )}
                 </React.Fragment>
             );
         }

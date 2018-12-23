@@ -15,6 +15,12 @@ exports[`components/integrations/AddOAuthApp should match snapshot 1`] = `
       "id": "add_oauth_app.header",
     }
   }
+  loading={
+    Object {
+      "defaultMessage": "Saving...",
+      "id": "installed_oauth_apps.saving",
+    }
+  }
   renderExtra=""
   serverError=""
   team={

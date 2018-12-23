@@ -9,21 +9,30 @@ import SpinnerButton from 'components/spinner_button.jsx';
 describe('components/SpinnerButton', () => {
     test('should match snapshot with required props', () => {
         const wrapper = shallow(
-            <SpinnerButton spinning={false}/>
+            <SpinnerButton
+                spinning={false}
+                spinningText='Test'
+            />
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with spinning', () => {
         const wrapper = shallow(
-            <SpinnerButton spinning={true}/>
+            <SpinnerButton
+                spinning={true}
+                spinningText='Test'
+            />
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with children', () => {
         const wrapper = shallow(
-            <SpinnerButton spinning={false}>
+            <SpinnerButton
+                spinning={false}
+                spinningText='Test'
+            >
                 <span id='child1'/>
                 <span id='child2'/>
             </SpinnerButton>
@@ -38,6 +47,7 @@ describe('components/SpinnerButton', () => {
             <SpinnerButton
                 spinning={false}
                 onClick={onClick}
+                spinningText='Test'
             />
         );
 

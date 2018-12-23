@@ -11,9 +11,9 @@ import {openModal} from 'actions/views/modals';
 import InteractiveDialog from 'components/interactive_dialog';
 import store from 'stores/redux_store.jsx';
 
-import {Integrations} from 'utils/constants.jsx';
+const DEFAULT_PAGE_SIZE = 100;
 
-export function loadIncomingHooksAndProfilesForTeam(teamId, page = 0, perPage = Integrations.PAGE_SIZE) {
+export function loadIncomingHooksAndProfilesForTeam(teamId, page = 0, perPage = DEFAULT_PAGE_SIZE) {
     return async (dispatch) => {
         const {data} = await dispatch(IntegrationActions.getIncomingHooks(teamId, page, perPage));
         if (data) {
@@ -42,7 +42,7 @@ export function loadProfilesForIncomingHooks(hooks) {
     };
 }
 
-export function loadOutgoingHooksAndProfilesForTeam(teamId, page = 0, perPage = Integrations.PAGE_SIZE) {
+export function loadOutgoingHooksAndProfilesForTeam(teamId, page = 0, perPage = DEFAULT_PAGE_SIZE) {
     return async (dispatch) => {
         const {data} = await dispatch(IntegrationActions.getOutgoingHooks('', teamId, page, perPage));
         if (data) {
@@ -88,6 +88,35 @@ export function loadProfilesForCommands(commands) {
             const command = commands[i];
             if (!getUser(state, command.creator_id)) {
                 profilesToLoad[command.creator_id] = true;
+            }
+        }
+
+        const list = Object.keys(profilesToLoad);
+        if (list.length === 0) {
+            return;
+        }
+
+        dispatch(getProfilesByIds(list));
+    };
+}
+
+export function loadOAuthAppsAndProfiles(page = 0, perPage = DEFAULT_PAGE_SIZE) {
+    return async (dispatch) => {
+        const {data} = await dispatch(IntegrationActions.getOAuthApps(page, perPage));
+        if (data) {
+            dispatch(loadProfilesForOAuthApps(data));
+        }
+    };
+}
+
+export function loadProfilesForOAuthApps(apps) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const profilesToLoad = {};
+        for (let i = 0; i < apps.length; i++) {
+            const app = apps[i];
+            if (!getUser(state, app.creator_id)) {
+                profilesToLoad[app.creator_id] = true;
             }
         }
 

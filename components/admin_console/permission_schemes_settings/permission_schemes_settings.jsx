@@ -7,10 +7,12 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {t} from 'utils/i18n';
+import * as Utils from 'utils/utils';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
 
@@ -232,23 +234,21 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                         </div>}
                     {teamOverrideView}
                     {schemes.length > 0 && schemes}
-                    {!this.state.loadingMore && schemes.length === (PAGE_SIZE * (this.state.page + 1)) &&
+                    {schemes.length === (PAGE_SIZE * (this.state.page + 1)) &&
                         <button
                             className='more-schemes theme style--none color--link'
                             onClick={this.loadMoreSchemes}
+                            disabled={this.state.loadingMore}
                         >
-                            <FormattedMessage
-                                id='admin.permissions.loadMoreSchemes'
-                                defaultMessage='Load more schemes'
-                            />
-                        </button>}
-                    {this.state.loadingMore &&
-                        <button className='more-schemes theme style--none color--link'>
-                            <span className='fa fa-refresh icon--rotate'/>
-                            <FormattedMessage
-                                id='admin.permissions.loadingMoreSchemes'
-                                defaultMessage='Loading...'
-                            />
+                            <LoadingWrapper
+                                loading={this.state.loadingMore}
+                                text={Utils.localizeMessage('admin.permissions.loadingMoreSchemes', 'Loading...')}
+                            >
+                                <FormattedMessage
+                                    id='admin.permissions.loadMoreSchemes'
+                                    defaultMessage='Load more schemes'
+                                />
+                            </LoadingWrapper>
                         </button>}
                 </div>
             </div>

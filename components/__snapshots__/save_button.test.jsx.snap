@@ -7,7 +7,12 @@ exports[`components/SaveButton should match snapshot, extraClasses 1`] = `
   id="saveSetting"
   type="submit"
 >
-  Save
+  <LoadingWrapper
+    loading={false}
+    text="Saving"
+  >
+    Save
+  </LoadingWrapper>
 </button>
 `;
 
@@ -18,7 +23,28 @@ exports[`components/SaveButton should match snapshot, on defaultMessage 1`] = `
   id="saveSetting"
   type="submit"
 >
-  Save
+  <LoadingWrapper
+    loading={false}
+    text="Saving"
+  >
+    Save
+  </LoadingWrapper>
+</button>
+`;
+
+exports[`components/SaveButton should match snapshot, on defaultMessage 2`] = `
+<button
+  className="save-button btn btn-primary"
+  disabled={false}
+  id="saveSetting"
+  type="submit"
+>
+  <LoadingWrapper
+    loading={false}
+    text="Saving"
+  >
+    Go
+  </LoadingWrapper>
 </button>
 `;
 
@@ -29,12 +55,27 @@ exports[`components/SaveButton should match snapshot, on savingMessage 1`] = `
   id="saveSetting"
   type="submit"
 >
-  <span>
-    <span
-      className="fa fa-spinner icon--rotate"
-      title="Loading Icon"
-    />
-    Saving
-  </span>
+  <LoadingWrapper
+    loading={true}
+    text="Saving"
+  >
+    Save
+  </LoadingWrapper>
+</button>
+`;
+
+exports[`components/SaveButton should match snapshot, on savingMessage 2`] = `
+<button
+  className="save-button btn btn-primary"
+  disabled={true}
+  id="saveSetting"
+  type="submit"
+>
+  <LoadingWrapper
+    loading={true}
+    text="Saving Config..."
+  >
+    Save
+  </LoadingWrapper>
 </button>
 `;

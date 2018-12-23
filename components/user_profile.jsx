@@ -56,6 +56,11 @@ export default class UserProfile extends React.Component {
     render() {
         let name = '...';
         let profileImg = '';
+        let placement = 'right';
+
+        if (this.props.isRHS && !Utils.isMobile()) {
+            placement = 'left';
+        }
 
         if (this.props.user && this.props.user.id) {
             name = Utils.getDisplayNameByUserId(this.props.user.id);
@@ -74,7 +79,7 @@ export default class UserProfile extends React.Component {
             <OverlayTrigger
                 ref='overlay'
                 trigger='click'
-                placement='right'
+                placement={placement}
                 rootClose={true}
                 overlay={
                     <Pluggable>

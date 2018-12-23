@@ -10,6 +10,7 @@ import AbstractCommand from 'components/integrations/abstract_command.jsx';
 describe('components/integrations/AbstractCommand', () => {
     const header = {id: 'Header', defaultMessage: 'Header'};
     const footer = {id: 'Footer', defaultMessage: 'Footer'};
+    const loading = {id: 'Loading', defaultMessage: 'Loading'};
     const command = {
         id: 'r5tpgt4iepf45jt768jz84djic',
         display_name: 'display_name',
@@ -45,6 +46,7 @@ describe('components/integrations/AbstractCommand', () => {
         team,
         header,
         footer,
+        loading,
         renderExtra: 'renderExtra',
         serverError: '',
         initialCommand: command,

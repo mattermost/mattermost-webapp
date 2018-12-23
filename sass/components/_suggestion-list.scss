@@ -19,6 +19,9 @@
         background: #CECECF;
         font-size: 10px;
     }
+    .LoadingSpinner {
+        margin: 6px 11px;
+    }
 }
 
 .suggestion-list--top {
@@ -66,10 +69,6 @@
 
 .suggestion-list--bottom {
     position: relative;
-}
-
-.suggestion-loader {
-    margin: 6px 11px;
 }
 
 .suggestion-list__divider {

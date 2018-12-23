@@ -6,7 +6,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
 >
   <AdminHeader>
     <FormattedMessage
-      defaultMessage="Custom Terms of Service"
+      defaultMessage="Custom Terms of Service (Beta)"
       id="admin.support.termsOfServiceTitle"
       values={Object {}}
     />
@@ -66,7 +66,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
 >
   <AdminHeader>
     <FormattedMessage
-      defaultMessage="Custom Terms of Service"
+      defaultMessage="Custom Terms of Service (Beta)"
       id="admin.support.termsOfServiceTitle"
       values={Object {}}
     />
@@ -126,7 +126,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
 >
   <AdminHeader>
     <FormattedMessage
-      defaultMessage="Custom Terms of Service"
+      defaultMessage="Custom Terms of Service (Beta)"
       id="admin.support.termsOfServiceTitle"
       values={Object {}}
     />
@@ -186,7 +186,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
 >
   <AdminHeader>
     <FormattedMessage
-      defaultMessage="Custom Terms of Service"
+      defaultMessage="Custom Terms of Service (Beta)"
       id="admin.support.termsOfServiceTitle"
       values={Object {}}
     />

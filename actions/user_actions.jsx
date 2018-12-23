@@ -207,8 +207,8 @@ export async function loadProfilesForGM() {
             continue;
         }
 
-        const userIds = userIdsInChannels[channel.id] || [];
-        if (userIds.length >= Constants.MIN_USERS_IN_GM) {
+        const userIds = userIdsInChannels[channel.id] || new Set();
+        if (userIds.size >= Constants.MIN_USERS_IN_GM) {
             continue;
         }
 
@@ -309,7 +309,8 @@ function onThemeSaved(teamId, onSuccess) {
     const toDelete = [];
 
     for (const themePreference of themePreferences) {
-        if (themePreference.name === '' || themePreference.name === teamId) {
+        const name = themePreference.name;
+        if (name === '' || name === teamId) {
             continue;
         }
 
