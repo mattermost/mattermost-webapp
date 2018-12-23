@@ -69,7 +69,7 @@ export function sendDesktopNotification(post, msgProps) {
         if (post.props.override_username && config.EnablePostUsernameOverride === 'true') {
             username = '@' + post.props.override_username;
         } else if (userFromPost) {
-            if (getTeammateNameDisplaySetting(state) !== 'full_name') {
+            if (getTeammateNameDisplaySetting(state) === 'username') {
                 username = '@';
             }
             username += displayUsername(userFromPost, getTeammateNameDisplaySetting(state), false);
