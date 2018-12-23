@@ -4,8 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import MainMenu from './main_menu.jsx';
 import {Constants} from 'utils/constants.jsx';
+
+import MainMenu from './main_menu.jsx';
 
 describe('components/Menu', () => {
     const defaultProps = {
@@ -37,6 +38,12 @@ describe('components/Menu', () => {
             closeRhsMenu: jest.fn(),
         },
     };
+
+    test('should match snapshot with id', () => {
+        const props = {...defaultProps, id: 'test-id'};
+        const wrapper = shallow(<MainMenu {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
 
     test('should match snapshot with most of the thing disabled', () => {
         const wrapper = shallow(<MainMenu {...defaultProps}/>);

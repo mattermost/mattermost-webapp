@@ -1,18 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/Menu should match snapshot with most of the thing disabled 1`] = `
+exports[`components/Menu should match snapshot with id 1`] = `
 <Menu
+  id="test-id"
   mobile={false}
 >
   <MenuGroup>
     <MenuItemAction
       icon={false}
+      id="recentMentions"
       onClick={[Function]}
       show={false}
       text="Recent Mentions"
     />
     <MenuItemAction
       icon={false}
+      id="flaggedPosts"
       onClick={[Function]}
       show={false}
       text="Flagged Posts"
@@ -22,6 +25,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={false}
+      id="accountSettings"
       modalId="user_settings"
       show={true}
       text="Account Settings"
@@ -47,6 +51,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
         <MenuItemToggleModalRedux
           dialogType={[Function]}
           icon={false}
+          id="sendEmailInvite"
           modalId="email_invite"
           show={false}
           text="Send Email Invite"
@@ -62,6 +67,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       >
         <MenuItemAction
           icon={false}
+          id="getTeamInviteLink"
           onClick={[Function]}
           show={false}
           text="Get Team Invite Link"
@@ -70,6 +76,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
+        id="addUsersToTeam"
         modalId="add_user_to_team"
         show={true}
         text="Add Members to Team"
@@ -88,6 +95,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
+        id="teamSettings"
         modalId="team_settings"
         show={true}
         text="Team Settings"
@@ -96,6 +104,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={false}
+      id="manageMembers"
       modalId="team_members"
       show={true}
       text="Manage Members"
@@ -109,6 +118,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     >
       <MenuItemLink
         icon={false}
+        id="createTeam"
         show={true}
         text="Create a New Team"
         to="/create_team"
@@ -116,6 +126,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     </Connect(SystemPermissionGate)>
     <MenuItemLink
       icon={false}
+      id="joinTeam"
       show={false}
       text="Join Another Team"
       to="/select_team"
@@ -123,6 +134,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={false}
+      id="leaveTeam"
       modalId="leave_team"
       show={true}
       text="Leave Team"
@@ -141,12 +153,14 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       teamId="team-id"
     >
       <MenuItemLink
+        id="integrations"
         show={false}
         text="Integrations"
         to="/team name/integrations"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
+      id="customEmojis"
       show={false}
       text="Custom Emoji"
       to="/team name/emoji"
@@ -162,6 +176,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     >
       <MenuItemLink
         icon={false}
+        id="systemConsole"
         show={true}
         text="System Console"
         to="/admin_console"
@@ -171,23 +186,27 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
   <MenuGroup>
     <MenuItemExternalLink
       icon={false}
+      id="helpLink"
       show={false}
       text="Help"
       url={null}
     />
     <MenuItemAction
+      id="keyboardShortcuts"
       onClick={[Function]}
       show={true}
       text="Keyboard Shortcuts"
     />
     <MenuItemExternalLink
       icon={false}
+      id="reportLink"
       show={false}
       text="Report a Problem"
       url={null}
     />
     <MenuItemExternalLink
       icon={false}
+      id="nativeAppLink"
       show={null}
       text="Download Apps"
       url={null}
@@ -195,6 +214,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={false}
+      id="about"
       modalId="about"
       show={true}
       text="About Mattermost"
@@ -203,6 +223,238 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
   <MenuGroup>
     <MenuItemAction
       icon={false}
+      id="logout"
+      onClick={[Function]}
+      show={true}
+      text="Logout"
+    />
+  </MenuGroup>
+</Menu>
+`;
+
+exports[`components/Menu should match snapshot with most of the thing disabled 1`] = `
+<Menu
+  mobile={false}
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={false}
+      id="recentMentions"
+      onClick={[Function]}
+      show={false}
+      text="Recent Mentions"
+    />
+    <MenuItemAction
+      icon={false}
+      id="flaggedPosts"
+      onClick={[Function]}
+      show={false}
+      text="Flagged Posts"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      id="accountSettings"
+      modalId="user_settings"
+      show={true}
+      text="Account Settings"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "invite_user",
+          ]
+        }
+        teamId="team-id"
+      >
+        <MenuItemToggleModalRedux
+          dialogType={[Function]}
+          icon={false}
+          id="sendEmailInvite"
+          modalId="email_invite"
+          show={false}
+          text="Send Email Invite"
+        />
+      </Connect(TeamPermissionGate)>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "invite_user",
+          ]
+        }
+        teamId="team-id"
+      >
+        <MenuItemAction
+          icon={false}
+          id="getTeamInviteLink"
+          onClick={[Function]}
+          show={false}
+          text="Get Team Invite Link"
+        />
+      </Connect(TeamPermissionGate)>
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="addUsersToTeam"
+        modalId="add_user_to_team"
+        show={true}
+        text="Add Members to Team"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="teamSettings"
+        modalId="team_settings"
+        show={true}
+        text="Team Settings"
+      />
+    </Connect(TeamPermissionGate)>
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      id="manageMembers"
+      modalId="team_members"
+      show={true}
+      text="Manage Members"
+    />
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "create_team",
+        ]
+      }
+    >
+      <MenuItemLink
+        icon={false}
+        id="createTeam"
+        show={true}
+        text="Create a New Team"
+        to="/create_team"
+      />
+    </Connect(SystemPermissionGate)>
+    <MenuItemLink
+      icon={false}
+      id="joinTeam"
+      show={false}
+      text="Join Another Team"
+      to="/select_team"
+    />
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      id="leaveTeam"
+      modalId="leave_team"
+      show={true}
+      text="Leave Team"
+    />
+  </MenuGroup>
+  <MenuGroup />
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_slash_commands",
+          "manage_oauth",
+          "manage_webhooks",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemLink
+        id="integrations"
+        show={false}
+        text="Integrations"
+        to="/team name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <MenuItemLink
+      id="customEmojis"
+      show={false}
+      text="Custom Emoji"
+      to="/team name/emoji"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+    >
+      <MenuItemLink
+        icon={false}
+        id="systemConsole"
+        show={true}
+        text="System Console"
+        to="/admin_console"
+      />
+    </Connect(SystemPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemExternalLink
+      icon={false}
+      id="helpLink"
+      show={false}
+      text="Help"
+      url={null}
+    />
+    <MenuItemAction
+      id="keyboardShortcuts"
+      onClick={[Function]}
+      show={true}
+      text="Keyboard Shortcuts"
+    />
+    <MenuItemExternalLink
+      icon={false}
+      id="reportLink"
+      show={false}
+      text="Report a Problem"
+      url={null}
+    />
+    <MenuItemExternalLink
+      icon={false}
+      id="nativeAppLink"
+      show={null}
+      text="Download Apps"
+      url={null}
+    />
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      id="about"
+      modalId="about"
+      show={true}
+      text="About Mattermost"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={false}
+      id="logout"
       onClick={[Function]}
       show={true}
       text="Logout"
@@ -224,6 +476,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
           @
         </i>
       }
+      id="recentMentions"
       onClick={[Function]}
       show={true}
       text="Recent Mentions"
@@ -234,6 +487,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
           className="fa fa-flag"
         />
       }
+      id="flaggedPosts"
       onClick={[Function]}
       show={true}
       text="Flagged Posts"
@@ -247,6 +501,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
           className="fa fa-cog"
         />
       }
+      id="accountSettings"
       modalId="user_settings"
       show={true}
       text="Account Settings"
@@ -276,6 +531,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
               className="fa fa-user-plus"
             />
           }
+          id="sendEmailInvite"
           modalId="email_invite"
           show={false}
           text="Send Email Invite"
@@ -295,6 +551,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
               className="fa fa-link"
             />
           }
+          id="getTeamInviteLink"
           onClick={[Function]}
           show={false}
           text="Get Team Invite Link"
@@ -307,6 +564,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
             className="fa fa-user-plus"
           />
         }
+        id="addUsersToTeam"
         modalId="add_user_to_team"
         show={true}
         text="Add Members to Team"
@@ -329,6 +587,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
             className="fa fa-globe"
           />
         }
+        id="teamSettings"
         modalId="team_settings"
         show={true}
         text="Team Settings"
@@ -341,6 +600,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
           className="fa fa-users"
         />
       }
+      id="manageMembers"
       modalId="team_members"
       show={true}
       text="Manage Members"
@@ -358,6 +618,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
             className="fa fa-plus-square"
           />
         }
+        id="createTeam"
         show={true}
         text="Create a New Team"
         to="/create_team"
@@ -369,6 +630,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
           className="fa fa-plus-square"
         />
       }
+      id="joinTeam"
       show={false}
       text="Join Another Team"
       to="/select_team"
@@ -376,6 +638,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={<LeaveTeamIcon />}
+      id="leaveTeam"
       modalId="leave_team"
       show={true}
       text="Leave Team"
@@ -394,12 +657,14 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       teamId="team-id"
     >
       <MenuItemLink
+        id="integrations"
         show={false}
         text="Integrations"
         to="/team name/integrations"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
+      id="customEmojis"
       show={false}
       text="Custom Emoji"
       to="/team name/emoji"
@@ -419,6 +684,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
             className="fa fa-wrench"
           />
         }
+        id="systemConsole"
         show={false}
         text="System Console"
         to="/admin_console"
@@ -432,11 +698,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
           className="fa fa-question"
         />
       }
+      id="helpLink"
       show={false}
       text="Help"
       url={null}
     />
     <MenuItemAction
+      id="keyboardShortcuts"
       onClick={[Function]}
       show={false}
       text="Keyboard Shortcuts"
@@ -447,6 +715,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
           className="fa fa-phone"
         />
       }
+      id="reportLink"
       show={false}
       text="Report a Problem"
       url={null}
@@ -457,6 +726,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
           className="fa fa-mobile"
         />
       }
+      id="nativeAppLink"
       show={null}
       text="Download Apps"
       url={null}
@@ -468,6 +738,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
           className="fa fa-info"
         />
       }
+      id="about"
       modalId="about"
       show={true}
       text="About Mattermost"
@@ -480,6 +751,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
           className="fa fa-sign-out"
         />
       }
+      id="logout"
       onClick={[Function]}
       show={true}
       text="Logout"
@@ -495,12 +767,14 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
   <MenuGroup>
     <MenuItemAction
       icon={false}
+      id="recentMentions"
       onClick={[Function]}
       show={false}
       text="Recent Mentions"
     />
     <MenuItemAction
       icon={false}
+      id="flaggedPosts"
       onClick={[Function]}
       show={false}
       text="Flagged Posts"
@@ -510,6 +784,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={false}
+      id="accountSettings"
       modalId="user_settings"
       show={true}
       text="Account Settings"
@@ -535,6 +810,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
         <MenuItemToggleModalRedux
           dialogType={[Function]}
           icon={false}
+          id="sendEmailInvite"
           modalId="email_invite"
           show={true}
           text="Send Email Invite"
@@ -550,6 +826,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       >
         <MenuItemAction
           icon={false}
+          id="getTeamInviteLink"
           onClick={[Function]}
           show={true}
           text="Get Team Invite Link"
@@ -558,6 +835,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
+        id="addUsersToTeam"
         modalId="add_user_to_team"
         show={true}
         text="Add Members to Team"
@@ -576,6 +854,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
+        id="teamSettings"
         modalId="team_settings"
         show={true}
         text="Team Settings"
@@ -584,6 +863,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={false}
+      id="manageMembers"
       modalId="team_members"
       show={true}
       text="Manage Members"
@@ -597,6 +877,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     >
       <MenuItemLink
         icon={false}
+        id="createTeam"
         show={true}
         text="Create a New Team"
         to="/create_team"
@@ -604,6 +885,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     </Connect(SystemPermissionGate)>
     <MenuItemLink
       icon={false}
+      id="joinTeam"
       show={false}
       text="Join Another Team"
       to="/select_team"
@@ -611,6 +893,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={false}
+      id="leaveTeam"
       modalId="leave_team"
       show={true}
       text="Leave Team"
@@ -629,12 +912,14 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       teamId="team-id"
     >
       <MenuItemLink
+        id="integrations"
         show={true}
         text="Integrations"
         to="/team name/integrations"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
+      id="customEmojis"
       show={true}
       text="Custom Emoji"
       to="/team name/emoji"
@@ -650,6 +935,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     >
       <MenuItemLink
         icon={false}
+        id="systemConsole"
         show={true}
         text="System Console"
         to="/admin_console"
@@ -659,23 +945,27 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
   <MenuGroup>
     <MenuItemExternalLink
       icon={false}
+      id="helpLink"
       show={true}
       text="Help"
       url="test-link-help"
     />
     <MenuItemAction
+      id="keyboardShortcuts"
       onClick={[Function]}
       show={true}
       text="Keyboard Shortcuts"
     />
     <MenuItemExternalLink
       icon={false}
+      id="reportLink"
       show={true}
       text="Report a Problem"
       url="test-report-link"
     />
     <MenuItemExternalLink
       icon={false}
+      id="nativeAppLink"
       show={true}
       text="Download Apps"
       url="test"
@@ -683,6 +973,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={false}
+      id="about"
       modalId="about"
       show={true}
       text="About Mattermost"
@@ -691,6 +982,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
   <MenuGroup>
     <MenuItemAction
       icon={false}
+      id="logout"
       onClick={[Function]}
       show={true}
       text="Logout"
@@ -712,6 +1004,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
           @
         </i>
       }
+      id="recentMentions"
       onClick={[Function]}
       show={true}
       text="Recent Mentions"
@@ -722,6 +1015,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
           className="fa fa-flag"
         />
       }
+      id="flaggedPosts"
       onClick={[Function]}
       show={true}
       text="Flagged Posts"
@@ -735,6 +1029,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
           className="fa fa-cog"
         />
       }
+      id="accountSettings"
       modalId="user_settings"
       show={true}
       text="Account Settings"
@@ -764,6 +1059,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
               className="fa fa-user-plus"
             />
           }
+          id="sendEmailInvite"
           modalId="email_invite"
           show={true}
           text="Send Email Invite"
@@ -783,6 +1079,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
               className="fa fa-link"
             />
           }
+          id="getTeamInviteLink"
           onClick={[Function]}
           show={true}
           text="Get Team Invite Link"
@@ -795,6 +1092,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
             className="fa fa-user-plus"
           />
         }
+        id="addUsersToTeam"
         modalId="add_user_to_team"
         show={true}
         text="Add Members to Team"
@@ -817,6 +1115,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
             className="fa fa-globe"
           />
         }
+        id="teamSettings"
         modalId="team_settings"
         show={true}
         text="Team Settings"
@@ -829,6 +1128,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
           className="fa fa-users"
         />
       }
+      id="manageMembers"
       modalId="team_members"
       show={true}
       text="Manage Members"
@@ -846,6 +1146,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
             className="fa fa-plus-square"
           />
         }
+        id="createTeam"
         show={true}
         text="Create a New Team"
         to="/create_team"
@@ -857,6 +1158,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
           className="fa fa-plus-square"
         />
       }
+      id="joinTeam"
       show={false}
       text="Join Another Team"
       to="/select_team"
@@ -864,6 +1166,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={<LeaveTeamIcon />}
+      id="leaveTeam"
       modalId="leave_team"
       show={true}
       text="Leave Team"
@@ -882,12 +1185,14 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       teamId="team-id"
     >
       <MenuItemLink
+        id="integrations"
         show={false}
         text="Integrations"
         to="/team name/integrations"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
+      id="customEmojis"
       show={false}
       text="Custom Emoji"
       to="/team name/emoji"
@@ -907,6 +1212,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
             className="fa fa-wrench"
           />
         }
+        id="systemConsole"
         show={false}
         text="System Console"
         to="/admin_console"
@@ -920,11 +1226,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
           className="fa fa-question"
         />
       }
+      id="helpLink"
       show={true}
       text="Help"
       url="test-link-help"
     />
     <MenuItemAction
+      id="keyboardShortcuts"
       onClick={[Function]}
       show={false}
       text="Keyboard Shortcuts"
@@ -935,6 +1243,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
           className="fa fa-phone"
         />
       }
+      id="reportLink"
       show={true}
       text="Report a Problem"
       url="test-report-link"
@@ -945,6 +1254,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
           className="fa fa-mobile"
         />
       }
+      id="nativeAppLink"
       show={true}
       text="Download Apps"
       url="test"
@@ -956,6 +1266,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
           className="fa fa-info"
         />
       }
+      id="about"
       modalId="about"
       show={true}
       text="About Mattermost"
@@ -968,6 +1279,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
           className="fa fa-sign-out"
         />
       }
+      id="logout"
       onClick={[Function]}
       show={true}
       text="Logout"
@@ -983,12 +1295,14 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
   <MenuGroup>
     <MenuItemAction
       icon={false}
+      id="recentMentions"
       onClick={[Function]}
       show={false}
       text="Recent Mentions"
     />
     <MenuItemAction
       icon={false}
+      id="flaggedPosts"
       onClick={[Function]}
       show={false}
       text="Flagged Posts"
@@ -998,6 +1312,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={false}
+      id="accountSettings"
       modalId="user_settings"
       show={true}
       text="Account Settings"
@@ -1023,6 +1338,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         <MenuItemToggleModalRedux
           dialogType={[Function]}
           icon={false}
+          id="sendEmailInvite"
           modalId="email_invite"
           show={false}
           text="Send Email Invite"
@@ -1038,6 +1354,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       >
         <MenuItemAction
           icon={false}
+          id="getTeamInviteLink"
           onClick={[Function]}
           show={false}
           text="Get Team Invite Link"
@@ -1046,6 +1363,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
+        id="addUsersToTeam"
         modalId="add_user_to_team"
         show={true}
         text="Add Members to Team"
@@ -1064,6 +1382,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
+        id="teamSettings"
         modalId="team_settings"
         show={true}
         text="Team Settings"
@@ -1072,6 +1391,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={false}
+      id="manageMembers"
       modalId="team_members"
       show={true}
       text="Manage Members"
@@ -1085,6 +1405,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     >
       <MenuItemLink
         icon={false}
+        id="createTeam"
         show={true}
         text="Create a New Team"
         to="/create_team"
@@ -1092,6 +1413,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     </Connect(SystemPermissionGate)>
     <MenuItemLink
       icon={false}
+      id="joinTeam"
       show={false}
       text="Join Another Team"
       to="/select_team"
@@ -1099,6 +1421,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={false}
+      id="leaveTeam"
       modalId="leave_team"
       show={true}
       text="Leave Team"
@@ -1134,12 +1457,14 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       teamId="team-id"
     >
       <MenuItemLink
+        id="integrations"
         show={false}
         text="Integrations"
         to="/team name/integrations"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
+      id="customEmojis"
       show={false}
       text="Custom Emoji"
       to="/team name/emoji"
@@ -1155,6 +1480,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     >
       <MenuItemLink
         icon={false}
+        id="systemConsole"
         show={true}
         text="System Console"
         to="/admin_console"
@@ -1164,23 +1490,27 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
   <MenuGroup>
     <MenuItemExternalLink
       icon={false}
+      id="helpLink"
       show={false}
       text="Help"
       url={null}
     />
     <MenuItemAction
+      id="keyboardShortcuts"
       onClick={[Function]}
       show={true}
       text="Keyboard Shortcuts"
     />
     <MenuItemExternalLink
       icon={false}
+      id="reportLink"
       show={false}
       text="Report a Problem"
       url={null}
     />
     <MenuItemExternalLink
       icon={false}
+      id="nativeAppLink"
       show={null}
       text="Download Apps"
       url={null}
@@ -1188,6 +1518,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={false}
+      id="about"
       modalId="about"
       show={true}
       text="About Mattermost"
@@ -1196,6 +1527,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
   <MenuGroup>
     <MenuItemAction
       icon={false}
+      id="logout"
       onClick={[Function]}
       show={true}
       text="Logout"
@@ -1217,6 +1549,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
           @
         </i>
       }
+      id="recentMentions"
       onClick={[Function]}
       show={true}
       text="Recent Mentions"
@@ -1227,6 +1560,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
           className="fa fa-flag"
         />
       }
+      id="flaggedPosts"
       onClick={[Function]}
       show={true}
       text="Flagged Posts"
@@ -1240,6 +1574,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
           className="fa fa-cog"
         />
       }
+      id="accountSettings"
       modalId="user_settings"
       show={true}
       text="Account Settings"
@@ -1269,6 +1604,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
               className="fa fa-user-plus"
             />
           }
+          id="sendEmailInvite"
           modalId="email_invite"
           show={false}
           text="Send Email Invite"
@@ -1288,6 +1624,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
               className="fa fa-link"
             />
           }
+          id="getTeamInviteLink"
           onClick={[Function]}
           show={false}
           text="Get Team Invite Link"
@@ -1300,6 +1637,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
             className="fa fa-user-plus"
           />
         }
+        id="addUsersToTeam"
         modalId="add_user_to_team"
         show={true}
         text="Add Members to Team"
@@ -1322,6 +1660,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
             className="fa fa-globe"
           />
         }
+        id="teamSettings"
         modalId="team_settings"
         show={true}
         text="Team Settings"
@@ -1334,6 +1673,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
           className="fa fa-users"
         />
       }
+      id="manageMembers"
       modalId="team_members"
       show={true}
       text="Manage Members"
@@ -1351,6 +1691,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
             className="fa fa-plus-square"
           />
         }
+        id="createTeam"
         show={true}
         text="Create a New Team"
         to="/create_team"
@@ -1362,6 +1703,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
           className="fa fa-plus-square"
         />
       }
+      id="joinTeam"
       show={false}
       text="Join Another Team"
       to="/select_team"
@@ -1369,6 +1711,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={<LeaveTeamIcon />}
+      id="leaveTeam"
       modalId="leave_team"
       show={true}
       text="Leave Team"
@@ -1404,12 +1747,14 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       teamId="team-id"
     >
       <MenuItemLink
+        id="integrations"
         show={false}
         text="Integrations"
         to="/team name/integrations"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
+      id="customEmojis"
       show={false}
       text="Custom Emoji"
       to="/team name/emoji"
@@ -1429,6 +1774,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
             className="fa fa-wrench"
           />
         }
+        id="systemConsole"
         show={false}
         text="System Console"
         to="/admin_console"
@@ -1442,11 +1788,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
           className="fa fa-question"
         />
       }
+      id="helpLink"
       show={false}
       text="Help"
       url={null}
     />
     <MenuItemAction
+      id="keyboardShortcuts"
       onClick={[Function]}
       show={false}
       text="Keyboard Shortcuts"
@@ -1457,6 +1805,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
           className="fa fa-phone"
         />
       }
+      id="reportLink"
       show={false}
       text="Report a Problem"
       url={null}
@@ -1467,6 +1816,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
           className="fa fa-mobile"
         />
       }
+      id="nativeAppLink"
       show={null}
       text="Download Apps"
       url={null}
@@ -1478,6 +1828,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
           className="fa fa-info"
         />
       }
+      id="about"
       modalId="about"
       show={true}
       text="About Mattermost"
@@ -1490,6 +1841,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
           className="fa fa-sign-out"
         />
       }
+      id="logout"
       onClick={[Function]}
       show={true}
       text="Logout"

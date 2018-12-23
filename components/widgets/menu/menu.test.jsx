@@ -30,6 +30,22 @@ describe('components/Menu', () => {
 `);
     });
 
+    test('should match snapshot with id', () => {
+        const wrapper = shallow(<Menu id='test-id'>{'text'}</Menu>);
+
+        expect(wrapper).toMatchInlineSnapshot(`
+<ul
+  aria-labelledby="channel_header_dropdown"
+  className="Menu dropdown-menu"
+  id="test-id"
+  role="menu"
+  style={Object {}}
+>
+  text
+</ul>
+`);
+    });
+
     test('should match snapshot with openLeft and openUp when is mobile', () => {
         const utils = require('utils/utils'); //eslint-disable-line global-require
         utils.isMobile.mockReturnValue(true);

@@ -11,6 +11,7 @@ export default class Menu extends React.PureComponent {
         children: PropTypes.node,
         openLeft: PropTypes.bool,
         openUp: PropTypes.bool,
+        id: PropTypes.string,
     };
 
     constructor(props) {
@@ -27,7 +28,7 @@ export default class Menu extends React.PureComponent {
     }
 
     render() {
-        const {children, openUp, openLeft} = this.props;
+        const {children, openUp, openLeft, id} = this.props;
         const styles = {};
         if (openLeft && !isMobile()) {
             styles.left = 'inherit';
@@ -40,6 +41,7 @@ export default class Menu extends React.PureComponent {
 
         return (
             <ul
+                id={id}
                 ref={this.node}
                 className='Menu dropdown-menu'
                 style={styles}

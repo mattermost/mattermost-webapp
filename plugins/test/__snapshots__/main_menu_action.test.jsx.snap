@@ -7,12 +7,14 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
   <MenuGroup>
     <MenuItemAction
       icon={false}
+      id="recentMentions"
       onClick={[Function]}
       show={false}
       text="Recent Mentions"
     />
     <MenuItemAction
       icon={false}
+      id="flaggedPosts"
       onClick={[Function]}
       show={false}
       text="Flagged Posts"
@@ -22,6 +24,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={false}
+      id="accountSettings"
       modalId="user_settings"
       show={true}
       text="Account Settings"
@@ -47,6 +50,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         <MenuItemToggleModalRedux
           dialogType={[Function]}
           icon={false}
+          id="sendEmailInvite"
           modalId="email_invite"
           show={false}
           text="Send Email Invite"
@@ -62,6 +66,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       >
         <MenuItemAction
           icon={false}
+          id="getTeamInviteLink"
           onClick={[Function]}
           show={false}
           text="Get Team Invite Link"
@@ -70,6 +75,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
+        id="addUsersToTeam"
         modalId="add_user_to_team"
         show={true}
         text="Add Members to Team"
@@ -88,6 +94,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
+        id="teamSettings"
         modalId="team_settings"
         show={true}
         text="Team Settings"
@@ -96,6 +103,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={false}
+      id="manageMembers"
       modalId="team_members"
       show={true}
       text="Manage Members"
@@ -109,6 +117,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     >
       <MenuItemLink
         icon={false}
+        id="createTeam"
         show={true}
         text="Create a New Team"
         to="/create_team"
@@ -116,6 +125,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     </Connect(SystemPermissionGate)>
     <MenuItemLink
       icon={false}
+      id="joinTeam"
       show={true}
       text="Join Another Team"
       to="/select_team"
@@ -123,6 +133,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={false}
+      id="leaveTeam"
       modalId="leave_team"
       show={true}
       text="Leave Team"
@@ -150,12 +161,14 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       teamId="someteamid"
     >
       <MenuItemLink
+        id="integrations"
         show={true}
         text="Integrations"
         to="/somename/integrations"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
+      id="customEmojis"
       show={true}
       text="Custom Emoji"
       to="/somename/emoji"
@@ -171,6 +184,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     >
       <MenuItemLink
         icon={false}
+        id="systemConsole"
         show={true}
         text="System Console"
         to="/admin_console"
@@ -180,27 +194,32 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
   <MenuGroup>
     <MenuItemExternalLink
       icon={false}
+      id="helpLink"
       show={false}
       text="Help"
     />
     <MenuItemAction
+      id="keyboardShortcuts"
       onClick={[Function]}
       show={true}
       text="Keyboard Shortcuts"
     />
     <MenuItemExternalLink
       icon={false}
+      id="reportLink"
       show={false}
       text="Report a Problem"
     />
     <MenuItemExternalLink
       icon={false}
+      id="nativeAppLink"
       show={true}
       text="Download Apps"
     />
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={false}
+      id="about"
       modalId="about"
       show={true}
       text="About Mattermost"
@@ -209,6 +228,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
   <MenuGroup>
     <MenuItemAction
       icon={false}
+      id="logout"
       onClick={[Function]}
       show={true}
       text="Logout"
