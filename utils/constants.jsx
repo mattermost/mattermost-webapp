@@ -203,6 +203,7 @@ export const UserStatuses = {
 export const UserSearchOptions = {
     ALLOW_INACTIVE: 'allow_inactive',
     WITHOUT_TEAM: 'without_team',
+    ROLE: 'role',
 };
 
 export const SocketEvents = {

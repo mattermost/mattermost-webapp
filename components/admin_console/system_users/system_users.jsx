@@ -99,7 +99,7 @@ export default class SystemUsers extends React.Component {
     }
 
     componentDidMount() {
-        this.loadDataForTeam(this.props.teamId);
+        this.loadDataForTeam(this.props.teamId, this.props.filter);
         this.props.actions.getTeams(0, 1000).then(reloadIfServerVersionChanged);
     }
 
@@ -107,14 +107,16 @@ export default class SystemUsers extends React.Component {
         this.props.actions.setSystemUsersSearch('', '', '');
     }
 
-    loadDataForTeam = async (teamId) => {
+    loadDataForTeam = async (teamId, filter) => {
         if (this.props.searchTerm) {
-            this.search(this.props.searchTerm, teamId);
+            this.search(this.props.searchTerm, teamId, filter);
             return;
         }
 
+        const options = this.getFilterOptions(filter);
+
         if (teamId === SearchUserTeamFilter.ALL_USERS) {
-            loadProfiles(0, Constants.PROFILE_CHUNK_SIZE, this.loadComplete);
+            loadProfiles(0, Constants.PROFILE_CHUNK_SIZE, options, this.loadComplete);
             getStandardAnalytics();
         } else if (teamId === SearchUserTeamFilter.NO_TEAM) {
             loadProfilesWithoutTeam(0, Constants.PROFILE_CHUNK_SIZE, this.loadComplete);
@@ -134,13 +136,14 @@ export default class SystemUsers extends React.Component {
 
     handleTeamChange(e) {
         const teamId = e.target.value;
-        this.loadDataForTeam(teamId);
+        this.loadDataForTeam(teamId, this.props.filter);
         this.props.actions.setSystemUsersSearch(this.props.searchTerm, teamId, this.props.filter);
     }
 
     handleFilterChange(e) {
         const filter = e.target.value;
         this.props.actions.setSystemUsersSearch(this.props.searchTerm, this.props.teamId, filter);
+        this.loadDataForTeam(this.props.teamId, filter);
     }
 
     handleTermChange(term) {
@@ -151,7 +154,7 @@ export default class SystemUsers extends React.Component {
         // Paging isn't supported while searching
 
         if (this.props.teamId === SearchUserTeamFilter.ALL_USERS) {
-            loadProfiles(page + 1, USERS_PER_PAGE, this.loadComplete);
+            loadProfiles(page + 1, USERS_PER_PAGE, {}, this.loadComplete);
         } else if (this.props.teamId === SearchUserTeamFilter.NO_TEAM) {
             loadProfilesWithoutTeam(page + 1, USERS_PER_PAGE, this.loadComplete);
         } else {
@@ -162,7 +165,7 @@ export default class SystemUsers extends React.Component {
         }
     }
 
-    search(term, teamId = this.props.teamId) {
+    search(term, teamId = this.props.teamId, filter = '') {
         if (term === '') {
             this.setState({
                 loading: false,
@@ -172,17 +175,16 @@ export default class SystemUsers extends React.Component {
             return;
         }
 
-        this.doSearch(teamId, term);
+        this.doSearch(teamId, term, filter);
     }
 
-    doSearch(teamId, term, now = false) {
+    doSearch(teamId, term, filter, now = false) {
         clearTimeout(this.searchTimeoutId);
 
         this.setState({loading: true});
 
-        const options = {
-            [UserSearchOptions.ALLOW_INACTIVE]: true,
-        };
+        const options = this.getFilterOptions(filter);
+
         if (teamId === SearchUserTeamFilter.NO_TEAM) {
             options[UserSearchOptions.WITHOUT_TEAM] = true;
         }
@@ -210,6 +212,15 @@ export default class SystemUsers extends React.Component {
         );
     }
 
+    getFilterOptions(filter) {
+        const options = {};
+        if (filter === SearchUserOptionsFilter.SYSTEM_ADMIN) {
+            options[UserSearchOptions.ROLE] = SearchUserOptionsFilter.SYSTEM_ADMIN;
+        } else if (filter === SearchUserOptionsFilter.ALLOW_INACTIVE) {
+            options[SearchUserOptionsFilter.ALLOW_INACTIVE] = true;
+        }
+        return options;
+    }
     getUserById(id) {
         if (this.props.users[id]) {
             this.setState({loading: false});
@@ -320,12 +331,12 @@ export default class SystemUsers extends React.Component {
                         total={this.props.totalUsers}
                         teams={this.props.teams}
                         teamId={this.props.teamId}
+                        filter={this.props.filter}
                         term={this.props.searchTerm}
                         onTermChange={this.handleTermChange}
                         mfaEnabled={this.props.mfaEnabled}
                         enableUserAccessTokens={this.props.enableUserAccessTokens}
                         experimentalEnableAuthenticationTransfer={this.props.experimentalEnableAuthenticationTransfer}
-                        filter={this.props.filter}
                     />
                 </div>
             </div>
