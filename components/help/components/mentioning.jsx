@@ -5,27 +5,107 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {formatText} from 'utils/text_formatting.jsx';
-import {localizeMessage} from 'utils/utils.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export default function HelpMentioning() {
-    const message = [];
-    message.push(localizeMessage('help.mentioning.title', '# Mentioning Teammates\n_____'));
-    message.push(localizeMessage('help.mentioning.mentions', '## @Mentions\nUse @mentions to get the attention of specific team members.'));
-    message.push(localizeMessage('help.mentioning.username', '#### @Username\nYou can mention a teammate by using the `@` symbol plus their username to send them a mention notification.\n\nType `@` to bring up a list of team members who can be mentioned. To filter the list, type the first few letters of any username, first name, last name, or nickname. The **Up** and **Down** arrow keys can then be used to scroll through entries in the list, and pressing **ENTER** will select which user to mention. Once selected, the username will automatically replace the full name or nickname.\nThe following example sends a special mention notification to **alice** that alerts her of the channel and message where she has been mentioned. If **alice** is away from Mattermost and has [email notifications](http://docs.mattermost.com/help/getting-started/configuring-notifications.html#email-notifications) turned on, then she will receive an email alert of her mention along with the message text.'));
-    message.push('```\n' + localizeMessage('help.mentioning.usernameExample', '@alice how did your interview go with the new candidate?') + '\n```');
-    message.push('\n\n ');
-    message.push(localizeMessage('help.mentioning.usernameCont', 'If the user you mentioned does not belong to the channel, a System Message will be posted to let you know. This is a temporary message only seen by the person who triggered it. To add the mentioned user to the channel, go to the dropdown menu beside the channel name and select **Add Members**.'));
-    message.push(localizeMessage('help.mentioning.channel', '#### @Channel\nYou can mention an entire channel by typing `@channel`. All members of the channel will receive a mention notification that behaves the same way as if the members had been mentioned personally.'));
-    message.push('```\n' + localizeMessage('help.mentioning.channelExample', '@channel great work on interviews this week. I think we found some excellent potential candidates!') + '```\n');
-    message.push(localizeMessage('help.mentioning.triggers', '## Words That Trigger Mentions\nIn addition to being notified by @username and @channel, you can customize words that trigger mention notifications in **Account Settings** > **Notifications** > **Words that trigger mentions**. By default, you will receive mention notifications on your first name, and you can add more words by typing them into the input box separated by commas. This is useful if you want to be notified of all posts on certain topics, for example, "interviewing" or "marketing".'));
-    message.push(localizeMessage('help.mentioning.recent', '## Recent Mentions\nClick `@` next to the search box to query for your most recent @mentions and words that trigger mentions. Click **Jump** next to a search result in the RHS to jump the center pane to the channel and location of the message with the mention.'));
-
     return (
         <div>
-            <span
-                dangerouslySetInnerHTML={{__html: formatText(message.join('\n\n'))}}
-            />
+            <h1 className='markdown__heading'>
+                <FormattedMessage
+                    id='help.mentioning.title'
+                    defaultMessage='Mentioning Teammates'
+                />
+            </h1>
+            <hr/>
+            <h2 className='markdown__heading'>
+                <FormattedMessage
+                    id='help.mentioning.mentions.title'
+                    defaultMessage='@Mentions'
+                />
+            </h2>
+            <p>
+                <FormattedMessage
+                    id='help.mentioning.mentions.description'
+                    defaultMessage='Use @mentions to get the attention of specific team members.'
+                />
+            </p>
+            <h4 className='markdown__heading'>
+                <FormattedMessage
+                    id='help.mentioning.username.title'
+                    defaultMessage='@Username'
+                />
+            </h4>
+            <p>
+                <FormattedMarkdownMessage
+                    id='help.mentioning.username.description1'
+                    defaultMessage='You can mention a teammate by using the `@` symbol plus their username to send them a mention notification.'
+                />
+            </p>
+            <p>
+                <FormattedMarkdownMessage
+                    id='help.mentioning.username.description2'
+                    defaultMessage='Type `@` to bring up a list of team members who can be mentioned. To filter the list, type the first few letters of any username, first name, last name, or nickname. The **Up** and **Down** arrow keys can then be used to scroll through entries in the list, and pressing **ENTER** will select which user to mention. Once selected, the username will automatically replace the full name or nickname. The following example sends a special mention notification to **alice** that alerts her of the channel and message where she has been mentioned. If **alice** is away from Mattermost and has [email notifications](!http://docs.mattermost.com/help/getting-started/configuring-notifications.html#email-notifications) turned on, then she will receive an email alert of her mention along with the message text.'
+                />
+            </p>
+            <div className='post-code post-code--wrap'>
+                <code className='hljs'>
+                    <FormattedMessage
+                        id='help.mentioning.usernameExample'
+                        defaultMessage='@alice how did your interview go with the new candidate?'
+                    />
+                </code>
+            </div>
+            <p/>
+            <p>
+                <FormattedMarkdownMessage
+                    id='help.mentioning.usernameCont'
+                    defaultMessage='If the user you mentioned does not belong to the channel, a System Message will be posted to let you know. This is a temporary message only seen by the person who triggered it. To add the mentioned user to the channel, go to the dropdown menu beside the channel name and select **Add Members**.'
+                />
+            </p>
+            <h4 className='markdown__heading'>
+                <FormattedMessage
+                    id='help.mentioning.channel.title'
+                    defaultMessage='@Channel'
+                />
+            </h4>
+            <p>
+                <FormattedMarkdownMessage
+                    id='help.mentioning.channel.description'
+                    defaultMessage='You can mention an entire channel by typing `@channel`. All members of the channel will receive a mention notification that behaves the same way as if the members had been mentioned personally.'
+                />
+            </p>
+            <div className='post-code post-code--wrap'>
+                <code className='hljs'>
+                    <FormattedMessage
+                        id='help.mentioning.channelExample'
+                        defaultMessage='@channel great work on interviews this week. I think we found some excellent potential candidates!'
+                    />
+                </code>
+            </div>
+            <h2 className='markdown__heading'>
+                <FormattedMessage
+                    id='help.mentioning.triggers.title'
+                    defaultMessage='Words That Trigger Mentions'
+                />
+            </h2>
+            <p>
+                <FormattedMarkdownMessage
+                    id='help.mentioning.triggers.description'
+                    defaultMessage='In addition to being notified by @username and @channel, you can customize words that trigger mention notifications in **Account Settings** > **Notifications** > **Words that trigger mentions**. By default, you will receive mention notifications on your first name, and you can add more words by typing them into the input box separated by commas. This is useful if you want to be notified of all posts on certain topics, for example, "interviewing" or "marketing".'
+                />
+            </p>
+            <h2 className='markdown__heading'>
+                <FormattedMessage
+                    id='help.mentioning.recent.title'
+                    defaultMessage='Recent Mentions'
+                />
+            </h2>
+            <p>
+                <FormattedMarkdownMessage
+                    id='help.mentioning.recent.description'
+                    defaultMessage='Click `@` next to the search box to query for your most recent @mentions and words that trigger mentions. Click **Jump** next to a search result in the right-hand sidebar to jump the center pane to the channel and location of the message with the mention.'
+                />
+            </p>
             <p className='links'>
                 <FormattedMessage
                     id='help.learnMore'
