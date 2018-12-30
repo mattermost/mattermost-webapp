@@ -333,7 +333,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           type="backstage"
         />
         <Link
-          className="btn btn-sm"
+          className="btn btn-link btn-sm"
           replace={false}
           to="/test/integrations/outgoing_webhooks"
         >

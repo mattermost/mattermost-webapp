@@ -103,7 +103,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-default"
+      className="btn btn-link"
       onClick={[Function]}
       type="button"
     >
@@ -209,7 +209,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-default"
+      className="btn btn-link"
       onClick={[Function]}
       type="button"
     >
@@ -337,7 +337,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-default"
+      className="btn btn-link"
       onClick={[Function]}
       type="button"
     >
@@ -471,7 +471,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
     componentClass="div"
   >
     <button
-      className="btn btn-default"
+      className="btn btn-link"
       onClick={[Function]}
       type="button"
     >

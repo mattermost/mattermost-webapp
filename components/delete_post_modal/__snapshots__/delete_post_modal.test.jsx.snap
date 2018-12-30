@@ -77,7 +77,7 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
     componentClass="div"
   >
     <button
-      className="btn btn-default"
+      className="btn btn-link"
       onClick={[Function]}
       type="button"
     >
@@ -189,7 +189,7 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
     componentClass="div"
   >
     <button
-      className="btn btn-default"
+      className="btn btn-link"
       onClick={[Function]}
       type="button"
     >

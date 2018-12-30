@@ -348,7 +348,7 @@ export default class AbstractIncomingWebhook extends React.Component {
                                 errors={[this.props.serverError, this.state.clientError]}
                             />
                             <Link
-                                className='btn btn-sm'
+                                className='btn btn-link btn-sm'
                                 to={`/${this.props.team.name}/integrations/incoming_webhooks`}
                             >
                                 <FormattedMessage

@@ -151,11 +151,6 @@
 
     .btn {
         font-size: 13px;
-
-        &.btn-default {
-            background: transparent;
-            border: none;
-        }
     }
 
     .info__label {
@@ -211,7 +206,7 @@
     .modal-header {
         @include border-radius(0);
         @include clearfix;
-        background: $primary-color;
+        background: alpha-color($black, .85);
         border: 1px solid $light-gray;
         color: $white;
         min-height: 56px;

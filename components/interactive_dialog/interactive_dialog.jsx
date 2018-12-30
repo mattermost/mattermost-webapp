@@ -188,7 +188,7 @@ export default class InteractiveDialog extends React.Component {
                 <Modal.Footer>
                     <button
                         type='button'
-                        className='btn btn-default cancel-button'
+                        className='btn btn-link cancel-button'
                         onClick={this.onHide}
                     >
                         <FormattedMessage

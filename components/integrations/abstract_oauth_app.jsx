@@ -437,7 +437,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
                                 errors={[this.props.serverError, this.state.clientError]}
                             />
                             <Link
-                                className='btn btn-sm'
+                                className='btn btn-link btn-sm'
                                 to={`/${this.props.team.name}/integrations/oauth2-apps`}
                             >
                                 <FormattedMessage
