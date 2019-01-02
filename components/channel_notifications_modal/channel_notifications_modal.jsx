@@ -57,17 +57,22 @@ export default class ChannelNotificationsModal extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        const channelNotifyProps = props.channelMember && props.channelMember.notify_props;
+
         this.state = {
             show: true,
             activeSection: NotificationSections.NONE,
             serverError: null,
-            ...this.getStateFromNotifyProps(props.channelMember.notify_props, props.currentUser.notify_props),
+            ...this.getStateFromNotifyProps(channelNotifyProps, props.currentUser.notify_props),
         };
     }
 
     componentDidUpdate(prevProps) {
-        if (!Utils.areObjectsEqual(this.props.channelMember.notify_props, prevProps.channelMember.notify_props)) {
-            this.resetStateFromNotifyProps(this.props.channelMember.notify_props, this.props.currentUser.notify_props);
+        const prevChannelNotifyProps = prevProps.channelMember && prevProps.channelMember.notify_props;
+        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
+
+        if (!Utils.areObjectsEqual(channelNotifyProps, prevChannelNotifyProps)) {
+            this.resetStateFromNotifyProps(channelNotifyProps, this.props.currentUser.notify_props);
         }
     }
 
@@ -114,7 +119,8 @@ export default class ChannelNotificationsModal extends React.PureComponent {
         this.setState({activeSection: section});
 
         if (section === NotificationSections.NONE) {
-            this.resetStateFromNotifyProps(this.props.channelMember.notify_props, this.props.currentUser.notify_props);
+            const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
+            this.resetStateFromNotifyProps(channelNotifyProps, this.props.currentUser.notify_props);
         }
     }
 
@@ -134,10 +140,10 @@ export default class ChannelNotificationsModal extends React.PureComponent {
     }
 
     handleSubmitDesktopNotifyLevel = () => {
-        const {channelMember} = this.props;
+        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
         const {desktopNotifyLevel} = this.state;
 
-        if (channelMember.notify_props.desktop === desktopNotifyLevel) {
+        if (channelNotifyProps.desktop === desktopNotifyLevel) {
             this.updateSection(NotificationSections.NONE);
             return;
         }
@@ -151,10 +157,10 @@ export default class ChannelNotificationsModal extends React.PureComponent {
     }
 
     handleSubmitMarkUnreadLevel = () => {
-        const {channelMember} = this.props;
+        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
         const {markUnreadNotifyLevel} = this.state;
 
-        if (channelMember.notify_props.mark_unread === markUnreadNotifyLevel) {
+        if (channelNotifyProps.mark_unread === markUnreadNotifyLevel) {
             this.updateSection(NotificationSections.NONE);
             return;
         }
@@ -168,9 +174,10 @@ export default class ChannelNotificationsModal extends React.PureComponent {
     }
 
     handleSubmitPushNotificationLevel = () => {
+        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
         const {pushNotifyLevel} = this.state;
 
-        if (this.props.channelMember.notify_props.push === pushNotifyLevel) {
+        if (channelNotifyProps.push === pushNotifyLevel) {
             this.updateSection(NotificationSections.NONE);
             return;
         }
@@ -188,10 +195,10 @@ export default class ChannelNotificationsModal extends React.PureComponent {
     }
 
     handleSubmitIgnoreChannelMentions = () => {
-        const {channelMember} = this.props;
+        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
         const {ignoreChannelMentions} = this.state;
 
-        if (channelMember.notify_props.ignore_channel_mentions === ignoreChannelMentions) {
+        if (channelNotifyProps.ignore_channel_mentions === ignoreChannelMentions) {
             this.updateSection('');
             return;
         }
