@@ -22,7 +22,7 @@ export default class TeamMembersDropdown extends React.Component {
             getTeamStats: PropTypes.func.isRequired,
             getChannelStats: PropTypes.func.isRequired,
             updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
-            removeUserFromTeam: PropTypes.func.isRequired,
+            removeUserFromTeamAndGetStats: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -55,7 +55,7 @@ export default class TeamMembersDropdown extends React.Component {
     }
 
     handleRemoveFromTeam = async () => {
-        const {error} = await this.props.actions.removeUserFromTeam(this.props.teamMember.team_id, this.props.user.id);
+        const {error} = await this.props.actions.removeUserFromTeamAndGetStats(this.props.teamMember.team_id, this.props.user.id);
         if (error) {
             this.setState({serverError: error.message});
         }
