@@ -262,7 +262,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
         componentClass="div"
       >
         <button
-          className="btn btn-default"
+          className="btn btn-link"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -554,7 +554,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
         componentClass="div"
       >
         <button
-          className="btn btn-default"
+          className="btn btn-link"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -886,7 +886,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
         componentClass="div"
       >
         <button
-          className="btn btn-default"
+          className="btn btn-link"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -1218,7 +1218,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
         componentClass="div"
       >
         <button
-          className="btn btn-default"
+          className="btn btn-link"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -1560,7 +1560,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
         componentClass="div"
       >
         <button
-          className="btn btn-default"
+          className="btn btn-link"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -1905,7 +1905,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
         componentClass="div"
       >
         <button
-          className="btn btn-default"
+          className="btn btn-link"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -2237,7 +2237,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
         componentClass="div"
       >
         <button
-          className="btn btn-default"
+          className="btn btn-link"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"

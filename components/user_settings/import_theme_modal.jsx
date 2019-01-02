@@ -187,7 +187,7 @@ export default class ImportThemeModal extends React.Component {
                             <button
                                 id='cancelButton'
                                 type='button'
-                                className='btn btn-default'
+                                className='btn btn-link'
                                 onClick={this.handleOnHide}
                             >
                                 <FormattedMessage

@@ -426,7 +426,7 @@ export default class NewChannelModal extends React.PureComponent {
                         <Modal.Footer>
                             <button
                                 type='button'
-                                className='btn btn-default'
+                                className='btn btn-link'
                                 onClick={this.props.onModalDismissed}
                                 tabIndex='8'
                                 onBlur={() => document.getElementById(`${inputPrefixId}Name`).focus()}

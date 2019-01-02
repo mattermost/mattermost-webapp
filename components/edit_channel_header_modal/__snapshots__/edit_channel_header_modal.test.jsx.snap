@@ -76,7 +76,7 @@ exports[`components/EditChannelHeaderModal edit dirrect message channel 1`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-default cancel-button"
+      className="btn btn-link cancel-button"
       onClick={[Function]}
       type="button"
     >
@@ -192,7 +192,7 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-default cancel-button"
+      className="btn btn-link cancel-button"
       onClick={[Function]}
       type="button"
     >
@@ -308,7 +308,7 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-default cancel-button"
+      className="btn btn-link cancel-button"
       onClick={[Function]}
       type="button"
     >
@@ -414,7 +414,7 @@ exports[`components/EditChannelHeaderModal hide error message on new request 1`]
     componentClass="div"
   >
     <button
-      className="btn btn-default cancel-button"
+      className="btn btn-link cancel-button"
       onClick={[Function]}
       type="button"
     >
@@ -520,7 +520,7 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-default cancel-button"
+      className="btn btn-link cancel-button"
       onClick={[Function]}
       type="button"
     >
@@ -626,7 +626,7 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-default cancel-button"
+      className="btn btn-link cancel-button"
       onClick={[Function]}
       type="button"
     >

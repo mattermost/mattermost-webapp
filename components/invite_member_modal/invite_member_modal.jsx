@@ -480,7 +480,7 @@ class InviteMemberModal extends React.PureComponent {
                         <Modal.Footer>
                             <button
                                 type='button'
-                                className='btn btn-default'
+                                className='btn btn-link'
                                 onClick={this.handleHide.bind(this, true)}
                                 disabled={this.state.isSendingEmails}
                             >

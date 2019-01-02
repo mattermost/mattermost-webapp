@@ -326,7 +326,7 @@ export default class SettingPicture extends Component {
                                 </LoadingWrapper>
                             </a>
                             <a
-                                className='btn btn-sm theme'
+                                className='btn btn-link btn-sm theme'
                                 href='#'
                                 onClick={this.handleCancel}
                             >

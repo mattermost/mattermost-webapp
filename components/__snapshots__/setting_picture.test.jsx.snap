@@ -85,7 +85,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           </LoadingWrapper>
         </a>
         <a
-          className="btn btn-sm theme"
+          className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
         >
@@ -175,7 +175,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           </LoadingWrapper>
         </a>
         <a
-          className="btn btn-sm theme"
+          className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
         >
@@ -276,7 +276,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
           </LoadingWrapper>
         </a>
         <a
-          className="btn btn-sm theme"
+          className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
         >
@@ -389,7 +389,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
           </LoadingWrapper>
         </a>
         <a
-          className="btn btn-sm theme"
+          className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
         >
@@ -490,7 +490,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
           </LoadingWrapper>
         </a>
         <a
-          className="btn btn-sm theme"
+          className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
         >
@@ -598,7 +598,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
           </LoadingWrapper>
         </a>
         <a
-          className="btn btn-sm theme"
+          className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
         >
@@ -735,7 +735,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
           </LoadingWrapper>
         </a>
         <a
-          className="btn btn-sm theme"
+          className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
         >
@@ -877,7 +877,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
           </LoadingWrapper>
         </a>
         <a
-          className="btn btn-sm theme"
+          className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
         >
