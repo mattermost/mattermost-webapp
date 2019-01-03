@@ -15,6 +15,7 @@ describe('components/delete_post_modal', () => {
         message: 'test',
         channel_id: '5',
         type: '',
+        root_id: '',
     };
 
     const baseProps = {
@@ -37,6 +38,25 @@ describe('components/delete_post_modal', () => {
     test('should match snapshot for delete_post_modal with 1 comment', () => {
         const commentCount = 1;
         const props = {...baseProps, commentCount};
+        const wrapper = shallow(
+            <DeletePostModal {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot for post with 1 commentCount and is not rootPost', () => {
+        const commentCount = 1;
+        const postObj = {
+            ...post,
+            root_id: '1234',
+        };
+
+        const props = {
+            ...baseProps,
+            commentCount,
+            post: postObj,
+        };
+
         const wrapper = shallow(
             <DeletePostModal {...props}/>
         );
