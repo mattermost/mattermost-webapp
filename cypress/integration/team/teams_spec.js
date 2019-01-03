@@ -18,18 +18,28 @@ describe('Teams Suite', () => {
         // * check the team name
         cy.get('#headerTeamName').should('contain', 'eligendi');
 
+        // * check the initialUrl
+        cy.url().should('include', '/ad-1/channels/town-square');
+
         // 2. open the drop down menu
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
 
         // 3. click the leave team
         cy.get('#sidebarDropdownMenu #leaveTeam').should('be.visible').click();
 
+        // * Check that the "leave team modal" opened up
+        cy.get('#leaveTeamModal').should('be.visible');
+
         // 4. click on no
-        cy.get('.modal-content .modal-footer .btn-default').should('be.visible');
-        cy.get('.modal-content .modal-footer .btn-default').should('contain', 'No');
-        cy.get('.modal-content .modal-footer .btn-default').click();
+        cy.get('#leaveTeamNo').click();
+
+        // * Check that the "leave team modal" closed
+        cy.get('#leaveTeamModal').should('not.be.visible');
 
         // * check the team name
         cy.get('#headerTeamName').should('contain', 'eligendi');
+
+        // * check the finalUrl
+        cy.url().should('include', '/ad-1/channels/town-square');
     });
 });
