@@ -58,8 +58,6 @@ export default class UserProfile extends React.Component {
         let profileImg = '';
         let placement = 'right';
 
-        console.log(this.props.isRHS);
-
         if (this.props.isRHS && !Utils.isMobile()) {
             placement = 'left';
         }
