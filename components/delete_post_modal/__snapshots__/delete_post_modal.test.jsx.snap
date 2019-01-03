@@ -292,7 +292,7 @@ exports[`components/delete_post_modal should match snapshot for post with 1 comm
     componentClass="div"
   >
     <button
-      className="btn btn-default"
+      className="btn btn-link"
       onClick={[Function]}
       type="button"
     >
