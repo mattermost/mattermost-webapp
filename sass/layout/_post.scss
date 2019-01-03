@@ -711,7 +711,7 @@
 .post {
     @include legacy-pie-clearfix;
     max-width: 100%;
-    padding: 8px .5em 0 1em;
+    padding: 8px .5em 0 1.5em;
     position: relative;
     word-wrap: break-word;
 
@@ -1134,7 +1134,7 @@
 
     &.same--root {
         &.same--user {
-            padding: 0 .5em 0 1em;
+            padding: 0 .5em 0 1.5em;
 
             &:hover,
             &.post--hovered {
