@@ -83,7 +83,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               <UserProfile
                 disablePopover={false}
                 hasMention={false}
-                isRHS={false}
+                isRHS={true}
                 overwriteImage=""
                 overwriteName=""
                 status="hello"
@@ -314,7 +314,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
               <UserProfile
                 disablePopover={false}
                 hasMention={false}
-                isRHS={false}
+                isRHS={true}
                 overwriteImage=""
                 overwriteName=""
                 status="hello"
@@ -536,7 +536,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               <UserProfile
                 disablePopover={false}
                 hasMention={false}
-                isRHS={false}
+                isRHS={true}
                 overwriteImage=""
                 overwriteName=""
                 status="hello"
@@ -766,7 +766,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
               <UserProfile
                 disablePopover={true}
                 hasMention={false}
-                isRHS={false}
+                isRHS={true}
                 overwriteImage=""
                 overwriteName="overridden_username"
                 status="hello"
