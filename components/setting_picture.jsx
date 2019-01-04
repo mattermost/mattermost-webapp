@@ -89,7 +89,7 @@ export default class SettingPicture extends Component {
     }
 
     handleFileChange = (e) => {
-        this.setState({removeSrc: false});
+        this.setState({removeSrc: false, setDefaultSrc: false});
         this.props.onFileChange(e);
     }
 
