@@ -27,6 +27,8 @@ describe('components/dot_menu/DotMenu', () => {
     const baseProps = {
         post: {id: 'post_id_1', is_pinned: false},
         location: 'CENTER',
+        isLicensed: false,
+        postEditTimeLimit: '-1',
         handleCommentClick: jest.fn(),
         handleDropdownOpened: jest.fn(),
         actions: {

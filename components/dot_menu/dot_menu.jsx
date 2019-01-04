@@ -9,7 +9,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {showGetPostLinkModal} from 'actions/global_actions.jsx';
 
-import {ModalIdentifiers} from 'utils/constants.jsx';
+import {ModalIdentifiers, UNSET_POST_EDIT_TIME_LIMIT} from 'utils/constants.jsx';
 import DeletePostModal from 'components/delete_post_modal';
 import DelayedAction from 'utils/delayed_action.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -30,6 +30,8 @@ class DotMenu extends Component {
         handleDropdownOpened: PropTypes.func,
         isReadOnly: PropTypes.bool,
         pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
+        isLicensed: PropTypes.bool.isRequired,
+        postEditTimeLimit: PropTypes.string.isRequired,
         intl: intlShape.isRequired,
 
         actions: PropTypes.shape({
@@ -80,15 +82,37 @@ class DotMenu extends Component {
         this.editDisableAction = new DelayedAction(this.handleEditDisable);
 
         this.state = {
-            canDelete: PostUtils.canDeletePost(props.post),
-            canEdit: PostUtils.canEditPost(props.post, this.editDisableAction),
+            openUp: false,
         };
         this.dotMenuId = props.location + '_dropdown_' + props.post.id;
     }
 
+    disableCanEditPostByTime() {
+        const {post, isLicensed, postEditTimeLimit} = this.props;
+        const canEdit = PostUtils.canEditPost(post);
+
+        if (canEdit && isLicensed) {
+            if (String(postEditTimeLimit) !== String(UNSET_POST_EDIT_TIME_LIMIT)) {
+                const milliseconds = 1000;
+                const timeLeft = (post.create_at + (postEditTimeLimit * milliseconds)) - Utils.getTimestamp();
+                if (timeLeft > 0) {
+                    this.editDisableAction.fireAfter(timeLeft + milliseconds);
+                }
+            }
+        }
+    }
+
     componentDidMount() {
+        this.disableCanEditPostByTime();
         $('#' + this.dotMenuId).on('shown.bs.dropdown', this.handleDropdownOpened);
         $('#' + this.dotMenuId).on('hidden.bs.dropdown', () => this.props.handleDropdownOpened(false));
+    }
+
+    static getDerivedStateFromProps(props) {
+        return {
+            canDelete: PostUtils.canDeletePost(props.post),
+            canEdit: PostUtils.canEditPost(props.post),
+        };
     }
 
     componentWillUnmount() {
@@ -168,8 +192,6 @@ class DotMenu extends Component {
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
-        const canDelete = PostUtils.canDeletePost(this.props.post);
-        const canEdit = PostUtils.canEditPost(this.props.post, this.editDisableAction); // Fix this crazy
 
         const menuItems = [];
 
@@ -241,7 +263,7 @@ class DotMenu extends Component {
             }
         }
 
-        if (canDelete) {
+        if (this.state.canDelete) {
             menuItems.push(
                 <DotMenuItem
                     key={'delete'}
@@ -256,7 +278,7 @@ class DotMenu extends Component {
             );
         }
 
-        if (canEdit) {
+        if (this.state.canEdit) {
             menuItems.push(
                 <DotMenuItem
                     key={'edit'}
