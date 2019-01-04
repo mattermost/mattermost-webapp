@@ -55,7 +55,7 @@ const ViewAndManageMembers = ({channel, isDefault}) => {
                             channelId={channel.id}
                             teamId={channel.team_id}
                             permissions={[permission]}
-                            invert={!isDefault}
+                            invert={true}
                         >
                             {viewMembersMessage}
                         </ChannelPermissionGate>
