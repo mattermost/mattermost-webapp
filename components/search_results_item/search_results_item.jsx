@@ -341,6 +341,7 @@ export default class SearchResultsItem extends React.PureComponent {
                                             overwriteName={overrideUsername}
                                             disablePopover={disableProfilePopover}
                                             status={this.props.status}
+                                            isRHS={true}
                                         />
                                     </strong>
                                 </div>
