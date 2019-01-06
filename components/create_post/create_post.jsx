@@ -580,13 +580,17 @@ export default class CreatePost extends React.Component {
     }
 
     handleChange = (e) => {
-        const message = e.target.value;
+        let message = e.target.value;
         const channelId = this.props.currentChannel.id;
         const enableSendButton = this.handleEnableSendButton(message, this.props.draft.fileInfos);
 
         let serverError = this.state.serverError;
         if (isErrorInvalidSlashCommand(serverError)) {
             serverError = null;
+        }
+        
+        if (this.hasTable(message)) {
+            message = this.formatMarkdownTable(message);
         }
 
         this.setState({
@@ -602,6 +606,29 @@ export default class CreatePost extends React.Component {
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
         this.draftsForChannel[channelId] = draft;
+    }
+
+    hasTable(message) {
+        // Has more than one tab and more than one line
+        return message.split('\t').length > 1 && message.split('\n').length > 1;
+    }
+
+    formatMarkdownTable = (message) => {
+        const rows = message.split('\n').map((row) => {
+            return row.split('\t');
+        });
+
+        const headerSeperator = `| ${rows[0].map(() => '--').join('|')} |`;
+
+        const markdownRows = rows.map((row, rowIndex) => {
+            const formattedRow = `| ${row.map((column) => column).join('|')} |`;
+
+            return (rowIndex === 1)
+                ? `${headerSeperator} \n ${formattedRow}`
+                : formattedRow;
+        });
+
+        return markdownRows.join('\n');
     }
 
     handleFileUploadChange = () => {
