@@ -12,11 +12,12 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import AnnouncementBar from 'components/announcement_bar';
 import LoadingScreen from 'components/loading_screen.jsx';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
+import LogoutIcon from 'components/icon/logout_icon';
+import WarningIcon from 'components/icon/warning_icon';
 
 import {browserHistory} from 'utils/browser_history';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import {formatText} from 'utils/text_formatting.jsx';
-import * as Utils from 'utils/utils.jsx';
 import {Constants} from 'utils/constants.jsx';
 
 export default class TermsOfService extends React.PureComponent {
@@ -144,10 +145,7 @@ export default class TermsOfService extends React.PureComponent {
                         href='#'
                         onClick={this.handleLogoutClick}
                     >
-                        <span
-                            className='fa fa-chevron-left'
-                            title={Utils.localizeMessage('generic_icons.logout', 'Logout Icon')}
-                        />
+                        <LogoutIcon/>
                         <FormattedMessage
                             id='web.header.logout'
                             defaultMessage='Logout'
@@ -192,10 +190,7 @@ export default class TermsOfService extends React.PureComponent {
                             </ButtonGroup>
                             {Boolean(this.state.serverError) && (
                                 <div className='terms-of-service__server-error alert alert-warning'>
-                                    <i
-                                        className='fa fa-exclamation-triangle'
-                                        title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
-                                    />
+                                    <WarningIcon/>
                                     {' '}
                                     {this.state.serverError}
                                 </div>

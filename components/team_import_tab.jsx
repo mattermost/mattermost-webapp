@@ -10,7 +10,10 @@ import {t} from 'utils/i18n';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
 
-import SettingUpload from './setting_upload.jsx';
+import BackIcon from 'components/icon/back_icon';
+import SettingUpload from 'components/setting_upload.jsx';
+import SuccessIcon from 'components/icon/success_icon';
+import WarningIcon from 'components/icon/warning_icon';
 
 const holders = defineMessages({
     importSlack: {
@@ -159,10 +162,7 @@ class TeamImportTab extends React.Component {
         case 'done':
             messageSection = (
                 <p className='confirm-import alert alert-success'>
-                    <i
-                        className='fa fa-check'
-                        title={utils.localizeMessage('generic_icons.success', 'Success Icon')}
-                    />
+                    <SuccessIcon/>
                     <FormattedMessage
                         id='team_import_tab.successful'
                         defaultMessage=' Import successful: '
@@ -182,10 +182,7 @@ class TeamImportTab extends React.Component {
         case 'fail':
             messageSection = (
                 <p className='confirm-import alert alert-warning'>
-                    <i
-                        className='fa fa-warning'
-                        title={utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
-                    />
+                    <WarningIcon/>
                     <FormattedMessage
                         id='team_import_tab.failure'
                         defaultMessage=' Import failure: '
@@ -221,11 +218,9 @@ class TeamImportTab extends React.Component {
                         ref='title'
                     >
                         <div className='modal-back'>
-                            <i
-                                className='fa fa-angle-left'
-                                onClick={this.props.collapseModal}
-                                title={utils.localizeMessage('generic_icons.back', 'Back Icon')}
-                            />
+                            <span onClick={this.props.collapseModal}>
+                                <BackIcon/>
+                            </span>
                         </div>
                         <FormattedMessage
                             id='team_import_tab.import'

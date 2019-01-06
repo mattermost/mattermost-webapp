@@ -228,7 +228,7 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
     components={Object {}}
     theme={Object {}}
   >
-    <Connect(ProfilePopover)
+    <Connect(InjectIntl(ProfilePopover))
       src="src"
       theme={Object {}}
       user={
@@ -238,7 +238,7 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
         }
       }
     >
-      <ProfilePopover
+      <InjectIntl(ProfilePopover)
         actions={
           Object {
             "getMembershipForCurrentEntities": [Function],
@@ -249,9 +249,7 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
         currentTeamId="someTeamId"
         currentUserId="someUserId"
         enableTimezone={false}
-        hasMention={false}
         isChannelAdmin={false}
-        isRHS={false}
         isTeamAdmin={false}
         src="src"
         teamUrl="/someTeamName"
@@ -263,47 +261,64 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
           }
         }
       >
-        <Popover
-          bsClass="popover"
-          id="user-profile-popover"
-          placement="right"
+        <ProfilePopover
+          actions={
+            Object {
+              "getMembershipForCurrentEntities": [Function],
+              "openDirectChannelToUserId": [Function],
+              "openModal": [Function],
+            }
+          }
+          currentTeamId="someTeamId"
+          currentUserId="someUserId"
+          enableTimezone={false}
+          hasMention={false}
+          intl={
+            Object {
+              "defaultFormats": Object {},
+              "defaultLocale": "en",
+              "formatDate": [Function],
+              "formatHTMLMessage": [Function],
+              "formatMessage": [Function],
+              "formatNumber": [Function],
+              "formatPlural": [Function],
+              "formatRelative": [Function],
+              "formatTime": [Function],
+              "formats": Object {},
+              "formatters": Object {
+                "getDateTimeFormat": [Function],
+                "getMessageFormat": [Function],
+                "getNumberFormat": [Function],
+                "getPluralFormat": [Function],
+                "getRelativeFormat": [Function],
+              },
+              "locale": "en",
+              "messages": Object {},
+              "now": [Function],
+              "onError": [Function],
+              "textComponent": "span",
+              "timeZone": "Etc/UTC",
+            }
+          }
+          isChannelAdmin={false}
+          isRHS={false}
+          isTeamAdmin={false}
+          src="src"
+          teamUrl="/someTeamName"
           theme={Object {}}
-          title={
-            <span>
-              <span
-                className="user-popover__username"
-              >
-                @undefined
-              </span>
-               
-            </span>
+          user={
+            Object {
+              "id": "someUserId",
+              "name": "some_user_name",
+            }
           }
         >
-          <div
-            className="popover right"
+          <Popover
+            bsClass="popover"
             id="user-profile-popover"
-            role="tooltip"
-            style={
-              Object {
-                "display": "block",
-                "left": undefined,
-                "top": undefined,
-              }
-            }
+            placement="right"
             theme={Object {}}
-          >
-            <div
-              className="arrow"
-              style={
-                Object {
-                  "left": undefined,
-                  "top": undefined,
-                }
-              }
-            />
-            <h3
-              className="popover-title"
-            >
+            title={
               <span>
                 <span
                   className="user-popover__username"
@@ -312,149 +327,185 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
                 </span>
                  
               </span>
-            </h3>
+            }
+          >
             <div
-              className="popover-content"
+              className="popover right"
+              id="user-profile-popover"
+              role="tooltip"
+              style={
+                Object {
+                  "display": "block",
+                  "left": undefined,
+                  "top": undefined,
+                }
+              }
+              theme={Object {}}
             >
-              <img
-                alt="user profile image"
-                className="user-popover__image"
-                height="128"
-                key="user-popover-image"
-                src="src"
-                width="128"
-              />
-              <Connect(Pluggable)
-                key="profilePopoverPluggable2"
-                pluggableName="PopoverUserAttributes"
-                user={
-                  Object {
-                    "id": "someUserId",
-                    "name": "some_user_name",
-                  }
-                }
-              >
-                <Pluggable
-                  components={Object {}}
-                  dispatch={[Function]}
-                  pluggableName="PopoverUserAttributes"
-                  theme={
-                    Object {
-                      "awayIndicator": "#ffbc42",
-                      "buttonBg": "#166de0",
-                      "buttonColor": "#ffffff",
-                      "centerChannelBg": "#ffffff",
-                      "centerChannelColor": "#3d3c40",
-                      "codeTheme": "github",
-                      "dndIndicator": "#f74343",
-                      "errorTextColor": "#fd5960",
-                      "linkColor": "#2389d7",
-                      "mentionBg": "#ffffff",
-                      "mentionBj": "#ffffff",
-                      "mentionColor": "#145dbf",
-                      "mentionHighlightBg": "#ffe577",
-                      "mentionHighlightLink": "#166de0",
-                      "newMessageSeparator": "#ff8800",
-                      "onlineIndicator": "#06d6a0",
-                      "sidebarBg": "#145dbf",
-                      "sidebarHeaderBg": "#1153ab",
-                      "sidebarHeaderTextColor": "#ffffff",
-                      "sidebarText": "#ffffff",
-                      "sidebarTextActiveBorder": "#579eff",
-                      "sidebarTextActiveColor": "#ffffff",
-                      "sidebarTextHoverBg": "#4578bf",
-                      "sidebarUnreadText": "#ffffff",
-                      "type": "Mattermost",
-                    }
-                  }
-                  user={
-                    Object {
-                      "id": "someUserId",
-                      "name": "some_user_name",
-                    }
-                  }
-                />
-              </Connect(Pluggable)>
               <div
-                className="popover__row first"
-                data-toggle="tooltip"
-                key="user-popover-settings"
-              >
-                <a
-                  href="#"
-                  onClick={[Function]}
-                >
-                  <i
-                    className="fa fa-pencil-square-o"
-                    title="Edit Icon"
-                  />
-                  <FormattedMessage
-                    defaultMessage="Edit Account Settings"
-                    id="user_profile.account.editSettings"
-                    values={Object {}}
-                  >
-                    <span>
-                      Edit Account Settings
-                    </span>
-                  </FormattedMessage>
-                </a>
-              </div>
-              <Connect(Pluggable)
-                key="profilePopoverPluggable3"
-                pluggableName="PopoverUserActions"
-                user={
+                className="arrow"
+                style={
                   Object {
-                    "id": "someUserId",
-                    "name": "some_user_name",
+                    "left": undefined,
+                    "top": undefined,
                   }
                 }
+              />
+              <h3
+                className="popover-title"
               >
-                <Pluggable
-                  components={Object {}}
-                  dispatch={[Function]}
-                  pluggableName="PopoverUserActions"
-                  theme={
-                    Object {
-                      "awayIndicator": "#ffbc42",
-                      "buttonBg": "#166de0",
-                      "buttonColor": "#ffffff",
-                      "centerChannelBg": "#ffffff",
-                      "centerChannelColor": "#3d3c40",
-                      "codeTheme": "github",
-                      "dndIndicator": "#f74343",
-                      "errorTextColor": "#fd5960",
-                      "linkColor": "#2389d7",
-                      "mentionBg": "#ffffff",
-                      "mentionBj": "#ffffff",
-                      "mentionColor": "#145dbf",
-                      "mentionHighlightBg": "#ffe577",
-                      "mentionHighlightLink": "#166de0",
-                      "newMessageSeparator": "#ff8800",
-                      "onlineIndicator": "#06d6a0",
-                      "sidebarBg": "#145dbf",
-                      "sidebarHeaderBg": "#1153ab",
-                      "sidebarHeaderTextColor": "#ffffff",
-                      "sidebarText": "#ffffff",
-                      "sidebarTextActiveBorder": "#579eff",
-                      "sidebarTextActiveColor": "#ffffff",
-                      "sidebarTextHoverBg": "#4578bf",
-                      "sidebarUnreadText": "#ffffff",
-                      "type": "Mattermost",
-                    }
-                  }
+                <span>
+                  <span
+                    className="user-popover__username"
+                  >
+                    @undefined
+                  </span>
+                   
+                </span>
+              </h3>
+              <div
+                className="popover-content"
+              >
+                <img
+                  alt="user profile image"
+                  className="user-popover__image"
+                  height="128"
+                  key="user-popover-image"
+                  src="src"
+                  width="128"
+                />
+                <Connect(Pluggable)
+                  key="profilePopoverPluggable2"
+                  pluggableName="PopoverUserAttributes"
                   user={
                     Object {
                       "id": "someUserId",
                       "name": "some_user_name",
                     }
                   }
-                />
-              </Connect(Pluggable)>
+                >
+                  <Pluggable
+                    components={Object {}}
+                    dispatch={[Function]}
+                    pluggableName="PopoverUserAttributes"
+                    theme={
+                      Object {
+                        "awayIndicator": "#ffbc42",
+                        "buttonBg": "#166de0",
+                        "buttonColor": "#ffffff",
+                        "centerChannelBg": "#ffffff",
+                        "centerChannelColor": "#3d3c40",
+                        "codeTheme": "github",
+                        "dndIndicator": "#f74343",
+                        "errorTextColor": "#fd5960",
+                        "linkColor": "#2389d7",
+                        "mentionBg": "#ffffff",
+                        "mentionBj": "#ffffff",
+                        "mentionColor": "#145dbf",
+                        "mentionHighlightBg": "#ffe577",
+                        "mentionHighlightLink": "#166de0",
+                        "newMessageSeparator": "#ff8800",
+                        "onlineIndicator": "#06d6a0",
+                        "sidebarBg": "#145dbf",
+                        "sidebarHeaderBg": "#1153ab",
+                        "sidebarHeaderTextColor": "#ffffff",
+                        "sidebarText": "#ffffff",
+                        "sidebarTextActiveBorder": "#579eff",
+                        "sidebarTextActiveColor": "#ffffff",
+                        "sidebarTextHoverBg": "#4578bf",
+                        "sidebarUnreadText": "#ffffff",
+                        "type": "Mattermost",
+                      }
+                    }
+                    user={
+                      Object {
+                        "id": "someUserId",
+                        "name": "some_user_name",
+                      }
+                    }
+                  />
+                </Connect(Pluggable)>
+                <div
+                  className="popover__row first"
+                  data-toggle="tooltip"
+                  key="user-popover-settings"
+                >
+                  <a
+                    href="#"
+                    onClick={[Function]}
+                  >
+                    <i
+                      className="fa fa-pencil-square-o"
+                      title="Edit Icon"
+                    />
+                    <FormattedMessage
+                      defaultMessage="Edit Account Settings"
+                      id="user_profile.account.editSettings"
+                      values={Object {}}
+                    >
+                      <span>
+                        Edit Account Settings
+                      </span>
+                    </FormattedMessage>
+                  </a>
+                </div>
+                <Connect(Pluggable)
+                  key="profilePopoverPluggable3"
+                  pluggableName="PopoverUserActions"
+                  user={
+                    Object {
+                      "id": "someUserId",
+                      "name": "some_user_name",
+                    }
+                  }
+                >
+                  <Pluggable
+                    components={Object {}}
+                    dispatch={[Function]}
+                    pluggableName="PopoverUserActions"
+                    theme={
+                      Object {
+                        "awayIndicator": "#ffbc42",
+                        "buttonBg": "#166de0",
+                        "buttonColor": "#ffffff",
+                        "centerChannelBg": "#ffffff",
+                        "centerChannelColor": "#3d3c40",
+                        "codeTheme": "github",
+                        "dndIndicator": "#f74343",
+                        "errorTextColor": "#fd5960",
+                        "linkColor": "#2389d7",
+                        "mentionBg": "#ffffff",
+                        "mentionBj": "#ffffff",
+                        "mentionColor": "#145dbf",
+                        "mentionHighlightBg": "#ffe577",
+                        "mentionHighlightLink": "#166de0",
+                        "newMessageSeparator": "#ff8800",
+                        "onlineIndicator": "#06d6a0",
+                        "sidebarBg": "#145dbf",
+                        "sidebarHeaderBg": "#1153ab",
+                        "sidebarHeaderTextColor": "#ffffff",
+                        "sidebarText": "#ffffff",
+                        "sidebarTextActiveBorder": "#579eff",
+                        "sidebarTextActiveColor": "#ffffff",
+                        "sidebarTextHoverBg": "#4578bf",
+                        "sidebarUnreadText": "#ffffff",
+                        "type": "Mattermost",
+                      }
+                    }
+                    user={
+                      Object {
+                        "id": "someUserId",
+                        "name": "some_user_name",
+                      }
+                    }
+                  />
+                </Connect(Pluggable)>
+              </div>
             </div>
-          </div>
-        </Popover>
-      </ProfilePopover>
-    </Connect(ProfilePopover)>
+          </Popover>
+        </ProfilePopover>
+      </InjectIntl(ProfilePopover)>
+    </Connect(InjectIntl(ProfilePopover))>
   </Pluggable>
 </Provider>
 `;

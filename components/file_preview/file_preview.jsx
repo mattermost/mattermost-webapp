@@ -6,6 +6,7 @@ import React from 'react';
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
+import RemoveIcon from 'components/icon/remove_icon';
 import Constants, {FileTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -31,6 +32,7 @@ export default class FilePreview extends React.PureComponent {
 
     render() {
         const previews = [];
+
         this.props.fileInfos.forEach((info, idx) => {
             const type = Utils.getFileType(info.extension);
 
@@ -98,10 +100,7 @@ export default class FilePreview extends React.PureComponent {
                                 className='file-preview__remove'
                                 onClick={this.handleRemove.bind(this, info.id)}
                             >
-                                <i
-                                    className='fa fa-remove'
-                                    title={Utils.localizeMessage('generic_icons.remove', 'Remove Icon')}
-                                />
+                                <RemoveIcon/>
                             </a>
                         </div>
                     </div>

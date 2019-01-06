@@ -27,11 +27,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <div
         className="modal-back"
       >
-        <i
-          className="fa fa-angle-left"
+        <span
           onClick={[MockFunction]}
-          title="Back Icon"
-        />
+        >
+          <BackIcon />
+        </span>
       </div>
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -270,11 +270,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <div
         className="modal-back"
       >
-        <i
-          className="fa fa-angle-left"
+        <span
           onClick={[MockFunction]}
-          title="Back Icon"
-        />
+        >
+          <BackIcon />
+        </span>
       </div>
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -513,11 +513,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <div
         className="modal-back"
       >
-        <i
-          className="fa fa-angle-left"
+        <span
           onClick={[MockFunction]}
-          title="Back Icon"
-        />
+        >
+          <BackIcon />
+        </span>
       </div>
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -756,11 +756,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <div
         className="modal-back"
       >
-        <i
-          className="fa fa-angle-left"
+        <span
           onClick={[MockFunction]}
-          title="Back Icon"
-        />
+        >
+          <BackIcon />
+        </span>
       </div>
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -946,11 +946,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <div
         className="modal-back"
       >
-        <i
-          className="fa fa-angle-left"
+        <span
           onClick={[MockFunction]}
-          title="Back Icon"
-        />
+        >
+          <BackIcon />
+        </span>
       </div>
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -1117,11 +1117,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <div
         className="modal-back"
       >
-        <i
-          className="fa fa-angle-left"
+        <span
           onClick={[MockFunction]}
-          title="Back Icon"
-        />
+        >
+          <BackIcon />
+        </span>
       </div>
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -1360,11 +1360,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <div
         className="modal-back"
       >
-        <i
-          className="fa fa-angle-left"
+        <span
           onClick={[MockFunction]}
-          title="Back Icon"
-        />
+        >
+          <BackIcon />
+        </span>
       </div>
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -1623,11 +1623,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <div
         className="modal-back"
       >
-        <i
-          className="fa fa-angle-left"
+        <span
           onClick={[MockFunction]}
-          title="Back Icon"
-        />
+        >
+          <BackIcon />
+        </span>
       </div>
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -1811,11 +1811,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <div
         className="modal-back"
       >
-        <i
-          className="fa fa-angle-left"
+        <span
           onClick={[MockFunction]}
-          title="Back Icon"
-        />
+        >
+          <BackIcon />
+        </span>
       </div>
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -1999,11 +1999,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <div
         className="modal-back"
       >
-        <i
-          className="fa fa-angle-left"
+        <span
           onClick={[MockFunction]}
-          title="Back Icon"
-        />
+        >
+          <BackIcon />
+        </span>
       </div>
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -2187,11 +2187,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <div
         className="modal-back"
       >
-        <i
-          className="fa fa-angle-left"
+        <span
           onClick={[MockFunction]}
-          title="Back Icon"
-        />
+        >
+          <BackIcon />
+        </span>
       </div>
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -2386,11 +2386,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <div
         className="modal-back"
       >
-        <i
-          className="fa fa-angle-left"
+        <span
           onClick={[MockFunction]}
-          title="Back Icon"
-        />
+        >
+          <BackIcon />
+        </span>
       </div>
       <FormattedMessage
         defaultMessage="Display Settings"

@@ -79,11 +79,12 @@ class JobTable extends React.PureComponent {
     }
 
     getStatus = (job) => {
+        const formatMessage = this.props.intl.formatMessage;
         if (job.status === JobStatuses.PENDING) {
             return (
                 <span
                     className='status-icon-warning'
-                    title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}
+                    title={formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}
                 >
                     <FormattedMessage
                         id='admin.jobTable.statusPending'
@@ -95,7 +96,7 @@ class JobTable extends React.PureComponent {
             return (
                 <span
                     className='status-icon-warning'
-                    title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}
+                    title={formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}
                 >
                     <FormattedMessage
                         id='admin.jobTable.statusInProgress'
@@ -107,7 +108,7 @@ class JobTable extends React.PureComponent {
             return (
                 <span
                     className='status-icon-success'
-                    title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}
+                    title={formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}
                 >
                     <FormattedMessage
                         id='admin.jobTable.statusSuccess'
@@ -119,7 +120,7 @@ class JobTable extends React.PureComponent {
             return (
                 <span
                     className='status-icon-error'
-                    title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}
+                    title={formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}
                 >
                     <FormattedMessage
                         id='admin.jobTable.statusError'
@@ -131,7 +132,7 @@ class JobTable extends React.PureComponent {
             return (
                 <span
                     className='status-icon-warning'
-                    title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}
+                    title={formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}
                 >
                     <FormattedMessage
                         id='admin.jobTable.statusCanceling'
@@ -143,7 +144,7 @@ class JobTable extends React.PureComponent {
             return (
                 <span
                     className='status-icon-error'
-                    title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}
+                    title={formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}
                 >
                     <FormattedMessage
                         id='admin.jobTable.statusCanceled'
@@ -154,7 +155,7 @@ class JobTable extends React.PureComponent {
         }
 
         return (
-            <span title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}>{job.status}</span>
+            <span title={formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}>{job.status}</span>
         );
     }
 
@@ -282,6 +283,7 @@ class JobTable extends React.PureComponent {
     };
 
     getCancelButton = (job) => {
+        const formatMessage = this.props.intl.formatMessage;
         let cancelButton = null;
 
         if (!this.props.disabled && (job.status === JobStatuses.PENDING || job.status === JobStatuses.IN_PROGRESS)) {
@@ -290,7 +292,7 @@ class JobTable extends React.PureComponent {
                     data-job-id={job.id}
                     onClick={this.handleCancelJob}
                     className='job-table__cancel-button'
-                    title={Utils.localizeMessage('admin.jobTable.cancelButton', 'Cancel')}
+                    title={formatMessage({id: 'admin.jobTable.cancelButton', defaultMessage: 'Cancel'})}
                 >
                     {'×'}
                 </span>

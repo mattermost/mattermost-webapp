@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import DropdownIcon from '../icon/dropdown_icon';
 
 export default class ChannelMembersDropdown extends React.Component {
     static propTypes = {
@@ -177,10 +178,7 @@ export default class ChannelMembersDropdown extends React.Component {
                             aria-expanded='true'
                         >
                             <span>{role} </span>
-                            <span
-                                className='fa fa-chevron-down'
-                                title={Utils.localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
-                            />
+                            <DropdownIcon/>
                         </button>
                         <ul
                             className='dropdown-menu member-menu'

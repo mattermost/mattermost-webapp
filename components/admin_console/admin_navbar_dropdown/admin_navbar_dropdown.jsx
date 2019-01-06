@@ -113,10 +113,17 @@ export default class AdminNavbarDropdown extends React.Component {
                     <BlockableLink
                         to={'/select_team'}
                     >
-                        <i
-                            className='fa fa-exchange'
-                            title={Utils.localizeMessage('select_team.icon', 'Select Team Icon')}
-                        />
+                        <FormattedMessage
+                            id='select_team.icon'
+                            defaultMessage='Select Team Icon'
+                        >
+                            {(title) => (
+                                <i
+                                    className='fa fa-exchange'
+                                    title={title}
+                                />
+                            )}
+                        </FormattedMessage>
                         <FormattedMessage
                             id='admin.nav.switch'
                             defaultMessage='Team Selection'

@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, mount} from 'enzyme';
+import {shallow} from 'enzyme';
 
+import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import FileAttachment from 'components/file_attachment/file_attachment.jsx';
 
 jest.mock('utils/utils.jsx', () => {
@@ -122,7 +123,7 @@ describe('component/FileAttachment', () => {
 
     test('should call the handleImageClick on attachment clicked', () => {
         const handleImageClick = jest.fn();
-        const wrapper = mount(createComponent({handleImageClick}));
+        const wrapper = mountWithIntl(createComponent({handleImageClick}));
         wrapper.find('.post-image__thumbnail').simulate('click');
         expect(handleImageClick).toBeCalled();
     });

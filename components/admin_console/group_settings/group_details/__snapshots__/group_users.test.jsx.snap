@@ -206,9 +206,8 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       disabled={true}
       onClick={[Function]}
     >
-      <i
-        className="fa fa-chevron-left"
-        title="Previous Icon"
+      <PreviousIcon
+        additionalClassName={null}
       />
     </button>
     <button
@@ -216,9 +215,8 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       disabled={true}
       onClick={[Function]}
     >
-      <i
-        className="fa fa-chevron-right"
-        title="Next Icon"
+      <NextIcon
+        additionalClassName={null}
       />
     </button>
   </div>
@@ -431,9 +429,8 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       disabled={true}
       onClick={[Function]}
     >
-      <i
-        className="fa fa-chevron-left"
-        title="Previous Icon"
+      <PreviousIcon
+        additionalClassName={null}
       />
     </button>
     <button
@@ -441,9 +438,8 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       disabled={false}
       onClick={[Function]}
     >
-      <i
-        className="fa fa-chevron-right"
-        title="Next Icon"
+      <NextIcon
+        additionalClassName={null}
       />
     </button>
   </div>
@@ -656,9 +652,8 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       disabled={false}
       onClick={[Function]}
     >
-      <i
-        className="fa fa-chevron-left"
-        title="Previous Icon"
+      <PreviousIcon
+        additionalClassName={null}
       />
     </button>
     <button
@@ -666,9 +661,8 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       disabled={false}
       onClick={[Function]}
     >
-      <i
-        className="fa fa-chevron-right"
-        title="Next Icon"
+      <NextIcon
+        additionalClassName={null}
       />
     </button>
   </div>
@@ -881,9 +875,8 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       disabled={false}
       onClick={[Function]}
     >
-      <i
-        className="fa fa-chevron-left"
-        title="Previous Icon"
+      <PreviousIcon
+        additionalClassName={null}
       />
     </button>
     <button
@@ -891,9 +884,8 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       disabled={true}
       onClick={[Function]}
     >
-      <i
-        className="fa fa-chevron-right"
-        title="Next Icon"
+      <NextIcon
+        additionalClassName={null}
       />
     </button>
   </div>
@@ -1106,9 +1098,8 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       disabled={true}
       onClick={[Function]}
     >
-      <i
-        className="fa fa-chevron-left"
-        title="Previous Icon"
+      <PreviousIcon
+        additionalClassName={null}
       />
     </button>
     <button
@@ -1116,9 +1107,8 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       disabled={true}
       onClick={[Function]}
     >
-      <i
-        className="fa fa-chevron-right"
-        title="Next Icon"
+      <NextIcon
+        additionalClassName={null}
       />
     </button>
   </div>
@@ -1369,9 +1359,8 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       disabled={true}
       onClick={[Function]}
     >
-      <i
-        className="fa fa-chevron-left"
-        title="Previous Icon"
+      <PreviousIcon
+        additionalClassName={null}
       />
     </button>
     <button
@@ -1379,9 +1368,8 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       disabled={true}
       onClick={[Function]}
     >
-      <i
-        className="fa fa-chevron-right"
-        title="Next Icon"
+      <NextIcon
+        additionalClassName={null}
       />
     </button>
   </div>

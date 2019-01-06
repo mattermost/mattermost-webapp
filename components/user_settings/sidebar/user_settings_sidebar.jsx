@@ -3,12 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import Constants from 'utils/constants.jsx';
-import {localizeMessage, isMac} from 'utils/utils.jsx';
+import {isMac} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
@@ -80,6 +80,10 @@ export default class UserSettingsSidebar extends React.Component {
         activeSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -686,6 +690,7 @@ export default class UserSettingsSidebar extends React.Component {
 
     render() {
         const {showUnusedOption, showChannelOrganization} = this.props;
+        const {formatMessage} = this.context.intl;
 
         const channelOrganizationSection = showChannelOrganization ? this.renderChannelOrganizationSection() : null;
         const autoCloseDMSection = showUnusedOption ? this.renderAutoCloseDMSection() : null;
@@ -711,7 +716,7 @@ export default class UserSettingsSidebar extends React.Component {
                         <div className='modal-back'>
                             <i
                                 className='fa fa-angle-left'
-                                title={localizeMessage('generic_icons.collapse', 'Collapse Icon')}
+                                title={formatMessage({id: 'generic_icons.collapse', defaultMessage: 'Collapse Icon'})}
                                 onClick={this.props.collapseModal}
                             />
                         </div>

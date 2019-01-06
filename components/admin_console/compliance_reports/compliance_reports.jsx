@@ -8,6 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+import ReloadIcon from 'components/icon/reload_icon';
 
 export default class ComplianceReports extends React.PureComponent {
     static propTypes = {
@@ -378,10 +379,7 @@ export default class ComplianceReports extends React.PureComponent {
                         disabled={this.state.runningReport}
                         onClick={this.reload}
                     >
-                        <i
-                            className='fa fa-refresh'
-                            title={Utils.localizeMessage('generic_icons.reload', 'Reload Icon')}
-                        />
+                        <ReloadIcon/>
                         <FormattedMessage
                             id='admin.compliance_reports.reload'
                             defaultMessage='Reload Completed Compliance Reports'

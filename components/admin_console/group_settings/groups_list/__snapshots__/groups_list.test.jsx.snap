@@ -84,9 +84,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <i
-        className="fa fa-chevron-left"
-        title="Previous Icon"
+      <PreviousIcon
+        additionalClassName={null}
       />
     </button>
     <button
@@ -94,9 +93,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <i
-        className="fa fa-chevron-right"
-        title="Next Icon"
+      <NextIcon
+        additionalClassName={null}
       />
     </button>
   </div>
@@ -188,9 +186,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <i
-        className="fa fa-chevron-left"
-        title="Previous Icon"
+      <PreviousIcon
+        additionalClassName={null}
       />
     </button>
     <button
@@ -198,9 +195,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <i
-        className="fa fa-chevron-right"
-        title="Next Icon"
+      <NextIcon
+        additionalClassName={null}
       />
     </button>
   </div>
@@ -292,9 +288,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <i
-        className="fa fa-chevron-left"
-        title="Previous Icon"
+      <PreviousIcon
+        additionalClassName={null}
       />
     </button>
     <button
@@ -302,9 +297,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <i
-        className="fa fa-chevron-right"
-        title="Next Icon"
+      <NextIcon
+        additionalClassName={null}
       />
     </button>
   </div>
@@ -396,9 +390,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <i
-        className="fa fa-chevron-left"
-        title="Previous Icon"
+      <PreviousIcon
+        additionalClassName={null}
       />
     </button>
     <button
@@ -406,9 +399,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <i
-        className="fa fa-chevron-right"
-        title="Next Icon"
+      <NextIcon
+        additionalClassName={null}
       />
     </button>
   </div>
@@ -537,9 +529,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <i
-        className="fa fa-chevron-left"
-        title="Previous Icon"
+      <PreviousIcon
+        additionalClassName={null}
       />
     </button>
     <button
@@ -547,9 +538,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <i
-        className="fa fa-chevron-right"
-        title="Next Icon"
+      <NextIcon
+        additionalClassName={null}
       />
     </button>
   </div>
@@ -783,9 +773,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <i
-        className="fa fa-chevron-left"
-        title="Previous Icon"
+      <PreviousIcon
+        additionalClassName={null}
       />
     </button>
     <button
@@ -793,9 +782,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <i
-        className="fa fa-chevron-right"
-        title="Next Icon"
+      <NextIcon
+        additionalClassName={null}
       />
     </button>
   </div>
@@ -1029,9 +1017,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={false}
       onClick={[Function]}
     >
-      <i
-        className="fa fa-chevron-left"
-        title="Previous Icon"
+      <PreviousIcon
+        additionalClassName={null}
       />
     </button>
     <button
@@ -1039,9 +1026,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <i
-        className="fa fa-chevron-right"
-        title="Next Icon"
+      <NextIcon
+        additionalClassName={null}
       />
     </button>
   </div>
@@ -1170,9 +1156,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={false}
       onClick={[Function]}
     >
-      <i
-        className="fa fa-chevron-left"
-        title="Previous Icon"
+      <PreviousIcon
+        additionalClassName={null}
       />
     </button>
     <button
@@ -1180,9 +1165,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <i
-        className="fa fa-chevron-right"
-        title="Next Icon"
+      <NextIcon
+        additionalClassName={null}
       />
     </button>
   </div>
@@ -1275,9 +1259,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <i
-        className="fa fa-chevron-left"
-        title="Previous Icon"
+      <PreviousIcon
+        additionalClassName={null}
       />
     </button>
     <button
@@ -1285,9 +1268,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <i
-        className="fa fa-chevron-right"
-        title="Next Icon"
+      <NextIcon
+        additionalClassName={null}
       />
     </button>
   </div>
@@ -1378,9 +1360,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <i
-        className="fa fa-chevron-left"
-        title="Previous Icon"
+      <PreviousIcon
+        additionalClassName={null}
       />
     </button>
     <button
@@ -1388,9 +1369,8 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <i
-        className="fa fa-chevron-right"
-        title="Next Icon"
+      <NextIcon
+        additionalClassName={null}
       />
     </button>
   </div>

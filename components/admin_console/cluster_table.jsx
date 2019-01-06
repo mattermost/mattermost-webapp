@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import * as Utils from 'utils/utils.jsx';
 import statusGreen from 'images/status_green.png';
 import statusYellow from 'images/status_yellow.png';
+import ReloadIcon from 'components/icon/reload_icon';
 
 export default class ClusterTable extends React.Component {
     static propTypes = {
@@ -115,10 +116,7 @@ export default class ClusterTable extends React.Component {
                         className='btn btn-link'
                         onClick={this.props.reload}
                     >
-                        <i
-                            className='fa fa-refresh'
-                            title={Utils.localizeMessage('generic_icons.reload', 'Reload Icon')}
-                        />
+                        <ReloadIcon/>
                         <FormattedMessage
                             id='admin.cluster.status_table.reload'
                             defaultMessage=' Reload Cluster Status'

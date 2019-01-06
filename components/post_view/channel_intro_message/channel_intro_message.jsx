@@ -17,6 +17,7 @@ import UserProfile from 'components/user_profile.jsx';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import EditIcon from 'components/icon/edit_icon';
 
 import {getMonthLong} from 'utils/i18n.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -259,10 +260,17 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
                         className='intro-links color--link cursor--pointer'
                         onClick={GlobalActions.showGetTeamInviteLinkModal}
                     >
-                        <i
-                            className='fa fa-user-plus'
-                            title={Utils.localizeMessage('generic_icons.add', 'Add Icon')}
-                        />
+                        <FormattedMessage
+                            id='generic_icons.add'
+                            defaultMessage='Add Icon'
+                        >
+                            {(title) => (
+                                <i
+                                    className='fa fa-user-plus'
+                                    title={title}
+                                />
+                            )}
+                        </FormattedMessage>
                         <FormattedMessage
                             id='intro_messages.inviteOthers'
                             defaultMessage='Invite others to this team'
@@ -484,10 +492,17 @@ function createInviteChannelMemberButton(channel, uiType) {
                 dialogType={ChannelInviteModal}
                 dialogProps={{channel}}
             >
-                <i
-                    className='fa fa-user-plus'
-                    title={Utils.localizeMessage('generic_icons.add', 'Add Icon')}
-                />
+                <FormattedMessage
+                    id='generic_icons.add'
+                    defaultMessage='Add Icon'
+                >
+                    {(title) => (
+                        <i
+                            className='fa fa-user-plus'
+                            title={title}
+                        />
+                    )}
+                </FormattedMessage>
                 <FormattedMessage
                     id='intro_messages.invite'
                     defaultMessage='Invite others to this {type}'
@@ -511,11 +526,7 @@ function createSetHeaderButton(channel) {
             dialogType={EditChannelHeaderModal}
             dialogProps={{channel}}
         >
-            <i
-                className='fa fa-pencil'
-                title={Utils.localizeMessage('generic_icons.edit', 'Edit Icon')}
-
-            />
+            <EditIcon/>
             <FormattedMessage
                 id='intro_messages.setHeader'
                 defaultMessage='Set a Header'
