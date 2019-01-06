@@ -582,7 +582,7 @@ export default class CreatePost extends React.Component {
     }
 
     handleChange = (e) => {
-        let message = e.target.value;
+        const message = e.target.value;
         const channelId = this.props.currentChannel.id;
         const enableSendButton = this.handleEnableSendButton(message, this.props.draft.fileInfos);
 
@@ -611,14 +611,14 @@ export default class CreatePost extends React.Component {
             return;
         }
 
-        let table = hasTable(e.clipboardData);
+        const table = hasTable(e.clipboardData);
         if (!table) {
             return;
         }
 
         e.preventDefault();
 
-        table = this.formatMarkdownTable(table);
+        this.formatMarkdownTable(table);
     }
 
     columnText = (column) => {

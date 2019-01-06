@@ -844,4 +844,24 @@ describe('components/create_post', () => {
             expect.anything(),
         );
     });
+
+    it('should be able to format a pasted markdown table', () => {
+        const wrapper = shallow(createPost());
+
+        const event = {
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
+                    return '<table><tr><td>test</td><td>test</td></tr><tr><td>test</td><td>test</td></tr></table>';
+                },
+            },
+        };
+
+        const markdownTable = 'test | test\n-- | --\ntest | test\n';
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('message')).toBe(markdownTable);
+    });
 });
