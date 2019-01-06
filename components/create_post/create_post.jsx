@@ -10,7 +10,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx';
-import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand} from 'utils/post_utils.jsx';
+import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, hasTable} from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -279,6 +279,7 @@ export default class CreatePost extends React.Component {
 
     componentDidMount() {
         this.focusTextbox();
+        document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
     }
 
@@ -302,6 +303,7 @@ export default class CreatePost extends React.Component {
     }
 
     componentWillUnmount() {
+        document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
     }
 
@@ -588,10 +590,6 @@ export default class CreatePost extends React.Component {
         if (isErrorInvalidSlashCommand(serverError)) {
             serverError = null;
         }
-        
-        if (this.hasTable(message)) {
-            message = this.formatMarkdownTable(message);
-        }
 
         this.setState({
             message,
@@ -608,27 +606,45 @@ export default class CreatePost extends React.Component {
         this.draftsForChannel[channelId] = draft;
     }
 
-    hasTable(message) {
-        // Has more than one tab and more than one line
-        return message.split('\t').length > 1 && message.split('\n').length > 1;
+    pasteHandler = (e) => {
+        if (!e.clipboardData || !e.clipboardData.items) {
+            return;
+        }
+
+        let table = hasTable(e.clipboardData);
+        if (!table) {
+            return;
+        }
+
+        e.preventDefault();
+
+        table = this.formatMarkdownTable(table);
     }
 
-    formatMarkdownTable = (message) => {
-        const rows = message.split('\n').map((row) => {
-            return row.split('\t');
+    columnText = (column) => {
+        const noBreakSpace = '\u00A0';
+        const text = column.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
+        return text || noBreakSpace;
+    }
+
+    tableHeaders = (row) => {
+        return Array.from(row.querySelectorAll('td, th')).map(this.columnText);
+    }
+
+    formatMarkdownTable = (table) => {
+        const rows = Array.from(table.querySelectorAll('tr'));
+
+        const headers = this.tableHeaders(rows.shift());
+        const spacers = headers.map(() => '--');
+        const header = `${headers.join(' | ')}\n${spacers.join(' | ')}\n`;
+
+        const body = rows.map((row) => {
+            return Array.from(row.querySelectorAll('td')).map(this.columnText).join(' | ');
+        }).join('\n');
+
+        this.setState({
+            message: `${header}${body}\n`,
         });
-
-        const headerSeperator = `| ${rows[0].map(() => '--').join('|')} |`;
-
-        const markdownRows = rows.map((row, rowIndex) => {
-            const formattedRow = `| ${row.map((column) => column).join('|')} |`;
-
-            return (rowIndex === 1)
-                ? `${headerSeperator} \n ${formattedRow}`
-                : formattedRow;
-        });
-
-        return markdownRows.join('\n');
     }
 
     handleFileUploadChange = () => {

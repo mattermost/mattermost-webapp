@@ -216,3 +216,28 @@ export function isErrorInvalidSlashCommand(error) {
 
     return false;
 }
+
+function parseTable(html) {
+    const el = document.createElement('div');
+    el.innerHTML = html;
+    return el.querySelector('table');
+}
+
+export function hasTable(clipboardData) {
+    if (Array.from(clipboardData.types).indexOf('text/html') === -1) {
+        return false;
+    }
+
+    const html = clipboardData.getData('text/html');
+
+    if (!(/<table/i).test(html)) {
+        return false;
+    }
+
+    const table = parseTable(html);
+    if (!table) {
+        return false;
+    }
+
+    return table;
+}
