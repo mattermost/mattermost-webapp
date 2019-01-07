@@ -20,9 +20,9 @@ export const MenuItemToggleModalReduxImpl = ({modalId, dialogType, dialogProps, 
 
 MenuItemToggleModalReduxImpl.propTypes = {
     modalId: PropTypes.string.isRequired,
-    dialogType: PropTypes.string.isRequired,
+    dialogType: PropTypes.func.isRequired,
     dialogProps: PropTypes.object,
-    text: PropTypes.string.isRequired,
+    text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
 };
 
 const MenuItemToggleModalRedux = menuItem(MenuItemToggleModalReduxImpl);

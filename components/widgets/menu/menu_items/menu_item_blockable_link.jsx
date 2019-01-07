@@ -10,7 +10,7 @@ import menuItem from 'components/widgets/menu/menu_items/menu_item';
 export const MenuItemBlockableLinkImpl = ({to, text}) => <BlockableLink to={to}>{text}</BlockableLink>;
 MenuItemBlockableLinkImpl.propTypes = {
     to: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
+    text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
 };
 
 const MenuItemBlockableLink = menuItem(MenuItemBlockableLinkImpl);

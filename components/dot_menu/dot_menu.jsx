@@ -83,7 +83,6 @@ export default class DotMenu extends Component {
         super(props);
 
         this.editDisableAction = new DelayedAction(this.handleEditDisable);
-        PostUtils.disableCanEditPostByTime(props.post, this.editDisableAction);
 
         this.state = {
             openUp: false,

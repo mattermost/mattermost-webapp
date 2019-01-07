@@ -10,7 +10,7 @@ import menuItem from './menu_item.jsx';
 export const MenuItemLinkImpl = ({to, text}) => <Link to={to}>{text}</Link>;
 MenuItemLinkImpl.propTypes = {
     to: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
+    text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
 };
 
 const MenuItemLink = menuItem(MenuItemLinkImpl);

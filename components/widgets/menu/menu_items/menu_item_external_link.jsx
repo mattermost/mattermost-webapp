@@ -17,7 +17,7 @@ export const MenuItemExternalLinkImpl = ({url, text}) => (
 );
 MenuItemExternalLinkImpl.propTypes = {
     url: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
+    text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
 };
 
 const MenuItemExternalLink = menuItem(MenuItemExternalLinkImpl);
