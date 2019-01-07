@@ -59,7 +59,10 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
         }
 
         return (
-            <div className='SidebarHeaderDropdownButton'>
+            <div
+                className='SidebarHeaderDropdownButton'
+                id='sidebarHeaderDropdownButton'
+            >
                 {tutorialTip}
                 <OverlayTrigger
                     trigger={['hover', 'focus']}
