@@ -33,7 +33,7 @@
     "moment-timezone": "0.5.23",
     "pdfjs-dist": "2.0.489",
     "perfect-scrollbar": "0.8.1",
-    "popmotion": "^8.5.4",
+    "popmotion": "8.5.4",
     "prop-types": "15.6.2",
     "react": "16.7.0",
     "react-addons-pure-render-mixin": "15.6.2",
