@@ -21,41 +21,45 @@ import {getSelectedPost, getRhsState} from 'selectors/rhs';
 
 import ProfilePopover from './profile_popover.jsx';
 
-function mapStateToProps(state, ownProps) {
-    const team = getCurrentTeam(state);
-    const teamMember = getTeamMember(state, team.id, ownProps.userId);
+function makeMapStateToProps(initialState, initialProps) {
+    const userId = initialProps.userId;
 
-    let isTeamAdmin = false;
-    if (teamMember && teamMember.scheme_admin) {
-        isTeamAdmin = true;
-    }
+    return (state) => {
+        const team = getCurrentTeam(state);
+        const teamMember = getTeamMember(state, team.id, userId);
 
-    const selectedPost = getSelectedPost(state);
-    const currentChannel = getCurrentChannel(state);
+        let isTeamAdmin = false;
+        if (teamMember && teamMember.scheme_admin) {
+            isTeamAdmin = true;
+        }
 
-    let channelId;
-    if (selectedPost.exists === false) {
-        channelId = currentChannel.id;
-    } else {
-        channelId = selectedPost.channel_id;
-    }
+        const selectedPost = getSelectedPost(state);
+        const currentChannel = getCurrentChannel(state);
 
-    const channelMember = getChannelMembersInChannels(state)[channelId][ownProps.userId];
+        let channelId;
+        if (selectedPost.exists === false) {
+            channelId = currentChannel.id;
+        } else {
+            channelId = selectedPost.channel_id;
+        }
 
-    let isChannelAdmin = false;
-    if (getRhsState(state) !== 'search' && channelMember != null && channelMember.scheme_admin) {
-        isChannelAdmin = true;
-    }
+        const channelMember = getChannelMembersInChannels(state)[channelId][userId];
 
-    return {
-        currentTeamId: team.id,
-        currentUserId: getCurrentUserId(state),
-        enableTimezone: areTimezonesEnabledAndSupported(state),
-        isTeamAdmin,
-        isChannelAdmin,
-        status: getStatusForUserId(state, ownProps.userId),
-        teamUrl: getCurrentRelativeTeamUrl(state),
-        user: getUser(state, ownProps.userId),
+        let isChannelAdmin = false;
+        if (getRhsState(state) !== 'search' && channelMember != null && channelMember.scheme_admin) {
+            isChannelAdmin = true;
+        }
+
+        return {
+            currentTeamId: team.id,
+            currentUserId: getCurrentUserId(state),
+            enableTimezone: areTimezonesEnabledAndSupported(state),
+            isTeamAdmin,
+            isChannelAdmin,
+            status: getStatusForUserId(state, userId),
+            teamUrl: getCurrentRelativeTeamUrl(state),
+            user: getUser(state, userId),
+        };
     };
 }
 
@@ -69,4 +73,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfilePopover);
+export default connect(makeMapStateToProps, mapDispatchToProps)(ProfilePopover);

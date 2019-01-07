@@ -19,7 +19,7 @@ export default class PostHeader extends React.PureComponent {
         post: PropTypes.object.isRequired,
 
         /*
-         * The ID of user who created the post
+         * The ID of the user who created the post
          */
         userId: PropTypes.string,
 
