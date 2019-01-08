@@ -10,7 +10,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx';
-import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, hasTable} from 'utils/post_utils.jsx';
+import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, hasTable, formatMarkdownTableMessage} from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -607,7 +607,7 @@ export default class CreatePost extends React.Component {
     }
 
     pasteHandler = (e) => {
-        if (!e.clipboardData || !e.clipboardData.items) {
+        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox') {
             return;
         }
 
@@ -618,38 +618,9 @@ export default class CreatePost extends React.Component {
 
         e.preventDefault();
 
-        this.formatMarkdownTable(table);
-    }
+        const message = formatMarkdownTableMessage(table, this.state.message.trim());
 
-    columnText = (column) => {
-        const noBreakSpace = '\u00A0';
-        const text = column.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
-        return text || noBreakSpace;
-    }
-
-    tableHeaders = (row) => {
-        return Array.from(row.querySelectorAll('td, th')).map(this.columnText);
-    }
-
-    formatMarkdownTable = (table) => {
-        const rows = Array.from(table.querySelectorAll('tr'));
-
-        const headers = this.tableHeaders(rows.shift());
-        const spacers = headers.map(() => '--');
-        const header = `${headers.join(' | ')}\n${spacers.join(' | ')}\n`;
-
-        const body = rows.map((row) => {
-            return Array.from(row.querySelectorAll('td')).map(this.columnText).join(' | ');
-        }).join('\n');
-
-        const formattedTable = `${header}${body}\n`;
-
-        let message = this.state.message.trim();
-        message = message ? `${message}\n\n${formattedTable}` : formattedTable;
-
-        this.setState({
-            message,
-        });
+        this.setState({message});
     }
 
     handleFileUploadChange = () => {

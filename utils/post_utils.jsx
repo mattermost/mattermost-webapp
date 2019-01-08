@@ -241,3 +241,29 @@ export function hasTable(clipboardData) {
 
     return table;
 }
+
+function columnText(column) {
+    const noBreakSpace = '\u00A0';
+    const text = column.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
+    return text || noBreakSpace;
+}
+
+function tableHeaders(row) {
+    return Array.from(row.querySelectorAll('td, th')).map(columnText);
+}
+
+export function formatMarkdownTableMessage(table, message) {
+    const rows = Array.from(table.querySelectorAll('tr'));
+
+    const headers = tableHeaders(rows.shift());
+    const spacers = headers.map(() => '--');
+    const header = `${headers.join(' | ')}\n${spacers.join(' | ')}\n`;
+
+    const body = rows.map((row) => {
+        return Array.from(row.querySelectorAll('td')).map(columnText).join(' | ');
+    }).join('\n');
+
+    const formattedTable = `${header}${body}\n`;
+
+    return message ? `${message}\n\n${formattedTable}` : formattedTable;
+}

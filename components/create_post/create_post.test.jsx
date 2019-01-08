@@ -849,6 +849,9 @@ describe('components/create_post', () => {
         const wrapper = shallow(createPost());
 
         const event = {
+            target: {
+                id: 'post_textbox',
+            },
             preventDefault: jest.fn(),
             clipboardData: {
                 items: [1],
