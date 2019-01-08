@@ -65,20 +65,11 @@ exports[`components/ChannelHeaderDropdown/MenuItem.ViewAndManageMembers should m
     modalId="channel_members"
     role="menuitem"
   >
-    <Connect(ChannelPermissionGate)
-      invert={false}
-      permissions={
-        Array [
-          "manage_public_channel_members",
-        ]
-      }
-    >
-      <FormattedMessage
-        defaultMessage="View Members"
-        id="channel_header.viewMembers"
-        values={Object {}}
-      />
-    </Connect(ChannelPermissionGate)>
+    <FormattedMessage
+      defaultMessage="View Members"
+      id="channel_header.viewMembers"
+      values={Object {}}
+    />
   </Connect(ModalToggleButtonRedux)>
 </li>
 `;

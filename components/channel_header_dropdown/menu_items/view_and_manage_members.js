@@ -23,6 +23,12 @@ const ViewAndManageMembers = ({channel, isDefault}) => {
 
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const permission = isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS;
+    const viewMembersMessage = (
+        <FormattedMessage
+            id='channel_header.viewMembers'
+            defaultMessage='View Members'
+        />
+    );
 
     return (
         <li role='presentation'>
@@ -34,28 +40,27 @@ const ViewAndManageMembers = ({channel, isDefault}) => {
                 dialogProps={{channel}}
             >
                 {!isDefault &&
-                    <ChannelPermissionGate
-                        channelId={channel.id}
-                        teamId={channel.team_id}
-                        permissions={[permission]}
-                    >
-                        <FormattedMessage
-                            id='channel_header.manageMembers'
-                            defaultMessage='Manage Members'
-                        />
-                    </ChannelPermissionGate>
-                }
-                <ChannelPermissionGate
-                    channelId={channel.id}
-                    teamId={channel.team_id}
-                    permissions={[permission]}
-                    invert={!isDefault}
-                >
-                    <FormattedMessage
-                        id='channel_header.viewMembers'
-                        defaultMessage='View Members'
-                    />
-                </ChannelPermissionGate>
+                    <>
+                        <ChannelPermissionGate
+                            channelId={channel.id}
+                            teamId={channel.team_id}
+                            permissions={[permission]}
+                        >
+                            <FormattedMessage
+                                id='channel_header.manageMembers'
+                                defaultMessage='Manage Members'
+                            />
+                        </ChannelPermissionGate>
+                        <ChannelPermissionGate
+                            channelId={channel.id}
+                            teamId={channel.team_id}
+                            permissions={[permission]}
+                            invert={true}
+                        >
+                            {viewMembersMessage}
+                        </ChannelPermissionGate>
+                    </>}
+                {isDefault && viewMembersMessage}
             </ToggleModalButtonRedux>
         </li>
     );

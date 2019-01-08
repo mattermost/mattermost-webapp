@@ -218,7 +218,10 @@ export default class Sidebar extends React.PureComponent {
         }
 
         this.updateTitle();
-        this.setBadgesActiveAndFavicon();
+
+        // Don't modify favicon for now: https://mattermost.atlassian.net/browse/MM-13643.
+        // this.setBadgesActiveAndFavicon();
+
         this.setFirstAndLastUnreadChannels();
         this.updateUnreadIndicators();
     }

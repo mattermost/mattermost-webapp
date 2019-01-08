@@ -7,7 +7,6 @@ import {Dropdown} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
-import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import BootstrapSpan from 'components/bootstrap_span.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
@@ -111,13 +110,25 @@ export default class StatusDropdown extends React.Component {
 
     renderStatusDndAction = () => {
         if (this.isUserOutOfOffice() && this.props.autoResetPref === '') {
-            return this.renderStatusAction(UserStatuses.DND, () => this.showStatusChangeConfirmation('dnd'), localizeMessage('status_dropdown.set_dnd.extra', 'Disables Desktop and Push Notifications'));
+            return this.renderStatusAction(UserStatuses.DND, () => this.showStatusChangeConfirmation('dnd'),
+                <FormattedMessage
+                    id='status_dropdown.set_dnd.extra'
+                    defaultMessage='Disables Desktop and Push Notifications'
+                />);
         }
-        return this.renderStatusAction(UserStatuses.DND, this.setDnd, localizeMessage('status_dropdown.set_dnd.extra', 'Disables Desktop and Push Notifications'));
+        return this.renderStatusAction(UserStatuses.DND, this.setDnd,
+            <FormattedMessage
+                id='status_dropdown.set_dnd.extra'
+                defaultMessage='Disables Desktop and Push Notifications'
+            />);
     }
 
     renderStatusOutOfOfficeAction = () => {
-        return this.renderOOFStatusAction(UserStatuses.OUT_OF_OFFICE, localizeMessage('status_dropdown.set_ooo.extra', 'Automatic Replies are enabled'));
+        return this.renderOOFStatusAction(UserStatuses.OUT_OF_OFFICE,
+            <FormattedMessage
+                id='status_dropdown.set_ooo.extra'
+                defaultMessage='Automatic Replies are enabled'
+            />);
     }
 
     renderProfilePicture = () => {
@@ -167,8 +178,25 @@ export default class StatusDropdown extends React.Component {
         );
     }
 
+    renderDropdownIcon = () => {
+        return (
+            <FormattedMessage
+                id='generic_icons.dropdown'
+                defaultMessage='Dropdown Icon'
+            >
+                { (title) => (
+                    <i
+                        className={'fa fa-caret-down'}
+                        title={title}
+                    />)
+                }
+            </FormattedMessage>
+        );
+    }
+
     render() {
         const profilePicture = this.renderProfilePicture();
+        const dropdownIcon = this.renderDropdownIcon();
         let actions = [
             this.renderStatusOnlineAction(),
             this.renderStatusAwayAction(),
@@ -204,10 +232,7 @@ export default class StatusDropdown extends React.Component {
                         {profilePicture}
                         <StatusIcon status={this.props.status}/>
                         <span className={'status status-edit edit'}>
-                            <i
-                                className={'fa fa-caret-down'}
-                                title={localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
-                            />
+                            {dropdownIcon}
                         </span>
                     </div>
                 </BootstrapSpan>
