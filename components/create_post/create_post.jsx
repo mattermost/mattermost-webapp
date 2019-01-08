@@ -642,8 +642,13 @@ export default class CreatePost extends React.Component {
             return Array.from(row.querySelectorAll('td')).map(this.columnText).join(' | ');
         }).join('\n');
 
+        const formattedTable = `${header}${body}\n`;
+
+        let message = this.state.message.trim();
+        message = message ? `${message}\n\n${formattedTable}` : formattedTable;
+
         this.setState({
-            message: `${header}${body}\n`,
+            message,
         });
     }
 
