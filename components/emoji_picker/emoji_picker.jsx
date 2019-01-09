@@ -368,13 +368,14 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     sortEmojis(emojis) {
+        const {recentEmojis: recentEmojisProps} = this.props;
         const recentEmojis = [];
         const emojisMinusRecent = [];
 
         Object.values(emojis).forEach((emoji) => {
             let emojiArray = emojisMinusRecent;
             for (let i = 0; i < emoji.aliases.length; i++) {
-                if (this.props.recentEmojis.includes(emoji.aliases[i].toLowerCase())) {
+                if (recentEmojisProps.includes(emoji.aliases[i].toLowerCase())) {
                     emojiArray = recentEmojis;
                 }
             }
@@ -382,8 +383,10 @@ export default class EmojiPicker extends React.PureComponent {
             emojiArray.push(emoji);
         });
 
+        // Sort the recent matched so they are in the same
+        // order as the recentEmojis array
         recentEmojis.sort((a, b) => {
-            return a.aliases[0].localeCompare(b.aliases[0]);
+            return recentEmojisProps.indexOf(b.name) - recentEmojisProps.indexOf(a.name);
         });
 
         emojisMinusRecent.sort((a, b) => {

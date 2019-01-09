@@ -121,9 +121,10 @@ export default class EmoticonProvider extends Provider {
             }
         }
 
-        // Sort the emoticons so that emoticons starting with the entered text come first
+        // Sort the recent matched so they are in the same
+        // order as the recentEmojis array
         recentMatched.sort((a, b) => {
-            return a.name.localeCompare(b.name);
+            return recentEmojis.indexOf(b.name) - recentEmojis.indexOf(a.name);
         });
 
         matched.sort((a, b) => {
