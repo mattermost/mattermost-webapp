@@ -121,13 +121,8 @@ export default class EmoticonProvider extends Provider {
             }
         }
 
-        // Sort the recent matched so they are in the same
-        // order as the recentEmojis array
-        recentMatched.sort((a, b) => {
-            return recentEmojis.indexOf(b.name) - recentEmojis.indexOf(a.name);
-        });
-
-        matched.sort((a, b) => {
+        // Have the emojis that contain the search appear first
+        const sortEmojis = (a, b) => {
             const aName = a.name;
             const bName = b.name;
 
@@ -141,7 +136,11 @@ export default class EmoticonProvider extends Provider {
             }
 
             return 1;
-        });
+        };
+
+        recentMatched.sort(sortEmojis);
+
+        matched.sort(sortEmojis);
 
         const terms = [
             ...this.formatEmojis(recentMatched),

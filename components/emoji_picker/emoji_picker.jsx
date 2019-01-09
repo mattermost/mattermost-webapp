@@ -383,13 +383,8 @@ export default class EmojiPicker extends React.PureComponent {
             emojiArray.push(emoji);
         });
 
-        // Sort the recent matched so they are in the same
-        // order as the recentEmojis array
-        recentEmojis.sort((a, b) => {
-            return recentEmojisProps.indexOf(b.name) - recentEmojisProps.indexOf(a.name);
-        });
-
-        emojisMinusRecent.sort((a, b) => {
+        // Have the emojis that contain the search appear first
+        const sortEMojis = (a, b) => {
             const aName = a.aliases[0];
             const bName = b.aliases[0];
 
@@ -403,7 +398,11 @@ export default class EmojiPicker extends React.PureComponent {
             }
 
             return 1;
-        });
+        };
+
+        recentEmojis.sort(sortEMojis);
+
+        emojisMinusRecent.sort(sortEMojis);
 
         return [
             ...recentEmojis,
