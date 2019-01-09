@@ -96,7 +96,7 @@ export function emitChannelClickEvent(channel) {
             type: ActionTypes.SELECT_CHANNEL_WITH_MEMBER,
             data: chan.id,
             channel: chan,
-            member,
+            member: member || {},
         }]));
     }
 
