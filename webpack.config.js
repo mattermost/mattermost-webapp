@@ -257,6 +257,7 @@ var config = {
             filename: 'root.html',
             inject: 'head',
             template: 'root.html',
+            favicon: 'images/favicon/favicon-16x16.png',
         }),
         new CopyWebpackPlugin([
             {from: 'images/emoji', to: 'emoji'},
