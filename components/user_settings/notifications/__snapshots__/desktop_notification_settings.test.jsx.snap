@@ -259,13 +259,9 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
 <SettingItemMin
   describe={
     <FormattedMessage
-      defaultMessage="For mentions and direct messages, without sound, shown for {seconds} seconds"
-      id="user.settings.notifications.desktop.mentionsNoSoundTimed"
-      values={
-        Object {
-          "seconds": 5,
-        }
-      }
+      defaultMessage="For mentions and direct messages, without sound"
+      id="user.settings.notifications.desktop.mentionsNoSound"
+      values={Object {}}
     />
   }
   focused={false}
@@ -453,13 +449,9 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
 <SettingItemMin
   describe={
     <FormattedMessage
-      defaultMessage="For mentions and direct messages, without sound, shown for {seconds} seconds"
-      id="user.settings.notifications.desktop.mentionsNoSoundTimed"
-      values={
-        Object {
-          "seconds": 5,
-        }
-      }
+      defaultMessage="For mentions and direct messages, without sound"
+      id="user.settings.notifications.desktop.mentionsNoSound"
+      values={Object {}}
     />
   }
   focused={false}
