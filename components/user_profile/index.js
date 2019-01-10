@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 
-import {makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
+import {getUser, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 
 import UserProfile from './user_profile';
 
@@ -14,6 +14,7 @@ function makeMapStateToProps(initialState, initialProps) {
     return (state) => {
         return {
             displayName: getDisplayName(state, userId),
+            user: getUser(state, userId),
         };
     };
 }

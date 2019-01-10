@@ -256,7 +256,6 @@ export default class Post extends React.PureComponent {
                             post={post}
                             handleCommentClick={this.handleCommentClick}
                             handleDropdownOpened={this.handleDropdownOpened}
-                            userId={post.user_id}
                             compactDisplay={this.props.compactDisplay}
                             lastPostCount={this.props.lastPostCount}
                             isFirstReply={this.props.isFirstReply}

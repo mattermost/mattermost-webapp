@@ -7,7 +7,6 @@ import {OverlayTrigger} from 'react-bootstrap';
 
 import {imageURLForUser, isMobile} from 'utils/utils.jsx';
 
-import Pluggable from 'plugins/pluggable';
 import ProfilePopover from 'components/profile_popover';
 
 export default class UserProfile extends PureComponent {
@@ -15,15 +14,18 @@ export default class UserProfile extends PureComponent {
         disablePopover: PropTypes.bool,
         displayName: PropTypes.string,
         hasMention: PropTypes.bool,
+        hideStatus: PropTypes.bool,
         isBusy: PropTypes.bool,
         isRHS: PropTypes.bool,
         overwriteName: PropTypes.node,
+        user: PropTypes.object,
         userId: PropTypes.string,
     };
 
     static defaultProps = {
         disablePopover: false,
         hasMention: false,
+        hideStatus: false,
         isRHS: false,
         overwriteImage: '',
         overwriteName: '',
@@ -40,7 +42,9 @@ export default class UserProfile extends PureComponent {
             isBusy,
             isRHS,
             hasMention,
+            hideStatus,
             overwriteName,
+            user,
             userId,
         } = this.props;
 
@@ -55,8 +59,8 @@ export default class UserProfile extends PureComponent {
         }
 
         let profileImg = '';
-        if (userId) {
-            profileImg = imageURLForUser(userId);
+        if (user) {
+            profileImg = imageURLForUser(user);
         }
 
         return (
@@ -66,16 +70,15 @@ export default class UserProfile extends PureComponent {
                 placement={placement}
                 rootClose={true}
                 overlay={
-                    <Pluggable>
-                        <ProfilePopover
-                            userId={userId}
-                            src={profileImg}
-                            isBusy={isBusy}
-                            hide={this.hideProfilePopover}
-                            isRHS={isRHS}
-                            hasMention={hasMention}
-                        />
-                    </Pluggable>
+                    <ProfilePopover
+                        userId={userId}
+                        src={profileImg}
+                        isBusy={isBusy}
+                        hide={this.hideProfilePopover}
+                        hideStatus={hideStatus}
+                        isRHS={isRHS}
+                        hasMention={hasMention}
+                    />
                 }
             >
                 <div className='user-popover'>

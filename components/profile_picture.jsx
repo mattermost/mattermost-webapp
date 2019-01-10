@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger} from 'react-bootstrap';
 
-import Pluggable from 'plugins/pluggable';
-
 import ProfilePopover from 'components/profile_popover';
 import StatusIcon from 'components/status_icon';
 
@@ -43,16 +41,14 @@ export default class ProfilePicture extends React.PureComponent {
                     placement='right'
                     rootClose={true}
                     overlay={
-                        <Pluggable>
-                            <ProfilePopover
-                                userId={this.props.userId}
-                                src={this.props.src}
-                                isBusy={this.props.isBusy}
-                                hide={this.hideProfilePopover}
-                                isRHS={this.props.isRHS}
-                                hasMention={this.props.hasMention}
-                            />
-                        </Pluggable>
+                        <ProfilePopover
+                            userId={this.props.userId}
+                            src={this.props.src}
+                            isBusy={this.props.isBusy}
+                            hide={this.hideProfilePopover}
+                            isRHS={this.props.isRHS}
+                            hasMention={this.props.hasMention}
+                        />
                     }
                 >
                     <span className='status-wrapper'>

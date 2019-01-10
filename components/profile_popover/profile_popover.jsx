@@ -47,6 +47,8 @@ class ProfilePopover extends React.PureComponent {
          */
         status: PropTypes.string,
 
+        hideStatus: PropTypes.bool,
+
         /**
          * Function to call to hide the popover
          */
@@ -187,6 +189,7 @@ class ProfilePopover extends React.PureComponent {
         delete popoverProps.userId;
         delete popoverProps.src;
         delete popoverProps.status;
+        delete popoverProps.hideStatus;
         delete popoverProps.isBusy;
         delete popoverProps.hide;
         delete popoverProps.isRHS;
@@ -291,7 +294,7 @@ class ProfilePopover extends React.PureComponent {
                 key='profilePopoverPluggable2'
                 pluggableName='PopoverUserAttributes'
                 user={this.props.user}
-                status={this.props.status}
+                status={this.props.hideStatus ? null : this.props.status}
             />
         );
 
@@ -400,7 +403,7 @@ class ProfilePopover extends React.PureComponent {
                 key='profilePopoverPluggable3'
                 pluggableName='PopoverUserActions'
                 user={this.props.user}
-                status={this.props.status}
+                status={this.props.hideStatus ? null : this.props.status}
             />
         );
 

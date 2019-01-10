@@ -248,6 +248,7 @@ export default class RhsComment extends React.Component {
                     userProfile = (
                         <UserProfile
                             userId={post.user_id}
+                            hideStatus={true}
                             overwriteName={post.props.override_username}
                             disablePopover={true}
                         />
@@ -256,6 +257,7 @@ export default class RhsComment extends React.Component {
                     userProfile = (
                         <UserProfile
                             userId={post.user_id}
+                            hideStatus={true}
                             disablePopover={true}
                         />
                     );
@@ -274,6 +276,7 @@ export default class RhsComment extends React.Component {
                     <span className='auto-responder'>
                         <UserProfile
                             userId={post.user_id}
+                            hideStatus={true}
                             isBusy={this.props.isBusy}
                             isRHS={true}
                             hasMention={true}

@@ -4,16 +4,15 @@ exports[`components/UserProfile should match snapshot 1`] = `
 <OverlayTrigger
   defaultOverlayShown={false}
   overlay={
-    <Connect(Pluggable)>
-      <Connect(InjectIntl(ProfilePopover))
-        hasMention={false}
-        hide={[Function]}
-        isBusy={false}
-        isRHS={false}
-        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-        userId="user_id"
-      />
-    </Connect(Pluggable)>
+    <Connect(InjectIntl(ProfilePopover))
+      hasMention={false}
+      hide={[Function]}
+      hideStatus={false}
+      isBusy={false}
+      isRHS={false}
+      src=""
+      userId="user_id"
+    />
   }
   placement="right"
   rootClose={true}

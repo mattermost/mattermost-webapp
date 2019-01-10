@@ -19,11 +19,6 @@ export default class PostHeader extends React.PureComponent {
         post: PropTypes.object.isRequired,
 
         /*
-         * The ID of the user who created the post
-         */
-        userId: PropTypes.string,
-
-        /*
          * Function called when the comment icon is clicked
          */
         handleCommentClick: PropTypes.func.isRequired,
@@ -75,14 +70,14 @@ export default class PostHeader extends React.PureComponent {
     }
 
     render() {
-        const {post, userId} = this.props;
+        const {post} = this.props;
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
         const fromWebhook = post && post.props && post.props.from_webhook === 'true';
 
         let userProfile = (
             <UserProfile
-                userId={userId}
+                userId={post.user_id}
                 hasMention={true}
             />
         );
@@ -93,7 +88,8 @@ export default class PostHeader extends React.PureComponent {
             if (post.props.override_username && this.props.enablePostUsernameOverride) {
                 userProfile = (
                     <UserProfile
-                        userId={userId}
+                        userId={post.user_id}
+                        hideStatus={true}
                         overwriteName={post.props.override_username}
                         disablePopover={true}
                     />
@@ -101,7 +97,8 @@ export default class PostHeader extends React.PureComponent {
             } else {
                 userProfile = (
                     <UserProfile
-                        userId={userId}
+                        userId={post.user_id}
+                        hideStatus={true}
                         disablePopover={true}
                     />
                 );
@@ -118,7 +115,8 @@ export default class PostHeader extends React.PureComponent {
         } else if (fromAutoResponder) {
             userProfile = (
                 <UserProfile
-                    userId={userId}
+                    userId={post.user_id}
+                    hideStatus={true}
                     hasMention={true}
                 />
             );

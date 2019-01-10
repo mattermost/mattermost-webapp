@@ -10,10 +10,6 @@ import AtMention from 'components/at_mention/at_mention.jsx';
 
 /* eslint-disable global-require */
 
-jest.mock('components/profile_popover', () => {
-    return class FakeProfilePopover extends require('react').PureComponent {};
-});
-
 describe('components/AtMention', () => {
     const baseProps = {
         currentUserId: 'abc1',

@@ -258,6 +258,7 @@ export default class RhsRootPost extends React.Component {
                 userProfile = (
                     <UserProfile
                         userId={post.user_id}
+                        hideStatus={true}
                         overwriteName={post.props.override_username}
                         disablePopover={true}
                     />
@@ -266,6 +267,7 @@ export default class RhsRootPost extends React.Component {
                 userProfile = (
                     <UserProfile
                         userId={post.user_id}
+                        hideStatus={true}
                         disablePopover={true}
                     />
                 );
