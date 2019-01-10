@@ -3,10 +3,12 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {removeReaction} from 'mattermost-redux/actions/posts';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import {getCurrentUserId, makeGetProfilesForReactions, getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import Permissions from 'mattermost-redux/constants/permissions';
@@ -32,7 +34,8 @@ function makeMapStateToProps() {
         if (Emoji.EmojiIndicesByAlias.has(ownProps.emojiName)) {
             emoji = Emoji.Emojis[Emoji.EmojiIndicesByAlias.get(ownProps.emojiName)];
         } else {
-            emoji = ownProps.emojis.get(ownProps.emojiName);
+            const emojis = getCustomEmojisByName(state);
+            emoji = emojis.get(ownProps.emojiName);
         }
 
         let emojiImageUrl = '';

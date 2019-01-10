@@ -10,6 +10,7 @@ import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_w
 
 const HEADER = {id: t('integrations.add'), defaultMessage: 'Add'};
 const FOOTER = {id: t('add_incoming_webhook.save'), defaultMessage: 'Save'};
+const LOADING = {id: t('add_incoming_webhook.saving'), defaultMessage: 'Saving...'};
 
 export default class AddIncomingWebhook extends React.PureComponent {
     static propTypes = {
@@ -71,6 +72,7 @@ export default class AddIncomingWebhook extends React.PureComponent {
                 team={this.props.team}
                 header={HEADER}
                 footer={FOOTER}
+                loading={LOADING}
                 enablePostUsernameOverride={this.props.enablePostUsernameOverride}
                 enablePostIconOverride={this.props.enablePostIconOverride}
                 action={this.addIncomingHook}

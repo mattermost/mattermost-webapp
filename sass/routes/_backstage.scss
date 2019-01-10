@@ -141,17 +141,14 @@
 
 .backstage-header {
     @include clearfix;
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 20px;
     width: 100%;
 
     h1 {
-        float: left;
         font-size: 20px;
         margin: 5px 0;
-    }
-
-    .add-link {
-        float: right;
     }
 }
 

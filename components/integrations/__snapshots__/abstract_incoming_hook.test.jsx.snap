@@ -249,7 +249,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           type="backstage"
         />
         <Link
-          className="btn btn-sm"
+          className="btn btn-link btn-sm"
           replace={false}
           to="/team_name/integrations/incoming_webhooks"
         >
@@ -263,6 +263,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           className="btn btn-primary"
           onClick={[Function]}
           spinning={false}
+          spinningText="Loading"
           type="submit"
         >
           <FormattedMessage
@@ -526,7 +527,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           type="backstage"
         />
         <Link
-          className="btn btn-sm"
+          className="btn btn-link btn-sm"
           replace={false}
           to="/team_name/integrations/incoming_webhooks"
         >
@@ -540,6 +541,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           className="btn btn-primary"
           onClick={[Function]}
           spinning={false}
+          spinningText="Loading"
           type="submit"
         >
           <FormattedMessage
@@ -807,7 +809,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           type="backstage"
         />
         <Link
-          className="btn btn-sm"
+          className="btn btn-link btn-sm"
           replace={false}
           to="/team_name/integrations/incoming_webhooks"
         >
@@ -821,6 +823,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="btn btn-primary"
           onClick={[Function]}
           spinning={false}
+          spinningText="Loading"
           type="submit"
         >
           <FormattedMessage
@@ -1049,7 +1052,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           type="backstage"
         />
         <Link
-          className="btn btn-sm"
+          className="btn btn-link btn-sm"
           replace={false}
           to="/team_name/integrations/incoming_webhooks"
         >
@@ -1063,6 +1066,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="btn btn-primary"
           onClick={[Function]}
           spinning={false}
+          spinningText="Loading"
           type="submit"
         >
           <FormattedMessage
@@ -1291,7 +1295,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           type="backstage"
         />
         <Link
-          className="btn btn-sm"
+          className="btn btn-link btn-sm"
           replace={false}
           to="/team_name/integrations/incoming_webhooks"
         >
@@ -1305,6 +1309,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="btn btn-primary"
           onClick={[Function]}
           spinning={false}
+          spinningText="Loading"
           type="submit"
         >
           <FormattedMessage
@@ -1568,7 +1573,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           type="backstage"
         />
         <Link
-          className="btn btn-sm"
+          className="btn btn-link btn-sm"
           replace={false}
           to="/team_name/integrations/incoming_webhooks"
         >
@@ -1582,6 +1587,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="btn btn-primary"
           onClick={[Function]}
           spinning={false}
+          spinningText="Loading"
           type="submit"
         >
           <FormattedMessage

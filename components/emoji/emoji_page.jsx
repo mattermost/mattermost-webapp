@@ -75,8 +75,8 @@ export default class EmojiPage extends React.Component {
                             </button>
                         </Link>
                     </TeamPermissionGate>
-                    <EmojiList scrollToTop={this.props.scrollToTop}/>
                 </div>
+                <EmojiList scrollToTop={this.props.scrollToTop}/>
             </div>
         );
     }

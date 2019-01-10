@@ -101,6 +101,10 @@ export default class ManageTeamsModal extends React.Component {
         }
     }
 
+    handleMemberChange = () => {
+        this.getTeamMembers(this.props.user.id);
+    };
+
     renderContents = () => {
         const {user} = this.props;
         const {teams, teamMembers} = this.state;
@@ -141,7 +145,7 @@ export default class ManageTeamsModal extends React.Component {
                             team={team}
                             teamMember={teamMember}
                             onError={this.handleError}
-                            onMemberChange={this.getTeamMembers}
+                            onMemberChange={this.handleMemberChange}
                             updateTeamMemberSchemeRoles={this.props.actions.updateTeamMemberSchemeRoles}
                             handleRemoveUserFromTeam={this.handleRemoveUserFromTeam}
                         />

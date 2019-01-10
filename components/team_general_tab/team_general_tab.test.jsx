@@ -30,7 +30,7 @@ describe('components/TeamSettings', () => {
 
         wrapper.instance().updateTeamIcon(null);
 
-        expect(wrapper.state('clientError')).toEqual('An error occured while selecting the image.');
+        expect(wrapper.state('clientError')).toEqual('An error occurred while selecting the image.');
     });
 
     test('should handle invalid file selection', () => {

@@ -9,7 +9,7 @@ import {getUser} from 'mattermost-redux/actions/users';
 
 import {browserHistory} from 'utils/browser_history';
 
-export function removeUserFromTeam(teamId, userId) {
+export function removeUserFromTeamAndGetStats(teamId, userId) {
     return async (dispatch, getState) => {
         const response = await dispatch(TeamActions.removeUserFromTeam(teamId, userId));
         dispatch(getUser(userId));

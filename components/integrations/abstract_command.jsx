@@ -34,6 +34,11 @@ export default class AbstractCommand extends React.PureComponent {
         footer: PropTypes.object.isRequired,
 
         /**
+        * The spinner loading text to render, has id and defaultMessage
+        */
+        loading: PropTypes.object.isRequired,
+
+        /**
          * Any extra component/node to render
          */
         renderExtra: PropTypes.node.isRequired,
@@ -592,7 +597,7 @@ export default class AbstractCommand extends React.PureComponent {
                                 errors={[this.props.serverError, this.state.clientError]}
                             />
                             <Link
-                                className='btn btn-sm'
+                                className='btn btn-link btn-sm'
                                 to={'/' + this.props.team.name + '/integrations/commands'}
                             >
                                 <FormattedMessage
@@ -604,6 +609,7 @@ export default class AbstractCommand extends React.PureComponent {
                                 className='btn btn-primary'
                                 type='submit'
                                 spinning={this.state.saving}
+                                spinningText={Utils.localizeMessage(this.props.loading.id, this.props.loading.defaultMessage)}
                                 onClick={this.handleSubmit}
                             >
                                 <FormattedMessage

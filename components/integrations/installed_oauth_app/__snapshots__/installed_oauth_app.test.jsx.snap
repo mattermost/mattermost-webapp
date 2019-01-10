@@ -119,7 +119,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
           values={
             Object {
               "createAt": 1501365458934,
-              "creator": "",
+              "creator": "somename",
             }
           }
         />
@@ -297,7 +297,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
           values={
             Object {
               "createAt": 1501365458934,
-              "creator": "",
+              "creator": "somename",
             }
           }
         />
@@ -471,7 +471,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
           values={
             Object {
               "createAt": 1501365458934,
-              "creator": "",
+              "creator": "somename",
             }
           }
         />

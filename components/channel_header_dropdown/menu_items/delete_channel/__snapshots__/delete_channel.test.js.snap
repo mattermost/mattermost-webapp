@@ -25,6 +25,7 @@ exports[`components/ChannelHeaderDropdown/MenuItem.DeleteChannel should match sn
         }
       }
       dialogType={[Function]}
+      id="channelDelete"
       modalId="delete_channel"
       role="menuitem"
     >

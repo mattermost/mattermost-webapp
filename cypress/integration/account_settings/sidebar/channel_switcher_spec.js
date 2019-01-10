@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+/* eslint max-nested-callbacks: ["error", 3] */
+
 describe('Account Settings > Sidebar > Channel Switcher', () => {
     before(() => {
         // 1. Go to Account Settings with "user-1"
@@ -47,7 +49,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#accountSettingsHeader > .close').should('be.visible');
     });
 
-    it('change channel setting to Off', () => {
+    it('change channel switcher setting to Off', () => {
         // 4. Click the radio button for "Off"
         cy.get('#channelSwitcherSectionOff').click();
 
@@ -65,7 +67,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#sidebarSwitcherButton').should('be.not.visible');
     });
 
-    it('change channel setting to On', () => {
+    it('change channel switcher setting to On', () => {
         // 1. Return to Account Settings modal
         cy.toAccountSettingsModal('user-1', true);
 
@@ -93,5 +95,74 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
 
         // * Channel Switcher button should appear at the bottom of the left-hand-side bar
         cy.get('#sidebarSwitcherButton').should('be.visible');
+    });
+
+    it('set channel switcher setting to On and test on click of sidebar switcher button', () => {
+        // 1. Go to Account Settings modal > Sidebar > Channel Switcher and set setting to On
+        cy.toAccountSettingsModalChannelSwitcher('user-1');
+
+        // 2. Go to a known team and channel
+        cy.visit('/ad-1/channels/town-square');
+        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
+
+        // 3. Click the sidebar switcher button
+        cy.get('#sidebarSwitcherButton').click();
+
+        // * Channel switcher hint should be visible
+        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.');
+
+        // 4. Type "nt" on Channel switcher input
+        cy.get('#quickSwitchInput').type('nt');
+        cy.wait(500);  // eslint-disable-line
+
+        // * Suggestion list should be visible
+        cy.get('#suggestionList').should('be.visible');
+
+        // 5. Press down arrow and then enter
+        cy.get('#quickSwitchInput').type('{downarrow}{enter}');
+
+        // * Verify that it redirected into "nesciunt" as selected channel
+        cy.url().should('include', '/ad-1/channels/sequi-7');
+        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'nesciunt');
+    });
+
+    it('set channel switcher setting to On and test on press of Ctrl/Cmd+K', () => {
+        // 1. Go to Account Settings modal > Sidebar > Channel Switcher and set setting to On
+        cy.toAccountSettingsModalChannelSwitcher('user-1');
+
+        // 2. Go to a known team and channel
+        cy.visit('/ad-1/channels/town-square');
+        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
+
+        // 3. Type CTRL/CMD+K
+        cy.typeCmdOrCtrl().type('K', {release: true});
+
+        // * Channel switcher hint should be visible
+        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.');
+
+        // 4. Type "comm" on Channel switcher input
+        cy.get('#quickSwitchInput').type('comm');
+        cy.wait(500);  // eslint-disable-line
+
+        // * Suggestion list should be visible
+        cy.get('#suggestionList').should('be.visible');
+
+        // 5. Press enter
+        cy.get('#quickSwitchInput').type('{enter}');
+
+        // * Verify that it redirected into "commodi" as selected channel
+        cy.url().should('include', '/ad-1/channels/autem-2');
+        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'commodi');
+    });
+
+    it('set channel switcher setting to Off and test on press of Ctrl/Cmd+K', () => {
+        // 1. Go to Account Settings modal > Sidebar > Channel Switcher and set setting to Off
+        cy.toAccountSettingsModalChannelSwitcher('user-1', false);
+
+        // 2. Type CTRL/CMD+K
+        cy.typeCmdOrCtrl().type('K', {release: true});
+
+        // * Channel switcher should still be accessible
+        cy.get('#quickSwitchHint').should('be.visible');
     });
 });

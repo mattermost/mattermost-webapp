@@ -10,6 +10,7 @@ import AbstractCommand from '../abstract_command.jsx';
 
 const HEADER = {id: t('integrations.add'), defaultMessage: 'Add'};
 const FOOTER = {id: t('add_command.save'), defaultMessage: 'Save'};
+const LOADING = {id: t('add_command.saving'), defaultMessage: 'Saving...'};
 
 export default class AddCommand extends React.PureComponent {
     static propTypes = {
@@ -56,6 +57,7 @@ export default class AddCommand extends React.PureComponent {
                 team={this.props.team}
                 header={HEADER}
                 footer={FOOTER}
+                loading={LOADING}
                 renderExtra={''}
                 action={this.addCommand}
                 serverError={this.state.serverError}

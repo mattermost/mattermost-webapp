@@ -263,7 +263,7 @@ export default class TeamAnalytics extends React.Component {
                                 defaultMessage='Total Active Users'
                             />
                         }
-                        icon='fa-user'
+                        icon='fa-users'
                         count={stats[StatTypes.TOTAL_USERS]}
                     />
                     <StatisticCount
@@ -273,7 +273,7 @@ export default class TeamAnalytics extends React.Component {
                                 defaultMessage='Public Channels'
                             />
                         }
-                        icon='fa-users'
+                        icon='fa-globe'
                         count={stats[StatTypes.TOTAL_PUBLIC_CHANNELS]}
                     />
                     <StatisticCount
@@ -283,7 +283,7 @@ export default class TeamAnalytics extends React.Component {
                                 defaultMessage='Private Channels'
                             />
                         }
-                        icon='fa-globe'
+                        icon='fa-lock'
                         count={stats[StatTypes.TOTAL_PRIVATE_GROUPS]}
                     />
                     {totalPostsCount}

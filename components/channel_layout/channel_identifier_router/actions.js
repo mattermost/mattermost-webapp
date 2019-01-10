@@ -4,7 +4,7 @@
 import {joinChannel, getChannelByNameAndTeamName, markGroupChannelOpen} from 'mattermost-redux/actions/channels';
 import {getUser, getUserByUsername, getUserByEmail} from 'mattermost-redux/actions/users';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId, getUserByUsername as selectUserByUsername, getUser as selectUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getUserByUsername as selectUserByUsername, getUser as selectUser, getUserByEmail as selectUserByEmail} from 'mattermost-redux/selectors/entities/users';
 import {getChannelByName, getOtherChannels, getChannel, getChannelsNameMapInTeam} from 'mattermost-redux/selectors/entities/channels';
 
 import {Constants} from 'utils/constants.jsx';
@@ -59,15 +59,16 @@ export function onChannelByIdentifierEnter({match, history}) {
     };
 }
 
-function goToChannelByChannelId(match, history) {
+export function goToChannelByChannelId(match, history) {
     return async (dispatch, getState) => {
         const state = getState();
         const {team, identifier} = match.params;
         const channelId = identifier.toLowerCase();
 
         let channel = getChannel(state, channelId);
+        const member = state.entities.channels.myMembers[channelId];
         const teamObj = getTeamByName(state, team);
-        if (!channel) {
+        if (!channel || !member) {
             const {data, error} = await dispatch(joinChannel(getCurrentUserId(state), teamObj.id, channelId, null));
             if (error) {
                 handleChannelJoinError(match, history);
@@ -98,8 +99,12 @@ export function goToChannelByChannelName(match, history) {
         }
 
         let channel = getChannelsNameMapInTeam(state, teamObj.id)[channelName];
+        let member;
+        if (channel) {
+            member = state.entities.channels.myMembers[channel.id];
+        }
 
-        if (!channel) {
+        if (!channel || !member) {
             const {data, error: joinError} = await dispatch(joinChannel(getCurrentUserId(state), teamObj.id, null, channelName));
             if (joinError) {
                 const {data: data2, error: getChannelError} = await dispatch(getChannelByNameAndTeamName(team, channelName, true));
@@ -188,13 +193,13 @@ export function goToDirectChannelByUserIds(match, history) {
     };
 }
 
-function goToDirectChannelByEmail(match, history) {
+export function goToDirectChannelByEmail(match, history) {
     return async (dispatch, getState) => {
         const state = getState();
         const {team, identifier} = match.params;
         const email = identifier.toLowerCase();
 
-        let user = getUserByEmail(state, email);
+        let user = selectUserByEmail(state, email);
         if (!user) {
             const {data, error} = await dispatch(getUserByEmail(email));
             if (error) {

@@ -24,6 +24,7 @@ exports[`components/ChannelHeaderDropdown/MenuItem.RenameChannel should match sn
         }
       }
       dialogType={[Function]}
+      id="channelRename"
       modalId="rename_channel"
       role="menuitem"
     >

@@ -65,7 +65,7 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
     componentClass="div"
   >
     <button
-      className="btn btn-default"
+      className="btn btn-link"
       onClick={[Function]}
       type="button"
     >

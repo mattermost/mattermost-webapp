@@ -86,22 +86,28 @@ exports[`components/NewChannelModal should match snapshot, display only private 
             className="col-sm-9"
           >
             <div
-              className="type-container"
+              className="type-container multi-select__radio"
             >
-              <div>
-                <LockIcon
-                  className="icon icon__lock icon--body type-icon"
-                />
-                <FormattedMessage
-                  defaultMessage="Private"
-                  id="channel_modal.privateName"
-                  values={Object {}}
-                />
-                <FormattedMessage
-                  defaultMessage=" - Only invited members can join this channel."
-                  id="channel_modal.privateHint"
-                  values={Object {}}
-                />
+              <div
+                className="radio"
+              >
+                <div
+                  className="flex-parent"
+                >
+                  <LockIcon
+                    className="icon icon__lock icon--body type-icon"
+                  />
+                  <FormattedMessage
+                    defaultMessage="Private"
+                    id="channel_modal.privateName"
+                    values={Object {}}
+                  />
+                  <FormattedMessage
+                    defaultMessage=" - Only invited members can join this channel."
+                    id="channel_modal.privateHint"
+                    values={Object {}}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -256,7 +262,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
         componentClass="div"
       >
         <button
-          className="btn btn-default"
+          className="btn btn-link"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -372,22 +378,28 @@ exports[`components/NewChannelModal should match snapshot, display only public c
             className="col-sm-9"
           >
             <div
-              className="type-container"
+              className="type-container multi-select__radio"
             >
-              <div>
-                <GlobeIcon
-                  className="icon icon__globe icon--body type-icon"
-                />
-                <FormattedMessage
-                  defaultMessage="Public"
-                  id="channel_modal.publicName"
-                  values={Object {}}
-                />
-                <FormattedMessage
-                  defaultMessage=" - Anyone can join this channel."
-                  id="channel_modal.publicHint"
-                  values={Object {}}
-                />
+              <div
+                className="radio"
+              >
+                <div
+                  className="flex-parent"
+                >
+                  <GlobeIcon
+                    className="icon icon__globe icon--body type-icon"
+                  />
+                  <FormattedMessage
+                    defaultMessage="Public"
+                    id="channel_modal.publicName"
+                    values={Object {}}
+                  />
+                  <FormattedMessage
+                    defaultMessage=" - Anyone can join this channel."
+                    id="channel_modal.publicHint"
+                    values={Object {}}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -542,7 +554,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
         componentClass="div"
       >
         <button
-          className="btn btn-default"
+          className="btn btn-link"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -658,6 +670,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
             className="col-sm-9"
           >
             <div
+              className="multi-select__radio"
               key="channelType"
             >
               <div
@@ -671,7 +684,9 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
                     onChange={[Function]}
                     type="radio"
                   />
-                  <div>
+                  <div
+                    className="flex-parent"
+                  >
                     <GlobeIcon
                       className="icon icon__globe icon--body type-icon"
                     />
@@ -687,7 +702,6 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
                     />
                   </div>
                 </label>
-                <br />
               </div>
               <div
                 className="radio"
@@ -700,7 +714,9 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
                     onChange={[Function]}
                     type="radio"
                   />
-                  <div>
+                  <div
+                    className="flex-parent"
+                  >
                     <LockIcon
                       className="icon icon__lock icon--body type-icon"
                     />
@@ -716,7 +732,6 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
                     />
                   </div>
                 </label>
-                <br />
               </div>
             </div>
           </div>
@@ -871,7 +886,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
         componentClass="div"
       >
         <button
-          className="btn btn-default"
+          className="btn btn-link"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -987,6 +1002,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
             className="col-sm-9"
           >
             <div
+              className="multi-select__radio"
               key="channelType"
             >
               <div
@@ -1000,7 +1016,9 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
                     onChange={[Function]}
                     type="radio"
                   />
-                  <div>
+                  <div
+                    className="flex-parent"
+                  >
                     <GlobeIcon
                       className="icon icon__globe icon--body type-icon"
                     />
@@ -1016,7 +1034,6 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
                     />
                   </div>
                 </label>
-                <br />
               </div>
               <div
                 className="radio"
@@ -1029,7 +1046,9 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
                     onChange={[Function]}
                     type="radio"
                   />
-                  <div>
+                  <div
+                    className="flex-parent"
+                  >
                     <LockIcon
                       className="icon icon__lock icon--body type-icon"
                     />
@@ -1045,7 +1064,6 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
                     />
                   </div>
                 </label>
-                <br />
               </div>
             </div>
           </div>
@@ -1200,7 +1218,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
         componentClass="div"
       >
         <button
-          className="btn btn-default"
+          className="btn btn-link"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -1316,6 +1334,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
             className="col-sm-9"
           >
             <div
+              className="multi-select__radio"
               key="channelType"
             >
               <div
@@ -1329,7 +1348,9 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
                     onChange={[Function]}
                     type="radio"
                   />
-                  <div>
+                  <div
+                    className="flex-parent"
+                  >
                     <GlobeIcon
                       className="icon icon__globe icon--body type-icon"
                     />
@@ -1345,7 +1366,6 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
                     />
                   </div>
                 </label>
-                <br />
               </div>
               <div
                 className="radio"
@@ -1358,7 +1378,9 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
                     onChange={[Function]}
                     type="radio"
                   />
-                  <div>
+                  <div
+                    className="flex-parent"
+                  >
                     <LockIcon
                       className="icon icon__lock icon--body type-icon"
                     />
@@ -1374,7 +1396,6 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
                     />
                   </div>
                 </label>
-                <br />
               </div>
             </div>
           </div>
@@ -1539,7 +1560,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
         componentClass="div"
       >
         <button
-          className="btn btn-default"
+          className="btn btn-link"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -1655,6 +1676,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
             className="col-sm-9"
           >
             <div
+              className="multi-select__radio"
               key="channelType"
             >
               <div
@@ -1668,7 +1690,9 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
                     onChange={[Function]}
                     type="radio"
                   />
-                  <div>
+                  <div
+                    className="flex-parent"
+                  >
                     <GlobeIcon
                       className="icon icon__globe icon--body type-icon"
                     />
@@ -1684,7 +1708,6 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
                     />
                   </div>
                 </label>
-                <br />
               </div>
               <div
                 className="radio"
@@ -1697,7 +1720,9 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
                     onChange={[Function]}
                     type="radio"
                   />
-                  <div>
+                  <div
+                    className="flex-parent"
+                  >
                     <LockIcon
                       className="icon icon__lock icon--body type-icon"
                     />
@@ -1713,7 +1738,6 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
                     />
                   </div>
                 </label>
-                <br />
               </div>
             </div>
           </div>
@@ -1881,7 +1905,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
         componentClass="div"
       >
         <button
-          className="btn btn-default"
+          className="btn btn-link"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -1997,6 +2021,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
             className="col-sm-9"
           >
             <div
+              className="multi-select__radio"
               key="channelType"
             >
               <div
@@ -2010,7 +2035,9 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
                     onChange={[Function]}
                     type="radio"
                   />
-                  <div>
+                  <div
+                    className="flex-parent"
+                  >
                     <GlobeIcon
                       className="icon icon__globe icon--body type-icon"
                     />
@@ -2026,7 +2053,6 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
                     />
                   </div>
                 </label>
-                <br />
               </div>
               <div
                 className="radio"
@@ -2039,7 +2065,9 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
                     onChange={[Function]}
                     type="radio"
                   />
-                  <div>
+                  <div
+                    className="flex-parent"
+                  >
                     <LockIcon
                       className="icon icon__lock icon--body type-icon"
                     />
@@ -2055,7 +2083,6 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
                     />
                   </div>
                 </label>
-                <br />
               </div>
             </div>
           </div>
@@ -2210,7 +2237,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
         componentClass="div"
       >
         <button
-          className="btn btn-default"
+          className="btn btn-link"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"

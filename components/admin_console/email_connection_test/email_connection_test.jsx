@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+
 import * as Utils from 'utils/utils.jsx';
 
 export default class EmailConnectionTestButton extends React.Component {
@@ -89,26 +91,6 @@ export default class EmailConnectionTestButton extends React.Component {
             );
         }
 
-        let contents = null;
-        if (this.state.testing) {
-            contents = (
-                <span>
-                    <span
-                        className='fa fa-refresh icon--rotate'
-                        title={Utils.localizeMessage('generic_icons.testing', 'Testing Icon')}
-                    />
-                    {Utils.localizeMessage('admin.email.testing', 'Testing...')}
-                </span>
-            );
-        } else {
-            contents = (
-                <FormattedMessage
-                    id='admin.email.connectionSecurityTest'
-                    defaultMessage='Test Connection'
-                />
-            );
-        }
-
         return (
             <div className='form-group email-connection-test'>
                 <div className='col-sm-offset-4 col-sm-8'>
@@ -118,7 +100,15 @@ export default class EmailConnectionTestButton extends React.Component {
                             onClick={this.handleTestConnection}
                             disabled={this.props.disabled}
                         >
-                            {contents}
+                            <LoadingWrapper
+                                loading={this.state.testing}
+                                text={Utils.localizeMessage('admin.email.testing', 'Testing...')}
+                            >
+                                <FormattedMessage
+                                    id='admin.email.connectionSecurityTest'
+                                    defaultMessage='Test Connection'
+                                />
+                            </LoadingWrapper>
                         </button>
                         <div>
                             {testMessage}

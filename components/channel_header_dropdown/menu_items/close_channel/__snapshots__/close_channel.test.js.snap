@@ -6,6 +6,7 @@ exports[`components/ChannelHeaderDropdown/MenuItem.CloseChannel should match sna
 >
   <button
     className="style--none"
+    id="channelClose"
     onClick={[Function]}
     role="menuitem"
   >

@@ -24,6 +24,7 @@ exports[`components/ChannelHeaderDropdown/MenuItem.SetChannelPurpose should matc
         }
       }
       dialogType={[Function]}
+      id="channelEditPurpose"
       modalId="edit_channel_purpose"
       role="menuitem"
     >

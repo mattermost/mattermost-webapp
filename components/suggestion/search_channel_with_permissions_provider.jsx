@@ -184,6 +184,9 @@ export default class SearchChannelWithPermissionsProvider extends Provider {
 
         for (const id of Object.keys(allChannels)) {
             const channel = allChannels[id];
+            if (!channel) {
+                continue;
+            }
 
             if (completedChannels[channel.id]) {
                 continue;

@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {NotificationLevels, NotificationSections} from 'utils/constants.jsx';
+import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants.jsx';
 
-export default function Describe({section, memberNotifyLevel, globalNotifyLevel}) {
+export default function Describe({section, memberNotifyLevel, globalNotifyLevel, ignoreChannelMentions}) {
     if (memberNotifyLevel === NotificationLevels.DEFAULT && globalNotifyLevel) {
         return (
             <FormattedMessage
@@ -23,6 +23,26 @@ export default function Describe({section, memberNotifyLevel, globalNotifyLevel}
             <FormattedMessage
                 id='channel_notifications.muteChannel.on.title'
                 defaultMessage='On'
+            />
+        );
+    } else if (
+        section === NotificationSections.IGNORE_CHANNEL_MENTIONS &&
+        ignoreChannelMentions === IgnoreChannelMentions.ON
+    ) {
+        return (
+            <FormattedMessage
+                id='channel_notifications.ignoreChannelMentions.on.title'
+                defaultMessage='On'
+            />
+        );
+    } else if (
+        section === NotificationSections.IGNORE_CHANNEL_MENTIONS &&
+        ignoreChannelMentions === IgnoreChannelMentions.OFF
+    ) {
+        return (
+            <FormattedMessage
+                id='channel_notifications.ignoreChannelMentions.off.title'
+                defaultMessage='Off'
             />
         );
     } else if (memberNotifyLevel === NotificationLevels.MENTION) {
@@ -64,6 +84,7 @@ export default function Describe({section, memberNotifyLevel, globalNotifyLevel}
 
 Describe.propTypes = {
     globalNotifyLevel: PropTypes.string,
+    ignoreChannelMentions: PropTypes.string,
     memberNotifyLevel: PropTypes.string.isRequired,
     section: PropTypes.string.isRequired,
 };

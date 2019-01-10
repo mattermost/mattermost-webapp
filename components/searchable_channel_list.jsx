@@ -8,11 +8,10 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import LoadingScreen from 'components/loading_screen';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 import QuickInput from 'components/quick_input';
 import * as UserAgent from 'utils/user_agent.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
-
-import loadingGif from 'images/load.gif';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
@@ -64,29 +63,6 @@ export default class SearchableChannelList extends React.Component {
     }
 
     createChannelRow(channel) {
-        let joinButton;
-        if (this.state.joiningChannel === channel.id) {
-            joinButton = (
-                <img
-                    className='join-channel-loading-gif'
-                    src={loadingGif}
-                />
-            );
-        } else {
-            joinButton = (
-                <button
-                    onClick={this.handleJoin.bind(this, channel)}
-                    className='btn btn-primary'
-                    disabled={this.state.joiningChannel !== '' && this.state.joiningChannel !== channel.id}
-                >
-                    <FormattedMessage
-                        id='more_channels.join'
-                        defaultMessage='Join'
-                    />
-                </button>
-            );
-        }
-
         return (
             <div
                 className='more-modal__row'
@@ -97,7 +73,21 @@ export default class SearchableChannelList extends React.Component {
                     <p className='more-modal__description'>{channel.purpose}</p>
                 </div>
                 <div className='more-modal__actions'>
-                    {joinButton}
+                    <button
+                        onClick={this.handleJoin.bind(this, channel)}
+                        className='btn btn-primary'
+                        disabled={this.state.joiningChannel}
+                    >
+                        <LoadingWrapper
+                            loading={this.state.joiningChannel === channel.id}
+                            text={localizeMessage('more_channels.joining', 'Joining...')}
+                        >
+                            <FormattedMessage
+                                id='more_channels.join'
+                                defaultMessage='Join'
+                            />
+                        </LoadingWrapper>
+                    </button>
                 </div>
             </div>
         );
@@ -154,7 +144,7 @@ export default class SearchableChannelList extends React.Component {
             if (channelsToDisplay.length >= this.props.channelsPerPage && pageEnd < this.props.channels.length) {
                 nextButton = (
                     <button
-                        className='btn btn-default filter-control filter-control__next'
+                        className='btn btn-link filter-control filter-control__next'
                         onClick={this.nextPage}
                         disabled={this.state.nextDisabled}
                     >
@@ -169,7 +159,7 @@ export default class SearchableChannelList extends React.Component {
             if (this.state.page > 0) {
                 previousButton = (
                     <button
-                        className='btn btn-default filter-control filter-control__prev'
+                        className='btn btn-link filter-control filter-control__prev'
                         onClick={this.previousPage}
                     >
                         <FormattedMessage

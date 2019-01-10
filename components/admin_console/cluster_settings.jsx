@@ -236,7 +236,7 @@ export default class ClusterSettings extends AdminSettings {
                     helpText={
                         <FormattedHTMLMessage
                             id='admin.cluster.ReadOnlyConfigDesc'
-                            defaultMessage='When true, the server will reject changes made to the configuration file from the system console. When running in production it is recommened to set this to true.'
+                            defaultMessage='When true, the server will reject changes made to the configuration file from the system console. When running in production it is recommended to set this to true.'
                         />
                     }
                     value={this.state.ReadOnlyConfig}

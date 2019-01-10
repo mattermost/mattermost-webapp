@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import DotMenu from 'components/dot_menu/dot_menu.jsx';
 
@@ -26,6 +27,8 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
         const baseProps = {
             location: 'CENTER',
             post: {id: 'post_id_1'},
+            isLicensed: false,
+            postEditTimeLimit: '-1',
             actions: {
                 flagPost: jest.fn(),
                 unflagPost: jest.fn(),
@@ -36,9 +39,9 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <DotMenu {...baseProps}/>
-        );
+        ).dive({disableLifecycleMethods: true});
 
         expect(wrapper).toMatchSnapshot();
     });

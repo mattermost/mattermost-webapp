@@ -16,7 +16,7 @@ import ChannelPermissionGate from 'components/permissions_gates/channel_permissi
 const DEFAULT_EMOJI_PICKER_RIGHT_OFFSET = 15;
 const EMOJI_PICKER_WIDTH_OFFSET = 260;
 
-export default class ReactionListView extends React.PureComponent {
+export default class ReactionList extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -32,12 +32,7 @@ export default class ReactionListView extends React.PureComponent {
         /**
          * The reactions to render
          */
-        reactions: PropTypes.arrayOf(PropTypes.object),
-
-        /**
-         * The emojis for the different reactions
-         */
-        emojis: PropTypes.object.isRequired,
+        reactions: PropTypes.object,
 
         /**
          * Whether to show the emoji picker.
@@ -97,7 +92,7 @@ export default class ReactionListView extends React.PureComponent {
     }
 
     render() {
-        if (!this.props.post.has_reactions || (this.props.reactions && this.props.reactions.length === 0)) {
+        if (!this.props.post.has_reactions || !this.props.reactions) {
             return null;
         }
 
@@ -105,7 +100,7 @@ export default class ReactionListView extends React.PureComponent {
         const emojiNames = [];
 
         if (this.props.reactions) {
-            for (const reaction of this.props.reactions) {
+            for (const reaction of Object.values(this.props.reactions)) {
                 const emojiName = reaction.emoji_name;
 
                 if (reactionsByName.has(emojiName)) {
@@ -124,7 +119,6 @@ export default class ReactionListView extends React.PureComponent {
                     post={this.props.post}
                     emojiName={emojiName}
                     reactions={reactionsByName.get(emojiName) || []}
-                    emojis={this.props.emojis}
                 />
             );
         });

@@ -342,7 +342,7 @@ export default class GeneralTab extends React.Component {
         } else {
             this.setState({
                 teamIconFile: null,
-                clientError: Utils.localizeMessage('general_tab.teamIconError', 'An error occured while selecting the image.'),
+                clientError: Utils.localizeMessage('general_tab.teamIconError', 'An error occurred while selecting the image.'),
             });
         }
     }
