@@ -169,21 +169,6 @@ export default class MultiSelect extends React.Component {
     }
 
     getLoadMoreIndicator = () => {
-        if (this.props.loading && this.state.page > 0 && this.props.options.length < this.props.totalCount) {
-            return (
-                <div>
-                    <LoadingScreen
-                        position='relative'
-                        key='loading'
-                        style={{padding: '15px'}}
-                    />
-                </div>
-            );
-        }
-        return <></>;
-    }
-
-    getLoadMoreIndicator = () => {
         const thresholdToShow = (this.state.page * this.props.perPage) + this.props.perPage;
         if (this.props.loading && this.state.page > 0 && this.props.options.length < thresholdToShow) {
             return (
@@ -230,7 +215,6 @@ export default class MultiSelect extends React.Component {
             );
         }
 
-        let optionsToDisplay = [];
         let noteTextContainer;
 
         if (this.props.noteText) {
@@ -258,10 +242,6 @@ export default class MultiSelect extends React.Component {
             }
         }
 
-        const pageStart = this.state.page * this.props.perPage;
-        const pageEnd = pageStart + this.props.perPage;
-        optionsToDisplay = options.slice(0, pageEnd);
-
         let memberCount;
         if (users && users.length && totalCount) {
             memberCount = (
@@ -269,7 +249,7 @@ export default class MultiSelect extends React.Component {
                     id='multiselect.numMembers'
                     defaultMessage='{memberOptions, number} of {totalCount, number} members'
                     values={{
-                        memberOptions: optionsToDisplay.length,
+                        memberOptions: options.length,
                         totalCount: this.props.totalCount,
                     }}
                 />
@@ -319,7 +299,7 @@ export default class MultiSelect extends React.Component {
                 </div>
                 <MultiSelectList
                     ref='list'
-                    options={optionsToDisplay}
+                    options={options}
                     optionRenderer={this.props.optionRenderer}
                     page={this.state.page}
                     perPage={this.props.perPage}
