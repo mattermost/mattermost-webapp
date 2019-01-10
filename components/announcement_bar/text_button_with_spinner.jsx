@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import * as Utils from 'utils/utils.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 
 export default class TextButtonWithSpinner extends React.PureComponent {
     static propTypes = {
@@ -43,26 +43,18 @@ export default class TextButtonWithSpinner extends React.PureComponent {
     }
 
     render() {
-        if (this.state.spinning) {
-            return (
-                <React.Fragment>
-                    <span className='fa-wrapper'>
-                        <span
-                            className='fa fa-spinner icon--rotate'
-                            title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
-                        />
-                    </span>
-                    {this.props.spinningText}
-                </React.Fragment>
-            );
-        }
         return (
             <span className='resend-verification-wrapper'>
-                <a
-                    onClick={this.handleClick}
+                <LoadingWrapper
+                    loading={this.state.spinning}
+                    text={this.props.spinningText}
                 >
-                    {this.props.regularText}
-                </a>
+                    <a
+                        onClick={this.handleClick}
+                    >
+                        {this.props.regularText}
+                    </a>
+                </LoadingWrapper>
             </span>
         );
     }

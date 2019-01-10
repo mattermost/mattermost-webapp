@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import DotMenu from 'components/dot_menu/dot_menu.jsx';
 
@@ -26,6 +27,8 @@ describe('components/dot_menu/DotMenu', () => {
     const baseProps = {
         post: {id: 'post_id_1', is_pinned: false},
         location: 'CENTER',
+        isLicensed: false,
+        postEditTimeLimit: '-1',
         handleCommentClick: jest.fn(),
         handleDropdownOpened: jest.fn(),
         actions: {
@@ -39,9 +42,9 @@ describe('components/dot_menu/DotMenu', () => {
     };
 
     test('should match snapshot, on Center', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <DotMenu {...baseProps}/>
-        );
+        ).dive({disableLifecycleMethods: true});
 
         expect(wrapper).toMatchSnapshot();
 
@@ -51,9 +54,9 @@ describe('components/dot_menu/DotMenu', () => {
     });
 
     test('should match snapshot, canDelete', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <DotMenu {...baseProps}/>
-        );
+        ).dive({disableLifecycleMethods: true});
 
         wrapper.setState({canDelete: true});
         expect(wrapper).toMatchSnapshot();

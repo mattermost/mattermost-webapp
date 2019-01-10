@@ -858,6 +858,7 @@ export default class CreateComment extends React.PureComponent {
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
                                 badConnection={this.props.badConnection}
+                                listenForMentionKeyClick={true}
                             />
                             <span
                                 ref='createCommentControls'

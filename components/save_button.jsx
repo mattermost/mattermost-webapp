@@ -6,6 +6,8 @@ import React from 'react';
 
 import {localizeMessage} from 'utils/utils.jsx';
 
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+
 export default class SaveButton extends React.PureComponent {
     static propTypes = {
         saving: PropTypes.bool.isRequired,
@@ -27,21 +29,6 @@ export default class SaveButton extends React.PureComponent {
     render() {
         const {saving, disabled, savingMessage, defaultMessage, btnClass, extraClasses, ...props} = this.props; // eslint-disable-line no-use-before-define
 
-        let contents;
-        if (saving) {
-            contents = (
-                <span>
-                    <span
-                        className='fa fa-spinner icon--rotate'
-                        title={localizeMessage('generic_icons.loading', 'Loading Icon')}
-                    />
-                    {savingMessage}
-                </span>
-            );
-        } else {
-            contents = defaultMessage;
-        }
-
         let className = 'save-button btn';
         if (!disabled || saving) {
             className += ' ' + btnClass;
@@ -59,7 +46,12 @@ export default class SaveButton extends React.PureComponent {
                 disabled={disabled}
                 {...props}
             >
-                {contents}
+                <LoadingWrapper
+                    loading={saving}
+                    text={savingMessage}
+                >
+                    {defaultMessage}
+                </LoadingWrapper>
             </button>
         );
     }

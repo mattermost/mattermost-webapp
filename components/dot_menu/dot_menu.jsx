@@ -4,12 +4,12 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {showGetPostLinkModal} from 'actions/global_actions.jsx';
 
-import {ModalIdentifiers} from 'utils/constants.jsx';
+import {ModalIdentifiers, UNSET_POST_EDIT_TIME_LIMIT} from 'utils/constants.jsx';
 import DeletePostModal from 'components/delete_post_modal';
 import DelayedAction from 'utils/delayed_action.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -20,7 +20,7 @@ import Pluggable from 'plugins/pluggable';
 
 import DotMenuItem from './dot_menu_item.jsx';
 
-export default class DotMenu extends Component {
+class DotMenu extends Component {
     static propTypes = {
         post: PropTypes.object.isRequired,
         location: PropTypes.oneOf(['CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH']).isRequired,
@@ -30,6 +30,9 @@ export default class DotMenu extends Component {
         handleDropdownOpened: PropTypes.func,
         isReadOnly: PropTypes.bool,
         pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
+        isLicensed: PropTypes.bool.isRequired,
+        postEditTimeLimit: PropTypes.string.isRequired,
+        intl: intlShape.isRequired,
 
         actions: PropTypes.shape({
 
@@ -79,15 +82,37 @@ export default class DotMenu extends Component {
         this.editDisableAction = new DelayedAction(this.handleEditDisable);
 
         this.state = {
-            canDelete: PostUtils.canDeletePost(props.post),
-            canEdit: PostUtils.canEditPost(props.post, this.editDisableAction),
+            openUp: false,
         };
         this.dotMenuId = props.location + '_dropdown_' + props.post.id;
     }
 
+    disableCanEditPostByTime() {
+        const {post, isLicensed, postEditTimeLimit} = this.props;
+        const canEdit = PostUtils.canEditPost(post);
+
+        if (canEdit && isLicensed) {
+            if (String(postEditTimeLimit) !== String(UNSET_POST_EDIT_TIME_LIMIT)) {
+                const milliseconds = 1000;
+                const timeLeft = (post.create_at + (postEditTimeLimit * milliseconds)) - Utils.getTimestamp();
+                if (timeLeft > 0) {
+                    this.editDisableAction.fireAfter(timeLeft + milliseconds);
+                }
+            }
+        }
+    }
+
     componentDidMount() {
+        this.disableCanEditPostByTime();
         $('#' + this.dotMenuId).on('shown.bs.dropdown', this.handleDropdownOpened);
         $('#' + this.dotMenuId).on('hidden.bs.dropdown', () => this.props.handleDropdownOpened(false));
+    }
+
+    static getDerivedStateFromProps(props) {
+        return {
+            canDelete: PostUtils.canDeletePost(props.post),
+            canEdit: PostUtils.canEditPost(props.post),
+        };
     }
 
     componentWillUnmount() {
@@ -153,11 +178,13 @@ export default class DotMenu extends Component {
     }
 
     handleEditMenuItemActivated = () => {
+        const {formatMessage} = this.props.intl;
+
         this.props.actions.setEditingPost(
             this.props.post.id,
             this.props.commentCount,
             this.props.location === 'CENTER' ? 'post_textbox' : 'reply_textbox',
-            this.props.post.root_id ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post'),
+            this.props.post.root_id ? formatMessage({id: 'rhs_comment.comment', defaultMessage: 'Comment'}) : formatMessage({id: 'create_post.post', defaultMessage: 'Post'}),
             this.props.location === 'RHS_ROOT' || this.props.location === 'RHS_COMMENT',
         );
     }
@@ -165,8 +192,6 @@ export default class DotMenu extends Component {
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
-        const canDelete = PostUtils.canDeletePost(this.props.post);
-        const canEdit = PostUtils.canEditPost(this.props.post, this.editDisableAction); // Fix this crazy
 
         const menuItems = [];
 
@@ -238,7 +263,7 @@ export default class DotMenu extends Component {
             }
         }
 
-        if (canDelete) {
+        if (this.state.canDelete) {
             menuItems.push(
                 <DotMenuItem
                     key={'delete'}
@@ -253,7 +278,7 @@ export default class DotMenu extends Component {
             );
         }
 
-        if (canEdit) {
+        if (this.state.canEdit) {
             menuItems.push(
                 <DotMenuItem
                     key={'edit'}
@@ -342,3 +367,5 @@ export default class DotMenu extends Component {
         );
     }
 }
+
+export default injectIntl(DotMenu);

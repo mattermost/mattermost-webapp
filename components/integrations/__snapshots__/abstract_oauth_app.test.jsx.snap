@@ -291,7 +291,7 @@ https://test.com/callback2"
           type="backstage"
         />
         <Link
-          className="btn btn-sm"
+          className="btn btn-link btn-sm"
           replace={false}
           to="/test/integrations/oauth2-apps"
         >
@@ -305,6 +305,7 @@ https://test.com/callback2"
           className="btn btn-primary"
           onClick={[Function]}
           spinning={false}
+          spinningText="Loading"
           type="submit"
         >
           <FormattedMessage
@@ -614,7 +615,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
           type="backstage"
         />
         <Link
-          className="btn btn-sm"
+          className="btn btn-link btn-sm"
           replace={false}
           to="/test/integrations/oauth2-apps"
         >
@@ -628,6 +629,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
           className="btn btn-primary"
           onClick={[Function]}
           spinning={false}
+          spinningText="Loading"
           type="submit"
         >
           <FormattedMessage

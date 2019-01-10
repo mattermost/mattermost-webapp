@@ -74,3 +74,65 @@ exports[`component/file_preview/file_progress_preview should match snapshot 1`] 
   </div>
 </div>
 `;
+
+exports[`component/file_preview/file_progress_preview snapshot for percent value undefined 1`] = `
+<div
+  className="file-preview post-image__column"
+  data-client-id="clientId"
+  key="clientId"
+>
+  <div
+    className="post-image__thumbnail"
+  >
+    <div
+      className="file-icon image"
+    />
+  </div>
+  <div
+    className="post-image__details"
+  >
+    <div
+      className="post-image__detail_wrapper"
+    >
+      <div
+        className="post-image__detail"
+      >
+        <FilenameOverlay
+          canDownload={false}
+          compactDisplay={false}
+          fileInfo={
+            Object {
+              "name": "file",
+              "percent": undefined,
+              "type": "image/png",
+            }
+          }
+          handleImageClick={null}
+          index="clientId"
+        />
+        <span
+          className="post-image__uploadingTxt"
+        >
+          <FormattedMessage
+            defaultMessage="Uploading..."
+            id="admin.plugin.uploading"
+            values={Object {}}
+          />
+          <span />
+        </span>
+      </div>
+    </div>
+    <div>
+      <a
+        className="file-preview__remove"
+        onClick={[Function]}
+      >
+        <i
+          className="fa fa-remove"
+          title="Remove Icon"
+        />
+      </a>
+    </div>
+  </div>
+</div>
+`;

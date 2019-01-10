@@ -172,7 +172,12 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                 onClick={[Function]}
                 type="submit"
               >
-                Save
+                <LoadingWrapper
+                  loading={false}
+                  text="Saving"
+                >
+                  Save
+                </LoadingWrapper>
               </button>
             </SaveButton>
             <button
@@ -456,7 +461,12 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                 onClick={[Function]}
                 type="submit"
               >
-                Save
+                <LoadingWrapper
+                  loading={false}
+                  text="Saving"
+                >
+                  Save
+                </LoadingWrapper>
               </button>
             </SaveButton>
             <button

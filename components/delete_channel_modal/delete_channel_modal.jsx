@@ -104,7 +104,7 @@ export default class DeleteChannelModal extends React.PureComponent {
                 <Modal.Footer>
                     <button
                         type='button'
-                        className='btn btn-default'
+                        className='btn btn-link'
                         onClick={this.onHide}
                     >
                         <FormattedMessage

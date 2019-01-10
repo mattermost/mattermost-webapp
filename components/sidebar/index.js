@@ -7,9 +7,9 @@ import {bindActionCreators} from 'redux';
 import {Preferences} from 'mattermost-redux/constants/index';
 import {
     getCurrentChannel,
-    getUnreads,
     getSortedUnreadChannelIds,
     getOrderedChannelIds,
+    getUnreads,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import Permissions from 'mattermost-redux/constants/permissions';

@@ -23,6 +23,12 @@ exports[`components/integrations/EditIncomingWebhook should have called submitHo
       "token": "token",
     }
   }
+  loading={
+    Object {
+      "defaultMessage": "Updating...",
+      "id": "update_incoming_webhook.updating",
+    }
+  }
   serverError=""
   team={
     Object {
@@ -56,6 +62,12 @@ exports[`components/integrations/EditIncomingWebhook should have called submitHo
       "token": "token",
     }
   }
+  loading={
+    Object {
+      "defaultMessage": "Updating...",
+      "id": "update_incoming_webhook.updating",
+    }
+  }
   serverError=""
   team={
     Object {
@@ -87,6 +99,12 @@ exports[`components/integrations/EditIncomingWebhook should have called submitHo
     Object {
       "id": "id",
       "token": "token",
+    }
+  }
+  loading={
+    Object {
+      "defaultMessage": "Updating...",
+      "id": "update_incoming_webhook.updating",
     }
   }
   serverError="error message"
@@ -127,6 +145,12 @@ exports[`components/integrations/EditIncomingWebhook should show AbstractIncomin
     Object {
       "id": "id",
       "token": "token",
+    }
+  }
+  loading={
+    Object {
+      "defaultMessage": "Updating...",
+      "id": "update_incoming_webhook.updating",
     }
   }
   serverError=""

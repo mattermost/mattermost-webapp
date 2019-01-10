@@ -88,8 +88,8 @@ describe('Actions.Team', () => {
         expect(TeamActions.addUsersToTeam).toHaveBeenCalledWith('teamId', ['123', '1234']);
     });
 
-    test('removeUserFromTeam', async () => {
-        await testStore.dispatch(Actions.removeUserFromTeam('teamId', '123'));
+    test('removeUserFromTeamAndGetStats', async () => {
+        await testStore.dispatch(Actions.removeUserFromTeamAndGetStats('teamId', '123'));
         expect(userActions.getUser).toHaveBeenCalledWith('123');
         expect(TeamActions.getTeamStats).toHaveBeenCalledWith('teamId');
         expect(channelActions.getChannelStats).toHaveBeenCalledWith('currentChannelId');

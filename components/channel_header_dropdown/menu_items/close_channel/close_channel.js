@@ -25,6 +25,7 @@ export default class CloseChannel extends React.PureComponent {
         return (
             <li role='presentation'>
                 <button
+                    id='channelClose'
                     className='style--none'
                     role='menuitem'
                     onClick={this.handleClose}

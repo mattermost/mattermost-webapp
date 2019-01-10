@@ -12,7 +12,7 @@ export default class PostMarkdown extends React.PureComponent {
     static propTypes = {
 
         /*
-         * Any extra props that should be passed into the MarkdownImage component
+         * Any extra props that should be passed into the image component
          */
         imageProps: PropTypes.object,
 

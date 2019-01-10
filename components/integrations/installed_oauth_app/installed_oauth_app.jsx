@@ -12,7 +12,7 @@ import FormError from 'components/form_error.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import CopyText from 'components/copy_text.jsx';
 
-import DeleteIntegration from './delete_integration.jsx';
+import DeleteIntegration from '../delete_integration.jsx';
 
 const FAKE_SECRET = '***************';
 
@@ -28,6 +28,8 @@ export default class InstalledOAuthApp extends React.PureComponent {
         * The oauthApp data
         */
         oauthApp: PropTypes.object.isRequired,
+
+        creatorName: PropTypes.string.isRequired,
 
         /**
         * The request state for regenOAuthAppSecret action. Contains status and error
@@ -98,7 +100,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
     }
 
     render() {
-        const oauthApp = this.props.oauthApp;
+        const {oauthApp, creatorName} = this.props;
         let error;
 
         if (this.state.error) {
@@ -284,7 +286,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
                                 id='installed_integrations.creation'
                                 defaultMessage='Created by {creator} on {createAt, date, full}'
                                 values={{
-                                    creator: Utils.getDisplayNameByUserId(oauthApp.creator_id),
+                                    creator: creatorName,
                                     createAt: oauthApp.create_at,
                                 }}
                             />

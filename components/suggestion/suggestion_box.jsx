@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import EventEmitter from 'mattermost-redux/utils/event_emitter';
+
 import QuickInput from 'components/quick_input.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -113,6 +115,17 @@ export default class SuggestionBox extends React.Component {
          * If true, replace all input in the suggestion box with the selected option after a select, defaults to false
          */
         replaceAllInputOnSelect: PropTypes.bool,
+
+        /**
+         * An optional, opaque identifier that distinguishes the context in which the suggestion
+         * box is rendered. This allows the reused component to otherwise respond to changes.
+         */
+        contextId: PropTypes.string,
+
+        /**
+         * If true, listen for clicks on a mention and populate the input with said mention, defaults to false
+         */
+        listenForMentionKeyClick: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -126,6 +139,7 @@ export default class SuggestionBox extends React.Component {
         openOnFocus: false,
         openWhenEmpty: false,
         replaceAllInputOnSelect: false,
+        listenForMentionKeyClick: false,
     }
 
     constructor(props) {
@@ -156,6 +170,40 @@ export default class SuggestionBox extends React.Component {
             allowDividers: true,
             presentationType: 'text',
         };
+    }
+
+    componentDidMount() {
+        if (this.props.listenForMentionKeyClick) {
+            EventEmitter.addListener('mention_key_click', this.handleMentionKeyClick);
+        }
+    }
+
+    componentWillUnmount() {
+        EventEmitter.removeListener('mention_key_click', this.handleMentionKeyClick);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.contextId !== this.props.contextId) {
+            const textbox = this.getTextbox();
+            const pretext = textbox.value.substring(0, textbox.selectionEnd).toLowerCase();
+
+            this.handlePretextChanged(pretext);
+        }
+    }
+
+    handleMentionKeyClick = (mentionKey, isRHS) => {
+        if (this.props.isRHS !== isRHS) {
+            return;
+        }
+
+        let insertText = '@' + mentionKey;
+
+        // if the current text does not end with a whitespace, then insert a space
+        if (this.props.value && (/[^\s]$/).test(this.props.value)) {
+            insertText = ' ' + insertText;
+        }
+
+        this.addTextAtCaret(insertText, '');
     }
 
     getTextbox = () => {
@@ -565,6 +613,8 @@ export default class SuggestionBox extends React.Component {
         Reflect.deleteProperty(props, 'containerClass');
         Reflect.deleteProperty(props, 'replaceAllInputOnSelect');
         Reflect.deleteProperty(props, 'renderDividers');
+        Reflect.deleteProperty(props, 'contextId');
+        Reflect.deleteProperty(props, 'listenForMentionKeyClick');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;

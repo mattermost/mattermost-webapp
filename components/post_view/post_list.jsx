@@ -30,6 +30,10 @@ const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
 const MAX_EXTRA_PAGES_LOADED = 10;
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
 
+const LOADPOSTS_MIN_HEIGHT = 300;
+const LOADPOSTS_MAX_HEIGHT = 2500;
+const LOADPOSTS_SCROLL_RATIO = 0.3;
+
 export default class PostList extends React.PureComponent {
     static propTypes = {
 
@@ -441,6 +445,7 @@ export default class PostList extends React.PureComponent {
             // Only count as user scroll if we've already performed our first load scroll
             this.hasScrolled = this.hasScrolledToNewMessageSeparator || this.hasScrolledToFocusedPost;
             const postList = this.postListRef.current;
+            const postListScrollTop = postList.scrollTop;
 
             if (postList.scrollHeight === this.previousScrollHeight) {
                 this.atBottom = this.checkBottom();
@@ -462,7 +467,16 @@ export default class PostList extends React.PureComponent {
                 });
             }
 
-            if (postList.scrollTop <= 0.5 * postList.clientHeight && !this.state.loadingPosts && !this.state.atEnd && this.state.autoRetryEnable) {
+            let shouldLoadPosts = false;
+            const scrollHeightAoveFoldForLoad = LOADPOSTS_SCROLL_RATIO * (postList.scrollHeight - postList.clientHeight);
+
+            if (postListScrollTop < LOADPOSTS_MIN_HEIGHT) {
+                shouldLoadPosts = true;
+            } else if ((postListScrollTop < LOADPOSTS_MAX_HEIGHT) && (postListScrollTop < scrollHeightAoveFoldForLoad)) {
+                shouldLoadPosts = true;
+            }
+
+            if (shouldLoadPosts && !this.state.loadingPosts && !this.state.atEnd && this.state.autoRetryEnable) {
                 this.setState({loadingPosts: true});
                 this.loadMorePosts();
             }

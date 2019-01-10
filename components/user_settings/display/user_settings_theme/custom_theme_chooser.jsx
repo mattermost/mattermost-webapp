@@ -5,7 +5,7 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Popover} from 'react-bootstrap';
-import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, FormattedMessage, intlShape} from 'react-intl';
 
 import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -111,7 +111,16 @@ const messages = defineMessages({
     },
 });
 
-class CustomThemeChooser extends React.Component {
+export default class CustomThemeChooser extends React.Component {
+    static propTypes = {
+        theme: PropTypes.object.isRequired,
+        updateTheme: PropTypes.func.isRequired,
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
+
     constructor(props) {
         super(props);
         const copyTheme = this.setCopyTheme(this.props.theme);
@@ -230,13 +239,17 @@ class CustomThemeChooser extends React.Component {
     }
 
     onCodeThemeChange = (e) => {
-        const theme = this.props.theme;
-        theme.codeTheme = e.target.value;
+        const theme = {
+            ...this.props.theme,
+            type: 'custom',
+            codeTheme: e.target.value,
+        };
+
         this.props.updateTheme(theme);
     }
 
     render() {
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
         const theme = this.props.theme;
 
         const sidebarElements = [];
@@ -469,11 +482,3 @@ class CustomThemeChooser extends React.Component {
         );
     }
 }
-
-CustomThemeChooser.propTypes = {
-    intl: intlShape.isRequired,
-    theme: PropTypes.object.isRequired,
-    updateTheme: PropTypes.func.isRequired,
-};
-
-export default injectIntl(CustomThemeChooser);
