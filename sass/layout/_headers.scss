@@ -331,14 +331,15 @@
 
         blockquote {
             font-size: 13px;
-            padding: 1px 0 0 23px;
+            padding: 1px 0 0 19px;
             overflow: hidden;
             text-overflow: ellipsis;
+            display: inline;
 
             &:before {
-                font-size: 16px;
-                left: 1px;
-                top: -1px;
+                font-size: 15px;
+                left: 2px;
+                top: 0;
             }
         }
 
