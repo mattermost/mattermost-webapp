@@ -1287,7 +1287,7 @@ export default {
                             placeholder: t('admin.ldap.groupFilterEx'),
                             placeholder_default: 'E.g.: "(objectClass=group)"',
                             isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
-                            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')),
+                            isHidden: (config) => needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1299,7 +1299,7 @@ export default {
                             placeholder: t('admin.ldap.groupDisplayNameAttributeEx'),
                             placeholder_default: 'E.g.: "cn"',
                             isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
-                            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')),
+                            isHidden: (config) => needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1311,7 +1311,7 @@ export default {
                             placeholder: t('admin.ldap.groupIdAttributeEx'),
                             placeholder_default: 'E.g.: "entryUUID"',
                             isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
-                            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')),
+                            isHidden: (config) => needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
