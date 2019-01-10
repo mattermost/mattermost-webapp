@@ -125,9 +125,7 @@ exports[`components/admin_console/jobs/table should match snapshot, init 1`] = `
               NaN minutes
             </span>
           </td>
-          <td
-            colSpan="3"
-          >
+          <td>
             <span />
           </td>
         </tr>
@@ -180,9 +178,7 @@ exports[`components/admin_console/jobs/table should match snapshot, init 1`] = `
               NaN minutes
             </span>
           </td>
-          <td
-            colSpan="3"
-          >
+          <td>
             <span />
           </td>
         </tr>
@@ -235,9 +231,7 @@ exports[`components/admin_console/jobs/table should match snapshot, init 1`] = `
               NaN minutes
             </span>
           </td>
-          <td
-            colSpan="3"
-          >
+          <td>
             <span />
           </td>
         </tr>
@@ -281,9 +275,7 @@ exports[`components/admin_console/jobs/table should match snapshot, init 1`] = `
               NaN minutes
             </span>
           </td>
-          <td
-            colSpan="3"
-          >
+          <td>
             <span />
           </td>
         </tr>
@@ -337,9 +329,7 @@ exports[`components/admin_console/jobs/table should match snapshot, init 1`] = `
               --
             </span>
           </td>
-          <td
-            colSpan="3"
-          >
+          <td>
             <span />
           </td>
         </tr>
@@ -394,9 +384,7 @@ exports[`components/admin_console/jobs/table should match snapshot, init 1`] = `
               NaN minutes
             </span>
           </td>
-          <td
-            colSpan="3"
-          >
+          <td>
             <span />
           </td>
         </tr>

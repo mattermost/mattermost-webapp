@@ -813,7 +813,7 @@
     }
 }
 
-.team-selector-modal {
+.team-selector-modal, .channel-selector-modal {
     .more-modal__row {
         border: 0px;
         &:nth-child(odd) {
@@ -821,6 +821,13 @@
         }
         &:hover {
             background: rgba(0, 0, 0, .05);
+        }
+        .team-name {
+            padding-left: 5px;
+            color: $gray;
+        }
+        .icon__lock, .icon__globe {
+            margin-right: 5px;
         }
     }
 }
@@ -831,7 +838,7 @@
     }
 }
 
-.team-selector-modal {
+.team-selector-modal, .channel-selector-modal {
     .modal-header {
         background: $black;
         color: $white;

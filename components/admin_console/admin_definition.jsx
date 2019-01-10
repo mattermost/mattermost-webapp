@@ -29,6 +29,7 @@ import PermissionTeamSchemeSettings from './permission_schemes_settings/permissi
 import SystemUsers from './system_users';
 import ServerLogs from './server_logs';
 import BrandImageSetting from './brand_image_setting/brand_image_setting.jsx';
+import GroupSettings from './group_settings/group_settings.jsx';
 
 import * as DefinitionConstants from './admin_definition_constants';
 
@@ -714,6 +715,14 @@ export default {
                 },
             },
         },
+        accessControl: {
+            groups: {
+                schema: {
+                    id: 'Groups',
+                    component: GroupSettings,
+                },
+            },
+        },
         permissions: {
             schemes: {
                 schema: {
@@ -1259,13 +1268,50 @@ export default {
                             label: t('admin.ldap.userFilterTitle'),
                             label_default: 'User Filter:',
                             help_text: t('admin.ldap.userFilterDisc'),
-                            help_text_default: '(Optional) Enter an AD/LDAP Filter to use when searching for user objects. Only the users selected by the query will be able to access Mattermost. For Active Directory, the query to filter out disabled users is (&(objectCategory=Person)(!(UserAccountControl:1.2.840.113556.1.4.803:=2))).',
+                            help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for user objects. Only the users selected by the query will be able to access Mattermost. For Active Directory, the query to filter out disabled users is (&(objectCategory=Person)(!(UserAccountControl:1.2.840.113556.1.4.803:=2))).',
                             placeholder: t('admin.ldap.userFilterEx'),
                             placeholder_default: 'Ex. "(objectClass=user)"',
                             isDisabled: needsUtils.and(
                                 needsUtils.stateValueFalse('LdapSettings.Enable'),
                                 needsUtils.stateValueFalse('LdapSettings.EnableSync'),
                             ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'LdapSettings.GroupFilter',
+                            label: t('admin.ldap.groupFilterTitle'),
+                            label_default: 'Group Filter:',
+                            help_text: t('admin.ldap.groupFilterFilterDesc'),
+                            help_text_markdown: true,
+                            help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for group objects. Only the groups selected by the query will be available to Mattermost. From [Groups](/admin_console/access-control/groups), select which AD/LDAP groups should be linked and configured.',
+                            placeholder: t('admin.ldap.groupFilterEx'),
+                            placeholder_default: 'E.g.: "(objectClass=group)"',
+                            isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                            isHidden: (config) => needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'LdapSettings.GroupDisplayNameAttribute',
+                            label: t('admin.ldap.groupDisplayNameAttributeTitle'),
+                            label_default: 'Group Display Name Attribute:',
+                            help_text: t('admin.ldap.groupDisplayNameAttributeDesc'),
+                            help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the Group Name. Defaults to "Common name" when blank.',
+                            placeholder: t('admin.ldap.groupDisplayNameAttributeEx'),
+                            placeholder_default: 'E.g.: "cn"',
+                            isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                            isHidden: (config) => needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'LdapSettings.GroupIdAttribute',
+                            label: t('admin.ldap.groupIdAttributeTitle'),
+                            label_default: 'Group ID Attribute:',
+                            help_text: t('admin.ldap.groupIdAttributeDesc'),
+                            help_text_default: 'The attribute in the AD/LDAP server used as unique identifier for Groups. This should be a AD/LDAP attribute with a value that does not change.',
+                            placeholder: t('admin.ldap.groupIdAttributeEx'),
+                            placeholder_default: 'E.g.: "entryUUID"',
+                            isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                            isHidden: (config) => needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1463,16 +1509,15 @@ export default {
                             help_text_default: 'Initiates an AD/LDAP synchronization immediately. See the table below for status of each synchronization. Please review "System Console > Logs" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.',
                             isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
                             render_job: (job) => {
-                                let mattermostUsers = '0';
-                                let ldapUsers = '0';
-                                let deleteCount = '0';
-                                let updateCount = '0';
+                                let ldapUsers = 0;
+                                let deleteCount = 0;
+                                let updateCount = 0;
+                                let ldapGroups = 0;
+                                let groupDeleteCount = 0;
+                                let groupMemberDeleteCount = 0;
+                                let groupMemberAddCount = 0;
 
                                 if (job && job.data) {
-                                    if (job.data.mattermost_users_count && job.data.mattermost_users_count.length > 0) {
-                                        mattermostUsers = job.data.mattermost_users_count;
-                                    }
-
                                     if (job.data.ldap_users_count && job.data.ldap_users_count.length > 0) {
                                         ldapUsers = job.data.ldap_users_count;
                                     }
@@ -1484,19 +1529,92 @@ export default {
                                     if (job.data.update_count && job.data.update_count.length > 0) {
                                         updateCount = job.data.update_count;
                                     }
+
+                                    if (job.data.ldap_groups_count) {
+                                        ldapGroups = job.data.ldap_groups_count;
+                                    }
+
+                                    if (job.data.group_delete_count) {
+                                        groupDeleteCount = job.data.group_delete_count;
+                                    }
+
+                                    if (job.data.group_member_delete_count) {
+                                        groupMemberDeleteCount = job.data.group_member_delete_count;
+                                    }
+
+                                    if (job.data.group_member_add_count) {
+                                        groupMemberAddCount = job.data.group_member_add_count;
+                                    }
                                 }
 
                                 return (
-                                    <FormattedMessage
-                                        id='admin.ldap.jobExtraInfo'
-                                        defaultMessage='Scanned {ldapUsers} LDAP users, updated {updateCount}, deactivated {deleteCount}'
-                                        values={{
-                                            mattermostUsers,
-                                            ldapUsers,
-                                            deleteCount,
-                                            updateCount,
-                                        }}
-                                    />
+                                    <span>
+                                        <FormattedMessage
+                                            id='admin.ldap.jobExtraInfo'
+                                            defaultMessage='Scanned {ldapUsers, number} LDAP users and {ldapGroups, number} groups.'
+                                            values={{
+                                                ldapUsers,
+                                                ldapGroups,
+                                            }}
+                                        />
+                                        <ul>
+                                            {updateCount > 0 &&
+                                                <li>
+                                                    <FormattedMessage
+                                                        id='admin.ldap.jobExtraInfo.updatedUsers'
+                                                        defaultMessage='Updated {updateCount, number} users.'
+                                                        values={{
+                                                            updateCount,
+                                                        }}
+                                                    />
+                                                </li>
+                                            }
+                                            {deleteCount > 0 &&
+                                                <li>
+                                                    <FormattedMessage
+                                                        id='admin.ldap.jobExtraInfo.deactivatedUsers'
+                                                        defaultMessage='Deactivated {deleteCount, number} users.'
+                                                        values={{
+                                                            deleteCount,
+                                                        }}
+                                                    />
+                                                </li>
+                                            }
+                                            {groupDeleteCount > 0 &&
+                                                <li>
+                                                    <FormattedMessage
+                                                        id='admin.ldap.jobExtraInfo.deletedGroups'
+                                                        defaultMessage='Deleted {groupDeleteCount, number} groups.'
+                                                        values={{
+                                                            groupDeleteCount,
+                                                        }}
+                                                    />
+                                                </li>
+                                            }
+                                            {groupMemberDeleteCount > 0 &&
+                                                <li>
+                                                    <FormattedMessage
+                                                        id='admin.ldap.jobExtraInfo.deletedGroupMembers'
+                                                        defaultMessage='Deleted {groupMemberDeleteCount, number} group members.'
+                                                        values={{
+                                                            groupMemberDeleteCount,
+                                                        }}
+                                                    />
+                                                </li>
+                                            }
+                                            {groupMemberAddCount > 0 &&
+                                                <li>
+                                                    <FormattedMessage
+                                                        id='admin.ldap.jobExtraInfo.addedGroupMembers'
+                                                        defaultMessage='Added {groupMemberAddCount, number} group members.'
+                                                        values={{
+                                                            groupMemberAddCount,
+                                                        }}
+                                                    />
+                                                </li>
+                                            }
+                                        </ul>
+                                    </span>
                                 );
                             },
                         },
@@ -1532,7 +1650,7 @@ export default {
                             type: Constants.SettingsTypes.TYPE_BOOL,
                             key: 'SamlSettings.EnableSyncWithLdapIncludeAuth',
                             label: t('admin.saml.enableSyncWithLdapIncludeAuthTitle'),
-                            label_default: 'Enable Synchronizing SAML Accounts With AD/LDAP:',
+                            label_default: 'Override SAML bind data with AD/LDAP information:',
                             help_text: t('admin.saml.enableSyncWithLdapIncludeAuthDescription'),
                             help_text_default: 'When true, Mattermost will override the SAML ID attribute with the AD/LDAP ID attribute if configured or override the SAML Email attribute with the AD/LDAP Email attribute if SAML ID attribute is not present.  This will allow you automatically migrate users from Email binding to ID binding to prevent creation of new users when an email address changes for a user. Moving from true to false, will remove the override from happening.\n \n**Note:** SAML IDs must match the LDAP IDs to prevent disabling of user accounts.  Please review [documentation](!https://docs.mattermost.com/deployment/sso-saml-ldapsync.html) for more information.',
                             help_text_markdown: true,
