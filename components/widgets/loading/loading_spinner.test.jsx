@@ -12,6 +12,7 @@ describe('components/widgets/loadingLoadingSpinner', () => {
         expect(wrapper).toMatchInlineSnapshot(`
 <span
   className="LoadingSpinner with-text"
+  id="loadingSpinner"
 >
   <span
     className="fa fa-spinner fa-pulse spinner"
@@ -26,6 +27,7 @@ describe('components/widgets/loadingLoadingSpinner', () => {
         expect(wrapper).toMatchInlineSnapshot(`
 <span
   className="LoadingSpinner"
+  id="loadingSpinner"
 >
   <span
     className="fa fa-spinner fa-pulse spinner"
