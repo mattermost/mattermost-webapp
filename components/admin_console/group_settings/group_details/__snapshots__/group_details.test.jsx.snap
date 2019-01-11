@@ -43,19 +43,35 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       <div
         className="group-profile-add-menu"
       >
-        <button
-          className="btn btn-primary"
-          onClick={[Function]}
+        <MenuWrapper
+          animationComponent={[Function]}
+          className=""
         >
-          <FormattedMessage
-            defaultMessage="Add Team or Channel"
-            id="admin.group_settings.group_details.add_team_or_channel"
-            values={Object {}}
-          />
-          <i
-            className="fa fa-caret-down"
-          />
-        </button>
+          <button
+            className="btn btn-primary"
+          >
+            <FormattedMessage
+              defaultMessage="Add Team or Channel"
+              id="admin.group_settings.group_details.add_team_or_channel"
+              values={Object {}}
+            />
+            <i
+              className="fa fa-caret-down"
+            />
+          </button>
+          <Menu>
+            <MenuItemAction
+              onClick={[Function]}
+              show={true}
+              text="Add Team"
+            />
+            <MenuItemAction
+              onClick={[Function]}
+              show={true}
+              text="Add Channel"
+            />
+          </Menu>
+        </MenuWrapper>
       </div>
     }
     className=""
@@ -145,7 +161,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
 </div>
 `;
 
-exports[`components/admin_console/group_settings/group_details/GroupDetails should match snapshot, with add team or channel buttom drop down open 1`] = `
+exports[`components/admin_console/group_settings/group_details/GroupDetails should match snapshot, with add team selector open 1`] = `
 <div
   className="wrapper--fixed"
 >
@@ -188,41 +204,35 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       <div
         className="group-profile-add-menu"
       >
-        <button
-          className="btn btn-primary"
-          onClick={[Function]}
+        <MenuWrapper
+          animationComponent={[Function]}
+          className=""
         >
-          <FormattedMessage
-            defaultMessage="Add Team or Channel"
-            id="admin.group_settings.group_details.add_team_or_channel"
-            values={Object {}}
-          />
-          <i
-            className="fa fa-caret-down"
-          />
-        </button>
-        <ul
-          className="add-team-or-channel-menu"
-        >
-          <a
-            onClick={[Function]}
+          <button
+            className="btn btn-primary"
           >
             <FormattedMessage
-              defaultMessage="Add Team"
-              id="admin.group_settings.group_details.add_team"
+              defaultMessage="Add Team or Channel"
+              id="admin.group_settings.group_details.add_team_or_channel"
               values={Object {}}
             />
-          </a>
-          <a
-            onClick={[Function]}
-          >
-            <FormattedMessage
-              defaultMessage="Add Channel"
-              id="admin.group_settings.group_details.add_channel"
-              values={Object {}}
+            <i
+              className="fa fa-caret-down"
             />
-          </a>
-        </ul>
+          </button>
+          <Menu>
+            <MenuItemAction
+              onClick={[Function]}
+              show={true}
+              text="Add Team"
+            />
+            <MenuItemAction
+              onClick={[Function]}
+              show={true}
+              text="Add Channel"
+            />
+          </Menu>
+        </MenuWrapper>
       </div>
     }
     className=""
@@ -351,6 +361,20 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
             className="fa fa-caret-down"
           />
         </button>
+          </button>
+          <Menu>
+            <MenuItemAction
+              onClick={[Function]}
+              show={true}
+              text="Add Team"
+            />
+            <MenuItemAction
+              onClick={[Function]}
+              show={true}
+              text="Add Channel"
+            />
+          </Menu>
+        </MenuWrapper>
       </div>
     }
     className=""
@@ -477,19 +501,35 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       <div
         className="group-profile-add-menu"
       >
-        <button
-          className="btn btn-primary"
-          onClick={[Function]}
+        <MenuWrapper
+          animationComponent={[Function]}
+          className=""
         >
-          <FormattedMessage
-            defaultMessage="Add Team or Channel"
-            id="admin.group_settings.group_details.add_team_or_channel"
-            values={Object {}}
-          />
-          <i
-            className="fa fa-caret-down"
-          />
-        </button>
+          <button
+            className="btn btn-primary"
+          >
+            <FormattedMessage
+              defaultMessage="Add Team or Channel"
+              id="admin.group_settings.group_details.add_team_or_channel"
+              values={Object {}}
+            />
+            <i
+              className="fa fa-caret-down"
+            />
+          </button>
+          <Menu>
+            <MenuItemAction
+              onClick={[Function]}
+              show={true}
+              text="Add Team"
+            />
+            <MenuItemAction
+              onClick={[Function]}
+              show={true}
+              text="Add Channel"
+            />
+          </Menu>
+        </MenuWrapper>
       </div>
     }
     className=""
@@ -605,19 +645,35 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       <div
         className="group-profile-add-menu"
       >
-        <button
-          className="btn btn-primary"
-          onClick={[Function]}
+        <MenuWrapper
+          animationComponent={[Function]}
+          className=""
         >
-          <FormattedMessage
-            defaultMessage="Add Team or Channel"
-            id="admin.group_settings.group_details.add_team_or_channel"
-            values={Object {}}
-          />
-          <i
-            className="fa fa-caret-down"
-          />
-        </button>
+          <button
+            className="btn btn-primary"
+          >
+            <FormattedMessage
+              defaultMessage="Add Team or Channel"
+              id="admin.group_settings.group_details.add_team_or_channel"
+              values={Object {}}
+            />
+            <i
+              className="fa fa-caret-down"
+            />
+          </button>
+          <Menu>
+            <MenuItemAction
+              onClick={[Function]}
+              show={true}
+              text="Add Team"
+            />
+            <MenuItemAction
+              onClick={[Function]}
+              show={true}
+              text="Add Channel"
+            />
+          </Menu>
+        </MenuWrapper>
       </div>
     }
     className=""
