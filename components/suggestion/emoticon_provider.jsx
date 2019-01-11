@@ -11,6 +11,7 @@ import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
 
 import * as Emoticons from 'utils/emoticons.jsx';
+import {sortEmojis} from 'utils/emoji.jsx';
 
 import Suggestion from './suggestion.jsx';
 import Provider from './provider.jsx';
@@ -121,26 +122,13 @@ export default class EmoticonProvider extends Provider {
             }
         }
 
-        // Have the emojis that contain the search appear first
-        const sortEmojis = (a, b) => {
-            const aName = a.name;
-            const bName = b.name;
-
-            const aPrefix = aName.startsWith(partialName);
-            const bPrefix = bName.startsWith(partialName);
-
-            if (aPrefix === bPrefix) {
-                return aName.localeCompare(bName);
-            } else if (aPrefix) {
-                return -1;
-            }
-
-            return 1;
+        const sortEmoticon = (a, b) => {
+            return sortEmojis(a, b, partialName);
         };
 
-        recentMatched.sort(sortEmojis);
+        recentMatched.sort(sortEmoticon);
 
-        matched.sort(sortEmojis);
+        matched.sort(sortEmoticon);
 
         const terms = [
             ...this.formatEmojis(recentMatched),

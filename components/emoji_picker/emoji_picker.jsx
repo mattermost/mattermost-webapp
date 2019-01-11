@@ -383,26 +383,13 @@ export default class EmojiPicker extends React.PureComponent {
             emojiArray.push(emoji);
         });
 
-        // Have the emojis that contain the search appear first
-        const sortEMojis = (a, b) => {
-            const aName = a.aliases[0];
-            const bName = b.aliases[0];
-
-            const aPrefix = aName.startsWith(this.state.filter);
-            const bPrefix = bName.startsWith(this.state.filter);
-
-            if (aPrefix === bPrefix) {
-                return aName.localeCompare(bName);
-            } else if (aPrefix) {
-                return -1;
-            }
-
-            return 1;
+        const sortEmojis = (a, b) => {
+            return Emoji.sortEmojis(a, b, this.state.filter);
         };
 
-        recentEmojis.sort(sortEMojis);
+        recentEmojis.sort(sortEmojis);
 
-        emojisMinusRecent.sort(sortEMojis);
+        emojisMinusRecent.sort(sortEmojis);
 
         return [
             ...recentEmojis,
