@@ -846,7 +846,7 @@ describe('components/create_post', () => {
     });
 
     it('should be able to format a pasted markdown table', () => {
-        const wrapper = shallow(createPost());
+        const wrapper = shallowWithIntl(createPost());
 
         const event = {
             target: {
@@ -862,14 +862,14 @@ describe('components/create_post', () => {
             },
         };
 
-        const markdownTable = 'test | test\n-- | --\ntest | test\n';
+        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('message')).toBe(markdownTable);
     });
 
     it('should be preserve message when pasting a markdown table', () => {
-        const wrapper = shallow(createPost());
+        const wrapper = shallowWithIntl(createPost());
 
         const message = 'message';
         wrapper.setState({message});
@@ -888,7 +888,7 @@ describe('components/create_post', () => {
             },
         };
 
-        const markdownTable = 'test | test\n-- | --\ntest | test\n';
+        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
         const expectedMessage = `${message}\n\n${markdownTable}`;
 
         wrapper.instance().pasteHandler(event);

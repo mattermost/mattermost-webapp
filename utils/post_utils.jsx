@@ -256,11 +256,11 @@ export function formatMarkdownTableMessage(table, message) {
     const rows = Array.from(table.querySelectorAll('tr'));
 
     const headers = tableHeaders(rows.shift());
-    const spacers = headers.map(() => '--');
-    const header = `${headers.join(' | ')}\n${spacers.join(' | ')}\n`;
+    const spacers = headers.map(() => '---');
+    const header = `|${headers.join(' | ')}|\n|${spacers.join(' | ')}|\n`;
 
     const body = rows.map((row) => {
-        return Array.from(row.querySelectorAll('td')).map(columnText).join(' | ');
+        return `|${Array.from(row.querySelectorAll('td')).map(columnText).join(' | ')}|`;
     }).join('\n');
 
     const formattedTable = `${header}${body}\n`;

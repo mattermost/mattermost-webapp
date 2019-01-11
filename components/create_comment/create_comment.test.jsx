@@ -904,7 +904,7 @@ describe('components/CreateComment', () => {
             fileInfos: [],
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment
                 {...baseProps}
                 draft={draft}
@@ -925,7 +925,7 @@ describe('components/CreateComment', () => {
             },
         };
 
-        const markdownTable = 'test | test\n-- | --\ntest | test\n';
+        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('draft').message).toBe(markdownTable);
