@@ -11,7 +11,7 @@ import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
 
 import * as Emoticons from 'utils/emoticons.jsx';
-import {sortEmojis} from 'utils/emoji.jsx';
+import {sortEmojis} from 'utils/emoji_utils.jsx';
 
 import Suggestion from './suggestion.jsx';
 import Provider from './provider.jsx';
@@ -122,13 +122,13 @@ export default class EmoticonProvider extends Provider {
             }
         }
 
-        const sortEmoticon = (a, b) => {
+        const sortEmojisHelper = (a, b) => {
             return sortEmojis(a, b, partialName);
         };
 
-        recentMatched.sort(sortEmoticon);
+        recentMatched.sort(sortEmojisHelper);
 
-        matched.sort(sortEmoticon);
+        matched.sort(sortEmojisHelper);
 
         const terms = [
             ...this.formatEmojis(recentMatched),

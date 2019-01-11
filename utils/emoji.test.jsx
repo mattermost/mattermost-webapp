@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as Emoji from 'utils/emoji.jsx';
+import {sortEmojis} from 'utils/emoji_utils.jsx';
 
 describe('Emoji', () => {
     describe('sortEmojis', () => {
@@ -19,7 +19,7 @@ describe('Emoji', () => {
             };
 
             const emojiArray = [goatEmoji, dashEmoji, smileEmoji];
-            emojiArray.sort((a, b) => Emoji.sortEmojis(a, b));
+            emojiArray.sort((a, b) => sortEmojis(a, b));
 
             expect(emojiArray).toEqual([dashEmoji, goatEmoji, smileEmoji]);
         });
@@ -38,7 +38,7 @@ describe('Emoji', () => {
             };
 
             const emojiArray = [goatEmoji, dashEmoji, smileEmoji];
-            emojiArray.sort((a, b) => Emoji.sortEmojis(a, b, 'smi'));
+            emojiArray.sort((a, b) => sortEmojis(a, b, 'smi'));
 
             expect(emojiArray).toEqual([smileEmoji, dashEmoji, goatEmoji]);
         });
@@ -57,7 +57,7 @@ describe('Emoji', () => {
             };
 
             const emojiArray = [goatEmoji, dashEmoji, smileEmoji];
-            emojiArray.sort((a, b) => Emoji.sortEmojis(a, b));
+            emojiArray.sort((a, b) => sortEmojis(a, b));
 
             expect(emojiArray).toEqual([dashEmoji, goatEmoji, smileEmoji]);
         });
