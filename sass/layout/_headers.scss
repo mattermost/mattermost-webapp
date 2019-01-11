@@ -536,7 +536,6 @@
             .sidebar-header-dropdown__toggle,
             .admin-navbar-dropdown__toggle {
                 @include opacity(.8);
-                @include single-transition(all, .1s, linear);
                 background: none;
                 color: $white;
                 display: block;
