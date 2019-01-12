@@ -366,7 +366,7 @@ class LoginController extends React.Component {
                         src={Client4.getBrandImageUrl(0)}
                     />
                     <div>
-                        {messageHtmlToComponent(formattedText, false, {mentions: false})}
+                        {messageHtmlToComponent(formattedText, false, {mentions: false, imagesMetadata: null})}
                     </div>
                 </div>
             );
