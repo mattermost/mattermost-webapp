@@ -17,6 +17,7 @@ import PostEmoji from 'components/post_emoji';
  * - images - If specified, markdown images are replaced with the MarkdownImage component. Defaults to true.
  * - imageProps - If specified, any extra props that should be passed into the MarkdownImage component.
  * - latex - If specified, latex is replaced with the LatexBlock component. Defaults to true.
+ * - imagesMetadata - the dimensions of the image as retrieved from post.metadata.images.
  */
 export function messageHtmlToComponent(html, isRHS, options = {}) {
     if (!html) {
@@ -81,7 +82,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                 const callMarkdownImage = (
                     <MarkdownImage
                         className={className}
-                        dimensions={options.imagesMetadata[attribs.src]}
+                        dimensions={options.imagesMetadata && options.imagesMetadata[attribs.src]}
                         {...attribs}
                         {...options.imageProps}
                     />
