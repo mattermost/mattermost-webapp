@@ -3,16 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-<<<<<<< HEAD
-import ReactDOM from 'react-dom';
-import {Dropdown, MenuItem} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
-=======
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
->>>>>>> MM-13265: Creating new set of widgets to build dropdown menus
 
 import * as Utils from 'utils/utils.jsx';
 

@@ -36,7 +36,6 @@ export default class DotMenu extends Component {
         pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
         isLicensed: PropTypes.bool.isRequired,
         postEditTimeLimit: PropTypes.string.isRequired,
-
         actions: PropTypes.shape({
 
             /**

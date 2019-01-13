@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
-import BootstrapSpan from 'components/bootstrap_span.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
 import StatusIcon from 'components/status_icon.jsx';
@@ -119,15 +118,13 @@ export default class StatusDropdown extends React.Component {
                 onToggle={this.onToggle}
                 style={this.props.style}
             >
-                <BootstrapSpan>
-                    <div className='status-wrapper status-selector'>
-                        {profilePicture}
-                        <StatusIcon status={this.props.status}/>
-                        <span className={'status status-edit edit'}>
-                            {dropdownIcon}
-                        </span>
-                    </div>
-                </BootstrapSpan>
+                <div className='status-wrapper status-selector'>
+                    {profilePicture}
+                    <StatusIcon status={this.props.status}/>
+                    <span className={'status status-edit edit'}>
+                        {dropdownIcon}
+                    </span>
+                </div>
                 <Menu>
                     <MenuGroup>
                         <MenuItemAction

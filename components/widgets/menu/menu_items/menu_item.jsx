@@ -2,9 +2,16 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function menuItem(Component) {
     class MenuItem extends React.PureComponent {
+        static propTypes= {
+            show: PropTypes.bool.isRequired,
+            id: PropTypes.string,
+            icon: PropTypes.node,
+            text: PropTypes.string,
+        };
         static defaultProps = {
             show: true,
         };
