@@ -1,17 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+// @flow
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 
-const AdminHeader = (props) => (
+type Props = {|
+    children: React.Node
+|};
+
+const AdminHeader = (props: Props) => (
     <h3 className='admin-console-header'>
         {props.children}
     </h3>
 );
-
-AdminHeader.propTypes = {
-    children: PropTypes.node.isRequired,
-};
 
 export default AdminHeader;

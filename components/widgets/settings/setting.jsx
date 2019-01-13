@@ -1,10 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+// @flow
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 
-const Setting = (props) => {
+type Props = {|
+    inputId?: string,
+    label: React.Node,
+    labelClassName?: string,
+    inputClassName?: string,
+    children: React.Node,
+    helpText?: React.Node,
+    footer?: React.Node,
+|}
+
+const Setting = (props: Props) => {
     const {
         children,
         footer,
@@ -18,7 +28,7 @@ const Setting = (props) => {
     return (
         <div className='form-group'>
             <label
-                className={'control-label ' + labelClassName}
+                className={'control-label ' + (labelClassName || '')}
                 htmlFor={inputId}
             >
                 {label}
@@ -32,16 +42,6 @@ const Setting = (props) => {
             </div>
         </div>
     );
-};
-
-Setting.propTypes = {
-    inputId: PropTypes.string,
-    label: PropTypes.node.isRequired,
-    labelClassName: PropTypes.string,
-    inputClassName: PropTypes.string,
-    children: PropTypes.node.isRequired,
-    helpText: PropTypes.node,
-    footer: PropTypes.node,
 };
 
 export default Setting;

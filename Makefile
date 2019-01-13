@@ -1,4 +1,4 @@
-.PHONY: build test run clean stop check-style run-unit emojis help
+.PHONY: build test run clean stop check-style run-unit emojis help flow
 
 BUILD_SERVER_DIR = ../mattermost-server
 BUILD_WEBAPP_DIR = ../mattermost-webapp
@@ -14,6 +14,18 @@ test: node_modules ## Runs tests
 	@echo Running jest unit/component testing
 
 	npm run test
+
+flow: .flowinstall
+	@echo Checking types
+
+	npm run flow
+
+.flowinstall: node_modules
+	@echo Getting flow-typed packages
+
+	npm run flow-typed install
+
+	touch $@
 
 i18n-extract: ## Extract strings for translation from the source code
 	@[[ -d $(MM_UTILITIES_DIR) ]] || echo "You must clone github.com/mattermost/mattermost-utilities repo in .. to use this command"

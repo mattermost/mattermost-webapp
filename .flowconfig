@@ -1,0 +1,31 @@
+[ignore]
+<PROJECT_ROOT>/node_modules/[^m].*
+<PROJECT_ROOT>/node_modules/m[^a].*
+<PROJECT_ROOT>/node_modules/ma[^t].*
+<PROJECT_ROOT>/node_modules/mat[^t].*
+<PROJECT_ROOT>/node_modules/.*/node_modules/.*
+<PROJECT_ROOT>/non_npm_dependencies/.*
+<PROJECT_ROOT>/cypress/.*
+<PROJECT_ROOT>/build/.*
+<PROJECT_ROOT>/tests/.*
+<PROJECT_ROOT>/dist/.*
+<PROJECT_ROOT>/plugins/.*
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+module.system.node.resolve_dirname=node_modules
+suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
+module.name_mapper='^actions\(.*\)$' -> '<PROJECT_ROOT>/actions/\1'
+module.name_mapper='^selectors\(.*\)$' -> '<PROJECT_ROOT>/selectors/\1'
+module.name_mapper='^reducers\(.*\)$' -> '<PROJECT_ROOT>/reducers/\1'
+module.name_mapper='^utils\(.*\)$' -> '<PROJECT_ROOT>/utils/\1'
+module.name_mapper='^components\(.*\)$' -> '<PROJECT_ROOT>/components/\1'
+module.name_mapper='.*\.\(mp3\|svg\|png\|jpg\|gif\)$' -> '<PROJECT_ROOT>/flow/file-loader.js'
+
+[version]
+0.89.0

@@ -2,11 +2,13 @@
   "extends": [
     "./node_modules/eslint-config-mattermost/.eslintrc.json",
     "./node_modules/eslint-config-mattermost/.eslintrc-react.json",
-    "plugin:cypress/recommended"
+    "plugin:cypress/recommended",
+    "plugin:flowtype/recommended"
   ],
   "plugins": [
     "import",
-    "cypress"
+    "cypress",
+    "flowtype"
   ],
   "env": {
     "jest": true,

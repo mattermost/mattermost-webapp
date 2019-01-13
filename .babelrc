@@ -18,6 +18,8 @@
         }],
     ],
     plugins: [
+        'flow-react-proptypes',
+        '@babel/transform-flow-comments',
         '@babel/plugin-proposal-class-properties',
         '@babel/plugin-syntax-dynamic-import',
     ],
@@ -41,6 +43,8 @@
                 }],
             ],
             plugins: [
+                'flow-react-proptypes',
+                '@babel/transform-flow-comments',
                 '@babel/plugin-proposal-class-properties',
                 '@babel/plugin-syntax-dynamic-import',
             ],

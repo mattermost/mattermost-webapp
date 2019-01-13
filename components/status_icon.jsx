@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+// @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import StatusAwayAvatarIcon from 'components/svg/status_away_avatar_icon';
@@ -13,13 +13,13 @@ import StatusOfflineIcon from 'components/svg/status_offline_icon';
 import StatusOnlineAvatarIcon from 'components/svg/status_online_avatar_icon';
 import StatusOnlineIcon from 'components/svg/status_online_icon';
 
-export default class StatusIcon extends React.PureComponent {
-    static propTypes = {
-        status: PropTypes.string,
-        className: PropTypes.string,
-        type: PropTypes.string,
-    };
+type Props = {|
+    status?: 'online' | 'away' | 'dnd' | 'offline',
+    className: string,
+    type: 'avatar' | null,
+|};
 
+export default class StatusIcon extends React.PureComponent<Props> {
     static defaultProps = {
         className: '',
     };

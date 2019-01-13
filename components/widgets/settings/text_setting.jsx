@@ -1,49 +1,40 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+// @flow
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import * as React from 'react';
 
 import Setting from './setting.jsx';
 
-export default class TextSetting extends React.Component {
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        label: PropTypes.node.isRequired,
-        labelClassName: PropTypes.string,
-        placeholder: PropTypes.string,
-        helpText: PropTypes.node,
-        footer: PropTypes.node,
-        value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number,
-        ]).isRequired,
-        inputClassName: PropTypes.string,
-        maxLength: PropTypes.number,
-        resizable: PropTypes.bool,
-        onChange: PropTypes.func,
-        disabled: PropTypes.bool,
-        type: PropTypes.oneOf([
-            'input',
-            'textarea',
-            'number',
-            'email',
-            'tel',
-            'url',
-        ]),
-    };
+type Props = {|
+    id: string,
+    label: React.Node,
+    labelClassName?: string,
+    placeholder?: string,
+    helpText?: React.Node,
+    footer?: React.Node,
+    value: string | number,
+    inputClassName?: string,
+    maxLength?: number,
+    resizable?: boolean,
+    onChange: (string, string | number) => null,
+    disabled?: boolean,
+    type: 'input' | 'textarea' | 'number' | 'email' | 'tel' | 'url',
+|}
 
+export default class TextSetting extends React.Component<Props> {
     static defaultProps = {
         labelClassName: '',
         inputClassName: '',
         type: 'input',
         maxLength: null,
         resizable: true,
+        onChange: () => null,
     };
 
-    handleChange = (e) => {
+    handleChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
         if (this.props.type === 'number') {
-            this.props.onChange(this.props.id, parseInt(e.target.value, 10));
+            this.props.onChange(this.props.id, parseInt(e.target.value, 10) || 0);
         } else {
             this.props.onChange(this.props.id, e.target.value);
         }

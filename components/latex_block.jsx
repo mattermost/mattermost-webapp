@@ -1,16 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+// @flow
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-export default class LatexBlock extends React.Component {
-    static propTypes = {
-        content: PropTypes.string.isRequired,
-    }
+type Props = {|
+    content: string,
+|};
 
-    constructor(props) {
+type State = {|
+    katex?: Object,
+|};
+
+export default class LatexBlock extends React.Component<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -25,18 +29,19 @@ export default class LatexBlock extends React.Component {
     }
 
     render() {
-        if (this.state.katex == null) {
+        const katex = this.state.katex;
+        const content = this.props.content;
+
+        if (!katex) {
             return (
-                <div
-                    className='post-body--code tex'
-                >
-                    {this.props.content}
+                <div className='post-body--code tex'>
+                    {content}
                 </div>
             );
         }
 
         try {
-            const html = this.state.katex.renderToString(this.props.content, {throwOnError: false, displayMode: true});
+            const html = katex.renderToString(content, {throwOnError: false, displayMode: true});
 
             return (
                 <div
@@ -46,9 +51,7 @@ export default class LatexBlock extends React.Component {
             );
         } catch (e) {
             return (
-                <div
-                    className='post-body--code tex'
-                >
+                <div className='post-body--code tex'>
                     <FormattedMessage
                         id='katex.error'
                         defaultMessage="Couldn't compile your Latex code. Please review the syntax and try again."

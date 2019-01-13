@@ -1,13 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+// @flow
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import AdminHeader from 'components/widgets/admin_console/admin_header.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-const FormattedAdminHeader = (props) => (
+type Props = {|
+    id: string,
+    defaultMessage: string,
+    values: {[string]: mixed},
+|};
+
+const FormattedAdminHeader = (props: Props) => (
     <AdminHeader>
         <FormattedMarkdownMessage
             id={props.id}
@@ -16,12 +22,6 @@ const FormattedAdminHeader = (props) => (
         />
     </AdminHeader>
 );
-
-FormattedAdminHeader.propTypes = {
-    id: PropTypes.string.isRequired,
-    defaultMessage: PropTypes.string.isRequired,
-    values: PropTypes.object,
-};
 
 FormattedAdminHeader.defaultProps = {
     values: {},

@@ -1,15 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+// @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {intlShape} from 'react-intl';
 
-export default class LoadingSpinner extends React.PureComponent {
-    static propTypes = {
-        text: PropTypes.string,
-    }
+type Props = {|
+    text: ?string
+|};
 
+export default class LoadingSpinner extends React.PureComponent<Props> {
     static defaultProps = {
         text: null,
     }

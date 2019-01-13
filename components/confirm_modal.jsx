@@ -1,80 +1,28 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+// @flow
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import * as React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-export default class ConfirmModal extends React.Component {
-    static propTypes = {
+type Props = {|
+    show: boolean,
+    title: React.Node,
+    message: React.Node,
+    confirmButtonClass: string,
+    modalClass: string,
+    confirmButtonText: React.Node,
+    cancelButtonText?: React.Node,
+    showCheckbox?: boolean,
+    checkboxText: React.Node,
+    onConfirm: (boolean) => null,
+    onCancel: (boolean) => null,
+    onExited: () => null,
+    hideCancel?: boolean,
+|}
 
-        /*
-         * Set to show modal
-         */
-        show: PropTypes.bool.isRequired,
-
-        /*
-         * Title to use for the modal
-         */
-        title: PropTypes.node,
-
-        /*
-         * Message to display in the body of the modal
-         */
-        message: PropTypes.node,
-
-        /*
-         * The CSS class to apply to the confirm button
-         */
-        confirmButtonClass: PropTypes.string,
-
-        /*
-         * The CSS class to apply to the modal
-         */
-        modalClass: PropTypes.string,
-
-        /*
-         * Text/jsx element on the confirm button
-         */
-        confirmButtonText: PropTypes.node,
-
-        /*
-         * Text/jsx element on the cancel button
-         */
-        cancelButtonText: PropTypes.node,
-
-        /*
-         * Set to show checkbox
-         */
-        showCheckbox: PropTypes.bool,
-
-        /*
-         * Text/jsx element to display with the checkbox
-         */
-        checkboxText: PropTypes.node,
-
-        /*
-         * Function called when the confirm button or ENTER is pressed. Passes `true` if the checkbox is checked
-         */
-        onConfirm: PropTypes.func.isRequired,
-
-        /*
-         * Function called when the cancel button is pressed or the modal is hidden. Passes `true` if the checkbox is checked
-         */
-        onCancel: PropTypes.func.isRequired,
-
-        /**
-         * Function called when modal is dismissed
-         */
-        onExited: PropTypes.func,
-
-        /*
-         * Set to hide the cancel button
-         */
-        hideCancel: PropTypes.bool,
-    }
-
+export default class ConfirmModal extends React.Component<Props> {
     static defaultProps = {
         title: '',
         message: '',
@@ -93,11 +41,11 @@ export default class ConfirmModal extends React.Component {
         document.removeEventListener('keydown', this.handleKeypress);
     }
 
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps: Props) {
         return nextProps.show !== this.props.show;
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+    UNSAFE_componentWillReceiveProps(nextProps: Props) { // eslint-disable-line camelcase
         if (this.props.show && !nextProps.show) {
             document.removeEventListener('keydown', this.handleKeypress);
         } else if (!this.props.show && nextProps.show) {
@@ -105,7 +53,7 @@ export default class ConfirmModal extends React.Component {
         }
     }
 
-    handleKeypress = (e) => {
+    handleKeypress = (e: KeyboardEvent) => {
         if (e.key === 'Enter' && this.props.show) {
             this.handleConfirm();
         }

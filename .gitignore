@@ -1,6 +1,8 @@
 dist
 .npminstall
 .yarninstall
+.flowinstall
+flow-typed
 node_modules
 *.swp
 .idea
