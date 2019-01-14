@@ -8,7 +8,10 @@ import {localizeMessage} from 'utils/utils.jsx';
 export default class DraftIcon extends React.PureComponent {
     render() {
         return (
-            <span {...this.props}>
+            <span
+                {...this.props}
+                id='draftIcon'
+            >
                 <svg
                     width='14px'
                     height='14px'
