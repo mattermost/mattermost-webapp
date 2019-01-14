@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+// @flow
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default class MessageIcon extends React.PureComponent {
+export default class MessageIcon extends React.PureComponent<{|className?: string|}> {
     render() {
         return (
             <span {...this.props}>
