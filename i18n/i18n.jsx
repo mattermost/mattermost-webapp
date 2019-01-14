@@ -161,9 +161,12 @@ export function getLanguages() {
     if (!config.AvailableLocales) {
         return getAllLanguages();
     }
-    const availables = {};
-    config.AvailableLocales.split(',').filter((l) => languages[l]).map((l) => Object.assign(availables, {[l]: languages[l]}));
-    return availables;
+    return config.AvailableLocales.split(',').reduce((result, l) => {
+        if (languages[l]) {
+            result[l] = languages[l];
+        }
+        return result;
+    }, {});
 }
 
 export function getLanguageInfo(locale) {
