@@ -133,10 +133,10 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
             let id;
             let defaultMessage;
             if (this.props.config.EnableSignUpWithGitLab === 'true') {
-                id = t('announcement_bar.error.site_url_gitlab');
+                id = t('announcement_bar.error.site_url_gitlab.full');
                 defaultMessage = 'Please configure your [Site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) in the [System Console](/admin_console/general/configuration) or in gitlab.rb if you\'re using GitLab Mattermost.';
             } else {
-                id = t('announcement_bar.error.site_url');
+                id = t('announcement_bar.error.site_url.full');
                 defaultMessage = 'Please configure your [Site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) in the [System Console](/admin_console/general/configuration).';
             }
 
