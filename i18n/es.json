@@ -1306,7 +1306,7 @@
   "admin.user_item.teamMember": "Miembro del equipo",
   "admin.user_item.userAccessTokenPostAll": "(con mensaje:todos tokens de acceso personales)",
   "admin.user_item.userAccessTokenPostAllPublic": "(con mensaje:canales tokens de acceso personales)",
-  "admin.user_item.userAccessTokenYes": "(con tokens de acceso personales)",
+  "admin.user_item.userAccessTokenYes": "(con mensaje:todos tokens de acceso personales)",
   "admin.viewArchivedChannelsHelpText": "(Experimental) Cuando es verdadero, permite a los usuarios compartir enlaces permalinks y buscar contenido en canales que han sido archivados. Los usuarios sólo podrán ver el contenido en los canales de los cuales fueron miembros antes de que el canal fuera archivado.",
   "admin.viewArchivedChannelsTitle": "Permitir la vista de canales archivados a los usuarios:",
   "admin.webserverModeDisabled": "Desactivado",

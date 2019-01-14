@@ -1306,7 +1306,7 @@
   "admin.user_item.teamMember": "Teammitglied",
   "admin.user_item.userAccessTokenPostAll": "(mit post:all Benutzer-Zugriffs-Token)",
   "admin.user_item.userAccessTokenPostAllPublic": "(mit post:channels Benutzer-Zugriffs-Token)",
-  "admin.user_item.userAccessTokenYes": "(mit persönlichen Zugriffs-Token)",
+  "admin.user_item.userAccessTokenYes": "(mit post:all Benutzer-Zugriffs-Token)",
   "admin.viewArchivedChannelsHelpText": "(Experimentell) Wenn wahr, wird Benutzern erlaubt Permalinks zu teilen und nach Inhalten von archivierten Kanälen zu suchen. Benutzer können nur Inhalte von Kanälen sehen, deren Mitglied sie vor dem Archivieren waren.",
   "admin.viewArchivedChannelsTitle": "Benutzern erlauben, archivierte Kanäle zu sehen:",
   "admin.webserverModeDisabled": "Deaktiviert",

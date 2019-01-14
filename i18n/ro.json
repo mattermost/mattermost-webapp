@@ -1306,7 +1306,7 @@
   "admin.user_item.teamMember": "Membru",
   "admin.user_item.userAccessTokenPostAll": "(cu post: toate jetoanele de acces personale)",
   "admin.user_item.userAccessTokenPostAllPublic": "(cu postare: canale de acces personale pentru canale)",
-  "admin.user_item.userAccessTokenYes": "(cu jetoane de acces personale)",
+  "admin.user_item.userAccessTokenYes": "(cu post: toate jetoanele de acces personale)",
   "admin.viewArchivedChannelsHelpText": "(Experimental) Când este adevărat, permite utilizatorilor să partajeze permalinks și să caute conținut de canale care au fost arhivate. Utilizatorii pot vizualiza conținutul numai în canalele din care au fost membri înainte de arhivarea canalului.",
   "admin.viewArchivedChannelsTitle": "Permite utilizatorilor să vizualizeze canalele arhivate:",
   "admin.webserverModeDisabled": "Dezactivat",

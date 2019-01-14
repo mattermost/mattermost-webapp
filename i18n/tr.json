@@ -1306,7 +1306,7 @@
   "admin.user_item.teamMember": "Takım Üyesi",
   "admin.user_item.userAccessTokenPostAll": "(ileti: tüm kişisel erişim kodları ile)",
   "admin.user_item.userAccessTokenPostAllPublic": "(ileti: kanalların kişisel erişim kodları ile)",
-  "admin.user_item.userAccessTokenYes": "(kişisel erişim kodları ile)",
+  "admin.user_item.userAccessTokenYes": "(ileti: tüm kişisel erişim kodları ile)",
   "admin.viewArchivedChannelsHelpText": "(Deneysel) Bu seçenek etkinleştirildiğinde, kullanıcılar arşivlenmiş kanallardaki kalıcı bağlantıları paylaşabilir ve arşivlenmiş kanal içeriklerinde arama yapabilir. Kullanıcılar yalnız arşivlenmeden önce üyesi oldukları kanal içeriklerini görüntüleyebilir.",
   "admin.viewArchivedChannelsTitle": "Kullanıcılar arşivlenmiş kanal içeriklerini görüntüleyebilsin:",
   "admin.webserverModeDisabled": "Devre Dışı",

@@ -1306,7 +1306,7 @@
   "admin.user_item.teamMember": "チームメンバー",
   "admin.user_item.userAccessTokenPostAll": "(投稿:全て パーソナルアクセストークン)",
   "admin.user_item.userAccessTokenPostAllPublic": "(投稿:チャンネル パーソナルアクセストークン)",
-  "admin.user_item.userAccessTokenYes": "(パーソナルアクセストークン)",
+  "admin.user_item.userAccessTokenYes": "(投稿:全て パーソナルアクセストークン)",
   "admin.viewArchivedChannelsHelpText": "(実験的な機能) 有効な場合、ユーザーはアーカイブされたチャンネルの内容について、パーマリンクの共有や内容の検索ができるようになります。ユーザーはアーカイブされる前にメンバーだったチャンネルの内容のみ見ることができるようになります。",
   "admin.viewArchivedChannelsTitle": "アーカイブチャンネルを閲覧可能にする:",
   "admin.webserverModeDisabled": "無効",

@@ -1306,7 +1306,7 @@
   "admin.user_item.teamMember": "Membre d'équipe",
   "admin.user_item.userAccessTokenPostAll": "(avec des jetons d'accès personnel ayant comme droit post:all)",
   "admin.user_item.userAccessTokenPostAllPublic": "(avec des jetons d'accès personnel ayant comme droit post:channels)",
-  "admin.user_item.userAccessTokenYes": "(avec les jetons d'accès personnel)",
+  "admin.user_item.userAccessTokenYes": "(avec des jetons d'accès personnel ayant comme droit post:all)",
   "admin.viewArchivedChannelsHelpText": "(Expérimental) Lorsqu'activé, autorise les utilisateurs à partager des liens permanents vers du contenu provenant de canaux qui ont été archivés et à effectuer des recherches dans ce contenu archivé. Les utilisateurs ne peuvent accéder qu'au contenu des canaux pour lesquels ils étaient membres avant que ces canaux ne soient archivés.",
   "admin.viewArchivedChannelsTitle": "Autoriser les utilisateurs à accéder aux canaux archivés :",
   "admin.webserverModeDisabled": "Désactivé",

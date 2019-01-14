@@ -2941,7 +2941,7 @@
   "user.settings.sidebar.channelSwitcherSectionDesc.mac": "채널 스위처는 사이드 바의 하단에 표시되며 채널 사이를 빠르게 이동하는 데 사용됩니다. CMD + K를 통해 사용할 수 있습니다.",
   "user.settings.sidebar.channelSwitcherSectionDesc.windows": "채널 스위처는 사이드 바의 하단에 표시되며 채널 사이를 빠르게 이동하는 데 사용됩니다. CTRL + K를 통해 사용할 수 있습니다.",
   "user.settings.sidebar.channelSwitcherSectionTitle": "Channel Switcher",
-  "user.settings.sidebar.favorites": "Favorites grouped separately",
+  "user.settings.sidebar.favorites": "즐겨찾는 그룹 분류",
   "user.settings.sidebar.favoritesDesc": "즐겨찾기로 표시 된 채널은 별도로 그룹화됩니다.",
   "user.settings.sidebar.favoritesShort": "즐겨찾는 그룹 분류",
   "user.settings.sidebar.groupAndSortChannelsTitle": "채널 그룹 및 정렬",

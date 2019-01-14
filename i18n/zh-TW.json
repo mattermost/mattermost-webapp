@@ -1306,7 +1306,7 @@
   "admin.user_item.teamMember": "團隊成員",
   "admin.user_item.userAccessTokenPostAll": "(與 post:all 個人存取 Token)",
   "admin.user_item.userAccessTokenPostAllPublic": "(與 post:channels 個人存取 Token)",
-  "admin.user_item.userAccessTokenYes": "(與個人存取 Token)",
+  "admin.user_item.userAccessTokenYes": "(與 post:all 個人存取 Token)",
   "admin.viewArchivedChannelsHelpText": "(測試功能) 啟用時，允許使用者從已被封存的頻道分享永久連結跟搜尋。只有在頻道被封存前已經是成員的使用者才能觀看內容。",
   "admin.viewArchivedChannelsTitle": "允許使用者觀看被封存的頻道：",
   "admin.webserverModeDisabled": "停用",
