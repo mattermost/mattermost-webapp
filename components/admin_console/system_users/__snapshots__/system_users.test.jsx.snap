@@ -4,19 +4,15 @@ exports[`components/admin_console/system_users should match default snapshot 1`]
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
-    <FormattedMessage
-      defaultMessage="{siteName} Users"
-      id="admin.system_users.title"
-      values={
-        Object {
-          "siteName": "Site name",
-        }
+  <FormattedAdminHeader
+    defaultMessage="{siteName} Users"
+    id="admin.system_users.title"
+    values={
+      Object {
+        "siteName": "Site name",
       }
-    />
-  </h3>
+    }
+  />
   <div
     className="more-modal__list member-list-holder"
   >

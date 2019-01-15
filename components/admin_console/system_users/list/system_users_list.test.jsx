@@ -28,6 +28,7 @@ describe('components/admin_console/system_users/list', () => {
             updateTeamMemberSchemeRoles: jest.fn(),
             getTeamMembersForUser: jest.fn(),
             getTeamsForUser: jest.fn(),
+            removeUserFromTeam: jest.fn(),
         },
     };
 

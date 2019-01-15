@@ -38,14 +38,11 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
-    <FormattedMessage
-      id="config"
-      values={Object {}}
-    />
-  </h3>
+  <FormattedAdminHeader
+    defaultMessage="Configuration"
+    id="config"
+    values={Object {}}
+  />
   <form
     className="form-horizontal"
     onSubmit={[Function]}
@@ -54,7 +51,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
     <SettingsGroup
       show={true}
     >
-      <TextSetting
+      <AdminTextSetting
         disabled={false}
         helpText={
           <FormattedMessage
@@ -66,7 +63,6 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         id="FirstSettings.settinga"
         key="Config_text_FirstSettings.settinga"
         label="Setting One"
-        maxLength={null}
         onChange={[Function]}
         placeholder="e.g. some setting"
         setByEnv={false}
@@ -209,7 +205,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         placeholder="Type a username here"
         value="3xz3r6n7dtbbmgref3yw4zg7sr"
       />
-      <TextSetting
+      <AdminTextSetting
         disabled={false}
         helpText={
           <FormattedMessage
@@ -221,14 +217,13 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         id="SecondSettings.settingg"
         key="Config_text_SecondSettings.settingg"
         label="Setting Seven"
-        maxLength={null}
         onChange={[Function]}
         placeholder="e.g. some setting"
         setByEnv={false}
         type="number"
         value={7}
       />
-      <TextSetting
+      <AdminTextSetting
         disabled={false}
         helpText={
           <FormattedMessage
@@ -240,7 +235,6 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         id="SecondSettings.settingh"
         key="Config_text_SecondSettings.settingh"
         label="Setting Eight"
-        maxLength={null}
         onChange={[Function]}
         placeholder="e.g. some setting"
         setByEnv={false}
@@ -323,36 +317,41 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             },
             Object {
               "order": 8,
-              "text": "Română (Beta)",
+              "text": "Română",
               "value": "ro",
             },
             Object {
               "order": 9,
-              "text": "Pусский (Alpha)",
-              "value": "ru",
-            },
-            Object {
-              "order": 10,
               "text": "Türkçe",
               "value": "tr",
             },
             Object {
+              "order": 10,
+              "text": "Pусский (Alpha)",
+              "value": "ru",
+            },
+            Object {
               "order": 11,
+              "text": "Yкраїнська (Beta)",
+              "value": "uk",
+            },
+            Object {
+              "order": 12,
               "text": "한국어 (Alpha)",
               "value": "ko",
             },
             Object {
-              "order": 12,
+              "order": 13,
               "text": "中文 (简体)",
               "value": "zh-CN",
             },
             Object {
-              "order": 13,
+              "order": 14,
               "text": "中文 (繁體)",
               "value": "zh-TW",
             },
             Object {
-              "order": 14,
+              "order": 15,
               "text": "日本語",
               "value": "ja",
             },
@@ -432,36 +431,41 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             },
             Object {
               "order": 8,
-              "text": "Română (Beta)",
+              "text": "Română",
               "value": "ro",
             },
             Object {
               "order": 9,
-              "text": "Pусский (Alpha)",
-              "value": "ru",
-            },
-            Object {
-              "order": 10,
               "text": "Türkçe",
               "value": "tr",
             },
             Object {
+              "order": 10,
+              "text": "Pусский (Alpha)",
+              "value": "ru",
+            },
+            Object {
               "order": 11,
+              "text": "Yкраїнська (Beta)",
+              "value": "uk",
+            },
+            Object {
+              "order": 12,
               "text": "한국어 (Alpha)",
               "value": "ko",
             },
             Object {
-              "order": 12,
+              "order": 13,
               "text": "中文 (简体)",
               "value": "zh-CN",
             },
             Object {
-              "order": 13,
+              "order": 14,
               "text": "中文 (繁體)",
               "value": "zh-TW",
             },
             Object {
-              "order": 14,
+              "order": 15,
               "text": "日本語",
               "value": "ja",
             },

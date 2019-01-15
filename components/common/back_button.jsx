@@ -28,12 +28,16 @@ export default class BackButton extends React.PureComponent {
 
     render() {
         return (
-            <div className='signup-header'>
+            <div
+                id='back_button'
+                className='signup-header'
+            >
                 <Link
                     onClick={this.props.onClick}
                     to={this.props.url}
                 >
                     <span
+                        id='back_button_icon'
                         className='fa fa-chevron-left'
                         title={localizeMessage('generic_icons.back', 'Back Icon')}
                     />

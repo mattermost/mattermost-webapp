@@ -9,7 +9,6 @@ import {Link} from 'react-router-dom';
 import {Client4} from 'mattermost-redux/client';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {browserHistory} from 'utils/browser_history';
@@ -28,40 +27,38 @@ import FormError from 'components/form_error.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import BackButton from 'components/common/back_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 
 import LoginMfa from '../login_mfa.jsx';
 class LoginController extends React.Component {
-    static get propTypes() {
-        return {
-            intl: intlShape.isRequired,
+    static propTypes = {
+        intl: intlShape.isRequired,
 
-            location: PropTypes.object.isRequired,
-            isLicensed: PropTypes.bool.isRequired,
-
-            currentUser: PropTypes.object,
-
-            customBrandText: PropTypes.string,
-            customDescriptionText: PropTypes.string,
-            enableCustomBrand: PropTypes.bool.isRequired,
-            enableLdap: PropTypes.bool.isRequired,
-            enableOpenServer: PropTypes.bool.isRequired,
-            enableSaml: PropTypes.bool.isRequired,
-            enableSignInWithEmail: PropTypes.bool.isRequired,
-            enableSignInWithUsername: PropTypes.bool.isRequired,
-            enableSignUpWithEmail: PropTypes.bool.isRequired,
-            enableSignUpWithGitLab: PropTypes.bool.isRequired,
-            enableSignUpWithGoogle: PropTypes.bool.isRequired,
-            enableSignUpWithOffice365: PropTypes.bool.isRequired,
-            experimentalPrimaryTeam: PropTypes.string,
-            ldapLoginFieldName: PropTypes.string,
-            samlLoginButtonText: PropTypes.string,
-            siteName: PropTypes.string,
-            initializing: PropTypes.bool,
-            actions: PropTypes.shape({
-                checkMfa: PropTypes.func.isRequired,
-                login: PropTypes.func.isRequired,
-            }).isRequired,
-        };
+        location: PropTypes.object.isRequired,
+        isLicensed: PropTypes.bool.isRequired,
+        currentUser: PropTypes.object,
+        customBrandText: PropTypes.string,
+        customDescriptionText: PropTypes.string,
+        enableCustomBrand: PropTypes.bool.isRequired,
+        enableLdap: PropTypes.bool.isRequired,
+        enableOpenServer: PropTypes.bool.isRequired,
+        enableSaml: PropTypes.bool.isRequired,
+        enableSignInWithEmail: PropTypes.bool.isRequired,
+        enableSignInWithUsername: PropTypes.bool.isRequired,
+        enableSignUpWithEmail: PropTypes.bool.isRequired,
+        enableSignUpWithGitLab: PropTypes.bool.isRequired,
+        enableSignUpWithGoogle: PropTypes.bool.isRequired,
+        enableSignUpWithOffice365: PropTypes.bool.isRequired,
+        experimentalPrimaryTeam: PropTypes.string,
+        ldapLoginFieldName: PropTypes.string,
+        samlLoginButtonText: PropTypes.string,
+        siteName: PropTypes.string,
+        initializing: PropTypes.bool,
+        actions: PropTypes.shape({
+            checkMfa: PropTypes.func.isRequired,
+            login: PropTypes.func.isRequired,
+            addUserToTeamFromInvite: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -178,6 +175,9 @@ class LoginController extends React.Component {
     preSubmit = (e) => {
         e.preventDefault();
 
+        // Discard any session expiry notice once the user interacts with the login page.
+        this.onDismissSessionExpired();
+
         const {location} = this.props;
         const newQuery = location.search.replace(/(extra=password_change)&?/i, '');
         if (newQuery !== location.search) {
@@ -186,14 +186,20 @@ class LoginController extends React.Component {
 
         // password managers don't always call onInput handlers for form fields so it's possible
         // for the state to get out of sync with what the user sees in the browser
-        let loginId = this.refs.loginId.value;
-        if (loginId !== this.state.loginId) {
-            this.setState({loginId});
+        let loginId = this.state.loginId;
+        if (this.refs.loginId) {
+            loginId = this.refs.loginId.value;
+            if (loginId !== this.state.loginId) {
+                this.setState({loginId});
+            }
         }
 
-        const password = this.refs.password.value;
-        if (password !== this.state.password) {
-            this.setState({password});
+        let password = this.state.password;
+        if (this.refs.password) {
+            password = this.refs.password.value;
+            if (password !== this.state.password) {
+                this.setState({password});
+            }
         }
 
         // don't trim the password since we support spaces in passwords
@@ -265,12 +271,12 @@ class LoginController extends React.Component {
     submit = (loginId, password, token) => {
         this.setState({serverError: null, loading: true});
 
-        this.props.actions.login(loginId, password, token).then(({error}) => {
+        this.props.actions.login(loginId, password, token).then(async ({error}) => {
             if (error) {
-                if (error.id === 'api.user.login.not_verified.app_error') {
+                if (error.server_error_id === 'api.user.login.not_verified.app_error') {
                     browserHistory.push('/should_verify_email?&email=' + encodeURIComponent(loginId));
-                } else if (error.id === 'store.sql_user.get_for_login.app_error' ||
-                    error.id === 'ent.ldap.do_login.user_not_registered.app_error') {
+                } else if (error.server_error_id === 'store.sql_user.get_for_login.app_error' ||
+                    error.server_error_id === 'ent.ldap.do_login.user_not_registered.app_error') {
                     this.setState({
                         showMfa: false,
                         loading: false,
@@ -281,7 +287,7 @@ class LoginController extends React.Component {
                             />
                         ),
                     });
-                } else if (error.id === 'api.user.check_user_password.invalid.app_error' || error.id === 'ent.ldap.do_login.invalid_password.app_error') {
+                } else if (error.server_error_id === 'api.user.check_user_password.invalid.app_error' || error.server_error_id === 'ent.ldap.do_login.invalid_password.app_error') {
                     this.setState({
                         showMfa: false,
                         loading: false,
@@ -305,17 +311,13 @@ class LoginController extends React.Component {
             const inviteId = params.get('id') || '';
 
             if (inviteId || inviteToken) {
-                addUserToTeamFromInvite(
-                    inviteToken,
-                    inviteId,
-                    (team) => {
-                        this.finishSignin(team);
-                    },
-                    () => {
-                        // there's not really a good way to deal with this, so just let the user log in like normal
-                        this.finishSignin();
-                    }
-                );
+                const {data: team} = await this.props.actions.addUserToTeamFromInvite(inviteToken, inviteId);
+                if (team) {
+                    this.finishSignin(team);
+                } else {
+                    // there's not really a good way to deal with this, so just let the user log in like normal
+                    this.finishSignin();
+                }
             } else {
                 this.finishSignin();
             }
@@ -364,7 +366,7 @@ class LoginController extends React.Component {
                         src={Client4.getBrandImageUrl(0)}
                     />
                     <div>
-                        {messageHtmlToComponent(formattedText, false, {mentions: false})}
+                        {messageHtmlToComponent(formattedText, false, {mentions: false, imagesMetadata: null})}
                     </div>
                 </div>
             );
@@ -545,27 +547,6 @@ class LoginController extends React.Component {
                 errorClass = ' has-error';
             }
 
-            let loginButton = (
-                <FormattedMessage
-                    id='login.signIn'
-                    defaultMessage='Sign in'
-                />
-            );
-
-            if (this.state.loading) {
-                loginButton =
-                (<span>
-                    <span
-                        className='fa fa-refresh icon--rotate'
-                        title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
-                    />
-                    <FormattedMessage
-                        id='login.signInLoading'
-                        defaultMessage='Signing in...'
-                    />
-                </span>);
-            }
-
             loginControls.push(
                 <form
                     key='loginBoxes'
@@ -609,7 +590,16 @@ class LoginController extends React.Component {
                                 type='submit'
                                 className='btn btn-primary'
                             >
-                                { loginButton }
+                                <LoadingWrapper
+                                    id='login_button_signing'
+                                    loading={this.state.loading}
+                                    text={Utils.localizeMessage('login.signInLoading', 'Signing in...')}
+                                >
+                                    <FormattedMessage
+                                        id='login.signIn'
+                                        defaultMessage='Sign in'
+                                    />
+                                </LoadingWrapper>
                             </button>
                         </div>
                     </div>
@@ -646,6 +636,7 @@ class LoginController extends React.Component {
         if (usernameSigninEnabled || emailSigninEnabled) {
             loginControls.push(
                 <div
+                    id='login_forgot'
                     key='forgotPassword'
                     className='form-group'
                 >
@@ -825,7 +816,10 @@ class LoginController extends React.Component {
             <div>
                 <AnnouncementBar/>
                 {backButton}
-                <div className='col-sm-12'>
+                <div
+                    id='login_section'
+                    className='col-sm-12'
+                >
                     <div className={'signup-team__container ' + customClass}>
                         <div className='signup__markdown'>
                             {customContent}

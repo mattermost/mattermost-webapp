@@ -73,9 +73,7 @@
         -webkit-overflow-scrolling: touch;
         background-color: alpha-color($black, .2);
         height: 100%;
-        overflow-x: inherit;
-        overflow-y: auto;
-        padding-top: 15px;
+        overflow: hidden;
 
         .team-container {
             display: flex;
@@ -129,6 +127,10 @@
                 @include opacity(.5);
                 cursor: not-allowed;
             }
+        }
+
+        .scrollbar--view {
+            padding-top: 15px;
         }
 
         .team-container a:hover {

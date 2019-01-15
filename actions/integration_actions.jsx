@@ -6,9 +6,14 @@ import * as IntegrationActions from 'mattermost-redux/actions/integrations';
 import {getProfilesByIds} from 'mattermost-redux/actions/users';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
-import {Integrations} from 'utils/constants.jsx';
+import {ModalIdentifiers} from 'utils/constants';
+import {openModal} from 'actions/views/modals';
+import InteractiveDialog from 'components/interactive_dialog';
+import store from 'stores/redux_store.jsx';
 
-export function loadIncomingHooksAndProfilesForTeam(teamId, page = 0, perPage = Integrations.PAGE_SIZE) {
+const DEFAULT_PAGE_SIZE = 100;
+
+export function loadIncomingHooksAndProfilesForTeam(teamId, page = 0, perPage = DEFAULT_PAGE_SIZE) {
     return async (dispatch) => {
         const {data} = await dispatch(IntegrationActions.getIncomingHooks(teamId, page, perPage));
         if (data) {
@@ -37,7 +42,7 @@ export function loadProfilesForIncomingHooks(hooks) {
     };
 }
 
-export function loadOutgoingHooksAndProfilesForTeam(teamId, page = 0, perPage = Integrations.PAGE_SIZE) {
+export function loadOutgoingHooksAndProfilesForTeam(teamId, page = 0, perPage = DEFAULT_PAGE_SIZE) {
     return async (dispatch) => {
         const {data} = await dispatch(IntegrationActions.getOutgoingHooks('', teamId, page, perPage));
         if (data) {
@@ -95,6 +100,35 @@ export function loadProfilesForCommands(commands) {
     };
 }
 
+export function loadOAuthAppsAndProfiles(page = 0, perPage = DEFAULT_PAGE_SIZE) {
+    return async (dispatch) => {
+        const {data} = await dispatch(IntegrationActions.getOAuthApps(page, perPage));
+        if (data) {
+            dispatch(loadProfilesForOAuthApps(data));
+        }
+    };
+}
+
+export function loadProfilesForOAuthApps(apps) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const profilesToLoad = {};
+        for (let i = 0; i < apps.length; i++) {
+            const app = apps[i];
+            if (!getUser(state, app.creator_id)) {
+                profilesToLoad[app.creator_id] = true;
+            }
+        }
+
+        const list = Object.keys(profilesToLoad);
+        if (list.length === 0) {
+            return;
+        }
+
+        dispatch(getProfilesByIds(list));
+    };
+}
+
 export function getYoutubeVideoInfo(googleKey, videoId, success, error) {
     request.get('https://www.googleapis.com/youtube/v3/videos').
         query({part: 'snippet', id: videoId, key: googleKey}).
@@ -110,3 +144,22 @@ export function getYoutubeVideoInfo(googleKey, videoId, success, error) {
             return success(res.body);
         });
 }
+
+let previousTriggerId = '';
+store.subscribe(() => {
+    const state = store.getState();
+    const currentTriggerId = state.entities.integrations.dialogTriggerId;
+
+    if (currentTriggerId === previousTriggerId) {
+        return;
+    }
+
+    previousTriggerId = currentTriggerId;
+
+    const dialog = state.entities.integrations.dialog || {};
+    if (dialog.trigger_id !== currentTriggerId) {
+        return;
+    }
+
+    store.dispatch(openModal({modalId: ModalIdentifiers.INTERACTIVE_DIALOG, dialogType: InteractiveDialog}));
+});

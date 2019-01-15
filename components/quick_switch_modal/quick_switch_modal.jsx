@@ -23,16 +23,6 @@ export default class QuickSwitchModal extends React.PureComponent {
     static propTypes = {
 
         /**
-         * The mode to start in when showing the modal, either 'channel' or 'team'
-         */
-        initialMode: PropTypes.string.isRequired,
-
-        /**
-         * Set to show the modal
-         */
-        show: PropTypes.bool.isRequired,
-
-        /**
          * The function called to hide the modal
          */
         onHide: PropTypes.func.isRequired,
@@ -43,13 +33,10 @@ export default class QuickSwitchModal extends React.PureComponent {
         showTeamSwitcher: PropTypes.bool,
 
         actions: PropTypes.shape({
+            joinChannelById: PropTypes.func.isRequired,
             switchToChannel: PropTypes.func.isRequired,
         }).isRequired,
-    }
-
-    static defaultProps = {
-        initialMode: CHANNEL_MODE,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -61,14 +48,8 @@ export default class QuickSwitchModal extends React.PureComponent {
 
         this.state = {
             text: '',
-            mode: props.initialMode,
+            mode: CHANNEL_MODE,
         };
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (!this.props.show && nextProps.show) {
-            this.setState({mode: nextProps.initialMode, text: ''});
-        }
     }
 
     focusTextbox = () => {
@@ -86,7 +67,7 @@ export default class QuickSwitchModal extends React.PureComponent {
     setSwitchBoxRef = (input) => {
         this.switchBox = input;
         this.focusTextbox();
-    }
+    };
 
     onShow = () => {
         this.setState({
@@ -111,7 +92,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                 }
             });
         }
-    }
+    };
 
     onChange = (e) => {
         this.setState({text: e.target.value});
@@ -124,14 +105,19 @@ export default class QuickSwitchModal extends React.PureComponent {
         }
     };
 
-    handleSubmit = (selected) => {
+    handleSubmit = async (selected) => {
         if (!selected) {
             return;
         }
 
         if (this.state.mode === CHANNEL_MODE) {
+            const {joinChannelById, switchToChannel} = this.props.actions;
             const selectedChannel = selected.channel;
-            this.props.actions.switchToChannel(selectedChannel).then((result) => {
+
+            if (selected.type === Constants.MENTION_MORE_CHANNELS && selectedChannel.type === Constants.OPEN_CHANNEL) {
+                await joinChannelById(selectedChannel.id);
+            }
+            switchToChannel(selectedChannel).then((result) => {
                 if (result.data) {
                     this.onHide();
                 }
@@ -270,7 +256,7 @@ export default class QuickSwitchModal extends React.PureComponent {
             <Modal
                 dialogClassName='channel-switch-modal modal--overflow'
                 ref='modal'
-                show={this.props.show}
+                show={true}
                 onHide={this.onHide}
                 enforceFocus={false}
                 restoreFocus={false}
@@ -278,10 +264,14 @@ export default class QuickSwitchModal extends React.PureComponent {
                 <Modal.Header closeButton={true}/>
                 <Modal.Body>
                     {header}
-                    <div className='modal__hint'>
+                    <div
+                        id='quickSwitchHint'
+                        className='modal__hint'
+                    >
                         {help}
                     </div>
                     <SuggestionBox
+                        id='quickSwitchInput'
                         ref={this.setSwitchBoxRef}
                         className='form-control focused'
                         onChange={this.onChange}

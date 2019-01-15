@@ -37,6 +37,15 @@ describe('components/SettingItemMin', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, user icon on source', () => {
+        const props = {...baseProps, onSetDefault: jest.fn()};
+        const wrapper = shallow(
+            <SettingPicture {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, team icon on source', () => {
         const props = {...baseProps, onRemove: jest.fn(), imageContext: 'team'};
         const wrapper = shallow(
@@ -105,7 +114,18 @@ describe('components/SettingItemMin', () => {
 
         wrapper.instance().handleSave(evt);
         expect(props.onRemove).toHaveBeenCalledTimes(1);
-        expect(props.onRemove).toHaveBeenCalledWith(evt);
+    });
+
+    test('should call props.onSetDefault on handleSave', () => {
+        const props = {...baseProps, onSetDefault: jest.fn()};
+        const wrapper = shallow(
+            <SettingPicture {...props}/>
+        );
+        wrapper.setState({setDefaultSrc: true});
+        const evt = {preventDefault: jest.fn()};
+
+        wrapper.instance().handleSave(evt);
+        expect(props.onSetDefault).toHaveBeenCalledTimes(1);
     });
 
     test('should match state and call props.onSubmit on handleSave', () => {
@@ -118,7 +138,6 @@ describe('components/SettingItemMin', () => {
 
         wrapper.instance().handleSave(evt);
         expect(props.onSubmit).toHaveBeenCalledTimes(1);
-        expect(props.onSubmit).toHaveBeenCalledWith(evt);
 
         wrapper.update();
         expect(wrapper.state('removeSrc')).toEqual(false);

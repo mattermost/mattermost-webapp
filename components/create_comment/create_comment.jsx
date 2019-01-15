@@ -17,12 +17,12 @@ import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox} from '
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
-import FilePreview from 'components/file_preview.jsx';
+import FilePreview from 'components/file_preview/file_preview.jsx';
 import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
-import Textbox from 'components/textbox.jsx';
+import Textbox from 'components/textbox';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export default class CreateComment extends React.PureComponent {
@@ -193,10 +193,12 @@ export default class CreateComment extends React.PureComponent {
                 fileInfos: [],
             },
             channelMembersCount: 0,
+            uploadsProgressPercent: {},
         };
 
         this.lastBlurAt = 0;
         this.draftsForPost = {};
+        this.doInitialScrollToBottom = false;
     }
 
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
@@ -208,6 +210,13 @@ export default class CreateComment extends React.PureComponent {
     componentDidMount() {
         this.focusTextbox();
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
+
+        // When draft.message is not empty, set doInitialScrollToBottom to true so that
+        // on next component update, the actual this.scrollToBottom() will be called.
+        // This is made so that the this.scrollToBottom() will be called only once.
+        if (this.props.draft.message !== '') {
+            this.doInitialScrollToBottom = true;
+        }
     }
 
     componentWillUnmount() {
@@ -235,6 +244,11 @@ export default class CreateComment extends React.PureComponent {
 
         if (prevProps.rootId !== this.props.rootId) {
             this.focusTextbox();
+        }
+
+        if (this.doInitialScrollToBottom) {
+            this.scrollToBottom();
+            this.doInitialScrollToBottom = false;
         }
     }
 
@@ -431,7 +445,9 @@ export default class CreateComment extends React.PureComponent {
 
         if (allowSending) {
             e.persist();
-            this.refs.textbox.blur();
+            if (this.refs.textbox) {
+                this.refs.textbox.getWrappedInstance().blur();
+            }
 
             if (withClosedCodeBlock && message) {
                 const {draft} = this.state;
@@ -482,7 +498,7 @@ export default class CreateComment extends React.PureComponent {
         if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.UP) && message === '') {
             e.preventDefault();
             if (this.refs.textbox) {
-                this.refs.textbox.blur();
+                this.refs.textbox.getWrappedInstance().blur();
             }
 
             const {data: canEditNow} = this.props.onEditLatestPost();
@@ -521,6 +537,11 @@ export default class CreateComment extends React.PureComponent {
         // this is a bit redundant with the code that sets focus when the file input is clicked,
         // but this also resets the focus after a drag and drop
         this.focusTextbox();
+    }
+
+    handleUploadProgress = ({clientId, name, percent, type}) => {
+        const uploadsProgressPercent = {...this.state.uploadsProgressPercent, [clientId]: {percent, name, type}};
+        this.setState({uploadsProgressPercent});
     }
 
     handleFileUploadComplete = (fileInfos, clientIds, channelId, rootId) => {
@@ -627,7 +648,7 @@ export default class CreateComment extends React.PureComponent {
     }
 
     getFileUploadTarget = () => {
-        return this.refs.textbox;
+        return this.refs.textbox.getWrappedInstance();
     }
 
     getCreateCommentControls = () => {
@@ -636,7 +657,7 @@ export default class CreateComment extends React.PureComponent {
 
     focusTextbox = (keepFocus = false) => {
         if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
-            this.refs.textbox.focus();
+            this.refs.textbox.getWrappedInstance().focus();
         }
     }
 
@@ -722,6 +743,7 @@ export default class CreateComment extends React.PureComponent {
                     fileInfos={draft.fileInfos}
                     onRemove={this.removePreview}
                     uploadsInProgress={draft.uploadsInProgress}
+                    uploadsProgressPercent={this.state.uploadsProgressPercent}
                     ref='preview'
                 />
             );
@@ -762,6 +784,7 @@ export default class CreateComment extends React.PureComponent {
                     onUploadStart={this.handleUploadStart}
                     onFileUpload={this.handleFileUploadComplete}
                     onUploadError={this.handleUploadError}
+                    onUploadProgress={this.handleUploadProgress}
                     rootId={this.props.rootId}
                     postType='comment'
                 />
@@ -829,6 +852,7 @@ export default class CreateComment extends React.PureComponent {
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
                                 badConnection={this.props.badConnection}
+                                listenForMentionKeyClick={true}
                             />
                             <span
                                 ref='createCommentControls'

@@ -4,9 +4,24 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import Textbox from 'components/textbox.jsx';
+import Textbox from 'components/textbox/textbox.jsx';
 
 describe('components/TextBox', () => {
+    const baseProps = {
+        currentUserId: 'currentUserId',
+        profilesInChannel: [
+            {id: 'id1'},
+            {id: 'id2'},
+        ],
+        profilesNotInChannel: [
+            {id: 'id3'},
+            {id: 'id4'},
+        ],
+        actions: {
+            autocompleteUsersInChannel: jest.fn(),
+        },
+    };
+
     test('should match snapshot with required props', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
@@ -19,6 +34,7 @@ describe('components/TextBox', () => {
                 characterLimit={4000}
                 createMessage='placeholder text'
                 supportsCommands={false}
+                {...baseProps}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -43,6 +59,7 @@ describe('components/TextBox', () => {
                 createMessage='placeholder text'
                 supportsCommands={false}
                 handlePostError={handlePostError}
+                {...baseProps}
             />
         );
 
@@ -69,6 +86,7 @@ describe('components/TextBox', () => {
                 createMessage='placeholder text'
                 supportsCommands={false}
                 handlePostError={handlePostError}
+                {...baseProps}
             />
         );
 

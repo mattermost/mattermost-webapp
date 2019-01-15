@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
@@ -17,6 +16,7 @@ import SearchHint from 'components/search_hint/search_hint';
 import FlagPostSearchHint from 'components/search_hint/flag_post_search_hint';
 import NoResultSearchHint from 'components/search_hint/no_result_search_hint';
 import PinPostSearchHint from 'components/search_hint/pin_post_search_hint';
+import LoadingSpinner from 'components/widgets/loading/loading_wrapper.jsx';
 
 const GET_MORE_BUFFER = 30;
 
@@ -48,12 +48,8 @@ export default class SearchResults extends React.PureComponent {
     static propTypes = {
         results: PropTypes.array,
         matches: PropTypes.object,
-        profiles: PropTypes.object,
-        statuses: PropTypes.object,
         currentUser: PropTypes.object,
-        channels: PropTypes.object,
         searchTerms: PropTypes.string,
-        isFlaggedByPostId: PropTypes.object,
         isSearchingTerm: PropTypes.bool,
         isSearchingFlaggedPost: PropTypes.bool,
         isSearchingPinnedPost: PropTypes.bool,
@@ -129,8 +125,6 @@ export default class SearchResults extends React.PureComponent {
         const results = this.props.results;
         const noResults = (!results || results.length === 0);
         const searchTerms = this.props.searchTerms;
-        const profiles = this.props.profiles || {};
-        const statuses = this.props.statuses || {};
 
         let ctls = null;
 
@@ -142,14 +136,7 @@ export default class SearchResults extends React.PureComponent {
             ctls = (
                 <div className='sidebar--right__subheader'>
                     <div className='sidebar--right__loading'>
-                        <i
-                            className='fa fa-spinner fa-spin'
-                            title={Utils.localizeMessage('generic_icons.searching', 'Searching Icon')}
-                        />
-                        <FormattedMessage
-                            id='search_header.loading'
-                            defaultMessage='Searching...'
-                        />
+                        <LoadingSpinner text={Utils.localizeMessage('search_header.loading', 'Searching')}/>
                     </div>
                 </div>
             );
@@ -196,38 +183,17 @@ export default class SearchResults extends React.PureComponent {
             }
 
             ctls = sortedResults.map((post, idx, arr) => {
-                let profile;
-                if (this.props.currentUser.id === post.user_id) {
-                    profile = this.props.currentUser;
-                } else {
-                    profile = profiles[post.user_id];
-                }
-
-                let status = 'offline';
-                if (statuses) {
-                    status = statuses[post.user_id] || 'offline';
-                }
-
-                let isFlagged = false;
-                if (this.props.isFlaggedByPostId) {
-                    isFlagged = this.props.isFlaggedByPostId.get(post.id) || false;
-                }
-
                 const reverseCount = arr.length - idx - 1;
 
                 return (
                     <SearchResultsItem
                         key={post.id}
-                        channel={this.props.channels.get(post.channel_id)}
                         compactDisplay={this.props.compactDisplay}
                         post={post}
                         matches={this.props.matches[post.id]}
                         lastPostCount={(reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT) ? reverseCount : -1}
-                        user={profile}
                         term={(!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isMentionSearch) ? searchTerms : ''}
                         isMentionSearch={this.props.isMentionSearch}
-                        isFlagged={isFlagged}
-                        status={status}
                     />
                 );
             }, this);

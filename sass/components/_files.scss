@@ -333,6 +333,7 @@
 
 .post-image__details {
     @include clearfix;
+    position: relative;
     align-items: center;
     border-left: 1px solid $light-gray;
     color: alpha-color($black, .8);
@@ -401,6 +402,22 @@
                 @include opacity(1);
             }
         }
+    }
+    .post-image__progressBar {
+        margin-bottom: 0px;
+        height: 7px;
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+        margin-left: -15px;
+        border-radius: 0px;
+    }
+
+    .progress-bar {
+        background-color: rgb(40, 90, 185);
+    }
+    .post-image__uploadingTxt {
+        opacity: 0.6;
     }
 }
 

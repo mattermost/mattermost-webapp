@@ -11,6 +11,7 @@ import {handleFormattedTextClick} from 'utils/utils';
 
 import Markdown from 'components/markdown';
 import ShowMore from 'components/post_view/show_more';
+import SizeAwareImage from 'components/size_aware_image';
 
 import ActionButton from '../action_button';
 import ActionMenu from '../action_menu';
@@ -34,6 +35,11 @@ export default class MessageAttachment extends React.PureComponent {
          * Options specific to text formatting
          */
         options: PropTypes.object,
+
+        /**
+         * images object for dimensions
+         */
+        imagesMetadata: PropTypes.object,
 
         actions: PropTypes.shape({
             doPostAction: PropTypes.func.isRequired,
@@ -297,10 +303,14 @@ export default class MessageAttachment extends React.PureComponent {
         let image;
         if (attachment.image_url) {
             image = (
-                <img
-                    className='attachment__image'
-                    src={attachment.image_url}
-                />
+                <div className='attachment__image-container'>
+                    <SizeAwareImage
+                        className='attachment__image'
+                        onHeightReceived={this.handleHeightReceived}
+                        src={attachment.image_url}
+                        dimensions={this.props.imagesMetadata[attachment.image_url]}
+                    />
+                </div>
             );
         }
 
@@ -310,8 +320,10 @@ export default class MessageAttachment extends React.PureComponent {
                 <div
                     className='attachment__thumb-container'
                 >
-                    <img
+                    <SizeAwareImage
+                        onHeightReceived={this.handleHeightReceived}
                         src={attachment.thumb_url}
+                        dimensions={this.props.imagesMetadata[attachment.thumb_url]}
                     />
                 </div>
             );

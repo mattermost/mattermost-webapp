@@ -1,0 +1,281 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapshot 1`] = `
+<nav
+  className="navbar navbar-default navbar-fixed-top"
+  id="navbar"
+  role="navigation"
+>
+  <div
+    className="container-fluid theme"
+  >
+    <div
+      className="navbar-header"
+    >
+      <Connect(CollapseLhsButton) />
+      <div
+        className="navbar-brand"
+      >
+        <Connect(MobileChannelHeaderDropdown) />
+      </div>
+      <Connect(NavbarInfoButton)
+        channel={
+          Object {
+            "display_name": "display_name",
+            "id": "channel_id",
+            "team_id": "team_id",
+            "type": "O",
+          }
+        }
+      />
+      <Connect(ShowSearchButton) />
+      <Connect(MobileChannelHeaderPlug)
+        channel={
+          Object {
+            "display_name": "display_name",
+            "id": "channel_id",
+            "team_id": "team_id",
+            "type": "O",
+          }
+        }
+        isDropdown={false}
+      />
+      <Connect(CollapseRhsButton) />
+    </div>
+  </div>
+</nav>
+`;
+
+exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapshot, for default channel 1`] = `
+<nav
+  className="navbar navbar-default navbar-fixed-top"
+  id="navbar"
+  role="navigation"
+>
+  <div
+    className="container-fluid theme"
+  >
+    <div
+      className="navbar-header"
+    >
+      <Connect(CollapseLhsButton) />
+      <div
+        className="navbar-brand"
+      >
+        <Connect(MobileChannelHeaderDropdown) />
+      </div>
+      <Connect(NavbarInfoButton)
+        channel={
+          Object {
+            "display_name": "Town Square",
+            "id": "123",
+            "name": "town-square",
+            "team_id": "team_id",
+            "type": "O",
+          }
+        }
+      />
+      <Connect(ShowSearchButton) />
+      <Connect(MobileChannelHeaderPlug)
+        channel={
+          Object {
+            "display_name": "Town Square",
+            "id": "123",
+            "name": "town-square",
+            "team_id": "team_id",
+            "type": "O",
+          }
+        }
+        isDropdown={false}
+      />
+      <Connect(CollapseRhsButton) />
+    </div>
+  </div>
+</nav>
+`;
+
+exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapshot, for private channel 1`] = `
+<nav
+  className="navbar navbar-default navbar-fixed-top"
+  id="navbar"
+  role="navigation"
+>
+  <div
+    className="container-fluid theme"
+  >
+    <div
+      className="navbar-header"
+    >
+      <Connect(CollapseLhsButton) />
+      <div
+        className="navbar-brand"
+      >
+        <Connect(MobileChannelHeaderDropdown) />
+      </div>
+      <Connect(NavbarInfoButton)
+        channel={
+          Object {
+            "display_name": "display_name",
+            "id": "channel_id",
+            "team_id": "team_id",
+            "type": "P",
+          }
+        }
+      />
+      <Connect(ShowSearchButton) />
+      <Connect(MobileChannelHeaderPlug)
+        channel={
+          Object {
+            "display_name": "display_name",
+            "id": "channel_id",
+            "team_id": "team_id",
+            "type": "P",
+          }
+        }
+        isDropdown={false}
+      />
+      <Connect(CollapseRhsButton) />
+    </div>
+  </div>
+</nav>
+`;
+
+exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapshot, if WebRTC is not enabled 1`] = `
+<nav
+  className="navbar navbar-default navbar-fixed-top"
+  id="navbar"
+  role="navigation"
+>
+  <div
+    className="container-fluid theme"
+  >
+    <div
+      className="navbar-header"
+    >
+      <Connect(CollapseLhsButton) />
+      <div
+        className="navbar-brand"
+      >
+        <Connect(MobileChannelHeaderDropdown) />
+      </div>
+      <Connect(NavbarInfoButton)
+        channel={
+          Object {
+            "display_name": "display_name",
+            "id": "channel_id",
+            "team_id": "team_id",
+            "type": "O",
+          }
+        }
+      />
+      <Connect(ShowSearchButton) />
+      <Connect(MobileChannelHeaderPlug)
+        channel={
+          Object {
+            "display_name": "display_name",
+            "id": "channel_id",
+            "team_id": "team_id",
+            "type": "O",
+          }
+        }
+        isDropdown={false}
+      />
+      <Connect(CollapseRhsButton) />
+    </div>
+  </div>
+</nav>
+`;
+
+exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapshot, if enabled WebRTC and DM channel 1`] = `
+<nav
+  className="navbar navbar-default navbar-fixed-top"
+  id="navbar"
+  role="navigation"
+>
+  <div
+    className="container-fluid theme"
+  >
+    <div
+      className="navbar-header"
+    >
+      <Connect(CollapseLhsButton) />
+      <div
+        className="navbar-brand"
+      >
+        <Connect(MobileChannelHeaderDropdown) />
+      </div>
+      <Connect(NavbarInfoButton)
+        channel={
+          Object {
+            "display_name": "display_name",
+            "id": "channel_id",
+            "name": "user_id_1__user_id_2",
+            "team_id": "team_id",
+            "type": "D",
+          }
+        }
+      />
+      <Connect(ShowSearchButton) />
+      <Connect(MobileChannelHeaderPlug)
+        channel={
+          Object {
+            "display_name": "display_name",
+            "id": "channel_id",
+            "name": "user_id_1__user_id_2",
+            "team_id": "team_id",
+            "type": "D",
+          }
+        }
+        isDropdown={false}
+      />
+      <Connect(CollapseRhsButton) />
+    </div>
+  </div>
+</nav>
+`;
+
+exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapshot, if not licensed 1`] = `
+<nav
+  className="navbar navbar-default navbar-fixed-top"
+  id="navbar"
+  role="navigation"
+>
+  <div
+    className="container-fluid theme"
+  >
+    <div
+      className="navbar-header"
+    >
+      <Connect(CollapseLhsButton) />
+      <div
+        className="navbar-brand"
+      >
+        <Connect(MobileChannelHeaderDropdown) />
+      </div>
+      <Connect(NavbarInfoButton)
+        channel={
+          Object {
+            "display_name": "display_name",
+            "id": "channel_id",
+            "team_id": "team_id",
+            "type": "O",
+          }
+        }
+      />
+      <Connect(ShowSearchButton) />
+      <Connect(MobileChannelHeaderPlug)
+        channel={
+          Object {
+            "display_name": "display_name",
+            "id": "channel_id",
+            "team_id": "team_id",
+            "type": "O",
+          }
+        }
+        isDropdown={false}
+      />
+      <Connect(CollapseRhsButton) />
+    </div>
+  </div>
+</nav>
+`;

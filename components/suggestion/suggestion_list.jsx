@@ -7,9 +7,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import {localizeMessage} from 'utils/utils.jsx';
-
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
 
 export default class SuggestionList extends React.PureComponent {
     static propTypes = {
@@ -65,6 +64,10 @@ export default class SuggestionList extends React.PureComponent {
             const contentBottomPadding = parseInt(content.css('padding-top'), 10);
 
             const item = $(ReactDOM.findDOMNode(this.refs[term]));
+            if (item.length === 0) {
+                return;
+            }
+
             const itemTop = item[0].offsetTop - parseInt(item.css('margin-top'), 10);
             const itemBottomMargin = parseInt(item.css('margin-bottom'), 10) + parseInt(item.css('padding-bottom'), 10);
             const itemBottom = item[0].offsetTop + item.height() + itemBottomMargin;
@@ -88,20 +91,6 @@ export default class SuggestionList extends React.PureComponent {
                 <span>
                     <FormattedMessage id={'suggestion.' + type}/>
                 </span>
-            </div>
-        );
-    }
-
-    renderLoading(type) {
-        return (
-            <div
-                key={type + '-loading'}
-                className='suggestion-loader'
-            >
-                <i
-                    className='fa fa-spinner fa-pulse fa-fw margin-bottom'
-                    title={localizeMessage('generic_icons.loading', 'Loading Icon')}
-                />
             </div>
         );
     }
@@ -152,7 +141,7 @@ export default class SuggestionList extends React.PureComponent {
             }
 
             if (item.loading) {
-                items.push(this.renderLoading(item.type));
+                items.push(<LoadingSpinner key={item.type}/>);
                 continue;
             }
 
@@ -175,6 +164,7 @@ export default class SuggestionList extends React.PureComponent {
         return (
             <div className={mainClass}>
                 <div
+                    id='suggestionList'
                     ref='content'
                     className={contentClass}
                 >

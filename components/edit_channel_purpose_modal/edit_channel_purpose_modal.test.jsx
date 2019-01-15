@@ -19,6 +19,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 channel={channel}
                 ctrlSend={true}
                 requestStatus={RequestStatus.NOT_STARTED}
+                onHide={jest.fn()}
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
@@ -39,6 +40,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 channel={channelWithDisplayName}
                 ctrlSend={true}
                 requestStatus={RequestStatus.NOT_STARTED}
+                onHide={jest.fn()}
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
@@ -59,6 +61,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 channel={privateChannel}
                 ctrlSend={true}
                 requestStatus={RequestStatus.NOT_STARTED}
+                onHide={jest.fn()}
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
@@ -74,6 +77,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 channel={channel}
                 ctrlSend={true}
                 requestStatus={RequestStatus.STARTED}
+                onHide={jest.fn()}
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
@@ -89,6 +93,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 channel={channel}
                 ctrlSend={false}
                 requestStatus={RequestStatus.STARTED}
+                onHide={jest.fn()}
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
@@ -118,6 +123,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 channel={channel}
                 ctrlSend={false}
                 requestStatus={RequestStatus.STARTED}
+                onHide={jest.fn()}
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
@@ -134,6 +140,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             serverError,
             ctrlSend: false,
             requestStatus: RequestStatus.FAILURE,
+            onHide: jest.fn(),
             onModalDismissed: jest.fn(),
             actions: {patchChannel: jest.fn()},
         });
@@ -147,6 +154,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 channel={channel}
                 ctrlSend={false}
                 requestStatus={RequestStatus.STARTED}
+                onHide={jest.fn()}
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
@@ -163,6 +171,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             serverError,
             ctrlSend: false,
             requestStatus: RequestStatus.FAILURE,
+            onHide: jest.fn(),
             onModalDismissed: jest.fn(),
             actions: {patchChannel: jest.fn()},
         });
@@ -172,6 +181,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             serverError,
             ctrlSend: false,
             requestStatus: RequestStatus.STARTED,
+            onHide: jest.fn(),
             onModalDismissed: jest.fn(),
             actions: {patchChannel: jest.fn()},
         });
@@ -185,6 +195,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 channel={channel}
                 ctrlSend={true}
                 requestStatus={RequestStatus.STARTED}
+                onHide={jest.fn()}
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
@@ -208,6 +219,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 channel={channel}
                 ctrlSend={true}
                 requestStatus={RequestStatus.STARTED}
+                onHide={jest.fn()}
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
@@ -218,6 +230,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             channel,
             ctrlSend: false,
             requestStatus: RequestStatus.SUCCESS,
+            onHide: jest.fn(),
             onModalDismissed: jest.fn(),
             actions: {patchChannel: jest.fn()},
         });
@@ -233,6 +246,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 channel={channel}
                 ctrlSend={true}
                 requestStatus={RequestStatus.NOT_STARTED}
+                onHide={jest.fn()}
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel}}
             />,
@@ -252,6 +266,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 channel={channel}
                 ctrlSend={true}
                 requestStatus={RequestStatus.NOT_STARTED}
+                onHide={jest.fn()}
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel}}
             />,
@@ -276,6 +291,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 channel={channel}
                 ctrlSend={false}
                 requestStatus={RequestStatus.NOT_STARTED}
+                onHide={jest.fn()}
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel}}
             />,

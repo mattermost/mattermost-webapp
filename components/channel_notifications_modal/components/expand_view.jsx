@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {NotificationLevels, NotificationSections} from 'utils/constants.jsx';
+import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants.jsx';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 
@@ -20,6 +20,7 @@ export default function ExpandView({
     onSubmit,
     serverError,
     onCollapseSection,
+    ignoreChannelMentions,
 }) {
     const inputs = [(
         <div key='channel-notification-level-radio'>
@@ -88,6 +89,44 @@ export default function ExpandView({
                 </div>
             </div>
             }
+            {section === NotificationSections.IGNORE_CHANNEL_MENTIONS &&
+                <div>
+                    <div className='radio'>
+                        <label>
+                            <input
+                                id='ignoreChannelMentionsOn'
+                                type='radio'
+                                value={IgnoreChannelMentions.ON}
+                                checked={ignoreChannelMentions === IgnoreChannelMentions.ON}
+                                onChange={onChange}
+                            />
+                            <Describe
+                                section={section}
+                                ignoreChannelMentions={IgnoreChannelMentions.ON}
+                                memberNotifyLevel={memberNotifyLevel}
+                                globalNotifyLevel={globalNotifyLevel}
+                            />
+                        </label>
+                    </div>
+                    <div className='radio'>
+                        <label>
+                            <input
+                                id='ignoreChannelMentionsOff'
+                                type='radio'
+                                value={IgnoreChannelMentions.OFF}
+                                checked={ignoreChannelMentions === IgnoreChannelMentions.OFF}
+                                onChange={onChange}
+                            />
+                            <Describe
+                                section={section}
+                                ignoreChannelMentions={IgnoreChannelMentions.OFF}
+                                memberNotifyLevel={memberNotifyLevel}
+                                globalNotifyLevel={globalNotifyLevel}
+                            />
+                        </label>
+                    </div>
+                </div>
+            }
             {section === NotificationSections.MARK_UNREAD &&
             <div>
                 <div className='radio'>
@@ -138,6 +177,7 @@ export default function ExpandView({
 }
 
 ExpandView.propTypes = {
+    ignoreChannelMentions: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     onCollapseSection: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,

@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {leaveChannel} from 'mattermost-redux/actions/channels';
 
 import {
     getCurrentChannelId,
@@ -23,6 +22,7 @@ import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {Constants, NotificationLevels, StoragePrefixes} from 'utils/constants.jsx';
 
+import {leaveChannel} from 'actions/views/channel';
 import {open as openLhs} from 'actions/views/lhs.js';
 import {getPostDraft} from 'selectors/rhs';
 

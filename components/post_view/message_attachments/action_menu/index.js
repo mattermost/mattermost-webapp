@@ -10,7 +10,7 @@ import ActionMenu from './action_menu.jsx';
 
 function mapStateToProps(state, ownProps) {
     const actions = state.views.posts.menuActions[ownProps.postId];
-    const selected = actions && actions[ownProps.id];
+    const selected = actions && actions[ownProps.action && ownProps.action.id];
 
     return {
         selected,

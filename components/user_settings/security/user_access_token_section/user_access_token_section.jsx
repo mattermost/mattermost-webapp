@@ -464,7 +464,7 @@ export default class UserAccessTokenSection extends React.Component {
                             onClick={this.confirmCreateToken}
                         />
                         <button
-                            className='btn btn-default'
+                            className='btn btn-link'
                             onClick={this.stopCreatingToken}
                         >
                             <FormattedMessage

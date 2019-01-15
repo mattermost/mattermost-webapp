@@ -10,6 +10,8 @@ import {localizeMessage} from 'utils/utils.jsx';
 import AuditTable from 'components/audit_table';
 import LoadingScreen from 'components/loading_screen.jsx';
 
+import AdminHeader from 'components/widgets/admin_console/admin_header.jsx';
+
 export default class Audits extends React.PureComponent {
     static propTypes = {
         isLicensed: PropTypes.bool.isRequired,
@@ -76,7 +78,7 @@ export default class Audits extends React.PureComponent {
                 <ComplianceReports/>
 
                 <div className='panel audit-panel'>
-                    <h3 className='admin-console-header'>
+                    <AdminHeader>
                         <FormattedMessage
                             id='admin.audits.title'
                             defaultMessage='User Activity Logs'
@@ -95,7 +97,7 @@ export default class Audits extends React.PureComponent {
                                 defaultMessage='Reload User Activity Logs'
                             />
                         </button>
-                    </h3>
+                    </AdminHeader>
                     <div className='audit-panel__table'>
                         {content}
                     </div>

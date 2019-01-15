@@ -42,7 +42,7 @@ class LeaveTeamModal extends React.PureComponent {
              * An action to remove user from team
              */
 
-            removeUserFromTeam: PropTypes.func.isRequired,
+            leaveTeam: PropTypes.func.isRequired,
 
             /**
              * An action to toggle the right menu
@@ -70,7 +70,7 @@ class LeaveTeamModal extends React.PureComponent {
 
     handleSubmit = () => {
         this.props.onHide();
-        this.props.actions.removeUserFromTeam(this.props.currentTeamId, this.props.currentUserId);
+        this.props.actions.leaveTeam(this.props.currentTeamId, this.props.currentUserId);
         this.props.actions.toggleSideBarRightMenu();
     };
 
@@ -80,6 +80,7 @@ class LeaveTeamModal extends React.PureComponent {
                 className='modal-confirm'
                 show={this.props.show}
                 onHide={this.props.onHide}
+                id='leaveTeamModal'
             >
                 <Modal.Header closeButton={false}>
                     <Modal.Title>
@@ -100,6 +101,7 @@ class LeaveTeamModal extends React.PureComponent {
                         type='button'
                         className='btn btn-default'
                         onClick={this.props.onHide}
+                        id='leaveTeamNo'
                     >
                         <FormattedMessage
                             id='leave_team_modal.no'

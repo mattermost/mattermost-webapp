@@ -7,6 +7,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {PropTypes} from 'prop-types';
 
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 const clickableChannelHeader = ['recent', 'alpha'];
 
@@ -17,6 +18,25 @@ export default class ChannelName extends React.PureComponent {
         browsePublicDirectChannels: PropTypes.func.isRequired,
     };
 
+    sectionTypeFormatMessageId = (sectionType) => {
+        switch (sectionType) {
+        case 'public':
+            return t('sidebar.types.public');
+        case 'private':
+            return t('sidebar.types.private');
+        case 'direct':
+            return t('sidebar.types.direct');
+        case 'favorite':
+            return t('sidebar.types.favorite');
+        case 'unreads':
+            return t('sidebar.types.unreads');
+        case 'recent':
+            return t('sidebar.types.recent');
+        default:
+            return t('sidebar.types.alpha');
+        }
+    }
+
     render() {
         const {sectionType, channelName, browsePublicDirectChannels} = this.props;
 
@@ -26,9 +46,10 @@ export default class ChannelName extends React.PureComponent {
             tooltipTriggers = [];
         }
 
+        const formattedMessageId = this.sectionTypeFormatMessageId(sectionType);
         let name = (
             <FormattedMessage
-                id={`sidebar.types.${sectionType}`}
+                id={formattedMessageId}
                 defaultMessage={channelName}
             />
         );

@@ -11,8 +11,9 @@ import store from 'stores/redux_store.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 
 import Suggestion from './suggestion.jsx';
+import Provider from './provider.jsx';
 
-class CommandSuggestion extends Suggestion {
+export class CommandSuggestion extends Suggestion {
     render() {
         const {item, isSelection} = this.props;
 
@@ -28,7 +29,7 @@ class CommandSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 <div className='command__title'>
-                    {item.suggestion + item.hint}
+                    {item.suggestion + ' ' + item.hint}
                 </div>
                 <div className='command__desc'>
                     {item.description}
@@ -38,7 +39,7 @@ class CommandSuggestion extends Suggestion {
     }
 }
 
-export default class CommandProvider {
+export default class CommandProvider extends Provider {
     handlePretextChanged(pretext, resultCallback) {
         if (pretext.startsWith('/')) {
             const command = pretext.toLowerCase();

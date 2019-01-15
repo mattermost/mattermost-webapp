@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {withRouter} from 'react-router-dom';
@@ -27,7 +28,7 @@ const getDeactivatedChannel = createSelector(
 );
 
 function mapStateToProps(state) {
-    const channel = state.entities.channels.channels[state.entities.channels.currentChannelId];
+    const channel = getCurrentChannel(state);
 
     const config = getConfig(state);
     const enableTutorial = config.EnableTutorial === 'true';

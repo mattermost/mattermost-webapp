@@ -73,10 +73,21 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
               message="short text"
             />
           </Connect(ShowMore)>
-          <img
-            className="attachment__image"
-            src="image_url"
-          />
+          <div
+            className="attachment__image-container"
+          >
+            <SizeAwareImage
+              className="attachment__image"
+              dimensions={
+                Object {
+                  "height": 200,
+                  "width": 200,
+                }
+              }
+              onHeightReceived={[Function]}
+              src="image_url"
+            />
+          </div>
           <div
             className="attachment-actions"
           >
@@ -95,7 +106,14 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
         <div
           className="attachment__thumb-container"
         >
-          <img
+          <SizeAwareImage
+            dimensions={
+              Object {
+                "height": 200,
+                "width": 200,
+              }
+            }
+            onHeightReceived={[Function]}
             src="thumb_url"
           />
         </div>
@@ -185,15 +203,33 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
               message="short text"
             />
           </Connect(ShowMore)>
-          <img
-            className="attachment__image"
-            src="image_url"
-          />
+          <div
+            className="attachment__image-container"
+          >
+            <SizeAwareImage
+              className="attachment__image"
+              dimensions={
+                Object {
+                  "height": 200,
+                  "width": 200,
+                }
+              }
+              onHeightReceived={[Function]}
+              src="image_url"
+            />
+          </div>
         </div>
         <div
           className="attachment__thumb-container"
         >
-          <img
+          <SizeAwareImage
+            dimensions={
+              Object {
+                "height": 200,
+                "width": 200,
+              }
+            }
+            onHeightReceived={[Function]}
             src="thumb_url"
           />
         </div>

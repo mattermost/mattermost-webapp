@@ -11,15 +11,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
-    <FormattedMessage
-      defaultMessage="Permission Schemes"
-      id="admin.permissions.permissionSchemes"
-      values={Object {}}
-    />
-  </h3>
+  <FormattedAdminHeader
+    defaultMessage="Permission Schemes"
+    id="admin.permissions.permissionSchemes"
+    values={Object {}}
+  />
   <div
     className="banner info"
   >
@@ -149,15 +145,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
-    <FormattedMessage
-      defaultMessage="Permission Schemes"
-      id="admin.permissions.permissionSchemes"
-      values={Object {}}
-    />
-  </h3>
+  <FormattedAdminHeader
+    defaultMessage="Permission Schemes"
+    id="admin.permissions.permissionSchemes"
+    values={Object {}}
+  />
   <div
     className="banner info"
   >
@@ -266,15 +258,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
-    <FormattedMessage
-      defaultMessage="Permission Schemes"
-      id="admin.permissions.permissionSchemes"
-      values={Object {}}
-    />
-  </h3>
+  <FormattedAdminHeader
+    defaultMessage="Permission Schemes"
+    id="admin.permissions.permissionSchemes"
+    values={Object {}}
+  />
   <div
     className="banner info"
   >
@@ -431,15 +419,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
-    <FormattedMessage
-      defaultMessage="Permission Schemes"
-      id="admin.permissions.permissionSchemes"
-      values={Object {}}
-    />
-  </h3>
+  <FormattedAdminHeader
+    defaultMessage="Permission Schemes"
+    id="admin.permissions.permissionSchemes"
+    values={Object {}}
+  />
   <div
     className="banner info"
   >
@@ -596,15 +580,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
-    <FormattedMessage
-      defaultMessage="Permission Schemes"
-      id="admin.permissions.permissionSchemes"
-      values={Object {}}
-    />
-  </h3>
+  <FormattedAdminHeader
+    defaultMessage="Permission Schemes"
+    id="admin.permissions.permissionSchemes"
+    values={Object {}}
+  />
   <div
     className="banner info"
   >

@@ -75,7 +75,10 @@ function mapStateToProps(state, ownProps) {
 }
 
 const filterGroupChannels = memoizeResult((channels, term) => {
-    return channels.filter((channel) => filterProfilesMatchingTerm(channel.profiles, term));
+    return channels.filter((channel) => {
+        const matches = filterProfilesMatchingTerm(channel.profiles, term);
+        return matches.length > 0;
+    });
 });
 
 function mapDispatchToProps(dispatch) {

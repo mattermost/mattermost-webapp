@@ -246,9 +246,7 @@ export default class GeneralTab extends React.Component {
         }
     }
 
-    handleTeamIconSubmit = async (e) => {
-        e.preventDefault();
-
+    handleTeamIconSubmit = async () => {
         if (!this.state.teamIconFile) {
             return;
         }
@@ -279,9 +277,7 @@ export default class GeneralTab extends React.Component {
         }
     }
 
-    handleTeamIconRemove = async (e) => {
-        e.preventDefault();
-
+    handleTeamIconRemove = async () => {
         this.setState({
             loadingIcon: true,
             clientError: '',
@@ -346,7 +342,7 @@ export default class GeneralTab extends React.Component {
         } else {
             this.setState({
                 teamIconFile: null,
-                clientError: Utils.localizeMessage('general_tab.teamIconError', 'An error occured while selecting the image.'),
+                clientError: Utils.localizeMessage('general_tab.teamIconError', 'An error occurred while selecting the image.'),
             });
         }
     }

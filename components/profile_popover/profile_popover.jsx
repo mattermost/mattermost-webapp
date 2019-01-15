@@ -7,6 +7,7 @@ import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
+import {Permissions} from 'mattermost-redux/constants';
 
 import LocalDateTime from 'components/local_date_time';
 import UserSettingsModal from 'components/user_settings/modal';
@@ -16,11 +17,15 @@ import Constants, {ModalIdentifiers} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import Pluggable from 'plugins/pluggable';
 
+import AddUserToChannelModal from 'components/add_user_to_channel_modal';
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
  * on the username or profile picture of a user.
  */
-class ProfilePopover extends React.Component {
+class ProfilePopover extends React.PureComponent {
     static getComponentName() {
         return 'ProfilePopover';
     }
@@ -53,20 +58,43 @@ class ProfilePopover extends React.Component {
          */
         isRHS: PropTypes.bool,
 
+        currentTeamId: PropTypes.string.isRequired,
+
         /**
          * @internal
          */
         hasMention: PropTypes.bool,
 
+        /**
+         * @internal
+         */
         currentUserId: PropTypes.string.isRequired,
+
+        /**
+         * @internal
+         */
         teamUrl: PropTypes.string.isRequired,
 
-        ...Popover.propTypes,
+        /**
+         * @internal
+         */
+        isTeamAdmin: PropTypes.bool.isRequired,
 
+        /**
+         * @internal
+         */
+        isChannelAdmin: PropTypes.bool.isRequired,
+
+        /**
+         * @internal
+         */
         actions: PropTypes.shape({
+            getMembershipForCurrentEntities: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
-            openModal: PropTypes.func.isRequred,
+            openModal: PropTypes.func.isRequired,
         }).isRequired,
+
+        ...Popover.propTypes,
     }
 
     static defaultProps = {
@@ -84,41 +112,9 @@ class ProfilePopover extends React.Component {
             loadingDMChannel: -1,
         };
     }
-    shouldComponentUpdate(nextProps) {
-        if (!Utils.areObjectsEqual(nextProps.user, this.props.user)) {
-            return true;
-        }
 
-        if (nextProps.src !== this.props.src) {
-            return true;
-        }
-
-        if (nextProps.status !== this.props.status) {
-            return true;
-        }
-
-        if (nextProps.isBusy !== this.props.isBusy) {
-            return true;
-        }
-
-        // React-Bootstrap Forwarded Props from OverlayTrigger to Popover
-        if (nextProps.arrowOffsetLeft !== this.props.arrowOffsetLeft) {
-            return true;
-        }
-
-        if (nextProps.arrowOffsetTop !== this.props.arrowOffsetTop) {
-            return true;
-        }
-
-        if (nextProps.positionLeft !== this.props.positionLeft) {
-            return true;
-        }
-
-        if (nextProps.positionTop !== this.props.positionTop) {
-            return true;
-        }
-
-        return false;
+    componentDidMount() {
+        this.props.actions.getMembershipForCurrentEntities(this.props.user.id);
     }
 
     handleShowDirectChannel(e) {
@@ -160,7 +156,7 @@ class ProfilePopover extends React.Component {
         if (this.props.hide) {
             this.props.hide();
         }
-        EventEmitter.emit('mention_key_click', this.props.user.username);
+        EventEmitter.emit('mention_key_click', this.props.user.username, this.props.isRHS);
     }
 
     handleEditAccountSettings(e) {
@@ -187,8 +183,11 @@ class ProfilePopover extends React.Component {
         delete popoverProps.dispatch;
         delete popoverProps.enableTimezone;
         delete popoverProps.currentUserId;
+        delete popoverProps.currentTeamId;
         delete popoverProps.teamUrl;
         delete popoverProps.actions;
+        delete popoverProps.isTeamAdmin;
+        delete popoverProps.isChannelAdmin;
 
         var dataContent = [];
         dataContent.push(
@@ -203,6 +202,16 @@ class ProfilePopover extends React.Component {
         );
 
         const fullname = Utils.getFullName(this.props.user);
+
+        if (fullname || this.props.user.position) {
+            dataContent.push(
+                <hr
+                    key='user-popover-hr'
+                    className='divider divider--expanded'
+                />
+            );
+        }
+
         if (fullname) {
             dataContent.push(
                 <OverlayTrigger
@@ -212,7 +221,7 @@ class ProfilePopover extends React.Component {
                     key='user-popover-fullname'
                 >
                     <div
-                        className='overflow--ellipsis text-nowrap padding-top'
+                        className='overflow--ellipsis text-nowrap'
                     >
                         <strong>{fullname}</strong>
                     </div>
@@ -230,7 +239,7 @@ class ProfilePopover extends React.Component {
                     key='user-popover-position'
                 >
                     <div
-                        className='overflow--ellipsis text-nowrap padding-bottom half'
+                        className='overflow--ellipsis text-nowrap padding-bottom padding-top half'
                     >
                         {position}
                     </div>
@@ -242,7 +251,7 @@ class ProfilePopover extends React.Component {
         if (email) {
             dataContent.push(
                 <hr
-                    key='user-popover-hr'
+                    key='user-popover-hr2'
                     className='divider divider--expanded'
                 />
             );
@@ -334,6 +343,42 @@ class ProfilePopover extends React.Component {
                     </a>
                 </div>
             );
+
+            dataContent.push(
+                <TeamPermissionGate
+                    teamId={this.props.currentTeamId}
+                    permissions={[Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS, Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
+                    key='user-popover-add-to-channel'
+                >
+                    <div
+                        data-toggle='tooltip'
+                        className='popover__row first'
+                    >
+                        <a
+                            href='#'
+                            className='text-nowrap'
+                        >
+                            <ToggleModalButtonRedux
+                                ref='addUserToChannelModalButton'
+                                modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
+                                role='menuitem'
+                                dialogType={AddUserToChannelModal}
+                                dialogProps={{user: this.props.user}}
+                                onClick={this.props.hide}
+                            >
+                                <i
+                                    className='fa fa-user-plus'
+                                    title={Utils.localizeMessage('user_profile.add_user_to_channel.icon', 'Add User to Channel Icon')}
+                                />
+                                <FormattedMessage
+                                    id='user_profile.add_user_to_channel'
+                                    defaultMessage='Add to a Channel'
+                                />
+                            </ToggleModalButtonRedux>
+                        </a>
+                    </div>
+                </TeamPermissionGate>
+            );
         }
 
         dataContent.push(
@@ -345,10 +390,20 @@ class ProfilePopover extends React.Component {
             />
         );
 
+        let roleTitle;
+        if (Utils.isSystemAdmin(this.props.user.roles)) {
+            roleTitle = <span className='user-popover__role'>{Utils.localizeMessage('admin.permissions.roles.system_admin.name', 'System Admin')}</span>;
+        } else if (this.props.isTeamAdmin) {
+            roleTitle = <span className='user-popover__role'>{Utils.localizeMessage('admin.permissions.roles.team_admin.name', 'Team Admin')}</span>;
+        } else if (this.props.isChannelAdmin) {
+            roleTitle = <span className='user-popover__role'>{Utils.localizeMessage('admin.permissions.roles.channel_admin.name', 'Channel Admin')}</span>;
+        }
+
         let title = `@${this.props.user.username}`;
         if (this.props.hasMention) {
             title = <a onClick={this.handleMentionKeyClick}>{title}</a>;
         }
+        title = <span><span className='user-popover__username'>{title}</span> {roleTitle}</span>;
 
         return (
             <Popover

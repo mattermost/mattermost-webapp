@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {Constants} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 export default class BackstageNavbar extends React.Component {
@@ -26,7 +25,7 @@ export default class BackstageNavbar extends React.Component {
             <div className='backstage-navbar'>
                 <Link
                     className='backstage-navbar__back'
-                    to={`/${this.props.team.name}/channels/${Constants.DEFAULT_CHANNEL}`}
+                    to={`/${this.props.team.name}`}
                 >
                     <i
                         className='fa fa-angle-left'

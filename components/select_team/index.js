@@ -13,6 +13,8 @@ import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getSortedJoinableTeams, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
+import {addUserToTeamFromInvite} from 'actions/team_actions';
+
 import SelectTeam from './select_team.jsx';
 
 function mapStateToProps(state) {
@@ -36,6 +38,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getTeams,
             loadRolesIfNeeded,
+            addUserToTeamFromInvite,
         }, dispatch),
     };
 }

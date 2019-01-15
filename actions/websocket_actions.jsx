@@ -2,7 +2,18 @@
 // See LICENSE.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
-import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes, RoleTypes, GeneralTypes, AdminTypes} from 'mattermost-redux/action_types';
+import {
+    ChannelTypes,
+    EmojiTypes,
+    PostTypes,
+    TeamTypes,
+    UserTypes,
+    RoleTypes,
+    GeneralTypes,
+    AdminTypes,
+    IntegrationTypes,
+    PreferenceTypes,
+} from 'mattermost-redux/action_types';
 import {WebsocketEvents, General} from 'mattermost-redux/constants';
 import {
     getChannelAndMyMember,
@@ -30,7 +41,7 @@ import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import * as StatusActions from 'actions/status_actions.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
@@ -38,6 +49,7 @@ import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatu
 import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url.jsx';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
+import InteractiveDialog from 'components/interactive_dialog';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -335,6 +347,10 @@ function handleEvent(msg) {
         handlePluginStatusesChangedEvent(msg);
         break;
 
+    case SocketEvents.OPEN_DIALOG:
+        handleOpenDialogEvent(msg);
+        break;
+
     default:
     }
 
@@ -373,7 +389,62 @@ function handleChannelMemberUpdatedEvent(msg) {
     dispatch({type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER, data: channelMember});
 }
 
-function handleNewPostEvent(msg) {
+export function debouncePostEvent(func, wait) {
+    let timeout;
+    let queue = [];
+    let count = 0;
+
+    // Called when timeout triggered
+    const triggered = () => {
+        timeout = null;
+        if (queue.length > 0) {
+            const posts = {};
+            for (const queuedMsg of queue) {
+                const post = JSON.parse(queuedMsg.data.post);
+                if (!posts[post.channel_id]) {
+                    posts[post.channel_id] = {};
+                }
+                posts[post.channel_id][post.id] = post;
+            }
+            for (const channelId in posts) {
+                if (!posts.hasOwnProperty(channelId)) {
+                    continue;
+                }
+                dispatch({
+                    type: PostTypes.RECEIVED_POSTS,
+                    data: {posts: posts[channelId]},
+                    channelId,
+                });
+                getProfilesAndStatusesForPosts(posts[channelId], dispatch, getState);
+            }
+        }
+        queue = [];
+        count = 0;
+    };
+
+    return function fx(msg) {
+        if (timeout && count > 2) {
+            // If the timeout is going this is the second or further event so queue them up.
+            if (queue.push(msg) > 200) {
+                // Don't run us out of memory, give up if the queue gets insane
+                queue = [];
+                console.log('channel broken because of too many incoming messages'); //eslint-disable-line no-console
+            }
+            clearTimeout(timeout);
+            timeout = setTimeout(triggered, wait);
+        } else {
+            // Apply immediately for events up until count reaches limit
+            count += 1;
+            func(msg);
+            clearTimeout(timeout);
+            timeout = setTimeout(triggered, wait);
+        }
+    };
+}
+
+const handleNewPostEvent = debouncePostEvent(handleNewPostEventWrapped, 100);
+
+function handleNewPostEventWrapped(msg) {
     const post = JSON.parse(msg.data.post);
     dispatch(handleNewPost(post, msg));
 
@@ -410,23 +481,11 @@ function handlePostEditEvent(msg) {
             dispatch(viewChannel(currentChannelId));
         }
     }
-
-    // Needed for search store
-    AppDispatcher.handleViewAction({
-        type: Constants.ActionTypes.POST_UPDATED,
-        post,
-    });
 }
 
 function handlePostDeleteEvent(msg) {
     const post = JSON.parse(msg.data.post);
     dispatch({type: PostTypes.POST_DELETED, data: post});
-
-    // Needed for search store
-    AppDispatcher.handleViewAction({
-        type: Constants.ActionTypes.POST_DELETED,
-        post,
-    });
 }
 
 async function handleTeamAddedEvent(msg) {
@@ -462,7 +521,7 @@ function handleLeaveTeamEvent(msg) {
 }
 
 function handleUpdateTeamEvent(msg) {
-    dispatch({type: TeamTypes.UPDATED_TEAM, data: msg.data.team});
+    dispatch({type: TeamTypes.UPDATED_TEAM, data: JSON.parse(msg.data.team)});
 }
 
 function handleDeleteTeamEvent(msg) {
@@ -651,22 +710,34 @@ function handleChannelDeletedEvent(msg) {
         browserHistory.push(teamUrl + '/channels/' + Constants.DEFAULT_CHANNEL);
     }
 
-    dispatch({type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, deleteAt: msg.data.delete_at}});
+    dispatch({type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, deleteAt: msg.data.delete_at, viewArchivedChannels}});
 }
 
 function handlePreferenceChangedEvent(msg) {
     const preference = JSON.parse(msg.data.preference);
-    GlobalActions.emitPreferenceChangedEvent(preference);
+    dispatch({type: PreferenceTypes.RECEIVED_PREFERENCES, data: [preference]});
+
+    if (addedNewDmUser(preference)) {
+        loadProfilesForSidebar();
+    }
 }
 
 function handlePreferencesChangedEvent(msg) {
     const preferences = JSON.parse(msg.data.preferences);
-    GlobalActions.emitPreferencesChangedEvent(preferences);
+    dispatch({type: PreferenceTypes.RECEIVED_PREFERENCES, data: preferences});
+
+    if (preferences.findIndex(addedNewDmUser) !== -1) {
+        loadProfilesForSidebar();
+    }
 }
 
 function handlePreferencesDeletedEvent(msg) {
     const preferences = JSON.parse(msg.data.preferences);
-    GlobalActions.emitPreferencesDeletedEvent(preferences);
+    dispatch({type: PreferenceTypes.DELETED_PREFERENCES, data: preferences});
+}
+
+function addedNewDmUser(preference) {
+    return preference.category === Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW && preference.value === 'true';
 }
 
 function handleUserTypingEvent(msg) {
@@ -691,7 +762,7 @@ function handleUserTypingEvent(msg) {
         dispatch({
             type: WebsocketEvents.STOP_TYPING,
             data,
-        }, getState);
+        });
     }, parseInt(config.TimeBetweenUserTypingUpdatesMilliseconds, 10));
 
     if (!currentUser && userId !== currentUserId) {
@@ -789,4 +860,19 @@ function handleLicenseChanged(msg) {
 
 function handlePluginStatusesChangedEvent(msg) {
     store.dispatch({type: AdminTypes.RECEIVED_PLUGIN_STATUSES, data: msg.data.plugin_statuses});
+}
+
+function handleOpenDialogEvent(msg) {
+    const data = (msg.data && msg.data.dialog) || {};
+    const dialog = JSON.parse(data);
+
+    store.dispatch({type: IntegrationTypes.RECEIVED_DIALOG, data: dialog});
+
+    const currentTriggerId = getState().entities.integrations.dialogTriggerId;
+
+    if (dialog.trigger_id !== currentTriggerId) {
+        return;
+    }
+
+    store.dispatch(openModal({modalId: ModalIdentifiers.INTERACTIVE_DIALOG, dialogType: InteractiveDialog}));
 }

@@ -131,6 +131,10 @@ export default class FileUpload extends PureComponent {
         pluginFileUploadMethods: PropTypes.arrayOf(PropTypes.object),
         pluginFilesWillUploadHooks: PropTypes.arrayOf(PropTypes.object),
 
+        /**
+         * Function called when superAgent fires progress event.
+         */
+        onUploadProgress: PropTypes.func.isRequired,
         actions: PropTypes.shape({
 
             /**
@@ -263,6 +267,15 @@ export default class FileUpload extends PureComponent {
                 rootId,
                 clientId,
             );
+
+            request.on('progress', (progressEvent) => {
+                this.props.onUploadProgress({
+                    clientId,
+                    name: sortedFiles[i].name,
+                    percent: progressEvent.percent,
+                    type: sortedFiles[i].type,
+                });
+            });
 
             request.end((err, res) => {
                 const {error, data} = this.props.actions.handleFileUploadEnd(

@@ -1,13 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-let mockedCurrentUser;
-jest.mock('stores/user_store.jsx', () => ({
-    getCurrentUser: () => {
-        return mockedCurrentUser;
-    },
-}));
-
 import * as Utils from 'utils/channel_utils.jsx';
 
 describe('Channel Utils', () => {

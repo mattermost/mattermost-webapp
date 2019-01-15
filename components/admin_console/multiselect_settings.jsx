@@ -57,6 +57,20 @@ export default class MultiSelectSetting extends React.Component {
         }
     }
 
+    calculateValue = () => {
+        return this.props.selected.reduce((values, item) => {
+            const found = this.props.values.find((e) => {
+                return e.value === item;
+            });
+            if (found !== null) {
+                values.push(found);
+            }
+            return values;
+        }, []);
+    };
+
+    getOptionLabel = ({text}) => text;
+
     render() {
         return (
             <Setting
@@ -67,15 +81,15 @@ export default class MultiSelectSetting extends React.Component {
             >
                 <ReactSelect
                     id={this.props.id}
-                    multi={true}
-                    labelKey='text'
+                    isMulti={true}
+                    getOptionLabel={this.getOptionLabel}
                     options={this.props.values}
-                    joinValues={true}
+                    delimiter={','}
                     clearable={false}
                     disabled={this.props.disabled || this.props.setByEnv}
                     noResultsText={this.props.noResultText}
                     onChange={this.handleChange}
-                    value={this.props.selected}
+                    value={this.calculateValue()}
                 />
                 <FormError error={this.state.error}/>
             </Setting>

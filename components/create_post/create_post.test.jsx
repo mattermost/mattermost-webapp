@@ -12,11 +12,11 @@ import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx'
 import * as Utils from 'utils/utils.jsx';
 
 import CreatePost from 'components/create_post/create_post.jsx';
+import FileUpload from 'components/file_upload';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitLocalUserTypingEvent: jest.fn(),
     emitUserPostedEvent: jest.fn(),
-    showChannelPurposeUpdateModal: jest.fn(),
     showChannelNameUpdateModal: jest.fn(),
     toggleShortcutsModal: jest.fn(),
     postListScrollChange: jest.fn(),
@@ -235,7 +235,7 @@ describe('components/create_post', () => {
 
     it('onKeyPress textbox should call emitLocalUserTypingEvent', () => {
         const wrapper = shallow(createPost());
-        wrapper.instance().refs = {textbox: {blur: jest.fn()}};
+        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
 
         const postTextbox = wrapper.find('#post_textbox');
         postTextbox.simulate('KeyPress', {key: KeyCodes.ENTER[0], preventDefault: jest.fn(), persist: jest.fn()});
@@ -338,10 +338,20 @@ describe('components/create_post', () => {
         form.simulate('Submit', {preventDefault: jest.fn()});
         expect(openModal).toHaveBeenCalledTimes(1);
         expect(openModal.mock.calls[0][0].modalId).toEqual(ModalIdentifiers.EDIT_CHANNEL_HEADER);
+        expect(openModal.mock.calls[0][0].dialogProps.channel).toEqual(currentChannelProp);
     });
 
     it('onSubmit test for "/purpose" message', () => {
-        const wrapper = shallow(createPost());
+        const openModal = jest.fn();
+
+        const wrapper = shallow(
+            createPost({
+                actions: {
+                    ...actionsProp,
+                    openModal,
+                },
+            })
+        );
 
         wrapper.setState({
             message: '/purpose',
@@ -349,7 +359,9 @@ describe('components/create_post', () => {
 
         const form = wrapper.find('#create_post');
         form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(GlobalActions.showChannelPurposeUpdateModal).toHaveBeenCalledWith(currentChannelProp);
+        expect(openModal).toHaveBeenCalledTimes(1);
+        expect(openModal.mock.calls[0][0].modalId).toEqual(ModalIdentifiers.EDIT_CHANNEL_PURPOSE);
+        expect(openModal.mock.calls[0][0].dialogProps.channel).toEqual(currentChannelProp);
     });
 
     it('onSubmit test for "/rename" message', () => {
@@ -362,18 +374,6 @@ describe('components/create_post', () => {
         const form = wrapper.find('#create_post');
         form.simulate('Submit', {preventDefault: jest.fn()});
         expect(GlobalActions.showChannelNameUpdateModal).toHaveBeenCalledWith(currentChannelProp);
-    });
-
-    it('onSubmit test for "/purpose" message', () => {
-        const wrapper = shallow(createPost());
-
-        wrapper.setState({
-            message: '/purpose',
-        });
-
-        const form = wrapper.find('#create_post');
-        form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(GlobalActions.showChannelPurposeUpdateModal).toHaveBeenCalledWith(currentChannelProp);
     });
 
     it('onSubmit test for "/unknown" message ', () => {
@@ -556,6 +556,13 @@ describe('components/create_post', () => {
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp);
     });
 
+    it('check for uploadsProgressPercent state on handleUploadProgress callback', () => {
+        const wrapper = shallow(createPost({}));
+        wrapper.find(FileUpload).prop('onUploadProgress')({clientId: 'clientId', name: 'name', percent: 10, type: 'type'});
+
+        expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
+    });
+
     it('Remove preview from fileInfos', () => {
         const setDraft = jest.fn();
         const fileInfos = {
@@ -611,7 +618,7 @@ describe('components/create_post', () => {
         }));
 
         const instance = wrapper.instance();
-        instance.refs = {textbox: {blur: jest.fn()}};
+        instance.refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
 
         instance.handleKeyDown({ctrlKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn(), persist: jest.fn()});
         setTimeout(() => {
@@ -754,5 +761,87 @@ describe('components/create_post', () => {
     it('should match snapshot when file upload disabled', () => {
         const wrapper = shallow(createPost({canUploadFiles: false}));
         expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should allow to force send invalid slash command as a message', async () => {
+        const error = {
+            message: 'No command found',
+            server_error_id: 'api.command.execute_command.not_found.app_error',
+        };
+        const executeCommand = jest.fn(() => Promise.resolve({error}));
+        const onSubmitPost = jest.fn();
+
+        const wrapper = shallow(
+            createPost({
+                actions: {
+                    ...actionsProp,
+                    executeCommand,
+                    onSubmitPost,
+                },
+            })
+        );
+
+        wrapper.setState({
+            message: '/fakecommand some text',
+        });
+        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
+
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        expect(executeCommand).toHaveBeenCalled();
+        expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
+        expect(onSubmitPost).not.toHaveBeenCalled();
+
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
+
+        expect(onSubmitPost).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: '/fakecommand some text',
+            }),
+            expect.anything(),
+        );
+    });
+
+    it('should throw away invalid command error if user resumes typing', async () => {
+        const error = {
+            message: 'No command found',
+            server_error_id: 'api.command.execute_command.not_found.app_error',
+        };
+        const executeCommand = jest.fn(() => Promise.resolve({error}));
+        const onSubmitPost = jest.fn();
+
+        const wrapper = shallow(
+            createPost({
+                actions: {
+                    ...actionsProp,
+                    executeCommand,
+                    onSubmitPost,
+                },
+            })
+        );
+
+        wrapper.setState({
+            message: '/fakecommand some text',
+        });
+        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
+
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        expect(executeCommand).toHaveBeenCalled();
+        expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
+        expect(onSubmitPost).not.toHaveBeenCalled();
+
+        wrapper.instance().handleChange({
+            target: {value: 'some valid text'},
+        });
+        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
+
+        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+
+        expect(onSubmitPost).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: 'some valid text',
+            }),
+            expect.anything(),
+        );
     });
 });

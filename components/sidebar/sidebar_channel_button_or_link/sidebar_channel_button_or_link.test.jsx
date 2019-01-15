@@ -13,6 +13,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
             <SidebarChannelButtonOrLink
                 channelType={Constants.DM_CHANNEL}
                 channelId={'test-channel-id'}
+                channelName={'test-channel-name'}
                 channelStatus={'test'}
                 link={'test-link'}
                 rowClass={'test-class'}
@@ -35,6 +36,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
             <SidebarChannelButtonOrLink
                 channelType={Constants.DM_CHANNEL}
                 channelId={'test-channel-id'}
+                channelName={'test-channel-name'}
                 channelStatus={'test'}
                 link={'test-link'}
                 rowClass={'test-class'}
@@ -57,6 +59,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
             <SidebarChannelButtonOrLink
                 channelType={Constants.DM_CHANNEL}
                 channelId={'test-channel-id'}
+                channelName={'test-channel-name'}
                 channelStatus={'test'}
                 link={'test-link'}
                 rowClass={'test-class'}
@@ -89,6 +92,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
             <SidebarChannelButtonOrLink
                 channelType={Constants.DM_CHANNEL}
                 channelId={'test-channel-id'}
+                channelName={'test-channel-name'}
                 channelStatus={'test'}
                 link={'test-link'}
                 rowClass={'test-class'}
@@ -114,6 +118,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
             <SidebarChannelButtonOrLink
                 channelType={Constants.DM_CHANNEL}
                 channelId={'test-channel-id'}
+                channelName={'test-channel-name'}
                 channelStatus={'test'}
                 link={'test-link'}
                 rowClass={'test-class'}

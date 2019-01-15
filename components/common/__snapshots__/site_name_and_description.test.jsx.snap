@@ -2,11 +2,14 @@
 
 exports[`/components/common/SiteNameAndDescription should match snapshot, default 1`] = `
 <Fragment>
-  <h1>
+  <h1
+    id="site_name"
+  >
     Mattermost
   </h1>
   <h4
     className="color--light"
+    id="site_description"
   >
     <FormattedMessage
       defaultMessage="All team communication in one place, searchable and accessible anywhere"
@@ -19,11 +22,14 @@ exports[`/components/common/SiteNameAndDescription should match snapshot, defaul
 
 exports[`/components/common/SiteNameAndDescription should match snapshot, with custom site name and description 1`] = `
 <Fragment>
-  <h1>
+  <h1
+    id="site_name"
+  >
     other_site
   </h1>
   <h4
     className="color--light"
+    id="site_description"
   >
     custom_description_text
   </h4>

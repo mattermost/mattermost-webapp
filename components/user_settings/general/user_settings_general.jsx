@@ -12,10 +12,12 @@ import {updateUser, uploadProfileImage} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
+
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 
 const holders = defineMessages({
     usernameReserved: {
@@ -100,6 +102,7 @@ class UserSettingsGeneralTab extends React.Component {
         actions: PropTypes.shape({
             getMe: PropTypes.func.isRequired,
             sendVerificationEmail: PropTypes.func.isRequred,
+            setDefaultProfileImage: PropTypes.func.isRequred,
         }).isRequired,
         sendEmailNotifications: PropTypes.bool,
         requireEmailVerification: PropTypes.bool,
@@ -132,25 +135,12 @@ class UserSettingsGeneralTab extends React.Component {
     }
 
     createEmailResendLink = (email) => {
-        let resendHTML;
-        if (this.state.showSpinner) {
-            resendHTML = (
-                <React.Fragment>
-                    <span className='fa-wrapper'>
-                        <span
-                            className='fa fa-spinner icon--rotate'
-                            title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
-                        />
-                    </span>
-                    <FormattedMessage
-                        id='user.settings.general.sending'
-                        defaultMessage='Sending'
-                    />
-                </React.Fragment>
-            );
-        } else {
-            resendHTML = (
-                <span className='resend-verification-wrapper'>
+        return (
+            <span className='resend-verification-wrapper'>
+                <LoadingWrapper
+                    loading={this.state.showSpinner}
+                    text={Utils.localizeMessage('user.settings.general.sending', 'Sending')}
+                >
                     <a
                         onClick={() => {
                             this.handleEmailResend(email);
@@ -166,10 +156,9 @@ class UserSettingsGeneralTab extends React.Component {
                             defaultMessage='Send again'
                         />
                     </a>
-                </span>
-            );
-        }
-        return resendHTML;
+                </LoadingWrapper>
+            </span>
+        );
     }
 
     submitUsername = () => {
@@ -283,9 +272,23 @@ class UserSettingsGeneralTab extends React.Component {
         );
     }
 
-    submitPicture = (e) => {
-        e.preventDefault();
+    setDefaultProfilePicture = async () => {
+        try {
+            await this.props.actions.setDefaultProfileImage(this.props.user.id);
+            this.updateSection('');
+            this.submitActive = false;
+        } catch (err) {
+            let serverError;
+            if (err.message) {
+                serverError = err.message;
+            } else {
+                serverError = err;
+            }
+            this.setState({serverError, emailError: '', clientError: '', sectionIsSaving: false});
+        }
+    }
 
+    submitPicture = () => {
         if (!this.state.pictureFile) {
             return;
         }
@@ -401,6 +404,7 @@ class UserSettingsGeneralTab extends React.Component {
             loadingPicture: false,
             emailChangeInProgress: props.sendEmailNotifications && props.requireEmailVerification && !user.email_verified,
             sectionIsSaving: false,
+            showSpinner: false,
         };
     }
 
@@ -446,6 +450,7 @@ class UserSettingsGeneralTab extends React.Component {
                                     email: newEmail,
                                 }}
                             />
+                            {' '}
                             {this.createEmailResendLink(newEmail)}
                         </React.Fragment>
                     );
@@ -1181,7 +1186,9 @@ class UserSettingsGeneralTab extends React.Component {
                 <SettingPicture
                     title={formatMessage(holders.profilePicture)}
                     onSubmit={this.submitPicture}
+                    onSetDefault={user.last_picture_update > 0 ? this.setDefaultProfilePicture : null}
                     src={Utils.imageURLForUser(user)}
+                    defaultImageSrc={Utils.defaultImageURLForUser(user.id)}
                     serverError={serverError}
                     clientError={clientError}
                     updateSection={(e) => {

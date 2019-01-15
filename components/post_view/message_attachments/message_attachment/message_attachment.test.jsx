@@ -29,6 +29,16 @@ describe('components/post_view/MessageAttachment', () => {
         postId: 'post_id',
         attachment,
         actions: {doPostAction: jest.fn()},
+        imagesMetadata: {
+            image_url: {
+                height: 200,
+                width: 200,
+            },
+            thumb_url: {
+                height: 200,
+                width: 200,
+            },
+        },
     };
 
     test('should match snapshot', () => {

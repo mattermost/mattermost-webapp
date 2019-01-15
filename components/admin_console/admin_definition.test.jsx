@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import yup from 'yup';
+import * as yup from 'yup';
 
 import adminDefinition from 'components/admin_console/admin_definition.jsx';
 import {Constants} from 'utils/constants';

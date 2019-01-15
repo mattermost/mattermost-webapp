@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import Scrollbars from 'react-custom-scrollbars';
 import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 import classNames from 'classnames';
@@ -16,6 +17,30 @@ import Pluggable from 'plugins/pluggable';
 
 import TeamButton from './components/team_button.jsx';
 
+export function renderView(props) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--view'
+        />);
+}
+
+export function renderThumbHorizontal(props) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--horizontal'
+        />);
+}
+
+export function renderThumbVertical(props) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--vertical'
+        />);
+}
+
 export default class TeamSidebar extends React.PureComponent {
     static propTypes = {
         myTeams: PropTypes.array.isRequired,
@@ -27,6 +52,7 @@ export default class TeamSidebar extends React.PureComponent {
         locale: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired,
+            switchTeam: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -55,6 +81,7 @@ export default class TeamSidebar extends React.PureComponent {
                         unread={member.msg_count > 0}
                         mentions={member.mention_count}
                         teamIconUrl={Utils.imageURLForTeam(team)}
+                        switchTeam={this.props.actions.switchTeam}
                     />
                 );
             });
@@ -72,6 +99,7 @@ export default class TeamSidebar extends React.PureComponent {
                         />
                     }
                     content={'+'}
+                    switchTeam={this.props.actions.switchTeam}
                 />
             );
         } else {
@@ -90,6 +118,7 @@ export default class TeamSidebar extends React.PureComponent {
                             />
                         }
                         content={'+'}
+                        switchTeam={this.props.actions.switchTeam}
                     />
                 </SystemPermissionGate>
             );
@@ -107,7 +136,17 @@ export default class TeamSidebar extends React.PureComponent {
         return (
             <div className={classNames('team-sidebar', {'move--right': this.props.isOpen})}>
                 <div className='team-wrapper'>
-                    {teams}
+                    <Scrollbars
+                        autoHide={true}
+                        autoHideTimeout={500}
+                        autoHideDuration={500}
+                        renderThumbHorizontal={renderThumbHorizontal}
+                        renderThumbVertical={renderThumbVertical}
+                        renderView={renderView}
+                        onScroll={this.handleScroll}
+                    >
+                        {teams}
+                    </Scrollbars>
                 </div>
             </div>
         );

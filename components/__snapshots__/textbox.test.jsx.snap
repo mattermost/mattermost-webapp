@@ -13,6 +13,7 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
     isRHS={false}
     listComponent={[Function]}
     listStyle="top"
+    listenForMentionKeyClick={false}
     onBlur={[Function]}
     onChange={[Function]}
     onHeightChange={[Function]}
@@ -24,10 +25,28 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
     providers={
       Array [
         AtMentionProvider {
-          "channelId": undefined,
+          "autocompleteUsersInChannel": [Function],
+          "currentUserId": "currentUserId",
+          "data": null,
           "disableDispatches": false,
           "latestComplete": true,
           "latestPrefix": "",
+          "profilesInChannel": Array [
+            Object {
+              "id": "id1",
+            },
+            Object {
+              "id": "id2",
+            },
+          ],
+          "profilesNotInChannel": Array [
+            Object {
+              "id": "id3",
+            },
+            Object {
+              "id": "id4",
+            },
+          ],
           "requestStarted": false,
         },
         ChannelMentionProvider {
@@ -39,7 +58,12 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
           "latestPrefix": "",
           "requestStarted": false,
         },
-        EmoticonProvider {},
+        EmoticonProvider {
+          "disableDispatches": false,
+          "latestComplete": true,
+          "latestPrefix": "",
+          "requestStarted": false,
+        },
       ]
     }
     renderDividers={true}
@@ -145,6 +169,7 @@ exports[`components/TextBox should throw error when new property is too long 1`]
     isRHS={false}
     listComponent={[Function]}
     listStyle="top"
+    listenForMentionKeyClick={false}
     onBlur={[Function]}
     onChange={[Function]}
     onHeightChange={[Function]}
@@ -156,10 +181,28 @@ exports[`components/TextBox should throw error when new property is too long 1`]
     providers={
       Array [
         AtMentionProvider {
-          "channelId": undefined,
+          "autocompleteUsersInChannel": [Function],
+          "currentUserId": "currentUserId",
+          "data": null,
           "disableDispatches": false,
           "latestComplete": true,
           "latestPrefix": "",
+          "profilesInChannel": Array [
+            Object {
+              "id": "id1",
+            },
+            Object {
+              "id": "id2",
+            },
+          ],
+          "profilesNotInChannel": Array [
+            Object {
+              "id": "id3",
+            },
+            Object {
+              "id": "id4",
+            },
+          ],
           "requestStarted": false,
         },
         ChannelMentionProvider {
@@ -171,7 +214,12 @@ exports[`components/TextBox should throw error when new property is too long 1`]
           "latestPrefix": "",
           "requestStarted": false,
         },
-        EmoticonProvider {},
+        EmoticonProvider {
+          "disableDispatches": false,
+          "latestComplete": true,
+          "latestPrefix": "",
+          "requestStarted": false,
+        },
       ]
     }
     renderDividers={true}
@@ -277,6 +325,7 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
     isRHS={false}
     listComponent={[Function]}
     listStyle="top"
+    listenForMentionKeyClick={false}
     onBlur={[Function]}
     onChange={[Function]}
     onHeightChange={[Function]}
@@ -288,10 +337,28 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
     providers={
       Array [
         AtMentionProvider {
-          "channelId": undefined,
+          "autocompleteUsersInChannel": [Function],
+          "currentUserId": "currentUserId",
+          "data": null,
           "disableDispatches": false,
           "latestComplete": true,
           "latestPrefix": "",
+          "profilesInChannel": Array [
+            Object {
+              "id": "id1",
+            },
+            Object {
+              "id": "id2",
+            },
+          ],
+          "profilesNotInChannel": Array [
+            Object {
+              "id": "id3",
+            },
+            Object {
+              "id": "id4",
+            },
+          ],
           "requestStarted": false,
         },
         ChannelMentionProvider {
@@ -303,7 +370,12 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
           "latestPrefix": "",
           "requestStarted": false,
         },
-        EmoticonProvider {},
+        EmoticonProvider {
+          "disableDispatches": false,
+          "latestComplete": true,
+          "latestPrefix": "",
+          "requestStarted": false,
+        },
       ]
     }
     renderDividers={true}

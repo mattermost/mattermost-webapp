@@ -7,10 +7,8 @@ import {shallow} from 'enzyme';
 import Constants from 'utils/constants.jsx';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
-
-jest.mock('stores/post_store.jsx', () => ({
-    clearCommentDraftUploads: jest.fn(),
-}));
+import FileUpload from 'components/file_upload';
+import FilePreview from 'components/file_preview/file_preview.jsx';
 
 describe('components/CreateComment', () => {
     const channelId = 'g6139tbospd18cmxroesdk3kkc';
@@ -313,6 +311,17 @@ describe('components/CreateComment', () => {
 
         expect(wrapper.state().draft.uploadsInProgress).toEqual([1, 2]);
         expect(wrapper.state().draft.fileInfos).toEqual(expectedNewFileInfos);
+    });
+
+    it('check for uploadsProgressPercent state on handleUploadProgress callback', () => {
+        const wrapper = shallow(
+            <CreateComment {...baseProps}/>
+        );
+
+        wrapper.find(FileUpload).prop('onUploadProgress')({clientId: 'clientId', name: 'name', percent: 10, type: 'type'});
+        expect(wrapper.find(FilePreview).prop('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
+
+        expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
     });
 
     test('calls showPostDeletedModal when createPostErrorId === api.post.create_post.root_id.app_error', () => {
@@ -687,7 +696,9 @@ describe('components/CreateComment', () => {
         const instance = wrapper.instance();
         instance.commentMsgKeyPress = jest.fn();
         instance.focusTextbox = jest.fn();
-        instance.refs = {textbox: {blur: jest.fn(), focus: jest.fn()}};
+        const blur = jest.fn();
+        const focus = jest.fn();
+        instance.refs = {textbox: {getWrappedInstance: () => ({blur, focus})}};
 
         const commentMsgKey = {
             preventDefault: jest.fn(),
@@ -728,12 +739,65 @@ describe('components/CreateComment', () => {
         instance.handleKeyDown(upKeyForEdit);
         expect(upKeyForEdit.preventDefault).toHaveBeenCalledTimes(1);
         expect(onEditLatestPost).toHaveBeenCalledTimes(1);
-        expect(instance.refs.textbox.blur).toHaveBeenCalledTimes(1);
+        expect(blur).toHaveBeenCalledTimes(1);
 
         instance.handleKeyDown(upKeyForEdit);
         expect(upKeyForEdit.preventDefault).toHaveBeenCalledTimes(2);
         expect(onEditLatestPost).toHaveBeenCalledTimes(2);
         expect(instance.focusTextbox).toHaveBeenCalledTimes(1);
         expect(instance.focusTextbox).toHaveBeenCalledWith(true);
+    });
+
+    test('should the RHS thread scroll to bottom one time after mount when props.draft.message is not empty', () => {
+        const draft = {
+            message: '',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+
+        const wrapper = shallow(
+            <CreateComment {...baseProps}/>
+        );
+
+        wrapper.instance().scrollToBottom = jest.fn();
+        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(0);
+        expect(wrapper.instance().doInitialScrollToBottom).toEqual(true);
+
+        // should scroll to bottom on first component update
+        wrapper.setState({draft: {...draft, message: 'new message'}});
+        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(1);
+        expect(wrapper.instance().doInitialScrollToBottom).toEqual(false);
+
+        // but not after the first update
+        wrapper.setState({draft: {...draft, message: 'another message'}});
+        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(1);
+        expect(wrapper.instance().doInitialScrollToBottom).toEqual(false);
+    });
+
+    test('should the RHS thread scroll to bottom when state.draft.uploadsInProgress increases but not when it decreases', () => {
+        const draft = {
+            message: '',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+
+        const wrapper = shallow(
+            <CreateComment
+                {...baseProps}
+                draft={draft}
+            />
+        );
+
+        wrapper.instance().scrollToBottom = jest.fn();
+        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(0);
+
+        wrapper.setState({draft: {...draft, uploadsInProgress: [1]}});
+        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(1);
+
+        wrapper.setState({draft: {...draft, uploadsInProgress: [1, 2]}});
+        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(2);
+
+        wrapper.setState({draft: {...draft, uploadsInProgress: [2]}});
+        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(2);
     });
 });

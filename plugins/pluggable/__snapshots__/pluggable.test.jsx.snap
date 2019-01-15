@@ -233,27 +233,33 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
       theme={Object {}}
       user={
         Object {
-          "name": "name",
+          "id": "someUserId",
+          "name": "some_user_name",
         }
       }
     >
       <ProfilePopover
         actions={
           Object {
+            "getMembershipForCurrentEntities": [Function],
             "openDirectChannelToUserId": [Function],
             "openModal": [Function],
           }
         }
-        currentUserId=""
+        currentTeamId="someTeamId"
+        currentUserId="someUserId"
         enableTimezone={false}
         hasMention={false}
+        isChannelAdmin={false}
         isRHS={false}
+        isTeamAdmin={false}
         src="src"
-        teamUrl="/somename"
+        teamUrl="/someTeamName"
         theme={Object {}}
         user={
           Object {
-            "name": "name",
+            "id": "someUserId",
+            "name": "some_user_name",
           }
         }
       >
@@ -262,7 +268,16 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
           id="user-profile-popover"
           placement="right"
           theme={Object {}}
-          title="@undefined"
+          title={
+            <span>
+              <span
+                className="user-popover__username"
+              >
+                @undefined
+              </span>
+               
+            </span>
+          }
         >
           <div
             className="popover right"
@@ -289,7 +304,14 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
             <h3
               className="popover-title"
             >
-              @undefined
+              <span>
+                <span
+                  className="user-popover__username"
+                >
+                  @undefined
+                </span>
+                 
+              </span>
             </h3>
             <div
               className="popover-content"
@@ -307,7 +329,8 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
                 pluggableName="PopoverUserAttributes"
                 user={
                   Object {
-                    "name": "name",
+                    "id": "someUserId",
+                    "name": "some_user_name",
                   }
                 }
               >
@@ -346,7 +369,8 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
                   }
                   user={
                     Object {
-                      "name": "name",
+                      "id": "someUserId",
+                      "name": "some_user_name",
                     }
                   }
                 />
@@ -354,24 +378,23 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
               <div
                 className="popover__row first"
                 data-toggle="tooltip"
-                key="user-popover-dm"
+                key="user-popover-settings"
               >
                 <a
-                  className="text-nowrap user-popover__email"
                   href="#"
                   onClick={[Function]}
                 >
                   <i
-                    className="fa fa-paper-plane"
-                    title="Send Message Icon"
+                    className="fa fa-pencil-square-o"
+                    title="Edit Icon"
                   />
                   <FormattedMessage
-                    defaultMessage="Send Message"
-                    id="user_profile.send.dm"
+                    defaultMessage="Edit Account Settings"
+                    id="user_profile.account.editSettings"
                     values={Object {}}
                   >
                     <span>
-                      Send Message
+                      Edit Account Settings
                     </span>
                   </FormattedMessage>
                 </a>
@@ -381,7 +404,8 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
                 pluggableName="PopoverUserActions"
                 user={
                   Object {
-                    "name": "name",
+                    "id": "someUserId",
+                    "name": "some_user_name",
                   }
                 }
               >
@@ -420,7 +444,8 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
                   }
                   user={
                     Object {
-                      "name": "name",
+                      "id": "someUserId",
+                      "name": "some_user_name",
                     }
                   }
                 />
@@ -473,7 +498,8 @@ exports[`plugins/Pluggable should match snapshot with overridden component 1`] =
       }
       user={
         Object {
-          "name": "name",
+          "id": "someUserId",
+          "name": "some_user_name",
         }
       }
     >

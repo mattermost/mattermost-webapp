@@ -11,6 +11,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
     const team = {name: 'test'};
     const header = {id: 'Header', defaultMessage: 'Header'};
     const footer = {id: 'Footer', defaultMessage: 'Footer'};
+    const loading = {id: 'Loading', defaultMessage: 'Loading'};
     const initialApp = {
         id: 'facxd9wpzpbpfp8pad78xj75pr',
         name: 'testApp',
@@ -35,6 +36,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
         team,
         header,
         footer,
+        loading,
         renderExtra: 'renderExtra',
         serverError: '',
         initialApp,

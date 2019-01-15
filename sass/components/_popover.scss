@@ -34,6 +34,10 @@
         margin-top: .6em;
     }
 
+    blockquote {
+        padding-bottom: 0;
+    }
+
     .popover-title {
         @include border-radius(0);
         background: alpha-color($black, .05);
@@ -41,6 +45,11 @@
         overflow: hidden;
         padding: 8px 10px;
         text-overflow: ellipsis;
+
+        > span {
+            display: flex;
+            justify-content: space-between;
+        }
     }
 
     hr {
@@ -73,7 +82,7 @@
         }
 
         > a {
-            > i {
+            i {
                 margin-right: 5px;
             }
         }
@@ -98,14 +107,40 @@
     }
 }
 
+.user-popover__username,
+.user-popover__username > a {
+    display: inline-block;
+    max-width: 150px;
+    height: 17px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#user-profile-popover .user-popover__username:only-child,
+#user-profile-popover .user-popover__username:only-child > a{
+    max-width: 100%;
+}
+
+.user-popover__role {
+    padding: 3px 5px;
+    margin-left: 10px;
+    background-color: $gray;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.8em;
+    color: $white;
+}
+
 .user-popover__image {
     @include border-radius(128px);
-    margin: 5px 0;
+    margin: 5px auto;
+    display: block;
 }
 
 .user-popover__email {
     display: block;
-    max-width: 200px;
+    max-width: 300px;
     overflow: hidden;
     text-overflow: ellipsis;
 }

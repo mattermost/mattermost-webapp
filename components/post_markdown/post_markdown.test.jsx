@@ -15,6 +15,13 @@ describe('components/PostMarkdown', () => {
         post: {},
     };
 
+    test('should not error when rendering without a post', () => {
+        const props = {...baseProps};
+        Reflect.deleteProperty(props, 'post');
+
+        shallow(<PostMarkdown {...props}/>);
+    });
+
     test('should render properly with an empty post', () => {
         const wrapper = shallow(
             <PostMarkdown {...baseProps}/>

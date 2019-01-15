@@ -6,7 +6,6 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  className="modal-edit-channel-purpose"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -72,7 +71,7 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-default cancel-button"
+      className="btn btn-link cancel-button"
       onClick={[Function]}
       type="button"
     >
@@ -104,7 +103,6 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  className="modal-edit-channel-purpose"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -180,7 +178,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-default cancel-button"
+      className="btn btn-link cancel-button"
       onClick={[Function]}
       type="button"
     >
@@ -212,7 +210,6 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  className="modal-edit-channel-purpose"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -288,7 +285,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
     componentClass="div"
   >
     <button
-      className="btn btn-default cancel-button"
+      className="btn btn-link cancel-button"
       onClick={[Function]}
       type="button"
     >
@@ -320,7 +317,6 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  className="modal-edit-channel-purpose"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -386,7 +382,7 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
     componentClass="div"
   >
     <button
-      className="btn btn-default cancel-button"
+      className="btn btn-link cancel-button"
       onClick={[Function]}
       type="button"
     >
@@ -418,7 +414,6 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  className="modal-edit-channel-purpose"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -484,7 +479,7 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-default cancel-button"
+      className="btn btn-link cancel-button"
       onClick={[Function]}
       type="button"
     >
@@ -516,7 +511,6 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  className="modal-edit-channel-purpose"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -582,7 +576,7 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-default cancel-button"
+      className="btn btn-link cancel-button"
       onClick={[Function]}
       type="button"
     >
@@ -614,7 +608,6 @@ exports[`comoponents/EditChannelPurposeModal should match with display name 1`] 
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  className="modal-edit-channel-purpose"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -685,7 +678,7 @@ exports[`comoponents/EditChannelPurposeModal should match with display name 1`] 
     componentClass="div"
   >
     <button
-      className="btn btn-default cancel-button"
+      className="btn btn-link cancel-button"
       onClick={[Function]}
       type="button"
     >

@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {debounce} from 'mattermost-redux/actions/helpers';
+import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import QuickInput from 'components/quick_input.jsx';
 import Constants from 'utils/constants.jsx';
@@ -12,7 +12,6 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
-const MIN_TIME_BEFORE_CLICK = 200;
 
 export default class SuggestionBox extends React.Component {
     static propTypes = {
@@ -116,6 +115,17 @@ export default class SuggestionBox extends React.Component {
          * If true, replace all input in the suggestion box with the selected option after a select, defaults to false
          */
         replaceAllInputOnSelect: PropTypes.bool,
+
+        /**
+         * An optional, opaque identifier that distinguishes the context in which the suggestion
+         * box is rendered. This allows the reused component to otherwise respond to changes.
+         */
+        contextId: PropTypes.string,
+
+        /**
+         * If true, listen for clicks on a mention and populate the input with said mention, defaults to false
+         */
+        listenForMentionKeyClick: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -129,6 +139,7 @@ export default class SuggestionBox extends React.Component {
         openOnFocus: false,
         openWhenEmpty: false,
         replaceAllInputOnSelect: false,
+        listenForMentionKeyClick: false,
     }
 
     constructor(props) {
@@ -137,10 +148,10 @@ export default class SuggestionBox extends React.Component {
         // Keep track of whether we're composing a CJK character so we can make suggestions for partial characters
         this.composing = false;
 
-        // Keep track of whether a list based or date based suggestion provider has been triggered
-        this.presentationType = 'text';
-
         this.pretext = '';
+
+        // Used for debouncing pretext changes
+        this.timeoutId = '';
 
         // pretext: the text before the cursor
         // matchedPretext: a list of the text before the cursor that will be replaced if the corresponding autocomplete term is selected
@@ -156,7 +167,43 @@ export default class SuggestionBox extends React.Component {
             terms: [],
             components: [],
             selection: '',
+            allowDividers: true,
+            presentationType: 'text',
         };
+    }
+
+    componentDidMount() {
+        if (this.props.listenForMentionKeyClick) {
+            EventEmitter.addListener('mention_key_click', this.handleMentionKeyClick);
+        }
+    }
+
+    componentWillUnmount() {
+        EventEmitter.removeListener('mention_key_click', this.handleMentionKeyClick);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.contextId !== this.props.contextId) {
+            const textbox = this.getTextbox();
+            const pretext = textbox.value.substring(0, textbox.selectionEnd).toLowerCase();
+
+            this.handlePretextChanged(pretext);
+        }
+    }
+
+    handleMentionKeyClick = (mentionKey, isRHS) => {
+        if (this.props.isRHS !== isRHS) {
+            return;
+        }
+
+        let insertText = '@' + mentionKey;
+
+        // if the current text does not end with a whitespace, then insert a space
+        if (this.props.value && (/[^\s]$/).test(this.props.value)) {
+            insertText = ' ' + insertText;
+        }
+
+        this.addTextAtCaret(insertText, '');
     }
 
     getTextbox = () => {
@@ -196,17 +243,15 @@ export default class SuggestionBox extends React.Component {
             return;
         }
 
-        this.setState({focused: false});
-
         if (UserAgent.isIos() && !e.relatedTarget) {
-            // iOS doesn't support e.relatedTarget, so we need to use the old method of just delaying the
-            // blur so that click handlers on the list items still register
-            if (this.presentationType !== 'date' || this.props.value.length === 0) {
-                this.handleEmitClearSuggestions(MIN_TIME_BEFORE_CLICK);
-            }
-        } else {
-            this.handleEmitClearSuggestions();
+            // On Safari and iOS classic app, the autocomplete stays open
+            // when you tap outside of the post textbox or search box.
+            return;
         }
+
+        this.handleEmitClearSuggestions();
+
+        this.setState({focused: false});
 
         if (this.props.onBlur) {
             this.props.onBlur();
@@ -424,14 +469,23 @@ export default class SuggestionBox extends React.Component {
                         matchedPretext = this.state.matchedPretext[i];
                     }
                 }
-                this.handleCompleteWord(this.state.selection, matchedPretext);
+
+                // If these don't match, the user typed quickly and pressed enter before we could
+                // update the pretext, so update the pretext before completing
+                if (this.pretext.endsWith(matchedPretext)) {
+                    this.handleCompleteWord(this.state.selection, matchedPretext);
+                } else {
+                    clearTimeout(this.timeoutId);
+                    this.nonDebouncedPretextChanged(this.pretext, true);
+                }
+
                 if (this.props.onKeyDown) {
                     this.props.onKeyDown(e);
                 }
                 e.preventDefault();
             } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
                 this.clear();
-                this.presentationType = 'text';
+                this.setState({presentationType: 'text'});
                 e.preventDefault();
                 e.stopPropagation();
             } else if (this.props.onKeyDown) {
@@ -469,20 +523,32 @@ export default class SuggestionBox extends React.Component {
             components: newComponents,
             matchedPretext: newPretext,
         });
+
+        return {selection, matchedPretext: suggestions.matchedPretext};
     }
 
-    handlePretextChanged = debounce((pretext) => {
+    handleReceivedSuggestionsAndComplete = (suggestions) => {
+        const {selection, matchedPretext} = this.handleReceivedSuggestions(suggestions);
+        if (selection) {
+            this.handleCompleteWord(selection, matchedPretext);
+        }
+    }
+
+    nonDebouncedPretextChanged = (pretext, complete = false) => {
         this.pretext = pretext;
         let handled = false;
+        let callback = this.handleReceivedSuggestions;
+        if (complete) {
+            callback = this.handleReceivedSuggestionsAndComplete;
+        }
         for (const provider of this.props.providers) {
-            handled = provider.handlePretextChanged(pretext, this.handleReceivedSuggestions) || handled;
+            handled = provider.handlePretextChanged(pretext, callback) || handled;
 
             if (handled) {
-                if (provider.constructor.name === 'SearchDateProvider') {
-                    this.presentationType = 'date';
-                } else {
-                    this.presentationType = 'text';
-                }
+                this.setState({
+                    presentationType: provider.presentationType(),
+                    allowDividers: provider.allowDividers(),
+                });
 
                 break;
             }
@@ -490,7 +556,17 @@ export default class SuggestionBox extends React.Component {
         if (!handled) {
             this.clear();
         }
-    }, Constants.SEARCH_TIMEOUT_MILLISECONDS)
+    }
+
+    debouncedPretextChanged = (pretext) => {
+        clearTimeout(this.timeoutId);
+        this.timeoutId = setTimeout(() => this.nonDebouncedPretextChanged(pretext), Constants.SEARCH_TIMEOUT_MILLISECONDS);
+    };
+
+    handlePretextChanged = (pretext) => {
+        this.pretext = pretext;
+        this.debouncedPretextChanged(pretext);
+    }
 
     blur = () => {
         this.refs.input.blur();
@@ -517,10 +593,11 @@ export default class SuggestionBox extends React.Component {
             listComponent,
             dateComponent,
             listStyle,
-            renderDividers,
             renderNoResults,
             ...props
         } = this.props;
+
+        const renderDividers = this.props.renderDividers && this.state.allowDividers;
 
         // Don't pass props used by SuggestionBox
         Reflect.deleteProperty(props, 'providers');
@@ -535,6 +612,9 @@ export default class SuggestionBox extends React.Component {
         Reflect.deleteProperty(props, 'onBlur');
         Reflect.deleteProperty(props, 'containerClass');
         Reflect.deleteProperty(props, 'replaceAllInputOnSelect');
+        Reflect.deleteProperty(props, 'renderDividers');
+        Reflect.deleteProperty(props, 'contextId');
+        Reflect.deleteProperty(props, 'listenForMentionKeyClick');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
@@ -555,7 +635,7 @@ export default class SuggestionBox extends React.Component {
                     onCompositionEnd={this.handleCompositionEnd}
                     onKeyDown={this.handleKeyDown}
                 />
-                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.presentationType === 'text' &&
+                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
                     <SuggestionListComponent
                         ref='list'
                         open={this.state.focused}
@@ -572,7 +652,7 @@ export default class SuggestionBox extends React.Component {
                         components={this.state.components}
                     />
                 }
-                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.presentationType === 'date' &&
+                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'date' &&
                     <SuggestionDateComponent
                         ref='date'
                         items={this.state.items}

@@ -14,7 +14,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
       <div
         className="post-body__cell"
       >
-        <Textbox
+        <Connect(Textbox)
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
@@ -25,12 +25,12 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
           id="reply_textbox"
           initialText=""
           isRHS={true}
+          listenForMentionKeyClick={true}
           onBlur={[Function]}
           onChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           popoverMentionKeyClick={true}
-          supportsCommands={true}
           value=""
         />
         <span
@@ -106,7 +106,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
       <div
         className="post-body__cell"
       >
-        <Textbox
+        <Connect(Textbox)
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
@@ -117,12 +117,12 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           id="reply_textbox"
           initialText=""
           isRHS={true}
+          listenForMentionKeyClick={true}
           onBlur={[Function]}
           onChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           popoverMentionKeyClick={true}
-          supportsCommands={true}
           value="Test message"
         />
         <span
@@ -134,6 +134,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
             onFileUpload={[Function]}
             onFileUploadChange={[Function]}
             onUploadError={[Function]}
+            onUploadProgress={[Function]}
             onUploadStart={[Function]}
             postType="comment"
             rootId=""
@@ -233,7 +234,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
       <div
         className="post-body__cell"
       >
-        <Textbox
+        <Connect(Textbox)
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
@@ -244,12 +245,12 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           id="reply_textbox"
           initialText=""
           isRHS={true}
+          listenForMentionKeyClick={true}
           onBlur={[Function]}
           onChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           popoverMentionKeyClick={true}
-          supportsCommands={true}
           value="Test message"
         />
         <span
@@ -261,6 +262,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
             onFileUpload={[Function]}
             onFileUploadChange={[Function]}
             onUploadError={[Function]}
+            onUploadProgress={[Function]}
             onUploadStart={[Function]}
             postType="comment"
             rootId=""
@@ -291,6 +293,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
         }
         onRemove={[Function]}
         uploadsInProgress={Array []}
+        uploadsProgressPercent={Object {}}
       />
     </div>
   </div>
@@ -347,7 +350,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
       <div
         className="post-body__cell"
       >
-        <Textbox
+        <Connect(Textbox)
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
@@ -358,12 +361,12 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           id="reply_textbox"
           initialText=""
           isRHS={true}
+          listenForMentionKeyClick={true}
           onBlur={[Function]}
           onChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           popoverMentionKeyClick={true}
-          supportsCommands={true}
           value=""
         />
         <span
@@ -375,6 +378,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
             onFileUpload={[Function]}
             onFileUploadChange={[Function]}
             onUploadError={[Function]}
+            onUploadProgress={[Function]}
             onUploadStart={[Function]}
             postType="comment"
             rootId=""
@@ -474,7 +478,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
       <div
         className="post-body__cell"
       >
-        <Textbox
+        <Connect(Textbox)
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
@@ -485,12 +489,12 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           id="reply_textbox"
           initialText=""
           isRHS={true}
+          listenForMentionKeyClick={true}
           onBlur={[Function]}
           onChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           popoverMentionKeyClick={true}
-          supportsCommands={true}
           value="Test message"
         />
         <span
@@ -502,6 +506,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             onFileUpload={[Function]}
             onFileUploadChange={[Function]}
             onUploadError={[Function]}
+            onUploadProgress={[Function]}
             onUploadStart={[Function]}
             postType="comment"
             rootId=""
@@ -569,6 +574,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             Object {},
           ]
         }
+        uploadsProgressPercent={Object {}}
       />
     </div>
   </div>

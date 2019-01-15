@@ -19,6 +19,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         rowClass: PropTypes.string.isRequired,
         channelType: PropTypes.string.isRequired,
         channelId: PropTypes.string.isRequired,
+        channelName: PropTypes.string.isRequired,
         displayName: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.object,
@@ -93,6 +94,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         } else {
             element = (
                 <Link
+                    id={`sidebarItem_${this.props.channelName}`}
                     to={this.props.link}
                     className={this.props.rowClass}
                     onClick={this.trackChannelSelectedEvent}

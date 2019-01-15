@@ -4,10 +4,22 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class ModalController extends React.Component {
+export default class ModalController extends React.PureComponent {
     static propTypes = {
+
+        /**
+         * Object that has map of modal's id and element
+         */
         modals: PropTypes.object.isRequired,
+
+        /**
+         * Object with action creators
+         */
         actions: PropTypes.shape({
+
+            /**
+             * Action creator to close modal
+             */
             closeModal: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -37,9 +49,7 @@ export default class ModalController extends React.Component {
         }
 
         return (
-            <div>
-                {modalOutput}
-            </div>
+            <div>{modalOutput}</div>
         );
     }
 }

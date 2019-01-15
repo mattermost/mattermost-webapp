@@ -1,13 +1,16 @@
 {
   "extends": [
     "./node_modules/eslint-config-mattermost/.eslintrc.json",
-    "./node_modules/eslint-config-mattermost/.eslintrc-react.json"
+    "./node_modules/eslint-config-mattermost/.eslintrc-react.json",
+    "plugin:cypress/recommended"
   ],
   "plugins": [
-    "import"
+    "import",
+    "cypress"
   ],
   "env": {
-    "jest": true
+    "jest": true,
+    "cypress/globals": true
   },
   "settings": {
     "import/resolver": "webpack",

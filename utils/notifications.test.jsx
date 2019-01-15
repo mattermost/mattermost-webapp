@@ -106,7 +106,7 @@ describe('Notifications.showNotification', () => {
         };
 
         // Call one to deny and mark as already requested
-        Notifications.showNotification();
+        await expect(Notifications.showNotification()).rejects.toThrow('Notifications not granted');
 
         // Try again
         await expect(Notifications.showNotification()).rejects.toThrow('Notifications already requested but not granted');

@@ -18,12 +18,14 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
+    getCurrentUser,
     getCurrentUserId,
     getUserIdsInChannels,
     getUser,
     searchProfiles,
 } from 'mattermost-redux/selectors/entities/users';
 import * as ChannelActions from 'mattermost-redux/actions/channels';
+import {logError} from 'mattermost-redux/actions/errors';
 
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
@@ -31,12 +33,10 @@ import DraftIcon from 'components/svg/draft_icon';
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
 import ArchiveIcon from 'components/svg/archive_icon';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
-import {ActionTypes, Constants, StoragePrefixes} from 'utils/constants.jsx';
+import {Constants, StoragePrefixes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-import UserStore from 'stores/user_store.jsx';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -48,7 +48,7 @@ function getChannelDisplayName(channel) {
         return channel.display_name;
     }
 
-    const currentUser = UserStore.getCurrentUser();
+    const currentUser = getCurrentUser(getState());
 
     if (currentUser) {
         return channel.display_name.
@@ -280,10 +280,7 @@ export default class SwitchChannelProvider extends Provider {
             const {data} = await channelsAsync;
             channelsFromServer = data;
         } catch (err) {
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_ERROR,
-                err,
-            });
+            store.dispatch(logError(err));
         }
 
         if (this.shouldCancelDispatch(channelPrefix)) {

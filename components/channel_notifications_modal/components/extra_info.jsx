@@ -36,6 +36,15 @@ export default function ExtraInfo({section}) {
                 />
             </span>
         );
+    case NotificationSections.IGNORE_CHANNEL_MENTIONS:
+        return (
+            <span>
+                <FormattedMessage
+                    id='channel_notifications.ignoreChannelMentions.help'
+                    defaultMessage='When enabled, @channel, @here and @all will not trigger mentions or mention notifications in this channel.'
+                />
+            </span>
+        );
     default:
         return null;
     }

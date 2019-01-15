@@ -274,9 +274,8 @@
         height: 100%;
         overflow-y: scroll;
         padding: 1em 0 0;
-        position: absolute;
         width: 100%;
-
+        position: absolute;
         &.active {
             display: inline;
         }
@@ -699,12 +698,20 @@
             }
         }
     }
+    .loading-screen {
+        position: relative;
+        height: 40px;
+        padding: 0px;
+        .loading__content {
+            height: 40px;
+        }
+    }
 }
 
 .post {
     @include legacy-pie-clearfix;
     max-width: 100%;
-    padding: 8px .5em 0 1em;
+    padding: 8px .5em 0 1.5em;
     position: relative;
     word-wrap: break-word;
 
@@ -818,7 +825,7 @@
                     }
 
                     .flag-icon__container {
-                        left: 36px;
+                        left: 32px;
                         margin-left: 7px;
                         position: absolute;
                         top: 6px;
@@ -1127,7 +1134,7 @@
 
     &.same--root {
         &.same--user {
-            padding: 0 .5em 0 1em;
+            padding: 0 .5em 0 1.5em;
 
             &:hover,
             &.post--hovered {
@@ -1137,7 +1144,7 @@
             }
 
             .flag-icon__container {
-                left: 36px;
+                left: 32px;
                 margin-left: 7px;
                 position: absolute;
                 top: 6px;
@@ -1495,6 +1502,8 @@
 
         ul,
         ol {
+            font-size: 13.5px;
+
             p {
                 margin-bottom: 0;
             }
@@ -1885,12 +1894,16 @@
 
 .post-collapse {
     bottom: 0;
+    pointer-events: none;
     position: absolute;
     width: 100%;
 
     .post-collapse__gradient, .post-attachment-collapse__gradient {
-        pointer-events: none;
         position: relative;
+    }
+
+    .post-collapse__show-more, .post-attachment-collapse__show-more {
+        pointer-events: auto;
     }
 }
 
@@ -1973,6 +1986,7 @@
 
     .post-collapse__show-more, .post-attachment-collapse__show-more {
         position: relative;
+        padding-top: 10px;
     }
 
     .post-collapse__gradient, .post-attachment-collapse__gradient {

@@ -4,15 +4,13 @@ exports[`components/PluginManagement should match snapshot 1`] = `
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     <FormattedMessage
       defaultMessage="Management"
       id="admin.plugin.management.title"
       values={Object {}}
     />
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
@@ -191,15 +189,13 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     <FormattedMessage
       defaultMessage="Management"
       id="admin.plugin.management.title"
       values={Object {}}
     />
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
@@ -383,15 +379,13 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     <FormattedMessage
       defaultMessage="Management"
       id="admin.plugin.management.title"
       values={Object {}}
     />
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
@@ -543,15 +537,13 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     <FormattedMessage
       defaultMessage="Management"
       id="admin.plugin.management.title"
       values={Object {}}
     />
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
@@ -730,15 +722,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     <FormattedMessage
       defaultMessage="Management"
       id="admin.plugin.management.title"
       values={Object {}}
     />
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
@@ -980,15 +970,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     <FormattedMessage
       defaultMessage="Management"
       id="admin.plugin.management.title"
       values={Object {}}
     />
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
@@ -1198,15 +1186,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     <FormattedMessage
       defaultMessage="Management"
       id="admin.plugin.management.title"
       values={Object {}}
     />
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
@@ -1416,15 +1402,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     <FormattedMessage
       defaultMessage="Management"
       id="admin.plugin.management.title"
       values={Object {}}
     />
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
@@ -1634,15 +1618,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     <FormattedMessage
       defaultMessage="Management"
       id="admin.plugin.management.title"
       values={Object {}}
     />
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}

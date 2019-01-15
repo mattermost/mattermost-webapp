@@ -22,6 +22,7 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
     }
   }
   onEntering={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -127,7 +128,7 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
       componentClass="div"
     >
       <button
-        className="btn btn-default"
+        className="btn btn-link"
         onClick={[Function]}
         type="button"
       >

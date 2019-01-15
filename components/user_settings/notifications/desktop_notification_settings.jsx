@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import Constants, {NotificationLevels} from 'utils/constants.jsx';
+import {NotificationLevels} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
@@ -210,84 +210,53 @@ export default class DesktopNotificationSettings extends React.Component {
     }
 
     buildMinimizedSetting = () => {
-        let describe = '';
+        let formattedMessageProps;
+        const hasSoundOption = Utils.hasSoundOptions();
         if (this.props.activity === NotificationLevels.MENTION) {
-            if (Utils.hasSoundOptions() && this.props.sound !== 'false') {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.notifications.desktop.mentionsSoundTimed'
-                        defaultMessage='For mentions and direct messages, with sound, shown for {seconds} seconds'
-                        values={{
-                            seconds: Constants.DEFAULT_NOTIFICATION_DURATION / 1000,
-                        }}
-                    />
-                );
-            } else if (Utils.hasSoundOptions() && this.props.sound === 'false') {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.notifications.desktop.mentionsNoSoundTimed'
-                        defaultMessage='For mentions and direct messages, without sound, shown for {seconds} seconds'
-                        values={{
-                            seconds: Constants.DEFAULT_NOTIFICATION_DURATION / 1000,
-                        }}
-                    />
-                );
+            if (hasSoundOption && this.props.sound !== 'false') {
+                formattedMessageProps = {
+                    id: 'user.settings.notifications.desktop.mentionsSound',
+                    defaultMessage: 'For mentions and direct messages, with sound',
+                };
+            } else if (hasSoundOption && this.props.sound === 'false') {
+                formattedMessageProps = {
+                    id: 'user.settings.notifications.desktop.mentionsNoSound',
+                    defaultMessage: 'For mentions and direct messages, without sound',
+                };
             } else {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.notifications.desktop.mentionsSoundHiddenTimed'
-                        defaultMessage='For mentions and direct messages, shown for {seconds} seconds'
-                        values={{
-                            seconds: Constants.DEFAULT_NOTIFICATION_DURATION / 1000,
-                        }}
-                    />
-                );
+                formattedMessageProps = {
+                    id: 'user.settings.notifications.desktop.mentionsSoundHidden',
+                    defaultMessage: 'For mentions and direct messages',
+                };
             }
         } else if (this.props.activity === NotificationLevels.NONE) {
-            describe = (
-                <FormattedMessage
-                    id='user.settings.notifications.off'
-                    defaultMessage='Off'
-                />
-            );
+            formattedMessageProps = {
+                id: 'user.settings.notifications.off',
+                defaultMessage: 'Off',
+            };
         } else {
-            if (Utils.hasSoundOptions() && this.props.sound !== 'false') { //eslint-disable-line no-lonely-if
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.notifications.desktop.allSoundTimed'
-                        defaultMessage='For all activity, with sound, shown for {seconds} seconds'
-                        values={{
-                            seconds: Constants.DEFAULT_NOTIFICATION_DURATION / 1000,
-                        }}
-                    />
-                );
-            } else if (Utils.hasSoundOptions() && this.props.sound === 'false') {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.notifications.desktop.allNoSoundTimed'
-                        defaultMessage='For all activity, without sound, shown for {seconds} seconds'
-                        values={{
-                            seconds: Constants.DEFAULT_NOTIFICATION_DURATION / 1000,
-                        }}
-                    />
-                );
+            if (hasSoundOption && this.props.sound !== 'false') { //eslint-disable-line no-lonely-if
+                formattedMessageProps = {
+                    id: 'user.settings.notifications.desktop.allSound',
+                    defaultMessage: 'For all activity, with sound',
+                };
+            } else if (hasSoundOption && this.props.sound === 'false') {
+                formattedMessageProps = {
+                    id: 'user.settings.notifications.desktop.allNoSound',
+                    defaultMessage: 'For all activity, without sound',
+                };
             } else {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.notifications.desktop.allSoundHiddenTimed'
-                        defaultMessage='For all activity, shown for {seconds} seconds'
-                        values={{
-                            seconds: Constants.DEFAULT_NOTIFICATION_DURATION / 1000,
-                        }}
-                    />
-                );
+                formattedMessageProps = {
+                    id: 'user.settings.notifications.desktop.allSoundHidden',
+                    defaultMessage: 'For all activity',
+                };
             }
         }
 
         return (
             <SettingItemMin
                 title={Utils.localizeMessage('user.settings.notifications.desktop.title', 'Desktop notifications')}
-                describe={describe}
+                describe={<FormattedMessage {...formattedMessageProps}/>}
                 focused={this.props.focused}
                 section={'desktop'}
                 updateSection={this.handleMinUpdateSection}

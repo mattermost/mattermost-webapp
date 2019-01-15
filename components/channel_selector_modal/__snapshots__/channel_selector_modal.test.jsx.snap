@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ChannelSelectorModal should match snapshot 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="more-modal more-direct-channels channel-selector-modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[Function]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h4"
+    >
+      <InjectIntl(FormattedMarkdownMessage)
+        defaultMessage="Add Channels To **Channel Selection** List"
+        id="add_channels_to_scheme.title"
+      />
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <MultiSelect
+      buttonSubmitText="Add"
+      handleAdd={[Function]}
+      handleDelete={[Function]}
+      handleInput={[Function]}
+      handlePageChange={[Function]}
+      handleSubmit={[Function]}
+      key="addChannelsToSchemeKey"
+      loading={true}
+      numRemainingText={
+        <FormattedMessage
+          defaultMessage="Use ↑↓ to browse, ↵ to select."
+          id="multiselect.selectChannels"
+          values={Object {}}
+        />
+      }
+      optionRenderer={[Function]}
+      options={
+        Array [
+          Object {
+            "delete_at": 0,
+            "display_name": "Channel 3",
+            "id": "id3",
+            "scheme_id": "test",
+            "team_display_name": "Team 3",
+          },
+          Object {
+            "delete_at": 0,
+            "display_name": "Channel 4",
+            "id": "id4",
+            "scheme_id": "",
+            "team_display_name": "Team 4",
+          },
+        ]
+      }
+      perPage={50}
+      saving={false}
+      valueKey="id"
+      valueRenderer={[Function]}
+      values={Array []}
+    />
+  </ModalBody>
+</Modal>
+`;

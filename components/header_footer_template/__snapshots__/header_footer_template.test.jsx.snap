@@ -12,12 +12,14 @@ exports[`components/HeaderFooterTemplate should match snapshot with about link 1
   >
     <div
       className="footer-pane col-xs-12"
+      id="footer_section"
     >
       <div
         className="col-xs-12"
       >
         <span
           className="pull-right footer-site-name"
+          id="company_name"
         >
           Mattermost
         </span>
@@ -27,6 +29,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with about link 1
       >
         <span
           className="pull-right footer-link copyright"
+          id="copyright"
         >
           © 2015-2017 Mattermost, Inc.
         </span>
@@ -65,12 +68,14 @@ exports[`components/HeaderFooterTemplate should match snapshot with all links 1`
   >
     <div
       className="footer-pane col-xs-12"
+      id="footer_section"
     >
       <div
         className="col-xs-12"
       >
         <span
           className="pull-right footer-site-name"
+          id="company_name"
         >
           Mattermost
         </span>
@@ -80,6 +85,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with all links 1`
       >
         <span
           className="pull-right footer-link copyright"
+          id="copyright"
         >
           © 2015-2017 Mattermost, Inc.
         </span>
@@ -161,12 +167,14 @@ exports[`components/HeaderFooterTemplate should match snapshot with children 1`]
   >
     <div
       className="footer-pane col-xs-12"
+      id="footer_section"
     >
       <div
         className="col-xs-12"
       >
         <span
           className="pull-right footer-site-name"
+          id="company_name"
         >
           Mattermost
         </span>
@@ -176,6 +184,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with children 1`]
       >
         <span
           className="pull-right footer-link copyright"
+          id="copyright"
         >
           © 2015-2017 Mattermost, Inc.
         </span>
@@ -200,12 +209,14 @@ exports[`components/HeaderFooterTemplate should match snapshot with help link 1`
   >
     <div
       className="footer-pane col-xs-12"
+      id="footer_section"
     >
       <div
         className="col-xs-12"
       >
         <span
           className="pull-right footer-site-name"
+          id="company_name"
         >
           Mattermost
         </span>
@@ -215,6 +226,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with help link 1`
       >
         <span
           className="pull-right footer-link copyright"
+          id="copyright"
         >
           © 2015-2017 Mattermost, Inc.
         </span>
@@ -253,12 +265,14 @@ exports[`components/HeaderFooterTemplate should match snapshot with privacy poli
   >
     <div
       className="footer-pane col-xs-12"
+      id="footer_section"
     >
       <div
         className="col-xs-12"
       >
         <span
           className="pull-right footer-site-name"
+          id="company_name"
         >
           Mattermost
         </span>
@@ -268,6 +282,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with privacy poli
       >
         <span
           className="pull-right footer-link copyright"
+          id="copyright"
         >
           © 2015-2017 Mattermost, Inc.
         </span>
@@ -306,12 +321,14 @@ exports[`components/HeaderFooterTemplate should match snapshot with term of serv
   >
     <div
       className="footer-pane col-xs-12"
+      id="footer_section"
     >
       <div
         className="col-xs-12"
       >
         <span
           className="pull-right footer-site-name"
+          id="company_name"
         >
           Mattermost
         </span>
@@ -321,6 +338,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with term of serv
       >
         <span
           className="pull-right footer-link copyright"
+          id="copyright"
         >
           © 2015-2017 Mattermost, Inc.
         </span>
@@ -359,12 +377,14 @@ exports[`components/HeaderFooterTemplate should match snapshot without children 
   >
     <div
       className="footer-pane col-xs-12"
+      id="footer_section"
     >
       <div
         className="col-xs-12"
       >
         <span
           className="pull-right footer-site-name"
+          id="company_name"
         >
           Mattermost
         </span>
@@ -374,6 +394,7 @@ exports[`components/HeaderFooterTemplate should match snapshot without children 
       >
         <span
           className="pull-right footer-link copyright"
+          id="copyright"
         >
           © 2015-2017 Mattermost, Inc.
         </span>

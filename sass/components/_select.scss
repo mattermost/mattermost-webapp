@@ -1,0 +1,44 @@
+@charset 'UTF-8';
+
+.select-suggestion-container {
+    position: relative;
+    margin: 8px 8px 0 0;
+
+    &:hover {
+        &:after {
+            opacity: .6;
+        }
+    }
+
+    &:after {
+        @include single-transition(opacity, .15s, ease);
+        content: '\F107';
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        top: 8px;
+        position: absolute;
+        right: 1rem;
+        opacity: .4;
+        font-size: 16px;
+        pointer-events: none;
+    }
+
+    .form-control {
+        cursor: pointer;
+        font-size: 13px;
+        height: 30px;
+        max-width: 100%;
+        padding-right: 3rem;
+        @include border-radius(3px);
+        @include box-shadow(unset);
+        border-color: rgba(61, 60, 64, 0.3);
+    }
+
+    .suggestion-list__content {
+        border-radius: 3px 3px 3px 0;
+    }
+}

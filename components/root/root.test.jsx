@@ -33,6 +33,27 @@ describe('components/Root', () => {
         },
     };
 
+    test('should load config and license on mount and redirect to sign-up page', () => {
+        const props = {
+            ...baseProps,
+            noAccounts: true,
+            actions: {
+                ...baseProps.actions,
+                loadMeAndConfig: jest.fn(async () => [{}, {}, {}]),
+            },
+            history: {
+                push: jest.fn(),
+            },
+        };
+
+        const wrapper = shallow(<Root {...props}/>);
+
+        expect(props.actions.loadMeAndConfig).toHaveBeenCalledTimes(1);
+
+        wrapper.instance().onConfigLoaded();
+        expect(props.history.push).toHaveBeenCalledWith('/signup_user_complete');
+    });
+
     test('should load user, config, and license on mount and redirect to defaultTeam on success', (done) => {
         const props = {
             ...baseProps,

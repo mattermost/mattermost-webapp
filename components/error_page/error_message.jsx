@@ -37,7 +37,7 @@ export default function ErrorMessage({type, message, service}) {
                         <li>
                             <FormattedMessage
                                 id='error.local_storage.help3'
-                                defaultMessage='Use a supported browser (IE 11, Chrome 43+, Firefox 38+, Safari 9, Edge)'
+                                defaultMessage='Use a supported browser (IE 11, Chrome 61+, Firefox 60+, Safari 12+, Edge 42+)'
                             />
                         </li>
                     </ul>

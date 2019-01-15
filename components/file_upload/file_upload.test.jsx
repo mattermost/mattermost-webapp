@@ -38,6 +38,7 @@ describe('components/FileUpload', () => {
     beforeEach(() => {
         uploadFile = jest.fn(() => ({
             end: emptyFunction,
+            on: emptyFunction,
         }));
 
         baseProps = {
@@ -51,6 +52,7 @@ describe('components/FileUpload', () => {
             onFileUploadChange: jest.fn(),
             onUploadError: jest.fn(),
             onUploadStart: jest.fn(),
+            onUploadProgress: jest.fn(),
             postType: 'post',
             maxFileSize: MaxFileSize,
             canUploadFiles: true,

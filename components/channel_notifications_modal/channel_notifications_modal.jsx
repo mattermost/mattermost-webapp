@@ -9,20 +9,47 @@ import {FormattedMessage} from 'react-intl';
 
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
-import {NotificationLevels, NotificationSections} from 'utils/constants.jsx';
+import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import NotificationSection from 'components/channel_notifications_modal/components/notification_section.jsx';
 
-export default class ChannelNotificationsModal extends React.Component {
+export default class ChannelNotificationsModal extends React.PureComponent {
     static propTypes = {
-        show: PropTypes.bool.isRequired,
+
+        /**
+         * Function that is called when modal is hidden
+         */
         onHide: PropTypes.func.isRequired,
+
+        /**
+         * Object with info about current channel
+         */
         channel: PropTypes.object.isRequired,
+
+        /**
+         * Object with info about current channel membership
+         */
         channelMember: PropTypes.object.isRequired,
+
+        /**
+         * Object with info about current user
+         */
         currentUser: PropTypes.object.isRequired,
+
+        /**
+         * Boolean whether server sends push notifications
+         */
         sendPushNotifications: PropTypes.bool.isRequired,
+
+        /*
+         * Object with redux action creators
+         */
         actions: PropTypes.shape({
+
+            /*
+             * Action creator to update channel notify props
+             */
             updateChannelNotifyProps: PropTypes.func.isRequired,
         }),
     };
@@ -30,34 +57,57 @@ export default class ChannelNotificationsModal extends React.Component {
     constructor(props) {
         super(props);
 
+        const channelNotifyProps = props.channelMember && props.channelMember.notify_props;
+
         this.state = {
+            show: true,
             activeSection: NotificationSections.NONE,
             serverError: null,
-            ...this.getStateFromNotifyProps(props.channelMember.notify_props),
+            ...this.getStateFromNotifyProps(channelNotifyProps, props.currentUser.notify_props),
         };
     }
 
     componentDidUpdate(prevProps) {
-        if (!Utils.areObjectsEqual(this.props.channelMember.notify_props, prevProps.channelMember.notify_props)) {
-            this.resetStateFromNotifyProps(this.props.channelMember.notify_props);
+        const prevChannelNotifyProps = prevProps.channelMember && prevProps.channelMember.notify_props;
+        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
+
+        if (!Utils.areObjectsEqual(channelNotifyProps, prevChannelNotifyProps)) {
+            this.resetStateFromNotifyProps(channelNotifyProps, this.props.currentUser.notify_props);
         }
     }
 
-    resetStateFromNotifyProps(notifyProps) {
-        this.setState(this.getStateFromNotifyProps(notifyProps));
+    resetStateFromNotifyProps(channelMemberNotifyProps, currentUserNotifyProps) {
+        this.setState(this.getStateFromNotifyProps(channelMemberNotifyProps, currentUserNotifyProps));
     }
 
-    getStateFromNotifyProps(notifyProps) {
+    getStateFromNotifyProps(channelMemberNotifyProps, currentUserNotifyProps) {
+        let ignoreChannelMentionsDefault = IgnoreChannelMentions.OFF;
+
+        if (currentUserNotifyProps.channel && currentUserNotifyProps.channel === 'false') {
+            ignoreChannelMentionsDefault = IgnoreChannelMentions.ON;
+        }
+
+        let ignoreChannelMentions = channelMemberNotifyProps.ignore_channel_mentions;
+        if (!ignoreChannelMentions || ignoreChannelMentions === IgnoreChannelMentions.DEFAULT) {
+            ignoreChannelMentions = ignoreChannelMentionsDefault;
+        }
+
         return {
-            desktopNotifyLevel: notifyProps.desktop || NotificationLevels.DEFAULT,
-            markUnreadNotifyLevel: notifyProps.mark_unread || NotificationLevels.ALL,
-            pushNotifyLevel: notifyProps.push || NotificationLevels.DEFAULT,
+            desktopNotifyLevel: channelMemberNotifyProps.desktop || NotificationLevels.DEFAULT,
+            markUnreadNotifyLevel: channelMemberNotifyProps.mark_unread || NotificationLevels.ALL,
+            pushNotifyLevel: channelMemberNotifyProps.push || NotificationLevels.DEFAULT,
+            ignoreChannelMentions,
         };
     }
 
-    handleOnHide = () => {
-        this.updateSection(NotificationSections.NONE);
+    handleHide = () => {
+        this.setState({
+            show: false,
+        });
+    }
 
+    handleExit = () => {
+        this.updateSection(NotificationSections.NONE);
         this.props.onHide();
     }
 
@@ -69,7 +119,8 @@ export default class ChannelNotificationsModal extends React.Component {
         this.setState({activeSection: section});
 
         if (section === NotificationSections.NONE) {
-            this.resetStateFromNotifyProps(this.props.channelMember.notify_props);
+            const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
+            this.resetStateFromNotifyProps(channelNotifyProps, this.props.currentUser.notify_props);
         }
     }
 
@@ -89,10 +140,10 @@ export default class ChannelNotificationsModal extends React.Component {
     }
 
     handleSubmitDesktopNotifyLevel = () => {
-        const {channelMember} = this.props;
+        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
         const {desktopNotifyLevel} = this.state;
 
-        if (channelMember.notify_props.desktop === desktopNotifyLevel) {
+        if (channelNotifyProps.desktop === desktopNotifyLevel) {
             this.updateSection(NotificationSections.NONE);
             return;
         }
@@ -106,10 +157,10 @@ export default class ChannelNotificationsModal extends React.Component {
     }
 
     handleSubmitMarkUnreadLevel = () => {
-        const {channelMember} = this.props;
+        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
         const {markUnreadNotifyLevel} = this.state;
 
-        if (channelMember.notify_props.mark_unread === markUnreadNotifyLevel) {
+        if (channelNotifyProps.mark_unread === markUnreadNotifyLevel) {
             this.updateSection(NotificationSections.NONE);
             return;
         }
@@ -123,9 +174,10 @@ export default class ChannelNotificationsModal extends React.Component {
     }
 
     handleSubmitPushNotificationLevel = () => {
+        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
         const {pushNotifyLevel} = this.state;
 
-        if (this.props.channelMember.notify_props.push === pushNotifyLevel) {
+        if (channelNotifyProps.push === pushNotifyLevel) {
             this.updateSection(NotificationSections.NONE);
             return;
         }
@@ -138,12 +190,30 @@ export default class ChannelNotificationsModal extends React.Component {
         this.setState({pushNotifyLevel});
     }
 
+    handleUpdateIgnoreChannelMentions = (ignoreChannelMentions) => {
+        this.setState({ignoreChannelMentions});
+    }
+
+    handleSubmitIgnoreChannelMentions = () => {
+        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
+        const {ignoreChannelMentions} = this.state;
+
+        if (channelNotifyProps.ignore_channel_mentions === ignoreChannelMentions) {
+            this.updateSection('');
+            return;
+        }
+
+        const props = {ignore_channel_mentions: ignoreChannelMentions};
+        this.handleUpdateChannelNotifyProps(props);
+    }
+
     render() {
         const {
             activeSection,
             desktopNotifyLevel,
             markUnreadNotifyLevel,
             pushNotifyLevel,
+            ignoreChannelMentions,
             serverError,
         } = this.state;
 
@@ -152,7 +222,6 @@ export default class ChannelNotificationsModal extends React.Component {
             channelMember,
             currentUser,
             sendPushNotifications,
-            show,
         } = this.props;
 
         let serverErrorTag = null;
@@ -162,10 +231,10 @@ export default class ChannelNotificationsModal extends React.Component {
 
         return (
             <Modal
-                show={show}
                 dialogClassName='settings-modal settings-modal--tabless'
-                onHide={this.handleOnHide}
-                onExited={this.handleOnHide}
+                show={this.state.show}
+                onHide={this.handleHide}
+                onExited={this.handleExit}
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
@@ -191,6 +260,17 @@ export default class ChannelNotificationsModal extends React.Component {
                                     memberNotificationLevel={markUnreadNotifyLevel}
                                     onChange={this.handleUpdateMarkUnreadLevel}
                                     onSubmit={this.handleSubmitMarkUnreadLevel}
+                                    onUpdateSection={this.updateSection}
+                                    serverError={serverError}
+                                />
+                                <div className='divider-light'/>
+                                <NotificationSection
+                                    section={NotificationSections.IGNORE_CHANNEL_MENTIONS}
+                                    expand={activeSection === NotificationSections.IGNORE_CHANNEL_MENTIONS}
+                                    memberNotificationLevel={markUnreadNotifyLevel}
+                                    ignoreChannelMentions={ignoreChannelMentions}
+                                    onChange={this.handleUpdateIgnoreChannelMentions}
+                                    onSubmit={this.handleSubmitIgnoreChannelMentions}
                                     onUpdateSection={this.updateSection}
                                     serverError={serverError}
                                 />

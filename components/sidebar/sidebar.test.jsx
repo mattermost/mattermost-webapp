@@ -134,6 +134,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         actions: {
             close: jest.fn(),
             switchToChannelById: jest.fn(),
+            openModal: jest.fn(),
         },
         canCreatePublicChannel: true,
         canCreatePrivateChannel: true,
@@ -470,8 +471,8 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             <Sidebar {...defaultProps}/>
         );
         const instance = wrapper.instance();
-        expect(instance.channelIdIsDisplayedForProps(instance.props, 'c1')).toBe(true);
-        expect(instance.channelIdIsDisplayedForProps(instance.props, 'c9')).toBe(false);
+        expect(instance.channelIdIsDisplayedForProps(instance.props.orderedChannelIds, 'c1')).toBe(true);
+        expect(instance.channelIdIsDisplayedForProps(instance.props.orderedChannelIds, 'c9')).toBe(false);
     });
 
     test('should handle correctly open more direct channels toggle', () => {

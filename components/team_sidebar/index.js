@@ -11,6 +11,7 @@ import {getMyTeams, getJoinableTeamIds, getTeamMemberships, getCurrentTeamId} fr
 
 import {getCurrentLocale} from 'selectors/i18n';
 import {getIsLhsOpen} from 'selectors/lhs';
+import {switchTeam} from 'actions/team_actions.jsx';
 
 import TeamSidebar from './team_sidebar_controller.jsx';
 
@@ -36,6 +37,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getTeams,
+            switchTeam,
         }, dispatch),
     };
 }

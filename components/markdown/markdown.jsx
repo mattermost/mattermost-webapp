@@ -67,15 +67,21 @@ export default class Markdown extends React.PureComponent {
         proxyImages: PropTypes.bool,
 
         /**
-         * Any extra props that should be passed into the MarkdownImage component
+         * Any extra props that should be passed into the image component
          */
         imageProps: PropTypes.object,
+
+        /**
+         * prop for passed down to image component for dimensions
+         */
+        imagesMetadata: PropTypes.object,
     };
 
     static defaultProps = {
         options: {},
         isRHS: false,
         proxyImages: true,
+        imagesMetadata: {},
     };
 
     render() {
@@ -96,6 +102,7 @@ export default class Markdown extends React.PureComponent {
         const htmlFormattedText = TextFormatting.formatText(this.props.message, options);
         return messageHtmlToComponent(htmlFormattedText, this.props.isRHS, {
             imageProps: this.props.imageProps,
+            imagesMetadata: this.props.imagesMetadata,
         });
     }
 }

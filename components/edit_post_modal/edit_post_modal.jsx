@@ -12,7 +12,7 @@ import * as Utils from 'utils/utils.jsx';
 import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
-import Textbox from 'components/textbox.jsx';
+import Textbox from 'components/textbox';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -135,7 +135,9 @@ export default class EditPostModal extends React.PureComponent {
 
         this.setState({showEmojiPicker: false});
 
-        this.editbox.focus();
+        if (this.editbox) {
+            this.editbox.focus();
+        }
     }
 
     handleGifClick = (gif) => {
@@ -242,12 +244,16 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     handleEntered = () => {
-        this.editbox.focus();
-        this.editbox.recalculateSize();
+        if (this.editbox) {
+            this.editbox.focus();
+            this.editbox.recalculateSize();
+        }
     }
 
     handleExit = () => {
-        this.editbox.hidePreview();
+        if (this.editbox) {
+            this.editbox.hidePreview();
+        }
     }
 
     handleExited = () => {
@@ -266,7 +272,10 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     setEditboxRef = (ref) => {
-        this.editbox = ref;
+        if (ref && ref.getWrappedInstance) {
+            this.editbox = ref.getWrappedInstance();
+        }
+
         if (this.editbox) {
             this.editbox.focus();
         }
@@ -357,7 +366,7 @@ export default class EditPostModal extends React.PureComponent {
                 <Modal.Footer>
                     <button
                         type='button'
-                        className='btn btn-default'
+                        className='btn btn-link'
                         onClick={this.handleHide}
                     >
                         <FormattedMessage
