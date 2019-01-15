@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import throttle from 'lodash/throttle';
 
 import * as Emoji from 'utils/emoji.jsx';
-import {sortEmojis} from 'utils/emoji_utils.jsx';
+import {compareEmojis} from 'utils/emoji_utils.jsx';
 import {t} from 'utils/i18n';
 import imgTrans from 'images/img_trans.gif';
 
@@ -385,7 +385,7 @@ export default class EmojiPicker extends React.PureComponent {
         });
 
         const sortEmojisHelper = (a, b) => {
-            return sortEmojis(a, b, this.state.filter);
+            return compareEmojis(a, b, this.state.filter);
         };
 
         recentEmojis.sort(sortEmojisHelper);

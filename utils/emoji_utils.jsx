@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-export function sortEmojis(emojiA, emojiB, searchedName) {
+export function compareEmojis(emojiA, emojiB, searchedName) {
     const aName = emojiA.name || emojiA.aliases[0];
     const bName = emojiB.name || emojiB.aliases[0];
 

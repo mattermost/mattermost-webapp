@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {sortEmojis} from 'utils/emoji_utils.jsx';
+import {compareEmojis} from 'utils/emoji_utils.jsx';
 
 describe('Emoji', () => {
-    describe('sortEmojis', () => {
+    describe('compareEmojis', () => {
         test('should sort an array of emojis alphabetically', () => {
             const goatEmoji = {
                 name: 'goat',
@@ -19,7 +19,7 @@ describe('Emoji', () => {
             };
 
             const emojiArray = [goatEmoji, dashEmoji, smileEmoji];
-            emojiArray.sort((a, b) => sortEmojis(a, b));
+            emojiArray.sort((a, b) => compareEmojis(a, b));
 
             expect(emojiArray).toEqual([dashEmoji, goatEmoji, smileEmoji]);
         });
@@ -38,7 +38,7 @@ describe('Emoji', () => {
             };
 
             const emojiArray = [goatEmoji, dashEmoji, smileEmoji];
-            emojiArray.sort((a, b) => sortEmojis(a, b, 'smi'));
+            emojiArray.sort((a, b) => compareEmojis(a, b, 'smi'));
 
             expect(emojiArray).toEqual([smileEmoji, dashEmoji, goatEmoji]);
         });
@@ -57,7 +57,7 @@ describe('Emoji', () => {
             };
 
             const emojiArray = [goatEmoji, dashEmoji, smileEmoji];
-            emojiArray.sort((a, b) => sortEmojis(a, b));
+            emojiArray.sort((a, b) => compareEmojis(a, b));
 
             expect(emojiArray).toEqual([dashEmoji, goatEmoji, smileEmoji]);
         });
