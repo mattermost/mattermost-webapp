@@ -142,8 +142,8 @@ export default class SystemUsers extends React.Component {
 
     handleFilterChange(e) {
         const filter = e.target.value;
-        this.props.actions.setSystemUsersSearch(this.props.searchTerm, this.props.teamId, filter);
         this.loadDataForTeam(this.props.teamId, filter);
+        this.props.actions.setSystemUsersSearch(this.props.searchTerm, this.props.teamId, filter);
     }
 
     handleTermChange(term) {
@@ -221,6 +221,7 @@ export default class SystemUsers extends React.Component {
         }
         return options;
     }
+
     getUserById(id) {
         if (this.props.users[id]) {
             this.setState({loading: false});
