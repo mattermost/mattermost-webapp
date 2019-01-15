@@ -312,6 +312,7 @@
 
         .modal-body {
             @include clearfix;
+            background: transparent;
             display: table;
             height: 100%;
             max-height: 100%;
