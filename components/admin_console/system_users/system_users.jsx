@@ -293,8 +293,8 @@ export default class SystemUsers extends React.Component {
                 <label>
                     <span className='system-users__filter-label'>
                         <FormattedMessage
-                            id='filtered_user_list.filter'
-                            defaultMessage='Filter:'
+                            id='filtered_user_list.userStatus'
+                            defaultMessage='User Status:'
                         />
                     </span>
                     <select
