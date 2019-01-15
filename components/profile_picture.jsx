@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger} from 'react-bootstrap';
 
-import Pluggable from 'plugins/pluggable';
-
 import ProfilePopover from 'components/profile_popover';
 import StatusIcon from 'components/status_icon';
 
@@ -23,7 +21,8 @@ export default class ProfilePicture extends React.PureComponent {
         status: PropTypes.string,
         width: PropTypes.string,
         height: PropTypes.string,
-        user: PropTypes.object,
+        userId: PropTypes.string,
+        username: PropTypes.string,
         isBusy: PropTypes.bool,
         isRHS: PropTypes.bool,
         hasMention: PropTypes.bool,
@@ -34,7 +33,7 @@ export default class ProfilePicture extends React.PureComponent {
     }
 
     render() {
-        if (this.props.user) {
+        if (this.props.userId) {
             return (
                 <OverlayTrigger
                     ref='overlay'
@@ -42,23 +41,20 @@ export default class ProfilePicture extends React.PureComponent {
                     placement='right'
                     rootClose={true}
                     overlay={
-                        <Pluggable>
-                            <ProfilePopover
-                                user={this.props.user}
-                                src={this.props.src}
-                                status={this.props.status}
-                                isBusy={this.props.isBusy}
-                                hide={this.hideProfilePopover}
-                                isRHS={this.props.isRHS}
-                                hasMention={this.props.hasMention}
-                            />
-                        </Pluggable>
+                        <ProfilePopover
+                            userId={this.props.userId}
+                            src={this.props.src}
+                            isBusy={this.props.isBusy}
+                            hide={this.hideProfilePopover}
+                            isRHS={this.props.isRHS}
+                            hasMention={this.props.hasMention}
+                        />
                     }
                 >
                     <span className='status-wrapper'>
                         <img
                             className='more-modal__image'
-                            alt={`${this.props.user.username || 'user'} profile image`}
+                            alt={`${this.props.username || 'user'} profile image`}
                             width={this.props.width}
                             height={this.props.width}
                             src={this.props.src}

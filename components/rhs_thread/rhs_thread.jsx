@@ -50,7 +50,7 @@ export default class RhsThread extends React.Component {
         channel: PropTypes.object.isRequired,
         selected: PropTypes.object.isRequired,
         previousRhsState: PropTypes.string,
-        currentUser: PropTypes.object.isRequired,
+        currentUserId: PropTypes.string.isRequired,
         previewCollapsed: PropTypes.string.isRequired,
         previewEnabled: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
@@ -105,7 +105,7 @@ export default class RhsThread extends React.Component {
 
         const curLastPost = curPostsArray[curPostsArray.length - 1];
 
-        if (curLastPost.user_id === this.props.currentUser.id) {
+        if (curLastPost.user_id === this.props.currentUserId) {
             this.scrollToBottom();
         }
     }
@@ -120,10 +120,6 @@ export default class RhsThread extends React.Component {
         }
 
         if (nextProps.previewEnabled !== this.props.previewEnabled) {
-            return true;
-        }
-
-        if (!Utils.areObjectsEqual(nextProps.currentUser, this.props.currentUser)) {
             return true;
         }
 
@@ -238,7 +234,7 @@ export default class RhsThread extends React.Component {
         }
 
         const postsArray = this.filterPosts(this.props.posts, this.props.selected, this.state.openTime);
-        const {selected, currentUser} = this.props;
+        const {selected, currentUserId} = this.props;
 
         let createAt = selected.create_at;
         if (!createAt && this.props.posts.length > 0) {
@@ -274,7 +270,7 @@ export default class RhsThread extends React.Component {
                     previousPostId={previousPostId}
                     teamId={this.props.channel.team_id}
                     lastPostCount={(reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT) ? reverseCount : -1}
-                    currentUser={currentUser}
+                    currentUserId={currentUserId}
                     isBusy={this.state.isBusy}
                     removePost={this.props.actions.removePost}
                     previewCollapsed={this.props.previewCollapsed}
@@ -357,7 +353,7 @@ export default class RhsThread extends React.Component {
                             post={selected}
                             commentCount={postsLength}
                             teamId={this.props.channel.team_id}
-                            currentUser={this.props.currentUser}
+                            currentUserId={this.props.currentUserId}
                             previewCollapsed={this.props.previewCollapsed}
                             previewEnabled={this.props.previewEnabled}
                             isBusy={this.state.isBusy}

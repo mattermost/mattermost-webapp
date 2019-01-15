@@ -13,7 +13,7 @@ import LocalDateTime from 'components/local_date_time';
 import UserSettingsModal from 'components/user_settings/modal';
 import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import Constants, {ModalIdentifiers} from 'utils/constants.jsx';
+import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import Pluggable from 'plugins/pluggable';
 
@@ -40,12 +40,14 @@ class ProfilePopover extends React.PureComponent {
         /**
          * User the popover is being opened for
          */
-        user: PropTypes.object.isRequired,
+        user: PropTypes.object,
 
         /**
          * Status for the user, either 'offline', 'away', 'dnd' or 'online'
          */
         status: PropTypes.string,
+
+        hideStatus: PropTypes.bool,
 
         /**
          * Function to call to hide the popover
@@ -105,6 +107,7 @@ class ProfilePopover extends React.PureComponent {
     static defaultProps = {
         isRHS: false,
         hasMention: false,
+        status: UserStatuses.OFFLINE,
     }
 
     constructor(props) {
@@ -119,7 +122,7 @@ class ProfilePopover extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.actions.getMembershipForCurrentEntities(this.props.user.id);
+        this.props.actions.getMembershipForCurrentEntities(this.props.userId);
     }
 
     handleShowDirectChannel(e) {
@@ -177,10 +180,16 @@ class ProfilePopover extends React.PureComponent {
     }
 
     render() {
+        if (!this.props.user) {
+            return null;
+        }
+
         const popoverProps = Object.assign({}, this.props);
         delete popoverProps.user;
+        delete popoverProps.userId;
         delete popoverProps.src;
         delete popoverProps.status;
+        delete popoverProps.hideStatus;
         delete popoverProps.isBusy;
         delete popoverProps.hide;
         delete popoverProps.isRHS;
@@ -285,7 +294,7 @@ class ProfilePopover extends React.PureComponent {
                 key='profilePopoverPluggable2'
                 pluggableName='PopoverUserAttributes'
                 user={this.props.user}
-                status={this.props.status}
+                status={this.props.hideStatus ? null : this.props.status}
             />
         );
 
@@ -394,7 +403,7 @@ class ProfilePopover extends React.PureComponent {
                 key='profilePopoverPluggable3'
                 pluggableName='PopoverUserActions'
                 user={this.props.user}
-                status={this.props.status}
+                status={this.props.hideStatus ? null : this.props.status}
             />
         );
 

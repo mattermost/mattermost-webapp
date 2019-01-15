@@ -66,6 +66,9 @@ describe('plugins/Pluggable', () => {
                 currentUserId: 'someUserId',
                 users: {someUserId: {id: 'someUserId', name: 'some_user_name'}},
                 profiles: {},
+                statuses: {
+                    someUserId: 'online',
+                },
             },
             roles: {
                 roles: {},
@@ -158,6 +161,7 @@ describe('plugins/Pluggable', () => {
                     theme={{}}
                 >
                     <ProfilePopover
+                        userId='someUserId'
                         user={{id: 'someUserId', name: 'some_user_name'}}
                         src='src'
                     />
@@ -175,6 +179,7 @@ describe('plugins/Pluggable', () => {
                     theme={{id: 'theme_id'}}
                 >
                     <ProfilePopover
+                        userId='someUserId'
                         user={{id: 'someUserId', name: 'some_user_name'}}
                         src='src'
                     />

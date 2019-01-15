@@ -12,7 +12,7 @@ import FileAttachmentListContainer from 'components/file_attachment_list';
 import CommentIcon from 'components/common/comment_icon.jsx';
 import DotMenu from 'components/dot_menu';
 import PostProfilePicture from 'components/post_profile_picture';
-import UserProfile from 'components/user_profile.jsx';
+import UserProfile from 'components/user_profile';
 import DateSeparator from 'components/post_view/date_separator.jsx';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
@@ -43,11 +43,6 @@ export default class SearchResultsItem extends React.PureComponent {
         lastPostCount: PropTypes.number,
 
         /**
-        *  user object for rendering profile_picture
-        */
-        user: PropTypes.object,
-
-        /**
         *  channel object for rendering channel name on top of result
         */
         channel: PropTypes.object,
@@ -71,11 +66,6 @@ export default class SearchResultsItem extends React.PureComponent {
         *  Flag for determining result flag state
         */
         isFlagged: PropTypes.bool,
-
-        /**
-        *  Data used for status in profile
-        */
-        status: PropTypes.string,
 
         /**
         *  Data used creating URl for jump to post
@@ -161,9 +151,7 @@ export default class SearchResultsItem extends React.PureComponent {
 
     render() {
         let channelName = null;
-        const channel = this.props.channel;
-        const user = this.props.user || {};
-        const post = this.props.post;
+        const {channel, post} = this.props;
 
         const channelIsArchived = channel ? channel.delete_at !== 0 : true;
 
@@ -208,8 +196,7 @@ export default class SearchResultsItem extends React.PureComponent {
             <PostProfilePicture
                 compactDisplay={this.props.compactDisplay}
                 post={post}
-                user={user}
-                status={this.props.status}
+                userId={post.user_id}
             />
         );
 
@@ -337,10 +324,9 @@ export default class SearchResultsItem extends React.PureComponent {
                                 <div className='col col__name'>
                                     <strong>
                                         <UserProfile
-                                            user={user}
+                                            userId={post.user_id}
                                             overwriteName={overrideUsername}
                                             disablePopover={disableProfilePopover}
-                                            status={this.props.status}
                                             isRHS={true}
                                         />
                                     </strong>
