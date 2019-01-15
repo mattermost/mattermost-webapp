@@ -58,10 +58,8 @@ export default class PostMarkdown extends React.PureComponent {
         const {post} = this.props;
 
         this.props.pluginHooks.forEach((o) => {
-            if (o && o.hook) {
-                if (post) {
-                    message = o.hook(post, message);
-                }
+            if (o && o.hook && post) {
+                message = o.hook(post, message);
             }
         });
 
