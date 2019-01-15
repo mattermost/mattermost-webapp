@@ -15,6 +15,7 @@ import PostView from 'components/post_view';
 import TutorialView from 'components/tutorial';
 import {clearMarks, mark, measure, trackEvent} from 'actions/diagnostics_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class ChannelView extends React.PureComponent {
     static propTypes = {
@@ -26,6 +27,12 @@ export default class ChannelView extends React.PureComponent {
         showTutorial: PropTypes.bool.isRequired,
         channelIsArchived: PropTypes.bool.isRequired,
         viewArchivedChannels: PropTypes.bool.isRequired,
+
+        /**
+         * For indicating channelLoading
+         * To prevent child views from loading with wrong channel.
+         */
+        channelLoading: PropTypes.bool,
         actions: PropTypes.shape({
             goToLastViewedChannel: PropTypes.func.isRequired,
         }),
@@ -162,9 +169,17 @@ export default class ChannelView extends React.PureComponent {
                 <ChannelHeader
                     channelId={this.props.channelId}
                 />
-                <DeferredPostView
-                    channelId={this.props.channelId}
-                />
+                { this.props.channelLoading ? (
+                    <LoadingScreen
+                        position='relative'
+                        style={{height: 'calc(100% - 139px)'}}
+                        key='loading'
+                    />
+                ) : (
+                    <DeferredPostView
+                        channelId={this.props.channelId}
+                    />
+                )}
                 {createPost}
             </div>
         );

@@ -24,7 +24,7 @@ import {
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 
-import {getPosts, getProfilesAndStatusesForPosts, getCustomEmojiForReaction} from 'mattermost-redux/actions/posts';
+import {getProfilesAndStatusesForPosts, getCustomEmojiForReaction} from 'mattermost-redux/actions/posts';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getMe, getStatusesByIds, getProfilesByIds} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
@@ -32,6 +32,7 @@ import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mat
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannel, getCurrentChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 
 import {openModal} from 'actions/views/modals';
 import {incrementWsErrorCount, resetWsErrorCount} from 'actions/views/system';
@@ -129,6 +130,10 @@ export function reconnect(includeWebSocket = true) {
         reconnectWebSocket();
     }
 
+    dispatch({
+        type: GeneralTypes.WEBSOCKET_SUCCESS,
+    });
+
     loadPluginsIfNecessary();
 
     Object.values(pluginReconnectHandlers).forEach((handler) => {
@@ -140,7 +145,6 @@ export function reconnect(includeWebSocket = true) {
     const currentTeamId = getState().entities.teams.currentTeamId;
     if (currentTeamId) {
         dispatch(loadChannelsForCurrentUser());
-        dispatch(getPosts(getCurrentChannelId(getState())));
         StatusActions.loadStatusesForChannelAndSidebar();
         dispatch(TeamActions.getMyTeamUnreads());
     }
@@ -190,13 +194,26 @@ export function unregisterAllPluginWebSocketEvents(pluginId) {
 }
 
 function handleFirstConnect() {
-    dispatch(clearErrors);
+    dispatch(batchActions([
+        {type: GeneralTypes.WEBSOCKET_SUCCESS},
+    ]));
 }
 
 function handleClose(failCount) {
     if (failCount > MAX_WEBSOCKET_FAILS) {
         dispatch(logError({type: 'critical', message: AnnouncementBarMessages.WEBSOCKET_PORT_ERROR}, true));
     }
+
+    dispatch(batchActions([{
+        type: GeneralTypes.WEBSOCKET_FAILURE,
+    }, {
+        type: ActionTypes.ALL_CHANNEL_SYNC_STATUS,
+        data: {
+            channelIds: Object.keys(getMyChannelMemberships(getState())),
+            status: false,
+        },
+    }]));
+
     dispatch(incrementWsErrorCount());
 }
 

@@ -2,11 +2,13 @@
 // See LICENSE.txt for license information.
 
 import {leaveChannel as leaveChannelRedux, joinChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
+import {getPostsSince, getPostsBefore} from 'mattermost-redux/actions/posts';
 import {getChannel, getChannelByName, getCurrentChannel, getDefaultChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
+import {getNewestPostIdFromPosts, getOldestPostIdFromPosts} from 'mattermost-redux/utils/post_utils';
 import {autocompleteUsers} from 'mattermost-redux/actions/users';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
@@ -15,6 +17,8 @@ import {getLastViewedChannelName} from 'selectors/local_storage';
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ActionTypes} from 'utils/constants.jsx';
 import {isMobile} from 'utils/utils.jsx';
+
+const POST_INCREASE_AMOUNT = Constants.POST_CHUNK_SIZE / 2;
 
 export function checkAndSetMobileView() {
     return (dispatch) => {
@@ -117,3 +121,39 @@ export function autocompleteUsersInChannel(prefix, channelId) {
     };
 }
 
+export function changeChannelPostsStatus(params) {
+    // takes params in the format of {channelId, atEnd: true/false} or {channelId, atStart: true/false}
+
+    return (dispatch) => {
+        dispatch({
+            type: ActionTypes.CHANNEL_POSTS_STATUS,
+            data: params,
+        });
+    };
+}
+
+export function channelSyncCompleted(channelId) {
+    return async (dispatch) => {
+        dispatch({
+            type: ActionTypes.CHANNEL_SYNC_STATUS,
+            data: channelId,
+        });
+    };
+}
+
+export function syncChannelPosts({channelId, channelPostsStatus, lastDisconnectAt, posts}) {
+    return async (dispatch) => {
+        if (channelPostsStatus.atEnd) {
+            await dispatch(getPostsSince(channelId, lastDisconnectAt));
+        } else {
+            let data;
+            const oldestPostId = getOldestPostIdFromPosts(posts);
+            let newestMessageId = getNewestPostIdFromPosts(posts);
+            do {
+                ({data} = await dispatch(getPostsBefore(channelId, newestMessageId, 0, POST_INCREASE_AMOUNT))); // eslint-disable-line no-await-in-loop
+                newestMessageId = data.order[data.order.length - 1];
+            } while (data && !data.posts[oldestPostId]);
+        }
+        dispatch(channelSyncCompleted(channelId));
+    };
+}

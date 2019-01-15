@@ -168,6 +168,10 @@ export const ActionTypes = keyMirror({
 
     INCREMENT_WS_ERROR_COUNT: null,
     RESET_WS_ERROR_COUNT: null,
+
+    CHANNEL_POSTS_STATUS: null,
+    CHANNEL_SYNC_STATUS: null,
+    ALL_CHANNEL_SYNC_STATUS: null,
 });
 
 export const ModalIdentifiers = {
@@ -278,6 +282,11 @@ export const PostTypes = {
     EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
     REMOVE_LINK_PREVIEW: 'remove_link_preview',
 };
+
+export const PostRequestTypes = keyMirror({
+    BEFORE_ID: null,
+    AFTER_ID: null,
+});
 
 export const StatTypes = keyMirror({
     TOTAL_USERS: null,

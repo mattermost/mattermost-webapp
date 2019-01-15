@@ -4,14 +4,15 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
+import {withRouter} from 'react-router-dom';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {withRouter} from 'react-router-dom';
+import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
 
 import {getDirectTeammate} from 'utils/utils.jsx';
-import {TutorialSteps, Preferences} from 'utils/constants.jsx';
+import {TutorialSteps, Preferences, Constants} from 'utils/constants.jsx';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
 
@@ -27,13 +28,32 @@ const getDeactivatedChannel = createSelector(
     }
 );
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
     const channel = getCurrentChannel(state);
-
+    let channelLoading = false;
     const config = getConfig(state);
     const enableTutorial = config.EnableTutorial === 'true';
     const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
     const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
+    const team = getTeamByName(state, ownProps.match.params.team);
+
+    if (channel) {
+        if (channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL) {
+            if (channel.name !== ownProps.match.params.identifier) {
+                channelLoading = true;
+            }
+
+            if (channel.team_id && channel.team_id !== team.id) {
+                channelLoading = true;
+            }
+        }
+    } else {
+        channelLoading = true;
+    }
+
+    if (channel && (channel.team_id && channel.team_id !== team.id)) {
+        channelLoading = true;
+    }
 
     return {
         channelId: channel ? channel.id : '',
@@ -41,6 +61,7 @@ function mapStateToProps(state) {
         showTutorial: enableTutorial && tutorialStep <= TutorialSteps.INTRO_SCREENS,
         channelIsArchived: channel ? channel.delete_at !== 0 : false,
         viewArchivedChannels,
+        channelLoading,
     };
 }
 

@@ -226,10 +226,10 @@ describe('Actions.Posts', () => {
         expect(testStore.getActions()).toEqual([{type: ActionTypes.HIDE_EDIT_POST_MODAL}]);
     });
 
-    test('increasePostVisibility', async () => {
+    test('loadPosts', async () => {
         const testStore = await mockStore(initialState);
 
-        await testStore.dispatch(Actions.increasePostVisibility('current_channel_id'));
+        await testStore.dispatch(Actions.loadPosts('current_channel_id'));
         expect(testStore.getActions()).toEqual([
             {channelId: 'current_channel_id', data: true, type: 'LOADING_POSTS'},
             {args: ['current_channel_id', 2, 30], type: 'MOCK_GET_POSTS'},
@@ -242,7 +242,7 @@ describe('Actions.Posts', () => {
             },
         ]);
 
-        await testStore.dispatch(Actions.increasePostVisibility('current_channel_id', 'latest_post_id'));
+        await testStore.dispatch(Actions.loadPosts('current_channel_id', 'latest_post_id'));
         expect(testStore.getActions()).toEqual([
             {channelId: 'current_channel_id', data: true, type: 'LOADING_POSTS'},
             {args: ['current_channel_id', 2, 30], type: 'MOCK_GET_POSTS'},

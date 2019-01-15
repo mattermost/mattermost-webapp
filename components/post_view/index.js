@@ -3,24 +3,28 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getPosts, getPostsAfter, getPostsBefore, getPostThread} from 'mattermost-redux/actions/posts';
+import {getPostThread} from 'mattermost-redux/actions/posts';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {makeGetPostsAroundPost, makeGetPostsInChannel} from 'mattermost-redux/selectors/entities/posts';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {makeGetPostsAroundPost, makeGetPostsInChannel, getPostIdsInCurrentChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 
-import {increasePostVisibility} from 'actions/post_actions.jsx';
-import {checkAndSetMobileView} from 'actions/views/channel';
-import {Preferences} from 'utils/constants.jsx';
+import {makeGetChannelPostStatus, makeGetChannelSyncStatus} from 'selectors/views/channel';
+import {loadPosts, loadUnreads} from 'actions/post_actions';
+import {changeChannelPostsStatus, channelSyncCompleted, syncChannelPosts, checkAndSetMobileView} from 'actions/views/channel';
+import {getSocketStatus} from 'selectors/views/websocket';
 
-import PostList from './post_list.jsx';
+import PostView from './post_view.jsx';
 
 function makeMapStateToProps() {
     const getPostsInChannel = makeGetPostsInChannel();
     const getPostsAroundPost = makeGetPostsAroundPost();
+    const getChannelPostStatus = makeGetChannelPostStatus();
+    const getChannelSyncStatus = makeGetChannelSyncStatus();
 
     return function mapStateToProps(state, ownProps) {
         const postVisibility = state.views.channel.postVisibility[ownProps.channelId];
+        const member = getMyChannelMemberships(state)[ownProps.channelId];
 
         let posts;
         if (ownProps.focusedPostId) {
@@ -34,10 +38,12 @@ function makeMapStateToProps() {
             lastViewedAt: state.views.channel.lastChannelViewTime[ownProps.channelId],
             posts,
             postVisibility,
-            loadingPosts: state.views.channel.loadingPosts[ownProps.channelId],
-            focusedPostId: ownProps.focusedPostId,
             currentUserId: getCurrentUserId(state),
-            fullWidth: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
+            member,
+            channelPostsStatus: getChannelPostStatus(state, ownProps.channelId),
+            postIdsInCurrentChannel: getPostIdsInCurrentChannel(state),
+            channelSyncStatus: getChannelSyncStatus(state, ownProps.channelId),
+            socketStatus: getSocketStatus(state),
         };
     };
 }
@@ -45,14 +51,15 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getPosts,
-            getPostsBefore,
-            getPostsAfter,
             getPostThread,
-            increasePostVisibility,
+            loadUnreads,
+            loadPosts,
+            changeChannelPostsStatus,
+            channelSyncCompleted,
+            syncChannelPosts,
             checkAndSetMobileView,
         }, dispatch),
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(PostList);
+export default connect(makeMapStateToProps, mapDispatchToProps)(PostView);

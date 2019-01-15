@@ -52,18 +52,6 @@ function lastChannelViewTime(state = {}, action) {
     }
 }
 
-function loadingPosts(state = {}, action) {
-    switch (action.type) {
-    case ActionTypes.LOADING_POSTS: {
-        const nextState = {...state};
-        nextState[action.channelId] = action.data;
-        return nextState;
-    }
-    default:
-        return state;
-    }
-}
-
 function focusedPostId(state = '', action) {
     switch (action.type) {
     case ActionTypes.RECEIVED_FOCUSED_POST:
@@ -115,11 +103,57 @@ function keepChannelIdAsUnread(state = null, action) {
     }
 }
 
+function channelPostsStatus(state = {}, action) {
+    switch (action.type) {
+    case ActionTypes.CHANNEL_POSTS_STATUS: {
+        const channelId = action.data.channelId;
+        if ((action.data).hasOwnProperty('atEnd')) {
+            return {
+                ...state,
+                [channelId]: {
+                    ...state[channelId],
+                    atEnd: action.data.atEnd,
+                },
+            };
+        }
+        return {
+            ...state,
+            [channelId]: {
+                ...state[channelId],
+                atStart: action.data.atStart,
+            },
+        };
+    }
+    default:
+        return state;
+    }
+}
+
+function channelSyncStatus(state = {}, action) {
+    switch (action.type) {
+    case ActionTypes.ALL_CHANNEL_SYNC_STATUS: {
+        const nextState = action.data.channelIds.reduce((channelStatusObj, channelId) => ({
+            ...channelStatusObj,
+            [channelId]: action.data.status,
+        }), {});
+        return nextState;
+    }
+    case ActionTypes.CHANNEL_SYNC_STATUS:
+        return {
+            ...state,
+            [action.data]: true,
+        };
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     postVisibility,
     lastChannelViewTime,
-    loadingPosts,
     focusedPostId,
     mobileView,
     keepChannelIdAsUnread,
+    channelPostsStatus,
+    channelSyncStatus,
 });

@@ -22,6 +22,7 @@ import {
     Constants,
     RHSStates,
     StoragePrefixes,
+    PostRequestTypes,
 } from 'utils/constants';
 import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
 import * as UserAgent from 'utils/user_agent';
@@ -132,13 +133,9 @@ export function addReaction(postId, emojiName) {
 const POST_INCREASE_AMOUNT = Constants.POST_CHUNK_SIZE / 2;
 
 // Returns true if there are more posts to load
-export function increasePostVisibility(channelId, focusedPostId) {
+export function loadPosts({channelId, postId, type}) {
     return async (dispatch, getState) => {
         const state = getState();
-        if (state.views.channel.loadingPosts[channelId]) {
-            return true;
-        }
-
         const currentPostVisibility = state.views.channel.postVisibility[channelId];
 
         if (currentPostVisibility >= Constants.MAX_POST_VISIBILITY) {
@@ -151,11 +148,13 @@ export function increasePostVisibility(channelId, focusedPostId) {
             channelId,
         });
 
-        const page = Math.floor(currentPostVisibility / POST_INCREASE_AMOUNT);
+        const page = 0;
 
         let result;
-        if (focusedPostId) {
-            result = await dispatch(PostActions.getPostsBefore(channelId, focusedPostId, page, POST_INCREASE_AMOUNT));
+        if (type === PostRequestTypes.BEFORE_ID) {
+            result = await dispatch(PostActions.getPostsBefore(channelId, postId, page, POST_INCREASE_AMOUNT));
+        } else if (type === PostRequestTypes.AFTER_ID) {
+            result = await dispatch(PostActions.getPostsAfter(channelId, postId, page, POST_INCREASE_AMOUNT));
         } else {
             result = await dispatch(PostActions.getPosts(channelId, page, POST_INCREASE_AMOUNT));
         }
@@ -180,6 +179,18 @@ export function increasePostVisibility(channelId, focusedPostId) {
             moreToLoad: posts ? posts.order.length >= POST_INCREASE_AMOUNT : false,
             error: result.error,
         };
+    };
+}
+
+export function loadUnreads(channelId) {
+    return (dispatch) => {
+        dispatch({
+            type: ActionTypes.INCREASE_POST_VISIBILITY,
+            data: channelId,
+            amount: Constants.POST_CHUNK_SIZE,
+        });
+
+        return dispatch(PostActions.getPostsUnread(channelId));
     };
 }
 
