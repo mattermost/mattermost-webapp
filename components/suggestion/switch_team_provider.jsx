@@ -3,10 +3,10 @@
 
 import React from 'react';
 import * as Selectors from 'mattermost-redux/selectors/entities/teams';
+import {FormattedMessage} from 'react-intl';
 
 import {getCurrentLocale} from 'selectors/i18n';
 import store from 'stores/redux_store.jsx';
-import {localizeMessage} from 'utils/utils.jsx';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -29,10 +29,17 @@ class SwitchTeamSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 <div className='status'>
-                    <i
-                        className='fa fa-group'
-                        title={localizeMessage('general_tab.teamIcon', 'Team Icon')}
-                    />
+                    <FormattedMessage
+                        id='general_tab.teamIcon'
+                        defaultMessage='Team Icon'
+                    >
+                        {(title) => (
+                            <i
+                                className='fa fa-group'
+                                title={title}
+                            />
+                        )}
+                    </FormattedMessage>
                 </div>
                 {item.display_name}
             </div>

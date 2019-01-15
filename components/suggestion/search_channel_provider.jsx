@@ -7,7 +7,7 @@ import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_u
 
 import {autocompleteChannelsForSearch} from 'actions/channel_actions.jsx';
 import Constants from 'utils/constants.jsx';
-import {localizeMessage} from 'utils/utils.jsx';
+import SelectIcon from 'components/icon/select_icon';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -39,10 +39,8 @@ class SearchChannelSuggestion extends Suggestion {
                 className={className}
                 {...Suggestion.baseProps}
             >
-                <i
-                    className='fa fa fa-plus-square'
-                    title={localizeMessage('generic_icons.select', 'Select Icon')}
-                />{name}
+                <SelectIcon/>
+                {name}
             </div>
         );
     }

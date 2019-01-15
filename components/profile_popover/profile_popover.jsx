@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape, injectIntl} from 'react-intl';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 import {Permissions} from 'mattermost-redux/constants';
@@ -93,6 +93,11 @@ class ProfilePopover extends React.PureComponent {
             openDirectChannelToUserId: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
         }).isRequired,
+
+        /**
+         * react-intl helper object
+         */
+        intl: intlShape.isRequired,
 
         ...Popover.propTypes,
     }
@@ -188,6 +193,9 @@ class ProfilePopover extends React.PureComponent {
         delete popoverProps.actions;
         delete popoverProps.isTeamAdmin;
         delete popoverProps.isChannelAdmin;
+        delete popoverProps.intl;
+
+        const {formatMessage} = this.props.intl;
 
         var dataContent = [];
         dataContent.push(
@@ -309,7 +317,7 @@ class ProfilePopover extends React.PureComponent {
                     >
                         <i
                             className='fa fa-pencil-square-o'
-                            title={Utils.localizeMessage('generic_icons.edit', 'Edit Icon')}
+                            title={formatMessage({id: 'generic_icons.edit', defaultMessage: 'Edit Icon'})}
                         />
                         <FormattedMessage
                             id='user_profile.account.editSettings'
@@ -334,7 +342,7 @@ class ProfilePopover extends React.PureComponent {
                     >
                         <i
                             className='fa fa-paper-plane'
-                            title={Utils.localizeMessage('user_profile.send.dm.icon', 'Send Message Icon')}
+                            title={formatMessage({id: 'user_profile.send.dm.icon', defaultMessage: 'Send Message Icon'})}
                         />
                         <FormattedMessage
                             id='user_profile.send.dm'
@@ -368,7 +376,7 @@ class ProfilePopover extends React.PureComponent {
                             >
                                 <i
                                     className='fa fa-user-plus'
-                                    title={Utils.localizeMessage('user_profile.add_user_to_channel.icon', 'Add User to Channel Icon')}
+                                    title={formatMessage({id: 'user_profile.add_user_to_channel.icon', defaultMessage: 'Add User to Channel Icon'})}
                                 />
                                 <FormattedMessage
                                     id='user_profile.add_user_to_channel'
@@ -419,4 +427,4 @@ class ProfilePopover extends React.PureComponent {
 
 delete ProfilePopover.propTypes.id;
 
-export default ProfilePopover;
+export default injectIntl(ProfilePopover);

@@ -2,13 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import LoadingSpinner from './loading_spinner.jsx';
 
 describe('components/widgets/loadingLoadingSpinner', () => {
     test('showing spinner with text', () => {
-        const wrapper = shallow(<LoadingSpinner text='test'/>);
+        const wrapper = shallowWithIntl(<LoadingSpinner text='test'/>);
         expect(wrapper).toMatchInlineSnapshot(`
 <span
   className="LoadingSpinner with-text"
@@ -23,7 +24,7 @@ describe('components/widgets/loadingLoadingSpinner', () => {
 `);
     });
     test('showing spinner without text', () => {
-        const wrapper = shallow(<LoadingSpinner/>);
+        const wrapper = shallowWithIntl(<LoadingSpinner/>);
         expect(wrapper).toMatchInlineSnapshot(`
 <span
   className="LoadingSpinner"

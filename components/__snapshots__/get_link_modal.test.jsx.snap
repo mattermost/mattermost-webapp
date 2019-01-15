@@ -81,10 +81,7 @@ exports[`components/GetLinkModal should have called onHide 1`] = `
     <p
       className="alert alert-success alert--confirm"
     >
-      <i
-        className="fa fa-check"
-        title="Success Icon"
-      />
+      <SuccessIcon />
       <FormattedMessage
         defaultMessage=" Link copied"
         id="get_link.clipboard"

@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 import {Posts} from 'mattermost-redux/constants';
 
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import EmojiMap from 'utils/emoji_map';
 
@@ -134,13 +134,13 @@ function createPost({
 
 describe('components/create_post', () => {
     it('should match snapshot, init', () => {
-        const wrapper = shallow(createPost({}));
+        const wrapper = shallowWithIntl(createPost({}));
 
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should match snapshot for center textbox', () => {
-        const wrapper = shallow(createPost({fullWidthTextBox: false}));
+        const wrapper = shallowWithIntl(createPost({fullWidthTextBox: false}));
 
         expect(wrapper.find('#create_post').hasClass('center')).toBe(true);
         expect(wrapper).toMatchSnapshot();
@@ -153,13 +153,13 @@ describe('components/create_post', () => {
             clearDraftUploads,
         };
 
-        shallow(createPost({actions}));
+        shallowWithIntl(createPost({actions}));
 
         expect(clearDraftUploads).toHaveBeenCalled();
     });
 
     it('Check for state change on channelId change', () => {
-        const wrapper = shallow(createPost());
+        const wrapper = shallowWithIntl(createPost());
         const draft = {
             ...draftProp,
             message: 'test',
@@ -180,7 +180,7 @@ describe('components/create_post', () => {
     });
 
     it('click toggleEmojiPicker', () => {
-        const wrapper = shallow(createPost());
+        const wrapper = shallowWithIntl(createPost());
         wrapper.find('.icon.icon--emoji').simulate('click');
         expect(wrapper.state('showEmojiPicker')).toBe(true);
         wrapper.find('.icon.icon--emoji').simulate('click');
@@ -189,7 +189,7 @@ describe('components/create_post', () => {
     });
 
     it('Check for emoji click message states', () => {
-        const wrapper = shallow(createPost());
+        const wrapper = shallowWithIntl(createPost());
 
         wrapper.find('.icon.icon--emoji').simulate('click');
         expect(wrapper.state('showEmojiPicker')).toBe(true);
@@ -219,7 +219,7 @@ describe('components/create_post', () => {
             message: 'change',
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             createPost({
                 actions: {
                     ...actionsProp,
@@ -234,7 +234,7 @@ describe('components/create_post', () => {
     });
 
     it('onKeyPress textbox should call emitLocalUserTypingEvent', () => {
-        const wrapper = shallow(createPost());
+        const wrapper = shallowWithIntl(createPost());
         wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
 
         const postTextbox = wrapper.find('#post_textbox');
@@ -243,7 +243,7 @@ describe('components/create_post', () => {
     });
 
     it('onSubmit test for @all', () => {
-        const wrapper = shallow(createPost());
+        const wrapper = shallowWithIntl(createPost());
 
         wrapper.setState({
             message: 'test @all',
@@ -264,7 +264,7 @@ describe('components/create_post', () => {
     });
 
     it('onSubmit test for @all with timezones', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             createPost({
                 getChannelTimezones: jest.fn(() => Promise.resolve([])),
                 isTimezoneEnabled: true,
@@ -292,7 +292,7 @@ describe('components/create_post', () => {
     });
 
     it('onSubmit test for @all with timezones disabled', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             createPost({
                 getChannelTimezones: jest.fn(() => Promise.resolve([])),
                 isTimezoneEnabled: false,
@@ -321,7 +321,7 @@ describe('components/create_post', () => {
     it('onSubmit test for "/header" message', () => {
         const openModal = jest.fn();
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             createPost({
                 actions: {
                     ...actionsProp,
@@ -344,7 +344,7 @@ describe('components/create_post', () => {
     it('onSubmit test for "/purpose" message', () => {
         const openModal = jest.fn();
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             createPost({
                 actions: {
                     ...actionsProp,
@@ -365,7 +365,7 @@ describe('components/create_post', () => {
     });
 
     it('onSubmit test for "/rename" message', () => {
-        const wrapper = shallow(createPost());
+        const wrapper = shallowWithIntl(createPost());
 
         wrapper.setState({
             message: '/rename',
@@ -381,7 +381,7 @@ describe('components/create_post', () => {
             executeCommand: jest.fn((message, _args, resolve) => resolve()),
         }));
 
-        const wrapper = shallow(createPost());
+        const wrapper = shallowWithIntl(createPost());
 
         wrapper.setState({
             message: '/unknown',
@@ -395,7 +395,7 @@ describe('components/create_post', () => {
     it('onSubmit test for addReaction message', () => {
         const addReaction = jest.fn();
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             createPost({
                 actions: {
                     ...actionsProp,
@@ -416,7 +416,7 @@ describe('components/create_post', () => {
     it('onSubmit test for removeReaction message', () => {
         const removeReaction = jest.fn();
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             createPost({
                 actions: {
                     ...actionsProp,
@@ -435,7 +435,7 @@ describe('components/create_post', () => {
     });
 
     /*it('check for postError state on handlePostError callback', () => {
-        const wrapper = shallow(createPost());
+        const wrapper = shallowWithIntl(createPost());
         const textBox = wrapper.find('#post_textbox');
         const form = wrapper.find('#create_post');
 
@@ -453,7 +453,7 @@ describe('components/create_post', () => {
     });*/
 
     it('check for handleFileUploadChange callback for focus', () => {
-        const wrapper = shallow(createPost());
+        const wrapper = shallowWithIntl(createPost());
         const instance = wrapper.instance();
         instance.focusTextbox = jest.fn();
 
@@ -464,7 +464,7 @@ describe('components/create_post', () => {
     it('check for handleFileUploadStart callback', () => {
         const setDraft = jest.fn();
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             createPost({
                 actions: {
                     ...actionsProp,
@@ -490,7 +490,7 @@ describe('components/create_post', () => {
     it('check for handleFileUploadComplete callback', () => {
         const setDraft = jest.fn();
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             createPost({
                 actions: {
                     ...actionsProp,
@@ -530,7 +530,7 @@ describe('components/create_post', () => {
     it('check for handleUploadError callback', () => {
         const setDraft = jest.fn();
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             createPost({
                 actions: {
                     ...actionsProp,
@@ -557,7 +557,7 @@ describe('components/create_post', () => {
     });
 
     it('check for uploadsProgressPercent state on handleUploadProgress callback', () => {
-        const wrapper = shallow(createPost({}));
+        const wrapper = shallowWithIntl(createPost({}));
         wrapper.find(FileUpload).prop('onUploadProgress')({clientId: 'clientId', name: 'name', percent: 10, type: 'type'});
 
         expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
@@ -578,7 +578,7 @@ describe('components/create_post', () => {
             ],
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             createPost({
                 actions: {
                     ...actionsProp,
@@ -600,7 +600,7 @@ describe('components/create_post', () => {
     });
 
     it('Should call Shortcut modal on FORWARD_SLASH+cntrl/meta', () => {
-        const wrapper = shallow(createPost());
+        const wrapper = shallowWithIntl(createPost());
         const instance = wrapper.instance();
         instance.documentKeyHandler({ctrlKey: true, key: Constants.KeyCodes.BACK_SLASH[0], keyCode: Constants.KeyCodes.BACK_SLASH[1], preventDefault: jest.fn()});
         expect(GlobalActions.toggleShortcutsModal).not.toHaveBeenCalled();
@@ -613,7 +613,7 @@ describe('components/create_post', () => {
     });
 
     it('Should just return as ctrlSend is enabled and its ctrl+enter', () => {
-        const wrapper = shallow(createPost({
+        const wrapper = shallowWithIntl(createPost({
             ctrlSend: true,
         }));
 
@@ -628,7 +628,7 @@ describe('components/create_post', () => {
 
     it('Should call edit action as comment for arrow up', () => {
         const setEditingPost = jest.fn();
-        const wrapper = shallow(createPost({
+        const wrapper = shallowWithIntl(createPost({
             actions: {
                 ...actionsProp,
                 setEditingPost,
@@ -642,7 +642,7 @@ describe('components/create_post', () => {
 
     it('Should call edit action as post for arrow up', () => {
         const setEditingPost = jest.fn();
-        const wrapper = shallow(createPost({
+        const wrapper = shallowWithIntl(createPost({
             actions: {
                 ...actionsProp,
                 setEditingPost,
@@ -667,7 +667,7 @@ describe('components/create_post', () => {
                 });
             }
         );
-        const wrapper = shallow(createPost({
+        const wrapper = shallowWithIntl(createPost({
             actions: {
                 ...actionsProp,
                 moveHistoryIndexForward,
@@ -687,7 +687,7 @@ describe('components/create_post', () => {
                 });
             }
         );
-        const wrapper = shallow(createPost({
+        const wrapper = shallowWithIntl(createPost({
             actions: {
                 ...actionsProp,
                 moveHistoryIndexBack,
@@ -700,14 +700,14 @@ describe('components/create_post', () => {
     });
 
     it('Show tutorial', () => {
-        const wrapper = shallow(createPost({
+        const wrapper = shallowWithIntl(createPost({
             showTutorialTip: true,
         }));
         expect(wrapper).toMatchSnapshot();
     });
 
     it('Toggle showPostDeletedModal state', () => {
-        const wrapper = shallow(createPost());
+        const wrapper = shallowWithIntl(createPost());
         const instance = wrapper.instance();
         instance.showPostDeletedModal();
         expect(wrapper.state('showPostDeletedModal')).toBe(true);
@@ -718,7 +718,7 @@ describe('components/create_post', () => {
 
     it('Should have called actions.onSubmitPost on sendMessage', () => {
         const onSubmitPost = jest.fn();
-        const wrapper = shallow(createPost({
+        const wrapper = shallowWithIntl(createPost({
             actions: {
                 ...actionsProp,
                 onSubmitPost,
@@ -735,7 +735,7 @@ describe('components/create_post', () => {
     it('Should have called actions.selectPostFromRightHandSideSearchByPostId on replyToLastPost', () => {
         const selectPostFromRightHandSideSearchByPostId = jest.fn();
         let latestReplyablePostId = '';
-        const wrapper = shallow(createPost({
+        const wrapper = shallowWithIntl(createPost({
             actions: {
                 ...actionsProp,
                 selectPostFromRightHandSideSearchByPostId,
@@ -754,12 +754,12 @@ describe('components/create_post', () => {
     });
 
     it('should match snapshot for read only channel', () => {
-        const wrapper = shallow(createPost({readOnlyChannel: true}));
+        const wrapper = shallowWithIntl(createPost({readOnlyChannel: true}));
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should match snapshot when file upload disabled', () => {
-        const wrapper = shallow(createPost({canUploadFiles: false}));
+        const wrapper = shallowWithIntl(createPost({canUploadFiles: false}));
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -771,7 +771,7 @@ describe('components/create_post', () => {
         const executeCommand = jest.fn(() => Promise.resolve({error}));
         const onSubmitPost = jest.fn();
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             createPost({
                 actions: {
                     ...actionsProp,
@@ -810,7 +810,7 @@ describe('components/create_post', () => {
         const executeCommand = jest.fn(() => Promise.resolve({error}));
         const onSubmitPost = jest.fn();
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             createPost({
                 actions: {
                     ...actionsProp,

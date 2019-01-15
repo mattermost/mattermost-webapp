@@ -256,7 +256,7 @@ class InviteMemberModal extends React.PureComponent {
                             >
                                 <span
                                     className='fa fa-trash'
-                                    title={utils.localizeMessage('generic_icons.remove', 'Remove Icon')}
+                                    title={formatMessage({id: 'generic_icons.remove', defaultMessage: 'Remove Icon'})}
                                 />
                             </button>
                         </div>

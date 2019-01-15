@@ -19,10 +19,7 @@ exports[`components/SettingItemMin should match snapshot 1`] = `
       id="sectionEdit"
       onClick={[Function]}
     >
-      <i
-        className="fa fa-pencil"
-        title="Edit Icon"
-      />
+      <EditIcon />
       <FormattedMessage
         defaultMessage="Edit"
         id="setting_item_min.edit"

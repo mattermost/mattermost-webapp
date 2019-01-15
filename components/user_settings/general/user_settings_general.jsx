@@ -1254,11 +1254,18 @@ class UserSettingsGeneralTab extends React.Component {
                         ref='title'
                     >
                         <div className='modal-back'>
-                            <i
-                                className='fa fa-angle-left'
-                                title={Utils.localizeMessage('generic_icons.collapse', 'Collapse Icon')}
-                                onClick={this.props.collapseModal}
-                            />
+                            <FormattedMessage
+                                id='generic_icons.collapse'
+                                defaultMessage='Collapse Icon'
+                            >
+                                {(title) => (
+                                    <i
+                                        className='fa fa-angle-left'
+                                        title={title}
+                                        onClick={this.props.collapseModal}
+                                    />
+                                )}
+                            </FormattedMessage>
                         </div>
                         <FormattedMessage
                             id='user.settings.general.title'

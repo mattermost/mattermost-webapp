@@ -3,10 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
 import throttle from 'lodash/throttle';
 
 import * as Emoji from 'utils/emoji.jsx';
-import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import imgTrans from 'images/img_trans.gif';
 
@@ -454,10 +454,17 @@ export default class EmojiPicker extends React.PureComponent {
                     key={'header-' + category.name}
                     category={category.name}
                     icon={
-                        <i
-                            className={category.className}
-                            title={Utils.localizeMessage(category.id, category.message)}
-                        />
+                        <FormattedMessage
+                            id={category.id}
+                            defaultMessage={category.message}
+                        >
+                            {(title) => (
+                                <i
+                                    className={category.className}
+                                    title={title}
+                                />
+                            )}
+                        </FormattedMessage>
                     }
                     onCategoryClick={this.handleCategoryClick}
                     selected={currentCategoryName === category.name}
@@ -472,15 +479,29 @@ export default class EmojiPicker extends React.PureComponent {
         return (
             <div className='emoji-picker__search-container'>
                 <span className='fa fa-search emoji-picker__search-icon'/>
-                <input
-                    aria-label={Utils.localizeMessage('emoji_picker.search_emoji', 'Search for an emoji')}
-                    ref={this.emojiSearchInput}
-                    className='emoji-picker__search'
-                    type='text'
-                    onChange={this.handleFilterChange}
-                    onKeyDown={this.handleKeyDown}
-                    placeholder={Utils.localizeMessage('emoji_picker.search', 'search')}
-                />
+                <FormattedMessage
+                    id='emoji_picker.search_emoji'
+                    defaultMessage='Search for an emoji'
+                >
+                    {(ariaLabel) => (
+                        <FormattedMessage
+                            id='emoji_picker.search'
+                            defaultMessage='Search Emoji'
+                        >
+                            {(placeholder) => (
+                                <input
+                                    aria-label={ariaLabel}
+                                    ref={this.emojiSearchInput}
+                                    className='emoji-picker__search'
+                                    type='text'
+                                    onChange={this.handleFilterChange}
+                                    onKeyDown={this.handleKeyDown}
+                                    placeholder={placeholder}
+                                />
+                            )}
+                        </FormattedMessage>
+                    )}
+                </FormattedMessage>
             </div>
         );
     }

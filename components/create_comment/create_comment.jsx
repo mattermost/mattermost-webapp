@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
@@ -179,6 +179,10 @@ export default class CreateComment extends React.PureComponent {
          */
         isTimezoneEnabled: PropTypes.bool.isRequired,
     }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
 
     constructor(props) {
         super(props);
@@ -682,6 +686,7 @@ export default class CreateComment extends React.PureComponent {
     render() {
         const {draft} = this.state;
         const {readOnlyChannel} = this.props;
+        const {formatMessage} = this.context.intl;
 
         const notifyAllTitle = (
             <FormattedMessage
@@ -797,7 +802,7 @@ export default class CreateComment extends React.PureComponent {
                 <span
                     role='button'
                     tabIndex='0'
-                    aria-label={Utils.localizeMessage('create_post.open_emoji_picker', 'Open emoji picker')}
+                    aria-label={formatMessage({id: 'create_post.open_emoji_picker', defaultMessage: 'Open emoji picker'})}
                     className='emoji-picker__container'
                 >
                     <EmojiPickerOverlay
@@ -871,7 +876,7 @@ export default class CreateComment extends React.PureComponent {
                         <input
                             type='button'
                             className={addButtonClass}
-                            value={Utils.localizeMessage('create_comment.comment', 'Add Comment')}
+                            value={formatMessage({id: 'create_comment.comment', defaultMessage: 'Add Comment'})}
                             onClick={this.handleSubmit}
                         />
                         {uploadsInProgressText}

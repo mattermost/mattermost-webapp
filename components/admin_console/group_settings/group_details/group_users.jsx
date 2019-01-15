@@ -7,8 +7,8 @@ import {FormattedMessage} from 'react-intl';
 
 import GroupUsersRow from 'components/admin_console/group_settings/group_details/group_users_row';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
-import {localizeMessage} from 'utils/utils.jsx';
+import NextIcon from 'components/icon/next_icon';
+import PreviousIcon from 'components/icon/previous_icon';
 
 const GROUP_MEMBERS_PAGE_SIZE = 20;
 
@@ -105,20 +105,14 @@ export default class GroupUsers extends React.PureComponent {
                     onClick={this.previousPage}
                     disabled={firstPage}
                 >
-                    <i
-                        className='fa fa-chevron-left'
-                        title={localizeMessage('generic_icons.previous', 'Previous Icon')}
-                    />
+                    <PreviousIcon/>
                 </button>
                 <button
                     className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
                     onClick={this.nextPage}
                     disabled={lastPage}
                 >
-                    <i
-                        className='fa fa-chevron-right'
-                        title={localizeMessage('generic_icons.next', 'Next Icon')}
-                    />
+                    <NextIcon/>
                 </button>
             </div>
         );

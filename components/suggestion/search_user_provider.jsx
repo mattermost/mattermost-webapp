@@ -5,6 +5,7 @@ import React from 'react';
 
 import {autocompleteUsersInTeam} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
+import SelectIcon from 'components/icon/select_icon';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -35,10 +36,7 @@ class SearchUserSuggestion extends Suggestion {
                 onClick={this.handleClick}
                 {...Suggestion.baseProps}
             >
-                <i
-                    className='fa fa fa-plus-square'
-                    title={Utils.localizeMessage('generic_icons.select', 'Select Icon')}
-                />
+                <SelectIcon/>
                 <img
                     className='profile-img rounded'
                     src={Utils.imageURLForUser(item)}

@@ -8,6 +8,7 @@ import * as Utils from 'utils/utils.jsx';
 import {UploadStatuses} from 'utils/constants.jsx';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+import SuccessIcon from 'components/icon/success_icon';
 
 export default class UploadButton extends React.PureComponent {
     static propTypes = {
@@ -44,11 +45,7 @@ export default class UploadButton extends React.PureComponent {
         let buttonContent;
         if (status === UploadStatuses.COMPLETE) {
             buttonContent = [
-                <i
-                    key='icon'
-                    className='fa fa-check'
-                    title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
-                />,
+                <SuccessIcon key='icon'/>,
                 ' ',
                 Utils.localizeMessage('admin.team.uploaded', 'Uploaded!'),
             ];

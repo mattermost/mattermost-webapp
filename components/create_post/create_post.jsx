@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -235,6 +235,10 @@ export default class CreatePost extends React.Component {
             getChannelTimezones: PropTypes.func.isRequired,
         }).isRequired,
     }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
 
     static defaultProps = {
         latestReplyablePostId: '',
@@ -937,6 +941,7 @@ export default class CreatePost extends React.Component {
             showTutorialTip,
             readOnlyChannel,
         } = this.props;
+        const {formatMessage} = this.context.intl;
         const members = currentChannelMembersCount - 1;
 
         const notifyAllTitle = (
@@ -1055,7 +1060,7 @@ export default class CreatePost extends React.Component {
                 <span
                     role='button'
                     tabIndex='0'
-                    aria-label={Utils.localizeMessage('create_post.open_emoji_picker', 'Open emoji picker')}
+                    aria-label={formatMessage({id: 'create_post.open_emoji_picker', defaultMessage: 'Open emoji picker'})}
                     className='emoji-picker__container'
                 >
                     <EmojiPickerOverlay
@@ -1122,13 +1127,13 @@ export default class CreatePost extends React.Component {
                                 <a
                                     role='button'
                                     tabIndex='0'
-                                    aria-label={Utils.localizeMessage('create_post.send_message', 'Send a message')}
+                                    aria-label={formatMessage({id: 'create_post.send_message', defaultMessage: 'Send a message'})}
                                     className={sendButtonClass}
                                     onClick={this.handleSubmit}
                                 >
                                     <i
                                         className='fa fa-paper-plane'
-                                        title={Utils.localizeMessage('create_post.icon', 'Send Post Icon')}
+                                        title={formatMessage({id: 'create_post.icon', defaultMessage: 'Send Post Icon'})}
                                     />
                                 </a>
                             </span>

@@ -7,7 +7,6 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import Constants, {RHSStates} from 'utils/constants.jsx';
-import {localizeMessage} from 'utils/utils.jsx';
 
 export default class RhsHeaderPost extends React.Component {
     static propTypes = {
@@ -123,10 +122,17 @@ export default class RhsHeaderPost extends React.Component {
                         placement='top'
                         overlay={backToResultsTooltip}
                     >
-                        <i
-                            className='fa fa-angle-left'
-                            title={localizeMessage('generic_icons.back', 'Back Icon')}
-                        />
+                        <FormattedMessage
+                            id='generic_icons.back'
+                            defaultMessage='Back Icon'
+                        >
+                            {(ariaLabel) => (
+                                <i
+                                    className='fa fa-angle-left'
+                                    aria-label={ariaLabel}
+                                />
+                            )}
+                        </FormattedMessage>
                     </OverlayTrigger>
                 </a>
             );
@@ -154,10 +160,17 @@ export default class RhsHeaderPost extends React.Component {
                             placement='top'
                             overlay={expandSidebarTooltip}
                         >
-                            <i
-                                className='fa fa-expand'
-                                title={localizeMessage('rhs_header.expandSidebarTooltip.icon', 'Expand Sidebar Icon')}
-                            />
+                            <FormattedMessage
+                                id='rhs_header.expandSidebarTooltip.icon'
+                                defaultMessage='Expand Sidebar Icon'
+                            >
+                                {(ariaLabel) => (
+                                    <i
+                                        className='fa fa-expand'
+                                        aria-label={ariaLabel}
+                                    />
+                                )}
+                            </FormattedMessage>
                         </OverlayTrigger>
                         <OverlayTrigger
                             trigger={['hover', 'focus']}
@@ -165,10 +178,17 @@ export default class RhsHeaderPost extends React.Component {
                             placement='top'
                             overlay={shrinkSidebarTooltip}
                         >
-                            <i
-                                className='fa fa-compress'
-                                title={localizeMessage('rhs_header.expandTooltip.icon', 'Shrink Sidebar Icon')}
-                            />
+                            <FormattedMessage
+                                id='rhs_header.expandTooltip.icon'
+                                defaultMessage='Shrink Sidebar Icon'
+                            >
+                                {(ariaLabel) => (
+                                    <i
+                                        className='fa fa-compress'
+                                        aria-label={ariaLabel}
+                                    />
+                                )}
+                            </FormattedMessage>
                         </OverlayTrigger>
                     </button>
                     <button
@@ -184,10 +204,17 @@ export default class RhsHeaderPost extends React.Component {
                             placement='top'
                             overlay={closeSidebarTooltip}
                         >
-                            <i
-                                className='fa fa-sign-out'
-                                title={localizeMessage('rhs_header.closeTooltip.icon', 'Close Sidebar Icon')}
-                            />
+                            <FormattedMessage
+                                id='rhs_header.closeTooltip.icon'
+                                defaultMessage='Close Sidebar Icon'
+                            >
+                                {(ariaLabel) => (
+                                    <i
+                                        className='fa fa-sign-out'
+                                        aria-label={ariaLabel}
+                                    />
+                                )}
+                            </FormattedMessage>
                         </OverlayTrigger>
                     </button>
                 </div>

@@ -226,10 +226,17 @@ export default class SearchBar extends React.Component {
                         className='sidebar-collapse'
                         onClick={this.handleClose}
                     >
-                        <span
-                            className='fa fa-chevron-left'
-                            title={Utils.localizeMessage('generic_icons.back', 'Back Icon')}
-                        />
+                        <FormattedMessage
+                            id='generic_icons.back'
+                            defaultMessage='Back Icon'
+                        >
+                            {(title) => (
+                                <span
+                                    className='fa fa-chevron-left'
+                                    title={title}
+                                />
+                            )}
+                        </FormattedMessage>
                     </div>
                 </div>
                 <div

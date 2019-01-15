@@ -2,10 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import GetLinkModal from 'components/get_link_modal.jsx';
 
 describe('components/GetLinkModal', () => {
@@ -21,7 +20,7 @@ describe('components/GetLinkModal', () => {
         const helpText = 'help text';
         const props = {...requiredProps, helpText};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <GetLinkModal {...props}/>
         );
 
@@ -29,7 +28,7 @@ describe('components/GetLinkModal', () => {
     });
 
     test('should match snapshot when helpText is not set', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <GetLinkModal {...requiredProps}/>
         );
 
@@ -40,7 +39,7 @@ describe('components/GetLinkModal', () => {
         const newOnHide = jest.fn();
         const props = {...requiredProps, onHide: newOnHide};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <GetLinkModal {...props}/>
         );
 

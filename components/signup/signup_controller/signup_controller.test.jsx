@@ -2,8 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants.jsx';
@@ -47,7 +47,7 @@ describe('components/SignupController', () => {
     };
 
     test('should match snapshot for all signup options enabled with isLicensed enabled', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SignupController {...baseProps}/>
         );
         expect(wrapper).toMatchSnapshot();
@@ -59,7 +59,7 @@ describe('components/SignupController', () => {
             isLicensed: false,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SignupController {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
@@ -83,7 +83,7 @@ describe('components/SignupController', () => {
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SignupController {...props}/>
         );
 
@@ -110,7 +110,7 @@ describe('components/SignupController', () => {
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SignupController {...props}/>
         );
 

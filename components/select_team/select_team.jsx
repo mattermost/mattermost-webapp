@@ -11,7 +11,6 @@ import {Permissions} from 'mattermost-redux/constants';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 
 import * as UserAgent from 'utils/user_agent.jsx';
-import * as Utils from 'utils/utils.jsx';
 
 import logoImage from 'images/logo.png';
 
@@ -20,6 +19,7 @@ import BackButton from 'components/common/back_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import SiteNameAndDescription from 'components/common/site_name_and_description';
+import LogoutIcon from 'components/icon/logout_icon';
 
 import SelectTeamItem from './components/select_team_item.jsx';
 
@@ -222,10 +222,7 @@ export default class SelectTeam extends React.Component {
                         href='#'
                         onClick={this.handleLogoutClick}
                     >
-                        <span
-                            className='fa fa-chevron-left'
-                            title={Utils.localizeMessage('generic_icons.logout', 'Logout Icon')}
-                        />
+                        <LogoutIcon/>
                         <FormattedMessage
                             id='web.header.logout'
                             defaultMessage='Logout'

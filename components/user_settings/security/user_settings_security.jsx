@@ -833,25 +833,39 @@ export default class SecurityTab extends React.Component {
         return (
             <div>
                 <div className='modal-header'>
-                    <button
-                        type='button'
-                        className='close'
-                        data-dismiss='modal'
-                        aria-label={Utils.localizeMessage('user.settings.security.close', 'Close')}
-                        onClick={this.props.closeModal}
+                    <FormattedMessage
+                        id='user.settings.security.close'
+                        defaultMessage='Close'
                     >
-                        <span aria-hidden='true'>{'×'}</span>
-                    </button>
+                        {(ariaLabel) => (
+                            <button
+                                type='button'
+                                className='close'
+                                data-dismiss='modal'
+                                aria-label={ariaLabel}
+                                onClick={this.props.closeModal}
+                            >
+                                <span aria-hidden='true'>{'×'}</span>
+                            </button>
+                        )}
+                    </FormattedMessage>
                     <h4
                         className='modal-title'
                         ref='title'
                     >
                         <div className='modal-back'>
-                            <i
-                                className='fa fa-angle-left'
-                                title={Utils.localizeMessage('generic_icons.collapse', 'Collapse Icon')}
-                                onClick={this.props.collapseModal}
-                            />
+                            <FormattedMessage
+                                id='generic_icons.collapse'
+                                defaultMessage='Collapse Icon'
+                            >
+                                {(title) => (
+                                    <i
+                                        className='fa fa-angle-left'
+                                        title={title}
+                                        onClick={this.props.collapseModal}
+                                    />
+                                )}
+                            </FormattedMessage>
                         </div>
                         <FormattedMessage
                             id='user.settings.security.title'
@@ -885,10 +899,17 @@ export default class SecurityTab extends React.Component {
                         className='security-links color--link'
                         dialogType={AccessHistoryModal}
                     >
-                        <i
-                            className='fa fa-clock-o'
-                            title={Utils.localizeMessage('user.settings.security.viewHistory.icon', 'Access History Icon')}
-                        />
+                        <FormattedMessage
+                            id='user.settings.security.viewHistory.icon'
+                            defaultMessage='Access History Icon'
+                        >
+                            {(title) => (
+                                <i
+                                    className='fa fa-clock-o'
+                                    title={title}
+                                />
+                            )}
+                        </FormattedMessage>
                         <FormattedMessage
                             id='user.settings.security.viewHistory'
                             defaultMessage='View Access History'
@@ -898,10 +919,17 @@ export default class SecurityTab extends React.Component {
                         className='security-links color--link margin-top'
                         dialogType={ActivityLogModal}
                     >
-                        <i
-                            className='fa fa-clock-o'
-                            title={Utils.localizeMessage('user.settings.security.logoutActiveSessions.icon', 'Active Sessions Icon')}
-                        />
+                        <FormattedMessage
+                            id='user.settings.security.logoutActiveSessions.icon'
+                            defaultMessage='Active Sessions Icon'
+                        >
+                            {(title) => (
+                                <i
+                                    className='fa fa-clock-o'
+                                    title={title}
+                                />
+                            )}
+                        </FormattedMessage>
                         <FormattedMessage
                             id='user.settings.security.logoutActiveSessions'
                             defaultMessage='View and Logout of Active Sessions'

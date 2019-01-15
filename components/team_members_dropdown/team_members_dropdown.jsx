@@ -9,6 +9,7 @@ import {browserHistory} from 'utils/browser_history';
 import {loadMyTeamMembers, updateActive} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
+import DropdownIcon from 'components/icon/dropdown_icon';
 
 export default class TeamMembersDropdown extends React.Component {
     static propTypes = {
@@ -335,10 +336,7 @@ export default class TeamMembersDropdown extends React.Component {
                     aria-expanded='true'
                 >
                     <span>{currentRoles} </span>
-                    <span
-                        className='fa fa-chevron-down'
-                        title={Utils.localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
-                    />
+                    <DropdownIcon/>
                 </button>
                 <ul
                     className='dropdown-menu member-menu'

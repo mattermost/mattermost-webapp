@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import GroupRow from 'components/admin_console/group_settings/group_row.jsx';
-
-import {localizeMessage} from 'utils/utils.jsx';
+import NextIcon from 'components/icon/next_icon';
+import PreviousIcon from 'components/icon/previous_icon';
 
 const LDAP_GROUPS_PAGE_SIZE = 200;
 
@@ -229,20 +229,14 @@ export default class GroupsList extends React.PureComponent {
                         onClick={firstPage ? null : this.previousPage}
                         disabled={firstPage}
                     >
-                        <i
-                            className='fa fa-chevron-left'
-                            title={localizeMessage('generic_icons.previous', 'Previous Icon')}
-                        />
+                        <PreviousIcon/>
                     </button>
                     <button
                         className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
                         onClick={lastPage ? null : this.nextPage}
                         disabled={lastPage}
                     >
-                        <i
-                            className='fa fa-chevron-right'
-                            title={localizeMessage('generic_icons.next', 'Next Icon')}
-                        />
+                        <NextIcon/>
                     </button>
                 </div>
             </div>

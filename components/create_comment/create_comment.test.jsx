@@ -2,8 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import Constants from 'utils/constants.jsx';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
@@ -60,7 +60,7 @@ describe('components/CreateComment', () => {
         const ctrlSend = true;
         const props = {...baseProps, draft, enableAddButton, ctrlSend};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -78,7 +78,7 @@ describe('components/CreateComment', () => {
         const ctrlSend = true;
         const props = {...baseProps, ctrlSend, draft, clearCommentDraftUploads, onResetHistoryIndex};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -98,7 +98,7 @@ describe('components/CreateComment', () => {
             fileInfos: [{}, {}, {}],
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
 
@@ -107,7 +107,7 @@ describe('components/CreateComment', () => {
     });
 
     test('should correctly change state when toggleEmojiPicker is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
 
@@ -119,7 +119,7 @@ describe('components/CreateComment', () => {
     });
 
     test('should correctly change state when hideEmojiPicker is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
 
@@ -137,7 +137,7 @@ describe('components/CreateComment', () => {
         const enableAddButton = false;
         const props = {...baseProps, draft, onUpdateCommentDraft, enableAddButton};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -172,7 +172,7 @@ describe('components/CreateComment', () => {
     });
 
     test('handlePostError should update state with the correct error', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
 
@@ -192,7 +192,7 @@ describe('components/CreateComment', () => {
         };
         const props = {...baseProps, draft, updateCommentDraftWithRootId};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -221,7 +221,7 @@ describe('components/CreateComment', () => {
     });
 
     test('getFileCount should return the correct count', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
 
@@ -235,7 +235,7 @@ describe('components/CreateComment', () => {
     });
 
     test('should correctly change state when showPostDeletedModal is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
 
@@ -246,7 +246,7 @@ describe('components/CreateComment', () => {
     test('should correctly change state when hidePostDeletedModal is called', () => {
         const resetCreatePostRequest = jest.fn();
         const props = {...baseProps, resetCreatePostRequest};
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -264,7 +264,7 @@ describe('components/CreateComment', () => {
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -292,7 +292,7 @@ describe('components/CreateComment', () => {
         };
         const props = {...baseProps, updateCommentDraftWithRootId, draft};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -314,7 +314,7 @@ describe('components/CreateComment', () => {
     });
 
     it('check for uploadsProgressPercent state on handleUploadProgress callback', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
 
@@ -333,7 +333,7 @@ describe('components/CreateComment', () => {
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -351,7 +351,7 @@ describe('components/CreateComment', () => {
         };
         const props = {...baseProps, draft};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -370,7 +370,7 @@ describe('components/CreateComment', () => {
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -395,7 +395,7 @@ describe('components/CreateComment', () => {
         };
         const props = {...baseProps, draft};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -414,7 +414,7 @@ describe('components/CreateComment', () => {
         };
         const props = {...baseProps, draft, onSubmit};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -448,7 +448,7 @@ describe('components/CreateComment', () => {
                         enableConfirmNotificationsToChannel: true,
                     };
 
-                    const wrapper = shallow(
+                    const wrapper = shallowWithIntl(
                         <CreateComment {...props}/>
                     );
 
@@ -471,7 +471,7 @@ describe('components/CreateComment', () => {
                         enableConfirmNotificationsToChannel: false,
                     };
 
-                    const wrapper = shallow(
+                    const wrapper = shallowWithIntl(
                         <CreateComment {...props}/>
                     );
 
@@ -494,7 +494,7 @@ describe('components/CreateComment', () => {
                         enableConfirmNotificationsToChannel: true,
                     };
 
-                    const wrapper = shallow(
+                    const wrapper = shallowWithIntl(
                         <CreateComment {...props}/>
                     );
 
@@ -518,7 +518,7 @@ describe('components/CreateComment', () => {
                     enableConfirmNotificationsToChannel: true,
                 };
 
-                const wrapper = shallow(
+                const wrapper = shallowWithIntl(
                     <CreateComment {...props}/>
                 );
 
@@ -542,7 +542,7 @@ describe('components/CreateComment', () => {
                     enableConfirmNotificationsToChannel: true,
                 };
 
-                const wrapper = shallow(
+                const wrapper = shallowWithIntl(
                     <CreateComment {...props}/>
                 );
 
@@ -570,7 +570,7 @@ describe('components/CreateComment', () => {
                     enableConfirmNotificationsToChannel: true,
                 };
 
-                const wrapper = shallow(
+                const wrapper = shallowWithIntl(
                     <CreateComment {...props}/>
                 );
 
@@ -595,7 +595,7 @@ describe('components/CreateComment', () => {
         };
         const props = {...baseProps, draft, onUpdateCommentDraft};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -622,7 +622,7 @@ describe('components/CreateComment', () => {
             fileInfos: [{}, {}, {}],
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
         expect(wrapper.state('draft')).toEqual(draft);
@@ -639,7 +639,7 @@ describe('components/CreateComment', () => {
             fileInfos: [{id: 1}, {id: 2}, {id: 3}],
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
         wrapper.setState({draft});
@@ -651,7 +651,7 @@ describe('components/CreateComment', () => {
 
     test('should match snapshot read only channel', () => {
         const props = {...baseProps, readOnlyChannel: true};
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -660,7 +660,7 @@ describe('components/CreateComment', () => {
 
     test('should match snapshot, emoji picker disabled', () => {
         const props = {...baseProps, enableEmojiPicker: false};
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -668,7 +668,7 @@ describe('components/CreateComment', () => {
     });
 
     test('check for handleFileUploadChange callback for focus', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
         const instance = wrapper.instance();
@@ -684,7 +684,7 @@ describe('components/CreateComment', () => {
         const onEditLatestPost = jest.fn().
             mockImplementationOnce(() => ({data: true})).
             mockImplementationOnce(() => ({data: false}));
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment
                 {...baseProps}
                 ctrlSend={true}
@@ -755,7 +755,7 @@ describe('components/CreateComment', () => {
             fileInfos: [],
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
 
@@ -781,7 +781,7 @@ describe('components/CreateComment', () => {
             fileInfos: [],
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment
                 {...baseProps}
                 draft={draft}

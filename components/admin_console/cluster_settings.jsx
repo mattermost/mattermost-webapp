@@ -8,6 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 import * as Utils from 'utils/utils.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import WarningIcon from 'components/icon/warning_icon';
 
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
@@ -83,10 +84,7 @@ export default class ClusterSettings extends AdminSettings {
                     style={style.configLoadedFromCluster}
                     className='alert alert-warning'
                 >
-                    <i
-                        className='fa fa-warning'
-                        title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
-                    />
+                    <WarningIcon/>
                     <FormattedMarkdownMessage
                         id='admin.cluster.loadedFrom'
                         defaultMessage='This configuration file was loaded from Node ID {clusterId}. Please see the Troubleshooting Guide in our [documentation](!http://docs.mattermost.com/deployment/cluster.html) if you are accessing the System Console through a load balancer and experiencing issues.'
@@ -99,16 +97,14 @@ export default class ClusterSettings extends AdminSettings {
         }
 
         var warning = null;
+
         if (this.state.showWarning) {
             warning = (
                 <div
                     style={style.warning}
                     className='alert alert-warning'
                 >
-                    <i
-                        className='fa fa-warning'
-                        title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
-                    />
+                    <WarningIcon/>
                     <FormattedMarkdownMessage
                         id='admin.cluster.should_not_change'
                         defaultMessage='WARNING: These settings may not sync with the other servers in the cluster. High Availability inter-node communication will not start until you modify the config.json to be identical on all servers and restart Mattermost. Please see the [documentation](!http://docs.mattermost.com/deployment/cluster.html) on how to add or remove a server from the cluster. If you are accessing the System Console through a load balancer and experiencing issues, please see the Troubleshooting Guide in our [documentation](!http://docs.mattermost.com/deployment/cluster.html).'
