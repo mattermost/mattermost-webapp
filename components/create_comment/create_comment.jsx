@@ -13,7 +13,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox} from 'utils/post_utils.jsx';
+import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand} from 'utils/post_utils.jsx';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -24,6 +24,7 @@ import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import MessageSubmitError from 'components/message_submit_error';
 
 export default class CreateComment extends React.PureComponent {
     static propTypes = {
@@ -394,8 +395,8 @@ export default class CreateComment extends React.PureComponent {
             e.preventDefault();
         }
 
-        const {enableAddButton} = this.props;
         const {draft} = this.state;
+        const enableAddButton = this.shouldEnableAddButton();
 
         if (!enableAddButton) {
             return;
@@ -422,15 +423,27 @@ export default class CreateComment extends React.PureComponent {
         const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
         this.focusTextbox(forceFocus);
 
+        const serverError = this.state.serverError;
+        let ignoreSlash = false;
+        if (isErrorInvalidSlashCommand(serverError) && draft.message === serverError.submittedMessage) {
+            ignoreSlash = true;
+        }
+
+        const options = {ignoreSlash};
+
         try {
-            await this.props.onSubmit();
+            await this.props.onSubmit(options);
 
             this.setState({
                 postError: null,
                 serverError: null,
             });
         } catch (err) {
-            this.setState({serverError: err.message});
+            if (isErrorInvalidSlashCommand(err)) {
+                this.props.onUpdateCommentDraft(draft);
+            }
+            err.submittedMessage = draft.message;
+            this.setState({serverError: err});
             return;
         }
 
@@ -477,10 +490,15 @@ export default class CreateComment extends React.PureComponent {
     handleChange = (e) => {
         const message = e.target.value;
 
+        let serverError = this.state.serverError;
+        if (isErrorInvalidSlashCommand(serverError)) {
+            serverError = null;
+        }
+
         const {draft} = this.state;
         const updatedDraft = {...draft, message};
         this.props.onUpdateCommentDraft(updatedDraft);
-        this.setState({draft: updatedDraft}, () => {
+        this.setState({draft: updatedDraft, serverError}, () => {
             this.scrollToBottom();
         });
         this.draftsForPost[this.props.rootId] = updatedDraft;
@@ -601,7 +619,12 @@ export default class CreateComment extends React.PureComponent {
             }
         }
 
-        this.setState({serverError: err});
+        let serverError = err;
+        if (err && typeof err === 'string') {
+            serverError = new Error(err);
+        }
+
+        this.setState({serverError});
     }
 
     removePreview = (id) => {
@@ -659,6 +682,14 @@ export default class CreateComment extends React.PureComponent {
         return this.refs.createCommentControls;
     }
 
+    shouldEnableAddButton = () => {
+        if (this.props.enableAddButton) {
+            return true;
+        }
+
+        return isErrorInvalidSlashCommand(this.state.serverError);
+    }
+
     focusTextbox = (keepFocus = false) => {
         if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
             this.refs.textbox.getWrappedInstance().focus();
@@ -687,6 +718,7 @@ export default class CreateComment extends React.PureComponent {
         const {draft} = this.state;
         const {readOnlyChannel} = this.props;
         const {formatMessage} = this.context.intl;
+        const enableAddButton = this.shouldEnableAddButton();
 
         const notifyAllTitle = (
             <FormattedMessage
@@ -729,9 +761,12 @@ export default class CreateComment extends React.PureComponent {
         let serverError = null;
         if (this.state.serverError) {
             serverError = (
-                <div className='form-group has-error'>
-                    <label className='control-label'>{this.state.serverError}</label>
-                </div>
+                <MessageSubmitError
+                    id='postServerError'
+                    error={this.state.serverError}
+                    submittedMessage={this.state.serverError.submittedMessage}
+                    handleSubmit={this.handleSubmit}
+                />
             );
         }
 
@@ -774,7 +809,7 @@ export default class CreateComment extends React.PureComponent {
         }
 
         let addButtonClass = 'btn btn-primary comment-btn pull-right';
-        if (!this.props.enableAddButton) {
+        if (!enableAddButton) {
             addButtonClass += ' disabled';
         }
 
