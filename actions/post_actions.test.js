@@ -8,7 +8,7 @@ import {Posts} from 'mattermost-redux/constants';
 import {SearchTypes} from 'mattermost-redux/action_types';
 
 import * as Actions from 'actions/post_actions';
-import {Constants, ActionTypes, RHSStates} from 'utils/constants';
+import {Constants, ActionTypes, RHSStates, PostRequestTypes} from 'utils/constants';
 
 const mockStore = configureStore([thunk]);
 
@@ -18,10 +18,12 @@ jest.mock('mattermost-redux/actions/posts', () => ({
     createPostImmediately: (...args) => ({type: 'MOCK_CREATE_POST_IMMEDIATELY', args}),
     getPosts: (...args) => ({type: 'MOCK_GET_POSTS', args}),
     getPostsBefore: (...args) => ({type: 'MOCK_GET_POSTS_BEFORE', args}),
+    getPostsAfter: (...args) => ({type: 'MOCK_GET_POSTS_AFTER', args}),
     flagPost: (...args) => ({type: 'MOCK_FLAG_POST', args}),
     unflagPost: (...args) => ({type: 'MOCK_UNFLAG_POST', args}),
     pinPost: (...args) => ({type: 'MOCK_PIN_POST', args}),
     unpinPost: (...args) => ({type: 'MOCK_UNPIN_POST', args}),
+    getPostsUnread: (...args) => ({type: 'MOCK_GET_UNREADS_POSTS', args}),
 }));
 
 jest.mock('actions/emoji_actions', () => ({
@@ -226,13 +228,13 @@ describe('Actions.Posts', () => {
         expect(testStore.getActions()).toEqual([{type: ActionTypes.HIDE_EDIT_POST_MODAL}]);
     });
 
-    test('loadPosts', async () => {
+    test('loadPosts for getPosts', async () => {
         const testStore = await mockStore(initialState);
 
-        await testStore.dispatch(Actions.loadPosts('current_channel_id'));
+        await testStore.dispatch(Actions.loadPosts({channelId: 'current_channel_id'}));
         expect(testStore.getActions()).toEqual([
             {channelId: 'current_channel_id', data: true, type: 'LOADING_POSTS'},
-            {args: ['current_channel_id', 2, 30], type: 'MOCK_GET_POSTS'},
+            {args: ['current_channel_id', 0, 30], type: 'MOCK_GET_POSTS'},
             {
                 meta: {batch: true},
                 payload: [
@@ -241,11 +243,15 @@ describe('Actions.Posts', () => {
                 type: 'BATCHING_REDUCER.BATCH',
             },
         ]);
+    });
 
-        await testStore.dispatch(Actions.loadPosts('current_channel_id', 'latest_post_id'));
+    test('loadPosts for getPostsBefore', async () => {
+        const testStore = await mockStore(initialState);
+
+        await testStore.dispatch(Actions.loadPosts({channelId: 'current_channel_id', type: PostRequestTypes.BEFORE_ID, postId: 'test'}));
         expect(testStore.getActions()).toEqual([
             {channelId: 'current_channel_id', data: true, type: 'LOADING_POSTS'},
-            {args: ['current_channel_id', 2, 30], type: 'MOCK_GET_POSTS'},
+            {args: ['current_channel_id', 'test', 0, 30], type: 'MOCK_GET_POSTS_BEFORE'},
             {
                 meta: {batch: true},
                 payload: [
@@ -253,11 +259,16 @@ describe('Actions.Posts', () => {
                 ],
                 type: 'BATCHING_REDUCER.BATCH',
             },
+        ]);
+    });
+
+    test('loadPosts for getPostsAfter', async () => {
+        const testStore = await mockStore(initialState);
+
+        await testStore.dispatch(Actions.loadPosts({channelId: 'current_channel_id', type: PostRequestTypes.AFTER_ID, postId: 'test'}));
+        expect(testStore.getActions()).toEqual([
             {channelId: 'current_channel_id', data: true, type: 'LOADING_POSTS'},
-            {
-                args: ['current_channel_id', 'latest_post_id', 2, 30],
-                type: 'MOCK_GET_POSTS_BEFORE',
-            },
+            {args: ['current_channel_id', 'test', 0, 30], type: 'MOCK_GET_POSTS_AFTER'},
             {
                 meta: {batch: true},
                 payload: [
@@ -265,6 +276,16 @@ describe('Actions.Posts', () => {
                 ],
                 type: 'BATCHING_REDUCER.BATCH',
             },
+        ]);
+    });
+
+    test('loadUnreads', async () => {
+        const testStore = await mockStore(initialState);
+
+        await testStore.dispatch(Actions.loadUnreads('current_channel_id'));
+        expect(testStore.getActions()).toEqual([
+            {amount: 60, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'},
+            {args: ['current_channel_id'], type: 'MOCK_GET_UNREADS_POSTS'},
         ]);
     });
 

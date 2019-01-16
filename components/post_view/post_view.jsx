@@ -57,7 +57,6 @@ export default class PostView extends React.PureComponent {
 
         /**
          * Used for determining if we reached to the top of channel.
-         * Used for taking a backup before clearing from redux-store.
          */
         postIdsInCurrentChannel: PropTypes.array,
 
@@ -123,7 +122,6 @@ export default class PostView extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.actions.checkAndSetMobileView();
         if (this.shouldLoadPosts(this.props)) {
             this.postsOnLoad(this.props.channelId);
         }
@@ -230,11 +228,11 @@ export default class PostView extends React.PureComponent {
         return {moreToLoad, error};
     }
 
-    loadPermalinkPosts = async (channelId) => {
+    loadPermalinkPosts = (channelId) => {
         const getPostThread = this.props.actions.getPostThread(this.props.focusedPostId, false);
         const afterPosts = this.callLoadPosts(channelId, this.props.focusedPostId, PostRequestTypes.AFTER_ID);
         const beforePosts = this.callLoadPosts(channelId, this.props.focusedPostId, PostRequestTypes.BEFORE_ID);
-        await Promise.all([
+        return Promise.all([
             beforePosts,
             afterPosts,
             getPostThread,
@@ -245,11 +243,7 @@ export default class PostView extends React.PureComponent {
         let atLatestMessage = false;
         let atOldestmessage = false;
 
-        const {data, error} = await this.props.actions.loadUnreads(channelId);
-
-        if (error) {
-            throw new Error();
-        }
+        const {data} = await this.props.actions.loadUnreads(channelId);
 
         // API returns 2*POSTS_PER_PAGE and if it less than 1*POSTS_PER_PAGE then we loaded all the posts.
         if (data && Object.keys(data.posts).length < POSTS_PER_PAGE) {
@@ -337,6 +331,7 @@ export default class PostView extends React.PureComponent {
                     currentUserId={this.props.currentUserId}
                     focusedPostId={this.props.focusedPostId}
                     postVisibility={this.props.postVisibility}
+                    checkAndSetMobileView={this.props.actions.checkAndSetMobileView}
                 />
             );
         }

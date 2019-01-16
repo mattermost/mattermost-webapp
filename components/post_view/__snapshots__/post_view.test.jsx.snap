@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/post_list Should call postsOnLoad 1`] = `
+<div
+  id="post-list"
+>
+  <div
+    className="post-list-holder-by-time"
+    key="postlist-fake-id"
+  >
+    <div
+      className="post-list__table"
+    >
+      <div
+        className="post-list__content"
+        id="postListContent"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/post_list init snapshot for max postVisibility 1`] = `
+<div
+  id="post-list"
+>
+  <div
+    className="post-list-holder-by-time"
+    key="postlist-fake-id"
+  >
+    <div
+      className="post-list__table"
+    >
+      <div
+        className="post-list__content"
+        id="postListContent"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/post_list snapshot for loading when there are no posts 1`] = `
+<div
+  id="post-list"
+>
+  <LoadingScreen
+    key="loading"
+    position="absolute"
+    style={Object {}}
+  />
+</div>
+`;
+
+exports[`components/post_view/post_list snapshot with couple of posts 1`] = `
+<div
+  id="post-list"
+>
+  <div
+    className="post-list-holder-by-time"
+    key="postlist-fake-id"
+  >
+    <div
+      className="post-list__table"
+    >
+      <div
+        className="post-list__content"
+        id="postListContent"
+      >
+        <PostList
+          checkAndSetMobileView={[Function]}
+          lastViewedAt={1532345226632}
+          loadNewerPosts={[Function]}
+          loadOlderPosts={[Function]}
+          newerPosts={
+            Object {
+              "allLoaded": false,
+              "loading": false,
+            }
+          }
+          olderPosts={
+            Object {
+              "allLoaded": false,
+              "loading": false,
+            }
+          }
+          posts={
+            Array [
+              Object {
+                "create_at": 1532345226631,
+                "id": "12341",
+                "user_id": "someone",
+              },
+              Object {
+                "create_at": 1532345226631,
+                "id": "12342",
+                "user_id": "someone",
+              },
+            ]
+          }
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

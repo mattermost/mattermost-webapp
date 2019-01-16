@@ -10,6 +10,7 @@ import {leaveChannel} from 'mattermost-redux/actions/channels';
 import {browserHistory} from 'utils/browser_history';
 import * as Actions from 'actions/views/channel';
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
+import {ActionTypes} from 'utils/constants.jsx';
 
 const mockStore = configureStore([thunk]);
 
@@ -103,5 +104,23 @@ describe('channel view actions', () => {
             await store.dispatch(Actions.goToLastViewedChannel());
             expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/channels/${General.DEFAULT_CHANNEL}`);
         });
+    });
+
+    test('changeChannelPostsStatus', async () => {
+        const params = {};
+        await store.dispatch(Actions.changeChannelPostsStatus(params));
+        expect(store.getActions()).toEqual([{
+            type: ActionTypes.CHANNEL_POSTS_STATUS,
+            data: params,
+        }]);
+    });
+
+    test('channelSyncCompleted', async () => {
+        const channelId = 'channelId';
+        await store.dispatch(Actions.channelSyncCompleted(channelId));
+        expect(store.getActions()).toEqual([{
+            type: ActionTypes.CHANNEL_SYNC_STATUS,
+            data: channelId,
+        }]);
     });
 });
