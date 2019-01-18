@@ -31,6 +31,7 @@ function mapStateToProps(state, ownProps) {
         currentTeamId: getCurrentTeamId(state),
         teamsList: getMyTeams(state),
         currentChannelId: getCurrentChannelId(state),
+        pluginRoutes: state.plugins.components.TeamRoute || [],
     };
 }
 

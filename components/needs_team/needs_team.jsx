@@ -230,26 +230,44 @@ export default class NeedsTeam extends React.Component {
         if (this.state.team === null || this.state.finishedFetchingChannels === false) {
             return <div/>;
         }
-        const teamType = this.state.team ? this.state.team.type : '';
+
+        let routes = [
+            <Route
+                key="integrations"
+                path={'/:team/integrations'}
+                component={BackstageController}
+            />,
+            <Route
+                key="emoji"
+                path={'/:team/emoji'}
+                component={BackstageController}
+            />,
+        ];
+
+        routes = routes.concat(this.props.pluginRoutes.map((pluginRoute) => (
+            <Route
+                key={pluginRoute.id}
+                path={'/:team/' + pluginRoute.path}
+                component={pluginRoute.component}
+            />
+        )));
+
+        routes.push(
+            <Route
+                key="channels"
+                render={(renderProps) => (
+                    <ChannelController
+                        pathName={renderProps.location.pathname}
+                    />
+                )}
+            />
+        );
+
+        console.log(routes);
 
         return (
             <Switch>
-                <Route
-                    path={'/:team/integrations'}
-                    component={BackstageController}
-                />
-                <Route
-                    path={'/:team/emoji'}
-                    component={BackstageController}
-                />
-                <Route
-                    render={(renderProps) => (
-                        <ChannelController
-                            pathName={renderProps.location.pathname}
-                            teamType={teamType}
-                        />
-                    )}
-                />
+                {routes}
             </Switch>
         );
     }

@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 export const Section = ({children}) => (
     <ul className='nav nav-pills nav-stacked'>
@@ -46,11 +47,11 @@ export const SectionItemLink = ({text, icon, to, unread, count, onClick}) => {
 
     return (
         <React.Fragment>
-            <a href='www.google.com' className={className}>
+            <Link to={to} className={className}>
                 {icon}
                 <span className='sidebar-item__name'>{text}</span>
                 {badge}
-            </a>
+            </Link>
         </React.Fragment>
     )
 };

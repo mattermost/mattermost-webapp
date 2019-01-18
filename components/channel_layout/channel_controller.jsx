@@ -26,6 +26,36 @@ import Sidebar from 'components/sidebar';
 import * as Utils from 'utils/utils';
 import CenterChannel from 'components/channel_layout/center_channel';
 
+const CentreChannelWrapper = ({children}) => (
+    <div
+        id='channel_view'
+        className='channel-view'
+    >
+        <AnnouncementBarController/>
+        <SystemNotice/>
+
+        <div className='container-fluid'>
+            <SidebarRight/>
+            <SidebarRightMenu/>
+            <Route component={TeamSidebar}/>
+            <Route component={Sidebar}/>
+            {children}
+            <Pluggable pluggableName='Root'/>
+            <GetPostLinkModal/>
+            <GetPublicLinkModal/>
+            <GetTeamInviteLinkModal/>
+            <ImportThemeModal/>
+            <TeamSettingsModal/>
+            <EditPostModal/>
+            <ResetStatusModal/>
+            <LeavePrivateChannelModal/>
+            <ShortcutsModal isMac={Utils.isMac()}/>
+            <ModalController/>
+        </div>
+    </div>
+);
+window.CentreChannelWrapper = CentreChannelWrapper;
+
 export default class ChannelController extends React.Component {
     static propTypes = {
         pathName: PropTypes.string.isRequired,
@@ -38,32 +68,9 @@ export default class ChannelController extends React.Component {
 
     render() {
         return (
-            <div
-                id='channel_view'
-                className='channel-view'
-            >
-                <AnnouncementBarController/>
-                <SystemNotice/>
-
-                <div className='container-fluid'>
-                    <SidebarRight/>
-                    <SidebarRightMenu teamType={this.props.teamType}/>
-                    <Route component={TeamSidebar}/>
-                    <Route component={Sidebar}/>
-                    <Route component={CenterChannel}/>
-                    <Pluggable pluggableName='Root'/>
-                    <GetPostLinkModal/>
-                    <GetPublicLinkModal/>
-                    <GetTeamInviteLinkModal/>
-                    <ImportThemeModal/>
-                    <TeamSettingsModal/>
-                    <EditPostModal/>
-                    <ResetStatusModal/>
-                    <LeavePrivateChannelModal/>
-                    <ShortcutsModal isMac={Utils.isMac()}/>
-                    <ModalController/>
-                </div>
-            </div>
+            <CentreChannelWrapper>
+                <Route component={CenterChannel}/>
+            </CentreChannelWrapper>
         );
     }
 }

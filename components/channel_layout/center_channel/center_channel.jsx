@@ -45,29 +45,33 @@ export default class CenterChannel extends React.PureComponent {
                     'move--left-small': this.props.rhsMenuOpen,
                 })}
             >
-                <div className='row header'>
-                    <div id='navbar'>
-                        <ChannelHeaderMobile/>
+                {this.props.children ? this.props.children : (
+                    <React.Fragment>
+                    <div className='row header'>
+                        <div id='navbar'>
+                            <ChannelHeaderMobile/>
+                        </div>
                     </div>
-                </div>
-                <div className='row main'>
-                    <Switch>
-                        <Route
-                            path={`${url}/pl/:postid`}
-                            render={(props) => (
-                                <PermalinkView
-                                    {...props}
-                                    returnTo={this.state.returnTo}
-                                />
-                            )}
-                        />
-                        <Route
-                            path={'/:team/:path(channels|messages)/:identifier'}
-                            component={ChannelIdentifierRouter}
-                        />
-                        <Redirect to={lastChannelPath}/>
-                    </Switch>
-                </div>
+                    <div className='row main'>
+                        <Switch>
+                            <Route
+                                path={`${url}/pl/:postid`}
+                                render={(props) => (
+                                    <PermalinkView
+                                        {...props}
+                                        returnTo={this.state.returnTo}
+                                    />
+                                )}
+                            />
+                            <Route
+                                path={'/:team/:path(channels|messages)/:identifier'}
+                                component={ChannelIdentifierRouter}
+                            />
+                            <Redirect to={lastChannelPath}/>
+                        </Switch>
+                    </div>
+                    </React.Fragment>
+                )}
             </div>
         );
     }

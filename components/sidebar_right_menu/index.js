@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentTeamId, getJoinableTeamIds} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId, getCurrentTeam, getJoinableTeamIds} from 'mattermost-redux/selectors/entities/teams';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
 import {showMentions, showFlaggedPosts, closeRightHandSide, openMenu as openRhsMenu, closeMenu as closeRhsMenu} from 'actions/views/rhs';
@@ -34,6 +34,9 @@ function mapStateToProps(state) {
     const joinableTeams = getJoinableTeamIds(state);
     const moreTeamsToJoin = joinableTeams && joinableTeams.length > 0;
 
+    const team = getCurrentTeam(state);
+    const teamType = team ? team.type : '';
+
     return {
         teamId: getCurrentTeamId(state),
         currentUserId: getCurrentUserId(state),
@@ -49,6 +52,7 @@ function mapStateToProps(state) {
         siteName,
         moreTeamsToJoin,
         pluginMenuItems: state.plugins.components.MainMenu,
+        teamType,
     };
 }
 
