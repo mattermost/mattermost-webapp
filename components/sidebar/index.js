@@ -57,6 +57,7 @@ function mapStateToProps(state) {
     return {
         config,
         unreadChannelIds,
+        pluginSections: (state.plugins.components.LHSSection || []).map((c) => c.component),
         orderedChannelIds,
         channelSwitcherOption,
         currentChannel,

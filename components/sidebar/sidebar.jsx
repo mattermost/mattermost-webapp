@@ -32,6 +32,7 @@ import ChannelCreate from './channel_create';
 import ChannelMore from './channel_more';
 import ChannelName from './channel_name';
 import MorePublicDirectChannels from './more_public_direct_channels';
+import {Section, SectionHeader} from './section';
 
 export function renderView(props) {
     return (
@@ -66,6 +67,8 @@ export default class Sidebar extends React.PureComponent {
         config: PropTypes.object.isRequired,
 
         isOpen: PropTypes.bool.isRequired,
+
+        pluginSections: PropTypes.array,
 
         /**
          * List of unread channels (ids)
@@ -566,6 +569,7 @@ export default class Sidebar extends React.PureComponent {
                     id='sidebarChannelContainer'
                     className='nav-pills__container'
                 >
+                    <Pluggable pluggableName='LHSSection'/>
                     {orderedChannelIds.map((sec) => {
                         const section = {
                             type: sec.type,
@@ -580,28 +584,23 @@ export default class Sidebar extends React.PureComponent {
                         const sectionId = `${section.type}Channel`;
 
                         return (
-                            <ul
-                                key={section.type}
-                                className='nav nav-pills nav-stacked'
-                            >
-                                <li>
-                                    <h4 id={sectionId}>
-                                        <ChannelName
-                                            sectionType={section.type}
-                                            channelName={section.name}
-                                            browsePublicDirectChannels={this.showMorePublicDirectChannelsModal}
-                                        />
-                                        <ChannelCreate
-                                            sectionType={section.type}
-                                            canCreatePublicChannel={this.props.canCreatePublicChannel}
-                                            canCreatePrivateChannel={this.props.canCreatePrivateChannel}
-                                            createPublicChannel={this.showNewPublicChannelModal}
-                                            createPrivateChannel={this.showNewPrivateChannelModal}
-                                            createDirectMessage={this.handleOpenMoreDirectChannelsModal}
-                                            createPublicDirectChannel={this.showNewPublicChannelModal}
-                                        />
-                                    </h4>
-                                </li>
+                            <Section key={section.type}>
+                                <SectionHeader id={sectionId}>
+                                    <ChannelName
+                                        sectionType={section.type}
+                                        channelName={section.name}
+                                        browsePublicDirectChannels={this.showMorePublicDirectChannelsModal}
+                                    />
+                                    <ChannelCreate
+                                        sectionType={section.type}
+                                        canCreatePublicChannel={this.props.canCreatePublicChannel}
+                                        canCreatePrivateChannel={this.props.canCreatePrivateChannel}
+                                        createPublicChannel={this.showNewPublicChannelModal}
+                                        createPrivateChannel={this.showNewPrivateChannelModal}
+                                        createDirectMessage={this.handleOpenMoreDirectChannelsModal}
+                                        createPublicDirectChannel={this.showNewPublicChannelModal}
+                                    />
+                                </SectionHeader>
                                 {section.items}
                                 <ChannelMore
                                     sectionType={section.type}
@@ -609,7 +608,7 @@ export default class Sidebar extends React.PureComponent {
                                     moreDirectMessages={this.handleOpenMoreDirectChannelsModal}
                                     browsePublicDirectChannels={this.showMorePublicDirectChannelsModal}
                                 />
-                            </ul>
+                            </Section>
                         );
                     })}
                 </div>

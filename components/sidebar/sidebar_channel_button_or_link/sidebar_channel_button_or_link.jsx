@@ -48,7 +48,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
     render = () => {
         let badge = null;
         if (this.props.badge) {
-            badge = <span className='badge'>{this.props.unreadMentions}</span>;
+            badge = <span classname='badge'>{this.props.unreadmentions}</span>;
         }
 
         const content = (

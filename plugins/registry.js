@@ -302,4 +302,14 @@ export default class PluginRegistry {
 
         return id;
     }
+
+    // Register a component to render as a section in the LHS menu. Components may leverage the
+    // exported Section and Subsection components to render channel-like entries.
+    // - text - A string or React element to display in the menu
+    // - action - A function to trigger when component is clicked on
+    // - mobileIcon - A React element to display as the icon in the menu in mobile view
+    // Returns a unique identifier.
+    registerLHSComponent(component) {
+        return dispatchPluginComponentAction('LHSSection', this.id, component);
+    }
 }

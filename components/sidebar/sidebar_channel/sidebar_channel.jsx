@@ -11,6 +11,7 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import SidebarChannelButtonOrLink from '../sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
 import SidebarTutorialTip from '../sidebar_tutorial_tip.jsx';
+import {SectionItem} from '../section';
 
 export default class SidebarChannel extends React.PureComponent {
     static propTypes = {
@@ -213,11 +214,6 @@ export default class SidebarChannel extends React.PureComponent {
             }
         }
 
-        let linkClass = '';
-        if (this.props.active) {
-            linkClass = 'active';
-        }
-
         let rowClass = 'sidebar-item';
         let badge = false;
         if (this.showChannelAsUnread()) {
@@ -276,10 +272,10 @@ export default class SidebarChannel extends React.PureComponent {
         }
 
         return (
-            <li
+            <SectionItem
                 key={this.props.channelName}
                 ref={'channel'}
-                className={linkClass}
+                active={this.props.active}
             >
                 <SidebarChannelButtonOrLink
                     link={link}
@@ -299,7 +295,7 @@ export default class SidebarChannel extends React.PureComponent {
                     channelIsArchived={this.props.channelIsArchived}
                 />
                 {tutorialTip}
-            </li>
+            </SectionItem>
         );
     }
 }
