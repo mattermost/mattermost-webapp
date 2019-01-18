@@ -61,8 +61,8 @@ export default class PostImageEmbed extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.loadImg(this.props.link);
         this.mounted = true;
+        this.loadImg(this.props.link);
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -92,12 +92,13 @@ export default class PostImageEmbed extends React.PureComponent {
     }
 
     handleLoadComplete() {
-        if (this.mounted) {
-            this.setState({
-                loaded: true,
-                errored: false,
-            });
+        if (!this.mounted) {
+            return;
         }
+        this.setState({
+            loaded: true,
+            errored: false,
+        });
         postListScrollChange();
         if (this.props.onLinkLoaded) {
             this.props.onLinkLoaded();

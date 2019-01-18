@@ -55,8 +55,8 @@ export default class FileAttachment extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.loadFiles();
         this.mounted = true;
+        this.loadFiles();
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase

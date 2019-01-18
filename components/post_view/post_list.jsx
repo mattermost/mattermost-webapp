@@ -120,7 +120,6 @@ export default class PostList extends React.PureComponent {
         this.scrollAnimationFrame = null;
         this.resizeAnimationFrame = null;
         this.atBottom = false;
-        this.mounted = true;
 
         this.state = {
             atEnd: false,
@@ -133,6 +132,7 @@ export default class PostList extends React.PureComponent {
     }
 
     componentDidMount() {
+        this.mounted = true;
         this.loadPosts(this.props.channel.id, this.props.focusedPostId);
         this.props.actions.checkAndSetMobileView();
         GlobalEventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
@@ -143,9 +143,9 @@ export default class PostList extends React.PureComponent {
     }
 
     componentWillUnmount() {
+        this.mounted = false;
         GlobalEventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
         window.removeEventListener('resize', this.handleWindowResize);
-        this.mounted = false;
     }
 
     getSnapshotBeforeUpdate() {
