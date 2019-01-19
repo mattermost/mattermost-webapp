@@ -2,9 +2,11 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {Preferences} from 'mattermost-redux/constants';
 import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
 
+import {selectPost} from 'actions/views/rhs';
 import {getIsRhsExpanded, getIsRhsOpen} from 'selectors/rhs';
 
 import PostMessageView from './post_message_view.jsx';
@@ -19,4 +21,12 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(PostMessageView);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            selectPost,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostMessageView);

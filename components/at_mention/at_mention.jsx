@@ -48,6 +48,7 @@ export default class AtMention extends React.PureComponent {
     }
 
     handleClick = (e) => {
+        e.stopPropagation();
         const targetBounds = this.overlayRef.current.getBoundingClientRect();
         const placement = popOverOverlayPosition(targetBounds, window.innerHeight, {above: spaceRequiredForPopOver});
 

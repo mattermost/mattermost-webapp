@@ -64,6 +64,10 @@ export default class PostMessageView extends React.PureComponent {
          * Post type components from plugins
          */
         pluginPostTypes: PropTypes.object,
+
+        actions: PropTypes.shape({
+            selectPost: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     static defaultProps = {
@@ -84,6 +88,12 @@ export default class PostMessageView extends React.PureComponent {
         this.imageProps = {
             onImageLoaded: this.handleHeightReceived,
         };
+    }
+
+    handlePostMessageClick = () => {
+        if (!this.props.isRHS) {
+            this.props.actions.selectPost(this.props.post);
+        }
     }
 
     handleHeightReceived = (height) => {
@@ -176,7 +186,7 @@ export default class PostMessageView extends React.PureComponent {
                 <div
                     id={`postMessageText_${post.id}`}
                     className='post-message__text'
-                    onClick={Utils.handleFormattedTextClick}
+                    onClick={(event) => Utils.handleFormattedTextClick(event, this.handlePostMessageClick)}
                 >
                     <PostMarkdown
                         message={message}

@@ -95,6 +95,7 @@ export default class Post extends React.PureComponent {
         e.preventDefault();
 
         const post = this.props.post;
+
         if (!post) {
             return;
         }
