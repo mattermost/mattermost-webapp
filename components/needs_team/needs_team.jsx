@@ -263,8 +263,6 @@ export default class NeedsTeam extends React.Component {
             />
         );
 
-        console.log(routes);
-
         return (
             <Switch>
                 {routes}
