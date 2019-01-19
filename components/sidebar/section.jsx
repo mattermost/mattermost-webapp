@@ -47,7 +47,7 @@ export const SectionItemLink = ({text, icon, to, unread, count, onClick}) => {
 
     return (
         <React.Fragment>
-            <Link to={to} className={className}>
+            <Link to={to} className={className} onClick={onClick}>
                 {icon}
                 <span className='sidebar-item__name'>{text}</span>
                 {badge}
