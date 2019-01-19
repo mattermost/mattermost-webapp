@@ -28,14 +28,14 @@ export default class CenterChannel extends React.PureComponent {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.location.pathname !== nextProps.location.pathname && nextProps.location.pathname.includes('/pl/')) {
+        if (this.props.location && nextProps.location && this.props.location.pathname !== nextProps.location.pathname && nextProps.location.pathname.includes('/pl/')) {
             this.setState({returnTo: this.props.location.pathname});
         }
     }
 
     render() {
         const {lastChannelPath} = this.props;
-        const url = this.props.match.url;
+        const url = this.props.match && this.props.match.url;
         return (
             <div
                 key='inner-wrap'

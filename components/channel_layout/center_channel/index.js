@@ -9,11 +9,18 @@ import {getLastViewedChannelNameByTeamName} from 'selectors/local_storage';
 
 import CenterChannel from './center_channel';
 
-const mapStateToProps = (state, ownProps) => ({
-    lastChannelPath: `${ownProps.match.url}/channels/${getLastViewedChannelNameByTeamName(state, ownProps.match.params.team)}`,
-    lhsOpen: getIsLhsOpen(state),
-    rhsOpen: getIsRhsOpen(state),
-    rhsMenuOpen: getIsRhsMenuOpen(state),
-});
+const mapStateToProps = (state, ownProps) => {
+    let lastChannelPath;
+    if (ownProps.match) {
+        lastChannelPath = `${ownProps.match.url}/channels/${getLastViewedChannelNameByTeamName(state, ownProps.match.params.team)}`;
+    }
+
+    return {
+        lastChannelPath,
+        lhsOpen: getIsLhsOpen(state),
+        rhsOpen: getIsRhsOpen(state),
+        rhsMenuOpen: getIsRhsMenuOpen(state),
+    };
+};
 
 export default connect(mapStateToProps)(CenterChannel);
