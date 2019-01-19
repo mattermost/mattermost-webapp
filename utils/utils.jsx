@@ -1547,7 +1547,7 @@ export function isValidPassword(password, passwordConfig) {
     return {valid, error};
 }
 
-export function handleFormattedTextClick(e) {
+export function handleFormattedTextClick(e, customClickHandler) {
     const hashtagAttribute = e.target.getAttributeNode('data-hashtag');
     const linkAttribute = e.target.getAttributeNode('data-link');
     const channelMentionAttribute = e.target.getAttributeNode('data-channel-mention');
@@ -1567,6 +1567,12 @@ export function handleFormattedTextClick(e) {
     } else if (channelMentionAttribute) {
         e.preventDefault();
         browserHistory.push(getCurrentRelativeTeamUrl(store.getState()) + '/channels/' + channelMentionAttribute.value);
+    }
+
+    if (e.target.tagName.toLowerCase() !== 'a') {
+        if (customClickHandler) {
+            customClickHandler();
+        }
     }
 }
 

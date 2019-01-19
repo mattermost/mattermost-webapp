@@ -86,6 +86,10 @@ export default class PostBody extends React.PureComponent {
          * Set not to allow edits on post
          */
         isReadOnly: PropTypes.bool,
+
+        actions: PropTypes.shape({
+            selectPost: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
