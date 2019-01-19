@@ -180,6 +180,17 @@ function postTypes(state = {}, action) {
     }
 }
 
+function editorState(state = false, action) {
+    switch (action.type) {
+    case ActionTypes.EDITOR_OPEN:
+        return true;
+    case ActionTypes.EDITOR_CLOSE:
+        return false;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
 
     // object where every key is a plugin id and values are webapp plugin manifests
@@ -192,4 +203,6 @@ export default combineReducers({
     // object where every key is a post type and the values are components wrapped in an
     // an object that contains a plugin id
     postTypes,
+
+    editorState,
 });

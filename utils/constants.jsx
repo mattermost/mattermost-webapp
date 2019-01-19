@@ -142,7 +142,8 @@ export const ActionTypes = keyMirror({
     RECEIVED_WEBAPP_PLUGINS: null,
     RECEIVED_WEBAPP_PLUGIN: null,
     REMOVED_WEBAPP_PLUGIN: null,
-
+    EDITOR_OPEN: null,
+    EDITOR_CLOSE: null,
     MODAL_OPEN: null,
     MODAL_CLOSE: null,
 

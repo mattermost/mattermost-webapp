@@ -26,6 +26,8 @@ import ResetStatusModal from 'components/reset_status_modal';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox';
 import TutorialTip from 'components/tutorial/tutorial_tip';
+import CreatePostPlug from 'plugins/create_post_plug';
+import Pluggable from 'plugins/pluggable';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
@@ -170,6 +172,16 @@ export default class CreatePost extends React.Component {
          * To check if the timezones are enable on the server.
          */
         isTimezoneEnabled: PropTypes.bool.isRequired,
+
+        /**
+         * Used for refreshing the value of textbox when a plugin editor is closed.
+         */
+        pluginEditorState: PropTypes.bool,
+
+        /**
+         * Used in creating space to create dropdown for plugins.
+         */
+        hasPostPlugins: PropTypes.bool,
         actions: PropTypes.shape({
 
             /**
@@ -286,6 +298,13 @@ export default class CreatePost extends React.Component {
                 message: draft.message,
                 submitting: false,
                 serverError: null,
+            });
+        }
+        if (nextProps.pluginEditorState !== this.props.pluginEditorState) {
+            const draft = nextProps.draft;
+
+            this.setState({
+                message: draft.message,
             });
         }
     }
@@ -1093,9 +1112,17 @@ export default class CreatePost extends React.Component {
                 className={centerClass}
                 onSubmit={this.handleSubmit}
             >
+                <Pluggable
+                    pluggableName='CreatePost'
+                    submitPost={this.doSubmit}
+                />
                 <div className={'post-create' + attachmentsDisabled}>
                     <div className='post-create-body'>
-                        <div className='post-body__cell'>
+                        <div
+                            className='post-body__cell'
+                            style={{paddingLeft: this.props.hasPostPlugins ? '40px' : '0px'}}
+                        >
+                            <CreatePostPlug/>
                             <Textbox
                                 onChange={this.handleChange}
                                 onKeyPress={this.postMsgKeyPress}

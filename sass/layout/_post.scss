@@ -2007,3 +2007,21 @@
     top: 0;
     width: 100%;
 }
+
+.create_post--plug {
+    position: absolute;
+    left: 0px;
+    display: inline-block;
+    width: 40px;
+    height: 100%;
+    text-align: center;
+    color: #b9b9ba;
+    padding-top: 10px;
+    border-color: rgba(61, 60, 64, 0.1);
+    border: 1px solid transparent;
+    border-right: none;
+    border-color: rgba(61, 60, 64, 0.1);
+    .dropdown-menu {
+      top: -65px;
+    }
+}

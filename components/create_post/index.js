@@ -39,6 +39,7 @@ import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants.jsx';
 import {canUploadFiles} from 'utils/file_utils';
+import {hasPostPlugins} from 'utils/plugins';
 
 import CreatePost from './create_post.jsx';
 
@@ -64,6 +65,7 @@ function makeMapStateToProps() {
         const badConnection = connectionErrorCount(state) > 1;
         const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
 
+        const pluginEditorState = state.plugins.editorState;
         return {
             currentTeamId: getCurrentTeamId(state),
             currentChannel,
@@ -91,6 +93,8 @@ function makeMapStateToProps() {
             emojiMap: getEmojiMap(state),
             badConnection,
             isTimezoneEnabled,
+            pluginEditorState,
+            hasPostPlugins: hasPostPlugins(state.plugins.components),
         };
     };
 }

@@ -5,11 +5,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Dropdown} from 'react-bootstrap';
 
-import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import CustomMenu from 'plugins/components/customMenu.jsx';
 import CustomToggle from 'plugins/components/customToggle.jsx';
 
-export default class ChannelHeaderPlug extends React.PureComponent {
+export default class CreatePostPlug extends React.PureComponent {
     static propTypes = {
 
         /*
@@ -46,24 +45,11 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         this.onClose();
     }
 
-    createButton = (plug) => {
-        return (
-            <HeaderIconWrapper
-                buttonClass='channel-header__icon style--none'
-                iconComponent={plug.icon}
-                onClick={() => plug.action(this.props.channel, this.props.channelMember)}
-                buttonId={plug.id}
-                tooltipKey={'plugin'}
-                tooltipText={plug.tooltipText ? plug.tooltipText : plug.dropdownText}
-            />
-        );
-    }
-
     createDropdown = (plugs) => {
         const items = plugs.map((plug) => {
             return (
                 <li
-                    key={'channelHeaderPlug' + plug.id}
+                    key={'CreatePostPlug' + plug.id}
                 >
                     <a
                         href='#'
@@ -78,28 +64,30 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         });
 
         return (
-            <div className='flex-child'>
-                <Dropdown
-                    ref='dropdown'
-                    id='channelHeaderPlugDropdown'
-                    onToggle={this.toggleDropdown}
-                    onSelect={this.onSelect}
-                    open={this.state.dropdownOpen}
-                >
-                    <CustomToggle
-                        dropdownOpen={this.state.dropdownOpen}
-                        bsRole='toggle'
-                    >
-                        <span className='fa fa-ellipsis-h icon__ellipsis'/>
-                    </CustomToggle>
-                    <CustomMenu
-                        bsRole='menu'
+            <div className='create_post--plug'>
+                <div className='flex-child'>
+                    <Dropdown
+                        ref='dropdown'
+                        id='CreatePostPlug'
+                        onToggle={this.toggleDropdown}
+                        onSelect={this.onSelect}
                         open={this.state.dropdownOpen}
-                        onClose={this.onClose}
                     >
-                        {items}
-                    </CustomMenu>
-                </Dropdown>
+                        <CustomToggle
+                            dropdownOpen={this.state.dropdownOpen}
+                            bsRole='toggle'
+                        >
+                            <span className='fa fa-plus'/>
+                        </CustomToggle>
+                        <CustomMenu
+                            bsRole='menu'
+                            open={this.state.dropdownOpen}
+                            onClose={this.onClose}
+                        >
+                            {items}
+                        </CustomMenu>
+                    </Dropdown>
+                </div>
             </div>
         );
     }
@@ -109,8 +97,6 @@ export default class ChannelHeaderPlug extends React.PureComponent {
 
         if (components.length === 0) {
             return null;
-        } else if (components.length === 1) {
-            return this.createButton(components[0]);
         }
 
         return this.createDropdown(components);

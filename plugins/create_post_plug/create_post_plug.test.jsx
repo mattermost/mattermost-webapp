@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ChannelHeaderPlug from 'plugins/channel_header_plug/channel_header_plug.jsx';
+import CreatePostPlug from './create_post_plug.jsx';
 
-describe('plugins/ChannelHeaderPlug', () => {
+describe('plugins/CreatePostPlug', () => {
     const testPlug = {
         id: 'someid',
         pluginId: 'pluginid',
@@ -18,7 +18,7 @@ describe('plugins/ChannelHeaderPlug', () => {
 
     test('should match snapshot with no extended component', () => {
         const wrapper = shallow(
-            <ChannelHeaderPlug
+            <CreatePostPlug
                 components={[]}
                 channel={{}}
                 channelMember={{}}
@@ -30,7 +30,7 @@ describe('plugins/ChannelHeaderPlug', () => {
 
     test('should match snapshot with one extended component', () => {
         const wrapper = shallow(
-            <ChannelHeaderPlug
+            <CreatePostPlug
                 components={[testPlug]}
                 channel={{}}
                 channelMember={{}}
@@ -42,7 +42,7 @@ describe('plugins/ChannelHeaderPlug', () => {
 
     test('should match snapshot with two extended components', () => {
         const wrapper = shallow(
-            <ChannelHeaderPlug
+            <CreatePostPlug
                 components={[testPlug, {...testPlug, id: 'someid2'}]}
                 channel={{}}
                 channelMember={{}}

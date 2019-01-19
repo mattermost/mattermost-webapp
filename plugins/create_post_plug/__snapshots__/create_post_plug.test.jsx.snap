@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plugins/CreatePostPlug should match snapshot with no extended component 1`] = `""`;
+
+exports[`plugins/CreatePostPlug should match snapshot with one extended component 1`] = `
+<div
+  className="create_post--plug"
+>
+  <div
+    className="flex-child"
+  >
+    <Uncontrolled(Dropdown)
+      id="CreatePostPlug"
+      onToggle={[Function]}
+      open={false}
+    >
+      <CustomToggle
+        bsRole="toggle"
+        dropdownOpen={false}
+      >
+        <span
+          className="fa fa-plus"
+        />
+      </CustomToggle>
+      <CustomMenu
+        bsRole="menu"
+        onClose={[Function]}
+        open={false}
+      >
+        <li
+          key="CreatePostPlugsomeid"
+        >
+          <a
+            className="overflow--ellipsis"
+            href="#"
+            onClick={[Function]}
+          >
+            <span>
+              <i
+                className="fa fa-anchor"
+              />
+            </span>
+            some dropdown text
+          </a>
+        </li>
+      </CustomMenu>
+    </Uncontrolled(Dropdown)>
+  </div>
+</div>
+`;
+
+exports[`plugins/CreatePostPlug should match snapshot with two extended components 1`] = `
+<div
+  className="create_post--plug"
+>
+  <div
+    className="flex-child"
+  >
+    <Uncontrolled(Dropdown)
+      id="CreatePostPlug"
+      onToggle={[Function]}
+      open={false}
+    >
+      <CustomToggle
+        bsRole="toggle"
+        dropdownOpen={false}
+      >
+        <span
+          className="fa fa-plus"
+        />
+      </CustomToggle>
+      <CustomMenu
+        bsRole="menu"
+        onClose={[Function]}
+        open={false}
+      >
+        <li
+          key="CreatePostPlugsomeid"
+        >
+          <a
+            className="overflow--ellipsis"
+            href="#"
+            onClick={[Function]}
+          >
+            <span>
+              <i
+                className="fa fa-anchor"
+              />
+            </span>
+            some dropdown text
+          </a>
+        </li>
+        <li
+          key="CreatePostPlugsomeid2"
+        >
+          <a
+            className="overflow--ellipsis"
+            href="#"
+            onClick={[Function]}
+          >
+            <span>
+              <i
+                className="fa fa-anchor"
+              />
+            </span>
+            some dropdown text
+          </a>
+        </li>
+      </CustomMenu>
+    </Uncontrolled(Dropdown)>
+  </div>
+</div>
+`;
