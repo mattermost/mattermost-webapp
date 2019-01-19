@@ -181,8 +181,8 @@ export default class Root extends React.Component {
         }
         /*eslint-enable */
 
-        const afterIntl = () => {
-            initializePlugins();
+        const afterIntl = async () => {
+            await initializePlugins();
 
             if (this.props.location.pathname === '/' && this.props.noAccounts) {
                 this.props.history.push('/signup_user_complete');

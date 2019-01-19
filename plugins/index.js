@@ -38,9 +38,7 @@ export async function initializePlugins() {
         return;
     }
 
-    data.forEach((m) => {
-        loadPlugin(m);
-    });
+    await Promise.all(data.map((m) => loadPlugin(m)));
 }
 
 // getPlugins queries the server for all enabled plugins
@@ -64,32 +62,38 @@ const loadedPlugins = {};
 
 // loadPlugin fetches the web app bundle described by the given manifest, waits for the bundle to
 // load, and then ensures the plugin has been initialized.
-export function loadPlugin(manifest) {
+export async function loadPlugin(manifest) {
     // Don't load it again if previously loaded
     if (loadedPlugins[manifest.id]) {
         return;
     }
 
-    function onLoad() {
-        initializePlugin(manifest);
-        console.log('Loaded ' + manifest.id + ' plugin'); //eslint-disable-line no-console
-    }
+    await new Promise((resolve, reject) => {
+        function onLoad() {
+            initializePlugin(manifest);
+            resolve();
+            console.log('Loaded ' + manifest.id + ' plugin'); //eslint-disable-line no-console
+        }
 
-    // Backwards compatibility for old plugins
-    let bundlePath = manifest.webapp.bundle_path;
-    if (bundlePath.includes('/static/') && !bundlePath.includes('/static/plugins/')) {
-        bundlePath = bundlePath.replace('/static/', '/static/plugins/');
-    }
+        // Backwards compatibility for old plugins
+        let bundlePath = manifest.webapp.bundle_path;
+        if (bundlePath.includes('/static/') && !bundlePath.includes('/static/plugins/')) {
+            bundlePath = bundlePath.replace('/static/', '/static/plugins/');
+        }
 
-    const script = document.createElement('script');
-    script.id = 'plugin_' + manifest.id;
-    script.type = 'text/javascript';
-    script.src = getSiteURL() + bundlePath;
-    script.onload = onLoad;
-    console.log('Loading ' + manifest.id + ' plugin'); //eslint-disable-line no-console
-    document.getElementsByTagName('head')[0].appendChild(script);
+        const script = document.createElement('script');
+        script.id = 'plugin_' + manifest.id;
+        script.type = 'text/javascript';
+        script.src = getSiteURL() + bundlePath;
+        script.onload = onLoad;
+        script.onerror = () => {
+            reject('failed to load ' + script.src);
+        };
+        console.log('Loading ' + manifest.id + ' plugin'); //eslint-disable-line no-console
+        document.getElementsByTagName('head')[0].appendChild(script);
 
-    loadedPlugins[manifest.id] = true;
+        loadedPlugins[manifest.id] = true;
+    });
 }
 
 // initializePlugin creates a registry specific to the plugin and invokes any initialize function
