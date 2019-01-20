@@ -336,11 +336,60 @@ describe('rhs view actions', () => {
         });
 
         test('it submits a command when message is /away', () => {
+            store = mockStore({
+                ...initialState,
+                storage: {
+                    storage: {
+                        [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
+                            value: {
+                                message: '/away',
+                                fileInfos: [],
+                                uploadsInProgress: [],
+                            },
+                            timestamp: new Date(),
+                        },
+                    },
+                },
+            });
+
+            store.dispatch(onSubmit());
+
             const testStore = mockStore(initialState);
             testStore.dispatch(submitCommand(channelId, rootId, {message: '/away', fileInfos: [], uploadsInProgress: []}));
 
-            const expectedActions = [{args: ['/away', {channel_id: '4j5j4k3k34j4', parent_id: 'fc234c34c23', root_id: 'fc234c34c23', team_id: '4j5nmn4j3'}], type: 'MOCK_ACTIONS_COMMAND_EXECUTE'}];
-            expect(testStore.getActions()).toEqual(expectedActions);
+            const commandActions = [{args: ['/away', {channel_id: '4j5j4k3k34j4', parent_id: 'fc234c34c23', root_id: 'fc234c34c23', team_id: '4j5nmn4j3'}], type: 'MOCK_ACTIONS_COMMAND_EXECUTE'}];
+            expect(store.getActions()).toEqual(
+                expect.arrayContaining(testStore.getActions()),
+                expect.arrayContaining(commandActions),
+            );
+        });
+
+        test('it submits a regular post when options.ignoreSlash is true', () => {
+            store = mockStore({
+                ...initialState,
+                storage: {
+                    storage: {
+                        [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
+                            value: {
+                                message: '/fakecommand',
+                                fileInfos: [],
+                                uploadsInProgress: [],
+                            },
+                            timestamp: new Date(),
+                        },
+                    },
+                },
+            });
+
+            store.dispatch(onSubmit({ignoreSlash: true}));
+
+            const testStore = mockStore(initialState);
+            testStore.dispatch(submitPost(channelId, rootId, {message: '/fakecommand', fileInfos: [], uploadsInProgress: []}));
+
+            expect(store.getActions()).toEqual(
+                expect.arrayContaining(testStore.getActions()),
+                expect.arrayContaining([{args: ['/fakecommand'], type: 'MOCK_ADD_MESSAGE_INTO_HISTORY'}]),
+            );
         });
 
         test('it submits a regular post when message is something else', () => {
@@ -366,7 +415,8 @@ describe('rhs view actions', () => {
             testStore.dispatch(submitPost(channelId, rootId, {message: 'test msg', fileInfos: [], uploadsInProgress: []}));
 
             expect(store.getActions()).toEqual(
-                expect.arrayContaining(testStore.getActions())
+                expect.arrayContaining(testStore.getActions()),
+                expect.arrayContaining([{args: ['test msg'], type: 'MOCK_ADD_MESSAGE_INTO_HISTORY'}]),
             );
         });
     });

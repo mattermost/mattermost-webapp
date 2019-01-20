@@ -208,7 +208,7 @@ describe('components/CreateComment', () => {
         expect(updateCommentDraftWithRootId.mock.calls[0][1]).toEqual(
             expect.objectContaining({uploadsInProgress: [2, 3]})
         );
-        expect(wrapper.state().serverError).toBe(testError1);
+        expect(wrapper.state().serverError.message).toBe(testError1);
         expect(wrapper.state().draft.uploadsInProgress).toEqual([2, 3]);
 
         // clientId = -1
@@ -217,7 +217,7 @@ describe('components/CreateComment', () => {
 
         // should not call onUpdateCommentDraft
         expect(updateCommentDraftWithRootId.mock.calls.length).toBe(1);
-        expect(wrapper.state().serverError).toBe(testError2);
+        expect(wrapper.state().serverError.message).toBe(testError2);
     });
 
     test('getFileCount should return the correct count', () => {
@@ -385,6 +385,42 @@ describe('components/CreateComment', () => {
         );
         expect(wrapper.state().draft.message).toBe(testMessage);
         expect(scrollToBottom).toHaveBeenCalled();
+    });
+
+    it('handleChange should throw away invalid command error if user resumes typing', async () => {
+        const onUpdateCommentDraft = jest.fn();
+
+        const error = new Error('No command found');
+        error.server_error_id = 'api.command.execute_command.not_found.app_error';
+        const onSubmit = jest.fn(() => Promise.reject(error));
+
+        const draft = {
+            message: '/fakecommand other text',
+            uploadsInProgress: [1, 2, 3],
+            fileInfos: [{}, {}, {}],
+        };
+        const props = {...baseProps, onUpdateCommentDraft, draft, onSubmit};
+
+        const wrapper = shallowWithIntl(
+            <CreateComment {...props}/>
+        );
+
+        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
+
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+
+        expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: false});
+        expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
+
+        wrapper.instance().handleChange({
+            target: {value: 'some valid text'},
+        });
+
+        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
+
+        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+
+        expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: false});
     });
 
     test('should scroll to bottom when uploadsInProgress increase', () => {
@@ -583,6 +619,66 @@ describe('components/CreateComment', () => {
                 expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(1);
                 expect(wrapper.state('showConfirmModal')).toBe(true);
             });
+        });
+
+        it('should allow to force send invalid slash command as a message', async () => {
+            const error = new Error('No command found');
+            error.server_error_id = 'api.command.execute_command.not_found.app_error';
+            const onSubmitWithError = jest.fn(() => Promise.reject(error));
+
+            const props = {
+                ...baseProps,
+                draft: {
+                    message: '/fakecommand other text',
+                    uploadsInProgress: [],
+                    fileInfos: [{}, {}, {}],
+                },
+                onSubmit: onSubmitWithError,
+            };
+
+            const wrapper = shallowWithIntl(
+                <CreateComment {...props}/>
+            );
+
+            expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
+
+            await wrapper.instance().handleSubmit({preventDefault});
+
+            expect(onSubmitWithError).toHaveBeenCalledWith({ignoreSlash: false});
+            expect(preventDefault).toHaveBeenCalled();
+            expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
+
+            wrapper.setProps({onSubmit});
+            await wrapper.instance().handleSubmit({preventDefault});
+
+            expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: true});
+            expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
+        });
+
+        it('should update global draft state if invalid slash command error occurs', async () => {
+            const error = new Error('No command found');
+            error.server_error_id = 'api.command.execute_command.not_found.app_error';
+            const onSubmitWithError = jest.fn(() => Promise.reject(error));
+
+            const props = {
+                ...baseProps,
+                draft: {
+                    message: '/fakecommand other text',
+                    uploadsInProgress: [],
+                    fileInfos: [{}, {}, {}],
+                },
+                onSubmit: onSubmitWithError,
+            };
+
+            const wrapper = shallowWithIntl(
+                <CreateComment {...props}/>
+            );
+
+            const submitPromise = wrapper.instance().handleSubmit({preventDefault});
+            expect(props.onUpdateCommentDraft).not.toHaveBeenCalled();
+
+            await submitPromise;
+            expect(props.onUpdateCommentDraft).toHaveBeenCalledWith(props.draft);
         });
     });
 
