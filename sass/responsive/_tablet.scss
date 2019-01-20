@@ -166,6 +166,11 @@
 
 // Tablet and desktop
 @media screen and (min-width: 768px) {
+    .channel-header__popover {
+        left: 236px !important;
+        top: 44px !important;
+    }
+
     .col-sm-auto {
         float: left;
     }
