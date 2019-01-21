@@ -132,6 +132,7 @@ export default class PostList extends React.PureComponent {
     }
 
     componentDidMount() {
+        this.mounted = true;
         this.loadPosts(this.props.channel.id, this.props.focusedPostId);
         this.props.actions.checkAndSetMobileView();
         GlobalEventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
@@ -142,6 +143,7 @@ export default class PostList extends React.PureComponent {
     }
 
     componentWillUnmount() {
+        this.mounted = false;
         GlobalEventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
         window.removeEventListener('resize', this.handleWindowResize);
     }
@@ -332,13 +334,17 @@ export default class PostList extends React.PureComponent {
             }
             return count;
         }, 0);
-        this.setState({unViewedCount});
+        if (this.mounted) {
+            this.setState({unViewedCount});
+        }
     }
 
     handleScrollStop = () => {
-        this.setState({
-            isScrolling: false,
-        });
+        if (this.mounted) {
+            this.setState({
+                isScrolling: false,
+            });
+        }
     }
 
     checkBottom = () => {
@@ -413,10 +419,12 @@ export default class PostList extends React.PureComponent {
             this.hasScrolledToNewMessageSeparator = true;
         }
 
-        this.setState({
-            isDoingInitialLoad: false,
-            atEnd: Boolean(posts && posts.order.length < POSTS_PER_PAGE),
-        });
+        if (this.mounted) {
+            this.setState({
+                isDoingInitialLoad: false,
+                atEnd: Boolean(posts && posts.order.length < POSTS_PER_PAGE),
+            });
+        }
     }
 
     loadMorePosts = async () => {
@@ -425,15 +433,17 @@ export default class PostList extends React.PureComponent {
             if (this.autoRetriesCount < MAX_NUMBER_OF_AUTO_RETRIES) {
                 this.autoRetriesCount++;
                 this.loadMorePosts();
-            } else {
+            } else if (this.mounted) {
                 this.setState({autoRetryEnable: false});
             }
         } else {
-            this.setState({
-                atEnd: !moreToLoad && this.props.posts.length < this.props.postVisibility,
-                autoRetryEnable: true,
-                loadingPosts: false,
-            });
+            if (this.mounted) {
+                this.setState({
+                    atEnd: !moreToLoad && this.props.posts.length < this.props.postVisibility,
+                    autoRetryEnable: true,
+                    loadingPosts: false,
+                });
+            }
             if (!this.state.autoRetryEnable) {
                 this.autoRetriesCount = 0;
             }
