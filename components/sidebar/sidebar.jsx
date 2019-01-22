@@ -133,6 +133,8 @@ export default class Sidebar extends React.PureComponent {
          */
         channelSwitcherOption: PropTypes.bool.isRequired,
 
+        pluginApps: PropTypes.array.isRequired,
+
         actions: PropTypes.shape({
             close: PropTypes.func.isRequired,
             switchToChannelById: PropTypes.func.isRequired,
@@ -566,6 +568,24 @@ export default class Sidebar extends React.PureComponent {
                     id='sidebarChannelContainer'
                     className='nav-pills__container'
                 >
+                    {this.props.pluginApps && this.props.pluginApps.length > 0 &&
+                        <ul
+                            key='apps'
+                            className='nav nav-pills nav-stacked'
+                        >
+                            <li>
+                                <h4 id='apps'>
+                                    <FormattedMessage
+                                        id={'applications'}
+                                        defaultMessage={'Applications'}
+                                    />
+                                </h4>
+                            </li>
+                            <Pluggable
+                                pluggableName='TeamApp'
+                                teamName={this.props.currentTeam.name}
+                            />
+                        </ul>}
                     {orderedChannelIds.map((sec) => {
                         const section = {
                             type: sec.type,

@@ -5,6 +5,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
+import {browserHistory} from 'utils/browser_history.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import PluginRegistry from 'plugins/registry';
 import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} from 'actions/websocket_actions.jsx';
@@ -99,7 +100,7 @@ function initializePlugin(manifest) {
     const plugin = window.plugins[manifest.id];
     const registry = new PluginRegistry(manifest.id);
     if (plugin.initialize) {
-        plugin.initialize(registry, store);
+        plugin.initialize(registry, store, browserHistory);
     }
 }
 

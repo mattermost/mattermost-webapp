@@ -13,7 +13,7 @@ import {getCustomEmojisInText} from 'mattermost-redux/actions/emojis';
 import {General} from 'mattermost-redux/constants';
 import {
     getCurrentChannel,
-    getMyCurrentChannelMembership,
+    getMyChannelMember,
     isCurrentChannelFavorite,
     isCurrentChannelMuted,
     isCurrentChannelReadOnly,
@@ -53,7 +53,7 @@ const mapStateToProps = (state) => {
     return {
         teamId: getCurrentTeamId(state),
         channel,
-        channelMember: getMyCurrentChannelMembership(state),
+        channelMember: getMyChannelMember(state, channel.id),
         currentUser: user,
         dmUser,
         rhsState: getRhsState(state),
