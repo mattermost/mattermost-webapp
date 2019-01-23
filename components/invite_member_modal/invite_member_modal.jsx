@@ -89,9 +89,9 @@ class InviteMemberModal extends React.PureComponent {
         const count = inviteIds.length;
         const invites = [];
         const emails = [];
-        const emailErrors = this.state.emailErrors;
-        const firstNameErrors = this.state.firstNameErrors;
-        const lastNameErrors = this.state.lastNameErrors;
+        const emailErrors = {...this.state.emailErrors};
+        const firstNameErrors = {...this.state.firstNameErrors};
+        const lastNameErrors = {...this.state.lastNameErrors};
         let valid = true;
 
         for (let i = 0; i < count; i++) {
@@ -168,8 +168,8 @@ class InviteMemberModal extends React.PureComponent {
     }
 
     addInviteFields = () => {
-        var count = this.state.idCount + 1;
-        var inviteIds = this.state.inviteIds;
+        const count = this.state.idCount + 1;
+        const inviteIds = [...this.state.inviteIds];
         inviteIds.push(count);
         this.setState({inviteIds, idCount: count});
     }
@@ -193,13 +193,9 @@ class InviteMemberModal extends React.PureComponent {
         });
     }
 
-    removeInviteFields = (index) => {
-        var count = this.state.idCount;
-        var inviteIds = this.state.inviteIds;
-        var i = inviteIds.indexOf(index);
-        if (i > -1) {
-            inviteIds.splice(i, 1);
-        }
+    removeInviteFields = (inviteId) => {
+        let count = this.state.idCount;
+        const inviteIds = this.state.inviteIds.filter((id) => id !== inviteId);
         if (!inviteIds.length) {
             inviteIds.push(++count);
         }
