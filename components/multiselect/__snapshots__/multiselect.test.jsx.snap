@@ -147,7 +147,7 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
     className="filter-controls"
   >
     <button
-      className="btn btn-default filter-control filter-control__next"
+      className="btn btn-link filter-control filter-control__next"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -299,7 +299,7 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
     className="filter-controls"
   >
     <button
-      className="btn btn-default filter-control filter-control__prev"
+      className="btn btn-link filter-control filter-control__prev"
       onClick={[Function]}
     >
       <FormattedMessage
