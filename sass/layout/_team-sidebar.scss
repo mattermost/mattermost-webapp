@@ -9,7 +9,7 @@
     .fa {
         @include single-transition(all, .15s, ease);
         @include opacity(.6);
-        color: $white;
+        color: var(--mm-sidebarHeaderTextColor, $white);
 
         &:hover {
             @include opacity(1);
@@ -35,7 +35,8 @@
 
     .team-btn {
         @include border-radius(4px);
-        border: 1px solid transparent;
+        border: 1px solid var(--mm-sidebarTextActiveBorder); // TODO this has lost its transparency
+        color: var(--mm-sidebarHeaderTextColor);
         font-weight: bold;
         height: 44px;
         letter-spacing: -.5px;
@@ -45,6 +46,12 @@
         text-transform: capitalize;
         vertical-align: top;
         width: 44px;
+
+        .badge {
+            background: var(--mm-mentionBg);
+            border-color: var(--mm-sidebarText); // TODO this has lost its transparency
+            color: var(--mm-mentionColor);
+        }
 
         &:hover {
             .team-btn__content {
@@ -103,7 +110,7 @@
 
             &.active:before {
                 @include border-radius(4px);
-                background: $black;
+                background: var(--mm-sidebarTextActiveBorder, $black);
                 content: '';
                 height: 42px;
                 left: 0;
@@ -113,7 +120,7 @@
             }
 
             &.unread:before {
-                background: $black;
+                background: var(--mm-sidebarTextActiveBorder, $black);
                 border-radius: 50%;
                 content: '';
                 height: 5px;

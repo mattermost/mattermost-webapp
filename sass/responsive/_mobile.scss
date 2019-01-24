@@ -1416,6 +1416,22 @@
                 display: block;
                 @include translate3d(0, 0, 0);
             }
+
+            .team-wrapper {
+                .team-container {
+                    &.active {
+                        .team-btn__content {
+                            border-color: var(--mm-sidebarHeaderTextColor); // TODO this has lost its transparency
+                        }
+                    }
+
+                    a:hover {
+                        .team-btn__content {
+                            border-color: var(--mm-sidebarHeaderTextColor); // TODO this has lost its transparency
+                        }
+                    }
+                }
+            }
         }
     }
 
