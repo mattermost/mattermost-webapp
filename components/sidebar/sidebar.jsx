@@ -551,6 +551,7 @@ export default class Sidebar extends React.PureComponent {
         const {orderedChannelIds} = this.state;
 
         const sectionsToHide = [SidebarChannelGroups.UNREADS, SidebarChannelGroups.FAVORITE];
+        const pluginApps = this.props.pluginApps && this.props.pluginApps.filter((p) => p.show());
 
         return (
             <Scrollbars
@@ -568,7 +569,7 @@ export default class Sidebar extends React.PureComponent {
                     id='sidebarChannelContainer'
                     className='nav-pills__container'
                 >
-                    {this.props.pluginApps && this.props.pluginApps.length > 0 &&
+                    {pluginApps && pluginApps.length > 0 &&
                         <ul
                             key='apps'
                             className='nav nav-pills nav-stacked'

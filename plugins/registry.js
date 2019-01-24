@@ -69,8 +69,20 @@ export default class PluginRegistry {
 
     // Register a in the list of apps.
     // Accepts a React component. Returns a unique identifier.
-    registerTeamAppComponent(component) {
-        return dispatchPluginComponentAction('TeamApp', this.id, component);
+    registerTeamAppComponent(component, show = () => true) {
+        const id = generateId();
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'TeamApp',
+            data: {
+                id,
+                pluginId: this.id,
+                component,
+                show,
+            },
+        });
+
+        return id;
     }
 
     // Register in the app visualization in the center panel.

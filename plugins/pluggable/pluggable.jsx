@@ -53,6 +53,9 @@ export default class Pluggable extends React.PureComponent {
         if (components.hasOwnProperty(componentName)) {
             const pluginComponents = components[componentName];
             const content = pluginComponents.map((p) => {
+                if (p.show && !p.show()) {
+                    return null;
+                }
                 const PluginComponent = p.component;
                 return (
                     <PluginComponent
