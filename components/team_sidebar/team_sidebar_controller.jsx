@@ -15,7 +15,7 @@ import * as Utils from 'utils/utils.jsx';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import Pluggable from 'plugins/pluggable';
 
-import TeamButton from './components/team_button.jsx';
+import TeamButton from './team_button';
 
 export function renderView(props) {
     return (
@@ -89,7 +89,7 @@ export default class TeamSidebar extends React.PureComponent {
         if (this.props.moreTeamsToJoin && !this.props.experimentalPrimaryTeam) {
             teams.push(
                 <TeamButton
-                    btnClass='team-btn__add'
+                    isAddButton={true}
                     key='more_teams'
                     url='/select_team'
                     tip={
@@ -109,7 +109,7 @@ export default class TeamSidebar extends React.PureComponent {
                     key='more_teams'
                 >
                     <TeamButton
-                        btnClass='team-btn__add'
+                        isAddButton={true}
                         url='/create_team'
                         tip={
                             <FormattedMessage

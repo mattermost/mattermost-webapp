@@ -12,6 +12,8 @@ import {isDesktopApp} from 'utils/user_agent.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 
+import Styles from './styles.css';
+
 export default class TeamButton extends React.Component {
     constructor(props) {
         super(props);
@@ -34,18 +36,17 @@ export default class TeamButton extends React.Component {
     render() {
         const teamIconUrl = this.props.teamIconUrl;
 
-        let teamClass = this.props.active ? 'active' : '';
-        const btnClass = this.props.btnClass;
-        const disabled = this.props.disabled ? 'team-disabled' : '';
+        let teamClass = this.props.active ? Styles.active : '';
+        const disabled = this.props.disabled ? Styles['team-container'] : '';
         const handleClick = (this.props.active || this.props.disabled) ? this.handleDisabled : this.handleSwitch;
         let badge;
 
         if (!teamClass) {
-            teamClass = this.props.unread ? 'unread' : '';
+            teamClass = this.props.unread ? Styles.unread : '';
 
             if (this.props.mentions) {
                 badge = (
-                    <span className={'badge pull-right small'}>{this.props.mentions}</span>
+                    <span className={Styles.badge + ' badge pull-right small'}>{this.props.mentions}</span>
                 );
             }
         }
@@ -55,9 +56,9 @@ export default class TeamButton extends React.Component {
         if (!content) {
             if (teamIconUrl) {
                 content = (
-                    <div className='team-btn__content'>
+                    <div className={Styles['team-btn__content']}>
                         <div
-                            className='team-btn__image'
+                            className={Styles['team-btn__image']}
                             style={{backgroundImage: `url('${teamIconUrl}')`}}
                         />
                     </div>
@@ -67,8 +68,8 @@ export default class TeamButton extends React.Component {
                 initials = initials ? initials.replace(/\s/g, '').substring(0, 2) : '??';
 
                 content = (
-                    <div className='team-btn__content'>
-                        <div className='team-btn__initials'>
+                    <div className={Styles['team-btn__content']}>
+                        <div>
                             {initials}
                         </div>
                     </div>
@@ -77,6 +78,12 @@ export default class TeamButton extends React.Component {
         }
 
         const toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'Name undefined');
+
+        let btnClass = Styles['team-btn'];
+        if (this.props.isAddButton) {
+            btnClass += ' ' + Styles['team-btn__add'];
+        }
+
         const btn = (
             <OverlayTrigger
                 trigger={['hover', 'focus']}
@@ -88,7 +95,7 @@ export default class TeamButton extends React.Component {
                     </Tooltip>
                 }
             >
-                <div className={'team-btn ' + btnClass}>
+                <div className={btnClass}>
                     {badge}
                     {content}
                 </div>
@@ -131,7 +138,7 @@ export default class TeamButton extends React.Component {
 
         return (
             <div
-                className={`team-container ${teamClass}`}
+                className={Styles['team-container'] + ' ' + teamClass}
             >
                 {teamButton}
             </div>
@@ -140,7 +147,6 @@ export default class TeamButton extends React.Component {
 }
 
 TeamButton.defaultProps = {
-    btnClass: '',
     tip: '',
     placement: 'right',
     active: false,
@@ -150,7 +156,7 @@ TeamButton.defaultProps = {
 };
 
 TeamButton.propTypes = {
-    btnClass: PropTypes.string,
+    isAddButton: PropTypes.bool,
     url: PropTypes.string.isRequired,
     displayName: PropTypes.string,
     content: PropTypes.node,

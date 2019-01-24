@@ -188,7 +188,23 @@ var config = {
                 ],
             },
             {
+                test: /\bstyles\.css$/,
+                use: [
+                    {
+                        loader: 'style-loader',
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 2,
+                            modules: true,
+                        },
+                    },
+                ],
+            },
+            {
                 test: /\.css$/,
+                exclude: /\bstyles\.css$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     {

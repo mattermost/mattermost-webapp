@@ -7,6 +7,7 @@
   "private": true,
   "dependencies": {
     "@babel/polyfill": "7.0.0",
+    "babel-plugin-react-css-modules": "^5.0.0",
     "bootstrap": "3.3.7",
     "bootstrap-colorpicker": "2.5.2",
     "chart.js": "2.7.3",

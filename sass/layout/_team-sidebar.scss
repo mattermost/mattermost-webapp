@@ -24,124 +24,14 @@
         margin-bottom: 15px;
     }
 
-    .team-btn__content {
-        @include single-transition(all, .25s, ease);
-        @include opacity(.5);
-        @include border-radius(3px);
-        background-color: alpha-color($black, .3);
-        overflow: hidden;
-        height: 100%;
-    }
-
-    .team-btn {
-        @include border-radius(4px);
-        border: 1px solid var(--mm-sidebarTextActiveBorder); // TODO this has lost its transparency
-        color: var(--mm-sidebarHeaderTextColor);
-        font-weight: bold;
-        height: 44px;
-        letter-spacing: -.5px;
-        line-height: 42px;
-        position: relative;
-        text-align: center;
-        text-transform: capitalize;
-        vertical-align: top;
-        width: 44px;
-
-        .badge {
-            background: var(--mm-mentionBg);
-            border-color: var(--mm-sidebarText); // TODO this has lost its transparency
-            color: var(--mm-mentionColor);
-        }
-
-        &:hover {
-            .team-btn__content {
-                @include opacity(.8);
-            }
-        }
-
-        .team-btn__image {
-            @include clearfix;
-            @include background-size(100% 100%);
-            background-color: $white;
-            background-repeat: no-repeat;
-            width: 43px;
-            height: 100%;
-        }
-
-        &.team-btn__add {
-            font-size: 25px;
-            line-height: 41px;
-            vertical-align: middle;
-            background-color: alpha-color($black, .3);
-        }
-    }
-
     .team-wrapper {
         -webkit-overflow-scrolling: touch;
         background-color: alpha-color($black, .2);
         height: 100%;
         overflow: hidden;
 
-        .team-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 16px;
-            position: relative;
-            text-align: center;
-            width: 100%;
-
-            a {
-                display: block;
-                height: 100%;
-                text-decoration: none;
-            }
-
-            &.active {
-                .team-btn__content {
-                    @include opacity(1);
-                }
-            }
-
-            button {
-                border: none;
-                padding: 0;
-                text-decoration: none;
-            }
-
-            &.active:before {
-                @include border-radius(4px);
-                background: var(--mm-sidebarTextActiveBorder, $black);
-                content: '';
-                height: 42px;
-                left: 0;
-                position: absolute;
-                top: 1px;
-                width: 5px;
-            }
-
-            &.unread:before {
-                background: var(--mm-sidebarTextActiveBorder, $black);
-                border-radius: 50%;
-                content: '';
-                height: 5px;
-                left: 0;
-                position: absolute;
-                top: 18px;
-                width: 5px;
-            }
-
-            a.team-disabled {
-                @include opacity(.5);
-                cursor: not-allowed;
-            }
-        }
-
         .scrollbar--view {
             padding-top: 15px;
-        }
-
-        .team-container a:hover {
-            text-decoration: none;
         }
     }
 }
