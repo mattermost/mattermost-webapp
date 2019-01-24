@@ -28,16 +28,16 @@ import Permissions from 'mattermost-redux/constants/permissions';
 
 import {t} from 'utils/i18n';
 
-import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/github.css';
+// import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/github.css';
 
-// eslint-disable-line import/order
-import monokaiCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/monokai.css';
+// // eslint-disable-line import/order
+// import monokaiCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/monokai.css';
 
-// eslint-disable-line import/order
-import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-dark.css';
+// // eslint-disable-line import/order
+// import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-dark.css';
 
-// eslint-disable-line import/order
-import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-light.css'; // eslint-disable-line import/order
+// // eslint-disable-line import/order
+// import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-light.css'; // eslint-disable-line import/order
 
 export const SettingsTypes = {
     TYPE_TEXT: 'text',
@@ -927,25 +927,25 @@ export const Constants = {
                 {
                     id: 'solarized-dark',
                     uiName: 'Solarized Dark',
-                    cssURL: solarizedDarkCSS,
+                    // cssURL: solarizedDarkCSS,
                     iconURL: solarizedDarkIcon,
                 },
                 {
                     id: 'solarized-light',
                     uiName: 'Solarized Light',
-                    cssURL: solarizedLightCSS,
+                    // cssURL: solarizedLightCSS,
                     iconURL: solarizedLightIcon,
                 },
                 {
                     id: 'github',
                     uiName: 'GitHub',
-                    cssURL: githubCSS,
+                    // cssURL: githubCSS,
                     iconURL: githubIcon,
                 },
                 {
                     id: 'monokai',
                     uiName: 'Monokai',
-                    cssURL: monokaiCSS,
+                    // cssURL: monokaiCSS,
                     iconURL: monokaiIcon,
                 },
             ],
