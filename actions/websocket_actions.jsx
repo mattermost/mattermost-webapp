@@ -414,6 +414,7 @@ export function debouncePostEvent(func, wait) {
                     type: PostTypes.RECEIVED_POSTS,
                     data: {posts: posts[channelId]},
                     channelId,
+                    receivedNewPosts: true,
                 });
                 getProfilesAndStatusesForPosts(posts[channelId], dispatch, getState);
             }
