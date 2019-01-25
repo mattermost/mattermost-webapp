@@ -205,6 +205,7 @@
     position: relative;
     width: 100%;
     background: $bg--gray;
+    -webkit-overflow-scrolling: touch;
 
     .emoji-picker__container {
         min-height: 100%;
