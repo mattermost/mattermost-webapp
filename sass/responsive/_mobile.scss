@@ -1895,10 +1895,25 @@
                 padding-top: 8px;
             }
             .emoji-picker__item {
-                margin: 0 4px 7px;
-                padding: 5px 4px;
-                width: 30px;
-                height: 30px;
+                margin: 0;
+                padding: 0;
+                padding-top: calc(100% / #{$emoji-per-row});
+                width: calc(100% / #{$emoji-per-row});
+                height: auto;
+
+                > div {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 30px;
+                    height: 30px;
+                    transform: translate(-50%, -50%);
+
+                    > img {
+                        top: -17px;
+                        left: -17px;
+                    }
+                }
             }
         }
     }

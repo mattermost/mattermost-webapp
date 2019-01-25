@@ -28,7 +28,7 @@ const EMOJI_CONTAINER_STYLE = {
 };
 
 const EMOJI_LAZY_LOAD_BUFFER = 75;
-const EMOJI_PER_ROW = 9;
+const EMOJI_PER_ROW = 9; // needs to match variable `$emoji-per-row` in _variables.scss
 const EMOJI_TO_LOAD_PER_UPDATE = 135;
 const SYSTEM_EMOJIS_COUNT = 1476;
 const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 100;
