@@ -10,6 +10,7 @@ import * as Emoji from 'utils/emoji.jsx';
 import {t} from 'utils/i18n';
 import imgTrans from 'images/img_trans.gif';
 
+import EmojiPickerHeader from './components/emoji_picker_header';
 import EmojiPickerCategory from './components/emoji_picker_category';
 import EmojiPickerItem from './components/emoji_picker_item';
 import EmojiPickerCategorySection from './emoji_picker_category_section';
@@ -27,7 +28,7 @@ const EMOJI_CONTAINER_STYLE = {
 };
 
 const EMOJI_LAZY_LOAD_BUFFER = 75;
-const EMOJI_PER_ROW = 9;
+const EMOJI_PER_ROW = 9; // needs to match variable `$emoji-per-row` in _variables.scss
 const EMOJI_TO_LOAD_PER_UPDATE = 135;
 const SYSTEM_EMOJIS_COUNT = 1476;
 const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 100;
@@ -115,6 +116,7 @@ const LOAD_MORE_AT_PIXELS_FROM_BOTTOM = 500;
 export default class EmojiPicker extends React.PureComponent {
     static propTypes = {
         listHeight: PropTypes.number,
+        onEmojiClose: PropTypes.func.isRequired,
         onEmojiClick: PropTypes.func.isRequired,
         customEmojisEnabled: PropTypes.bool,
         emojiMap: PropTypes.object.isRequired,
@@ -247,6 +249,10 @@ export default class EmojiPicker extends React.PureComponent {
     emojiSearchInput = (input) => {
         this.searchInput = input;
     };
+
+    handleEmojiPickerClose = () => {
+        this.props.onEmojiClose();
+    }
 
     handleCategoryClick(categoryName) {
         this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
@@ -602,7 +608,8 @@ export default class EmojiPicker extends React.PureComponent {
 
     render() {
         return (
-            <div>
+            <div className='emoji-picker__inner'>
+                <EmojiPickerHeader handleEmojiPickerClose={this.handleEmojiPickerClose}/>
                 {this.emojiSearch()}
                 {this.emojiCategories()}
                 {this.emojiCurrentResults()}

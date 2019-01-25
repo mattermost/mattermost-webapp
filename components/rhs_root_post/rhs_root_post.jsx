@@ -211,6 +211,7 @@ export default class RhsRootPost extends React.Component {
                             show={this.state.showEmojiPicker}
                             onHide={this.toggleEmojiPicker}
                             target={this.getDotMenuRef}
+                            onEmojiClose={this.toggleEmojiPicker}
                             onEmojiClick={this.reactEmojiClick}
                             rightOffset={15}
                             spaceRequiredAbove={EmojiPickerOverlay.RHS_SPACE_REQUIRED_ABOVE}
@@ -308,8 +309,10 @@ export default class RhsRootPost extends React.Component {
                 location={'RHS_ROOT'}
                 isFlagged={this.props.isFlagged}
                 handleDropdownOpened={this.handleDropdownOpened}
+                handleAddReactionClick={this.toggleEmojiPicker}
                 commentCount={this.props.commentCount}
                 isReadOnly={isReadOnly || channelIsArchived}
+                enableEmojiPicker={this.props.enableEmojiPicker}
             />
         );
 

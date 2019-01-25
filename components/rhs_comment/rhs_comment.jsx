@@ -352,6 +352,7 @@ export default class RhsComment extends React.Component {
                             show={this.state.showEmojiPicker}
                             onHide={this.toggleEmojiPicker}
                             target={this.getDotMenuRef}
+                            onEmojiClose={this.toggleEmojiPicker}
                             onEmojiClick={this.reactEmojiClick}
                             rightOffset={15}
                             spaceRequiredAbove={EmojiPickerOverlay.RHS_SPACE_REQUIRED_ABOVE}
@@ -383,7 +384,9 @@ export default class RhsComment extends React.Component {
                     location={'RHS_COMMENT'}
                     isFlagged={this.props.isFlagged}
                     handleDropdownOpened={this.handleDropdownOpened}
+                    handleAddReactionClick={this.toggleEmojiPicker}
                     isReadOnly={isReadOnly || channelIsArchived}
+                    enableEmojiPicker={this.props.enableEmojiPicker}
                 />
             );
 

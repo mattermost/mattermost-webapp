@@ -176,6 +176,8 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
   >
     <Connect(InjectIntl(DotMenu))
       commentCount={0}
+      enableEmojiPicker={false}
+      handleAddReactionClick={[Function]}
       handleCommentClick={[MockFunction]}
       handleDropdownOpened={[Function]}
       isFlagged={false}
@@ -281,6 +283,8 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
   >
     <Connect(InjectIntl(DotMenu))
       commentCount={0}
+      enableEmojiPicker={true}
+      handleAddReactionClick={[Function]}
       handleCommentClick={[MockFunction]}
       handleDropdownOpened={[Function]}
       isFlagged={false}
@@ -316,15 +320,16 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
     >
       <div>
         <EmojiPickerOverlay
-          container={[MockFunction]}
           enableGifPicker={false}
           onEmojiClick={[Function]}
+          onEmojiClose={[Function]}
           onHide={[Function]}
-          rightOffset={7}
+          rightOffset={12}
           show={true}
           spaceRequiredAbove={476}
           spaceRequiredBelow={497}
           target={[Function]}
+          topOffset={-7}
         />
         <OverlayTrigger
           className="hidden-xs"
