@@ -8,7 +8,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     className="admin-console-header with-back"
   >
     <Connect(BlockableLink)
-      className="fa fa-chevron-left back"
+      className="fa fa-angle-left back"
       to="/admin_console/permissions/schemes"
     />
     <FormattedMessage
@@ -766,7 +766,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     className="admin-console-header with-back"
   >
     <Connect(BlockableLink)
-      className="fa fa-chevron-left back"
+      className="fa fa-angle-left back"
       to="/admin_console/permissions/schemes"
     />
     <FormattedMessage

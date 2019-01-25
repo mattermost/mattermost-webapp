@@ -16,7 +16,7 @@ export default class PreviousIcon extends React.PureComponent {
     };
 
     render() {
-        const className = 'fa fa-chevron-left' + (this.props.additionalClassName ? ' ' + this.props.additionalClassName : '');
+        const className = 'fa fa-1x fa-angle-left' + (this.props.additionalClassName ? ' ' + this.props.additionalClassName : '');
         return (
             <FormattedMessage
                 id='generic_icons.previous'

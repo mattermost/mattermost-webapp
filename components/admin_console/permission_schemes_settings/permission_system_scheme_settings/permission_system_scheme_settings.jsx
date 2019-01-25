@@ -197,7 +197,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                     {hasCustomSchemes &&
                         <BlockableLink
                             to='/admin_console/permissions/schemes'
-                            className='fa fa-chevron-left back'
+                            className='fa fa-angle-left back'
                         />}
                     <FormattedMessage
                         id='admin.permissions.systemScheme'

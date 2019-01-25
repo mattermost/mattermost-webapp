@@ -41,7 +41,7 @@ export default class BackButton extends React.PureComponent {
                         {(title) => (
                             <span
                                 id='back_button_icon'
-                                className='fa fa-chevron-left'
+                                className='fa fa-1x fa-angle-left'
                                 title={title}
                             />
                         )}

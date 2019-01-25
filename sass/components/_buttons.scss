@@ -18,6 +18,11 @@ button {
             text-align: left;
             width: 100%;
         }
+
+        &:hover,
+        &:active {
+            text-decoration: none;
+        }
     }
 }
 
@@ -82,6 +87,14 @@ button {
 
     .fa {
         margin-right: 3px;
+
+        &.margin-right {
+            margin-right: 6px;
+        }
+
+        &.margin-left {
+            margin-left: 6px;
+        }
     }
 
     &.btn-link {
