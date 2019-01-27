@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {savePreference} from 'actions/user_actions.jsx';
 import {Preferences} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
@@ -13,6 +12,7 @@ import SettingItemMin from 'components/setting_item_min.jsx';
 
 export default class EmailNotificationSetting extends React.Component {
     static propTypes = {
+        currentUserId: PropTypes.string.isRequired,
         activeSection: PropTypes.string.isRequired,
         updateSection: PropTypes.func.isRequired,
         enableEmail: PropTypes.bool.isRequired,
@@ -25,6 +25,9 @@ export default class EmailNotificationSetting extends React.Component {
         sendEmailNotifications: PropTypes.bool,
         enableEmailBatching: PropTypes.bool,
         siteName: PropTypes.string,
+        actions: PropTypes.shape({
+            savePreferences: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
@@ -54,11 +57,19 @@ export default class EmailNotificationSetting extends React.Component {
         });
     }
 
-    handleSubmit = () => {
+    handleSubmit = async () => {
         const {enableEmail, emailInterval} = this.state;
         if (this.props.enableEmail !== enableEmail || this.props.emailInterval !== emailInterval) {
             // until the rest of the notification settings are moved to preferences, we have to do this separately
-            savePreference(Preferences.CATEGORY_NOTIFICATIONS, Preferences.EMAIL_INTERVAL, emailInterval.toString());
+            const {currentUserId, actions} = this.props;
+            const preferences = [{
+                user_id: currentUserId,
+                category: Preferences.CATEGORY_NOTIFICATIONS,
+                name: Preferences.EMAIL_INTERVAL,
+                value: emailInterval.toString(),
+            }];
+
+            await actions.savePreferences(currentUserId, preferences);
 
             this.props.onSubmit(enableEmail);
         } else {

@@ -91,7 +91,7 @@ export default class ThemeSetting extends React.Component {
 
         this.setState({isSaving: true});
 
-        this.props.actions.saveTheme(
+        return this.props.actions.saveTheme(
             teamId,
             this.state.theme
         ).then(() => {
