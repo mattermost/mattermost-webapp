@@ -26,6 +26,9 @@ describe('plugins/PostMessageView', () => {
         emojis: {name: 'smile'},
         theme: {id: 'theme_id'},
         enableFormatting: true,
+        actions: {
+            selectPost: jest.fn().mockResolvedValue({}),
+        },
     };
 
     test('should match snapshot with extended post type', () => {

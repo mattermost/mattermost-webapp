@@ -32,6 +32,9 @@ describe('components/post_view/PostAttachment', () => {
         isRHSExpanded: false,
         theme: {},
         pluginPostTypes: {},
+        actions: {
+            selectPost: jest.fn().mockResolvedValue({}),
+        },
     };
 
     test('should match snapshot', () => {
