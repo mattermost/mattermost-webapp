@@ -258,6 +258,7 @@ export default class RhsRootPost extends React.Component {
             if (post.props.override_username && this.props.enablePostUsernameOverride) {
                 userProfile = (
                     <UserProfile
+                        key={post.user_id}
                         userId={post.user_id}
                         hideStatus={true}
                         overwriteName={post.props.override_username}
@@ -267,6 +268,7 @@ export default class RhsRootPost extends React.Component {
             } else {
                 userProfile = (
                     <UserProfile
+                        key={post.user_id}
                         userId={post.user_id}
                         hideStatus={true}
                         disablePopover={true}
@@ -278,6 +280,7 @@ export default class RhsRootPost extends React.Component {
         } else {
             userProfile = (
                 <UserProfile
+                    key={post.user_id}
                     userId={post.user_id}
                     isBusy={this.props.isBusy}
                     isRHS={true}
