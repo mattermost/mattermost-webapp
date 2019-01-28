@@ -14,7 +14,7 @@ export default class LogoutIcon extends React.PureComponent {
             >
                 {(title) => (
                     <i
-                        className='fa fa-chevron-left'
+                        className='fa fa-1x fa-angle-left'
                         title={title}
                     />
                 )}
