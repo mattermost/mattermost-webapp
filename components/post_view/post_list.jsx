@@ -184,7 +184,7 @@ export default class PostList extends React.PureComponent {
         this.loadPostsToFillScreenIfNecessary();
 
         // Do not update scrolling unless posts, visibility or intro message change
-        if (this.props.posts === prevProps.posts && this.props.postVisibility === prevProps.postVisibility && this.state.atEnd === prevState.atEnd && this.state.loadingPosts === prevState.loadingPosts) {
+        if (this.props.posts === prevProps.posts && this.props.postVisibility === prevProps.postVisibility && this.state.atEnd === prevState.atEnd) {
             return;
         }
 
@@ -269,7 +269,7 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        if (this.state.isDoingInitialLoad || this.state.loadingPosts) {
+        if (this.state.isDoingInitialLoad || this.loadingPosts) {
             // Should already be loading posts
             return;
         }
@@ -437,11 +437,11 @@ export default class PostList extends React.PureComponent {
                 this.setState({autoRetryEnable: false});
             }
         } else {
+            this.loadingPosts = false;
             if (this.mounted) {
                 this.setState({
                     atEnd: !moreToLoad && this.props.posts.length < this.props.postVisibility,
                     autoRetryEnable: true,
-                    loadingPosts: false,
                 });
             }
             if (!this.state.autoRetryEnable) {
@@ -490,8 +490,8 @@ export default class PostList extends React.PureComponent {
                 shouldLoadPosts = true;
             }
 
-            if (shouldLoadPosts && !this.state.loadingPosts && !this.state.atEnd && this.state.autoRetryEnable) {
-                this.setState({loadingPosts: true});
+            if (shouldLoadPosts && !this.loadingPosts && !this.state.atEnd && this.state.autoRetryEnable) {
+                this.loadingPosts = true;
                 this.loadMorePosts();
             }
             this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
