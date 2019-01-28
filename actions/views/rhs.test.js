@@ -5,19 +5,14 @@ import {batchActions} from 'redux-batched-actions';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as PostActions from 'mattermost-redux/actions/posts';
-import {searchPostsWithParams, getFlaggedPosts} from 'mattermost-redux/actions/search';
-import {Client4} from 'mattermost-redux/client';
-import {SearchTypes} from 'mattermost-redux/action_types';
+import {searchPostsWithParams} from 'mattermost-redux/actions/search';
 
 import {
     updateRhsState,
     selectPostFromRightHandSideSearch,
     updateSearchTerms,
     performSearch,
-    getPinnedPosts,
     showSearchResults,
-    showFlaggedPosts,
-    showPinnedPosts,
     showMentions,
     closeRightHandSide,
     toggleMenu,
@@ -44,27 +39,7 @@ jest.mock('mattermost-redux/actions/posts', () => ({
 
 jest.mock('mattermost-redux/actions/search', () => ({
     searchPostsWithParams: (...args) => ({type: 'MOCK_SEARCH_POSTS', args}),
-    getFlaggedPosts: (...args) => ({type: 'MOCK_GET_FLAGGED_POSTS', args}),
 }));
-
-jest.mock('mattermost-redux/client', () => {
-    const flaggedPosts = [
-        {id: 'post1', channel_id: 'channel1'},
-        {id: 'post2', channel_id: 'channel2'},
-    ];
-
-    const pinnedPosts = [
-        {id: 'post3', channel_id: 'channel3'},
-        {id: 'post4', channel_id: 'channel4'},
-    ];
-
-    return {
-        Client4: {
-            getFlaggedPosts: jest.fn(() => ({posts: flaggedPosts, order: [0, 1]})),
-            getPinnedPosts: jest.fn(() => ({posts: pinnedPosts, order: [1, 0]})),
-        },
-    };
-});
 
 jest.mock('actions/diagnostics_actions.jsx', () => ({
     trackEvent: jest.fn(),
@@ -223,128 +198,6 @@ describe('rhs view actions', () => {
                 terms,
             });
             compareStore.dispatch(performSearch(terms));
-
-            expect(store.getActions()).toEqual(compareStore.getActions());
-        });
-    });
-
-    describe('showFlaggedPosts', () => {
-        test('it dispatches the right actions', async () => {
-            function getSearchActions(result, teamId) {
-                return [
-                    {
-                        type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                        data: result,
-                    },
-                    {
-                        type: SearchTypes.RECEIVED_SEARCH_TERM,
-                        data: {
-                            teamId,
-                            terms: null,
-                            isOrSearch: false,
-                        },
-                    },
-                    {
-                        type: SearchTypes.SEARCH_POSTS_SUCCESS,
-                    },
-                ];
-            }
-
-            store.dispatch(showFlaggedPosts());
-
-            const compareStore = mockStore(initialState);
-
-            compareStore.dispatch({
-                type: ActionTypes.UPDATE_RHS_STATE,
-                state: RHSStates.FLAG,
-            });
-
-            const result = await compareStore.dispatch(getFlaggedPosts());
-
-            const postRHSSearchActions = getSearchActions(
-                result.data,
-                currentTeamId
-            );
-
-            compareStore.dispatch(batchActions(postRHSSearchActions));
-
-            expect(store.getActions()).toEqual(compareStore.getActions());
-        });
-    });
-
-    describe('getPinnedPosts', () => {
-        test('it dispatches the right actions', async () => {
-            await store.dispatch(getPinnedPosts());
-
-            const compareStore = mockStore(initialState);
-            const result = await Client4.getPinnedPosts(currentChannelId);
-            await PostActions.getProfilesAndStatusesForPosts(result.posts, compareStore.dispatch, compareStore.getState);
-
-            compareStore.dispatch(batchActions([
-                {
-                    type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                    data: result,
-                },
-                {
-                    type: SearchTypes.RECEIVED_SEARCH_TERM,
-                    data: {
-                        teamId: '321',
-                        terms: null,
-                        isOrSearch: false,
-                    },
-                },
-                {
-                    type: SearchTypes.SEARCH_POSTS_SUCCESS,
-                },
-            ]));
-
-            expect(store.getActions()).toEqual(compareStore.getActions());
-        });
-    });
-
-    describe('showPinnedPosts', () => {
-        test('it dispatches the right actions', async () => {
-            store.dispatch(showPinnedPosts());
-
-            const compareStore = mockStore(initialState);
-            const result = await Client4.getPinnedPosts('123');
-            await PostActions.getProfilesAndStatusesForPosts(result.posts, compareStore.dispatch, compareStore.getState);
-
-            compareStore.dispatch(batchActions([
-                {
-                    type: ActionTypes.SEARCH_PINNED_POSTS_REQUEST,
-                },
-                {
-                    type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                    terms: '',
-                },
-                {
-                    type: ActionTypes.UPDATE_RHS_STATE,
-                    state: RHSStates.PIN,
-                    channelId: '123',
-                },
-            ]));
-
-            compareStore.dispatch(batchActions([
-                {
-                    type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                    data: result,
-                },
-                {
-                    type: SearchTypes.RECEIVED_SEARCH_TERM,
-                    data: {
-                        teamId: '321',
-                        terms: null,
-                        isOrSearch: false,
-                    },
-                },
-                {
-                    type: SearchTypes.SEARCH_POSTS_SUCCESS,
-                },
-                {
-                    type: ActionTypes.SEARCH_PINNED_POSTS_SUCCESS,
-                },
-            ]));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });
