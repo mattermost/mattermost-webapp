@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import throttle from 'lodash/throttle';
 
 import * as Emoji from 'utils/emoji.jsx';
+import {compareEmojis} from 'utils/emoji_utils.jsx';
 import {t} from 'utils/i18n';
 import imgTrans from 'images/img_trans.gif';
 
@@ -373,16 +374,49 @@ export default class EmojiPicker extends React.PureComponent {
         } : this.state.categories[key];
     }
 
+    sortEmojis(emojis) {
+        const {recentEmojis: recentEmojisProps} = this.props;
+        const recentEmojis = [];
+        const emojisMinusRecent = [];
+
+        Object.values(emojis).forEach((emoji) => {
+            let emojiArray = emojisMinusRecent;
+            for (let i = 0; i < emoji.aliases.length; i++) {
+                if (recentEmojisProps.includes(emoji.aliases[i].toLowerCase())) {
+                    emojiArray = recentEmojis;
+                }
+            }
+
+            emojiArray.push(emoji);
+        });
+
+        const sortEmojisHelper = (a, b) => {
+            return compareEmojis(a, b, this.state.filter);
+        };
+
+        recentEmojis.sort(sortEmojisHelper);
+
+        emojisMinusRecent.sort(sortEmojisHelper);
+
+        return [
+            ...recentEmojis,
+            ...emojisMinusRecent,
+        ];
+    }
+
     getEmojisByCategory(category) {
         if (this.state.filter) {
-            return Object.values(this.state.allEmojis).filter((emoji) => {
+            const emojis = Object.values(this.state.allEmojis).filter((emoji) => {
                 for (let i = 0; i < emoji.aliases.length; i++) {
                     if (emoji.aliases[i].toLowerCase().includes(this.state.filter)) {
                         return true;
                     }
                 }
+
                 return false;
             });
+
+            return this.sortEmojis(emojis);
         }
         return this.state.categories[category.name].emojiIds.map((emojiId) =>
             this.state.allEmojis[emojiId]);
@@ -518,7 +552,6 @@ export default class EmojiPicker extends React.PureComponent {
         let numEmojisLoaded = 0;
 
         let categoryComponents = [];
-
         for (let i = 0; i < categories.length; i++) {
             const category = this.getCategoriesByKey(categories[i]);
             const emojis = this.getEmojisByCategory(category);

@@ -18,6 +18,7 @@ describe('components/admin_console/system_users/list', () => {
         focusOnMount: false,
         renderFilterRow: jest.fn(),
         teamId: '',
+        filter: '',
         term: '',
         onTermChange: jest.fn(),
         mfaEnabled: false,
