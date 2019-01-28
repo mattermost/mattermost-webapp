@@ -24,6 +24,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
     enableUserAccessTokens={false}
     experimentalEnableAuthenticationTransfer={false}
     extraInfo={Object {}}
+    filter=""
     focusOnMount={false}
     mfaEnabled={false}
     nextPage={[Function]}
@@ -143,6 +144,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
         ],
       }
     }
+    filter=""
     focusOnMount={false}
     mfaEnabled={false}
     nextPage={[Function]}
@@ -308,6 +310,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
         ],
       }
     }
+    filter=""
     focusOnMount={false}
     mfaEnabled={true}
     nextPage={[Function]}

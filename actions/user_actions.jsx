@@ -481,8 +481,8 @@ export async function uploadProfileImage(userPicture, success, error) {
     }
 }
 
-export async function loadProfiles(page, perPage, success) {
-    const {data} = await UserActions.getProfiles(page, perPage)(dispatch, getState);
+export async function loadProfiles(page, perPage, options = {}, success) {
+    const {data} = await UserActions.getProfiles(page, perPage, options)(dispatch, getState);
     if (success) {
         success(data);
     }

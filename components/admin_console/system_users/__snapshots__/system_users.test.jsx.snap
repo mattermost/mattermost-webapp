@@ -19,6 +19,7 @@ exports[`components/admin_console/system_users should match default snapshot 1`]
     <Connect(SystemUsersList)
       enableUserAccessTokens={false}
       experimentalEnableAuthenticationTransfer={false}
+      filter=""
       loading={true}
       mfaEnabled={false}
       nextPage={[Function]}
