@@ -69,7 +69,7 @@ export default class Logs extends React.PureComponent {
         if (this.props.logs.length >= this.props.perPage) {
             nextButton = (
                 <button
-                    className='btn btn-link filter-control filter-control__next pull-right'
+                    className='btn btn-default filter-control filter-control__next pull-right'
                     onClick={this.nextPage}
                     disabled={this.state.nextDisabled}
                 >
@@ -85,7 +85,7 @@ export default class Logs extends React.PureComponent {
         if (this.props.page > 0) {
             previousButton = (
                 <button
-                    className='btn btn-link filter-control filter-control__prev'
+                    className='btn btn-default filter-control filter-control__prev'
                     onClick={this.previousPage}
                 >
                     <FormattedMessage
