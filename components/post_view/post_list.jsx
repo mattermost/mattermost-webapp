@@ -120,6 +120,7 @@ export default class PostList extends React.PureComponent {
         this.scrollAnimationFrame = null;
         this.resizeAnimationFrame = null;
         this.atBottom = false;
+        this.loadingPosts = false;
 
         this.state = {
             atEnd: false,
