@@ -120,7 +120,7 @@ export default class MultiSelect extends React.Component {
             return;
         }
 
-        if (this.state.input === '' && input === '') {
+        if (this.state.input === input) {
             return;
         }
 
