@@ -150,6 +150,10 @@ export default class PostInfo extends React.PureComponent {
         );
     };
 
+    reactEmojiClose = () => {
+        this.setState({showEmojiPicker: false});
+    }
+
     reactEmojiClick = (emoji) => {
         const pickerOffset = 21;
         this.setState({showEmojiPicker: false, reactionPickerOffset: pickerOffset});
@@ -227,11 +231,12 @@ export default class PostInfo extends React.PureComponent {
                         <div>
                             <EmojiPickerOverlay
                                 show={this.state.showEmojiPicker}
-                                container={this.props.getPostList}
                                 target={this.getDotMenu}
                                 onHide={this.hideEmojiPicker}
+                                onEmojiClose={this.reactEmojiClose}
                                 onEmojiClick={this.reactEmojiClick}
-                                rightOffset={7}
+                                rightOffset={12}
+                                topOffset={-7}
                             />
                             <OverlayTrigger
                                 className='hidden-xs'
@@ -262,7 +267,9 @@ export default class PostInfo extends React.PureComponent {
                     isFlagged={this.props.isFlagged}
                     handleCommentClick={this.props.handleCommentClick}
                     handleDropdownOpened={this.handleDotMenuOpened}
+                    handleAddReactionClick={this.toggleEmojiPicker}
                     isReadOnly={isReadOnly}
+                    enableEmojiPicker={this.props.enableEmojiPicker}
                 />
             );
         }

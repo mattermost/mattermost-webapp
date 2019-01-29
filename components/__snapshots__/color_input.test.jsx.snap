@@ -30,6 +30,7 @@ exports[`components/ColorInput should match snapshot, click on picker 1`] = `
       color="#ffffff"
       disableAlpha={false}
       onChange={[Function]}
+      styles={Object {}}
     />
   </div>
 </div>
@@ -91,6 +92,7 @@ exports[`components/ColorInput should match snapshot, opened 1`] = `
       color="#ffffff"
       disableAlpha={false}
       onChange={[Function]}
+      styles={Object {}}
     />
   </div>
 </div>
