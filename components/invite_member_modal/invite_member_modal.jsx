@@ -345,7 +345,7 @@ class InviteMemberModal extends React.PureComponent {
                         {serverError}
                         <button
                             type='button'
-                            className='btn btn-default'
+                            className='btn btn-link'
                             onClick={this.addInviteFields}
                         >
                             <FormattedMessage

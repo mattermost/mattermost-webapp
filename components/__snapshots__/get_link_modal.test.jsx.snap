@@ -54,7 +54,7 @@ exports[`components/GetLinkModal should have called onHide 1`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-default"
+      className="btn btn-link"
       id="linkModalCloseButton"
       onClick={[Function]}
       type="button"
@@ -146,7 +146,7 @@ exports[`components/GetLinkModal should have called onHide 2`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-default"
+      className="btn btn-link"
       id="linkModalCloseButton"
       onClick={[Function]}
       type="button"
@@ -233,7 +233,7 @@ exports[`components/GetLinkModal should match snapshot when all props is set 1`]
     componentClass="div"
   >
     <button
-      className="btn btn-default"
+      className="btn btn-link"
       id="linkModalCloseButton"
       onClick={[Function]}
       type="button"
@@ -315,7 +315,7 @@ exports[`components/GetLinkModal should match snapshot when helpText is not set 
     componentClass="div"
   >
     <button
-      className="btn btn-default"
+      className="btn btn-link"
       id="linkModalCloseButton"
       onClick={[Function]}
       type="button"
