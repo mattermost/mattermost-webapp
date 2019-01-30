@@ -17,6 +17,7 @@ import 'sass/styles.scss';
 import 'katex/dist/katex.min.css';
 
 import {browserHistory} from 'utils/browser_history';
+import {setCSRFFromCookie} from 'utils/utils';
 import {makeAsyncComponent} from 'components/async_load';
 import store from 'stores/redux_store.jsx';
 import loadRoot from 'bundle-loader?lazy!components/root';
@@ -47,6 +48,7 @@ function preRenderSetup(callwhendone) {
             store.dispatch(logError({type: 'developer', message: 'DEVELOPER MODE: A JavaScript error has occurred.  Please use the JavaScript console to capture and report the error (row: ' + line + ' col: ' + column + ').'}, true));
         }
     };
+    setCSRFFromCookie();
     callwhendone();
 }
 
