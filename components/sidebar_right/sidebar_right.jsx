@@ -10,6 +10,7 @@ import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import FileUploadOverlay from 'components/file_upload_overlay.jsx';
 import RhsThread from 'components/rhs_thread';
+import RhsCard from 'components/rhs_card';
 import SearchBar from 'components/search_bar';
 import SearchResults from 'components/search_results';
 
@@ -20,6 +21,7 @@ export default class SidebarRight extends React.PureComponent {
         currentUserId: PropTypes.string.isRequired,
         channel: PropTypes.object,
         postRightVisible: PropTypes.bool,
+        postCardVisible: PropTypes.bool,
         searchVisible: PropTypes.bool,
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
@@ -57,6 +59,7 @@ export default class SidebarRight extends React.PureComponent {
             isMentionSearch,
             isPinnedPosts,
             postRightVisible,
+            postCardVisible,
             previousRhsState,
             searchVisible,
         } = this.props;
@@ -107,6 +110,14 @@ export default class SidebarRight extends React.PureComponent {
                         toggleSize={this.toggleSize}
                         shrink={this.onShrink}
                     />
+                </div>
+            );
+
+        } else if (postCardVisible) {
+            content = (
+                <div className='post-right__container'>
+                    <div className='search-bar__container channel-header alt'>{searchForm}</div>
+                    <RhsCard previousRhsState={previousRhsState}/>
                 </div>
             );
         }

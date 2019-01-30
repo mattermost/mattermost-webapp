@@ -70,6 +70,7 @@ export default class Post extends React.PureComponent {
 
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
+            selectPostCard: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -100,6 +101,17 @@ export default class Post extends React.PureComponent {
         }
 
         this.props.actions.selectPost(post);
+    }
+
+    handleCardClick = (e) => {
+        e.preventDefault();
+
+        const post = this.props.post;
+        if (!post) {
+            return;
+        }
+
+        this.props.actions.selectPostCard(post);
     }
 
     handleDropdownOpened = (opened) => {
@@ -257,6 +269,7 @@ export default class Post extends React.PureComponent {
                         <PostHeader
                             post={post}
                             handleCommentClick={this.handleCommentClick}
+                            handleCardClick={this.handleCardClick}
                             handleDropdownOpened={this.handleDropdownOpened}
                             compactDisplay={this.props.compactDisplay}
                             isFirstReply={this.props.isFirstReply}

@@ -35,6 +35,11 @@ export default class PostInfo extends React.PureComponent {
         handleCommentClick: PropTypes.func.isRequired,
 
         /*
+         * Function called when the card icon is clicked
+         */
+        handleCardClick: PropTypes.func.isRequired,
+
+        /*
          * Funciton called when the post options dropdown is opened
          */
         handleDropdownOpened: PropTypes.func.isRequired,
@@ -196,6 +201,14 @@ export default class PostInfo extends React.PureComponent {
                 {dotMenu}
                 {postReaction}
                 {commentIcon}
+                {post.props && post.props.card &&
+                    <button
+                        className='card-icon__container icon--show color--link style--none pull-right'
+                        onClick={this.props.handleCardClick}
+                    >
+                        <i className='fa fa-info-circle'/>
+                    </button>
+                }
             </div>
         );
     };

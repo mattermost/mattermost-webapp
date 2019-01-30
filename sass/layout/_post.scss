@@ -718,7 +718,7 @@
     .browser--ie & {
         .post__header {
             .col__reply {
-                .comment-icon__container {
+                .comment-icon__container, .card-icon__container {
                     flex: 0 1 auto;
                     align-items: center;
                 }
@@ -746,6 +746,7 @@
     &:hover {
         .dropdown,
         .comment-icon__container,
+        .card-icon__container,
         .reacticon,
         .reacticon__container,
         .flag-icon__container,
@@ -771,6 +772,7 @@
     &.post--hovered {
         .dropdown,
         .comment-icon__container,
+        .card-icon__container,
         .post__reply,
         .post__remove,
         .post__dropdown,
@@ -1109,7 +1111,7 @@
     }
 
     &.post--root {
-        .comment-icon__container {
+        .comment-icon__container, .card-icon__container {
             visibility: visible;
         }
     }
@@ -1192,7 +1194,7 @@
     }
 
     &.other--root {
-        .comment-icon__container {
+        .comment-icon__container, .card-icon__container {
             &.icon--show {
                 visibility: visible;
             }
@@ -1294,7 +1296,7 @@
                 width: 24px;
             }
 
-            .comment-icon__container {
+            .comment-icon__container, .card-icon__container {
                 flex: 0;
                 justify-content: flex-end;
                 padding: 0 4px 0 0;
@@ -1754,7 +1756,7 @@
         }
     }
 
-    .comment-icon__container {
+    .comment-icon__container, .card-icon__container {
         display: inline-block;
         fill: $primary-color;
         position: relative;
