@@ -896,4 +896,38 @@ describe('components/CreateComment', () => {
         wrapper.setState({draft: {...draft, uploadsInProgress: [2]}});
         expect(wrapper.instance().scrollToBottom).toBeCalledTimes(2);
     });
+
+    it('should be able to format a pasted markdown table', () => {
+        const draft = {
+            message: '',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+
+        const wrapper = shallowWithIntl(
+            <CreateComment
+                {...baseProps}
+                draft={draft}
+            />
+        );
+
+        const event = {
+            target: {
+                id: 'reply_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
+                    return '<table><tr><td>test</td><td>test</td></tr><tr><td>test</td><td>test</td></tr></table>';
+                },
+            },
+        };
+
+        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('draft').message).toBe(markdownTable);
+    });
 });

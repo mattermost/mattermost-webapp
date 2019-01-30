@@ -11,6 +11,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx';
 import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand} from 'utils/post_utils.jsx';
+import {getTable, formatMarkdownTableMessage} from 'utils/paste.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -279,6 +280,7 @@ export default class CreatePost extends React.Component {
 
     componentDidMount() {
         this.focusTextbox();
+        document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
     }
 
@@ -302,6 +304,7 @@ export default class CreatePost extends React.Component {
     }
 
     componentWillUnmount() {
+        document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
     }
 
@@ -602,6 +605,23 @@ export default class CreatePost extends React.Component {
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
         this.draftsForChannel[channelId] = draft;
+    }
+
+    pasteHandler = (e) => {
+        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox') {
+            return;
+        }
+
+        const table = getTable(e.clipboardData);
+        if (!table) {
+            return;
+        }
+
+        e.preventDefault();
+
+        const message = formatMarkdownTableMessage(table, this.state.message.trim());
+
+        this.setState({message});
     }
 
     handleFileUploadChange = () => {

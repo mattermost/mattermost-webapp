@@ -14,6 +14,7 @@ import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand} from 'utils/post_utils.jsx';
+import {getTable, formatMarkdownTableMessage} from 'utils/paste.jsx';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -214,6 +215,7 @@ export default class CreateComment extends React.PureComponent {
 
     componentDidMount() {
         this.focusTextbox();
+        document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
 
         // When draft.message is not empty, set doInitialScrollToBottom to true so that
@@ -226,6 +228,7 @@ export default class CreateComment extends React.PureComponent {
 
     componentWillUnmount() {
         this.props.resetCreatePostRequest();
+        document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
     }
 
@@ -273,6 +276,26 @@ export default class CreateComment extends React.PureComponent {
         if (shouldFocusMainTextbox(e, document.activeElement)) {
             this.focusTextbox();
         }
+    }
+
+    pasteHandler = (e) => {
+        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'reply_textbox') {
+            return;
+        }
+
+        const table = getTable(e.clipboardData);
+        if (!table) {
+            return;
+        }
+
+        e.preventDefault();
+
+        const {draft} = this.state;
+        const message = formatMarkdownTableMessage(table, draft.message.trim());
+        const updatedDraft = {...draft, message};
+
+        this.props.onUpdateCommentDraft(updatedDraft);
+        this.setState({draft: updatedDraft});
     }
 
     handleNotifyAllConfirmation = (e) => {

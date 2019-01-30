@@ -844,4 +844,54 @@ describe('components/create_post', () => {
             expect.anything(),
         );
     });
+
+    it('should be able to format a pasted markdown table', () => {
+        const wrapper = shallowWithIntl(createPost());
+
+        const event = {
+            target: {
+                id: 'post_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
+                    return '<table><tr><td>test</td><td>test</td></tr><tr><td>test</td><td>test</td></tr></table>';
+                },
+            },
+        };
+
+        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('message')).toBe(markdownTable);
+    });
+
+    it('should be preserve message when pasting a markdown table', () => {
+        const wrapper = shallowWithIntl(createPost());
+
+        const message = 'message';
+        wrapper.setState({message});
+
+        const event = {
+            target: {
+                id: 'post_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
+                    return '<table><tr><td>test</td><td>test</td></tr><tr><td>test</td><td>test</td></tr></table>';
+                },
+            },
+        };
+
+        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
+        const expectedMessage = `${message}\n\n${markdownTable}`;
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('message')).toBe(expectedMessage);
+    });
 });
