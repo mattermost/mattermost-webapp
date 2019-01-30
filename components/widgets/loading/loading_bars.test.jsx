@@ -13,9 +13,8 @@ describe('components/widgets/loading/LoadingBars', () => {
 <span
   className="LoadingBars with-text"
 >
-  <img
-    className="spinner"
-    src={null}
+  <i
+    className="fa fa-spin fa-spinner"
   />
   test
 </span>
@@ -27,9 +26,8 @@ describe('components/widgets/loading/LoadingBars', () => {
 <span
   className="LoadingBars"
 >
-  <img
-    className="spinner"
-    src={null}
+  <i
+    className="fa fa-spin fa-spinner"
   />
 </span>
 `);
