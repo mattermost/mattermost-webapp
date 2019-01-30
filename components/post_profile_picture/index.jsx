@@ -4,16 +4,23 @@
 import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 
 import PostProfilePicture from './post_profile_picture';
 
-function mapStateToProps(state) {
-    const config = getConfig(state);
+function makeMapStateToProps(initialState, initialProps) {
+    const userId = initialProps.userId;
 
-    return {
-        enablePostIconOverride: config.EnablePostIconOverride === 'true',
-        hasImageProxy: config.HasImageProxy === 'true',
+    return (state) => {
+        const config = getConfig(state);
+
+        return {
+            enablePostIconOverride: config.EnablePostIconOverride === 'true',
+            hasImageProxy: config.HasImageProxy === 'true',
+            status: getStatusForUserId(state, userId),
+            user: getUser(state, userId),
+        };
     };
 }
 
-export default connect(mapStateToProps)(PostProfilePicture);
+export default connect(makeMapStateToProps)(PostProfilePicture);

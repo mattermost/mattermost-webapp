@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {resendVerification} from 'actions/user_actions.jsx';
 import BackButton from 'components/common/back_button.jsx';
-import {localizeMessage} from 'utils/utils.jsx';
+import SuccessIcon from 'components/icon/success_icon';
 
 export default class ShouldVerifyEmail extends React.Component {
     constructor(props) {
@@ -35,15 +35,13 @@ export default class ShouldVerifyEmail extends React.Component {
     }
     render() {
         let resendConfirm = '';
+
         if (this.state.resendStatus === 'success') {
             resendConfirm = (
                 <div>
                     <br/>
                     <p className='alert alert-success'>
-                        <i
-                            className='fa fa-check'
-                            title={localizeMessage('generic_icons.success', 'Success Icon')}
-                        />
+                        <SuccessIcon/>
                         <FormattedMessage
                             id='email_verify.sent'
                             defaultMessage=' Verification email sent.'
@@ -58,10 +56,17 @@ export default class ShouldVerifyEmail extends React.Component {
                 <div>
                     <br/>
                     <p className='alert alert-danger'>
-                        <i
-                            className='fa fa-times'
-                            title={localizeMessage('generic_icons.fail', 'Faliure Icon')}
-                        />
+                        <FormattedMessage
+                            id='generic_icons.fail'
+                            defaultMessage='Faliure Icon'
+                        >
+                            {(title) => (
+                                <i
+                                    className='fa fa-times'
+                                    title={title}
+                                />
+                            )}
+                        </FormattedMessage>
                         <FormattedMessage id='email_verify.failed'/>
                     </p>
                 </div>

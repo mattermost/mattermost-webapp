@@ -211,7 +211,7 @@ export default class ManageTeamsModal extends React.Component {
             <Modal
                 show={this.props.show}
                 onHide={this.props.onModalDismissed}
-                dialogClassName='manage-teams'
+                dialogClassName='manage-teams modal--overflow-visible'
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>

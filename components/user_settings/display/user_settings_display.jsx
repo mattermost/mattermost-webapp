@@ -18,6 +18,7 @@ import {t} from 'utils/i18n';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import ThemeSetting from 'components/user_settings/display/user_settings_theme';
+import BackIcon from 'components/icon/back_icon';
 
 import ManageTimezones from './manage_timezones.jsx';
 import ManageLanguages from './manage_languages.jsx';
@@ -705,11 +706,9 @@ export default class UserSettingsDisplay extends React.Component {
                         ref='title'
                     >
                         <div className='modal-back'>
-                            <i
-                                className='fa fa-angle-left'
-                                title={Utils.localizeMessage('generic_icons.back', 'Back Icon')}
-                                onClick={this.props.collapseModal}
-                            />
+                            <span onClick={this.props.collapseModal}>
+                                <BackIcon/>
+                            </span>
                         </div>
                         <FormattedMessage
                             id='user.settings.display.title'

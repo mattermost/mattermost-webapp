@@ -274,6 +274,7 @@ var config = {
         new WebpackPwaManifest({
             name: 'Mattermost',
             short_name: 'Mattermost',
+            start_url: '..',
             description: 'Mattermost is an open source, self-hosted Slack-alternative',
             background_color: '#ffffff',
             inject: true,

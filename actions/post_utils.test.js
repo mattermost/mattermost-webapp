@@ -31,6 +31,10 @@ const MARK_CHANNEL_AS_VIEWED = {
     type: 'MOCK_MARK_CHANNEL_AS_VIEWED',
 };
 const POST_CREATED_TIME = Date.now();
+
+// This mocks the Date.now() function so it returns a constant value
+global.Date.now = jest.fn(() => POST_CREATED_TIME);
+
 const RECEIVED_POSTS = {
     channelId: 'current_channel_id',
     data: {order: [], posts: {new_post_id: {channel_id: 'current_channel_id', id: 'new_post_id', message: 'new message', type: '', user_id: 'some_user_id', create_at: POST_CREATED_TIME}}},

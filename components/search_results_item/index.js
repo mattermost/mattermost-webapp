@@ -8,7 +8,6 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {isPostFlagged} from 'mattermost-redux/utils/post_utils';
 
 import {
@@ -34,8 +33,6 @@ function mapStateToProps() {
             commentCountForPost: getCommentCountForPost(state, {post}),
             enablePostUsernameOverride,
             isFlagged: isPostFlagged(post.id, preferences),
-            user: getUser(state, post.user_id),
-            status: getStatusForUserId(state, post.user_id) || 'offline',
         };
     };
 }

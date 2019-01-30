@@ -65,7 +65,9 @@ export function addRecentEmoji(alias) {
         } else if (emoji.name) {
             name = emoji.name;
         } else {
-            name = emoji.aliases[0];
+            // Use the alias the user input or the first alias
+            // This puts the user chosen alias in recent emojis
+            name = emoji.aliases.find((aliasOption) => alias === aliasOption) || emoji.aliases[0];
         }
 
         const index = recentEmojis.indexOf(name);

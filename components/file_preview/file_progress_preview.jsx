@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {ProgressBar} from 'react-bootstrap';
 
 import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
+import RemoveIcon from 'components/icon/remove_icon';
 import {getFileTypeFromMime} from 'utils/file_utils';
 import * as Utils from 'utils/utils.jsx';
 
@@ -26,6 +27,7 @@ export default class FileProgressPreview extends React.PureComponent {
         let fileNameComponent;
         let previewImage;
         const {fileInfo, clientId} = this.props;
+
         if (fileInfo) {
             percent = fileInfo.percent;
             const percentTxt = percent && ` (${percent.toFixed(0)}%)`;
@@ -89,10 +91,7 @@ export default class FileProgressPreview extends React.PureComponent {
                             className='file-preview__remove'
                             onClick={this.handleRemove}
                         >
-                            <i
-                                className='fa fa-remove'
-                                title={Utils.localizeMessage('generic_icons.remove', 'Remove Icon')}
-                            />
+                            <RemoveIcon/>
                         </a>
                     </div>
                 </div>

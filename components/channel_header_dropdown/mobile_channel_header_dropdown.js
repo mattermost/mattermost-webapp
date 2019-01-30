@@ -73,10 +73,17 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                         <StatusIcon status={teammateStatus}/>
                         {this.getChannelTitle()}
                     </span>
-                    <span
-                        className='fa fa-angle-down header-dropdown__icon'
-                        title={Utils.localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
-                    />
+                    <FormattedMessage
+                        id='generic_icons.dropdown'
+                        defaultMessage='Dropdown Icon'
+                    >
+                        {(title) => (
+                            <span
+                                className='fa fa-angle-down header-dropdown__icon'
+                                title={title}
+                            />
+                        )}
+                    </FormattedMessage>
                 </a>
 
                 <ul

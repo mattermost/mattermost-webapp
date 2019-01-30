@@ -2,8 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import SelectTeamItem from 'components/select_team/components/select_team_item.jsx';
 
 describe('components/select_team/components/SelectTeamItem', () => {
@@ -14,18 +14,18 @@ describe('components/select_team/components/SelectTeamItem', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(<SelectTeamItem {...baseProps}/>);
+        const wrapper = shallowWithIntl(<SelectTeamItem {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, on loading', () => {
         const props = {...baseProps, loading: true};
-        const wrapper = shallow(<SelectTeamItem {...props}/>);
+        const wrapper = shallowWithIntl(<SelectTeamItem {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should call props.onTeamClick on handleTeamClick', () => {
-        const wrapper = shallow(<SelectTeamItem {...baseProps}/>);
+        const wrapper = shallowWithIntl(<SelectTeamItem {...baseProps}/>);
         wrapper.instance().handleTeamClick({preventDefault: jest.fn()});
         expect(baseProps.onTeamClick).toHaveBeenCalledTimes(1);
         expect(baseProps.onTeamClick).toHaveBeenCalledWith(baseProps.team);

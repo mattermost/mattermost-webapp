@@ -22,18 +22,16 @@ import EmojiIcon from 'components/svg/emoji_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 
-import UserProfile from 'components/user_profile.jsx';
+import UserProfile from 'components/user_profile';
 
 export default class RhsRootPost extends React.Component {
     static propTypes = {
         post: PropTypes.object.isRequired,
-        user: PropTypes.object.isRequired,
         teamId: PropTypes.string.isRequired,
-        currentUser: PropTypes.object.isRequired,
+        currentUserId: PropTypes.string.isRequired,
         compactDisplay: PropTypes.bool,
         commentCount: PropTypes.number.isRequired,
         isFlagged: PropTypes.bool,
-        status: PropTypes.string,
         previewCollapsed: PropTypes.string,
         previewEnabled: PropTypes.bool,
         isBusy: PropTypes.bool,
@@ -65,10 +63,6 @@ export default class RhsRootPost extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.status !== this.props.status) {
-            return true;
-        }
-
         if (nextProps.isBusy !== this.props.isBusy) {
             return true;
         }
@@ -90,14 +84,6 @@ export default class RhsRootPost extends React.Component {
         }
 
         if (!Utils.areObjectsEqual(nextProps.post, this.props.post)) {
-            return true;
-        }
-
-        if (!Utils.areObjectsEqual(nextProps.user, this.props.user)) {
-            return true;
-        }
-
-        if (!Utils.areObjectsEqual(nextProps.currentUser, this.props.currentUser)) {
             return true;
         }
 
@@ -160,7 +146,7 @@ export default class RhsRootPost extends React.Component {
 
     getClassName = (post, isSystemMessage) => {
         let className = 'post post--root post--thread';
-        if (this.props.currentUser.id === post.user_id) {
+        if (this.props.currentUserId === post.user_id) {
             className += ' current--user';
         }
 
@@ -194,7 +180,7 @@ export default class RhsRootPost extends React.Component {
     };
 
     render() {
-        const {post, user, isReadOnly, teamId, channelIsArchived, channelType, channelDisplayName} = this.props;
+        const {post, isReadOnly, teamId, channelIsArchived, channelType, channelDisplayName} = this.props;
 
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
@@ -225,6 +211,7 @@ export default class RhsRootPost extends React.Component {
                             show={this.state.showEmojiPicker}
                             onHide={this.toggleEmojiPicker}
                             target={this.getDotMenuRef}
+                            onEmojiClose={this.toggleEmojiPicker}
                             onEmojiClick={this.reactEmojiClick}
                             rightOffset={15}
                             spaceRequiredAbove={EmojiPickerOverlay.RHS_SPACE_REQUIRED_ABOVE}
@@ -257,7 +244,6 @@ export default class RhsRootPost extends React.Component {
         if (isSystemMessage) {
             userProfile = (
                 <UserProfile
-                    user={{}}
                     overwriteName={
                         <FormattedMessage
                             id='post_info.system'
@@ -272,7 +258,9 @@ export default class RhsRootPost extends React.Component {
             if (post.props.override_username && this.props.enablePostUsernameOverride) {
                 userProfile = (
                     <UserProfile
-                        user={user}
+                        key={post.user_id}
+                        userId={post.user_id}
+                        hideStatus={true}
                         overwriteName={post.props.override_username}
                         disablePopover={true}
                     />
@@ -280,7 +268,9 @@ export default class RhsRootPost extends React.Component {
             } else {
                 userProfile = (
                     <UserProfile
-                        user={user}
+                        key={post.user_id}
+                        userId={post.user_id}
+                        hideStatus={true}
                         disablePopover={true}
                     />
                 );
@@ -290,8 +280,8 @@ export default class RhsRootPost extends React.Component {
         } else {
             userProfile = (
                 <UserProfile
-                    user={user}
-                    status={this.props.status}
+                    key={post.user_id}
+                    userId={post.user_id}
                     isBusy={this.props.isBusy}
                     isRHS={true}
                     hasMention={true}
@@ -322,8 +312,10 @@ export default class RhsRootPost extends React.Component {
                 location={'RHS_ROOT'}
                 isFlagged={this.props.isFlagged}
                 handleDropdownOpened={this.handleDropdownOpened}
+                handleAddReactionClick={this.toggleEmojiPicker}
                 commentCount={this.props.commentCount}
                 isReadOnly={isReadOnly || channelIsArchived}
+                enableEmojiPicker={this.props.enableEmojiPicker}
             />
         );
 
@@ -364,8 +356,7 @@ export default class RhsRootPost extends React.Component {
                             isBusy={this.props.isBusy}
                             isRHS={true}
                             post={post}
-                            status={this.props.status}
-                            user={this.props.user}
+                            userId={post.user_id}
                         />
                     </div>
                     <div>

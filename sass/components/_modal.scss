@@ -187,6 +187,21 @@
         margin-right: auto;
         max-width: 95%;
 
+        &.modal--overflow-visible {
+            .modal-body {
+                position: static;
+
+                .dropdown {
+                    position: static;
+                }
+
+                .dropdown-menu {
+                    left: auto;
+                    right: 20px;
+                }
+            }
+        }
+
         &.modal-xl {
             width: 800px;
         }
@@ -312,6 +327,7 @@
 
         .modal-body {
             @include clearfix;
+            background: transparent;
             display: table;
             height: 100%;
             max-height: 100%;

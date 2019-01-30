@@ -364,7 +364,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                 <h3 className='admin-console-header with-back'>
                     <BlockableLink
                         to='/admin_console/permissions/schemes'
-                        className='fa fa-chevron-left back'
+                        className='fa fa-angle-left back'
                     />
                     <FormattedMessage
                         id='admin.permissions.teamScheme'

@@ -286,7 +286,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
     </ModalTitle>
   </ModalHeader>
   <ModalBody
-    bsClass="modal-body edit-modal-body"
+    bsClass="modal-body edit-modal-body edit-modal-body--add-reaction"
     componentClass="div"
   >
     <Connect(Textbox)

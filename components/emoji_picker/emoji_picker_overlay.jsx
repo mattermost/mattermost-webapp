@@ -71,6 +71,7 @@ export default class EmojiPickerOverlay extends React.PureComponent {
             >
                 <EmojiPickerTabs
                     enableGifPicker={this.props.enableGifPicker}
+                    onEmojiClose={this.props.onHide}
                     onEmojiClick={this.props.onEmojiClick}
                     onGifClick={this.props.onGifClick}
                     rightOffset={this.props.rightOffset}

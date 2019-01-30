@@ -7,6 +7,7 @@ import {Link} from 'react-router-dom';
 
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+import SearchIcon from 'components/icon/search_icon';
 
 export default class BackstageList extends React.Component {
     static propTypes = {
@@ -89,10 +90,7 @@ export default class BackstageList extends React.Component {
                 </div>
                 <div className='backstage-filters'>
                     <div className='backstage-filter__search'>
-                        <i
-                            className='fa fa-search'
-                            title={Utils.localizeMessage('generic_icons.search', 'Search Icon')}
-                        />
+                        <SearchIcon/>
                         <input
                             type='search'
                             className='form-control'

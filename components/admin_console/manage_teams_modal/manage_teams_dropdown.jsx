@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {Dropdown, MenuItem} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
@@ -27,13 +28,23 @@ export default class ManageTeamsDropdown extends React.Component {
 
         this.state = {
             show: false,
+            dropdownPosition: 0,
         };
     }
 
     toggleDropdown() {
+        this.getDropdownPosition();
+
         this.setState((prevState) => {
             return {show: !prevState.show};
         });
+    }
+
+    getDropdownPosition = () => {
+        const dropdown = ReactDOM.findDOMNode(this.refs.dropdown);
+        const dropdownPosition = dropdown.getBoundingClientRect().top;
+
+        this.setState({dropdownPosition});
     }
 
     makeTeamAdmin = async () => {
@@ -107,11 +118,12 @@ export default class ManageTeamsDropdown extends React.Component {
                 id={`manage-teams-${this.props.user.id}-${this.props.teamMember.team_id}`}
                 open={this.state.show}
                 onToggle={this.toggleDropdown}
+                ref={'dropdown'}
             >
                 <Dropdown.Toggle useAnchor={true}>
                     {title}
                 </Dropdown.Toggle>
-                <Dropdown.Menu>
+                <Dropdown.Menu style={{top: this.state.dropdownPosition}}>
                     {makeTeamAdmin}
                     {makeMember}
                     <MenuItem

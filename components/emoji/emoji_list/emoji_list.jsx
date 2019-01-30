@@ -12,6 +12,9 @@ import {localizeMessage} from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 import SaveButton from 'components/save_button.jsx';
 import EmojiListItem from 'components/emoji/emoji_list_item';
+import NextIcon from 'components/icon/next_icon';
+import PreviousIcon from 'components/icon/previous_icon';
+import SearchIcon from 'components/icon/search_icon';
 
 const EMOJI_PER_PAGE = 50;
 const EMOJI_SEARCH_DELAY_MILLISECONDS = 200;
@@ -197,10 +200,7 @@ export default class EmojiList extends React.Component {
                             id='filtered_user_list.next'
                             defaultMessage='Next'
                         />
-                        <i
-                            className='fa fa-chevron-right margin-left'
-                            title={localizeMessage('generic_icons.next', 'Next Icon')}
-                        />
+                        <NextIcon additionalClassName='margin-left'/>
                     </span>
                 );
 
@@ -223,10 +223,7 @@ export default class EmojiList extends React.Component {
                         className='btn btn-link'
                         onClick={this.previousPage}
                     >
-                        <i
-                            className='fa fa-chevron-left margin-right'
-                            title={localizeMessage('generic_icons.previous', 'Previous Icon')}
-                        />
+                        <PreviousIcon additionalClassName='margin-right'/>
                         <FormattedMessage
                             id='filtered_user_list.prev'
                             defaultMessage='Previous'
@@ -240,10 +237,7 @@ export default class EmojiList extends React.Component {
             <div>
                 <div className='backstage-filters'>
                     <div className='backstage-filter__search'>
-                        <i
-                            className='fa fa-search'
-                            title={localizeMessage('generic_icons.search', 'Search Icon')}
-                        />
+                        <SearchIcon/>
                         <input
                             type='search'
                             className='form-control'

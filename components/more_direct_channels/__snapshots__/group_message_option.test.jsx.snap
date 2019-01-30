@@ -25,10 +25,7 @@ exports[`components/more_direct_channels/GroupMessageOption should render the op
     <div
       className="more-modal__actions--round"
     >
-      <i
-        className="fa fa-plus"
-        title="Add Icon"
-      />
+      <AddIcon />
     </div>
   </div>
 </div>

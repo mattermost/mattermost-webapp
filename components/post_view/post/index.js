@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {selectPost} from 'actions/views/rhs';
 import {Preferences} from 'utils/constants.jsx';
@@ -18,9 +18,7 @@ function mapStateToProps(state, ownProps) {
     return {
         post: getPost(state, detailedPost.id),
         lastPostCount: ownProps.lastPostCount,
-        user: getUser(state, detailedPost.user_id),
-        status: getStatusForUserId(state, detailedPost.user_id),
-        currentUser: getCurrentUser(state),
+        currentUserId: getCurrentUserId(state),
         isFirstReply: Boolean(detailedPost.isFirstReply && detailedPost.commentedOnPost),
         highlight: detailedPost.highlight,
         consecutivePostByUser: detailedPost.consecutivePostByUser,

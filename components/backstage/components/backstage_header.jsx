@@ -3,8 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import {localizeMessage} from 'utils/utils.jsx';
+import {intlShape} from 'react-intl';
 
 export default class BackstageHeader extends React.Component {
     static get propTypes() {
@@ -12,9 +11,13 @@ export default class BackstageHeader extends React.Component {
             children: PropTypes.node,
         };
     }
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
 
     render() {
         const children = [];
+        const {formatMessage} = this.context.intl;
 
         React.Children.forEach(this.props.children, (child, index) => {
             if (index !== 0) {
@@ -25,7 +28,7 @@ export default class BackstageHeader extends React.Component {
                     >
                         <i
                             className='fa fa-angle-right'
-                            title={localizeMessage('generic_icons.breadcrumb', 'Breadcrumb Icon')}
+                            title={formatMessage({id: 'generic_icons.breadcrumb', defaultMessage: 'Breadcrumb Icon'})}
                         />
                     </span>
                 );

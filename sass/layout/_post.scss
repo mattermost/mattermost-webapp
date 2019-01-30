@@ -432,7 +432,7 @@
         }
 
         &.custom-textarea--emoji-picker {
-            padding-right: 80px;
+            padding-right: 130px;
         }
 
         &.textbox-preview-area {
@@ -465,7 +465,7 @@
             }
 
             &.custom-textarea--emoji-picker {
-                padding-right: 90px;
+                padding-right: 140px;
             }
         }
     }
@@ -1658,7 +1658,8 @@
         margin: 0;
         text-rendering: auto;
         position: relative;
-        z-index: 5;
+        // previous value of 5 interferred with search help popup
+        z-index: 4;
 
         &.pull-left {
             margin: 4px 5px 0 0;

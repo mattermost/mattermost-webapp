@@ -119,7 +119,7 @@ export function submitCommand(channelId, rootId, draft) {
 }
 
 export function makeOnSubmit(channelId, rootId, latestPostId) {
-    return () => async (dispatch, getState) => {
+    return (options = {}) => async (dispatch, getState) => {
         const draft = getPostDraft(getState(), StoragePrefixes.COMMENT_DRAFT, rootId);
         const {message} = draft;
 
@@ -134,7 +134,7 @@ export function makeOnSubmit(channelId, rootId, latestPostId) {
 
         if (isReaction && emojiMap.has(isReaction[2])) {
             dispatch(submitReaction(latestPostId, isReaction[1], isReaction[2]));
-        } else if (message.indexOf('/') === 0) {
+        } else if (message.indexOf('/') === 0 && !options.ignoreSlash) {
             await dispatch(submitCommand(channelId, rootId, draft));
         } else {
             dispatch(submitPost(channelId, rootId, draft));

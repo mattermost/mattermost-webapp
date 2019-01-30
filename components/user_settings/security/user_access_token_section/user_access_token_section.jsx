@@ -16,6 +16,7 @@ import SettingItemMin from 'components/setting_item_min.jsx';
 import SaveButton from 'components/save_button.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import WarningIcon from 'components/icon/warning_icon';
 
 const SECTION_TOKENS = 'tokens';
 const TOKEN_CREATING = 'creating';
@@ -484,10 +485,7 @@ export default class UserAccessTokenSection extends React.Component {
                 <div
                     className='alert alert-warning'
                 >
-                    <i
-                        className='fa fa-warning margin-right'
-                        title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
-                    />
+                    <WarningIcon additionalClassName='margin-right'/>
                     <FormattedMessage
                         id='user.settings.tokens.copy'
                         defaultMessage="Please copy the access token below. You won't be able to see it again!"
