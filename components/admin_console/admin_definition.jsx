@@ -2501,11 +2501,6 @@ export default {
                             help_text_markdown: true,
                             options: [
                                 {
-                                    value: '',
-                                    display_name: t('admin.image.proxyTypeNone'),
-                                    display_name_default: 'None',
-                                },
-                                {
                                     value: 'atmos/camo',
                                     display_name: t('atmos/camo'),
                                     display_name_default: 'atmos/camo',
@@ -2522,19 +2517,25 @@ export default {
                             type: Constants.SettingsTypes.TYPE_TEXT,
                             key: 'ImageProxySettings.RemoteImageProxyURL',
                             label: t('admin.image.proxyURL'),
-                            label_default: 'Image Proxy URL:',
+                            label_default: 'Remote Image Proxy URL:',
                             help_text: t('admin.image.proxyURLDescription'),
-                            help_text_default: 'URL of your image proxy server.',
-                            isDisabled: needsUtils.stateValueFalse('ImageProxySettings.Enable'),
+                            help_text_default: 'URL of your remote image proxy server.',
+                            isDisabled: needsUtils.or(
+                                needsUtils.stateValueFalse('ImageProxySettings.Enable'),
+                                needsUtils.stateValueEqual('ImageProxySettings.ImageProxyType', 'local'),
+                            ),
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
                             key: 'ImageProxySettings.RemoteImageProxyOptions',
                             label: t('admin.image.proxyOptions'),
-                            label_default: 'Image Proxy Options:',
+                            label_default: 'Remote Image Proxy Options:',
                             help_text: t('admin.image.proxyOptionsDescription'),
                             help_text_default: 'Additional options such as the URL signing key. Refer to your image proxy documentation to learn more about what options are supported.',
-                            isDisabled: needsUtils.stateValueFalse('ImageProxySettings.Enable'),
+                            isDisabled: needsUtils.or(
+                                needsUtils.stateValueFalse('ImageProxySettings.Enable'),
+                                needsUtils.stateValueEqual('ImageProxySettings.ImageProxyType', 'local'),
+                            ),
                         },
                     ],
                 },
