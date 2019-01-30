@@ -36,6 +36,10 @@ const holders = defineMessages({
         id: t('user.settings.general.emailMatch'),
         defaultMessage: 'The new emails you entered do not match.',
     },
+    emptyPassword: {
+        id: t('user.settings.general.emptyPassword'),
+        defaultMessage: 'Please enter your current password.',
+    },
     validImage: {
         id: t('user.settings.general.validImage'),
         defaultMessage: 'Only BMP, JPG or PNG images may be used for profile pictures',
@@ -225,6 +229,7 @@ class UserSettingsGeneralTab extends React.Component {
         const user = Object.assign({}, this.props.user);
         const email = this.state.email.trim().toLowerCase();
         const confirmEmail = this.state.confirmEmail.trim().toLowerCase();
+        const currentPassword = this.state.currentPassword;
 
         const {formatMessage} = this.props.intl;
 
@@ -243,7 +248,13 @@ class UserSettingsGeneralTab extends React.Component {
             return;
         }
 
+        if (currentPassword === '') {
+            this.setState({emailError: formatMessage(holders.emptyPassword), clientError: '', serverError: ''});
+            return;
+        }
+
         user.email = email;
+        user.password = currentPassword;
         trackEvent('settings', 'user_settings_update', {field: 'email'});
         this.submitUser(user, true);
     }
@@ -370,6 +381,10 @@ class UserSettingsGeneralTab extends React.Component {
         this.setState({confirmEmail: e.target.value});
     }
 
+    updateCurrentPassword = (e) => {
+        this.setState({currentPassword: e.target.value});
+    }
+
     updatePicture = (e) => {
         if (e.target.files && e.target.files[0]) {
             this.setState({pictureFile: e.target.files[0]});
@@ -400,6 +415,7 @@ class UserSettingsGeneralTab extends React.Component {
             originalEmail: user.email,
             email: '',
             confirmEmail: '',
+            currentPassword: '',
             pictureFile: null,
             loadingPicture: false,
             emailChangeInProgress: props.sendEmailNotifications && props.requireEmailVerification && !user.email_verified,
@@ -515,6 +531,28 @@ class UserSettingsGeneralTab extends React.Component {
                                     type='email'
                                     onChange={this.updateConfirmEmail}
                                     value={this.state.confirmEmail}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                );
+
+                inputs.push(
+                    <div key='currentPassword'>
+                        <div className='form-group'>
+                            <label className='col-sm-5 control-label'>
+                                <FormattedMessage
+                                    id='user.settings.general.currentPassword'
+                                    defaultMessage='Current Password'
+                                />
+                            </label>
+                            <div className='col-sm-7'>
+                                <input
+                                    id='currentPassword'
+                                    className='form-control'
+                                    type='password'
+                                    onChange={this.updateCurrentPassword}
+                                    value={this.state.currentPassword}
                                 />
                             </div>
                         </div>
