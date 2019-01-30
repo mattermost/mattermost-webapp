@@ -704,6 +704,9 @@ export const Constants = {
     OPEN_TEAM: 'O',
     MAX_POST_LEN: 4000,
     EMOJI_SIZE: 16,
+    DEFAULT_EMOJI_PICKER_LEFT_OFFSET: 87,
+    DEFAULT_EMOJI_PICKER_RIGHT_OFFSET: 15,
+    EMOJI_PICKER_WIDTH_OFFSET: 295,
     THEMES: {
         default: {
             type: 'Mattermost',

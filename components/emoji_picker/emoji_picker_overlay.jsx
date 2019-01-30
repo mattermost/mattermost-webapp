@@ -6,6 +6,7 @@ import React from 'react';
 import {Overlay} from 'react-bootstrap';
 
 import {popOverOverlayPosition} from 'utils/position_utils.jsx';
+import {Constants} from 'utils/constants.jsx';
 
 import EmojiPickerTabs from './emoji_picker_tabs.jsx';
 
@@ -27,7 +28,6 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         onEmojiClick: PropTypes.func.isRequired,
         onGifClick: PropTypes.func,
         onHide: PropTypes.func.isRequired,
-        rightOffset: PropTypes.number,
         topOffset: PropTypes.number,
         spaceRequiredAbove: PropTypes.number,
         spaceRequiredBelow: PropTypes.number,
@@ -59,6 +59,16 @@ export default class EmojiPickerOverlay extends React.PureComponent {
     }
 
     render() {
+        const emojiTrigger = this.props.target();
+        let rightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
+        if (emojiTrigger) {
+            rightOffset = window.innerWidth - emojiTrigger.getBoundingClientRect().left - Constants.DEFAULT_EMOJI_PICKER_LEFT_OFFSET;
+
+            if (rightOffset < 0) {
+                rightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
+            }
+        }
+
         return (
             <Overlay
                 show={this.props.show}
@@ -74,7 +84,7 @@ export default class EmojiPickerOverlay extends React.PureComponent {
                     onEmojiClose={this.props.onHide}
                     onEmojiClick={this.props.onEmojiClick}
                     onGifClick={this.props.onGifClick}
-                    rightOffset={this.props.rightOffset}
+                    rightOffset={rightOffset}
                     topOffset={this.props.topOffset}
                 />
             </Overlay>

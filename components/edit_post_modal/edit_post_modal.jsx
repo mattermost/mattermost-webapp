@@ -301,7 +301,6 @@ export default class EditPostModal extends React.PureComponent {
                         onEmojiClick={this.handleEmojiClick}
                         onGifClick={this.handleGifClick}
                         enableGifPicker={this.props.config.EnableGifPicker === 'true'}
-                        rightOffset={50}
                         topOffset={-20}
                     />
                     <EmojiIcon
