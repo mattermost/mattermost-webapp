@@ -30,10 +30,6 @@ const CLOSE_TO_BOTTOM_SCROLL_MARGIN = 10;
 const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
 const MAX_EXTRA_PAGES_LOADED = 10;
 
-const LOADPOSTS_MIN_HEIGHT = 300;
-const LOADPOSTS_MAX_HEIGHT = 2500;
-const LOADPOSTS_SCROLL_RATIO = 0.3;
-
 export default class PostList extends React.PureComponent {
     static propTypes = {
 
