@@ -28,6 +28,7 @@ export default class ThemeSetting extends React.Component {
         allowCustomThemes: PropTypes.bool,
         showAllTeamsCheckbox: PropTypes.bool,
         applyToAllTeams: PropTypes.bool,
+        focused: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -319,6 +320,7 @@ export default class ThemeSetting extends React.Component {
                     }
                     section={'theme'}
                     updateSection={this.handleUpdateSection}
+                    focused={this.props.focused}
                 />
             );
         }
