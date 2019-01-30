@@ -7,7 +7,10 @@ import React from 'react';
 import LoadingBars from 'components/widgets/loading/loading_bars.jsx';
 
 export default function LoadingImagePreview({loading, progress, containerClass}) {
-    let progressView = null;
+    let progressView = (
+        <span className='loader-percent'/>
+    );
+
     if (progress) {
         progressView = (
             <span className='loader-percent'>

@@ -484,6 +484,8 @@
     align-items: center;
     justify-content: center;
     min-height: 140px;
+    flex-direction: column;
+    padding-top: 28px;
 
     .fa {
         color: $white;
