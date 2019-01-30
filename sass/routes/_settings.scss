@@ -412,12 +412,6 @@
                         display: none;
                         font-size: 12px;
                         margin-right: 5px;
-
-                        &.fa-chevron-down {
-                            margin-right: 0;
-                            position: relative;
-                            top: -1px;
-                        }
                     }
                 }
 
@@ -605,10 +599,12 @@
 
 .member-role,
 .member-drop {
+    display: flex;
+    align-items: center;
+
     .fa {
-        @include opacity(.5);
-        font-size: 12px;
-        margin-right: 5px;
+        font-size: 16px;
+        margin: 0 0 0 4px;
     }
 
     .member-menu {

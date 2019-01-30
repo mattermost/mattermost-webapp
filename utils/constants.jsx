@@ -203,6 +203,7 @@ export const UserStatuses = {
 export const UserSearchOptions = {
     ALLOW_INACTIVE: 'allow_inactive',
     WITHOUT_TEAM: 'without_team',
+    ROLE: 'role',
 };
 
 export const SocketEvents = {
@@ -305,6 +306,11 @@ export const StatTypes = keyMirror({
 export const SearchUserTeamFilter = {
     ALL_USERS: '',
     NO_TEAM: 'no_team',
+};
+
+export const SearchUserOptionsFilter = {
+    ALLOW_INACTIVE: 'inactive',
+    SYSTEM_ADMIN: 'system_admin',
 };
 
 export const SearchTypes = keyMirror({

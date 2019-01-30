@@ -150,6 +150,7 @@ export default class ReactionList extends React.PureComponent {
                         show={this.state.showEmojiPicker}
                         target={this.getTarget}
                         onHide={this.hideEmojiPicker}
+                        onEmojiClose={this.hideEmojiPicker}
                         onEmojiClick={this.handleEmojiClick}
                         rightOffset={rightOffset}
                         topOffset={-5}

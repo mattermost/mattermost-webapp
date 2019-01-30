@@ -232,7 +232,7 @@ export default class SearchBar extends React.Component {
                         >
                             {(title) => (
                                 <span
-                                    className='fa fa-chevron-left'
+                                    className='fa fa-2x fa-angle-left'
                                     title={title}
                                 />
                             )}

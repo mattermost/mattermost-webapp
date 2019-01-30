@@ -289,17 +289,16 @@
     @include single-transition(all, .2s, linear);
     @include translateX(0);
     cursor: pointer;
-    font-size: 16px;
     height: 48px;
-    line-height: 0;
-    padding-left: 1px;
     text-align: center;
     width: 45px;
     z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     .fa {
         position: relative;
-        top: 18px;
-        right: 2px;
+        top: 1px;
     }
 }

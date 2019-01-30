@@ -27,7 +27,7 @@ export default class AnnouncementBarController extends React.PureComponent {
 
     render() {
         let adminConfiguredAnnouncementBar = null;
-        if (this.props.config.EnableBanner === 'true') {
+        if (this.props.config.EnableBanner === 'true' && this.props.config.BannerText.trim()) {
             adminConfiguredAnnouncementBar = (
                 <TextDismissableBar
                     color={this.props.config.BannerColor}
