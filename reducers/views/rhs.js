@@ -65,6 +65,11 @@ function previousRhsState(state = null, action) {
             return action.previousRhsState;
         }
         return null;
+    case ActionTypes.SELECT_POST_CARD:
+        if (action.previousRhsState) {
+            return action.previousRhsState;
+        }
+        return null;
     default:
         return state;
     }
