@@ -364,11 +364,13 @@ class LoginController extends React.Component {
         if (this.props.enableCustomBrand) {
             const text = this.props.customBrandText || '';
             const formattedText = TextFormatting.formatText(text);
+            const brandImageUrl = Client4.getBrandImageUrl(0);
 
             return (
                 <div>
-                    <img
-                        src={Client4.getBrandImageUrl(0)}
+                    <object
+                        data={brandImageUrl}
+                        type='image/jpg'
                     />
                     <div>
                         {messageHtmlToComponent(formattedText, false, {mentions: false, imagesMetadata: null})}
