@@ -108,7 +108,6 @@ export default class RhsCard extends React.Component {
             );
         }
 
-
         return (
             <div
                 className='sidebar-right__body'

@@ -112,7 +112,6 @@ export default class SidebarRight extends React.PureComponent {
                     />
                 </div>
             );
-
         } else if (postCardVisible) {
             content = (
                 <div className='post-right__container'>

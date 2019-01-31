@@ -9,6 +9,7 @@ import {ActionTypes, RHSStates} from 'utils/constants.jsx';
 describe('Reducers.RHS', () => {
     const initialState = {
         selectedPostId: '',
+        selectedPostCardId: '',
         selectedChannelId: '',
         previousRhsState: null,
         rhsState: null,
