@@ -4,8 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import loadingGif from 'images/load.gif';
-
 export default class LoadingBars extends React.PureComponent {
     static propTypes = {
         text: PropTypes.string,
