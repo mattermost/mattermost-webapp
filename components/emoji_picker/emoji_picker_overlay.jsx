@@ -46,6 +46,7 @@ export default class EmojiPickerOverlay extends React.PureComponent {
 
         this.state = {
             placement: 'top',
+            rightOffset: Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET,
         };
     }
 
@@ -54,21 +55,25 @@ export default class EmojiPickerOverlay extends React.PureComponent {
             const targetBounds = nextProps.target().getBoundingClientRect();
             const placement = popOverOverlayPosition(targetBounds, window.innerHeight, {above: nextProps.spaceRequiredAbove, below: nextProps.spaceRequiredBelow});
 
-            this.setState({placement});
+            this.setState({placement, rightOffset: this.emojiPickerPosition()});
         }
     }
 
-    render() {
+    emojiPickerPosition() {
         const emojiTrigger = this.props.target();
         let rightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
         if (emojiTrigger) {
             rightOffset = window.innerWidth - emojiTrigger.getBoundingClientRect().left - Constants.DEFAULT_EMOJI_PICKER_LEFT_OFFSET;
 
-            if (rightOffset < 0) {
+            if (rightOffset < Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET) {
                 rightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
             }
         }
 
+        return rightOffset;
+    }
+
+    render() {
         return (
             <Overlay
                 show={this.props.show}
@@ -84,7 +89,7 @@ export default class EmojiPickerOverlay extends React.PureComponent {
                     onEmojiClose={this.props.onHide}
                     onEmojiClick={this.props.onEmojiClick}
                     onGifClick={this.props.onGifClick}
-                    rightOffset={rightOffset}
+                    rightOffset={this.state.rightOffset}
                     topOffset={this.props.topOffset}
                 />
             </Overlay>
