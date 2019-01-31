@@ -76,7 +76,7 @@ export function useSafeUrl(url, defaultUrl = '') {
 }
 
 export function getScheme(url) {
-    const match = (/([a-z0-9+.-]+):/i).exec(url);
+    const match = (/([A-Za-z0-9+.-]+):/i).exec(url);
 
     return match && match[1];
 }
