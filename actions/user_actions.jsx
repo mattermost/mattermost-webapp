@@ -282,51 +282,53 @@ export async function loadProfilesForDM() {
     }
 }
 
-export async function saveTheme(teamId, theme, cb) {
-    const currentUserId = Selectors.getCurrentUserId(getState());
-    const preference = [{
-        user_id: currentUserId,
-        category: Preferences.CATEGORY_THEME,
-        name: teamId,
-        value: JSON.stringify(theme),
-    }];
-
-    await savePreferencesRedux(currentUserId, preference)(dispatch, getState);
-    onThemeSaved(teamId, cb);
-}
-
-function onThemeSaved(teamId, onSuccess) {
-    const getCategory = makeGetCategory();
-    const themePreferences = getCategory(getState(), Preferences.CATEGORY_THEME);
-
-    if (teamId !== '' && themePreferences.size > 1) {
-        // no extra handling to be done to delete team-specific themes
-        onSuccess();
-        return;
-    }
-
-    const currentUserId = Selectors.getCurrentUserId(getState());
-    const toDelete = [];
-
-    for (const themePreference of themePreferences) {
-        const name = themePreference.name;
-        if (name === '' || name === teamId) {
-            continue;
-        }
-
-        toDelete.push({
+export function saveTheme(teamId, theme) {
+    return async (doDispatch, doGetState) => {
+        const currentUserId = Selectors.getCurrentUserId(doGetState());
+        const preference = [{
             user_id: currentUserId,
             category: Preferences.CATEGORY_THEME,
-            name,
-        });
-    }
+            name: teamId,
+            value: JSON.stringify(theme),
+        }];
 
-    if (toDelete.length > 0) {
-        // we're saving a new global theme so delete any team-specific ones
-        deletePreferencesRedux(currentUserId, toDelete)(dispatch, getState);
-    }
+        await doDispatch(savePreferencesRedux(currentUserId, preference));
+        return doDispatch(onThemeSaved(teamId));
+    };
+}
 
-    onSuccess();
+function onThemeSaved(teamId) {
+    return async (doDispatch, doGetState) => {
+        const getCategory = makeGetCategory();
+        const state = doGetState();
+        const themePreferences = getCategory(state, Preferences.CATEGORY_THEME);
+
+        if (teamId !== '' && themePreferences.length > 1) {
+            // no extra handling to be done to delete team-specific themes
+            return;
+        }
+
+        const currentUserId = Selectors.getCurrentUserId(state);
+        const toDelete = [];
+
+        for (const themePreference of themePreferences) {
+            const name = themePreference.name;
+            if (name === '' || name === teamId) {
+                continue;
+            }
+
+            toDelete.push({
+                user_id: currentUserId,
+                category: Preferences.CATEGORY_THEME,
+                name,
+            });
+        }
+
+        if (toDelete.length > 0) {
+            // we're saving a new global theme so delete any team-specific ones
+            doDispatch(deletePreferencesRedux(currentUserId, toDelete));
+        }
+    };
 }
 
 export async function searchUsers(term, teamId = getCurrentTeamId(getState()), options = {}, success) {
