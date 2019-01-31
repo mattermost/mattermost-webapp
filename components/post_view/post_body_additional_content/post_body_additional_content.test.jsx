@@ -70,7 +70,7 @@ describe('components/post_view/PostBodyAdditionalContent', () => {
         expect(props.actions.toggleEmbedVisibility).toBeCalledWith('post_id_1');
     });
 
-    test('image link should go image through proxy in preview modal', () => {
+    test('image link should go through image proxy in preview modal', () => {
         const link = 'http://example.com/image.png';
 
         const props = {
