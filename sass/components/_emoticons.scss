@@ -204,7 +204,6 @@
     padding: 0 8px 8px;
     position: relative;
     width: 100%;
-    background: $bg--gray;
     -webkit-overflow-scrolling: touch;
 
     .emoji-picker__container {
@@ -322,7 +321,7 @@
     }
 
     .emoji-picker__preview-image-label-box {
-        margin-left: 3px;
+        margin-left: 4px;
 
         .emoji-picker__preview-name {
             font-size: 13px;
