@@ -25,7 +25,7 @@ export default class SizeAwareImage extends React.PureComponent {
         dimensions: PropTypes.object,
 
         /*
-         * Boolean value to pass for showing a loader when img is beign loaded
+         * Boolean value to pass for showing a loader when image is being loaded
          */
         showLoader: PropTypes.bool,
 
