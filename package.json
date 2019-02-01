@@ -12,6 +12,7 @@
     "chart.js": "2.7.3",
     "compass-mixins": "0.12.10",
     "core-js": "2.6.3",
+    "emoji-regex": "^7.0.3",
     "exif2css": "1.2.0",
     "fastclick": "1.0.6",
     "flux": "3.1.3",
