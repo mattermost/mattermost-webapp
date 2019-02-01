@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import LoadingImagePreview from 'components/loading_image_preview';
 import {createPlaceholderImage, loadImage} from 'utils/image_utils';
 
 const WAIT_FOR_HEIGHT_TIMEOUT = 100;
@@ -14,9 +15,19 @@ export default class SizeAwareImage extends React.PureComponent {
     static propTypes = {
 
         /*
+         * The source URL of the image
+         */
+        src: PropTypes.string.isRequired,
+
+        /*
          * dimensions object to create empty space required to prevent scroll pop
          */
         dimensions: PropTypes.object,
+
+        /*
+         * Boolean value to pass for showing a loader when image is being loaded
+         */
+        showLoader: PropTypes.bool,
 
         /*
          * A callback that is called as soon as the image component has a height value
@@ -24,9 +35,9 @@ export default class SizeAwareImage extends React.PureComponent {
         onHeightReceived: PropTypes.func.isRequired,
 
         /*
-         * The source URL of the image
+         * A callback that is called when image load fails
          */
-        src: PropTypes.string.isRequired,
+        onImageLoadFail: PropTypes.func,
     }
 
     constructor(props) {
@@ -84,9 +95,7 @@ export default class SizeAwareImage extends React.PureComponent {
     }
 
     handleLoad = (image) => {
-        const wasWaiting = this.stopWaitingForHeight();
-
-        if ((wasWaiting || !this.props.dimensions) && this.props.onHeightReceived) {
+        if (this.props.onHeightReceived && image.height) {
             this.props.onHeightReceived(image.height);
         }
 
@@ -97,6 +106,9 @@ export default class SizeAwareImage extends React.PureComponent {
 
     handleError = () => {
         this.stopWaitingForHeight();
+        if (this.props.onImageLoadFail) {
+            this.props.onImageLoadFail();
+        }
     };
 
     render() {
@@ -105,7 +117,9 @@ export default class SizeAwareImage extends React.PureComponent {
             ...props
         } = this.props;
 
+        Reflect.deleteProperty(props, 'showLoader');
         Reflect.deleteProperty(props, 'onHeightReceived');
+        Reflect.deleteProperty(props, 'onImageLoadFail');
 
         let src;
         if (!this.state.loaded && dimensions) {
@@ -117,10 +131,19 @@ export default class SizeAwareImage extends React.PureComponent {
         }
 
         return (
-            <img
-                {...props}
-                src={src}
-            />
+            <div>
+                {!this.state.loaded && this.props.showLoader &&
+                    <div style={{position: 'absolute'}}>
+                        <LoadingImagePreview
+                            containerClass={'file__image-loading'}
+                        />
+                    </div>
+                }
+                <img
+                    {...props}
+                    src={src}
+                />
+            </div>
         );
     }
 }

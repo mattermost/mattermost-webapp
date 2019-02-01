@@ -7,6 +7,7 @@ export function createPlaceholderImage(width, height) {
 
     placeholder.width = width;
     placeholder.height = height;
+    placeholder.style.backgroundColor = 'transparent';
 
     try {
         return placeholder.toDataURL();
