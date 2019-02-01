@@ -23,6 +23,7 @@
         &.post--root {
             border-bottom: 1px solid #ddd;
             padding-bottom: 1em;
+            padding-left: 1em;
 
             .post__body {
                 background: transparent !important;
@@ -37,6 +38,7 @@
 
         .post__body {
             width: 100%;
+            padding-left: 0;
         }
 
         &.post--compact {
@@ -45,7 +47,7 @@
                     padding-left: 1em;
 
                     .post__header {
-                        margin-left: 7px;
+                        margin-left: 0;
                         float: none;
                         height: auto;
 
@@ -69,6 +71,11 @@
                     }
                 }
             }
+        }
+
+        .post__img {
+            padding: 2px 4px 0 0;
+            width: 20px;
         }
     }
 
