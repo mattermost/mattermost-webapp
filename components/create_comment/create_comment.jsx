@@ -848,7 +848,6 @@ export default class CreateComment extends React.PureComponent {
                         onEmojiClick={this.handleEmojiClick}
                         onGifClick={this.handleGifClick}
                         enableGifPicker={this.props.enableGifPicker}
-                        rightOffset={15}
                         topOffset={55}
                     />
                     <EmojiIcon

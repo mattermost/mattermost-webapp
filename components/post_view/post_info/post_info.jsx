@@ -235,7 +235,6 @@ export default class PostInfo extends React.PureComponent {
                                 onHide={this.hideEmojiPicker}
                                 onEmojiClose={this.reactEmojiClose}
                                 onEmojiClick={this.reactEmojiClick}
-                                rightOffset={12}
                                 topOffset={-7}
                             />
                             <OverlayTrigger
