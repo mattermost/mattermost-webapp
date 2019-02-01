@@ -43,7 +43,7 @@ TutorialView.propTypes = {
     townSquareDisplayName: PropTypes.string.isRequired,
     appDownloadLink: PropTypes.string,
     isLicensed: PropTypes.bool.isRequired,
-    restrictTeamInvite: PropTypes.string.isRequired,
+    restrictTeamInvite: PropTypes.bool.isRequired,
     supportEmail: PropTypes.string.isRequired,
 };
 
