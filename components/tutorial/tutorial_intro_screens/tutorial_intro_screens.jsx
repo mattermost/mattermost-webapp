@@ -24,7 +24,7 @@ export default class TutorialIntroScreens extends React.Component {
         townSquareDisplayName: PropTypes.string.isRequired,
         appDownloadLink: PropTypes.string,
         isLicensed: PropTypes.bool.isRequired,
-        restrictTeamInvite: PropTypes.string.isRequired,
+        restrictTeamInvite: PropTypes.bool.isRequired,
         supportEmail: PropTypes.string.isRequired,
     };
 
@@ -205,7 +205,7 @@ export default class TutorialIntroScreens extends React.Component {
         let inviteText;
         const {teamType} = this.props;
 
-        if (!this.props.isLicensed || this.props.restrictTeamInvite === Constants.PERMISSIONS_ALL) {
+        if (!this.props.isLicensed || !this.props.restrictTeamInvite) {
             if (teamType === Constants.INVITE_TEAM) {
                 inviteModalLink = (
                     <ModalToggleButtonRedux
