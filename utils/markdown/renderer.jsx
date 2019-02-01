@@ -144,19 +144,24 @@ export default class Renderer extends marked.Renderer {
         let outHref = href;
 
         if (!href.startsWith('/')) {
+			console.log("href before scheme: ", href);
             const scheme = getScheme(href);
+			console.log("scheme: ", scheme);
             if (!scheme) {
-                outHref = `http://${outHref}`;
+				console.log("scheme: false");
+				outHref = `http://${outHref}`;
             } else if (isUrl && this.formattingOptions.autolinkedUrlSchemes) {
                 const isValidUrl = this.formattingOptions.autolinkedUrlSchemes.indexOf(scheme) !== -1;
 
                 if (!isValidUrl) {
-                    return text;
+					console.log("isValidUrl: false");
+					return text;
                 }
             }
         }
 
         if (!isUrlSafe(unescapeHtmlEntities(href))) {
+			console.log("isUrlSafe: false");
             return text;
         }
 
