@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/SizeAwareImage should render a placeholder and has loader when showLoader is true 1`] = `
+<div>
+  <div
+    style={
+      Object {
+        "position": "absolute",
+      }
+    }
+  >
+    <LoadingImagePreview
+      containerClass="file__image-loading"
+    />
+  </div>
+  <img
+    src="data:image/png;base64,abc123"
+  />
+</div>
+`;

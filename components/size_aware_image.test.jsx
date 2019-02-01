@@ -27,16 +27,27 @@ describe('components/SizeAwareImage', () => {
 
         const wrapper = mount(<SizeAwareImage {...baseProps}/>);
 
-        const img = wrapper.getDOMNode();
-        expect(img.src.startsWith('data:image')).toBeTruthy();
+        const src = wrapper.find('img').prop('src');
+        expect(src.startsWith('data:image')).toBeTruthy();
+    });
+
+    test('should render a placeholder and has loader when showLoader is true', () => {
+        createPlaceholderImage.mockImplementation(() => 'data:image/png;base64,abc123');
+        const props = {
+            ...baseProps,
+            showLoader: true,
+        };
+
+        const wrapper = shallow(<SizeAwareImage {...props}/>);
+        expect(wrapper).toMatchSnapshot();
     });
 
     test('should render the actual image after it is loaded', () => {
         const wrapper = mount(<SizeAwareImage {...baseProps}/>);
         wrapper.setState({loaded: true});
 
-        const img = wrapper.getDOMNode();
-        expect(img.src).toEqual(baseProps.src);
+        const src = wrapper.find('img').prop('src');
+        expect(src).toEqual(baseProps.src);
     });
 
     test('should render the actual image when first mounted without dimensions', () => {
@@ -45,8 +56,8 @@ describe('components/SizeAwareImage', () => {
 
         const wrapper = mount(<SizeAwareImage {...props}/>);
 
-        const img = wrapper.getDOMNode();
-        expect(img.src).toEqual(baseProps.src);
+        const src = wrapper.find('img').prop('src');
+        expect(src).toEqual(baseProps.src);
     });
 
     test('should load image when mounted and when src changes', () => {
@@ -62,7 +73,7 @@ describe('components/SizeAwareImage', () => {
         expect(loadImage.mock.calls[1][0]).toEqual(newSrc);
     });
 
-    test('should call onHeightReceived on load when dimensions are needed', () => {
+    test('should call onHeightReceived on image is loaded', () => {
         const height = 123;
         loadImage.mockImplementation((src, onLoad) => {
             onLoad({height});
@@ -71,22 +82,17 @@ describe('components/SizeAwareImage', () => {
         });
 
         const props = {...baseProps};
-        Reflect.deleteProperty(props, 'dimensions');
-
         shallow(<SizeAwareImage {...props}/>);
 
         expect(baseProps.onHeightReceived).toHaveBeenCalledWith(height);
     });
 
-    test('should not call onHeightReceived when dimensions are provided', () => {
-        loadImage.mockImplementation((src, onLoad) => {
-            onLoad({height: 100});
+    test('should call onImageLoadFail when image load fails', () => {
+        const onImageLoadFail = jest.fn();
+        const props = {...baseProps, onImageLoadFail};
 
-            return {};
-        });
-
-        shallow(<SizeAwareImage {...baseProps}/>);
-
-        expect(baseProps.onHeightReceived).not.toHaveBeenCalled();
+        const wrapper = shallow(<SizeAwareImage {...props}/>);
+        wrapper.instance().handleError();
+        expect(props.onImageLoadFail).toHaveBeenCalled();
     });
 });

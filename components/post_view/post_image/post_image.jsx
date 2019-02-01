@@ -5,14 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {postListScrollChange} from 'actions/global_actions';
-import LoadingImagePreview from 'components/loading_image_preview';
+import SizeAwareImage from 'components/size_aware_image';
 import * as PostUtils from 'utils/post_utils.jsx';
-import {getFileDimensionsForDisplay} from 'utils/file_utils';
-
-const MAX_IMAGE_DIMENSIONS = {
-    maxHeight: 500,
-    maxWidth: 450,
-};
 
 export default class PostImageEmbed extends React.PureComponent {
     static propTypes = {
@@ -51,67 +45,41 @@ export default class PostImageEmbed extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.handleLoadComplete = this.handleLoadComplete.bind(this);
-        this.handleLoadError = this.handleLoadError.bind(this);
-
         this.state = {
-            loaded: false,
             errored: false,
         };
     }
 
     componentDidMount() {
         this.mounted = true;
-        this.loadImg(this.props.link);
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.link !== this.props.link) {
-            this.setState({
-                loaded: false,
-                errored: false,
-            });
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        if (!this.state.loaded && prevProps.link !== this.props.link) {
-            this.loadImg(this.props.link);
-        }
     }
 
     componentWillUnmount() {
         this.mounted = false;
     }
 
-    loadImg(src) {
-        const img = new Image();
-        img.onload = this.handleLoadComplete;
-        img.onerror = this.handleLoadError;
-        img.src = PostUtils.getImageSrc(src, this.props.hasImageProxy);
-    }
-
-    handleLoadComplete() {
+    handleLoadComplete = () => {
         if (!this.mounted) {
             return;
         }
         this.setState({
-            loaded: true,
             errored: false,
         });
-        postListScrollChange();
+        if (!this.props.dimensions) {
+            postListScrollChange();
+        }
         if (this.props.onLinkLoaded) {
             this.props.onLinkLoaded();
         }
     }
 
-    handleLoadError() {
-        if (this.mouted) {
-            this.setState({
-                errored: true,
-                loaded: true,
-            });
+    handleLoadError = () => {
+        if (!this.mounted) {
+            return;
         }
+        this.setState({
+            errored: true,
+        });
 
         if (this.props.onLinkLoadError) {
             this.props.onLinkLoadError();
@@ -124,29 +92,22 @@ export default class PostImageEmbed extends React.PureComponent {
     };
 
     render() {
-        const imageDimensions = getFileDimensionsForDisplay(this.props.dimensions, MAX_IMAGE_DIMENSIONS);
-        if (this.state.errored || !this.state.loaded) {
-            if (!this.props.dimensions) {
-                return null;
-            }
-            return (
-                <div style={{...imageDimensions, marginBottom: '13px'}}>
-                    <LoadingImagePreview
-                        containerClass={'file__image-loading'}
-                    />
-                </div>
-            );
+        if (this.state.errored) {
+            return null;
         }
 
         return (
             <div
                 className='post__embed-container'
             >
-                <img
-                    onClick={this.onImageClick}
-                    className='img-div cursor--pointer'
+                <SizeAwareImage
+                    className='attachment__image cursor--pointer'
                     src={PostUtils.getImageSrc(this.props.link, this.props.hasImageProxy)}
-                    {...imageDimensions}
+                    dimensions={this.props.dimensions}
+                    showLoader={true}
+                    onHeightReceived={this.handleLoadComplete}
+                    onImageLoadFail={this.handleLoadError}
+                    onClick={this.onImageClick}
                 />
             </div>
         );
