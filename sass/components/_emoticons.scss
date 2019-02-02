@@ -20,6 +20,11 @@
     min-width: 1em;
     vertical-align: middle;
     width: 21px;
+
+    &--unicode {
+        font-size: 18px;
+        line-height: 1.3;
+    }
 }
 
 .emoticon-suggestion {
