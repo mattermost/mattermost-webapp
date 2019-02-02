@@ -18,7 +18,7 @@ import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import favicon from 'images/favicon/favicon-16x16.png';
-import redFavicon from 'images/favicon/redfavicon-16x16.png';
+import faviconWithRedDot from 'images/favicon/favicon-with-red-dot-16x16.png';
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
 import QuickSwitchModal from 'components/quick_switch_modal';
@@ -220,7 +220,7 @@ export default class Sidebar extends React.PureComponent {
         this.updateTitle();
 
         // Don't modify favicon for now: https://mattermost.atlassian.net/browse/MM-13643.
-        // this.setBadgesActiveAndFavicon();
+        this.setBadgesActiveAndFavicon();
 
         this.setFirstAndLastUnreadChannels();
         this.updateUnreadIndicators();
@@ -241,20 +241,25 @@ export default class Sidebar extends React.PureComponent {
 
         // update the favicon to show if there are any notifications
         if (this.lastBadgesActive !== this.badgesActive) {
-            var link = document.createElement('link');
+            const link = document.createElement('link');
+
             link.type = 'image/x-icon';
             link.rel = 'shortcut icon';
             link.id = 'favicon';
+
             if (this.badgesActive) {
-                link.href = typeof redFavicon === 'string' ? redFavicon : '';
+                link.href = typeof faviconWithRedDot === 'string' ? faviconWithRedDot : '';
             } else {
                 link.href = typeof favicon === 'string' ? favicon : '';
             }
-            var head = document.getElementsByTagName('head')[0];
-            var oldLink = document.getElementById('favicon');
+
+            const head = document.getElementsByTagName('head')[0];
+            const oldLink = document.getElementById('favicon');
+
             if (oldLink) {
                 head.removeChild(oldLink);
             }
+
             head.appendChild(link);
         }
     }
