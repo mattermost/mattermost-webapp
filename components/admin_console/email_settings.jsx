@@ -33,6 +33,7 @@ export default class EmailSettings extends AdminSettings {
         config.EmailSettings.EnablePreviewModeBanner = this.state.enablePreviewModeBanner;
         config.EmailSettings.FeedbackName = this.state.feedbackName;
         config.EmailSettings.FeedbackEmail = this.state.feedbackEmail;
+        config.EmailSettings.ReplyToAddress = this.state.replyToAddress;
         config.EmailSettings.FeedbackOrganization = this.state.feedbackOrganization;
         config.EmailSettings.EnableSMTPAuth = this.state.enableSMTPAuth;
         config.EmailSettings.SMTPUsername = this.state.smtpUsername;
@@ -250,6 +251,26 @@ export default class EmailSettings extends AdminSettings {
                     onChange={this.handleChange}
                     disabled={!this.state.sendEmailNotifications}
                     setByEnv={this.isSetByEnv('EmailSettings.FeedbackEmail')}
+                />
+                <TextSetting
+                    id='replyToAddress'
+                    label={
+                        <FormattedMessage
+                            id='admin.email.replyToAddressTitle'
+                            defaultMessage='Notification Reply-To Address:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.email.notificationEmailExample', 'Ex: "mattermost@yourcompany.com", "admin@yourcompany.com"')}
+                    helpText={
+                        <FormattedMessage
+                            id='admin.email.replyToAddressDescription'
+                            defaultMessage='Email address used in the Reply-To header when sending notification emails from Mattermost.'
+                        />
+                    }
+                    value={this.state.replyToAddress}
+                    onChange={this.handleChange}
+                    disabled={!this.state.sendEmailNotifications}
+                    setByEnv={this.isSetByEnv('EmailSettings.ReplyToAddress')}
                 />
                 <TextSetting
                     id='feedbackOrganization'
