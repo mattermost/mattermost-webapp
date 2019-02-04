@@ -13,6 +13,10 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         cy.toAccountSettingsModal('user-1');
     });
 
+    beforeEach(() => {
+        cy.viewport(1500, 660);
+    });
+
     it('should render in min setting view', () => {
         // * Check that the Display tab is loaded
         cy.get('#displayButton').should('be.visible');
@@ -33,6 +37,9 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         // 3. Click "Edit" to the right of "Channel Display"
         cy.get('#channel_display_modeEdit').click();
 
+        // 4. Scroll a bit to show the "Save" button
+        cy.get('.section-max').scrollIntoView();
+
         // * Check that it changed into the Channel Display section
         // * Check the max setting view if each element is present and contains expected text values
         cy.get('#channel_display_modeFormatA').should('be.visible');
@@ -43,20 +50,25 @@ describe('Account Settings > Display > Channel Display Mode', () => {
     });
 
     it('change channel display mode setting to "Full width"', () => {
-        // 4. Click the radio button for "Full width"
+        // 5. Click the radio button for "Full width"
         cy.get('#channel_display_modeFormatA').click();
 
-        // 5. Click "Save"
+        // 6. Click "Save"
         cy.get('#saveSetting').click();
 
         // * Check that it changed into min setting view
         // * Check if element is present and contains expected text values
         cy.get('#channel_display_modeDesc').should('be.visible').should('contain', 'Full width');
 
-        // 6. Click "x" button to close Account Settings modal
+        // 7. Click "x" button to close Account Settings modal
         cy.get('#accountSettingsHeader > .close').click();
 
-        // TODO: Let's validate the change...
+        // 8. Go to channel which has any posts
+        cy.get('#sidebarItem_ratione-1').click();
+
+        // * Validate if the post content in center channel is fulled.
+        // * 1179px is fulled width when the viewport width is 1500px
+        cy.get('.post__content').last().should('have.css', 'width', '1179px');
     });
 
     it('change channel display mode setting to "Fixed width, centered"', () => {
@@ -72,19 +84,27 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         // 3. Click "Edit" to the right of "Channel Display"
         cy.get('#channel_display_modeEdit').click();
 
-        // 4. Click the radio button for "Fixed width, centered"
+        // 4. Scroll a bit to show the "Save" button
+        cy.get('.section-max').scrollIntoView();
+
+        // 5. Click the radio button for "Fixed width, centered"
         cy.get('#channel_display_modeFormatB').click();
 
-        // 5. Click "Save"
+        // 6. Click "Save"
         cy.get('#saveSetting').click();
 
         // * Check that it changed into min setting view
         // * Check if element is present and contains expected text values
         cy.get('#channel_display_modeDesc').should('be.visible').should('contain', 'Fixed width');
 
-        // 6. Click "x" button to close Account Settings modal
+        // 7. Click "x" button to close Account Settings modal
         cy.get('#accountSettingsHeader > .close').click();
 
-        // TODO: Let's validate the change...
+        // 8. Go to channel which has any posts
+        cy.get('#sidebarItem_ratione-1').click();
+
+        //* Validate if the post content in center channel is fixed and centered
+        cy.get('.post__content').last().should('have.css', 'width', '1000px');
+        cy.get('.post__content').last().should('have.class', 'center');
     });
 });
