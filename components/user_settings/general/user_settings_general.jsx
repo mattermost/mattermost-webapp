@@ -18,6 +18,7 @@ import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+import {formatMessage} from "react-intl/src/format";
 
 const holders = defineMessages({
     usernameReserved: {
@@ -35,6 +36,10 @@ const holders = defineMessages({
     emailMatch: {
         id: t('user.settings.general.emailMatch'),
         defaultMessage: 'The new emails you entered do not match.',
+    },
+    incorrectPassword: {
+        id: t('user.settings.general.incorrectPassword'),
+        defaultMessage: 'Your password is incorrect.',
     },
     emptyPassword: {
         id: t('user.settings.general.emptyPassword'),
@@ -260,7 +265,9 @@ class UserSettingsGeneralTab extends React.Component {
     }
 
     submitUser = (user, emailUpdated) => {
+        const {formatMessage} = this.props.intl;
         this.setState({sectionIsSaving: true});
+
         updateUser(
             user,
             () => {
@@ -273,7 +280,9 @@ class UserSettingsGeneralTab extends React.Component {
             },
             (err) => {
                 let serverError;
-                if (err.message) {
+                if (err.message && err.message === "Invalid or missing password in request body") {
+                    serverError = formatMessage(holders.incorrectPassword)
+                } else if (err.message) {
                     serverError = err.message;
                 } else {
                     serverError = err;
