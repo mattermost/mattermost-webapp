@@ -32,6 +32,7 @@ import SuccessIcon from 'components/icon/success_icon';
 import WarningIcon from 'components/icon/warning_icon';
 
 import LoginMfa from '../login_mfa.jsx';
+
 class LoginController extends React.Component {
     static propTypes = {
         intl: intlShape.isRequired,
@@ -330,6 +331,8 @@ class LoginController extends React.Component {
         const experimentalPrimaryTeam = this.props.experimentalPrimaryTeam;
         const query = new URLSearchParams(this.props.location.search);
         const redirectTo = query.get('redirect_to');
+
+        Utils.setCSRFFromCookie();
 
         // Record a successful login to local storage. If an unintentional logout occurs, e.g.
         // via session expiration, this bit won't get reset and we can notify the user as such.

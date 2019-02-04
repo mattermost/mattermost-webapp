@@ -7,6 +7,14 @@ import React from 'react';
 import Setting from './setting.jsx';
 
 export default class TextSetting extends React.Component {
+    static validTypes = [
+        'input',
+        'textarea',
+        'number',
+        'email',
+        'tel',
+        'url',
+    ];
     static propTypes = {
         id: PropTypes.string.isRequired,
         label: PropTypes.node.isRequired,
@@ -23,14 +31,7 @@ export default class TextSetting extends React.Component {
         resizable: PropTypes.bool,
         onChange: PropTypes.func,
         disabled: PropTypes.bool,
-        type: PropTypes.oneOf([
-            'input',
-            'textarea',
-            'number',
-            'email',
-            'tel',
-            'url',
-        ]),
+        type: PropTypes.oneOf(TextSetting.validTypes),
     };
 
     static defaultProps = {

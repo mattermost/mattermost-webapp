@@ -324,7 +324,6 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
           onEmojiClick={[Function]}
           onEmojiClose={[Function]}
           onHide={[Function]}
-          rightOffset={12}
           show={true}
           spaceRequiredAbove={476}
           spaceRequiredBelow={497}

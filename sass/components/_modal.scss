@@ -474,14 +474,10 @@
         }
 
         .loader-percent {
-            bottom: 0;
             color: alpha-color($white, 0.8);
+            display: block;
+            margin-top: 12px;
             height: 20px;
-            left: 0;
-            margin: auto;
-            position: absolute;
-            right: 0;
-            top: 55px;
         }
 
         .modal-button-bar {
