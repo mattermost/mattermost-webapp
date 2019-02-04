@@ -101,7 +101,7 @@ export default class PostImageEmbed extends React.PureComponent {
                 className='post__embed-container'
             >
                 <SizeAwareImage
-                    className='attachment__image cursor--pointer'
+                    className='img-div attachment__image cursor--pointer'
                     src={PostUtils.getImageSrc(this.props.link, this.props.hasImageProxy)}
                     dimensions={this.props.dimensions}
                     showLoader={true}
