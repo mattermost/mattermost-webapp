@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defining card types 1`] = `
+<div
+  className="sidebar-right__body"
+>
+  <Connect(SearchResultsHeader)
+    channelDisplayName="not-used"
+    isCard={true}
+  />
+  <Scrollbars
+    autoHeight={false}
+    autoHeightMax={200}
+    autoHeightMin={0}
+    autoHide={true}
+    autoHideDuration={500}
+    autoHideTimeout={500}
+    hideTracksWhenNotNeeded={false}
+    onScroll={[Function]}
+    renderThumbHorizontal={[Function]}
+    renderThumbVertical={[Function]}
+    renderTrackHorizontal={[Function]}
+    renderTrackVertical={[Function]}
+    renderView={[Function]}
+    tagName="div"
+    thumbMinSize={30}
+    universal={false}
+  >
+    <div
+      className="post-right__scroll"
+    >
+      <div
+        className="card"
+      >
+        <Connect(Markdown) />
+      </div>
+    </div>
+  </Scrollbars>
+</div>
+`;
+
+exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining card types don't match with the post type 1`] = `
+<div
+  className="sidebar-right__body"
+>
+  <Connect(SearchResultsHeader)
+    channelDisplayName="not-used"
+    isCard={true}
+  />
+  <Scrollbars
+    autoHeight={false}
+    autoHeightMax={200}
+    autoHeightMin={0}
+    autoHide={true}
+    autoHideDuration={500}
+    autoHideTimeout={500}
+    hideTracksWhenNotNeeded={false}
+    onScroll={[Function]}
+    renderThumbHorizontal={[Function]}
+    renderThumbVertical={[Function]}
+    renderTrackHorizontal={[Function]}
+    renderTrackVertical={[Function]}
+    renderView={[Function]}
+    tagName="div"
+    thumbMinSize={30}
+    universal={false}
+  >
+    <div
+      className="post-right__scroll"
+    >
+      <div
+        className="card"
+      >
+        <Connect(Markdown) />
+      </div>
+    </div>
+  </Scrollbars>
+</div>
+`;
+
+exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining card types match with the post type 1`] = `
+<div
+  className="sidebar-right__body"
+>
+  <Connect(SearchResultsHeader)
+    channelDisplayName="not-used"
+    isCard={true}
+  />
+  <Scrollbars
+    autoHeight={false}
+    autoHeightMax={200}
+    autoHeightMin={0}
+    autoHide={true}
+    autoHideDuration={500}
+    autoHideTimeout={500}
+    hideTracksWhenNotNeeded={false}
+    onScroll={[Function]}
+    renderThumbHorizontal={[Function]}
+    renderThumbVertical={[Function]}
+    renderTrackHorizontal={[Function]}
+    renderTrackVertical={[Function]}
+    renderView={[Function]}
+    tagName="div"
+    thumbMinSize={30}
+    universal={false}
+  >
+    <div
+      className="post-right__scroll"
+    >
+      <component
+        post={
+          Object {
+            "id": "123",
+            "message": "test",
+            "type": "test",
+          }
+        }
+      />
+    </div>
+  </Scrollbars>
+</div>
+`;
+
+exports[`comoponents/rhs_card/RhsCard should match when no post is selected 1`] = `<div />`;

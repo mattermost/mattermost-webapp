@@ -37,9 +37,12 @@ export function renderThumbVertical(props) {
 
 export default class RhsCard extends React.Component {
     static propTypes = {
-        selected: PropTypes.object.isRequired,
-        previousRhsState: PropTypes.string,
+        selected: PropTypes.object,
         pluginPostCardTypes: PropTypes.object,
+    }
+
+    static defaultProps = {
+        pluginPostCardTypes: {},
     }
 
     constructor(props) {
@@ -93,11 +96,7 @@ export default class RhsCard extends React.Component {
         let content = null;
         if (pluginPostCardTypes.hasOwnProperty(postType)) {
             const PluginComponent = pluginPostCardTypes[postType].component;
-            content = (
-                <PluginComponent
-                    post={selected}
-                />
-            );
+            content = <PluginComponent post={selected}/>;
         }
 
         if (!content) {
