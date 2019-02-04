@@ -7,3 +7,8 @@
 
 import './commands';
 import './validators';
+
+// Add login cookies to whitelist to preserve it
+Cypress.Cookies.defaults({
+    whitelist: ['MMAUTHTOKEN', 'MMUSERID', 'MMCSRF'],
+});
