@@ -67,7 +67,7 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
             <Connect(Markdown)
               imageProps={
                 Object {
-                  "onHeightReceived": [Function],
+                  "onImageLoaded": [Function],
                 }
               }
               message="short text"
@@ -84,7 +84,7 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
                   "width": 200,
                 }
               }
-              onHeightReceived={[Function]}
+              onImageLoaded={[Function]}
               src="image_url"
             />
           </div>
@@ -114,7 +114,7 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
                 "width": 200,
               }
             }
-            onHeightReceived={[Function]}
+            onImageLoaded={[Function]}
             src="thumb_url"
           />
         </div>
@@ -198,7 +198,7 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
             <Connect(Markdown)
               imageProps={
                 Object {
-                  "onHeightReceived": [Function],
+                  "onImageLoaded": [Function],
                 }
               }
               message="short text"
@@ -215,7 +215,7 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
                   "width": 200,
                 }
               }
-              onHeightReceived={[Function]}
+              onImageLoaded={[Function]}
               src="image_url"
             />
           </div>
@@ -230,7 +230,7 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
                 "width": 200,
               }
             }
-            onHeightReceived={[Function]}
+            onImageLoaded={[Function]}
             src="thumb_url"
           />
         </div>

@@ -17,7 +17,7 @@ describe('components/SizeAwareImage', () => {
             height: 200,
             width: 300,
         },
-        onHeightReceived: jest.fn(),
+        onImageLoaded: jest.fn(),
         src: 'https://example.com/image.png',
     };
 
@@ -79,10 +79,11 @@ describe('components/SizeAwareImage', () => {
         expect(loadImage.mock.calls[1][0]).toEqual(newSrc);
     });
 
-    test('should call onHeightReceived on image is loaded', () => {
+    test('should call onImageLoaded on image is loaded', () => {
         const height = 123;
+        const width = 1234;
         loadImage.mockImplementation((src, onLoad) => {
-            onLoad({height});
+            onLoad({height, width});
 
             return {};
         });
@@ -90,7 +91,7 @@ describe('components/SizeAwareImage', () => {
         const props = {...baseProps};
         shallow(<SizeAwareImage {...props}/>);
 
-        expect(baseProps.onHeightReceived).toHaveBeenCalledWith(height);
+        expect(baseProps.onImageLoaded).toHaveBeenCalledWith({height, width});
     });
 
     test('should call onImageLoadFail when image load fails and should render empty/null', () => {
