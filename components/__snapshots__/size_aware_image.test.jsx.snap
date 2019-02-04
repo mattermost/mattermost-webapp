@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/SizeAwareImage should render a placeholder and has loader when showLoader is true 1`] = `
-<div>
+<Fragment>
   <div
     style={
       Object {
@@ -16,5 +16,5 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
   <img
     src="data:image/png;base64,abc123"
   />
-</div>
+</Fragment>
 `;
