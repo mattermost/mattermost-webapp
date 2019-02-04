@@ -18,7 +18,6 @@ import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
-import {formatMessage} from "react-intl/src/format";
 
 const holders = defineMessages({
     usernameReserved: {
@@ -280,8 +279,8 @@ class UserSettingsGeneralTab extends React.Component {
             },
             (err) => {
                 let serverError;
-                if (err.message && err.message === "Invalid or missing password in request body") {
-                    serverError = formatMessage(holders.incorrectPassword)
+                if (err.message && err.message === 'Invalid or missing password in request body') {
+                    serverError = formatMessage(holders.incorrectPassword);
                 } else if (err.message) {
                     serverError = err.message;
                 } else {
