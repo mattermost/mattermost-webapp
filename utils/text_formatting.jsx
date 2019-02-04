@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import twemoji from 'twemoji';
 import XRegExp from 'xregexp';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
+import emojiRegex from 'emoji-regex';
 
 import {formatWithRenderer} from 'utils/markdown';
 import RemoveMarkdown from 'utils/markdown/remove_markdown';
@@ -18,7 +18,8 @@ const removeMarkdown = new RemoveMarkdown();
 const punctuation = XRegExp.cache('[^\\pL\\d]');
 
 const AT_MENTION_PATTERN = /\B@([a-z0-9.\-_]*)/gi;
-const htmlEmojiPattern = /^<p>(?:<img class="emoticon"[^>]*>|<span data-emoticon[^>]*>[^<]*<\/span>\s*)+<\/p>$/;
+const UNICODE_EMOJI_REGEX = emojiRegex();
+const htmlEmojiPattern = /^<p>(?:<img class="emoticon"[^>]*>|<span data-emoticon[^>]*>[^<]*<\/span>\s*|<span class="emoticon emoticon--unicode">[^<]*<\/span>\s*)+<\/p>$/;
 
 // pattern to detect the existence of a Chinese, Japanese, or Korean character in a string
 // http://stackoverflow.com/questions/15033196/using-javascript-to-check-whether-a-string-contains-japanese-characters-includi
@@ -114,17 +115,7 @@ export function doFormatText(text, options) {
 
     if (!('emoticons' in options) || options.emoticon) {
         const emojiMap = getEmojiMap(store.getState());
-        output = twemoji.parse(output, {
-            className: 'emoticon',
-            callback: (icon) => {
-                if (!emojiMap.hasUnicode(icon)) {
-                    // just leave the unicode characters and hope the browser can handle it
-                    return null;
-                }
-
-                return getEmojiImageUrl(emojiMap.getUnicode(icon));
-            },
-        });
+        output = handleUnicodeEmoji(output, emojiMap, UNICODE_EMOJI_REGEX);
     }
 
     // reinsert tokens with formatted versions of the important words and phrases
@@ -552,4 +543,24 @@ export function replaceTokens(text, tokens) {
 
 function replaceNewlines(text) {
     return text.replace(/\n/g, ' ');
+}
+
+export function handleUnicodeEmoji(text, supportedEmoji, searchPattern) {
+    let output = text;
+
+    // replace all occurances of unicode emoji with additional markup
+    output = output.replace(searchPattern, (emoji) => {
+        // convert unicode character to hex string
+        const emojiCode = emoji.codePointAt(0).toString(16);
+
+        // convert emoji to image if supported, or wrap in span to apply appropriate formatting
+        if (supportedEmoji.hasUnicode(emojiCode)) {
+            // build image tag to replace supported unicode emoji
+            return `<img class="emoticon" draggable="false" alt="${emoji}" src="${getEmojiImageUrl(supportedEmoji.getUnicode(emojiCode))}">`;
+        }
+
+        // wrap unsupported unicode emoji in span to style as needed
+        return `<span class="emoticon emoticon--unicode">${emoji}</span>`;
+    });
+    return output;
 }
