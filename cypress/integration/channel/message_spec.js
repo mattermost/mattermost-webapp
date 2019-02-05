@@ -16,7 +16,7 @@ describe('Message', () => {
         // 2. Post a message to force next user message to display a message
         cy.get('#post_textbox').type('Hello').type('{enter}');
 
-        // 3. Login as sysadmin and go to /
+        // 3. Login as "user-1" and go to /
         cy.login('user-1');
         cy.visit('/');
 
