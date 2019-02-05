@@ -7,44 +7,35 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-describe("Message Draft", () => {
-    before(() => {
-        // 1. Login and go to /
-        cy.login("sysadmin");
-        cy.visit("/");
-    });
+describe('Message', () => {
+    it('should show only 1 header when user send multiple posts', () => {
+        // 1. Login as sysadmin and go to /
+        cy.login('sysadmin');
+        cy.visit('/');
 
-    it("should show only 1 header when user send multiple posts", () => {
-        // 2. Get all post from current user
-        cy.get("#postListContent > .post.current--user")
-            .then($allPosts => $allPosts.length) // retain previous nb posts to be able to relaunch this test multi times
-            .then($nbPosts => {
-                // 3. Post message "One", "Two" and "Three"
-                cy.get("#post_textbox")
-                    .type("One")
-                    .type("{enter}");
-                cy.get("#post_textbox")
-                    .type("Two")
-                    .type("{enter}");
-                cy.get("#post_textbox")
-                    .type("Three")
-                    .type("{enter}");
+        // 2. Post a message to force next user message to display a message
+        cy.get('#post_textbox').type('Hello').type('{enter}');
 
-                // 4. Name and profile pic display on One post only, not on Two or Three
-                cy.get("#postListContent > .post.current--user")
-                    //* Assert 3 new posts are added
-                    .should("have.length", $nbPosts + 3)
-                    .first()
-                    .then($post => {
-                        //* Assert only 1 img is present on the first post
-                        cy.get(
-                            "#postListContent > .post.current--user > .post__content > .post__img > span > img"
-                        )
-                            .should("have.length", 1)
-                            .parentsUntil("#postListContent")
-                            .last()
-                            .then(p => assert.equal(p[0], $post[0]));
-                    });
-            });
+        // 3. Login as sysadmin and go to /
+        cy.login('user-1');
+        cy.visit('/');
+
+        // 4. Post message "One"
+        cy.get('#post_textbox').type('One').type('{enter}');
+
+        // * Check profile image is visible
+        cy.get('#postListContent > .post.current--user > .post__content > .post__img').last().should('be.visible').find('span > img').should('be.visible');
+
+        // 5. Post message "Two"
+        cy.get('#post_textbox').type('Two').type('{enter}');
+
+        // * Check profile image is not visible
+        cy.get('#postListContent > .post.current--user > .post__content > .post__img').last().should('be.visible').should('be.empty');
+
+        // 6. Post message "Three"
+        cy.get('#post_textbox').type('Three').type('{enter}');
+
+        // * Check profile image is not visible
+        cy.get('#postListContent > .post.current--user > .post__content > .post__img').last().should('be.visible').should('be.empty');
     });
 });
