@@ -15,7 +15,6 @@ import {getCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/s
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {getMembershipForCurrentEntities} from 'actions/views/profile_popover';
 import {openModal} from 'actions/views/modals';
-
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
 import {getSelectedPost, getRhsState} from 'selectors/rhs';
 
@@ -49,9 +48,8 @@ function mapStateToProps(state, ownProps) {
     }
 
     return {
-        currentTeamId: team.id,
-        currentUserId: getCurrentUserId(state),
         enableTimezone: areTimezonesEnabledAndSupported(state),
+        currentUserId: getCurrentUserId(state),
         isTeamAdmin,
         isChannelAdmin,
         status: getStatusForUserId(state, userId),
