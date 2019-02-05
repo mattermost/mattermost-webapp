@@ -33,7 +33,6 @@ export default class SingleImageView extends React.PureComponent {
 
     constructor(props) {
         super(props);
-
         this.state = {
             loaded: false,
             showPreviewModal: false,
@@ -182,12 +181,13 @@ export default class SingleImageView extends React.PureComponent {
                     >
                         <div
                             className={`image-loaded ${fadeInClass}`}
+                            style={{height: fileType === FileTypes.SVG ? '100%' : 'initial'}}
                             onClick={this.handleImageClick}
                         >
                             <SizeAwareImage
                                 className={`${minPreviewClass} ${svgClass}`}
                                 src={previewURL}
-                                dimensions={this.state.dimensions}
+                                dimensions={fileType !== FileTypes.SVG ? this.state.dimensions : null}
                                 onImageLoaded={this.imageLoaded}
                                 showLoader={this.props.isEmbedVisible}
                             />
