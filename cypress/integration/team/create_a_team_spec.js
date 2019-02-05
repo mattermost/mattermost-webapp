@@ -30,7 +30,7 @@ describe('Teams Suite', () => {
         // click next
         cy.get("button[type=submit]").should('be.visible').click();
 
-        // input chanel name as team-test-e2e
+        // input team url as team-test-e2e
         cy.get("input[type=text]").should('be.visible').type("team-test-e2e");
 
         // click finish
