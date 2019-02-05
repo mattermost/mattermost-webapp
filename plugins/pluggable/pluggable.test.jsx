@@ -6,8 +6,11 @@ import {mount, shallow} from 'enzyme';
 import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
+import {getMembershipForCurrentEntities} from 'actions/views/profile_popover';
+
 import Pluggable from 'plugins/pluggable/pluggable.jsx';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import ProfilePopover from 'components/profile_popover/profile_popover.jsx';
 
 class ProfilePopoverPlugin extends React.PureComponent {
     render() {
@@ -21,22 +24,21 @@ describe('plugins/Pluggable', () => {
     const mockStore = configureStore();
 
     const membersInTeam = {};
-    membersInTeam.someTeamId = {};
-    membersInTeam.someTeamId.someUserId = {team_id: 'someTeamId', user_id: 'someUserId', roles: 'team_user'};
+    membersInTeam.someid = {};
+    membersInTeam.someid.someid = {team_id: 'someid', user_id: 'someid', roles: 'team_user'};
 
     const membersInChannel = {};
-    membersInChannel.someChannelId = {};
-    membersInChannel.someChannelId.someUserId = {channel_id: 'someChannelId', user_id: 'someUserId', roles: 'channel_user'};
+    membersInChannel.someid = {};
+    membersInChannel.someid.someid = {channel_id: 'someid', user_id: 'someid', roles: 'channel_user'};
 
     const store = mockStore({
         entities: {
             channels: {
-                currentChannelId: 'someChannelId',
+                currentChannelId: 'someid',
                 channels: {
-                    someChannelId: {team_id: 'someTeamId', id: 'someChannelId'},
+                    someid: {team_id: 'someid', id: 'someid'},
                 },
                 membersInChannel,
-                myMembers: {},
             },
             general: {
                 license: {IsLicensed: 'false'},
@@ -44,14 +46,9 @@ describe('plugins/Pluggable', () => {
                 },
             },
             teams: {
+                currentTeamId: 'someid',
+                teams: {someid: {id: 'someid', name: 'somename'}},
                 membersInTeam,
-                currentTeamId: 'someTeamId',
-                teams: {
-                    someTeamId: {
-                        id: 'someTeamId',
-                        name: 'someTeamName',
-                    },
-                },
             },
             preferences: {
                 myPreferences: {},
@@ -60,15 +57,8 @@ describe('plugins/Pluggable', () => {
                 posts: {},
             },
             users: {
-                currentUserId: 'someUserId',
-                users: {someUserId: {id: 'someUserId', name: 'some_user_name'}},
-                profiles: {},
-                statuses: {
-                    someUserId: 'online',
-                },
-            },
-            roles: {
-                roles: {},
+                currentUserId: 'someid',
+                users: {someid: {id: 'someid', name: 'somename'}},
             },
             bots: {
                 accounts: {},
@@ -147,5 +137,59 @@ describe('plugins/Pluggable', () => {
         );
 
         expect(wrapper.type()).toBe(null);
+    });
+
+    test('should match snapshot with no overridden component', () => {
+        getMembershipForCurrentEntities.mockImplementation((...args) => {
+            return {type: 'MOCK_GET_MEMBERSHIP_FOR_CURRENT_ENTITIES', args};
+        });
+
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <Pluggable
+                    components={{}}
+                    theme={{}}
+                >
+                    <ProfilePopover
+                        currentUserId='someid'
+                        teamUrl='/somename'
+                        isTeamAdmin={false}
+                        isChannelAdmin={false}
+                        user={{id: 'someid', name: 'name'}}
+                        src='src'
+                        actions={{
+                            openDirectChannelToUserId: jest.fn(),
+                            openModal: jest.fn(),
+                            getMembershipForCurrentEntities: jest.fn(),
+                            loadBot: jest.fn(),
+                        }}
+                    />
+                </Pluggable>
+            </Provider>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with overridden component', () => {
+        const wrapper = mount(
+            <Provider store={store}>
+                <Pluggable
+                    components={{ProfilePopover: [{component: ProfilePopoverPlugin}]}}
+                    theme={{id: 'theme_id'}}
+                >
+                    <ProfilePopover
+                        currentUserId='someid'
+                        teamUrl='/somename'
+                        isTeamAdmin={false}
+                        isChannelAdmin={false}
+                        user={{id: 'someid', name: 'name'}}
+                        src='src'
+                    />
+                </Pluggable>
+            </Provider>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find('#pluginId').text()).toBe('ProfilePopoverPlugin');
     });
 });

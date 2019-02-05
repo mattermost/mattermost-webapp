@@ -183,3 +183,425 @@ exports[`plugins/Pluggable should match snapshot with no extended component 1`] 
   />
 </Provider>
 `;
+
+exports[`plugins/Pluggable should match snapshot with no overridden component 1`] = `
+<Provider
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "onError": [Function],
+      "textComponent": "span",
+      "timeZone": "Etc/UTC",
+    }
+  }
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Pluggable
+    components={Object {}}
+    theme={Object {}}
+  >
+    <InjectIntl(ProfilePopover)
+      actions={
+        Object {
+          "getMembershipForCurrentEntities": [MockFunction] {
+            "calls": Array [
+              Array [
+                undefined,
+              ],
+            ],
+            "results": Array [
+              Object {
+                "type": "return",
+                "value": undefined,
+              },
+            ],
+          },
+          "loadBot": [MockFunction] {
+            "calls": Array [
+              Array [
+                undefined,
+              ],
+            ],
+            "results": Array [
+              Object {
+                "type": "return",
+                "value": undefined,
+              },
+            ],
+          },
+          "openDirectChannelToUserId": [MockFunction],
+          "openModal": [MockFunction],
+        }
+      }
+      currentUserId="someid"
+      isChannelAdmin={false}
+      isTeamAdmin={false}
+      src="src"
+      teamUrl="/somename"
+      theme={Object {}}
+      user={
+        Object {
+          "id": "someid",
+          "name": "name",
+        }
+      }
+    >
+      <ProfilePopover
+        actions={
+          Object {
+            "getMembershipForCurrentEntities": [MockFunction] {
+              "calls": Array [
+                Array [
+                  undefined,
+                ],
+              ],
+              "results": Array [
+                Object {
+                  "type": "return",
+                  "value": undefined,
+                },
+              ],
+            },
+            "loadBot": [MockFunction] {
+              "calls": Array [
+                Array [
+                  undefined,
+                ],
+              ],
+              "results": Array [
+                Object {
+                  "type": "return",
+                  "value": undefined,
+                },
+              ],
+            },
+            "openDirectChannelToUserId": [MockFunction],
+            "openModal": [MockFunction],
+          }
+        }
+        currentUserId="someid"
+        hasMention={false}
+        intl={
+          Object {
+            "defaultFormats": Object {},
+            "defaultLocale": "en",
+            "formatDate": [Function],
+            "formatHTMLMessage": [Function],
+            "formatMessage": [Function],
+            "formatNumber": [Function],
+            "formatPlural": [Function],
+            "formatRelative": [Function],
+            "formatTime": [Function],
+            "formats": Object {},
+            "formatters": Object {
+              "getDateTimeFormat": [Function],
+              "getMessageFormat": [Function],
+              "getNumberFormat": [Function],
+              "getPluralFormat": [Function],
+              "getRelativeFormat": [Function],
+            },
+            "locale": "en",
+            "messages": Object {},
+            "now": [Function],
+            "onError": [Function],
+            "textComponent": "span",
+            "timeZone": "Etc/UTC",
+          }
+        }
+        isChannelAdmin={false}
+        isRHS={false}
+        isTeamAdmin={false}
+        src="src"
+        status="offline"
+        teamUrl="/somename"
+        theme={Object {}}
+        user={
+          Object {
+            "id": "someid",
+            "name": "name",
+          }
+        }
+      >
+        <Popover
+          bsClass="popover"
+          id="user-profile-popover"
+          placement="right"
+          theme={Object {}}
+          title={
+            <span>
+              <span
+                className="user-popover__username"
+              >
+                @undefined
+              </span>
+            </span>
+          }
+        >
+          <div
+            className="popover right"
+            id="user-profile-popover"
+            role="tooltip"
+            style={
+              Object {
+                "display": "block",
+                "left": undefined,
+                "top": undefined,
+              }
+            }
+            theme={Object {}}
+          >
+            <div
+              className="arrow"
+              style={
+                Object {
+                  "left": undefined,
+                  "top": undefined,
+                }
+              }
+            />
+            <h3
+              className="popover-title"
+            >
+              <span>
+                <span
+                  className="user-popover__username"
+                >
+                  @undefined
+                </span>
+              </span>
+            </h3>
+            <div
+              className="popover-content"
+            >
+              <img
+                alt="user profile image"
+                className="user-popover__image"
+                height="128"
+                key="user-popover-image"
+                src="src"
+                width="128"
+              />
+              <Connect(Pluggable)
+                key="profilePopoverPluggable2"
+                pluggableName="PopoverUserAttributes"
+                status="offline"
+                user={
+                  Object {
+                    "id": "someid",
+                    "name": "name",
+                  }
+                }
+              >
+                <Pluggable
+                  components={Object {}}
+                  dispatch={[Function]}
+                  pluggableName="PopoverUserAttributes"
+                  status="offline"
+                  theme={
+                    Object {
+                      "awayIndicator": "#ffbc42",
+                      "buttonBg": "#166de0",
+                      "buttonColor": "#ffffff",
+                      "centerChannelBg": "#ffffff",
+                      "centerChannelColor": "#3d3c40",
+                      "codeTheme": "github",
+                      "dndIndicator": "#f74343",
+                      "errorTextColor": "#fd5960",
+                      "linkColor": "#2389d7",
+                      "mentionBg": "#ffffff",
+                      "mentionBj": "#ffffff",
+                      "mentionColor": "#145dbf",
+                      "mentionHighlightBg": "#ffe577",
+                      "mentionHighlightLink": "#166de0",
+                      "newMessageSeparator": "#ff8800",
+                      "onlineIndicator": "#06d6a0",
+                      "sidebarBg": "#145dbf",
+                      "sidebarHeaderBg": "#1153ab",
+                      "sidebarHeaderTextColor": "#ffffff",
+                      "sidebarText": "#ffffff",
+                      "sidebarTextActiveBorder": "#579eff",
+                      "sidebarTextActiveColor": "#ffffff",
+                      "sidebarTextHoverBg": "#4578bf",
+                      "sidebarUnreadText": "#ffffff",
+                      "type": "Mattermost",
+                    }
+                  }
+                  user={
+                    Object {
+                      "id": "someid",
+                      "name": "name",
+                    }
+                  }
+                />
+              </Connect(Pluggable)>
+              <div
+                className="popover__row first"
+                data-toggle="tooltip"
+                key="user-popover-settings"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                >
+                  <i
+                    className="fa fa-pencil-square-o"
+                    title="Edit Icon"
+                  />
+                  <FormattedMessage
+                    defaultMessage="Edit Account Settings"
+                    id="user_profile.account.editSettings"
+                    values={Object {}}
+                  >
+                    <span>
+                      Edit Account Settings
+                    </span>
+                  </FormattedMessage>
+                </a>
+              </div>
+              <Connect(Pluggable)
+                key="profilePopoverPluggable3"
+                pluggableName="PopoverUserActions"
+                status="offline"
+                user={
+                  Object {
+                    "id": "someid",
+                    "name": "name",
+                  }
+                }
+              >
+                <Pluggable
+                  components={Object {}}
+                  dispatch={[Function]}
+                  pluggableName="PopoverUserActions"
+                  status="offline"
+                  theme={
+                    Object {
+                      "awayIndicator": "#ffbc42",
+                      "buttonBg": "#166de0",
+                      "buttonColor": "#ffffff",
+                      "centerChannelBg": "#ffffff",
+                      "centerChannelColor": "#3d3c40",
+                      "codeTheme": "github",
+                      "dndIndicator": "#f74343",
+                      "errorTextColor": "#fd5960",
+                      "linkColor": "#2389d7",
+                      "mentionBg": "#ffffff",
+                      "mentionBj": "#ffffff",
+                      "mentionColor": "#145dbf",
+                      "mentionHighlightBg": "#ffe577",
+                      "mentionHighlightLink": "#166de0",
+                      "newMessageSeparator": "#ff8800",
+                      "onlineIndicator": "#06d6a0",
+                      "sidebarBg": "#145dbf",
+                      "sidebarHeaderBg": "#1153ab",
+                      "sidebarHeaderTextColor": "#ffffff",
+                      "sidebarText": "#ffffff",
+                      "sidebarTextActiveBorder": "#579eff",
+                      "sidebarTextActiveColor": "#ffffff",
+                      "sidebarTextHoverBg": "#4578bf",
+                      "sidebarUnreadText": "#ffffff",
+                      "type": "Mattermost",
+                    }
+                  }
+                  user={
+                    Object {
+                      "id": "someid",
+                      "name": "name",
+                    }
+                  }
+                />
+              </Connect(Pluggable)>
+            </div>
+          </div>
+        </Popover>
+      </ProfilePopover>
+    </InjectIntl(ProfilePopover)>
+  </Pluggable>
+</Provider>
+`;
+
+exports[`plugins/Pluggable should match snapshot with overridden component 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Pluggable
+    components={
+      Object {
+        "ProfilePopover": Array [
+          Object {
+            "component": [Function],
+          },
+        ],
+      }
+    }
+    theme={
+      Object {
+        "id": "theme_id",
+      }
+    }
+  >
+    <ProfilePopoverPlugin
+      currentUserId="someid"
+      isChannelAdmin={false}
+      isTeamAdmin={false}
+      key="ProfilePopoverundefined"
+      src="src"
+      teamUrl="/somename"
+      theme={
+        Object {
+          "id": "theme_id",
+        }
+      }
+      user={
+        Object {
+          "id": "someid",
+          "name": "name",
+        }
+      }
+    >
+      <span
+        id="pluginId"
+      >
+        ProfilePopoverPlugin
+      </span>
+    </ProfilePopoverPlugin>
+  </Pluggable>
+</Provider>
+`;

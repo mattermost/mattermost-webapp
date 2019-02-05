@@ -7,7 +7,6 @@ import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedMessage, intlShape, injectIntl} from 'react-intl';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
-import {Permissions} from 'mattermost-redux/constants';
 
 import LocalDateTime from 'components/local_date_time';
 import UserSettingsModal from 'components/user_settings/modal';
@@ -16,10 +15,6 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import Pluggable from 'plugins/pluggable';
-
-import AddUserToChannelModal from 'components/add_user_to_channel_modal';
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
-import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
@@ -64,8 +59,6 @@ class ProfilePopover extends React.PureComponent {
          * sidebar (comment thread, search results, etc.)
          */
         isRHS: PropTypes.bool,
-
-        currentTeamId: PropTypes.string.isRequired,
 
         /**
          * @internal
@@ -204,7 +197,6 @@ class ProfilePopover extends React.PureComponent {
         delete popoverProps.dispatch;
         delete popoverProps.enableTimezone;
         delete popoverProps.currentUserId;
-        delete popoverProps.currentTeamId;
         delete popoverProps.teamUrl;
         delete popoverProps.actions;
         delete popoverProps.isTeamAdmin;
@@ -377,42 +369,6 @@ class ProfilePopover extends React.PureComponent {
                         />
                     </a>
                 </div>
-            );
-
-            dataContent.push(
-                <TeamPermissionGate
-                    teamId={this.props.currentTeamId}
-                    permissions={[Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS, Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
-                    key='user-popover-add-to-channel'
-                >
-                    <div
-                        data-toggle='tooltip'
-                        className='popover__row first'
-                    >
-                        <a
-                            href='#'
-                            className='text-nowrap'
-                        >
-                            <ToggleModalButtonRedux
-                                ref='addUserToChannelModalButton'
-                                modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
-                                role='menuitem'
-                                dialogType={AddUserToChannelModal}
-                                dialogProps={{user: this.props.user}}
-                                onClick={this.props.hide}
-                            >
-                                <i
-                                    className='fa fa-user-plus'
-                                    title={formatMessage({id: 'user_profile.add_user_to_channel.icon', defaultMessage: 'Add User to Channel Icon'})}
-                                />
-                                <FormattedMessage
-                                    id='user_profile.add_user_to_channel'
-                                    defaultMessage='Add to a Channel'
-                                />
-                            </ToggleModalButtonRedux>
-                        </a>
-                    </div>
-                </TeamPermissionGate>
             );
         }
 

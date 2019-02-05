@@ -3,6 +3,7 @@
 exports[`components/ProfilePopover should match snapshot 1`] = `
 <Popover
   bsClass="popover"
+  currentTeamId="team_id"
   id="user-profile-popover"
   placement="right"
   title={
@@ -55,50 +56,6 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       />
     </a>
   </div>
-  <Connect(TeamPermissionGate)
-    key="user-popover-add-to-channel"
-    permissions={
-      Array [
-        "manage_private_channel_members",
-        "manage_public_channel_members",
-      ]
-    }
-    teamId="team_id"
-  >
-    <div
-      className="popover__row first"
-      data-toggle="tooltip"
-    >
-      <a
-        className="text-nowrap"
-        href="#"
-      >
-        <Connect(ModalToggleButtonRedux)
-          dialogProps={
-            Object {
-              "user": Object {
-                "name": "some name",
-                "username": "some_username",
-              },
-            }
-          }
-          dialogType={[Function]}
-          modalId="add_user_to_channel"
-          role="menuitem"
-        >
-          <i
-            className="fa fa-user-plus"
-            title="Add User to Channel Icon"
-          />
-          <FormattedMessage
-            defaultMessage="Add to a Channel"
-            id="user_profile.add_user_to_channel"
-            values={Object {}}
-          />
-        </Connect(ModalToggleButtonRedux)>
-      </a>
-    </div>
-  </Connect(TeamPermissionGate)>
   <Connect(Pluggable)
     key="profilePopoverPluggable3"
     pluggableName="PopoverUserActions"
