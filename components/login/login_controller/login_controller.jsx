@@ -82,6 +82,7 @@ class LoginController extends React.Component {
             showMfa: false,
             loading: false,
             sessionExpired: false,
+            brandImageError: false,
         };
     }
 
@@ -360,17 +361,23 @@ class LoginController extends React.Component {
         });
     }
 
+    handleBrandImageError = () => {
+        this.setState({brandImageError: true});
+    }
+
     createCustomLogin = () => {
         if (this.props.enableCustomBrand) {
             const text = this.props.customBrandText || '';
             const formattedText = TextFormatting.formatText(text);
             const brandImageUrl = Client4.getBrandImageUrl(0);
+            const brandImageStyle = this.state.brandImageError ? {display: 'none'} : {};
 
             return (
                 <div>
-                    <object
-                        data={brandImageUrl}
-                        type='image/jpg'
+                    <img
+                        src={brandImageUrl}
+                        onError={this.handleBrandImageError}
+                        style={brandImageStyle}
                     />
                     <div>
                         {messageHtmlToComponent(formattedText, false, {mentions: false, imagesMetadata: null})}
