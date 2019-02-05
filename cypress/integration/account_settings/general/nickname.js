@@ -40,13 +40,13 @@ describe('Account Settings > Sidebar > General', () => {
     });
 
     it('No nickname is present', () => {
-        // 4. Clear the nickname textfield contents
+        // 4. Clear the nickname text field contents
         cy.get('#nickname').clear();
         cy.get('#saveSetting').click();
 
         cy.get('#nicknameDesc').should('be.visible').should('contain', "Click 'Edit' to add a nickname");
 
-        // 5. Open manage/view memebers
+        // 5. Open manage/view members
         cy.toAccountSettingsModal('user-1');
         cy.get('#accountSettingsHeader > .close').click();
         cy.get('#sidebarHeaderDropdownButton').click();
@@ -56,7 +56,7 @@ describe('Account Settings > Sidebar > General', () => {
 
         // 6. Search for username and check that no nickname is present
         cy.get('.modal-title').should('be.visible');
-        cy.get('input[placeholder="Search users"]').should('be.visible').type('Victor Welch');
+        cy.get('#searchUsersInput').should('be.visible').type('Victor Welch');
         cy.get('.more-modal__details > .more-modal__name').should('be.visible').should('contain', '@user-1 - Victor Welch');
     });
 
@@ -87,7 +87,7 @@ describe('Account Settings > Sidebar > General', () => {
 
         // 5. Search for username and check that expected nickname is present
         cy.get('.modal-title').should('be.visible');
-        cy.get('input[placeholder="Search users"]').should('be.visible').type('Victor Welch');
+        cy.get('#searchUsersInput').should('be.visible').type('Victor Welch');
         cy.get('.more-modal__details > .more-modal__name').should('be.visible').should('contain', '@user-1 - Victor Welch (victor_nick)');
     });
 
