@@ -42,7 +42,7 @@ export default class MainMenu extends React.PureComponent {
         appDownloadLink: PropTypes.string,
         enableCommands: PropTypes.bool.isRequired,
         enableCustomEmoji: PropTypes.bool.isRequired,
-        canCreateCustomEmoji: PropTypes.bool.isRequired,
+        canCreateOrDeleteCustomEmoji: PropTypes.bool.isRequired,
         enableIncomingWebhooks: PropTypes.bool.isRequired,
         enableOAuthServiceProvider: PropTypes.bool.isRequired,
         enableOutgoingWebhooks: PropTypes.bool.isRequired,
@@ -256,7 +256,7 @@ export default class MainMenu extends React.PureComponent {
                 <MenuGroup>
                     <TeamPermissionGate
                         teamId={this.props.teamId}
-                        permissions={[Permissions.MANAGE_SLASH_COMMANDS, Permissions.MANAGE_OAUTH, Permissions.MANAGE_WEBHOOKS]}
+                        permissions={[Permissions.MANAGE_SLASH_COMMANDS, Permissions.MANAGE_OAUTH, Permissions.MANAGE_INCOMING_WEBHOOKS, Permissions.MANAGE_OUTGOING_WEBHOOKS]}
                     >
                         <MenuItemLink
                             id='integrations'
@@ -267,7 +267,7 @@ export default class MainMenu extends React.PureComponent {
                     </TeamPermissionGate>
                     <MenuItemLink
                         id='customEmojis'
-                        show={!this.props.mobile && this.props.enableCustomEmoji && this.props.canCreateCustomEmoji}
+                        show={!this.props.mobile && this.props.enableCustomEmoji && this.props.canCreateOrDeleteCustomEmoji}
                         to={'/' + this.props.teamName + '/emoji'}
                         text={localizeMessage('navbar_dropdown.emoji', 'Custom Emoji')}
                     />
