@@ -30,6 +30,11 @@ exports[`components/SingleImageView should match snapshot 1`] = `
       <div
         className="image-loaded "
         onClick={[Function]}
+        style={
+          Object {
+            "height": "initial",
+          }
+        }
       >
         <SizeAwareImage
           className=" "
@@ -79,6 +84,11 @@ exports[`components/SingleImageView should match snapshot 2`] = `
       <div
         className="image-loaded image-fade-in"
         onClick={[Function]}
+        style={
+          Object {
+            "height": "initial",
+          }
+        }
       >
         <SizeAwareImage
           className=" "
@@ -149,6 +159,11 @@ exports[`components/SingleImageView should match snapshot, SVG image 1`] = `
       <div
         className="image-loaded "
         onClick={[Function]}
+        style={
+          Object {
+            "height": "100%",
+          }
+        }
       >
         <SizeAwareImage
           className=" post-image normal"
@@ -202,6 +217,11 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
       <div
         className="image-loaded image-fade-in"
         onClick={[Function]}
+        style={
+          Object {
+            "height": "100%",
+          }
+        }
       >
         <SizeAwareImage
           className=" post-image normal"
@@ -265,6 +285,11 @@ exports[`components/SingleImageView should set loaded state on callback of onIma
       <div
         className="image-loaded image-fade-in"
         onClick={[Function]}
+        style={
+          Object {
+            "height": "initial",
+          }
+        }
       >
         <SizeAwareImage
           className=" "

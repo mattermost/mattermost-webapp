@@ -187,7 +187,7 @@ export default class SingleImageView extends React.PureComponent {
                             <SizeAwareImage
                                 className={`${minPreviewClass} ${svgClass}`}
                                 src={previewURL}
-                                dimensions={fileType !== FileTypes.SVG ? this.state.dimensions : null}
+                                dimensions={this.state.dimensions}
                                 onImageLoaded={this.imageLoaded}
                                 showLoader={this.props.isEmbedVisible}
                             />
