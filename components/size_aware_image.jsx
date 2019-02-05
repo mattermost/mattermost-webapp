@@ -131,7 +131,7 @@ export default class SizeAwareImage extends React.PureComponent {
         }
 
         return (
-            <div>
+            <React.Fragment>
                 {!this.state.loaded && this.props.showLoader &&
                     <div style={{position: 'absolute'}}>
                         <LoadingImagePreview
@@ -143,7 +143,7 @@ export default class SizeAwareImage extends React.PureComponent {
                     {...props}
                     src={src}
                 />
-            </div>
+            </React.Fragment>
         );
     }
 }
