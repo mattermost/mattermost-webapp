@@ -36,6 +36,14 @@ const holders = defineMessages({
         id: 'user.settings.general.checkEmail',
         defaultMessage: 'Check your email at {email} to verify the address.',
     },
+    incorrectPassword: {
+        id: 'user.settings.general.incorrectPassword',
+        defaultMessage: 'Your password is incorrect.',
+    },
+    emptyPassword: {
+        id: 'user.settings.general.emptyPassword',
+        defaultMessage: 'Please enter your current password.',
+    },
     validImage: {
         id: 'user.settings.general.validImage',
         defaultMessage: 'Only BMP, JPG or PNG images may be used for profile pictures',
@@ -185,6 +193,7 @@ class UserSettingsGeneralTab extends React.Component {
         const user = Object.assign({}, this.props.user);
         const email = this.state.email.trim().toLowerCase();
         const confirmEmail = this.state.confirmEmail.trim().toLowerCase();
+        const currentPassword = this.state.currentPassword;
 
         const {formatMessage} = this.props.intl;
 
@@ -203,12 +212,19 @@ class UserSettingsGeneralTab extends React.Component {
             return;
         }
 
+        if (currentPassword === '') {
+            this.setState({emailError: formatMessage(holders.emptyPassword), clientError: '', serverError: ''});
+            return;
+        }
+
         user.email = email;
+        user.password = currentPassword;
         trackEvent('settings', 'user_settings_update', {field: 'email'});
         this.submitUser(user, true);
     }
 
     submitUser = (user, emailUpdated) => {
+        const {formatMessage} = this.props.intl;
         this.setState({sectionIsSaving: true});
 
         updateUser(
@@ -226,7 +242,9 @@ class UserSettingsGeneralTab extends React.Component {
             },
             (err) => {
                 let serverError;
-                if (err.message) {
+                if (err.id && err.id === 'api.user.check_user_password.invalid.app_error') {
+                    serverError = formatMessage(holders.incorrectPassword);
+                } else if (err.message) {
                     serverError = err.message;
                 } else {
                     serverError = err;
@@ -320,6 +338,10 @@ class UserSettingsGeneralTab extends React.Component {
         this.setState({confirmEmail: e.target.value});
     }
 
+    updateCurrentPassword = (e) => {
+        this.setState({currentPassword: e.target.value});
+    }
+
     updatePicture = (e) => {
         if (e.target.files && e.target.files[0]) {
             this.setState({pictureFile: e.target.files[0]});
@@ -350,6 +372,7 @@ class UserSettingsGeneralTab extends React.Component {
             originalEmail: user.email,
             email: '',
             confirmEmail: '',
+            currentPassword: '',
             pictureFile: null,
             loadingPicture: false,
             emailChangeInProgress: false,
@@ -461,6 +484,28 @@ class UserSettingsGeneralTab extends React.Component {
                                     type='email'
                                     onChange={this.updateConfirmEmail}
                                     value={this.state.confirmEmail}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                );
+
+                inputs.push(
+                    <div key='currentPassword'>
+                        <div className='form-group'>
+                            <label className='col-sm-5 control-label'>
+                                <FormattedMessage
+                                    id='user.settings.general.currentPassword'
+                                    defaultMessage='Current Password'
+                                />
+                            </label>
+                            <div className='col-sm-7'>
+                                <input
+                                    id='currentPassword'
+                                    className='form-control'
+                                    type='password'
+                                    onChange={this.updateCurrentPassword}
+                                    value={this.state.currentPassword}
                                 />
                             </div>
                         </div>
