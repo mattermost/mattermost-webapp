@@ -162,14 +162,14 @@ export default class PostBody extends React.PureComponent {
             );
         }
 
-        if (this.state.sending) {
+        if (!this.state.sending) {
             postClass += ' post-waiting';
         }
 
         const messageWrapper = (
             <React.Fragment>
                 {failedOptions}
-                {this.state.sending && <LoadingBars/>}
+                {!this.state.sending && <LoadingBars/>}
                 <PostMessageView
                     lastPostCount={this.props.lastPostCount}
                     post={this.props.post}
