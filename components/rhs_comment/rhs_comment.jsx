@@ -50,6 +50,7 @@ export default class RhsComment extends React.Component {
         commentCount: PropTypes.number.isRequired,
         lastCommentId: PropTypes.string.isRequired,
         showEmojiPicker: PropTypes.bool.isRequired,
+        isRHSTextBoxFocused: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             addReaction: PropTypes.func.isRequired,
             hideEmojiPickerForLastMessage: PropTypes.func.isRequired,

@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import debounce from 'lodash/debounce';
 
 import {Posts} from 'mattermost-redux/constants';
