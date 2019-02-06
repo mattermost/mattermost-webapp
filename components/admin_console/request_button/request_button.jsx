@@ -8,6 +8,8 @@ import {FormattedMessage} from 'react-intl';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+import SuccessIcon from 'components/icon/success_icon';
+import WarningIcon from 'components/icon/warning_icon';
 
 /**
  * A button which, when clicked, performs an action and displays
@@ -194,10 +196,7 @@ export default class RequestButton extends React.Component {
             message = (
                 <div>
                     <div className='alert alert-warning'>
-                        <i
-                            className='fa fa-warning'
-                            title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
-                        />
+                        <WarningIcon/>
                         <FormattedMessage
                             id={this.props.errorMessage.id}
                             defaultMessage={this.props.errorMessage.defaultMessage}
@@ -212,10 +211,7 @@ export default class RequestButton extends React.Component {
             message = (
                 <div>
                     <div className='alert alert-success'>
-                        <i
-                            className='fa fa-success'
-                            title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
-                        />
+                        <SuccessIcon/>
                         <FormattedMessage
                             id={this.props.successMessage.id}
                             defaultMessage={this.props.successMessage.defaultMessage}

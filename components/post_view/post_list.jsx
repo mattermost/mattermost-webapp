@@ -120,6 +120,7 @@ export default class PostList extends React.PureComponent {
         this.scrollAnimationFrame = null;
         this.resizeAnimationFrame = null;
         this.atBottom = false;
+        this.loadingPosts = false;
 
         this.state = {
             atEnd: false,
@@ -132,6 +133,7 @@ export default class PostList extends React.PureComponent {
     }
 
     componentDidMount() {
+        this.mounted = true;
         this.loadPosts(this.props.channel.id, this.props.focusedPostId);
         this.props.actions.checkAndSetMobileView();
         GlobalEventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
@@ -142,6 +144,7 @@ export default class PostList extends React.PureComponent {
     }
 
     componentWillUnmount() {
+        this.mounted = false;
         GlobalEventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
         window.removeEventListener('resize', this.handleWindowResize);
     }
@@ -182,7 +185,7 @@ export default class PostList extends React.PureComponent {
         this.loadPostsToFillScreenIfNecessary();
 
         // Do not update scrolling unless posts, visibility or intro message change
-        if (this.props.posts === prevProps.posts && this.props.postVisibility === prevProps.postVisibility && this.state.atEnd === prevState.atEnd && this.state.loadingPosts === prevState.loadingPosts) {
+        if (this.props.posts === prevProps.posts && this.props.postVisibility === prevProps.postVisibility && this.state.atEnd === prevState.atEnd) {
             return;
         }
 
@@ -267,7 +270,7 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        if (this.state.isDoingInitialLoad || this.state.loadingPosts) {
+        if (this.state.isDoingInitialLoad || this.loadingPosts) {
             // Should already be loading posts
             return;
         }
@@ -332,13 +335,17 @@ export default class PostList extends React.PureComponent {
             }
             return count;
         }, 0);
-        this.setState({unViewedCount});
+        if (this.mounted) {
+            this.setState({unViewedCount});
+        }
     }
 
     handleScrollStop = () => {
-        this.setState({
-            isScrolling: false,
-        });
+        if (this.mounted) {
+            this.setState({
+                isScrolling: false,
+            });
+        }
     }
 
     checkBottom = () => {
@@ -385,6 +392,10 @@ export default class PostList extends React.PureComponent {
     }
 
     loadPosts = async (channelId, focusedPostId) => {
+        if (!channelId) {
+            return;
+        }
+
         let posts;
         if (focusedPostId) {
             const getPostThreadAsync = this.props.actions.getPostThread(focusedPostId, false);
@@ -409,10 +420,12 @@ export default class PostList extends React.PureComponent {
             this.hasScrolledToNewMessageSeparator = true;
         }
 
-        this.setState({
-            isDoingInitialLoad: false,
-            atEnd: Boolean(posts && posts.order.length < POSTS_PER_PAGE),
-        });
+        if (this.mounted) {
+            this.setState({
+                isDoingInitialLoad: false,
+                atEnd: Boolean(posts && posts.order.length < POSTS_PER_PAGE),
+            });
+        }
     }
 
     loadMorePosts = async () => {
@@ -421,15 +434,17 @@ export default class PostList extends React.PureComponent {
             if (this.autoRetriesCount < MAX_NUMBER_OF_AUTO_RETRIES) {
                 this.autoRetriesCount++;
                 this.loadMorePosts();
-            } else {
+            } else if (this.mounted) {
                 this.setState({autoRetryEnable: false});
             }
         } else {
-            this.setState({
-                atEnd: !moreToLoad && this.props.posts.length < this.props.postVisibility,
-                autoRetryEnable: true,
-                loadingPosts: false,
-            });
+            this.loadingPosts = false;
+            if (this.mounted) {
+                this.setState({
+                    atEnd: !moreToLoad && this.props.posts.length < this.props.postVisibility,
+                    autoRetryEnable: true,
+                });
+            }
             if (!this.state.autoRetryEnable) {
                 this.autoRetriesCount = 0;
             }
@@ -476,8 +491,8 @@ export default class PostList extends React.PureComponent {
                 shouldLoadPosts = true;
             }
 
-            if (shouldLoadPosts && !this.state.loadingPosts && !this.state.atEnd && this.state.autoRetryEnable) {
-                this.setState({loadingPosts: true});
+            if (shouldLoadPosts && !this.loadingPosts && !this.state.atEnd && this.state.autoRetryEnable) {
+                this.loadingPosts = true;
                 this.loadMorePosts();
             }
             this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);

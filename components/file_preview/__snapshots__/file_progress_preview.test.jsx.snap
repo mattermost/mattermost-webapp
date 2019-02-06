@@ -65,10 +65,7 @@ exports[`component/file_preview/file_progress_preview should match snapshot 1`] 
         className="file-preview__remove"
         onClick={[Function]}
       >
-        <i
-          className="fa fa-remove"
-          title="Remove Icon"
-        />
+        <RemoveIcon />
       </a>
     </div>
   </div>
@@ -127,10 +124,7 @@ exports[`component/file_preview/file_progress_preview snapshot for percent value
         className="file-preview__remove"
         onClick={[Function]}
       >
-        <i
-          className="fa fa-remove"
-          title="Remove Icon"
-        />
+        <RemoveIcon />
       </a>
     </div>
   </div>

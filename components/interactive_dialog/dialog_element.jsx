@@ -120,7 +120,7 @@ export default class DialogElement extends React.PureComponent {
             if (type === 'text') {
                 maxLength = maxLength || TEXT_DEFAULT_MAX_LENGTH;
 
-                if (subtype) {
+                if (subtype && TextSetting.validTypes.includes(subtype)) {
                     type = subtype;
                 } else {
                     type = 'input';

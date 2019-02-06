@@ -68,7 +68,7 @@ export function lastPostActions(post, websocketMessageProps) {
             data: {
                 id: post.channel_id + post.root_id,
                 userId: post.user_id,
-                now: post.create_at,
+                now: Date.now(),
             },
         }];
 

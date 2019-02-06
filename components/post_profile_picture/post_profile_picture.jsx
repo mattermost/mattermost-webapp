@@ -7,7 +7,7 @@ import React from 'react';
 import ProfilePicture from 'components/profile_picture';
 import MattermostLogo from 'components/svg/mattermost_logo';
 
-import Constants from 'utils/constants';
+import Constants, {UserStatuses} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';
 
@@ -21,6 +21,10 @@ export default class PostProfilePicture extends React.PureComponent {
         post: PropTypes.object.isRequired,
         status: PropTypes.string,
         user: PropTypes.object,
+    };
+
+    static defaultProps = {
+        status: UserStatuses.OFFLINE,
     };
 
     getProfilePicSrcForPost = (fromAutoResponder, fromWebhook) => {
@@ -57,13 +61,20 @@ export default class PostProfilePicture extends React.PureComponent {
     };
 
     render() {
-        const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
-        const fromWebhook = PostUtils.isFromWebhook(this.props.post);
-        if (isSystemMessage && !this.props.compactDisplay && !fromWebhook) {
+        const {
+            compactDisplay,
+            isBusy,
+            isRHS,
+            post,
+            user,
+        } = this.props;
+        const isSystemMessage = PostUtils.isSystemMessage(post);
+        const fromWebhook = PostUtils.isFromWebhook(post);
+        if (isSystemMessage && !compactDisplay && !fromWebhook) {
             return <MattermostLogo className='icon'/>;
         }
 
-        const fromAutoResponder = PostUtils.fromAutoResponder(this.props.post);
+        const fromAutoResponder = PostUtils.fromAutoResponder(post);
 
         const hasMention = !fromAutoResponder && !fromWebhook;
         const src = this.getProfilePicSrcForPost(fromAutoResponder, fromWebhook);
@@ -72,11 +83,12 @@ export default class PostProfilePicture extends React.PureComponent {
         return (
             <ProfilePicture
                 hasMention={hasMention}
-                isBusy={this.props.isBusy}
-                isRHS={this.props.isRHS}
+                isBusy={isBusy}
+                isRHS={isRHS}
                 src={src}
                 status={status}
-                user={this.props.user}
+                userId={user ? user.id : null}
+                username={user ? user.username : null}
             />
         );
     }

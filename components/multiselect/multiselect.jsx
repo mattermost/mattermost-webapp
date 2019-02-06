@@ -114,6 +114,10 @@ export default class MultiSelect extends React.Component {
             return;
         }
 
+        if (this.state.input === input) {
+            return;
+        }
+
         this.setState({input});
 
         if (input === '') {
@@ -221,10 +225,17 @@ export default class MultiSelect extends React.Component {
             noteTextContainer = (
                 <div className='multi-select__note'>
                     <div className='note__icon'>
-                        <span
-                            className='fa fa-info'
-                            title={localizeMessage('generic_icons.info', 'Info Icon')}
-                        />
+                        <FormattedMessage
+                            id='generic_icons.info'
+                            defaultMessage='Info Icon'
+                        >
+                            {(title) => (
+                                <span
+                                    className='fa fa-info'
+                                    title={title}
+                                />
+                            )}
+                        </FormattedMessage>
                     </div>
                     <div>{this.props.noteText}</div>
                 </div>

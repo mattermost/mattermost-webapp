@@ -192,15 +192,19 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     }
 
     handleLinkLoadError() {
-        this.setState({
-            linkLoadError: true,
-        });
+        if (this.mounted) {
+            this.setState({
+                linkLoadError: true,
+            });
+        }
     }
 
     handleLinkLoaded() {
-        this.setState({
-            linkLoaded: true,
-        });
+        if (this.mounted) {
+            this.setState({
+                linkLoaded: true,
+            });
+        }
     }
 
     handleImageClick = () => {
@@ -264,7 +268,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     }
 
     renderImagePreview() {
-        const link = this.state.link;
+        let link = this.state.link;
         if (!link || !this.isLinkImage(link)) {
             return null;
         }
@@ -275,6 +279,8 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
 
         const ext = captureExt.exec(link)[1];
+
+        link = PostUtils.getImageSrc(link, this.props.hasImageProxy);
 
         return (
             <ViewImageModal

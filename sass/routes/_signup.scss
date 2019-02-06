@@ -11,7 +11,7 @@
     z-index: 5;
 
     .fa {
-        margin-right: 5px;
+        margin-right: 4px;
     }
 }
 
@@ -398,18 +398,6 @@
                 font-size: .9em;
                 left: -2px;
                 margin-right: .5em;
-            }
-
-            &.fa-chevron-right {
-                font-size: .8em;
-                right: -5px;
-                top: 0;
-            }
-
-            &.fa-chevron-left {
-                font-size: .8em;
-                left: -2px;
-                top: 0px;
             }
         }
     }

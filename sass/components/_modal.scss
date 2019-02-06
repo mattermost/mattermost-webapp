@@ -187,6 +187,21 @@
         margin-right: auto;
         max-width: 95%;
 
+        &.modal--overflow-visible {
+            .modal-body {
+                position: static;
+
+                .dropdown {
+                    position: static;
+                }
+
+                .dropdown-menu {
+                    left: auto;
+                    right: 20px;
+                }
+            }
+        }
+
         &.modal-xl {
             width: 800px;
         }
@@ -312,6 +327,7 @@
 
         .modal-body {
             @include clearfix;
+            background: transparent;
             display: table;
             height: 100%;
             max-height: 100%;
@@ -458,14 +474,10 @@
         }
 
         .loader-percent {
-            bottom: 0;
             color: alpha-color($white, 0.8);
+            display: block;
+            margin-top: 12px;
             height: 20px;
-            left: 0;
-            margin: auto;
-            position: absolute;
-            right: 0;
-            top: 55px;
         }
 
         .modal-button-bar {
@@ -813,7 +825,7 @@
     }
 }
 
-.team-selector-modal {
+.team-selector-modal, .channel-selector-modal {
     .more-modal__row {
         border: 0px;
         &:nth-child(odd) {
@@ -821,6 +833,13 @@
         }
         &:hover {
             background: rgba(0, 0, 0, .05);
+        }
+        .team-name {
+            padding-left: 5px;
+            color: $gray;
+        }
+        .icon__lock, .icon__globe {
+            margin-right: 5px;
         }
     }
 }
@@ -831,7 +850,7 @@
     }
 }
 
-.team-selector-modal {
+.team-selector-modal, .channel-selector-modal {
     .modal-header {
         background: $black;
         color: $white;

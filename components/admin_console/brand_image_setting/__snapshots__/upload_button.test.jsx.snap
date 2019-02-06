@@ -43,10 +43,8 @@ exports[`components/admin_console/brand_image_setting/UploadButton should match 
     loading={false}
     text="Uploading..."
   >
-    <i
-      className="fa fa-check"
+    <SuccessIcon
       key="icon"
-      title="Success Icon"
     />
      
     Uploaded!
@@ -65,10 +63,8 @@ exports[`components/admin_console/brand_image_setting/UploadButton should match 
     loading={false}
     text="Uploading..."
   >
-    <i
-      className="fa fa-check"
+    <SuccessIcon
       key="icon"
-      title="Success Icon"
     />
      
     Uploaded!

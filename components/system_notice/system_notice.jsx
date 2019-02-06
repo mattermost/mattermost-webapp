@@ -3,10 +3,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 
 import {Preferences} from 'utils/constants.jsx';
-import {localizeMessage} from 'utils/utils.jsx';
 import MattermostLogo from 'components/svg/mattermost_logo';
 
 export default class SystemNotice extends React.PureComponent {
@@ -26,6 +25,10 @@ export default class SystemNotice extends React.PureComponent {
             getStandardAnalytics: PropTypes.func.isRequired,
         }).isRequired,
     }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
 
     componentDidMount() {
         if (this.props.isSystemAdmin) {
@@ -92,6 +95,7 @@ export default class SystemNotice extends React.PureComponent {
 
     render() {
         const notice = this.getCurrentNotice();
+        const {formatMessage} = this.context.intl;
 
         if (notice == null) {
             return null;
@@ -103,7 +107,7 @@ export default class SystemNotice extends React.PureComponent {
                 <div className='system-notice__info'>
                     <i
                         className='fa fa-eye'
-                        title={localizeMessage('system_notice.adminVisible.icon', 'Only visible to System Admins Icon')}
+                        title={formatMessage({id: 'system_notice.adminVisible.icon', defaultMessage: 'Only visible to System Admins Icon'})}
                     />
                     <FormattedMessage
                         id='system_notice.adminVisible'

@@ -2,8 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import Constants from 'utils/constants.jsx';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
@@ -60,7 +60,7 @@ describe('components/CreateComment', () => {
         const ctrlSend = true;
         const props = {...baseProps, draft, enableAddButton, ctrlSend};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -78,7 +78,7 @@ describe('components/CreateComment', () => {
         const ctrlSend = true;
         const props = {...baseProps, ctrlSend, draft, clearCommentDraftUploads, onResetHistoryIndex};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -98,7 +98,7 @@ describe('components/CreateComment', () => {
             fileInfos: [{}, {}, {}],
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
 
@@ -107,7 +107,7 @@ describe('components/CreateComment', () => {
     });
 
     test('should correctly change state when toggleEmojiPicker is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
 
@@ -119,7 +119,7 @@ describe('components/CreateComment', () => {
     });
 
     test('should correctly change state when hideEmojiPicker is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
 
@@ -137,7 +137,7 @@ describe('components/CreateComment', () => {
         const enableAddButton = false;
         const props = {...baseProps, draft, onUpdateCommentDraft, enableAddButton};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -172,7 +172,7 @@ describe('components/CreateComment', () => {
     });
 
     test('handlePostError should update state with the correct error', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
 
@@ -192,7 +192,7 @@ describe('components/CreateComment', () => {
         };
         const props = {...baseProps, draft, updateCommentDraftWithRootId};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -208,7 +208,7 @@ describe('components/CreateComment', () => {
         expect(updateCommentDraftWithRootId.mock.calls[0][1]).toEqual(
             expect.objectContaining({uploadsInProgress: [2, 3]})
         );
-        expect(wrapper.state().serverError).toBe(testError1);
+        expect(wrapper.state().serverError.message).toBe(testError1);
         expect(wrapper.state().draft.uploadsInProgress).toEqual([2, 3]);
 
         // clientId = -1
@@ -217,11 +217,11 @@ describe('components/CreateComment', () => {
 
         // should not call onUpdateCommentDraft
         expect(updateCommentDraftWithRootId.mock.calls.length).toBe(1);
-        expect(wrapper.state().serverError).toBe(testError2);
+        expect(wrapper.state().serverError.message).toBe(testError2);
     });
 
     test('getFileCount should return the correct count', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
 
@@ -235,7 +235,7 @@ describe('components/CreateComment', () => {
     });
 
     test('should correctly change state when showPostDeletedModal is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
 
@@ -246,7 +246,7 @@ describe('components/CreateComment', () => {
     test('should correctly change state when hidePostDeletedModal is called', () => {
         const resetCreatePostRequest = jest.fn();
         const props = {...baseProps, resetCreatePostRequest};
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -264,7 +264,7 @@ describe('components/CreateComment', () => {
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -292,7 +292,7 @@ describe('components/CreateComment', () => {
         };
         const props = {...baseProps, updateCommentDraftWithRootId, draft};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -314,7 +314,7 @@ describe('components/CreateComment', () => {
     });
 
     it('check for uploadsProgressPercent state on handleUploadProgress callback', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
 
@@ -333,7 +333,7 @@ describe('components/CreateComment', () => {
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -351,7 +351,7 @@ describe('components/CreateComment', () => {
         };
         const props = {...baseProps, draft};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -370,7 +370,7 @@ describe('components/CreateComment', () => {
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -387,6 +387,42 @@ describe('components/CreateComment', () => {
         expect(scrollToBottom).toHaveBeenCalled();
     });
 
+    it('handleChange should throw away invalid command error if user resumes typing', async () => {
+        const onUpdateCommentDraft = jest.fn();
+
+        const error = new Error('No command found');
+        error.server_error_id = 'api.command.execute_command.not_found.app_error';
+        const onSubmit = jest.fn(() => Promise.reject(error));
+
+        const draft = {
+            message: '/fakecommand other text',
+            uploadsInProgress: [1, 2, 3],
+            fileInfos: [{}, {}, {}],
+        };
+        const props = {...baseProps, onUpdateCommentDraft, draft, onSubmit};
+
+        const wrapper = shallowWithIntl(
+            <CreateComment {...props}/>
+        );
+
+        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
+
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+
+        expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: false});
+        expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
+
+        wrapper.instance().handleChange({
+            target: {value: 'some valid text'},
+        });
+
+        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
+
+        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+
+        expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: false});
+    });
+
     test('should scroll to bottom when uploadsInProgress increase', () => {
         const draft = {
             message: 'Test message',
@@ -395,7 +431,7 @@ describe('components/CreateComment', () => {
         };
         const props = {...baseProps, draft};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -414,7 +450,7 @@ describe('components/CreateComment', () => {
         };
         const props = {...baseProps, draft, onSubmit};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -448,7 +484,7 @@ describe('components/CreateComment', () => {
                         enableConfirmNotificationsToChannel: true,
                     };
 
-                    const wrapper = shallow(
+                    const wrapper = shallowWithIntl(
                         <CreateComment {...props}/>
                     );
 
@@ -471,7 +507,7 @@ describe('components/CreateComment', () => {
                         enableConfirmNotificationsToChannel: false,
                     };
 
-                    const wrapper = shallow(
+                    const wrapper = shallowWithIntl(
                         <CreateComment {...props}/>
                     );
 
@@ -494,7 +530,7 @@ describe('components/CreateComment', () => {
                         enableConfirmNotificationsToChannel: true,
                     };
 
-                    const wrapper = shallow(
+                    const wrapper = shallowWithIntl(
                         <CreateComment {...props}/>
                     );
 
@@ -518,7 +554,7 @@ describe('components/CreateComment', () => {
                     enableConfirmNotificationsToChannel: true,
                 };
 
-                const wrapper = shallow(
+                const wrapper = shallowWithIntl(
                     <CreateComment {...props}/>
                 );
 
@@ -542,7 +578,7 @@ describe('components/CreateComment', () => {
                     enableConfirmNotificationsToChannel: true,
                 };
 
-                const wrapper = shallow(
+                const wrapper = shallowWithIntl(
                     <CreateComment {...props}/>
                 );
 
@@ -570,7 +606,7 @@ describe('components/CreateComment', () => {
                     enableConfirmNotificationsToChannel: true,
                 };
 
-                const wrapper = shallow(
+                const wrapper = shallowWithIntl(
                     <CreateComment {...props}/>
                 );
 
@@ -584,6 +620,66 @@ describe('components/CreateComment', () => {
                 expect(wrapper.state('showConfirmModal')).toBe(true);
             });
         });
+
+        it('should allow to force send invalid slash command as a message', async () => {
+            const error = new Error('No command found');
+            error.server_error_id = 'api.command.execute_command.not_found.app_error';
+            const onSubmitWithError = jest.fn(() => Promise.reject(error));
+
+            const props = {
+                ...baseProps,
+                draft: {
+                    message: '/fakecommand other text',
+                    uploadsInProgress: [],
+                    fileInfos: [{}, {}, {}],
+                },
+                onSubmit: onSubmitWithError,
+            };
+
+            const wrapper = shallowWithIntl(
+                <CreateComment {...props}/>
+            );
+
+            expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
+
+            await wrapper.instance().handleSubmit({preventDefault});
+
+            expect(onSubmitWithError).toHaveBeenCalledWith({ignoreSlash: false});
+            expect(preventDefault).toHaveBeenCalled();
+            expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
+
+            wrapper.setProps({onSubmit});
+            await wrapper.instance().handleSubmit({preventDefault});
+
+            expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: true});
+            expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
+        });
+
+        it('should update global draft state if invalid slash command error occurs', async () => {
+            const error = new Error('No command found');
+            error.server_error_id = 'api.command.execute_command.not_found.app_error';
+            const onSubmitWithError = jest.fn(() => Promise.reject(error));
+
+            const props = {
+                ...baseProps,
+                draft: {
+                    message: '/fakecommand other text',
+                    uploadsInProgress: [],
+                    fileInfos: [{}, {}, {}],
+                },
+                onSubmit: onSubmitWithError,
+            };
+
+            const wrapper = shallowWithIntl(
+                <CreateComment {...props}/>
+            );
+
+            const submitPromise = wrapper.instance().handleSubmit({preventDefault});
+            expect(props.onUpdateCommentDraft).not.toHaveBeenCalled();
+
+            await submitPromise;
+            expect(props.onUpdateCommentDraft).toHaveBeenCalledWith(props.draft);
+        });
     });
 
     test('removePreview should remove file info and upload in progress with corresponding id', () => {
@@ -595,7 +691,7 @@ describe('components/CreateComment', () => {
         };
         const props = {...baseProps, draft, onUpdateCommentDraft};
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -622,7 +718,7 @@ describe('components/CreateComment', () => {
             fileInfos: [{}, {}, {}],
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
         expect(wrapper.state('draft')).toEqual(draft);
@@ -639,7 +735,7 @@ describe('components/CreateComment', () => {
             fileInfos: [{id: 1}, {id: 2}, {id: 3}],
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
         wrapper.setState({draft});
@@ -651,7 +747,7 @@ describe('components/CreateComment', () => {
 
     test('should match snapshot read only channel', () => {
         const props = {...baseProps, readOnlyChannel: true};
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -660,7 +756,7 @@ describe('components/CreateComment', () => {
 
     test('should match snapshot, emoji picker disabled', () => {
         const props = {...baseProps, enableEmojiPicker: false};
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
 
@@ -668,7 +764,7 @@ describe('components/CreateComment', () => {
     });
 
     test('check for handleFileUploadChange callback for focus', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
         const instance = wrapper.instance();
@@ -684,7 +780,7 @@ describe('components/CreateComment', () => {
         const onEditLatestPost = jest.fn().
             mockImplementationOnce(() => ({data: true})).
             mockImplementationOnce(() => ({data: false}));
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment
                 {...baseProps}
                 ctrlSend={true}
@@ -755,7 +851,7 @@ describe('components/CreateComment', () => {
             fileInfos: [],
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>
         );
 
@@ -781,7 +877,7 @@ describe('components/CreateComment', () => {
             fileInfos: [],
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <CreateComment
                 {...baseProps}
                 draft={draft}
@@ -799,5 +895,39 @@ describe('components/CreateComment', () => {
 
         wrapper.setState({draft: {...draft, uploadsInProgress: [2]}});
         expect(wrapper.instance().scrollToBottom).toBeCalledTimes(2);
+    });
+
+    it('should be able to format a pasted markdown table', () => {
+        const draft = {
+            message: '',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+
+        const wrapper = shallowWithIntl(
+            <CreateComment
+                {...baseProps}
+                draft={draft}
+            />
+        );
+
+        const event = {
+            target: {
+                id: 'reply_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
+                    return '<table><tr><td>test</td><td>test</td></tr><tr><td>test</td><td>test</td></tr></table>';
+                },
+            },
+        };
+
+        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('draft').message).toBe(markdownTable);
     });
 });

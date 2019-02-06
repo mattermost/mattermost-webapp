@@ -7,7 +7,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import * as UserActions from 'actions/user_actions.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
@@ -19,6 +18,9 @@ import PremadeThemeChooser from './premade_theme_chooser';
 
 export default class ThemeSetting extends React.Component {
     static propTypes = {
+        actions: PropTypes.shape({
+            saveTheme: PropTypes.func.isRequired,
+        }).isRequired,
         currentTeamId: PropTypes.string.isRequired,
         theme: PropTypes.object,
         selected: PropTypes.bool.isRequired,
@@ -89,17 +91,16 @@ export default class ThemeSetting extends React.Component {
 
         this.setState({isSaving: true});
 
-        UserActions.saveTheme(
+        this.props.actions.saveTheme(
             teamId,
-            this.state.theme,
-            () => {
-                this.props.setRequireConfirm(false);
-                this.originalTheme = Object.assign({}, this.state.theme);
-                this.scrollToTop();
-                this.props.updateSection('');
-                this.setState({isSaving: false});
-            }
-        );
+            this.state.theme
+        ).then(() => {
+            this.props.setRequireConfirm(false);
+            this.originalTheme = Object.assign({}, this.state.theme);
+            this.scrollToTop();
+            this.props.updateSection('');
+            this.setState({isSaving: false});
+        });
     };
 
     updateTheme = (theme) => {

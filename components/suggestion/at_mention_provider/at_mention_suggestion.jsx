@@ -25,10 +25,17 @@ export default class AtMentionSuggestion extends Suggestion {
                 />
             );
             icon = (
-                <i
-                    className='mention__image fa fa-users fa-2x'
-                    title={Utils.localizeMessage('generic_icons.member', 'Member Icon')}
-                />
+                <FormattedMessage
+                    id='generic_icons.member'
+                    defaultMessage='Member Icon'
+                >
+                    {(title) => (
+                        <i
+                            className='mention__image fa fa-users fa-2x'
+                            title={title}
+                        />
+                    )}
+                </FormattedMessage>
             );
         } else if (user.username === 'channel') {
             username = 'channel';
@@ -39,10 +46,17 @@ export default class AtMentionSuggestion extends Suggestion {
                 />
             );
             icon = (
-                <i
-                    className='mention__image fa fa-users fa-2x'
-                    title={Utils.localizeMessage('generic_icons.member', 'Member Icon')}
-                />
+                <FormattedMessage
+                    id='generic_icons.member'
+                    defaultMessage='Member Icon'
+                >
+                    {(title) => (
+                        <i
+                            className='mention__image fa fa-users fa-2x'
+                            title={title}
+                        />
+                    )}
+                </FormattedMessage>
             );
         } else if (user.username === 'here') {
             username = 'here';
@@ -53,10 +67,17 @@ export default class AtMentionSuggestion extends Suggestion {
                 />
             );
             icon = (
-                <i
-                    className='mention__image fa fa-users fa-2x'
-                    title={Utils.localizeMessage('generic_icons.member', 'Member Icon')}
-                />
+                <FormattedMessage
+                    id='generic_icons.member'
+                    defaultMessage='Member Icon'
+                >
+                    {(title) => (
+                        <i
+                            className='mention__image fa fa-users fa-2x'
+                            title={title}
+                        />
+                    )}
+                </FormattedMessage>
             );
         } else {
             username = user.username;

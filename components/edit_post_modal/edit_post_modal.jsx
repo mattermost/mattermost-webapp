@@ -301,7 +301,6 @@ export default class EditPostModal extends React.PureComponent {
                         onEmojiClick={this.handleEmojiClick}
                         onGifClick={this.handleGifClick}
                         enableGifPicker={this.props.config.EnableGifPicker === 'true'}
-                        rightOffset={50}
                         topOffset={-20}
                     />
                     <EmojiIcon
@@ -335,7 +334,7 @@ export default class EditPostModal extends React.PureComponent {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body
-                    bsClass='modal-body edit-modal-body'
+                    bsClass={`modal-body edit-modal-body${this.state.showEmojiPicker ? ' edit-modal-body--add-reaction' : ''}`}
                     ref='editModalBody'
                 >
                     <Textbox

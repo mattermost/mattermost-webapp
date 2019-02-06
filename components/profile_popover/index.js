@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {
     getCurrentTeam,
     getCurrentRelativeTeamUrl,
@@ -22,11 +22,12 @@ import {getSelectedPost, getRhsState} from 'selectors/rhs';
 import ProfilePopover from './profile_popover.jsx';
 
 function mapStateToProps(state, ownProps) {
+    const userId = ownProps.userId;
     const team = getCurrentTeam(state);
-    const teamMember = getTeamMember(state, team.id, ownProps.user.id) || {};
+    const teamMember = getTeamMember(state, team.id, userId);
 
     let isTeamAdmin = false;
-    if (teamMember != null && teamMember.scheme_admin) {
+    if (teamMember && teamMember.scheme_admin) {
         isTeamAdmin = true;
     }
 
@@ -40,7 +41,7 @@ function mapStateToProps(state, ownProps) {
         channelId = selectedPost.channel_id;
     }
 
-    const channelMember = getChannelMembersInChannels(state)[channelId][ownProps.user.id] || {};
+    const channelMember = getChannelMembersInChannels(state)[channelId][userId];
 
     let isChannelAdmin = false;
     if (getRhsState(state) !== 'search' && channelMember != null && channelMember.scheme_admin) {
@@ -53,7 +54,9 @@ function mapStateToProps(state, ownProps) {
         enableTimezone: areTimezonesEnabledAndSupported(state),
         isTeamAdmin,
         isChannelAdmin,
+        status: getStatusForUserId(state, userId),
         teamUrl: getCurrentRelativeTeamUrl(state),
+        user: getUser(state, userId),
     };
 }
 

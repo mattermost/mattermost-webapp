@@ -12,6 +12,7 @@ import Constants from 'utils/constants.jsx';
 import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
+import AddIcon from 'components/icon/add_icon';
 
 import GroupMessageOption from './group_message_option';
 
@@ -326,10 +327,7 @@ export default class MoreDirectChannels extends React.Component {
                 </div>
                 <div className='more-modal__actions'>
                     <div className='more-modal__actions--round'>
-                        <i
-                            className='fa fa-plus'
-                            title={localizeMessage('generic_icons.add', 'Add Icon')}
-                        />
+                        <AddIcon/>
                     </div>
                 </div>
             </div>

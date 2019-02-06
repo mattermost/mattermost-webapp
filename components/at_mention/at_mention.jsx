@@ -7,7 +7,6 @@ import {Overlay} from 'react-bootstrap';
 import {Client4} from 'mattermost-redux/client';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
-import Pluggable from 'plugins/pluggable';
 import ProfilePopover from 'components/profile_popover';
 
 import {popOverOverlayPosition} from 'utils/position_utils.jsx';
@@ -101,14 +100,12 @@ export default class AtMention extends React.PureComponent {
                     rootClose={true}
                     onHide={this.hideOverlay}
                 >
-                    <Pluggable>
-                        <ProfilePopover
-                            user={user}
-                            src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
-                            isRHS={this.props.isRHS}
-                            hasMention={this.props.hasMention}
-                        />
-                    </Pluggable>
+                    <ProfilePopover
+                        userId={user.id}
+                        src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
+                        isRHS={this.props.isRHS}
+                        hasMention={this.props.hasMention}
+                    />
                 </Overlay>
                 <a
                     className={className}

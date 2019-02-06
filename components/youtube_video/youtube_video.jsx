@@ -6,6 +6,7 @@ import React from 'react';
 
 import {getYoutubeVideoInfo} from 'actions/integration_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
+import WarningIcon from 'components/icon/warning_icon';
 
 const ytRegex = /(?:http|https):\/\/(?:www\.|m\.)?(?:(?:youtube\.com\/(?:(?:v\/)|(?:(?:watch|embed\/watch)(?:\/|.*v=))|(?:embed\/)|(?:user\/[^/]+\/u\/[0-9]\/)))|(?:youtu\.be\/))([^#&?]*)/;
 
@@ -191,10 +192,7 @@ export default class YoutubeVideo extends React.PureComponent {
                     <div className='video-thumbnail__container'>
                         <div className='video-thumbnail__error'>
                             <div>
-                                <i
-                                    className='fa fa-warning fa-2x'
-                                    title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
-                                />
+                                <WarningIcon additionalClassName='fa-2x'/>
                             </div>
                             <div>{Utils.localizeMessage('youtube_video.notFound', 'Video not found')}</div>
                         </div>
