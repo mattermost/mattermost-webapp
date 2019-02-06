@@ -129,8 +129,9 @@ export default class MultiSelectList extends React.Component {
     }
 
     handleScroll = () => {
-        const scrolledTill = this.listScrollBar.current.getValues().scrollTop;
-        if (scrolledTill > 1000 && !this.props.loading) {
+        const threshold = (this.listScrollBar.current.getValues().scrollTop /
+        this.listScrollBar.current.getScrollHeight()) * 100;
+        if (threshold > 60 && !this.props.loading) {
             this.props.nextPage();
         }
     }
