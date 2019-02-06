@@ -176,13 +176,12 @@ export default class Renderer extends marked.Renderer {
         // special case for team invite links, channel links, and permalinks that are inside the app
         let internalLink = false;
         if (this.formattingOptions.siteURL) {
-            const pattern = new RegExp('^' + TextFormatting.escapeRegex(this.formattingOptions.siteURL) + '\\/(?:signup_user_complete|admin_console|[^\\/]+\\/(?:pl|channels|messages))\\/');
-
+            const pattern = new RegExp('^(' + TextFormatting.escapeRegex(this.formattingOptions.siteURL) + ')?\\/(?:signup_user_complete|admin_console|[^\\/]+\\/(?:pl|channels|messages))\\/');
             internalLink = pattern.test(outHref);
         }
 
         if (internalLink) {
-            output += ' data-link="' + outHref.substring(this.formattingOptions.siteURL.length) + '"';
+            output += ' data-link="' + outHref.replace(this.formattingOptions.siteURL, '') + '"';
         } else {
             output += ' target="_blank"';
         }
