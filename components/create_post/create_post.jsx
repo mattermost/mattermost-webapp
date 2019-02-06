@@ -3,7 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
+import debounce from 'lodash/debounce';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -765,6 +766,10 @@ export default class CreatePost extends React.Component {
         }
     }
 
+    debouncedEventEmit = debounce(() => {
+        this.props.actions.showEmojiPickerForLastMessage();
+    }, 1000);
+
     documentKeyHandler = (e) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const emojiCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
@@ -773,8 +778,7 @@ export default class CreatePost extends React.Component {
             GlobalActions.toggleShortcutsModal();
             return;
         } else if (emojiCombo) {
-            e.preventDefault();
-            this.props.actions.showEmojiPickerForLastMessage();
+            this.debouncedEventEmit();
             return;
         }
 
