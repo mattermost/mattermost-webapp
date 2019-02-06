@@ -4,13 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {savePreferences} from 'actions/user_actions.jsx';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import UserSettingsDisplay from 'components/user_settings/display/user_settings_display.jsx';
-
-jest.mock('actions/user_actions.jsx', () => ({
-    savePreferences: jest.fn(),
-}));
 
 describe('components/user_settings/display/UserSettingsDisplay', () => {
     const user = {
@@ -50,6 +45,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         actions: {
             getSupportedTimezones: jest.fn(),
             autoUpdateTimezone: jest.fn(),
+            savePreferences: jest.fn(),
         },
     };
 
@@ -140,17 +136,13 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should have called handleSubmit', () => {
+    test('should have called handleSubmit', async () => {
         const updateSection = jest.fn();
 
         const props = {...requiredProps, updateSection};
         const wrapper = mountWithIntl(<UserSettingsDisplay {...props}/>);
 
-        savePreferences.mockImplementation((args, cb) => {
-            cb();
-        });
-
-        wrapper.instance().handleSubmit();
+        await wrapper.instance().handleSubmit();
         expect(updateSection).toHaveBeenCalledWith('');
     });
 

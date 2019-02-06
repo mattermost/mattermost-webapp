@@ -2,10 +2,12 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {get, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 import {Preferences} from 'utils/constants.jsx';
 
@@ -32,4 +34,12 @@ function makeMapStateToProps() {
     };
 }
 
-export default connect(makeMapStateToProps)(AdvancedSettingsDisplay);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            savePreferences,
+        }, dispatch),
+    };
+}
+
+export default connect(makeMapStateToProps, mapDispatchToProps)(AdvancedSettingsDisplay);
