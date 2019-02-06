@@ -133,8 +133,8 @@ describe('components/post_view/MessageAttachment', () => {
 
         const wrapper = mount(<MessageAttachment {...props}/>);
 
-        expect(wrapper.find('.attachment__author-icon').prop('src')).toMatch(`/api/v4/image\\?url=${encodeURIComponent(props.attachment.author_icon)}`);
-        expect(wrapper.find('.attachment__image-container img').prop('src')).toMatch(`/api/v4/image\\?url=${encodeURIComponent(props.attachment.image_url)}`);
-        expect(wrapper.find('.attachment__thumb-container img').prop('src')).toMatch(`/api/v4/image\\?url=${encodeURIComponent(props.attachment.thumb_url)}`);
+        expect(wrapper.find('.attachment__author-icon').prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.author_icon)}`);
+        expect(wrapper.find('.attachment__image-container img').prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.image_url)}`);
+        expect(wrapper.find('.attachment__thumb-container img').prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.thumb_url)}`);
     });
 });
