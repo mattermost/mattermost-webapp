@@ -506,22 +506,6 @@ export async function loadMyTeamMembers() {
     getMyTeamUnreads()(dispatch, getState);
 }
 
-export async function savePreferences(prefs, callback) {
-    const currentUserId = Selectors.getCurrentUserId(getState());
-    await savePreferencesRedux(currentUserId, prefs)(dispatch, getState);
-    callback();
-}
-
-export async function savePreference(category, name, value) {
-    const currentUserId = Selectors.getCurrentUserId(getState());
-    return savePreferencesRedux(currentUserId, [{user_id: currentUserId, category, name, value}])(dispatch, getState);
-}
-
-export function deletePreferences(prefs) {
-    const currentUserId = Selectors.getCurrentUserId(getState());
-    return deletePreferencesRedux(currentUserId, prefs)(dispatch, getState);
-}
-
 export function autoResetStatus() {
     return async (doDispatch, doGetState) => {
         const {currentUserId} = getState().entities.users;

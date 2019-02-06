@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/user_settings/display/user_settings_theme/user_settings_theme.jsx should match snapshot 1`] = `
+<SettingItemMin
+  describe={
+    <FormattedMessage
+      defaultMessage="Open to manage your theme"
+      id="user.settings.display.theme.describe"
+      values={Object {}}
+    />
+  }
+  focused={false}
+  section="theme"
+  title={
+    <FormattedMessage
+      defaultMessage="Theme"
+      id="user.settings.display.theme.title"
+      values={Object {}}
+    />
+  }
+  updateSection={[Function]}
+/>
+`;

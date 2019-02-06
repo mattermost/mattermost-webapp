@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {savePreference} from 'actions/user_actions.jsx';
 import {Constants, Preferences, ModalIdentifiers} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url.jsx';
 import AppIcons from 'images/appIcons.png';
@@ -26,6 +25,9 @@ export default class TutorialIntroScreens extends React.Component {
         isLicensed: PropTypes.bool.isRequired,
         restrictTeamInvite: PropTypes.bool.isRequired,
         supportEmail: PropTypes.string.isRequired,
+        actions: PropTypes.shape({
+            savePreferences: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
@@ -52,11 +54,15 @@ export default class TutorialIntroScreens extends React.Component {
             return;
         }
 
-        savePreference(
-            Preferences.TUTORIAL_STEP,
-            this.props.currentUserId,
-            (this.props.step + 1).toString()
-        );
+        const {currentUserId} = this.props;
+        const preferences = [{
+            user_id: currentUserId,
+            category: Preferences.TUTORIAL_STEP,
+            name: currentUserId,
+            value: (this.props.step + 1).toString(),
+        }];
+
+        this.props.actions.savePreferences(currentUserId, preferences);
     }
 
     skipTutorial = (e) => {
@@ -74,11 +80,15 @@ export default class TutorialIntroScreens extends React.Component {
             break;
         }
 
-        savePreference(
-            Preferences.TUTORIAL_STEP,
-            this.props.currentUserId,
-            Constants.TutorialSteps.FINISHED.toString(),
-        );
+        const {currentUserId} = this.props;
+        const preferences = [{
+            user_id: currentUserId,
+            category: Preferences.TUTORIAL_STEP,
+            name: currentUserId,
+            value: Constants.TutorialSteps.FINISHED.toString(),
+        }];
+
+        this.props.actions.savePreferences(currentUserId, preferences);
     }
     createScreen = () => {
         switch (this.state.currentScreen) {
