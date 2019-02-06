@@ -12,7 +12,9 @@ jest.mock('actions/global_actions.jsx', () => ({
     emitClearSuggestions: jest.fn(),
 }));
 
-function createEditPost({ctrlSend, config, license, editingPost, actions} = {}) {
+function createEditPost({canEditPost, canDeletePost, ctrlSend, config, license, editingPost, actions} = {canEditPost: true, canDeletePost: true}) {
+    const canEditPostProp = canEditPost === undefined ? true : canEditPost;
+    const canDeletePostProp = canDeletePost === undefined ? true : canDeletePost;
     const ctrlSendProp = ctrlSend || false;
     const configProp = config || {
         PostEditTimeLimit: 300,
@@ -41,6 +43,8 @@ function createEditPost({ctrlSend, config, license, editingPost, actions} = {}) 
     };
     return (
         <EditPostModal
+            canEditPost={canEditPostProp}
+            canDeletePost={canDeletePostProp}
             ctrlSend={ctrlSendProp}
             config={configProp}
             license={licenseProp}
@@ -450,5 +454,74 @@ describe('components/EditPostModal', () => {
         wrapper.update();
         expect(wrapper.instance().editbox).toEqual({focus});
         expect(wrapper.instance().editbox.focus).toHaveBeenCalledTimes(1);
+    });
+
+    it('should disable the button on not canEditPost and text in it', () => {
+        const actions = {
+            editPost: jest.fn(),
+            addMessageIntoHistory: jest.fn(),
+            hideEditPostModal: jest.fn(),
+            openModal: jest.fn(),
+        };
+        const wrapper = shallow(createEditPost({actions, canEditPost: false}));
+        wrapper.setState({editText: 'new message'});
+        expect(wrapper).toMatchSnapshot();
+
+        const instance = wrapper.instance();
+        instance.handleEdit();
+        expect(actions.hideEditPostModal).not.toBeCalled();
+        expect(actions.addMessageIntoHistory).not.toBeCalled();
+        expect(actions.editPost).not.toBeCalled();
+        expect(actions.hideEditPostModal).not.toBeCalled();
+    });
+
+    it('should not disable the button on not canEditPost and no text in it with canDeletePost', () => {
+        const wrapper = shallow(createEditPost({canEditPost: false}));
+        wrapper.setState({editText: ''});
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should disable the button on not canDeletePost and empty text in it', () => {
+        const actions = {
+            editPost: jest.fn(),
+            addMessageIntoHistory: jest.fn(),
+            hideEditPostModal: jest.fn(),
+            openModal: jest.fn(),
+        };
+        const wrapper = shallow(createEditPost({actions, canDeletePost: false}));
+        wrapper.setState({editText: ''});
+        expect(wrapper).toMatchSnapshot();
+
+        const instance = wrapper.instance();
+        instance.handleEdit();
+        expect(actions.hideEditPostModal).not.toBeCalled();
+        expect(actions.addMessageIntoHistory).not.toBeCalled();
+        expect(actions.editPost).not.toBeCalled();
+        expect(actions.hideEditPostModal).not.toBeCalled();
+    });
+
+    it('should not disable the button on not canDeletePost and text in it with canEditPost', () => {
+        const wrapper = shallow(createEditPost({canDeletePost: false}));
+        wrapper.setState({editText: 'new message'});
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should not disable the save button on not canDeletePost and no text when edited message has attachments', () => {
+        const editingPost = {
+            postId: '123',
+            post: {
+                id: '123',
+                message: 'test',
+                channel_id: '5',
+                file_ids: ['file_id_1'],
+            },
+            commentCount: 3,
+            refocusId: 'test',
+            show: true,
+            title: 'test',
+        };
+        var wrapper = shallow(createEditPost({canDeletePost: false, editingPost}));
+        wrapper.setState({editText: ''});
+        expect(wrapper).toMatchSnapshot();
     });
 });
