@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import XRegExp from 'xregexp';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 import emojiRegex from 'emoji-regex';
 
@@ -10,7 +11,6 @@ import RemoveMarkdown from 'utils/markdown/remove_markdown';
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
 
-import Constants from './constants.jsx';
 import * as Emoticons from './emoticons.jsx';
 import * as Markdown from './markdown';
 
@@ -356,7 +356,8 @@ function autolinkHashtags(text, tokens) {
         const index = tokens.size;
         const alias = `$MM_HASHTAG${index}$`;
 
-        if (text.length < Constants.MIN_HASHTAG_LINK_LENGTH + 1) {
+        const {MinimumHashtagLength} = getConfig(store.getState());
+        if (text.length < parseInt(MinimumHashtagLength, 10) + 1) {
             // too short to be a hashtag
             return fullMatch;
         }

@@ -32,7 +32,7 @@ export default class DatabaseSettings extends AdminSettings {
         config.SqlSettings.Trace = this.state.trace;
         config.SqlSettings.QueryTimeout = this.parseIntNonZero(this.state.queryTimeout);
         config.SqlSettings.ConnMaxLifetimeMilliseconds = this.parseIntNonNegative(this.state.connMaxLifetimeMilliseconds);
-        config.ServiceSettings.MinHashtagLength = this.parseIntNonZero(this.state.minHashtagLength);
+        config.ServiceSettings.MinimumHashtagLength = this.parseIntNonZero(this.state.minimumHashtagLength);
 
         return config;
     }
@@ -46,7 +46,7 @@ export default class DatabaseSettings extends AdminSettings {
             trace: config.SqlSettings.Trace,
             queryTimeout: config.SqlSettings.QueryTimeout,
             connMaxLifetimeMilliseconds: config.SqlSettings.ConnMaxLifetimeMilliseconds,
-            minHashtagLength: config.ServiceSettings.MinHashtagLength,
+            minimumHashtagLength: config.ServiceSettings.MinimumHashtagLength,
         };
     }
 
@@ -244,23 +244,23 @@ export default class DatabaseSettings extends AdminSettings {
                     setByEnv={this.isSetByEnv('SqlSettings.ConnMaxLifetimeMilliseconds')}
                 />
                 <TextSetting
-                    id='minHashtagLength'
+                    id='minimumHashtagLength'
                     label={
                         <FormattedMessage
-                            id='admin.service.minHashtagLengthTitle'
+                            id='admin.service.minimumHashtagLengthTitle'
                             defaultMessage='Minimum Hashtag Length:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.service.minHashtagLengthExample', 'E.g.: "3"')}
+                    placeholder={Utils.localizeMessage('admin.service.minimumHashtagLengthExample', 'E.g.: "3"')}
                     helpText={
                         <FormattedMarkdownMessage
-                            id='admin.service.minHashtagLengthDescription'
+                            id='admin.service.minimumHashtagLengthDescription'
                             defaultMessage='Minimum number of characters in a hashtag. MySQL databases must be configured to support searching strings shorter than three characters, [see documentation](!https://dev.mysql.com/doc/refman/8.0/en/fulltext-fine-tuning.html).'
                         />
                     }
-                    value={this.state.minHashtagLength}
+                    value={this.state.minimumHashtagLength}
                     onChange={this.handleChange}
-                    setByEnv={this.isSetByEnv('ServiceSettings.MinHashtagLength')}
+                    setByEnv={this.isSetByEnv('ServiceSettings.MinimumHashtagLength')}
                 />
                 <BooleanSetting
                     id='trace'
