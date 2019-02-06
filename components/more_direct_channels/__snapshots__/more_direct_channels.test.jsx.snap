@@ -31,10 +31,7 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
     <div
       className="more-modal__actions--round"
     >
-      <i
-        className="fa fa-plus"
-        title="Add Icon"
-      />
+      <AddIcon />
     </div>
   </div>
 </div>

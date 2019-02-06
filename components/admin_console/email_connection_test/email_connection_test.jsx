@@ -8,6 +8,8 @@ import {FormattedMessage} from 'react-intl';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 
 import * as Utils from 'utils/utils.jsx';
+import SuccessIcon from 'components/icon/success_icon';
+import WarningIcon from 'components/icon/warning_icon';
 
 export default class EmailConnectionTestButton extends React.Component {
     static get propTypes() {
@@ -69,10 +71,7 @@ export default class EmailConnectionTestButton extends React.Component {
         if (this.state.success) {
             testMessage = (
                 <div className='alert alert-success'>
-                    <i
-                        className='fa fa-check'
-                        title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
-                    />
+                    <SuccessIcon/>
                     <FormattedMessage
                         id='admin.email.emailSuccess'
                         defaultMessage='No errors were reported while sending an email.  Please check your inbox to make sure.'
@@ -82,10 +81,7 @@ export default class EmailConnectionTestButton extends React.Component {
         } else if (this.state.fail) {
             testMessage = (
                 <div className='alert alert-warning'>
-                    <i
-                        className='fa fa-warning'
-                        title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
-                    />
+                    <WarningIcon/>
                     {this.state.fail}
                 </div>
             );

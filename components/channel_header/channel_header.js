@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
@@ -73,6 +73,10 @@ export default class ChannelHeader extends React.PureComponent {
 
     static defaultProps = {
         dmUser: {},
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -253,6 +257,7 @@ export default class ChannelHeader extends React.PureComponent {
             dmUser,
             rhsState,
         } = this.props;
+        const {formatMessage} = this.context.intl;
 
         const channelIsArchived = channel.delete_at !== 0;
         if (Utils.isEmptyObject(channel) ||
@@ -473,7 +478,7 @@ export default class ChannelHeader extends React.PureComponent {
                         id='toggleMute'
                         onClick={this.unmute}
                         className={'style--none color--link channel-header__mute inactive'}
-                        aria-label={Utils.localizeMessage('generic_icons.muted', 'Muted Icon')}
+                        aria-label={formatMessage({id: 'generic_icons.muted', defaultMessage: 'Muted Icon'})}
                     >
                         <i className={'icon fa fa-bell-slash-o'}/>
                     </button>
@@ -520,7 +525,7 @@ export default class ChannelHeader extends React.PureComponent {
                                         <span
                                             id='channelHeaderDropdownIcon'
                                             className='fa fa-angle-down header-dropdown__icon'
-                                            title={Utils.localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
+                                            title={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'})}
                                         />
                                     </button>
                                     <ChannelHeaderDropdown/>

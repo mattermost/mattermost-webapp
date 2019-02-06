@@ -19,19 +19,9 @@ export default class Post extends React.PureComponent {
         post: PropTypes.object.isRequired,
 
         /**
-         * The user who created the post
+         * The logged in user ID
          */
-        user: PropTypes.object,
-
-        /**
-         * The status of the poster
-         */
-        status: PropTypes.string,
-
-        /**
-         * The logged in user
-         */
-        currentUser: PropTypes.object.isRequired,
+        currentUserId: PropTypes.string.isRequired,
 
         /**
          * Set to center the post
@@ -161,7 +151,7 @@ export default class Post extends React.PureComponent {
         }
 
         let currentUserCss = '';
-        if (this.props.currentUser.id === post.user_id && !fromWebhook && !isSystemMessage) {
+        if (this.props.currentUserId === post.user_id && !fromWebhook && !isSystemMessage) {
             currentUserCss = 'current--user';
         }
 
@@ -235,8 +225,7 @@ export default class Post extends React.PureComponent {
                 <PostProfilePicture
                     compactDisplay={this.props.compactDisplay}
                     post={post}
-                    status={this.props.status}
-                    user={this.props.user}
+                    userId={post.user_id}
                 />
             );
 
@@ -272,10 +261,7 @@ export default class Post extends React.PureComponent {
                             post={post}
                             handleCommentClick={this.handleCommentClick}
                             handleDropdownOpened={this.handleDropdownOpened}
-                            user={this.props.user}
-                            currentUser={this.props.currentUser}
                             compactDisplay={this.props.compactDisplay}
-                            status={this.props.status}
                             lastPostCount={this.props.lastPostCount}
                             isFirstReply={this.props.isFirstReply}
                             replyCount={this.props.replyCount}

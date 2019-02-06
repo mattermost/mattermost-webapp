@@ -7,7 +7,6 @@ import React from 'react';
 import {OverlayTrigger, Popover} from 'react-bootstrap';
 import {defineMessages, FormattedMessage, intlShape} from 'react-intl';
 
-import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import 'bootstrap-colorpicker';
 
@@ -404,11 +403,11 @@ export default class CustomThemeChooser extends React.Component {
                         <div className='header__icon'>
                             <i
                                 className='fa fa-plus'
-                                title={localizeMessage('generic_icons.expand', 'Expand Icon')}
+                                title={formatMessage({id: 'generic_icons.expand', defaultMessage: 'Expand Icon'})}
                             />
                             <i
                                 className='fa fa-minus'
-                                title={localizeMessage('generic_icons.collapse', 'Collapse Icon')}
+                                title={formatMessage({id: 'generic_icons.collapse', defaultMessage: 'Collapse Icon'})}
                             />
                         </div>
                     </div>
@@ -432,11 +431,11 @@ export default class CustomThemeChooser extends React.Component {
                         <div className='header__icon'>
                             <i
                                 className='fa fa-plus'
-                                title={localizeMessage('generic_icons.expand', 'Expand Icon')}
+                                title={formatMessage({id: 'generic_icons.expand', defaultMessage: 'Expand Icon'})}
                             />
                             <i
                                 className='fa fa-minus'
-                                title={localizeMessage('generic_icons.collapse', 'Collapse Icon')}
+                                title={formatMessage({id: 'generic_icons.collapse', defaultMessage: 'Collapse Icon'})}
                             />
                         </div>
                     </div>
@@ -460,11 +459,11 @@ export default class CustomThemeChooser extends React.Component {
                         <div className='header__icon'>
                             <i
                                 className='fa fa-plus'
-                                title={localizeMessage('generic_icons.expand', 'Expand Icon')}
+                                title={formatMessage({id: 'generic_icons.expand', defaultMessage: 'Expand Icon'})}
                             />
                             <i
                                 className='fa fa-minus'
-                                title={localizeMessage('generic_icons.collapse', 'Collapse Icon')}
+                                title={formatMessage({id: 'generic_icons.collapse', defaultMessage: 'Collapse Icon'})}
                             />
                         </div>
                     </div>

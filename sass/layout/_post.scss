@@ -432,7 +432,7 @@
         }
 
         &.custom-textarea--emoji-picker {
-            padding-right: 80px;
+            padding-right: 90px;
         }
 
         &.textbox-preview-area {
@@ -711,7 +711,7 @@
 .post {
     @include legacy-pie-clearfix;
     max-width: 100%;
-    padding: 8px .5em 0 1em;
+    padding: 8px .5em 0 1.5em;
     position: relative;
     word-wrap: break-word;
 
@@ -1134,7 +1134,7 @@
 
     &.same--root {
         &.same--user {
-            padding: 0 .5em 0 1em;
+            padding: 0 .5em 0 1.5em;
 
             &:hover,
             &.post--hovered {
@@ -1658,7 +1658,8 @@
         margin: 0;
         text-rendering: auto;
         position: relative;
-        z-index: 5;
+        // previous value of 5 interferred with search help popup
+        z-index: 4;
 
         &.pull-left {
             margin: 4px 5px 0 0;
@@ -1966,6 +1967,10 @@
                 min-height: 32px;
                 min-width: 32px;
                 vertical-align: top;
+            }
+            .emoticon--unicode {
+                font-size: 32px;
+                line-height: 1.1;
             }
         }
     }

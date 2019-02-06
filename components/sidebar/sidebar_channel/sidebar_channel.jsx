@@ -285,6 +285,7 @@ export default class SidebarChannel extends React.PureComponent {
                     link={link}
                     rowClass={rowClass}
                     channelId={this.props.channelId}
+                    channelName={this.props.channelName}
                     channelStatus={this.props.channelStatus}
                     channelType={this.props.channelType}
                     displayName={displayName}

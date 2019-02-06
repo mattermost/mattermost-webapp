@@ -48,6 +48,7 @@ export default class SingleImageView extends React.PureComponent {
     }
 
     componentDidMount() {
+        this.mounted = true;
         window.addEventListener('resize', this.handleResize);
         this.setViewPortWidth();
         this.loadImage(this.props.fileInfo);
@@ -62,6 +63,7 @@ export default class SingleImageView extends React.PureComponent {
     }
 
     componentWillUnmount() {
+        this.mounted = false;
         window.removeEventListener('resize', this.handleResize);
     }
 
@@ -92,8 +94,9 @@ export default class SingleImageView extends React.PureComponent {
             if (this.imageLoaded) {
                 this.imageLoaded.src = previewURL;
             }
-
-            this.setState({loaded: true});
+            if (this.mounted) {
+                this.setState({loaded: true});
+            }
         };
     }
 

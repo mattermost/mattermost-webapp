@@ -33,6 +33,7 @@ exports[`components/ReactionList Should match snapshot for reactions and should 
       <EmojiPickerOverlay
         enableGifPicker={false}
         onEmojiClick={[Function]}
+        onEmojiClose={[Function]}
         onHide={[Function]}
         rightOffset={15}
         show={false}

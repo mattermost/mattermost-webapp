@@ -34,6 +34,10 @@
         margin-top: .6em;
     }
 
+    blockquote {
+        padding-bottom: 0;
+    }
+
     .popover-title {
         @include border-radius(0);
         background: alpha-color($black, .05);

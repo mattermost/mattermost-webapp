@@ -17,6 +17,7 @@ import ElasticsearchSettings from 'components/admin_console/elasticsearch_settin
 import EmailSettings from 'components/admin_console/email_settings.jsx';
 import MessageExportSettings from 'components/admin_console/message_export_settings';
 import PasswordSettings from 'components/admin_console/password_settings.jsx';
+import GroupDetails from 'components/admin_console/group_settings/group_details';
 import CustomTermsOfServiceSettings from 'components/admin_console/custom_terms_of_service_settings';
 
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
@@ -197,6 +198,25 @@ export default class AdminConsole extends React.Component {
                                         }}
                                     />
                                     <Redirect to={`${props.match.url}/configuration`}/>
+                                </Switch>
+                            )}
+                        />
+                        <Route
+                            path={`${this.props.match.url}/access-control`}
+                            render={(props) => (
+                                <Switch>
+                                    <SCRoute
+                                        path={`${props.match.url}/groups/:group_id`}
+                                        component={GroupDetails}
+                                    />
+                                    <SCRoute
+                                        path={`${props.match.url}/groups`}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.accessControl.groups.schema,
+                                        }}
+                                    />
                                 </Switch>
                             )}
                         />

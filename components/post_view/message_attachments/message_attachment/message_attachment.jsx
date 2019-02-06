@@ -58,7 +58,33 @@ export default class MessageAttachment extends React.PureComponent {
         };
     }
 
+    componentDidMount() {
+        this.mounted = true;
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
+    }
+
+    handleHeightReceivedForThumbUrl = (height) => {
+        const {attachment} = this.props;
+        if (!this.props.imagesMetadata || (this.props.imagesMetadata && !this.props.imagesMetadata[attachment.thumb_url])) {
+            this.handleHeightReceived(height);
+        }
+    }
+
+    handleHeightReceivedForImageUrl = (height) => {
+        const {attachment} = this.props;
+        if (!this.props.imagesMetadata || (this.props.imagesMetadata && !this.props.imagesMetadata[attachment.image_url])) {
+            this.handleHeightReceived(height);
+        }
+    }
+
     handleHeightReceived = (height) => {
+        if (!this.mounted) {
+            return;
+        }
+
         if (height > 0) {
             // Increment checkOverflow to indicate change in height
             // and recompute textContainer height at ShowMore component
@@ -306,7 +332,7 @@ export default class MessageAttachment extends React.PureComponent {
                 <div className='attachment__image-container'>
                     <SizeAwareImage
                         className='attachment__image'
-                        onHeightReceived={this.handleHeightReceived}
+                        onHeightReceived={this.handleHeightReceivedForImageUrl}
                         src={attachment.image_url}
                         dimensions={this.props.imagesMetadata[attachment.image_url]}
                     />
@@ -321,7 +347,7 @@ export default class MessageAttachment extends React.PureComponent {
                     className='attachment__thumb-container'
                 >
                     <SizeAwareImage
-                        onHeightReceived={this.handleHeightReceived}
+                        onHeightReceived={this.handleHeightReceivedForThumbUrl}
                         src={attachment.thumb_url}
                         dimensions={this.props.imagesMetadata[attachment.thumb_url]}
                     />

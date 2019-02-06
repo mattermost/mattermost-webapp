@@ -12,6 +12,7 @@ import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
+import BackIcon from 'components/icon/back_icon';
 
 import JoinLeaveSection from './join_leave_section';
 import CodeBlockCtrlEnterSection from './code_block_ctrl_enter_section';
@@ -565,11 +566,9 @@ export default class AdvancedSettingsDisplay extends React.Component {
                         ref='title'
                     >
                         <div className='modal-back'>
-                            <i
-                                className='fa fa-angle-left'
-                                title={Utils.localizeMessage('generic_icons.back', 'Back Icon')}
-                                onClick={this.props.collapseModal}
-                            />
+                            <span onClick={this.props.collapseModal}>
+                                <BackIcon/>
+                            </span>
                         </div>
                         <FormattedMessage
                             id='user.settings.advance.title'

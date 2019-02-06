@@ -119,10 +119,7 @@ exports[`components/AddUsersToTeam should match when renderOption is called 1`] 
     <div
       className="more-modal__actions--round"
     >
-      <i
-        className="fa fa-plus"
-        title="Add Icon"
-      />
+      <AddIcon />
     </div>
   </div>
 </div>
@@ -160,10 +157,7 @@ exports[`components/AddUsersToTeam should match when renderOption is called 2`] 
     <div
       className="more-modal__actions--round"
     >
-      <i
-        className="fa fa-plus"
-        title="Add Icon"
-      />
+      <AddIcon />
     </div>
   </div>
 </div>

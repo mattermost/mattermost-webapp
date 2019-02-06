@@ -21,21 +21,12 @@ exports[`components/AtMention should match snapshot when mentioning current user
     rootClose={true}
     show={false}
   >
-    <Connect(Pluggable)>
-      <FakeProfilePopover
-        hasMention={false}
-        isRHS={false}
-        src="/api/v4/users/abc1/image"
-        user={
-          Object {
-            "first_name": "First",
-            "id": "abc1",
-            "last_name": "Last",
-            "username": "currentuser",
-          }
-        }
-      />
-    </Connect(Pluggable)>
+    <Connect(InjectIntl(ProfilePopover))
+      hasMention={false}
+      isRHS={false}
+      src="/api/v4/users/abc1/image"
+      userId="abc1"
+    />
   </Overlay>
   <a
     className="mention-link mention--highlight"
@@ -55,22 +46,12 @@ exports[`components/AtMention should match snapshot when mentioning user 1`] = `
     rootClose={true}
     show={false}
   >
-    <Connect(Pluggable)>
-      <FakeProfilePopover
-        hasMention={false}
-        isRHS={false}
-        src="/api/v4/users/abc2/image"
-        user={
-          Object {
-            "first_name": "Other",
-            "id": "abc2",
-            "last_name": "User",
-            "nickname": "Nick",
-            "username": "user1",
-          }
-        }
-      />
-    </Connect(Pluggable)>
+    <Connect(InjectIntl(ProfilePopover))
+      hasMention={false}
+      isRHS={false}
+      src="/api/v4/users/abc2/image"
+      userId="abc2"
+    />
   </Overlay>
   <a
     className="mention-link"
@@ -90,21 +71,12 @@ exports[`components/AtMention should match snapshot when mentioning user contain
     rootClose={true}
     show={false}
   >
-    <Connect(Pluggable)>
-      <FakeProfilePopover
-        hasMention={false}
-        isRHS={false}
-        src="/api/v4/users/abc3/image"
-        user={
-          Object {
-            "first_name": "Dot",
-            "id": "abc3",
-            "last_name": "Matrix",
-            "username": "userdot.",
-          }
-        }
-      />
-    </Connect(Pluggable)>
+    <Connect(InjectIntl(ProfilePopover))
+      hasMention={false}
+      isRHS={false}
+      src="/api/v4/users/abc3/image"
+      userId="abc3"
+    />
   </Overlay>
   <a
     className="mention-link"
@@ -125,21 +97,12 @@ exports[`components/AtMention should match snapshot when mentioning user contain
     rootClose={true}
     show={false}
   >
-    <Connect(Pluggable)>
-      <FakeProfilePopover
-        hasMention={false}
-        isRHS={false}
-        src="/api/v4/users/abc3/image"
-        user={
-          Object {
-            "first_name": "Dot",
-            "id": "abc3",
-            "last_name": "Matrix",
-            "username": "userdot.",
-          }
-        }
-      />
-    </Connect(Pluggable)>
+    <Connect(InjectIntl(ProfilePopover))
+      hasMention={false}
+      isRHS={false}
+      src="/api/v4/users/abc3/image"
+      userId="abc3"
+    />
   </Overlay>
   <a
     className="mention-link"
@@ -159,22 +122,12 @@ exports[`components/AtMention should match snapshot when mentioning user followe
     rootClose={true}
     show={false}
   >
-    <Connect(Pluggable)>
-      <FakeProfilePopover
-        hasMention={false}
-        isRHS={false}
-        src="/api/v4/users/abc2/image"
-        user={
-          Object {
-            "first_name": "Other",
-            "id": "abc2",
-            "last_name": "User",
-            "nickname": "Nick",
-            "username": "user1",
-          }
-        }
-      />
-    </Connect(Pluggable)>
+    <Connect(InjectIntl(ProfilePopover))
+      hasMention={false}
+      isRHS={false}
+      src="/api/v4/users/abc2/image"
+      userId="abc2"
+    />
   </Overlay>
   <a
     className="mention-link"
@@ -195,22 +148,12 @@ exports[`components/AtMention should match snapshot when mentioning user with di
     rootClose={true}
     show={false}
   >
-    <Connect(Pluggable)>
-      <FakeProfilePopover
-        hasMention={false}
-        isRHS={false}
-        src="/api/v4/users/abc2/image"
-        user={
-          Object {
-            "first_name": "Other",
-            "id": "abc2",
-            "last_name": "User",
-            "nickname": "Nick",
-            "username": "user1",
-          }
-        }
-      />
-    </Connect(Pluggable)>
+    <Connect(InjectIntl(ProfilePopover))
+      hasMention={false}
+      isRHS={false}
+      src="/api/v4/users/abc2/image"
+      userId="abc2"
+    />
   </Overlay>
   <a
     className="mention-link"
@@ -230,22 +173,12 @@ exports[`components/AtMention should match snapshot when mentioning user with mi
     rootClose={true}
     show={false}
   >
-    <Connect(Pluggable)>
-      <FakeProfilePopover
-        hasMention={false}
-        isRHS={false}
-        src="/api/v4/users/abc2/image"
-        user={
-          Object {
-            "first_name": "Other",
-            "id": "abc2",
-            "last_name": "User",
-            "nickname": "Nick",
-            "username": "user1",
-          }
-        }
-      />
-    </Connect(Pluggable)>
+    <Connect(InjectIntl(ProfilePopover))
+      hasMention={false}
+      isRHS={false}
+      src="/api/v4/users/abc2/image"
+      userId="abc2"
+    />
   </Overlay>
   <a
     className="mention-link"

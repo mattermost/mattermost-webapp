@@ -3,7 +3,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {localizeMessage} from 'utils/utils';
+import AddIcon from 'components/icon/add_icon';
 
 export default class GroupMessageOption extends React.Component {
     static propTypes = {
@@ -50,10 +50,7 @@ export default class GroupMessageOption extends React.Component {
                 </div>
                 <div className='more-modal__actions'>
                     <div className='more-modal__actions--round'>
-                        <i
-                            className='fa fa-plus'
-                            title={localizeMessage('generic_icons.add', 'Add Icon')}
-                        />
+                        <AddIcon/>
                     </div>
                 </div>
             </div>

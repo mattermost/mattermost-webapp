@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
@@ -44,7 +44,7 @@ function mapStateToProps(state) {
         isExpanded: getIsRhsExpanded(state),
         isOpen: getIsRhsOpen(state),
         channel,
-        currentUser: getCurrentUser(state),
+        currentUserId: getCurrentUserId(state),
         postRightVisible: Boolean(getSelectedPostId(state)),
         searchVisible: Boolean(rhsState),
         previousRhsState: getPreviousRhsState(state),

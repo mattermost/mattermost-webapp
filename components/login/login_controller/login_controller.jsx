@@ -28,8 +28,11 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import BackButton from 'components/common/back_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+import SuccessIcon from 'components/icon/success_icon';
+import WarningIcon from 'components/icon/warning_icon';
 
 import LoginMfa from '../login_mfa.jsx';
+
 class LoginController extends React.Component {
     static propTypes = {
         intl: intlShape.isRequired,
@@ -329,6 +332,8 @@ class LoginController extends React.Component {
         const query = new URLSearchParams(this.props.location.search);
         const redirectTo = query.get('redirect_to');
 
+        Utils.setCSRFFromCookie();
+
         // Record a successful login to local storage. If an unintentional logout occurs, e.g.
         // via session expiration, this bit won't get reset and we can notify the user as such.
         LocalStorageStore.setWasLoggedIn(true);
@@ -366,7 +371,7 @@ class LoginController extends React.Component {
                         src={Client4.getBrandImageUrl(0)}
                     />
                     <div>
-                        {messageHtmlToComponent(formattedText, false, {mentions: false})}
+                        {messageHtmlToComponent(formattedText, false, {mentions: false, imagesMetadata: null})}
                     </div>
                 </div>
             );
@@ -424,13 +429,11 @@ class LoginController extends React.Component {
 
     createExtraText = () => {
         const extraParam = (new URLSearchParams(this.props.location.search)).get('extra');
+
         if (this.state.sessionExpired) {
             return (
                 <div className='alert alert-warning'>
-                    <i
-                        className='fa fa-exclamation-triangle'
-                        title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
-                    />
+                    <WarningIcon/>
                     {' '}
                     <FormattedMessage
                         id='login.session_expired'
@@ -464,10 +467,7 @@ class LoginController extends React.Component {
         } else if (extraParam === Constants.TERMS_REJECTED) {
             return (
                 <div className='alert alert-warning'>
-                    <i
-                        className='fa fa-exclamation-triangle'
-                        title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
-                    />
+                    <WarningIcon/>
                     <FormattedMarkdownMessage
                         id='login.terms_rejected'
                         defaultMessage='You must agree to the terms of service before accessing {siteName}. Please contact your System Administrator for more details.'
@@ -480,10 +480,7 @@ class LoginController extends React.Component {
         } else if (extraParam === Constants.SIGNIN_CHANGE) {
             return (
                 <div className='alert alert-success'>
-                    <i
-                        className='fa fa-check'
-                        title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
-                    />
+                    <SuccessIcon/>
                     <FormattedMessage
                         id='login.changed'
                         defaultMessage=' Sign-in method changed successfully'
@@ -493,10 +490,7 @@ class LoginController extends React.Component {
         } else if (extraParam === Constants.SIGNIN_VERIFIED) {
             return (
                 <div className='alert alert-success'>
-                    <i
-                        className='fa fa-check'
-                        title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
-                    />
+                    <SuccessIcon/>
                     <FormattedMessage
                         id='login.verified'
                         defaultMessage=' Email Verified'
@@ -506,10 +500,7 @@ class LoginController extends React.Component {
         } else if (extraParam === Constants.PASSWORD_CHANGE) {
             return (
                 <div className='alert alert-success'>
-                    <i
-                        className='fa fa-check'
-                        title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
-                    />
+                    <SuccessIcon/>
                     <FormattedMessage
                         id='login.passwordChanged'
                         defaultMessage=' Password updated successfully'

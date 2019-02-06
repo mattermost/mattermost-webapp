@@ -26,18 +26,16 @@ import EmojiIcon from 'components/svg/emoji_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 
-import UserProfile from 'components/user_profile.jsx';
+import UserProfile from 'components/user_profile';
 
 export default class RhsComment extends React.Component {
     static propTypes = {
         post: PropTypes.object,
         teamId: PropTypes.string.isRequired,
         lastPostCount: PropTypes.number,
-        user: PropTypes.object,
-        currentUser: PropTypes.object.isRequired,
+        currentUserId: PropTypes.string.isRequired,
         compactDisplay: PropTypes.bool,
         isFlagged: PropTypes.bool,
-        status: PropTypes.string,
         isBusy: PropTypes.bool,
         removePost: PropTypes.func.isRequired,
         previewCollapsed: PropTypes.string.isRequired,
@@ -76,10 +74,6 @@ export default class RhsComment extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.status !== this.props.status) {
-            return true;
-        }
-
         if (nextProps.isBusy !== this.props.isBusy) {
             return true;
         }
@@ -93,10 +87,6 @@ export default class RhsComment extends React.Component {
         }
 
         if (!Utils.areObjectsEqual(nextProps.post, this.props.post)) {
-            return true;
-        }
-
-        if (!Utils.areObjectsEqual(nextProps.currentUser, this.props.currentUser)) {
             return true;
         }
 
@@ -117,10 +107,6 @@ export default class RhsComment extends React.Component {
         }
 
         if (this.props.previewEnabled !== nextProps.previewEnabled) {
-            return true;
-        }
-
-        if (!Utils.areObjectsEqual(nextProps.user, this.props.user)) {
             return true;
         }
 
@@ -188,7 +174,7 @@ export default class RhsComment extends React.Component {
     getClassName = (post, isSystemMessage) => {
         let className = 'post post--thread same--root post--comment';
 
-        if (this.props.currentUser.id === post.user_id) {
+        if (this.props.currentUserId === post.user_id) {
             className += ' current--user';
         }
 
@@ -245,19 +231,13 @@ export default class RhsComment extends React.Component {
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
 
-        let status = this.props.status;
-        if (post.props && post.props.from_webhook === 'true') {
-            status = null;
-        }
-
         let botIndicator;
         let profilePicture;
         let visibleMessage;
 
         let userProfile = (
             <UserProfile
-                user={this.props.user}
-                status={status}
+                userId={post.user_id}
                 isBusy={this.props.isBusy}
                 isRHS={true}
                 hasMention={true}
@@ -271,8 +251,7 @@ export default class RhsComment extends React.Component {
                     isBusy={this.props.isBusy}
                     isRHS={true}
                     post={post}
-                    status={this.props.status}
-                    user={this.props.user}
+                    userId={post.user_id}
                 />
             );
 
@@ -280,7 +259,8 @@ export default class RhsComment extends React.Component {
                 if (post.props.override_username && this.props.enablePostUsernameOverride) {
                     userProfile = (
                         <UserProfile
-                            user={this.props.user}
+                            userId={post.user_id}
+                            hideStatus={true}
                             overwriteName={post.props.override_username}
                             disablePopover={true}
                         />
@@ -288,7 +268,8 @@ export default class RhsComment extends React.Component {
                 } else {
                     userProfile = (
                         <UserProfile
-                            user={this.props.user}
+                            userId={post.user_id}
+                            hideStatus={true}
                             disablePopover={true}
                         />
                     );
@@ -306,8 +287,8 @@ export default class RhsComment extends React.Component {
                 userProfile = (
                     <span className='auto-responder'>
                         <UserProfile
-                            user={this.props.user}
-                            status={status}
+                            userId={post.user_id}
+                            hideStatus={true}
                             isBusy={this.props.isBusy}
                             isRHS={true}
                             hasMention={true}
@@ -325,7 +306,6 @@ export default class RhsComment extends React.Component {
             } else if (isSystemMessage) {
                 userProfile = (
                     <UserProfile
-                        user={{}}
                         overwriteName={
                             <FormattedMessage
                                 id='post_info.system'
@@ -384,8 +364,8 @@ export default class RhsComment extends React.Component {
                             show={this.state.showEmojiPicker}
                             onHide={this.toggleEmojiPicker}
                             target={this.getDotMenuRef}
+                            onEmojiClose={this.toggleEmojiPicker}
                             onEmojiClick={this.reactEmojiClick}
-                            rightOffset={15}
                             spaceRequiredAbove={EmojiPickerOverlay.RHS_SPACE_REQUIRED_ABOVE}
                             spaceRequiredBelow={EmojiPickerOverlay.RHS_SPACE_REQUIRED_BELOW}
                         />
@@ -415,7 +395,9 @@ export default class RhsComment extends React.Component {
                     location={'RHS_COMMENT'}
                     isFlagged={this.props.isFlagged}
                     handleDropdownOpened={this.handleDropdownOpened}
+                    handleAddReactionClick={this.toggleEmojiPicker}
                     isReadOnly={isReadOnly || channelIsArchived}
+                    enableEmojiPicker={this.props.enableEmojiPicker}
                 />
             );
 

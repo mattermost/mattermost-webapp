@@ -3,6 +3,7 @@
 exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, on desktop with draft 1`] = `
 <Link
   className="test-class"
+  id="sidebarItem_test-channel-name"
   onClick={[Function]}
   replace={false}
   to="test-link"
@@ -36,6 +37,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
 exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, on desktop with mentions badge 1`] = `
 <Link
   className="test-class"
+  id="sidebarItem_test-channel-name"
   onClick={[Function]}
   replace={false}
   to="test-link"
@@ -74,6 +76,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
 exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, on desktop without badge 1`] = `
 <Link
   className="test-class"
+  id="sidebarItem_test-channel-name"
   onClick={[Function]}
   replace={false}
   to="test-link"
@@ -106,6 +109,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
 exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, on non-desktop with mentions badge 1`] = `
 <Link
   className="test-class"
+  id="sidebarItem_test-channel-name"
   onClick={[Function]}
   replace={false}
   to="test-link"
@@ -144,6 +148,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
 exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, on non-desktop without badge 1`] = `
 <Link
   className="test-class"
+  id="sidebarItem_test-channel-name"
   onClick={[Function]}
   replace={false}
   to="test-link"

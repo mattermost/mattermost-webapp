@@ -15,6 +15,7 @@ describe('components/admin_console/system_users', () => {
         experimentalEnableAuthenticationTransfer: false,
         searchTerm: '',
         teamId: '',
+        filter: '',
         totalUsers: 0,
         users: {},
         actions: {

@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {intlShape} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import TeamInfoIcon from 'components/svg/team_info_icon';
@@ -15,25 +16,30 @@ export default class SelectTeamItem extends React.PureComponent {
         loading: PropTypes.bool.isRequired,
     };
 
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
+
     handleTeamClick = (e) => {
         e.preventDefault();
         this.props.onTeamClick(this.props.team);
     }
 
     render() {
+        const {formatMessage} = this.context.intl;
         let icon;
         if (this.props.loading) {
             icon = (
                 <span
                     className='fa fa-refresh fa-spin right signup-team__icon'
-                    title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
+                    title={formatMessage({id: 'generic_icons.loading', defaultMessage: 'Loading Icon'})}
                 />
             );
         } else {
             icon = (
                 <span
                     className='fa fa-angle-right right signup-team__icon'
-                    title={Utils.localizeMessage('select_team.join.icon', 'Join Team Icon')}
+                    title={formatMessage({id: 'select_team.join.icon', defaultMessage: 'Join Team Icon'})}
                 />
             );
         }

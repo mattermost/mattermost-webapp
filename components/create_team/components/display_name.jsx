@@ -10,7 +10,7 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import {cleanUpUrlable} from 'utils/url.jsx';
 import logoImage from 'images/logo.png';
-import {localizeMessage} from 'utils/utils.jsx';
+import NextIcon from 'components/icon/next_icon';
 
 export default class TeamSignupDisplayNamePage extends React.PureComponent {
     static propTypes = {
@@ -128,10 +128,7 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
                             id='create_team.display_name.next'
                             defaultMessage='Next'
                         />
-                        <i
-                            className='fa fa-chevron-right'
-                            title={localizeMessage('generic_icons.next', 'Next Icon')}
-                        />
+                        <NextIcon/>
                     </button>
                 </form>
             </div>

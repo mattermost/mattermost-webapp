@@ -25,11 +25,11 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       <div
         className="modal-back"
       >
-        <i
-          className="fa fa-angle-left"
+        <span
           onClick={[MockFunction]}
-          title="Back Icon"
-        />
+        >
+          <BackIcon />
+        </span>
       </div>
       <FormattedMessage
         defaultMessage="General Settings"
@@ -160,11 +160,11 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       <div
         className="modal-back"
       >
-        <i
-          className="fa fa-angle-left"
+        <span
           onClick={[MockFunction]}
-          title="Back Icon"
-        />
+        >
+          <BackIcon />
+        </span>
       </div>
       <FormattedMessage
         defaultMessage="General Settings"
