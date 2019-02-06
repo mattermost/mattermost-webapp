@@ -12,28 +12,28 @@ describe('autolinkAtMentions', () => {
     const mentionTestCases = [
         'channel',
         'all',
-        'here'
+        'here',
     ];
     function runSuccessfulAtMentionTests(leadingText = '', trailingText = '') {
-        mentionTestCases.forEach(testCase => {
+        mentionTestCases.forEach((testCase) => {
             const mention = `@${testCase}`;
             const text = `${leadingText}${mention}${trailingText}`;
             const tokens = new Map();
 
             const output = autolinkAtMentions(text, tokens);
             expect(output).toBe(`${leadingText}$MM_ATMENTION0$${trailingText}`);
-            expect(tokens.get(`$MM_ATMENTION0$`).value).toBe(`<span data-mention="${testCase}">${mention}</span>`);
+            expect(tokens.get('$MM_ATMENTION0$').value).toBe(`<span data-mention="${testCase}">${mention}</span>`);
         });
     }
     function runUnsuccessfulAtMentionTests(leadingText = '', trailingText = '') {
-        mentionTestCases.forEach(testCase => {
+        mentionTestCases.forEach((testCase) => {
             const mention = `@${testCase}`;
             const text = `${leadingText}${mention}${trailingText}`;
             const tokens = new Map();
 
             const output = autolinkAtMentions(text, tokens);
             expect(output).toBe(text);
-            expect(tokens.get(`$MM_ATMENTION0$`)).toBeUndefined();
+            expect(tokens.get('$MM_ATMENTION0$')).toBeUndefined();
         });
     }
 
