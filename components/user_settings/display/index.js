@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getSupportedTimezones} from 'mattermost-redux/actions/general';
 import {autoUpdateTimezone} from 'mattermost-redux/actions/timezone';
 import {getConfig, getSupportedTimezones as getTimezones} from 'mattermost-redux/selectors/entities/general';
@@ -56,6 +57,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getSupportedTimezones,
             autoUpdateTimezone,
+            savePreferences,
         }, dispatch),
     };
 }
