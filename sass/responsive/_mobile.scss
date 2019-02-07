@@ -958,6 +958,12 @@
                     top: calc(48px + #{$announcement-bar-height});
                 }
 
+                .dropdown__divider {
+                    & + .dropdown__divider {
+                        display: none;
+                    }
+                }
+
                 .close {
                     @include border-radius(50%);
                     border: 1px solid $white;
