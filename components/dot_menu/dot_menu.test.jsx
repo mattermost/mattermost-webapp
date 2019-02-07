@@ -33,6 +33,7 @@ describe('components/dot_menu/DotMenu', () => {
         postEditTimeLimit: '-1',
         handleCommentClick: jest.fn(),
         handleDropdownOpened: jest.fn(),
+        enableEmojiPicker: true,
         actions: {
             flagPost: jest.fn(),
             unflagPost: jest.fn(),

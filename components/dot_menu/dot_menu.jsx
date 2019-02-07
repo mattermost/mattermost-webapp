@@ -36,6 +36,7 @@ export default class DotMenu extends Component {
         pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
         isLicensed: PropTypes.bool.isRequired,
         postEditTimeLimit: PropTypes.string.isRequired,
+        enableEmojiPicker: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
 
             /**
@@ -257,7 +258,7 @@ export default class DotMenu extends Component {
                     >
                         <MenuItemAction
                             id={`${this.props.location}_button_${this.props.post.id}`}
-                            show={isMobile && !isSystemMessage}
+                            show={isMobile && !isSystemMessage && !this.props.isReadOnly && this.props.enableEmojiPicker}
                             text={Utils.localizeMessage('rhs_root.mobile.add_reaction', 'Add Reaction')}
                             onClick={this.handleAddReactionMenuItemActivated}
                         />

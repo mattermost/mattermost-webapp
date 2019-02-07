@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 export default function menuItem(Component) {
     class MenuItem extends React.PureComponent {
         static propTypes= {
-            show: PropTypes.bool.isRequired,
+            show: PropTypes.bool,
             id: PropTypes.string,
             icon: PropTypes.node,
             text: PropTypes.string,
