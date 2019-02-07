@@ -9,16 +9,20 @@ import {getRedirectLocation} from 'mattermost-redux/actions/general';
 
 import {toggleEmbedVisibility} from 'actions/post_actions';
 
+import {extractFirstLink} from 'utils/utils.jsx';
+
 import PostBodyAdditionalContent from './post_body_additional_content.jsx';
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
     const enableLinkPreviews = config.EnableLinkPreviews === 'true';
     const hasImageProxy = config.HasImageProxy === 'true';
+    const link = extractFirstLink(ownProps.post.message);
 
     return {
         enableLinkPreviews,
         hasImageProxy,
+        link,
     };
 }
 

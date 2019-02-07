@@ -52,6 +52,11 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
          */
         options: PropTypes.object,
 
+        /**
+         * The (non-expanded) link in the message
+         */
+        link: PropTypes.string,
+
         actions: PropTypes.shape({
             getRedirectLocation: PropTypes.func.isRequired,
             toggleEmbedVisibility: PropTypes.func.isRequired,
@@ -73,7 +78,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         this.handleLinkLoaded = this.handleLinkLoaded.bind(this);
 
         this.state = {
-            link: Utils.extractFirstLink(props.post.message),
             linkLoadError: false,
             linkLoaded: false,
         };
@@ -91,26 +95,14 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     }
 
     async loadShortenedImageLink() {
-        if (!this.isLinkImage(this.state.link) && !YoutubeVideo.isYoutubeLink(this.state.link) && this.props.enableLinkPreviews) {
-            const {data} = await this.props.actions.getRedirectLocation(this.state.link);
-            const {link} = this.state;
-            if (data && data.location && this.mounted) {
-                this.setState((state) => {
-                    if (state.link !== link) {
-                        return {};
-                    }
-                    return {link: data.location};
-                });
-                this.preCheckImageLink();
-            }
+        if (!this.isLinkImage(this.props.link) && !YoutubeVideo.isYoutubeLink(this.props.link) && this.props.enableLinkPreviews) {
+            //TODO: Re-implement this
         }
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.post.message !== this.props.post.message) {
-            this.setState({
-                link: Utils.extractFirstLink(nextProps.post.message),
-            }, () => {
+            this.setState({}, () => {
                 // check the availability of the image link
                 this.loadShortenedImageLink();
                 this.preCheckImageLink();
@@ -143,9 +135,9 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     preCheckImageLink() {
         // check only if embedVisible is false i.e the image are by default hidden/collapsed
         // if embedVisible is true, the image is rendered, during which image load error is captured
-        if (!this.props.isEmbedVisible && this.isLinkImage(this.state.link)) {
+        if (!this.props.isEmbedVisible && this.isLinkImage(this.props.link)) {
             const image = new Image();
-            image.src = PostUtils.getImageSrc(this.state.link, this.props.hasImageProxy);
+            image.src = PostUtils.getImageSrc(this.props.link, this.props.hasImageProxy);
 
             image.onload = () => {
                 this.handleLinkLoaded();
@@ -175,7 +167,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     }
 
     isLinkToggleable() {
-        const link = this.state.link;
+        const link = this.props.link;
         if (!link) {
             return false;
         }
@@ -214,7 +206,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     };
 
     generateToggleableEmbed() {
-        const link = this.state.link;
+        const link = this.props.link;
         if (!link) {
             return null;
         }
@@ -268,7 +260,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     }
 
     renderImagePreview() {
-        let link = this.state.link;
+        let link = this.props.link;
         if (!link || !this.isLinkImage(link)) {
             return null;
         }
@@ -297,7 +289,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     }
 
     render() {
-        if (this.isLinkToggleable() && !this.state.linkLoadError) {
+        if (this.isLinkToggleable() && !this.props.linkLoadError) {
             // if message has only one line and starts with a link place toggle in this only line
             // else - place it in new line between message and embed
             const prependToggle = (/^\s*https?:\/\/.*$/).test(this.props.post.message);
@@ -319,7 +311,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
 
             const contents = [message];
 
-            if (this.state.linkLoaded || YoutubeVideo.isYoutubeLink(this.state.link)) {
+            if (this.props.linkLoaded || YoutubeVideo.isYoutubeLink(this.props.link)) {
                 if (prependToggle) {
                     contents.unshift(toggle);
                 } else {
