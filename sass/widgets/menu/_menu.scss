@@ -8,6 +8,11 @@
         max-width: 270px;
         overflow-x: hidden;
         overflow-y: auto;
+        li {
+            a {
+                color: inherit;
+            }
+        }
     }
 
     &.Menu-enter {

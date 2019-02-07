@@ -109,9 +109,9 @@ export default class StatusDropdown extends React.Component {
         const dropdownIcon = this.renderDropdownIcon();
 
         const setOnline = needsConfirm ? () => this.showStatusChangeConfirmation('online') : this.setOnline;
-        const setDnd = needsConfirm ? () => this.showStatusChangeConfirmation('dnd') : this.setOnline;
-        const setAway = needsConfirm ? () => this.showStatusChangeConfirmation('away') : this.setOnline;
-        const setOffline = needsConfirm ? () => this.showStatusChangeConfirmation('offline') : this.setOnline;
+        const setDnd = needsConfirm ? () => this.showStatusChangeConfirmation('dnd') : this.setDnd;
+        const setAway = needsConfirm ? () => this.showStatusChangeConfirmation('away') : this.setAway;
+        const setOffline = needsConfirm ? () => this.showStatusChangeConfirmation('offline') : this.setOffline;
 
         return (
             <MenuWrapper
@@ -150,7 +150,7 @@ export default class StatusDropdown extends React.Component {
                         />
                         <MenuItemAction
                             onClick={setOffline}
-                            text={localizeMessage('status_dropdown.set_away', 'Away')}
+                            text={localizeMessage('status_dropdown.set_offline', 'Offline')}
                         />
                     </MenuGroup>
                 </Menu>
