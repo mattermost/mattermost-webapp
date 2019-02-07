@@ -38,10 +38,13 @@
 
         .post__body {
             width: 100%;
-            padding-left: 0;
         }
 
         &.post--compact {
+            .post__body {
+                padding-left: 0;
+            }
+
             &.same--root {
                 &.post--comment {
                     padding-left: 1em;
