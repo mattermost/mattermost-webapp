@@ -104,7 +104,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         if (!this.isLinkImage(link) && !YoutubeVideo.isYoutubeLink(link) && this.props.enableLinkPreviews) {
             if (!this.props.expandedURL) {
                 this.props.actions.getRedirectLocation(link);
-                this.preCheckImageLink();
             }
         }
     }
