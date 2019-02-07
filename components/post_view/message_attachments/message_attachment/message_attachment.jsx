@@ -6,7 +6,8 @@ import React from 'react';
 
 import {postListScrollChange} from 'actions/global_actions';
 
-import {isUrlSafe} from 'utils/url.jsx';
+import {getImageSrc} from 'utils/post_utils';
+import {isUrlSafe} from 'utils/url';
 import {handleFormattedTextClick} from 'utils/utils';
 
 import Markdown from 'components/markdown';
@@ -35,6 +36,11 @@ export default class MessageAttachment extends React.PureComponent {
          * Options specific to text formatting
          */
         options: PropTypes.object,
+
+        /**
+         * Whether or not the server has an image proxy enabled
+         */
+        hasImageProxy: PropTypes.bool.isRequired,
 
         /**
          * images object for dimensions
@@ -254,7 +260,7 @@ export default class MessageAttachment extends React.PureComponent {
                 author.push(
                     <img
                         className='attachment__author-icon'
-                        src={attachment.author_icon}
+                        src={getImageSrc(attachment.author_icon, this.props.hasImageProxy)}
                         key={'attachment__author-icon'}
                         height='14'
                         width='14'
@@ -333,7 +339,7 @@ export default class MessageAttachment extends React.PureComponent {
                     <SizeAwareImage
                         className='attachment__image'
                         onHeightReceived={this.handleHeightReceivedForImageUrl}
-                        src={attachment.image_url}
+                        src={getImageSrc(attachment.image_url, this.props.hasImageProxy)}
                         dimensions={this.props.imagesMetadata[attachment.image_url]}
                     />
                 </div>
@@ -343,12 +349,10 @@ export default class MessageAttachment extends React.PureComponent {
         let thumb;
         if (attachment.thumb_url) {
             thumb = (
-                <div
-                    className='attachment__thumb-container'
-                >
+                <div className='attachment__thumb-container'>
                     <SizeAwareImage
                         onHeightReceived={this.handleHeightReceivedForThumbUrl}
-                        src={attachment.thumb_url}
+                        src={getImageSrc(attachment.thumb_url, this.props.hasImageProxy)}
                         dimensions={this.props.imagesMetadata[attachment.thumb_url]}
                     />
                 </div>
