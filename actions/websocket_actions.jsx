@@ -26,6 +26,7 @@ import {
     getCustomEmojiForReaction,
     getPosts,
     getProfilesAndStatusesForPosts,
+    postDeleted,
     receivedPost,
     receivedPostsInChannel,
 } from 'mattermost-redux/actions/posts';
@@ -479,7 +480,7 @@ function handlePostEditEvent(msg) {
 
 function handlePostDeleteEvent(msg) {
     const post = JSON.parse(msg.data.post);
-    dispatch({type: PostTypes.POST_DELETED, data: post});
+    dispatch(postDeleted(post));
 }
 
 async function handleTeamAddedEvent(msg) {
