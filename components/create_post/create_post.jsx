@@ -556,7 +556,7 @@ export default class CreatePost extends React.Component {
     }
 
     postMsgKeyPress = (e) => {
-        const {ctrlSend, codeBlockOnCtrlEnter, currentChannel} = this.props;
+        const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
 
         const {allowSending, withClosedCodeBlock, ignoreKeyPress, message} = postMessageOnKeyPress(e, this.state.message, ctrlSend, codeBlockOnCtrlEnter, Date.now(), this.lastChannelSwitchAt);
 
@@ -579,7 +579,24 @@ export default class CreatePost extends React.Component {
             }
         }
 
-        GlobalActions.emitLocalUserTypingEvent(currentChannel.id, '');
+        this.emitTypingEvent();
+    }
+
+    emitTypingEvent = () => {
+        const channelId = this.props.currentChannel.id;
+        GlobalActions.emitLocalUserTypingEvent(channelId, '');
+    }
+
+    handleCompositionStart = () => {
+        this.emitTypingEvent();
+    }
+
+    handleCompositionUpdate = () => {
+        this.emitTypingEvent();
+    }
+
+    handleCompositionEnd = () => {
+        this.emitTypingEvent();
     }
 
     handleChange = (e) => {
@@ -1128,6 +1145,9 @@ export default class CreatePost extends React.Component {
                                 onChange={this.handleChange}
                                 onKeyPress={this.postMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
+                                onCompositionStart={this.handleCompositionStart}
+                                onCompositionUpdate={this.handleCompositionUpdate}
+                                onCompositionEnd={this.handleCompositionEnd}
                                 handlePostError={this.handlePostError}
                                 value={readOnlyChannel ? '' : this.state.message}
                                 onBlur={this.handleBlur}

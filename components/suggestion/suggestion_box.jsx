@@ -80,6 +80,9 @@ export default class SuggestionBox extends React.Component {
          * Function called when a key is pressed and the input box is in focus
          */
         onKeyDown: PropTypes.func,
+        onCompositionStart: PropTypes.func,
+        onCompositionUpdate: PropTypes.func,
+        onCompositionEnd: PropTypes.func,
 
         /**
          * Function called when an item is selected
@@ -299,6 +302,9 @@ export default class SuggestionBox extends React.Component {
 
     handleCompositionStart = () => {
         this.composing = true;
+        if (this.props.onCompositionStart) {
+            this.props.onCompositionStart();
+        }
     }
 
     handleCompositionUpdate = (e) => {
@@ -311,10 +317,16 @@ export default class SuggestionBox extends React.Component {
         const pretext = textbox.value.substring(0, textbox.selectionStart) + e.data;
 
         this.pretext = pretext;
+        if (this.props.onCompositionUpdate) {
+            this.props.onCompositionUpdate();
+        }
     }
 
     handleCompositionEnd = () => {
         this.composing = false;
+        if (this.props.onCompositionEnd) {
+            this.props.onCompositionEnd();
+        }
     }
 
     addTextAtCaret = (term, matchedPretext) => {
