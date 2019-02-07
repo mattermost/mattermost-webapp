@@ -3,9 +3,22 @@
 
 import assert from 'assert';
 
+import store from 'stores/redux_store.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 
-describe('TextFormatting.Hashtags', () => {
+describe('TextFormatting.Hashtags with default setting', () => {
+    beforeAll(() => {
+        store.getState = () => ({
+            entities: {
+                general: {
+                    config: {
+                        MinimumHashtagLength: 3,
+                    },
+                },
+            },
+        });
+    });
+
     it('Not hashtags', (done) => {
         assert.equal(
             TextFormatting.formatText('# hashtag').trim(),
@@ -191,6 +204,54 @@ describe('TextFormatting.Hashtags', () => {
         assert.equal(
             TextFormatting.formatText('#test@example.com').trim(),
             "<p><a class='mention-link' href='#' data-hashtag='#test@example.com'>#test@example.com</a></p>"
+        );
+
+        done();
+    });
+});
+
+describe('TextFormatting.Hashtags with various settings', () => {
+    it('Boundary of MinimumHashtagLength', (done) => {
+        store.getState = () => ({
+            entities: {
+                general: {
+                    config: {
+                        MinimumHashtagLength: 3,
+                    },
+                },
+            },
+        });
+        assert.equal(
+            TextFormatting.formatText('#疑問').trim(),
+            '<p>#疑問</p>'
+        );
+
+        store.getState = () => ({
+            entities: {
+                general: {
+                    config: {
+                        MinimumHashtagLength: 2,
+                    },
+                },
+            },
+        });
+        assert.equal(
+            TextFormatting.formatText('#疑問').trim(),
+            "<p><a class='mention-link' href='#' data-hashtag='#疑問'>#疑問</a></p>"
+        );
+
+        store.getState = () => ({
+            entities: {
+                general: {
+                    config: {
+                        MinimumHashtagLength: 1,
+                    },
+                },
+            },
+        });
+        assert.equal(
+            TextFormatting.formatText('#疑問').trim(),
+            "<p><a class='mention-link' href='#' data-hashtag='#疑問'>#疑問</a></p>"
         );
 
         done();
