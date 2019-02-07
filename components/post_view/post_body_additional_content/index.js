@@ -5,6 +5,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {getExpandedLink} from 'mattermost-redux/selectors/entities/posts';
+
 import {getRedirectLocation} from 'mattermost-redux/actions/general';
 
 import {toggleEmbedVisibility} from 'actions/post_actions';
@@ -18,11 +20,16 @@ function mapStateToProps(state, ownProps) {
     const enableLinkPreviews = config.EnableLinkPreviews === 'true';
     const hasImageProxy = config.HasImageProxy === 'true';
     const link = extractFirstLink(ownProps.post.message);
+    let expandedURL;
+    if (link) {
+        expandedURL = getExpandedLink(state, link);
+    }
 
     return {
         enableLinkPreviews,
         hasImageProxy,
         link,
+        expandedURL,
     };
 }
 
