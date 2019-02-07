@@ -440,11 +440,7 @@
         &.post--comment {
             .post__body {
                 margin-top: 5px;
-                padding: 2px 0 0 7px;
-
-                .post-right__container & {
-                    padding-left: 0;
-                }
+                padding: 0 0 0 7px;
             }
         }
 
