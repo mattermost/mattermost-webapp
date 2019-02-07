@@ -225,6 +225,10 @@ describe('TextFormatting.Hashtags with various settings', () => {
             TextFormatting.formatText('#疑問').trim(),
             '<p>#疑問</p>'
         );
+        assert.equal(
+            TextFormatting.formatText('This is a sentence #疑問 containing a hashtag').trim(),
+            '<p>This is a sentence #疑問 containing a hashtag</p>'
+        );
 
         store.getState = () => ({
             entities: {
@@ -239,6 +243,10 @@ describe('TextFormatting.Hashtags with various settings', () => {
             TextFormatting.formatText('#疑問').trim(),
             "<p><a class='mention-link' href='#' data-hashtag='#疑問'>#疑問</a></p>"
         );
+        assert.equal(
+            TextFormatting.formatText('This is a sentence #疑問 containing a hashtag').trim(),
+            "<p>This is a sentence <a class='mention-link' href='#' data-hashtag='#疑問'>#疑問</a> containing a hashtag</p>"
+        );
 
         store.getState = () => ({
             entities: {
@@ -252,6 +260,10 @@ describe('TextFormatting.Hashtags with various settings', () => {
         assert.equal(
             TextFormatting.formatText('#疑問').trim(),
             "<p><a class='mention-link' href='#' data-hashtag='#疑問'>#疑問</a></p>"
+        );
+        assert.equal(
+            TextFormatting.formatText('This is a sentence #疑問 containing a hashtag').trim(),
+            "<p>This is a sentence <a class='mention-link' href='#' data-hashtag='#疑問'>#疑問</a> containing a hashtag</p>"
         );
 
         done();

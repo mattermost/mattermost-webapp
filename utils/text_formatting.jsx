@@ -357,7 +357,7 @@ function autolinkHashtags(text, tokens) {
         const alias = `$MM_HASHTAG${index}$`;
 
         const {MinimumHashtagLength} = getConfig(store.getState());
-        if (text.length < parseInt(MinimumHashtagLength, 10) + 1) {
+        if (originalText.length < parseInt(MinimumHashtagLength, 10) + 1) {
             // too short to be a hashtag
             return fullMatch;
         }
