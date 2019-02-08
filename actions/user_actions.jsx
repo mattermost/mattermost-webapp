@@ -490,17 +490,6 @@ export async function loadProfiles(page, perPage, options = {}, success) {
     }
 }
 
-export function getMissingProfiles(ids) {
-    const state = getState();
-    const missingIds = ids.filter((id) => !Selectors.getUser(state, id));
-
-    if (missingIds.length === 0) {
-        return;
-    }
-
-    UserActions.getProfilesByIds(missingIds)(dispatch, getState);
-}
-
 export async function loadMyTeamMembers() {
     await getMyTeamMembers()(dispatch, getState);
     getMyTeamUnreads()(dispatch, getState);

@@ -5,8 +5,15 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {doPostAction} from 'mattermost-redux/actions/posts';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import MessageAttachment from './message_attachment';
+
+function mapStateToProps(state) {
+    return {
+        hasImageProxy: getConfig(state).HasImageProxy === 'true',
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -16,4 +23,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(MessageAttachment);
+export default connect(mapStateToProps, mapDispatchToProps)(MessageAttachment);

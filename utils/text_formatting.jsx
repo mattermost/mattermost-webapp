@@ -181,6 +181,10 @@ export function autolinkAtMentions(text, tokens) {
 
     let output = text;
 
+    // handle @channel, @all, @here mentions first (purposely excludes trailing punctuation)
+    output = output.replace(/\B@(channel|all|here)/gi, replaceAtMentionWithToken);
+
+    // handle all other mentions (supports trailing punctuation)
     let match = output.match(AT_MENTION_PATTERN);
     while (match && match.length > 0) {
         output = output.replace(AT_MENTION_PATTERN, replaceAtMentionWithToken);
