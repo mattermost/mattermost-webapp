@@ -9,7 +9,7 @@ import * as CommonUtils from 'utils/commons.jsx';
 import {PostTypes} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
-import {isSystemMessage} from 'utils/post_utils.jsx';
+import {getImageSrc, isSystemMessage} from 'utils/post_utils.jsx';
 import {getFileDimensionsForDisplay} from 'utils/file_utils';
 
 const MAX_DIMENSIONS_LARGE_IMAGE = {
@@ -50,6 +50,11 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
          */
         openGraphData: PropTypes.object,
 
+        /**
+         * Whether or not the server has an image proxy enabled
+         */
+        hasImageProxy: PropTypes.bool.isRequired,
+
         isEmbedVisible: PropTypes.bool,
         toggleEmbedVisibility: PropTypes.func.isRequired,
 
@@ -67,7 +72,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         super(props);
 
         const removePreview = this.isRemovePreview(props.post, props.currentUser);
-        const imageUrl = this.getBestImageUrl(props.openGraphData);
+        const imageUrl = PostAttachmentOpenGraph.getBestImageUrl(props.openGraphData, props.hasImageProxy);
         const {metadata} = props.post;
         const hasLargeImage = metadata && metadata.images && metadata.images[imageUrl] && imageUrl ? this.hasLargeImage(metadata.images[imageUrl]) : false;
 
@@ -98,7 +103,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         }
 
         if (!Utils.areObjectsEqual(nextProps.openGraphData, this.props.openGraphData)) {
-            const imageUrl = this.getBestImageUrl(nextProps.openGraphData);
+            const imageUrl = PostAttachmentOpenGraph.getBestImageUrl(nextProps.openGraphData, nextProps.hasImageProxy);
             const {metadata} = nextProps.post;
             const hasLargeImage = metadata && metadata.images && metadata.images[imageUrl] && imageUrl ? this.hasLargeImage(metadata.images[imageUrl]) : false;
 
@@ -127,15 +132,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         if (!this.props.openGraphData) {
             this.props.actions.getOpenGraphMetadata(url);
         }
-    }
-
-    getBestImageUrl(data) {
-        if (!data || Utils.isEmptyObject(data.images)) {
-            return null;
-        }
-
-        const bestImage = CommonUtils.getNearestPoint(DIMENSIONS_NEAREST_POINT_IMAGE, data.images, 'width', 'height');
-        return bestImage.secure_url || bestImage.url;
     }
 
     hasLargeImage({height, width}) {
@@ -354,5 +350,15 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                 </div>
             </div>
         );
+    }
+
+    static getBestImageUrl(data, hasImageProxy) {
+        if (!data || !data.images || data.images.length === 0) {
+            return null;
+        }
+
+        const bestImage = CommonUtils.getNearestPoint(DIMENSIONS_NEAREST_POINT_IMAGE, data.images, 'width', 'height');
+
+        return getImageSrc(bestImage.secure_url || bestImage.url, hasImageProxy);
     }
 }

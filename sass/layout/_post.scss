@@ -1719,6 +1719,18 @@
 
     .post-waiting {
         color: #999999;
+        position: relative;
+
+        .spinner {
+            width: 20px;
+            position: absolute;
+            right: 8px;
+            top: 4px;
+        }
+
+        .post-message {
+            padding-right: 24px;
+        }
     }
 
     .permalink-icon {

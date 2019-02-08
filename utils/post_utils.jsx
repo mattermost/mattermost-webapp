@@ -47,9 +47,16 @@ export function isEdited(post) {
 }
 
 export function getImageSrc(src, hasImageProxy) {
-    if (hasImageProxy) {
-        return Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(src);
+    if (!src) {
+        return src;
     }
+
+    const imageAPI = Client4.getBaseRoute() + '/image?url=';
+
+    if (hasImageProxy && !src.startsWith(imageAPI)) {
+        return imageAPI + encodeURIComponent(src);
+    }
+
     return src;
 }
 

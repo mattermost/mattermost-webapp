@@ -213,6 +213,7 @@ export default class SearchableUserList extends React.Component {
             filterRow = (
                 <div className='col-xs-12'>
                     <QuickInput
+                        id='searchUsersInput'
                         ref='filter'
                         className='form-control filter-textbox'
                         placeholder={Utils.localizeMessage('filtered_user_list.search', 'Search users')}

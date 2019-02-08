@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {mount, shallow} from 'enzyme';
 
 import MessageAttachment from 'components/post_view/message_attachments/message_attachment/message_attachment.jsx';
 import {postListScrollChange} from 'actions/global_actions';
@@ -29,6 +29,7 @@ describe('components/post_view/MessageAttachment', () => {
         postId: 'post_id',
         attachment,
         actions: {doPostAction: jest.fn()},
+        hasImageProxy: false,
         imagesMetadata: {
             image_url: {
                 height: 200,
@@ -117,5 +118,23 @@ describe('components/post_view/MessageAttachment', () => {
 
         wrapper = shallow(<MessageAttachment {...props}/>);
         expect(wrapper.instance().getFieldsTable()).toMatchSnapshot();
+    });
+
+    test('should proxy external images if image proxy is enabled', () => {
+        const props = {
+            ...baseProps,
+            attachment: {
+                author_icon: 'http://example.com/author.png',
+                image_url: 'http://example.com/image.png',
+                thumb_url: 'http://example.com/thumb.png',
+            },
+            hasImageProxy: true,
+        };
+
+        const wrapper = mount(<MessageAttachment {...props}/>);
+
+        expect(wrapper.find('.attachment__author-icon').prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.author_icon)}`);
+        expect(wrapper.find('.attachment__image-container img').prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.image_url)}`);
+        expect(wrapper.find('.attachment__thumb-container img').prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.thumb_url)}`);
     });
 });

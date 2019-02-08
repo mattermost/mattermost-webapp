@@ -18,55 +18,17 @@ const KeyCodes = Constants.KeyCodes;
 
 export default class EditPostModal extends React.PureComponent {
     static propTypes = {
-
-        /**
-         * Set to force form submission on CTRL/CMD + ENTER instead of ENTER
-         */
+        canEditPost: PropTypes.bool,
+        canDeletePost: PropTypes.bool,
         ctrlSend: PropTypes.bool,
-
-        /**
-         * Global config object
-         */
         config: PropTypes.object.isRequired,
-
-        /**
-         * The maximum length of a post
-         */
         maxPostSize: PropTypes.number.isRequired,
-
-        /**
-         * Editing post information
-         */
         editingPost: PropTypes.shape({
-
-            /**
-             * The post being edited
-             */
             post: PropTypes.object,
-
-            /**
-             * The ID of the post being edited
-             */
             postId: PropTypes.string,
-
-            /**
-             * The ID of a DOM node to focus with the keyboard when this modal closes
-             */
             refocusId: PropTypes.string,
-
-            /**
-             * Whether or not to show the modal
-             */
             show: PropTypes.bool.isRequired,
-
-            /**
-             * What to show in the title of the modal as "Edit {title}"
-             */
             title: PropTypes.string,
-
-            /**
-             * Whether or not the modal was open from RHS
-             */
             isRHS: PropTypes.bool,
         }).isRequired,
 
@@ -162,6 +124,10 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     handleEdit = async () => {
+        if (this.isSaveDisabled()) {
+            return;
+        }
+
         const {actions, editingPost} = this.props;
         const updatedPost = {
             message: this.state.editText,
@@ -281,6 +247,20 @@ export default class EditPostModal extends React.PureComponent {
         }
     }
 
+    isSaveDisabled = () => {
+        const post = this.props.editingPost.post;
+        const hasAttachments = post && post.file_ids && post.file_ids.length > 0;
+        if (hasAttachments) {
+            return !this.props.canEditPost;
+        }
+
+        if (this.state.editText !== '') {
+            return !this.props.canEditPost;
+        }
+
+        return !this.props.canDeletePost;
+    }
+
     render() {
         const errorBoxClass = 'edit-post-footer' + (this.state.postError ? ' has-error' : '');
         let postError = null;
@@ -376,6 +356,7 @@ export default class EditPostModal extends React.PureComponent {
                     <button
                         type='button'
                         className='btn btn-primary'
+                        disabled={this.isSaveDisabled()}
                         onClick={this.handleEdit}
                     >
                         <FormattedMessage
