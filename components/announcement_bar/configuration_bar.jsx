@@ -27,16 +27,11 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
         user: PropTypes.object,
         canViewSystemErrors: PropTypes.bool.isRequired,
         totalUsers: PropTypes.number,
-        sendVerificationEmail: PropTypes.func.isRequired,
     };
 
     static contextTypes = {
         intl: intlShape,
     };
-
-    handleEmailResend = (email) => {
-        this.props.sendVerificationEmail(email);
-    }
 
     render() {
         // System administrators
@@ -147,35 +142,6 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
                     allowDismissal={true}
                     text={siteURLMessage}
                     type={AnnouncementBarTypes.ANNOUNCEMENT}
-                />
-            );
-        }
-
-        if (this.props.user && !this.props.user.email_verified && this.props.config.RequireEmailVerification === 'true') {
-            return (
-                <AnnouncementBar
-                    type={AnnouncementBarTypes.ANNOUNCEMENT}
-                    message={
-                        <React.Fragment>
-                            <FormattedHTMLMessage
-                                id={AnnouncementBarMessages.EMAIL_VERIFICATION_REQUIRED}
-                                defaultMessage='Check your email at {email} to verify the address. Cannot find the email?'
-                                values={{
-                                    email: this.props.user.email,
-                                }}
-                            />
-                            <TextButtonWithSpinner
-                                spinningText={Utils.localizeMessage('announcement_bar.error.sending', 'Sending')}
-                                regularText={
-                                    <FormattedMessage
-                                        id='announcement_bar.error.send_again'
-                                        defaultMessage='Send again'
-                                    />
-                                }
-                                onClick={this.handleEmailResend.bind(null, this.props.user.email)}
-                            />
-                        </React.Fragment>
-                    }
                 />
             );
         }

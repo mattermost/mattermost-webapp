@@ -18,6 +18,7 @@ import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+import {AnnouncementBarMessages, AnnouncementBarTypes} from "utils/constants";
 
 const holders = defineMessages({
     usernameReserved: {
@@ -108,9 +109,11 @@ class UserSettingsGeneralTab extends React.Component {
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
         actions: PropTypes.shape({
+            logError: PropTypes.func.isRequired,
+            clearErrors: PropTypes.func.isRequired,
             getMe: PropTypes.func.isRequired,
-            sendVerificationEmail: PropTypes.func.isRequred,
-            setDefaultProfileImage: PropTypes.func.isRequred,
+            sendVerificationEmail: PropTypes.func.isRequired,
+            setDefaultProfileImage: PropTypes.func.isRequired,
         }).isRequired,
         sendEmailNotifications: PropTypes.bool,
         requireEmailVerification: PropTypes.bool,
@@ -274,7 +277,11 @@ class UserSettingsGeneralTab extends React.Component {
                 this.props.actions.getMe();
                 const verificationEnabled = this.props.sendEmailNotifications && this.props.requireEmailVerification && emailUpdated;
                 if (verificationEnabled) {
-                    this.setState({emailChangeInProgress: true});
+                    this.props.actions.clearErrors();
+                    this.props.actions.logError({
+                        message: AnnouncementBarMessages.EMAIL_VERIFICATION_REQUIRED,
+                        type: AnnouncementBarTypes.SUCCESS,
+                    }, true);
                 }
             },
             (err) => {
@@ -405,8 +412,7 @@ class UserSettingsGeneralTab extends React.Component {
     }
 
     updateSection = (section) => {
-        const emailChangeInProgress = this.state.emailChangeInProgress;
-        this.setState(Object.assign({}, this.setupInitialState(this.props), {emailChangeInProgress, clientError: '', serverError: '', emailError: '', sectionIsSaving: false}));
+        this.setState(Object.assign({}, this.setupInitialState(this.props), {clientError: '', serverError: '', emailError: '', sectionIsSaving: false}));
         this.submitActive = false;
         this.props.updateSection(section);
     }
@@ -426,7 +432,6 @@ class UserSettingsGeneralTab extends React.Component {
             currentPassword: '',
             pictureFile: null,
             loadingPicture: false,
-            emailChangeInProgress: props.sendEmailNotifications && props.requireEmailVerification && !user.email_verified,
             sectionIsSaving: false,
             showSpinner: false,
         };
@@ -462,23 +467,6 @@ class UserSettingsGeneralTab extends React.Component {
                         defaultMessage='Email is used for sign-in, notifications, and password reset.'
                     />
                 );
-            } else if (this.state.emailChangeInProgress) {
-                const newEmail = this.props.user.email;
-                if (newEmail) {
-                    helpText = (
-                        <React.Fragment>
-                            <FormattedMarkdownMessage
-                                id='user.settings.general.emailHelp4'
-                                defaultMessage='A verification email was sent to {email}. \nCannot find the email?'
-                                values={{
-                                    email: newEmail,
-                                }}
-                            />
-                            {' '}
-                            {this.createEmailResendLink(newEmail)}
-                        </React.Fragment>
-                    );
-                }
             }
 
             let submit = null;
@@ -679,31 +667,7 @@ class UserSettingsGeneralTab extends React.Component {
         } else {
             let describe = '';
             if (this.props.user.auth_service === '') {
-                if (this.state.emailChangeInProgress) {
-                    const newEmail = this.props.user.email;
-                    if (newEmail) {
-                        describe = (
-                            <React.Fragment>
-                                <FormattedHTMLMessage
-                                    id='user.settings.general.newAddress'
-                                    defaultMessage='Check your email to verify {email}'
-                                    values={{
-                                        email: newEmail,
-                                    }}
-                                />
-                            </React.Fragment>
-                        );
-                    } else {
-                        describe = (
-                            <FormattedMessage
-                                id='user.settings.general.checkEmailNoAddress'
-                                defaultMessage='Check your email to verify your new address'
-                            />
-                        );
-                    }
-                } else {
-                    describe = this.props.user.email;
-                }
+                describe = this.props.user.email;
             } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
                 describe = (
                     <FormattedMessage

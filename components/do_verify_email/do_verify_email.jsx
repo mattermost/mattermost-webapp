@@ -40,7 +40,7 @@ export default class DoVerifyEmail extends React.PureComponent {
             /*
              * Action creator to update the user in the redux store
              */
-            updateMe: PropTypes.func.isRequired,
+            getMe: PropTypes.func.isRequired,
             logError: PropTypes.func.isRequired,
             clearErrors: PropTypes.func.isRequired,
         }).isRequired,
@@ -84,14 +84,12 @@ export default class DoVerifyEmail extends React.PureComponent {
                 message: AnnouncementBarMessages.EMAIL_VERIFIED,
                 type: AnnouncementBarTypes.SUCCESS,
             }, true);
-            const user = Object.assign({}, this.props.user);
-            user.email_verified = true;
             trackEvent('settings', 'verify_email');
-            this.props.actions.updateMe(user).then(({data, error: err}) => {
+            this.props.actions.getMe().then(({data, error: err}) => {
                 if (data) {
                     this.handleRedirect();
                 } else if (err) {
-                    this.handleError(VerifyEmailErrors.FAILED_USER_STATE_UPDATE);
+                    this.handleError(VerifyEmailErrors.FAILED_USER_STATE_GET);
                 }
             });
         } else {
@@ -108,7 +106,7 @@ export default class DoVerifyEmail extends React.PureComponent {
                     defaultMessage='The invite link was invalid. Please speak with your Administrator to receive an invitation.'
                 />
             );
-        } else if (type === VerifyEmailErrors.FAILED_USER_STATE_UPDATE) {
+        } else if (type === VerifyEmailErrors.FAILED_USER_STATE_GET) {
             serverError = (
                 <FormattedMessage
                     id='signup_user_completed.failed_update_user_state'
