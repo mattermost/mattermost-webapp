@@ -206,14 +206,39 @@ export default class AboutBuildModal extends React.PureComponent {
                     </div>
                     <div className='about-modal__footer'>
                         {learnMore}
-                        <div className='form-group about-modal__copyright'>
-                            <FormattedMessage
-                                id='about.copyright'
-                                defaultMessage='Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved'
-                                values={{
-                                    currentYear: new Date().getFullYear(),
-                                }}
-                            />
+                        <div className='form-group'>
+                            <div className='about-modal__copyright'>
+                                <FormattedMessage
+                                    id='about.copyright'
+                                    defaultMessage='Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved'
+                                    values={{
+                                        currentYear: new Date().getFullYear(),
+                                    }}
+                                />
+                            </div>
+                            <div className='about-modal__links'>
+                                <a
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    href='http://about.mattermost.com/default-terms/'
+                                >
+                                    <FormattedMessage
+                                        id='about.tos'
+                                        defaultMessage='Terms of Service'
+                                    />
+                                </a>
+                                <span>{' - '}</span>
+                                <a
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    href='http://mattermost.com/privacy-policy/'
+                                >
+                                    <FormattedMessage
+                                        id='about.privacy'
+                                        defaultMessage='Privacy Policy'
+                                    />
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <div className='about-modal__notice form-group padding-top x2'>
