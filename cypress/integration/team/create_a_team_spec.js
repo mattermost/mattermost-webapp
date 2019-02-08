@@ -1,5 +1,7 @@
-// Copyright (c) 2019-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+import {getRandomInt} from '../../utils';
 
 // ***************************************************************
 // - [number] indicates a test step (e.g. 1. Go to a page)
@@ -14,35 +16,34 @@ describe('Teams Suite', () => {
         cy.visit('/');
     });
 
-    it('Create a team', () => {
+    it('Create a team', async () => {
+        const teamURL = `team-test-${getRandomInt(9999).toString()}`;
 
         //  Click hamburger main menu
         cy.get('#sidebarHeaderDropdownButton').click();
 
         // dropdown menu should be visible then click create team
-        cy.get('#sidebarDropdownMenu').should('be.visible').within(function($el) {
-           cy.get('#createTeam').should('be.visible').click();
-        });
+        cy.get('#createTeam').should('be.visible').click();
 
         // input team name as Team Test
-        cy.get("input[type=text]").should('be.visible').type("Team Test");
+        cy.get('#teamNameInput').should('be.visible').type('Team Test');
 
         // click next
-        cy.get("button[type=submit]").should('be.visible').click();
+        cy.get('#teamNameNextButton').should('be.visible').click();
 
         // input team url as team-test-e2e
-        cy.get("input[type=text]").should('be.visible').type("team-test-e2e");
+        cy.get('#teamURLInput').should('be.visible').type(teamURL);
 
         // click finish
-        cy.get("button[type=submit]").should('be.visible').click();
+        cy.get('#teamURLFinishButton').should('be.visible').click();
 
         // should redirect ot Town Square channel
-        cy.get('#channelHeaderTitle').should('contain','Town Square');
+        cy.get('#channelHeaderTitle').should('contain', 'Town Square');
 
         // check url is correct
-        cy.url().should('include','team-test-e2e/channels/town-square');
+        cy.url().should('include', teamURL + '/channels/town-square');
 
+        // Team name should displays correctly at top of LHS
+        cy.get('#headerTeamName').should('contain', 'Team Test');
     });
-
-
 });
