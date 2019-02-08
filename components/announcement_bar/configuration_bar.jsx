@@ -4,18 +4,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {FormattedHTMLMessage, FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 
 import {isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
 import {AnnouncementBarTypes, AnnouncementBarMessages} from 'utils/constants.jsx';
 
 import {t} from 'utils/i18n';
-import * as Utils from 'utils/utils';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import AnnouncementBar from './announcement_bar.jsx';
-import TextButtonWithSpinner from './text_button_with_spinner.jsx';
 import TextDismissableBar from './text_dismissable_bar';
 
 const RENEWAL_LINK = 'https://licensing.mattermost.com/renew';
