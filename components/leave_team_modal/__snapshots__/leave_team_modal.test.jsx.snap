@@ -59,7 +59,7 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-default"
+      className="btn btn-link"
       id="leaveTeamNo"
       onClick={[MockFunction]}
       type="button"
