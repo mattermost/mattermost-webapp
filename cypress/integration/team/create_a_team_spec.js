@@ -19,31 +19,34 @@ describe('Teams Suite', () => {
     it('Create a team', async () => {
         const teamURL = `team-test-${getRandomInt(9999).toString()}`;
 
-        //  Click hamburger main menu
+        // 2. Click hamburger main menu
         cy.get('#sidebarHeaderDropdownButton').click();
 
-        // dropdown menu should be visible then click create team
-        cy.get('#createTeam').should('be.visible').click();
+        // * Dropdown menu should be visible
+        cy.get('#sidebarDropdownMenu').should('be.visible');
 
-        // input team name as Team Test
+        // 3. Click "Create a New Team"
+        cy.get('#sidebarDropdownMenu li #createTeam').click();
+
+        // 4. Input team name as Team Test
         cy.get('#teamNameInput').should('be.visible').type('Team Test');
 
-        // click next
+        // 5. Click Next button
         cy.get('#teamNameNextButton').should('be.visible').click();
 
-        // input team url as team-test-e2e
+        // 6. Input team URL as variable teamURl
         cy.get('#teamURLInput').should('be.visible').type(teamURL);
 
-        // click finish
+        // 7. Click finish button
         cy.get('#teamURLFinishButton').should('be.visible').click();
 
-        // should redirect ot Town Square channel
+        // * Should redirect ot Town Square channel
         cy.get('#channelHeaderTitle').should('contain', 'Town Square');
 
-        // check url is correct
+        // * check url is correct
         cy.url().should('include', teamURL + '/channels/town-square');
 
-        // Team name should displays correctly at top of LHS
+        // * Team name should displays correctly at top of LHS
         cy.get('#headerTeamName').should('contain', 'Team Test');
     });
 });
