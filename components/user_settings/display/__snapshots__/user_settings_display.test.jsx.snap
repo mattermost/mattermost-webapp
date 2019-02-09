@@ -895,7 +895,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <ManageLanguage
+      <Connect(ManageLanguage)
         locale="en"
         updateSection={[Function]}
         user={

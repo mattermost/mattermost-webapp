@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
+import {switchLdapToEmail} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {checkMfa} from 'actions/views/mfa';
@@ -27,6 +28,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             checkMfa,
+            switchLdapToEmail,
         }, dispatch),
     };
 }

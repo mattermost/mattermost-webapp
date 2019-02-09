@@ -8,6 +8,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {get, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {updateUserActive} from 'mattermost-redux/actions/users';
 
 import {Preferences} from 'utils/constants.jsx';
 
@@ -38,6 +39,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             savePreferences,
+            updateUserActive,
         }, dispatch),
     };
 }

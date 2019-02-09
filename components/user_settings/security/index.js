@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getMe} from 'mattermost-redux/actions/users';
+import {getMe, updateUserPassword} from 'mattermost-redux/actions/users';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
@@ -47,6 +47,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getMe,
+            updateUserPassword,
         }, dispatch),
     };
 }
