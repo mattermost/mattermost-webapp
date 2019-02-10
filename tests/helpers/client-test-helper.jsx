@@ -84,7 +84,7 @@ class TestHelperClass {
         var team = {};
         team.name = this.generateId();
         team.display_name = `Unit Test ${team.name}`;
-        team.type = 'O';
+        team.is_public = true;
         team.email = this.fakeEmail();
         team.allowed_domains = '';
         return team;

@@ -12,24 +12,24 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
         teams: [
             {
                 team_id: '11111111111111111111111111',
-                team_type: 'O',
+                is_public: true,
                 team_display_name: 'Team 1',
             },
             {
                 team_id: '22222222222222222222222222',
-                team_type: 'P',
+                is_public: false,
                 team_display_name: 'Team 2',
             },
             {
                 team_id: '33333333333333333333333333',
-                team_type: 'P',
+                is_public: false,
                 team_display_name: 'Team 3',
             },
         ],
         channels: [
             {
                 team_id: '11111111111111111111111111',
-                team_type: 'O',
+                team_is_public: true,
                 team_display_name: 'Team 1',
                 channel_id: '44444444444444444444444444',
                 channel_type: 'O',
@@ -37,7 +37,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
             },
             {
                 team_id: '99999999999999999999999999',
-                team_type: 'O',
+                team_is_public: true,
                 team_display_name: 'Team 9',
                 channel_id: '55555555555555555555555555',
                 channel_type: 'P',
@@ -45,7 +45,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
             },
             {
                 team_id: '99999999999999999999999999',
-                team_type: 'O',
+                team_is_public: true,
                 team_display_name: 'Team 9',
                 channel_id: '55555555555555555555555555',
                 channel_type: 'P',

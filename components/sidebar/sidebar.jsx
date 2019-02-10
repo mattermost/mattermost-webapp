@@ -741,7 +741,7 @@ export default class Sidebar extends React.PureComponent {
                     teamDisplayName={this.props.currentTeam.display_name}
                     teamDescription={this.props.currentTeam.description}
                     teamName={this.props.currentTeam.name}
-                    teamType={this.props.currentTeam.type}
+                    inviteId={this.props.currentTeam.invite_id}
                     currentUser={this.props.currentUser}
                 />
 

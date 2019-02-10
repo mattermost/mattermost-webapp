@@ -31,7 +31,7 @@ import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 export default class SidebarHeaderDropdown extends React.PureComponent {
     static propTypes = {
         teamId: PropTypes.string,
-        teamType: PropTypes.string,
+        inviteId: PropTypes.string,
         teamName: PropTypes.string,
         currentUser: PropTypes.object,
         appDownloadLink: PropTypes.string,
@@ -56,7 +56,7 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
     };
 
     static defaultProps = {
-        teamType: '',
+        inviteId: '',
         pluginMenuItems: [],
     };
 
@@ -271,7 +271,7 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
                 </TeamPermissionGate>
             );
 
-            if (this.props.teamType === Constants.OPEN_TEAM && this.props.enableUserCreation) {
+            if (this.props.inviteId !== '' && this.props.enableUserCreation) {
                 teamLink = (
                     <TeamPermissionGate
                         teamId={this.props.teamId}

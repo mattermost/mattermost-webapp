@@ -18,7 +18,7 @@ export default class SidebarHeader extends React.PureComponent {
         teamDisplayName: PropTypes.string.isRequired,
         teamDescription: PropTypes.string.isRequired,
         teamName: PropTypes.string.isRequired,
-        teamType: PropTypes.string.isRequired,
+        inviteId: PropTypes.string.isRequired,
         currentUser: PropTypes.object.isRequired,
         showTutorialTip: PropTypes.bool.isRequired,
     };
@@ -132,7 +132,7 @@ export default class SidebarHeader extends React.PureComponent {
                 <div id='sidebarDropdownMenuContainer'>
                     <SidebarHeaderDropdown
                         teamId={this.props.teamId}
-                        teamType={this.props.teamType}
+                        inviteId={this.props.inviteId}
                         teamDisplayName={this.props.teamDisplayName}
                         teamName={this.props.teamName}
                         currentUser={this.props.currentUser}

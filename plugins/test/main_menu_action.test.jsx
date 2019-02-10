@@ -13,7 +13,7 @@ describe('plugins/MainMenuActions', () => {
 
         const requiredProps = {
             teamId: 'someteamid',
-            teamType: '',
+            inviteId: '',
             teamDisplayName: 'some name',
             teamName: 'somename',
             currentUser: {id: 'someuserid', roles: 'system_user'},
@@ -51,7 +51,7 @@ describe('plugins/MainMenuActions', () => {
         const requiredProps = {
             teamId: 'someteamid',
             isOpen: true,
-            teamType: '',
+            inviteId: '',
             teamDisplayName: 'some name',
             showTutorialTip: false,
             enableUserCreation: true,

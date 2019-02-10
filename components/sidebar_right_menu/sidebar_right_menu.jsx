@@ -32,7 +32,7 @@ export default class SidebarRightMenu extends React.PureComponent {
         teamId: PropTypes.string,
         currentUserId: PropTypes.string.isRequired,
         isOpen: PropTypes.bool.isRequired,
-        teamType: PropTypes.string,
+        inviteId: PropTypes.string,
         teamDisplayName: PropTypes.string,
         isMentionSearch: PropTypes.bool,
         showTutorialTip: PropTypes.bool.isRequired,
@@ -183,7 +183,7 @@ export default class SidebarRightMenu extends React.PureComponent {
                 </TeamPermissionGate>
             );
 
-            if (this.props.teamType === Constants.OPEN_TEAM && this.props.enableUserCreation) {
+            if (this.props.inviteId !== '' && this.props.enableUserCreation) {
                 teamLink = (
                     <TeamPermissionGate
                         teamId={this.props.teamId}

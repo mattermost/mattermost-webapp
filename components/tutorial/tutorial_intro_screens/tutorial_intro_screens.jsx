@@ -18,7 +18,7 @@ const NUM_SCREENS = 3;
 export default class TutorialIntroScreens extends React.Component {
     static propTypes = {
         currentUserId: PropTypes.string.isRequired,
-        teamType: PropTypes.string,
+        inviteId: PropTypes.string,
         step: PropTypes.number,
         townSquareDisplayName: PropTypes.string.isRequired,
         appDownloadLink: PropTypes.string,
@@ -213,10 +213,10 @@ export default class TutorialIntroScreens extends React.Component {
     createScreenThree() {
         let inviteModalLink;
         let inviteText;
-        const {teamType} = this.props;
+        const {inviteId} = this.props;
 
         if (!this.props.isLicensed || !this.props.restrictTeamInvite) {
-            if (teamType === Constants.INVITE_TEAM) {
+            if (inviteId === '') {
                 inviteModalLink = (
                     <ModalToggleButtonRedux
                         id='tutorialIntroInvite'

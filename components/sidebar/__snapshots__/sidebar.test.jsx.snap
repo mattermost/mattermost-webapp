@@ -19,11 +19,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         "id": "my-user-id",
       }
     }
+    inviteId="invite-id"
     teamDescription="Test team description"
     teamDisplayName="Test team display name"
     teamId="team_id"
     teamName="test-team"
-    teamType="team-type"
   />
   <div
     className="sidebar--left__icons"
@@ -272,11 +272,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         "id": "my-user-id",
       }
     }
+    inviteId="invite-id"
     teamDescription="Test team description"
     teamDisplayName="Test team display name"
     teamId="team_id"
     teamName="test-team"
-    teamType="team-type"
   />
   <div
     className="sidebar--left__icons"
@@ -525,11 +525,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         "id": "my-user-id",
       }
     }
+    inviteId="invite-id"
     teamDescription="Test team description"
     teamDisplayName="Test team display name"
     teamId="team_id"
     teamName="test-team"
-    teamType="team-type"
   />
   <div
     className="sidebar--left__icons"
@@ -778,11 +778,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         "id": "my-user-id",
       }
     }
+    inviteId="invite-id"
     teamDescription="Test team description"
     teamDisplayName="Test team display name"
     teamId="team_id"
     teamName="test-team"
-    teamType="team-type"
   />
   <div
     className="sidebar--left__icons"
@@ -1039,11 +1039,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         "id": "my-user-id",
       }
     }
+    inviteId="invite-id"
     teamDescription="Test team description"
     teamDisplayName="Test team display name"
     teamId="team_id"
     teamName="test-team"
-    teamType="team-type"
   />
   <div
     className="sidebar--left__icons"
@@ -1292,11 +1292,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         "id": "my-user-id",
       }
     }
+    inviteId="invite-id"
     teamDescription="Test team description"
     teamDisplayName="Test team display name"
     teamId="team_id"
     teamName="test-team"
-    teamType="team-type"
   />
   <div
     className="sidebar--left__icons"
@@ -1549,11 +1549,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         "id": "my-user-id",
       }
     }
+    inviteId="invite-id"
     teamDescription="Test team description"
     teamDisplayName="Test team display name"
     teamId="team_id"
     teamName="test-team"
-    teamType="team-type"
   />
   <div
     className="sidebar--left__icons"
@@ -1802,11 +1802,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         "id": "my-user-id",
       }
     }
+    inviteId="invite-id"
     teamDescription="Test team description"
     teamDisplayName="Test team display name"
     teamId="team_id"
     teamName="test-team"
-    teamType="team-type"
   />
   <div
     className="sidebar--left__icons"
@@ -2055,11 +2055,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         "id": "my-user-id",
       }
     }
+    inviteId="invite-id"
     teamDescription="Test team description"
     teamDisplayName="Test team display name"
     teamId="team_id"
     teamName="test-team"
-    teamType="team-type"
   />
   <div
     className="sidebar--left__icons"
@@ -2308,11 +2308,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         "id": "my-user-id",
       }
     }
+    inviteId="invite-id"
     teamDescription="Test team description"
     teamDisplayName="Test team display name"
     teamId="team_id"
     teamName="test-team"
-    teamType="team-type"
   />
   <div
     className="sidebar--left__icons"

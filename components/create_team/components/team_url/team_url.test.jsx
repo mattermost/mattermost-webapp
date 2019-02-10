@@ -74,7 +74,7 @@ describe('/components/create_team/components/display_name', () => {
         await wrapper.instance().submitNext({preventDefault: jest.fn()});
         expect(actions.checkIfTeamExists).toHaveBeenCalledTimes(2);
         expect(actions.createTeam).toHaveBeenCalledTimes(1);
-        expect(actions.createTeam).toBeCalledWith({display_name: 'test-team', name: 'test-team', type: 'O'});
+        expect(actions.createTeam).toBeCalledWith({display_name: 'test-team', name: 'test-team'});
         expect(props.history.push).toHaveBeenCalledTimes(1);
         expect(props.history.push).toBeCalledWith('/test-team/channels/town-square');
     });

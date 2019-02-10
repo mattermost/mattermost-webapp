@@ -53,7 +53,7 @@ class InviteMemberModal extends React.PureComponent {
         enableUserCreation: PropTypes.bool.isRequired,
         currentUser: PropTypes.object.isRequired,
         defaultChannelName: PropTypes.string.isRequired,
-        teamType: PropTypes.string.isRequired,
+        inviteId: PropTypes.string.isRequired,
         teamId: PropTypes.string.isRequired,
         onHide: PropTypes.func.isRequired,
         actions: PropTypes.shape({
@@ -223,7 +223,7 @@ class InviteMemberModal extends React.PureComponent {
         const {currentUser} = this.props;
         const {formatMessage} = this.props.intl;
 
-        if (currentUser != null && this.props.teamType != null) {
+        if (currentUser != null && this.props.inviteId != null) {
             var inviteSections = [];
             var inviteIds = this.state.inviteIds;
             for (var i = 0; i < inviteIds.length; i++) {
@@ -399,7 +399,7 @@ class InviteMemberModal extends React.PureComponent {
                 );
             } else if (this.props.enableUserCreation) {
                 var teamInviteLink = null;
-                if (currentUser && this.props.teamType === 'O') {
+                if (currentUser && this.props.inviteId !== '') {
                     var link = (
                         <button
                             className='color--link style--none'

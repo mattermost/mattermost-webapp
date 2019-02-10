@@ -38,7 +38,7 @@ export default class GeneralTab extends React.Component {
         this.handleNameSubmit = this.handleNameSubmit.bind(this);
         this.handleAllowedDomainsSubmit = this.handleAllowedDomainsSubmit.bind(this);
         this.handleInviteIdSubmit = this.handleInviteIdSubmit.bind(this);
-        this.handleOpenInviteSubmit = this.handleOpenInviteSubmit.bind(this);
+        this.handleIsPublicSubmit = this.handleIsPublicSubmit.bind(this);
         this.handleDescriptionSubmit = this.handleDescriptionSubmit.bind(this);
         this.handleTeamIconSubmit = this.handleTeamIconSubmit.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -48,7 +48,7 @@ export default class GeneralTab extends React.Component {
         this.updateTeamIcon = this.updateTeamIcon.bind(this);
         this.updateAllowedDomains = this.updateAllowedDomains.bind(this);
         this.updateInviteId = this.updateInviteId.bind(this);
-        this.handleOpenInviteRadio = this.handleOpenInviteRadio.bind(this);
+        this.handleIsPublicRadio = this.handleIsPublicRadio.bind(this);
         this.handleGenerateInviteId = this.handleGenerateInviteId.bind(this);
 
         this.state = this.setupInitialState(props);
@@ -68,7 +68,7 @@ export default class GeneralTab extends React.Component {
         return {
             name: team.display_name,
             invite_id: team.invite_id,
-            allow_open_invite: team.allow_open_invite,
+            is_public: team.is_public,
             description: team.description,
             allowed_domains: team.allowed_domains,
             serverError: '',
@@ -85,7 +85,7 @@ export default class GeneralTab extends React.Component {
             description: nextProps.team.description,
             allowed_domains: nextProps.team.allowed_domains,
             invite_id: nextProps.team.invite_id,
-            allow_open_invite: nextProps.team.allow_open_invite,
+            is_public: nextProps.team.is_public,
         });
     }
 
@@ -100,8 +100,8 @@ export default class GeneralTab extends React.Component {
         this.setState({invite_id: newId});
     }
 
-    handleOpenInviteRadio(openInvite) {
-        this.setState({allow_open_invite: openInvite});
+    handleIsPublicRadio(isPublic) {
+        this.setState({is_public: isPublic});
     }
 
     handleAllowedDomainsSubmit = async () => {
@@ -120,11 +120,11 @@ export default class GeneralTab extends React.Component {
         }
     }
 
-    handleOpenInviteSubmit = async () => {
+    handleIsPublicSubmit = async () => {
         var state = {serverError: '', clientError: ''};
 
         var data = {...this.props.team};
-        data.allow_open_invite = this.state.allow_open_invite;
+        data.is_public = this.state.is_public;
 
         const {error} = await this.props.actions.patchTeam(data);
 
@@ -183,24 +183,10 @@ export default class GeneralTab extends React.Component {
 
     handleInviteIdSubmit = async () => {
         var state = {serverError: '', clientError: ''};
-        let valid = true;
-
-        const inviteId = this.state.invite_id.trim();
-        if (inviteId) {
-            state.clientError = '';
-        } else {
-            state.clientError = Utils.localizeMessage('general_tab.required', 'This field is required');
-            valid = false;
-        }
-
         this.setState(state);
 
-        if (!valid) {
-            return;
-        }
-
         var data = {...this.props.team};
-        data.invite_id = this.state.invite_id;
+        data.invite_id = this.state.invite_id.trim();
 
         const {error} = await this.props.actions.patchTeam(data);
 
@@ -379,8 +365,8 @@ export default class GeneralTab extends React.Component {
                                 id='teamOpenInvite'
                                 name='userOpenInviteOptions'
                                 type='radio'
-                                defaultChecked={this.state.allow_open_invite}
-                                onChange={this.handleOpenInviteRadio.bind(this, true)}
+                                defaultChecked={this.state.is_public}
+                                onChange={this.handleIsPublicRadio.bind(this, true)}
                             />
                             <FormattedMessage
                                 id='general_tab.yes'
@@ -395,8 +381,8 @@ export default class GeneralTab extends React.Component {
                                 id='teamOpenInviteNo'
                                 name='userOpenInviteOptions'
                                 type='radio'
-                                defaultChecked={!this.state.allow_open_invite}
-                                onChange={this.handleOpenInviteRadio.bind(this, false)}
+                                defaultChecked={!this.state.is_public}
+                                onChange={this.handleIsPublicRadio.bind(this, false)}
                             />
                             <FormattedMessage
                                 id='general_tab.no'
@@ -409,7 +395,7 @@ export default class GeneralTab extends React.Component {
                         <br/>
                         <FormattedMessage
                             id='general_tab.openInviteDesc'
-                            defaultMessage='When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team.'
+                            defaultMessage='When public, a link to this team will be included on the landing page allowing anyone with an account to join this team.'
                         />
                     </div>
                 </div>,
@@ -419,14 +405,14 @@ export default class GeneralTab extends React.Component {
                 <SettingItemMax
                     title={Utils.localizeMessage('general_tab.openInviteTitle', 'Allow any user with an account on this server to join this team')}
                     inputs={inputs}
-                    submit={this.handleOpenInviteSubmit}
+                    submit={this.handleIsPublicSubmit}
                     serverError={serverError}
                     updateSection={this.handleUpdateSection}
                 />
             );
         } else {
             let describe = '';
-            if (this.state.allow_open_invite === true) {
+            if (this.state.is_public === true) {
                 describe = Utils.localizeMessage('general_tab.yes', 'Yes');
             } else {
                 describe = Utils.localizeMessage('general_tab.no', 'No');

@@ -28,7 +28,7 @@ function mapStateToProps(state) {
         enableUserCreation,
         currentUser: getCurrentUser(state),
         defaultChannelName: defaultChannel ? defaultChannel.display_name : '',
-        teamType: team ? team.type : '',
+        inviteId: team ? team.invite_id : '',
         teamId: team ? team.id : '',
     };
 }

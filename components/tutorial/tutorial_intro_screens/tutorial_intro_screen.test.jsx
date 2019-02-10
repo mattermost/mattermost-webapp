@@ -16,7 +16,7 @@ describe('components/tutorial/tutorial_intro_screens/TutorialIntroScreens', () =
 
     const requiredProps = {
         currentUserId,
-        teamType: 'teamType',
+        inviteId: 'inviteId',
         step: 1,
         townSquareDisplayName: 'townSquareDisplayName',
         appDownloadLink: 'https://host/static/image.png',

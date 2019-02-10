@@ -116,12 +116,12 @@ describe('components/TeamSettings', () => {
         expect(actions.patchTeam).toHaveBeenCalledWith(props.team);
     });
 
-    test('should call actions.patchTeam on handleOpenInviteSubmit', () => {
+    test('should call actions.patchTeam on handleIsPublicSubmit', () => {
         const actions = {...baseActions};
         const props = {...defaultProps, actions};
         const wrapper = shallow(<GeneralTab {...props}/>);
 
-        wrapper.instance().handleOpenInviteSubmit({preventDefault: jest.fn()});
+        wrapper.instance().handleIsPublicSubmit({preventDefault: jest.fn()});
 
         expect(actions.patchTeam).toHaveBeenCalledTimes(1);
         expect(actions.patchTeam).toHaveBeenCalledWith(props.team);

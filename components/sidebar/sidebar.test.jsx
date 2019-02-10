@@ -102,7 +102,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             name: 'test-team',
             display_name: 'Test team display name',
             description: 'Test team description',
-            type: 'team-type',
+            invite_id: 'invite-id',
         },
         currentUser: {
             id: 'my-user-id',

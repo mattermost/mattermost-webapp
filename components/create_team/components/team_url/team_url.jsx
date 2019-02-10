@@ -120,7 +120,6 @@ export default class TeamUrl extends React.PureComponent {
 
         this.setState({isLoading: true});
         var teamSignup = JSON.parse(JSON.stringify(this.props.state));
-        teamSignup.team.type = 'O';
         teamSignup.team.name = name;
 
         const {exists} = await checkIfTeamExists(name);

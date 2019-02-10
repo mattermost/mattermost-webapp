@@ -49,7 +49,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         teams.forEach((team) => {
             existingTeams.add(team.team_id);
             teamEntries.push({
-                type: team.team_type === 'O' ? 'public-team' : 'private-team',
+                type: team.is_public ? 'public-team' : 'private-team',
                 hasChildren: channels.some((channel) => channel.team_id === team.team_id),
                 name: team.team_display_name,
                 collapsed: this.state.collapsed[team.team_id],
@@ -70,7 +70,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
             if (!existingTeams.has(channel.team_id)) {
                 existingTeams.add(channel.team_id);
                 teamEntries.push({
-                    type: channel.team_type === 'O' ? 'public-team' : 'private-team',
+                    type: channel.team_is_public ? 'public-team' : 'private-team',
                     hasChildren: true,
                     name: channel.team_display_name,
                     collapsed: this.state.collapsed[channel.team_id],
