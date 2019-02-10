@@ -127,14 +127,19 @@ exports[`components/NewChannelModal should match snapshot, display only private 
           <div
             className="col-sm-9"
           >
-            <input
+            <LocalizedInput
               autoFocus={true}
               className="form-control"
               id="newPublicChannelName"
               maxLength={22}
               onChange={[Function]}
               onKeyDown={[Function]}
-              placeholder="E.g.: \\"Bugs\\", \\"Marketing\\", \\"客户支持\\""
+              placeholder={
+                Object {
+                  "defaultMessage": "E.g.: \\"Bugs\\", \\"Marketing\\", \\"客户支持\\"",
+                  "id": "channel_modal.nameEx",
+                }
+              }
               tabIndex="1"
               type="text"
               value="testchannel"
@@ -419,14 +424,19 @@ exports[`components/NewChannelModal should match snapshot, display only public c
           <div
             className="col-sm-9"
           >
-            <input
+            <LocalizedInput
               autoFocus={true}
               className="form-control"
               id="newPublicChannelName"
               maxLength={22}
               onChange={[Function]}
               onKeyDown={[Function]}
-              placeholder="E.g.: \\"Bugs\\", \\"Marketing\\", \\"客户支持\\""
+              placeholder={
+                Object {
+                  "defaultMessage": "E.g.: \\"Bugs\\", \\"Marketing\\", \\"客户支持\\"",
+                  "id": "channel_modal.nameEx",
+                }
+              }
               tabIndex="1"
               type="text"
               value="testchannel"
@@ -751,14 +761,19 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
           <div
             className="col-sm-9"
           >
-            <input
+            <LocalizedInput
               autoFocus={true}
               className="form-control"
               id="newPublicChannelName"
               maxLength={22}
               onChange={[Function]}
               onKeyDown={[Function]}
-              placeholder="E.g.: \\"Bugs\\", \\"Marketing\\", \\"客户支持\\""
+              placeholder={
+                Object {
+                  "defaultMessage": "E.g.: \\"Bugs\\", \\"Marketing\\", \\"客户支持\\"",
+                  "id": "channel_modal.nameEx",
+                }
+              }
               tabIndex="1"
               type="text"
               value="testchannel"
@@ -1083,14 +1098,19 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
           <div
             className="col-sm-9"
           >
-            <input
+            <LocalizedInput
               autoFocus={true}
               className="form-control"
               id="newPublicChannelName"
               maxLength={22}
               onChange={[Function]}
               onKeyDown={[Function]}
-              placeholder="E.g.: \\"Bugs\\", \\"Marketing\\", \\"客户支持\\""
+              placeholder={
+                Object {
+                  "defaultMessage": "E.g.: \\"Bugs\\", \\"Marketing\\", \\"客户支持\\"",
+                  "id": "channel_modal.nameEx",
+                }
+              }
               tabIndex="1"
               type="text"
               value="testchannel"
@@ -1415,14 +1435,19 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
           <div
             className="col-sm-9"
           >
-            <input
+            <LocalizedInput
               autoFocus={true}
               className="form-control"
               id="newPublicChannelName"
               maxLength={22}
               onChange={[Function]}
               onKeyDown={[Function]}
-              placeholder="E.g.: \\"Bugs\\", \\"Marketing\\", \\"客户支持\\""
+              placeholder={
+                Object {
+                  "defaultMessage": "E.g.: \\"Bugs\\", \\"Marketing\\", \\"客户支持\\"",
+                  "id": "channel_modal.nameEx",
+                }
+              }
               tabIndex="1"
               type="text"
               value="testchannel"
@@ -1757,14 +1782,19 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
           <div
             className="col-sm-9"
           >
-            <input
+            <LocalizedInput
               autoFocus={true}
               className="form-control"
               id="newPublicChannelName"
               maxLength={22}
               onChange={[Function]}
               onKeyDown={[Function]}
-              placeholder="E.g.: \\"Bugs\\", \\"Marketing\\", \\"客户支持\\""
+              placeholder={
+                Object {
+                  "defaultMessage": "E.g.: \\"Bugs\\", \\"Marketing\\", \\"客户支持\\"",
+                  "id": "channel_modal.nameEx",
+                }
+              }
               tabIndex="1"
               type="text"
               value="testchannel"
@@ -2102,14 +2132,19 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
           <div
             className="col-sm-9"
           >
-            <input
+            <LocalizedInput
               autoFocus={true}
               className="form-control"
               id="newPrivateChannelName"
               maxLength={22}
               onChange={[Function]}
               onKeyDown={[Function]}
-              placeholder="E.g.: \\"Bugs\\", \\"Marketing\\", \\"客户支持\\""
+              placeholder={
+                Object {
+                  "defaultMessage": "E.g.: \\"Bugs\\", \\"Marketing\\", \\"客户支持\\"",
+                  "id": "channel_modal.nameEx",
+                }
+              }
               tabIndex="1"
               type="text"
               value="testchannel"

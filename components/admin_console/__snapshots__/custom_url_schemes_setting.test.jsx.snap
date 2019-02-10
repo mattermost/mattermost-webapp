@@ -7,12 +7,17 @@ exports[`components/AdminConsole/CustomUrlSchemeSetting initial state with multi
   label="Custom URL Schemes:"
   setByEnv={false}
 >
-  <input
+  <LocalizedInput
     className="form-control"
     disabled={false}
     id="MySetting"
     onChange={[Function]}
-    placeholder="E.g.: \\"git,smtp\\""
+    placeholder={
+      Object {
+        "defaultMessage": "E.g.: \\"git,smtp\\"",
+        "id": "admin.customization.customUrlSchemesPlaceholder",
+      }
+    }
     type="text"
     value="git,smtp,steam"
   />
@@ -26,12 +31,17 @@ exports[`components/AdminConsole/CustomUrlSchemeSetting initial state with no it
   label="Custom URL Schemes:"
   setByEnv={false}
 >
-  <input
+  <LocalizedInput
     className="form-control"
     disabled={false}
     id="MySetting"
     onChange={[Function]}
-    placeholder="E.g.: \\"git,smtp\\""
+    placeholder={
+      Object {
+        "defaultMessage": "E.g.: \\"git,smtp\\"",
+        "id": "admin.customization.customUrlSchemesPlaceholder",
+      }
+    }
     type="text"
     value=""
   />
@@ -45,12 +55,17 @@ exports[`components/AdminConsole/CustomUrlSchemeSetting initial state with one i
   label="Custom URL Schemes:"
   setByEnv={false}
 >
-  <input
+  <LocalizedInput
     className="form-control"
     disabled={false}
     id="MySetting"
     onChange={[Function]}
-    placeholder="E.g.: \\"git,smtp\\""
+    placeholder={
+      Object {
+        "defaultMessage": "E.g.: \\"git,smtp\\"",
+        "id": "admin.customization.customUrlSchemesPlaceholder",
+      }
+    }
     type="text"
     value="git"
   />
@@ -64,12 +79,17 @@ exports[`components/AdminConsole/CustomUrlSchemeSetting renders properly when di
   label="Custom URL Schemes:"
   setByEnv={false}
 >
-  <input
+  <LocalizedInput
     className="form-control"
     disabled={true}
     id="MySetting"
     onChange={[Function]}
-    placeholder="E.g.: \\"git,smtp\\""
+    placeholder={
+      Object {
+        "defaultMessage": "E.g.: \\"git,smtp\\"",
+        "id": "admin.customization.customUrlSchemesPlaceholder",
+      }
+    }
     type="text"
     value="git,smtp"
   />
@@ -83,12 +103,17 @@ exports[`components/AdminConsole/CustomUrlSchemeSetting renders properly when se
   label="Custom URL Schemes:"
   setByEnv={true}
 >
-  <input
+  <LocalizedInput
     className="form-control"
     disabled={true}
     id="MySetting"
     onChange={[Function]}
-    placeholder="E.g.: \\"git,smtp\\""
+    placeholder={
+      Object {
+        "defaultMessage": "E.g.: \\"git,smtp\\"",
+        "id": "admin.customization.customUrlSchemesPlaceholder",
+      }
+    }
     type="text"
     value="git,smtp"
   />

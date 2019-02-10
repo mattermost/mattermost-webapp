@@ -63,12 +63,17 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
             values={Object {}}
           />
         </label>
-        <input
+        <LocalizedInput
           className="form-control"
           id="display_name"
           maxLength={22}
           onChange={[Function]}
-          placeholder="Enter display name"
+          placeholder={
+            Object {
+              "defaultMessage": "Enter display name",
+              "id": "rename_channel.displayNameHolder",
+            }
+          }
           type="text"
           value="Fake Channel"
         />
@@ -110,12 +115,17 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
               fake-channel/channels/
             </span>
           </OverlayTrigger>
-          <input
+          <LocalizedInput
             className="form-control"
             id="channel_name"
             maxLength={22}
             onChange={[Function]}
-            placeholder="lowercase alphanumeric characters"
+            placeholder={
+              Object {
+                "defaultMessage": "lowercase alphanumeric characters",
+                "id": "rename_channel.handleHolder",
+              }
+            }
             readOnly={false}
             type="text"
             value="fake-channel"
