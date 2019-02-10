@@ -5,7 +5,12 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {getChannelStats} from 'mattermost-redux/actions/channels';
-import {getTeamStats, updateTeamMemberSchemeRoles} from 'mattermost-redux/actions/teams';
+import {
+    getMyTeamMembers,
+    getMyTeamUnreads,
+    getTeamStats,
+    updateTeamMemberSchemeRoles,
+} from 'mattermost-redux/actions/teams';
 import {getUser} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
@@ -26,6 +31,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            getMyTeamMembers,
+            getMyTeamUnreads,
             getUser,
             getTeamStats,
             getChannelStats,
