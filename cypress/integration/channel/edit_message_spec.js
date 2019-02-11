@@ -44,15 +44,15 @@ describe('Edit Message', () => {
         cy.get('#suggestionList').should('not.exist');
 
         // 7. In the modal click the emoji picker icon
-        cy.get('.edit-post__actions').click();
+        cy.get('#editPostEmoji').click();
 
         // * Assert emoji picker is visible
-        cy.get('.emoji-picker').should('be.visible');
+        cy.get('#emojiPicker').should('be.visible');
 
         // 8. Press the escape key
         cy.get('#edit_textbox').type('{esc}');
 
         // * Assert emoji picker is not visible
-        cy.get('.emoji-picker').should('not.exist');
+        cy.get('#emojiPicker').should('not.exist');
     });
 });

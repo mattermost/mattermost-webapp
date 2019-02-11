@@ -71,6 +71,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
     />
     <span
       className="edit-post__actions"
+      id="editPostEmoji"
     >
       <span
         className="emoji-picker__container"
@@ -199,6 +200,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
     />
     <span
       className="edit-post__actions"
+      id="editPostEmoji"
     >
       <span
         className="emoji-picker__container"
@@ -327,6 +329,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
     />
     <span
       className="edit-post__actions"
+      id="editPostEmoji"
     >
       <span
         className="emoji-picker__container"
@@ -455,6 +458,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
     />
     <span
       className="edit-post__actions"
+      id="editPostEmoji"
     />
     <div
       className="edit-post-footer"
@@ -562,6 +566,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
     />
     <span
       className="edit-post__actions"
+      id="editPostEmoji"
     >
       <span
         className="emoji-picker__container"
@@ -690,6 +695,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
     />
     <span
       className="edit-post__actions"
+      id="editPostEmoji"
     >
       <span
         className="emoji-picker__container"
@@ -818,6 +824,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
     />
     <span
       className="edit-post__actions"
+      id="editPostEmoji"
     >
       <span
         className="emoji-picker__container"
@@ -946,6 +953,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
     />
     <span
       className="edit-post__actions"
+      id="editPostEmoji"
     >
       <span
         className="emoji-picker__container"
@@ -1074,6 +1082,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
     />
     <span
       className="edit-post__actions"
+      id="editPostEmoji"
     >
       <span
         className="emoji-picker__container"
