@@ -27,6 +27,7 @@ export default class SearchableUserList extends React.Component {
         actionUserProps: PropTypes.object,
         focusOnMount: PropTypes.bool,
         renderCount: PropTypes.func,
+        filter: PropTypes.string,
         renderFilterRow: PropTypes.func,
 
         page: PropTypes.number.isRequired,
@@ -112,6 +113,10 @@ export default class SearchableUserList extends React.Component {
 
     renderCount(users) {
         if (!users) {
+            return null;
+        }
+
+        if (this.props.filter) {
             return null;
         }
 
