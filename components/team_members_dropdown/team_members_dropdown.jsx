@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
-import {loadMyTeamMembers, updateActive} from 'actions/user_actions.jsx';
+import {updateActive} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import DropdownIcon from 'components/icon/dropdown_icon';
@@ -19,6 +19,8 @@ export default class TeamMembersDropdown extends React.Component {
         teamMember: PropTypes.object.isRequired,
         teamUrl: PropTypes.string.isRequired,
         actions: PropTypes.shape({
+            getMyTeamMembers: PropTypes.func.isRequired,
+            getMyTeamUnreads: PropTypes.func.isRequired,
             getUser: PropTypes.func.isRequired,
             getTeamStats: PropTypes.func.isRequired,
             getChannelStats: PropTypes.func.isRequired,
@@ -49,7 +51,8 @@ export default class TeamMembersDropdown extends React.Component {
             } else {
                 this.props.actions.getUser(this.props.user.id);
                 if (this.props.user.id === me.id) {
-                    loadMyTeamMembers();
+                    await this.props.actions.getMyTeamMembers();
+                    this.props.actions.getMyTeamUnreads();
                 }
             }
         }
