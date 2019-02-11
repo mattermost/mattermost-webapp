@@ -95,6 +95,8 @@ export default class PostInfo extends React.PureComponent {
          */
         isReadOnly: PropTypes.bool,
 
+        enableTesting: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
 
             /*
@@ -156,49 +158,73 @@ export default class PostInfo extends React.PureComponent {
         (!isSystemMessage && (isMobile || hover || (!post.root_id && Boolean(this.props.replyCount)) || this.props.isFirstReply));
         const commentIconExtraClass = isMobile ? '' : 'pull-right';
         let commentIcon;
-        if (showCommentIcon) {
+        const commentIconProps = {
+            idPrefix: 'commentIcon',
+            idCount,
+            handleCommentClick: this.props.handleCommentClick,
+            commentCount: this.props.replyCount,
+            postId: post.id,
+            extraClass: commentIconExtraClass,
+        };
+        if (this.props.enableTesting) {
             commentIcon = (
                 <CommentIcon
-                    idPrefix='commentIcon'
-                    idCount={idCount}
-                    handleCommentClick={this.props.handleCommentClick}
-                    commentCount={this.props.replyCount}
-                    id={post.channel_id + '_' + post.id}
-                    extraClass={commentIconExtraClass}
+                    style={{visibility: showCommentIcon ? 'visible' : 'hidden'}}
+                    {...commentIconProps}
                 />
+            );
+        } else if (showCommentIcon) {
+            commentIcon = (
+                <CommentIcon {...commentIconProps}/>
             );
         }
 
         const showReactionIcon = !isSystemMessage && hover && !isReadOnly && this.props.enableEmojiPicker;
         let postReaction;
-        if (showReactionIcon) {
+        const postReactionProps = {
+            channelId: post.channel_id,
+            postId: post.id,
+            teamId: this.props.teamId,
+            getDotMenuRef: this.getDotMenu,
+            showEmojiPicker: this.state.showEmojiPicker,
+            toggleEmojiPicker: this.toggleEmojiPicker,
+        };
+        if (this.props.enableTesting) {
             postReaction = (
                 <PostReaction
-                    channelId={post.channel_id}
-                    postId={post.id}
-                    teamId={this.props.teamId}
-                    getDotMenuRef={this.getDotMenu}
-                    showEmojiPicker={this.state.showEmojiPicker}
-                    toggleEmojiPicker={this.toggleEmojiPicker}
+                    style={{visibility: showReactionIcon ? 'visible' : 'hidden'}}
+                    {...postReactionProps}
                 />
+            );
+        } else if (showReactionIcon) {
+            postReaction = (
+                <PostReaction {...postReactionProps}/>
             );
         }
 
         const showDotMenuIcon = isMobile || hover;
         let dotMenu;
-        if (showDotMenuIcon) {
+        const dotMenuProps = {
+            post,
+            location: 'CENTER',
+            commentCount: this.props.replyCount,
+            isFlagged: this.props.isFlagged,
+            handleCommentClick: this.props.handleCommentClick,
+            handleDropdownOpened: this.handleDotMenuOpened,
+            handleAddReactionClick: this.toggleEmojiPicker,
+            isReadOnly,
+            enableEmojiPicker: this.props.enableEmojiPicker,
+        };
+        if (this.props.enableTesting) {
             dotMenu = (
                 <DotMenu
-                    post={post}
-                    location={'CENTER'}
-                    commentCount={this.props.replyCount}
-                    isFlagged={this.props.isFlagged}
-                    handleCommentClick={this.props.handleCommentClick}
-                    handleDropdownOpened={this.handleDotMenuOpened}
-                    handleAddReactionClick={this.toggleEmojiPicker}
-                    isReadOnly={isReadOnly}
-                    enableEmojiPicker={this.props.enableEmojiPicker}
+                    style={{visibility: showDotMenuIcon ? 'visible' : 'hidden'}}
+                    {...dotMenuProps}
                 />
+            );
+        } else if (showDotMenuIcon) {
+            dotMenu = (
+                <DotMenu {...dotMenuProps}/>
             );
         }
 
@@ -228,15 +254,23 @@ export default class PostInfo extends React.PureComponent {
 
         const showFlagIcon = !isEphemeral && !post.failed && !isSystemMessage && (this.props.hover || this.props.isFlagged);
         let postFlagIcon;
-        if (showFlagIcon) {
+        const postFlagIconProps = {
+            idPrefix: 'centerPostFlag',
+            idCount,
+            postId: post.id,
+            isFlagged: this.props.isFlagged,
+            isEphemeral,
+        };
+        if (this.props.enableTesting) {
             postFlagIcon = (
                 <PostFlagIcon
-                    idPrefix='centerPostFlag'
-                    idCount={idCount}
-                    postId={post.id}
-                    isFlagged={this.props.isFlagged}
-                    isEphemeral={isEphemeral}
+                    style={{visibility: showFlagIcon ? 'visible' : 'hidden'}}
+                    {...postFlagIconProps}
                 />
+            );
+        } else if (showFlagIcon) {
+            postFlagIcon = (
+                <PostFlagIcon {...postFlagIconProps}/>
             );
         }
 
@@ -275,18 +309,25 @@ export default class PostInfo extends React.PureComponent {
             );
         }
 
+        // timestamp should not be a permalink if the post has been deleted, is ephemeral message, or is pending
+        const isPermalink = !(isEphemeral || Posts.POST_DELETED === post.state || ReduxPostUtils.isPostPendingOrFailed(post));
         const showPostTime = this.props.hover || this.props.showTimeWithoutHover;
         let postTime;
-        if (showPostTime) {
-            // timestamp should not be a permalink if the post has been deleted, is ephemeral message, or is pending
-            const isPermalink = !(isEphemeral || Posts.POST_DELETED === post.state || ReduxPostUtils.isPostPendingOrFailed(post));
-
+        const postTimeProps = {
+            isPermalink,
+            eventTime: post.create_at,
+            postId: post.id,
+        };
+        if (this.props.enableTesting) {
             postTime = (
                 <PostTime
-                    isPermalink={isPermalink}
-                    eventTime={post.create_at}
-                    postId={post.id}
+                    style={{visibility: showPostTime ? 'visible' : 'hidden'}}
+                    {...postTimeProps}
                 />
+            );
+        } else if (showPostTime) {
+            postTime = (
+                <PostTime {...postTimeProps}/>
             );
         }
 

@@ -26,6 +26,7 @@ function mapStateToProps(state, ownProps) {
         isMobile: state.views.channel.mobileView,
         enableEmojiPicker,
         isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
+        enableTesting: config.EnableTesting === 'true',
     };
 }
 

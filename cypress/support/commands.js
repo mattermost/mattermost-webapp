@@ -20,6 +20,13 @@ Cypress.Commands.add('login', (username, {otherUsername, otherPassword, otherURL
     });
 });
 
+Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPassword, otherURL} = {}) => {
+    cy.login('user-1', {otherUsername, otherPassword, otherURL});
+    cy.visit('/');
+
+    cy.get('#post_textbox').should('be.visible');
+});
+
 // ***********************************************************
 // Account Settings Modal
 // ***********************************************************

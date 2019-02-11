@@ -8,6 +8,12 @@ import {Posts} from 'mattermost-redux/constants';
 import Constants from 'utils/constants.jsx';
 import PostInfo from 'components/post_view/post_info/post_info.jsx';
 
+import CommentIcon from 'components/common/comment_icon.jsx';
+import DotMenu from 'components/dot_menu';
+import PostFlagIcon from 'components/post_view/post_flag_icon';
+import PostReaction from 'components/post_view/post_reaction';
+import PostTime from 'components/post_view/post_time';
+
 describe('components/post_view/PostInfo', () => {
     const post = {
         channel_id: 'g6139tbospd18cmxroesdk3kkc',
@@ -41,6 +47,7 @@ describe('components/post_view/PostInfo', () => {
         hover: false,
         showTimeWithoutHover: false,
         enableEmojiPicker: false,
+        enableTesting: false,
         actions: {
             removePost: jest.fn(),
         },
@@ -49,6 +56,23 @@ describe('components/post_view/PostInfo', () => {
     test('should match snapshot', () => {
         const wrapper = shallow(<PostInfo {...requiredProps}/>);
         expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find(CommentIcon).exists()).toBeFalsy();
+        expect(wrapper.find(DotMenu).exists()).toBeFalsy();
+        expect(wrapper.find(PostFlagIcon).exists()).toBeFalsy();
+        expect(wrapper.find(PostReaction).exists()).toBeFalsy();
+        expect(wrapper.find(PostTime).exists()).toBeFalsy();
+
+        wrapper.setProps({enableTesting: true});
+        expect(wrapper.find(CommentIcon).exists()).toBeTruthy();
+        expect(wrapper.find(CommentIcon).props().style).toEqual({visibility: 'hidden'});
+        expect(wrapper.find(DotMenu).exists()).toBeTruthy();
+        expect(wrapper.find(DotMenu).props().style).toEqual({visibility: 'hidden'});
+        expect(wrapper.find(PostFlagIcon).exists()).toBeTruthy();
+        expect(wrapper.find(PostFlagIcon).props().style).toEqual({visibility: 'hidden'});
+        expect(wrapper.find(PostReaction).exists()).toBeTruthy();
+        expect(wrapper.find(PostReaction).props().style).toEqual({visibility: 'hidden'});
+        expect(wrapper.find(PostTime).exists()).toBeTruthy();
+        expect(wrapper.find(PostTime).props().style).toEqual({visibility: 'hidden'});
     });
 
     test('should match snapshot, compact display', () => {

@@ -16,6 +16,7 @@ import DelayedAction from 'utils/delayed_action.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
+
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 
 import Pluggable from 'plugins/pluggable';
@@ -38,7 +39,6 @@ class DotMenu extends Component {
         postEditTimeLimit: PropTypes.string.isRequired,
         intl: intlShape.isRequired,
         enableEmojiPicker: PropTypes.bool.isRequired,
-
         actions: PropTypes.shape({
 
             /**
@@ -377,6 +377,7 @@ class DotMenu extends Component {
                         rootClose={true}
                     >
                         <button
+                            id={`${this.props.location}_button_${this.props.post.id}`}
                             ref='dropdownToggle'
                             className='dropdown-toggle post__dropdown color--link style--none'
                             type='button'
@@ -384,7 +385,10 @@ class DotMenu extends Component {
                             aria-expanded='false'
                         />
                     </OverlayTrigger>
-                    <div className='dropdown-menu__content'>
+                    <div
+                        id={`${this.props.location}_menu_${this.props.post.id}`}
+                        className='dropdown-menu__content'
+                    >
                         <ul
                             ref='dropdown'
                             className='dropdown-menu'

@@ -86,6 +86,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
             <Connect(PostTime)
               eventTime={1502715365009}
               isPermalink={true}
+              location="SEARCH"
               postId="id"
             />
             <span
@@ -136,9 +137,9 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               commentCount={0}
               extraClass=""
               handleCommentClick={[Function]}
-              id=""
               idCount={-1}
               idPrefix="searchCommentIcon"
+              postId="id"
               searchStyle="search-item__comment"
             />
             <a
@@ -300,6 +301,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
             <Connect(PostTime)
               eventTime={1502715365009}
               isPermalink={true}
+              location="SEARCH"
               postId="id"
             />
             <Connect(PostFlagIcon)
@@ -341,9 +343,9 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
               commentCount={0}
               extraClass=""
               handleCommentClick={[Function]}
-              id=""
               idCount={-1}
               idPrefix="searchCommentIcon"
+              postId="id"
               searchStyle="search-item__comment"
             />
             <a
@@ -505,6 +507,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
             <Connect(PostTime)
               eventTime={1502715365009}
               isPermalink={true}
+              location="SEARCH"
               postId="id"
             />
             <Connect(PostFlagIcon)
@@ -546,9 +549,9 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               commentCount={0}
               extraClass=""
               handleCommentClick={[Function]}
-              id=""
               idCount={-1}
               idPrefix="searchCommentIcon"
+              postId="id"
               searchStyle="search-item__comment"
             />
             <a
@@ -728,6 +731,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
             <Connect(PostTime)
               eventTime={1502715365009}
               isPermalink={true}
+              location="SEARCH"
               postId="id"
             />
           </div>
