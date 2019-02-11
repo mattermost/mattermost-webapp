@@ -34,13 +34,13 @@ describe('Edit Message', () => {
         // 6. In the modal type ~
         cy.get('#edit_textbox').type(' ~');
 
-        // * Assert user autocomplete is visible
+        // * Assert channel autocomplete is visible
         cy.get('#suggestionList').should('be.visible');
 
         // 6. Press the escape key
         cy.get('#edit_textbox').type('{esc}');
 
-        // * Assert user autocomplete is not visible
+        // * Assert channel autocomplete is not visible
         cy.get('#suggestionList').should('not.exist');
 
         // 7. In the modal click the emoji picker icon
