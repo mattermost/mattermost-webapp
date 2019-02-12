@@ -256,6 +256,9 @@ function autolinkChannelMentions(text, tokens, channelNamesMap, team) {
 }
 
 export function escapeRegex(text) {
+    if (text == null) {
+        return '';
+    }
     return text.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
 }
 
