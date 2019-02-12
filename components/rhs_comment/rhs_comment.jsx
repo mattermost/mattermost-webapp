@@ -9,21 +9,18 @@ import {
     isPostEphemeral,
     isPostPendingOrFailed,
 } from 'mattermost-redux/utils/post_utils';
-import Permissions from 'mattermost-redux/constants/permissions';
 
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import PostProfilePicture from 'components/post_profile_picture';
 import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostTime from 'components/post_view/post_time';
+import PostReaction from 'components/post_view/post_reaction';
 import ReactionList from 'components/post_view/reaction_list';
-import EmojiIcon from 'components/svg/emoji_icon';
-import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 
 import UserProfile from 'components/user_profile';
@@ -47,9 +44,6 @@ export default class RhsComment extends React.Component {
         pluginPostTypes: PropTypes.object,
         channelIsArchived: PropTypes.bool.isRequired,
         isConsecutivePost: PropTypes.bool,
-        actions: PropTypes.shape({
-            addReaction: PropTypes.func.isRequired,
-        }).isRequired,
     };
 
     constructor(props) {
@@ -137,6 +131,7 @@ export default class RhsComment extends React.Component {
                 isPermalink={isPermalink}
                 eventTime={post.create_at}
                 postId={post.id}
+                location='RHS_COMMENT'
             />
         );
     };
@@ -148,15 +143,6 @@ export default class RhsComment extends React.Component {
             showEmojiPicker,
             dropdownOpened: showEmojiPicker,
         });
-    };
-
-    reactEmojiClick = (emoji) => {
-        this.setState({
-            dropdownOpened: false,
-            showEmojiPicker: false,
-        });
-        const emojiName = emoji.name || emoji.aliases[0];
-        this.props.actions.addReaction(this.props.post.id, emojiName);
     };
 
     getClassName = (post, isSystemMessage) => {
@@ -338,34 +324,18 @@ export default class RhsComment extends React.Component {
             );
         }
 
-        let react;
-
+        let postReaction;
         if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker && !channelIsArchived) {
-            react = (
-                <ChannelPermissionGate
+            postReaction = (
+                <PostReaction
                     channelId={post.channel_id}
+                    postId={post.id}
                     teamId={this.props.teamId}
-                    permissions={[Permissions.ADD_REACTION]}
-                >
-                    <div>
-                        <EmojiPickerOverlay
-                            show={this.state.showEmojiPicker}
-                            onHide={this.toggleEmojiPicker}
-                            target={this.getDotMenuRef}
-                            onEmojiClose={this.toggleEmojiPicker}
-                            onEmojiClick={this.reactEmojiClick}
-                            spaceRequiredAbove={EmojiPickerOverlay.RHS_SPACE_REQUIRED_ABOVE}
-                            spaceRequiredBelow={EmojiPickerOverlay.RHS_SPACE_REQUIRED_BELOW}
-                        />
-                        <button
-                            className='reacticon__container reaction color--link style--none'
-                            onClick={this.toggleEmojiPicker}
-                            ref={'rhs_reacticon_' + post.id}
-                        >
-                            <EmojiIcon className='icon icon--emoji'/>
-                        </button>
-                    </div>
-                </ChannelPermissionGate>
+                    getDotMenuRef={this.getDotMenuRef}
+                    location='RHS_COMMENT'
+                    showEmojiPicker={this.state.showEmojiPicker}
+                    toggleEmojiPicker={this.toggleEmojiPicker}
+                />
             );
         }
 
@@ -380,7 +350,7 @@ export default class RhsComment extends React.Component {
             const dotMenu = (
                 <DotMenu
                     post={this.props.post}
-                    location={'RHS_COMMENT'}
+                    location='RHS_COMMENT'
                     isFlagged={this.props.isFlagged}
                     handleDropdownOpened={this.handleDropdownOpened}
                     handleAddReactionClick={this.toggleEmojiPicker}
@@ -395,7 +365,7 @@ export default class RhsComment extends React.Component {
                     className='col col__reply'
                 >
                     {dotMenu}
-                    {react}
+                    {postReaction}
                 </div>
             );
         }
