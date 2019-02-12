@@ -333,6 +333,7 @@ export default class EditPostModal extends React.PureComponent {
                         characterLimit={this.props.maxPostSize}
                     />
                     <span
+                        id='editPostEmoji'
                         ref='editPostEmoji'
                         className='edit-post__actions'
                     >
