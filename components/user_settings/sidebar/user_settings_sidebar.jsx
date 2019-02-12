@@ -684,6 +684,7 @@ export default class UserSettingsSidebar extends React.Component {
                 describe={this.renderChannelSwitcherLabel(this.state.settings.channel_switcher_section)}
                 section={'channelSwitcher'}
                 updateSection={this.updateSection}
+                focused={true}
             />
         );
     };
