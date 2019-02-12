@@ -31,21 +31,15 @@ const MARK_CHANNEL_AS_VIEWED = {
     type: 'MOCK_MARK_CHANNEL_AS_VIEWED',
 };
 const POST_CREATED_TIME = Date.now();
-const RECEIVED_POSTS = {
-    channelId: 'current_channel_id',
-    data: {order: [], posts: {new_post_id: {channel_id: 'current_channel_id', id: 'new_post_id', message: 'new message', type: '', user_id: 'some_user_id', create_at: POST_CREATED_TIME}}},
-    type: 'RECEIVED_POSTS',
-};
 const INCREASED_POST_VISIBILITY = {amount: 1, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'};
 const STOP_TYPING = {type: 'stop_typing', data: {id: 'current_channel_idundefined', now: POST_CREATED_TIME, userId: 'some_user_id'}};
 
 function getReceivedPosts(post) {
-    const receivedPosts = {...RECEIVED_POSTS};
-    if (post) {
-        receivedPosts.data.posts[post.id] = post;
-    }
-
-    return receivedPosts;
+    return {
+        type: 'RECEIVED_NEW_POST',
+        data: {...post},
+        channelId: post.channel_id,
+    };
 }
 
 describe('actions/post_utils', () => {
