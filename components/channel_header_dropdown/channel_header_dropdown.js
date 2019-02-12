@@ -9,7 +9,7 @@ import Menu from 'components/widgets/menu/menu.jsx';
 export default class ChannelHeaderDropdown extends React.PureComponent {
     render() {
         return (
-            <Menu>
+            <Menu id='channelHeaderDropdownMenu'>
                 <ChannelHeaderDropdownItems isMobile={false}/>
             </Menu>
         );

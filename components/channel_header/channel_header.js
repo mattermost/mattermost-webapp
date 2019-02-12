@@ -510,7 +510,7 @@ export default class ChannelHeader extends React.PureComponent {
                                 {toggleFavorite}
                                 <h2>
                                     <MenuWrapper>
-                                        <div>
+                                        <div id='channelHeaderDropdownButton'>
                                             <strong
                                                 id='channelHeaderTitle'
                                                 className='heading'

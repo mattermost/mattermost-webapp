@@ -24,7 +24,9 @@ exports[`components/ChannelHeader should render archived view 1`] = `
               animationComponent={[Function]}
               className=""
             >
-              <div>
+              <div
+                id="channelHeaderDropdownButton"
+              >
                 <strong
                   className="heading"
                   id="channelHeaderTitle"
@@ -185,7 +187,9 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
               animationComponent={[Function]}
               className=""
             >
-              <div>
+              <div
+                id="channelHeaderDropdownButton"
+              >
                 <strong
                   className="heading"
                   id="channelHeaderTitle"
@@ -404,7 +408,9 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
               animationComponent={[Function]}
               className=""
             >
-              <div>
+              <div
+                id="channelHeaderDropdownButton"
+              >
                 <strong
                   className="heading"
                   id="channelHeaderTitle"
@@ -548,7 +554,9 @@ exports[`components/ChannelHeader should render properly when populated with cha
               animationComponent={[Function]}
               className=""
             >
-              <div>
+              <div
+                id="channelHeaderDropdownButton"
+              >
                 <strong
                   className="heading"
                   id="channelHeaderTitle"
