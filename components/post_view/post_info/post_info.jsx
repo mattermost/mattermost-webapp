@@ -275,11 +275,12 @@ export default class PostInfo extends React.PureComponent {
             );
         }
 
-        // timestamp should not be a permalink if the post has been deleted, is ephemeral message, or is pending
-        const isPermalink = !(isEphemeral || Posts.POST_DELETED === post.state || ReduxPostUtils.isPostPendingOrFailed(post));
         const showPostTime = this.props.hover || this.props.showTimeWithoutHover;
         let postTime;
         if (showPostTime) {
+            // timestamp should not be a permalink if the post has been deleted, is ephemeral message, or is pending
+            const isPermalink = !(isEphemeral || Posts.POST_DELETED === post.state || ReduxPostUtils.isPostPendingOrFailed(post));
+
             postTime = (
                 <PostTime
                     isPermalink={isPermalink}
