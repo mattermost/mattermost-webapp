@@ -19,7 +19,6 @@ function mapStateToProps(state, ownProps) {
         post: getPost(state, detailedPost.id),
         currentUserId: getCurrentUserId(state),
         isFirstReply: Boolean(detailedPost.isFirstReply && detailedPost.commentedOnPost),
-        highlight: detailedPost.highlight,
         consecutivePostByUser: detailedPost.consecutivePostByUser,
         previousPostIsComment: detailedPost.previousPostIsComment,
         replyCount: detailedPost.replyCount,
