@@ -572,6 +572,11 @@ export const Locations = {
     SEARCH: 'SEARCH',
 };
 
+export const PostListSeparators = {
+    DATE_LINE: 'date-',
+    START_OF_NEW_MESSAGES: 'start-of-new-messages',
+};
+
 export const Constants = {
     SettingsTypes,
     JobTypes,
@@ -587,7 +592,7 @@ export const Constants = {
     AnnouncementBarMessages,
     FileTypes,
     Locations,
-
+    PostListSeparators,
     MAX_POST_VISIBILITY: 1000000,
 
     IGNORE_POST_TYPES: [PostTypes.JOIN_LEAVE, PostTypes.JOIN_TEAM, PostTypes.LEAVE_TEAM, PostTypes.JOIN_CHANNEL, PostTypes.LEAVE_CHANNEL, PostTypes.REMOVE_FROM_CHANNEL, PostTypes.ADD_REMOVE],

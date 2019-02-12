@@ -64,9 +64,9 @@ export default class Post extends React.PureComponent {
         replyCount: PropTypes.number,
 
         /**
-         * Function to get the post list HTML element
+         * The post count used for selenium tests
          */
-        getPostList: PropTypes.func.isRequired,
+        lastPostCount: PropTypes.number,
 
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
@@ -255,7 +255,6 @@ export default class Post extends React.PureComponent {
                             isFirstReply={this.props.isFirstReply}
                             replyCount={this.props.replyCount}
                             showTimeWithoutHover={!hideProfilePicture}
-                            getPostList={this.props.getPostList}
                             hover={this.state.hover}
                         />
                         <PostBody

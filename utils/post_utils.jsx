@@ -6,7 +6,7 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {Permissions} from 'mattermost-redux/constants';
+import {Permissions, Posts} from 'mattermost-redux/constants';
 import {canEditPost as canEditPostRedux} from 'mattermost-redux/utils/post_utils';
 
 import store from 'stores/redux_store.jsx';
@@ -222,4 +222,19 @@ export function isErrorInvalidSlashCommand(error) {
     }
 
     return false;
+}
+
+export function getClosestValidPostIndex(postIds, index) {
+    let postIndex = index;
+    while (postIndex >= 0) {
+        const postId = postIds[postIndex];
+        if (postId && postId.indexOf(Posts.POST_LIST_SEPARATORS.DATE_LINE) < 0 &&
+            postId.indexOf(Posts.POST_LIST_SEPARATORS.START_OF_NEW_MESSAGES) < 0 &&
+            postId !== 'CHANNEL_INTRO_MESSAGE' &&
+            postId !== 'MORE_MESSAGES_LOADER') {
+            break;
+        }
+        postIndex--;
+    }
+    return postIndex;
 }

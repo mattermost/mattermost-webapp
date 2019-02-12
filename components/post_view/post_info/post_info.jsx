@@ -65,11 +65,6 @@ export default class PostInfo extends React.PureComponent {
         compactDisplay: PropTypes.bool,
 
         /**
-         * Function to get the post list HTML element
-         */
-        getPostList: PropTypes.func.isRequired,
-
-        /**
          * Set to mark post as being hovered over
          */
         hover: PropTypes.bool.isRequired,
