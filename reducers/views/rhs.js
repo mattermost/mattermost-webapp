@@ -30,7 +30,7 @@ function selectedPostCardId(state = '', action) {
         return action.postId;
     case ActionTypes.SELECT_POST:
         return '';
-    case PostTypes.REMOVE_POST_CARD:
+    case PostTypes.REMOVE_POST:
         if (action.data && action.data.id === state) {
             return '';
         }
