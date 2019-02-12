@@ -23,6 +23,7 @@
         &.post--root {
             border-bottom: 1px solid #ddd;
             padding-bottom: 1em;
+            padding-left: 1em;
 
             .post__body {
                 background: transparent !important;
@@ -40,12 +41,16 @@
         }
 
         &.post--compact {
+            .post__body {
+                padding-left: 0;
+            }
+
             &.same--root {
                 &.post--comment {
                     padding-left: 1em;
 
                     .post__header {
-                        margin-left: 7px;
+                        margin-left: 0;
                         float: none;
                         height: auto;
 
@@ -69,6 +74,10 @@
                     }
                 }
             }
+        }
+
+        .post__img {
+            padding: 2px 8px 0 0;
         }
     }
 

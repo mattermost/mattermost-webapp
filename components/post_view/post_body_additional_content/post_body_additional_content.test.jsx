@@ -5,6 +5,9 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content/post_body_additional_content.jsx';
+import ViewImageModal from 'components/view_image';
+
+import * as PostUtils from 'utils/post_utils';
 
 describe('components/post_view/PostBodyAdditionalContent', () => {
     const post = {
@@ -65,5 +68,28 @@ describe('components/post_view/PostBodyAdditionalContent', () => {
         wrapper.instance().toggleEmbedVisibility();
         expect(props.actions.toggleEmbedVisibility).toHaveBeenCalledTimes(1);
         expect(props.actions.toggleEmbedVisibility).toBeCalledWith('post_id_1');
+    });
+
+    test('image link should go through image proxy in preview modal', () => {
+        const link = 'http://example.com/image.png';
+
+        const props = {
+            ...baseProps,
+            hasImageProxy: true,
+            post: {
+                ...post,
+                message: link,
+            },
+        };
+
+        const wrapper = shallow(
+            <PostBodyAdditionalContent {...props}>
+                <div/>
+            </PostBodyAdditionalContent>
+        );
+
+        const fileInfos = wrapper.find(ViewImageModal).prop('fileInfos');
+        expect(fileInfos.length).toBe(1);
+        expect(fileInfos[0].link).toBe(PostUtils.getImageSrc(link, true));
     });
 });

@@ -16,7 +16,7 @@ export default class NextIcon extends React.PureComponent {
     };
 
     render() {
-        const className = 'fa fa-chevron-right' + (this.props.additionalClassName ? ' ' + this.props.additionalClassName : '');
+        const className = 'fa fa-1x fa-angle-right' + (this.props.additionalClassName ? ' ' + this.props.additionalClassName : '');
         return (
             <FormattedMessage
                 id='generic_icons.next'

@@ -2,9 +2,12 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import {getTheme, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getMyTeamsCount} from 'mattermost-redux/selectors/entities/teams';
+
+import {saveTheme} from 'actions/user_actions';
 
 import {Preferences} from 'utils/constants.jsx';
 
@@ -23,4 +26,12 @@ function makeMapStateToProps() {
     };
 }
 
-export default connect(makeMapStateToProps)(UserSettingsTheme);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            saveTheme,
+        }, dispatch),
+    };
+}
+
+export default connect(makeMapStateToProps, mapDispatchToProps)(UserSettingsTheme);

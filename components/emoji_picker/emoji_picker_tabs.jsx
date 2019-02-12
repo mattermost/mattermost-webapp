@@ -18,6 +18,7 @@ export default class EmojiPickerTabs extends PureComponent {
         topOffset: PropTypes.number,
         placement: PropTypes.oneOf(['top', 'bottom', 'left']),
         customEmojis: PropTypes.object,
+        onEmojiClose: PropTypes.func.isRequired,
         onEmojiClick: PropTypes.func.isRequired,
         onGifClick: PropTypes.func,
         enableGifPicker: PropTypes.bool,
@@ -89,6 +90,7 @@ export default class EmojiPickerTabs extends PureComponent {
                     >
                         <EmojiPicker
                             style={this.props.style}
+                            onEmojiClose={this.props.onEmojiClose}
                             onEmojiClick={this.props.onEmojiClick}
                             customEmojis={this.props.customEmojis}
                             visible={this.state.emojiTabVisible}
@@ -109,11 +111,13 @@ export default class EmojiPickerTabs extends PureComponent {
         }
         return (
             <div
+                id='emojiPicker'
                 style={pickerStyle}
                 className={pickerClass}
             >
                 <EmojiPicker
                     style={this.props.style}
+                    onEmojiClose={this.props.onEmojiClose}
                     onEmojiClick={this.props.onEmojiClick}
                     customEmojis={this.props.customEmojis}
                 />

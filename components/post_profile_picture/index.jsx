@@ -8,19 +8,15 @@ import {getUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/u
 
 import PostProfilePicture from './post_profile_picture';
 
-function makeMapStateToProps(initialState, initialProps) {
-    const userId = initialProps.userId;
+function mapStateToProps(state, ownProps) {
+    const config = getConfig(state);
 
-    return (state) => {
-        const config = getConfig(state);
-
-        return {
-            enablePostIconOverride: config.EnablePostIconOverride === 'true',
-            hasImageProxy: config.HasImageProxy === 'true',
-            status: getStatusForUserId(state, userId),
-            user: getUser(state, userId),
-        };
+    return {
+        enablePostIconOverride: config.EnablePostIconOverride === 'true',
+        hasImageProxy: config.HasImageProxy === 'true',
+        status: getStatusForUserId(state, ownProps.userId),
+        user: getUser(state, ownProps.userId),
     };
 }
 
-export default connect(makeMapStateToProps)(PostProfilePicture);
+export default connect(mapStateToProps)(PostProfilePicture);

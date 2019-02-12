@@ -11,6 +11,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx';
 import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand} from 'utils/post_utils.jsx';
+import {getTable, formatMarkdownTableMessage} from 'utils/paste.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -279,6 +280,7 @@ export default class CreatePost extends React.Component {
 
     componentDidMount() {
         this.focusTextbox();
+        document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
     }
 
@@ -302,6 +304,7 @@ export default class CreatePost extends React.Component {
     }
 
     componentWillUnmount() {
+        document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
     }
 
@@ -604,6 +607,23 @@ export default class CreatePost extends React.Component {
         this.draftsForChannel[channelId] = draft;
     }
 
+    pasteHandler = (e) => {
+        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox') {
+            return;
+        }
+
+        const table = getTable(e.clipboardData);
+        if (!table) {
+            return;
+        }
+
+        e.preventDefault();
+
+        const message = formatMarkdownTableMessage(table, this.state.message.trim());
+
+        this.setState({message});
+    }
+
     handleFileUploadChange = () => {
         this.focusTextbox();
     }
@@ -857,6 +877,11 @@ export default class CreatePost extends React.Component {
         });
     }
 
+    handleEmojiClose = () => {
+        this.setState({showEmojiPicker: false});
+        this.focusTextbox();
+    }
+
     handleEmojiClick = (emoji) => {
         const emojiAlias = emoji.name || emoji.aliases[0];
 
@@ -937,7 +962,6 @@ export default class CreatePost extends React.Component {
             currentChannelMembersCount,
             draft,
             fullWidthTextBox,
-            getChannelView,
             showTutorialTip,
             readOnlyChannel,
         } = this.props;
@@ -1065,13 +1089,12 @@ export default class CreatePost extends React.Component {
                 >
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
-                        container={getChannelView}
                         target={this.getCreatePostControls}
                         onHide={this.hideEmojiPicker}
+                        onEmojiClose={this.handleEmojiClose}
                         onEmojiClick={this.handleEmojiClick}
                         onGifClick={this.handleGifClick}
                         enableGifPicker={this.props.enableGifPicker}
-                        rightOffset={15}
                         topOffset={-7}
                     />
                     <EmojiIcon

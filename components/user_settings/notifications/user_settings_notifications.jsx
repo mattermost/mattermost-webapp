@@ -12,7 +12,7 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
 import DesktopNotificationSettings from './desktop_notification_settings.jsx';
-import EmailNotificationSetting from './email_notification_setting.jsx';
+import EmailNotificationSetting from './email_notification_setting';
 import ManageAutoResponder from './manage_auto_responder.jsx';
 
 function getNotificationsStateFromProps(props) {

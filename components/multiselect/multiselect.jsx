@@ -120,6 +120,10 @@ export default class MultiSelect extends React.Component {
             return;
         }
 
+        if (this.state.input === input) {
+            return;
+        }
+
         this.setState({input});
 
         if (input === '') {
@@ -250,7 +254,7 @@ export default class MultiSelect extends React.Component {
                 if (options.length > pageEnd) {
                     nextButton = (
                         <button
-                            className='btn btn-default filter-control filter-control__next'
+                            className='btn btn-link filter-control filter-control__next'
                             onClick={this.nextPage}
                         >
                             <FormattedMessage
@@ -264,7 +268,7 @@ export default class MultiSelect extends React.Component {
                 if (this.state.page > 0) {
                     previousButton = (
                         <button
-                            className='btn btn-default filter-control filter-control__prev'
+                            className='btn btn-link filter-control filter-control__prev'
                             onClick={this.prevPage}
                         >
                             <FormattedMessage

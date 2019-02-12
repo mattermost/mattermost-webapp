@@ -480,5 +480,16 @@
 
 .view-image__loading {
     background: $black;
-    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 140px;
+    flex-direction: column;
+    padding-top: 28px;
+
+    .fa {
+        color: $white;
+        opacity: .6;
+        font-size: 25px;
+    }
 }

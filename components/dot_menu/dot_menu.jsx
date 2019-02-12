@@ -7,14 +7,16 @@ import React, {Component} from 'react';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
-import {showGetPostLinkModal} from 'actions/global_actions.jsx';
+import Permissions from 'mattermost-redux/constants/permissions';
 
+import {showGetPostLinkModal} from 'actions/global_actions.jsx';
 import {ModalIdentifiers, UNSET_POST_EDIT_TIME_LIMIT} from 'utils/constants.jsx';
 import DeletePostModal from 'components/delete_post_modal';
 import DelayedAction from 'utils/delayed_action.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
+import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 
 import Pluggable from 'plugins/pluggable';
 
@@ -23,16 +25,19 @@ import DotMenuItem from './dot_menu_item.jsx';
 class DotMenu extends Component {
     static propTypes = {
         post: PropTypes.object.isRequired,
+        teamId: PropTypes.string,
         location: PropTypes.oneOf(['CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH']).isRequired,
         commentCount: PropTypes.number,
         isFlagged: PropTypes.bool,
         handleCommentClick: PropTypes.func,
         handleDropdownOpened: PropTypes.func,
+        handleAddReactionClick: PropTypes.func,
         isReadOnly: PropTypes.bool,
         pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
         isLicensed: PropTypes.bool.isRequired,
         postEditTimeLimit: PropTypes.string.isRequired,
         intl: intlShape.isRequired,
+        enableEmojiPicker: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
 
@@ -73,6 +78,7 @@ class DotMenu extends Component {
         commentCount: 0,
         isFlagged: false,
         isReadOnly: false,
+        enableEmojiPicker: false,
         pluginMenuItems: [],
     }
 
@@ -148,6 +154,16 @@ class DotMenu extends Component {
         }
     }
 
+    // listen to clicks/taps on add reaction menu item and pass to parent handler
+    handleAddReactionMenuItemActivated = (e) => {
+        e.preventDefault();
+
+        // to be safe, make sure the handler function has been defined
+        if (this.props.handleAddReactionClick) {
+            this.props.handleAddReactionClick();
+        }
+    }
+
     handlePermalinkMenuItemActivated = (e) => {
         e.preventDefault();
         showGetPostLinkModal(this.props.post);
@@ -194,8 +210,28 @@ class DotMenu extends Component {
         const isMobile = Utils.isMobile();
 
         const menuItems = [];
-
         if (isMobile && !isSystemMessage) {
+            // add menu item to support adding reactions to posts
+            if (!this.props.isReadOnly && this.props.enableEmojiPicker) {
+                menuItems.push(
+                    <ChannelPermissionGate
+                        key={'add_reaction'}
+                        channelId={this.props.post.channel_id}
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.ADD_REACTION]}
+                    >
+                        <DotMenuItem
+                            menuItemText={
+                                <FormattedMessage
+                                    id={'rhs_root.mobile.add_reaction'}
+                                    defaultMessage={'Add Reaction'}
+                                />
+                            }
+                            handleMenuItemActivated={this.handleAddReactionMenuItemActivated}
+                        />
+                    </ChannelPermissionGate>
+                );
+            }
             let text = (
                 <FormattedMessage
                     id={'rhs_root.mobile.flag'}

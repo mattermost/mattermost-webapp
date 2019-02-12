@@ -6,7 +6,8 @@ import React from 'react';
 
 import {postListScrollChange} from 'actions/global_actions';
 
-import {isUrlSafe} from 'utils/url.jsx';
+import {getImageSrc} from 'utils/post_utils';
+import {isUrlSafe} from 'utils/url';
 import {handleFormattedTextClick} from 'utils/utils';
 
 import Markdown from 'components/markdown';
@@ -37,6 +38,11 @@ export default class MessageAttachment extends React.PureComponent {
         options: PropTypes.object,
 
         /**
+         * Whether or not the server has an image proxy enabled
+         */
+        hasImageProxy: PropTypes.bool.isRequired,
+
+        /**
          * images object for dimensions
          */
         imagesMetadata: PropTypes.object,
@@ -64,6 +70,20 @@ export default class MessageAttachment extends React.PureComponent {
 
     componentWillUnmount() {
         this.mounted = false;
+    }
+
+    handleHeightReceivedForThumbUrl = (height) => {
+        const {attachment} = this.props;
+        if (!this.props.imagesMetadata || (this.props.imagesMetadata && !this.props.imagesMetadata[attachment.thumb_url])) {
+            this.handleHeightReceived(height);
+        }
+    }
+
+    handleHeightReceivedForImageUrl = (height) => {
+        const {attachment} = this.props;
+        if (!this.props.imagesMetadata || (this.props.imagesMetadata && !this.props.imagesMetadata[attachment.image_url])) {
+            this.handleHeightReceived(height);
+        }
     }
 
     handleHeightReceived = (height) => {
@@ -240,7 +260,7 @@ export default class MessageAttachment extends React.PureComponent {
                 author.push(
                     <img
                         className='attachment__author-icon'
-                        src={attachment.author_icon}
+                        src={getImageSrc(attachment.author_icon, this.props.hasImageProxy)}
                         key={'attachment__author-icon'}
                         height='14'
                         width='14'
@@ -318,8 +338,8 @@ export default class MessageAttachment extends React.PureComponent {
                 <div className='attachment__image-container'>
                     <SizeAwareImage
                         className='attachment__image'
-                        onHeightReceived={this.handleHeightReceived}
-                        src={attachment.image_url}
+                        onHeightReceived={this.handleHeightReceivedForImageUrl}
+                        src={getImageSrc(attachment.image_url, this.props.hasImageProxy)}
                         dimensions={this.props.imagesMetadata[attachment.image_url]}
                     />
                 </div>
@@ -329,12 +349,10 @@ export default class MessageAttachment extends React.PureComponent {
         let thumb;
         if (attachment.thumb_url) {
             thumb = (
-                <div
-                    className='attachment__thumb-container'
-                >
+                <div className='attachment__thumb-container'>
                     <SizeAwareImage
-                        onHeightReceived={this.handleHeightReceived}
-                        src={attachment.thumb_url}
+                        onHeightReceived={this.handleHeightReceivedForThumbUrl}
+                        src={getImageSrc(attachment.thumb_url, this.props.hasImageProxy)}
                         dimensions={this.props.imagesMetadata[attachment.thumb_url]}
                     />
                 </div>

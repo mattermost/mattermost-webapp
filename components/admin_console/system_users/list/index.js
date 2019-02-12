@@ -11,7 +11,7 @@ import {getUsers} from './selectors.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
-        users: getUsers(state, ownProps.loading, ownProps.teamId, ownProps.term),
+        users: getUsers(state, ownProps.loading, ownProps.teamId, ownProps.term, ownProps.filter),
     };
 }
 

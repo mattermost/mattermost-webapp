@@ -57,7 +57,7 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
         } = this.props;
 
         const Divider = (
-            <li><hr/></li>
+            <li className='dropdown__divider'><hr/></li>
         );
 
         return (

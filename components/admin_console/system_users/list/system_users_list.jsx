@@ -29,6 +29,7 @@ export default class SystemUsersList extends React.Component {
         renderFilterRow: PropTypes.func,
 
         teamId: PropTypes.string.isRequired,
+        filter: PropTypes.string.isRequired,
         term: PropTypes.string.isRequired,
         onTermChange: PropTypes.func.isRequired,
 

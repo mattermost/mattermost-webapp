@@ -41,6 +41,9 @@ jest.mock('utils/user_agent', () => ({
 }));
 
 const POST_CREATED_TIME = Date.now();
+
+// This mocks the Date.now() function so it returns a constant value
+global.Date.now = jest.fn(() => POST_CREATED_TIME);
 const INCREASED_POST_VISIBILITY = {amount: 1, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'};
 const STOP_TYPING = {type: 'stop_typing', data: {id: 'current_channel_idundefined', now: POST_CREATED_TIME, userId: 'some_user_id'}};
 
