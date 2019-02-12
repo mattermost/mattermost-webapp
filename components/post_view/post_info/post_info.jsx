@@ -159,7 +159,7 @@ export default class PostInfo extends React.PureComponent {
         if (showCommentIcon) {
             commentIcon = (
                 <CommentIcon
-                    idPrefix={'commentIcon'}
+                    idPrefix='commentIcon'
                     idCount={idCount}
                     handleCommentClick={this.props.handleCommentClick}
                     commentCount={this.props.replyCount}
@@ -231,7 +231,7 @@ export default class PostInfo extends React.PureComponent {
         if (showFlagIcon) {
             postFlagIcon = (
                 <PostFlagIcon
-                    idPrefix={'centerPostFlag'}
+                    idPrefix='centerPostFlag'
                     idCount={idCount}
                     postId={post.id}
                     isFlagged={this.props.isFlagged}

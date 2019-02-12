@@ -131,7 +131,7 @@ export default class RhsComment extends React.Component {
                 isPermalink={isPermalink}
                 eventTime={post.create_at}
                 postId={post.id}
-                location={'RHS_COMMENT'}
+                location='RHS_COMMENT'
             />
         );
     };
@@ -350,7 +350,7 @@ export default class RhsComment extends React.Component {
             const dotMenu = (
                 <DotMenu
                     post={this.props.post}
-                    location={'RHS_COMMENT'}
+                    location='RHS_COMMENT'
                     isFlagged={this.props.isFlagged}
                     handleDropdownOpened={this.handleDropdownOpened}
                     handleAddReactionClick={this.toggleEmojiPicker}
