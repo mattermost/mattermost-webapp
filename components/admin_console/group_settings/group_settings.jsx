@@ -24,7 +24,7 @@ export default class GroupSettings extends React.PureComponent {
                     <div className='banner__content'>
                         <FormattedMarkdownMessage
                             id='admin.group_settings.introBanner'
-                            defaultMessage={'Groups are a way to organize users and apply actions to all users within that group.\nFor more information on Groups, please see [documentation](!https://about.mattermost.com).'}
+                            defaultMessage={'Groups are a way to organize users and apply actions to all users within that group.\nFor more information on Groups, please see [documentation](!https://www.mattermost.com/default-ad-ldap-groups).'}
                         />
                     </div>
                 </div>
