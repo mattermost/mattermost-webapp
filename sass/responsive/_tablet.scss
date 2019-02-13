@@ -54,6 +54,24 @@
 }
 
 @media screen and (max-width: 960px) {
+    .system-users__filter-row {
+        flex-direction: column;
+
+        .system-users__filter {
+            flex: 1 1 auto;
+            padding-bottom: 12px;
+        }
+
+        > label {
+            margin-bottom: 12px;
+
+            span {
+                flex: 0 0 auto;
+                padding-left: 0;
+            }
+        }
+    }
+
     .app__body {
         .modal {
             .modal-image {
