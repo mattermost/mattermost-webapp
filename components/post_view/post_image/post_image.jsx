@@ -8,7 +8,7 @@ import {postListScrollChange} from 'actions/global_actions';
 import SizeAwareImage from 'components/size_aware_image';
 import * as PostUtils from 'utils/post_utils.jsx';
 
-export default class PostImageEmbed extends React.PureComponent {
+export default class PostImage extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -42,14 +42,6 @@ export default class PostImageEmbed extends React.PureComponent {
         dimensions: PropTypes.object,
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            errored: false,
-        };
-    }
-
     componentDidMount() {
         this.mounted = true;
     }
@@ -62,9 +54,7 @@ export default class PostImageEmbed extends React.PureComponent {
         if (!this.mounted) {
             return;
         }
-        this.setState({
-            errored: false,
-        });
+
         if (!this.props.dimensions) {
             postListScrollChange();
         }
@@ -77,9 +67,6 @@ export default class PostImageEmbed extends React.PureComponent {
         if (!this.mounted) {
             return;
         }
-        this.setState({
-            errored: true,
-        });
 
         if (this.props.onLinkLoadError) {
             this.props.onLinkLoadError();
@@ -92,10 +79,6 @@ export default class PostImageEmbed extends React.PureComponent {
     };
 
     render() {
-        if (this.state.errored) {
-            return null;
-        }
-
         return (
             <div
                 className='post__embed-container'
