@@ -38,4 +38,27 @@ describe('Message', () => {
         // * Check profile image is not visible
         cy.get('#postListContent > .post.current--user > .post__content > .post__img').last().should('be.visible').should('be.empty');
     });
+
+    it('M14012 Focus move to main input box when a character key is selected', () => {
+        // 1. Login and go to /
+        cy.login('user-1');
+        cy.visit('/');
+
+        // 2. Left click on any post to move the focus out of the main input box
+        cy.get('#post_o55dfx8ooi8azmy83ypgor68ec').click();
+
+        // 3. Push a character key such as "A"
+        cy.get('#post_textbox').type('A');
+
+        // 4. Open the "..." menu on a post in the main or reply thread to move the focus out of the main input box
+        cy.get('#post_o55dfx8ooi8azmy83ypgor68ec').trigger('mouseover');
+        cy.get('#CENTER_dropdown_o55dfx8ooi8azmy83ypgor68ec .dropdown-toggle').click({force: true});
+
+        // 5. Push a character key such as "A"
+        cy.get('#post_textbox').type('A');
+
+        // *  Focus is moved back to the main input and the keystroke is captured
+        cy.focused().should('have.id', 'post_textbox');
+        cy.focused().should('contain', 'AA');
+    });
 });
