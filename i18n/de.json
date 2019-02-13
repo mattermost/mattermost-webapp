@@ -2154,7 +2154,7 @@
   "invite_member.send2": "Einladungen senden",
   "invite_member.sending": " Sende",
   "invite_member.teamInviteLink": "Sie können außerdem Personen über den {link} einladen.",
-  "katex.error": "Konnte ihren Latex-Code nicht kompilieren. Bitte kontrollieren Sie den Syntax und versuchen es erneut.",
+  "katex.error": "Konnte ihren Latex-Code nicht kompilieren. Bitte kontrollieren Sie die Syntax und versuchen es erneut.",
   "last_users_message.added_to_channel.type": "wurden durch {actor} **dem Kanal hinzugefügt**.",
   "last_users_message.added_to_team.type": "wurden durch {actor} **dem Team hinzugefügt**.",
   "last_users_message.first": "{firstUser} und ",
