@@ -87,10 +87,12 @@ function isMac() {
 // Post
 // ***********************************************************
 
-Cypress.Commands.add('post', (message) => {
+Cypress.Commands.add('postMessage', (message) => {
     cy.get('#post_textbox').type(message).type('{enter}');
 });
 
 Cypress.Commands.add('getLastPostId', () => {
-    return cy.get('#postListContent').children().last().invoke('attr', 'id');
+    return cy.get('#postListContent').children().last().invoke('attr', 'id').then((divPostId) => {
+        return divPostId.replace('post_', '');
+    });
 });
