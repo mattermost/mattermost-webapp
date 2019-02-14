@@ -6,8 +6,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import {isUserActivityPost} from 'mattermost-redux/utils/post_utils';
-
 import Constants, {PostTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import EventTypes from 'utils/event_types.jsx';
@@ -554,8 +552,7 @@ export default class PostList extends React.PureComponent {
 
             if (
                 post == null ||
-                post.type === PostTypes.EPHEMERAL_ADD_TO_CHANNEL ||
-                isUserActivityPost(post.type)
+                post.type === PostTypes.EPHEMERAL_ADD_TO_CHANNEL
             ) {
                 continue;
             }
