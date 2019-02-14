@@ -27,6 +27,7 @@ exports[`/components/create_team/components/display_name should match snapshot 1
             autoFocus={true}
             className="form-control"
             defaultValue="test-team"
+            id="teamNameInput"
             maxLength="128"
             onFocus={[Function]}
             placeholder=""
@@ -45,6 +46,7 @@ exports[`/components/create_team/components/display_name should match snapshot 1
     </div>
     <button
       className="btn btn-primary margin--extra"
+      id="teamNameNextButton"
       onClick={[Function]}
       type="submit"
     >

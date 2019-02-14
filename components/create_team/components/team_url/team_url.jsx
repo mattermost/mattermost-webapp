@@ -209,6 +209,7 @@ export default class TeamUrl extends React.PureComponent {
                                         </span>
                                     </OverlayTrigger>
                                     <input
+                                        id='teamURLInput'
                                         type='text'
                                         ref='name'
                                         className='form-control'
@@ -252,6 +253,7 @@ export default class TeamUrl extends React.PureComponent {
                     </ul>
                     <div className='margin--extra'>
                         <Button
+                            id='teamURLFinishButton'
                             type='submit'
                             bsStyle='primary'
                             disabled={this.state.isLoading}
