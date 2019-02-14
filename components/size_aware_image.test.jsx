@@ -5,6 +5,7 @@ import React from 'react';
 import {mount, shallow} from 'enzyme';
 
 import SizeAwareImage from 'components/size_aware_image';
+import LoadingImagePreview from 'components/loading_image_preview';
 
 jest.mock('utils/image_utils');
 
@@ -32,19 +33,22 @@ describe('components/SizeAwareImage', () => {
     });
 
     test('should render a placeholder and has loader when showLoader is true', () => {
-        createPlaceholderImage.mockImplementation(() => 'data:image/png;base64,abc123');
+        const placeholder = 'data:image/png;base64,abc123';
+        createPlaceholderImage.mockImplementation(() => placeholder);
         const props = {
             ...baseProps,
             showLoader: true,
         };
 
         const wrapper = shallow(<SizeAwareImage {...props}/>);
+        expect(wrapper.find(LoadingImagePreview).exists()).toEqual(true);
+        expect(wrapper.find('img').prop('src')).toEqual(placeholder);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should render the actual image after it is loaded', () => {
         const wrapper = mount(<SizeAwareImage {...baseProps}/>);
-        wrapper.setState({loaded: true});
+        wrapper.setState({loaded: true, error: false});
 
         const src = wrapper.find('img').prop('src');
         expect(src).toEqual(baseProps.src);
@@ -55,6 +59,8 @@ describe('components/SizeAwareImage', () => {
         Reflect.deleteProperty(props, 'dimensions');
 
         const wrapper = mount(<SizeAwareImage {...props}/>);
+
+        wrapper.setState({error: false});
 
         const src = wrapper.find('img').prop('src');
         expect(src).toEqual(baseProps.src);
@@ -87,12 +93,15 @@ describe('components/SizeAwareImage', () => {
         expect(baseProps.onHeightReceived).toHaveBeenCalledWith(height);
     });
 
-    test('should call onImageLoadFail when image load fails', () => {
+    test('should call onImageLoadFail when image load fails and should render empty/null', () => {
         const onImageLoadFail = jest.fn();
         const props = {...baseProps, onImageLoadFail};
 
         const wrapper = shallow(<SizeAwareImage {...props}/>);
         wrapper.instance().handleError();
         expect(props.onImageLoadFail).toHaveBeenCalled();
+
+        expect(wrapper.find('img').exists()).toEqual(false);
+        expect(wrapper.find(LoadingImagePreview).exists()).toEqual(false);
     });
 });
