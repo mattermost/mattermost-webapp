@@ -392,15 +392,12 @@ export default class CreateComment extends React.PureComponent {
         e.preventDefault();
 
         if (this.props.isTimezoneEnabled) {
-            this.props.getChannelTimezones(this.props.channelId).then(
-                (data) => {
-                    if (data.data) {
-                        this.setState({channelMembersCount: data.data.length});
-                    } else {
-                        this.setState({channelMembersCount: 0});
-                    }
-                }
-            );
+            const {data} = await this.props.getChannelTimezones(this.props.channelId);
+            if (data) {
+                this.setState({channelMembersCount: data.length});
+            } else {
+                this.setState({channelMembersCount: 0});
+            }
         }
 
         if (this.props.enableConfirmNotificationsToChannel &&

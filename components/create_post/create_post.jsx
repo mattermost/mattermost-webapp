@@ -434,22 +434,19 @@ export default class CreatePost extends React.Component {
             command === 'dnd' || command === 'offline';
     };
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         const {
             currentChannel: updateChannel,
             userIsOutOfOffice,
         } = this.props;
 
         if (this.props.isTimezoneEnabled) {
-            this.props.actions.getChannelTimezones(this.props.currentChannel.id).then(
-                (data) => {
-                    if (data.data) {
-                        this.setState({channelMembersCount: data.data.length});
-                    } else {
-                        this.setState({channelMembersCount: 0});
-                    }
-                }
-            );
+            const {data} = await this.props.actions.getChannelTimezones(this.props.currentChannel.id);
+            if (data) {
+                this.setState({channelMembersCount: data.length});
+            } else {
+                this.setState({channelMembersCount: 0});
+            }
         }
 
         if (this.props.enableConfirmNotificationsToChannel &&

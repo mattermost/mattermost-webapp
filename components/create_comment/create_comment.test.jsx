@@ -564,7 +564,7 @@ describe('components/CreateComment', () => {
                 expect(wrapper.state('showConfirmModal')).toBe(true);
             });
 
-            it(`should show Confirm Modal for @${mention} mentions when needed and timezone notification`, () => {
+            it(`should show Confirm Modal for @${mention} mentions when needed and timezone notification`, async () => {
                 const props = {
                     ...baseProps,
                     draft: {
@@ -582,7 +582,7 @@ describe('components/CreateComment', () => {
                     <CreateComment {...props}/>
                 );
 
-                wrapper.instance().handleSubmit({preventDefault});
+                await wrapper.instance().handleSubmit({preventDefault});
                 wrapper.setState({channelMembersCount: 4});
 
                 expect(onSubmit).not.toHaveBeenCalled();
@@ -592,7 +592,7 @@ describe('components/CreateComment', () => {
                 expect(wrapper.state('showConfirmModal')).toBe(true);
             });
 
-            it(`should show Confirm Modal for @${mention} mentions when needed and no timezone notification`, () => {
+            it(`should show Confirm Modal for @${mention} mentions when needed and no timezone notification`, async () => {
                 const props = {
                     ...baseProps,
                     draft: {
@@ -610,7 +610,7 @@ describe('components/CreateComment', () => {
                     <CreateComment {...props}/>
                 );
 
-                wrapper.instance().handleSubmit({preventDefault});
+                await wrapper.instance().handleSubmit({preventDefault});
                 wrapper.setState({channelMembersCount: 0});
 
                 expect(onSubmit).not.toHaveBeenCalled();
