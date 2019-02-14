@@ -5,7 +5,8 @@ import {batchActions} from 'redux-batched-actions';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as PostActions from 'mattermost-redux/actions/posts';
-import {searchPostsWithParams} from 'mattermost-redux/actions/search';
+import * as SearchActions from 'mattermost-redux/actions/search';
+import {SearchTypes} from 'mattermost-redux/action_types';
 
 import {
     updateRhsState,
@@ -13,6 +14,8 @@ import {
     updateSearchTerms,
     performSearch,
     showSearchResults,
+    showFlaggedPosts,
+    showPinnedPosts,
     showMentions,
     closeRightHandSide,
     toggleMenu,
@@ -39,6 +42,8 @@ jest.mock('mattermost-redux/actions/posts', () => ({
 
 jest.mock('mattermost-redux/actions/search', () => ({
     searchPostsWithParams: (...args) => ({type: 'MOCK_SEARCH_POSTS', args}),
+    getFlaggedPosts: jest.fn(),
+    getPinnedPosts: jest.fn(),
 }));
 
 jest.mock('actions/diagnostics_actions.jsx', () => ({
@@ -163,12 +168,12 @@ describe('rhs view actions', () => {
             const timeZoneOffset = getBrowserUtcOffset() * 60;
 
             const compareStore = mockStore(initialState);
-            compareStore.dispatch(searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}, true));
+            compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}, true));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
 
             store.dispatch(performSearch(terms, true));
-            compareStore.dispatch(searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}, true));
+            compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}, true));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });
@@ -200,6 +205,164 @@ describe('rhs view actions', () => {
             compareStore.dispatch(performSearch(terms));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
+        });
+    });
+
+    describe('showFlaggedPosts', () => {
+        test('it dispatches the right actions', async () => {
+            SearchActions.getFlaggedPosts.mockReturnValue((dispatch) => {
+                dispatch({type: 'MOCK_GET_FLAGGED_POSTS'});
+
+                return {data: 'data'};
+            });
+
+            await store.dispatch(showFlaggedPosts());
+
+            expect(SearchActions.getFlaggedPosts).toHaveBeenCalled();
+
+            expect(store.getActions()).toEqual([
+                {
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    state: RHSStates.FLAG,
+                },
+                {
+                    type: 'MOCK_GET_FLAGGED_POSTS',
+                },
+                {
+                    type: 'BATCHING_REDUCER.BATCH',
+                    meta: {
+                        batch: true,
+                    },
+                    payload: [
+                        {
+                            type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                            data: 'data',
+                        },
+                        {
+                            type: SearchTypes.RECEIVED_SEARCH_TERM,
+                            data: {
+                                teamId: currentTeamId,
+                                terms: null,
+                                isOrSearch: false,
+                            },
+                        },
+                    ],
+                },
+            ]);
+        });
+    });
+
+    describe('showPinnedPosts', () => {
+        test('it dispatches the right actions for the current channel', async () => {
+            SearchActions.getPinnedPosts.mockReturnValue((dispatch) => {
+                dispatch({type: 'MOCK_GET_PINNED_POSTS'});
+
+                return {data: 'data'};
+            });
+
+            await store.dispatch(showPinnedPosts());
+
+            expect(SearchActions.getPinnedPosts).toHaveBeenCalledWith(currentChannelId);
+
+            expect(store.getActions()).toEqual([
+                {
+                    type: 'BATCHING_REDUCER.BATCH',
+                    meta: {
+                        batch: true,
+                    },
+                    payload: [
+                        {
+                            type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
+                            terms: '',
+                        },
+                        {
+                            type: ActionTypes.UPDATE_RHS_STATE,
+                            channelId: currentChannelId,
+                            state: RHSStates.PIN,
+                        },
+                    ],
+                },
+                {
+                    type: 'MOCK_GET_PINNED_POSTS',
+                },
+                {
+                    type: 'BATCHING_REDUCER.BATCH',
+                    meta: {
+                        batch: true,
+                    },
+                    payload: [
+                        {
+                            type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                            data: 'data',
+                        },
+                        {
+                            type: SearchTypes.RECEIVED_SEARCH_TERM,
+                            data: {
+                                teamId: currentTeamId,
+                                terms: null,
+                                isOrSearch: false,
+                            },
+                        },
+                    ],
+                },
+            ]);
+        });
+
+        test('it dispatches the right actions for a specific channel', async () => {
+            const channelId = 'channel1';
+
+            SearchActions.getPinnedPosts.mockReturnValue((dispatch) => {
+                dispatch({type: 'MOCK_GET_PINNED_POSTS'});
+
+                return {data: 'data'};
+            });
+
+            await store.dispatch(showPinnedPosts(channelId));
+
+            expect(SearchActions.getPinnedPosts).toHaveBeenCalledWith(channelId);
+
+            expect(store.getActions()).toEqual([
+                {
+                    type: 'BATCHING_REDUCER.BATCH',
+                    meta: {
+                        batch: true,
+                    },
+                    payload: [
+                        {
+                            type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
+                            terms: '',
+                        },
+                        {
+                            type: ActionTypes.UPDATE_RHS_STATE,
+                            channelId,
+                            state: RHSStates.PIN,
+                        },
+                    ],
+                },
+                {
+                    type: 'MOCK_GET_PINNED_POSTS',
+                },
+                {
+                    type: 'BATCHING_REDUCER.BATCH',
+                    meta: {
+                        batch: true,
+                    },
+                    payload: [
+                        {
+                            type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                            data: 'data',
+                        },
+                        {
+                            type: SearchTypes.RECEIVED_SEARCH_TERM,
+                            data: {
+                                teamId: currentTeamId,
+                                terms: null,
+                                isOrSearch: false,
+                            },
+                        },
+                    ],
+                },
+            ]);
         });
     });
 
