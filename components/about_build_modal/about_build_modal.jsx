@@ -220,7 +220,7 @@ export default class AboutBuildModal extends React.PureComponent {
                                 <a
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    href='http://about.mattermost.com/default-terms/'
+                                    href={config.TermsOfServiceLink}
                                 >
                                     <FormattedMessage
                                         id='about.tos'
@@ -231,7 +231,7 @@ export default class AboutBuildModal extends React.PureComponent {
                                 <a
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    href='http://mattermost.com/privacy-policy/'
+                                    href={config.PrivacyPolicyLink}
                                 >
                                     <FormattedMessage
                                         id='about.privacy'
