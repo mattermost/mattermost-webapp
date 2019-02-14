@@ -3,9 +3,83 @@
 
 import emojiRegex from 'emoji-regex';
 
-import {highlightSearchTerms, handleUnicodeEmoji} from 'utils/text_formatting.jsx';
+import {autolinkAtMentions, highlightSearchTerms, handleUnicodeEmoji} from 'utils/text_formatting.jsx';
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
+
+describe('autolinkAtMentions', () => {
+    // testing to make sure @channel, @all & @here are setup properly to get highlighted correctly
+    const mentionTestCases = [
+        'channel',
+        'all',
+        'here',
+    ];
+    function runSuccessfulAtMentionTests(leadingText = '', trailingText = '') {
+        mentionTestCases.forEach((testCase) => {
+            const mention = `@${testCase}`;
+            const text = `${leadingText}${mention}${trailingText}`;
+            const tokens = new Map();
+
+            const output = autolinkAtMentions(text, tokens);
+            expect(output).toBe(`${leadingText}$MM_ATMENTION0$${trailingText}`);
+            expect(tokens.get('$MM_ATMENTION0$').value).toBe(`<span data-mention="${testCase}">${mention}</span>`);
+        });
+    }
+    function runUnsuccessfulAtMentionTests(leadingText = '', trailingText = '') {
+        mentionTestCases.forEach((testCase) => {
+            const mention = `@${testCase}`;
+            const text = `${leadingText}${mention}${trailingText}`;
+            const tokens = new Map();
+
+            const output = autolinkAtMentions(text, tokens);
+            expect(output).toBe(text);
+            expect(tokens.get('$MM_ATMENTION0$')).toBeUndefined();
+        });
+    }
+
+    // cases where highlights should be successful
+    test('@channel, @all, @here should highlight properly with no leading or trailing content', () => {
+        runSuccessfulAtMentionTests();
+    });
+    test('@channel, @all, @here should highlight properly with a leading space', () => {
+        runSuccessfulAtMentionTests(' ', '');
+    });
+    test('@channel, @all, @here should highlight properly with a trailing space', () => {
+        runSuccessfulAtMentionTests('', ' ');
+    });
+    test('@channel, @all, @here should highlight properly with a leading period', () => {
+        runSuccessfulAtMentionTests('.', '');
+    });
+    test('@channel, @all, @here should highlight properly with a trailing period', () => {
+        runSuccessfulAtMentionTests('', '.');
+    });
+    test('@channel, @all, @here should highlight properly with a leading dash', () => {
+        runSuccessfulAtMentionTests('-', '');
+    });
+    test('@channel, @all, @here should highlight properly with a trailing dash', () => {
+        runSuccessfulAtMentionTests('', '-');
+    });
+    test('@channel, @all, @here should highlight properly with a trailing underscore', () => {
+        runSuccessfulAtMentionTests('', '_');
+    });
+    test('@channel, @all, @here should highlight when the first part of a word', () => {
+        runSuccessfulAtMentionTests('', 'testing');
+    });
+    test('@channel, @all, @here should highlight properly within a typical sentance', () => {
+        runSuccessfulAtMentionTests('This is a typical sentance, ', ' check out this sentance!');
+    });
+
+    // cases where highlights should be unseccessful
+    test('@channel, @all, @here should not highlight with a leading underscore', () => {
+        runUnsuccessfulAtMentionTests('_');
+    });
+    test('@channel, @all, @here should not highlight when the last part of a word', () => {
+        runUnsuccessfulAtMentionTests('testing');
+    });
+    test('@channel, @all, @here should not highlight when in the middle of a word', () => {
+        runUnsuccessfulAtMentionTests('test', 'ing');
+    });
+});
 
 describe('highlightSearchTerms', () => {
     test('hashtags should highlight case-insensitively', () => {

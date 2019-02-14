@@ -16,7 +16,7 @@ describe('components/widgets/loadingLoadingSpinner', () => {
   id="loadingSpinner"
 >
   <span
-    className="fa fa-spinner fa-pulse spinner"
+    className="fa fa-spinner fa-fw fa-pulse spinner"
     title="Loading Icon"
   />
   test
@@ -31,7 +31,7 @@ describe('components/widgets/loadingLoadingSpinner', () => {
   id="loadingSpinner"
 >
   <span
-    className="fa fa-spinner fa-pulse spinner"
+    className="fa fa-spinner fa-fw fa-pulse spinner"
     title="Loading Icon"
   />
 </span>

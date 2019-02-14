@@ -9,8 +9,6 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {addReaction} from 'actions/post_actions.jsx';
-
 import {Preferences} from 'utils/constants.jsx';
 
 import PostInfo from './post_info.jsx';
@@ -35,7 +33,6 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             removePost,
-            addReaction,
         }, dispatch),
     };
 }

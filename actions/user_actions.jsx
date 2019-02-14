@@ -3,7 +3,7 @@
 
 import {getChannelAndMyMember, getChannelMembersByIds} from 'mattermost-redux/actions/channels';
 import {deletePreferences as deletePreferencesRedux, savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
-import {getMyTeamMembers, getMyTeamUnreads, getTeamMembersByIds} from 'mattermost-redux/actions/teams';
+import {getTeamMembersByIds} from 'mattermost-redux/actions/teams';
 import * as UserActions from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences as PreferencesRedux} from 'mattermost-redux/constants';
@@ -488,22 +488,6 @@ export async function loadProfiles(page, perPage, options = {}, success) {
     if (success) {
         success(data);
     }
-}
-
-export function getMissingProfiles(ids) {
-    const state = getState();
-    const missingIds = ids.filter((id) => !Selectors.getUser(state, id));
-
-    if (missingIds.length === 0) {
-        return;
-    }
-
-    UserActions.getProfilesByIds(missingIds)(dispatch, getState);
-}
-
-export async function loadMyTeamMembers() {
-    await getMyTeamMembers()(dispatch, getState);
-    getMyTeamUnreads()(dispatch, getState);
 }
 
 export function autoResetStatus() {

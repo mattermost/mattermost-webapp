@@ -454,6 +454,7 @@ export default class SecurityTab extends React.Component {
                 describe={describe}
                 section={SECTION_PASSWORD}
                 updateSection={this.handleUpdateSection}
+                focused={true}
             />
         );
     }

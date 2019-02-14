@@ -29,7 +29,7 @@ describe('components/LeaveTeamModal', () => {
     it('should call onHide when cancel is clicked', () => {
         const wrapper = shallowWithIntl(<LeaveTeamModal {...requiredProps}/>).
             dive({disableLifecycleMethods: true});
-        const cancel = wrapper.find('.btn-default').first();
+        const cancel = wrapper.find('.btn-link').first();
 
         cancel.simulate('click');
         expect(requiredProps.onHide).toHaveBeenCalledTimes(1);

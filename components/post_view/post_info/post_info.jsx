@@ -4,22 +4,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
-import Permissions from 'mattermost-redux/constants/permissions';
 
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import CommentIcon from 'components/common/comment_icon.jsx';
 import DotMenu from 'components/dot_menu';
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
+import PostReaction from 'components/post_view/post_reaction';
 import PostTime from 'components/post_view/post_time';
-import EmojiIcon from 'components/svg/emoji_icon';
-import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 
 export default class PostInfo extends React.PureComponent {
     static propTypes = {
@@ -105,11 +101,6 @@ export default class PostInfo extends React.PureComponent {
              * Function to remove the post
              */
             removePost: PropTypes.func.isRequired,
-
-            /*
-             * Function to add a reaction to the post
-             */
-            addReaction: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -118,7 +109,6 @@ export default class PostInfo extends React.PureComponent {
 
         this.state = {
             showEmojiPicker: false,
-            reactionPickerOffset: 21,
         };
     }
 
@@ -127,11 +117,6 @@ export default class PostInfo extends React.PureComponent {
 
         this.setState({showEmojiPicker});
         this.props.handleDropdownOpened(showEmojiPicker);
-    };
-
-    hideEmojiPicker = () => {
-        this.setState({showEmojiPicker: false});
-        this.props.handleDropdownOpened(false);
     };
 
     removePost = () => {
@@ -148,18 +133,6 @@ export default class PostInfo extends React.PureComponent {
                 {'×'}
             </button>
         );
-    };
-
-    reactEmojiClose = () => {
-        this.setState({showEmojiPicker: false});
-    }
-
-    reactEmojiClick = (emoji) => {
-        const pickerOffset = 21;
-        this.setState({showEmojiPicker: false, reactionPickerOffset: pickerOffset});
-        const emojiName = emoji.name || emoji.aliases[0];
-        this.props.actions.addReaction(this.props.post.id, emojiName);
-        this.props.handleDropdownOpened(false);
     };
 
     handleDotMenuOpened = (open) => {
@@ -179,85 +152,41 @@ export default class PostInfo extends React.PureComponent {
         const {isMobile, isReadOnly} = this.props;
         const hover = this.props.hover || this.state.showEmojiPicker || this.state.showDotMenu;
 
-        let comments;
-        let react;
-
-        if (fromAutoResponder) {
-            comments = (
+        const showCommentIcon = fromAutoResponder ||
+        (!isSystemMessage && (isMobile || hover || (!post.root_id && Boolean(this.props.replyCount)) || this.props.isFirstReply));
+        const commentIconExtraClass = isMobile ? '' : 'pull-right';
+        let commentIcon;
+        if (showCommentIcon) {
+            commentIcon = (
                 <CommentIcon
                     idPrefix='commentIcon'
                     idCount={idCount}
                     handleCommentClick={this.props.handleCommentClick}
                     commentCount={this.props.replyCount}
                     id={post.channel_id + '_' + post.id}
+                    extraClass={commentIconExtraClass}
                 />
             );
         }
 
-        if (!isSystemMessage) {
-            if (isMobile || hover || (!post.root_id && this.props.replyCount) || this.props.isFirstReply) {
-                const extraClass = isMobile ? '' : 'pull-right';
-                comments = (
-                    <CommentIcon
-                        idPrefix='commentIcon'
-                        idCount={idCount}
-                        handleCommentClick={this.props.handleCommentClick}
-                        commentCount={this.props.replyCount}
-                        id={post.channel_id + '_' + post.id}
-                        extraClass={extraClass}
-                    />
-                );
-            }
-
-            if (hover && !isReadOnly && this.props.enableEmojiPicker) {
-                const tooltip = (
-                    <Tooltip
-                        id='reaction-icon-tooltip'
-                        className='hidden-xs'
-                    >
-                        <FormattedMessage
-                            id='post_info.tooltip.add_reactions'
-                            defaultMessage='Add Reaction'
-                        />
-                    </Tooltip>
-                );
-
-                react = (
-                    <ChannelPermissionGate
-                        channelId={post.channel_id}
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.ADD_REACTION]}
-                    >
-                        <div>
-                            <EmojiPickerOverlay
-                                show={this.state.showEmojiPicker}
-                                target={this.getDotMenu}
-                                onHide={this.hideEmojiPicker}
-                                onEmojiClose={this.reactEmojiClose}
-                                onEmojiClick={this.reactEmojiClick}
-                                topOffset={-7}
-                            />
-                            <OverlayTrigger
-                                className='hidden-xs'
-                                delayShow={500}
-                                placement='top'
-                                overlay={tooltip}
-                            >
-                                <button
-                                    className='reacticon__container color--link style--none'
-                                    onClick={this.toggleEmojiPicker}
-                                >
-                                    <EmojiIcon className='icon icon--emoji'/>
-                                </button>
-                            </OverlayTrigger>
-                        </div>
-                    </ChannelPermissionGate>
-                );
-            }
+        const showReactionIcon = !isSystemMessage && hover && !isReadOnly && this.props.enableEmojiPicker;
+        let postReaction;
+        if (showReactionIcon) {
+            postReaction = (
+                <PostReaction
+                    channelId={post.channel_id}
+                    postId={post.id}
+                    teamId={this.props.teamId}
+                    getDotMenuRef={this.getDotMenu}
+                    showEmojiPicker={this.state.showEmojiPicker}
+                    toggleEmojiPicker={this.toggleEmojiPicker}
+                />
+            );
         }
 
+        const showDotMenuIcon = isMobile || hover;
         let dotMenu;
-        if (isMobile || hover) {
+        if (showDotMenuIcon) {
             dotMenu = (
                 <DotMenu
                     post={post}
@@ -279,8 +208,8 @@ export default class PostInfo extends React.PureComponent {
                 className={'col col__reply'}
             >
                 {dotMenu}
-                {react}
-                {comments}
+                {postReaction}
+                {commentIcon}
             </div>
         );
     };
@@ -297,9 +226,10 @@ export default class PostInfo extends React.PureComponent {
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
 
-        let flagIcon;
-        if (!isEphemeral && !post.failed && !isSystemMessage && (this.props.hover || this.props.isFlagged)) {
-            flagIcon = (
+        const showFlagIcon = !isEphemeral && !post.failed && !isSystemMessage && (this.props.hover || this.props.isFlagged);
+        let postFlagIcon;
+        if (showFlagIcon) {
+            postFlagIcon = (
                 <PostFlagIcon
                     idPrefix='centerPostFlag'
                     idCount={idCount}
@@ -345,12 +275,11 @@ export default class PostInfo extends React.PureComponent {
             );
         }
 
+        const showPostTime = this.props.hover || this.props.showTimeWithoutHover;
         let postTime;
-        if (this.props.hover || this.props.showTimeWithoutHover) {
+        if (showPostTime) {
             // timestamp should not be a permalink if the post has been deleted, is ephemeral message, or is pending
-            const isPermalink = !(isEphemeral ||
-                Posts.POST_DELETED === post.state ||
-                ReduxPostUtils.isPostPendingOrFailed(post));
+            const isPermalink = !(isEphemeral || Posts.POST_DELETED === post.state || ReduxPostUtils.isPostPendingOrFailed(post));
 
             postTime = (
                 <PostTime
@@ -366,7 +295,7 @@ export default class PostInfo extends React.PureComponent {
                 <div className='col'>
                     {postTime}
                     {pinnedBadge}
-                    {flagIcon}
+                    {postFlagIcon}
                     {visibleMessage}
                 </div>
                 {options}
