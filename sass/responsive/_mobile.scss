@@ -310,12 +310,20 @@
         }
 
         &.post--compact {
+            padding-left: 1em;
+
             .post__img {
                 padding-top: 0;
+
+                .post-right__container & {
+                    padding-top: 2px;
+                }
             }
 
             &.same--root {
                 &.same--user {
+                    padding-left: 1em;
+
                     .post__header {
                         height: auto;
                     }
@@ -356,17 +364,6 @@
         }
 
         &.current--user {
-            .post__header {
-            }
-
-            &.same--root {
-                &.same--user {
-                    .post__header {
-                        margin-bottom: 7px;
-                    }
-                }
-            }
-
             &.post--comment {
                 .post__header {
                     margin-bottom: 3px;
@@ -443,7 +440,7 @@
         &.post--comment {
             .post__body {
                 margin-top: 5px;
-                padding: 2px 0 0 7px;
+                padding: 0 0 0 7px;
             }
         }
 
@@ -957,6 +954,12 @@
                     top: calc(48px + #{$announcement-bar-height});
                 }
 
+                .dropdown__divider {
+                    & + .dropdown__divider {
+                        display: none;
+                    }
+                }
+
                 .close {
                     @include border-radius(50%);
                     border: 1px solid $white;
@@ -1006,7 +1009,7 @@
             }
 
             .status {
-                margin: 0 5px 0 3px;
+                margin: 0 8px 0 0px;
                 top: 2px;
                 width: 16px;
 

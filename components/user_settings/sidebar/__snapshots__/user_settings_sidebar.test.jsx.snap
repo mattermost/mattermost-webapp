@@ -100,7 +100,7 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
           values={Object {}}
         />
       }
-      focused={false}
+      focused={true}
       section="channelSwitcher"
       title={
         <FormattedMessage

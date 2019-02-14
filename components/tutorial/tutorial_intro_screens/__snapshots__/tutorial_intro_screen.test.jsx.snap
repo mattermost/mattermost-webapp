@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/tutorial/tutorial_intro_screens/TutorialIntroScreens should match snapshot 1`] = `
+<div
+  className="tutorial-steps__container"
+>
+  <div
+    className="tutorial__content"
+    id="tutorialIntroContent"
+  >
+    <div
+      className="tutorial__steps"
+    >
+      <div
+        id="tutorialIntroOne"
+      >
+        <h3>
+          <FormattedMessage
+            defaultMessage="Welcome to:"
+            id="tutorial_intro.screenOne.title1"
+            values={Object {}}
+          />
+        </h3>
+        <h1>
+          <FormattedMessage
+            defaultMessage="Mattermost"
+            id="tutorial_intro.screenOne.title2"
+            values={Object {}}
+          />
+        </h1>
+        <p>
+          <FormattedMessage
+            defaultMessage="Your team communication all in one place, instantly searchable and available anywhere."
+            id="tutorial_intro.screenOne.body1"
+            values={Object {}}
+          />
+        </p>
+        <p>
+          <FormattedMessage
+            defaultMessage="Keep your team connected to help them achieve what matters most."
+            id="tutorial_intro.screenOne.body2"
+            values={Object {}}
+          />
+        </p>
+        <div
+          className="tutorial__circles"
+        >
+          <a
+            className="circle active"
+            data-screen={0}
+            href="#"
+            id="tutorialIntroCircle0"
+            key="circle0"
+            onClick={[Function]}
+          />
+          <a
+            className="circle"
+            data-screen={1}
+            href="#"
+            id="tutorialIntroCircle1"
+            key="circle1"
+            onClick={[Function]}
+          />
+          <a
+            className="circle"
+            data-screen={2}
+            href="#"
+            id="tutorialIntroCircle2"
+            key="circle2"
+            onClick={[Function]}
+          />
+        </div>
+      </div>
+      <div
+        className="tutorial__footer"
+      >
+        <button
+          className="btn btn-primary"
+          id="tutorialNextButton"
+          onClick={[Function]}
+          tabIndex="1"
+        >
+          <FormattedMessage
+            defaultMessage="Next"
+            id="tutorial_intro.next"
+            values={Object {}}
+          />
+        </button>
+        <a
+          className="tutorial-skip"
+          href="#"
+          id="tutorialSkipLink"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Skip tutorial"
+            id="tutorial_intro.skip"
+            values={Object {}}
+          />
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;

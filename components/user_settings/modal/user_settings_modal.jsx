@@ -76,7 +76,7 @@ class UserSettingsModal extends React.Component {
         this.state = {
             active_tab: 'general',
             active_section: '',
-            prev_active_section: '',
+            prev_active_section: 'dummySectionName', // dummy value that should never match any section name
             showConfirmModal: false,
             enforceFocus: true,
             show: true,
@@ -139,7 +139,7 @@ class UserSettingsModal extends React.Component {
         this.setState({
             active_tab: 'general',
             active_section: '',
-            prev_active_section: '',
+            prev_active_section: 'dummySectionName',
         });
         this.props.onHide();
     }
@@ -220,7 +220,7 @@ class UserSettingsModal extends React.Component {
             this.setState({
                 active_tab: tab,
                 active_section: '',
-                prev_active_section: '',
+                prev_active_section: 'dummySectionName',
             });
         }
     }

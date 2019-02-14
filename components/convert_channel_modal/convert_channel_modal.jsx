@@ -103,7 +103,7 @@ export default class ConvertChannelModal extends React.PureComponent {
                 <Modal.Footer>
                     <button
                         type='button'
-                        className='btn btn-default'
+                        className='btn btn-link'
                         onClick={this.onHide}
                         tabIndex='2'
                     >

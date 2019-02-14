@@ -91,7 +91,6 @@ export default class PostHeader extends React.PureComponent {
                         userId={post.user_id}
                         hideStatus={true}
                         overwriteName={post.props.override_username}
-                        disablePopover={true}
                     />
                 );
             } else {
@@ -99,7 +98,6 @@ export default class PostHeader extends React.PureComponent {
                     <UserProfile
                         userId={post.user_id}
                         hideStatus={true}
-                        disablePopover={true}
                     />
                 );
             }

@@ -7,14 +7,13 @@ import {getUser, makeGetDisplayName} from 'mattermost-redux/selectors/entities/u
 
 import UserProfile from './user_profile';
 
-function makeMapStateToProps(initialState, initialProps) {
+function makeMapStateToProps() {
     const getDisplayName = makeGetDisplayName();
-    const userId = initialProps.userId;
 
-    return (state) => {
+    return (state, ownProps) => {
         return {
-            displayName: getDisplayName(state, userId),
-            user: getUser(state, userId),
+            displayName: getDisplayName(state, ownProps.userId),
+            user: getUser(state, ownProps.userId),
         };
     };
 }

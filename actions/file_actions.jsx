@@ -16,7 +16,7 @@ export function uploadFile(file, name, channelId, rootId, clientId) {
 
         return request.
             post(Client4.getFilesRoute()).
-            set(Client4.getOptions().headers).
+            set(Client4.getOptions({method: 'post'}).headers).
             attach('files', file, name).
             field('channel_id', channelId).
             field('client_ids', clientId).

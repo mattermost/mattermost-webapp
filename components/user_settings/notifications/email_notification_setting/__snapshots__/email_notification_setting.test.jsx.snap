@@ -2,7 +2,13 @@
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot 1`] = `
 <EmailNotificationSetting
+  actions={
+    Object {
+      "savePreferences": [MockFunction],
+    }
+  }
   activeSection="email"
+  currentUserId="current_user_id"
   emailInterval={0}
   enableEmail={false}
   enableEmailBatching={false}
@@ -321,7 +327,13 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, enabled email batching 1`] = `
 <EmailNotificationSetting
+  actions={
+    Object {
+      "savePreferences": [MockFunction],
+    }
+  }
   activeSection="email"
+  currentUserId="current_user_id"
   emailInterval={0}
   enableEmail={false}
   enableEmailBatching={true}

@@ -40,7 +40,7 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
 
     render() {
         // System administrators
-        if (this.props.config.CanViewSystemErrors) {
+        if (this.props.canViewSystemErrors) {
             const renewalLink = RENEWAL_LINK + '?id=' + this.props.license.id + '&user_count=' + this.props.totalUsers;
             if (isLicensePastGracePeriod()) {
                 return (

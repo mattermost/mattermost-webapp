@@ -151,7 +151,6 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
               onEmojiClose={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
-              rightOffset={15}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
@@ -395,7 +394,6 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
               onEmojiClose={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
-              rightOffset={15}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
@@ -523,7 +521,6 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
               onEmojiClose={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
-              rightOffset={15}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}

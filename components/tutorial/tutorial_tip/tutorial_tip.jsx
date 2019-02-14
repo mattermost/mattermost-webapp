@@ -7,7 +7,6 @@ import {Overlay} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {savePreference} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import tutorialGif from 'images/tutorialTip.gif';
 import tutorialGifWhite from 'images/tutorialTipWhite.gif';
@@ -25,6 +24,7 @@ export default class TutorialTip extends React.Component {
         diagnosticsTag: PropTypes.string,
         actions: PropTypes.shape({
             closeRhsMenu: PropTypes.func.isRequired,
+            savePreferences: PropTypes.func.isRequired,
         }),
     }
 
@@ -68,14 +68,20 @@ export default class TutorialTip extends React.Component {
             trackEvent('tutorial', tag);
         }
 
-        this.props.actions.closeRhsMenu();
+        const {currentUserId, actions} = this.props;
+        const {closeRhsMenu, savePreferences} = actions;
+
+        const preferences = [{
+            user_id: currentUserId,
+            category: Preferences.TUTORIAL_STEP,
+            name: currentUserId,
+            value: (this.props.step + 1).toString(),
+        }];
+
+        closeRhsMenu();
         this.hide();
 
-        savePreference(
-            Preferences.TUTORIAL_STEP,
-            this.props.currentUserId,
-            (this.props.step + 1).toString()
-        );
+        savePreferences(currentUserId, preferences);
     }
 
     skipTutorial = (e) => {
@@ -90,11 +96,15 @@ export default class TutorialTip extends React.Component {
             trackEvent('tutorial', tag);
         }
 
-        savePreference(
-            Preferences.TUTORIAL_STEP,
-            this.props.currentUserId,
-            TutorialSteps.FINISHED.toString()
-        );
+        const {currentUserId, actions} = this.props;
+        const preferences = [{
+            user_id: currentUserId,
+            category: Preferences.TUTORIAL_STEP,
+            name: currentUserId,
+            value: TutorialSteps.FINISHED.toString(),
+        }];
+
+        actions.savePreferences(currentUserId, preferences);
     }
 
     handleCircleClick = (e, screen) => {
