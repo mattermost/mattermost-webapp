@@ -23,6 +23,7 @@ import {ChannelTypes} from 'mattermost-redux/action_types';
 import {browserHistory} from 'utils/browser_history';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import {stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
+import {setPreviousRecentEmojis} from 'actions/local_storage';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {closeRightHandSide, closeMenu as closeRhsMenu, updateRhsState} from 'actions/views/rhs';
 import {clearUserCookie} from 'actions/views/root';
@@ -238,6 +239,8 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
     if (userAction) {
         LocalStorageStore.setWasLoggedIn(false);
     }
+
+    dispatch(setPreviousRecentEmojis());
 
     dispatch(logout()).then(() => {
         if (shouldSignalLogout) {
