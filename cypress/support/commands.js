@@ -82,3 +82,15 @@ Cypress.Commands.add('typeCmdOrCtrl', () => {
 function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
 }
+
+// ***********************************************************
+// Post
+// ***********************************************************
+
+Cypress.Commands.add('post', (message) => {
+    cy.get('#post_textbox').type(message).type('{enter}');
+});
+
+Cypress.Commands.add('getLastPostId', () => {
+    return cy.get('#postListContent').children().last().invoke('attr', 'id');
+});
