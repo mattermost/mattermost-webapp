@@ -3,22 +3,9 @@
 
 import assert from 'assert';
 
-import store from 'stores/redux_store.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 
 describe('TextFormatting.Hashtags with default setting', () => {
-    beforeAll(() => {
-        store.getState = () => ({
-            entities: {
-                general: {
-                    config: {
-                        MinimumHashtagLength: 3,
-                    },
-                },
-            },
-        });
-    });
-
     it('Not hashtags', (done) => {
         assert.equal(
             TextFormatting.formatText('# hashtag').trim(),
@@ -212,58 +199,22 @@ describe('TextFormatting.Hashtags with default setting', () => {
 
 describe('TextFormatting.Hashtags with various settings', () => {
     it('Boundary of MinimumHashtagLength', (done) => {
-        store.getState = () => ({
-            entities: {
-                general: {
-                    config: {
-                        MinimumHashtagLength: 3,
-                    },
-                },
-            },
-        });
         assert.equal(
-            TextFormatting.formatText('#疑問').trim(),
-            '<p>#疑問</p>'
-        );
-        assert.equal(
-            TextFormatting.formatText('This is a sentence #疑問 containing a hashtag').trim(),
-            '<p>This is a sentence #疑問 containing a hashtag</p>'
-        );
-
-        store.getState = () => ({
-            entities: {
-                general: {
-                    config: {
-                        MinimumHashtagLength: 2,
-                    },
-                },
-            },
-        });
-        assert.equal(
-            TextFormatting.formatText('#疑問').trim(),
+            TextFormatting.formatText('#疑問', {minimumHashtagLength: 2}).trim(),
             "<p><a class='mention-link' href='#' data-hashtag='#疑問'>#疑問</a></p>"
         );
         assert.equal(
-            TextFormatting.formatText('This is a sentence #疑問 containing a hashtag').trim(),
+            TextFormatting.formatText('This is a sentence #疑問 containing a hashtag', {minimumHashtagLength: 2}).trim(),
             "<p>This is a sentence <a class='mention-link' href='#' data-hashtag='#疑問'>#疑問</a> containing a hashtag</p>"
         );
 
-        store.getState = () => ({
-            entities: {
-                general: {
-                    config: {
-                        MinimumHashtagLength: 1,
-                    },
-                },
-            },
-        });
         assert.equal(
-            TextFormatting.formatText('#疑問').trim(),
-            "<p><a class='mention-link' href='#' data-hashtag='#疑問'>#疑問</a></p>"
+            TextFormatting.formatText('#疑', {minimumHashtagLength: 2}).trim(),
+            '<p>#疑</p>'
         );
         assert.equal(
-            TextFormatting.formatText('This is a sentence #疑問 containing a hashtag').trim(),
-            "<p>This is a sentence <a class='mention-link' href='#' data-hashtag='#疑問'>#疑問</a> containing a hashtag</p>"
+            TextFormatting.formatText('This is a sentence #疑 containing a hashtag', {minimumHashtagLength: 2}).trim(),
+            '<p>This is a sentence #疑 containing a hashtag</p>'
         );
 
         done();

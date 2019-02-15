@@ -15,6 +15,7 @@ describe('components/Markdown', () => {
         siteURL: 'https://markdown.example.com',
         team: {name: 'yourteamhere'},
         hasImageProxy: false,
+        minimumHashtagLength: 3,
         metadata: {},
     };
 

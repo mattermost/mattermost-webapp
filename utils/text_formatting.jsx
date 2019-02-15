@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import XRegExp from 'xregexp';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 import emojiRegex from 'emoji-regex';
 
@@ -44,6 +43,7 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 // - team - The current team.
 // - proxyImages - If specified, images are proxied. Defaults to false.
 // - autolinkedUrlSchemes - An array of url schemes that will be allowed for autolinking. Defaults to autolinking with any url scheme.
+// - minimumHashtagLength - Minimum number of characters in a hashtag. Defaults to 3.
 export function formatText(text, inputOptions) {
     if (!text || typeof text !== 'string') {
         return '';
@@ -99,7 +99,7 @@ export function doFormatText(text, options) {
     }
 
     output = autolinkEmails(output, tokens);
-    output = autolinkHashtags(output, tokens);
+    output = autolinkHashtags(output, tokens, options.minimumHashtagLength);
 
     if (!('emoticons' in options) || options.emoticon) {
         output = Emoticons.handleEmoticons(output, tokens);
@@ -327,7 +327,7 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
     return output;
 }
 
-function autolinkHashtags(text, tokens) {
+function autolinkHashtags(text, tokens, minimumHashtagLength = 3) {
     let output = text;
 
     var newTokens = new Map();
@@ -356,8 +356,7 @@ function autolinkHashtags(text, tokens) {
         const index = tokens.size;
         const alias = `$MM_HASHTAG${index}$`;
 
-        const {MinimumHashtagLength} = getConfig(store.getState());
-        if (originalText.length < parseInt(MinimumHashtagLength, 10) + 1) {
+        if (originalText.length < minimumHashtagLength + 1) {
             // too short to be a hashtag
             return fullMatch;
         }
