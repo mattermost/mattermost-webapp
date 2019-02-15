@@ -14,7 +14,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
-import AdminPanelWithButton from 'components/widgets/admin_console/admin_panel_with_button.jsx';
+import AdminPanelWithLink from 'components/widgets/admin_console/admin_panel_with_link.jsx';
 
 import PermissionsSchemeSummary from './permissions_scheme_summary';
 
@@ -159,18 +159,18 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                     </div>
                 </div>
 
-                <AdminPanelWithButton
+                <AdminPanelWithLink
                     titleId={t('admin.permissions.systemSchemeBannerTitle')}
                     titleDefault='System Scheme'
                     subtitleId={t('admin.permissions.systemSchemeBannerText')}
                     subtitleDefault='Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied.'
                     url='/admin_console/permissions/system-scheme'
                     disabled={teamOverrideView !== null}
-                    buttonTextId={t('admin.permissions.systemSchemeBannerButton')}
-                    buttonTextDefault='Edit Scheme'
+                    linkTextId={t('admin.permissions.systemSchemeBannerButton')}
+                    linkTextDefault='Edit Scheme'
                 />
 
-                <AdminPanelWithButton
+                <AdminPanelWithLink
                     className='permissions-block'
                     titleId={t('admin.permissions.teamOverrideSchemesTitle')}
                     titleDefault='Team Override Schemes'
@@ -178,8 +178,8 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                     subtitleDefault='Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme).'
                     url='/admin_console/permissions/team-override-scheme'
                     disabled={teamOverrideView !== null}
-                    buttonTextId={t('admin.permissions.teamOverrideSchemesNewButton')}
-                    buttonTextDefault='New Team Override Scheme'
+                    linkTextId={t('admin.permissions.teamOverrideSchemesNewButton')}
+                    linkTextDefault='New Team Override Scheme'
                 >
                     {schemes.length === 0 && teamOverrideView === null &&
                         <div className='no-team-schemes'>
@@ -206,7 +206,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                                 />
                             </LoadingWrapper>
                         </button>}
-                </AdminPanelWithButton>
+                </AdminPanelWithLink>
             </div>
         );
     };

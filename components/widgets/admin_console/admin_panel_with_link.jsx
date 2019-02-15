@@ -4,26 +4,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+import {Link} from 'react-router-dom';
 
 import AdminPanel from './admin_panel.jsx';
 
-const AdminPanelWithButton = (props) => {
+const AdminPanelWithLink = (props) => {
     const button = (
-        <a
+        <Link
             className='btn btn-primary'
-            onClick={props.onButtonClick}
+            to={props.url}
             disabled={props.disabled}
         >
             <FormattedMessage
-                id={props.buttonTextId}
-                defaultMessage={props.buttonTextDefault}
+                id={props.linkTextId}
+                defaultMessage={props.linkTextDefault}
             />
-        </a>
+        </Link>
     );
 
     return (
         <AdminPanel
-            className={'AdminPanelWithButton ' + props.className}
+            className={'AdminPanelWithLink ' + props.className}
             id={props.id}
             titleId={props.titleId}
             titleDefault={props.titleDefault}
@@ -36,7 +37,7 @@ const AdminPanelWithButton = (props) => {
     );
 };
 
-AdminPanelWithButton.propTypes = {
+AdminPanelWithLink.propTypes = {
     children: PropTypes.node,
     className: PropTypes.string.isRequired,
     id: PropTypes.string,
@@ -44,14 +45,14 @@ AdminPanelWithButton.propTypes = {
     titleDefault: PropTypes.string.isRequired,
     subtitleId: PropTypes.string.isRequired,
     subtitleDefault: PropTypes.string.isRequired,
-    onButtonClick: PropTypes.func,
+    url: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
-    buttonTextId: PropTypes.string,
-    buttonTextDefault: PropTypes.string,
+    linkTextId: PropTypes.string.isRequired,
+    linkTextDefault: PropTypes.string.isRequired,
 };
 
-AdminPanelWithButton.defaultProps = {
+AdminPanelWithLink.defaultProps = {
     className: '',
 };
 
-export default AdminPanelWithButton;
+export default AdminPanelWithLink;
