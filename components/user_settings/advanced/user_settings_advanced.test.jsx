@@ -26,6 +26,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         collapseModal: jest.fn(),
         actions: {
             savePreferences: jest.fn(),
+            updateUserActive: jest.fn(),
         },
         advancedSettingsCategory: [],
         sendOnCtrlEnter: '',
@@ -53,5 +54,15 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
         wrapper.instance().handleUpdateSection('linkpreview');
         expect(updateSection).toHaveBeenCalledWith('linkpreview');
+    });
+
+    test('should have called updateUserActive', () => {
+        const updateUserActive = jest.fn(() => Promise.resolve({}));
+        const props = {...requiredProps, actions: {...requiredProps.actions, updateUserActive}};
+        const wrapper = shallow(<AdvancedSettingsDisplay {...props}/>);
+
+        wrapper.instance().handleDeactivateAccountSubmit();
+        expect(updateUserActive).toHaveBeenCalled();
+        expect(updateUserActive).toHaveBeenCalledWith(requiredProps.currentUser.id, false);
     });
 });
