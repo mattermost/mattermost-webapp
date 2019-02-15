@@ -101,6 +101,8 @@ export default class PostList extends React.PureComponent {
              * Function to check and set if app is in mobile view
              */
             checkAndSetMobileView: PropTypes.func.isRequired,
+
+            receivedPostsInChannel: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -403,7 +405,16 @@ export default class PostList extends React.PureComponent {
             const result = await getPostsBeforeAsync;
             posts = result.data;
             await getPostsAfterAsync;
-            await getPostThreadAsync;
+            const threadResult = await getPostThreadAsync;
+            const threadPosts = threadResult.data;
+
+            // Hack to fix permalink view while working on postsInChannel since it no longer stores the results of getPostThread
+            if (threadPosts) {
+                this.props.actions.receivedPostsInChannel({
+                    posts: {focusedPostId: threadPosts.posts[focusedPostId]},
+                    order: [focusedPostId],
+                }, channelId);
+            }
 
             this.hasScrolledToFocusedPost = true;
         } else {
