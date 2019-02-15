@@ -19,6 +19,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import PermissionsTree from '../permissions_tree';
 
+import LocalizedInput from 'components/localized_input/localized_input';
+
 import TeamInList from './team_in_list';
 
 export default class PermissionTeamSchemeSettings extends React.Component {
@@ -411,12 +413,12 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                                     defaultMessage='Scheme Name:'
                                 />
                             </label>
-                            <input
+                            <LocalizedInput
                                 id='scheme-name'
                                 className='form-control'
                                 type='text'
                                 value={schemeName}
-                                placeholder={localizeMessage('admin.permissions.teamScheme.schemeNamePlaceholder', 'Scheme Name')}
+                                placeholder={{id: 'admin.permissions.teamScheme.schemeNamePlaceholder', defaultMessage: 'Scheme Name'}}
                                 onChange={this.handleNameChange}
                             />
                         </div>
