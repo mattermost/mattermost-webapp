@@ -3072,6 +3072,7 @@ export default {
                             help_text_default: 'Enables a hardened mode for Mattermost that makes user experience trade-offs in the interest of security. See [documentation](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) to learn more.',
                             help_text_markdown: true,
                         },
+
                         // {
                         //     type: Constants.SettingsTypes.TYPE_BOOL,
                         //     key: 'ServiceSettings.ExperimentalStrictCSRFEnforcement',
@@ -3202,6 +3203,7 @@ export default {
                             placeholder: t('admin.experimental.emailBatchingInterval.example'),
                             placeholder_default: 'E.g.: "30"',
                         },
+
                         // {
                         //     type: Constants.SettingsTypes.TYPE_TEXT,
                         //     key: 'EmailSettings.ReplyToAddress',
@@ -3234,6 +3236,7 @@ export default {
                             isHidden: needsUtils.not(needsUtils.hasLicense), // E10 and higher
                             isDisabled: needsUtils.stateValueFalse('ThemeSettings.EnableThemeSelection'),
                         },
+
                         // {
                         //     type: Constants.SettingsTypes.TYPE_LIST,
                         //     key: 'ThemeSettings.AllowedThemes',
