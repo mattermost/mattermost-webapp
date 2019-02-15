@@ -136,6 +136,47 @@ export default class AboutBuildModal extends React.PureComponent {
             }
         }
 
+        let termsOfService;
+        if (config.TermsOfServiceLink) {
+            termsOfService = (
+                <a
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    href={config.TermsOfServiceLink}
+                >
+                    <FormattedMessage
+                        id='about.tos'
+                        defaultMessage='Terms of Service'
+                    />
+                </a>
+            );
+        }
+
+        let privacyPolicy;
+        if (config.PrivacyPolicyLink) {
+            privacyPolicy = (
+                <a
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    href={config.PrivacyPolicyLink}
+                >
+                    <FormattedMessage
+                        id='about.privacy'
+                        defaultMessage='Privacy Policy'
+                    />
+                </a>
+            );
+        }
+
+        let tosPrivacyHyphen;
+        if (config.TermsOfServiceLink && config.PrivacyPolicyLink) {
+            tosPrivacyHyphen = (
+                <span>
+                    {' - '}
+                </span>
+            );
+        }
+
         // Only show build number if it's a number (so only builds from Jenkins)
         let buildnumber = (
             <div>
@@ -217,27 +258,9 @@ export default class AboutBuildModal extends React.PureComponent {
                                 />
                             </div>
                             <div className='about-modal__links'>
-                                <a
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    href={config.TermsOfServiceLink}
-                                >
-                                    <FormattedMessage
-                                        id='about.tos'
-                                        defaultMessage='Terms of Service'
-                                    />
-                                </a>
-                                <span>{' - '}</span>
-                                <a
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    href={config.PrivacyPolicyLink}
-                                >
-                                    <FormattedMessage
-                                        id='about.privacy'
-                                        defaultMessage='Privacy Policy'
-                                    />
-                                </a>
+                                {termsOfService}
+                                {tosPrivacyHyphen}
+                                {privacyPolicy}
                             </div>
                         </div>
                     </div>

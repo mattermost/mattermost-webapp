@@ -162,7 +162,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
           className="about-modal__links"
         >
           <a
-            href="http://about.mattermost.com/default-terms/"
+            href="https://about.mattermost.com/default-terms/"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -176,7 +176,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
              - 
           </span>
           <a
-            href="http://mattermost.com/privacy-policy/"
+            href="https://mattermost.com/privacy-policy/"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -392,7 +392,7 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
           className="about-modal__links"
         >
           <a
-            href="http://about.mattermost.com/default-terms/"
+            href="https://about.mattermost.com/default-terms/"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -406,7 +406,7 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
              - 
           </span>
           <a
-            href="http://mattermost.com/privacy-policy/"
+            href="https://mattermost.com/privacy-policy/"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -633,7 +633,7 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
           className="about-modal__links"
         >
           <a
-            href="http://about.mattermost.com/default-terms/"
+            href="https://about.mattermost.com/default-terms/"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -647,7 +647,7 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
              - 
           </span>
           <a
-            href="http://mattermost.com/privacy-policy/"
+            href="https://mattermost.com/privacy-policy/"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -862,7 +862,7 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
           className="about-modal__links"
         >
           <a
-            href="http://about.mattermost.com/default-terms/"
+            href="https://about.mattermost.com/default-terms/"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -876,7 +876,7 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
              - 
           </span>
           <a
-            href="http://mattermost.com/privacy-policy/"
+            href="https://mattermost.com/privacy-policy/"
             rel="noopener noreferrer"
             target="_blank"
           >
