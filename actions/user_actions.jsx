@@ -3,7 +3,7 @@
 
 import {getChannelAndMyMember, getChannelMembersByIds} from 'mattermost-redux/actions/channels';
 import {deletePreferences as deletePreferencesRedux, savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
-import {getMyTeamMembers, getMyTeamUnreads, getTeamMembersByIds} from 'mattermost-redux/actions/teams';
+import {getTeamMembersByIds} from 'mattermost-redux/actions/teams';
 import * as UserActions from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences as PreferencesRedux} from 'mattermost-redux/constants';
@@ -26,18 +26,6 @@ import {Constants, Preferences, UserStatuses} from 'utils/constants.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
-
-export async function switchFromLdapToEmail(email, password, token, ldapPassword, success, error) {
-    const {data, error: err} = await UserActions.switchLdapToEmail(ldapPassword, email, password, token)(dispatch, getState);
-
-    if (data) {
-        if (success) {
-            success(data);
-        }
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
 
 export function loadProfilesAndTeamMembers(page, perPage, teamId) {
     return async (doDispatch, doGetState) => {
@@ -354,51 +342,6 @@ export async function autocompleteUsers(username, success) {
     }
 }
 
-export async function updateUser(user, success, error) {
-    const {data, error: err} = await UserActions.updateMe(user)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function updateUserNotifyProps(props, success, error) {
-    const {data, error: err} = await UserActions.updateMe({notify_props: props})(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function updateUserRoles(userId, newRoles, success, error) {
-    const {data, error: err} = await UserActions.updateUserRoles(userId, newRoles)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function updateActive(userId, active, success, error) {
-    const {data, error: err} = await UserActions.updateUserActive(userId, active)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function updatePassword(userId, currentPassword, newPassword, success, error) {
-    const {data, error: err} = await UserActions.updateUserPassword(userId, currentPassword, newPassword)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export function revokeAllSessions(userId, success, error) {
     UserActions.revokeAllSessionsForUser(userId)(dispatch, getState).then(
         (data) => {
@@ -474,36 +417,11 @@ export function deauthorizeOAuthApp(appId, success, error) {
     );
 }
 
-export async function uploadProfileImage(userPicture, success, error) {
-    const {data, error: err} = await UserActions.uploadProfileImage(Selectors.getCurrentUserId(getState()), userPicture)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function loadProfiles(page, perPage, options = {}, success) {
     const {data} = await UserActions.getProfiles(page, perPage, options)(dispatch, getState);
     if (success) {
         success(data);
     }
-}
-
-export function getMissingProfiles(ids) {
-    const state = getState();
-    const missingIds = ids.filter((id) => !Selectors.getUser(state, id));
-
-    if (missingIds.length === 0) {
-        return;
-    }
-
-    UserActions.getProfilesByIds(missingIds)(dispatch, getState);
-}
-
-export async function loadMyTeamMembers() {
-    await getMyTeamMembers()(dispatch, getState);
-    getMyTeamUnreads()(dispatch, getState);
 }
 
 export function autoResetStatus() {

@@ -462,7 +462,7 @@ export default {
                             label: t('admin.team.restrictTitle'),
                             label_default: 'Restrict account creation to specified email domains:',
                             help_text: t('admin.team.restrictDescription'),
-                            help_text_default: 'Teams and user accounts can only be created from a specific domain (e.g. "mattermost.org") or list of comma-separated domains (e.g. "corp.mattermost.com, mattermost.org").',
+                            help_text_default: 'User accounts can only be created from a specific domain (e.g. "mattermost.org") or list of comma-separated domains (e.g. "corp.mattermost.com, mattermost.org"). This setting only affects email login.',
                             placeholder: t('admin.team.restrictExample'),
                             placeholder_default: 'E.g.: "corp.mattermost.com, mattermost.org"',
                         },

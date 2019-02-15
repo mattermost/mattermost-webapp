@@ -21,7 +21,7 @@ exports[`components/admin_console/group_settings/GroupSettings should match snap
     >
       <InjectIntl(FormattedMarkdownMessage)
         defaultMessage="Groups are a way to organize users and apply actions to all users within that group.
-For more information on Groups, please see [documentation](!https://about.mattermost.com)."
+For more information on Groups, please see [documentation](!https://www.mattermost.com/default-ad-ldap-groups)."
         id="admin.group_settings.introBanner"
       />
     </div>

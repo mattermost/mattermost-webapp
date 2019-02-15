@@ -414,6 +414,7 @@ export function debouncePostEvent(func, wait) {
                     type: PostTypes.RECEIVED_POSTS,
                     data: {posts: posts[channelId]},
                     channelId,
+                    receivedNewPosts: true,
                 });
                 getProfilesAndStatusesForPosts(posts[channelId], dispatch, getState);
             }
@@ -462,14 +463,10 @@ function handlePostEditEvent(msg) {
     // Store post
     const post = JSON.parse(msg.data.post);
     dispatch({
-        type: PostTypes.RECEIVED_POSTS,
+        type: PostTypes.RECEIVED_POST,
         data: {
-            order: [],
-            posts: {
-                [post.id]: post,
-            },
+            post,
         },
-        channelId: post.channel_id,
     });
 
     getProfilesAndStatusesForPosts([post], dispatch, getState);

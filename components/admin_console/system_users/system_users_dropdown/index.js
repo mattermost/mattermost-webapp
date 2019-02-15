@@ -2,7 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
+import {updateUserActive} from 'mattermost-redux/actions/users';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
@@ -15,4 +17,10 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(SystemUsersDropdown);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({updateUserActive}, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SystemUsersDropdown);
