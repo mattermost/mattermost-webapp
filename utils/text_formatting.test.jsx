@@ -12,7 +12,7 @@ describe('formatText', () => {
         const emoji = ':)';
         let spaces = '';
 
-        for(let i = 0; i < 3; i++) {
+        for (let i = 0; i < 3; i++) {
             spaces += ' ';
             const output = formatText(`${spaces}${emoji}`, {});
             expect(output).toBe(`<span class="all-emoji"><p>${spaces}<span data-emoticon="slightly_smiling_face">${emoji}</span></p></span>`);
