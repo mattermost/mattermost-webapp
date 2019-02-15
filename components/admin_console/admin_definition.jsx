@@ -3052,7 +3052,7 @@ export default {
                             help_text: t('admin.experimental.experimentalEnableAuthenticationTransfer.desc'),
                             help_text_default: 'When true, users can change their sign-in method to any that is enabled on the server, either via Account Settings or the APIs. When false, Users cannot change their sign-in method, regardless of which authentication options are enabled.',
                             help_text_markdown: false,
-                            isHidden: needsUtils.not(needsUtils.hasLicense),
+                            isHidden: needsUtils.not(needsUtils.hasLicense), // documented as E20 and higher, but only E10 in the code
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3287,7 +3287,7 @@ export default {
                             help_text: t('admin.experimental.clientSideCertEnable.desc'),
                             help_text_default: 'Enables client-side certification for your Mattermost server. See [documentation](!https://docs.mattermost.com/deployment/certificate-based-authentication.html) to learn more.',
                             help_text_markdown: true,
-                            isHidden: needsUtils.not(needsUtils.hasLicense), // E20 and higher
+                            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('SAML')),
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_DROPDOWN,
