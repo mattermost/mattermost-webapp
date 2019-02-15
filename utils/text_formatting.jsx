@@ -77,7 +77,7 @@ export function formatText(text, inputOptions) {
     }
 
     if (htmlEmojiPattern.test(output.trim())) {
-        output = '<span class="all-emoji">' + output + '</span>';
+        output = '<span class="all-emoji">' + output.trim() + '</span>';
     }
 
     return output;
