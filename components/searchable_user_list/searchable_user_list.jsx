@@ -27,6 +27,7 @@ export default class SearchableUserList extends React.Component {
         actionUserProps: PropTypes.object,
         focusOnMount: PropTypes.bool,
         renderCount: PropTypes.func,
+        filter: PropTypes.string,
         renderFilterRow: PropTypes.func,
 
         page: PropTypes.number.isRequired,
@@ -112,6 +113,10 @@ export default class SearchableUserList extends React.Component {
 
     renderCount(users) {
         if (!users) {
+            return null;
+        }
+
+        if (this.props.filter) {
             return null;
         }
 
@@ -213,6 +218,7 @@ export default class SearchableUserList extends React.Component {
             filterRow = (
                 <div className='col-xs-12'>
                     <QuickInput
+                        id='searchUsersInput'
                         ref='filter'
                         className='form-control filter-textbox'
                         placeholder={Utils.localizeMessage('filtered_user_list.search', 'Search users')}

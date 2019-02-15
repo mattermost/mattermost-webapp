@@ -3,7 +3,6 @@
         @include border-radius(100px);
         font-size: 11px;
         height: 17px;
-        line-height: 16px;
         min-width: 18px;
         padding: 0 5px;
         position: relative;
@@ -18,7 +17,6 @@
             position: absolute;
             right: -8px;
             top: -6px;
-            padding: 0px 6px;
             z-index: 5;
         }
     }

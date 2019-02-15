@@ -99,6 +99,7 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
                         <div className='row'>
                             <div className='col-sm-9'>
                                 <input
+                                    id='teamNameInput'
                                     type='text'
                                     ref='name'
                                     className='form-control'
@@ -120,6 +121,7 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
                         />
                     </div>
                     <button
+                        id='teamNameNextButton'
                         type='submit'
                         className='btn btn-primary margin--extra'
                         onClick={this.submitNext}

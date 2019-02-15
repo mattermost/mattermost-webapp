@@ -111,6 +111,7 @@ export default class EmojiPickerTabs extends PureComponent {
         }
         return (
             <div
+                id='emojiPicker'
                 style={pickerStyle}
                 className={pickerClass}
             >
