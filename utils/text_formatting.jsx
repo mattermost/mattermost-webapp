@@ -322,7 +322,7 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
         let pattern;
         if (cjkPattern.test(mention.key)) {
             // In the case of CJK mention key, even if there no delimiters (such as spaces) at both ends of a word, it is recognized as a mention key
-            pattern = new RegExp(`(^|.)(${escapeRegex(mention.key)})($|.)`, flags);
+            pattern = new RegExp(`()(${escapeRegex(mention.key)})()`, flags);
         } else {
             pattern = new RegExp(`(^|\\W)(${escapeRegex(mention.key)})(\\b|_+\\b)`, flags);
         }
