@@ -29,5 +29,35 @@ describe('Emoticons', () => {
             expect(Emoticons.handleEmoticons(':goat : : dash:', new Map())).
                 toEqual(':goat : : dash:');
         });
+
+        test('should allow comma immediately following emoticon 1', () => {
+            expect(Emoticons.handleEmoticons(':),', new Map())).
+                toEqual('$MM_EMOTICON0$,');
+        });
+
+        test('should allow comma immediately following emoticon 2', () => {
+            expect(Emoticons.handleEmoticons(':P,', new Map())).
+                toEqual('$MM_EMOTICON0$,');
+        });
+
+        test('should allow punctuation immediately following emoticon 1', () => {
+            expect(Emoticons.handleEmoticons(':)!', new Map())).
+                toEqual('$MM_EMOTICON0$!');
+        });
+
+        test('should allow punctuation immediately following emoticon 2', () => {
+            expect(Emoticons.handleEmoticons(':P!', new Map())).
+                toEqual('$MM_EMOTICON0$!');
+        });
+
+        test('should allow punctuation immediately before and following emoticon 1', () => {
+            expect(Emoticons.handleEmoticons('":)"', new Map())).
+                toEqual('"$MM_EMOTICON0$"');
+        });
+
+        test('should allow punctuation immediately before and following emoticon 2', () => {
+            expect(Emoticons.handleEmoticons('":P"', new Map())).
+                toEqual('"$MM_EMOTICON0$"');
+        });
     });
 });

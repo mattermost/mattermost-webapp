@@ -51,7 +51,6 @@ export function handleEmoticons(text, tokens) {
         // this might look a bit funny, but since the name isn't contained in the actual match
         // like with the named emoticons, we need to add it in manually
         output = output.replace(pattern, (fullMatch, prefix, matchText) => replaceEmoticonWithToken(fullMatch, prefix, matchText, name));
-        console.log(output);
     }
 
     return output;
