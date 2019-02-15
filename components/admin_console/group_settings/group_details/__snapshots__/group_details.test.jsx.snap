@@ -59,7 +59,9 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
               className="fa fa-caret-down"
             />
           </button>
-          <Menu>
+          <Menu
+            ariaLabel="Add Team or Channel Menu"
+          >
             <MenuItemAction
               onClick={[Function]}
               show={true}
@@ -220,7 +222,9 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
               className="fa fa-caret-down"
             />
           </button>
-          <Menu>
+          <Menu
+            ariaLabel="Add Team or Channel Menu"
+          >
             <MenuItemAction
               onClick={[Function]}
               show={true}
@@ -517,7 +521,9 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
               className="fa fa-caret-down"
             />
           </button>
-          <Menu>
+          <Menu
+            ariaLabel="Add Team or Channel Menu"
+          >
             <MenuItemAction
               onClick={[Function]}
               show={true}
@@ -661,7 +667,9 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
               className="fa fa-caret-down"
             />
           </button>
-          <Menu>
+          <Menu
+            ariaLabel="Add Team or Channel Menu"
+          >
             <MenuItemAction
               onClick={[Function]}
               show={true}

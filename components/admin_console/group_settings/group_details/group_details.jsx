@@ -145,7 +145,7 @@ export default class GroupDetails extends React.PureComponent {
                                     />
                                     <i className={'fa fa-caret-down'}/>
                                 </button>
-                                <Menu>
+                                <Menu ariaLabel={localizeMessage('admin.group_settings.group_details.menuAriaLabel', 'Add Team or Channel Menu')}>
                                     <MenuItemAction
                                         onClick={this.openAddTeam}
                                         text={localizeMessage('admin.group_settings.group_details.add_team', 'Add Team')}

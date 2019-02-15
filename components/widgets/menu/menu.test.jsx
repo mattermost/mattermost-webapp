@@ -16,11 +16,11 @@ jest.mock('utils/utils', () => {
 
 describe('components/Menu', () => {
     test('should match snapshot', () => {
-        const wrapper = shallow(<Menu>{'text'}</Menu>);
+        const wrapper = shallow(<Menu ariaLabel='test-label'>{'text'}</Menu>);
 
         expect(wrapper).toMatchInlineSnapshot(`
 <ul
-  aria-labelledby="channel_header_dropdown"
+  aria-label="test-label"
   className="Menu dropdown-menu"
   role="menu"
   style={Object {}}
@@ -31,11 +31,18 @@ describe('components/Menu', () => {
     });
 
     test('should match snapshot with id', () => {
-        const wrapper = shallow(<Menu id='test-id'>{'text'}</Menu>);
+        const wrapper = shallow(
+            <Menu
+                id='test-id'
+                ariaLabel='test-label'
+            >
+                {'text'}
+            </Menu>
+        );
 
         expect(wrapper).toMatchInlineSnapshot(`
 <ul
-  aria-labelledby="channel_header_dropdown"
+  aria-label="test-label"
   className="Menu dropdown-menu"
   id="test-id"
   role="menu"
@@ -54,6 +61,7 @@ describe('components/Menu', () => {
             <Menu
                 openLeft={true}
                 openUp={true}
+                ariaLabel='test-label'
             >
                 {'text'}
             </Menu>
@@ -61,7 +69,7 @@ describe('components/Menu', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
 <ul
-  aria-labelledby="channel_header_dropdown"
+  aria-label="test-label"
   className="Menu dropdown-menu"
   role="menu"
   style={Object {}}
@@ -79,6 +87,7 @@ describe('components/Menu', () => {
             <Menu
                 openLeft={true}
                 openUp={true}
+                ariaLabel='test-label'
             >
                 {'text'}
             </Menu>
@@ -86,7 +95,7 @@ describe('components/Menu', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
 <ul
-  aria-labelledby="channel_header_dropdown"
+  aria-label="test-label"
   className="Menu dropdown-menu"
   role="menu"
   style={

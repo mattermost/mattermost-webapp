@@ -64,7 +64,7 @@ export default class AdminNavbarDropdown extends React.Component {
         }
 
         return (
-            <Menu>
+            <Menu ariaLabel={Utils.localizeMessage('admin.nav.menuAriaLabel', 'Admin Console Menu')}>
                 <MenuGroup>
                     {teamToRender}
                     {switchTeams}

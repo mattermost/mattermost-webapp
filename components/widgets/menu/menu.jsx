@@ -12,6 +12,7 @@ export default class Menu extends React.PureComponent {
         openLeft: PropTypes.bool,
         openUp: PropTypes.bool,
         id: PropTypes.string,
+        ariaLabel: PropTypes.string.isRequired,
     };
 
     constructor(props) {
@@ -28,7 +29,7 @@ export default class Menu extends React.PureComponent {
     }
 
     render() {
-        const {children, openUp, openLeft, id} = this.props;
+        const {children, openUp, openLeft, id, ariaLabel} = this.props;
         const styles = {};
         if (openLeft && !isMobile()) {
             styles.left = 'inherit';
@@ -46,7 +47,7 @@ export default class Menu extends React.PureComponent {
                 className='Menu dropdown-menu'
                 style={styles}
                 role='menu'
-                aria-labelledby='channel_header_dropdown'
+                aria-label={ariaLabel}
             >
                 {children}
             </ul>

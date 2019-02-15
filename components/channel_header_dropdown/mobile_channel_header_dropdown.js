@@ -69,12 +69,19 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                     </FormattedMessage>
                 </a>
 
-                <Menu>
-                    <ChannelHeaderDropdownItems isMobile={true}/>
-                    <div className='close visible-xs-block'>
-                        {'×'}
-                    </div>
-                </Menu>
+                <FormattedMessage
+                    id='channel_header.menuAriaLabel'
+                    defaultMessage='Channel Menu'
+                >
+                    {(ariaLabel) => (
+                        <Menu ariaLabel={ariaLabel}>
+                            <ChannelHeaderDropdownItems isMobile={true}/>
+                            <div className='close visible-xs-block'>
+                                {'×'}
+                            </div>
+                        </Menu>
+                    )}
+                </FormattedMessage>
             </MenuWrapper>
         );
     }

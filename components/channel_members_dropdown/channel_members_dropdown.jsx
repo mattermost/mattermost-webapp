@@ -129,7 +129,10 @@ export default class ChannelMembersDropdown extends React.Component {
                             <span>{role} </span>
                             <DropdownIcon/>
                         </button>
-                        <Menu openLeft={true}>
+                        <Menu
+                            openLeft={true}
+                            ariaLabel={Utils.localizeMessage('channel_members_dropdown.menuAriaLabel', 'Channel member role change')}
+                        >
                             <MenuItemAction
                                 show={canMakeChannelMember}
                                 onClick={this.handleMakeChannelMember}

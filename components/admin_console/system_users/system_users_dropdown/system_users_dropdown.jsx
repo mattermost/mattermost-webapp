@@ -451,7 +451,10 @@ export default class SystemUsersDropdown extends React.Component {
                     <span className='caret'/>
                 </a>
                 <div>
-                    <Menu openLeft={true}>
+                    <Menu
+                        openLeft={true}
+                        ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
+                    >
                         {this.renderAccessToken()}
                         <MenuItemAction
                             show={showMakeActive}

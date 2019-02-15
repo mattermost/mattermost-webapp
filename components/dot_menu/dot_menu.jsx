@@ -250,6 +250,7 @@ export default class DotMenu extends Component {
                     openLeft={true}
                     openUp={this.state.openUp}
                     ref={this.refCallback}
+                    ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
                 >
                     <ChannelPermissionGate
                         channelId={this.props.post.channel_id}
