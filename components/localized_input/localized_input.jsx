@@ -12,6 +12,7 @@ export default class LocalizedInput extends React.Component {
             id: PropTypes.string.isRequired,
             defaultMessage: PropTypes.string.isRequired,
         }).isRequired,
+        value: PropTypes.string,
     };
 
     static contextTypes = {
@@ -37,7 +38,8 @@ export default class LocalizedInput extends React.Component {
     };
 
     shouldComponentUpdate(nextProps) {
-        return nextProps.placeholder.id !== this.props.placeholder.id ||
+        return nextProps.value !== this.props.value ||
+            nextProps.placeholder.id !== this.props.placeholder.id ||
             nextProps.placeholder.defaultMessage !== this.props.placeholder.defaultMessage;
     }
 
