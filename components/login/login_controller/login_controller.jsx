@@ -30,6 +30,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 import SuccessIcon from 'components/icon/success_icon';
 import WarningIcon from 'components/icon/warning_icon';
+import LocalizedInput from 'components/localized_input/localized_input';
 
 import LoginMfa from '../login_mfa.jsx';
 
@@ -563,7 +564,7 @@ class LoginController extends React.Component {
                             />
                         </div>
                         <div className={'form-group' + errorClass}>
-                            <input
+                            <LocalizedInput
                                 id='loginPassword'
                                 type='password'
                                 className='form-control'
@@ -571,7 +572,7 @@ class LoginController extends React.Component {
                                 name='password'
                                 value={this.state.password}
                                 onChange={this.handlePasswordChange}
-                                placeholder={Utils.localizeMessage('login.password', 'Password')}
+                                placeholder={{id: 'login.password', defaultMessage: 'Password'}}
                                 spellCheck='false'
                             />
                         </div>

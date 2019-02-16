@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {updateUserNotifyProps} from 'actions/user_actions.jsx';
 import Constants, {NotificationLevels} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
@@ -129,6 +128,9 @@ export default class NotificationsTab extends React.Component {
         siteName: PropTypes.string,
         sendPushNotifications: PropTypes.bool,
         enableAutoResponder: PropTypes.bool,
+        actions: PropTypes.shape({
+            updateMe: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
@@ -178,16 +180,15 @@ export default class NotificationsTab extends React.Component {
 
         this.setState({isSaving: true});
 
-        updateUserNotifyProps(
-            data,
-            () => {
-                this.updateSection('');
-                this.setState(getNotificationsStateFromProps(this.props));
-            },
-            (err) => {
-                this.setState({serverError: err.message, isSaving: false});
-            }
-        );
+        this.props.actions.updateMe({notify_props: data}).
+            then(({data: result, error: err}) => {
+                if (result) {
+                    this.updateSection('');
+                    this.setState(getNotificationsStateFromProps(this.props));
+                } else if (err) {
+                    this.setState({serverError: err.message, isSaving: false});
+                }
+            });
     }
 
     handleCancel = (e) => {

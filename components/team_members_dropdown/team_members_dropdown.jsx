@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
-import {updateActive} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import DropdownIcon from 'components/icon/dropdown_icon';
@@ -26,6 +25,7 @@ export default class TeamMembersDropdown extends React.Component {
             getChannelStats: PropTypes.func.isRequired,
             updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
             removeUserFromTeamAndGetStats: PropTypes.func.isRequired,
+            updateUserActive: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -66,27 +66,22 @@ export default class TeamMembersDropdown extends React.Component {
     }
 
     handleMakeActive = () => {
-        updateActive(this.props.user.id, true,
-            () => {
-                this.props.actions.getChannelStats(this.props.currentChannelId);
-                this.props.actions.getTeamStats(this.props.teamMember.team_id);
-            },
-            (err) => {
-                this.setState({serverError: err.message});
-            }
-        );
+        this.props.actions.updateUserActive(this.props.user.id, true).
+            then(this.onUpdateActiveResult);
     }
 
     handleMakeNotActive = () => {
-        updateActive(this.props.user.id, false,
-            () => {
-                this.props.actions.getChannelStats(this.props.currentChannelId);
-                this.props.actions.getTeamStats(this.props.teamMember.team_id);
-            },
-            (err) => {
-                this.setState({serverError: err.message});
-            }
-        );
+        this.props.actions.updateUserActive(this.props.user.id, false).
+            then(this.onUpdateActiveResult);
+    }
+
+    onUpdateActiveResult = ({data, error: err}) => {
+        if (data) {
+            this.props.actions.getChannelStats(this.props.currentChannelId);
+            this.props.actions.getTeamStats(this.props.teamMember.team_id);
+        } else if (err) {
+            this.setState({serverError: err.message});
+        }
     }
 
     handleMakeAdmin = async () => {
