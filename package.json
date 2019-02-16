@@ -34,6 +34,7 @@
     "pdfjs-dist": "2.0.489",
     "perfect-scrollbar": "0.8.1",
     "popmotion": "8.6.3",
+    "popper.js": "1.14.7",
     "prop-types": "15.7.2",
     "react": "16.8.3",
     "react-addons-pure-render-mixin": "15.6.2",

@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/link_tooltip/link_tooltip should match snapshot 1`] = `
+<Fragment>
+  <div
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+        "zIndex": "10",
+      }
+    }
+  >
+    <Connect(Pluggable)
+      href="www.test.com"
+      pluggableName="LinkTooltip"
+    />
+  </div>
+  <span
+    onMouseLeave={[Function]}
+    onMouseOver={[Function]}
+  >
+    test title
+  </span>
+</Fragment>
+`;
