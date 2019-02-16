@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {allowOAuth2, getOAuthAppInfo} from 'actions/admin_actions.jsx';
 import icon50 from 'images/icon50x50.png';
 import FormError from 'components/form_error.jsx';
 import {browserHistory} from 'utils/browser_history';
@@ -16,7 +15,10 @@ export default class Authorize extends React.Component {
     static get propTypes() {
         return {
             location: PropTypes.object.isRequired,
-            params: PropTypes.object.isRequired,
+            actions: PropTypes.shape({
+                getOAuthAppInfo: PropTypes.func.isRequired,
+                allowOAuth2: PropTypes.func.isRequired,
+            }).isRequired,
         };
     }
 
@@ -35,12 +37,12 @@ export default class Authorize extends React.Component {
             return;
         }
 
-        getOAuthAppInfo(
-            clientId,
-            (app) => {
-                this.setState({app});
-            }
-        );
+        this.props.actions.getOAuthAppInfo(clientId).then(
+            ({data}) => {
+                if (data) {
+                    this.setState({app: data});
+                }
+            });
     }
 
     componentDidMount() {
@@ -52,16 +54,22 @@ export default class Authorize extends React.Component {
     }
 
     handleAllow() {
-        const params = new URLSearchParams(this.props.location.search);
+        const searchParams = new URLSearchParams(this.props.location.search);
+        const params = {
+            responseType: searchParams.get('response_type'),
+            clientId: searchParams.get('client_id'),
+            redirectUri: searchParams.get('redirect_uri'),
+            state: searchParams.get('state'),
+            scope: searchParams.get('store'),
+        };
 
-        allowOAuth2(params,
-            (data) => {
-                if (data.redirect) {
+        this.props.actions.allowOAuth2(params).then(
+            ({data, error}) => {
+                if (data && data.redirect) {
                     window.location.href = data.redirect;
+                } else if (error) {
+                    this.setState({error: error.message});
                 }
-            },
-            (err) => {
-                this.setState({error: err.message});
             }
         );
     }

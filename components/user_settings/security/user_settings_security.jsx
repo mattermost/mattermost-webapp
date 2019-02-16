@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {deauthorizeOAuthApp, getAuthorizedApps} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import icon50 from 'images/icon50x50.png';
@@ -69,6 +68,8 @@ export default class SecurityTab extends React.Component {
         actions: PropTypes.shape({
             getMe: PropTypes.func.isRequired,
             updateUserPassword: PropTypes.func.isRequired,
+            getAuthorizedApps: PropTypes.func.isRequired,
+            deauthorizeOAuthApp: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -93,12 +94,13 @@ export default class SecurityTab extends React.Component {
 
     componentDidMount() {
         if (this.props.enableOAuthServiceProvider) {
-            getAuthorizedApps(
-                (authorizedApps) => {
-                    this.setState({authorizedApps, serverError: null}); //eslint-disable-line react/no-did-mount-set-state
-                },
-                (err) => {
-                    this.setState({serverError: err.message}); //eslint-disable-line react/no-did-mount-set-state
+            this.props.actions.getAuthorizedApps().then(
+                ({data, error}) => {
+                    if (data) {
+                        this.setState({authorizedApps: data, serverError: null}); //eslint-disable-line react/no-did-mount-set-state
+                    } else if (error) {
+                        this.setState({serverError: error.message}); //eslint-disable-line react/no-did-mount-set-state
+                    }
                 }
             );
         }
@@ -169,17 +171,17 @@ export default class SecurityTab extends React.Component {
     deauthorizeApp = (e) => {
         e.preventDefault();
         const appId = e.currentTarget.getAttribute('data-app');
-        deauthorizeOAuthApp(
-            appId,
-            () => {
-                const authorizedApps = this.state.authorizedApps.filter((app) => {
-                    return app.id !== appId;
-                });
+        this.props.actions.deauthorizeOAuthApp(appId).then(
+            ({data, error}) => {
+                if (data) {
+                    const authorizedApps = this.state.authorizedApps.filter((app) => {
+                        return app.id !== appId;
+                    });
 
-                this.setState({authorizedApps, serverError: null});
-            },
-            (err) => {
-                this.setState({serverError: err.message});
+                    this.setState({authorizedApps, serverError: null});
+                } else if (error) {
+                    this.setState({serverError: error.message});
+                }
             }
         );
     }
