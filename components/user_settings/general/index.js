@@ -3,7 +3,13 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getMe, sendVerificationEmail, setDefaultProfileImage} from 'mattermost-redux/actions/users';
+import {
+    getMe,
+    updateMe,
+    sendVerificationEmail,
+    setDefaultProfileImage,
+    uploadProfileImage,
+} from 'mattermost-redux/actions/users';
 import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
@@ -43,8 +49,10 @@ function mapDispatchToProps(dispatch) {
             logError,
             clearErrors,
             getMe,
+            updateMe,
             sendVerificationEmail,
             setDefaultProfileImage,
+            uploadProfileImage,
         }, dispatch),
     };
 }

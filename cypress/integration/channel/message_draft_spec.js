@@ -14,7 +14,7 @@ describe('Message Draft', () => {
         cy.visit('/');
     });
 
-    it('should show the pencil draft icon on the channel with a draft on the sidebar', () => {
+    it('M13473 Message Draft - Pencil Icon', () => {
         // 1. Got to a test channel on the side bar
         cy.get('#sidebarItem_town-square').should('be.visible').click();
 

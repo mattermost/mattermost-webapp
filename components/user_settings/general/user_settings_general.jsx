@@ -8,7 +8,6 @@ import {defineMessages, FormattedDate, FormattedMessage, injectIntl, intlShape} 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {updateUser, uploadProfileImage} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -111,8 +110,10 @@ class UserSettingsGeneralTab extends React.Component {
             logError: PropTypes.func.isRequired,
             clearErrors: PropTypes.func.isRequired,
             getMe: PropTypes.func.isRequired,
+            updateMe: PropTypes.func.isRequired,
             sendVerificationEmail: PropTypes.func.isRequired,
             setDefaultProfileImage: PropTypes.func.isRequired,
+            uploadProfileImage: PropTypes.func.isRequired,
         }).isRequired,
         sendEmailNotifications: PropTypes.bool,
         requireEmailVerification: PropTypes.bool,
@@ -293,8 +294,7 @@ class UserSettingsGeneralTab extends React.Component {
                     serverError = err;
                 }
                 this.setState({serverError, emailError: '', clientError: '', sectionIsSaving: false});
-            }
-        );
+            });
     }
 
     setDefaultProfilePicture = async () => {
@@ -337,18 +337,17 @@ class UserSettingsGeneralTab extends React.Component {
 
         this.setState({loadingPicture: true});
 
-        uploadProfileImage(
-            file,
-            () => {
-                this.updateSection('');
-                this.submitActive = false;
-            },
-            (err) => {
-                var state = this.setupInitialState(this.props);
-                state.serverError = err.message;
-                this.setState(state);
-            }
-        );
+        this.props.actions.uploadProfileImage(this.props.user.id, file).
+            then(({data, error: err}) => {
+                if (data) {
+                    this.updateSection('');
+                    this.submitActive = false;
+                } else if (err) {
+                    var state = this.setupInitialState(this.props);
+                    state.serverError = err.message;
+                    this.setState(state);
+                }
+            });
     }
 
     submitPosition = () => {

@@ -599,17 +599,14 @@
 
 .member-role,
 .member-drop {
-    display: flex;
-    align-items: center;
-
     .fa {
         font-size: 16px;
         margin: 0 0 0 4px;
     }
 
     .member-menu {
-        right: 110%;
-        top: -50%;
+        right: 0;
+        top: 24px;
     }
 }
 

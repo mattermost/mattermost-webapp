@@ -135,28 +135,29 @@ describe('components/admin_console/permission_schemes_settings/permission_system
         const wrapper = shallow(
             <PermissionSystemSchemeSettings {...defaultProps}/>
         );
+        const instance = wrapper.instance();
         expect(wrapper.state().openRoles.all_users).toBe(true);
-        wrapper.find('.header').first().simulate('click');
+        instance.toggleRole('all_users');
         expect(wrapper.state().openRoles.all_users).toBe(false);
-        wrapper.find('.header').first().simulate('click');
+        instance.toggleRole('all_users');
         expect(wrapper.state().openRoles.all_users).toBe(true);
 
         expect(wrapper.state().openRoles.channel_admin).toBe(true);
-        wrapper.find('.header').at(1).simulate('click');
+        instance.toggleRole('channel_admin');
         expect(wrapper.state().openRoles.channel_admin).toBe(false);
-        wrapper.find('.header').at(1).simulate('click');
+        instance.toggleRole('channel_admin');
         expect(wrapper.state().openRoles.channel_admin).toBe(true);
 
         expect(wrapper.state().openRoles.team_admin).toBe(true);
-        wrapper.find('.header').at(2).simulate('click');
+        instance.toggleRole('team_admin');
         expect(wrapper.state().openRoles.team_admin).toBe(false);
-        wrapper.find('.header').at(2).simulate('click');
+        instance.toggleRole('team_admin');
         expect(wrapper.state().openRoles.team_admin).toBe(true);
 
         expect(wrapper.state().openRoles.system_admin).toBe(true);
-        wrapper.find('.header').at(3).simulate('click');
+        instance.toggleRole('system_admin');
         expect(wrapper.state().openRoles.system_admin).toBe(false);
-        wrapper.find('.header').at(3).simulate('click');
+        instance.toggleRole('system_admin');
         expect(wrapper.state().openRoles.system_admin).toBe(true);
     });
 

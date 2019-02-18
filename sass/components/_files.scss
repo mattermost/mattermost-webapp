@@ -141,10 +141,6 @@
     margin: 5px 0;
     position: relative;
 
-    .file__image-loading {
-        min-height: 100px;
-    }
-
     .file__image {
         @include legacy-pie-clearfix;
 
@@ -177,7 +173,14 @@
             right: 0;
             bottom: 0;
             left: 0;
-            display: inline-block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .fa {
+                font-size: 20px;
+                opacity: .6;
+            }
         }
 
         .image-loaded {
@@ -489,7 +492,7 @@
 
     .fa {
         color: $white;
+        font-size: 20px;
         opacity: .6;
-        font-size: 25px;
     }
 }
