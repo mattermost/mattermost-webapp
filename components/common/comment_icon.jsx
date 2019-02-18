@@ -16,7 +16,7 @@ export default class CommentIcon extends React.PureComponent {
         handleCommentClick: PropTypes.func.isRequired,
         searchStyle: PropTypes.string,
         commentCount: PropTypes.number,
-        id: PropTypes.string,
+        postId: PropTypes.string,
         extraClass: PropTypes.string,
     };
 
@@ -24,7 +24,6 @@ export default class CommentIcon extends React.PureComponent {
         idCount: -1,
         searchStyle: '',
         commentCount: 0,
-        id: '',
         extraClass: '',
     };
 
@@ -47,7 +46,7 @@ export default class CommentIcon extends React.PureComponent {
             selectorId += this.props.idCount;
         }
 
-        const id = Utils.createSafeId(this.props.idPrefix + '_' + this.props.id);
+        const id = Utils.createSafeId(this.props.idPrefix + '_' + this.props.postId);
 
         const tooltip = (
             <Tooltip
