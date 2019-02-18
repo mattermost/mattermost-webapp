@@ -125,6 +125,7 @@ export default class GeneralTab extends React.Component {
 
         var data = {...this.props.team};
         data.is_public = this.state.is_public;
+        data.allow_open_invite = this.state.is_public;
 
         const {error} = await this.props.actions.patchTeam(data);
 
