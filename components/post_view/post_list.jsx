@@ -6,7 +6,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import Constants, {PostTypes} from 'utils/constants.jsx';
+import {Posts} from 'mattermost-redux/constants';
+
+import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import EventTypes from 'utils/event_types.jsx';
 import GlobalEventEmitter from 'utils/global_event_emitter.jsx';
@@ -24,7 +26,6 @@ import ScrollToBottomArrows from './scroll_to_bottom_arrows.jsx';
 import CreateChannelIntroMessage from './channel_intro_message';
 
 const CLOSE_TO_BOTTOM_SCROLL_MARGIN = 10;
-const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
 const MAX_EXTRA_PAGES_LOADED = 10;
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
 
@@ -72,25 +73,7 @@ export default class PostList extends React.PureComponent {
 
         actions: PropTypes.shape({
 
-            /**
-             * Function to get posts in the channel
-             */
-            getPosts: PropTypes.func.isRequired,
-
-            /**
-             * Function to get posts in the channel older than the focused post
-             */
-            getPostsBefore: PropTypes.func.isRequired,
-
-            /**
-             * Function to get posts in the channel newer than the focused post
-             */
-            getPostsAfter: PropTypes.func.isRequired,
-
-            /**
-             * Function to get the post thread for the focused post
-             */
-            getPostThread: PropTypes.func.isRequired,
+            loadInitialPosts: PropTypes.func.isRequired,
 
             /**
              * Function to increase the number of posts being rendered
@@ -101,8 +84,6 @@ export default class PostList extends React.PureComponent {
              * Function to check and set if app is in mobile view
              */
             checkAndSetMobileView: PropTypes.func.isRequired,
-
-            receivedPostsInChannel: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -223,7 +204,7 @@ export default class PostList extends React.PureComponent {
 
         const didInitialScroll = this.initialScroll();
 
-        if (posts.length >= POSTS_PER_PAGE) {
+        if (posts.length >= Posts.POST_CHUNK_SIZE) {
             this.hasScrolledToNewMessageSeparator = true;
         }
 
@@ -396,31 +377,11 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        let posts;
+        const {posts, hasMoreBefore} = await this.props.actions.loadInitialPosts(channelId, focusedPostId);
+
         if (focusedPostId) {
-            const getPostThreadAsync = this.props.actions.getPostThread(focusedPostId, false);
-            const getPostsBeforeAsync = this.props.actions.getPostsBefore(channelId, focusedPostId, 0, POSTS_PER_PAGE);
-            const getPostsAfterAsync = this.props.actions.getPostsAfter(channelId, focusedPostId, 0, POSTS_PER_PAGE);
-
-            const result = await getPostsBeforeAsync;
-            posts = result.data;
-            await getPostsAfterAsync;
-            const threadResult = await getPostThreadAsync;
-            const threadPosts = threadResult.data;
-
-            // Hack to fix permalink view while working on postsInChannel since it no longer stores the results of getPostThread
-            if (threadPosts) {
-                this.props.actions.receivedPostsInChannel({
-                    posts: {focusedPostId: threadPosts.posts[focusedPostId]},
-                    order: [focusedPostId],
-                }, channelId);
-            }
-
             this.hasScrolledToFocusedPost = true;
         } else {
-            const result = await this.props.actions.getPosts(channelId, 0, POSTS_PER_PAGE);
-            posts = result.data;
-
             if (!this.checkBottom()) {
                 const postsArray = posts.order.map((id) => posts.posts[id]);
                 this.setUnreadsBelow(postsArray, this.props.currentUserId);
@@ -432,13 +393,20 @@ export default class PostList extends React.PureComponent {
         if (this.mounted) {
             this.setState({
                 isDoingInitialLoad: false,
-                atEnd: Boolean(posts && posts.order.length < POSTS_PER_PAGE),
+                atEnd: !hasMoreBefore,
             });
         }
     }
 
     loadMorePosts = async () => {
-        const {moreToLoad, error} = await this.props.actions.increasePostVisibility(this.props.channel.id, this.props.focusedPostId);
+        const oldestPost = this.getOldestVisiblePost();
+
+        if (!oldestPost) {
+            // loadMorePosts shouldn't be called if we don't already have posts
+            return;
+        }
+
+        const {moreToLoad, error} = await this.props.actions.increasePostVisibility(this.props.channel.id, oldestPost.id);
         if (error) {
             if (this.autoRetriesCount < MAX_NUMBER_OF_AUTO_RETRIES) {
                 this.autoRetriesCount++;
@@ -450,7 +418,7 @@ export default class PostList extends React.PureComponent {
             this.loadingPosts = false;
             if (this.mounted) {
                 this.setState({
-                    atEnd: !moreToLoad && this.props.posts.length < this.props.postVisibility,
+                    atEnd: !moreToLoad,
                     autoRetryEnable: true,
                 });
             }
@@ -458,6 +426,10 @@ export default class PostList extends React.PureComponent {
                 this.autoRetriesCount = 0;
             }
         }
+    }
+
+    getOldestVisiblePost = () => {
+        return this.props.posts[this.props.postVisibility] || this.props.posts[this.props.posts.length - 1];
     }
 
     handleScroll = () => {
@@ -561,10 +533,7 @@ export default class PostList extends React.PureComponent {
         for (let i = posts.length - 1; i >= 0; i--) {
             const post = posts[i];
 
-            if (
-                post == null ||
-                post.type === PostTypes.EPHEMERAL_ADD_TO_CHANNEL
-            ) {
+            if (!post) {
                 continue;
             }
 

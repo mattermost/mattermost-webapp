@@ -46,7 +46,12 @@ describe('actions/status_actions', () => {
             },
             posts: {
                 posts: {post_id1: {id: 'post_id1', user_id: 'current_user_id'}, post_id2: {id: 'post_id2', user_id: 'user_id2'}},
-                postsInChannel: {channel_id1: ['post_id1', 'post_id2'], channel_id2: []},
+                postsInChannel: {
+                    channel_id1: [
+                        {order: ['post_id1', 'post_id2'], recent: true},
+                    ],
+                    channel_id2: [],
+                },
             },
             preferences: {
                 myPreferences: {

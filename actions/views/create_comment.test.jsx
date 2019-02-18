@@ -87,7 +87,9 @@ describe('rhs view actions', () => {
                     },
                 },
                 postsInChannel: {
-                    [channelId]: [latestPostId],
+                    [channelId]: [
+                        {order: [latestPostId], recent: true},
+                    ],
                 },
                 postsInThread: {},
                 messagesHistory: {
