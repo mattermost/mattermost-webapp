@@ -270,30 +270,30 @@ class UserSettingsGeneralTab extends React.Component {
         const {formatMessage} = this.props.intl;
         this.setState({sectionIsSaving: true});
 
-        updateUser(
-            user,
-            () => {
-                this.updateSection('');
-                this.props.actions.getMe();
-                const verificationEnabled = this.props.sendEmailNotifications && this.props.requireEmailVerification && emailUpdated;
-                if (verificationEnabled) {
-                    this.props.actions.clearErrors();
-                    this.props.actions.logError({
-                        message: AnnouncementBarMessages.EMAIL_VERIFICATION_REQUIRED,
-                        type: AnnouncementBarTypes.SUCCESS,
-                    }, true);
+        this.props.actions.updateMe(user).
+            then(({data, error: err}) => {
+                if (data) {
+                    this.updateSection('');
+                    this.props.actions.getMe();
+                    const verificationEnabled = this.props.sendEmailNotifications && this.props.requireEmailVerification && emailUpdated;
+                    if (verificationEnabled) {
+                        this.props.actions.clearErrors();
+                        this.props.actions.logError({
+                            message: AnnouncementBarMessages.EMAIL_VERIFICATION_REQUIRED,
+                            type: AnnouncementBarTypes.SUCCESS,
+                        }, true);
+                    }
+                } else if (err) {
+                    let serverError;
+                    if (err.id && err.id === 'api.user.check_user_password.invalid.app_error') {
+                        serverError = formatMessage(holders.incorrectPassword);
+                    } else if (err.message) {
+                        serverError = err.message;
+                    } else {
+                        serverError = err;
+                    }
+                    this.setState({serverError, emailError: '', clientError: '', sectionIsSaving: false});
                 }
-            },
-            (err) => {
-                let serverError;
-                if (err.id && err.id === 'api.user.check_user_password.invalid.app_error') {
-                    serverError = formatMessage(holders.incorrectPassword);
-                } else if (err.message) {
-                    serverError = err.message;
-                } else {
-                    serverError = err;
-                }
-                this.setState({serverError, emailError: '', clientError: '', sectionIsSaving: false});
             });
     }
 
