@@ -19,9 +19,31 @@ export function removeUserFromTeamAndGetStats(teamId, userId) {
     };
 }
 
-export function addUserToTeamFromInvite(token, inviteId) {
+export function addUserToTeamFromInvite(token, inviteId, teamId) {
     return async (dispatch) => {
-        const {data: member, error} = await dispatch(TeamActions.addUserToTeamFromInvite(token, inviteId));
+        const {data: member, error} = await dispatch(TeamActions.addUserToTeamFromInvite(token, inviteId, teamId));
+        if (member) {
+            const {data} = await dispatch(TeamActions.getTeam(member.team_id));
+
+            dispatch({
+                type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
+                data: {
+                    ...member,
+                    delete_at: 0,
+                    msg_count: 0,
+                    mention_count: 0,
+                },
+            });
+
+            return {data};
+        }
+        return {error};
+    };
+}
+
+export function joinTeamById(teamId) {
+    return async (dispatch) => {
+        const {data: member, error} = await dispatch(TeamActions.joinTeamById(teamId));
         if (member) {
             const {data} = await dispatch(TeamActions.getTeam(member.team_id));
 

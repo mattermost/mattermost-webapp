@@ -38,7 +38,7 @@ export default class SelectTeam extends React.Component {
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired,
             loadRolesIfNeeded: PropTypes.func.isRequired,
-            addUserToTeamFromInvite: PropTypes.func.isRequired,
+            joinTeamById: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -67,7 +67,7 @@ export default class SelectTeam extends React.Component {
     handleTeamClick = async (team) => {
         this.setState({loadingTeamId: team.id});
 
-        const {data, error} = await this.props.actions.addUserToTeamFromInvite('', team.invite_id);
+        const {data, error} = await this.props.actions.joinTeamById(team.id);
         if (data) {
             this.props.history.push(`/${team.name}/channels/town-square`);
         } else if (error) {
