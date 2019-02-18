@@ -543,7 +543,7 @@
   "admin.group_settings.groups_list.paginatorCount": "{startCount, number} - {endCount, number} 共 {total, number}",
   "admin.group_settings.groups_list.unlink_selected": "取消连接选择的组",
   "admin.group_settings.groupsPageTitle": "用户组",
-  "admin.group_settings.introBanner": "组可以用来组织用户方便应用操作到整个组的用户。\n参见[文档](!https://about.mattermost.com)了解更多关于组。",
+  "admin.group_settings.introBanner": "组可以用来组织用户方便应用操作到整个组的用户。\n参见[文档](!!https://www.mattermost.com/default-ad-ldap-groups)了解更多关于组。",
   "admin.group_settings.ldapGroupsDescription": "从您的 AD/LDAP 连接并配置 Mattermost 的组。请确定你已配置[组过滤器](/admin_console/authentication/ldap)。",
   "admin.group_settings.ldapGroupsTitle": "AD/LDAP 用户组",
   "admin.image.amazonS3BucketDescription": "您在AWS S3 存储桶中的名字。",

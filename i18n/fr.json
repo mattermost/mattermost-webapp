@@ -1318,7 +1318,7 @@
   "admin.team.openServerTitle": "Activer le mode serveur ouvert : ",
   "admin.team.restrict_direct_message_any": "Tout utilisateur sur le serveur Mattermost",
   "admin.team.restrict_direct_message_team": "Tous les membres de l’équipe",
-  "admin.team.restrictDescription": "Les équipes et comptes utilisateur ne peuvent être créés que depuis un domaine spécifique (par ex. « mattermost.org ») ou une liste de domaines séparés par des virgules (ex. « corp.mattermost.com, mattermost.org »).",
+  "admin.team.restrictDescription": "Les utilisateurs ne peuvent rejoindre l'équipe que si leur adresse e-mail correspond à un domaine spécifique (ex. : « mattermost.org ») ou à une liste de domaines séparés par des virgules (ex. : « corp.mattermost.com, mattermost.org »).",
   "admin.team.restrictDirectMessage": "Permettre aux utilisateurs d'ouvrir des canaux de messages personnels avec :",
   "admin.team.restrictDirectMessageDesc": "« Tout utilisateur sur le serveur Mattermost » permet à un utilisateur d'ouvrir un canal de messages personnels avec un utilisateur sur le serveur, même si ces utilisateurs ne sont pas dans la même équipe. « Tous les membres de l’équipe » permet uniquement via le menu « Plus » des messages personnels d'ouvrir des canaux de messages personnels avec des utilisateurs qui sont dans la même équipe.\n\nNote : Ce paramètre affecte uniquement l'interface utilisateur et ne concerne pas les autorisations sur le serveur.",
   "admin.team.restrictExample": "Ex. : « corp.mattermost.com, mattermost.org »",

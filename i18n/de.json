@@ -1318,7 +1318,7 @@
   "admin.team.openServerTitle": "Aktiviere offenen Server: ",
   "admin.team.restrict_direct_message_any": "Jeder Benutzer auf dem Mattermost-Server",
   "admin.team.restrict_direct_message_team": "Jedes Mitglied des Teams",
-  "admin.team.restrictDescription": "Teams und Benutzerkonten können sich nur von einer bestimmten Domain (z.B. \"mattermost.org\") oder einer Liste von kommaseparierten Domains (z.B. \"corp.mattermost.com, mattermost.org\") registrieren.",
+  "admin.team.restrictDescription": "Benutzer können einem Team nur beitreten, wenn sie sich von einer bestimmten Domain (z.B. \"mattermost.org\") oder einer Liste von kommaseparierten Domains (z.B. \"corp.mattermost.com, mattermost.org\") registrieren.",
   "admin.team.restrictDirectMessage": "Erlaubte Benutzern einen Direktnachrichtenkanal zu öffnen mit:",
   "admin.team.restrictDirectMessageDesc": "'Jeder Benutzer auf dem Mattermost-Server' erlaubt es Benutzern Direktnachrichtenkanäle mit jedem Benutzer auf dem Server zu öffnen, auch wenn sie nicht Mitglied des selben Teams sind. 'Jedes Mitglied des Teams' limitiert die Möglichkeit im 'Mehr'-Menü der Direktnachrichten auf das Öffnen von Direktnachrichtenkanälen mit Mitgliedern des selben Teams.\n \nAchtung: Die Einstellung beeinflusst nur die Benutzeroberfläche, nicht die Berechtigungen auf dem Server.",
   "admin.team.restrictExample": "Z.B.: \"corp.mattermost.com, mattermost.org\"",
