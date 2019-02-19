@@ -18,8 +18,8 @@ import SettingItemMin from 'components/setting_item_min.jsx';
 import ThemeSetting from 'components/user_settings/display/user_settings_theme';
 import BackIcon from 'components/icon/back_icon';
 
-import ManageTimezones from './manage_timezones.jsx';
-import ManageLanguages from './manage_languages.jsx';
+import ManageTimezones from './manage_timezones';
+import ManageLanguages from './manage_languages';
 
 const Preferences = Constants.Preferences;
 
@@ -681,6 +681,7 @@ export default class UserSettingsDisplay extends React.Component {
                         setRequireConfirm={this.props.setRequireConfirm}
                         setEnforceFocus={this.props.setEnforceFocus}
                         allowCustomThemes={this.props.allowCustomThemes}
+                        focused={this.props.prevActiveSection === this.prevSections.theme}
                     />
                     <div className='divider-dark'/>
                 </div>

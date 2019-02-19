@@ -5,15 +5,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {switchFromLdapToEmail} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 import LoginMfa from 'components/login/login_mfa.jsx';
+import LocalizedInput from 'components/localized_input/localized_input';
 
 export default class LDAPToEmail extends React.Component {
     static propTypes = {
         email: PropTypes.string,
         passwordConfig: PropTypes.object,
         checkMfa: PropTypes.func.isRequired,
+        switchLdapToEmail: PropTypes.func.isRequired,
     };
 
     constructor(props) {
@@ -93,30 +94,29 @@ export default class LDAPToEmail extends React.Component {
     }
 
     submit(loginId, password, token, ldapPassword) {
-        switchFromLdapToEmail(
+        this.props.switchLdapToEmail(
+            ldapPassword || this.state.ldapPassword,
             this.props.email,
             password,
-            token,
-            ldapPassword || this.state.ldapPassword,
-            (data) => {
-                if (data.follow_link) {
+            token).
+            then(({data, error: err}) => {
+                if (data && data.follow_link) {
                     window.location.href = data.follow_link;
-                }
-            },
-            (err) => {
-                if (err.id.startsWith('model.user.is_valid.pwd')) {
-                    this.setState({passwordError: err.message, showMfa: false});
-                } else {
-                    switch (err.id) {
-                    case 'ent.ldap.do_login.invalid_password.app_error':
-                        this.setState({ldapPasswordError: err.message, showMfa: false});
-                        break;
-                    default:
-                        this.setState({serverError: err.message, showMfa: false});
+                } else if (err) {
+                    if (err.server_error_id.startsWith('model.user.is_valid.pwd')) {
+                        this.setState({passwordError: err.message, showMfa: false});
+                    } else {
+                        switch (err.server_error_id) {
+                        case 'ent.ldap.do_login.invalid_password.app_error':
+                            this.setState({ldapPasswordError: err.message, showMfa: false});
+                            break;
+                        default:
+                            this.setState({serverError: err.message, showMfa: false});
+                        }
                     }
                 }
             }
-        );
+            );
     }
 
     render() {
@@ -201,23 +201,23 @@ export default class LDAPToEmail extends React.Component {
                         />
                     </p>
                     <div className={passwordClass}>
-                        <input
+                        <LocalizedInput
                             type='password'
                             className='form-control'
                             name='password'
                             ref='password'
-                            placeholder={Utils.localizeMessage('claim.ldap_to_email.pwd', 'Password')}
+                            placeholder={{id: 'claim.ldap_to_email.pwd', defaultMessage: 'Password'}}
                             spellCheck='false'
                         />
                     </div>
                     {passwordError}
                     <div className={confimClass}>
-                        <input
+                        <LocalizedInput
                             type='password'
                             className='form-control'
                             name='passwordconfirm'
                             ref='passwordconfirm'
-                            placeholder={Utils.localizeMessage('claim.ldap_to_email.confirm', 'Confirm Password')}
+                            placeholder={{id: 'claim.ldap_to_email.confirm', defaultMessage: 'Confirm Password'}}
                             spellCheck='false'
                         />
                     </div>

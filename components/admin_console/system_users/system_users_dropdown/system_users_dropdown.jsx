@@ -8,7 +8,7 @@ import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {adminResetMfa} from 'actions/admin_actions.jsx';
-import {updateActive, revokeAllSessions} from 'actions/user_actions.jsx';
+import {revokeAllSessions} from 'actions/user_actions.jsx';
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -71,6 +71,9 @@ export default class SystemUsersDropdown extends React.Component {
         onError: PropTypes.func.isRequired,
         currentUser: PropTypes.object.isRequired,
         teamUrl: PropTypes.string,
+        actions: PropTypes.shape({
+            updateUserActive: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
@@ -87,7 +90,8 @@ export default class SystemUsersDropdown extends React.Component {
 
     handleMakeActive = (e) => {
         e.preventDefault();
-        updateActive(this.props.user.id, true, null, this.props.onError);
+        this.props.actions.updateUserActive(this.props.user.id, true).
+            then(this.onUpdateActiveResult);
     }
 
     handleManageTeams = (e) => {
@@ -160,8 +164,15 @@ export default class SystemUsersDropdown extends React.Component {
     }
 
     handleDeactivateMember = () => {
-        updateActive(this.props.user.id, false, null, this.props.onError);
+        this.props.actions.updateUserActive(this.props.user.id, false).
+            then(this.onUpdateActiveResult);
         this.setState({showDeactivateMemberModal: false});
+    }
+
+    onUpdateActiveResult = ({error}) => {
+        if (error) {
+            this.props.onError({id: error.server_error_id, ...error});
+        }
     }
 
     handleDeactivateCancel = () => {

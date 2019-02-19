@@ -328,7 +328,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        height: 60px;
+        height: 65px;
         width: calc(100% - 220px);
         margin: 0 0 0 220px;
         padding: 10px 20px;
@@ -510,6 +510,10 @@
         margin-top: 1px;
         padding-bottom: 20px;
         position: relative;
+
+        ul {
+            margin-top: 1px;
+        }
     }
 
     .sidebar-category {

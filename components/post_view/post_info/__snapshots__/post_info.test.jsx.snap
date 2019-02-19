@@ -1,31 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/post_view/PostInfo hideEmojiPicker, should have called props.handleDropdownOpened(false) 1`] = `
-<div
-  className="post__header--info"
->
-  <div
-    className="col"
-  />
-  <div
-    className="col col__reply"
-  />
-</div>
-`;
-
-exports[`components/post_view/PostInfo reactEmojiClick, should have called props.actions.addReaction() 1`] = `
-<div
-  className="post__header--info"
->
-  <div
-    className="col"
-  />
-  <div
-    className="col col__reply"
-  />
-</div>
-`;
-
 exports[`components/post_view/PostInfo removePost, should have called props.actions.removePost(post) 1`] = `
 <div
   className="post__header--info"
@@ -310,63 +284,13 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
         }
       }
     />
-    <Connect(ChannelPermissionGate)
+    <Connect(PostReaction)
       channelId="g6139tbospd18cmxroesdk3kkc"
-      permissions={
-        Array [
-          "add_reaction",
-        ]
-      }
-    >
-      <div>
-        <EmojiPickerOverlay
-          enableGifPicker={false}
-          onEmojiClick={[Function]}
-          onEmojiClose={[Function]}
-          onHide={[Function]}
-          show={true}
-          spaceRequiredAbove={476}
-          spaceRequiredBelow={497}
-          target={[Function]}
-          topOffset={-7}
-        />
-        <OverlayTrigger
-          className="hidden-xs"
-          defaultOverlayShown={false}
-          delayShow={500}
-          overlay={
-            <Tooltip
-              bsClass="tooltip"
-              className="hidden-xs"
-              id="reaction-icon-tooltip"
-              placement="right"
-            >
-              <FormattedMessage
-                defaultMessage="Add Reaction"
-                id="post_info.tooltip.add_reactions"
-                values={Object {}}
-              />
-            </Tooltip>
-          }
-          placement="top"
-          trigger={
-            Array [
-              "hover",
-              "focus",
-            ]
-          }
-        >
-          <button
-            className="reacticon__container color--link style--none"
-            onClick={[Function]}
-          >
-            <EmojiIcon
-              className="icon icon--emoji"
-            />
-          </button>
-        </OverlayTrigger>
-      </div>
-    </Connect(ChannelPermissionGate)>
+      getDotMenuRef={[Function]}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      showEmojiPicker={true}
+      toggleEmojiPicker={[Function]}
+    />
     <CommentIcon
       commentCount={0}
       extraClass="pull-right"

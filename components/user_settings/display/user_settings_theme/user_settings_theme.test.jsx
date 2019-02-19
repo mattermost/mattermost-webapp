@@ -20,6 +20,7 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
         actions: {
             saveTheme: jest.fn(() => Promise.resolve()),
         },
+        focused: false,
     };
 
     it('should match snapshot', () => {

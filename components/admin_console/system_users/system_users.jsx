@@ -11,6 +11,7 @@ import {loadProfiles, loadProfilesWithoutTeam, searchUsers} from 'actions/user_a
 import {Constants, UserSearchOptions, SearchUserTeamFilter, SearchUserOptionsFilter} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
+import LocalizedInput from 'components/localized_input/localized_input';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
 
 import SystemUsersList from './list';
@@ -266,11 +267,11 @@ export default class SystemUsers extends React.Component {
         return (
             <div className='system-users__filter-row'>
                 <div className='system-users__filter'>
-                    <input
+                    <LocalizedInput
                         id='searchUsers'
                         ref='filter'
                         className='form-control filter-textbox'
-                        placeholder={Utils.localizeMessage('filtered_user_list.search', 'Search users')}
+                        placeholder={{id: 'filtered_user_list.search', defaultMessage: 'Search users'}}
                         onInput={doSearch}
                     />
                 </div>

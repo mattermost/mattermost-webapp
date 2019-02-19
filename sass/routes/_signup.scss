@@ -273,8 +273,17 @@
         padding: em(7px) em(15px);
 
         .fa {
+            margin: 0;
+            top: 1px;
             font-size: 17px;
-            margin-right: 8px;
+
+            &:last-child {
+                margin-left: 8px;
+            }
+
+            &:first-child {
+                margin-right: 8px;
+            }
 
             &.fa--margin-top {
                 position: relative;

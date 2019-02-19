@@ -101,6 +101,7 @@ export default class SizeAwareImage extends React.PureComponent {
 
         this.setState({
             loaded: true,
+            error: false,
         });
     };
 
@@ -109,6 +110,7 @@ export default class SizeAwareImage extends React.PureComponent {
         if (this.props.onImageLoadFail) {
             this.props.onImageLoadFail();
         }
+        this.setState({error: true});
     };
 
     render() {
@@ -126,6 +128,8 @@ export default class SizeAwareImage extends React.PureComponent {
             // Generate a blank image as a placeholder because that will scale down to fit the available space
             // while maintaining the correct aspect ratio
             src = createPlaceholderImage(dimensions.width, dimensions.height);
+        } else if (this.state.error) {
+            return null;
         } else {
             src = this.props.src;
         }

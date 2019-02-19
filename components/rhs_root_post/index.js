@@ -1,15 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {isChannelReadOnlyById, getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
-
-import {addReaction} from 'actions/post_actions.jsx';
 
 import {Preferences} from 'utils/constants.jsx';
 import {isEmbedVisible} from 'selectors/posts';
@@ -38,12 +35,4 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            addReaction,
-        }, dispatch),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(RhsRootPost);
+export default connect(mapStateToProps)(RhsRootPost);
