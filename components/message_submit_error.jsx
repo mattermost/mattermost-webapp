@@ -34,7 +34,7 @@ class MessageSubmitError extends React.PureComponent {
                     onClick={this.props.handleSubmit}
                 >
                     <FormattedMessage
-                        id='message-submit-error.sendAsMessageLink'
+                        id='message_submit_error.sendAsMessageLink'
                         defaultMessage='Click here to send as a message.'
                     />
                 </a>
