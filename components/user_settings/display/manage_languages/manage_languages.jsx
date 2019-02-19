@@ -5,13 +5,20 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {updateUser} from 'actions/user_actions.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
-
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export default class ManageLanguage extends React.Component {
+    static propTypes = {
+        user: PropTypes.object.isRequired,
+        locale: PropTypes.string.isRequired,
+        updateSection: PropTypes.func.isRequired,
+        actions: PropTypes.shape({
+            updateMe: PropTypes.func.isRequired,
+        }).isRequired,
+    };
+
     constructor(props) {
         super(props);
 
@@ -39,21 +46,20 @@ export default class ManageLanguage extends React.Component {
     submitUser = (user) => {
         this.setState({isSaving: true});
 
-        updateUser(
-            user,
-            () => {
-                // Do nothing since changing the locale essentially refreshes the page
-            },
-            (err) => {
-                let serverError;
-                if (err.message) {
-                    serverError = err.message;
-                } else {
-                    serverError = err;
+        this.props.actions.updateMe(user).
+            then(({data, error: err}) => {
+                if (data) {
+                    // Do nothing since changing the locale essentially refreshes the page
+                } else if (err) {
+                    let serverError;
+                    if (err.message) {
+                        serverError = err.message;
+                    } else {
+                        serverError = err;
+                    }
+                    this.setState({serverError, isSaving: false});
                 }
-                this.setState({serverError, isSaving: false});
-            }
-        );
+            });
     }
 
     render() {
@@ -132,9 +138,3 @@ export default class ManageLanguage extends React.Component {
         );
     }
 }
-
-ManageLanguage.propTypes = {
-    user: PropTypes.object.isRequired,
-    locale: PropTypes.string.isRequired,
-    updateSection: PropTypes.func.isRequired,
-};

@@ -40,6 +40,8 @@ describe('components/AboutBuildModal', () => {
             BuildHash: 'abcdef1234567890',
             BuildHashEnterprise: '0123456789abcdef',
             BuildDate: '21 January 2017',
+            TermsOfServiceLink: 'https://about.mattermost.com/default-terms/',
+            PrivacyPolicyLink: 'https://mattermost.com/privacy-policy/',
         };
         license = {
             IsLicensed: 'true',

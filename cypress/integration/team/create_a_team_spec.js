@@ -16,7 +16,7 @@ describe('Teams Suite', () => {
         cy.visit('/');
     });
 
-    it('Create a team', async () => {
+    it('TS13872 Create a team', async () => {
         const teamURL = `team-test-${getRandomInt(9999).toString()}`;
 
         // 2. Click hamburger main menu

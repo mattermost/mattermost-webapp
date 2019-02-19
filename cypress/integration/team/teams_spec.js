@@ -14,7 +14,7 @@ describe('Teams Suite', () => {
         cy.visit('/');
     });
 
-    it('Cancel out of leaving a team', () => {
+    it('TS12995 Cancel out of leaving a team', () => {
         // * check the team name
         cy.get('#headerTeamName').should('contain', 'eligendi');
 

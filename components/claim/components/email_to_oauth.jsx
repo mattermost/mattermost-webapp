@@ -10,6 +10,7 @@ import {emailToOAuth} from 'actions/admin_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import LoginMfa from 'components/login/login_mfa.jsx';
+import LocalizedInput from 'components/localized_input/localized_input';
 
 export default class EmailToOAuth extends React.PureComponent {
     static propTypes = {
@@ -132,12 +133,12 @@ export default class EmailToOAuth extends React.PureComponent {
                         />
                     </p>
                     <div className={formClass}>
-                        <input
+                        <LocalizedInput
                             type='password'
                             className='form-control'
                             name='password'
                             ref='password'
-                            placeholder={Utils.localizeMessage('claim.email_to_oauth.pwd', 'Password')}
+                            placeholder={{id: 'claim.email_to_oauth.pwd', defaultMessage: 'Password'}}
                             spellCheck='false'
                         />
                     </div>

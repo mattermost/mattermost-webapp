@@ -60,7 +60,7 @@ describe('Account Settings > Sidebar > General', () => {
         cy.get('.more-modal__details > .more-modal__name').should('be.visible').should('contain', '@user-1 - Victor Welch');
     });
 
-    it('A nickname is present', () => {
+    it('AS13279 Account Settings > Add Nickname', () => {
         // 1. Go to  Account Settings view
         cy.toAccountSettingsModal('user-1');
 
