@@ -43,7 +43,7 @@ function makeMapStateToProps() {
             siteURL: getSiteURL(),
             team: getCurrentTeam(state),
             hasImageProxy: config.HasImageProxy === 'true',
-            minimumHashtagLength: config.MinimumHashtagLength,
+            minimumHashtagLength: parseInt(config.MinimumHashtagLength, 10),
         };
     };
 }
