@@ -21,13 +21,15 @@ describe('components/select_team/SelectTeam', () => {
     const baseProps = {
         currentUserRoles: 'system_admin',
         isMemberOfTeam: true,
-        joinableTeams: [
+        listableTeams: [
             {id: 'team_id_1', delete_at: 0, name: 'team-a', display_name: 'Team A'},
             {id: 'team_id_2', delete_at: 0, name: 'b-team', display_name: 'B Team'},
         ],
         siteName: 'Mattermost',
         canCreateTeams: false,
         canManageSystem: true,
+        canJoinPublicTeams: true,
+        canJoinPrivateTeams: false,
         history: {push: jest.fn()},
         actions: {
             getTeams: jest.fn(),
@@ -62,13 +64,13 @@ describe('components/select_team/SelectTeam', () => {
     });
 
     test('should match snapshot, on no joinable team but can create team', () => {
-        const props = {...baseProps, joinableTeams: []};
+        const props = {...baseProps, listableTeams: []};
         const wrapper = shallow(<SelectTeam {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, on no joinable team and is not system admin nor can create team', () => {
-        const props = {...baseProps, joinableTeams: [], currentUserRoles: '', canManageSystem: false, canCreateTeams: false};
+        const props = {...baseProps, listableTeams: [], currentUserRoles: '', canManageSystem: false, canCreateTeams: false};
         const wrapper = shallow(<SelectTeam {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });

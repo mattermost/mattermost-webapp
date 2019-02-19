@@ -33,6 +33,8 @@ exports[`components/select_team/SelectTeam should match snapshot 1`] = `
           className="signup-team-all"
         >
           <SelectTeamItem
+            canJoinPrivateTeams={false}
+            canJoinPublicTeams={true}
             key="team_team-a"
             loading={false}
             onTeamClick={[Function]}
@@ -46,6 +48,8 @@ exports[`components/select_team/SelectTeam should match snapshot 1`] = `
             }
           />
           <SelectTeamItem
+            canJoinPrivateTeams={false}
+            canJoinPublicTeams={true}
             key="team_b-team"
             loading={false}
             onTeamClick={[Function]}

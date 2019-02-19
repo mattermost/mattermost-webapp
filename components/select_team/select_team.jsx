@@ -30,10 +30,12 @@ export default class SelectTeam extends React.Component {
         currentUserRoles: PropTypes.string,
         customDescriptionText: PropTypes.string,
         isMemberOfTeam: PropTypes.bool.isRequired,
-        joinableTeams: PropTypes.array,
+        listableTeams: PropTypes.array,
         siteName: PropTypes.string,
         canCreateTeams: PropTypes.bool.isRequired,
         canManageSystem: PropTypes.bool.isRequired,
+        canJoinPublicTeams: PropTypes.bool.isRequired,
+        canJoinPrivateTeams: PropTypes.bool.isRequired,
         history: PropTypes.object,
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired,
@@ -96,9 +98,11 @@ export default class SelectTeam extends React.Component {
             canManageSystem,
             customDescriptionText,
             isMemberOfTeam,
-            joinableTeams,
+            listableTeams,
             siteName,
             canCreateTeams,
+            canJoinPublicTeams,
+            canJoinPrivateTeams,
         } = this.props;
 
         let openContent;
@@ -114,13 +118,15 @@ export default class SelectTeam extends React.Component {
             );
         } else {
             let openTeamContents = [];
-            joinableTeams.forEach((joinableTeam) => {
+            listableTeams.forEach((listableTeam) => {
                 openTeamContents.push(
                     <SelectTeamItem
-                        key={'team_' + joinableTeam.name}
-                        team={joinableTeam}
+                        key={'team_' + listableTeam.name}
+                        team={listableTeam}
                         onTeamClick={this.handleTeamClick}
-                        loading={this.state.loadingTeamId === joinableTeam.id}
+                        loading={this.state.loadingTeamId === listableTeam.id}
+                        canJoinPublicTeams={canJoinPublicTeams}
+                        canJoinPrivateTeams={canJoinPrivateTeams}
                     />
                 );
             });
