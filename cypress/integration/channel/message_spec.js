@@ -10,7 +10,7 @@
 /*eslint max-nested-callbacks: ["error", 3]*/
 
 describe('Message', () => {
-    it('should show only 1 header when user send multiple posts', () => {
+    it('M13701 Consecutive message does not repeat profile info', () => {
         // 1. Login as sysadmin and go to /
         cy.login('sysadmin');
         cy.visit('/');

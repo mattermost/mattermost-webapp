@@ -30,83 +30,28 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       </span>
     </div>
   </div>
-  <div
+  <AdminPanelWithLink
+    className=""
+    disabled={false}
+    linkTextDefault="Edit Scheme"
+    linkTextId="admin.permissions.systemSchemeBannerButton"
+    subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
+    subtitleId="admin.permissions.systemSchemeBannerText"
+    titleDefault="System Scheme"
+    titleId="admin.permissions.systemSchemeBannerTitle"
+    url="/admin_console/permissions/system-scheme"
+  />
+  <AdminPanelWithLink
     className="permissions-block"
+    disabled={false}
+    linkTextDefault="New Team Override Scheme"
+    linkTextId="admin.permissions.teamOverrideSchemesNewButton"
+    subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
+    subtitleId="admin.permissions.teamOverrideSchemesBannerText"
+    titleDefault="Team Override Schemes"
+    titleId="admin.permissions.teamOverrideSchemesTitle"
+    url="/admin_console/permissions/team-override-scheme"
   >
-    <div
-      className="header"
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="System Scheme"
-            id="admin.permissions.systemSchemeBannerTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
-            id="admin.permissions.systemSchemeBannerText"
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <Link
-          className="btn btn-primary"
-          replace={false}
-          to="/admin_console/permissions/system-scheme"
-        >
-          <FormattedMessage
-            defaultMessage="Edit Scheme"
-            id="admin.permissions.systemSchemeBannerButton"
-            values={Object {}}
-          />
-        </Link>
-      </div>
-    </div>
-  </div>
-  <div
-    className="permissions-block"
-  >
-    <div
-      className="header"
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="Team Override Schemes"
-            id="admin.permissions.teamOverrideSchemesTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
-            id="admin.permissions.teamOverrideSchemesBannerText"
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <Link
-          className="btn btn-primary"
-          disabled={false}
-          onClick={[Function]}
-          replace={false}
-          to="/admin_console/permissions/team-override-scheme"
-        >
-          <FormattedMessage
-            defaultMessage="New Team Override Scheme"
-            id="admin.permissions.teamOverrideSchemesNewButton"
-            values={Object {}}
-          />
-        </Link>
-      </div>
-    </div>
     <Connect(PermissionsSchemeSummary)
       key="id-1"
       scheme={
@@ -137,7 +82,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
         }
       }
     />
-  </div>
+  </AdminPanelWithLink>
 </div>
 `;
 
@@ -164,83 +109,28 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       </span>
     </div>
   </div>
-  <div
+  <AdminPanelWithLink
+    className=""
+    disabled={false}
+    linkTextDefault="Edit Scheme"
+    linkTextId="admin.permissions.systemSchemeBannerButton"
+    subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
+    subtitleId="admin.permissions.systemSchemeBannerText"
+    titleDefault="System Scheme"
+    titleId="admin.permissions.systemSchemeBannerTitle"
+    url="/admin_console/permissions/system-scheme"
+  />
+  <AdminPanelWithLink
     className="permissions-block"
+    disabled={false}
+    linkTextDefault="New Team Override Scheme"
+    linkTextId="admin.permissions.teamOverrideSchemesNewButton"
+    subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
+    subtitleId="admin.permissions.teamOverrideSchemesBannerText"
+    titleDefault="Team Override Schemes"
+    titleId="admin.permissions.teamOverrideSchemesTitle"
+    url="/admin_console/permissions/team-override-scheme"
   >
-    <div
-      className="header"
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="System Scheme"
-            id="admin.permissions.systemSchemeBannerTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
-            id="admin.permissions.systemSchemeBannerText"
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <Link
-          className="btn btn-primary"
-          replace={false}
-          to="/admin_console/permissions/system-scheme"
-        >
-          <FormattedMessage
-            defaultMessage="Edit Scheme"
-            id="admin.permissions.systemSchemeBannerButton"
-            values={Object {}}
-          />
-        </Link>
-      </div>
-    </div>
-  </div>
-  <div
-    className="permissions-block"
-  >
-    <div
-      className="header"
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="Team Override Schemes"
-            id="admin.permissions.teamOverrideSchemesTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
-            id="admin.permissions.teamOverrideSchemesBannerText"
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <Link
-          className="btn btn-primary"
-          disabled={false}
-          onClick={[Function]}
-          replace={false}
-          to="/admin_console/permissions/team-override-scheme"
-        >
-          <FormattedMessage
-            defaultMessage="New Team Override Scheme"
-            id="admin.permissions.teamOverrideSchemesNewButton"
-            values={Object {}}
-          />
-        </Link>
-      </div>
-    </div>
     <div
       className="no-team-schemes"
     >
@@ -250,7 +140,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
         values={Object {}}
       />
     </div>
-  </div>
+  </AdminPanelWithLink>
 </div>
 `;
 
@@ -277,83 +167,28 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       </span>
     </div>
   </div>
-  <div
+  <AdminPanelWithLink
+    className=""
+    disabled={true}
+    linkTextDefault="Edit Scheme"
+    linkTextId="admin.permissions.systemSchemeBannerButton"
+    subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
+    subtitleId="admin.permissions.systemSchemeBannerText"
+    titleDefault="System Scheme"
+    titleId="admin.permissions.systemSchemeBannerTitle"
+    url="/admin_console/permissions/system-scheme"
+  />
+  <AdminPanelWithLink
     className="permissions-block"
+    disabled={true}
+    linkTextDefault="New Team Override Scheme"
+    linkTextId="admin.permissions.teamOverrideSchemesNewButton"
+    subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
+    subtitleId="admin.permissions.teamOverrideSchemesBannerText"
+    titleDefault="Team Override Schemes"
+    titleId="admin.permissions.teamOverrideSchemesTitle"
+    url="/admin_console/permissions/team-override-scheme"
   >
-    <div
-      className="header"
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="System Scheme"
-            id="admin.permissions.systemSchemeBannerTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
-            id="admin.permissions.systemSchemeBannerText"
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <Link
-          className="btn btn-primary"
-          replace={false}
-          to="/admin_console/permissions/system-scheme"
-        >
-          <FormattedMessage
-            defaultMessage="Edit Scheme"
-            id="admin.permissions.systemSchemeBannerButton"
-            values={Object {}}
-          />
-        </Link>
-      </div>
-    </div>
-  </div>
-  <div
-    className="permissions-block"
-  >
-    <div
-      className="header"
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="Team Override Schemes"
-            id="admin.permissions.teamOverrideSchemesTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
-            id="admin.permissions.teamOverrideSchemesBannerText"
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <Link
-          className="btn btn-primary"
-          disabled={true}
-          onClick={[Function]}
-          replace={false}
-          to="/admin_console/permissions/team-override-scheme"
-        >
-          <FormattedMessage
-            defaultMessage="New Team Override Scheme"
-            id="admin.permissions.teamOverrideSchemesNewButton"
-            values={Object {}}
-          />
-        </Link>
-      </div>
-    </div>
     <div
       className="team-override-unavailable"
     >
@@ -411,7 +246,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
         }
       }
     />
-  </div>
+  </AdminPanelWithLink>
 </div>
 `;
 
@@ -438,83 +273,28 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       </span>
     </div>
   </div>
-  <div
+  <AdminPanelWithLink
+    className=""
+    disabled={true}
+    linkTextDefault="Edit Scheme"
+    linkTextId="admin.permissions.systemSchemeBannerButton"
+    subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
+    subtitleId="admin.permissions.systemSchemeBannerText"
+    titleDefault="System Scheme"
+    titleId="admin.permissions.systemSchemeBannerTitle"
+    url="/admin_console/permissions/system-scheme"
+  />
+  <AdminPanelWithLink
     className="permissions-block"
+    disabled={true}
+    linkTextDefault="New Team Override Scheme"
+    linkTextId="admin.permissions.teamOverrideSchemesNewButton"
+    subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
+    subtitleId="admin.permissions.teamOverrideSchemesBannerText"
+    titleDefault="Team Override Schemes"
+    titleId="admin.permissions.teamOverrideSchemesTitle"
+    url="/admin_console/permissions/team-override-scheme"
   >
-    <div
-      className="header"
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="System Scheme"
-            id="admin.permissions.systemSchemeBannerTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
-            id="admin.permissions.systemSchemeBannerText"
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <Link
-          className="btn btn-primary"
-          replace={false}
-          to="/admin_console/permissions/system-scheme"
-        >
-          <FormattedMessage
-            defaultMessage="Edit Scheme"
-            id="admin.permissions.systemSchemeBannerButton"
-            values={Object {}}
-          />
-        </Link>
-      </div>
-    </div>
-  </div>
-  <div
-    className="permissions-block"
-  >
-    <div
-      className="header"
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="Team Override Schemes"
-            id="admin.permissions.teamOverrideSchemesTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
-            id="admin.permissions.teamOverrideSchemesBannerText"
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <Link
-          className="btn btn-primary"
-          disabled={true}
-          onClick={[Function]}
-          replace={false}
-          to="/admin_console/permissions/team-override-scheme"
-        >
-          <FormattedMessage
-            defaultMessage="New Team Override Scheme"
-            id="admin.permissions.teamOverrideSchemesNewButton"
-            values={Object {}}
-          />
-        </Link>
-      </div>
-    </div>
     <div
       className="team-override-unavailable"
     >
@@ -572,7 +352,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
         }
       }
     />
-  </div>
+  </AdminPanelWithLink>
 </div>
 `;
 
@@ -599,83 +379,28 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       </span>
     </div>
   </div>
-  <div
+  <AdminPanelWithLink
+    className=""
+    disabled={false}
+    linkTextDefault="Edit Scheme"
+    linkTextId="admin.permissions.systemSchemeBannerButton"
+    subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
+    subtitleId="admin.permissions.systemSchemeBannerText"
+    titleDefault="System Scheme"
+    titleId="admin.permissions.systemSchemeBannerTitle"
+    url="/admin_console/permissions/system-scheme"
+  />
+  <AdminPanelWithLink
     className="permissions-block"
+    disabled={false}
+    linkTextDefault="New Team Override Scheme"
+    linkTextId="admin.permissions.teamOverrideSchemesNewButton"
+    subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
+    subtitleId="admin.permissions.teamOverrideSchemesBannerText"
+    titleDefault="Team Override Schemes"
+    titleId="admin.permissions.teamOverrideSchemesTitle"
+    url="/admin_console/permissions/team-override-scheme"
   >
-    <div
-      className="header"
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="System Scheme"
-            id="admin.permissions.systemSchemeBannerTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
-            id="admin.permissions.systemSchemeBannerText"
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <Link
-          className="btn btn-primary"
-          replace={false}
-          to="/admin_console/permissions/system-scheme"
-        >
-          <FormattedMessage
-            defaultMessage="Edit Scheme"
-            id="admin.permissions.systemSchemeBannerButton"
-            values={Object {}}
-          />
-        </Link>
-      </div>
-    </div>
-  </div>
-  <div
-    className="permissions-block"
-  >
-    <div
-      className="header"
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="Team Override Schemes"
-            id="admin.permissions.teamOverrideSchemesTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
-            id="admin.permissions.teamOverrideSchemesBannerText"
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <Link
-          className="btn btn-primary"
-          disabled={false}
-          onClick={[Function]}
-          replace={false}
-          to="/admin_console/permissions/team-override-scheme"
-        >
-          <FormattedMessage
-            defaultMessage="New Team Override Scheme"
-            id="admin.permissions.teamOverrideSchemesNewButton"
-            values={Object {}}
-          />
-        </Link>
-      </div>
-    </div>
     <Connect(PermissionsSchemeSummary)
       key="id-1"
       scheme={
@@ -706,6 +431,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
         }
       }
     />
-  </div>
+  </AdminPanelWithLink>
 </div>
 `;

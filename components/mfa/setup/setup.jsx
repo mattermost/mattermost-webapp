@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import * as Utils from 'utils/utils.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import LocalizedInput from 'components/localized_input/localized_input';
 
 export default class Setup extends React.Component {
     static propTypes = {
@@ -146,10 +147,10 @@ export default class Setup extends React.Component {
                         />
                     </p>
                     <p>
-                        <input
+                        <LocalizedInput
                             ref='code'
                             className='form-control'
-                            placeholder={Utils.localizeMessage('mfa.setup.code', 'MFA Code')}
+                            placeholder={{id: 'mfa.setup.code', defaultMessage: 'MFA Code'}}
                             autoFocus={true}
                         />
                     </p>

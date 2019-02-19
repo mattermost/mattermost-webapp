@@ -71,7 +71,7 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         cy.get('.post__content').last().should('have.css', 'width', '1179px');
     });
 
-    it('change channel display mode setting to "Fixed width, centered"', () => {
+    it('AS13225 Channel display mode setting to "Fixed width, centered"', () => {
         // 1. Return to Account Settings modal
         cy.toAccountSettingsModal('user-1', true);
 

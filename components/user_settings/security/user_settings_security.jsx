@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {deauthorizeOAuthApp, getAuthorizedApps, updatePassword} from 'actions/user_actions.jsx';
+import {deauthorizeOAuthApp, getAuthorizedApps} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import icon50 from 'images/icon50x50.png';
@@ -68,6 +68,7 @@ export default class SecurityTab extends React.Component {
 
         actions: PropTypes.shape({
             getMe: PropTypes.func.isRequired,
+            updateUserPassword: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -131,26 +132,26 @@ export default class SecurityTab extends React.Component {
 
         this.setState({savingPassword: true});
 
-        updatePassword(
+        this.props.actions.updateUserPassword(
             user.id,
             currentPassword,
-            newPassword,
-            () => {
-                this.props.updateSection('');
-                this.props.actions.getMe();
-                this.setState(this.getDefaultState());
-            },
-            (err) => {
-                var state = this.getDefaultState();
-                if (err.message) {
-                    state.serverError = err.message;
-                } else {
-                    state.serverError = err;
+            newPassword).
+            then(({data, error: err}) => {
+                if (data) {
+                    this.props.updateSection('');
+                    this.props.actions.getMe();
+                    this.setState(this.getDefaultState());
+                } else if (err) {
+                    var state = this.getDefaultState();
+                    if (err.message) {
+                        state.serverError = err.message;
+                    } else {
+                        state.serverError = err;
+                    }
+                    state.passwordError = '';
+                    this.setState(state);
                 }
-                state.passwordError = '';
-                this.setState(state);
-            }
-        );
+            });
     }
 
     updateCurrentPassword = (e) => {
