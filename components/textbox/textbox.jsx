@@ -28,9 +28,7 @@ export default class Textbox extends React.Component {
         value: PropTypes.string.isRequired,
         onChange: PropTypes.func.isRequired,
         onKeyPress: PropTypes.func.isRequired,
-        onCompositionStart: PropTypes.func,
-        onCompositionUpdate: PropTypes.func,
-        onCompositionEnd: PropTypes.func,
+        onComposition: PropTypes.func,
         createMessage: PropTypes.string.isRequired,
         previewMessageLink: PropTypes.string,
         onKeyDown: PropTypes.func,
@@ -316,9 +314,7 @@ export default class Textbox extends React.Component {
                     onChange={this.handleChange}
                     onKeyPress={this.props.onKeyPress}
                     onKeyDown={this.handleKeyDown}
-                    onCompositionStart={this.props.onCompositionStart}
-                    onCompositionUpdate={this.props.onCompositionUpdate}
-                    onCompositionEnd={this.props.onCompositionEnd}
+                    onComposition={this.props.onComposition}
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
                     style={{visibility: this.state.preview ? 'hidden' : 'visible'}}

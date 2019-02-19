@@ -80,9 +80,7 @@ export default class SuggestionBox extends React.Component {
          * Function called when a key is pressed and the input box is in focus
          */
         onKeyDown: PropTypes.func,
-        onCompositionStart: PropTypes.func,
-        onCompositionUpdate: PropTypes.func,
-        onCompositionEnd: PropTypes.func,
+        onComposition: PropTypes.func,
 
         /**
          * Function called when an item is selected
@@ -302,8 +300,8 @@ export default class SuggestionBox extends React.Component {
 
     handleCompositionStart = () => {
         this.composing = true;
-        if (this.props.onCompositionStart) {
-            this.props.onCompositionStart();
+        if (this.props.onComposition) {
+            this.props.onComposition();
         }
     }
 
@@ -317,15 +315,15 @@ export default class SuggestionBox extends React.Component {
         const pretext = textbox.value.substring(0, textbox.selectionStart) + e.data;
 
         this.pretext = pretext;
-        if (this.props.onCompositionUpdate) {
-            this.props.onCompositionUpdate();
+        if (this.props.onComposition) {
+            this.props.onComposition();
         }
     }
 
     handleCompositionEnd = () => {
         this.composing = false;
-        if (this.props.onCompositionEnd) {
-            this.props.onCompositionEnd();
+        if (this.props.onComposition) {
+            this.props.onComposition();
         }
     }
 
@@ -614,6 +612,7 @@ export default class SuggestionBox extends React.Component {
         // Don't pass props used by SuggestionBox
         Reflect.deleteProperty(props, 'providers');
         Reflect.deleteProperty(props, 'onChange'); // We use onInput instead of onChange on the actual input
+        Reflect.deleteProperty(props, 'onComposition');
         Reflect.deleteProperty(props, 'onItemSelected');
         Reflect.deleteProperty(props, 'completeOnTab');
         Reflect.deleteProperty(props, 'isRHS');

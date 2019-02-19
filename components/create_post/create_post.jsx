@@ -587,18 +587,6 @@ export default class CreatePost extends React.Component {
         GlobalActions.emitLocalUserTypingEvent(channelId, '');
     }
 
-    handleCompositionStart = () => {
-        this.emitTypingEvent();
-    }
-
-    handleCompositionUpdate = () => {
-        this.emitTypingEvent();
-    }
-
-    handleCompositionEnd = () => {
-        this.emitTypingEvent();
-    }
-
     handleChange = (e) => {
         const message = e.target.value;
         const channelId = this.props.currentChannel.id;
@@ -1145,9 +1133,7 @@ export default class CreatePost extends React.Component {
                                 onChange={this.handleChange}
                                 onKeyPress={this.postMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
-                                onCompositionStart={this.handleCompositionStart}
-                                onCompositionUpdate={this.handleCompositionUpdate}
-                                onCompositionEnd={this.handleCompositionEnd}
+                                onComposition={this.emitTypingEvent}
                                 handlePostError={this.handlePostError}
                                 value={readOnlyChannel ? '' : this.state.message}
                                 onBlur={this.handleBlur}

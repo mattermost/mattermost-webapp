@@ -506,18 +506,6 @@ export default class CreateComment extends React.PureComponent {
         GlobalActions.emitLocalUserTypingEvent(channelId, rootId);
     }
 
-    handleCompositionStart = () => {
-        this.emitTypingEvent();
-    }
-
-    handleCompositionUpdate = () => {
-        this.emitTypingEvent();
-    }
-
-    handleCompositionEnd = () => {
-        this.emitTypingEvent();
-    }
-
     scrollToBottom = () => {
         const $el = $('.post-right__scroll');
         if ($el[0]) {
@@ -915,9 +903,7 @@ export default class CreateComment extends React.PureComponent {
                                 onChange={this.handleChange}
                                 onKeyPress={this.commentMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
-                                onCompositionStart={this.handleCompositionStart}
-                                onCompositionUpdate={this.handleCompositionUpdate}
-                                onCompositionEnd={this.handleCompositionEnd}
+                                onComposition={this.emitTypingEvent}
                                 handlePostError={this.handlePostError}
                                 value={readOnlyChannel ? '' : draft.message}
                                 onBlur={this.handleBlur}
