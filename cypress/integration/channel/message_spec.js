@@ -61,7 +61,7 @@ describe('Message', () => {
             // 5. Open the "..." menu on a post in the main to move the focus out of the main input box
             cy.get(divPostId).trigger('mouseover');
             cy.get(`#CENTER_dropdown_${postId} .dropdown-toggle`).click({force: true});
-            
+
             // 6. Push a character key such as "A"
             cy.get('#post_textbox').type('A');
 
