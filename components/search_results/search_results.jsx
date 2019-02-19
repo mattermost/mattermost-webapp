@@ -225,6 +225,16 @@ export default class SearchResults extends React.PureComponent {
                         {ctls}
                     </div>
                 </Scrollbars>
+                <div
+                    className='loading-screen'
+                    style={this.props.isSearchGettingMore ? {} : {display: 'none'}}
+                >
+                    <div className='loading__content'>
+                        <div className='round round-1'/>
+                        <div className='round round-2'/>
+                        <div className='round round-3'/>
+                    </div>
+                </div>
             </div>
         );
     }
