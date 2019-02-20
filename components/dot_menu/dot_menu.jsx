@@ -377,6 +377,7 @@ class DotMenu extends Component {
                         rootClose={true}
                     >
                         <button
+                            id={`${this.props.location}_button_${this.props.post.id}`}
                             ref='dropdownToggle'
                             className='dropdown-toggle post__dropdown color--link style--none'
                             type='button'

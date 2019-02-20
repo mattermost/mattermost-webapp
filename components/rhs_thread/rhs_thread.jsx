@@ -325,6 +325,7 @@ export default class RhsThread extends React.Component {
 
         return (
             <div
+                id='rhsContainer'
                 className='sidebar-right__body'
                 ref='sidebarbody'
             >
