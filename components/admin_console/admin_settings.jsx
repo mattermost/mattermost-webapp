@@ -142,11 +142,10 @@ export default class AdminSettings extends React.Component {
         return n;
     };
 
-    parseIntNonZero = (str, defaultValue, minimumValue) => {
+    parseIntNonZero = (str, defaultValue, minimumValue = 1) => {
         const n = parseInt(str, 10);
 
-        const min = minimumValue || 1;
-        if (isNaN(n) || n < min) {
+        if (isNaN(n) || n < minimumValue) {
             if (defaultValue) {
                 return defaultValue;
             }
