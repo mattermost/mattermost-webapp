@@ -28,7 +28,7 @@ exports[`components/post_view/PostFlagIcon should match snapshot 1`] = `
 >
   <button
     className="style--none flag-icon__container "
-    id={null}
+    id="centerPostFlag_post_id"
     onClick={[Function]}
   >
     <FlagIcon
@@ -66,7 +66,7 @@ exports[`components/post_view/PostFlagIcon should match snapshot 2`] = `
 >
   <button
     className="style--none flag-icon__container visible"
-    id={null}
+    id="centerPostFlag_post_id"
     onClick={[Function]}
   >
     <FlagIconFilled

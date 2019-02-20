@@ -10,8 +10,8 @@ import {FormattedMessage} from 'react-intl';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {sendPasswordResetEmail} from 'actions/user_actions.jsx';
-import * as Utils from 'utils/utils.jsx';
 import BackButton from 'components/common/back_button.jsx';
+import LocalizedInput from 'components/localized_input/localized_input';
 
 class PasswordResetSendLink extends React.Component {
     constructor(props) {
@@ -111,15 +111,12 @@ class PasswordResetSendLink extends React.Component {
                                 />
                             </p>
                             <div className={formClass}>
-                                <input
+                                <LocalizedInput
                                     type='email'
                                     className='form-control'
                                     name='email'
                                     ref='email'
-                                    placeholder={Utils.localizeMessage(
-                                        'password_send.email',
-                                        'Email'
-                                    )}
+                                    placeholder={{id: 'password_send.email', defaultMessage: 'Email'}}
                                     spellCheck='false'
                                 />
                             </div>

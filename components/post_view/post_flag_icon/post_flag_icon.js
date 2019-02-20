@@ -83,7 +83,7 @@ export default class PostFlagIcon extends React.PureComponent {
                 }
             >
                 <button
-                    id={flagIconId}
+                    id={flagIconId || `${this.props.idPrefix}_${this.props.postId}`}
                     className={'style--none flag-icon__container ' + flagVisible}
                     onClick={this.handlePress}
                 >

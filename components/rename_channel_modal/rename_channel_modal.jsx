@@ -6,6 +6,7 @@ import React from 'react';
 import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
+import LocalizedInput from 'components/localized_input/localized_input';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import {cleanUpUrlable, getShortenedURL} from 'utils/url.jsx';
@@ -289,13 +290,13 @@ export class RenameChannelModal extends React.PureComponent {
                                     defaultMessage='Display Name'
                                 />
                             </label>
-                            <input
+                            <LocalizedInput
                                 onChange={this.onDisplayNameChange}
                                 type='text'
                                 ref={this.getTextbox}
                                 id='display_name'
                                 className='form-control'
-                                placeholder={formatMessage(holders.displayNameHolder)}
+                                placeholder={holders.displayNameHolder}
                                 value={this.state.displayName}
                                 maxLength={Constants.MAX_CHANNELNAME_LENGTH}
                             />
@@ -313,12 +314,12 @@ export class RenameChannelModal extends React.PureComponent {
                                 >
                                     <span className='input-group-addon'>{shortUrl}</span>
                                 </OverlayTrigger>
-                                <input
+                                <LocalizedInput
                                     onChange={this.onNameChange}
                                     type='text'
                                     className={handleInputClass}
                                     id='channel_name'
-                                    placeholder={formatMessage(holders.handleHolder)}
+                                    placeholder={holders.handleHolder}
                                     value={this.state.channelName}
                                     maxLength={Constants.MAX_CHANNELNAME_LENGTH}
                                     readOnly={readOnlyHandleInput}

@@ -4,6 +4,7 @@
 import React from 'react';
 import {mount, shallow} from 'enzyme';
 
+import SizeAwareImage from 'components/size_aware_image';
 import MessageAttachment from 'components/post_view/message_attachments/message_attachment/message_attachment.jsx';
 import {postListScrollChange} from 'actions/global_actions';
 
@@ -134,7 +135,7 @@ describe('components/post_view/MessageAttachment', () => {
         const wrapper = mount(<MessageAttachment {...props}/>);
 
         expect(wrapper.find('.attachment__author-icon').prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.author_icon)}`);
-        expect(wrapper.find('.attachment__image-container img').prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.image_url)}`);
-        expect(wrapper.find('.attachment__thumb-container img').prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.thumb_url)}`);
+        expect(wrapper.find(SizeAwareImage).first().prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.image_url)}`);
+        expect(wrapper.find(SizeAwareImage).last().prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.thumb_url)}`);
     });
 });

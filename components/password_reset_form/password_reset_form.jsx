@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {resetPassword} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
-import * as Utils from 'utils/utils.jsx';
+import LocalizedInput from 'components/localized_input/localized_input';
 
 class PasswordResetForm extends React.Component {
     constructor(props) {
@@ -89,15 +89,12 @@ class PasswordResetForm extends React.Component {
                             />
                         </p>
                         <div className={formClass}>
-                            <input
+                            <LocalizedInput
                                 type='password'
                                 className='form-control'
                                 name='password'
                                 ref='password'
-                                placeholder={Utils.localizeMessage(
-                                    'password_form.pwd',
-                                    'Password'
-                                )}
+                                placeholder={{id: 'password_form.pwd', defaultMessage: 'Password'}}
                                 spellCheck='false'
                             />
                         </div>

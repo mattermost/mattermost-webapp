@@ -8,7 +8,7 @@
 // ***************************************************************
 
 describe('Edit Message', () => {
-    it('Escape should not close modal when an autocomplete drop down is in use', () => {
+    it('M13909 Escape should not close modal when an autocomplete drop down is in use', () => {
         // 1. Login as "user-1" and go to /
         cy.login('user-1');
         cy.visit('/');
