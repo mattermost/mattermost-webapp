@@ -318,6 +318,7 @@ class DotMenu extends Component {
             menuItems.push(
                 <DotMenuItem
                     key={'edit'}
+                    id={`edit_post_${this.props.post.id}`}
                     menuItemText={
                         <FormattedMessage
                             id={'post_info.edit'}

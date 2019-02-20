@@ -11,6 +11,7 @@ export default class DotMenuItem extends React.PureComponent {
             PropTypes.element,
             PropTypes.string,
         ]),
+        id: PropTypes.string,
     };
 
     render() {
@@ -19,6 +20,7 @@ export default class DotMenuItem extends React.PureComponent {
                 role='presentation'
             >
                 <button
+                    id={this.props.id}
                     className='style--none'
                     role='menuitem'
                     onClick={this.props.handleMenuItemActivated}
