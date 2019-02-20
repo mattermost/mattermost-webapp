@@ -243,7 +243,6 @@ export default class AddUsersToTeam extends React.Component {
                         options={users}
                         optionRenderer={this.renderOption}
                         values={this.state.values}
-                        valueKey='id'
                         valueRenderer={this.renderValue}
                         perPage={USERS_PER_PAGE}
                         handlePageChange={this.handlePageChange}
