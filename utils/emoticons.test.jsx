@@ -28,16 +28,11 @@ describe('Emoticons', () => {
             thumbsup: [':+1:'],
             thumbsdown: [':-1:'],
         };
-        for (const key in emoticonPatterns) {
-            if (emoticonPatterns.hasOwnProperty(key)) {
-                const emoticonVariations = emoticonPatterns[key];
-                emoticonVariations.forEach((emoticon) => {
-                    test(`text sequence '${emoticon}' should be recognized as an emoticon`, () => {
-                        expect(Emoticons.handleEmoticons(emoticon, new Map())).toEqual('$MM_EMOTICON0$');
-                    });
-                });
-            }
-        }
+        Array.prototype.concat(...Object.values(emoticonPatterns)).forEach((emoticon) => {
+            test(`text sequence '${emoticon}' should be recognized as an emoticon`, () => {
+                expect(Emoticons.handleEmoticons(emoticon, new Map())).toEqual('$MM_EMOTICON0$');
+            });
+        });
 
         // test various uses of emoticons
         test('should replace emoticons with tokens', () => {
