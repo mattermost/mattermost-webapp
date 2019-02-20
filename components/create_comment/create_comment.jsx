@@ -391,21 +391,19 @@ export default class CreateComment extends React.PureComponent {
     handleSubmit = async (e) => {
         e.preventDefault();
 
-        const containsAtChannelMsg = containsAtChannel(this.state.draft.message);
-        if (this.props.isTimezoneEnabled && containsAtChannelMsg) {
-            const {data} = await this.props.getChannelTimezones(this.props.channelId);
-            if (data) {
-                this.setState({channelTimezoneCount: data.length});
-            } else {
-                this.setState({channelTimezoneCount: 0});
-            }
-        }
-
         const membersCount = this.props.channelMembersCount;
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel;
         if (notificationsToChannel &&
             membersCount > Constants.NOTIFY_ALL_MEMBERS &&
-            containsAtChannelMsg) {
+            containsAtChannel(this.state.draft.message)) {
+            if (this.props.isTimezoneEnabled) {
+                const {data} = await this.props.getChannelTimezones(this.props.channelId);
+                if (data) {
+                    this.setState({channelTimezoneCount: data.length});
+                } else {
+                    this.setState({channelTimezoneCount: 0});
+                }
+            }
             this.showNotifyAllModal();
             return;
         }

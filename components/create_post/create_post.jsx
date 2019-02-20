@@ -440,21 +440,19 @@ export default class CreatePost extends React.Component {
             userIsOutOfOffice,
         } = this.props;
 
-        const containsAtChannelMsg = containsAtChannel(this.state.message);
-        if (this.props.isTimezoneEnabled && containsAtChannelMsg) {
-            const {data} = await this.props.actions.getChannelTimezones(this.props.currentChannel.id);
-            if (data) {
-                this.setState({channelTimezoneCount: data.length});
-            } else {
-                this.setState({channelTimezoneCount: 0});
-            }
-        }
-
         const currentMembersCount = this.props.currentChannelMembersCount;
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel;
         if (notificationsToChannel &&
             currentMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
-            containsAtChannelMsg) {
+            containsAtChannel(this.state.message)) {
+            if (this.props.isTimezoneEnabled) {
+                const {data} = await this.props.actions.getChannelTimezones(this.props.currentChannel.id);
+                if (data) {
+                    this.setState({channelTimezoneCount: data.length});
+                } else {
+                    this.setState({channelTimezoneCount: 0});
+                }
+            }
             this.showNotifyAllModal();
             return;
         }
