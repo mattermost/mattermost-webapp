@@ -391,7 +391,8 @@ export default class CreateComment extends React.PureComponent {
     handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (this.props.isTimezoneEnabled) {
+        const containsAtChannelMsg = containsAtChannel(this.state.draft.message);
+        if (this.props.isTimezoneEnabled && containsAtChannelMsg) {
             const {data} = await this.props.getChannelTimezones(this.props.channelId);
             if (data) {
                 this.setState({channelTimezoneCount: data.length});
@@ -404,7 +405,7 @@ export default class CreateComment extends React.PureComponent {
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel;
         if (notificationsToChannel &&
             membersCount > Constants.NOTIFY_ALL_MEMBERS &&
-            containsAtChannel(this.state.draft.message)) {
+            containsAtChannelMsg) {
             this.showNotifyAllModal();
             return;
         }
