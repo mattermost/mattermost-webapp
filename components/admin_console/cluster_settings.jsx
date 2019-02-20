@@ -31,7 +31,6 @@ export default class ClusterSettings extends AdminSettings {
         config.ClusterSettings.OverrideHostname = this.state.OverrideHostname;
         config.ClusterSettings.UseIpAddress = this.state.UseIpAddress;
         config.ClusterSettings.UseExperimentalGossip = this.state.UseExperimentalGossip;
-        config.ClusterSettings.ReadOnlyConfig = this.state.ReadOnlyConfig;
         config.ClusterSettings.GossipPort = this.parseIntNonZero(this.state.GossipPort, 8074);
         config.ClusterSettings.StreamingPort = this.parseIntNonZero(this.state.StreamingPort, 8075);
         return config;
@@ -46,7 +45,6 @@ export default class ClusterSettings extends AdminSettings {
             OverrideHostname: settings.OverrideHostname,
             UseIpAddress: settings.UseIpAddress,
             UseExperimentalGossip: settings.UseExperimentalGossip,
-            ReadOnlyConfig: settings.ReadOnlyConfig,
             GossipPort: settings.GossipPort,
             StreamingPort: settings.StreamingPort,
             showWarning: false,
@@ -125,7 +123,7 @@ export default class ClusterSettings extends AdminSettings {
                 <div className='banner'>
                     <FormattedMessage
                         id='admin.cluster.noteDescription'
-                        defaultMessage='Changing properties in this section will require a server restart before taking effect. When High Availability mode is enabled, the System Console is set to read-only and can only be changed from the configuration file unless ReadOnlyConfig is disabled in the configuration file.'
+                        defaultMessage='Changing properties in this section will require a server restart before taking effect.'
                     />
                 </div>
                 {warning}
@@ -220,24 +218,6 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.UseExperimentalGossip}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.UseExperimentalGossip')}
-                />
-                <BooleanSetting
-                    id='ReadOnlyConfig'
-                    label={
-                        <FormattedMessage
-                            id='admin.cluster.ReadOnlyConfig'
-                            defaultMessage='Read Only Config:'
-                        />
-                    }
-                    helpText={
-                        <FormattedHTMLMessage
-                            id='admin.cluster.ReadOnlyConfigDesc'
-                            defaultMessage='When true, the server will reject changes made to the configuration file from the system console. When running in production it is recommended to set this to true.'
-                        />
-                    }
-                    value={this.state.ReadOnlyConfig}
-                    onChange={this.overrideHandleChange}
-                    setByEnv={this.isSetByEnv('ClusterSettings.ReadOnlyConfig')}
                 />
                 <TextSetting
                     id='GossipPort'
