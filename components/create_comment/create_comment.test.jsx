@@ -526,7 +526,7 @@ describe('components/CreateComment', () => {
                             fileInfos: [{}, {}, {}],
                         },
                         onSubmit,
-                        channelMembersCount: 0,
+                        channelMembersCount: 8,
                         enableConfirmNotificationsToChannel: true,
                     };
 
