@@ -610,7 +610,7 @@ export default class FileUpload extends PureComponent {
                     <Menu
                         openLeft={true}
                         openUp={true}
-                        ariaLabel={formatMessage('file_upload.menuAriaLabel', 'Upload type selector')}
+                        ariaLabel={formatMessage({id: 'file_upload.menuAriaLabel', defaultMessage: 'Upload type selector'})}
                     >
                         <li>
                             <a>
