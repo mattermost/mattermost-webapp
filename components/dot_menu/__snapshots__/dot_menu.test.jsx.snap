@@ -36,6 +36,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     <button
       aria-expanded="false"
       className="post__dropdown color--link style--none"
+      id="CENTER_button_post_id_1"
       type="button"
     />
   </OverlayTrigger>
@@ -52,7 +53,6 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       }
     >
       <MenuItemAction
-        id="CENTER_button_post_id_1"
         onClick={[Function]}
         show={false}
         text="Add Reaction"
@@ -142,6 +142,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     <button
       aria-expanded="false"
       className="post__dropdown color--link style--none"
+      id="CENTER_button_post_id_1"
       type="button"
     />
   </OverlayTrigger>
@@ -158,7 +159,6 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       }
     >
       <MenuItemAction
-        id="CENTER_button_post_id_1"
         onClick={[Function]}
         show={false}
         text="Add Reaction"

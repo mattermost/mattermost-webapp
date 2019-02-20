@@ -22,6 +22,8 @@ import Menu from 'components/widgets/menu/menu.jsx';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
 import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action.jsx';
 
+const MENU_BOTTOM_MARGIN = 80;
+
 export default class DotMenu extends Component {
     static propTypes = {
         post: PropTypes.object.isRequired,
@@ -198,7 +200,7 @@ export default class DotMenu extends Component {
         if (ref) {
             const {y, height} = ref.rect();
             const windowHeight = window.innerHeight;
-            if ((y + height) > (windowHeight - 80)) {
+            if ((y + height) > (windowHeight - MENU_BOTTOM_MARGIN)) {
                 this.setState({openUp: true});
             }
         }
@@ -226,8 +228,7 @@ export default class DotMenu extends Component {
                 );
             });
 
-        // TODO: Check if this is really equivalent to the previous code
-        if (pluginItems.length === 0 && isSystemMessage) {
+        if (!this.state.canDelete && !this.state.canEdit && pluginItems.length === 0 && isSystemMessage) {
             return null;
         }
 
@@ -241,6 +242,7 @@ export default class DotMenu extends Component {
                     rootClose={true}
                 >
                     <button
+                        id={`${this.props.location}_button_${this.props.post.id}`}
                         className='post__dropdown color--link style--none'
                         type='button'
                         aria-expanded='false'
@@ -258,7 +260,6 @@ export default class DotMenu extends Component {
                         permissions={[Permissions.ADD_REACTION]}
                     >
                         <MenuItemAction
-                            id={`${this.props.location}_button_${this.props.post.id}`}
                             show={isMobile && !isSystemMessage && !this.props.isReadOnly && this.props.enableEmojiPicker}
                             text={Utils.localizeMessage('rhs_root.mobile.add_reaction', 'Add Reaction')}
                             onClick={this.handleAddReactionMenuItemActivated}
