@@ -27,10 +27,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     </div>
   </div>
   <AdminPanel
+    className=""
     id="group_profile"
-    subtitleDefaultMessage="The name for this group."
+    subtitleDefault="The name for this group."
     subtitleId="admin.group_settings.group_detail.groupProfileDescription"
-    titleDefaultMessage="Group Profile"
+    titleDefault="Group Profile"
     titleId="admin.group_settings.group_detail.groupProfileTitle"
   >
     <GroupProfile
@@ -38,7 +39,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     />
   </AdminPanel>
   <AdminPanel
-    action={
+    button={
       <div
         className="group-profile-add-menu"
       >
@@ -57,10 +58,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
         </button>
       </div>
     }
+    className=""
     id="group_teams_and_channels"
-    subtitleDefaultMessage="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically."
+    subtitleDefault="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically."
     subtitleId="admin.group_settings.group_detail.groupTeamsAndChannelsDescription"
-    titleDefaultMessage="Team and Channel Membership"
+    titleDefault="Team and Channel Membership"
     titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
   >
     <GroupTeamsAndChannels
@@ -114,10 +116,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     onModalDismissed={[Function]}
   />
   <AdminPanel
+    className=""
     id="group_users"
-    subtitleDefaultMessage="Listing of users in Mattermost associated with this group."
+    subtitleDefault="Listing of users in Mattermost associated with this group."
     subtitleId="admin.group_settings.group_detail.groupUsersDescription"
-    titleDefaultMessage="Users"
+    titleDefault="Users"
     titleId="admin.group_settings.group_detail.groupUsersTitle"
   >
     <GroupUsers
@@ -169,10 +172,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     </div>
   </div>
   <AdminPanel
+    className=""
     id="group_profile"
-    subtitleDefaultMessage="The name for this group."
+    subtitleDefault="The name for this group."
     subtitleId="admin.group_settings.group_detail.groupProfileDescription"
-    titleDefaultMessage="Group Profile"
+    titleDefault="Group Profile"
     titleId="admin.group_settings.group_detail.groupProfileTitle"
   >
     <GroupProfile
@@ -180,7 +184,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     />
   </AdminPanel>
   <AdminPanel
-    action={
+    button={
       <div
         className="group-profile-add-menu"
       >
@@ -221,10 +225,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
         </ul>
       </div>
     }
+    className=""
     id="group_teams_and_channels"
-    subtitleDefaultMessage="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically."
+    subtitleDefault="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically."
     subtitleId="admin.group_settings.group_detail.groupTeamsAndChannelsDescription"
-    titleDefaultMessage="Team and Channel Membership"
+    titleDefault="Team and Channel Membership"
     titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
   >
     <GroupTeamsAndChannels
@@ -261,10 +266,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     />
   </AdminPanel>
   <AdminPanel
+    className=""
     id="group_users"
-    subtitleDefaultMessage="Listing of users in Mattermost associated with this group."
+    subtitleDefault="Listing of users in Mattermost associated with this group."
     subtitleId="admin.group_settings.group_detail.groupUsersDescription"
-    titleDefaultMessage="Users"
+    titleDefault="Users"
     titleId="admin.group_settings.group_detail.groupUsersTitle"
   >
     <GroupUsers
@@ -316,10 +322,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     </div>
   </div>
   <AdminPanel
+    className=""
     id="group_profile"
-    subtitleDefaultMessage="The name for this group."
+    subtitleDefault="The name for this group."
     subtitleId="admin.group_settings.group_detail.groupProfileDescription"
-    titleDefaultMessage="Group Profile"
+    titleDefault="Group Profile"
     titleId="admin.group_settings.group_detail.groupProfileTitle"
   >
     <GroupProfile
@@ -327,7 +334,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     />
   </AdminPanel>
   <AdminPanel
-    action={
+    button={
       <div
         className="group-profile-add-menu"
       >
@@ -346,10 +353,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
         </button>
       </div>
     }
+    className=""
     id="group_teams_and_channels"
-    subtitleDefaultMessage="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically."
+    subtitleDefault="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically."
     subtitleId="admin.group_settings.group_detail.groupTeamsAndChannelsDescription"
-    titleDefaultMessage="Team and Channel Membership"
+    titleDefault="Team and Channel Membership"
     titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
   >
     <GroupTeamsAndChannels
@@ -397,10 +405,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     onTeamsSelected={[Function]}
   />
   <AdminPanel
+    className=""
     id="group_users"
-    subtitleDefaultMessage="Listing of users in Mattermost associated with this group."
+    subtitleDefault="Listing of users in Mattermost associated with this group."
     subtitleId="admin.group_settings.group_detail.groupUsersDescription"
-    titleDefaultMessage="Users"
+    titleDefault="Users"
     titleId="admin.group_settings.group_detail.groupUsersTitle"
   >
     <GroupUsers
@@ -452,10 +461,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     </div>
   </div>
   <AdminPanel
+    className=""
     id="group_profile"
-    subtitleDefaultMessage="The name for this group."
+    subtitleDefault="The name for this group."
     subtitleId="admin.group_settings.group_detail.groupProfileDescription"
-    titleDefaultMessage="Group Profile"
+    titleDefault="Group Profile"
     titleId="admin.group_settings.group_detail.groupProfileTitle"
   >
     <GroupProfile
@@ -463,7 +473,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     />
   </AdminPanel>
   <AdminPanel
-    action={
+    button={
       <div
         className="group-profile-add-menu"
       >
@@ -482,10 +492,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
         </button>
       </div>
     }
+    className=""
     id="group_teams_and_channels"
-    subtitleDefaultMessage="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically."
+    subtitleDefault="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically."
     subtitleId="admin.group_settings.group_detail.groupTeamsAndChannelsDescription"
-    titleDefaultMessage="Team and Channel Membership"
+    titleDefault="Team and Channel Membership"
     titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
   >
     <GroupTeamsAndChannels
@@ -522,10 +533,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     />
   </AdminPanel>
   <AdminPanel
+    className=""
     id="group_users"
-    subtitleDefaultMessage="Listing of users in Mattermost associated with this group."
+    subtitleDefault="Listing of users in Mattermost associated with this group."
     subtitleId="admin.group_settings.group_detail.groupUsersDescription"
-    titleDefaultMessage="Users"
+    titleDefault="Users"
     titleId="admin.group_settings.group_detail.groupUsersTitle"
   >
     <GroupUsers
@@ -577,10 +589,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     </div>
   </div>
   <AdminPanel
+    className=""
     id="group_profile"
-    subtitleDefaultMessage="The name for this group."
+    subtitleDefault="The name for this group."
     subtitleId="admin.group_settings.group_detail.groupProfileDescription"
-    titleDefaultMessage="Group Profile"
+    titleDefault="Group Profile"
     titleId="admin.group_settings.group_detail.groupProfileTitle"
   >
     <GroupProfile
@@ -588,7 +601,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     />
   </AdminPanel>
   <AdminPanel
-    action={
+    button={
       <div
         className="group-profile-add-menu"
       >
@@ -607,10 +620,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
         </button>
       </div>
     }
+    className=""
     id="group_teams_and_channels"
-    subtitleDefaultMessage="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically."
+    subtitleDefault="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically."
     subtitleId="admin.group_settings.group_detail.groupTeamsAndChannelsDescription"
-    titleDefaultMessage="Team and Channel Membership"
+    titleDefault="Team and Channel Membership"
     titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
   >
     <GroupTeamsAndChannels
@@ -647,10 +661,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     />
   </AdminPanel>
   <AdminPanel
+    className=""
     id="group_users"
-    subtitleDefaultMessage="Listing of users in Mattermost associated with this group."
+    subtitleDefault="Listing of users in Mattermost associated with this group."
     subtitleId="admin.group_settings.group_detail.groupUsersDescription"
-    titleDefaultMessage="Users"
+    titleDefault="Users"
     titleId="admin.group_settings.group_detail.groupUsersTitle"
   >
     <GroupUsers

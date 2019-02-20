@@ -8,12 +8,13 @@ import {Modal} from 'react-bootstrap';
 
 import {PermissionsScope, DefaultRolePermissions} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 import SaveButton from 'components/save_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
-import AccordionToggleIcon from 'components/svg/accordion_toggle_icon.jsx';
 import FormError from 'components/form_error.jsx';
 import BlockableLink from 'components/admin_console/blockable_link';
+import AdminPanelTogglable from 'components/widgets/admin_console/admin_panel_togglable.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -216,32 +217,16 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                     </div>
                 </div>
 
-                <div
-                    className={'permissions-block ' + (this.state.openRoles.all_users ? '' : 'closed')}
+                <AdminPanelTogglable
+                    className='permissions-block'
+                    open={this.state.openRoles.all_users}
                     id='all_users'
+                    onToggle={() => this.toggleRole('all_users')}
+                    titleId={t('admin.permissions.systemScheme.allMembersTitle')}
+                    titleDefault='All Members'
+                    subtitleId={t('admin.permissions.systemScheme.allMembersDescription')}
+                    subtitleDefault='Permissions granted to all members, including administrators and newly created users.'
                 >
-                    <div
-                        className='header'
-                        onClick={() => this.toggleRole('all_users')}
-                    >
-                        <div>
-                            <h3>
-                                <FormattedMessage
-                                    id='admin.permissions.systemScheme.allMembersTitle'
-                                    defaultMessage='All Members'
-                                />
-                            </h3>
-                            <span>
-                                <FormattedMessage
-                                    id='admin.permissions.systemScheme.allMembersDescription'
-                                    defaultMessage='Permissions granted to all members, including administrators and newly created users.'
-                                />
-                            </span>
-                        </div>
-                        <div className='button'>
-                            <AccordionToggleIcon/>
-                        </div>
-                    </div>
                     <PermissionsTree
                         selected={this.state.selectedPermission}
                         role={this.state.roles.all_users}
@@ -249,31 +234,17 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                         onToggle={this.togglePermission}
                         selectRow={this.selectRow}
                     />
-                </div>
+                </AdminPanelTogglable>
 
-                <div className={'permissions-block ' + (this.state.openRoles.channel_admin ? '' : 'closed')}>
-                    <div
-                        className='header'
-                        onClick={() => this.toggleRole('channel_admin')}
-                    >
-                        <div>
-                            <h3>
-                                <FormattedMessage
-                                    id='admin.permissions.systemScheme.channelAdminsTitle'
-                                    defaultMessage='Channel Administrators'
-                                />
-                            </h3>
-                            <span>
-                                <FormattedMessage
-                                    id='admin.permissions.systemScheme.channelAdminsDescription'
-                                    defaultMessage='Permissions granted to channel creators and any users promoted to Channel Administrator.'
-                                />
-                            </span>
-                        </div>
-                        <div className='button'>
-                            <AccordionToggleIcon/>
-                        </div>
-                    </div>
+                <AdminPanelTogglable
+                    className='permissions-block'
+                    open={this.state.openRoles.channel_admin}
+                    onToggle={() => this.toggleRole('channel_admin')}
+                    titleId={t('admin.permissions.systemScheme.channelAdminsTitle')}
+                    titleDefault='Channel Administrators'
+                    subtitleId={t('admin.permissions.systemScheme.channelAdminsDescription')}
+                    subtitleDefault='Permissions granted to channel creators and any users promoted to Channel Administrator.'
+                >
                     <PermissionsTree
                         parentRole={this.state.roles.all_users}
                         role={this.state.roles.channel_admin}
@@ -281,31 +252,17 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                         onToggle={this.togglePermission}
                         selectRow={this.selectRow}
                     />
-                </div>
+                </AdminPanelTogglable>
 
-                <div className={'permissions-block ' + (this.state.openRoles.team_admin ? '' : 'closed')}>
-                    <div
-                        className='header'
-                        onClick={() => this.toggleRole('team_admin')}
-                    >
-                        <div>
-                            <h3>
-                                <FormattedMessage
-                                    id='admin.permissions.systemScheme.teamAdminsTitle'
-                                    defaultMessage='Team Administrators'
-                                />
-                            </h3>
-                            <span>
-                                <FormattedMessage
-                                    id='admin.permissions.systemScheme.teamAdminsDescription'
-                                    defaultMessage='Permissions granted to team creators and any users promoted to Team Administrator.'
-                                />
-                            </span>
-                        </div>
-                        <div className='button'>
-                            <AccordionToggleIcon/>
-                        </div>
-                    </div>
+                <AdminPanelTogglable
+                    className='permissions-block'
+                    open={this.state.openRoles.team_admin}
+                    onToggle={() => this.toggleRole('team_admin')}
+                    titleId={t('admin.permissions.systemScheme.teamAdminsTitle')}
+                    titleDefault='Team Administrators'
+                    subtitleId={t('admin.permissions.systemScheme.teamAdminsDescription')}
+                    subtitleDefault='Permissions granted to team creators and any users promoted to Team Administrator.'
+                >
                     <PermissionsTree
                         parentRole={this.state.roles.all_users}
                         role={this.state.roles.team_admin}
@@ -313,31 +270,17 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                         onToggle={this.togglePermission}
                         selectRow={this.selectRow}
                     />
-                </div>
+                </AdminPanelTogglable>
 
-                <div className={'permissions-block ' + (this.state.openRoles.system_admin ? '' : 'closed')}>
-                    <div
-                        className='header'
-                        onClick={() => this.toggleRole('system_admin')}
-                    >
-                        <div>
-                            <h3>
-                                <FormattedMessage
-                                    id='admin.permissions.systemScheme.systemAdminsTitle'
-                                    defaultMessage='System Administrators'
-                                />
-                            </h3>
-                            <span>
-                                <FormattedMessage
-                                    id='admin.permissions.systemScheme.systemAdminsDescription'
-                                    defaultMessage='Full permissions granted to System Administrators.'
-                                />
-                            </span>
-                        </div>
-                        <div className='button'>
-                            <AccordionToggleIcon/>
-                        </div>
-                    </div>
+                <AdminPanelTogglable
+                    className='permissions-block'
+                    open={this.state.openRoles.system_admin}
+                    onToggle={() => this.toggleRole('system_admin')}
+                    titleId={t('admin.permissions.systemScheme.systemAdminsTitle')}
+                    titleDefault='System Administrators'
+                    subtitleId={t('admin.permissions.systemScheme.systemAdminsDescription')}
+                    subtitleDefault='Full permissions granted to System Administrators.'
+                >
                     <PermissionsTree
                         readOnly={true}
                         role={this.state.roles.system_admin}
@@ -345,7 +288,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                         onToggle={this.togglePermission}
                         selectRow={this.selectRow}
                     />
-                </div>
+                </AdminPanelTogglable>
 
                 <div className='admin-console-save'>
                     <SaveButton

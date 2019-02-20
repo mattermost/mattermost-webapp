@@ -3,9 +3,22 @@
 
 import emojiRegex from 'emoji-regex';
 
-import {autolinkAtMentions, highlightSearchTerms, handleUnicodeEmoji} from 'utils/text_formatting.jsx';
+import {formatText, autolinkAtMentions, highlightSearchTerms, handleUnicodeEmoji} from 'utils/text_formatting.jsx';
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
+
+describe('formatText', () => {
+    test('jumbo emoji should be able to handle up to 3 spaces before the emoji character', () => {
+        const emoji = ':)';
+        let spaces = '';
+
+        for (let i = 0; i < 3; i++) {
+            spaces += ' ';
+            const output = formatText(`${spaces}${emoji}`, {});
+            expect(output).toBe(`<span class="all-emoji"><p>${spaces}<span data-emoticon="slightly_smiling_face">${emoji}</span></p></span>`);
+        }
+    });
+});
 
 describe('autolinkAtMentions', () => {
     // testing to make sure @channel, @all & @here are setup properly to get highlighted correctly
