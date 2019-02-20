@@ -526,7 +526,7 @@ describe('components/CreateComment', () => {
                             fileInfos: [{}, {}, {}],
                         },
                         onSubmit,
-                        channelMembersCount: 8,
+                        channelMembersCount: 0,
                         enableConfirmNotificationsToChannel: true,
                     };
 
@@ -583,11 +583,11 @@ describe('components/CreateComment', () => {
                 );
 
                 await wrapper.instance().handleSubmit({preventDefault});
-                wrapper.setState({channelMembersCount: 4});
+                wrapper.setState({channelTimezoneCount: 4});
 
                 expect(onSubmit).not.toHaveBeenCalled();
                 expect(preventDefault).toHaveBeenCalled();
-                expect(wrapper.state('channelMembersCount')).toBe(4);
+                expect(wrapper.state('channelTimezoneCount')).toBe(4);
                 expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(1);
                 expect(wrapper.state('showConfirmModal')).toBe(true);
             });
@@ -611,11 +611,11 @@ describe('components/CreateComment', () => {
                 );
 
                 await wrapper.instance().handleSubmit({preventDefault});
-                wrapper.setState({channelMembersCount: 0});
+                wrapper.setState({channelTimezoneCount: 0});
 
                 expect(onSubmit).not.toHaveBeenCalled();
                 expect(preventDefault).toHaveBeenCalled();
-                expect(wrapper.state('channelMembersCount')).toBe(0);
+                expect(wrapper.state('channelTimezoneCount')).toBe(0);
                 expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(1);
                 expect(wrapper.state('showConfirmModal')).toBe(true);
             });
