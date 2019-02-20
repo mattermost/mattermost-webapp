@@ -112,8 +112,8 @@ export default class PushSettings extends AdminSettings {
     renderTitle() {
         return (
             <FormattedMessage
-                id='admin.notifications.title'
-                defaultMessage='Notification Settings'
+                id='admin.notifications.push'
+                defaultMessage='Mobile Push'
             />
         );
     }
@@ -181,14 +181,7 @@ export default class PushSettings extends AdminSettings {
         }
 
         return (
-            <SettingsGroup
-                header={
-                    <FormattedMessage
-                        id='admin.notifications.push'
-                        defaultMessage='Mobile Push'
-                    />
-                }
-            >
+            <SettingsGroup>
                 <DropdownSetting
                     id='pushNotificationServerType'
                     values={pushNotificationServerTypes}
