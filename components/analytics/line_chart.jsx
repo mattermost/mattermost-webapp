@@ -82,7 +82,8 @@ export default class LineChart extends React.PureComponent {
 
         var el = ReactDOM.findDOMNode(this.refs.canvas);
         var ctx = el.getContext('2d');
-        this.chart = new Chart(ctx, {type: 'line', data: this.props.data, options: this.chartOptions || {}}); // eslint-disable-line new-cap
+        const dataCopy = JSON.parse(JSON.stringify(this.props.data));
+        this.chart = new Chart(ctx, {type: 'line', data: dataCopy, options: this.chartOptions || {}});
 
         if (update) {
             this.chart.update();
