@@ -502,6 +502,8 @@
   "admin.experimental.linkMetadataTimeoutMilliseconds.desc": "The number of milliseconds to wait for metadata from a third-party link. Used with Post Metadata.",
   "admin.experimental.linkMetadataTimeoutMilliseconds.example": "E.g.: \"5000\"",
   "admin.experimental.linkMetadataTimeoutMilliseconds.title": "Link Metadata Timeout",
+  "admin.experimental.experimentalLdapGroupSync.title": "Enable AD/LDAP Group Sync",
+  "admin.experimental.experimentalLdapGroupSync.desc": "When true, enables **AD/LDAP Group Sync** configurable under **Access Controls > Groups**. See [documentation](!https://docs.mattermost.com/deployment/ldap-group-sync.html) to learn more.",
   "admin.experimental.timeBetweenUserTypingUpdatesMilliseconds.desc": "The number of milliseconds to wait between emitting user typing websocket events.",
   "admin.experimental.timeBetweenUserTypingUpdatesMilliseconds.example": "E.g.: \"5000\"",
   "admin.experimental.timeBetweenUserTypingUpdatesMilliseconds.title": "User Typing Timeout",
