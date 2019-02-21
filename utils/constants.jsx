@@ -384,7 +384,7 @@ export const AnnouncementBarMessages = {
 
 export const VerifyEmailErrors = {
     FAILED_EMAIL_VERIFICATION: 'failed_email_verification',
-    FAILED_USER_STATE_UPDATE: 'failed_update_user_state',
+    FAILED_USER_STATE_GET: 'failed_get_user_state',
 };
 
 export const FileTypes = {

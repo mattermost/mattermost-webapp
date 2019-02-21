@@ -1424,7 +1424,7 @@
   "analytics.team.title": "Team Statistics for {team}",
   "analytics.team.totalPosts": "Total Posts",
   "analytics.team.totalUsers": "Total Active Users",
-  "announcement_bar.error.email_verification_required": "Check your email at {email} to verify the address. Cannot find the email?",
+  "announcement_bar.error.email_verification_required": "Check your email inbox to verify the address.",
   "announcement_bar.error.license_expired": "Enterprise license is expired and some features may be disabled. [Please renew](!{link}).",
   "announcement_bar.error.license_expiring": "Enterprise license expires on {date, date, long}. [Please renew](!{link}).",
   "announcement_bar.error.past_grace": "Enterprise license is expired and some features may be disabled. Please contact your System Administrator for details.",
