@@ -199,6 +199,21 @@ export default class SearchResults extends React.PureComponent {
             }, this);
         }
 
+        let loadingScreen = null;
+        if (this.props.isSearchGettingMore) {
+            loadingScreen = (
+                <div className='loading-screen'>
+                    <div className='loading__content'>
+                        <div className='round round-1'/>
+                        <div className='round round-2'/>
+                        <div className='round round-3'/>
+                    </div>
+                </div>
+            )
+        }
+
+        
+
         return (
             <div className='sidebar-right__body'>
                 <SearchResultsHeader
@@ -225,16 +240,7 @@ export default class SearchResults extends React.PureComponent {
                         {ctls}
                     </div>
                 </Scrollbars>
-                <div
-                    className='loading-screen'
-                    style={this.props.isSearchGettingMore ? {} : {display: 'none'}}
-                >
-                    <div className='loading__content'>
-                        <div className='round round-1'/>
-                        <div className='round round-2'/>
-                        <div className='round round-3'/>
-                    </div>
-                </div>
+                {loadingScreen}
             </div>
         );
     }
