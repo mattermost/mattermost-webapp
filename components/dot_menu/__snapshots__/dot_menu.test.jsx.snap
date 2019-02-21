@@ -38,6 +38,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         aria-expanded="false"
         className="dropdown-toggle post__dropdown color--link style--none"
         data-toggle="dropdown"
+        id="CENTER_button_post_id_1"
         type="button"
       />
     </OverlayTrigger>
@@ -129,6 +130,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         aria-expanded="false"
         className="dropdown-toggle post__dropdown color--link style--none"
         data-toggle="dropdown"
+        id="CENTER_button_post_id_1"
         type="button"
       />
     </OverlayTrigger>

@@ -11,6 +11,8 @@ import {compareEmojis} from 'utils/emoji_utils.jsx';
 import {t} from 'utils/i18n';
 import imgTrans from 'images/img_trans.gif';
 
+import LocalizedInput from 'components/localized_input/localized_input';
+
 import EmojiPickerHeader from './components/emoji_picker_header';
 import EmojiPickerCategory from './components/emoji_picker_category';
 import EmojiPickerItem from './components/emoji_picker_item';
@@ -524,22 +526,15 @@ export default class EmojiPicker extends React.PureComponent {
                     defaultMessage='Search for an emoji'
                 >
                     {(ariaLabel) => (
-                        <FormattedMessage
-                            id='emoji_picker.search'
-                            defaultMessage='Search Emoji'
-                        >
-                            {(placeholder) => (
-                                <input
-                                    aria-label={ariaLabel}
-                                    ref={this.emojiSearchInput}
-                                    className='emoji-picker__search'
-                                    type='text'
-                                    onChange={this.handleFilterChange}
-                                    onKeyDown={this.handleKeyDown}
-                                    placeholder={placeholder}
-                                />
-                            )}
-                        </FormattedMessage>
+                        <LocalizedInput
+                            aria-label={ariaLabel}
+                            ref={this.emojiSearchInput}
+                            className='emoji-picker__search'
+                            type='text'
+                            onChange={this.handleFilterChange}
+                            onKeyDown={this.handleKeyDown}
+                            placeholder={{id: 'emoji_picker.search', defaultMessage: 'Search Emoji'}}
+                        />
                     )}
                 </FormattedMessage>
             </div>

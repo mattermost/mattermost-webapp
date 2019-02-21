@@ -14,7 +14,7 @@ describe('Header', () => {
         cy.visit('/');
     });
 
-    it('should show ellipsis when header is too long', () => {
+    it('M13564 Ellipsis indicates the channel header is too long', () => {
         // 2. Open channel header textbox
         cy.get('#channelHeaderDropdownButton').should('be.visible').click();
         cy.get('#channelHeaderDropdownMenu').should('be.visible').find('#channelEditHeader').click();

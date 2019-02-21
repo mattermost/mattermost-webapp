@@ -18,6 +18,7 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import LocalizedInput from 'components/localized_input/localized_input';
 
 const holders = defineMessages({
     emailError: {
@@ -277,12 +278,12 @@ class InviteMemberModal extends React.PureComponent {
                     <div className='row row--invite'>
                         <div className='col-sm-6'>
                             <div className={firstNameClass}>
-                                <input
+                                <LocalizedInput
                                     onKeyDown={this.handleKeyDown}
                                     type='text'
                                     className='form-control'
                                     ref={'first_name' + index}
-                                    placeholder={formatMessage(holders.firstname)}
+                                    placeholder={holders.firstname}
                                     maxLength='64'
                                     disabled={!this.props.sendEmailNotifications || !this.props.enableUserCreation}
                                     spellCheck='false'
@@ -292,12 +293,12 @@ class InviteMemberModal extends React.PureComponent {
                         </div>
                         <div className='col-sm-6'>
                             <div className={lastNameClass}>
-                                <input
+                                <LocalizedInput
                                     onKeyDown={this.handleKeyDown}
                                     type='text'
                                     className='form-control'
                                     ref={'last_name' + index}
-                                    placeholder={formatMessage(holders.lastname)}
+                                    placeholder={holders.lastname}
                                     maxLength='64'
                                     disabled={!this.props.sendEmailNotifications || !this.props.enableUserCreation}
                                     spellCheck='false'

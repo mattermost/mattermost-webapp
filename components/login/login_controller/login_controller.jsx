@@ -30,6 +30,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 import SuccessIcon from 'components/icon/success_icon';
 import WarningIcon from 'components/icon/warning_icon';
+import LocalizedInput from 'components/localized_input/localized_input';
 
 import LoginMfa from '../login_mfa.jsx';
 
@@ -82,6 +83,7 @@ class LoginController extends React.Component {
             showMfa: false,
             loading: false,
             sessionExpired: false,
+            brandImageError: false,
         };
     }
 
@@ -360,15 +362,23 @@ class LoginController extends React.Component {
         });
     }
 
+    handleBrandImageError = () => {
+        this.setState({brandImageError: true});
+    }
+
     createCustomLogin = () => {
         if (this.props.enableCustomBrand) {
             const text = this.props.customBrandText || '';
             const formattedText = TextFormatting.formatText(text);
+            const brandImageUrl = Client4.getBrandImageUrl(0);
+            const brandImageStyle = this.state.brandImageError ? {display: 'none'} : {};
 
             return (
                 <div>
                     <img
-                        src={Client4.getBrandImageUrl(0)}
+                        src={brandImageUrl}
+                        onError={this.handleBrandImageError}
+                        style={brandImageStyle}
                     />
                     <div>
                         {messageHtmlToComponent(formattedText, false, {mentions: false, imagesMetadata: null})}
@@ -563,7 +573,7 @@ class LoginController extends React.Component {
                             />
                         </div>
                         <div className={'form-group' + errorClass}>
-                            <input
+                            <LocalizedInput
                                 id='loginPassword'
                                 type='password'
                                 className='form-control'
@@ -571,7 +581,7 @@ class LoginController extends React.Component {
                                 name='password'
                                 value={this.state.password}
                                 onChange={this.handlePasswordChange}
-                                placeholder={Utils.localizeMessage('login.password', 'Password')}
+                                placeholder={{id: 'login.password', defaultMessage: 'Password'}}
                                 spellCheck='false'
                             />
                         </div>

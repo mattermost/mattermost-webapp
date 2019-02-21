@@ -10,7 +10,7 @@ import {t} from 'utils/i18n';
 import GroupProfile from 'components/admin_console/group_settings/group_details/group_profile';
 import GroupTeamsAndChannels from 'components/admin_console/group_settings/group_details/group_teams_and_channels';
 import GroupUsers from 'components/admin_console/group_settings/group_details/group_users';
-import AdminPanel from 'components/admin_console/admin_panel.jsx';
+import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
 
 import TeamSelectorModal from 'components/team_selector_modal';
 import ChannelSelectorModal from 'components/channel_selector_modal';
@@ -121,9 +121,9 @@ export default class GroupDetails extends React.PureComponent {
                 <AdminPanel
                     id='group_profile'
                     titleId={t('admin.group_settings.group_detail.groupProfileTitle')}
-                    titleDefaultMessage='Group Profile'
+                    titleDefault='Group Profile'
                     subtitleId={t('admin.group_settings.group_detail.groupProfileDescription')}
-                    subtitleDefaultMessage='The name for this group.'
+                    subtitleDefault='The name for this group.'
                 >
                     <GroupProfile
                         name={group.display_name}
@@ -133,10 +133,10 @@ export default class GroupDetails extends React.PureComponent {
                 <AdminPanel
                     id='group_teams_and_channels'
                     titleId={t('admin.group_settings.group_detail.groupTeamsAndChannelsTitle')}
-                    titleDefaultMessage='Team and Channel Membership'
+                    titleDefault='Team and Channel Membership'
                     subtitleId={t('admin.group_settings.group_detail.groupTeamsAndChannelsDescription')}
-                    subtitleDefaultMessage='Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically.'
-                    action={(
+                    subtitleDefault='Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically.'
+                    button={(
                         <div className='group-profile-add-menu'>
                             <button
                                 className='btn btn-primary'
@@ -195,9 +195,9 @@ export default class GroupDetails extends React.PureComponent {
                 <AdminPanel
                     id='group_users'
                     titleId={t('admin.group_settings.group_detail.groupUsersTitle')}
-                    titleDefaultMessage='Users'
+                    titleDefault='Users'
                     subtitleId={t('admin.group_settings.group_detail.groupUsersDescription')}
-                    subtitleDefaultMessage='Listing of users in Mattermost associated with this group.'
+                    subtitleDefault='Listing of users in Mattermost associated with this group.'
                 >
                     <GroupUsers
                         members={members}

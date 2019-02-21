@@ -10,6 +10,7 @@ import {FormattedMessage} from 'react-intl';
 
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
+import LocalizedInput from 'components/localized_input/localized_input';
 import Constants from 'utils/constants.jsx';
 import {getShortenedURL} from 'utils/url.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -321,13 +322,13 @@ export default class NewChannelModal extends React.PureComponent {
                                     />
                                 </label>
                                 <div className='col-sm-9'>
-                                    <input
+                                    <LocalizedInput
                                         id={inputPrefixId + 'Name'}
                                         onChange={this.handleChange}
                                         type='text'
                                         ref='display_name'
                                         className='form-control'
-                                        placeholder={Utils.localizeMessage('channel_modal.nameEx', 'E.g.: "Bugs", "Marketing", "客户支持"')}
+                                        placeholder={{id: 'channel_modal.nameEx', defaultMessage: 'E.g.: "Bugs", "Marketing", "客户支持"'}}
                                         maxLength={Constants.MAX_CHANNELNAME_LENGTH}
                                         value={this.props.channelData.displayName}
                                         autoFocus={true}
