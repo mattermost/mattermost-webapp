@@ -253,7 +253,7 @@ export default class CreatePost extends React.Component {
             enableSendButton: false,
             showEmojiPicker: false,
             showConfirmModal: false,
-            channelMembersCount: 0,
+            channelTimezoneCount: 0,
             uploadsProgressPercent: {},
         };
 
@@ -431,27 +431,25 @@ export default class CreatePost extends React.Component {
             command === 'dnd' || command === 'offline';
     };
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         const {
             currentChannel: updateChannel,
             userIsOutOfOffice,
         } = this.props;
 
-        if (this.props.isTimezoneEnabled) {
-            this.props.actions.getChannelTimezones(this.props.currentChannel.id).then(
-                (data) => {
-                    if (data.data) {
-                        this.setState({channelMembersCount: data.data.length});
-                    } else {
-                        this.setState({channelMembersCount: 0});
-                    }
-                }
-            );
-        }
-
-        if (this.props.enableConfirmNotificationsToChannel &&
-            this.props.currentChannelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
+        const currentMembersCount = this.props.currentChannelMembersCount;
+        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel;
+        if (notificationsToChannel &&
+            currentMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
             containsAtChannel(this.state.message)) {
+            if (this.props.isTimezoneEnabled) {
+                const {data} = await this.props.actions.getChannelTimezones(this.props.currentChannel.id);
+                if (data) {
+                    this.setState({channelTimezoneCount: data.length});
+                } else {
+                    this.setState({channelTimezoneCount: 0});
+                }
+            }
             this.showNotifyAllModal();
             return;
         }
@@ -963,14 +961,14 @@ export default class CreatePost extends React.Component {
         );
 
         let notifyAllMessage = '';
-        if (this.state.channelMembersCount && this.props.isTimezoneEnabled) {
+        if (this.state.channelTimezoneCount && this.props.isTimezoneEnabled) {
             notifyAllMessage = (
                 <FormattedMarkdownMessage
                     id='notify_all.question_timezone'
                     defaultMessage='By using @all or @channel you are about to send notifications to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
                     values={{
                         totalMembers: members,
-                        timezones: this.state.channelMembersCount,
+                        timezones: this.state.channelTimezoneCount,
                     }}
                 />
             );
