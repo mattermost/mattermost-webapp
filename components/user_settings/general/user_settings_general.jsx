@@ -285,7 +285,8 @@ class UserSettingsGeneralTab extends React.Component {
                     }
                 } else if (err) {
                     let serverError;
-                    if (err.id && err.id === 'api.user.check_user_password.invalid.app_error') {
+                    if (err.server_error_id &&
+                        err.server_error_id === 'api.user.check_user_password.invalid.app_error') {
                         serverError = formatMessage(holders.incorrectPassword);
                     } else if (err.message) {
                         serverError = err.message;
