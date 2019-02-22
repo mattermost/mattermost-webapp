@@ -15,6 +15,7 @@ export default class ActionButton extends React.PureComponent {
         return (
             <button
                 data-action-id={action.id}
+                data-action-cookie={action.cookie}
                 key={action.id}
                 onClick={handleAction}
             >

@@ -192,6 +192,7 @@ export default class RhsHeaderPost extends React.Component {
                         </OverlayTrigger>
                     </button>
                     <button
+                        id='rhsCloseButton'
                         type='button'
                         className='sidebar--right__close'
                         aria-label='Close'

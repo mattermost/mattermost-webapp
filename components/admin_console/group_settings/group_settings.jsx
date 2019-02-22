@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {t} from 'utils/i18n';
 import GroupsList from 'components/admin_console/group_settings/groups_list';
-import AdminPanel from 'components/admin_console/admin_panel.jsx';
+import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export default class GroupSettings extends React.PureComponent {
@@ -32,9 +32,9 @@ export default class GroupSettings extends React.PureComponent {
                 <AdminPanel
                     id='ldap_groups'
                     titleId={t('admin.group_settings.ldapGroupsTitle')}
-                    titleDefaultMessage='AD/LDAP Groups'
+                    titleDefault='AD/LDAP Groups'
                     subtitleId={t('admin.group_settings.ldapGroupsDescription')}
-                    subtitleDefaultMessage='Link and configure groups from your AD/LDAP to Mattermost. Please ensure you have configured a [group filter](/admin_console/authentication/ldap).'
+                    subtitleDefault='Link and configure groups from your AD/LDAP to Mattermost. Please ensure you have configured a [group filter](/admin_console/authentication/ldap).'
                 >
                     <GroupsList/>
                 </AdminPanel>

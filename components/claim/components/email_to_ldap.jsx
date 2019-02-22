@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {emailToLdap} from 'actions/admin_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 import LoginMfa from 'components/login/login_mfa.jsx';
+import LocalizedInput from 'components/localized_input/localized_input';
 
 export default class EmailToLDAP extends React.Component {
     static propTypes = {
@@ -153,8 +154,6 @@ export default class EmailToLDAP extends React.Component {
             loginPlaceholder = Utils.localizeMessage('claim.email_to_ldap.ldapId', 'AD/LDAP ID');
         }
 
-        const passwordPlaceholder = Utils.localizeMessage('claim.email_to_ldap.ldapPwd', 'AD/LDAP Password');
-
         let content;
         if (this.state.showMfa) {
             content = (
@@ -197,13 +196,13 @@ export default class EmailToLDAP extends React.Component {
                         name='fakeusernameremembered'
                     />
                     <div className={passwordClass}>
-                        <input
+                        <LocalizedInput
                             type='password'
                             className='form-control'
                             name='emailPassword'
                             ref='emailpassword'
                             autoComplete='off'
-                            placeholder={Utils.localizeMessage('claim.email_to_ldap.pwd', 'Password')}
+                            placeholder={{id: 'claim.email_to_ldap.pwd', defaulMessage: 'Password'}}
                             spellCheck='false'
                         />
                     </div>
@@ -227,13 +226,13 @@ export default class EmailToLDAP extends React.Component {
                     </div>
                     {ldapError}
                     <div className={ldapPasswordClass}>
-                        <input
+                        <LocalizedInput
                             type='password'
                             className='form-control'
                             name='ldapPassword'
                             ref='ldappassword'
                             autoComplete='off'
-                            placeholder={passwordPlaceholder}
+                            placeholder={{id: 'claim.email_to_ldap.ldapPwd', defaultMessage: 'AD/LDAP Password'}}
                             spellCheck='false'
                         />
                     </div>

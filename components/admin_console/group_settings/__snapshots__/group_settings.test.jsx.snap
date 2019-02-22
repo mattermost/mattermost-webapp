@@ -27,10 +27,11 @@ For more information on Groups, please see [documentation](!https://www.mattermo
     </div>
   </div>
   <AdminPanel
+    className=""
     id="ldap_groups"
-    subtitleDefaultMessage="Link and configure groups from your AD/LDAP to Mattermost. Please ensure you have configured a [group filter](/admin_console/authentication/ldap)."
+    subtitleDefault="Link and configure groups from your AD/LDAP to Mattermost. Please ensure you have configured a [group filter](/admin_console/authentication/ldap)."
     subtitleId="admin.group_settings.ldapGroupsDescription"
-    titleDefaultMessage="AD/LDAP Groups"
+    titleDefault="AD/LDAP Groups"
     titleId="admin.group_settings.ldapGroupsTitle"
   >
     <Connect(GroupsList) />

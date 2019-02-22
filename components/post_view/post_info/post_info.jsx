@@ -163,7 +163,7 @@ export default class PostInfo extends React.PureComponent {
                     idCount={idCount}
                     handleCommentClick={this.props.handleCommentClick}
                     commentCount={this.props.replyCount}
-                    id={post.channel_id + '_' + post.id}
+                    postId={post.id}
                     extraClass={commentIconExtraClass}
                 />
             );

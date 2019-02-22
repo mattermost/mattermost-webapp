@@ -19,7 +19,7 @@ const punctuation = XRegExp.cache('[^\\pL\\d]');
 
 const AT_MENTION_PATTERN = /\B@([a-z0-9.\-_]*)/gi;
 const UNICODE_EMOJI_REGEX = emojiRegex();
-const htmlEmojiPattern = /^<p>(?:<img class="emoticon"[^>]*>|<span data-emoticon[^>]*>[^<]*<\/span>\s*|<span class="emoticon emoticon--unicode">[^<]*<\/span>\s*)+<\/p>$/;
+const htmlEmojiPattern = /^<p>\s*(?:<img class="emoticon"[^>]*>|<span data-emoticon[^>]*>[^<]*<\/span>\s*|<span class="emoticon emoticon--unicode">[^<]*<\/span>\s*)+<\/p>$/;
 
 // pattern to detect the existence of a Chinese, Japanese, or Korean character in a string
 // http://stackoverflow.com/questions/15033196/using-javascript-to-check-whether-a-string-contains-japanese-characters-includi
@@ -77,7 +77,7 @@ export function formatText(text, inputOptions) {
     }
 
     if (htmlEmojiPattern.test(output.trim())) {
-        output = '<span class="all-emoji">' + output + '</span>';
+        output = '<span class="all-emoji">' + output.trim() + '</span>';
     }
 
     return output;

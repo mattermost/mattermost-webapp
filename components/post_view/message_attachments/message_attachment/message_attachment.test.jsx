@@ -29,7 +29,7 @@ describe('components/post_view/MessageAttachment', () => {
     const baseProps = {
         postId: 'post_id',
         attachment,
-        actions: {doPostAction: jest.fn()},
+        actions: {doPostActionWithCookie: jest.fn()},
         hasImageProxy: false,
         imagesMetadata: {
             image_url: {
@@ -63,9 +63,9 @@ describe('components/post_view/MessageAttachment', () => {
         expect(wrapper.state('checkOverflow')).toEqual(1);
     });
 
-    test('should match value on getActionView', () => {
+    test('should match value on renderPostActions', () => {
         let wrapper = shallow(<MessageAttachment {...baseProps}/>);
-        expect(wrapper.instance().getActionView()).toMatchSnapshot();
+        expect(wrapper.instance().renderPostActions()).toMatchSnapshot();
 
         const newAttachment = {
             ...attachment,
@@ -79,28 +79,28 @@ describe('components/post_view/MessageAttachment', () => {
         const props = {...baseProps, attachment: newAttachment};
 
         wrapper = shallow(<MessageAttachment {...props}/>);
-        expect(wrapper.instance().getActionView()).toMatchSnapshot();
+        expect(wrapper.instance().renderPostActions()).toMatchSnapshot();
     });
 
-    test('should call actions.doPostAction on handleAction', () => {
-        const doPostAction = jest.fn();
+    test('should call actions.doPostActionWithCookie on handleAction', () => {
+        const doPostActionWithCookie = jest.fn();
         const actionId = 'action_id_1';
         const newAttachment = {
             ...attachment,
-            actions: [{id: actionId, name: 'action_name_1'}],
+            actions: [{id: actionId, name: 'action_name_1', cookie: 'cookie-contents'}],
         };
-        const props = {...baseProps, actions: {doPostAction}, attachment: newAttachment};
+        const props = {...baseProps, actions: {doPostActionWithCookie}, attachment: newAttachment};
         const wrapper = shallow(<MessageAttachment {...props}/>);
         expect(wrapper).toMatchSnapshot();
         wrapper.instance().handleAction({
             preventDefault: () => {}, // eslint-disable-line no-empty-function
             currentTarget: {getAttribute: () => {
-                return 'action_id_1';
+                return 'attr_some_value';
             }},
         });
 
-        expect(doPostAction).toHaveBeenCalledTimes(1);
-        expect(doPostAction).toBeCalledWith(props.postId, actionId);
+        expect(doPostActionWithCookie).toHaveBeenCalledTimes(1);
+        expect(doPostActionWithCookie).toBeCalledWith(props.postId, 'attr_some_value', 'attr_some_value');
     });
 
     test('should match value on getFieldsTable', () => {
