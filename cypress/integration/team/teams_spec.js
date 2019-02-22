@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import {getRandomInt} from '../../utils';
 import users from '../../fixtures/users.json';
 
 describe('Teams Suite', () => {
@@ -49,7 +50,8 @@ describe('Teams Suite', () => {
         const nameStartsWith = user.firstName.slice(0, letterCount);
         const maxSelectableValues = 20;
         const teamName = 'Stub team';
-        const teamURL = 'stub-team';
+        const max = 9999;
+        const teamURL = `stub-team-${getRandomInt(max).toString()}`;
         const townSquareURL = `/${teamURL}/channels/town-square`;
         const offTopicURL = `/${teamURL}/channels/off-topic`;
 
