@@ -273,13 +273,13 @@ describe('components/create_post', () => {
 
         wrapper.setState({
             message: 'test @all',
-            channelMembersCount: 4,
+            channelTimezoneCount: 4,
         });
 
         const form = wrapper.find('#create_post');
         form.simulate('Submit', {preventDefault: jest.fn()});
         expect(wrapper.state('showConfirmModal')).toBe(true);
-        expect(wrapper.state('channelMembersCount')).toBe(4);
+        expect(wrapper.state('channelTimezoneCount')).toBe(4);
         wrapper.instance().hideNotifyAllModal();
         expect(wrapper.state('showConfirmModal')).toBe(false);
 
@@ -306,7 +306,7 @@ describe('components/create_post', () => {
         const form = wrapper.find('#create_post');
         form.simulate('Submit', {preventDefault: jest.fn()});
         expect(wrapper.state('showConfirmModal')).toBe(true);
-        expect(wrapper.state('channelMembersCount')).toBe(0);
+        expect(wrapper.state('channelTimezoneCount')).toBe(0);
         wrapper.instance().hideNotifyAllModal();
         expect(wrapper.state('showConfirmModal')).toBe(false);
 

@@ -6,6 +6,8 @@ import React from 'react';
 
 import * as Utils from 'utils/utils';
 
+import LocalizedInput from 'components/localized_input/localized_input';
+
 import Setting from './setting';
 
 export default class CustomUrlSchemesSetting extends React.Component {
@@ -51,7 +53,6 @@ export default class CustomUrlSchemesSetting extends React.Component {
             'admin.customization.customUrlSchemesDesc',
             'Allows message text to link if it begins with any of the comma-separated URL schemes listed. By default, the following schemes will create links: "http", "https", "ftp", "tel", and "mailto".'
         );
-        const placeholder = Utils.localizeMessage('admin.customization.customUrlSchemesPlaceholder', 'E.g.: "git,smtp"');
 
         return (
             <Setting
@@ -60,11 +61,11 @@ export default class CustomUrlSchemesSetting extends React.Component {
                 inputId={this.props.id}
                 setByEnv={this.props.setByEnv}
             >
-                <input
+                <LocalizedInput
                     id={this.props.id}
                     className='form-control'
                     type='text'
-                    placeholder={placeholder}
+                    placeholder={{id: 'admin.customization.customUrlSchemesPlaceholder', defaultMessage: 'E.g.: "git,smtp"'}}
                     value={this.state.value}
                     onChange={this.handleChange}
                     disabled={this.props.disabled || this.props.setByEnv}

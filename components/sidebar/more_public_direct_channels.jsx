@@ -59,6 +59,7 @@ export default class MorePublicDirectChannels extends React.PureComponent {
                         defaultActiveKey='channels'
                         activeKey={this.state.key}
                         onSelect={this.handleSelect}
+                        unmountOnExit={true}
                     >
                         <Tab
                             eventKey='channels'

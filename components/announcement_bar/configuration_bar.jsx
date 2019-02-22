@@ -4,18 +4,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {FormattedHTMLMessage, FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 
 import {isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
 import {AnnouncementBarTypes, AnnouncementBarMessages} from 'utils/constants.jsx';
 
 import {t} from 'utils/i18n';
-import * as Utils from 'utils/utils';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import AnnouncementBar from './announcement_bar.jsx';
-import TextButtonWithSpinner from './text_button_with_spinner.jsx';
 import TextDismissableBar from './text_dismissable_bar';
 
 const RENEWAL_LINK = 'https://licensing.mattermost.com/renew';
@@ -27,16 +25,11 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
         user: PropTypes.object,
         canViewSystemErrors: PropTypes.bool.isRequired,
         totalUsers: PropTypes.number,
-        sendVerificationEmail: PropTypes.func.isRequired,
     };
 
     static contextTypes = {
         intl: intlShape,
     };
-
-    handleEmailResend = (email) => {
-        this.props.sendVerificationEmail(email);
-    }
 
     render() {
         // System administrators
@@ -147,35 +140,6 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
                     allowDismissal={true}
                     text={siteURLMessage}
                     type={AnnouncementBarTypes.ANNOUNCEMENT}
-                />
-            );
-        }
-
-        if (this.props.user && !this.props.user.email_verified && this.props.config.RequireEmailVerification === 'true') {
-            return (
-                <AnnouncementBar
-                    type={AnnouncementBarTypes.ANNOUNCEMENT}
-                    message={
-                        <React.Fragment>
-                            <FormattedHTMLMessage
-                                id={AnnouncementBarMessages.EMAIL_VERIFICATION_REQUIRED}
-                                defaultMessage='Check your email at {email} to verify the address. Cannot find the email?'
-                                values={{
-                                    email: this.props.user.email,
-                                }}
-                            />
-                            <TextButtonWithSpinner
-                                spinningText={Utils.localizeMessage('announcement_bar.error.sending', 'Sending')}
-                                regularText={
-                                    <FormattedMessage
-                                        id='announcement_bar.error.send_again'
-                                        defaultMessage='Send again'
-                                    />
-                                }
-                                onClick={this.handleEmailResend.bind(null, this.props.user.email)}
-                            />
-                        </React.Fragment>
-                    }
                 />
             );
         }

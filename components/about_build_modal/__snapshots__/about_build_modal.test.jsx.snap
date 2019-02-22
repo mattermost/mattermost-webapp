@@ -143,17 +143,50 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
         </a>
       </div>
       <div
-        className="form-group about-modal__copyright"
+        className="form-group"
       >
-        <FormattedMessage
-          defaultMessage="Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved"
-          id="about.copyright"
-          values={
-            Object {
-              "currentYear": 2017,
+        <div
+          className="about-modal__copyright"
+        >
+          <FormattedMessage
+            defaultMessage="Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved"
+            id="about.copyright"
+            values={
+              Object {
+                "currentYear": 2017,
+              }
             }
-          }
-        />
+          />
+        </div>
+        <div
+          className="about-modal__links"
+        >
+          <a
+            href="https://about.mattermost.com/default-terms/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <FormattedMessage
+              defaultMessage="Terms of Service"
+              id="about.tos"
+              values={Object {}}
+            />
+          </a>
+          <span>
+             - 
+          </span>
+          <a
+            href="https://mattermost.com/privacy-policy/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <FormattedMessage
+              defaultMessage="Privacy Policy"
+              id="about.privacy"
+              values={Object {}}
+            />
+          </a>
+        </div>
       </div>
     </div>
     <div
@@ -340,17 +373,50 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
         </a>
       </div>
       <div
-        className="form-group about-modal__copyright"
+        className="form-group"
       >
-        <FormattedMessage
-          defaultMessage="Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved"
-          id="about.copyright"
-          values={
-            Object {
-              "currentYear": 2017,
+        <div
+          className="about-modal__copyright"
+        >
+          <FormattedMessage
+            defaultMessage="Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved"
+            id="about.copyright"
+            values={
+              Object {
+                "currentYear": 2017,
+              }
             }
-          }
-        />
+          />
+        </div>
+        <div
+          className="about-modal__links"
+        >
+          <a
+            href="https://about.mattermost.com/default-terms/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <FormattedMessage
+              defaultMessage="Terms of Service"
+              id="about.tos"
+              values={Object {}}
+            />
+          </a>
+          <span>
+             - 
+          </span>
+          <a
+            href="https://mattermost.com/privacy-policy/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <FormattedMessage
+              defaultMessage="Privacy Policy"
+              id="about.privacy"
+              values={Object {}}
+            />
+          </a>
+        </div>
       </div>
     </div>
     <div
@@ -548,17 +614,50 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
         </a>
       </div>
       <div
-        className="form-group about-modal__copyright"
+        className="form-group"
       >
-        <FormattedMessage
-          defaultMessage="Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved"
-          id="about.copyright"
-          values={
-            Object {
-              "currentYear": 2017,
+        <div
+          className="about-modal__copyright"
+        >
+          <FormattedMessage
+            defaultMessage="Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved"
+            id="about.copyright"
+            values={
+              Object {
+                "currentYear": 2017,
+              }
             }
-          }
-        />
+          />
+        </div>
+        <div
+          className="about-modal__links"
+        >
+          <a
+            href="https://about.mattermost.com/default-terms/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <FormattedMessage
+              defaultMessage="Terms of Service"
+              id="about.tos"
+              values={Object {}}
+            />
+          </a>
+          <span>
+             - 
+          </span>
+          <a
+            href="https://mattermost.com/privacy-policy/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <FormattedMessage
+              defaultMessage="Privacy Policy"
+              id="about.privacy"
+              values={Object {}}
+            />
+          </a>
+        </div>
       </div>
     </div>
     <div
@@ -744,17 +843,50 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
         </a>
       </div>
       <div
-        className="form-group about-modal__copyright"
+        className="form-group"
       >
-        <FormattedMessage
-          defaultMessage="Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved"
-          id="about.copyright"
-          values={
-            Object {
-              "currentYear": 2017,
+        <div
+          className="about-modal__copyright"
+        >
+          <FormattedMessage
+            defaultMessage="Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved"
+            id="about.copyright"
+            values={
+              Object {
+                "currentYear": 2017,
+              }
             }
-          }
-        />
+          />
+        </div>
+        <div
+          className="about-modal__links"
+        >
+          <a
+            href="https://about.mattermost.com/default-terms/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <FormattedMessage
+              defaultMessage="Terms of Service"
+              id="about.tos"
+              values={Object {}}
+            />
+          </a>
+          <span>
+             - 
+          </span>
+          <a
+            href="https://mattermost.com/privacy-policy/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <FormattedMessage
+              defaultMessage="Privacy Policy"
+              id="about.privacy"
+              values={Object {}}
+            />
+          </a>
+        </div>
       </div>
     </div>
     <div

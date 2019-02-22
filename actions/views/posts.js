@@ -20,7 +20,7 @@ export function editPost(post) {
     };
 }
 
-export function selectAttachmentMenuAction(postId, actionId, dataSource, text, value) {
+export function selectAttachmentMenuAction(postId, actionId, cookie, dataSource, text, value) {
     return async (dispatch) => {
         dispatch({
             type: ActionTypes.SELECT_ATTACHMENT_MENU_ACTION,
@@ -33,6 +33,6 @@ export function selectAttachmentMenuAction(postId, actionId, dataSource, text, v
             },
         });
 
-        dispatch(PostActions.doPostAction(postId, actionId, value));
+        dispatch(PostActions.doPostActionWithCookie(postId, actionId, cookie, value));
     };
 }

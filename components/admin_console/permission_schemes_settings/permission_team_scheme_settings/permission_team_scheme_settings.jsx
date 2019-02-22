@@ -7,17 +7,22 @@ import {FormattedMessage} from 'react-intl';
 
 import {PermissionsScope} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 import SaveButton from 'components/save_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
-import AccordionToggleIcon from 'components/svg/accordion_toggle_icon.jsx';
 import FormError from 'components/form_error.jsx';
 import TeamSelectorModal from 'components/team_selector_modal';
 import BlockableLink from 'components/admin_console/blockable_link';
+import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
+import AdminPanelTogglable from 'components/widgets/admin_console/admin_panel_togglable.jsx';
+import AdminPanelWithButton from 'components/widgets/admin_console/admin_panel_with_button.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import PermissionsTree from '../permissions_tree';
+
+import LocalizedInput from 'components/localized_input/localized_input';
 
 import TeamInList from './team_in_list';
 
@@ -249,14 +254,14 @@ export default class PermissionTeamSchemeSettings extends React.Component {
 
         const teamEditPromises = [];
 
-        const currentTeams = new Set((this.state.teams || this.props.teams || []).map((t) => t.id));
-        const serverTeams = new Set((this.props.teams || []).map((t) => t.id));
+        const currentTeams = new Set((this.state.teams || this.props.teams || []).map((team) => team.id));
+        const serverTeams = new Set((this.props.teams || []).map((team) => team.id));
 
         // Difference of sets (currentTeams - serverTeams)
-        const addedTeams = new Set([...currentTeams].filter((t) => !serverTeams.has(t)));
+        const addedTeams = new Set([...currentTeams].filter((team) => !serverTeams.has(team)));
 
         // Difference of sets (serverTeams - currentTeams)
-        const removedTeams = new Set([...serverTeams].filter((t) => !currentTeams.has(t)));
+        const removedTeams = new Set([...serverTeams].filter((team) => !currentTeams.has(team)));
 
         for (const teamId of addedTeams) {
             teamEditPromises.push(this.props.actions.updateTeamScheme(teamId, schemeId));
@@ -383,23 +388,12 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                     </div>
                 </div>
 
-                <div className='permissions-block'>
-                    <div className='header'>
-                        <div>
-                            <h3>
-                                <FormattedMessage
-                                    id='admin.permissions.teamScheme.schemeDetailsTitle'
-                                    defaultMessage='Scheme Details'
-                                />
-                            </h3>
-                            <span>
-                                <FormattedMessage
-                                    id='admin.permissions.teamScheme.schemeDetailsDescription'
-                                    defaultMessage='Set the name and description for this scheme.'
-                                />
-                            </span>
-                        </div>
-                    </div>
+                <AdminPanel
+                    titleId={t('admin.permissions.teamScheme.schemeDetailsTitle')}
+                    titleDefault='Scheme Details'
+                    subtitleId={t('admin.permissions.teamScheme.schemeDetailsDescription')}
+                    subtitleDefault='Set the name and description for this scheme.'
+                >
                     <div className='team-scheme-details'>
                         <div className='form-group'>
                             <label
@@ -411,12 +405,12 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                                     defaultMessage='Scheme Name:'
                                 />
                             </label>
-                            <input
+                            <LocalizedInput
                                 id='scheme-name'
                                 className='form-control'
                                 type='text'
                                 value={schemeName}
-                                placeholder={localizeMessage('admin.permissions.teamScheme.schemeNamePlaceholder', 'Scheme Name')}
+                                placeholder={{id: 'admin.permissions.teamScheme.schemeNamePlaceholder', defaultMessage: 'Scheme Name'}}
                                 onChange={this.handleNameChange}
                             />
                         </div>
@@ -440,36 +434,18 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                             />
                         </div>
                     </div>
-                </div>
+                </AdminPanel>
 
-                <div className='permissions-block'>
-                    <div className='header'>
-                        <div>
-                            <h3>
-                                <FormattedMessage
-                                    id='admin.permissions.teamScheme.selectTeamsTitle'
-                                    defaultMessage='Select teams to override permissions'
-                                />
-                            </h3>
-                            <span>
-                                <FormattedMessage
-                                    id='admin.permissions.teamScheme.selectTeamsDescription'
-                                    defaultMessage='Select teams where permission exceptions are required.'
-                                />
-                            </span>
-                        </div>
-                        <div className='button'>
-                            <a
-                                className='btn btn-primary'
-                                onClick={this.openAddTeam}
-                            >
-                                <FormattedMessage
-                                    id='admin.permissions.teamScheme.addTeams'
-                                    defaultMessage='Add Teams'
-                                />
-                            </a>
-                        </div>
-                    </div>
+                <AdminPanelWithButton
+                    className='permissions-block'
+                    titleId={t('admin.permissions.teamScheme.selectTeamsTitle')}
+                    titleDefault='Select teams to override permissions'
+                    subtitleId={t('admin.permissions.teamScheme.selectTeamsDescription')}
+                    subtitleDefault='Select teams where permission exceptions are required.'
+                    onButtonClick={this.openAddTeam}
+                    buttonTextId={t('admin.permissions.teamScheme.addTeams')}
+                    buttonTextDefault='Add Teams'
+                >
                     <div className='teams-list'>
                         {teams.length === 0 &&
                             <div className='no-team-schemes'>
@@ -486,34 +462,18 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                             />
                         ))}
                     </div>
-                </div>
+                </AdminPanelWithButton>
 
-                <div
-                    className={'permissions-block all_users ' + (this.state.openRoles.all_users ? '' : 'closed')}
+                <AdminPanelTogglable
+                    className='permissions-block all_users'
+                    open={this.state.openRoles.all_users}
                     id='all_users'
+                    onToggle={() => this.toggleRole('all_users')}
+                    titleId={t('admin.permissions.systemScheme.allMembersTitle')}
+                    titleDefault='All Members'
+                    subtitleId={t('admin.permissions.systemScheme.allMembersDescription')}
+                    subtitleDefault='Permissions granted to all members, including administrators and newly created users.'
                 >
-                    <div
-                        className='header'
-                        onClick={() => this.toggleRole('all_users')}
-                    >
-                        <div>
-                            <h3>
-                                <FormattedMessage
-                                    id='admin.permissions.systemScheme.allMembersTitle'
-                                    defaultMessage='All Members'
-                                />
-                            </h3>
-                            <span>
-                                <FormattedMessage
-                                    id='admin.permissions.systemScheme.allMembersDescription'
-                                    defaultMessage='Permissions granted to all members, including administrators and newly created users.'
-                                />
-                            </span>
-                        </div>
-                        <div className='button'>
-                            <AccordionToggleIcon/>
-                        </div>
-                    </div>
                     <PermissionsTree
                         selected={this.state.selectedPermission}
                         role={roles.all_users}
@@ -521,31 +481,17 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                         onToggle={this.togglePermission}
                         selectRow={this.selectRow}
                     />
-                </div>
+                </AdminPanelTogglable>
 
-                <div className={'permissions-block channel_admin ' + (this.state.openRoles.channel_admin ? '' : 'closed')}>
-                    <div
-                        className='header'
-                        onClick={() => this.toggleRole('channel_admin')}
-                    >
-                        <div>
-                            <h3>
-                                <FormattedMessage
-                                    id='admin.permissions.systemScheme.channelAdminsTitle'
-                                    defaultMessage='Channel Administrators'
-                                />
-                            </h3>
-                            <span>
-                                <FormattedMessage
-                                    id='admin.permissions.systemScheme.channelAdminsDescription'
-                                    defaultMessage='Permissions granted to channel creators and any users promoted to Channel Administrator.'
-                                />
-                            </span>
-                        </div>
-                        <div className='button'>
-                            <AccordionToggleIcon/>
-                        </div>
-                    </div>
+                <AdminPanelTogglable
+                    className='permissions-block channel_admin'
+                    open={this.state.openRoles.channel_admin}
+                    onToggle={() => this.toggleRole('channel_admin')}
+                    titleId={t('admin.permissions.systemScheme.channelAdminsTitle')}
+                    titleDefault='Channel Administrators'
+                    subtitleId={t('admin.permissions.systemScheme.channelAdminsDescription')}
+                    subtitleDefault='Permissions granted to channel creators and any users promoted to Channel Administrator.'
+                >
                     <PermissionsTree
                         parentRole={roles.all_users}
                         role={roles.channel_admin}
@@ -553,31 +499,17 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                         onToggle={this.togglePermission}
                         selectRow={this.selectRow}
                     />
-                </div>
+                </AdminPanelTogglable>
 
-                <div className={'permissions-block team_admin ' + (this.state.openRoles.team_admin ? '' : 'closed')}>
-                    <div
-                        className='header'
-                        onClick={() => this.toggleRole('team_admin')}
-                    >
-                        <div>
-                            <h3>
-                                <FormattedMessage
-                                    id='admin.permissions.systemScheme.teamAdminsTitle'
-                                    defaultMessage='Team Administrators'
-                                />
-                            </h3>
-                            <span>
-                                <FormattedMessage
-                                    id='admin.permissions.systemScheme.teamAdminsDescription'
-                                    defaultMessage='Permissions granted to team creators and any users promoted to Team Administrator.'
-                                />
-                            </span>
-                        </div>
-                        <div className='button'>
-                            <AccordionToggleIcon/>
-                        </div>
-                    </div>
+                <AdminPanelTogglable
+                    className='permissions-block team_admin'
+                    open={this.state.openRoles.team_admin}
+                    onToggle={() => this.toggleRole('team_admin')}
+                    titleId={t('admin.permissions.systemScheme.teamAdminsTitle')}
+                    titleDefault='Team Administrators'
+                    subtitleId={t('admin.permissions.systemScheme.teamAdminsDescription')}
+                    subtitleDefault='Permissions granted to team creators and any users promoted to Team Administrator.'
+                >
                     <PermissionsTree
                         parentRole={roles.all_users}
                         role={roles.team_admin}
@@ -585,7 +517,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                         onToggle={this.togglePermission}
                         selectRow={this.selectRow}
                     />
-                </div>
+                </AdminPanelTogglable>
 
                 <div className='admin-console-save'>
                     <SaveButton
