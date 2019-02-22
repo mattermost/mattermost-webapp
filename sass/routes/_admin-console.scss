@@ -684,27 +684,21 @@
     margin-right: 15px;
 
     .system-users__filter {
-        flex: 1;
-        margin-right: 15px;
-    }
-
-    .system-users__team-filter-label {
-        margin-right: 15px;
+        flex: 1 1 140px;
     }
 
     .system-users__team-filter {
-        display: inline-block;
-        width: 200px;
-        margin-right: 15px;
+        flex: 1 1 auto;
     }
 
-    .system-users__filter-label {
-        margin-right: 15px;
-    }
+    > label {
+        display: flex;
+        flex: 1 1 auto;
+        align-items: center;
 
-    .system-users__filter {
-        display: inline-block;
-        width: 200px;
+        span {
+            padding: 0 4px 0 8px;
+        }
     }
 
     label {
