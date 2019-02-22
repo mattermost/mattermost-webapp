@@ -220,22 +220,18 @@ export default class NotificationsTab extends React.Component {
 
     handleNotifyCommentsRadio(notifyCommentsLevel) {
         this.setState({notifyCommentsLevel});
-        this.refs.wrapper.focus();
     }
 
     handlePushRadio(pushActivity) {
         this.setState({pushActivity});
-        this.refs.wrapper.focus();
     }
 
     handlePushStatusRadio(pushStatus) {
         this.setState({pushStatus});
-        this.refs.wrapper.focus();
     }
 
     handleEmailRadio = (enableEmail) => {
         this.setState({enableEmail});
-        this.refs.wrapper.focus();
     }
 
     updateUsernameKey = (val) => {
