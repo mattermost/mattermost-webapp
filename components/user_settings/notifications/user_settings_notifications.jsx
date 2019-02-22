@@ -741,7 +741,7 @@ export default class NotificationsTab extends React.Component {
                             />
                             <FormattedMessage
                                 id='user.settings.notifications.commentsAny'
-                                defaultMessage='Mention any comments in a thread you participated in (This will include both mentions to your root post and any comments after you commented on a post)'
+                                defaultMessage='Trigger notifications on messages in reply threads that I start or participate in'
                             />
                         </label>
                         <br/>
@@ -757,7 +757,7 @@ export default class NotificationsTab extends React.Component {
                             />
                             <FormattedMessage
                                 id='user.settings.notifications.commentsRoot'
-                                defaultMessage='Mention any comments on your post'
+                                defaultMessage='Trigger notifications on messages in threads that I start'
                             />
                         </label>
                         <br/>
@@ -773,7 +773,7 @@ export default class NotificationsTab extends React.Component {
                             />
                             <FormattedMessage
                                 id='user.settings.notifications.commentsNever'
-                                defaultMessage='No mentions for comments'
+                                defaultMessage="Do not trigger notifications on messages in reply threads unless I'm mentioned"
                             />
                         </label>
                     </div>
