@@ -20,6 +20,11 @@ Cypress.Commands.add('login', (username, {otherUsername, otherPassword, otherURL
     });
 });
 
+Cypress.Commands.add('logout', () => {
+    cy.get('#logout').click({force: true});
+    cy.visit('/');
+});
+
 Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPassword, otherURL} = {}) => {
     cy.login('user-1', {otherUsername, otherPassword, otherURL});
     cy.visit('/');
@@ -101,6 +106,10 @@ Cypress.Commands.add('postMessage', (message) => {
     cy.wait(500); // eslint-disable-line
 });
 
+Cypress.Commands.add('getLastPost', () => {
+    return cy.get('#postListContent').children().last();
+});
+
 Cypress.Commands.add('getLastPostId', () => {
     return cy.get('#postListContent').children().last().invoke('attr', 'id').then((divPostId) => {
         return divPostId.replace('post_', '');
@@ -180,4 +189,26 @@ Cypress.Commands.add('clickPostCommentIcon', (postId) => {
 // Close RHS by clicking close button
 Cypress.Commands.add('closeRHS', () => {
     cy.get('#rhsCloseButton').should('be.visible').click();
+});
+
+// ***********************************************************
+// Teams
+// ***********************************************************
+
+Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
+    cy.visit('/create_team');
+    cy.get('#teamNameInput').type(teamName).type('{enter}');
+    cy.get('#teamURLInput').type(teamURL).type('{enter}');
+    cy.visit(`/${teamURL}`);
+});
+
+Cypress.Commands.add('removeTeamMember', (teamURL, username) => {
+    cy.logout();
+    cy.login('sysadmin');
+    cy.visit(`/${teamURL}`);
+    cy.get('#sidebarHeaderDropdownButton').click();
+    cy.get('#manageMembers').click();
+    cy.focused().type(username, {force: true});
+    cy.get('#removeFromTeam').click({force: true});
+    cy.get('.modal-header .close').click();
 });
