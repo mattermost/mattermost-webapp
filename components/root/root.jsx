@@ -189,6 +189,14 @@ export default class Root extends React.Component {
             }
 
             this.setState({configLoaded: true});
+
+            const enableDeveloper = getConfig(store.getState()).EnableDeveloper;
+
+            if (enableDeveloper === 'true') {
+                /*eslint no-extend-native: ["error", { "exceptions": ["Set", "Map"] }]*/
+                Set.prototype.length = new Error("'Set.length' is not supported. Use 'Set.size' instead.");
+                Map.prototype.length = new Error("'Map.length' is not supported. Use 'Map.size' instead.");
+            }
         };
         if (global.Intl) {
             afterIntl();
