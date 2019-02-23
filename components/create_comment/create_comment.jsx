@@ -475,8 +475,6 @@ export default class CreateComment extends React.PureComponent {
         const {
             ctrlSend,
             codeBlockOnCtrlEnter,
-            channelId,
-            rootId,
         } = this.props;
 
         const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.draft.message, ctrlSend, codeBlockOnCtrlEnter);
@@ -498,6 +496,11 @@ export default class CreateComment extends React.PureComponent {
             }
         }
 
+        this.emitTypingEvent();
+    }
+
+    emitTypingEvent = () => {
+        const {channelId, rootId} = this.props;
         GlobalActions.emitLocalUserTypingEvent(channelId, rootId);
     }
 
@@ -898,6 +901,7 @@ export default class CreateComment extends React.PureComponent {
                                 onChange={this.handleChange}
                                 onKeyPress={this.commentMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
+                                onComposition={this.emitTypingEvent}
                                 handlePostError={this.handlePostError}
                                 value={readOnlyChannel ? '' : draft.message}
                                 onBlur={this.handleBlur}
