@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-/* eslint max-nested-callbacks: ["error", 3] */
+/* eslint max-nested-callbacks: ["error", 4] */
 
 describe('MM-13697 Edit Post with attachment', () => {
     before(() => {
@@ -18,7 +18,7 @@ describe('MM-13697 Edit Post with attachment', () => {
 
     it('Pasted text should be pasted where the cursor is', () => {
         // 2. Got to a test channel on the side bar
-        cy.get('#sidebarItem_town-square').should('be.visible').click({force: true});
+        cy.get('#sidebarItem_town-square').scrollIntoView();
 
         // * Validate if the channel has been opened
         cy.url().should('include', '/ad-1/channels/town-square');
@@ -27,30 +27,38 @@ describe('MM-13697 Edit Post with attachment', () => {
         cy.uploadFile('#fileUploadButton input', '../fixtures/mattermost-icon.png', 'image/png');
 
         // 4. Type 'This is sample text'
-        cy.get('#post_textbox').type('This is sample text').should('contain', 'This is sample text');
+        cy.get('#post_textbox').type('This is sample text');
 
         // 5. Submit post
         cy.get('#create_post').submit();
 
-        // 6. Get last post ID
+        // 6. Waiting create post is done
+        cy.wait(500); // eslint-disable-line
+
+        // 7. Get last post ID
         cy.getLastPostId().then((postID) => {
-            // 7. click  dot menu button
+            // 8. click  dot menu button
             cy.clickPostDotMenu();
 
-            // 8. click edit post
+            // 9. click edit post
             cy.get(`#edit_post_${postID}`).click();
 
-            // 9. Edit message to 'This is sample add text'
-            cy.get('#edit_textbox').should('be.visible').type('{leftarrow}{leftarrow}{leftarrow}{leftarrow}add ');
+            cy.focused().then(($el) => {
+                // * Check if focus is set to "edit_textbox"
+                assert.equal($el[0].id, 'edit_textbox');
 
-            // 10. Click button Edit
-            cy.get('#editButton').click();
+                // 10. Edit message to 'This is sample add text'
+                cy.get('#edit_textbox').should('be.visible').type('{leftarrow}{leftarrow}{leftarrow}{leftarrow}add ');
 
-            // * Assert post message should contain 'This is sample add text'
-            cy.get(`#${postID}_message`).find('.post-message__text p').should('contain', 'This is sample add text');
+                // 11. Click button Edit
+                cy.get('#editButton').click();
 
-            // * Assert file attachment should still exist
-            cy.get(`#${postID}_message`).find('.file-view--single').should('be.visible');
+                // * Assert post message should contain 'This is sample add text'
+                cy.get(`#${postID}_message`).find('.post-message__text p').should('contain', 'This is sample add text');
+
+                // * Assert file attachment should still exist
+                cy.get(`#${postID}_message`).find('.file-view--single').should('be.visible');
+            });
         });
     });
 });
