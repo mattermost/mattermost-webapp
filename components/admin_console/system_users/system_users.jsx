@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {getStandardAnalytics} from 'actions/admin_actions.jsx';
 import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
-import {loadProfiles, loadProfilesWithoutTeam, searchUsers} from 'actions/user_actions.jsx';
+import {searchUsers} from 'actions/user_actions.jsx';
 import {Constants, UserSearchOptions, SearchUserTeamFilter, SearchUserOptionsFilter} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -74,6 +74,8 @@ export default class SystemUsers extends React.Component {
              */
             getUserAccessToken: PropTypes.func.isRequired,
             loadProfilesAndTeamMembers: PropTypes.func.isRequired,
+            loadProfilesWithoutTeam: PropTypes.func.isRequired,
+            getProfiles: PropTypes.func.isRequired,
             setSystemUsersSearch: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -109,6 +111,13 @@ export default class SystemUsers extends React.Component {
     }
 
     loadDataForTeam = async (teamId, filter) => {
+        const {
+            getProfiles,
+            loadProfilesWithoutTeam,
+            loadProfilesAndTeamMembers,
+            getTeamStats,
+        } = this.props.actions;
+
         if (this.props.searchTerm) {
             this.search(this.props.searchTerm, teamId, filter);
             return;
@@ -117,17 +126,17 @@ export default class SystemUsers extends React.Component {
         const options = this.getFilterOptions(filter);
 
         if (teamId === SearchUserTeamFilter.ALL_USERS) {
-            loadProfiles(0, Constants.PROFILE_CHUNK_SIZE, options, this.loadComplete);
+            getProfiles(0, Constants.PROFILE_CHUNK_SIZE, options).then(this.loadComplete);
             getStandardAnalytics();
         } else if (teamId === SearchUserTeamFilter.NO_TEAM) {
-            loadProfilesWithoutTeam(0, Constants.PROFILE_CHUNK_SIZE, this.loadComplete);
+            loadProfilesWithoutTeam(0, Constants.PROFILE_CHUNK_SIZE).then(this.loadComplete);
         } else {
-            const {data} = await this.props.actions.loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, teamId);
+            const {data} = await loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, teamId);
             if (data) {
                 this.loadComplete();
             }
 
-            this.props.actions.getTeamStats(teamId);
+            getTeamStats(teamId);
         }
     }
 
@@ -153,13 +162,18 @@ export default class SystemUsers extends React.Component {
 
     nextPage = async (page) => {
         // Paging isn't supported while searching
+        const {
+            getProfiles,
+            loadProfilesWithoutTeam,
+            loadProfilesAndTeamMembers,
+        } = this.props.actions;
 
         if (this.props.teamId === SearchUserTeamFilter.ALL_USERS) {
-            loadProfiles(page + 1, USERS_PER_PAGE, {}, this.loadComplete);
+            getProfiles(page + 1, USERS_PER_PAGE, {}).then(this.loadComplete);
         } else if (this.props.teamId === SearchUserTeamFilter.NO_TEAM) {
-            loadProfilesWithoutTeam(page + 1, USERS_PER_PAGE, this.loadComplete);
+            loadProfilesWithoutTeam(page + 1, USERS_PER_PAGE).then(this.loadComplete);
         } else {
-            const {data} = await this.props.actions.loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE, this.props.teamId);
+            const {data} = await loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE, this.props.teamId);
             if (data) {
                 this.loadComplete();
             }
