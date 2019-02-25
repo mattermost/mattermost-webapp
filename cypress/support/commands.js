@@ -25,6 +25,15 @@ Cypress.Commands.add('logout', () => {
     cy.visit('/');
 });
 
+Cypress.Commands.add('logoutByAPI', ({otherURL} = {}) => {
+    const urlParam = otherURL ? `${otherURL}/api/v4/users/logout` : '/api/v4/users/logout';
+
+    cy.request({
+        url: urlParam,
+        method: 'POST',
+    });
+});
+
 Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPassword, otherURL} = {}) => {
     cy.login('user-1', {otherUsername, otherPassword, otherURL});
     cy.visit('/');

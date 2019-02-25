@@ -28,6 +28,9 @@ describe('Edit Message', () => {
         // 5. Press the escape key
         cy.get('#edit_textbox').type('{esc}');
 
+        // * Check if the textbox contains expected text
+        cy.get('#edit_textbox').should('contain', 'Hello World! @');
+
         // * Assert user autocomplete is not visible
         cy.get('#suggestionList').should('not.exist');
 
@@ -39,6 +42,9 @@ describe('Edit Message', () => {
 
         // 6. Press the escape key
         cy.get('#edit_textbox').type('{esc}');
+
+        // * Check if the textbox contains expected text
+        cy.get('#edit_textbox').should('contain', 'Hello World! @ ~');
 
         // * Assert channel autocomplete is not visible
         cy.get('#suggestionList').should('not.exist');
