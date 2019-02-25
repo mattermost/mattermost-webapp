@@ -82,13 +82,19 @@ export default class PopoverListMembers extends React.Component {
     showMembersModal = (e) => {
         e.preventDefault();
 
-        this.props.actions.openModal({modalId: ModalIdentifiers.TEAM_MEMBERS, dialogType: TeamMembersModal});
-        this.setState({showPopover: false});
+        this.setState({
+            showPopover: false,
+            showChannelMembersModal: true,
+        });
+    };
+
+    hideChannelMembersModal = () => {
+        this.setState({showChannelMembersModal: false});
     };
 
     showChannelInviteModal = () => {
         this.setState({showChannelInviteModal: true});
-    }
+    };
 
     hideChannelInviteModal = () => {
         this.setState({showChannelInviteModal: false});
@@ -174,6 +180,7 @@ export default class PopoverListMembers extends React.Component {
         if (this.state.showChannelMembersModal) {
             channelMembersModal = (
                 <ChannelMembersModal
+                    onHide={this.hideChannelMembersModal}
                     showInviteModal={this.showChannelInviteModal}
                     channel={this.props.channel}
                 />
