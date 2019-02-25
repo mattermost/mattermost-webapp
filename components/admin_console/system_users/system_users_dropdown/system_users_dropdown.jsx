@@ -15,7 +15,6 @@ import {t} from 'utils/i18n';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
-import {browserHistory} from 'utils/browser_history';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
@@ -74,7 +73,6 @@ export default class SystemUsersDropdown extends React.Component {
          */
         onError: PropTypes.func.isRequired,
         currentUser: PropTypes.object.isRequired,
-        teamUrl: PropTypes.string,
         actions: PropTypes.shape({
             updateUserActive: PropTypes.func.isRequired,
         }).isRequired,
@@ -84,7 +82,6 @@ export default class SystemUsersDropdown extends React.Component {
         super(props);
 
         this.state = {
-            showDemoteModal: false,
             showDeactivateMemberModal: false,
             showRevokeSessionsModal: false,
             user: null,
@@ -129,37 +126,6 @@ export default class SystemUsersDropdown extends React.Component {
     handleResetMfa = (e) => {
         e.preventDefault();
         adminResetMfa(this.props.user.id, null, this.props.onError);
-    }
-
-    handleDemoteSystemAdmin = (user, role) => {
-        this.setState({
-            showDemoteModal: true,
-            user,
-            role,
-        });
-    }
-
-    handleDemoteCancel = () => {
-        this.setState({
-            showDemoteModal: false,
-            user: null,
-            role: null,
-        });
-        this.props.onError(null);
-    }
-
-    handleDemoteSubmit = () => {
-        if (this.state.role === 'member') {
-            this.doMakeMember();
-        }
-
-        const teamUrl = this.props.teamUrl;
-        if (teamUrl) {
-            // the channel is added to the URL cause endless loading not being fully fixed
-            browserHistory.push(teamUrl + `/channels/${Constants.DEFAULT_CHANNEL}`);
-        } else {
-            browserHistory.push('/');
-        }
     }
 
     handleShowDeactivateMemberModal = (e) => {
@@ -345,55 +311,6 @@ export default class SystemUsersDropdown extends React.Component {
         );
     }
 
-    renderMakeDemoteModal = (me) => {
-        if (this.props.user.id !== me.id) {
-            return null;
-        }
-
-        const title = (
-            <FormattedMessage
-                id='admin.user_item.confirmDemoteRoleTitle'
-                defaultMessage='Confirm demotion from System Admin role'
-            />
-        );
-
-        const message = (
-            <div>
-                <FormattedMessage
-                    id='admin.user_item.confirmDemoteDescription'
-                    defaultMessage="If you demote yourself from the System Admin role and there is not another user with System Admin privileges, you'll need to re-assign a System Admin by accessing the Mattermost server through a terminal and running the following command."
-                />
-                <br/>
-                <br/>
-                <FormattedMessage
-                    id='admin.user_item.confirmDemotionCmd'
-                    defaultMessage='platform roles system_admin {username}'
-                    values={{
-                        username: me.username,
-                    }}
-                />
-            </div>
-        );
-
-        const confirmButton = (
-            <FormattedMessage
-                id='admin.user_item.confirmDemotion'
-                defaultMessage='Confirm Demotion'
-            />
-        );
-
-        return (
-            <ConfirmModal
-                show={this.state.showDemoteModal}
-                title={title}
-                message={message}
-                confirmButtonText={confirmButton}
-                onConfirm={this.handleDemoteSubmit}
-                onCancel={this.handleDemoteCancel}
-            />
-        );
-    }
-
     render() {
         const user = this.props.user;
         if (!user) {
@@ -440,81 +357,81 @@ export default class SystemUsersDropdown extends React.Component {
             disableActivationToggle = true;
         }
 
-        const makeDemoteModal = this.renderMakeDemoteModal(me);
         const deactivateMemberModal = this.renderDeactivateMemberModal();
         const revokeSessionsModal = this.renderRevokeSessionsModal();
 
         return (
-            <MenuWrapper>
-                <a>
-                    <span>{currentRoles} </span>
-                    <span className='caret'/>
-                </a>
-                <div>
-                    <Menu
-                        openLeft={true}
-                        ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
-                    >
-                        {this.renderAccessToken()}
-                        <MenuItemAction
-                            show={showMakeActive}
-                            onClick={this.handleMakeActive}
-                            text={Utils.localizeMessage('admin.user_item.makeActive', 'Activate')}
-                            disabled={disableActivationToggle}
-                        />
-                        <MenuItemAction
-                            show={showMakeNotActive}
-                            onClick={this.handleShowDeactivateMemberModal}
-                            text={Utils.localizeMessage('admin.user_item.makeInactive', 'Deactivate')}
-                            disabled={disableActivationToggle}
-                        />
-                        <MenuItemAction
-                            onClick={this.handleManageRoles}
-                            text={Utils.localizeMessage('admin.user_item.manageRoles', 'Manage Roles')}
-                        />
-                        <MenuItemAction
-                            show={showManageTeams}
-                            onClick={this.handleManageTeams}
-                            text={Utils.localizeMessage('admin.user_item.manageTeams', 'Manage Teams')}
-                        />
-                        <MenuItemAction
-                            show={this.props.enableUserAccessTokens}
-                            onClick={this.handleManageTokens}
-                            text={Utils.localizeMessage('admin.user_item.manageTokens', 'Manage Tokens')}
-                        />
-                        <MenuItemAction
-                            show={showMfaReset}
-                            onClick={this.handleResetMfa}
-                            text={Utils.localizeMessage('admin.user_item.resetMfa', 'Remove MFA')}
-                        />
-                        <MenuItemAction
-                            show={user.auth_service && this.props.experimentalEnableAuthenticationTransfer}
-                            onClick={this.handleResetPassword}
-                            text={Utils.localizeMessage('admin.user_item.switchToEmail', 'Switch to Email/Password')}
-                        />
-                        <MenuItemAction
-                            show={!user.auth_service}
-                            onClick={this.handleResetPassword}
-                            text={Utils.localizeMessage('admin.user_item.resetPwd', 'Reset Password')}
-                        />
-                        <MenuItemAction
-                            show={!user.auth_service}
-                            onClick={this.handleResetEmail}
-                            text={Utils.localizeMessage('admin.user_item.resetEmail', 'Update Email')}
-                        />
-                        <SystemPermissionGate permissions={[Permissions.REVOKE_USER_ACCESS_TOKEN]}>
+            <React.Fragment>
+                {deactivateMemberModal}
+                {revokeSessionsModal}
+                <MenuWrapper>
+                    <a>
+                        <span>{currentRoles} </span>
+                        <span className='caret'/>
+                    </a>
+                    <div>
+                        <Menu
+                            openLeft={true}
+                            ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
+                        >
+                            {this.renderAccessToken()}
                             <MenuItemAction
-                                show={showRevokeSessions}
-                                onClick={this.handleShowRevokeSessionsModal}
-                                text={Utils.localizeMessage('admin.user_item.revokeSessions', 'Revoke Sessions')}
+                                show={showMakeActive}
+                                onClick={this.handleMakeActive}
+                                text={Utils.localizeMessage('admin.user_item.makeActive', 'Activate')}
+                                disabled={disableActivationToggle}
                             />
-                        </SystemPermissionGate>
-                    </Menu>
-                    {makeDemoteModal}
-                    {deactivateMemberModal}
-                    {revokeSessionsModal}
-                </div>
-            </MenuWrapper>
+                            <MenuItemAction
+                                show={showMakeNotActive}
+                                onClick={this.handleShowDeactivateMemberModal}
+                                text={Utils.localizeMessage('admin.user_item.makeInactive', 'Deactivate')}
+                                disabled={disableActivationToggle}
+                            />
+                            <MenuItemAction
+                                onClick={this.handleManageRoles}
+                                text={Utils.localizeMessage('admin.user_item.manageRoles', 'Manage Roles')}
+                            />
+                            <MenuItemAction
+                                show={showManageTeams}
+                                onClick={this.handleManageTeams}
+                                text={Utils.localizeMessage('admin.user_item.manageTeams', 'Manage Teams')}
+                            />
+                            <MenuItemAction
+                                show={this.props.enableUserAccessTokens}
+                                onClick={this.handleManageTokens}
+                                text={Utils.localizeMessage('admin.user_item.manageTokens', 'Manage Tokens')}
+                            />
+                            <MenuItemAction
+                                show={showMfaReset}
+                                onClick={this.handleResetMfa}
+                                text={Utils.localizeMessage('admin.user_item.resetMfa', 'Remove MFA')}
+                            />
+                            <MenuItemAction
+                                show={user.auth_service && this.props.experimentalEnableAuthenticationTransfer}
+                                onClick={this.handleResetPassword}
+                                text={Utils.localizeMessage('admin.user_item.switchToEmail', 'Switch to Email/Password')}
+                            />
+                            <MenuItemAction
+                                show={!user.auth_service}
+                                onClick={this.handleResetPassword}
+                                text={Utils.localizeMessage('admin.user_item.resetPwd', 'Reset Password')}
+                            />
+                            <MenuItemAction
+                                show={!user.auth_service}
+                                onClick={this.handleResetEmail}
+                                text={Utils.localizeMessage('admin.user_item.resetEmail', 'Update Email')}
+                            />
+                            <SystemPermissionGate permissions={[Permissions.REVOKE_USER_ACCESS_TOKEN]}>
+                                <MenuItemAction
+                                    show={showRevokeSessions}
+                                    onClick={this.handleShowRevokeSessionsModal}
+                                    text={Utils.localizeMessage('admin.user_item.revokeSessions', 'Revoke Sessions')}
+                                />
+                            </SystemPermissionGate>
+                        </Menu>
+                    </div>
+                </MenuWrapper>
+            </React.Fragment>
         );
     }
 }
