@@ -2150,8 +2150,9 @@ label {
             margin-bottom: 0;
             max-height: inherit;
             max-width: inherit;
-            border-top: 0px;
+            border: 0px;
             padding-top: 0px;
+            box-shadow: none;
 
             button, a, a:hover {
                 color: $white;

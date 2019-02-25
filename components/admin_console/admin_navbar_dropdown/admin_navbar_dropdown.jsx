@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import * as GlobalActions from 'actions/global_actions.jsx';
+
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
@@ -21,8 +23,21 @@ import MenuItemBlockableLink from 'components/widgets/menu/menu_items/menu_item_
 export default class AdminNavbarDropdown extends React.Component {
     static propTypes = {
         locale: PropTypes.string.isRequired,
+        navigationBlocked: PropTypes.bool,
         teams: PropTypes.arrayOf(PropTypes.object).isRequired,
+        actions: PropTypes.shape({
+            deferNavigation: PropTypes.func,
+        }).isRequired,
     }
+
+    handleLogout = (e) => {
+        if (this.props.navigationBlocked) {
+            e.preventDefault();
+            this.props.actions.deferNavigation(GlobalActions.emitUserLoggedOutEvent);
+        } else {
+            GlobalActions.emitUserLoggedOutEvent();
+        }
+    };
 
     render() {
         const {locale, teams} = this.props;
@@ -90,7 +105,7 @@ export default class AdminNavbarDropdown extends React.Component {
                 </MenuGroup>
                 <MenuGroup>
                     <MenuItemAction
-                        onClick={this.handleEmitUserLoggedOutEvent}
+                        onClick={this.handleLogout}
                         text={Utils.localizeMessage('navbar_dropdown.logout', 'Logout')}
                     />
                 </MenuGroup>
