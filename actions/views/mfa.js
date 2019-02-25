@@ -29,6 +29,9 @@ export function generateMfaSecret() {
     };
 }
 
+/**
+ * @deprecated Clients should attempt to login without MFA and check if MFA token error is returned to show MFA prompt
+ */
 export function checkMfa(loginId) {
     return (dispatch, getState) => {
         const config = getConfig(getState());

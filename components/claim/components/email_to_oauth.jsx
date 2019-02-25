@@ -17,7 +17,6 @@ export default class EmailToOAuth extends React.PureComponent {
         newType: PropTypes.string,
         email: PropTypes.string,
         siteName: PropTypes.string,
-        checkMfa: PropTypes.func.isRequired,
     };
 
     constructor(props) {
@@ -45,21 +44,7 @@ export default class EmailToOAuth extends React.PureComponent {
         state.error = null;
         this.setState(state);
 
-        this.props.checkMfa(this.props.email).then((result) => {
-            if (result.error) {
-                this.setState({
-                    error: result.error.message,
-                });
-                return;
-            }
-
-            const requiresMfa = result.data;
-            if (requiresMfa) {
-                this.setState({showMfa: true});
-            } else {
-                this.submit(this.props.email, password, '');
-            }
-        });
+        this.submit(this.props.email, password, '');
     }
 
     submit(loginId, password, token) {
@@ -74,7 +59,11 @@ export default class EmailToOAuth extends React.PureComponent {
                 }
             },
             (err) => {
-                this.setState({error: err.message, showMfa: false});
+                if (!this.state.showMfa && err.server_error_id === 'mfa.validate_token.authenticate.app_error') {
+                    this.setState({showMfa: true});
+                } else {
+                    this.setState({error: err.message, showMfa: false});
+                }
             }
         );
     }
@@ -82,7 +71,8 @@ export default class EmailToOAuth extends React.PureComponent {
     render() {
         var error = null;
         if (this.state.error) {
-            error = <div className='form-group has-error'><label className='control-label'>{this.state.error}</label></div>;
+            error =
+                <div className='form-group has-error'><label className='control-label'>{this.state.error}</label></div>;
         }
 
         var formClass = 'form-group';
