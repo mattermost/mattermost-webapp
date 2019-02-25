@@ -54,7 +54,10 @@ export default class ManageTeamsDropdown extends React.Component {
 
         return (
             <MenuWrapper>
-                <span>{title}</span>
+                <a>
+                    <span>{title} </span>
+                    <span className='caret'/>
+                </a>
                 <Menu
                     openLeft={true}
                     ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
