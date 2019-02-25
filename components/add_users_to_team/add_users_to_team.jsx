@@ -195,13 +195,15 @@ export default class AddUsersToTeam extends React.Component {
 
     render() {
         const numRemainingText = (
-            <FormattedMessage
-                id='multiselect.numPeopleRemaining'
-                defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. '
-                values={{
-                    num: MAX_SELECTABLE_VALUES - this.state.values.length,
-                }}
-            />
+            <div id='numPeopleRemaining'>
+                <FormattedMessage
+                    id='multiselect.numPeopleRemaining'
+                    defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. '
+                    values={{
+                        num: MAX_SELECTABLE_VALUES - this.state.values.length,
+                    }}
+                />
+            </div>
         );
 
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
@@ -218,6 +220,7 @@ export default class AddUsersToTeam extends React.Component {
 
         return (
             <Modal
+                id='addUsersToTeamModal'
                 dialogClassName={'more-modal more-direct-channels'}
                 show={this.state.show}
                 onHide={this.handleHide}

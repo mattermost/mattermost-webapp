@@ -225,6 +225,7 @@ export default class TeamMembersDropdown extends React.Component {
             removeFromTeam = (
                 <li role='presentation'>
                     <a
+                        id='removeFromTeam'
                         role='menuitem'
                         href='#'
                         onClick={this.handleRemoveFromTeam}
