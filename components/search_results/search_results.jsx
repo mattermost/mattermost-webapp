@@ -209,10 +209,8 @@ export default class SearchResults extends React.PureComponent {
                         <div className='round round-3'/>
                     </div>
                 </div>
-            )
+            );
         }
-
-        
 
         return (
             <div className='sidebar-right__body'>
