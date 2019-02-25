@@ -118,7 +118,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('be.visible');
 
-        // 5. Press down arrow and then enter
+        // 5. Press enter
         cy.get('#quickSwitchInput').type('{enter}');
 
         // * Verify that it redirected into "nesciunt" as selected channel
