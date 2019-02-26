@@ -8,7 +8,7 @@ import {
     makeGetMessageInHistoryItem,
     makeGetCommentCountForPost,
     getPost,
-    getPostsInChannel,
+    getPostIdsInChannel,
 } from 'mattermost-redux/selectors/entities/posts';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {
@@ -150,7 +150,7 @@ export function makeOnSubmit(channelId, rootId, latestPostId) {
 function makeGetCurrentUsersLatestPost(channelId, rootId) {
     return createSelector(
         getCurrentUserId,
-        (state) => getPostsInChannel(state, channelId),
+        (state) => getPostIdsInChannel(state, channelId),
         (state) => (id) => getPost(state, id),
         (userId, postIds, getPostById) => {
             let lastPost = null;
