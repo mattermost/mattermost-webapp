@@ -462,7 +462,7 @@ function handleNewPostEventWrapped(msg) {
     }
 }
 
-function handlePostEditEvent(msg) {
+export function handlePostEditEvent(msg) {
     // Store post
     const post = JSON.parse(msg.data.post);
     dispatch(receivedPost(post));

@@ -22,6 +22,8 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         closeModal: jest.fn(),
         collapseModal: jest.fn(),
         actions: {
+            logError: jest.fn(),
+            clearErrors: jest.fn(),
             getMe: jest.fn(),
             updateMe: jest.fn(),
             sendVerificationEmail: jest.fn(),

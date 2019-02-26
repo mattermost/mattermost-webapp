@@ -398,7 +398,6 @@ export default class MoreDirectChannels extends React.Component {
                 options={options}
                 optionRenderer={this.renderOption}
                 values={this.state.values}
-                valueKey='id'
                 valueRenderer={this.renderValue}
                 perPage={USERS_PER_PAGE}
                 handlePageChange={this.handlePageChange}

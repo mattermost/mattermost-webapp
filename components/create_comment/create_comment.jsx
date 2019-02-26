@@ -198,7 +198,7 @@ export default class CreateComment extends React.PureComponent {
                 uploadsInProgress: [],
                 fileInfos: [],
             },
-            channelMembersCount: 0,
+            channelTimezoneCount: 0,
             uploadsProgressPercent: {},
         };
 
@@ -391,21 +391,19 @@ export default class CreateComment extends React.PureComponent {
     handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (this.props.isTimezoneEnabled) {
-            this.props.getChannelTimezones(this.props.channelId).then(
-                (data) => {
-                    if (data.data) {
-                        this.setState({channelMembersCount: data.data.length});
-                    } else {
-                        this.setState({channelMembersCount: 0});
-                    }
-                }
-            );
-        }
-
-        if (this.props.enableConfirmNotificationsToChannel &&
-            this.props.channelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
+        const membersCount = this.props.channelMembersCount;
+        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel;
+        if (notificationsToChannel &&
+            membersCount > Constants.NOTIFY_ALL_MEMBERS &&
             containsAtChannel(this.state.draft.message)) {
+            if (this.props.isTimezoneEnabled) {
+                const {data} = await this.props.getChannelTimezones(this.props.channelId);
+                if (data) {
+                    this.setState({channelTimezoneCount: data.length});
+                } else {
+                    this.setState({channelTimezoneCount: 0});
+                }
+            }
             this.showNotifyAllModal();
             return;
         }
@@ -477,8 +475,6 @@ export default class CreateComment extends React.PureComponent {
         const {
             ctrlSend,
             codeBlockOnCtrlEnter,
-            channelId,
-            rootId,
         } = this.props;
 
         const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.draft.message, ctrlSend, codeBlockOnCtrlEnter);
@@ -500,6 +496,11 @@ export default class CreateComment extends React.PureComponent {
             }
         }
 
+        this.emitTypingEvent();
+    }
+
+    emitTypingEvent = () => {
+        const {channelId, rootId} = this.props;
         GlobalActions.emitLocalUserTypingEvent(channelId, rootId);
     }
 
@@ -758,14 +759,14 @@ export default class CreateComment extends React.PureComponent {
         );
 
         let notifyAllMessage = '';
-        if (this.state.channelMembersCount && this.props.isTimezoneEnabled) {
+        if (this.state.channelTimezoneCount && this.props.isTimezoneEnabled) {
             notifyAllMessage = (
                 <FormattedMarkdownMessage
                     id='notify_all.question_timezone'
                     defaultMessage='By using @all or @channel you are about to send notifications to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
                     values={{
                         totalMembers: this.props.channelMembersCount - 1,
-                        timezones: this.state.channelMembersCount,
+                        timezones: this.state.channelTimezoneCount,
                     }}
                 />
             );
@@ -900,6 +901,7 @@ export default class CreateComment extends React.PureComponent {
                                 onChange={this.handleChange}
                                 onKeyPress={this.commentMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
+                                onComposition={this.emitTypingEvent}
                                 handlePostError={this.handlePostError}
                                 value={readOnlyChannel ? '' : draft.message}
                                 onBlur={this.handleBlur}

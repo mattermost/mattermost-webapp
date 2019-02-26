@@ -57,7 +57,8 @@ export default class DoughnutChart extends React.PureComponent {
         }
         var el = ReactDOM.findDOMNode(this.refs.canvas);
         var ctx = el.getContext('2d');
-        this.chart = new Chart(ctx, {type: 'doughnut', data: this.props.data, options: {}}); //eslint-disable-line new-cap
+        const dataCopy = JSON.parse(JSON.stringify(this.props.data));
+        this.chart = new Chart(ctx, {type: 'doughnut', data: dataCopy, options: {}});
         if (update) {
             this.chart.update();
         }

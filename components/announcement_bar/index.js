@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {sendVerificationEmail} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
@@ -40,7 +39,6 @@ function mapDispatchToProps(dispatch) {
     const dismissFirstError = dismissError.bind(null, 0);
     return {
         actions: bindActionCreators({
-            sendVerificationEmail,
             getStandardAnalytics,
             dismissError: dismissFirstError,
         }, dispatch),

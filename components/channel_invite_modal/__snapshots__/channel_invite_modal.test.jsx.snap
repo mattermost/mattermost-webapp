@@ -78,7 +78,6 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
       options={Array []}
       perPage={50}
       saving={false}
-      valueKey="id"
       valueRenderer={[Function]}
       values={Array []}
     />
