@@ -1624,11 +1624,7 @@
                     background: $white;
                     position: relative;
                     top: 15%;
-                    border-bottom: 1px solid $light-gray;
-                    * {
-                        border: 0px;
-                    }
-                    &:last-child {
+                    &:last-child button {
                         border-bottom: 0px;
                     }
                 }
