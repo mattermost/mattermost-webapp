@@ -1607,11 +1607,12 @@
                 top: 0;
                 width: 100%;
                 z-index: 9999;
-                display: table-cell;
+                display: flex;
                 margin: 0;
                 padding: 0 2em;
-                vertical-align: middle;
                 background: transparent;
+                flex-direction: column;
+                justify-content: center;
 
                 &:after {
                     background: alpha-color($black, .3);
@@ -1626,8 +1627,6 @@
                 .MenuItem {
                     z-index: 9999;
                     background: $white;
-                    position: relative;
-                    top: 15%;
                     &:last-child button {
                         border-bottom: 0px;
                     }

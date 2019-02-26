@@ -127,7 +127,8 @@ export default class ChannelHeader extends React.PureComponent {
         this.props.actions.goToLastViewedChannel();
     };
 
-    toggleFavorite = () => {
+    toggleFavorite = (e) => {
+        e.stopPropagation();
         if (this.props.isFavorite) {
             this.props.actions.unfavoriteChannel(this.props.channel.id);
         } else {
@@ -507,10 +508,10 @@ export default class ChannelHeader extends React.PureComponent {
                                 id='channelHeaderTitle'
                                 className='channel-header__title dropdown'
                             >
-                                {toggleFavorite}
                                 <h2>
                                     <MenuWrapper>
                                         <div id='channelHeaderDropdownButton'>
+                                            {toggleFavorite}
                                             <strong
                                                 id='channelHeaderTitle'
                                                 className='heading'
