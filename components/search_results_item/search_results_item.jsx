@@ -20,7 +20,7 @@ import ArchiveIcon from 'components/svg/archive_icon';
 import PostTime from 'components/post_view/post_time';
 import {browserHistory} from 'utils/browser_history';
 
-import Constants from 'utils/constants.jsx';
+import Constants, {Locations} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -36,11 +36,6 @@ export default class SearchResultsItem extends React.PureComponent {
         * An array of strings in this post that were matched by the search
         */
         matches: PropTypes.array,
-
-        /**
-        *  count used for passing down to PostFlagIcon, DotMenu and CommentIcon
-        */
-        lastPostCount: PropTypes.number,
 
         /**
         *  channel object for rendering channel name on top of result
@@ -131,7 +126,7 @@ export default class SearchResultsItem extends React.PureComponent {
                 isPermalink={isPermalink}
                 eventTime={post.create_at}
                 postId={post.id}
-                location='SEARCH'
+                location={Locations.SEARCH}
             />
         );
     };
@@ -233,8 +228,7 @@ export default class SearchResultsItem extends React.PureComponent {
         } else {
             flagContent = (
                 <PostFlagIcon
-                    idPrefix={'searchPostFlag'}
-                    idCount={this.props.lastPostCount}
+                    location={Locations.SEARCH}
                     postId={post.id}
                     isFlagged={this.props.isFlagged}
                 />
@@ -244,15 +238,14 @@ export default class SearchResultsItem extends React.PureComponent {
                 <div className='col__controls col__reply'>
                     <DotMenu
                         post={post}
-                        location={'SEARCH'}
+                        location={Locations.SEARCH}
                         isFlagged={this.props.isFlagged}
                         handleDropdownOpened={this.handleDropdownOpened}
                         commentCount={this.props.commentCountForPost}
                         isReadOnly={channelIsArchived || null}
                     />
                     <CommentIcon
-                        idPrefix={'searchCommentIcon'}
-                        idCount={this.props.lastPostCount}
+                        location={Locations.SEARCH}
                         handleCommentClick={this.handleFocusRHSClick}
                         postId={post.id}
                         searchStyle={'search-item__comment'}

@@ -160,68 +160,88 @@ Cypress.Commands.add('getLastPostId', () => {
 // Post header
 // ***********************************************************
 
-// Click post time at center view
-Cypress.Commands.add('clickPostTime', (postId) => {
+/**
+ * Click post time
+ * @param {String} postId - Post ID
+ * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
+ */
+Cypress.Commands.add('clickPostTime', (postId, location = 'CENTER') => {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#CENTER_time_${postId}`).click({force: true});
+        cy.get(`#${location}_time_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#CENTER_time_${lastPostId}`).click({force: true});
+            cy.get(`#${location}_time_${lastPostId}`).click({force: true});
         });
     }
 });
 
-// Click flag icon by post ID or to most recent post (if post ID is not provided)
-Cypress.Commands.add('clickPostFlagIcon', (postId) => {
+/**
+ * Click flag icon by post ID or to most recent post (if post ID is not provided)
+ * @param {String} postId - Post ID
+ * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
+ */
+Cypress.Commands.add('clickPostFlagIcon', (postId, location = 'CENTER') => {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#centerPostFlag_${postId}`).click({force: true});
+        cy.get(`#${location}_flagIcon_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#centerPostFlag_${lastPostId}`).click({force: true});
+            cy.get(`#${location}_flagIcon_${lastPostId}`).click({force: true});
         });
     }
 });
 
-// Click dot menu by post ID or to most recent post (if post ID is not provided)
-Cypress.Commands.add('clickPostDotMenu', (postId) => {
+/**
+ * Click dot menu by post ID or to most recent post (if post ID is not provided)
+ * @param {String} postId - Post ID
+ * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
+ */
+Cypress.Commands.add('clickPostDotMenu', (postId, location = 'CENTER') => {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#CENTER_button_${postId}`).click({force: true});
+        cy.get(`#${location}_button_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#CENTER_button_${lastPostId}`).click({force: true});
+            cy.get(`#${location}_button_${lastPostId}`).click({force: true});
         });
     }
 });
 
-// Click post reaction icon at center view
-Cypress.Commands.add('clickPostReactionIcon', (postId) => {
+/**
+ * Click post reaction icon
+ * @param {String} postId - Post ID
+ * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT'
+ */
+Cypress.Commands.add('clickPostReactionIcon', (postId, location = 'CENTER') => {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#CENTER_reaction_${postId}`).click({force: true});
+        cy.get(`#${location}_reaction_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#CENTER_reaction_${lastPostId}`).click({force: true});
+            cy.get(`#${location}_reaction_${lastPostId}`).click({force: true});
         });
     }
 });
 
-// Click comment icon by post ID or to most recent post (if post ID is not provided)
-// This open up the RHS
-Cypress.Commands.add('clickPostCommentIcon', (postId) => {
+/**
+ * Click comment icon by post ID or to most recent post (if post ID is not provided)
+ * This open up the RHS
+ * @param {String} postId - Post ID
+ * @param {String} location - as 'CENTER', 'SEARCH'
+ */
+Cypress.Commands.add('clickPostCommentIcon', (postId, location = 'CENTER') => {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#commentIcon_${postId}`).click({force: true});
+        cy.get(`#${location}_commentIcon_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#commentIcon_${lastPostId}`).click({force: true});
+            cy.get(`#${location}_commentIcon_${lastPostId}`).click({force: true});
         });
     }
 });

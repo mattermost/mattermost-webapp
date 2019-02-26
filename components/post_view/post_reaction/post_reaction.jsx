@@ -8,6 +8,8 @@ import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
+import {Locations} from 'utils/constants.jsx';
+
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import EmojiIcon from 'components/svg/emoji_icon';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -20,7 +22,7 @@ export default class PostReaction extends React.PureComponent {
         postId: PropTypes.string.isRequired,
         teamId: PropTypes.string.isRequired,
         getDotMenuRef: PropTypes.func.isRequired,
-        location: PropTypes.oneOf(['CENTER', 'RHS_ROOT', 'RHS_COMMENT']).isRequired,
+        location: PropTypes.oneOf([Locations.CENTER, Locations.RHS_ROOT, Locations.RHS_COMMENT]).isRequired,
         showEmojiPicker: PropTypes.bool.isRequired,
         toggleEmojiPicker: PropTypes.func.isRequired,
         actions: PropTypes.shape({
@@ -29,7 +31,7 @@ export default class PostReaction extends React.PureComponent {
     };
 
     static defaultProps = {
-        location: 'CENTER',
+        location: Locations.CENTER,
         showEmojiPicker: false,
     };
 
@@ -51,7 +53,7 @@ export default class PostReaction extends React.PureComponent {
 
         let spaceRequiredAbove;
         let spaceRequiredBelow;
-        if (location === 'RHS_ROOT' || location === 'RHS_COMMENT') {
+        if (location === Locations.RHS_ROOT || location === Locations.RHS_COMMENT) {
             spaceRequiredAbove = EmojiPickerOverlay.RHS_SPACE_REQUIRED_ABOVE;
             spaceRequiredBelow = EmojiPickerOverlay.RHS_SPACE_REQUIRED_BELOW;
         }

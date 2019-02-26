@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
-import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import CommentIcon from 'components/common/comment_icon.jsx';
@@ -59,11 +58,6 @@ export default class PostInfo extends React.PureComponent {
          * Set to render in mobile view
          */
         isMobile: PropTypes.bool,
-
-        /*
-         * Post identifiers for selenium tests
-         */
-        lastPostCount: PropTypes.number,
 
         /**
          * Set to render in compact view
@@ -144,7 +138,7 @@ export default class PostInfo extends React.PureComponent {
         return this.refs.dotMenu;
     };
 
-    buildOptions = (post, isSystemMessage, fromAutoResponder, idCount) => {
+    buildOptions = (post, isSystemMessage, fromAutoResponder) => {
         if (!PostUtils.shouldShowDotMenu(post)) {
             return null;
         }
@@ -159,8 +153,6 @@ export default class PostInfo extends React.PureComponent {
         if (showCommentIcon) {
             commentIcon = (
                 <CommentIcon
-                    idPrefix='commentIcon'
-                    idCount={idCount}
                     handleCommentClick={this.props.handleCommentClick}
                     commentCount={this.props.replyCount}
                     postId={post.id}
@@ -190,7 +182,6 @@ export default class PostInfo extends React.PureComponent {
             dotMenu = (
                 <DotMenu
                     post={post}
-                    location={'CENTER'}
                     commentCount={this.props.replyCount}
                     isFlagged={this.props.isFlagged}
                     handleCommentClick={this.props.handleCommentClick}
@@ -217,11 +208,6 @@ export default class PostInfo extends React.PureComponent {
     render() {
         const post = this.props.post;
 
-        let idCount = -1;
-        if (this.props.lastPostCount >= 0 && this.props.lastPostCount < Constants.TEST_ID_COUNT) {
-            idCount = this.props.lastPostCount;
-        }
-
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
@@ -231,8 +217,6 @@ export default class PostInfo extends React.PureComponent {
         if (showFlagIcon) {
             postFlagIcon = (
                 <PostFlagIcon
-                    idPrefix='centerPostFlag'
-                    idCount={idCount}
                     postId={post.id}
                     isFlagged={this.props.isFlagged}
                     isEphemeral={isEphemeral}
@@ -248,7 +232,7 @@ export default class PostInfo extends React.PureComponent {
                 </div>
             );
         } else if (!post.failed) {
-            options = this.buildOptions(post, isSystemMessage, fromAutoResponder, idCount);
+            options = this.buildOptions(post, isSystemMessage, fromAutoResponder);
         }
 
         let visibleMessage;
