@@ -1691,6 +1691,18 @@
             }
         }
     }
+    .modal-body {
+        .MenuWrapper {
+            .Menu {
+                &.dropdown-menu {
+                    max-height: none;
+                    max-width: none;
+                    right: 0;
+                    left: inherit;
+                }
+            }
+        }
+    }
 }
 
 @media screen and (max-width: 550px) {
