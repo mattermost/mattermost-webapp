@@ -70,7 +70,7 @@ exports[`components/SignupController should match snapshot for addUserToTeamFrom
           id="signup_user_completed.haveAccount"
           values={Object {}}
         />
-         
+
         <Link
           replace={false}
           to="/login?id=ppni7a9t87fn3j4d56rwocdctc"
@@ -132,7 +132,7 @@ exports[`components/SignupController should match snapshot for all signup option
           className="btn btn-custom-login btn--full email"
           key="email"
           replace={false}
-          to="/signup_email"
+          to="/signup_emailundefined"
         >
           <span>
             <span
@@ -148,7 +148,7 @@ exports[`components/SignupController should match snapshot for all signup option
         </Link>
         <a
           className="btn btn-custom-login btn--full gitlab"
-          href="/oauth/gitlab/signup"
+          href="/oauth/gitlab/signupundefined"
           key="gitlab"
         >
           <span>
@@ -173,7 +173,7 @@ exports[`components/SignupController should match snapshot for all signup option
           id="signup_user_completed.haveAccount"
           values={Object {}}
         />
-         
+
         <Link
           replace={false}
           to="/login"
@@ -235,7 +235,7 @@ exports[`components/SignupController should match snapshot for all signup option
           className="btn btn-custom-login btn--full email"
           key="email"
           replace={false}
-          to="/signup_email"
+          to="/signup_emailundefined"
         >
           <span>
             <span
@@ -251,7 +251,7 @@ exports[`components/SignupController should match snapshot for all signup option
         </Link>
         <a
           className="btn btn-custom-login btn--full gitlab"
-          href="/oauth/gitlab/signup"
+          href="/oauth/gitlab/signupundefined"
           key="gitlab"
         >
           <span>
@@ -269,7 +269,7 @@ exports[`components/SignupController should match snapshot for all signup option
         </a>
         <a
           className="btn btn-custom-login btn--full google"
-          href="/oauth/google/signup"
+          href="/oauth/google/signupundefined"
           key="google"
         >
           <span>
@@ -287,7 +287,7 @@ exports[`components/SignupController should match snapshot for all signup option
         </a>
         <a
           className="btn btn-custom-login btn--full office365"
-          href="/oauth/office365/signup"
+          href="/oauth/office365/signupundefined"
           key="office365"
         >
           <span>
@@ -327,7 +327,7 @@ exports[`components/SignupController should match snapshot for all signup option
           className="btn btn-custom-login btn--full saml"
           key="saml"
           replace={false}
-          to="/login/sso/saml?action=signup"
+          to="/login/sso/samlundefined?action=signup"
         >
           <span>
             <span
@@ -348,7 +348,7 @@ exports[`components/SignupController should match snapshot for all signup option
           id="signup_user_completed.haveAccount"
           values={Object {}}
         />
-         
+
         <Link
           replace={false}
           to="/login"
