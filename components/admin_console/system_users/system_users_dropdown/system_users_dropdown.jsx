@@ -332,7 +332,6 @@ export default class SystemUsersDropdown extends React.Component {
             );
         }
 
-        const me = this.props.currentUser;
         let showMakeActive = false;
         let showMakeNotActive = !Utils.isSystemAdmin(user.roles);
         let showManageTeams = true;
