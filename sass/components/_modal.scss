@@ -904,3 +904,16 @@
         height: calc(90vh - 180px);
     }
 }
+
+.modal-body {
+    .manage-teams__teams {
+        .MenuWrapper {
+            position: static;
+        }
+
+        .Menu {
+            top: inherit;
+            margin-right: 20px;
+        }
+    }
+}
