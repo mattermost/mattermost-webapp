@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
 
-import {getPosts, getPostsAfter, getPostsBefore, getPostThread} from 'mattermost-redux/actions/posts';
+import {getPosts, getPostsAfter, getPostsBefore, getPostThread, receivedPostsInChannel} from 'mattermost-redux/actions/posts';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetPostsAroundPost, makeGetPostsInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
@@ -93,6 +93,7 @@ function mapDispatchToProps(dispatch) {
             getPostThread,
             increasePostVisibility,
             checkAndSetMobileView,
+            receivedPostsInChannel,
         }, dispatch),
     };
 }

@@ -3,7 +3,7 @@
 
 import {batchActions} from 'redux-batched-actions';
 
-import {PostTypes, SearchTypes} from 'mattermost-redux/action_types';
+import {SearchTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
 import {getChannel, getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
@@ -289,14 +289,7 @@ export function hideEditPostModal() {
 
 export function deleteAndRemovePost(post) {
     return async (dispatch, getState) => {
-        const {currentUserId} = getState().entities.users;
-
-        let hardDelete = false;
-        if (post.user_id === currentUserId) {
-            hardDelete = true;
-        }
-
-        const {error} = await dispatch(PostActions.deletePost(post, hardDelete));
+        const {error} = await dispatch(PostActions.deletePost(post));
         if (error) {
             return {error};
         }
@@ -309,10 +302,7 @@ export function deleteAndRemovePost(post) {
             });
         }
 
-        dispatch({
-            type: PostTypes.REMOVE_POST,
-            data: post,
-        });
+        dispatch(PostActions.postRemoved(post));
 
         return {data: true};
     };
