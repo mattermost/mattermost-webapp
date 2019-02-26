@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants.jsx';
 
-export default function Describe({section, view, memberNotifyLevel, globalNotifyLevel, ignoreChannelMentions}) {
+export default function Describe({section, isCollapsed, memberNotifyLevel, globalNotifyLevel, ignoreChannelMentions}) {
     if (memberNotifyLevel === NotificationLevels.DEFAULT && globalNotifyLevel) {
         return (
             <FormattedMessage
@@ -19,7 +19,7 @@ export default function Describe({section, view, memberNotifyLevel, globalNotify
             />
         );
     } else if (memberNotifyLevel === NotificationLevels.MENTION && section === NotificationSections.MARK_UNREAD) {
-        if (view === 'collapse') {
+        if (isCollapsed) {
             return (
                 <FormattedMessage
                     id='channel_notifications.muteChannel.on.title.collapse'
@@ -95,5 +95,5 @@ Describe.propTypes = {
     ignoreChannelMentions: PropTypes.string,
     memberNotifyLevel: PropTypes.string.isRequired,
     section: PropTypes.string.isRequired,
-    view: PropTypes.string,
+    isCollapsed: PropTypes.bool,
 };
