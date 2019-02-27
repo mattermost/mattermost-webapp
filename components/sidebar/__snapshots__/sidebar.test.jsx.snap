@@ -13,18 +13,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     onModalDismissed={[Function]}
     show={false}
   />
-  <Connect(SidebarHeader)
-    currentUser={
-      Object {
-        "id": "my-user-id",
-      }
-    }
-    teamDescription="Test team description"
-    teamDisplayName="Test team display name"
-    teamId="team_id"
-    teamName="test-team"
-    teamType="team-type"
-  />
+  <Connect(SidebarHeader) />
   <div
     className="sidebar--left__icons"
   >
@@ -266,18 +255,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     onModalDismissed={[Function]}
     show={false}
   />
-  <Connect(SidebarHeader)
-    currentUser={
-      Object {
-        "id": "my-user-id",
-      }
-    }
-    teamDescription="Test team description"
-    teamDisplayName="Test team display name"
-    teamId="team_id"
-    teamName="test-team"
-    teamType="team-type"
-  />
+  <Connect(SidebarHeader) />
   <div
     className="sidebar--left__icons"
   >
@@ -519,18 +497,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     onModalDismissed={[Function]}
     show={false}
   />
-  <Connect(SidebarHeader)
-    currentUser={
-      Object {
-        "id": "my-user-id",
-      }
-    }
-    teamDescription="Test team description"
-    teamDisplayName="Test team display name"
-    teamId="team_id"
-    teamName="test-team"
-    teamType="team-type"
-  />
+  <Connect(SidebarHeader) />
   <div
     className="sidebar--left__icons"
   >
@@ -772,18 +739,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     onModalDismissed={[Function]}
     show={false}
   />
-  <Connect(SidebarHeader)
-    currentUser={
-      Object {
-        "id": "my-user-id",
-      }
-    }
-    teamDescription="Test team description"
-    teamDisplayName="Test team display name"
-    teamId="team_id"
-    teamName="test-team"
-    teamType="team-type"
-  />
+  <Connect(SidebarHeader) />
   <div
     className="sidebar--left__icons"
   >
@@ -1033,18 +989,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     handleNewChannel={[Function]}
     onModalDismissed={[Function]}
   />
-  <Connect(SidebarHeader)
-    currentUser={
-      Object {
-        "id": "my-user-id",
-      }
-    }
-    teamDescription="Test team description"
-    teamDisplayName="Test team display name"
-    teamId="team_id"
-    teamName="test-team"
-    teamType="team-type"
-  />
+  <Connect(SidebarHeader) />
   <div
     className="sidebar--left__icons"
   >
@@ -1286,18 +1231,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     onModalDismissed={[Function]}
     show={false}
   />
-  <Connect(SidebarHeader)
-    currentUser={
-      Object {
-        "id": "my-user-id",
-      }
-    }
-    teamDescription="Test team description"
-    teamDisplayName="Test team display name"
-    teamId="team_id"
-    teamName="test-team"
-    teamType="team-type"
-  />
+  <Connect(SidebarHeader) />
   <div
     className="sidebar--left__icons"
   >
@@ -1543,18 +1477,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     isExistingChannel={false}
     onModalDismissed={[Function]}
   />
-  <Connect(SidebarHeader)
-    currentUser={
-      Object {
-        "id": "my-user-id",
-      }
-    }
-    teamDescription="Test team description"
-    teamDisplayName="Test team display name"
-    teamId="team_id"
-    teamName="test-team"
-    teamType="team-type"
-  />
+  <Connect(SidebarHeader) />
   <div
     className="sidebar--left__icons"
   >
@@ -1796,18 +1719,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     onModalDismissed={[Function]}
     show={false}
   />
-  <Connect(SidebarHeader)
-    currentUser={
-      Object {
-        "id": "my-user-id",
-      }
-    }
-    teamDescription="Test team description"
-    teamDisplayName="Test team display name"
-    teamId="team_id"
-    teamName="test-team"
-    teamType="team-type"
-  />
+  <Connect(SidebarHeader) />
   <div
     className="sidebar--left__icons"
   >
@@ -2049,18 +1961,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     onModalDismissed={[Function]}
     show={true}
   />
-  <Connect(SidebarHeader)
-    currentUser={
-      Object {
-        "id": "my-user-id",
-      }
-    }
-    teamDescription="Test team description"
-    teamDisplayName="Test team display name"
-    teamId="team_id"
-    teamName="test-team"
-    teamType="team-type"
-  />
+  <Connect(SidebarHeader) />
   <div
     className="sidebar--left__icons"
   >
@@ -2302,18 +2203,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     onModalDismissed={[Function]}
     show={false}
   />
-  <Connect(SidebarHeader)
-    currentUser={
-      Object {
-        "id": "my-user-id",
-      }
-    }
-    teamDescription="Test team description"
-    teamDisplayName="Test team display name"
-    teamId="team_id"
-    teamName="test-team"
-    teamType="team-type"
-  />
+  <Connect(SidebarHeader) />
   <div
     className="sidebar--left__icons"
   >

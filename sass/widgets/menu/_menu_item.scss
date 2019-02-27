@@ -1,0 +1,41 @@
+.MenuItem {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+
+    > a {
+        color: inherit;
+        padding: 3px 20px;
+        text-decoration: none;
+
+        &:focus,
+        &:hover {
+            color: inherit;
+        }
+    }
+    > button {
+        clear: both;
+        color: inherit;
+        cursor: pointer;
+        display: block;
+        font-weight: normal;
+        line-height: 1.42857143;
+        padding: 3px 20px;
+        text-align: left;
+        white-space: nowrap;
+        width: 100%;
+    }
+
+    span.icon {
+        width: 30px;
+        padding-right: 15px;
+        display: inline-block;
+        text-align: center;
+    }
+
+    span.extra-text {
+        @include opacity(.7);
+        display: block;
+        font-size: 10px;
+    }
+}

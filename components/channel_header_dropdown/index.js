@@ -16,10 +16,13 @@ import {
     isCurrentChannelReadOnly,
 } from 'mattermost-redux/selectors/entities/channels';
 
+import {getPenultimateViewedChannelName} from 'selectors/local_storage';
+
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
 import Desktop from './channel_header_dropdown';
+import Items from './channel_header_dropdown_items';
 import Mobile from './mobile_channel_header_dropdown';
 
 const getTeammateId = createSelector(
@@ -53,9 +56,16 @@ const mapStateToProps = (state) => ({
     isMuted: isCurrentChannelMuted(state),
     isReadonly: isCurrentChannelReadOnly(state),
     isArchived: isCurrentChannelArchived(state),
+    penultimateViewedChannelName: getPenultimateViewedChannelName(state) || Constants.DEFAULT_CHANNEL,
+});
+
+const mobileMapStateToProps = (state) => ({
+    user: getCurrentUser(state),
+    channel: getCurrentChannel(state),
     teammateId: getTeammateId(state),
     teammateStatus: getTeammateStatus(state),
 });
 
-export const ChannelHeaderDropdown = connect(mapStateToProps)(Desktop);
-export const MobileChannelHeaderDropdown = connect(mapStateToProps)(Mobile);
+export const ChannelHeaderDropdown = Desktop;
+export const ChannelHeaderDropdownItems = connect(mapStateToProps)(Items);
+export const MobileChannelHeaderDropdown = connect(mobileMapStateToProps)(Mobile);

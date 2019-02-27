@@ -100,7 +100,7 @@ describe('components/AboutBuildModal', () => {
         expect(wrapper.find('#buildnumberString').text()).toBe('\u00a0123');
     });
 
-    test('should call onModalDismissed callback when the modal is hidden', (done) => {
+    test('should call onHide callback when the modal is hidden', (done) => {
         function onHide() {
             done();
         }
@@ -111,7 +111,7 @@ describe('components/AboutBuildModal', () => {
                 license={license}
                 webappBuildHash='0a1b2c3d4f'
                 show={true}
-                onModalDismissed={onHide}
+                onHide={onHide}
             />
         );
 
@@ -119,12 +119,12 @@ describe('components/AboutBuildModal', () => {
     });
 
     function shallowAboutBuildModal(props = {}) {
-        const onModalDismissed = jest.fn();
+        const onHide = jest.fn();
         const show = true;
 
         const allProps = {
             show,
-            onModalDismissed,
+            onHide,
             webappBuildHash: '0a1b2c3d4f',
             ...props,
         };

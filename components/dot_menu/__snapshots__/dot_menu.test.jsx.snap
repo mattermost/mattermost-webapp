@@ -1,185 +1,215 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
-<div
-  className="dropdown"
+<MenuWrapper
+  animationComponent={[Function]}
+  className=""
+  onToggle={[MockFunction]}
 >
-  <div
-    id="CENTER_dropdown_post_id_1"
+  <OverlayTrigger
+    className="hidden-xs"
+    defaultOverlayShown={false}
+    delayShow={500}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        className="hidden-xs"
+        id="dotmenu-icon-tooltip"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="More Actions"
+          id="post_info.dot_menu.tooltip.more_actions"
+          values={Object {}}
+        />
+      </Tooltip>
+    }
+    placement="top"
+    rootClose={true}
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
-    <OverlayTrigger
-      className="hidden-xs"
-      defaultOverlayShown={false}
-      delayShow={500}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          className="hidden-xs"
-          id="dotmenu-icon-tooltip"
-          placement="right"
-        >
-          <FormattedMessage
-            defaultMessage="More Actions"
-            id="post_info.dot_menu.tooltip.more_actions"
-            values={Object {}}
-          />
-        </Tooltip>
-      }
-      placement="top"
-      rootClose={true}
-      trigger={
+    <button
+      aria-expanded="false"
+      className="post__dropdown color--link style--none"
+      id="CENTER_button_post_id_1"
+      type="button"
+    />
+  </OverlayTrigger>
+  <Menu
+    ariaLabel="Post extra options"
+    openLeft={true}
+    openUp={false}
+  >
+    <Connect(ChannelPermissionGate)
+      permissions={
         Array [
-          "hover",
-          "focus",
+          "add_reaction",
         ]
       }
     >
-      <button
-        aria-expanded="false"
-        className="dropdown-toggle post__dropdown color--link style--none"
-        data-toggle="dropdown"
-        id="CENTER_button_post_id_1"
-        type="button"
+      <MenuItemAction
+        onClick={[Function]}
+        show={false}
+        text="Add Reaction"
       />
-    </OverlayTrigger>
-    <div
-      className="dropdown-menu__content"
-    >
-      <ul
-        className="dropdown-menu"
-        role="menu"
-      >
-        <DotMenuItem
-          handleMenuItemActivated={[MockFunction]}
-          key="reply"
-          menuItemText={
-            <FormattedMessage
-              defaultMessage="Reply"
-              id="post_info.reply"
-              values={Object {}}
-            />
-          }
-        />
-        <DotMenuItem
-          handleMenuItemActivated={[Function]}
-          key="permalink"
-          menuItemText={
-            <FormattedMessage
-              defaultMessage="Permalink"
-              id="post_info.permalink"
-              values={Object {}}
-            />
-          }
-        />
-        <DotMenuItem
-          handleMenuItemActivated={[Function]}
-          key="pin"
-          menuItemText={
-            <FormattedMessage
-              defaultMessage="Pin"
-              id="post_info.pin"
-              values={Object {}}
-            />
-          }
-        />
-        <Connect(Pluggable)
-          pluggableName="PostDropdownMenuItem"
-          postId="post_id_1"
-        />
-      </ul>
-    </div>
-  </div>
-</div>
+    </Connect(ChannelPermissionGate)>
+    <MenuItemAction
+      onClick={[Function]}
+      show={false}
+      text="Unflag"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={false}
+      text="Flag"
+    />
+    <MenuItemAction
+      onClick={[MockFunction]}
+      show={true}
+      text="Reply"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={true}
+      text="Permalink"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={false}
+      text="Unpin"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={true}
+      text="Pin"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={true}
+      text="Delete"
+    />
+    <MenuItemAction
+      id="edit_post_post_id_1"
+      onClick={[Function]}
+      show={true}
+      text="Edit"
+    />
+    <Connect(Pluggable)
+      pluggableName="PostDropdownMenuItem"
+      postId="post_id_1"
+    />
+  </Menu>
+</MenuWrapper>
 `;
 
 exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
-<div
-  className="dropdown"
+<MenuWrapper
+  animationComponent={[Function]}
+  className=""
+  onToggle={[MockFunction]}
 >
-  <div
-    id="CENTER_dropdown_post_id_1"
+  <OverlayTrigger
+    className="hidden-xs"
+    defaultOverlayShown={false}
+    delayShow={500}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        className="hidden-xs"
+        id="dotmenu-icon-tooltip"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="More Actions"
+          id="post_info.dot_menu.tooltip.more_actions"
+          values={Object {}}
+        />
+      </Tooltip>
+    }
+    placement="top"
+    rootClose={true}
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
-    <OverlayTrigger
-      className="hidden-xs"
-      defaultOverlayShown={false}
-      delayShow={500}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          className="hidden-xs"
-          id="dotmenu-icon-tooltip"
-          placement="right"
-        >
-          <FormattedMessage
-            defaultMessage="More Actions"
-            id="post_info.dot_menu.tooltip.more_actions"
-            values={Object {}}
-          />
-        </Tooltip>
-      }
-      placement="top"
-      rootClose={true}
-      trigger={
+    <button
+      aria-expanded="false"
+      className="post__dropdown color--link style--none"
+      id="CENTER_button_post_id_1"
+      type="button"
+    />
+  </OverlayTrigger>
+  <Menu
+    ariaLabel="Post extra options"
+    openLeft={true}
+    openUp={false}
+  >
+    <Connect(ChannelPermissionGate)
+      permissions={
         Array [
-          "hover",
-          "focus",
+          "add_reaction",
         ]
       }
     >
-      <button
-        aria-expanded="false"
-        className="dropdown-toggle post__dropdown color--link style--none"
-        data-toggle="dropdown"
-        id="CENTER_button_post_id_1"
-        type="button"
+      <MenuItemAction
+        onClick={[Function]}
+        show={false}
+        text="Add Reaction"
       />
-    </OverlayTrigger>
-    <div
-      className="dropdown-menu__content"
-    >
-      <ul
-        className="dropdown-menu"
-        role="menu"
-      >
-        <DotMenuItem
-          handleMenuItemActivated={[MockFunction]}
-          key="reply"
-          menuItemText={
-            <FormattedMessage
-              defaultMessage="Reply"
-              id="post_info.reply"
-              values={Object {}}
-            />
-          }
-        />
-        <DotMenuItem
-          handleMenuItemActivated={[Function]}
-          key="permalink"
-          menuItemText={
-            <FormattedMessage
-              defaultMessage="Permalink"
-              id="post_info.permalink"
-              values={Object {}}
-            />
-          }
-        />
-        <DotMenuItem
-          handleMenuItemActivated={[Function]}
-          key="pin"
-          menuItemText={
-            <FormattedMessage
-              defaultMessage="Pin"
-              id="post_info.pin"
-              values={Object {}}
-            />
-          }
-        />
-        <Connect(Pluggable)
-          pluggableName="PostDropdownMenuItem"
-          postId="post_id_1"
-        />
-      </ul>
-    </div>
-  </div>
-</div>
+    </Connect(ChannelPermissionGate)>
+    <MenuItemAction
+      onClick={[Function]}
+      show={false}
+      text="Unflag"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={false}
+      text="Flag"
+    />
+    <MenuItemAction
+      onClick={[MockFunction]}
+      show={true}
+      text="Reply"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={true}
+      text="Permalink"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={false}
+      text="Unpin"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={true}
+      text="Pin"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={false}
+      text="Delete"
+    />
+    <MenuItemAction
+      id="edit_post_post_id_1"
+      onClick={[Function]}
+      show={true}
+      text="Edit"
+    />
+    <Connect(Pluggable)
+      pluggableName="PostDropdownMenuItem"
+      postId="post_id_1"
+    />
+  </Menu>
+</MenuWrapper>
 `;

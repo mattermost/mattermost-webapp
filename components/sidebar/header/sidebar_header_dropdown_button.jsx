@@ -9,10 +9,14 @@ import {FormattedMessage} from 'react-intl';
 import MenuIcon from 'components/svg/menu_icon';
 import Constants from 'utils/constants.jsx';
 
+import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
+
 export default class SidebarHeaderDropdownButton extends React.PureComponent {
     static propTypes = {
-        bsRole: PropTypes.oneOf(['toggle']).isRequired, // eslint-disable-line react/no-unused-prop-types
-        onClick: PropTypes.func.isRequired,
+        showTutorialTip: PropTypes.bool.isRequired,
+        teamDescription: PropTypes.string.isRequired,
+        currentUser: PropTypes.object.isRequired,
+        teamDisplayName: PropTypes.string.isRequired,
     };
 
     render() {
@@ -25,21 +29,62 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
             </Tooltip>
         );
 
-        return (
-            <OverlayTrigger
-                trigger={['hover', 'focus']}
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='right'
-                overlay={mainMenuToolTip}
+        let tutorialTip = null;
+        if (this.props.showTutorialTip) {
+            tutorialTip = (
+                <MenuTutorialTip onBottom={false}/>
+            );
+        }
+
+        let teamNameWithToolTip = (
+            <h1
+                id='headerTeamName'
+                className='team__name'
             >
-                <button
-                    id='sidebarHeaderDropdownButton'
-                    className='sidebar-header-dropdown__toggle cursor--pointer style--none'
-                    onClick={this.props.onClick}
+                {this.props.teamDisplayName}
+            </h1>
+        );
+        if (this.props.teamDescription) {
+            teamNameWithToolTip = (
+                <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='bottom'
+                    overlay={<Tooltip id='team-name__tooltip'>{this.props.teamDescription}</Tooltip>}
+                    ref='descriptionOverlay'
                 >
-                    <MenuIcon className='sidebar-header-dropdown__icon'/>
-                </button>
-            </OverlayTrigger>
+                    {teamNameWithToolTip}
+                </OverlayTrigger>
+            );
+        }
+
+        return (
+            <div
+                className='SidebarHeaderDropdownButton'
+                id='sidebarHeaderDropdownButton'
+            >
+                {tutorialTip}
+                <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='right'
+                    overlay={mainMenuToolTip}
+                >
+                    <div
+                        id='headerInfo'
+                        className='header__info'
+                    >
+                        {teamNameWithToolTip}
+                        <div
+                            id='headerUsername'
+                            className='user__name'
+                        >
+                            {'@' + this.props.currentUser.username}
+                        </div>
+                        <MenuIcon className='sidebar-header-dropdown__icon'/>
+                    </div>
+                </OverlayTrigger>
+            </div>
         );
     }
 }

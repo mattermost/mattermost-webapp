@@ -4,12 +4,17 @@
 import {connect} from 'react-redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
+import {ModalIdentifiers} from 'utils/constants';
+import {isModalOpen} from 'selectors/views/modals';
+
 import AboutBuildModal from './about_build_modal.jsx';
 
 function mapStateToProps(state) {
+    const modalId = ModalIdentifiers.ABOUT;
     return {
         config: getConfig(state),
         license: getLicense(state),
+        show: isModalOpen(state, modalId),
     };
 }
 

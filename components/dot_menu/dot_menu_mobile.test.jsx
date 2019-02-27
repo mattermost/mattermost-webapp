@@ -29,6 +29,7 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
             post: {id: 'post_id_1'},
             isLicensed: false,
             postEditTimeLimit: '-1',
+            enableEmojiPicker: true,
             actions: {
                 flagPost: jest.fn(),
                 unflagPost: jest.fn(),
@@ -41,7 +42,7 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
 
         const wrapper = shallowWithIntl(
             <DotMenu {...baseProps}/>
-        ).dive({disableLifecycleMethods: true});
+        );
 
         expect(wrapper).toMatchSnapshot();
     });

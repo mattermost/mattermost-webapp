@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action.jsx';
+
 import CloseChannel from './close_channel';
 
 describe('components/ChannelHeaderDropdown/MenuItem.CloseChannel', () => {
@@ -25,7 +27,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.CloseChannel', () => {
             isArchived: false,
         };
         const wrapper = shallow(<CloseChannel {...props}/>);
-        expect(wrapper.isEmptyRender()).toBeTruthy();
+        expect(wrapper).toMatchSnapshot();
     });
 
     it('should runs goToLastViewedChannel function on click', () => {
@@ -37,7 +39,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.CloseChannel', () => {
             },
         };
         const wrapper = shallow(<CloseChannel {...props}/>);
-        wrapper.find('button').simulate('click');
+        wrapper.find(MenuItemAction).simulate('click');
         expect(props.actions.goToLastViewedChannel).toHaveBeenCalled();
     });
 });

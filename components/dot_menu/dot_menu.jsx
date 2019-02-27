@@ -1,10 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
@@ -15,14 +14,17 @@ import DeletePostModal from 'components/delete_post_modal';
 import DelayedAction from 'utils/delayed_action.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {t} from 'utils/i18n';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 
 import Pluggable from 'plugins/pluggable';
 
-import DotMenuItem from './dot_menu_item.jsx';
+import Menu from 'components/widgets/menu/menu.jsx';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
+import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action.jsx';
 
-class DotMenu extends Component {
+const MENU_BOTTOM_MARGIN = 80;
+
+export default class DotMenu extends Component {
     static propTypes = {
         post: PropTypes.object.isRequired,
         teamId: PropTypes.string,
@@ -36,9 +38,7 @@ class DotMenu extends Component {
         pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
         isLicensed: PropTypes.bool.isRequired,
         postEditTimeLimit: PropTypes.string.isRequired,
-        intl: intlShape.isRequired,
         enableEmojiPicker: PropTypes.bool.isRequired,
-
         actions: PropTypes.shape({
 
             /**
@@ -78,7 +78,6 @@ class DotMenu extends Component {
         commentCount: 0,
         isFlagged: false,
         isReadOnly: false,
-        enableEmojiPicker: false,
         pluginMenuItems: [],
     }
 
@@ -90,7 +89,8 @@ class DotMenu extends Component {
         this.state = {
             openUp: false,
         };
-        this.dotMenuId = props.location + '_dropdown_' + props.post.id;
+
+        this.buttonRef = React.createRef();
     }
 
     disableCanEditPostByTime() {
@@ -110,8 +110,6 @@ class DotMenu extends Component {
 
     componentDidMount() {
         this.disableCanEditPostByTime();
-        $('#' + this.dotMenuId).on('shown.bs.dropdown', this.handleDropdownOpened);
-        $('#' + this.dotMenuId).on('hidden.bs.dropdown', () => this.props.handleDropdownOpened(false));
     }
 
     static getDerivedStateFromProps(props) {
@@ -123,23 +121,6 @@ class DotMenu extends Component {
 
     componentWillUnmount() {
         this.editDisableAction.cancel();
-    }
-
-    handleDropdownOpened = () => {
-        this.props.handleDropdownOpened(true);
-
-        let position = 0;
-        if (this.refs.dropdownToggle) {
-            position = $('#post-list').height() - $(this.refs.dropdownToggle).offset().top;
-        }
-
-        if (this.refs.dropdown) {
-            const dropdown = $(this.refs.dropdown);
-
-            if (position < dropdown.height()) {
-                dropdown.addClass('bottom');
-            }
-        }
     }
 
     handleEditDisable = () => {
@@ -194,141 +175,40 @@ class DotMenu extends Component {
     }
 
     handleEditMenuItemActivated = () => {
-        const {formatMessage} = this.props.intl;
-
         this.props.actions.setEditingPost(
             this.props.post.id,
             this.props.commentCount,
             this.props.location === 'CENTER' ? 'post_textbox' : 'reply_textbox',
-            this.props.post.root_id ? formatMessage({id: 'rhs_comment.comment', defaultMessage: 'Comment'}) : formatMessage({id: 'create_post.post', defaultMessage: 'Post'}),
+            this.props.post.root_id ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post'),
             this.props.location === 'RHS_ROOT' || this.props.location === 'RHS_COMMENT',
         );
+    }
+
+    tooltip = (
+        <Tooltip
+            id='dotmenu-icon-tooltip'
+            className='hidden-xs'
+        >
+            <FormattedMessage
+                id='post_info.dot_menu.tooltip.more_actions'
+                defaultMessage='More Actions'
+            />
+        </Tooltip>
+    )
+
+    refCallback = (ref) => {
+        if (ref) {
+            const {y, height} = ref.rect();
+            const windowHeight = window.innerHeight;
+            if ((y + height) > (windowHeight - MENU_BOTTOM_MARGIN)) {
+                this.setState({openUp: true});
+            }
+        }
     }
 
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
-
-        const menuItems = [];
-        if (isMobile && !isSystemMessage) {
-            // add menu item to support adding reactions to posts
-            if (!this.props.isReadOnly && this.props.enableEmojiPicker) {
-                menuItems.push(
-                    <ChannelPermissionGate
-                        key={'add_reaction'}
-                        channelId={this.props.post.channel_id}
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.ADD_REACTION]}
-                    >
-                        <DotMenuItem
-                            menuItemText={
-                                <FormattedMessage
-                                    id={'rhs_root.mobile.add_reaction'}
-                                    defaultMessage={'Add Reaction'}
-                                />
-                            }
-                            handleMenuItemActivated={this.handleAddReactionMenuItemActivated}
-                        />
-                    </ChannelPermissionGate>
-                );
-            }
-            let text = (
-                <FormattedMessage
-                    id={'rhs_root.mobile.flag'}
-                    defaultMessage={'Flag'}
-                />
-            );
-            if (this.props.isFlagged) {
-                text = (
-                    <FormattedMessage
-                        id={'rhs_root.mobile.unflag'}
-                        defaultMessage={'Unflag'}
-                    />
-                );
-            }
-            menuItems.push(
-                <DotMenuItem
-                    key={'flag'}
-                    menuItemText={text}
-                    handleMenuItemActivated={this.handleFlagMenuItemActivated}
-                />
-            );
-        }
-
-        if (!isSystemMessage) {
-            if (this.props.location === 'CENTER') {
-                menuItems.push(
-                    <DotMenuItem
-                        key={'reply'}
-                        menuItemText={
-                            <FormattedMessage
-                                id={'post_info.reply'}
-                                defaultMessage={'Reply'}
-                            />
-                        }
-                        handleMenuItemActivated={this.props.handleCommentClick}
-                    />
-                );
-            }
-
-            menuItems.push(
-                <DotMenuItem
-                    key={'permalink'}
-                    menuItemText={
-                        <FormattedMessage
-                            id={'post_info.permalink'}
-                            defaultMessage={'Permalink'}
-                        />
-                    }
-                    handleMenuItemActivated={this.handlePermalinkMenuItemActivated}
-                />
-            );
-            if (!this.props.isReadOnly) {
-                menuItems.push(
-                    <DotMenuItem
-                        key={'pin'}
-                        menuItemText={
-                            <FormattedMessage
-                                id={this.props.post.is_pinned ? t('post_info.unpin') : t('post_info.pin')}
-                                defaultMessage={'Pin'}
-                            />
-                        }
-                        handleMenuItemActivated={this.handlePinMenuItemActivated}
-                    />
-                );
-            }
-        }
-
-        if (this.state.canDelete) {
-            menuItems.push(
-                <DotMenuItem
-                    key={'delete'}
-                    menuItemText={
-                        <FormattedMessage
-                            id={'post_info.del'}
-                            defaultMessage={'Delete'}
-                        />
-                    }
-                    handleMenuItemActivated={this.handleDeleteMenuItemActivated}
-                />
-            );
-        }
-
-        if (this.state.canEdit) {
-            menuItems.push(
-                <DotMenuItem
-                    key={'edit'}
-                    id={`edit_post_${this.props.post.id}`}
-                    menuItemText={
-                        <FormattedMessage
-                            id={'post_info.edit'}
-                            defaultMessage={'Edit'}
-                        />
-                    }
-                    handleMenuItemActivated={this.handleEditMenuItemActivated}
-                />
-            );
-        }
 
         const pluginItems = this.props.pluginMenuItems.
             filter((item) => {
@@ -336,10 +216,10 @@ class DotMenu extends Component {
             }).
             map((item) => {
                 return (
-                    <DotMenuItem
+                    <MenuItemAction
                         key={item.id + '_pluginmenuitem'}
-                        menuItemText={item.text}
-                        handleMenuItemActivated={() => {
+                        text={item.text}
+                        onClick={() => {
                             if (item.action) {
                                 item.action(this.props.post.id);
                             }
@@ -348,62 +228,91 @@ class DotMenu extends Component {
                 );
             });
 
-        if (menuItems.length === 0 && pluginItems.length === 0) {
+        if (!this.state.canDelete && !this.state.canEdit && pluginItems.length === 0 && isSystemMessage) {
             return null;
         }
 
-        const tooltip = (
-            <Tooltip
-                id='dotmenu-icon-tooltip'
-                className='hidden-xs'
-            >
-                <FormattedMessage
-                    id='post_info.dot_menu.tooltip.more_actions'
-                    defaultMessage='More Actions'
-                />
-            </Tooltip>
-        );
-
         return (
-            <div
-                className='dropdown'
-                ref='dotMenu'
-            >
-                <div id={this.dotMenuId}>
-                    <OverlayTrigger
-                        className='hidden-xs'
-                        delayShow={500}
-                        placement='top'
-                        overlay={tooltip}
-                        rootClose={true}
+            <MenuWrapper onToggle={this.props.handleDropdownOpened}>
+                <OverlayTrigger
+                    className='hidden-xs'
+                    delayShow={500}
+                    placement='top'
+                    overlay={this.tooltip}
+                    rootClose={true}
+                >
+                    <button
+                        id={`${this.props.location}_button_${this.props.post.id}`}
+                        className='post__dropdown color--link style--none'
+                        type='button'
+                        aria-expanded='false'
+                    />
+                </OverlayTrigger>
+                <Menu
+                    openLeft={true}
+                    openUp={this.state.openUp}
+                    ref={this.refCallback}
+                    ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
+                >
+                    <ChannelPermissionGate
+                        channelId={this.props.post.channel_id}
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.ADD_REACTION]}
                     >
-                        <button
-                            id={`${this.props.location}_button_${this.props.post.id}`}
-                            ref='dropdownToggle'
-                            className='dropdown-toggle post__dropdown color--link style--none'
-                            type='button'
-                            data-toggle='dropdown'
-                            aria-expanded='false'
+                        <MenuItemAction
+                            show={isMobile && !isSystemMessage && !this.props.isReadOnly && this.props.enableEmojiPicker}
+                            text={Utils.localizeMessage('rhs_root.mobile.add_reaction', 'Add Reaction')}
+                            onClick={this.handleAddReactionMenuItemActivated}
                         />
-                    </OverlayTrigger>
-                    <div className='dropdown-menu__content'>
-                        <ul
-                            ref='dropdown'
-                            className='dropdown-menu'
-                            role='menu'
-                        >
-                            {menuItems}
-                            {pluginItems}
-                            <Pluggable
-                                postId={this.props.post.id}
-                                pluggableName='PostDropdownMenuItem'
-                            />
-                        </ul>
-                    </div>
-                </div>
-            </div>
+                    </ChannelPermissionGate>
+                    <MenuItemAction
+                        show={isMobile && !isSystemMessage && this.props.isFlagged}
+                        text={Utils.localizeMessage('rhs_root.mobile.unflag', 'Unflag')}
+                        onClick={this.handleFlagMenuItemActivated}
+                    />
+                    <MenuItemAction
+                        show={isMobile && !isSystemMessage && !this.props.isFlagged}
+                        text={Utils.localizeMessage('rhs_root.mobile.flag', 'Flag')}
+                        onClick={this.handleFlagMenuItemActivated}
+                    />
+                    <MenuItemAction
+                        show={!isSystemMessage && this.props.location === 'CENTER'}
+                        text={Utils.localizeMessage('post_info.reply', 'Reply')}
+                        onClick={this.props.handleCommentClick}
+                    />
+                    <MenuItemAction
+                        show={!isSystemMessage}
+                        text={Utils.localizeMessage('post_info.permalink', 'Permalink')}
+                        onClick={this.handlePermalinkMenuItemActivated}
+                    />
+                    <MenuItemAction
+                        show={!isSystemMessage && !this.props.isReadOnly && this.props.post.is_pinned}
+                        text={Utils.localizeMessage('post_info.unpin', 'Unpin')}
+                        onClick={this.handlePinMenuItemActivated}
+                    />
+                    <MenuItemAction
+                        show={!isSystemMessage && !this.props.isReadOnly && !this.props.post.is_pinned}
+                        text={Utils.localizeMessage('post_info.pin', 'Pin')}
+                        onClick={this.handlePinMenuItemActivated}
+                    />
+                    <MenuItemAction
+                        show={this.state.canDelete}
+                        text={Utils.localizeMessage('post_info.del', 'Delete')}
+                        onClick={this.handleDeleteMenuItemActivated}
+                    />
+                    <MenuItemAction
+                        id={`edit_post_${this.props.post.id}`}
+                        show={this.state.canEdit}
+                        text={Utils.localizeMessage('post_info.edit', 'Edit')}
+                        onClick={this.handleEditMenuItemActivated}
+                    />
+                    {pluginItems}
+                    <Pluggable
+                        postId={this.props.post.id}
+                        pluggableName='PostDropdownMenuItem'
+                    />
+                </Menu>
+            </MenuWrapper>
         );
     }
 }
-
-export default injectIntl(DotMenu);
