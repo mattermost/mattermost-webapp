@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getTeammateNameDisplaySetting, getBool, getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {getTeammateNameDisplaySetting, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {
     blendColors,
@@ -1593,45 +1593,6 @@ export function removePrefixFromLocalStorage(prefix) {
     for (let i = 0; i < keys.length; i++) {
         localStorage.removeItem(keys[i]);
     }
-}
-
-export function getEmailInterval(enableEmailBatching, isEmailEnabled) {
-    const {
-        INTERVAL_NEVER,
-        INTERVAL_IMMEDIATE,
-        INTERVAL_FIFTEEN_MINUTES,
-        INTERVAL_HOUR,
-        CATEGORY_NOTIFICATIONS,
-        EMAIL_INTERVAL,
-    } = Constants.Preferences;
-
-    if (!isEmailEnabled) {
-        return INTERVAL_NEVER;
-    }
-
-    const validValuesWithEmailBatching = [INTERVAL_IMMEDIATE, INTERVAL_FIFTEEN_MINUTES, INTERVAL_HOUR];
-    const validValuesWithoutEmailBatching = [INTERVAL_IMMEDIATE];
-
-    let emailInterval;
-    const state = store.getState();
-
-    if (enableEmailBatching) {
-        // when email batching is enabled, the default interval is 15 minutes
-        emailInterval = getInt(state, CATEGORY_NOTIFICATIONS, EMAIL_INTERVAL, INTERVAL_FIFTEEN_MINUTES);
-
-        if (validValuesWithEmailBatching.indexOf(emailInterval) === -1) {
-            emailInterval = INTERVAL_FIFTEEN_MINUTES;
-        }
-    } else {
-        // otherwise, the default interval is immediately
-        emailInterval = getInt(state, CATEGORY_NOTIFICATIONS, EMAIL_INTERVAL, INTERVAL_IMMEDIATE);
-
-        if (validValuesWithoutEmailBatching.indexOf(emailInterval) === -1) {
-            emailInterval = INTERVAL_IMMEDIATE;
-        }
-    }
-
-    return emailInterval;
 }
 
 export function copyToClipboard(data) {
