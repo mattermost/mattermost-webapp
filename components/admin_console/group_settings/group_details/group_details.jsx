@@ -139,7 +139,7 @@ export default class GroupDetails extends React.PureComponent {
                     titleId={t('admin.group_settings.group_detail.groupTeamsAndChannelsTitle')}
                     titleDefault='Team and Channel Membership'
                     subtitleId={t('admin.group_settings.group_detail.groupTeamsAndChannelsDescription')}
-                    subtitleDefault='Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically.'
+                    subtitleDefault='Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below.'
                     button={(
                         <div className='group-profile-add-menu'>
                             <MenuWrapper>

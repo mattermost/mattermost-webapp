@@ -5,7 +5,7 @@
     .groups-list--global-actions {
         display: flex;
         background: $white;
-        padding: 7px 14px;
+        padding: 8px 14px;
         .group-list-search {
             display: flex;
             flex-grow: 1;
@@ -26,6 +26,9 @@
             display: flex;
             flex-grow: 1;
             justify-content: flex-end;
+        }
+        .btn {
+            margin-right: 20px;
         }
     }
     .groups-list--header {
@@ -75,7 +78,6 @@
         background: $white;
         padding: 5px;
         height: auto;
-        border-top: 1px solid $gray;
         .btn-link {
             color: $dark-gray;
             &.disabled {
@@ -141,6 +143,8 @@
 
     .group-actions {
         width: 130px;
+        text-align: right;
+        padding-right: 20px;
     }
 
     .group {
@@ -204,7 +208,7 @@
 
 .group-users {
     .group-users--header {
-        background: $black;
+        background: #333;
         color: $white;
         padding: 10px 20px;
         a {
@@ -269,7 +273,6 @@
         background: $white;
         padding: 5px;
         height: auto;
-        border-top: 1px solid $gray;
         &.empty {
             border-top: 0;
             padding: 0;
@@ -333,6 +336,8 @@
                 width: 16px;
                 height: 16px;
                 margin: 0 5px;
+                color: inherit;
+                opacity: .7;
             }
             .team-icon-private {
                 font-size: .35em;
@@ -363,6 +368,8 @@
 
 .group-profile-add-menu {
     position: relative;
+    margin-left: 10px;
+    margin-top: -36px;
     .fa-caret-down {
         margin-left: 5px;
     }
