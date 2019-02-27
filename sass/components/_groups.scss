@@ -5,7 +5,7 @@
     .groups-list--global-actions {
         display: flex;
         background: $white;
-        padding: 8px 14px;
+        padding: 8px 20px;
         .group-list-search {
             display: flex;
             flex-grow: 1;
@@ -27,12 +27,9 @@
             flex-grow: 1;
             justify-content: flex-end;
         }
-        .btn {
-            margin-right: 20px;
-        }
     }
     .groups-list--header {
-        border-bottom: 1px solid #cccccc;
+        border-bottom: solid 1px rgba(0,0,0,0.1);
         display: flex;
         flex-direction: row;
         font-size: 1.1em;
@@ -310,7 +307,7 @@
         font-size: 1.1em;
         font-weight: bold;
         padding: 5px 20px;
-        border-bottom: 1px solid $dark-gray;
+        border-bottom: solid 1px rgba(0,0,0,0.1);
     }
     .group-teams-and-channels--body {
         .group-teams-and-channels-row {
