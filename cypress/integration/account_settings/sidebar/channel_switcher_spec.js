@@ -49,7 +49,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#accountSettingsHeader > .close').should('be.visible');
     });
 
-    it('change channel switcher setting to Off', () => {
+    it('AS12980 Hide Channel Switcher button in left-hand-side', () => {
         // 4. Click the radio button for "Off"
         cy.get('#channelSwitcherSectionOff').click();
 
@@ -67,7 +67,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#sidebarSwitcherButton').should('be.not.visible');
     });
 
-    it('change channel switcher setting to On', () => {
+    it('AS12980 Show Channel Switcher button in left-hand-side', () => {
         // 1. Return to Account Settings modal
         cy.toAccountSettingsModal('user-1', true);
 
@@ -111,15 +111,15 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         // * Channel switcher hint should be visible
         cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.');
 
-        // 4. Type "nt" on Channel switcher input
-        cy.get('#quickSwitchInput').type('nt');
+        // 4. Type "nesciunt" on Channel switcher input
+        cy.get('#quickSwitchInput').type('nesciunt');
         cy.wait(500);  // eslint-disable-line
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('be.visible');
 
-        // 5. Press down arrow and then enter
-        cy.get('#quickSwitchInput').type('{downarrow}{enter}');
+        // 5. Press enter
+        cy.get('#quickSwitchInput').type('{enter}');
 
         // * Verify that it redirected into "nesciunt" as selected channel
         cy.url().should('include', '/ad-1/channels/sequi-7');
@@ -155,7 +155,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'commodi');
     });
 
-    it('set channel switcher setting to Off and test on press of Ctrl/Cmd+K', () => {
+    it('AS13216 Using CTRL/CMD+K if Channel Switcher is hidden in the LHS', () => {
         // 1. Go to Account Settings modal > Sidebar > Channel Switcher and set setting to Off
         cy.toAccountSettingsModalChannelSwitcher('user-1', false);
 
@@ -164,5 +164,22 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
 
         // * Channel switcher should still be accessible
         cy.get('#quickSwitchHint').should('be.visible');
+
+        // * Channel switcher hint should be visible
+        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.');
+
+        // 3. Type "comm" on Channel switcher input
+        cy.get('#quickSwitchInput').type('comm');
+        cy.wait(500);  // eslint-disable-line
+
+        // * Suggestion list should be visible
+        cy.get('#suggestionList').should('be.visible');
+
+        // 4. Press enter
+        cy.get('#quickSwitchInput').type('{enter}');
+
+        // * Verify that it redirected into "commodi" as selected channel
+        cy.url().should('include', '/ad-1/channels/autem-2');
+        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'commodi');
     });
 });

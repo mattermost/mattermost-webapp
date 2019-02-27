@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {NotificationLevels} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
@@ -215,39 +216,39 @@ export default class DesktopNotificationSettings extends React.Component {
         if (this.props.activity === NotificationLevels.MENTION) {
             if (hasSoundOption && this.props.sound !== 'false') {
                 formattedMessageProps = {
-                    id: 'user.settings.notifications.desktop.mentionsSound',
+                    id: t('user.settings.notifications.desktop.mentionsSound'),
                     defaultMessage: 'For mentions and direct messages, with sound',
                 };
             } else if (hasSoundOption && this.props.sound === 'false') {
                 formattedMessageProps = {
-                    id: 'user.settings.notifications.desktop.mentionsNoSound',
+                    id: t('user.settings.notifications.desktop.mentionsNoSound'),
                     defaultMessage: 'For mentions and direct messages, without sound',
                 };
             } else {
                 formattedMessageProps = {
-                    id: 'user.settings.notifications.desktop.mentionsSoundHidden',
+                    id: t('user.settings.notifications.desktop.mentionsSoundHidden'),
                     defaultMessage: 'For mentions and direct messages',
                 };
             }
         } else if (this.props.activity === NotificationLevels.NONE) {
             formattedMessageProps = {
-                id: 'user.settings.notifications.off',
+                id: t('user.settings.notifications.off'),
                 defaultMessage: 'Off',
             };
         } else {
             if (hasSoundOption && this.props.sound !== 'false') { //eslint-disable-line no-lonely-if
                 formattedMessageProps = {
-                    id: 'user.settings.notifications.desktop.allSound',
+                    id: t('user.settings.notifications.desktop.allSound'),
                     defaultMessage: 'For all activity, with sound',
                 };
             } else if (hasSoundOption && this.props.sound === 'false') {
                 formattedMessageProps = {
-                    id: 'user.settings.notifications.desktop.allNoSound',
+                    id: t('user.settings.notifications.desktop.allNoSound'),
                     defaultMessage: 'For all activity, without sound',
                 };
             } else {
                 formattedMessageProps = {
-                    id: 'user.settings.notifications.desktop.allSoundHidden',
+                    id: t('user.settings.notifications.desktop.allSoundHidden'),
                     defaultMessage: 'For all activity',
                 };
             }

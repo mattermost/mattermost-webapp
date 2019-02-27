@@ -2,26 +2,26 @@
 // See LICENSE.txt for license information.
 
 export const emoticonPatterns = {
-    slightly_smiling_face: /(^|\s)(:-?\))(?=$|\s)/g, // :)
-    wink: /(^|\s)(;-?\))(?=$|\s)/g, // ;)
-    open_mouth: /(^|\s)(:o)(?=$|\s)/gi, // :o
-    scream: /(^|\s)(:-o)(?=$|\s)/gi, // :-o
-    smirk: /(^|\s)(:-?])(?=$|\s)/g, // :]
-    smile: /(^|\s)(:-?d)(?=$|\s)/gi, // :D
-    stuck_out_tongue_closed_eyes: /(^|\s)(x-d)(?=$|\s)/gi, // x-d
-    stuck_out_tongue: /(^|\s)(:-?p)(?=$|\s)/gi, // :p
-    rage: /(^|\s)(:-?[[@])(?=$|\s)/g, // :@
-    slightly_frowning_face: /(^|\s)(:-?\()(?=$|\s)/g, // :(
-    cry: /(^|\s)(:['’]-?\(|:&#x27;\(|:&#39;\()(?=$|\s)/g, // :`(
-    confused: /(^|\s)(:-?\/)(?=$|\s)/g, // :/
-    confounded: /(^|\s)(:-?s)(?=$|\s)/gi, // :s
-    neutral_face: /(^|\s)(:-?\|)(?=$|\s)/g, // :|
-    flushed: /(^|\s)(:-?\$)(?=$|\s)/g, // :$
-    mask: /(^|\s)(:-x)(?=$|\s)/gi, // :-x
-    heart: /(^|\s)(<3|&lt;3)(?=$|\s)/g, // <3
-    broken_heart: /(^|\s)(<\/3|&lt;&#x2F;3)(?=$|\s)/g, // </3
-    thumbsup: /(^|\s)(:\+1:)(?=$|\s)/g, // :+1:
-    thumbsdown: /(^|\s)(:-1:)(?=$|\s)/g, // :-1:
+    slightly_smiling_face: /(^|\B)(:-?\))($|\B)/g, // :)
+    wink: /(^|\B)(;-?\))($|\B)/g, // ;)
+    open_mouth: /(^|\B)(:o)($|\b)/gi, // :o
+    scream: /(^|\B)(:-o)($|\b)/gi, // :-o
+    smirk: /(^|\B)(:-?])($|\B)/g, // :]
+    smile: /(^|\B)(:-?d)($|\b)/gi, // :D
+    stuck_out_tongue_closed_eyes: /(^|\b)(x-d)($|\b)/gi, // x-d
+    stuck_out_tongue: /(^|\B)(:-?p)($|\b)/gi, // :p
+    rage: /(^|\B)(:-?[[@])($|\B)/g, // :@
+    slightly_frowning_face: /(^|\B)(:-?\()($|\B)/g, // :(
+    cry: /(^|\B)(:[`'’]-?\(|:&#x27;\(|:&#39;\()($|\B)/g, // :`(
+    confused: /(^|\B)(:-?\/)($|\B)/g, // :/
+    confounded: /(^|\B)(:-?s)($|\b)/gi, // :s
+    neutral_face: /(^|\B)(:-?\|)($|\B)/g, // :|
+    flushed: /(^|\B)(:-?\$)($|\B)/g, // :$
+    mask: /(^|\B)(:-x)($|\b)/gi, // :-x
+    heart: /(^|\B)(<3|&lt;3)($|\b)/g, // <3
+    broken_heart: /(^|\B)(<\/3|&lt;\/3)($|\b)/g, // </3
+    thumbsup: /(^|\B)(:\+1:)($|\B)/g, // :+1:
+    thumbsdown: /(^|\B)(:-1:)($|\B)/g, // :-1:
 };
 
 export const EMOJI_PATTERN = /(:([a-zA-Z0-9_-]+):)/g;

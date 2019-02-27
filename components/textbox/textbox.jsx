@@ -28,6 +28,7 @@ export default class Textbox extends React.Component {
         value: PropTypes.string.isRequired,
         onChange: PropTypes.func.isRequired,
         onKeyPress: PropTypes.func.isRequired,
+        onComposition: PropTypes.func,
         createMessage: PropTypes.string.isRequired,
         previewMessageLink: PropTypes.string,
         onKeyDown: PropTypes.func,
@@ -321,6 +322,7 @@ export default class Textbox extends React.Component {
                     onKeyPress={this.props.onKeyPress}
                     onKeyDown={this.handleKeyDown}
                     onFocus={this.handleFocus}
+                    onComposition={this.props.onComposition}
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
                     style={{visibility: this.state.preview ? 'hidden' : 'visible'}}

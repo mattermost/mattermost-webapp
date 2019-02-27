@@ -318,6 +318,7 @@ class DotMenu extends Component {
             menuItems.push(
                 <DotMenuItem
                     key={'edit'}
+                    id={`edit_post_${this.props.post.id}`}
                     menuItemText={
                         <FormattedMessage
                             id={'post_info.edit'}
@@ -377,6 +378,7 @@ class DotMenu extends Component {
                         rootClose={true}
                     >
                         <button
+                            id={`${this.props.location}_button_${this.props.post.id}`}
                             ref='dropdownToggle'
                             className='dropdown-toggle post__dropdown color--link style--none'
                             type='button'

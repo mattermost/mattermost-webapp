@@ -3,12 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {defineMessages, FormattedDate, FormattedMessage, FormattedHTMLMessage, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, FormattedDate, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {updateUser, uploadProfileImage} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -16,8 +15,8 @@ import {t} from 'utils/i18n';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+import {AnnouncementBarMessages, AnnouncementBarTypes} from 'utils/constants';
 
 const holders = defineMessages({
     usernameReserved: {
@@ -108,9 +107,13 @@ class UserSettingsGeneralTab extends React.Component {
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
         actions: PropTypes.shape({
+            logError: PropTypes.func.isRequired,
+            clearErrors: PropTypes.func.isRequired,
             getMe: PropTypes.func.isRequired,
-            sendVerificationEmail: PropTypes.func.isRequred,
-            setDefaultProfileImage: PropTypes.func.isRequred,
+            updateMe: PropTypes.func.isRequired,
+            sendVerificationEmail: PropTypes.func.isRequired,
+            setDefaultProfileImage: PropTypes.func.isRequired,
+            uploadProfileImage: PropTypes.func.isRequired,
         }).isRequired,
         sendEmailNotifications: PropTypes.bool,
         requireEmailVerification: PropTypes.bool,
@@ -267,28 +270,32 @@ class UserSettingsGeneralTab extends React.Component {
         const {formatMessage} = this.props.intl;
         this.setState({sectionIsSaving: true});
 
-        updateUser(
-            user,
-            () => {
-                this.updateSection('');
-                this.props.actions.getMe();
-                const verificationEnabled = this.props.sendEmailNotifications && this.props.requireEmailVerification && emailUpdated;
-                if (verificationEnabled) {
-                    this.setState({emailChangeInProgress: true});
+        this.props.actions.updateMe(user).
+            then(({data, error: err}) => {
+                if (data) {
+                    this.updateSection('');
+                    this.props.actions.getMe();
+                    const verificationEnabled = this.props.sendEmailNotifications && this.props.requireEmailVerification && emailUpdated;
+                    if (verificationEnabled) {
+                        this.props.actions.clearErrors();
+                        this.props.actions.logError({
+                            message: AnnouncementBarMessages.EMAIL_VERIFICATION_REQUIRED,
+                            type: AnnouncementBarTypes.SUCCESS,
+                        }, true);
+                    }
+                } else if (err) {
+                    let serverError;
+                    if (err.server_error_id &&
+                        err.server_error_id === 'api.user.check_user_password.invalid.app_error') {
+                        serverError = formatMessage(holders.incorrectPassword);
+                    } else if (err.message) {
+                        serverError = err.message;
+                    } else {
+                        serverError = err;
+                    }
+                    this.setState({serverError, emailError: '', clientError: '', sectionIsSaving: false});
                 }
-            },
-            (err) => {
-                let serverError;
-                if (err.id && err.id === 'api.user.check_user_password.invalid.app_error') {
-                    serverError = formatMessage(holders.incorrectPassword);
-                } else if (err.message) {
-                    serverError = err.message;
-                } else {
-                    serverError = err;
-                }
-                this.setState({serverError, emailError: '', clientError: '', sectionIsSaving: false});
-            }
-        );
+            });
     }
 
     setDefaultProfilePicture = async () => {
@@ -331,18 +338,17 @@ class UserSettingsGeneralTab extends React.Component {
 
         this.setState({loadingPicture: true});
 
-        uploadProfileImage(
-            file,
-            () => {
-                this.updateSection('');
-                this.submitActive = false;
-            },
-            (err) => {
-                var state = this.setupInitialState(this.props);
-                state.serverError = err.message;
-                this.setState(state);
-            }
-        );
+        this.props.actions.uploadProfileImage(this.props.user.id, file).
+            then(({data, error: err}) => {
+                if (data) {
+                    this.updateSection('');
+                    this.submitActive = false;
+                } else if (err) {
+                    var state = this.setupInitialState(this.props);
+                    state.serverError = err.message;
+                    this.setState(state);
+                }
+            });
     }
 
     submitPosition = () => {
@@ -405,8 +411,7 @@ class UserSettingsGeneralTab extends React.Component {
     }
 
     updateSection = (section) => {
-        const emailChangeInProgress = this.state.emailChangeInProgress;
-        this.setState(Object.assign({}, this.setupInitialState(this.props), {emailChangeInProgress, clientError: '', serverError: '', emailError: '', sectionIsSaving: false}));
+        this.setState(Object.assign({}, this.setupInitialState(this.props), {clientError: '', serverError: '', emailError: '', sectionIsSaving: false}));
         this.submitActive = false;
         this.props.updateSection(section);
     }
@@ -426,7 +431,6 @@ class UserSettingsGeneralTab extends React.Component {
             currentPassword: '',
             pictureFile: null,
             loadingPicture: false,
-            emailChangeInProgress: props.sendEmailNotifications && props.requireEmailVerification && !user.email_verified,
             sectionIsSaving: false,
             showSpinner: false,
         };
@@ -462,23 +466,6 @@ class UserSettingsGeneralTab extends React.Component {
                         defaultMessage='Email is used for sign-in, notifications, and password reset.'
                     />
                 );
-            } else if (this.state.emailChangeInProgress) {
-                const newEmail = this.props.user.email;
-                if (newEmail) {
-                    helpText = (
-                        <React.Fragment>
-                            <FormattedMarkdownMessage
-                                id='user.settings.general.emailHelp4'
-                                defaultMessage='A verification email was sent to {email}. \nCannot find the email?'
-                                values={{
-                                    email: newEmail,
-                                }}
-                            />
-                            {' '}
-                            {this.createEmailResendLink(newEmail)}
-                        </React.Fragment>
-                    );
-                }
             }
 
             let submit = null;
@@ -679,31 +666,7 @@ class UserSettingsGeneralTab extends React.Component {
         } else {
             let describe = '';
             if (this.props.user.auth_service === '') {
-                if (this.state.emailChangeInProgress) {
-                    const newEmail = this.props.user.email;
-                    if (newEmail) {
-                        describe = (
-                            <React.Fragment>
-                                <FormattedHTMLMessage
-                                    id='user.settings.general.newAddress'
-                                    defaultMessage='Check your email to verify {email}'
-                                    values={{
-                                        email: newEmail,
-                                    }}
-                                />
-                            </React.Fragment>
-                        );
-                    } else {
-                        describe = (
-                            <FormattedMessage
-                                id='user.settings.general.checkEmailNoAddress'
-                                defaultMessage='Check your email to verify your new address'
-                            />
-                        );
-                    }
-                } else {
-                    describe = this.props.user.email;
-                }
+                describe = this.props.user.email;
             } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
                 describe = (
                     <FormattedMessage

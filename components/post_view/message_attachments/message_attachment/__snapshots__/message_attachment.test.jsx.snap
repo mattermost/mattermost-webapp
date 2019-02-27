@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/post_view/MessageAttachment should call actions.doPostAction on handleAction 1`] = `
+exports[`components/post_view/MessageAttachment should call actions.doPostActionWithCookie on handleAction 1`] = `
 <div
   className="attachment attachment--pretext"
 >
@@ -94,6 +94,7 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
             <ActionButton
               action={
                 Object {
+                  "cookie": "cookie-contents",
                   "id": "action_id_1",
                   "name": "action_name_1",
                 }
@@ -246,41 +247,87 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
 </div>
 `;
 
-exports[`components/post_view/MessageAttachment should match value on getActionView 1`] = `""`;
-
-exports[`components/post_view/MessageAttachment should match value on getActionView 2`] = `
+exports[`components/post_view/MessageAttachment should match snapshot when the attachment has an emoji in the title 1`] = `
 <div
-  className="attachment-actions"
+  className="attachment "
 >
-  <ActionButton
-    action={
-      Object {
-        "id": "action_id_1",
-        "name": "action_name_1",
-      }
-    }
-    handleAction={[Function]}
-  />
-  <ActionButton
-    action={
-      Object {
-        "id": "action_id_2",
-        "name": "action_name_2",
-      }
-    }
-    handleAction={[Function]}
-  />
-  <Connect(ActionMenu)
-    action={
-      Object {
-        "data_source": "users",
-        "id": "action_id_3",
-        "name": "action_name_3",
-        "type": "select",
-      }
-    }
-    postId="post_id"
-  />
+  <div
+    className="attachment__content"
+  >
+    <div
+      className="clearfix attachment__container attachment__container--undefined"
+    >
+      <h1
+        className="attachment__title"
+      >
+        <Connect(Markdown)
+          message="Do you like :pizza:?"
+          options={
+            Object {
+              "autolinkedUrlSchemes": Array [],
+              "markdown": false,
+              "mentionHighlight": false,
+            }
+          }
+        />
+      </h1>
+      <div>
+        <div
+          className="attachment__body attachment__body--no_thumb"
+          onClick={[Function]}
+        />
+        <div
+          style={
+            Object {
+              "clear": "both",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/MessageAttachment should match snapshot when the attachment hasn't any emojis in the title 1`] = `
+<div
+  className="attachment "
+>
+  <div
+    className="attachment__content"
+  >
+    <div
+      className="clearfix attachment__container attachment__container--undefined"
+    >
+      <h1
+        className="attachment__title"
+      >
+        <Connect(Markdown)
+          message="Don't you like emojis?"
+          options={
+            Object {
+              "autolinkedUrlSchemes": Array [],
+              "markdown": false,
+              "mentionHighlight": false,
+            }
+          }
+        />
+      </h1>
+      <div>
+        <div
+          className="attachment__body attachment__body--no_thumb"
+          onClick={[Function]}
+        />
+        <div
+          style={
+            Object {
+              "clear": "both",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -348,5 +395,43 @@ exports[`components/post_view/MessageAttachment should match value on getFieldsT
       </tr>
     </tbody>
   </table>
+</div>
+`;
+
+exports[`components/post_view/MessageAttachment should match value on renderPostActions 1`] = `""`;
+
+exports[`components/post_view/MessageAttachment should match value on renderPostActions 2`] = `
+<div
+  className="attachment-actions"
+>
+  <ActionButton
+    action={
+      Object {
+        "id": "action_id_1",
+        "name": "action_name_1",
+      }
+    }
+    handleAction={[Function]}
+  />
+  <ActionButton
+    action={
+      Object {
+        "id": "action_id_2",
+        "name": "action_name_2",
+      }
+    }
+    handleAction={[Function]}
+  />
+  <Connect(ActionMenu)
+    action={
+      Object {
+        "data_source": "users",
+        "id": "action_id_3",
+        "name": "action_name_3",
+        "type": "select",
+      }
+    }
+    postId="post_id"
+  />
 </div>
 `;

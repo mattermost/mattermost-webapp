@@ -4,16 +4,12 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {savePreference} from 'actions/user_actions.jsx';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import EmailNotificationSetting from 'components/user_settings/notifications/email_notification_setting.jsx';
-
-jest.mock('actions/user_actions.jsx', () => ({
-    savePreference: jest.fn(),
-}));
+import EmailNotificationSetting from 'components/user_settings/notifications/email_notification_setting/email_notification_setting.jsx';
 
 describe('components/user_settings/notifications/EmailNotificationSetting', () => {
     const requiredProps = {
+        currentUserId: 'current_user_id',
         activeSection: 'email',
         updateSection: jest.fn(),
         enableEmail: false,
@@ -25,6 +21,9 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
         sendEmailNotifications: true,
         enableEmailBatching: false,
         siteName: 'Mattermost',
+        actions: {
+            savePreferences: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {
@@ -108,27 +107,41 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
         expect(wrapper.state('emailInterval')).toBe(30);
     });
 
-    test('should pass handleSubmit', () => {
+    test('should pass handleSubmit', async () => {
         const newOnSubmit = jest.fn();
         const newUpdateSection = jest.fn();
-        const props = {...requiredProps, onSubmit: newOnSubmit, updateSection: newUpdateSection};
+        const newSavePreference = jest.fn();
+        const props = {
+            ...requiredProps,
+            onSubmit: newOnSubmit,
+            updateSection: newUpdateSection,
+            actions: {savePreferences: newSavePreference},
+        };
+
         const wrapper = mountWithIntl(<EmailNotificationSetting {...props}/>);
 
-        wrapper.instance().handleSubmit();
+        await wrapper.instance().handleSubmit();
 
         expect(newOnSubmit).not.toBeCalled();
         expect(newUpdateSection).toHaveBeenCalledTimes(1);
         expect(newUpdateSection).toBeCalledWith('');
 
         wrapper.find('#emailNotificationNever').simulate('change');
-        wrapper.instance().handleSubmit();
+        await wrapper.instance().handleSubmit();
 
         expect(newOnSubmit).toBeCalled();
         expect(newOnSubmit).toHaveBeenCalledTimes(1);
         expect(newOnSubmit).toBeCalledWith('false');
 
-        expect(savePreference).toHaveBeenCalledTimes(1);
-        expect(savePreference).toBeCalledWith('notifications', 'email_interval', '0');
+        const expectedPref = [{
+            category: 'notifications',
+            name: 'email_interval',
+            user_id: 'current_user_id',
+            value: '0',
+        }];
+
+        expect(newSavePreference).toHaveBeenCalledTimes(1);
+        expect(newSavePreference).toBeCalledWith('current_user_id', expectedPref);
     });
 
     test('should pass handleUpdateSection', () => {

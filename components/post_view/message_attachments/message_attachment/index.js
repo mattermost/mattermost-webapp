@@ -4,16 +4,23 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {doPostAction} from 'mattermost-redux/actions/posts';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {doPostActionWithCookie} from 'mattermost-redux/actions/posts';
 
 import MessageAttachment from './message_attachment';
+
+function mapStateToProps(state) {
+    return {
+        hasImageProxy: getConfig(state).HasImageProxy === 'true',
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            doPostAction,
+            doPostActionWithCookie,
         }, dispatch),
     };
 }
 
-export default connect(null, mapDispatchToProps)(MessageAttachment);
+export default connect(mapStateToProps, mapDispatchToProps)(MessageAttachment);

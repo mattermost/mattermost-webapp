@@ -125,17 +125,6 @@ describe('components/post_view/PostInfo', () => {
         expect(handleDropdownOpened).toHaveBeenCalledTimes(1);
     });
 
-    test('hideEmojiPicker, should have called props.handleDropdownOpened(false)', () => {
-        const handleDropdownOpened = jest.fn();
-        const requiredPropsWithHandleDropdownOpened = {...requiredProps, handleDropdownOpened, enableEmojiPicker: true};
-
-        const wrapper = shallow(<PostInfo {...requiredPropsWithHandleDropdownOpened}/>);
-        wrapper.instance().hideEmojiPicker();
-        expect(wrapper).toMatchSnapshot();
-        expect(handleDropdownOpened).toHaveBeenCalledTimes(1);
-        expect(handleDropdownOpened).toBeCalledWith(false);
-    });
-
     test('removePost, should have called props.actions.removePost(post)', () => {
         const removePost = jest.fn();
         const actions = {

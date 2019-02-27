@@ -14,8 +14,14 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
         className="form-control filter-textbox"
         delayInputUpdate={false}
         id="searchChannelsTextbox"
+        inputComponent={[Function]}
         onInput={[Function]}
-        placeholder="Search channels"
+        placeholder={
+          Object {
+            "defaultMessage": "Search channels",
+            "id": "filtered_channels_list.search",
+          }
+        }
         value=""
       />
     </div>

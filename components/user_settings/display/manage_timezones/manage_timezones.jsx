@@ -6,8 +6,6 @@ import React from 'react';
 import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
-import {updateUser} from 'actions/user_actions.jsx';
-
 import SettingItemMax from 'components/setting_item_max.jsx';
 import {getBrowserTimezone} from 'utils/timezone';
 
@@ -16,6 +14,18 @@ import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import TimezoneProvider from 'components/suggestion/timezone_provider.jsx';
 
 export default class ManageTimezones extends React.PureComponent {
+    static propTypes = {
+        user: PropTypes.object.isRequired,
+        updateSection: PropTypes.func.isRequired,
+        useAutomaticTimezone: PropTypes.bool.isRequired,
+        automaticTimezone: PropTypes.string.isRequired,
+        manualTimezone: PropTypes.string.isRequired,
+        timezones: PropTypes.array.isRequired,
+        actions: PropTypes.shape({
+            updateMe: PropTypes.func.isRequired,
+        }).isRequired,
+    };
+
     constructor(props) {
         super(props);
 
@@ -73,7 +83,7 @@ export default class ManageTimezones extends React.PureComponent {
     };
 
     submitUser = () => {
-        const {user} = this.props;
+        const {user, actions} = this.props;
         const {
             useAutomaticTimezone,
             automaticTimezone,
@@ -91,19 +101,20 @@ export default class ManageTimezones extends React.PureComponent {
             timezone,
         };
 
-        updateUser(
-            updatedUser,
-            () => this.props.updateSection(''),
-            (err) => {
-                let serverError;
-                if (err.message) {
-                    serverError = err.message;
-                } else {
-                    serverError = err;
+        actions.updateMe(updatedUser).
+            then(({data, error: err}) => {
+                if (data) {
+                    this.props.updateSection('');
+                } else if (err) {
+                    let serverError;
+                    if (err.message) {
+                        serverError = err.message;
+                    } else {
+                        serverError = err;
+                    }
+                    this.setState({serverError, isSaving: false});
                 }
-                this.setState({serverError, isSaving: false});
-            }
-        );
+            });
     };
 
     handleAutomaticTimezone = (e) => {
@@ -233,11 +244,3 @@ export default class ManageTimezones extends React.PureComponent {
     }
 }
 
-ManageTimezones.propTypes = {
-    user: PropTypes.object.isRequired,
-    updateSection: PropTypes.func.isRequired,
-    useAutomaticTimezone: PropTypes.bool.isRequired,
-    automaticTimezone: PropTypes.string.isRequired,
-    manualTimezone: PropTypes.string.isRequired,
-    timezones: PropTypes.array.isRequired,
-};

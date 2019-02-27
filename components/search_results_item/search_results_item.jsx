@@ -131,6 +131,7 @@ export default class SearchResultsItem extends React.PureComponent {
                 isPermalink={isPermalink}
                 eventTime={post.create_at}
                 postId={post.id}
+                location='SEARCH'
             />
         );
     };
@@ -253,6 +254,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         idPrefix={'searchCommentIcon'}
                         idCount={this.props.lastPostCount}
                         handleCommentClick={this.handleFocusRHSClick}
+                        postId={post.id}
                         searchStyle={'search-item__comment'}
                     />
                     <a

@@ -6,8 +6,6 @@ import React from 'react';
 import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {FormattedMessage} from 'react-intl';
 
-import {savePreferences} from 'actions/user_actions.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
@@ -20,8 +18,8 @@ import SettingItemMin from 'components/setting_item_min.jsx';
 import ThemeSetting from 'components/user_settings/display/user_settings_theme';
 import BackIcon from 'components/icon/back_icon';
 
-import ManageTimezones from './manage_timezones.jsx';
-import ManageLanguages from './manage_languages.jsx';
+import ManageTimezones from './manage_timezones';
+import ManageLanguages from './manage_languages';
 
 const Preferences = Constants.Preferences;
 
@@ -65,6 +63,7 @@ export default class UserSettingsDisplay extends React.Component {
         actions: PropTypes.shape({
             getSupportedTimezones: PropTypes.func.isRequired,
             autoUpdateTimezone: PropTypes.func.isRequired,
+            savePreferences: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -98,7 +97,7 @@ export default class UserSettingsDisplay extends React.Component {
         }
     }
 
-    handleSubmit = () => {
+    handleSubmit = async () => {
         const userId = this.props.user.id;
 
         const timePreference = {
@@ -149,9 +148,9 @@ export default class UserSettingsDisplay extends React.Component {
             teammateNameDisplayPreference,
         ];
 
-        savePreferences(preferences, () => {
-            this.updateSection('');
-        });
+        await this.props.actions.savePreferences(userId, preferences);
+
+        this.updateSection('');
     }
 
     handleClockRadio = (militaryTime) => {
@@ -682,6 +681,7 @@ export default class UserSettingsDisplay extends React.Component {
                         setRequireConfirm={this.props.setRequireConfirm}
                         setEnforceFocus={this.props.setEnforceFocus}
                         allowCustomThemes={this.props.allowCustomThemes}
+                        focused={this.props.prevActiveSection === this.prevSections.theme}
                     />
                     <div className='divider-dark'/>
                 </div>

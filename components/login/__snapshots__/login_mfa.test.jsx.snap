@@ -20,13 +20,18 @@ exports[`components/login/LoginMfa should match snapshot 1`] = `
     <div
       className="form-group"
     >
-      <input
+      <LocalizedInput
         autoComplete="off"
         autoFocus={true}
         className="form-control"
         name="token"
         onChange={[Function]}
-        placeholder="MFA Token"
+        placeholder={
+          Object {
+            "defaultMessage": "MFA Token",
+            "id": "login_mfa.token",
+          }
+        }
         spellCheck="false"
         type="text"
       />

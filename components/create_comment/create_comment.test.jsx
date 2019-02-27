@@ -566,7 +566,7 @@ describe('components/CreateComment', () => {
                 expect(wrapper.state('showConfirmModal')).toBe(true);
             });
 
-            it(`should show Confirm Modal for @${mention} mentions when needed and timezone notification`, () => {
+            it(`should show Confirm Modal for @${mention} mentions when needed and timezone notification`, async () => {
                 const props = {
                     ...baseProps,
                     draft: {
@@ -584,17 +584,17 @@ describe('components/CreateComment', () => {
                     <CreateComment {...props}/>
                 );
 
-                wrapper.instance().handleSubmit({preventDefault});
-                wrapper.setState({channelMembersCount: 4});
+                await wrapper.instance().handleSubmit({preventDefault});
+                wrapper.setState({channelTimezoneCount: 4});
 
                 expect(onSubmit).not.toHaveBeenCalled();
                 expect(preventDefault).toHaveBeenCalled();
-                expect(wrapper.state('channelMembersCount')).toBe(4);
+                expect(wrapper.state('channelTimezoneCount')).toBe(4);
                 expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(1);
                 expect(wrapper.state('showConfirmModal')).toBe(true);
             });
 
-            it(`should show Confirm Modal for @${mention} mentions when needed and no timezone notification`, () => {
+            it(`should show Confirm Modal for @${mention} mentions when needed and no timezone notification`, async () => {
                 const props = {
                     ...baseProps,
                     draft: {
@@ -612,12 +612,12 @@ describe('components/CreateComment', () => {
                     <CreateComment {...props}/>
                 );
 
-                wrapper.instance().handleSubmit({preventDefault});
-                wrapper.setState({channelMembersCount: 0});
+                await wrapper.instance().handleSubmit({preventDefault});
+                wrapper.setState({channelTimezoneCount: 0});
 
                 expect(onSubmit).not.toHaveBeenCalled();
                 expect(preventDefault).toHaveBeenCalled();
-                expect(wrapper.state('channelMembersCount')).toBe(0);
+                expect(wrapper.state('channelTimezoneCount')).toBe(0);
                 expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(1);
                 expect(wrapper.state('showConfirmModal')).toBe(true);
             });

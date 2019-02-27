@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {mount, shallow} from 'enzyme';
 
+import SizeAwareImage from 'components/size_aware_image';
 import MessageAttachment from 'components/post_view/message_attachments/message_attachment/message_attachment.jsx';
 import {postListScrollChange} from 'actions/global_actions';
 
@@ -28,7 +29,8 @@ describe('components/post_view/MessageAttachment', () => {
     const baseProps = {
         postId: 'post_id',
         attachment,
-        actions: {doPostAction: jest.fn()},
+        actions: {doPostActionWithCookie: jest.fn()},
+        hasImageProxy: false,
         imagesMetadata: {
             image_url: {
                 height: 200,
@@ -61,9 +63,9 @@ describe('components/post_view/MessageAttachment', () => {
         expect(wrapper.state('checkOverflow')).toEqual(1);
     });
 
-    test('should match value on getActionView', () => {
+    test('should match value on renderPostActions', () => {
         let wrapper = shallow(<MessageAttachment {...baseProps}/>);
-        expect(wrapper.instance().getActionView()).toMatchSnapshot();
+        expect(wrapper.instance().renderPostActions()).toMatchSnapshot();
 
         const newAttachment = {
             ...attachment,
@@ -77,28 +79,28 @@ describe('components/post_view/MessageAttachment', () => {
         const props = {...baseProps, attachment: newAttachment};
 
         wrapper = shallow(<MessageAttachment {...props}/>);
-        expect(wrapper.instance().getActionView()).toMatchSnapshot();
+        expect(wrapper.instance().renderPostActions()).toMatchSnapshot();
     });
 
-    test('should call actions.doPostAction on handleAction', () => {
-        const doPostAction = jest.fn();
+    test('should call actions.doPostActionWithCookie on handleAction', () => {
+        const doPostActionWithCookie = jest.fn();
         const actionId = 'action_id_1';
         const newAttachment = {
             ...attachment,
-            actions: [{id: actionId, name: 'action_name_1'}],
+            actions: [{id: actionId, name: 'action_name_1', cookie: 'cookie-contents'}],
         };
-        const props = {...baseProps, actions: {doPostAction}, attachment: newAttachment};
+        const props = {...baseProps, actions: {doPostActionWithCookie}, attachment: newAttachment};
         const wrapper = shallow(<MessageAttachment {...props}/>);
         expect(wrapper).toMatchSnapshot();
         wrapper.instance().handleAction({
             preventDefault: () => {}, // eslint-disable-line no-empty-function
             currentTarget: {getAttribute: () => {
-                return 'action_id_1';
+                return 'attr_some_value';
             }},
         });
 
-        expect(doPostAction).toHaveBeenCalledTimes(1);
-        expect(doPostAction).toBeCalledWith(props.postId, actionId);
+        expect(doPostActionWithCookie).toHaveBeenCalledTimes(1);
+        expect(doPostActionWithCookie).toBeCalledWith(props.postId, 'attr_some_value', 'attr_some_value');
     });
 
     test('should match value on getFieldsTable', () => {
@@ -117,5 +119,49 @@ describe('components/post_view/MessageAttachment', () => {
 
         wrapper = shallow(<MessageAttachment {...props}/>);
         expect(wrapper.instance().getFieldsTable()).toMatchSnapshot();
+    });
+
+    test('should proxy external images if image proxy is enabled', () => {
+        const props = {
+            ...baseProps,
+            attachment: {
+                author_icon: 'http://example.com/author.png',
+                image_url: 'http://example.com/image.png',
+                thumb_url: 'http://example.com/thumb.png',
+            },
+            hasImageProxy: true,
+        };
+
+        const wrapper = mount(<MessageAttachment {...props}/>);
+
+        expect(wrapper.find('.attachment__author-icon').prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.author_icon)}`);
+        expect(wrapper.find(SizeAwareImage).first().prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.image_url)}`);
+        expect(wrapper.find(SizeAwareImage).last().prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.thumb_url)}`);
+    });
+
+    test('should match snapshot when the attachment has an emoji in the title', () => {
+        const props = {
+            ...baseProps,
+            attachment: {
+                title: 'Do you like :pizza:?',
+            },
+        };
+
+        const wrapper = shallow(<MessageAttachment {...props}/>);
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when the attachment hasn\'t any emojis in the title', () => {
+        const props = {
+            ...baseProps,
+            attachment: {
+                title: 'Don\'t you like emojis?',
+            },
+        };
+
+        const wrapper = shallow(<MessageAttachment {...props}/>);
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

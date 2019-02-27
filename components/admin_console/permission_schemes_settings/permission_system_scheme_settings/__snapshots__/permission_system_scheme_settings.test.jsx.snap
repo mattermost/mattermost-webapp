@@ -31,36 +31,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       </span>
     </div>
   </div>
-  <div
-    className="permissions-block "
+  <AdminPanelTogglable
+    className="permissions-block"
     id="all_users"
+    onToggle={[Function]}
+    open={true}
+    subtitleDefault="Permissions granted to all members, including administrators and newly created users."
+    subtitleId="admin.permissions.systemScheme.allMembersDescription"
+    titleDefault="All Members"
+    titleId="admin.permissions.systemScheme.allMembersTitle"
   >
-    <div
-      className="header"
-      onClick={[Function]}
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="All Members"
-            id="admin.permissions.systemScheme.allMembersTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <FormattedMessage
-            defaultMessage="Permissions granted to all members, including administrators and newly created users."
-            id="admin.permissions.systemScheme.allMembersDescription"
-            values={Object {}}
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <AccordionToggleIcon />
-      </div>
-    </div>
     <Connect(PermissionsTree)
       onToggle={[Function]}
       role={
@@ -78,36 +58,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       selectRow={[Function]}
       selected={null}
     />
-  </div>
-  <div
-    className="permissions-block "
+  </AdminPanelTogglable>
+  <AdminPanelTogglable
+    className="permissions-block"
+    onToggle={[Function]}
+    open={true}
+    subtitleDefault="Permissions granted to channel creators and any users promoted to Channel Administrator."
+    subtitleId="admin.permissions.systemScheme.channelAdminsDescription"
+    titleDefault="Channel Administrators"
+    titleId="admin.permissions.systemScheme.channelAdminsTitle"
   >
-    <div
-      className="header"
-      onClick={[Function]}
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="Channel Administrators"
-            id="admin.permissions.systemScheme.channelAdminsTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <FormattedMessage
-            defaultMessage="Permissions granted to channel creators and any users promoted to Channel Administrator."
-            id="admin.permissions.systemScheme.channelAdminsDescription"
-            values={Object {}}
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <AccordionToggleIcon />
-      </div>
-    </div>
     <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
@@ -131,36 +91,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       scope="channel_scope"
       selectRow={[Function]}
     />
-  </div>
-  <div
-    className="permissions-block "
+  </AdminPanelTogglable>
+  <AdminPanelTogglable
+    className="permissions-block"
+    onToggle={[Function]}
+    open={true}
+    subtitleDefault="Permissions granted to team creators and any users promoted to Team Administrator."
+    subtitleId="admin.permissions.systemScheme.teamAdminsDescription"
+    titleDefault="Team Administrators"
+    titleId="admin.permissions.systemScheme.teamAdminsTitle"
   >
-    <div
-      className="header"
-      onClick={[Function]}
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="Team Administrators"
-            id="admin.permissions.systemScheme.teamAdminsTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <FormattedMessage
-            defaultMessage="Permissions granted to team creators and any users promoted to Team Administrator."
-            id="admin.permissions.systemScheme.teamAdminsDescription"
-            values={Object {}}
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <AccordionToggleIcon />
-      </div>
-    </div>
     <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
@@ -184,36 +124,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       scope="team_scope"
       selectRow={[Function]}
     />
-  </div>
-  <div
-    className="permissions-block "
+  </AdminPanelTogglable>
+  <AdminPanelTogglable
+    className="permissions-block"
+    onToggle={[Function]}
+    open={true}
+    subtitleDefault="Full permissions granted to System Administrators."
+    subtitleId="admin.permissions.systemScheme.systemAdminsDescription"
+    titleDefault="System Administrators"
+    titleId="admin.permissions.systemScheme.systemAdminsTitle"
   >
-    <div
-      className="header"
-      onClick={[Function]}
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="System Administrators"
-            id="admin.permissions.systemScheme.systemAdminsTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <FormattedMessage
-            defaultMessage="Full permissions granted to System Administrators."
-            id="admin.permissions.systemScheme.systemAdminsDescription"
-            values={Object {}}
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <AccordionToggleIcon />
-      </div>
-    </div>
     <Connect(PermissionsTree)
       onToggle={[Function]}
       readOnly={true}
@@ -227,7 +147,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       scope="system_scope"
       selectRow={[Function]}
     />
-  </div>
+  </AdminPanelTogglable>
   <div
     className="admin-console-save"
   >
@@ -455,36 +375,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       </span>
     </div>
   </div>
-  <div
-    className="permissions-block "
+  <AdminPanelTogglable
+    className="permissions-block"
     id="all_users"
+    onToggle={[Function]}
+    open={true}
+    subtitleDefault="Permissions granted to all members, including administrators and newly created users."
+    subtitleId="admin.permissions.systemScheme.allMembersDescription"
+    titleDefault="All Members"
+    titleId="admin.permissions.systemScheme.allMembersTitle"
   >
-    <div
-      className="header"
-      onClick={[Function]}
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="All Members"
-            id="admin.permissions.systemScheme.allMembersTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <FormattedMessage
-            defaultMessage="Permissions granted to all members, including administrators and newly created users."
-            id="admin.permissions.systemScheme.allMembersDescription"
-            values={Object {}}
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <AccordionToggleIcon />
-      </div>
-    </div>
     <Connect(PermissionsTree)
       onToggle={[Function]}
       role={
@@ -498,36 +398,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       selectRow={[Function]}
       selected={null}
     />
-  </div>
-  <div
-    className="permissions-block "
+  </AdminPanelTogglable>
+  <AdminPanelTogglable
+    className="permissions-block"
+    onToggle={[Function]}
+    open={true}
+    subtitleDefault="Permissions granted to channel creators and any users promoted to Channel Administrator."
+    subtitleId="admin.permissions.systemScheme.channelAdminsDescription"
+    titleDefault="Channel Administrators"
+    titleId="admin.permissions.systemScheme.channelAdminsTitle"
   >
-    <div
-      className="header"
-      onClick={[Function]}
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="Channel Administrators"
-            id="admin.permissions.systemScheme.channelAdminsTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <FormattedMessage
-            defaultMessage="Permissions granted to channel creators and any users promoted to Channel Administrator."
-            id="admin.permissions.systemScheme.channelAdminsDescription"
-            values={Object {}}
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <AccordionToggleIcon />
-      </div>
-    </div>
     <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
@@ -545,36 +425,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       scope="channel_scope"
       selectRow={[Function]}
     />
-  </div>
-  <div
-    className="permissions-block "
+  </AdminPanelTogglable>
+  <AdminPanelTogglable
+    className="permissions-block"
+    onToggle={[Function]}
+    open={true}
+    subtitleDefault="Permissions granted to team creators and any users promoted to Team Administrator."
+    subtitleId="admin.permissions.systemScheme.teamAdminsDescription"
+    titleDefault="Team Administrators"
+    titleId="admin.permissions.systemScheme.teamAdminsTitle"
   >
-    <div
-      className="header"
-      onClick={[Function]}
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="Team Administrators"
-            id="admin.permissions.systemScheme.teamAdminsTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <FormattedMessage
-            defaultMessage="Permissions granted to team creators and any users promoted to Team Administrator."
-            id="admin.permissions.systemScheme.teamAdminsDescription"
-            values={Object {}}
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <AccordionToggleIcon />
-      </div>
-    </div>
     <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
@@ -592,36 +452,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       scope="team_scope"
       selectRow={[Function]}
     />
-  </div>
-  <div
-    className="permissions-block "
+  </AdminPanelTogglable>
+  <AdminPanelTogglable
+    className="permissions-block"
+    onToggle={[Function]}
+    open={true}
+    subtitleDefault="Full permissions granted to System Administrators."
+    subtitleId="admin.permissions.systemScheme.systemAdminsDescription"
+    titleDefault="System Administrators"
+    titleId="admin.permissions.systemScheme.systemAdminsTitle"
   >
-    <div
-      className="header"
-      onClick={[Function]}
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="System Administrators"
-            id="admin.permissions.systemScheme.systemAdminsTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <FormattedMessage
-            defaultMessage="Full permissions granted to System Administrators."
-            id="admin.permissions.systemScheme.systemAdminsDescription"
-            values={Object {}}
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <AccordionToggleIcon />
-      </div>
-    </div>
     <Connect(PermissionsTree)
       onToggle={[Function]}
       readOnly={true}
@@ -633,7 +473,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       scope="system_scope"
       selectRow={[Function]}
     />
-  </div>
+  </AdminPanelTogglable>
   <div
     className="admin-console-save"
   >
@@ -789,36 +629,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       </span>
     </div>
   </div>
-  <div
-    className="permissions-block "
+  <AdminPanelTogglable
+    className="permissions-block"
     id="all_users"
+    onToggle={[Function]}
+    open={true}
+    subtitleDefault="Permissions granted to all members, including administrators and newly created users."
+    subtitleId="admin.permissions.systemScheme.allMembersDescription"
+    titleDefault="All Members"
+    titleId="admin.permissions.systemScheme.allMembersTitle"
   >
-    <div
-      className="header"
-      onClick={[Function]}
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="All Members"
-            id="admin.permissions.systemScheme.allMembersTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <FormattedMessage
-            defaultMessage="Permissions granted to all members, including administrators and newly created users."
-            id="admin.permissions.systemScheme.allMembersDescription"
-            values={Object {}}
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <AccordionToggleIcon />
-      </div>
-    </div>
     <Connect(PermissionsTree)
       onToggle={[Function]}
       role={
@@ -832,36 +652,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       selectRow={[Function]}
       selected={null}
     />
-  </div>
-  <div
-    className="permissions-block "
+  </AdminPanelTogglable>
+  <AdminPanelTogglable
+    className="permissions-block"
+    onToggle={[Function]}
+    open={true}
+    subtitleDefault="Permissions granted to channel creators and any users promoted to Channel Administrator."
+    subtitleId="admin.permissions.systemScheme.channelAdminsDescription"
+    titleDefault="Channel Administrators"
+    titleId="admin.permissions.systemScheme.channelAdminsTitle"
   >
-    <div
-      className="header"
-      onClick={[Function]}
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="Channel Administrators"
-            id="admin.permissions.systemScheme.channelAdminsTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <FormattedMessage
-            defaultMessage="Permissions granted to channel creators and any users promoted to Channel Administrator."
-            id="admin.permissions.systemScheme.channelAdminsDescription"
-            values={Object {}}
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <AccordionToggleIcon />
-      </div>
-    </div>
     <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
@@ -879,36 +679,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       scope="channel_scope"
       selectRow={[Function]}
     />
-  </div>
-  <div
-    className="permissions-block "
+  </AdminPanelTogglable>
+  <AdminPanelTogglable
+    className="permissions-block"
+    onToggle={[Function]}
+    open={true}
+    subtitleDefault="Permissions granted to team creators and any users promoted to Team Administrator."
+    subtitleId="admin.permissions.systemScheme.teamAdminsDescription"
+    titleDefault="Team Administrators"
+    titleId="admin.permissions.systemScheme.teamAdminsTitle"
   >
-    <div
-      className="header"
-      onClick={[Function]}
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="Team Administrators"
-            id="admin.permissions.systemScheme.teamAdminsTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <FormattedMessage
-            defaultMessage="Permissions granted to team creators and any users promoted to Team Administrator."
-            id="admin.permissions.systemScheme.teamAdminsDescription"
-            values={Object {}}
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <AccordionToggleIcon />
-      </div>
-    </div>
     <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
@@ -926,36 +706,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       scope="team_scope"
       selectRow={[Function]}
     />
-  </div>
-  <div
-    className="permissions-block "
+  </AdminPanelTogglable>
+  <AdminPanelTogglable
+    className="permissions-block"
+    onToggle={[Function]}
+    open={true}
+    subtitleDefault="Full permissions granted to System Administrators."
+    subtitleId="admin.permissions.systemScheme.systemAdminsDescription"
+    titleDefault="System Administrators"
+    titleId="admin.permissions.systemScheme.systemAdminsTitle"
   >
-    <div
-      className="header"
-      onClick={[Function]}
-    >
-      <div>
-        <h3>
-          <FormattedMessage
-            defaultMessage="System Administrators"
-            id="admin.permissions.systemScheme.systemAdminsTitle"
-            values={Object {}}
-          />
-        </h3>
-        <span>
-          <FormattedMessage
-            defaultMessage="Full permissions granted to System Administrators."
-            id="admin.permissions.systemScheme.systemAdminsDescription"
-            values={Object {}}
-          />
-        </span>
-      </div>
-      <div
-        className="button"
-      >
-        <AccordionToggleIcon />
-      </div>
-    </div>
     <Connect(PermissionsTree)
       onToggle={[Function]}
       readOnly={true}
@@ -967,7 +727,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       scope="system_scope"
       selectRow={[Function]}
     />
-  </div>
+  </AdminPanelTogglable>
   <div
     className="admin-console-save"
   >

@@ -23,6 +23,8 @@ export default class PostTime extends React.PureComponent {
          */
         eventTime: PropTypes.number.isRequired,
 
+        location: PropTypes.oneOf(['CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH']).isRequired,
+
         /*
          * The post id of posting being rendered
          */
@@ -32,6 +34,7 @@ export default class PostTime extends React.PureComponent {
 
     static defaultProps = {
         eventTime: 0,
+        location: 'CENTER',
     };
 
     handleClick = () => {
@@ -50,9 +53,16 @@ export default class PostTime extends React.PureComponent {
             return localDateTime;
         }
 
+        const {
+            location,
+            postId,
+            teamUrl,
+        } = this.props;
+
         return (
             <Link
-                to={`${this.props.teamUrl}/pl/${this.props.postId}`}
+                id={`${location}_time_${postId}`}
+                to={`${teamUrl}/pl/${postId}`}
                 className='post__permalink'
                 onClick={this.handleClick}
             >

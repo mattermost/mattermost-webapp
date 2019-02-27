@@ -3,7 +3,14 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getMe, sendVerificationEmail, setDefaultProfileImage} from 'mattermost-redux/actions/users';
+import {
+    getMe,
+    updateMe,
+    sendVerificationEmail,
+    setDefaultProfileImage,
+    uploadProfileImage,
+} from 'mattermost-redux/actions/users';
+import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import UserSettingsGeneralTab from './user_settings_general.jsx';
@@ -39,9 +46,13 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            logError,
+            clearErrors,
             getMe,
+            updateMe,
             sendVerificationEmail,
             setDefaultProfileImage,
+            uploadProfileImage,
         }, dispatch),
     };
 }

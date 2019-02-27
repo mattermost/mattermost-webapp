@@ -209,7 +209,6 @@ export default class ChannelSelectorModal extends React.Component {
                         options={channels}
                         optionRenderer={this.renderOption}
                         values={this.state.values}
-                        valueKey='id'
                         valueRenderer={this.renderValue}
                         perPage={CHANNELS_PER_PAGE}
                         handlePageChange={this.handlePageChange}

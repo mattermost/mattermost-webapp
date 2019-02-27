@@ -6,9 +6,9 @@ import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
-import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 import ReloadIcon from 'components/icon/reload_icon';
+import LocalizedInput from 'components/localized_input/localized_input';
 
 export default class ComplianceReports extends React.PureComponent {
     static propTypes = {
@@ -287,12 +287,12 @@ export default class ComplianceReports extends React.PureComponent {
                                 defaultMessage='Job Name:'
                             />
                         </label>
-                        <input
+                        <LocalizedInput
                             type='text'
                             className='form-control'
                             id='desc'
                             ref='desc'
-                            placeholder={Utils.localizeMessage('admin.compliance_reports.desc_placeholder', 'E.g. "Audit 445 for HR"')}
+                            placeholder={{id: 'admin.compliance_reports.desc_placeholder', defaultMessage: 'E.g. "Audit 445 for HR"'}}
                         />
                     </div>
                     <div className='col-sm-3 col-md-2 form-group'>
@@ -302,12 +302,12 @@ export default class ComplianceReports extends React.PureComponent {
                                 defaultMessage='From:'
                             />
                         </label>
-                        <input
+                        <LocalizedInput
                             type='text'
                             className='form-control'
                             id='from'
                             ref='from'
-                            placeholder={Utils.localizeMessage('admin.compliance_reports.from_placeholder', 'E.g. "2016-03-11"')}
+                            placeholder={{id: 'admin.compliance_reports.from_placeholder', defaultMessage: 'E.g. "2016-03-11"'}}
                         />
                     </div>
                     <div className='col-sm-3 col-md-2 form-group'>
@@ -317,12 +317,12 @@ export default class ComplianceReports extends React.PureComponent {
                                 defaultMessage='To:'
                             />
                         </label>
-                        <input
+                        <LocalizedInput
                             type='text'
                             className='form-control'
                             id='to'
                             ref='to'
-                            placeholder={Utils.localizeMessage('admin.compliance_reports.to_placeholder', 'E.g. "2016-03-15"')}
+                            placeholder={{id: 'admin.compliance_reports.to_placeholder', defaultMessage: 'E.g. "2016-03-15"'}}
                         />
                     </div>
                 </div>
@@ -334,12 +334,12 @@ export default class ComplianceReports extends React.PureComponent {
                                 defaultMessage='Emails:'
                             />
                         </label>
-                        <input
+                        <LocalizedInput
                             type='text'
                             className='form-control'
                             id='emails'
                             ref='emails'
-                            placeholder={Utils.localizeMessage('admin.compliance_reports.emails_placeholder', 'E.g. "bill@example.com, bob@example.com"')}
+                            placeholder={{id: 'admin.compliance_reports.emails_placeholder', defaultMessage: 'E.g. "bill@example.com, bob@example.com"'}}
                         />
                     </div>
                     <div className='col-sm-6 col-md-4 form-group'>
@@ -349,12 +349,12 @@ export default class ComplianceReports extends React.PureComponent {
                                 defaultMessage='Keywords:'
                             />
                         </label>
-                        <input
+                        <LocalizedInput
                             type='text'
                             className='form-control'
                             id='keywords'
                             ref='keywords'
-                            placeholder={Utils.localizeMessage('admin.compliance_reports.keywords_placeholder', 'E.g. "shorting stock"')}
+                            placeholder={{id: 'admin.compliance_reports.keywords_placeholder', defaultMessage: 'E.g. "shorting stock"'}}
                         />
                     </div>
                 </div>

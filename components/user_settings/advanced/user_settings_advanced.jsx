@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {savePreferences, updateActive, revokeAllSessions} from 'actions/user_actions.jsx';
+import {revokeAllSessions} from 'actions/user_actions.jsx';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -33,6 +33,10 @@ export default class AdvancedSettingsDisplay extends React.Component {
         collapseModal: PropTypes.func.isRequired,
         enablePreviewFeatures: PropTypes.bool,
         enableUserDeactivation: PropTypes.bool,
+        actions: PropTypes.shape({
+            savePreferences: PropTypes.func.isRequired,
+            updateUserActive: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -120,9 +124,10 @@ export default class AdvancedSettingsDisplay extends React.Component {
         this.handleSubmit(features);
     }
 
-    handleSubmit = (settings) => {
+    handleSubmit = async (settings) => {
         const preferences = [];
-        const userId = this.props.currentUser.id;
+        const {actions, currentUser} = this.props;
+        const userId = currentUser.id;
 
         // this should be refactored so we can actually be certain about what type everything is
         (Array.isArray(settings) ? settings : [settings]).forEach((setting) => {
@@ -136,12 +141,9 @@ export default class AdvancedSettingsDisplay extends React.Component {
 
         this.setState({isSaving: true});
 
-        savePreferences(
-            preferences,
-            () => {
-                this.handleUpdateSection('');
-            }
-        );
+        await actions.savePreferences(userId, preferences);
+
+        this.handleUpdateSection('');
     }
 
     handleDeactivateAccountSubmit = () => {
@@ -149,12 +151,12 @@ export default class AdvancedSettingsDisplay extends React.Component {
 
         this.setState({isSaving: true});
 
-        updateActive(userId, false,
-            null,
-            (err) => {
-                this.setState({serverError: err.message});
-            }
-        );
+        this.props.actions.updateUserActive(userId, false).
+            then(({error}) => {
+                if (error) {
+                    this.setState({serverError: error.message});
+                }
+            });
 
         revokeAllSessions(userId,
             () => {
