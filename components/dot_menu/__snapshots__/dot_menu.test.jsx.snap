@@ -94,6 +94,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       text="Delete"
     />
     <MenuItemAction
+      id="edit_post_post_id_1"
       onClick={[Function]}
       show={true}
       text="Edit"
@@ -200,6 +201,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       text="Delete"
     />
     <MenuItemAction
+      id="edit_post_post_id_1"
       onClick={[Function]}
       show={true}
       text="Edit"
