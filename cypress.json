@@ -3,5 +3,10 @@
     "viewportWidth": 1300,
     "defaultCommandTimeout": 20000,
     "pluginsFile": false,
-    "video": false
+    "video": false,
+    "reporter": "junit",
+    "reporterOptions": {
+        "mochaFile": "results/results-[hash].xml",
+        "toConsole": false
+    }
 }
