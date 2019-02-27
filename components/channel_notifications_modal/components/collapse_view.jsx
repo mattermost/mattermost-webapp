@@ -19,6 +19,7 @@ export default function CollapseView({onExpandSection, globalNotifyLevel, member
                     ignoreChannelMentions={ignoreChannelMentions}
                     memberNotifyLevel={memberNotifyLevel}
                     globalNotifyLevel={globalNotifyLevel}
+                    isCollapsed={true}
                 />
             }
             updateSection={onExpandSection}

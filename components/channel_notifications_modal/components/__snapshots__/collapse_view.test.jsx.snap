@@ -5,6 +5,7 @@ exports[`components/channel_notifications_modal/CollapseView should match snapsh
   describe={
     <Describe
       globalNotifyLevel="default"
+      isCollapsed={true}
       memberNotifyLevel="all"
       section="desktop"
     />
@@ -25,6 +26,7 @@ exports[`components/channel_notifications_modal/CollapseView should match snapsh
   describe={
     <Describe
       globalNotifyLevel={null}
+      isCollapsed={true}
       memberNotifyLevel="all"
       section="markUnread"
     />
@@ -45,6 +47,7 @@ exports[`components/channel_notifications_modal/CollapseView should match snapsh
   describe={
     <Describe
       globalNotifyLevel="default"
+      isCollapsed={true}
       memberNotifyLevel="all"
       section="push"
     />
