@@ -552,6 +552,18 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               />
             }
           />
+          <AdminSidebarSection
+            name="experimental"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Experimental"
+                id="admin.sidebar.experimental"
+                values={Object {}}
+              />
+            }
+          />
         </AdminSidebarSection>
       </AdminSidebarCategory>
     </ul>
@@ -1100,6 +1112,18 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
               <FormattedMessage
                 defaultMessage="Developer"
                 id="admin.sidebar.developer"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            name="experimental"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Experimental"
+                id="admin.sidebar.experimental"
                 values={Object {}}
               />
             }

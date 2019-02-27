@@ -582,6 +582,14 @@ export default class AdminConsole extends React.Component {
                                             schema: AdminDefinition.settings.advanced.metrics.schema,
                                         }}
                                     />
+                                    <SCRoute
+                                        path={`${props.match.url}/experimental`}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.advanced.experimental.schema,
+                                        }}
+                                    />
                                     <Redirect to={`${props.match.url}/rate`}/>
                                 </Switch>
                             )}
