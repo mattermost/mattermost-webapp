@@ -1440,6 +1440,18 @@
             }
         }
     }
+    .modal-body {
+        .MenuWrapper {
+            .Menu {
+                &.dropdown-menu {
+                    max-height: none;
+                    max-width: none;
+                    right: 0;
+                    left: inherit;
+                }
+            }
+        }
+    }
 }
 
 @media screen and (max-width: 640px) {
@@ -1687,18 +1699,6 @@
             &.mobile-channel-header-dropdown-exit {
                 transform: translateY(100%);
                 transition: transform .35s ease-in;
-            }
-        }
-    }
-    .modal-body {
-        .MenuWrapper {
-            .Menu {
-                &.dropdown-menu {
-                    max-height: none;
-                    max-width: none;
-                    right: 0;
-                    left: inherit;
-                }
             }
         }
     }
