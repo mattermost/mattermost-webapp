@@ -37,7 +37,7 @@ export default class GroupUsersRow extends React.PureComponent {
                                 defaultMessage='Email:'
                             />
                         </span>
-                        <span className='email'>&nbsp;{this.props.email}</span>
+                        <span className='email'>{this.props.email}</span>
                     </div>
                 </div>
             </div>
