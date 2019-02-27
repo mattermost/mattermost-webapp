@@ -1615,6 +1615,7 @@
   "channel_notifications.muteChannel.help": "Muting turns off desktop, email and push notifications for this channel. The channel will not be marked as unread unless you're mentioned.",
   "channel_notifications.muteChannel.off.title": "Off",
   "channel_notifications.muteChannel.on.title": "On",
+  "channel_notifications.muteChannel.on.title.collapse": "Mute is enabled. Desktop, email and push notifications will not be sent for this channel.",
   "channel_notifications.muteChannel.settings": "Mute channel",
   "channel_notifications.never": "Never",
   "channel_notifications.onlyMentions": "Only for mentions",
