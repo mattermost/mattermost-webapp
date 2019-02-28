@@ -565,6 +565,13 @@ export const DefaultRolePermissions = {
     ],
 };
 
+export const Locations = {
+    CENTER: 'CENTER',
+    RHS_ROOT: 'RHS_ROOT',
+    RHS_COMMENT: 'RHS_COMMENT',
+    SEARCH: 'SEARCH',
+};
+
 export const Constants = {
     SettingsTypes,
     JobTypes,
@@ -579,6 +586,7 @@ export const Constants = {
     AnnouncementBarTypes,
     AnnouncementBarMessages,
     FileTypes,
+    Locations,
 
     MAX_POST_VISIBILITY: 1000000,
 
@@ -1212,10 +1220,6 @@ export const Constants = {
     ANIMATION_TIMEOUT: 1000,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
     DIAGNOSTICS_SEGMENT_KEY: 'placeholder_segment_key',
-    TEST_ID_COUNT: 0,
-    CENTER: 'center',
-    RHS: 'rhs',
-    RHS_ROOT: 'rhsroot',
     TEAMMATE_NAME_DISPLAY: {
         SHOW_USERNAME: 'username',
         SHOW_NICKNAME_FULLNAME: 'nickname_full_name',

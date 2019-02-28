@@ -13,7 +13,6 @@ describe('components/post_view/PostReaction', () => {
         teamId: 'current_team_id',
         getDotMenuRef: jest.fn(),
         showIcon: false,
-        location: 'CENTER',
         showEmojiPicker: false,
         toggleEmojiPicker: jest.fn(),
         actions: {

@@ -9,7 +9,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {showGetPostLinkModal} from 'actions/global_actions.jsx';
-import {ModalIdentifiers, UNSET_POST_EDIT_TIME_LIMIT} from 'utils/constants.jsx';
+import {Locations, ModalIdentifiers, UNSET_POST_EDIT_TIME_LIMIT} from 'utils/constants.jsx';
 import DeletePostModal from 'components/delete_post_modal';
 import DelayedAction from 'utils/delayed_action.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -28,7 +28,7 @@ export default class DotMenu extends Component {
     static propTypes = {
         post: PropTypes.object.isRequired,
         teamId: PropTypes.string,
-        location: PropTypes.oneOf(['CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH']).isRequired,
+        location: PropTypes.oneOf([Locations.CENTER, Locations.RHS_ROOT, Locations.RHS_COMMENT, Locations.SEARCH]).isRequired,
         commentCount: PropTypes.number,
         isFlagged: PropTypes.bool,
         handleCommentClick: PropTypes.func,
@@ -79,6 +79,7 @@ export default class DotMenu extends Component {
         isFlagged: false,
         isReadOnly: false,
         pluginMenuItems: [],
+        location: Locations.CENTER,
     }
 
     constructor(props) {
@@ -167,7 +168,7 @@ export default class DotMenu extends Component {
             dialogProps: {
                 post: this.props.post,
                 commentCount: this.props.commentCount,
-                isRHS: this.props.location === 'RHS_ROOT' || this.props.location === 'RHS_COMMENT',
+                isRHS: this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT,
             },
         };
 
@@ -178,9 +179,9 @@ export default class DotMenu extends Component {
         this.props.actions.setEditingPost(
             this.props.post.id,
             this.props.commentCount,
-            this.props.location === 'CENTER' ? 'post_textbox' : 'reply_textbox',
+            this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
             this.props.post.root_id ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post'),
-            this.props.location === 'RHS_ROOT' || this.props.location === 'RHS_COMMENT',
+            this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT,
         );
     }
 
@@ -276,7 +277,7 @@ export default class DotMenu extends Component {
                         onClick={this.handleFlagMenuItemActivated}
                     />
                     <MenuItemAction
-                        show={!isSystemMessage && this.props.location === 'CENTER'}
+                        show={!isSystemMessage && this.props.location === Locations.CENTER}
                         text={Utils.localizeMessage('post_info.reply', 'Reply')}
                         onClick={this.props.handleCommentClick}
                     />

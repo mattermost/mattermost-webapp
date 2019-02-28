@@ -62,11 +62,6 @@ export default class PostBody extends React.PureComponent {
          */
         previewEnabled: PropTypes.bool,
 
-        /**
-         * Post identifiers for selenium tests
-         */
-        lastPostCount: PropTypes.number,
-
         /*
          * Post type components from plugins
          */
@@ -171,7 +166,6 @@ export default class PostBody extends React.PureComponent {
                 {failedOptions}
                 {this.state.sending && <LoadingBars/>}
                 <PostMessageView
-                    lastPostCount={this.props.lastPostCount}
                     post={this.props.post}
                     compactDisplay={this.props.compactDisplay}
                     hasMention={true}

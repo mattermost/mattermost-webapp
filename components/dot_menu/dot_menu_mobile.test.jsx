@@ -25,7 +25,6 @@ jest.mock('utils/post_utils', () => {
 describe('components/dot_menu/DotMenu on mobile view', () => {
     test('should match snapshot', () => {
         const baseProps = {
-            location: 'CENTER',
             post: {id: 'post_id_1'},
             isLicensed: false,
             postEditTimeLimit: '-1',

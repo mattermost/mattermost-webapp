@@ -565,7 +565,6 @@ export default class PostList extends React.PureComponent {
                     ref={post.id}
                     key={'post ' + (post.id || post.pending_post_id)}
                     post={post}
-                    lastPostCount={(i >= 0 && i < Constants.TEST_ID_COUNT) ? i : -1}
                     getPostList={this.getPostList}
                 />
             );
