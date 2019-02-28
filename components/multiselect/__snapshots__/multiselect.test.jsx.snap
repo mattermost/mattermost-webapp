@@ -21,6 +21,7 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
         defaultInputValue=""
         defaultMenuIsOpen={false}
         defaultValue={null}
+        getOptionValue={[Function]}
         id="selectItems"
         inputValue=""
         isClearable={false}
@@ -181,6 +182,7 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
         defaultInputValue=""
         defaultMenuIsOpen={false}
         defaultValue={null}
+        getOptionValue={[Function]}
         id="selectItems"
         inputValue=""
         isClearable={false}

@@ -141,7 +141,6 @@ export default class RhsComment extends React.Component {
 
         this.setState({
             showEmojiPicker,
-            dropdownOpened: showEmojiPicker,
         });
     };
 
@@ -164,7 +163,7 @@ export default class RhsComment extends React.Component {
             className += ' post--pinned';
         }
 
-        if (this.state.dropdownOpened) {
+        if (this.state.dropdownOpened || this.state.showEmojiPicker) {
             className += ' post--hovered';
         }
 

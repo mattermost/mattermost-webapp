@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {updateChannelNotifyProps} from 'mattermost-redux/actions/channels';
 
-import ToggleMuteChannel from './toggle_mute_channel';
+import MenuItemToggleMuteChannel from './toggle_mute_channel';
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators({
@@ -13,4 +13,4 @@ const mapDispatchToProps = (dispatch) => ({
     }, dispatch),
 });
 
-export default connect(null, mapDispatchToProps)(ToggleMuteChannel);
+export default connect(null, mapDispatchToProps)(MenuItemToggleMuteChannel);

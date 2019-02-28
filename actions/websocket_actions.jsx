@@ -459,14 +459,12 @@ function handleNewPostEventWrapped(msg) {
     }
 }
 
-function handlePostEditEvent(msg) {
+export function handlePostEditEvent(msg) {
     // Store post
     const post = JSON.parse(msg.data.post);
     dispatch({
         type: PostTypes.RECEIVED_POST,
-        data: {
-            post,
-        },
+        data: post,
     });
 
     getProfilesAndStatusesForPosts([post], dispatch, getState);

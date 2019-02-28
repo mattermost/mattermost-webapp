@@ -73,7 +73,7 @@ describe('TextFormatting.Emails', () => {
     it('Should be valid, but broken due to Markdown parsing happening before email autolinking', () => {
         assert.equal(
             TextFormatting.formatText('_______@domain.com').trim(),
-            '<p><strong><em>_</em></strong>@domain.com</p>',
+            '<p><strong>___</strong>@domain.com</p>',
         );
     });
 

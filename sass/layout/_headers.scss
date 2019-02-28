@@ -472,7 +472,6 @@
         @include flex-direction(row-reverse);
         align-items: center;
         flex: 0 0 63px;
-        padding: 3px 40px 0 16px;
         position: relative;
         max-height: 63px;
 
@@ -507,6 +506,12 @@
                     @include opacity(1);
                 }
             }
+
+            .header__info {
+                .sidebar-header-dropdown__icon {
+                    @include opacity(1);
+                }
+            }
         }
 
         a {
@@ -517,6 +522,15 @@
         a.out_of_office {
             background-color: transparent !important;
             cursor: default;
+        }
+
+        .dropdown {
+            padding: 3px 0 0 16px;
+        }
+
+        .dropdown-menu {
+            margin: 4px 0 0 10px;
+            min-width: 199px;
         }
 
         .sidebar-header-dropdown,
@@ -586,8 +600,23 @@
             @include clearfix;
             @include flex-grow(1);
             color: $white;
-            padding-left: 8px;
+            padding: 3px 15px 0 8px;
             position: relative;
+            width: 100%;
+
+            .sidebar-header-dropdown__icon {
+                @include opacity(.8);
+                border-radius: 36px;
+                fill: $white;
+                height: 36px;
+                line-height: 36px;
+                text-align: center;
+                width: 36px;
+
+                position: absolute;
+                right: 5px;
+                top: 4px;
+            }
         }
 
         .team__name,

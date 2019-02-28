@@ -7,7 +7,6 @@ import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
 import {defineMessages, intlShape, FormattedMessage} from 'react-intl';
 import 'jquery-dragster/jquery.dragster.js';
-import {Dropdown} from 'react-bootstrap';
 
 import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
@@ -25,6 +24,9 @@ import {
     isFileTransfer,
     localizeMessage,
 } from 'utils/utils.jsx';
+
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import Menu from 'components/widgets/menu/menu';
 
 import AttachmentIcon from 'components/svg/attachment_icon';
 
@@ -603,15 +605,13 @@ export default class FileUpload extends PureComponent {
                 );
             };
             bodyAction = (
-                <Dropdown
-                    dropup={true}
-                    pullRight={true}
-                    id='fileInputDropdown'
-                    open={this.state.menuOpen}
-                    onToggle={this.toggleMenu}
-                >
-                    <FileDropdownComponent bsRole='toggle'/>
-                    <Dropdown.Menu className='dropdown-menu__icons'>
+                <MenuWrapper>
+                    <FileDropdownComponent/>
+                    <Menu
+                        openLeft={true}
+                        openUp={true}
+                        ariaLabel={formatMessage({id: 'file_upload.menuAriaLabel', defaultMessage: 'Upload type selector'})}
+                    >
                         <li>
                             <a>
                                 <i className='fa fa-laptop'/>
@@ -632,8 +632,8 @@ export default class FileUpload extends PureComponent {
                             </a>
                         </li>
                         {pluginFileUploadMethods}
-                    </Dropdown.Menu>
-                </Dropdown>
+                    </Menu>
+                </MenuWrapper>
             );
         }
 

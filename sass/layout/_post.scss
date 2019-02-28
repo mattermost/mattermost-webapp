@@ -751,6 +751,7 @@
         .flag-icon__container,
         .post__reply,
         .post-reaction,
+        .post__dropdown,
         .post__remove {
             visibility: visible;
         }
@@ -772,6 +773,7 @@
         .comment-icon__container,
         .post__reply,
         .post__remove,
+        .post__dropdown,
         .reacticon__container,
         .permalink-icon {
             visibility: visible;
@@ -1442,6 +1444,7 @@
         text-decoration: none;
         vertical-align: middle;
         width: 100%;
+        visibility: hidden;
 
         &:after {
             content: '...';

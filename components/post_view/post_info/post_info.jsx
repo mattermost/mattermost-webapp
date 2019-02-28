@@ -116,7 +116,7 @@ export default class PostInfo extends React.PureComponent {
         const showEmojiPicker = !this.state.showEmojiPicker;
 
         this.setState({showEmojiPicker});
-        this.props.handleDropdownOpened(showEmojiPicker);
+        this.props.handleDropdownOpened(showEmojiPicker || this.state.showDotMenu);
     };
 
     removePost = () => {
@@ -137,7 +137,7 @@ export default class PostInfo extends React.PureComponent {
 
     handleDotMenuOpened = (open) => {
         this.setState({showDotMenu: open});
-        this.props.handleDropdownOpened(open);
+        this.props.handleDropdownOpened(open || this.state.showEmojiPicker);
     };
 
     getDotMenu = () => {

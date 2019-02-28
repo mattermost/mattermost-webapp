@@ -4,62 +4,26 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getMyTeams, getJoinableTeamIds} from 'mattermost-redux/selectors/entities/teams';
-import {haveITeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
-import {Permissions} from 'mattermost-redux/constants';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
 import {openModal} from 'actions/views/modals';
+
+import {Preferences, TutorialSteps} from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 import SidebarHeaderDropdown from './sidebar_header_dropdown.jsx';
 
 function mapStateToProps(state) {
-    const config = getConfig(state);
-    const license = getLicense(state);
-
-    const isLicensed = license.IsLicensed === 'true';
-
-    const appDownloadLink = config.AppDownloadLink;
-    const enableCommands = config.EnableCommands === 'true';
-    const enableCustomEmoji = config.EnableCustomEmoji === 'true';
-    const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
-    const enableOAuthServiceProvider = config.EnableOAuthServiceProvider === 'true';
-    const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
-    const enableUserCreation = config.EnableUserCreation === 'true';
-    const enableEmailInvitations = config.EnableEmailInvitations === 'true';
-    const experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
-    const helpLink = config.HelpLink;
-    const reportAProblemLink = config.ReportAProblemLink;
-
-    let canCreateCustomEmoji = haveISystemPermission(state, {permission: Permissions.MANAGE_EMOJIS});
-    if (!canCreateCustomEmoji) {
-        for (const team of getMyTeams(state)) {
-            if (haveITeamPermission(state, {team: team.id, permission: Permissions.MANAGE_EMOJIS})) {
-                canCreateCustomEmoji = true;
-                break;
-            }
-        }
-    }
-
-    const joinableTeams = getJoinableTeamIds(state);
-    const moreTeamsToJoin = joinableTeams && joinableTeams.length > 0;
-
+    const currentTeam = getCurrentTeam(state);
+    const currentUser = getCurrentUser(state);
+    const showTutorialTip = getInt(state, Preferences.TUTORIAL_STEP, currentUser.id) === TutorialSteps.MENU_POPOVER && !Utils.isMobile();
     return {
-        isLicensed,
-        appDownloadLink,
-        enableCommands,
-        enableCustomEmoji,
-        enableIncomingWebhooks,
-        enableOAuthServiceProvider,
-        enableOutgoingWebhooks,
-        enableUserCreation,
-        enableEmailInvitations,
-        experimentalPrimaryTeam,
-        helpLink,
-        reportAProblemLink,
-        pluginMenuItems: state.plugins.components.MainMenu,
-        canCreateCustomEmoji,
-        moreTeamsToJoin,
+        currentUser,
+        teamDescription: currentTeam.description,
+        teamDisplayName: currentTeam.display_name,
+        showTutorialTip,
     };
 }
 

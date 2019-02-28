@@ -23,7 +23,7 @@ export default class AddUsersToTeam extends React.Component {
         currentTeamId: PropTypes.string.isRequired,
         searchTerm: PropTypes.string.isRequired,
         users: PropTypes.array.isRequired,
-        onModalDismissed: PropTypes.func,
+        onHide: PropTypes.func,
         actions: PropTypes.shape({
             getProfilesNotInTeam: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
@@ -83,8 +83,8 @@ export default class AddUsersToTeam extends React.Component {
     }
 
     handleExit = () => {
-        if (this.props.onModalDismissed) {
-            this.props.onModalDismissed();
+        if (this.props.onHide) {
+            this.props.onHide();
         }
     }
 
@@ -195,13 +195,15 @@ export default class AddUsersToTeam extends React.Component {
 
     render() {
         const numRemainingText = (
-            <FormattedMessage
-                id='multiselect.numPeopleRemaining'
-                defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. '
-                values={{
-                    num: MAX_SELECTABLE_VALUES - this.state.values.length,
-                }}
-            />
+            <div id='numPeopleRemaining'>
+                <FormattedMessage
+                    id='multiselect.numPeopleRemaining'
+                    defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. '
+                    values={{
+                        num: MAX_SELECTABLE_VALUES - this.state.values.length,
+                    }}
+                />
+            </div>
         );
 
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
@@ -218,6 +220,7 @@ export default class AddUsersToTeam extends React.Component {
 
         return (
             <Modal
+                id='addUsersToTeamModal'
                 dialogClassName={'more-modal more-direct-channels'}
                 show={this.state.show}
                 onHide={this.handleHide}
@@ -243,7 +246,6 @@ export default class AddUsersToTeam extends React.Component {
                         options={users}
                         optionRenderer={this.renderOption}
                         values={this.state.values}
-                        valueKey='id'
                         valueRenderer={this.renderValue}
                         perPage={USERS_PER_PAGE}
                         handlePageChange={this.handlePageChange}
