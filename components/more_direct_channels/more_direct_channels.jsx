@@ -200,6 +200,8 @@ export default class MoreDirectChannels extends React.Component {
     addValue = (value) => {
         if (Array.isArray(value)) {
             this.addUsers(value);
+        } else if ('profiles' in value) {
+            this.addUsers(value.profiles);
         } else {
             const values = Object.assign([], this.state.values);
 

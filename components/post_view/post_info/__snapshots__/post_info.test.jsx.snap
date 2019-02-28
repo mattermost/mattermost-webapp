@@ -148,7 +148,7 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
   <div
     className="col col__reply"
   >
-    <Connect(InjectIntl(DotMenu))
+    <Connect(DotMenu)
       commentCount={0}
       enableEmojiPicker={false}
       handleAddReactionClick={[Function]}
@@ -255,7 +255,7 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
   <div
     className="col col__reply"
   >
-    <Connect(InjectIntl(DotMenu))
+    <Connect(DotMenu)
       commentCount={0}
       enableEmojiPicker={true}
       handleAddReactionClick={[Function]}

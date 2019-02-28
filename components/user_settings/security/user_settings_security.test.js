@@ -25,8 +25,52 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         actions: {
             getMe: jest.fn(),
             updateUserPassword: jest.fn(() => Promise.resolve({})),
+            getAuthorizedApps: jest.fn().mockResolvedValue({data: []}),
+            deauthorizeOAuthApp: jest.fn().mockResolvedValue({data: true}),
         },
     };
+
+    test('componentDidMount() should have called getAuthorizedApps', () => {
+        const props = {...requiredProps, enableOAuthServiceProvider: true};
+
+        shallow(<UserSettingsSecurity {...props}/>);
+
+        expect(requiredProps.actions.getAuthorizedApps).toHaveBeenCalled();
+    });
+
+    test('componentDidMount() should have updated state.authorizedApps', async () => {
+        const apps = [{name: 'app1'}];
+        const promise = Promise.resolve({data: apps});
+        const getAuthorizedApps = () => promise;
+        const props = {
+            ...requiredProps,
+            actions: {...requiredProps.actions, getAuthorizedApps},
+            enableOAuthServiceProvider: true,
+        };
+
+        const wrapper = shallow(<UserSettingsSecurity {...props}/>);
+
+        await promise;
+
+        expect(wrapper.state().authorizedApps).toEqual(apps);
+    });
+
+    test('componentDidMount() should have updated state.serverError', async () => {
+        const error = {message: 'error'};
+        const promise = Promise.resolve({error});
+        const getAuthorizedApps = () => promise;
+        const props = {
+            ...requiredProps,
+            actions: {...requiredProps.actions, getAuthorizedApps},
+            enableOAuthServiceProvider: true,
+        };
+
+        const wrapper = shallow(<UserSettingsSecurity {...props}/>);
+
+        await promise;
+
+        expect(wrapper.state().serverError).toEqual(error.message);
+    });
 
     test('submitPassword() should not have called updateUserPassword', async () => {
         const wrapper = shallow(<UserSettingsSecurity {...requiredProps}/>);
@@ -51,5 +95,60 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
         expect(requiredProps.updateSection).toHaveBeenCalled();
         expect(requiredProps.updateSection).toHaveBeenCalledWith('');
+    });
+
+    test('deauthorizeApp() should have called deauthorizeOAuthApp', () => {
+        const appId = 'appId';
+        const event = {currentTarget: {getAttribute: jest.fn().mockReturnValue(appId)}, preventDefault: jest.fn()};
+
+        const wrapper = shallow(<UserSettingsSecurity {...requiredProps}/>);
+        wrapper.instance().deauthorizeApp(event);
+
+        expect(requiredProps.actions.deauthorizeOAuthApp).toHaveBeenCalled();
+        expect(requiredProps.actions.deauthorizeOAuthApp).toHaveBeenCalledWith(appId);
+    });
+
+    test('deauthorizeApp() should have updated state.authorizedApps', async () => {
+        const promise = Promise.resolve({data: true});
+        const props = {
+            ...requiredProps,
+            actions: {...requiredProps.actions, deauthorizeOAuthApp: () => promise},
+        };
+
+        const wrapper = shallow(<UserSettingsSecurity {...props}/>);
+
+        const appId = 'appId';
+        const apps = [{id: appId}, {id: '2'}];
+        const event = {
+            currentTarget: {getAttribute: jest.fn().mockReturnValue(appId)},
+            preventDefault: jest.fn(),
+        };
+        wrapper.setState({authorizedApps: apps});
+        wrapper.instance().deauthorizeApp(event);
+
+        await promise;
+
+        expect(wrapper.state().authorizedApps).toEqual(apps.slice(1));
+    });
+
+    test('deauthorizeApp() should have updated state.serverError', async () => {
+        const error = {message: 'error'};
+        const promise = Promise.resolve({error});
+        const props = {
+            ...requiredProps,
+            actions: {...requiredProps.actions, deauthorizeOAuthApp: () => promise},
+        };
+
+        const wrapper = shallow(<UserSettingsSecurity {...props}/>);
+
+        const event = {
+            currentTarget: {getAttribute: jest.fn().mockReturnValue('appId')},
+            preventDefault: jest.fn(),
+        };
+        wrapper.instance().deauthorizeApp(event);
+
+        await promise;
+
+        expect(wrapper.state().serverError).toEqual(error.message);
     });
 });

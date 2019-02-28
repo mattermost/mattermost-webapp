@@ -19,6 +19,7 @@ import MessageExportSettings from 'components/admin_console/message_export_setti
 import PasswordSettings from 'components/admin_console/password_settings.jsx';
 import GroupDetails from 'components/admin_console/group_settings/group_details';
 import CustomTermsOfServiceSettings from 'components/admin_console/custom_terms_of_service_settings';
+import ModalController from 'components/modal_controller';
 
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 import PushSettings from 'components/admin_console/push_settings.jsx';
@@ -582,6 +583,14 @@ export default class AdminConsole extends React.Component {
                                             schema: AdminDefinition.settings.advanced.metrics.schema,
                                         }}
                                     />
+                                    <SCRoute
+                                        path={`${props.match.url}/experimental`}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.advanced.experimental.schema,
+                                        }}
+                                    />
                                     <Redirect to={`${props.match.url}/rate`}/>
                                 </Switch>
                             )}
@@ -630,6 +639,7 @@ export default class AdminConsole extends React.Component {
                     </Switch>
                 </div>
                 {discardChangesModal}
+                <ModalController/>
             </div>
         );
     }

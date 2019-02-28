@@ -4,6 +4,7 @@
 import * as AdminActions from 'mattermost-redux/actions/admin';
 import * as UserActions from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
+import {bindClientFunc} from 'mattermost-redux/actions/helpers';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {getOnNavigationConfirmed} from 'selectors/views/admin';
@@ -105,42 +106,18 @@ export async function samlCertificateStatus(success, error) {
     }
 }
 
-export function getOAuthAppInfo(clientId, success, error) {
-    Client4.getOAuthAppInfo(clientId).then(
-        (data) => {
-            if (success) {
-                success(data);
-            }
-        }
-    ).catch(
-        (err) => {
-            if (error) {
-                error(err);
-            }
-        }
-    );
+export function getOAuthAppInfo(clientId) {
+    return bindClientFunc({
+        clientFunc: Client4.getOAuthAppInfo,
+        params: [clientId],
+    });
 }
 
-export function allowOAuth2(params, success, error) {
-    const responseType = params.get('response_type');
-    const clientId = params.get('client_id');
-    const redirectUri = params.get('redirect_uri');
-    const state = params.get('state');
-    const scope = params.get('scope');
-
-    Client4.authorizeOAuthApp(responseType, clientId, redirectUri, state, scope).then(
-        (data) => {
-            if (success) {
-                success(data);
-            }
-        }
-    ).catch(
-        (err) => {
-            if (error) {
-                error(err);
-            }
-        }
-    );
+export function allowOAuth2({responseType, clientId, redirectUri, state, scope}) {
+    return bindClientFunc({
+        clientFunc: Client4.authorizeOAuthApp,
+        params: [responseType, clientId, redirectUri, state, scope],
+    });
 }
 
 export async function emailToLdap(loginId, password, token, ldapId, ldapPassword, success, error) {

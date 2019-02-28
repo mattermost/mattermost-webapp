@@ -736,14 +736,7 @@ export default class Sidebar extends React.PureComponent {
                 {moreDirectChannelsModal}
                 {moreChannelsModal}
 
-                <SidebarHeader
-                    teamId={this.props.currentTeam.id}
-                    teamDisplayName={this.props.currentTeam.display_name}
-                    teamDescription={this.props.currentTeam.description}
-                    teamName={this.props.currentTeam.name}
-                    teamType={this.props.currentTeam.type}
-                    currentUser={this.props.currentUser}
-                />
+                <SidebarHeader/>
 
                 <div className='sidebar--left__icons'>
                     <Pluggable pluggableName='LeftSidebarHeader'/>

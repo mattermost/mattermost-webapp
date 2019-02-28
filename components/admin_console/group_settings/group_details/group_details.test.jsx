@@ -43,13 +43,6 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, with add team or channel buttom drop down open', () => {
-        const wrapper = shallow(<GroupDetails {...defaultProps}/>);
-        wrapper.setState({addTeamOrChannelOpen: true});
-        defaultProps.actions.getGroupSyncables.mockClear();
-        expect(wrapper).toMatchSnapshot();
-    });
-
     test('should match snapshot, with add team selector open', () => {
         const wrapper = shallow(<GroupDetails {...defaultProps}/>);
         wrapper.setState({addTeamOpen: true});
@@ -89,36 +82,6 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
         expect(actions.getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'channel');
         expect(actions.getGroupSyncables).toBeCalledTimes(2);
         expect(actions.getGroup).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx');
-    });
-
-    test('should open/close properly the channel and team selectors', () => {
-        const wrapper = shallow(<GroupDetails {...defaultProps}/>);
-        const instance = wrapper.instance();
-        instance.toggleAddTeamOrChannel();
-        expect(wrapper.state().addTeamOpen).toBe(false);
-        expect(wrapper.state().addChannelOpen).toBe(false);
-        expect(wrapper.state().addTeamOrChannelOpen).toBe(true);
-        instance.openAddChannel();
-        expect(wrapper.state().addTeamOpen).toBe(false);
-        expect(wrapper.state().addChannelOpen).toBe(true);
-        expect(wrapper.state().addTeamOrChannelOpen).toBe(false);
-        instance.closeAddChannel();
-        expect(wrapper.state().addTeamOpen).toBe(false);
-        expect(wrapper.state().addChannelOpen).toBe(false);
-        expect(wrapper.state().addTeamOrChannelOpen).toBe(false);
-        instance.toggleAddTeamOrChannel();
-        instance.openAddTeam();
-        expect(wrapper.state().addTeamOpen).toBe(true);
-        expect(wrapper.state().addChannelOpen).toBe(false);
-        expect(wrapper.state().addTeamOrChannelOpen).toBe(false);
-        instance.closeAddTeam();
-        expect(wrapper.state().addTeamOpen).toBe(false);
-        expect(wrapper.state().addChannelOpen).toBe(false);
-        expect(wrapper.state().addTeamOrChannelOpen).toBe(false);
-        instance.toggleAddTeamOrChannel();
-        expect(wrapper.state().addTeamOrChannelOpen).toBe(true);
-        instance.toggleAddTeamOrChannel();
-        expect(wrapper.state().addTeamOrChannelOpen).toBe(false);
     });
 
     test('should call link for each channel when addChannels is called', async () => {

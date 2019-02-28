@@ -25,6 +25,15 @@ Cypress.Commands.add('logout', () => {
     cy.visit('/');
 });
 
+Cypress.Commands.add('logoutByAPI', ({otherURL} = {}) => {
+    const urlParam = otherURL ? `${otherURL}/api/v4/users/logout` : '/api/v4/users/logout';
+
+    cy.request({
+        url: urlParam,
+        method: 'POST',
+    });
+});
+
 Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPassword, otherURL} = {}) => {
     cy.login('user-1', {otherUsername, otherPassword, otherURL});
     cy.visit('/');
@@ -89,6 +98,37 @@ Cypress.Commands.add('typeCmdOrCtrl', () => {
     }
 
     cy.get('#post_textbox').type(cmdOrCtrl, {release: false});
+});
+
+/**
+ * Uploads a file to an input
+ * @memberOf Cypress.Chainable#
+ * @name upload_file
+ * @function
+ * @param {String} selector - element to target
+ * @param {String} fileUrl - The file url to upload
+ * @param {String} type - content type of the uploaded file
+ */
+
+/* eslint max-nested-callbacks: ["error", 4] */
+Cypress.Commands.add('uploadFile', (selector, fileUrl, type = '') => {
+    return cy.get(selector).then((subject) => {
+        return cy.
+            fixture(fileUrl, 'base64').
+            then(Cypress.Blob.base64StringToBlob).
+            then((blob) => {
+                return cy.window().then((win) => {
+                    const el = subject[0];
+                    const nameSegments = fileUrl.split('/');
+                    const name = nameSegments[nameSegments.length - 1];
+                    const testFile = new win.File([blob], name, {type});
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(testFile);
+                    el.files = dataTransfer.files;
+                    return subject;
+                });
+            });
+    });
 });
 
 function isMac() {

@@ -10,11 +10,14 @@ import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import DropdownIcon from 'components/icon/dropdown_icon';
 
+import Menu from 'components/widgets/menu/menu';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
+
 export default class TeamMembersDropdown extends React.Component {
     static propTypes = {
         user: PropTypes.object.isRequired,
         currentUser: PropTypes.object.isRequired,
-        currentChannelId: PropTypes.string.isRequired,
         teamMember: PropTypes.object.isRequired,
         teamUrl: PropTypes.string.isRequired,
         actions: PropTypes.shape({
@@ -62,25 +65,6 @@ export default class TeamMembersDropdown extends React.Component {
         const {error} = await this.props.actions.removeUserFromTeamAndGetStats(this.props.teamMember.team_id, this.props.user.id);
         if (error) {
             this.setState({serverError: error.message});
-        }
-    }
-
-    handleMakeActive = () => {
-        this.props.actions.updateUserActive(this.props.user.id, true).
-            then(this.onUpdateActiveResult);
-    }
-
-    handleMakeNotActive = () => {
-        this.props.actions.updateUserActive(this.props.user.id, false).
-            then(this.onUpdateActiveResult);
-    }
-
-    onUpdateActiveResult = ({data, error: err}) => {
-        if (data) {
-            this.props.actions.getChannelStats(this.props.currentChannelId);
-            this.props.actions.getTeamStats(this.props.teamMember.team_id);
-        } else if (err) {
-            this.setState({serverError: err.message});
         }
     }
 
@@ -168,8 +152,6 @@ export default class TeamMembersDropdown extends React.Component {
         const me = this.props.currentUser;
         let showMakeMember = (Utils.isAdmin(teamMember.roles) || teamMember.scheme_admin) && !Utils.isSystemAdmin(user.roles);
         let showMakeAdmin = !Utils.isAdmin(teamMember.roles) && !Utils.isSystemAdmin(user.roles) && !teamMember.scheme_admin;
-        let showMakeActive = false;
-        let showMakeNotActive = Utils.isSystemAdmin(user.roles);
 
         if (user.delete_at > 0) {
             currentRoles = (
@@ -180,100 +162,9 @@ export default class TeamMembersDropdown extends React.Component {
             );
             showMakeMember = false;
             showMakeAdmin = false;
-            showMakeActive = true;
-            showMakeNotActive = false;
         }
 
-        let makeAdmin = null;
-        if (showMakeAdmin) {
-            makeAdmin = (
-                <li role='presentation'>
-                    <a
-                        role='menuitem'
-                        href='#'
-                        onClick={this.handleMakeAdmin}
-                    >
-                        <FormattedMessage
-                            id='team_members_dropdown.makeAdmin'
-                            defaultMessage='Make Team Admin'
-                        />
-                    </a>
-                </li>
-            );
-        }
-
-        let makeMember = null;
-        if (showMakeMember) {
-            makeMember = (
-                <li role='presentation'>
-                    <a
-                        role='menuitem'
-                        href='#'
-                        onClick={this.handleMakeMember}
-                    >
-                        <FormattedMessage
-                            id='team_members_dropdown.makeMember'
-                            defaultMessage='Make Member'
-                        />
-                    </a>
-                </li>
-            );
-        }
-
-        let removeFromTeam = null;
-        if (this.props.user.id !== me.id) {
-            removeFromTeam = (
-                <li role='presentation'>
-                    <a
-                        id='removeFromTeam'
-                        role='menuitem'
-                        href='#'
-                        onClick={this.handleRemoveFromTeam}
-                    >
-                        <FormattedMessage
-                            id='team_members_dropdown.leave_team'
-                            defaultMessage='Remove From Team'
-                        />
-                    </a>
-                </li>
-            );
-        }
-
-        const makeActive = null;
-        if (showMakeActive) {
-            // makeActive = (
-            //     <li role='presentation'>
-            //         <a
-            //             role='menuitem'
-            //             href='#'
-            //             onClick={this.handleMakeActive}
-            //         >
-            //             <FormattedMessage
-            //                 id='team_members_dropdown.makeActive'
-            //                 defaultMessage='Activate'
-            //             />
-            //         </a>
-            //     </li>
-            // );
-        }
-
-        const makeNotActive = null;
-        if (showMakeNotActive) {
-            // makeNotActive = (
-            //     <li role='presentation'>
-            //         <a
-            //             role='menuitem'
-            //             href='#'
-            //             onClick={this.handleMakeNotActive}
-            //         >
-            //             <FormattedMessage
-            //                 id='team_members_dropdown.makeInactive'
-            //                 defaultMessage='Deactivate'
-            //             />
-            //         </a>
-            //     </li>
-            // );
-        }
+        const canRemoveFromTeam = this.props.user.id !== me.id;
 
         let makeDemoteModal = null;
         if (this.props.user.id === me.id) {
@@ -322,34 +213,46 @@ export default class TeamMembersDropdown extends React.Component {
             );
         }
 
-        if (!removeFromTeam && !makeAdmin && !makeMember && !makeActive && !makeNotActive) {
+        if (!canRemoveFromTeam && !showMakeAdmin && !showMakeMember) {
             return <div>{currentRoles}</div>;
         }
 
         return (
-            <div className='dropdown member-drop'>
+            <MenuWrapper>
                 <button
                     className='dropdown-toggle theme color--link style--none'
                     type='button'
-                    data-toggle='dropdown'
                     aria-expanded='true'
                 >
                     <span>{currentRoles} </span>
                     <DropdownIcon/>
                 </button>
-                <ul
-                    className='dropdown-menu member-menu'
-                    role='menu'
-                >
-                    {removeFromTeam}
-                    {makeAdmin}
-                    {makeMember}
-                    {makeActive}
-                    {makeNotActive}
-                </ul>
-                {makeDemoteModal}
-                {serverError}
-            </div>
+                <div>
+                    <Menu
+                        openLeft={true}
+                        ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
+                    >
+                        <MenuItemAction
+                            id='removeFromTeam'
+                            show={canRemoveFromTeam}
+                            onClick={this.handleRemoveFromTeam}
+                            text={Utils.localizeMessage('team_members_dropdown.leave_team', 'Remove From Team')}
+                        />
+                        <MenuItemAction
+                            show={showMakeAdmin}
+                            onClick={this.handleMakeAdmin}
+                            text={Utils.localizeMessage('team_members_dropdown.makeAdmin', 'Make Team Admin')}
+                        />
+                        <MenuItemAction
+                            show={showMakeMember}
+                            onClick={this.handleMakeMember}
+                            text={Utils.localizeMessage('team_members_dropdown.makeMember', 'Make Member')}
+                        />
+                    </Menu>
+                    {makeDemoteModal}
+                    {serverError}
+                </div>
+            </MenuWrapper>
         );
     }
 }

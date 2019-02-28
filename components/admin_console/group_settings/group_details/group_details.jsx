@@ -7,6 +7,8 @@ import {FormattedMessage} from 'react-intl';
 import {Groups} from 'mattermost-redux/constants';
 
 import {t} from 'utils/i18n';
+import {localizeMessage} from 'utils/utils.jsx';
+import {Constants} from 'utils/constants.jsx';
 import GroupProfile from 'components/admin_console/group_settings/group_details/group_profile';
 import GroupTeamsAndChannels from 'components/admin_console/group_settings/group_details/group_teams_and_channels';
 import GroupUsers from 'components/admin_console/group_settings/group_details/group_users';
@@ -14,7 +16,9 @@ import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
 
 import TeamSelectorModal from 'components/team_selector_modal';
 import ChannelSelectorModal from 'components/channel_selector_modal';
-import {Constants} from 'utils/constants.jsx';
+import Menu from 'components/widgets/menu/menu';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
 
 export default class GroupDetails extends React.PureComponent {
     static propTypes = {
@@ -47,7 +51,6 @@ export default class GroupDetails extends React.PureComponent {
             loadingTeamsAndChannels: true,
             addTeamOpen: false,
             addChannelOpen: false,
-            addTeamOrChannelOpen: false,
         };
     }
 
@@ -63,23 +66,19 @@ export default class GroupDetails extends React.PureComponent {
     }
 
     openAddChannel = () => {
-        this.setState({addChannelOpen: true, addTeamOrChannelOpen: false});
+        this.setState({addChannelOpen: true});
     }
 
     closeAddChannel = () => {
-        this.setState({addChannelOpen: false, addTeamOrChannelOpen: false});
+        this.setState({addChannelOpen: false});
     }
 
     openAddTeam = () => {
-        this.setState({addTeamOpen: true, addTeamOrChannelOpen: false});
+        this.setState({addTeamOpen: true});
     }
 
     closeAddTeam = () => {
-        this.setState({addTeamOpen: false, addTeamOrChannelOpen: false});
-    }
-
-    toggleAddTeamOrChannel = () => {
-        this.setState({addTeamOrChannelOpen: !this.state.addTeamOrChannelOpen});
+        this.setState({addTeamOpen: false});
     }
 
     addTeams = (teams) => {
@@ -138,32 +137,25 @@ export default class GroupDetails extends React.PureComponent {
                     subtitleDefault='Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically.'
                     button={(
                         <div className='group-profile-add-menu'>
-                            <button
-                                className='btn btn-primary'
-                                onClick={this.toggleAddTeamOrChannel}
-                            >
-                                <FormattedMessage
-                                    id='admin.group_settings.group_details.add_team_or_channel'
-                                    defaultMessage='Add Team or Channel'
-                                />
-                                <i className={'fa fa-caret-down'}/>
-                            </button>
-                            {this.state.addTeamOrChannelOpen && (
-                                <ul className='add-team-or-channel-menu'>
-                                    <a onClick={this.openAddTeam}>
-                                        <FormattedMessage
-                                            id='admin.group_settings.group_details.add_team'
-                                            defaultMessage='Add Team'
-                                        />
-                                    </a>
-                                    <a onClick={this.openAddChannel}>
-                                        <FormattedMessage
-                                            id='admin.group_settings.group_details.add_channel'
-                                            defaultMessage='Add Channel'
-                                        />
-                                    </a>
-                                </ul>
-                            )}
+                            <MenuWrapper>
+                                <button className='btn btn-primary'>
+                                    <FormattedMessage
+                                        id='admin.group_settings.group_details.add_team_or_channel'
+                                        defaultMessage='Add Team or Channel'
+                                    />
+                                    <i className={'fa fa-caret-down'}/>
+                                </button>
+                                <Menu ariaLabel={localizeMessage('admin.group_settings.group_details.menuAriaLabel', 'Add Team or Channel Menu')}>
+                                    <MenuItemAction
+                                        onClick={this.openAddTeam}
+                                        text={localizeMessage('admin.group_settings.group_details.add_team', 'Add Team')}
+                                    />
+                                    <MenuItemAction
+                                        onClick={this.openAddTeam}
+                                        text={localizeMessage('admin.group_settings.group_details.add_channel', 'Add Channel')}
+                                    />
+                                </Menu>
+                            </MenuWrapper>
                         </div>
                     )}
                 >

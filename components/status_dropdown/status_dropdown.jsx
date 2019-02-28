@@ -3,14 +3,17 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Dropdown} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
-import {t} from 'utils/i18n';
-import BootstrapSpan from 'components/bootstrap_span.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
 import StatusIcon from 'components/status_icon.jsx';
+
+import Menu from 'components/widgets/menu/menu';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import MenuGroup from 'components/widgets/menu/menu_group';
+import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
 
 export default class StatusDropdown extends React.Component {
     static propTypes = {
@@ -31,20 +34,8 @@ export default class StatusDropdown extends React.Component {
         status: UserStatuses.OFFLINE,
     }
 
-    state = {
-        showDropdown: false,
-    }
-
     isUserOutOfOffice = () => {
         return this.props.status === UserStatuses.OUT_OF_OFFICE;
-    }
-
-    onToggle = (showDropdown) => {
-        this.setState({showDropdown});
-    }
-
-    closeDropdown = () => {
-        this.setState({showDropdown: false});
     }
 
     setStatus = (status) => {
@@ -52,7 +43,6 @@ export default class StatusDropdown extends React.Component {
             user_id: this.props.userId,
             status,
         });
-        this.closeDropdown();
     }
 
     setOnline = (event) => {
@@ -76,8 +66,6 @@ export default class StatusDropdown extends React.Component {
     }
 
     showStatusChangeConfirmation = (status) => {
-        this.closeDropdown();
-
         const resetStatusModalData = {
             ModalId: ModalIdentifiers.RESET_STATUS,
             dialogType: ResetStatusModal,
@@ -86,50 +74,6 @@ export default class StatusDropdown extends React.Component {
 
         this.props.actions.openModal(resetStatusModalData);
     };
-
-    renderStatusOnlineAction = () => {
-        if (this.isUserOutOfOffice() && this.props.autoResetPref === '') {
-            return this.renderStatusAction(UserStatuses.ONLINE, () => this.showStatusChangeConfirmation('online'));
-        }
-        return this.renderStatusAction(UserStatuses.ONLINE, this.setOnline);
-    }
-
-    renderStatusAwayAction = () => {
-        if (this.isUserOutOfOffice() && this.props.autoResetPref === '') {
-            return this.renderStatusAction(UserStatuses.AWAY, () => this.showStatusChangeConfirmation('away'));
-        }
-        return this.renderStatusAction(UserStatuses.AWAY, this.setAway);
-    }
-
-    renderStatusOfflineAction = () => {
-        if (this.isUserOutOfOffice() && this.props.autoResetPref === '') {
-            return this.renderStatusAction(UserStatuses.OFFLINE, () => this.showStatusChangeConfirmation('offline'));
-        }
-        return this.renderStatusAction(UserStatuses.OFFLINE, this.setOffline);
-    }
-
-    renderStatusDndAction = () => {
-        if (this.isUserOutOfOffice() && this.props.autoResetPref === '') {
-            return this.renderStatusAction(UserStatuses.DND, () => this.showStatusChangeConfirmation('dnd'),
-                <FormattedMessage
-                    id='status_dropdown.set_dnd.extra'
-                    defaultMessage='Disables Desktop and Push Notifications'
-                />);
-        }
-        return this.renderStatusAction(UserStatuses.DND, this.setDnd,
-            <FormattedMessage
-                id='status_dropdown.set_dnd.extra'
-                defaultMessage='Disables Desktop and Push Notifications'
-            />);
-    }
-
-    renderStatusOutOfOfficeAction = () => {
-        return this.renderOOFStatusAction(UserStatuses.OUT_OF_OFFICE,
-            <FormattedMessage
-                id='status_dropdown.set_ooo.extra'
-                defaultMessage='Automatic Replies are enabled'
-            />);
-    }
 
     renderProfilePicture = () => {
         if (!this.props.profilePicture) {
@@ -140,41 +84,6 @@ export default class StatusDropdown extends React.Component {
                 className='user__picture'
                 src={this.props.profilePicture}
             />
-        );
-    }
-
-    renderOOFStatusAction = (status, extraText) => {
-        return (
-            <li key={status}>
-                <a
-                    className='out_of_office'
-                    id={'status' + status}
-                >
-                    <FormattedMessage
-                        id={`status_dropdown.set_${status}`}
-                        defaultMessage={status}
-                    />
-                    <span className='status-dropdown-extra'>{extraText}</span>
-                </a>
-            </li>
-        );
-    }
-
-    renderStatusAction = (status, onClick, extraText) => {
-        return (
-            <li key={status}>
-                <a
-                    id={'status' + status}
-                    href={'#'}
-                    onClick={onClick}
-                >
-                    <FormattedMessage
-                        id={`status_dropdown.set_${status}`}
-                        defaultMessage={status}
-                    />
-                    <span className='status-dropdown-extra'>{extraText}</span>
-                </a>
-            </li>
         );
     }
 
@@ -195,57 +104,57 @@ export default class StatusDropdown extends React.Component {
     }
 
     render() {
+        const needsConfirm = this.isUserOutOfOffice() && this.props.autoResetPref === '';
         const profilePicture = this.renderProfilePicture();
         const dropdownIcon = this.renderDropdownIcon();
-        let actions = [
-            this.renderStatusOnlineAction(),
-            this.renderStatusAwayAction(),
-            this.renderStatusDndAction(),
-            this.renderStatusOfflineAction(),
-        ];
 
-        if (this.isUserOutOfOffice()) {
-            const divider = (
-                <li
-                    className='divider'
-                    key='oof_divider'
-                />
-            );
-            actions = [
-                this.renderStatusOutOfOfficeAction(),
-                divider,
-                ...actions,
-            ];
-        }
+        const setOnline = needsConfirm ? () => this.showStatusChangeConfirmation('online') : this.setOnline;
+        const setDnd = needsConfirm ? () => this.showStatusChangeConfirmation('dnd') : this.setDnd;
+        const setAway = needsConfirm ? () => this.showStatusChangeConfirmation('away') : this.setAway;
+        const setOffline = needsConfirm ? () => this.showStatusChangeConfirmation('offline') : this.setOffline;
 
         return (
-            <Dropdown
-                id={'status-dropdown'}
-                open={this.state.showDropdown}
+            <MenuWrapper
                 onToggle={this.onToggle}
                 style={this.props.style}
             >
-                <BootstrapSpan
-                    bsRole={'toggle'}
-                >
-                    <div className='status-wrapper status-selector'>
-                        {profilePicture}
-                        <StatusIcon status={this.props.status}/>
-                        <span className={'status status-edit edit'}>
-                            {dropdownIcon}
-                        </span>
-                    </div>
-                </BootstrapSpan>
-                <Dropdown.Menu id='editStatusMenu'>
-                    {actions}
-                </Dropdown.Menu>
-            </Dropdown>
+                <div className='status-wrapper status-selector'>
+                    {profilePicture}
+                    <StatusIcon status={this.props.status}/>
+                    <span className={'status status-edit edit'}>
+                        {dropdownIcon}
+                    </span>
+                </div>
+                <Menu ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Change Status Menu')}>
+                    <MenuGroup>
+                        <MenuItemAction
+                            show={this.isUserOutOfOffice()}
+                            onClick={() => null}
+                            text={localizeMessage('status_dropdown.set_ooo', 'Out of office')}
+                            extraText={localizeMessage('status_dropdown.set_ooo.extra', 'Automatic Replies are enabled')}
+                        />
+                    </MenuGroup>
+                    <MenuGroup>
+                        <MenuItemAction
+                            onClick={setOnline}
+                            text={localizeMessage('status_dropdown.set_online', 'Online')}
+                        />
+                        <MenuItemAction
+                            onClick={setAway}
+                            text={localizeMessage('status_dropdown.set_away', 'Away')}
+                        />
+                        <MenuItemAction
+                            onClick={setDnd}
+                            text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
+                            extraText={localizeMessage('status_dropdown.set_dnd.extra', 'Disables Desktop and Push Notifications')}
+                        />
+                        <MenuItemAction
+                            onClick={setOffline}
+                            text={localizeMessage('status_dropdown.set_offline', 'Offline')}
+                        />
+                    </MenuGroup>
+                </Menu>
+            </MenuWrapper>
         );
     }
 }
-
-t('status_dropdown.set_away');
-t('status_dropdown.set_dnd');
-t('status_dropdown.set_offline');
-t('status_dropdown.set_online');
-t('status_dropdown.set_ooo');

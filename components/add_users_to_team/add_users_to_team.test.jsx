@@ -20,7 +20,7 @@ describe('components/AddUsersToTeam', () => {
         currentTeamName: 'display_name',
         searchTerm: '',
         users: [{id: 'someid', username: 'somename', email: 'someemail'}],
-        onModalDismissed: jest.fn(),
+        onHide: jest.fn(),
         actions: baseActions,
     };
 
@@ -47,15 +47,15 @@ describe('components/AddUsersToTeam', () => {
         expect(wrapper.state('show')).toEqual(false);
     });
 
-    test('should have called onModalDismissed when handleExit is called', () => {
-        const onModalDismissed = jest.fn();
-        const props = {...baseProps, onModalDismissed};
+    test('should have called onHide when handleExit is called', () => {
+        const onHide = jest.fn();
+        const props = {...baseProps, onHide};
         const wrapper = shallow(
             <AddUsersToTeam {...props}/>
         );
 
         wrapper.instance().handleExit();
-        expect(onModalDismissed).toHaveBeenCalledTimes(1);
+        expect(onHide).toHaveBeenCalledTimes(1);
     });
 
     test('should match state when handleResponse is called', () => {
