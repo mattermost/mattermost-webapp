@@ -247,7 +247,6 @@ export default class TeamSelectorModal extends React.Component {
                         options={teams}
                         optionRenderer={this.renderOption}
                         values={this.state.values}
-                        valueKey='id'
                         valueRenderer={this.renderValue}
                         perPage={TEAMS_PER_PAGE}
                         handlePageChange={this.handlePageChange}

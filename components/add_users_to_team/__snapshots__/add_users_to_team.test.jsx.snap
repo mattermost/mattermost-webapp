@@ -9,6 +9,7 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
   dialogClassName="more-modal more-direct-channels"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="addUsersToTeamModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -65,21 +66,24 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
       loading={true}
       maxValues={20}
       numRemainingText={
-        <FormattedMessage
-          defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. "
-          id="multiselect.numPeopleRemaining"
-          values={
-            Object {
-              "num": 20,
+        <div
+          id="numPeopleRemaining"
+        >
+          <FormattedMessage
+            defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. "
+            id="multiselect.numPeopleRemaining"
+            values={
+              Object {
+                "num": 20,
+              }
             }
-          }
-        />
+          />
+        </div>
       }
       optionRenderer={[Function]}
       options={Array []}
       perPage={50}
       saving={false}
-      valueKey="id"
       valueRenderer={[Function]}
       values={Array []}
     />

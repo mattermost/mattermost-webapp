@@ -123,8 +123,6 @@ export default class NotificationsTab extends React.Component {
         prevActiveSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
-        sendEmailNotifications: PropTypes.bool,
-        enableEmailBatching: PropTypes.bool,
         siteName: PropTypes.string,
         sendPushNotifications: PropTypes.bool,
         enableAutoResponder: PropTypes.bool,
@@ -146,9 +144,9 @@ export default class NotificationsTab extends React.Component {
         this.state = getNotificationsStateFromProps(props);
     }
 
-    handleSubmit = (enableEmail = this.state.enableEmail) => {
+    handleSubmit = () => {
         const data = {};
-        data.email = enableEmail;
+        data.email = this.state.enableEmail;
         data.desktop_sound = this.state.desktopSound;
         data.desktop = this.state.desktopActivity;
         data.push = this.state.pushActivity;
@@ -220,22 +218,18 @@ export default class NotificationsTab extends React.Component {
 
     handleNotifyCommentsRadio(notifyCommentsLevel) {
         this.setState({notifyCommentsLevel});
-        this.refs.wrapper.focus();
     }
 
     handlePushRadio(pushActivity) {
         this.setState({pushActivity});
-        this.refs.wrapper.focus();
     }
 
     handlePushStatusRadio(pushStatus) {
         this.setState({pushStatus});
-        this.refs.wrapper.focus();
     }
 
     handleEmailRadio = (enableEmail) => {
         this.setState({enableEmail});
-        this.refs.wrapper.focus();
     }
 
     updateUsernameKey = (val) => {
@@ -741,7 +735,7 @@ export default class NotificationsTab extends React.Component {
                             />
                             <FormattedMessage
                                 id='user.settings.notifications.commentsAny'
-                                defaultMessage='Mention any comments in a thread you participated in (This will include both mentions to your root post and any comments after you commented on a post)'
+                                defaultMessage='Trigger notifications on messages in reply threads that I start or participate in'
                             />
                         </label>
                         <br/>
@@ -757,7 +751,7 @@ export default class NotificationsTab extends React.Component {
                             />
                             <FormattedMessage
                                 id='user.settings.notifications.commentsRoot'
-                                defaultMessage='Mention any comments on your post'
+                                defaultMessage='Trigger notifications on messages in threads that I start'
                             />
                         </label>
                         <br/>
@@ -773,7 +767,7 @@ export default class NotificationsTab extends React.Component {
                             />
                             <FormattedMessage
                                 id='user.settings.notifications.commentsNever'
-                                defaultMessage='No mentions for comments'
+                                defaultMessage="Do not trigger notifications on messages in reply threads unless I'm mentioned"
                             />
                         </label>
                     </div>
@@ -887,7 +881,6 @@ export default class NotificationsTab extends React.Component {
         }
 
         const pushNotificationSection = this.createPushNotificationSection();
-        const enableEmail = this.state.enableEmail === 'true';
 
         return (
             <div id='notificationSettings'>
@@ -955,15 +948,13 @@ export default class NotificationsTab extends React.Component {
                     <EmailNotificationSetting
                         activeSection={this.props.activeSection}
                         updateSection={this.props.updateSection}
-                        enableEmail={enableEmail}
-                        emailInterval={Utils.getEmailInterval(this.props.enableEmailBatching, enableEmail)}
+                        enableEmail={this.state.enableEmail === 'true'}
                         onSubmit={this.handleSubmit}
                         onCancel={this.handleCancel}
+                        onChange={this.handleEmailRadio}
                         saving={this.state.isSaving}
                         serverError={this.state.serverError}
                         focused={this.props.prevActiveSection === prevSections.email}
-                        sendEmailNotifications={this.props.sendEmailNotifications}
-                        enableEmailBatching={this.props.enableEmailBatching}
                         siteName={this.props.siteName}
                     />
                     <div className='divider-light'/>

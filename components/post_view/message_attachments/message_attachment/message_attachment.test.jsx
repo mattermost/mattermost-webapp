@@ -138,4 +138,30 @@ describe('components/post_view/MessageAttachment', () => {
         expect(wrapper.find(SizeAwareImage).first().prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.image_url)}`);
         expect(wrapper.find(SizeAwareImage).last().prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.thumb_url)}`);
     });
+
+    test('should match snapshot when the attachment has an emoji in the title', () => {
+        const props = {
+            ...baseProps,
+            attachment: {
+                title: 'Do you like :pizza:?',
+            },
+        };
+
+        const wrapper = shallow(<MessageAttachment {...props}/>);
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when the attachment hasn\'t any emojis in the title', () => {
+        const props = {
+            ...baseProps,
+            attachment: {
+                title: 'Don\'t you like emojis?',
+            },
+        };
+
+        const wrapper = shallow(<MessageAttachment {...props}/>);
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });

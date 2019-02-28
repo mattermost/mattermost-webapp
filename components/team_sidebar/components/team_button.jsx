@@ -120,6 +120,7 @@ export default class TeamButton extends React.Component {
         } else {
             teamButton = (
                 <Link
+                    id={`${this.props.url.slice(1)}TeamButton`}
                     className={disabled}
                     to={this.props.url}
                     onClick={handleClick}

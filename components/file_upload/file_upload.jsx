@@ -7,7 +7,6 @@ import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
 import {defineMessages, intlShape, FormattedMessage} from 'react-intl';
 import 'jquery-dragster/jquery.dragster.js';
-import {Dropdown} from 'react-bootstrap';
 
 import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
@@ -25,6 +24,9 @@ import {
     isFileTransfer,
     localizeMessage,
 } from 'utils/utils.jsx';
+
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import Menu from 'components/widgets/menu/menu';
 
 import AttachmentIcon from 'components/svg/attachment_icon';
 
@@ -165,6 +167,7 @@ export default class FileUpload extends PureComponent {
             requests: {},
             menuOpen: false,
         };
+        this.fileInput = React.createRef();
     }
 
     componentDidMount() {
@@ -489,7 +492,8 @@ export default class FileUpload extends PureComponent {
             const postTextbox = this.props.postType === 'post' && document.activeElement.id === 'post_textbox';
             const commentTextbox = this.props.postType === 'comment' && document.activeElement.id === 'reply_textbox';
             if (postTextbox || commentTextbox) {
-                $(this.refs.fileInput).focus().trigger('click');
+                this.fileInput.current.focus();
+                this.fileInput.current.click();
             }
         }
     }
@@ -533,6 +537,10 @@ export default class FileUpload extends PureComponent {
         this.setState({menuOpen: false});
     }
 
+    simulateInputClick = () => {
+        this.fileInput.current.click();
+    }
+
     render() {
         const {formatMessage} = this.context.intl;
         let multiple = true;
@@ -559,7 +567,7 @@ export default class FileUpload extends PureComponent {
                     <AttachmentIcon/>
                     <input
                         aria-label={formatMessage(holders.uploadFile)}
-                        ref='fileInput'
+                        ref={this.fileInput}
                         type='file'
                         onChange={this.handleChange}
                         onClick={this.handleLocalFileUploaded}
@@ -587,53 +595,48 @@ export default class FileUpload extends PureComponent {
                     </li>
                 );
             });
-            const FileDropdownComponent = (props) => {
-                return (
-                    <button
-                        onClick={props.onClick}
-                        className='style--none'
-                    >
-                        <div
-                            id='fileUploadButton'
-                            className='icon icon--attachment'
-                        >
-                            <AttachmentIcon/>
-                        </div>
-                    </button>
-                );
-            };
             bodyAction = (
-                <Dropdown
-                    dropup={true}
-                    pullRight={true}
-                    id='fileInputDropdown'
-                    open={this.state.menuOpen}
-                    onToggle={this.toggleMenu}
-                >
-                    <FileDropdownComponent bsRole='toggle'/>
-                    <Dropdown.Menu className='dropdown-menu__icons'>
-                        <li>
-                            <a>
-                                <i className='fa fa-laptop'/>
-                                <FormattedMessage
-                                    id='yourcomputer'
-                                    defaultMessage='Your computer'
-                                />
-                                <input
-                                    aria-label={formatMessage(holders.uploadFile)}
-                                    ref='fileInput'
-                                    type='file'
-                                    className='file-attachment-menu-item-input'
-                                    onChange={this.handleChange}
-                                    onClick={this.handleLocalFileUploaded}
-                                    multiple={multiple}
-                                    accept={accept}
-                                />
-                            </a>
-                        </li>
-                        {pluginFileUploadMethods}
-                    </Dropdown.Menu>
-                </Dropdown>
+                <React.Fragment>
+                    <input
+                        aria-label={formatMessage(holders.uploadFile)}
+                        ref={this.fileInput}
+                        type='file'
+                        className='file-attachment-menu-item-input'
+                        onChange={this.handleChange}
+                        onClick={this.handleLocalFileUploaded}
+                        multiple={multiple}
+                        accept={accept}
+                    />
+                    <MenuWrapper>
+                        <button
+                            type='button'
+                            className='style--none'
+                        >
+                            <div
+                                id='fileUploadButton'
+                                className='icon icon--attachment'
+                            >
+                                <AttachmentIcon/>
+                            </div>
+                        </button>
+                        <Menu
+                            openLeft={true}
+                            openUp={true}
+                            ariaLabel={formatMessage({id: 'file_upload.menuAriaLabel', defaultMessage: 'Upload type selector'})}
+                        >
+                            <li>
+                                <a onClick={this.simulateInputClick}>
+                                    <i className='fa fa-laptop'/>
+                                    <FormattedMessage
+                                        id='yourcomputer'
+                                        defaultMessage='Your computer'
+                                    />
+                                </a>
+                            </li>
+                            {pluginFileUploadMethods}
+                        </Menu>
+                    </MenuWrapper>
+                </React.Fragment>
             );
         }
 

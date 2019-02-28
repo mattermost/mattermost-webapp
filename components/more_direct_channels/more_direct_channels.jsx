@@ -200,6 +200,8 @@ export default class MoreDirectChannels extends React.Component {
     addValue = (value) => {
         if (Array.isArray(value)) {
             this.addUsers(value);
+        } else if ('profiles' in value) {
+            this.addUsers(value.profiles);
         } else {
             const values = Object.assign([], this.state.values);
 
@@ -398,7 +400,6 @@ export default class MoreDirectChannels extends React.Component {
                 options={options}
                 optionRenderer={this.renderOption}
                 values={this.state.values}
-                valueKey='id'
                 valueRenderer={this.renderValue}
                 perPage={USERS_PER_PAGE}
                 handlePageChange={this.handlePageChange}
