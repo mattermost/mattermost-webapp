@@ -252,3 +252,29 @@ Cypress.Commands.add('removeTeamMember', (teamURL, username) => {
     cy.get('#removeFromTeam').click({force: true});
     cy.get('.modal-header .close').click();
 });
+
+// ***********************************************************
+// Min Setting View
+// ************************************************************
+
+// Checking min setting view for display
+
+Cypress.Commands.add('minSettingDisplay', () => {
+    cy.get('#themeTitle').should('be.visible', 'contain', 'Theme');
+    cy.get('#themeEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#clockTitle').should('be.visible', 'contain', 'Clock Display');
+    cy.get('#clockEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#name_formatTitle').should('be.visible', 'contain', 'Teammate Name Display');
+    cy.get('#name_formatEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#collapseTitle').should('be.visible', 'contain', 'Default appearance of image previews');
+    cy.get('#collapseEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#message_displayTitle').should('be.visible', 'contain', 'Message Display');
+    cy.get('#message_displayEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#languagesTitle').scrollIntoView().should('be.visible', 'contain', 'Language');
+    cy.get('#languagesEdit').should('be.visible', 'contain', 'Edit');
+});
