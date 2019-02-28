@@ -259,7 +259,7 @@ Cypress.Commands.add('removeTeamMember', (teamURL, username) => {
 
 // Checking min setting view for display
 
-Cypress.Commands.add('minSettingDisplay', () => {
+Cypress.Commands.add('minDisplaySettings', () => {
     cy.get('#themeTitle').should('be.visible', 'contain', 'Theme');
     cy.get('#themeEdit').should('be.visible', 'contain', 'Edit');
 
