@@ -4,27 +4,29 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {savePreference} from 'actions/user_actions.jsx';
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import EmailNotificationSetting from 'components/user_settings/notifications/email_notification_setting.jsx';
+import {Preferences} from 'utils/constants.jsx';
 
-jest.mock('actions/user_actions.jsx', () => ({
-    savePreference: jest.fn(),
-}));
+import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import EmailNotificationSetting from 'components/user_settings/notifications/email_notification_setting/email_notification_setting.jsx';
 
 describe('components/user_settings/notifications/EmailNotificationSetting', () => {
     const requiredProps = {
+        currentUserId: 'current_user_id',
         activeSection: 'email',
         updateSection: jest.fn(),
         enableEmail: false,
-        emailInterval: 0,
+        emailInterval: Preferences.INTERVAL_NEVER,
         onSubmit: jest.fn(),
         onCancel: jest.fn(),
+        onChange: jest.fn(),
         serverError: '',
         saving: false,
         sendEmailNotifications: true,
         enableEmailBatching: false,
         siteName: 'Mattermost',
+        actions: {
+            savePreferences: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {
@@ -105,30 +107,46 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
         wrapper.find('#emailNotificationImmediately').simulate('change');
 
         expect(wrapper.state('enableEmail')).toBe('true');
-        expect(wrapper.state('emailInterval')).toBe(30);
+        expect(wrapper.state('newInterval')).toBe(Preferences.INTERVAL_IMMEDIATE);
+        expect(requiredProps.onChange).toBeCalledTimes(1);
     });
 
-    test('should pass handleSubmit', () => {
+    test('should pass handleSubmit', async () => {
         const newOnSubmit = jest.fn();
         const newUpdateSection = jest.fn();
-        const props = {...requiredProps, onSubmit: newOnSubmit, updateSection: newUpdateSection};
+        const newSavePreference = jest.fn();
+        const props = {
+            ...requiredProps,
+            onSubmit: newOnSubmit,
+            updateSection: newUpdateSection,
+            actions: {savePreferences: newSavePreference},
+        };
+
         const wrapper = mountWithIntl(<EmailNotificationSetting {...props}/>);
 
-        wrapper.instance().handleSubmit();
-
+        await wrapper.instance().handleSubmit();
+        expect(wrapper.state('newInterval')).toBe(Preferences.INTERVAL_NEVER);
         expect(newOnSubmit).not.toBeCalled();
         expect(newUpdateSection).toHaveBeenCalledTimes(1);
         expect(newUpdateSection).toBeCalledWith('');
 
-        wrapper.find('#emailNotificationNever').simulate('change');
-        wrapper.instance().handleSubmit();
+        const newInterval = Preferences.INTERVAL_IMMEDIATE;
+        wrapper.find('#emailNotificationImmediately').simulate('change');
+        await wrapper.instance().handleSubmit();
 
+        expect(wrapper.state('newInterval')).toBe(newInterval);
         expect(newOnSubmit).toBeCalled();
         expect(newOnSubmit).toHaveBeenCalledTimes(1);
-        expect(newOnSubmit).toBeCalledWith('false');
 
-        expect(savePreference).toHaveBeenCalledTimes(1);
-        expect(savePreference).toBeCalledWith('notifications', 'email_interval', '0');
+        const expectedPref = [{
+            category: 'notifications',
+            name: 'email_interval',
+            user_id: 'current_user_id',
+            value: newInterval.toString(),
+        }];
+
+        expect(newSavePreference).toHaveBeenCalledTimes(1);
+        expect(newSavePreference).toBeCalledWith('current_user_id', expectedPref);
     });
 
     test('should pass handleUpdateSection', () => {
@@ -149,15 +167,22 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
         expect(newOnCancel).toBeCalled();
     });
 
-    test('should pass componentWillReceiveProps', () => {
+    test('should derived state from props', () => {
         const nextProps = {
-            enableEmail: true,
-            emailInterval: 30,
+            emailInterval: Preferences.INTERVAL_IMMEDIATE,
+            enableEmailBatching: true,
+            sendEmailNotifications: true,
         };
         const wrapper = mountWithIntl(<EmailNotificationSetting {...requiredProps}/>);
-        wrapper.setProps(nextProps);
+        expect(wrapper.state('emailInterval')).toBe(requiredProps.emailInterval);
+        expect(wrapper.state('enableEmailBatching')).toBe(requiredProps.enableEmailBatching);
+        expect(wrapper.state('sendEmailNotifications')).toBe(requiredProps.sendEmailNotifications);
+        expect(wrapper.state('newInterval')).toBe(Preferences.INTERVAL_NEVER);
 
-        expect(wrapper.state('enableEmail')).toBe(nextProps.enableEmail);
+        wrapper.setProps(nextProps);
         expect(wrapper.state('emailInterval')).toBe(nextProps.emailInterval);
+        expect(wrapper.state('enableEmailBatching')).toBe(nextProps.enableEmailBatching);
+        expect(wrapper.state('sendEmailNotifications')).toBe(nextProps.sendEmailNotifications);
+        expect(wrapper.state('newInterval')).toBe(Preferences.INTERVAL_IMMEDIATE);
     });
 });

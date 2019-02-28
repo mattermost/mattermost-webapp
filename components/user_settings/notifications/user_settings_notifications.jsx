@@ -12,7 +12,7 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
 import DesktopNotificationSettings from './desktop_notification_settings.jsx';
-import EmailNotificationSetting from './email_notification_setting.jsx';
+import EmailNotificationSetting from './email_notification_setting';
 import ManageAutoResponder from './manage_auto_responder.jsx';
 
 function getNotificationsStateFromProps(props) {
@@ -124,8 +124,6 @@ export default class NotificationsTab extends React.Component {
         prevActiveSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
-        sendEmailNotifications: PropTypes.bool,
-        enableEmailBatching: PropTypes.bool,
         siteName: PropTypes.string,
         sendPushNotifications: PropTypes.bool,
         enableAutoResponder: PropTypes.bool,
@@ -144,9 +142,9 @@ export default class NotificationsTab extends React.Component {
         this.state = getNotificationsStateFromProps(props);
     }
 
-    handleSubmit = (enableEmail = this.state.enableEmail) => {
+    handleSubmit = () => {
         const data = {};
-        data.email = enableEmail;
+        data.email = this.state.enableEmail;
         data.desktop_sound = this.state.desktopSound;
         data.desktop = this.state.desktopActivity;
         data.push = this.state.pushActivity;
@@ -886,7 +884,6 @@ export default class NotificationsTab extends React.Component {
         }
 
         const pushNotificationSection = this.createPushNotificationSection();
-        const enableEmail = this.state.enableEmail === 'true';
 
         return (
             <div id='notificationSettings'>
@@ -954,15 +951,13 @@ export default class NotificationsTab extends React.Component {
                     <EmailNotificationSetting
                         activeSection={this.props.activeSection}
                         updateSection={this.props.updateSection}
-                        enableEmail={enableEmail}
-                        emailInterval={Utils.getEmailInterval(this.props.enableEmailBatching, enableEmail)}
+                        enableEmail={this.state.enableEmail === 'true'}
                         onSubmit={this.handleSubmit}
                         onCancel={this.handleCancel}
+                        onChange={this.handleEmailRadio}
                         saving={this.state.isSaving}
                         serverError={this.state.serverError}
                         focused={this.props.prevActiveSection === prevSections.email}
-                        sendEmailNotifications={this.props.sendEmailNotifications}
-                        enableEmailBatching={this.props.enableEmailBatching}
                         siteName={this.props.siteName}
                     />
                     <div className='divider-light'/>

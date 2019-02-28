@@ -2,7 +2,13 @@
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot 1`] = `
 <EmailNotificationSetting
+  actions={
+    Object {
+      "savePreferences": [MockFunction],
+    }
+  }
   activeSection="email"
+  currentUserId="current_user_id"
   emailInterval={0}
   enableEmail={false}
   enableEmailBatching={false}
@@ -34,6 +40,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     }
   }
   onCancel={[MockFunction]}
+  onChange={[MockFunction]}
   onSubmit={[MockFunction]}
   saving={false}
   sendEmailNotifications={true}
@@ -303,13 +310,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 <SettingItemMin
   describe={
     <FormattedMessage
-      defaultMessage="Every {count, plural, one {minute} other {{count, number} minutes}}"
-      id="user.settings.notifications.email.everyXMinutes"
-      values={
-        Object {
-          "count": 0,
-        }
-      }
+      defaultMessage="Never"
+      id="user.settings.notifications.email.never"
+      values={Object {}}
     />
   }
   focused={false}
@@ -321,7 +324,13 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, enabled email batching 1`] = `
 <EmailNotificationSetting
+  actions={
+    Object {
+      "savePreferences": [MockFunction],
+    }
+  }
   activeSection="email"
+  currentUserId="current_user_id"
   emailInterval={0}
   enableEmail={false}
   enableEmailBatching={true}
@@ -353,6 +362,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     }
   }
   onCancel={[MockFunction]}
+  onChange={[MockFunction]}
   onSubmit={[MockFunction]}
   saving={false}
   sendEmailNotifications={true}
@@ -719,6 +729,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   }
   saving={false}
   section="email"
+  server_error=""
   title="Email notifications"
   updateSection={[Function]}
 />
