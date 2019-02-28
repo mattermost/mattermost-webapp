@@ -1,0 +1,9 @@
+.MenuWrapper {
+    position: relative;
+    .Menu {
+        display: block;
+    }
+    *:first-child {
+        cursor: pointer;
+    }
+}

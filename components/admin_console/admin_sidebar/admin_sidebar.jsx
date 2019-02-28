@@ -829,6 +829,15 @@ export default class AdminSidebar extends React.Component {
                                 />
                                 {clusterSettings}
                                 {metricsSettings}
+                                <AdminSidebarSection
+                                    name='experimental'
+                                    title={
+                                        <FormattedMessage
+                                            id='admin.sidebar.experimental'
+                                            defaultMessage='Experimental'
+                                        />
+                                    }
+                                />
                             </AdminSidebarSection>
                         </AdminSidebarCategory>
                         {otherCategory}

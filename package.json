@@ -28,11 +28,12 @@
     "key-mirror": "1.0.1",
     "localforage": "1.7.3",
     "localforage-observable": "1.4.0",
-    "marked": "github:mattermost/marked#ed33baecd7d7fa97d479ba22dde9d226b083d67d",
+    "marked": "github:mattermost/marked#7ad73fe76f2264c533767f9105e7c7cff0fa34f1",
     "mattermost-redux": "github:mattermost/mattermost-redux#24aefb2f5365a4e9f5cf70e95c43738a7e94cfda",
     "moment-timezone": "0.5.23",
     "pdfjs-dist": "2.0.489",
     "perfect-scrollbar": "0.8.1",
+    "popmotion": "8.5.4",
     "prop-types": "15.6.2",
     "react": "16.7.0",
     "react-addons-pure-render-mixin": "15.6.2",
@@ -46,6 +47,7 @@
     "react-redux": "5.1.1",
     "react-router-dom": "4.3.1",
     "react-select": "2.3.0",
+    "react-transition-group": "2.5.1",
     "rebound": "0.1.0",
     "redux": "4.0.1",
     "redux-batched-actions": "0.4.1",
@@ -110,7 +112,8 @@
     "webpack-cli": "3.2.1",
     "webpack-node-externals": "1.7.2",
     "webpack-pwa-manifest": "4.0.0",
-    "yup": "0.26.10"
+    "yup": "0.26.10",
+    "mocha-junit-reporter": "1.18.0"
   },
   "jest": {
     "snapshotSerializers": [

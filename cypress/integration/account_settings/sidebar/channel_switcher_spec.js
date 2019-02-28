@@ -111,15 +111,15 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         // * Channel switcher hint should be visible
         cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.');
 
-        // 4. Type "nt" on Channel switcher input
-        cy.get('#quickSwitchInput').type('nt');
+        // 4. Type "nesciunt" on Channel switcher input
+        cy.get('#quickSwitchInput').type('nesciunt');
         cy.wait(500);  // eslint-disable-line
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('be.visible');
 
-        // 5. Press down arrow and then enter
-        cy.get('#quickSwitchInput').type('{downarrow}{enter}');
+        // 5. Press enter
+        cy.get('#quickSwitchInput').type('{enter}');
 
         // * Verify that it redirected into "nesciunt" as selected channel
         cy.url().should('include', '/ad-1/channels/sequi-7');

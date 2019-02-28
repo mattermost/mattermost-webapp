@@ -3,11 +3,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage} from 'react-intl';
 
 import {Constants, NotificationLevels} from 'utils/constants';
 
-export default class ToggleMuteChannel extends React.PureComponent {
+import {localizeMessage} from 'utils/utils';
+
+import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
+
+export default class MenuItemToggleMuteChannel extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -49,38 +52,19 @@ export default class ToggleMuteChannel extends React.PureComponent {
     }
 
     render() {
-        if (this.props.channel.type === Constants.DM_CHANNEL) {
-            return null;
-        }
-
-        let message;
+        let text;
         if (this.props.isMuted) {
-            message = (
-                <FormattedMessage
-                    id='channel_header.unmute'
-                    defaultMessage='Unmute Channel'
-                />
-            );
+            text = localizeMessage('channel_header.unmute', 'Unmute Channel');
         } else {
-            message = (
-                <FormattedMessage
-                    id='channel_header.mute'
-                    defaultMessage='Mute Channel'
-                />
-            );
+            text = localizeMessage('channel_header.mute', 'Mute Channel');
         }
 
         return (
-            <li role='presentation'>
-                <button
-                    id='channelMute'
-                    className='style--none'
-                    role='menuitem'
-                    onClick={this.handleClick}
-                >
-                    {message}
-                </button>
-            </li>
+            <MenuItemAction
+                show={this.props.channel.type !== Constants.DM_CHANNEL}
+                onClick={this.handleClick}
+                text={text}
+            />
         );
     }
 }

@@ -1,0 +1,16 @@
+.SidebarHeader {
+    display: flex;
+    cursor: pointer;
+    padding: 0;
+    .MenuWrapper {
+        height: 100%;
+        padding: 10px 0px 10px 10px;
+    }
+    .MenuWrapper:first-child {
+        width: 100%;
+        height: 100%;
+        .Menu {
+            left: -45px;
+        }
+    }
+}
