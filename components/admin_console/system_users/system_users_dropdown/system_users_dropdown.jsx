@@ -8,7 +8,6 @@ import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {adminResetMfa} from 'actions/admin_actions.jsx';
-import {revokeAllSessions} from 'actions/user_actions.jsx';
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -75,6 +74,7 @@ export default class SystemUsersDropdown extends React.Component {
         currentUser: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             updateUserActive: PropTypes.func.isRequired,
+            revokeAllSessions: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -217,13 +217,14 @@ export default class SystemUsersDropdown extends React.Component {
 
     handleRevokeSessions = () => {
         const me = this.props.currentUser;
-        revokeAllSessions(this.props.user.id,
-            () => {
-                if (this.props.user.id === me.id) {
+        this.props.actions.revokeAllSessions(this.props.user.id).then(
+            ({data, error}) => {
+                if (data && this.props.user.id === me.id) {
                     emitUserLoggedOutEvent();
+                } else if (error) {
+                    this.props.onError(error);
                 }
-            },
-            this.props.onError
+            }
         );
 
         this.setState({showRevokeSessionsModal: false});

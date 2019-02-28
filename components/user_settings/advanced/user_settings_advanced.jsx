@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {revokeAllSessions} from 'actions/user_actions.jsx';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -36,6 +35,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
             updateUserActive: PropTypes.func.isRequired,
+            revokeAllSessions: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -158,12 +158,13 @@ export default class AdvancedSettingsDisplay extends React.Component {
                 }
             });
 
-        revokeAllSessions(userId,
-            () => {
-                emitUserLoggedOutEvent();
-            },
-            (err) => {
-                this.setState({serverError: err.message});
+        this.props.actions.revokeAllSessions(userId).then(
+            ({data, error}) => {
+                if (data) {
+                    emitUserLoggedOutEvent();
+                } else if (error) {
+                    this.setState({serverError: error.message});
+                }
             }
         );
     }
