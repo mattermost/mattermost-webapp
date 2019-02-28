@@ -14,6 +14,20 @@
     overflow: auto;
     padding: 10px 20px 0;
 
+    .btn {
+        &.btn-default {
+            background: alpha-color($black, .7);
+            color: $white;
+
+            &:hover,
+            &:focus,
+            &:active {
+                background: alpha-color($black, .8);
+                color: $white;
+            }
+        }
+    }
+
     .table {
         margin-bottom: 0;
     }
