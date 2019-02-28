@@ -595,21 +595,6 @@ export default class FileUpload extends PureComponent {
                     </li>
                 );
             });
-            const FileDropdownComponent = () => {
-                return (
-                    <button
-                        type='button'
-                        className='style--none'
-                    >
-                        <div
-                            id='fileUploadButton'
-                            className='icon icon--attachment'
-                        >
-                            <AttachmentIcon/>
-                        </div>
-                    </button>
-                );
-            };
             bodyAction = (
                 <React.Fragment>
                     <input
@@ -623,7 +608,17 @@ export default class FileUpload extends PureComponent {
                         accept={accept}
                     />
                     <MenuWrapper>
-                        <FileDropdownComponent/>
+                        <button
+                            type='button'
+                            className='style--none'
+                        >
+                            <div
+                                id='fileUploadButton'
+                                className='icon icon--attachment'
+                            >
+                                <AttachmentIcon/>
+                            </div>
+                        </button>
                         <Menu
                             openLeft={true}
                             openUp={true}
