@@ -4,6 +4,96 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
 <div
   className="group-teams-and-channels-row"
 >
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    dialogClassName="admin-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={false}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    >
+      <h4
+        className="modal-title"
+      >
+        <FormattedMessage
+          defaultMessage="Remove Membership from the 'Test private-channel' channel?"
+          id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
+          values={
+            Object {
+              "displayType": "channel",
+              "name": "Test private-channel",
+            }
+          }
+        />
+      </h4>
+    </ModalHeader>
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <FormattedMessage
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test private-channel' channel.  Please note this action will not remove the existing group users from the 'Test private-channel' channel."
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
+        values={
+          Object {
+            "displayType": "channel",
+            "name": "Test private-channel",
+          }
+        }
+      />
+    </ModalBody>
+    <ModalFooter
+      bsClass="modal-footer"
+      componentClass="div"
+    >
+      <button
+        className="btn btn-cancel"
+        onClick={[Function]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Cancel"
+          id="confirm_modal.cancel"
+          values={Object {}}
+        />
+      </button>
+      <button
+        className="btn btn-default"
+        id="linkModalCloseButton"
+        onClick={[Function]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Yes, Remove"
+          id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
+          values={Object {}}
+        />
+      </button>
+    </ModalFooter>
+  </Modal>
   <div
     className="arrow-icon"
   />
@@ -43,6 +133,96 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
 <div
   className="group-teams-and-channels-row"
 >
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    dialogClassName="admin-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={false}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    >
+      <h4
+        className="modal-title"
+      >
+        <FormattedMessage
+          defaultMessage="Remove Membership from the 'Test private-team' team?"
+          id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
+          values={
+            Object {
+              "displayType": "team",
+              "name": "Test private-team",
+            }
+          }
+        />
+      </h4>
+    </ModalHeader>
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <FormattedMessage
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test private-team' team.  Please note this action will not remove the existing group users from the 'Test private-team' team."
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
+        values={
+          Object {
+            "displayType": "team",
+            "name": "Test private-team",
+          }
+        }
+      />
+    </ModalBody>
+    <ModalFooter
+      bsClass="modal-footer"
+      componentClass="div"
+    >
+      <button
+        className="btn btn-cancel"
+        onClick={[Function]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Cancel"
+          id="confirm_modal.cancel"
+          values={Object {}}
+        />
+      </button>
+      <button
+        className="btn btn-default"
+        id="linkModalCloseButton"
+        onClick={[Function]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Yes, Remove"
+          id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
+          values={Object {}}
+        />
+      </button>
+    </ModalFooter>
+  </Modal>
   <div
     className="arrow-icon"
   />
@@ -86,6 +266,96 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
 <div
   className="group-teams-and-channels-row"
 >
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    dialogClassName="admin-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={false}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    >
+      <h4
+        className="modal-title"
+      >
+        <FormattedMessage
+          defaultMessage="Remove Membership from the 'Test public-channel' channel?"
+          id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
+          values={
+            Object {
+              "displayType": "channel",
+              "name": "Test public-channel",
+            }
+          }
+        />
+      </h4>
+    </ModalHeader>
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <FormattedMessage
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test public-channel' channel.  Please note this action will not remove the existing group users from the 'Test public-channel' channel."
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
+        values={
+          Object {
+            "displayType": "channel",
+            "name": "Test public-channel",
+          }
+        }
+      />
+    </ModalBody>
+    <ModalFooter
+      bsClass="modal-footer"
+      componentClass="div"
+    >
+      <button
+        className="btn btn-cancel"
+        onClick={[Function]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Cancel"
+          id="confirm_modal.cancel"
+          values={Object {}}
+        />
+      </button>
+      <button
+        className="btn btn-default"
+        id="linkModalCloseButton"
+        onClick={[Function]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Yes, Remove"
+          id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
+          values={Object {}}
+        />
+      </button>
+    </ModalFooter>
+  </Modal>
   <div
     className="arrow-icon"
   />
@@ -125,6 +395,96 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
 <div
   className="group-teams-and-channels-row"
 >
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    dialogClassName="admin-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={false}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    >
+      <h4
+        className="modal-title"
+      >
+        <FormattedMessage
+          defaultMessage="Remove Membership from the 'Test public-team' team?"
+          id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
+          values={
+            Object {
+              "displayType": "team",
+              "name": "Test public-team",
+            }
+          }
+        />
+      </h4>
+    </ModalHeader>
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <FormattedMessage
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test public-team' team.  Please note this action will not remove the existing group users from the 'Test public-team' team."
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
+        values={
+          Object {
+            "displayType": "team",
+            "name": "Test public-team",
+          }
+        }
+      />
+    </ModalBody>
+    <ModalFooter
+      bsClass="modal-footer"
+      componentClass="div"
+    >
+      <button
+        className="btn btn-cancel"
+        onClick={[Function]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Cancel"
+          id="confirm_modal.cancel"
+          values={Object {}}
+        />
+      </button>
+      <button
+        className="btn btn-default"
+        id="linkModalCloseButton"
+        onClick={[Function]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Yes, Remove"
+          id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
+          values={Object {}}
+        />
+      </button>
+    </ModalFooter>
+  </Modal>
   <div
     className="arrow-icon"
   />
@@ -161,6 +521,96 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
 <div
   className="group-teams-and-channels-row has-clidren"
 >
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    dialogClassName="admin-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={false}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    >
+      <h4
+        className="modal-title"
+      >
+        <FormattedMessage
+          defaultMessage="Remove Membership from the 'Test team with children' team?"
+          id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
+          values={
+            Object {
+              "displayType": "team",
+              "name": "Test team with children",
+            }
+          }
+        />
+      </h4>
+    </ModalHeader>
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <FormattedMessage
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test team with children' team.  Please note this action will not remove the existing group users from the 'Test team with children' team."
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
+        values={
+          Object {
+            "displayType": "team",
+            "name": "Test team with children",
+          }
+        }
+      />
+    </ModalBody>
+    <ModalFooter
+      bsClass="modal-footer"
+      componentClass="div"
+    >
+      <button
+        className="btn btn-cancel"
+        onClick={[Function]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Cancel"
+          id="confirm_modal.cancel"
+          values={Object {}}
+        />
+      </button>
+      <button
+        className="btn btn-default"
+        id="linkModalCloseButton"
+        onClick={[Function]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Yes, Remove"
+          id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
+          values={Object {}}
+        />
+      </button>
+    </ModalFooter>
+  </Modal>
   <div
     className="arrow-icon"
   >
@@ -202,6 +652,96 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
 <div
   className="group-teams-and-channels-row has-clidren collapsed"
 >
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    dialogClassName="admin-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={false}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    >
+      <h4
+        className="modal-title"
+      >
+        <FormattedMessage
+          defaultMessage="Remove Membership from the 'Test team with children' team?"
+          id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
+          values={
+            Object {
+              "displayType": "team",
+              "name": "Test team with children",
+            }
+          }
+        />
+      </h4>
+    </ModalHeader>
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <FormattedMessage
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test team with children' team.  Please note this action will not remove the existing group users from the 'Test team with children' team."
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
+        values={
+          Object {
+            "displayType": "team",
+            "name": "Test team with children",
+          }
+        }
+      />
+    </ModalBody>
+    <ModalFooter
+      bsClass="modal-footer"
+      componentClass="div"
+    >
+      <button
+        className="btn btn-cancel"
+        onClick={[Function]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Cancel"
+          id="confirm_modal.cancel"
+          values={Object {}}
+        />
+      </button>
+      <button
+        className="btn btn-default"
+        id="linkModalCloseButton"
+        onClick={[Function]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Yes, Remove"
+          id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
+          values={Object {}}
+        />
+      </button>
+    </ModalFooter>
+  </Modal>
   <div
     className="arrow-icon"
   >

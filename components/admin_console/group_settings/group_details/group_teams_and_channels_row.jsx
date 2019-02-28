@@ -94,6 +94,8 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
             break;
         }
 
+        const displayType = this.props.type.split('-')[1];
+
         return (
             <div className={'group-teams-and-channels-row' + extraClasses}>
                 <Modal
@@ -107,14 +109,16 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                         <h4 className='modal-title'>
                             <FormattedMessage
                                 id='admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header'
-                                defaultMessage='Lorem ipsum dolor sit amet?'
+                                defaultMessage={`Remove Membership from the '${this.props.name}' ${displayType}?`}
+                                values={{name: this.props.name, displayType}}
                             />
                         </h4>
                     </Modal.Header>
                     <Modal.Body>
                         <FormattedMessage
                             id='admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body'
-                            defaultMessage='Mauris aliquam, ipsum at vestibulum hendrerit, nisi nisl posuere libero, a cursus magna nulla vitae nibh. Vivamus venenatis velit sed mauris pharetra iaculis.'
+                            defaultMessage={`Removing this membership will prevent future users in this group from being added to the '${this.props.name}' ${displayType}.  Please note this action will not remove the existing group users from the '${this.props.name}' ${displayType}.`}
+                            values={{name: this.props.name, displayType}}
                         />
                     </Modal.Body>
                     <Modal.Footer>
