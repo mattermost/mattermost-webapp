@@ -4,6 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+import {Modal} from 'react-bootstrap';
 
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
@@ -18,6 +19,13 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         collapsed: PropTypes.bool,
         onRemoveItem: PropTypes.func.isRequired,
         onToggleCollapse: PropTypes.func.isRequired,
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            showConfirmationModal: false,
+        };
     }
 
     removeItem = () => {
@@ -88,6 +96,53 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
 
         return (
             <div className={'group-teams-and-channels-row' + extraClasses}>
+                <Modal
+                    dialogClassName='admin-modal'
+                    show={this.state.showConfirmationModal}
+                    onHide={() => this.setState({showConfirmationModal: false})}
+                >
+                    <Modal.Header
+                        closeButton={true}
+                    >
+                        <h4 className='modal-title'>
+                            <FormattedMessage
+                                id='admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header'
+                                defaultMessage='Lorem ipsum dolor sit amet?'
+                            />
+                        </h4>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <FormattedMessage
+                            id='admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body'
+                            defaultMessage='Mauris aliquam, ipsum at vestibulum hendrerit, nisi nisl posuere libero, a cursus magna nulla vitae nibh. Vivamus venenatis velit sed mauris pharetra iaculis.'
+                        />
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <button
+                            type='button'
+                            className='btn btn-cancel'
+                            onClick={() => this.setState({showConfirmationModal: false})}
+                        >
+                            <FormattedMessage
+                                id='confirm_modal.cancel'
+                                defaultMessage='Cancel'
+                            />
+                        </button>
+                        <button
+                            id='linkModalCloseButton'
+                            type='button'
+                            className='btn btn-default'
+                            onClick={() => {
+                                this.removeItem();
+                            }}
+                        >
+                            <FormattedMessage
+                                id='admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button'
+                                defaultMessage='Yes, Remove'
+                            />
+                        </button>
+                    </Modal.Footer>
+                </Modal>
                 <div className='arrow-icon'>
                     {arrowIcon}
                 </div>
@@ -100,7 +155,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                     {!this.props.implicit &&
                         <button
                             className='btn btn-link'
-                            onClick={this.removeItem}
+                            onClick={() => this.setState({showConfirmationModal: true})}
                         >
                             <FormattedMessage
                                 id='admin.group_settings.group_details.group_teams_and_channels_row.remove'
