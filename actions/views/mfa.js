@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import * as UserActions from 'mattermost-redux/actions/users';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 export function activateMfa(code) {
@@ -29,17 +28,3 @@ export function generateMfaSecret() {
     };
 }
 
-/**
- * @deprecated Clients should attempt to login without MFA and check if MFA token error is returned to show MFA prompt
- */
-export function checkMfa(loginId) {
-    return (dispatch, getState) => {
-        const config = getConfig(getState());
-
-        if (config.EnableMultifactorAuthentication !== 'true') {
-            return Promise.resolve({data: false});
-        }
-
-        return dispatch(UserActions.checkMfa(loginId));
-    };
-}

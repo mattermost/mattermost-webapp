@@ -71,8 +71,7 @@ export default class EmailToOAuth extends React.PureComponent {
     render() {
         var error = null;
         if (this.state.error) {
-            error =
-                <div className='form-group has-error'><label className='control-label'>{this.state.error}</label></div>;
+            error = <div className='form-group has-error'><label className='control-label'>{this.state.error}</label></div>;
         }
 
         var formClass = 'form-group';
