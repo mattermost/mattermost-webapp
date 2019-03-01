@@ -32,7 +32,6 @@ describe('components/login/LoginController', () => {
         samlLoginButtonText: '',
         siteName: '',
         actions: {
-            checkMfa: jest.fn(),
             login: jest.fn(),
             addUserToTeamFromInvite: jest.fn(),
         },

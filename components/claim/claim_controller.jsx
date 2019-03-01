@@ -25,10 +25,6 @@ export default class ClaimController extends React.PureComponent {
         match: PropTypes.shape({
             url: PropTypes.string.isRequired,
         }).isRequired,
-
-        actions: PropTypes.shape({
-            checkMfa: PropTypes.func.isRequired,
-        }).isRequired,
     };
 
     render() {
@@ -65,7 +61,6 @@ export default class ClaimController extends React.PureComponent {
                                             newType={newType}
                                             email={email}
                                             siteName={this.props.siteName}
-                                            checkMfa={this.props.actions.checkMfa}
                                         />
                                     )}
                                 />
@@ -75,7 +70,6 @@ export default class ClaimController extends React.PureComponent {
                                         <LDAPToEmail
                                             email={email}
                                             passwordConfig={this.props.passwordConfig}
-                                            checkMfa={this.props.actions.checkMfa}
                                         />
                                     )}
                                 />
@@ -86,7 +80,6 @@ export default class ClaimController extends React.PureComponent {
                                             email={email}
                                             siteName={this.props.siteName}
                                             ldapLoginFieldName={this.props.ldapLoginFieldName}
-                                            checkMfa={this.props.actions.checkMfa}
                                         />
                                     )}
                                 />

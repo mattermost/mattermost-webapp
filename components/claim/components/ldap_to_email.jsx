@@ -13,7 +13,6 @@ export default class LDAPToEmail extends React.Component {
     static propTypes = {
         email: PropTypes.string,
         passwordConfig: PropTypes.object,
-        checkMfa: PropTypes.func.isRequired,
     };
 
     constructor(props) {
@@ -73,23 +72,7 @@ export default class LDAPToEmail extends React.Component {
         state.ldapPassword = ldapPassword;
         this.setState(state);
 
-        this.props.checkMfa(this.props.email).then((result) => {
-            if (result.error) {
-                this.setState({
-                    error: result.error.message,
-                });
-                return;
-            }
-
-            const requiresMfa = result.data;
-            if (requiresMfa) {
-                this.setState({
-                    showMfa: true,
-                });
-            } else {
-                this.submit(this.props.email, password, '', ldapPassword);
-            }
-        });
+        this.submit(this.props.email, password, '', ldapPassword);
     }
 
     submit(loginId, password, token, ldapPassword) {
@@ -106,6 +89,8 @@ export default class LDAPToEmail extends React.Component {
             (err) => {
                 if (err.id.startsWith('model.user.is_valid.pwd')) {
                     this.setState({passwordError: err.message, showMfa: false});
+                } else if (!this.state.showMfa && err.server_error_id.startsWith('mfa.validate_token.authenticate.app_error')) {
+                    this.setState({showMfa: true});
                 } else {
                     switch (err.id) {
                     case 'ent.ldap.do_login.invalid_password.app_error':

@@ -14,7 +14,6 @@ export default class EmailToLDAP extends React.Component {
         email: PropTypes.string,
         siteName: PropTypes.string,
         ldapLoginFieldName: PropTypes.string,
-        checkMfa: PropTypes.func.isRequired,
     };
 
     constructor(props) {
@@ -68,21 +67,7 @@ export default class EmailToLDAP extends React.Component {
         state.ldapPassword = ldapPassword;
         this.setState(state);
 
-        this.props.checkMfa(this.props.email).then((result) => {
-            if (result.error) {
-                this.setState({
-                    error: result.error.message,
-                });
-                return;
-            }
-
-            const requiresMfa = result.data;
-            if (requiresMfa) {
-                this.setState({showMfa: true});
-            } else {
-                this.submit(this.props.email, password, '', ldapId, ldapPassword);
-            }
-        });
+        this.submit(this.props.email, password, '', ldapId, ldapPassword);
     }
 
     submit(loginId, password, token, ldapId, ldapPassword) {
@@ -98,20 +83,24 @@ export default class EmailToLDAP extends React.Component {
                 }
             },
             (err) => {
-                switch (err.id) {
-                case 'ent.ldap.do_login.user_not_registered.app_error':
-                case 'ent.ldap.do_login.user_filtered.app_error':
-                case 'ent.ldap.do_login.matched_to_many_users.app_error':
-                    this.setState({ldapError: err.message, showMfa: false});
-                    break;
-                case 'ent.ldap.do_login.invalid_password.app_error':
-                    this.setState({ldapPasswordError: err.message, showMfa: false});
-                    break;
-                case 'api.user.check_user_password.invalid.app_error':
-                    this.setState({passwordError: err.message, showMfa: false});
-                    break;
-                default:
-                    this.setState({serverError: err.message, showMfa: false});
+                if (!this.state.showMfa && err.server_error_id === 'mfa.validate_token.authenticate.app_error') {
+                    this.setState({showMfa: true});
+                } else {
+                    switch (err.id) {
+                    case 'ent.ldap.do_login.user_not_registered.app_error':
+                    case 'ent.ldap.do_login.user_filtered.app_error':
+                    case 'ent.ldap.do_login.matched_to_many_users.app_error':
+                        this.setState({ldapError: err.message, showMfa: false});
+                        break;
+                    case 'ent.ldap.do_login.invalid_password.app_error':
+                        this.setState({ldapPasswordError: err.message, showMfa: false});
+                        break;
+                    case 'api.user.check_user_password.invalid.app_error':
+                        this.setState({passwordError: err.message, showMfa: false});
+                        break;
+                    default:
+                        this.setState({serverError: err.message, showMfa: false});
+                    }
                 }
             }
         );

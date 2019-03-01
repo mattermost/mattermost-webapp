@@ -57,7 +57,6 @@ class LoginController extends React.Component {
         siteName: PropTypes.string,
         initializing: PropTypes.bool,
         actions: PropTypes.shape({
-            checkMfa: PropTypes.func.isRequired,
             login: PropTypes.func.isRequired,
             addUserToTeamFromInvite: PropTypes.func.isRequired,
         }).isRequired,
@@ -254,21 +253,7 @@ class LoginController extends React.Component {
             return;
         }
 
-        this.props.actions.checkMfa(loginId).then((result) => {
-            if (result.error) {
-                this.setState({
-                    serverError: result.error.message,
-                });
-                return;
-            }
-
-            const requiresMfa = result.data;
-            if (requiresMfa) {
-                this.setState({showMfa: true});
-            } else {
-                this.submit(loginId, password, '');
-            }
-        });
+        this.submit(loginId, password, '');
     }
 
     submit = (loginId, password, token) => {
@@ -301,6 +286,8 @@ class LoginController extends React.Component {
                             />
                         ),
                     });
+                } else if (!this.state.showMfa && error.server_error_id === 'mfa.validate_token.authenticate.app_error') {
+                    this.setState({showMfa: true});
                 } else {
                     this.setState({showMfa: false, serverError: error.message, loading: false});
                 }

@@ -16,7 +16,6 @@ export default class EmailToOAuth extends React.PureComponent {
         newType: PropTypes.string,
         email: PropTypes.string,
         siteName: PropTypes.string,
-        checkMfa: PropTypes.func.isRequired,
     };
 
     constructor(props) {
@@ -44,21 +43,7 @@ export default class EmailToOAuth extends React.PureComponent {
         state.error = null;
         this.setState(state);
 
-        this.props.checkMfa(this.props.email).then((result) => {
-            if (result.error) {
-                this.setState({
-                    error: result.error.message,
-                });
-                return;
-            }
-
-            const requiresMfa = result.data;
-            if (requiresMfa) {
-                this.setState({showMfa: true});
-            } else {
-                this.submit(this.props.email, password, '');
-            }
-        });
+        this.submit(this.props.email, password, '');
     }
 
     submit(loginId, password, token) {
@@ -73,7 +58,11 @@ export default class EmailToOAuth extends React.PureComponent {
                 }
             },
             (err) => {
-                this.setState({error: err.message, showMfa: false});
+                if (!this.state.showMfa && err.server_error_id === 'mfa.validate_token.authenticate.app_error') {
+                    this.setState({showMfa: true});
+                } else {
+                    this.setState({error: err.message, showMfa: false});
+                }
             }
         );
     }
