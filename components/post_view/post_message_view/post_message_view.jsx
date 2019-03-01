@@ -35,11 +35,6 @@ export default class PostMessageView extends React.PureComponent {
          */
         options: PropTypes.object,
 
-        /*
-         * Post identifiers for selenium tests
-         */
-        lastPostCount: PropTypes.number,
-
         /**
          * Set to render post body compactly
          */
@@ -139,7 +134,6 @@ export default class PostMessageView extends React.PureComponent {
             compactDisplay,
             isRHS,
             theme,
-            lastPostCount,
         } = this.props;
 
         if (post.state === Posts.POST_DELETED) {
@@ -163,11 +157,6 @@ export default class PostMessageView extends React.PureComponent {
             );
         }
 
-        let postId = null;
-        if (lastPostCount >= 0) {
-            postId = Utils.createSafeId('lastPostMessageText' + lastPostCount);
-        }
-
         let message = post.message;
         const isEphemeral = Utils.isPostEphemeral(post);
         if (compactDisplay && isEphemeral) {
@@ -182,7 +171,7 @@ export default class PostMessageView extends React.PureComponent {
                 text={message}
             >
                 <div
-                    id={postId}
+                    id={`postMessageText_${post.id}`}
                     className='post-message__text'
                     onClick={Utils.handleFormattedTextClick}
                 >

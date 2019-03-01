@@ -36,6 +36,7 @@ describe('components/PopoverListMembers', () => {
     const actions = {
         getProfilesInChannel: jest.fn(),
         openDirectChannelToUserId: jest.fn().mockResolvedValue({data: {name: 'channelname'}}),
+        openModal: jest.fn(),
     };
 
     const baseProps = {
@@ -85,32 +86,6 @@ describe('components/PopoverListMembers', () => {
         wrapper.instance().closePopover();
 
         expect(wrapper.state('showPopover')).toEqual(false);
-    });
-
-    test('should match state when showMembersModal is called', () => {
-        const wrapper = shallow(
-            <PopoverListMembers {...baseProps}/>
-        );
-
-        wrapper.instance().componentDidUpdate = jest.fn();
-        wrapper.setState({showPopover: true, showChannelMembersModal: false});
-        expect(wrapper).toMatchSnapshot();
-
-        wrapper.instance().showMembersModal({preventDefault: jest.fn()});
-        expect(wrapper.state('showPopover')).toEqual(false);
-        expect(wrapper.state('showChannelMembersModal')).toEqual(true);
-    });
-
-    test('should match state when hideChannelMembersModal is called', () => {
-        const wrapper = shallow(
-            <PopoverListMembers {...baseProps}/>
-        );
-
-        wrapper.instance().componentDidUpdate = jest.fn();
-        wrapper.setState({showChannelMembersModal: true});
-        wrapper.instance().hideChannelMembersModal({preventDefault: jest.fn()});
-
-        expect(wrapper.state('showChannelMembersModal')).toEqual(false);
     });
 
     test('should match state when showChannelInviteModal is called', () => {

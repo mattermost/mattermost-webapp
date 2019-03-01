@@ -8,7 +8,7 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
 >
   <div
     className="post-message__text"
-    id="lastPostMessageText1"
+    id="postMessageText_post_id"
     onClick={[Function]}
   >
     <Connect(PostMarkdown)
@@ -46,7 +46,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show Less
 >
   <div
     className="post-message__text"
-    id="lastPostMessageText1"
+    id="postMessageText_post_id"
     onClick={[Function]}
   >
     <Connect(PostMarkdown)
@@ -84,7 +84,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show More
 >
   <div
     className="post-message__text"
-    id="lastPostMessageText1"
+    id="postMessageText_post_id"
     onClick={[Function]}
   >
     <Connect(PostMarkdown)
@@ -142,7 +142,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on edited po
 >
   <div
     className="post-message__text"
-    id="lastPostMessageText1"
+    id="postMessageText_post_id"
     onClick={[Function]}
   >
     <Connect(PostMarkdown)
@@ -202,7 +202,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on ephemeral
 >
   <div
     className="post-message__text"
-    id="lastPostMessageText1"
+    id="postMessageText_post_id"
     onClick={[Function]}
   >
     <Connect(PostMarkdown)

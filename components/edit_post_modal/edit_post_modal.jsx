@@ -355,6 +355,7 @@ export default class EditPostModal extends React.PureComponent {
                         />
                     </button>
                     <button
+                        id='editButton'
                         type='button'
                         className='btn btn-primary'
                         disabled={this.isSaveDisabled()}

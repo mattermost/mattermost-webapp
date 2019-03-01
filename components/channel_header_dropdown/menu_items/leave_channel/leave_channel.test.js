@@ -6,6 +6,8 @@ import {shallow} from 'enzyme';
 
 import {Constants} from 'utils/constants';
 
+import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
+
 import LeaveChannel from './leave_channel';
 
 jest.mock('actions/global_actions', () => ({
@@ -35,8 +37,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
             isDefault: true,
         };
         const wrapper = shallow(<LeaveChannel {...props}/>);
-
-        expect(wrapper.isEmptyRender()).toBeTruthy();
+        expect(wrapper).toMatchSnapshot();
     });
 
     it('should be hidden if the channel type is DM or GM', () => {
@@ -47,10 +48,10 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
         const makeWrapper = () => shallow(<LeaveChannel {...props}/>);
 
         props.channel.type = Constants.DM_CHANNEL;
-        expect(makeWrapper().isEmptyRender()).toBeTruthy();
+        expect(makeWrapper()).toMatchSnapshot();
 
         props.channel.type = Constants.GM_CHANNEL;
-        expect(makeWrapper().isEmptyRender()).toBeTruthy();
+        expect(makeWrapper()).toMatchSnapshot();
     });
 
     it('should runs leaveChannel function on click only if the channel is not private', () => {
@@ -62,7 +63,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
         const {showLeavePrivateChannelModal} = require('actions/global_actions'); //eslint-disable-line global-require
         const wrapper = shallow(<LeaveChannel {...props}/>);
 
-        wrapper.find('button').simulate('click', {
+        wrapper.find(MenuItemAction).simulate('click', {
             preventDefault: jest.fn(),
         });
         expect(props.actions.leaveChannel).toHaveBeenCalledWith(props.channel.id);
@@ -70,7 +71,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
 
         props.channel.type = Constants.PRIVATE_CHANNEL;
         props.actions.leaveChannel = jest.fn();
-        wrapper.find('button').simulate('click', {
+        wrapper.find(MenuItemAction).simulate('click', {
             preventDefault: jest.fn(),
         });
         expect(props.actions.leaveChannel).not.toHaveBeenCalled();

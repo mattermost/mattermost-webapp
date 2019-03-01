@@ -6,21 +6,21 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import StatusIcon from 'components/status_icon';
-import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
-import {Constants} from 'utils/constants';
-import * as Utils from 'utils/utils';
 
-import * as MenuItem from './menu_items';
+import {Constants} from 'utils/constants';
+import {getDisplayNameByUserId} from 'utils/utils';
+
+import {ChannelHeaderDropdownItems} from 'components/channel_header_dropdown';
+
+import Menu from 'components/widgets/menu/menu';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+
+import MobileChannelHeaderDropdownAnimation from './mobile_channel_header_dropdown_animation.jsx';
 
 export default class MobileChannelHeaderDropdown extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object.isRequired,
         channel: PropTypes.object.isRequired,
-        isDefault: PropTypes.bool.isRequired,
-        isFavorite: PropTypes.bool.isRequired,
-        isReadonly: PropTypes.bool.isRequired,
-        isArchived: PropTypes.bool.isRequired,
-        isMuted: PropTypes.bool.isRequired,
         teammateId: PropTypes.string,
         teammateStatus: PropTypes.string,
     }
@@ -29,7 +29,7 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
         const {user, channel, teammateId} = this.props;
 
         if (channel.type === Constants.DM_CHANNEL) {
-            const displayname = Utils.getDisplayNameByUserId(teammateId);
+            const displayname = getDisplayNameByUserId(teammateId);
             if (user.id === teammateId) {
                 return (
                     <FormattedMessage
@@ -46,29 +46,12 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
 
     render() {
         const {
-            user,
-            channel,
             teammateStatus,
-            isDefault,
-            isFavorite,
-            isReadonly,
-            isArchived,
-            isMuted,
         } = this.props;
 
-        const Divider = (
-            <li className='dropdown__divider'><hr/></li>
-        );
-
         return (
-            <div className='dropdown'>
-                <a
-                    href='#'
-                    className='dropdown-toggle theme'
-                    type='button'
-                    data-toggle='dropdown'
-                    aria-expanded='true'
-                >
+            <MenuWrapper animationComponent={MobileChannelHeaderDropdownAnimation}>
+                <a>
                     <span className='heading'>
                         <StatusIcon status={teammateStatus}/>
                         {this.getChannelTitle()}
@@ -86,77 +69,20 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                     </FormattedMessage>
                 </a>
 
-                <ul
-                    className='dropdown-menu'
-                    role='menu'
+                <FormattedMessage
+                    id='channel_header.menuAriaLabel'
+                    defaultMessage='Channel Menu'
                 >
-                    <MenuItem.ViewChannelInfo channel={channel}/>
-                    <MenuItem.ToggleFavoriteChannel
-                        channel={channel}
-                        isFavorite={isFavorite}
-                    />
-                    <MenuItem.ViewPinnedPosts channel={channel}/>
-                    <MenuItem.NotificationPreferences
-                        user={user}
-                        channel={channel}
-                        isArchived={isArchived}
-                    />
-                    <MenuItem.ToggleMuteChannel
-                        user={user}
-                        channel={channel}
-                        isMuted={isMuted}
-                        isArchived={isArchived}
-                    />
-                    {Divider}
-                    <MenuItem.AddMembers
-                        channel={channel}
-                        isDefault={isDefault}
-                        isArchived={isArchived}
-                    />
-                    <MenuItem.ViewAndManageMembers
-                        channel={channel}
-                        isDefault={isDefault}
-                    />
-                    {Divider}
-                    <MenuItem.SetChannelHeader
-                        channel={channel}
-                        isArchived={isArchived}
-                        isReadonly={isReadonly}
-                    />
-                    <MenuItem.SetChannelPurpose
-                        channel={channel}
-                        isArchived={isArchived}
-                        isReadonly={isReadonly}
-                    />
-                    <MenuItem.RenameChannel
-                        channel={channel}
-                        isArchived={isArchived}
-                    />
-                    <MenuItem.ConvertChannel
-                        channel={channel}
-                        isDefault={isDefault}
-                        isArchived={isArchived}
-                    />
-                    <MenuItem.DeleteChannel
-                        channel={channel}
-                        isDefault={isDefault}
-                        isArchived={isArchived}
-                    />
-                    {Divider}
-                    <MobileChannelHeaderPlug
-                        channel={channel}
-                        isDropdown={true}
-                    />
-                    <MenuItem.LeaveChannel
-                        channel={channel}
-                        isDefault={isDefault}
-                    />
-                    <MenuItem.CloseChannel isArchived={isArchived}/>
-                    <div className='close visible-xs-block'>
-                        {'×'}
-                    </div>
-                </ul>
-            </div>
+                    {(ariaLabel) => (
+                        <Menu ariaLabel={ariaLabel}>
+                            <ChannelHeaderDropdownItems isMobile={true}/>
+                            <div className='close visible-xs-block'>
+                                {'×'}
+                            </div>
+                        </Menu>
+                    )}
+                </FormattedMessage>
+            </MenuWrapper>
         );
     }
 }

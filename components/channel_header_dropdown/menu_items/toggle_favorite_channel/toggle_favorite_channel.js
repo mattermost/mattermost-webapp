@@ -3,37 +3,25 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage} from 'react-intl';
+
+import {localizeMessage} from 'utils/utils';
+
+import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
 
 export default class ToggleFavoriteChannel extends React.PureComponent {
     static propTypes = {
-
-        /**
-         * Object with info about channel
-         */
+        show: PropTypes.bool.isRequired,
         channel: PropTypes.object.isRequired,
-
-        /**
-        * Bool whether current channel is favorite
-        */
         isFavorite: PropTypes.bool.isRequired,
-
-        /**
-        * Object with action creators
-        */
         actions: PropTypes.shape({
-
-            /**
-            * Action creator to add current channel to favorites
-            */
             favoriteChannel: PropTypes.func.isRequired,
-
-            /**
-            * Action creator to remove current channel from favorites
-            */
             unfavoriteChannel: PropTypes.func.isRequired,
         }).isRequired,
     };
+
+    static defaultProps = {
+        show: true,
+    }
 
     toggleFavoriteChannel = (channelId) => {
         const {
@@ -53,26 +41,18 @@ export default class ToggleFavoriteChannel extends React.PureComponent {
     }
 
     render() {
+        let text;
+        if (this.props.isFavorite) {
+            text = localizeMessage('channelHeader.removeFromFavorites', 'Remove from Favorites');
+        } else {
+            text = localizeMessage('channelHeader.addToFavorites', 'Add to Favorites');
+        }
         return (
-            <li role='presentation'>
-                <button
-                    role='menuitem'
-                    className='style--none'
-                    onClick={this.handleClick}
-                >
-                    {this.props.isFavorite ? (
-                        <FormattedMessage
-                            id='channelHeader.removeFromFavorites'
-                            defaultMessage='Remove from Favorites'
-                        />
-                    ) : (
-                        <FormattedMessage
-                            id='channelHeader.addToFavorites'
-                            defaultMessage='Add to Favorites'
-                        />
-                    )}
-                </button>
-            </li>
+            <MenuItemAction
+                show={this.props.show}
+                onClick={this.handleClick}
+                text={text}
+            />
         );
     }
 }

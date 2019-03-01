@@ -6,6 +6,7 @@ import {deletePreferences as deletePreferencesRedux, savePreferences as savePref
 import {getTeamMembersByIds} from 'mattermost-redux/actions/teams';
 import * as UserActions from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
+import {bindClientFunc} from 'mattermost-redux/actions/helpers';
 import {Preferences as PreferencesRedux} from 'mattermost-redux/constants';
 import {
     getChannel,
@@ -82,13 +83,14 @@ export function loadTeamMembersForProfilesList(profiles, teamId) {
     };
 }
 
-export async function loadProfilesWithoutTeam(page, perPage, success) {
-    const {data} = await UserActions.getProfilesWithoutTeam(page, perPage)(dispatch, getState);
-    dispatch(loadStatusesForProfilesMap(data));
+export function loadProfilesWithoutTeam(page, perPage) {
+    return async (doDispatch) => {
+        const {data} = await doDispatch(UserActions.getProfilesWithoutTeam(page, perPage));
 
-    if (success) {
-        success(data);
-    }
+        doDispatch(loadStatusesForProfilesMap(data));
+
+        return data;
+    };
 }
 
 export function loadTeamMembersAndChannelMembersForProfilesList(profiles, teamId, channelId) {
@@ -342,17 +344,15 @@ export async function autocompleteUsers(username, success) {
     }
 }
 
-export function revokeAllSessions(userId, success, error) {
-    UserActions.revokeAllSessionsForUser(userId)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.users.updateUser.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
+export function revokeAllSessions(userId) {
+    return async (doDispatch, doGetState) => {
+        const {data, error} = await doDispatch(UserActions.revokeAllSessionsForUser(userId));
+        if (error) {
+            const serverError = doGetState().requests.users.updateUser.error;
+            return {error: {id: serverError.server_error_id, ...serverError}};
         }
-    );
+        return {data};
+    };
 }
 
 export async function verifyEmail(token, success, error) {
@@ -385,43 +385,23 @@ export async function resendVerification(email, success, error) {
     }
 }
 
-export function getAuthorizedApps(success, error) {
-    Client4.getAuthorizedOAuthApps(getState().entities.users.currentUserId).then(
-        (authorizedApps) => {
-            if (success) {
-                success(authorizedApps);
-            }
-        }
-    ).catch(
-        (err) => {
-            if (error) {
-                error(err);
-            }
-        }
-    );
+export function getAuthorizedApps() {
+    return (doDispatch, doGetState) => {
+        const currentUserId = Selectors.getCurrentUserId(doGetState());
+        const getAuthAppsAction = bindClientFunc({
+            clientFunc: Client4.getAuthorizedOAuthApps,
+            params: [currentUserId],
+        });
+
+        return doDispatch(getAuthAppsAction);
+    };
 }
 
-export function deauthorizeOAuthApp(appId, success, error) {
-    Client4.deauthorizeOAuthApp(appId).then(
-        () => {
-            if (success) {
-                success();
-            }
-        }
-    ).catch(
-        (err) => {
-            if (error) {
-                error(err);
-            }
-        }
-    );
-}
-
-export async function loadProfiles(page, perPage, options = {}, success) {
-    const {data} = await UserActions.getProfiles(page, perPage, options)(dispatch, getState);
-    if (success) {
-        success(data);
-    }
+export function deauthorizeOAuthApp(appId) {
+    return bindClientFunc({
+        clientFunc: Client4.deauthorizeOAuthApp,
+        params: [appId],
+    });
 }
 
 export function autoResetStatus() {

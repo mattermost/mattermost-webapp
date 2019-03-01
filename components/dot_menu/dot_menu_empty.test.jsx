@@ -25,10 +25,10 @@ jest.mock('utils/post_utils', () => {
 describe('components/dot_menu/DotMenu returning empty ("")', () => {
     test('should match snapshot, return empty ("") on Center', () => {
         const baseProps = {
-            location: 'CENTER',
             post: {id: 'post_id_1'},
             isLicensed: false,
             postEditTimeLimit: '-1',
+            enableEmojiPicker: true,
             actions: {
                 flagPost: jest.fn(),
                 unflagPost: jest.fn(),
@@ -41,7 +41,7 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
 
         const wrapper = shallowWithIntl(
             <DotMenu {...baseProps}/>
-        ).dive({disableLifecycleMethods: true});
+        );
 
         expect(wrapper).toMatchSnapshot();
     });

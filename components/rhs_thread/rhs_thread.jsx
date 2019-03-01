@@ -260,7 +260,6 @@ export default class RhsThread extends React.Component {
             }
 
             const keyPrefix = comPost.id ? comPost.id : comPost.pending_post_id;
-            const reverseCount = postsLength - i - 1;
 
             commentsLists.push(
                 <RhsComment
@@ -269,7 +268,6 @@ export default class RhsThread extends React.Component {
                     post={comPost}
                     previousPostId={previousPostId}
                     teamId={this.props.channel.team_id}
-                    lastPostCount={(reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT) ? reverseCount : -1}
                     currentUserId={currentUserId}
                     isBusy={this.state.isBusy}
                     removePost={this.props.actions.removePost}

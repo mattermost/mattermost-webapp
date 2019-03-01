@@ -116,6 +116,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
     <button
       className="btn btn-primary"
       disabled={true}
+      id="editButton"
       onClick={[Function]}
       type="button"
     >
@@ -245,6 +246,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
     <button
       className="btn btn-primary"
       disabled={true}
+      id="editButton"
       onClick={[Function]}
       type="button"
     >
@@ -374,6 +376,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
     <button
       className="btn btn-primary"
       disabled={false}
+      id="editButton"
       onClick={[Function]}
       type="button"
     >
@@ -482,6 +485,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
     <button
       className="btn btn-primary"
       disabled={false}
+      id="editButton"
       onClick={[Function]}
       type="button"
     >
@@ -611,6 +615,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
     <button
       className="btn btn-primary"
       disabled={false}
+      id="editButton"
       onClick={[Function]}
       type="button"
     >
@@ -740,6 +745,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
     <button
       className="btn btn-primary"
       disabled={false}
+      id="editButton"
       onClick={[Function]}
       type="button"
     >
@@ -869,6 +875,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
     <button
       className="btn btn-primary"
       disabled={false}
+      id="editButton"
       onClick={[Function]}
       type="button"
     >
@@ -998,6 +1005,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
     <button
       className="btn btn-primary"
       disabled={false}
+      id="editButton"
       onClick={[Function]}
       type="button"
     >
@@ -1133,6 +1141,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
     <button
       className="btn btn-primary"
       disabled={false}
+      id="editButton"
       onClick={[Function]}
       type="button"
     >

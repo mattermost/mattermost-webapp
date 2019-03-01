@@ -70,7 +70,6 @@ describe('components/SearchResultsItem', () => {
             channel,
             compactDisplay: true,
             post,
-            lastPostCount: -1,
             user,
             currentTeamName: 'test',
             term: 'test',

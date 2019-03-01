@@ -171,12 +171,16 @@ export const ActionTypes = keyMirror({
 });
 
 export const ModalIdentifiers = {
+    ABOUT: 'about',
+    TEAM_SETTINGS: 'team_settings',
     CHANNEL_INFO: 'channel_info',
     DELETE_CHANNEL: 'delete_channel',
     CHANNEL_NOTIFICATIONS: 'channel_notifications',
     CHANNEL_INVITE: 'channel_invite',
     CHANNEL_MEMBERS: 'channel_members',
+    TEAM_MEMBERS: 'team_members',
     ADD_USER_TO_CHANNEL: 'add_user_to_channel',
+    ADD_USER_TO_TEAM: 'add_user_to_team',
     CREATE_DM_CHANNEL: 'create_dm_channel',
     EDIT_CHANNEL_HEADER: 'edit_channel_header',
     EDIT_CHANNEL_PURPOSE: 'edit_channel_purpose',
@@ -561,6 +565,13 @@ export const DefaultRolePermissions = {
     ],
 };
 
+export const Locations = {
+    CENTER: 'CENTER',
+    RHS_ROOT: 'RHS_ROOT',
+    RHS_COMMENT: 'RHS_COMMENT',
+    SEARCH: 'SEARCH',
+};
+
 export const Constants = {
     SettingsTypes,
     JobTypes,
@@ -575,6 +586,7 @@ export const Constants = {
     AnnouncementBarTypes,
     AnnouncementBarMessages,
     FileTypes,
+    Locations,
 
     MAX_POST_VISIBILITY: 1000000,
 
@@ -1208,10 +1220,6 @@ export const Constants = {
     ANIMATION_TIMEOUT: 1000,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
     DIAGNOSTICS_SEGMENT_KEY: 'placeholder_segment_key',
-    TEST_ID_COUNT: 0,
-    CENTER: 'center',
-    RHS: 'rhs',
-    RHS_ROOT: 'rhsroot',
     TEAMMATE_NAME_DISPLAY: {
         SHOW_USERNAME: 'username',
         SHOW_NICKNAME_FULLNAME: 'nickname_full_name',

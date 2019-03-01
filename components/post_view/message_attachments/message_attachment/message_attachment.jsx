@@ -310,7 +310,14 @@ export default class MessageAttachment extends React.PureComponent {
             } else {
                 title = (
                     <h1 className='attachment__title'>
-                        {attachment.title}
+                        <Markdown
+                            message={attachment.title}
+                            options={{
+                                mentionHighlight: false,
+                                markdown: false,
+                                autolinkedUrlSchemes: [],
+                            }}
+                        />
                     </h1>
                 );
             }

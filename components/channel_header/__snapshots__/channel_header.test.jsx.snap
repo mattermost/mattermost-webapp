@@ -20,28 +20,29 @@ exports[`components/ChannelHeader should render archived view 1`] = `
           id="channelHeaderTitle"
         >
           <h2>
-            <button
-              aria-expanded="true"
-              className="dropdown-toggle theme style--none"
-              data-toggle="dropdown"
-              id="channelHeaderDropdownButton"
-              type="button"
+            <MenuWrapper
+              animationComponent={[Function]}
+              className=""
             >
-              <strong
-                className="heading"
-                id="channelHeaderTitle"
+              <div
+                id="channelHeaderDropdownButton"
               >
-                <ArchiveIcon
-                  className="icon icon__archive icon channel-header-archived-icon svg-text-color"
+                <strong
+                  className="heading"
+                  id="channelHeaderTitle"
+                >
+                  <ArchiveIcon
+                    className="icon icon__archive icon channel-header-archived-icon svg-text-color"
+                  />
+                </strong>
+                <span
+                  className="fa fa-angle-down header-dropdown__icon"
+                  id="channelHeaderDropdownIcon"
+                  title="Dropdown Icon"
                 />
-              </strong>
-              <span
-                className="fa fa-angle-down header-dropdown__icon"
-                id="channelHeaderDropdownIcon"
-                title="Dropdown Icon"
-              />
-            </button>
-            <Connect(ChannelHeaderDropdown) />
+              </div>
+              <ChannelHeaderDropdown />
+            </MenuWrapper>
           </h2>
         </div>
         <div
@@ -148,34 +149,121 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
           id="channelHeaderTitle"
         >
           <h2>
-            <button
-              aria-expanded="true"
-              className="dropdown-toggle theme style--none"
-              data-toggle="dropdown"
-              id="channelHeaderDropdownButton"
-              type="button"
+            <MenuWrapper
+              animationComponent={[Function]}
+              className=""
             >
-              <strong
-                className="heading"
-                id="channelHeaderTitle"
+              <div
+                id="channelHeaderDropdownButton"
               >
-                <ArchiveIcon
-                  className="icon icon__archive icon channel-header-archived-icon svg-text-color"
+                <OverlayTrigger
+                  defaultOverlayShown={false}
+                  delayShow={400}
+                  overlay={
+                    <Tooltip
+                      bsClass="tooltip"
+                      id="favoriteTooltip"
+                      placement="right"
+                    >
+                      <FormattedMessage
+                        defaultMessage="Add to Favorites"
+                        id="channelHeader.addToFavorites"
+                        values={Object {}}
+                      />
+                    </Tooltip>
+                  }
+                  placement="bottom"
+                  trigger={
+                    Array [
+                      "hover",
+                      "focus",
+                    ]
+                  }
+                >
+                  <button
+                    className="style--none color--link channel-header__favorites inactive"
+                    id="toggleFavorite"
+                    onClick={[Function]}
+                  >
+                    <i
+                      className="icon fa fa-star-o"
+                    />
+                  </button>
+                </OverlayTrigger>
+                <strong
+                  className="heading"
+                  id="channelHeaderTitle"
                 />
-              </strong>
-              <span
-                className="fa fa-angle-down header-dropdown__icon"
-                id="channelHeaderDropdownIcon"
-                title="Dropdown Icon"
+                <span
+                  className="fa fa-angle-down header-dropdown__icon"
+                  id="channelHeaderDropdownIcon"
+                  title="Dropdown Icon"
+                />
+              </div>
+              <ChannelHeaderDropdown />
+            </MenuWrapper>
+          </h2>
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                bsClass="tooltip"
+                id="channelMutedTooltip"
+                placement="right"
+              >
+                <FormattedMessage
+                  defaultMessage="Unmute"
+                  id="channelHeader.unmute"
+                  values={Object {}}
+                />
+              </Tooltip>
+            }
+            placement="bottom"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <button
+              aria-label="Muted Icon"
+              className="style--none color--link channel-header__mute inactive"
+              id="toggleMute"
+              onClick={[Function]}
+            >
+              <i
+                className="icon fa fa-bell-slash-o"
               />
             </button>
-            <Connect(ChannelHeaderDropdown) />
-          </h2>
+          </OverlayTrigger>
         </div>
         <div
           className="channel-header__description light"
           id="channelHeaderDescription"
-        />
+        >
+          <Connect(ChannelPermissionGate)
+            channelId="channel_id"
+            permissions={
+              Array [
+                "manage_public_channel_properties",
+              ]
+            }
+            teamId="team_id"
+          >
+            <button
+              className="style--none"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Add a channel description"
+                id="channel_header.addChannelHeader"
+                values={Object {}}
+              />
+            </button>
+          </Connect(ChannelPermissionGate)>
+        </div>
       </div>
     </div>
     <div
@@ -184,6 +272,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
       <Connect(PopoverListMembers)
         channel={
           Object {
+            "delete_at": 0,
             "id": "channel_id",
             "name": "Test",
             "team_id": "team_id",
@@ -194,6 +283,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
     <Connect(ChannelHeaderPlug)
       channel={
         Object {
+          "delete_at": 0,
           "id": "channel_id",
           "name": "Test",
           "team_id": "team_id",
@@ -202,9 +292,6 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
       channelMember={
         Object {
           "channel_id": "channel_id",
-          "notify_props": Object {
-            "mark_unread": "mention",
-          },
           "user_id": "user_id",
         }
       }
@@ -283,34 +370,86 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
           id="channelHeaderTitle"
         >
           <h2>
-            <button
-              aria-expanded="true"
-              className="dropdown-toggle theme style--none"
-              data-toggle="dropdown"
-              id="channelHeaderDropdownButton"
-              type="button"
+            <MenuWrapper
+              animationComponent={[Function]}
+              className=""
             >
-              <strong
-                className="heading"
-                id="channelHeaderTitle"
+              <div
+                id="channelHeaderDropdownButton"
               >
-                <ArchiveIcon
-                  className="icon icon__archive icon channel-header-archived-icon svg-text-color"
+                <OverlayTrigger
+                  defaultOverlayShown={false}
+                  delayShow={400}
+                  overlay={
+                    <Tooltip
+                      bsClass="tooltip"
+                      id="favoriteTooltip"
+                      placement="right"
+                    >
+                      <FormattedMessage
+                        defaultMessage="Add to Favorites"
+                        id="channelHeader.addToFavorites"
+                        values={Object {}}
+                      />
+                    </Tooltip>
+                  }
+                  placement="bottom"
+                  trigger={
+                    Array [
+                      "hover",
+                      "focus",
+                    ]
+                  }
+                >
+                  <button
+                    className="style--none color--link channel-header__favorites inactive"
+                    id="toggleFavorite"
+                    onClick={[Function]}
+                  >
+                    <i
+                      className="icon fa fa-star-o"
+                    />
+                  </button>
+                </OverlayTrigger>
+                <strong
+                  className="heading"
+                  id="channelHeaderTitle"
                 />
-              </strong>
-              <span
-                className="fa fa-angle-down header-dropdown__icon"
-                id="channelHeaderDropdownIcon"
-                title="Dropdown Icon"
-              />
-            </button>
-            <Connect(ChannelHeaderDropdown) />
+                <span
+                  className="fa fa-angle-down header-dropdown__icon"
+                  id="channelHeaderDropdownIcon"
+                  title="Dropdown Icon"
+                />
+              </div>
+              <ChannelHeaderDropdown />
+            </MenuWrapper>
           </h2>
         </div>
         <div
           className="channel-header__description light"
           id="channelHeaderDescription"
-        />
+        >
+          <Connect(ChannelPermissionGate)
+            channelId="channel_id"
+            permissions={
+              Array [
+                "manage_public_channel_properties",
+              ]
+            }
+            teamId="team_id"
+          >
+            <button
+              className="style--none"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Add a channel description"
+                id="channel_header.addChannelHeader"
+                values={Object {}}
+              />
+            </button>
+          </Connect(ChannelPermissionGate)>
+        </div>
       </div>
     </div>
     <div
@@ -319,6 +458,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
       <Connect(PopoverListMembers)
         channel={
           Object {
+            "delete_at": 0,
             "id": "channel_id",
             "name": "Test",
             "team_id": "team_id",
@@ -329,6 +469,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
     <Connect(ChannelHeaderPlug)
       channel={
         Object {
+          "delete_at": 0,
           "id": "channel_id",
           "name": "Test",
           "team_id": "team_id",
@@ -409,28 +550,29 @@ exports[`components/ChannelHeader should render properly when populated with cha
           id="channelHeaderTitle"
         >
           <h2>
-            <button
-              aria-expanded="true"
-              className="dropdown-toggle theme style--none"
-              data-toggle="dropdown"
-              id="channelHeaderDropdownButton"
-              type="button"
+            <MenuWrapper
+              animationComponent={[Function]}
+              className=""
             >
-              <strong
-                className="heading"
-                id="channelHeaderTitle"
+              <div
+                id="channelHeaderDropdownButton"
               >
-                <ArchiveIcon
-                  className="icon icon__archive icon channel-header-archived-icon svg-text-color"
+                <strong
+                  className="heading"
+                  id="channelHeaderTitle"
+                >
+                  <ArchiveIcon
+                    className="icon icon__archive icon channel-header-archived-icon svg-text-color"
+                  />
+                </strong>
+                <span
+                  className="fa fa-angle-down header-dropdown__icon"
+                  id="channelHeaderDropdownIcon"
+                  title="Dropdown Icon"
                 />
-              </strong>
-              <span
-                className="fa fa-angle-down header-dropdown__icon"
-                id="channelHeaderDropdownIcon"
-                title="Dropdown Icon"
-              />
-            </button>
-            <Connect(ChannelHeaderDropdown) />
+              </div>
+              <ChannelHeaderDropdown />
+            </MenuWrapper>
           </h2>
         </div>
         <OverlayTrigger
