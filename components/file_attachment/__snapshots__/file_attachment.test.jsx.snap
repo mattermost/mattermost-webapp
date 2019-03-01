@@ -9,17 +9,8 @@ exports[`component/FileAttachment should match snapshot, after change from file 
     href="#"
     onClick={[Function]}
   >
-    <FileThumbnail
-      fileInfo={
-        Object {
-          "extension": "png",
-          "height": 400,
-          "id": 2,
-          "name": "test.png",
-          "size": 100,
-          "width": 600,
-        }
-      }
+    <div
+      className="post-image__load"
     />
   </a>
   <div
