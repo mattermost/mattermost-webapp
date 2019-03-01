@@ -320,6 +320,7 @@ export default class MultiSelect extends React.Component {
                             value={this.props.values}
                             placeholder={localizeMessage('multiselect.placeholder', 'Search and add members')}
                             inputValue={this.state.input}
+                            getOptionValue={(option) => option.id}
                         />
                         <SaveButton
                             id='saveItems'

@@ -20,6 +20,7 @@ Object.defineProperty(window, 'location', {
         origin: 'http://localhost:8065',
         port: '8065',
         protocol: 'http:',
+        search: '',
     },
 });
 

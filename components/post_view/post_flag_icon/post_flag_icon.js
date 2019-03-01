@@ -8,14 +8,12 @@ import {FormattedMessage} from 'react-intl';
 
 import FlagIcon from 'components/svg/flag_icon';
 import FlagIconFilled from 'components/svg/flag_icon_filled';
-import Constants from 'utils/constants.jsx';
-import * as Utils from 'utils/utils.jsx';
+import Constants, {Locations} from 'utils/constants.jsx';
 import {t} from 'utils/i18n';
 
 export default class PostFlagIcon extends React.PureComponent {
     static propTypes = {
-        idPrefix: PropTypes.string.isRequired,
-        idCount: PropTypes.number,
+        location: PropTypes.oneOf([Locations.CENTER, Locations.RHS_ROOT, Locations.RHS_COMMENT, Locations.SEARCH]).isRequired,
         postId: PropTypes.string.isRequired,
         isFlagged: PropTypes.bool.isRequired,
         isEphemeral: PropTypes.bool,
@@ -26,8 +24,8 @@ export default class PostFlagIcon extends React.PureComponent {
     };
 
     static defaultProps = {
-        idCount: -1,
         isEphemeral: false,
+        location: Locations.CENTER,
     };
 
     handlePress = (e) => {
@@ -55,11 +53,6 @@ export default class PostFlagIcon extends React.PureComponent {
 
         const flagVisible = isFlagged ? 'visible' : '';
 
-        let flagIconId = null;
-        if (this.props.idCount > -1) {
-            flagIconId = Utils.createSafeId(this.props.idPrefix + this.props.idCount);
-        }
-
         let flagIcon;
         if (isFlagged) {
             flagIcon = <FlagIconFilled className='icon'/>;
@@ -83,7 +76,7 @@ export default class PostFlagIcon extends React.PureComponent {
                 }
             >
                 <button
-                    id={flagIconId || `${this.props.idPrefix}_${this.props.postId}`}
+                    id={`${this.props.location}_flagIcon_${this.props.postId}`}
                     className={'style--none flag-icon__container ' + flagVisible}
                     onClick={this.handlePress}
                 >

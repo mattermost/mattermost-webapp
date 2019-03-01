@@ -164,6 +164,15 @@
         @include flex-direction(column);
         border-left: $border-gray;
         height: calc(100% - 56px);
+
+        .loading-screen {
+            position: relative;
+            height: 40px;
+            padding: 0px;
+            .loading__content {
+                height: 40px;
+            }
+        }
     }
 
     .sidebar__overlay {

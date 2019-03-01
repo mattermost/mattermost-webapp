@@ -8,7 +8,6 @@ import PostFlagIcon from 'components/post_view/post_flag_icon/post_flag_icon';
 
 describe('components/post_view/PostFlagIcon', () => {
     const baseProps = {
-        idPrefix: 'centerPostFlag',
         postId: 'post_id',
         isFlagged: false,
         isEphemeral: false,

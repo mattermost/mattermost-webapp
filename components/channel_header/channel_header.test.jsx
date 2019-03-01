@@ -5,7 +5,6 @@ import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import ChannelHeader from 'components/channel_header/channel_header';
-import {NotificationLevels} from 'utils/constants';
 
 describe('components/ChannelHeader', () => {
     const baseProps = {
@@ -39,6 +38,7 @@ describe('components/ChannelHeader', () => {
             id: 'channel_id',
             team_id: 'team_id',
             name: 'Test',
+            delete_at: 0,
         },
         channelMember: {
             channel_id: 'channel_id',
@@ -109,7 +109,7 @@ describe('components/ChannelHeader', () => {
     test('should render correct menu when muted', () => {
         const props = {
             ...populatedProps,
-            channelMember: {...populatedProps.channelMember, notify_props: {mark_unread: NotificationLevels.MENTION}},
+            isMuted: true,
         };
 
         const wrapper = shallowWithIntl(

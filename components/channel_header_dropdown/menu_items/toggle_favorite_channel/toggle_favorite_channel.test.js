@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action.jsx';
+
 import ToggleFavoriteChannel from './toggle_favorite_channel';
 
 describe('components/ChannelHeaderDropdown/MenuItem.ToggleFavoriteChannel', () => {
@@ -43,7 +45,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.ToggleFavoriteChannel', () =
     it('should runs unfavoriteChannel function for favorite channel', () => {
         const wrapper = shallow(<ToggleFavoriteChannel {...propsForFavorite}/>);
 
-        wrapper.find('button').simulate('click', {
+        wrapper.find(MenuItemAction).simulate('click', {
             preventDefault: jest.fn(),
         });
 
@@ -60,7 +62,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.ToggleFavoriteChannel', () =
     it('should runs favoriteChannel function for not favorite channel', () => {
         const wrapper = shallow(<ToggleFavoriteChannel {...propsForNotFavorite}/>);
 
-        wrapper.find('button').simulate('click', {
+        wrapper.find(MenuItemAction).simulate('click', {
             preventDefault: jest.fn(),
         });
 

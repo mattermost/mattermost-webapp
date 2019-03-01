@@ -33,7 +33,6 @@ describe('components/post_view/PostInfo', () => {
         handleCommentClick: jest.fn(),
         handleDropdownOpened: jest.fn(),
         compactDisplay: false,
-        lastPostCount: 0,
         replyCount: 0,
         getPostList: jest.fn(),
         useMilitaryTime: false,

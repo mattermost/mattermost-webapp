@@ -143,7 +143,6 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
           },
         ]
       }
-      valueKey="id"
       valueRenderer={[Function]}
       values={
         Array [

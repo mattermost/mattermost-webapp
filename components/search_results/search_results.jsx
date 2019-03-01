@@ -7,7 +7,6 @@ import Scrollbars from 'react-custom-scrollbars';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 
-import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import SearchResultsHeader from 'components/search_results_header';
@@ -182,21 +181,31 @@ export default class SearchResults extends React.PureComponent {
                 sortedResults = results;
             }
 
-            ctls = sortedResults.map((post, idx, arr) => {
-                const reverseCount = arr.length - idx - 1;
-
+            ctls = sortedResults.map((post) => {
                 return (
                     <SearchResultsItem
                         key={post.id}
                         compactDisplay={this.props.compactDisplay}
                         post={post}
                         matches={this.props.matches[post.id]}
-                        lastPostCount={(reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT) ? reverseCount : -1}
                         term={(!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isMentionSearch) ? searchTerms : ''}
                         isMentionSearch={this.props.isMentionSearch}
                     />
                 );
             }, this);
+        }
+
+        let loadingScreen = null;
+        if (this.props.isSearchGettingMore) {
+            loadingScreen = (
+                <div className='loading-screen'>
+                    <div className='loading__content'>
+                        <div className='round round-1'/>
+                        <div className='round round-2'/>
+                        <div className='round round-3'/>
+                    </div>
+                </div>
+            );
         }
 
         return (
@@ -225,6 +234,7 @@ export default class SearchResults extends React.PureComponent {
                         {ctls}
                     </div>
                 </Scrollbars>
+                {loadingScreen}
             </div>
         );
     }

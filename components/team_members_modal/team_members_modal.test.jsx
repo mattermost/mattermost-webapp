@@ -17,26 +17,11 @@ describe('components/TeamMembersModal', () => {
                 onHide={emptyFunction}
                 onLoad={emptyFunction}
                 isAdmin={false}
+                show={true}
             />
         );
 
         expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should set show to false on Modal\'s onHide', () => {
-        function emptyFunction() {} //eslint-disable-line no-empty-function
-
-        const wrapper = shallow(
-            <TeamMembersModal
-                currentTeam={{display_name: 'display name'}}
-                onHide={emptyFunction}
-                onLoad={emptyFunction}
-                isAdmin={false}
-            />
-        );
-
-        wrapper.find(Modal).first().props().onHide();
-        expect(wrapper.state('show')).toBe(false);
     });
 
     test('should call onHide on Modal\'s onExited', () => {
@@ -49,6 +34,7 @@ describe('components/TeamMembersModal', () => {
                 onHide={onHide}
                 onLoad={emptyFunction}
                 isAdmin={false}
+                show={true}
             />
         );
 

@@ -9,6 +9,7 @@ import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/tea
 import {getCurrentUserId, getUserStatuses, makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
+import {openModal} from 'actions/views/modals';
 
 import PopoverListMembers from './popover_list_members.jsx';
 
@@ -32,6 +33,7 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            openModal,
             getProfilesInChannel,
             openDirectChannelToUserId,
         }, dispatch),

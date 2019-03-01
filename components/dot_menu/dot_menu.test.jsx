@@ -20,17 +20,19 @@ jest.mock('utils/post_utils', () => {
     return {
         ...original,
         isSystemMessage: jest.fn(() => false),
+        canEditPost: jest.fn(() => true),
+        canDeletePost: jest.fn(() => false),
     };
 });
 
 describe('components/dot_menu/DotMenu', () => {
     const baseProps = {
         post: {id: 'post_id_1', is_pinned: false},
-        location: 'CENTER',
         isLicensed: false,
         postEditTimeLimit: '-1',
         handleCommentClick: jest.fn(),
         handleDropdownOpened: jest.fn(),
+        enableEmojiPicker: true,
         actions: {
             flagPost: jest.fn(),
             unflagPost: jest.fn(),
@@ -44,21 +46,25 @@ describe('components/dot_menu/DotMenu', () => {
     test('should match snapshot, on Center', () => {
         const wrapper = shallowWithIntl(
             <DotMenu {...baseProps}/>
-        ).dive({disableLifecycleMethods: true});
+        );
 
         expect(wrapper).toMatchSnapshot();
 
-        wrapper.setState({canEdit: true});
+        const instance = wrapper.instance();
+        const setStateMock = jest.fn();
+        instance.setState = setStateMock;
         wrapper.instance().handleEditDisable();
-        expect(wrapper.state('canEdit')).toEqual(false);
+        expect(setStateMock).toBeCalledWith({canEdit: false});
     });
 
     test('should match snapshot, canDelete', () => {
+        const utils = require('utils/post_utils'); //eslint-disable-line global-require
+        utils.canDeletePost.mockReturnValue(true);
+
         const wrapper = shallowWithIntl(
             <DotMenu {...baseProps}/>
-        ).dive({disableLifecycleMethods: true});
+        );
 
-        wrapper.setState({canDelete: true});
         expect(wrapper).toMatchSnapshot();
     });
 });

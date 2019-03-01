@@ -26,7 +26,6 @@ describe('components/post_view/PostAttachment', () => {
         post,
         enableFormatting: true,
         options: {},
-        lastPostCount: 1,
         compactDisplay: false,
         isRHS: false,
         isRHSOpen: false,

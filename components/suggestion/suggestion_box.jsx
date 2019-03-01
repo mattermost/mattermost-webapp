@@ -80,6 +80,7 @@ export default class SuggestionBox extends React.Component {
          * Function called when a key is pressed and the input box is in focus
          */
         onKeyDown: PropTypes.func,
+        onComposition: PropTypes.func,
 
         /**
          * Function called when an item is selected
@@ -299,6 +300,9 @@ export default class SuggestionBox extends React.Component {
 
     handleCompositionStart = () => {
         this.composing = true;
+        if (this.props.onComposition) {
+            this.props.onComposition();
+        }
     }
 
     handleCompositionUpdate = (e) => {
@@ -311,10 +315,16 @@ export default class SuggestionBox extends React.Component {
         const pretext = textbox.value.substring(0, textbox.selectionStart) + e.data;
 
         this.pretext = pretext;
+        if (this.props.onComposition) {
+            this.props.onComposition();
+        }
     }
 
     handleCompositionEnd = () => {
         this.composing = false;
+        if (this.props.onComposition) {
+            this.props.onComposition();
+        }
     }
 
     addTextAtCaret = (term, matchedPretext) => {
@@ -602,6 +612,7 @@ export default class SuggestionBox extends React.Component {
         // Don't pass props used by SuggestionBox
         Reflect.deleteProperty(props, 'providers');
         Reflect.deleteProperty(props, 'onChange'); // We use onInput instead of onChange on the actual input
+        Reflect.deleteProperty(props, 'onComposition');
         Reflect.deleteProperty(props, 'onItemSelected');
         Reflect.deleteProperty(props, 'completeOnTab');
         Reflect.deleteProperty(props, 'isRHS');
