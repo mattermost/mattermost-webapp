@@ -427,16 +427,16 @@ describe('Account Settings > Display > Theme Colors > Custom Theme > Sidebar Sty
         cy.get('#accountSettings').click();
         cy.get('#displayButton').click();
 
-        // 3. Click "Edit" to the right of Theme
+        // 2. Click "Edit" to the right of Theme
         cy.get('#themeEdit').click();
 
-        // 4. Select Standard Theme
+        // 3. Select Standard Theme
         cy.get('#standardThemes').click();
 
-        // 5. Select the Mattermost Theme
+        // 4. Select the Mattermost Theme
         cy.get('.col-xs-6.col-sm-3.premade-themes').first().click();
 
-        // 6. Select the Save button to save changes
+        // 5. Select the Save button to save changes
         cy.get('#saveSetting').click();
     });
 });
