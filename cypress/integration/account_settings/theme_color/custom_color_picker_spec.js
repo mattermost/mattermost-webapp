@@ -195,46 +195,217 @@ describe('Account Settings > Sidebar > Theme Colors > Color Picker', () => {
     //     // cy.get('.sidebar-item').should('have.css', 'background-color', 'rgb(69, 191, 191)');
     // });
 
-    it('should change Sidebar Text Active Border color and verify color change', () => {
-        // 1. Selecting Theme Edit, Custom Theme, and Sidebar Styles dropdown
-        cy.customColors(0, 'Sidebar Styles');
+    // it('should change Sidebar Text Active Border color and verify color change', () => {
+    //     // 1. Selecting Theme Edit, Custom Theme, and Sidebar Styles dropdown
+    //     cy.customColors(0, 'Sidebar Styles');
 
-        // 2. Click Sidebar Text Active Border
-        cy.get('.input-group-addon').eq(6).click();
+    //     // 2. Click Sidebar Text Active Border
+    //     cy.get('.input-group-addon').eq(6).click();
 
-        // 3. Click on color window to change color
-       // cy.get('.saturation-black').click();
+    //     // 3. Click on color window to change color
+    //     cy.get('.saturation-black').click();
 
-        // 4. Click outside of color modal to remove it from view
-        cy.get('#displaySettingsTitle').click();
+    //     // 4. Click outside of color modal to remove it from view
+    //     cy.get('#displaySettingsTitle').click();
 
-        // * Check Sidebar Text Active Border icon color change
-        cy.get('.color-icon').eq(6).should('have.css', 'background-color', 'rgb(65, 92, 129)');
+    //     // * Check Sidebar Text Active Border icon color change
+    //     cy.get('.color-icon').eq(6).should('have.css', 'background-color', 'rgb(65, 92, 129)');
 
-        // 5. Save Sidebar Text Active Border color change
-        cy.get('#saveSetting').click();
+    //     // 5. Save Sidebar Text Active Border color change
+    //     cy.get('#saveSetting').click();
 
-        // 6. Exit user settings
-        cy.get('#accountSettingsHeader > .close').click();
+    //     // 6. Exit user settings
+    //     cy.get('#accountSettingsHeader > .close').click();
 
-        // unsure how to identify this, need to research
-        
-        // // * Check Sidebar Text Active Border
-        // cy.get('#sidebarItem_town-square.sidebar-item::before(129, 65, 72)');
+    //     // unsure how to identify this, need to research
+    //  // * Check Sidebar Text Active Border
+    //   // cy.get('.sidebarItem_town-square.sidebar-item::before').siblings('.active').should('have.css', 'color', 'rgb(129, 65, 72)');
 
-        // 7. Open sidebar dropdown
-        cy.get('#sidebarHeaderDropdownButton').click();
+    //     // 7. Open sidebar dropdown
+    //     cy.get('#sidebarHeaderDropdownButton').click();
 
-        // 8. Select Account Settings
-        cy.get('#accountSettings').click();
+    //     // 8. Select Account Settings
+    //     cy.get('#accountSettings').click();
 
-        // 9. Click the Display tab
-        cy.get('#displayButton').click();
-    });
+    //     // 9. Click the Display tab
+    //     cy.get('#displayButton').click();
+    // });
+
+    // it('should change Sidebar Text Active Color and verify color change', () => {
+    //     // 1. Selecting Theme Edit, Custom Theme, and Sidebar Styles dropdown
+    //     cy.customColors(0, 'Sidebar Styles');
+
+    //     // 2. Click Sidebar Text Active Color
+    //     cy.get('.input-group-addon').eq(7).click();
+
+    //     // 3. Click on color window to change color
+    //      cy.get('.saturation-black').click();
+
+    //     // 4. Click outside of color modal to remove it from view
+    //     cy.get('#displaySettingsTitle').click();
+
+    //     // * Check Sidebar Text Active Color icon color change
+    //     cy.get('.color-icon').eq(7).should('have.css', 'background-color', 'rgb(129, 65, 65)');
+
+    //     // 5. Save Sidebar Text Active Color change
+    //     cy.get('#saveSetting').click();
+
+    //     // * Check Sidebar Text Active Color
+    //     cy.get('#displayButton').should('have.css', 'color', 'rgb(129, 65, 65)');
+
+    //     // * Check a non-active Sidebar Text color is white
+    //     cy.get('#sidebarButton').should('have.css', 'color', 'rgba(255, 255, 255, 0.6)');
+    // })
+
+    // it('should change Online Indicator color  and verify color change', () => {
+    //     // 1. Selecting Theme Edit, Custom Theme, and Sidebar Styles dropdown
+    //     cy.customColors(0, 'Sidebar Styles');
+
+    //     // 2. Click Online Indicator
+    //     cy.get('.input-group-addon').eq(8).click();
+
+    //     // 3. Click on color window to change color
+    //     cy.get('.saturation-black').click();
+
+    //     // 4. Click outside of color modal to remove it from view
+    //     cy.get('#displaySettingsTitle').click();
+
+    //     // * Check Online Indicator icon color change
+    //     cy.get('.color-icon').eq(8).should('have.css', 'background-color', 'rgb(65, 129, 113)');
+
+    //     // 5. Save Online Indicator color change
+    //     cy.get('#saveSetting').click();
+
+    //     // 6. Exit User Settings
+    //     cy.get('#accountSettingsHeader > .close').click();
+
+    //     // * Check Online Indicator color
+    //     cy.get('.online--icon').should('have.css', 'fill', 'rgb(65, 129, 113)');
+    // });
+
+    // it('should change Away Indicator color  and verify color change', () => {
+    //     // 1. Selecting Theme Edit, Custom Theme, and Sidebar Styles dropdown
+    //     cy.customColors(0, 'Sidebar Styles');
+
+    //     // 2. Click Away Indicator
+    //     cy.get('.input-group-addon').eq(9).click();
+
+    //     // 3. Click on color window to change color
+    //     //cy.get('.saturation-black').click();
+
+    //     // 4. Click outside of color modal to remove it from view
+    //     cy.get('#displaySettingsTitle').click();
+
+    //     // * Check Away Indicator icon color change
+    //     cy.get('.color-icon').eq(9).should('have.css', 'background-color', 'rgb(129, 106, 65)');
+
+    //     // 5. Save Away Indicator color change
+    //     cy.get('#saveSetting').click();
+
+    //     // 6. Exit User Settings
+    //     cy.get('#accountSettingsHeader > .close').click();
+
+    //     // 7. Change user-1 status to Away
+    //     cy.get('.status-wrapper.status-selector').click();
+    //     cy.get('.MenuItem').eq(1).click();
+
+    //     // * Check Away Indicator color
+    //     cy.get('.away--icon').should('have.css', 'fill', 'rgb(129, 106, 65)');
+
+    //     // 8. Change user-1 status to Online
+    //     cy.get('.status-wrapper.status-selector').click();
+    //     cy.get('.MenuItem').eq(0).click();
+    // });
+
+    // it('should change Do Not Disturb Indicator color  and verify color change', () => {
+    //     // 1. Selecting Theme Edit, Custom Theme, and Sidebar Styles dropdown
+    //     cy.customColors(0, 'Sidebar Styles');
+
+    //     // 2. Click Do Not Disturb Indicator
+    //     cy.get('.input-group-addon').eq(10).click();
+
+    //     // 3. Click on color window to change color
+    //     cy.get('.saturation-black').click();
+
+    //     // 4. Click outside of color modal to remove it from view
+    //     cy.get('#displaySettingsTitle').click();
+
+    //     // * Check Do Not Disturb Indicator icon color change
+    //     cy.get('.color-icon').eq(10).should('have.css', 'background-color', 'rgb(129, 65, 65)');
+
+    //     // 5. Save Do Not Disturb Indicator color change
+    //     cy.get('#saveSetting').click();
+
+    //     // 6. Exit User Settings
+    //     cy.get('#accountSettingsHeader > .close').click();
+
+    //     // 7. Change user-1 status to Do Not Disturb
+    //     cy.get('.status-wrapper.status-selector').click();
+    //     cy.get('.MenuItem').eq(2).click();
+
+    //     // * Check Do Not Disturb Indicator color
+    //     cy.get('.dnd--icon').should('have.css', 'fill', 'rgb(129, 65, 65)');
+
+    //     // 8. Revert user-1 status to Online
+    //     cy.get('.status-wrapper.status-selector').click();
+    //     cy.get('.MenuItem').eq(0).click();
+    // });
+
+    // it('should change Mention Jewel BG color  and verify color change', () => {
+    //     // 1. Selecting Theme Edit, Custom Theme, and Sidebar Styles dropdown
+    //     cy.customColors(0, 'Sidebar Styles');
+
+    //     // 2. Click Mention Jewel BG
+    //     cy.get('.input-group-addon').eq(11).click();
+
+    //     // 3. Click on color window to change color
+    //     cy.get('.saturation-black').click();
+
+    //     // 4. Click outside of color modal to remove it from view
+    //     cy.get('#displaySettingsTitle').click();
+
+    //     // * Check Mention Jewel BG icon color change
+    //     cy.get('.color-icon').eq(11).should('have.css', 'background-color', 'rgb(129, 65, 65)');
+
+    //     // 5. Save Mention Jewel BG color change
+    //     cy.get('#saveSetting').click();
+
+    //     // 6. Exit User Settings
+    //     cy.get('#accountSettingsHeader > .close').click();
+
+    //     // * Check Mention Jewel BG color
+    //     cy.get('#unreadIndicatorBottom').should('have.css', 'background-color', 'rgb(129, 65, 65)');
+    // });
+
+    // it('should change Mention Jewel Text color  and verify color change', () => {
+    //     // 1. Selecting Theme Edit, Custom Theme, and Sidebar Styles dropdown
+    //     cy.customColors(0, 'Sidebar Styles');
+
+    //     // 2. Click Mention Jewel Text
+    //     cy.get('.input-group-addon').eq(12).click();
+
+    //     // 3. Click on color window to change color
+    //     cy.get('.saturation-black').click();
+
+    //     // 4. Click outside of color modal to remove it from view
+    //     cy.get('#displaySettingsTitle').click();
+
+    //     // * Check Mention Jewel Text icon color change
+    //     cy.get('.color-icon').eq(12).should('have.css', 'background-color', 'rgb(65, 92, 129)');
+
+    //     // 5. Save Mention Jewel Text color change
+    //     cy.get('#saveSetting').click();
+
+    //     // 6. Exit User Settings
+    //     cy.get('#accountSettingsHeader > .close').click();
+
+    //     // * Check Mention Jewel Text color
+    //     cy.get('#unreadIndicatorBottom').should('have.css', 'color', 'rgb(65, 92, 129)');
+    // });
 
     // it('should revert any color changes made', () => {
     //     // 1. Click "Edit" to the right of Theme
-    //    cy.get('#themeEdit').click();
+    //     cy.get('#themeEdit').click();
 
     //     // 2. Select Standard Theme
     //     cy.get('#standardThemes').click();
