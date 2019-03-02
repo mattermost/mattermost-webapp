@@ -474,6 +474,7 @@
         flex: 0 0 63px;
         position: relative;
         max-height: 63px;
+        padding: 10px;
 
         &:before {
             @include single-transition(all, .05s, linear);
@@ -614,7 +615,7 @@
                 width: 36px;
 
                 position: absolute;
-                right: 5px;
+                right: -5px;
                 top: 4px;
             }
         }
