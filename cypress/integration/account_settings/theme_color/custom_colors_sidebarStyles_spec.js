@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // **************************************************************
 
-describe('Account Settings > Sidebar > Theme Colors > Color Picker', () => {
+describe('Account Settings > Display > Theme Colors > Custom Theme > Sidebar Styles', () => {
     before(() => {
         // 1. Go to Account Settings with "user-1"
         cy.toAccountSettingsModal('user-1');
@@ -188,7 +188,7 @@ describe('Account Settings > Sidebar > Theme Colors > Color Picker', () => {
         // * CSS hover is not currently implemented for cypress, unable to find workaround. mouseenter/mouseover does not work with css check
 
         // // 8. Exit user settings
-        // cy.get('#accountSettingsHeader > .close').click();
+        cy.get('#accountSettingsHeader > .close').click();
 
         // * Check Sidebar Text Hover BG color change
         // cy.get('#sidebarItem_autem-2').trigger('mouseover, { force: true }');
@@ -220,7 +220,7 @@ describe('Account Settings > Sidebar > Theme Colors > Color Picker', () => {
         // cy.get('#accountSettingsHeader > .close').click();
 
         // // * Check Sidebar Text Active Border
-        // cy.get('.sidebarItem_town-square.sidebar-item::before').siblings('.active').should('have.css', 'color', 'rgb(129, 65, 72)');
+        // cy.get('.sidebar-item::before').siblings('.active').should('have.css', 'background', 'rgb(65, 92, 129)');
 
         // // 7. Open sidebar dropdown
         // cy.get('#sidebarHeaderDropdownButton').click();
