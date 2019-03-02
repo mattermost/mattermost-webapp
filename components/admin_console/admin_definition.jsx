@@ -30,6 +30,17 @@ import SystemUsers from './system_users';
 import ServerLogs from './server_logs';
 import BrandImageSetting from './brand_image_setting/brand_image_setting.jsx';
 import GroupSettings from './group_settings/group_settings.jsx';
+import GroupDetails from './group_settings/group_details';
+
+import PasswordSettings from './password_settings.jsx';
+import EmailNotificationsSettings from './email_settings.jsx';
+import PushNotificationsSettings from './push_settings.jsx';
+import DataRetentionSettings from './data_retention_settings.jsx';
+import MessageExportSettings from './message_export_settings.jsx';
+import DatabaseSettings from './database_settings.jsx';
+import ElasticSearchSettings from './elasticsearch_settings.jsx';
+import ClusterSettings from './cluster_settings.jsx';
+import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
 
 import * as DefinitionConstants from './admin_definition_constants';
 
@@ -141,24 +152,36 @@ export const needsUtils = {
 export default {
     reporting: {
         system_analytics: {
+            url: 'system_analytics',
+            title: t('admin.sidebar.view_statistics'),
+            title_default: 'Site Statistics',
             schema: {
                 id: 'SystemAnalytics',
                 component: SystemAnalytics,
             },
         },
         team_analytics: {
+            url: 'team_analytics',
+            title: t('admin.sidebar.statistics'),
+            title_default: 'Team Statistics',
             schema: {
                 id: 'TeamAnalytics',
                 component: TeamAnalytics,
             },
         },
         system_users: {
+            url: 'users',
+            title: t('admin.sidebar.users'),
+            title_default: 'Users',
             schema: {
                 id: 'SystemUsers',
                 component: SystemUsers,
             },
         },
         server_logs: {
+            url: 'logs',
+            title: t('admin.sidebar.logs'),
+            title_default: 'Logs',
             schema: {
                 id: 'ServerLogs',
                 component: ServerLogs,
@@ -167,7 +190,13 @@ export default {
     },
     settings: {
         general: {
+            url: 'general',
+            title: t('admin.sidebar.general'),
+            title_default: 'General',
             configuration: {
+                url: 'configuration',
+                title: t('admin.sidebar.configuration'),
+                title_default: 'Configuration',
                 schema: {
                     id: 'ServiceSettings',
                     name: t('admin.general.configuration'),
@@ -356,6 +385,9 @@ export default {
                 },
             },
             localization: {
+                url: 'localization',
+                title: t('admin.sidebar.localization'),
+                title_default: 'Localization',
                 schema: {
                     id: 'LocalizationSettings',
                     name: t('admin.general.localization'),
@@ -395,6 +427,9 @@ export default {
                 },
             },
             users_and_teams: {
+                url: 'users_and_teams',
+                title: t('admin.sidebar.usersAndTeams'),
+                title_default: 'Users and Teams',
                 schema: {
                     id: 'UserAndTeamsSettings',
                     name: t('admin.general.usersAndTeams'),
@@ -533,6 +568,9 @@ export default {
                 },
             },
             privacy: {
+                url: 'privacy',
+                title: t('admin.sidebar.privacy'),
+                title_default: 'Privacy',
                 schema: {
                     id: 'PrivacySettings',
                     name: t('admin.general.privacy'),
@@ -558,6 +596,10 @@ export default {
                 },
             },
             compliance: {
+                url: 'compliance',
+                title: t('admin.sidebar.compliance'),
+                title_default: 'Compliance',
+                isHidden: needsUtils.not(needsUtils.hasLicenseFeature('Compliance')),
                 schema: {
                     id: 'ComplianceSettings',
                     name: t('admin.compliance.title'),
@@ -608,6 +650,9 @@ export default {
                 },
             },
             logging: {
+                url: 'logging',
+                title: t('admin.sidebar.logging'),
+                title_default: 'Logging',
                 schema: {
                     id: 'LogSettings',
                     name: t('admin.general.log'),
@@ -716,27 +761,75 @@ export default {
             },
         },
         accessControl: {
+            url: 'access-control',
+            title: t('admin.sidebar.access-control'),
+            title_default: 'Access Control',
             groups: {
+                url: 'groups',
+                title: t('admin.sidebar.groups'),
+                title_default: 'Groups',
+                isHidden: needsUtils.or(
+                    needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')),
+                    (config) => !config.ServiceSettings.ExperimentalLdapGroupSync,
+                ),
                 schema: {
                     id: 'Groups',
                     component: GroupSettings,
                 },
             },
+            group_detail: {
+                url: 'groups/:group_id',
+                isHidden: needsUtils.or(
+                    needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')),
+                    (config) => !config.ServiceSettings.ExperimentalLdapGroupSync,
+                ),
+                schema: {
+                    id: 'GroupDetail',
+                    component: GroupDetails,
+                },
+            },
         },
         permissions: {
+            url: 'permissions',
+            title: t('admin.sidebar.permissions'),
+            title_default: 'Advanced Permissions',
             schemes: {
+                url: 'schemes',
+                title: t('admin.sidebar.schemes'),
+                title_default: 'Permission Schemes',
+                isHidden: needsUtils.or(
+                    needsUtils.not(needsUtils.hasLicense),
+                    needsUtils.not(needsUtils.hasLicenseFeature('CustomPermissionsSchemes'))
+                ),
                 schema: {
                     id: 'PermissionSchemes',
                     component: PermissionSchemesSettings,
                 },
             },
             systemScheme: {
+                url: 'system-scheme',
+                title: t('admin.sidebar.system-scheme'),
+                title_default: 'System scheme',
+                isHidden: needsUtils.or(
+                    needsUtils.not(needsUtils.hasLicense),
+                    needsUtils.hasLicenseFeature('CustomPermissionsSchemes')
+                ),
                 schema: {
                     id: 'PermissionSystemScheme',
                     component: PermissionSystemSchemeSettings,
                 },
             },
+            teamSchemeDetail: {
+                url: 'team-override-scheme/:scheme_id',
+                isHidden: needsUtils.not(needsUtils.hasLicenseFeature('CustomPermissionsSchemes')),
+                schema: {
+                    id: 'PermissionSystemScheme',
+                    component: PermissionTeamSchemeSettings,
+                },
+            },
             teamScheme: {
+                url: 'team-override-scheme',
+                isHidden: needsUtils.not(needsUtils.hasLicenseFeature('CustomPermissionsSchemes')),
                 schema: {
                     id: 'PermissionSystemScheme',
                     component: PermissionTeamSchemeSettings,
@@ -744,7 +837,50 @@ export default {
             },
         },
         authentication: {
+            url: 'authentication',
+            title: t('admin.sidebar.authentication'),
+            title_default: 'Authentication',
+            email: {
+                url: 'authentication_email',
+                title: t('admin.sidebar.email'),
+                title_default: 'Email',
+                schema: {
+                    id: 'EmailSettings',
+                    name: t('admin.authentication.email'),
+                    name_default: 'Email Authentication',
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'EmailSettings.EnableSignUpWithEmail',
+                            label: t('admin.email.allowSignupTitle'),
+                            label_default: 'Enable account creation with email:',
+                            help_text: t('admin.email.allowSignupDescription'),
+                            help_text_default: 'When true, Mattermost allows account creation using email and password. This value should be false only when you want to limit sign up to a single sign-on service like AD/LDAP, SAML or GitLab.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'EmailSettings.EnableSignInWithEmail',
+                            label: t('admin.email.allowEmailSignInTitle'),
+                            label_default: 'Enable sign-in with email:',
+                            help_text: t('admin.email.allowEmailSignInDescription'),
+                            help_text_default: 'When true, Mattermost allows users to sign in using their email and password.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'EmailSettings.EnableSignInWithUsername',
+                            label: t('admin.email.allowUsernameSignInTitle'),
+                            label_default: 'Enable sign-in with username:',
+                            help_text: t('admin.email.allowUsernameSignInDescription'),
+                            help_text_default: 'When true, users with email login can sign in using their username and password. This setting does not affect AD/LDAP login.',
+                        },
+                    ],
+                },
+            },
             gitlab: {
+                url: 'gitlab',
+                title: t('admin.sidebar.gitlab'),
+                title_default: 'GitLab',
+                isHidden: needsUtils.hasLicense,
                 schema: {
                     id: 'GitLabSettings',
                     name: t('admin.authentication.gitlab'),
@@ -845,6 +981,10 @@ export default {
                 },
             },
             oauth: {
+                url: 'oauth',
+                title: t('admin.sidebar.oauth'),
+                title_default: 'OAuth 2.0',
+                isHidden: needsUtils.not(needsUtils.hasLicense),
                 schema: {
                     id: 'OAuthSettings',
                     name: t('admin.authentication.oauth'),
@@ -1104,40 +1244,11 @@ export default {
                     ],
                 },
             },
-            email: {
-                schema: {
-                    id: 'EmailSettings',
-                    name: t('admin.authentication.email'),
-                    name_default: 'Email Authentication',
-                    settings: [
-                        {
-                            type: Constants.SettingsTypes.TYPE_BOOL,
-                            key: 'EmailSettings.EnableSignUpWithEmail',
-                            label: t('admin.email.allowSignupTitle'),
-                            label_default: 'Enable account creation with email:',
-                            help_text: t('admin.email.allowSignupDescription'),
-                            help_text_default: 'When true, Mattermost allows account creation using email and password. This value should be false only when you want to limit sign up to a single sign-on service like AD/LDAP, SAML or GitLab.',
-                        },
-                        {
-                            type: Constants.SettingsTypes.TYPE_BOOL,
-                            key: 'EmailSettings.EnableSignInWithEmail',
-                            label: t('admin.email.allowEmailSignInTitle'),
-                            label_default: 'Enable sign-in with email:',
-                            help_text: t('admin.email.allowEmailSignInDescription'),
-                            help_text_default: 'When true, Mattermost allows users to sign in using their email and password.',
-                        },
-                        {
-                            type: Constants.SettingsTypes.TYPE_BOOL,
-                            key: 'EmailSettings.EnableSignInWithUsername',
-                            label: t('admin.email.allowUsernameSignInTitle'),
-                            label_default: 'Enable sign-in with username:',
-                            help_text: t('admin.email.allowUsernameSignInDescription'),
-                            help_text_default: 'When true, users with email login can sign in using their username and password. This setting does not affect AD/LDAP login.',
-                        },
-                    ],
-                },
-            },
             ldap: {
+                url: 'ldap',
+                title: t('admin.sidebar.ldap'),
+                title_default: 'AD/LDAP',
+                isHidden: needsUtils.not(needsUtils.hasLicenseFeature('LDAP')),
                 schema: {
                     id: 'LdapSettings',
                     name: t('admin.authentication.ldap'),
@@ -1622,6 +1733,10 @@ export default {
                 },
             },
             saml: {
+                url: 'saml',
+                title: t('admin.sidebar.saml'),
+                title_default: 'SAML 2.0',
+                isHidden: needsUtils.not(needsUtils.hasLicenseFeature('SAML')),
                 schema: {
                     id: 'SamlSettings',
                     name: t('admin.authentication.saml'),
@@ -1890,6 +2005,9 @@ export default {
                 },
             },
             mfa: {
+                url: 'mfa',
+                title: t('admin.sidebar.mfa'),
+                title_default: 'MFA',
                 schema: {
                     id: 'ServiceSettings',
                     name: t('admin.mfa.title'),
@@ -1926,7 +2044,13 @@ export default {
             },
         },
         security: {
+            url: 'security',
+            title: t('admin.sidebar.security'),
+            title_default: 'Security',
             signup: {
+                url: 'signup',
+                title: t('admin.sidebar.signUp'),
+                title_default: 'Sign Up',
                 schema: {
                     id: 'SignupSettings',
                     name: t('admin.security.signup'),
@@ -1973,7 +2097,19 @@ export default {
                     ],
                 },
             },
+            password: {
+                url: 'password',
+                title: t('admin.sidebar.password'),
+                title_default: 'Password',
+                schema: {
+                    id: 'PasswordSettings',
+                    component: PasswordSettings,
+                },
+            },
             public_links: {
+                url: 'public_links',
+                title: t('admin.sidebar.publicLinks'),
+                title_default: 'Public Links',
                 schema: {
                     id: 'PublicLinkSettings',
                     name: t('admin.security.public_links'),
@@ -1999,6 +2135,9 @@ export default {
                 },
             },
             sessions: {
+                url: 'sessions',
+                title: t('admin.sidebar.sessions'),
+                title_default: 'Sessions',
                 schema: {
                     id: 'SessionsSettings',
                     name: t('admin.security.session'),
@@ -2066,6 +2205,9 @@ export default {
                 },
             },
             connections: {
+                url: 'connections',
+                title: t('admin.sidebar.connections'),
+                title_default: 'Connections',
                 schema: {
                     id: 'ConnectionSettings',
                     name: t('admin.security.connection'),
@@ -2119,6 +2261,7 @@ export default {
                 },
             },
             clientVersions: {
+                url: 'client_versions',
                 schema: {
                     id: 'ClientVersionsSettings',
                     name: t('admin.security.client_versions'),
@@ -2189,9 +2332,36 @@ export default {
             },
         },
         notifications: {
+            url: 'notifications',
+            title: t('admin.sidebar.notifications'),
+            title_default: 'Notifications',
+            email: {
+                url: 'notifications_email',
+                title: t('admin.sidebar.email'),
+                title_default: 'Email',
+                schema: {
+                    id: 'EmailNotificationsSettings',
+                    component: EmailNotificationsSettings,
+                },
+            },
+            push: {
+                url: 'push',
+                title: t('admin.sidebar.push'),
+                title_default: 'Mobile Push',
+                schema: {
+                    id: 'PushNotificationsSettings',
+                    component: PushNotificationsSettings,
+                },
+            },
         },
         integrations: {
+            url: 'integrations',
+            title: t('admin.sidebar.integrations'),
+            title_default: 'Integrations',
             custom_integrations: {
+                url: 'custom',
+                title: t('admin.sidebar.customIntegrations'),
+                title_default: 'Custom Integrations',
                 schema: {
                     id: 'CustomIntegrationSettings',
                     name: t('admin.integrations.custom'),
@@ -2274,6 +2444,9 @@ export default {
                 },
             },
             external: {
+                url: 'external',
+                title: t('admin.sidebar.external'),
+                title_default: 'External Services',
                 schema: {
                     id: 'ExternalServiceSettings',
                     name: t('admin.integrations.external'),
@@ -2295,13 +2468,20 @@ export default {
             },
         },
         plugins: {
+            url: 'plugins',
+            title: t('admin.sidebar.plugins'),
+            title_default: 'Plugins (Beta)',
             management: {
+                url: 'management',
+                title: t('admin.sidebar.plugins.management'),
+                title_default: 'Management',
                 schema: {
                     id: 'PluginManagementSettings',
                     component: PluginManagement,
                 },
             },
             custom: {
+                url: 'custom/:plugin_id',
                 schema: {
                     id: 'CustomPluginSettings',
                     component: CustomPluginSettings,
@@ -2309,7 +2489,13 @@ export default {
             },
         },
         files: {
+            url: 'files',
+            title: t('admin.sidebar.files'),
+            title_default: 'Files',
             storage: {
+                url: 'storage',
+                title: t('admin.sidebar.storage'),
+                title_default: 'Storage',
                 schema: {
                     id: 'FileSettings',
                     name: t('admin.files.storage'),
@@ -2542,7 +2728,13 @@ export default {
             },
         },
         customization: {
+            url: 'customization',
+            title: t('admin.sidebar.customization'),
+            title_default: 'Customization',
             customBrand: {
+                url: 'custom_brand',
+                title: t('admin.sidebar.customBrand'),
+                title_default: 'Custom Branding',
                 schema: {
                     id: 'CustomBrandSettings',
                     name: t('admin.customization.customBrand'),
@@ -2596,66 +2788,11 @@ export default {
                     ],
                 },
             },
-            emoji: {
-                schema: {
-                    id: 'EmojiSettings',
-                    name: t('admin.customization.emoji'),
-                    name_default: 'Emoji',
-                    settings: [
-                        {
-                            type: Constants.SettingsTypes.TYPE_BOOL,
-                            key: 'ServiceSettings.EnableEmojiPicker',
-                            label: t('admin.customization.enableEmojiPickerTitle'),
-                            label_default: 'Enable Emoji Picker:',
-                            help_text: t('admin.customization.enableEmojiPickerDesc'),
-                            help_text_default: 'The emoji picker allows users to select emoji to add as reactions or use in messages. Enabling the emoji picker with a large number of custom emoji may slow down performance.',
-                        },
-                        {
-                            type: Constants.SettingsTypes.TYPE_BOOL,
-                            key: 'ServiceSettings.EnableCustomEmoji',
-                            label: t('admin.customization.enableCustomEmojiTitle'),
-                            label_default: 'Enable Custom Emoji:',
-                            help_text: t('admin.customization.enableCustomEmojiDesc'),
-                            help_text_default: 'Enable users to create custom emoji for use in messages. When enabled, Custom Emoji settings can be accessed by switching to a team and clicking the three dots above the channel sidebar, and selecting "Custom Emoji".',
-                        },
-                    ],
-                },
-            },
-            gif: {
-                schema: {
-                    id: 'EmojiSettings',
-                    name: t('admin.customization.gif'),
-                    name_default: 'GIF (Beta)',
-                    settings: [
-                        {
-                            type: Constants.SettingsTypes.TYPE_BOOL,
-                            key: 'ServiceSettings.EnableGifPicker',
-                            label: t('admin.customization.enableGifPickerTitle'),
-                            label_default: 'Enable GIF Picker:',
-                            help_text: t('admin.customization.enableGifPickerDesc'),
-                            help_text_default: 'Allow users to select GIFs from the emoji picker via a Gfycat integration.',
-                        },
-                        {
-                            type: Constants.SettingsTypes.TYPE_TEXT,
-                            key: 'ServiceSettings.GfycatApiKey',
-                            label: t('admin.customization.gfycatApiKey'),
-                            label_default: 'Gfycat API Key:',
-                            help_text: t('admin.customization.gfycatApiKeyDescription'),
-                            help_text_default: 'Request an API key at [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#). Enter the client ID you receive via email to this field. When blank, uses the default API key provided by Gfycat.',
-                            help_text_markdown: true,
-                        },
-                        {
-                            type: Constants.SettingsTypes.TYPE_TEXT,
-                            key: 'ServiceSettings.GfycatApiSecret',
-                            label: t('admin.customization.gfycatApiSecret'),
-                            label_default: 'Gfycat API Secret:',
-                            help_text: t('admin.customization.gfycatApiSecretDescription'),
-                            help_text_default: 'The API secret generated by Gfycat for your API key. When blank, uses the default API secret provided by Gfycat.',
-                        },
-                    ],
-                },
-            },
             announcement: {
+                url: 'announcement',
+                title: t('admin.sidebar.announcement'),
+                title_default: 'Announcement Banner',
+                isHidden: needsUtils.not(needsUtils.hasLicense),
                 schema: {
                     id: 'AnnouncementSettings',
                     name: t('admin.customization.announcement'),
@@ -2704,7 +2841,75 @@ export default {
                     ],
                 },
             },
+            emoji: {
+                url: 'emoji',
+                title: t('admin.sidebar.emoji'),
+                title_default: 'Emoji',
+                schema: {
+                    id: 'EmojiSettings',
+                    name: t('admin.customization.emoji'),
+                    name_default: 'Emoji',
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'ServiceSettings.EnableEmojiPicker',
+                            label: t('admin.customization.enableEmojiPickerTitle'),
+                            label_default: 'Enable Emoji Picker:',
+                            help_text: t('admin.customization.enableEmojiPickerDesc'),
+                            help_text_default: 'The emoji picker allows users to select emoji to add as reactions or use in messages. Enabling the emoji picker with a large number of custom emoji may slow down performance.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'ServiceSettings.EnableCustomEmoji',
+                            label: t('admin.customization.enableCustomEmojiTitle'),
+                            label_default: 'Enable Custom Emoji:',
+                            help_text: t('admin.customization.enableCustomEmojiDesc'),
+                            help_text_default: 'Enable users to create custom emoji for use in messages. When enabled, Custom Emoji settings can be accessed by switching to a team and clicking the three dots above the channel sidebar, and selecting "Custom Emoji".',
+                        },
+                    ],
+                },
+            },
+            gif: {
+                url: 'gif',
+                title: t('admin.sidebar.gif'),
+                title_default: 'GIF (Beta)',
+                schema: {
+                    id: 'EmojiSettings',
+                    name: t('admin.customization.gif'),
+                    name_default: 'GIF (Beta)',
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'ServiceSettings.EnableGifPicker',
+                            label: t('admin.customization.enableGifPickerTitle'),
+                            label_default: 'Enable GIF Picker:',
+                            help_text: t('admin.customization.enableGifPickerDesc'),
+                            help_text_default: 'Allow users to select GIFs from the emoji picker via a Gfycat integration.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'ServiceSettings.GfycatApiKey',
+                            label: t('admin.customization.gfycatApiKey'),
+                            label_default: 'Gfycat API Key:',
+                            help_text: t('admin.customization.gfycatApiKeyDescription'),
+                            help_text_default: 'Request an API key at [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#). Enter the client ID you receive via email to this field. When blank, uses the default API key provided by Gfycat.',
+                            help_text_markdown: true,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'ServiceSettings.GfycatApiSecret',
+                            label: t('admin.customization.gfycatApiSecret'),
+                            label_default: 'Gfycat API Secret:',
+                            help_text: t('admin.customization.gfycatApiSecretDescription'),
+                            help_text_default: 'The API secret generated by Gfycat for your API key. When blank, uses the default API secret provided by Gfycat.',
+                        },
+                    ],
+                },
+            },
             posts: {
+                url: 'posts',
+                title: t('admin.sidebar.posts'),
+                title_default: 'Posts',
                 schema: {
                     id: 'PostSettings',
                     name: t('admin.customization.posts'),
@@ -2727,6 +2932,9 @@ export default {
                 },
             },
             legal_and_support: {
+                url: 'legal_and_support',
+                title: t('admin.sidebar.legalAndSupport'),
+                title_default: 'Legal and Support',
                 schema: {
                     id: 'LegalAndSupportSettings',
                     name: t('admin.customization.support'),
@@ -2783,7 +2991,20 @@ export default {
                     ],
                 },
             },
+            custom_terms_of_service: {
+                url: 'custom_terms_of_service',
+                title: t('admin.sidebar.customTermsOfService'),
+                title_default: 'Custom Terms of Service (Beta)',
+                isHidden: needsUtils.not(needsUtils.hasLicenseFeature('CustomTermsOfService')),
+                schema: {
+                    id: 'TermsOfServiceSettings',
+                    component: CustomTermsOfServiceSettings,
+                },
+            },
             native_app_links: {
+                url: 'native_app_links',
+                title: t('admin.sidebar.nativeAppLinks'),
+                title_default: 'Mattermost App Links',
                 schema: {
                     id: 'LegalAndSupportSettings',
                     name: t('admin.customization.nativeAppLinks'),
@@ -2818,9 +3039,38 @@ export default {
             },
         },
         compliance: {
+            url: 'compliance',
+            title: t('admin.sidebar.compliance'),
+            title_default: 'Compliance',
+            data_retention: {
+                url: 'data_retention',
+                title: t('admin.sidebar.data_retention'),
+                title_default: 'Data Retention Policy',
+                isHidden: needsUtils.not(needsUtils.hasLicenseFeature('DataRetention')),
+                schema: {
+                    id: 'DataRetentionSettings',
+                    component: DataRetentionSettings,
+                },
+            },
+            message_export: {
+                url: 'message_export',
+                title: t('admin.sidebar.compliance_export'),
+                title_default: 'Compliance Export (Beta)',
+                isHidden: needsUtils.not(needsUtils.hasLicenseFeature('MessageExport')),
+                schema: {
+                    id: 'MessageExportSettings',
+                    component: MessageExportSettings,
+                },
+            },
         },
         advanced: {
+            url: 'advanced',
+            title: t('admin.sidebar.advanced'),
+            title_default: 'Advanced',
             rate: {
+                url: 'rate',
+                title: t('admin.sidebar.rateLimiting'),
+                title_default: 'Rate Limiting',
                 schema: {
                     id: 'ServiceSettings',
                     name: t('admin.rate.title'),
@@ -2908,7 +3158,29 @@ export default {
                     ],
                 },
             },
+            database: {
+                url: 'database',
+                title: t('admin.sidebar.database'),
+                title_default: 'Database',
+                schema: {
+                    id: 'DatabaseSettings',
+                    component: DatabaseSettings,
+                },
+            },
+            elasticsearch: {
+                url: 'elasticsearch',
+                title: t('admin.sidebar.elasticsearch'),
+                title_default: 'Elasticsearch',
+                isHidden: needsUtils.not(needsUtils.hasLicenseFeature('Elasticsearch')),
+                schema: {
+                    id: 'ElasticSearchSettings',
+                    component: ElasticSearchSettings,
+                },
+            },
             developer: {
+                url: 'developer',
+                title: t('admin.sidebar.developer'),
+                title_default: 'Developer',
                 schema: {
                     id: 'ServiceSettings',
                     name: t('admin.developer.title'),
@@ -2944,7 +3216,21 @@ export default {
                     ],
                 },
             },
+            cluster: {
+                url: 'cluster',
+                title: t('admin.sidebar.cluster'),
+                title_default: 'High Availability',
+                isHidden: needsUtils.not(needsUtils.hasLicenseFeature('Cluster')),
+                schema: {
+                    id: 'ClusterSettings',
+                    component: ClusterSettings,
+                },
+            },
             metrics: {
+                url: 'metrics',
+                title: t('admin.sidebar.metrics'),
+                title_default: 'Performance Monitoring',
+                isHidden: needsUtils.not(needsUtils.hasLicenseFeature('Metrics')),
                 schema: {
                     id: 'MetricsSettings',
                     name: t('admin.advance.metrics'),
@@ -2973,6 +3259,9 @@ export default {
                 },
             },
             experimental: {
+                url: 'experimental',
+                title: t('admin.sidebar.experimental'),
+                title_default: 'Experimental',
                 schema: {
                     id: 'ExperimentalSettings',
                     name: t('admin.advance.experimental'),
@@ -3354,12 +3643,20 @@ export default {
     },
     other: {
         license: {
+            url: 'license',
+            title: t('admin.sidebar.license'),
+            title_default: 'Edition and License',
+            isHidden: (config, state, license, enterpriseReady) => !enterpriseReady,
             schema: {
                 id: 'LicenseSettings',
                 component: LicenseSettings,
             },
         },
         audits: {
+            url: 'audits',
+            title: t('admin.sidebar.audits'),
+            title_default: 'Complaince and Auditing',
+            isHidden: needsUtils.not(needsUtils.hasLicense),
             schema: {
                 id: 'Audits',
                 component: Audits,
