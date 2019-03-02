@@ -7,7 +7,6 @@ import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedMessage, intlShape, injectIntl} from 'react-intl';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
-import {Permissions} from 'mattermost-redux/constants';
 
 import LocalDateTime from 'components/local_date_time';
 import UserSettingsModal from 'components/user_settings/modal';
@@ -19,7 +18,6 @@ import Pluggable from 'plugins/pluggable';
 
 import AddUserToChannelModal from 'components/add_user_to_channel_modal';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
-import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
@@ -86,6 +84,12 @@ class ProfilePopover extends React.PureComponent {
          * @internal
          */
         isChannelAdmin: PropTypes.bool.isRequired,
+
+        /**
+         * Determines if the current user has permissions to manage members in private and/or public
+         * channels. Used to determine if the Add User to Channel modal button should be visible.
+         */
+        hasManageChannelMemberPermission: PropTypes.bool.isRequired,
 
         /**
          * @internal
@@ -202,6 +206,7 @@ class ProfilePopover extends React.PureComponent {
         delete popoverProps.actions;
         delete popoverProps.isTeamAdmin;
         delete popoverProps.isChannelAdmin;
+        delete popoverProps.hasManageChannelMemberPermission;
         delete popoverProps.intl;
 
         const {formatMessage} = this.props.intl;
@@ -361,15 +366,12 @@ class ProfilePopover extends React.PureComponent {
                 </div>
             );
 
-            dataContent.push(
-                <TeamPermissionGate
-                    teamId={this.props.currentTeamId}
-                    permissions={[Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS, Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
-                    key='user-popover-add-to-channel'
-                >
+            if (this.props.hasManageChannelMemberPermission) {
+                dataContent.push(
                     <div
                         data-toggle='tooltip'
                         className='popover__row first'
+                        key='user-popover-add-to-channel'
                     >
                         <a
                             href='#'
@@ -394,8 +396,8 @@ class ProfilePopover extends React.PureComponent {
                             </ToggleModalButtonRedux>
                         </a>
                     </div>
-                </TeamPermissionGate>
-            );
+                );
+            }
         }
 
         dataContent.push(

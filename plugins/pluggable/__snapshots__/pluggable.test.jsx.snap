@@ -250,6 +250,7 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
         currentTeamId="someTeamId"
         currentUserId="someUserId"
         enableTimezone={false}
+        hasManageChannelMemberPermission={false}
         isChannelAdmin={false}
         isTeamAdmin={false}
         src="src"
@@ -269,6 +270,7 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
           currentTeamId="someTeamId"
           currentUserId="someUserId"
           enableTimezone={false}
+          hasManageChannelMemberPermission={false}
           hasMention={false}
           intl={
             Object {

@@ -10,7 +10,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {getCurrentUserLocale} from 'mattermost-redux/selectors/entities/i18n';
-import {haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 import {logError} from 'mattermost-redux/actions/errors';
@@ -108,14 +108,32 @@ export default class SearchChannelWithPermissionsProvider extends Provider {
 
         return (channel) => {
             const state = store.getState();
-            const canManagePublicChannels = haveICurrentTeamPermission(state, {permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS});
-            const canManagePrivatehannels = haveICurrentTeamPermission(state, {permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS});
+            const channelId = channel.id;
+            const teamId = getCurrentTeamId(state);
+
+            const canManagePublicChannels = haveIChannelPermission(
+                state,
+                {
+                    channel: channelId,
+                    team: teamId,
+                    permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+                }
+            );
+            const canManagePrivateChannels = haveIChannelPermission(
+                state,
+                {
+                    channel: channelId,
+                    team: teamId,
+                    permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
+                }
+            );
+
             const searchString = channel.display_name;
 
             if (canManagePublicChannels && channel.type === Constants.OPEN_CHANNEL) {
                 return searchString.toLowerCase().includes(channelPrefixLower);
             }
-            if (canManagePrivatehannels && channel.type === Constants.PRIVATE_CHANNEL) {
+            if (canManagePrivateChannels && channel.type === Constants.PRIVATE_CHANNEL) {
                 return searchString.toLowerCase().includes(channelPrefixLower);
             }
             return false;
