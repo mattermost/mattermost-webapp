@@ -9,6 +9,7 @@
     "@babel/polyfill": "7.2.5",
     "bootstrap": "3.3.7",
     "bootstrap-colorpicker": "2.5.2",
+    "chai-colors": "^1.0.1",
     "chart.js": "2.7.3",
     "compass-mixins": "0.12.10",
     "core-js": "2.6.3",
@@ -62,10 +63,10 @@
   },
   "devDependencies": {
     "@babel/cli": "7.2.3",
-    "@babel/core": "7.2.2",
+    "@babel/core": "^7.3.4",
     "@babel/plugin-proposal-class-properties": "7.3.0",
     "@babel/plugin-syntax-dynamic-import": "7.2.0",
-    "@babel/preset-env": "7.3.1",
+    "@babel/preset-env": "^7.3.4",
     "@babel/preset-react": "7.0.0",
     "@babel/runtime": "7.3.1",
     "babel-core": "7.0.0-bridge.0",
@@ -81,7 +82,7 @@
     "enzyme": "3.8.0",
     "enzyme-adapter-react-16": "1.7.1",
     "enzyme-to-json": "3.3.5",
-    "eslint": "5.12.1",
+    "eslint": "^5.14.1",
     "eslint-config-mattermost": "github:mattermost/eslint-config-mattermost",
     "eslint-import-resolver-webpack": "0.11.0",
     "eslint-plugin-cypress": "2.2.0",
@@ -98,9 +99,10 @@
     "jest": "23.6.0",
     "jest-canvas-mock": "1.1.0",
     "jest-cli": "23.6.0",
-    "jest-junit": "6.1.0",
+    "jest-junit": "^6.3.0",
     "jquery-deferred": "0.3.1",
     "mini-css-extract-plugin": "0.5.0",
+    "mocha-junit-reporter": "1.13.0",
     "node-sass": "4.11.0",
     "react-router-enzyme-context": "^1.2.0",
     "redux-mock-store": "1.5.3",
@@ -112,8 +114,7 @@
     "webpack-cli": "3.2.1",
     "webpack-node-externals": "1.7.2",
     "webpack-pwa-manifest": "4.0.0",
-    "yup": "0.26.10",
-    "mocha-junit-reporter": "1.13.0"
+    "yup": "0.26.10"
   },
   "jest": {
     "snapshotSerializers": [
