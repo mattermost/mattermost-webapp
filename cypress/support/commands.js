@@ -46,9 +46,9 @@ Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPasswo
 // ***********************************************************
 
 // Go to Account Settings modal
-Cypress.Commands.add('toAccountSettingsModal', (username, isLoggedInAlready = false, {otherUsername, otherPassword, otherURL} = {}) => {
+Cypress.Commands.add('toAccountSettingsModal', (username = 'user-1', isLoggedInAlready = false, {otherUsername, otherPassword, otherURL} = {}) => {
     if (!isLoggedInAlready) {
-        cy.login('user-1', {otherUsername, otherPassword, otherURL});
+        cy.login(username, {otherUsername, otherPassword, otherURL});
         cy.visit('/');
     }
 
