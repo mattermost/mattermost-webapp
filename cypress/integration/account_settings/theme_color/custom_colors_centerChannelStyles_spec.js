@@ -27,7 +27,7 @@ describe('Account Settings > Display > Theme Colors > Custom Theme > Center Chan
         cy.minDisplaySettings();
     });
 
-    it('should change Center Channel BG color  and verify color change', () => {
+    it('should change Center Channel BG color and verify color change', () => {
         // 1. Selecting Theme Edit, Custom Theme, and Center Channel Styles dropdown
         cy.customColors(1, 'Center Channel Styles');
 
@@ -50,7 +50,7 @@ describe('Account Settings > Display > Theme Colors > Custom Theme > Center Chan
         cy.get('.sidebar--right').should('have.css', 'background-color', 'rgb(129, 65, 65)');
     });
 
-    it('should change Center Channel Text color  and verify color change', () => {
+    it('should change Center Channel Text color and verify color change', () => {
         // 1. Selecting Theme Edit, Custom Theme, and Center Channel Styles dropdown
         cy.customColors(1, 'Center Channel Styles');
 
@@ -73,7 +73,7 @@ describe('Account Settings > Display > Theme Colors > Custom Theme > Center Chan
         cy.get('#displaySettingsTitle').should('have.css', 'color', 'rgb(81, 65, 129)');
     });
 
-    it('should change New Message Separator color  and verify color change', () => {
+    it('should change New Message Separator color and verify color change', () => {
         // 1. Login as sysadmin and navigate to user-1 convo
         cy.login('sysadmin');
         cy.visit('/ad-1/messages/@user-1');
@@ -83,7 +83,7 @@ describe('Account Settings > Display > Theme Colors > Custom Theme > Center Chan
 
         // 3. Logout of sysadmin.
         cy.get('#sidebarHeaderDropdownButton').click();
-        cy.get('#logout').click();
+        cy.get('#logout').click().wait(500);
 
         // 4. Login to user-1
         cy.login('user-1');
@@ -118,7 +118,7 @@ describe('Account Settings > Display > Theme Colors > Custom Theme > Center Chan
         cy.get('.new-separator').find('.separator__hr').should('have.css', 'border-color', 'rgba(0, 255, 250, 0.5)');
     });
 
-    it('should change Mention Highlight BG color  and verify color change', () => {
+    it('should change Mention Highlight BG color and verify color change', () => {
         // 1. Login as sysadmin and navigate to user-1 convo
         cy.login('sysadmin');
         cy.visit('/ad-1/messages/@user-1');
@@ -163,7 +163,7 @@ describe('Account Settings > Display > Theme Colors > Custom Theme > Center Chan
         cy.get('.mention--highlight').should('have.css', 'background', 'rgb(129, 117, 65) none repeat scroll 0% 0% / auto padding-box border-box');
     });
 
-    it('should change Mention Highlight Link color  and verify color change', () => {
+    it('should change Mention Highlight Link color and verify color change', () => {
         // 1. Selecting Sidebar Header Dropdown, Account Settings, and Display Settings
         cy.get('#sidebarHeaderDropdownButton').click();
         cy.get('#accountSettings').click();
