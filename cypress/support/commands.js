@@ -335,7 +335,7 @@ Cypress.Commands.add('minDisplaySettings', () => {
 });
 
 // Selects Edit Theme, selects Custom Theme, checks display, selects custom drop-down for color options
-Cypress.Commands.add('customColors', (dropdownNumber, dropdownName) => {
+Cypress.Commands.add('customColors', (dropdownInt, dropdownName) => {
     cy.get('#themeEdit').click();
 
     cy.get('#customThemes').click();
@@ -349,5 +349,19 @@ Cypress.Commands.add('customColors', (dropdownNumber, dropdownName) => {
     cy.get('#saveSetting').should('be.visible', 'contain', 'Save');
     cy.get('#cancelSetting').should('be.visible', 'contain', 'Cancel');
 
-    cy.get('.theme-elements__header').eq(dropdownNumber).should('contain', dropdownName).click();
+    cy.get('.theme-elements__header').eq(dropdownInt).should('contain', dropdownName).click();
+});
+
+// ***********************************************************
+// Change User Status
+// ************************************************************
+
+// Need to be in main channel view
+// 0 = Online
+// 1 = Away
+// 2 = Do Not Disturb
+// 3 = Offline
+Cypress.Commands.add('userStatus', (statusInt) => {
+    cy.get('.status-wrapper.status-selector').click();
+    cy.get('.MenuItem').eq(statusInt).click();
 });

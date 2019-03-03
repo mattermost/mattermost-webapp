@@ -187,8 +187,8 @@ describe('Account Settings > Display > Theme Colors > Custom Theme > Sidebar Sty
 
         // * CSS hover is not currently implemented for cypress, unable to find workaround. mouseenter/mouseover does not work with css check
 
-        // // 8. Exit user settings
-        cy.get('#accountSettingsHeader > .close').click();
+        //  8. Exit user settings
+        // cy.get('#accountSettingsHeader > .close').click();
 
         // * Check Sidebar Text Hover BG color change
         // cy.get('#sidebarItem_autem-2').trigger('mouseover, { force: true }');
@@ -309,15 +309,13 @@ describe('Account Settings > Display > Theme Colors > Custom Theme > Sidebar Sty
         cy.get('#accountSettingsHeader > .close').click();
 
         // 8. Change user-1 status to Away
-        cy.get('.status-wrapper.status-selector').click();
-        cy.get('.MenuItem').eq(1).click();
+        cy.userStatus(1);
 
         // * Check Away Indicator color
         cy.get('.away--icon').should('have.css', 'fill', 'rgb(129, 106, 65)');
 
         // 9. Revert user-1 status to Online
-        cy.get('.status-wrapper.status-selector').click();
-        cy.get('.MenuItem').eq(0).click();
+        cy.userStatus(0);
     });
 
     it('should change Do Not Disturb Indicator color  and verify color change', () => {
@@ -348,15 +346,13 @@ describe('Account Settings > Display > Theme Colors > Custom Theme > Sidebar Sty
         cy.get('#accountSettingsHeader > .close').click();
 
         // 8. Change user-1 status to Do Not Disturb
-        cy.get('.status-wrapper.status-selector').click();
-        cy.get('.MenuItem').eq(2).click();
+        cy.userStatus(2);
 
         // * Check Do Not Disturb Indicator color
         cy.get('.dnd--icon').should('have.css', 'fill', 'rgb(129, 65, 65)');
 
         // 9. Revert user-1 status to Online
-        cy.get('.status-wrapper.status-selector').click();
-        cy.get('.MenuItem').eq(0).click();
+        cy.userStatus(0);
     });
 
     it('should change Mention Jewel BG color  and verify color change', () => {
