@@ -152,7 +152,7 @@ describe('Account Settings > Display > Theme Colors > Custom Theme > Center Chan
         // This isn't saving for some reason, making the second half of this test fail.
 
         // 8. Save Mention Highlight BG color change
-        cy.get('.save-button').click();
+        cy.get('#saveSetting').click();
 
         cy.get('#accountSettingsHeader > .close').click();
 
@@ -185,7 +185,7 @@ describe('Account Settings > Display > Theme Colors > Custom Theme > Center Chan
         cy.get('.color-icon').eq(18).should('have.css', 'background-color', 'rgb(65, 92, 129)');
 
         // 5. Save Mention Highlight Link color change
-        cy.get('.save-button').click();
+        cy.get('#saveSetting').click();
 
         cy.get('#accountSettingsHeader > .close').click();
 
