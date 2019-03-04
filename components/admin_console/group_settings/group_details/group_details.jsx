@@ -13,6 +13,7 @@ import GroupProfile from 'components/admin_console/group_settings/group_details/
 import GroupTeamsAndChannels from 'components/admin_console/group_settings/group_details/group_teams_and_channels';
 import GroupUsers from 'components/admin_console/group_settings/group_details/group_users';
 import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
+import BlockableLink from 'components/admin_console/blockable_link';
 
 import TeamSelectorModal from 'components/team_selector_modal';
 import ChannelSelectorModal from 'components/channel_selector_modal';
@@ -101,7 +102,11 @@ export default class GroupDetails extends React.PureComponent {
         const {group, members, groupTeams, groupChannels, memberCount} = this.props;
         return (
             <div className='wrapper--fixed'>
-                <h3 className='admin-console-header'>
+                <h3 className='admin-console-header with-back'>
+                    <BlockableLink
+                        to='/admin_console/access-control/groups'
+                        className='fa fa-angle-left back'
+                    />
                     <FormattedMessage
                         id='admin.group_settings.group_detail.group_configuration'
                         defaultMessage='Group Configuration'

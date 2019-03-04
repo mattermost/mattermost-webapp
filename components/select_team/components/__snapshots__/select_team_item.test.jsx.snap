@@ -101,6 +101,21 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot 
                 "timeZone": "Etc/UTC",
               },
             },
+            "_currentlyRenderingComponent": null,
+            "_didScheduleRenderPhaseUpdate": false,
+            "_dispatcher": Object {
+              "readContext": [Function],
+              "useCallback": [Function],
+              "useContext": [Function],
+              "useDebugValue": [Function],
+              "useEffect": [Function],
+              "useImperativeHandle": [Function],
+              "useLayoutEffect": [Function],
+              "useMemo": [Function],
+              "useReducer": [Function],
+              "useRef": [Function],
+              "useState": [Function],
+            },
             "_element": <SelectTeamItem
               intl={
                 Object {
@@ -138,9 +153,14 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot 
                 }
               }
             />,
+            "_firstWorkInProgressHook": null,
             "_forcedUpdate": false,
             "_instance": [Circular],
+            "_isReRender": false,
             "_newState": null,
+            "_numberOfReRenders": 0,
+            "_previousComponentIdentity": null,
+            "_renderPhaseUpdates": null,
             "_rendered": <div
               className="signup-team-dir"
             >
@@ -189,9 +209,9 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot 
             </div>,
             "_rendering": false,
             "_updater": [Circular],
+            "_workInProgressHook": null,
           },
         },
-        Symbol(enzyme.__setState__): [Function],
       }
     }
     defaultOverlayShown={false}
@@ -338,6 +358,21 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
                 "timeZone": "Etc/UTC",
               },
             },
+            "_currentlyRenderingComponent": null,
+            "_didScheduleRenderPhaseUpdate": false,
+            "_dispatcher": Object {
+              "readContext": [Function],
+              "useCallback": [Function],
+              "useContext": [Function],
+              "useDebugValue": [Function],
+              "useEffect": [Function],
+              "useImperativeHandle": [Function],
+              "useLayoutEffect": [Function],
+              "useMemo": [Function],
+              "useReducer": [Function],
+              "useRef": [Function],
+              "useState": [Function],
+            },
             "_element": <SelectTeamItem
               intl={
                 Object {
@@ -375,9 +410,14 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
                 }
               }
             />,
+            "_firstWorkInProgressHook": null,
             "_forcedUpdate": false,
             "_instance": [Circular],
+            "_isReRender": false,
             "_newState": null,
+            "_numberOfReRenders": 0,
+            "_previousComponentIdentity": null,
+            "_renderPhaseUpdates": null,
             "_rendered": <div
               className="signup-team-dir"
             >
@@ -426,9 +466,9 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
             </div>,
             "_rendering": false,
             "_updater": [Circular],
+            "_workInProgressHook": null,
           },
         },
-        Symbol(enzyme.__setState__): [Function],
       }
     }
     defaultOverlayShown={false}
