@@ -181,7 +181,7 @@ describe('Account Settings > Display > Theme Colors > Custom Theme > Center Chan
         // 4. Click outside of color modal to remove it from view
         cy.get('#displaySettingsTitle').click();
 
-        // * Check New Message Separator icon color change
+        // * Check Mention Highlight Link icon color change
         cy.get('.color-icon').eq(18).should('have.css', 'background-color', 'rgb(65, 92, 129)');
 
         // 5. Save Mention Highlight Link color change

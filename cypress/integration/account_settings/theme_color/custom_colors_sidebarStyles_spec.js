@@ -222,6 +222,9 @@ describe('Account Settings > Display > Theme Colors > Custom Theme > Sidebar Sty
         // // * Check Sidebar Text Active Border
         // cy.get('.sidebar-item::before').siblings('.active').should('have.css', 'background', 'rgb(65, 92, 129)');
 
+        // // maybe?
+        // cy.get('.active').find('.sidebar-item').should('have.css', 'button:before').and('background', 'rgb(65, 92, 129');
+
         // // 7. Open sidebar dropdown
         // cy.get('#sidebarHeaderDropdownButton').click();
 
