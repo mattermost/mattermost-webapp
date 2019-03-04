@@ -110,7 +110,7 @@ Cypress.Commands.add('changeMessageDisplaySetting', (setting = 'STANDARD', usern
     cy.get(SETTINGS[setting]).
         check().
         should('be.checked');
-        
+
     cy.get('#saveSetting').click();
     cy.get('#accountSettingsHeader > .close').click();
 });
