@@ -53,8 +53,12 @@ Cypress.Commands.add('toAccountSettingsModal', (username = 'user-1', isLoggedInA
     }
 
     cy.get('#channel_view').should('be.visible');
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-    cy.get('#accountSettings').should('be.visible').click();
+    cy.get('#sidebarHeaderDropdownButton').
+        should('be.visible').
+        click();
+    cy.get('#accountSettings').
+        should('be.visible').
+        click();
     cy.get('#accountSettingsModal').should('be.visible');
 });
 
@@ -80,6 +84,33 @@ Cypress.Commands.add('toAccountSettingsModalChannelSwitcher', (username, setToOn
         cy.get('#channelSwitcherSectionEnabled').click();
     }
 
+    cy.get('#saveSetting').click();
+    cy.get('#accountSettingsHeader > .close').click();
+});
+
+/**
+ * Change the message display setting
+ * @param {String} setting - as 'STANDARD' or 'COMPACT'
+ * @param {String} username - User to login as
+ */
+Cypress.Commands.add('changeMessageDisplaySetting', (setting = 'STANDARD', username = 'user-1') => {
+    const SETTINGS = {STANDARD: '#message_displayFormatA', COMPACT: '#message_displayFormatB'};
+
+    cy.toAccountSettingsModal(username);
+    cy.get('#displayButton').click();
+
+    cy.get('#displaySettingsTitle').
+        should('be.visible').
+        should('contain', 'Display Settings');
+
+    cy.get('#message_displayTitle').scrollIntoView();
+    cy.get('#message_displayTitle').click();
+    cy.get('.section-max').scrollIntoView();
+
+    cy.get(SETTINGS[setting]).
+        check().
+        should('be.checked');
+        
     cy.get('#saveSetting').click();
     cy.get('#accountSettingsHeader > .close').click();
 });
@@ -140,20 +171,30 @@ function isMac() {
 // ***********************************************************
 
 Cypress.Commands.add('postMessage', (message) => {
-    cy.get('#post_textbox').type(message).type('{enter}');
+    cy.get('#post_textbox').
+        type(message).
+        type('{enter}');
 
     // add wait time to ensure that a post gets posted and not on pending state
     cy.wait(500); // eslint-disable-line
 });
 
 Cypress.Commands.add('getLastPost', () => {
-    return cy.get('#postListContent').children().last();
+    return cy.
+        get('#postListContent').
+        children().
+        last();
 });
 
 Cypress.Commands.add('getLastPostId', () => {
-    return cy.get('#postListContent').children().last().invoke('attr', 'id').then((divPostId) => {
-        return divPostId.replace('post_', '');
-    });
+    return cy.
+        get('#postListContent').
+        children().
+        last().
+        invoke('attr', 'id').
+        then((divPostId) => {
+            return divPostId.replace('post_', '');
+        });
 });
 
 // ***********************************************************
@@ -248,7 +289,9 @@ Cypress.Commands.add('clickPostCommentIcon', (postId, location = 'CENTER') => {
 
 // Close RHS by clicking close button
 Cypress.Commands.add('closeRHS', () => {
-    cy.get('#rhsCloseButton').should('be.visible').click();
+    cy.get('#rhsCloseButton').
+        should('be.visible').
+        click();
 });
 
 // ***********************************************************
@@ -257,8 +300,12 @@ Cypress.Commands.add('closeRHS', () => {
 
 Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
     cy.visit('/create_team');
-    cy.get('#teamNameInput').type(teamName).type('{enter}');
-    cy.get('#teamURLInput').type(teamURL).type('{enter}');
+    cy.get('#teamNameInput').
+        type(teamName).
+        type('{enter}');
+    cy.get('#teamURLInput').
+        type(teamURL).
+        type('{enter}');
     cy.visit(`/${teamURL}`);
 });
 
