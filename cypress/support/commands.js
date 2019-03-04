@@ -7,7 +7,11 @@ import users from '../fixtures/users.json';
 // Read more: https://on.cypress.io/custom-commands
 // ***********************************************************
 
-Cypress.Commands.add('login', (username, {otherUsername, otherPassword, otherURL} = {}) => {
+Cypress.Commands.add('login', (username, {
+    otherUsername,
+    otherPassword,
+    otherURL
+} = {}) => {
     const user = users[username];
     const usernameParam = user && user.username ? user.username : otherUsername;
     const passwordParam = user && user.password ? user.password : otherPassword;
@@ -16,16 +20,23 @@ Cypress.Commands.add('login', (username, {otherUsername, otherPassword, otherURL
     cy.request({
         url: urlParam,
         method: 'POST',
-        body: {login_id: usernameParam, password: passwordParam},
+        body: {
+            login_id: usernameParam,
+            password: passwordParam
+        },
     });
 });
 
 Cypress.Commands.add('logout', () => {
-    cy.get('#logout').click({force: true});
+    cy.get('#logout').click({
+        force: true
+    });
     cy.visit('/');
 });
 
-Cypress.Commands.add('logoutByAPI', ({otherURL} = {}) => {
+Cypress.Commands.add('logoutByAPI', ({
+    otherURL
+} = {}) => {
     const urlParam = otherURL ? `${otherURL}/api/v4/users/logout` : '/api/v4/users/logout';
 
     cy.request({
@@ -34,8 +45,16 @@ Cypress.Commands.add('logoutByAPI', ({otherURL} = {}) => {
     });
 });
 
-Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPassword, otherURL} = {}) => {
-    cy.login('user-1', {otherUsername, otherPassword, otherURL});
+Cypress.Commands.add('toMainChannelView', (username, {
+    otherUsername,
+    otherPassword,
+    otherURL
+} = {}) => {
+    cy.login('user-1', {
+        otherUsername,
+        otherPassword,
+        otherURL
+    });
     cy.visit('/');
 
     cy.get('#post_textbox').should('be.visible');
@@ -46,9 +65,17 @@ Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPasswo
 // ***********************************************************
 
 // Go to Account Settings modal
-Cypress.Commands.add('toAccountSettingsModal', (username, isLoggedInAlready = false, {otherUsername, otherPassword, otherURL} = {}) => {
+Cypress.Commands.add('toAccountSettingsModal', (username, isLoggedInAlready = false, {
+    otherUsername,
+    otherPassword,
+    otherURL
+} = {}) => {
     if (!isLoggedInAlready) {
-        cy.login('user-1', {otherUsername, otherPassword, otherURL});
+        cy.login('user-1', {
+            otherUsername,
+            otherPassword,
+            otherURL
+        });
         cy.visit('/');
     }
 
@@ -97,7 +124,9 @@ Cypress.Commands.add('typeCmdOrCtrl', () => {
         cmdOrCtrl = '{ctrl}';
     }
 
-    cy.get('#post_textbox').type(cmdOrCtrl, {release: false});
+    cy.get('#post_textbox').type(cmdOrCtrl, {
+        release: false
+    });
 });
 
 /**
@@ -114,20 +143,22 @@ Cypress.Commands.add('typeCmdOrCtrl', () => {
 Cypress.Commands.add('uploadFile', (selector, fileUrl, type = '') => {
     return cy.get(selector).then((subject) => {
         return cy.
-            fixture(fileUrl, 'base64').
-            then(Cypress.Blob.base64StringToBlob).
-            then((blob) => {
-                return cy.window().then((win) => {
-                    const el = subject[0];
-                    const nameSegments = fileUrl.split('/');
-                    const name = nameSegments[nameSegments.length - 1];
-                    const testFile = new win.File([blob], name, {type});
-                    const dataTransfer = new DataTransfer();
-                    dataTransfer.items.add(testFile);
-                    el.files = dataTransfer.files;
-                    return subject;
+        fixture(fileUrl, 'base64').
+        then(Cypress.Blob.base64StringToBlob).
+        then((blob) => {
+            return cy.window().then((win) => {
+                const el = subject[0];
+                const nameSegments = fileUrl.split('/');
+                const name = nameSegments[nameSegments.length - 1];
+                const testFile = new win.File([blob], name, {
+                    type
                 });
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(testFile);
+                el.files = dataTransfer.files;
+                return subject;
             });
+        });
     });
 });
 
@@ -168,11 +199,23 @@ Cypress.Commands.add('getLastPostId', () => {
 Cypress.Commands.add('clickPostTime', (postId, location = 'CENTER') => {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover');
+<<<<<<< HEAD
         cy.get(`#${location}_time_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover');
             cy.get(`#${location}_time_${lastPostId}`).click({force: true});
+=======
+        cy.get(`#CENTER_time_${postId}`).click({
+            force: true
+        });
+    } else {
+        cy.getLastPostId().then((lastPostId) => {
+            cy.get(`#post_${lastPostId}`).trigger('mouseover');
+            cy.get(`#CENTER_time_${lastPostId}`).click({
+                force: true
+            });
+>>>>>>> 5b467e066e1e35196094355a7a8841ef06c8befc
         });
     }
 });
@@ -185,11 +228,23 @@ Cypress.Commands.add('clickPostTime', (postId, location = 'CENTER') => {
 Cypress.Commands.add('clickPostFlagIcon', (postId, location = 'CENTER') => {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover');
+<<<<<<< HEAD
         cy.get(`#${location}_flagIcon_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover');
             cy.get(`#${location}_flagIcon_${lastPostId}`).click({force: true});
+=======
+        cy.get(`#centerPostFlag_${postId}`).click({
+            force: true
+        });
+    } else {
+        cy.getLastPostId().then((lastPostId) => {
+            cy.get(`#post_${lastPostId}`).trigger('mouseover');
+            cy.get(`#centerPostFlag_${lastPostId}`).click({
+                force: true
+            });
+>>>>>>> 5b467e066e1e35196094355a7a8841ef06c8befc
         });
     }
 });
@@ -202,11 +257,23 @@ Cypress.Commands.add('clickPostFlagIcon', (postId, location = 'CENTER') => {
 Cypress.Commands.add('clickPostDotMenu', (postId, location = 'CENTER') => {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover');
+<<<<<<< HEAD
         cy.get(`#${location}_button_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover');
             cy.get(`#${location}_button_${lastPostId}`).click({force: true});
+=======
+        cy.get(`#CENTER_button_${postId}`).click({
+            force: true
+        });
+    } else {
+        cy.getLastPostId().then((lastPostId) => {
+            cy.get(`#post_${lastPostId}`).trigger('mouseover');
+            cy.get(`#CENTER_button_${lastPostId}`).click({
+                force: true
+            });
+>>>>>>> 5b467e066e1e35196094355a7a8841ef06c8befc
         });
     }
 });
@@ -219,11 +286,23 @@ Cypress.Commands.add('clickPostDotMenu', (postId, location = 'CENTER') => {
 Cypress.Commands.add('clickPostReactionIcon', (postId, location = 'CENTER') => {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover');
+<<<<<<< HEAD
         cy.get(`#${location}_reaction_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover');
             cy.get(`#${location}_reaction_${lastPostId}`).click({force: true});
+=======
+        cy.get(`#CENTER_reaction_${postId}`).click({
+            force: true
+        });
+    } else {
+        cy.getLastPostId().then((lastPostId) => {
+            cy.get(`#post_${lastPostId}`).trigger('mouseover');
+            cy.get(`#CENTER_reaction_${lastPostId}`).click({
+                force: true
+            });
+>>>>>>> 5b467e066e1e35196094355a7a8841ef06c8befc
         });
     }
 });
@@ -237,11 +316,23 @@ Cypress.Commands.add('clickPostReactionIcon', (postId, location = 'CENTER') => {
 Cypress.Commands.add('clickPostCommentIcon', (postId, location = 'CENTER') => {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover');
+<<<<<<< HEAD
         cy.get(`#${location}_commentIcon_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover');
             cy.get(`#${location}_commentIcon_${lastPostId}`).click({force: true});
+=======
+        cy.get(`#commentIcon_${postId}`).click({
+            force: true
+        });
+    } else {
+        cy.getLastPostId().then((lastPostId) => {
+            cy.get(`#post_${lastPostId}`).trigger('mouseover');
+            cy.get(`#commentIcon_${lastPostId}`).click({
+                force: true
+            });
+>>>>>>> 5b467e066e1e35196094355a7a8841ef06c8befc
         });
     }
 });
@@ -268,7 +359,69 @@ Cypress.Commands.add('removeTeamMember', (teamURL, username) => {
     cy.visit(`/${teamURL}`);
     cy.get('#sidebarHeaderDropdownButton').click();
     cy.get('#manageMembers').click();
-    cy.focused().type(username, {force: true});
-    cy.get('#removeFromTeam').click({force: true});
+    cy.focused().type(username, {
+        force: true
+    });
+    cy.get('#removeFromTeam').click({
+        force: true
+    });
     cy.get('.modal-header .close').click();
+});
+
+// ***********************************************************
+// Min Setting View
+// ************************************************************
+
+// Checking min setting view for display
+
+Cypress.Commands.add('minDisplaySettings', () => {
+    cy.get('#themeTitle').should('be.visible', 'contain', 'Theme');
+    cy.get('#themeEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#clockTitle').should('be.visible', 'contain', 'Clock Display');
+    cy.get('#clockEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#name_formatTitle').should('be.visible', 'contain', 'Teammate Name Display');
+    cy.get('#name_formatEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#collapseTitle').should('be.visible', 'contain', 'Default appearance of image previews');
+    cy.get('#collapseEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#message_displayTitle').should('be.visible', 'contain', 'Message Display');
+    cy.get('#message_displayEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#languagesTitle').scrollIntoView().should('be.visible', 'contain', 'Language');
+    cy.get('#languagesEdit').should('be.visible', 'contain', 'Edit');
+});
+
+// Selects Edit Theme, selects Custom Theme, checks display, selects custom drop-down for color options
+Cypress.Commands.add('customColors', (dropdownInt, dropdownName) => {
+    cy.get('#themeEdit').click();
+
+    cy.get('#customThemes').click();
+
+    // Checking Custom Theme Display
+    cy.get('#displaySettingsTitle').scrollIntoView();
+    cy.get('.theme-elements__header').should('be.visible', 'contain', 'Sidebar Styles');
+    cy.get('.theme-elements__header').should('be.visible', 'contain', 'Center Channel Styles');
+    cy.get('.theme-elements__header').should('be.visible', 'contain', 'Link and BUtton Sytles');
+    cy.get('.padding-top').should('be.visible', 'contain', 'Import theme Colors from Slack');
+    cy.get('#saveSetting').should('be.visible', 'contain', 'Save');
+    cy.get('#cancelSetting').should('be.visible', 'contain', 'Cancel');
+
+    cy.get('.theme-elements__header').eq(dropdownInt).should('contain', dropdownName).click();
+});
+
+// ***********************************************************
+// Change User Status
+// ************************************************************
+
+// Need to be in main channel view
+// 0 = Online
+// 1 = Away
+// 2 = Do Not Disturb
+// 3 = Offline
+Cypress.Commands.add('userStatus', (statusInt) => {
+    cy.get('.status-wrapper.status-selector').click();
+    cy.get('.MenuItem').eq(statusInt).click();
 });
