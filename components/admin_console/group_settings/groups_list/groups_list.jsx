@@ -5,9 +5,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
+import * as Utils from 'utils/utils.jsx';
+
 import GroupRow from 'components/admin_console/group_settings/group_row.jsx';
 import NextIcon from 'components/icon/next_icon';
 import PreviousIcon from 'components/icon/previous_icon';
+import SearchIcon from 'components/svg/search_icon';
+import CheckboxCheckedIcon from 'components/svg/checkbox_checked_icon.jsx';
 
 const LDAP_GROUPS_PAGE_SIZE = 200;
 
@@ -32,7 +36,22 @@ export default class GroupsList extends React.PureComponent {
             checked: {},
             loading: true,
             page: 0,
+            showFilters: false,
+            filterIsLinked: false,
+            filterIsUnlinked: false,
+            filterIsConfigured: false,
+            filterIsUnconfigured: false,
+            searchString: '',
         };
+    }
+
+    closeFilters = (e) => {
+        const filtersNode = document.getElementById('group-filters');
+        if (filtersNode.contains(e.target) || (e.target.parentNode && e.target.parentNode.tagName === 'g')) {
+            return null;
+        }
+        this.setState({showFilters: false});
+        document.removeEventListener('click', this.closeFilters);
     }
 
     componentDidMount() {
@@ -177,6 +196,133 @@ export default class GroupsList extends React.PureComponent {
         });
     }
 
+    searchGroups = () => {
+        document.removeEventListener('click', this.closeFilters);
+        this.setState({loading: true, showFilters: false});
+        const {searchString, filterIsLinked, filterIsUnlinked, filterIsConfigured, filterIsUnconfigured} = this.state;
+
+        const opts = {q: searchString};
+        if (filterIsLinked) {
+            opts.is_linked = true;
+        }
+        if (filterIsUnlinked) {
+            opts.is_linked = false;
+        }
+        if (filterIsConfigured) {
+            opts.is_configured = true;
+        }
+        if (filterIsUnconfigured) {
+            opts.is_configured = false;
+        }
+
+        this.props.actions.getLdapGroups(this.state.page, LDAP_GROUPS_PAGE_SIZE, opts).then(() => {
+            this.setState({loading: false});
+        });
+    }
+
+    clearFilters = () => {
+        this.setState({
+            filterIsConfigured: false,
+            filterIsUnconfigured: false,
+            filterIsLinked: false,
+            filterIsUnlinked: false,
+            showFilters: false,
+            searchString: '',
+        });
+    }
+
+    handleGroupSearchKeyUp = (e) => {
+        const {key} = e;
+        if (key === 'Enter') {
+            this.searchGroups();
+        }
+    }
+
+    renderSearchFilters = () => {
+        return (
+            <div
+                id='group-filters'
+                className='group-search-filters'
+            >
+                <div className='filter-row'>
+                    <span
+                        className={'filter-check ' + (this.state.filterIsLinked ? 'checked' : '')}
+                        onClick={() => this.setState({filterIsLinked: !this.state.filterIsLinked, filterIsUnlinked: false})}
+                    >
+                        {this.state.filterIsLinked && <CheckboxCheckedIcon/>}
+                    </span>
+                    <span>
+                        <FormattedMessage
+                            id='admin.group_settings.filters.isLinked'
+                            defaultMessage='Is Linked'
+                        />
+                    </span>
+                </div>
+                {/* <div className='filter-row'>
+                    <span
+                        className={'filter-check ' + (this.state.filterIsUnlinked ? 'checked' : '')}
+                        onClick={() => this.setState({filterIsUnlinked: !this.state.filterIsUnlinked, filterIsLinked: false})}
+                    >
+                        {this.state.filterIsUnlinked && <CheckboxCheckedIcon/>}
+                    </span>
+                    <span>
+                        <FormattedMessage
+                            id='admin.group_settings.filters.isUnlinked'
+                            defaultMessage='Is Unlinked'
+                        />
+                    </span>
+                </div> */}
+                <div className='filter-row'>
+                    <span
+                        className={'filter-check ' + (this.state.filterIsConfigured ? 'checked' : '')}
+                        onClick={() => this.setState({filterIsConfigured: !this.state.filterIsConfigured, filterIsUnconfigured: false})}
+                    >
+                        {this.state.filterIsConfigured && <CheckboxCheckedIcon/>}
+                    </span>
+                    <span>
+                        <FormattedMessage
+                            id='admin.group_settings.filters.isConfigured'
+                            defaultMessage='Is Configured'
+                        />
+                    </span>
+                </div>
+                {/* <div className='filter-row'>
+                    <span
+                        className={'filter-check ' + (this.state.filterIsUnconfigured ? 'checked' : '')}
+                        onClick={() => this.setState({filterIsUnconfigured: !this.state.filterIsUnconfigured, filterIsConfigured: false})}
+                    >
+                        {this.state.filterIsUnconfigured && <CheckboxCheckedIcon/>}
+                    </span>
+                    <span>
+                        <FormattedMessage
+                            id='admin.group_settings.filters.isUnconfigured'
+                            defaultMessage='Is Unconfigured'
+                        />
+                    </span>
+                </div> */}
+                <a
+                    onClick={this.searchGroups}
+                    className='btn btn-primary search-groups-btn'
+                >
+                    <FormattedMessage
+                        id='search_bar.search'
+                        defaultMessage='Search'
+                    />
+                </a>
+                {/* <button
+                    type='button'
+                    className='btn btn-link cancel-filters'
+                    onClick={this.clearFilters}
+                >
+                    <FormattedMessage
+                        id='add_user_to_channel_modal.cancel'
+                        defaultMessage='Cancel'
+                    />
+                </button> */}
+            </div>
+        );
+    }
+
     render = () => {
         const startCount = (this.state.page * LDAP_GROUPS_PAGE_SIZE) + 1;
         let endCount = (this.state.page * LDAP_GROUPS_PAGE_SIZE) + LDAP_GROUPS_PAGE_SIZE;
@@ -189,7 +335,28 @@ export default class GroupsList extends React.PureComponent {
         return (
             <div className='groups-list'>
                 <div className='groups-list--global-actions'>
-                    <div/>
+                    <div className='group-list-search'>
+                        <input
+                            type='text'
+                            placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
+                            onKeyUp={this.handleGroupSearchKeyUp}
+                            onChange={(e) => this.setState({searchString: e.target.value})}
+                            value={this.state.searchString}
+                        />
+                        <SearchIcon
+                            id='searchIcon'
+                            className='search__icon'
+                            aria-hidden='true'
+                        />
+                        <i
+                            className={'fa fa-caret-down group-filter-caret ' + (this.state.showFilters ? 'hidden' : '')}
+                            onClick={() => {
+                                document.addEventListener('click', this.closeFilters);
+                                this.setState({showFilters: true});
+                            }}
+                        />
+                    </div>
+                    {this.state.showFilters && this.renderSearchFilters()}
                     <div className='group-list-link-unlink'>
                         {this.renderSelectionActionButton()}
                     </div>
