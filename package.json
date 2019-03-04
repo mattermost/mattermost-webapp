@@ -114,12 +114,9 @@
     "webpack-cli": "3.2.1",
     "webpack-node-externals": "1.7.2",
     "webpack-pwa-manifest": "4.0.0",
-<<<<<<< HEAD
     "yup": "0.26.10",
-    "mocha-junit-reporter": "1.18.0"
-=======
+    "mocha-junit-reporter": "1.18.0
     "yup": "0.26.10"
->>>>>>> 5b467e066e1e35196094355a7a8841ef06c8befc
   },
   "jest": {
     "snapshotSerializers": [
