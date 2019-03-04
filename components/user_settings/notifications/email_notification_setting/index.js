@@ -20,8 +20,8 @@ function mapStateToProps(state) {
         state,
         Preferences.CATEGORY_NOTIFICATIONS,
         Preferences.EMAIL_INTERVAL,
-        Preferences.INTERVAL_NEVER.toString(),
-    ), 10) || 0;
+        Preferences.INTERVAL_IMMEDIATE.toString(),
+    ), 10);
 
     return {
         currentUserId: getCurrentUserId(state),
