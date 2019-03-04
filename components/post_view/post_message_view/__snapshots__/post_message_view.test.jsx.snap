@@ -167,6 +167,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on edited po
   </div>
   <span
     className="post-edited__indicator"
+    id="postEdited_post_id"
   >
     <FormattedMessage
       defaultMessage="(edited)"
@@ -185,6 +186,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on edited po
 exports[`components/post_view/PostAttachment should match snapshot, on edited post 2`] = `
 <span
   className="post-edited__indicator"
+  id="postEdited_post_id"
 >
   <FormattedMessage
     defaultMessage="(edited)"
