@@ -550,8 +550,8 @@ export default class PostList extends React.PureComponent {
             if (currentPostDay.toDateString() !== previousPostDay.toDateString()) {
                 postCtls.push(
                     <DateSeparator
-                        key={currentPostDay}
-                        date={currentPostDay}
+                        key={post.create_at}
+                        date={post.create_at}
                     />
                 );
             }

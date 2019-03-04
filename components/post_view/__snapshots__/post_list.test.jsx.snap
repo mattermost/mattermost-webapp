@@ -1,0 +1,182 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PostList date separators should render above posts made all on the same day 1`] = `
+Array [
+  <Connect(ChannelIntroMessage)
+    channel={
+      Object {
+        "id": "channel",
+      }
+    }
+    fullWidth={true}
+  />,
+  <DateSeparator
+    date={1551711600000}
+    key="1551711600000"
+  />,
+  <Connect(Post)
+    getPostList={[Function]}
+    key="post post3"
+    lastPostCount={-1}
+    post={
+      Object {
+        "create_at": 1551711600000,
+        "id": "post3",
+        "message": "Hello, World 3!",
+      }
+    }
+  />,
+  <Connect(Post)
+    getPostList={[Function]}
+    key="post post2"
+    lastPostCount={-1}
+    post={
+      Object {
+        "create_at": 1551715200000,
+        "id": "post2",
+        "message": "Hello, World 2!",
+      }
+    }
+  />,
+  <Connect(Post)
+    getPostList={[Function]}
+    key="post post1"
+    lastPostCount={-1}
+    post={
+      Object {
+        "create_at": 1551718800000,
+        "id": "post1",
+        "message": "Hello, World 1!",
+      }
+    }
+  />,
+]
+`;
+
+exports[`PostList date separators should render between posts made on different days 1`] = `
+Array [
+  <Connect(ChannelIntroMessage)
+    channel={
+      Object {
+        "id": "channel",
+      }
+    }
+    fullWidth={true}
+  />,
+  <DateSeparator
+    date={1551632400000}
+    key="1551632400000"
+  />,
+  <Connect(Post)
+    getPostList={[Function]}
+    key="post post3"
+    lastPostCount={-1}
+    post={
+      Object {
+        "create_at": 1551632400000,
+        "id": "post3",
+        "message": "Hello, World 3!",
+      }
+    }
+  />,
+  <DateSeparator
+    date={1551715200000}
+    key="1551715200000"
+  />,
+  <Connect(Post)
+    getPostList={[Function]}
+    key="post post2"
+    lastPostCount={-1}
+    post={
+      Object {
+        "create_at": 1551715200000,
+        "id": "post2",
+        "message": "Hello, World 2!",
+      }
+    }
+  />,
+  <Connect(Post)
+    getPostList={[Function]}
+    key="post post1"
+    lastPostCount={-1}
+    post={
+      Object {
+        "create_at": 1551718800000,
+        "id": "post1",
+        "message": "Hello, World 1!",
+      }
+    }
+  />,
+]
+`;
+
+exports[`PostList new message line should render new message line between posts 1`] = `
+Array [
+  <Connect(ChannelIntroMessage)
+    channel={
+      Object {
+        "id": "channel",
+      }
+    }
+    fullWidth={true}
+  />,
+  <DateSeparator
+    date={1551711600000}
+    key="1551711600000"
+  />,
+  <div
+    className="new-separator"
+    id="new_message_post3"
+    key="unviewed"
+  >
+    <hr
+      className="separator__hr"
+    />
+    <div
+      className="separator__text"
+    >
+      <FormattedMessage
+        defaultMessage="New Messages"
+        id="posts_view.newMsg"
+        values={Object {}}
+      />
+    </div>
+  </div>,
+  <Connect(Post)
+    getPostList={[Function]}
+    key="post post3"
+    lastPostCount={-1}
+    post={
+      Object {
+        "create_at": 1551711600000,
+        "id": "post3",
+        "message": "Hello, World 3!",
+      }
+    }
+  />,
+  <Connect(Post)
+    getPostList={[Function]}
+    key="post post2"
+    lastPostCount={-1}
+    post={
+      Object {
+        "create_at": 1551715200000,
+        "id": "post2",
+        "message": "Hello, World 2!",
+      }
+    }
+  />,
+  <Connect(Post)
+    getPostList={[Function]}
+    key="post post1"
+    lastPostCount={-1}
+    post={
+      Object {
+        "create_at": 1551718800000,
+        "id": "post1",
+        "message": "Hello, World 1!",
+      }
+    }
+  />,
+]
+`;
