@@ -141,12 +141,12 @@ export function loadInitialPosts(channelId, focusedPostId) {
                 hasMoreAfter = numPostsAfter >= Posts.POST_CHUNK_SIZE / 2;
             }
         } else {
-            const result = await dispatch(PostActions.getPosts(channelId, 0, Posts.POST_CHUNK_SIZE));
+            const result = await dispatch(PostActions.getPosts(channelId, 0, Posts.POST_CHUNK_SIZE / 2));
 
             posts = result.data;
 
             if (posts) {
-                hasMoreBefore = posts && posts.order.length >= Posts.POST_CHUNK_SIZE;
+                hasMoreBefore = posts && posts.order.length >= Posts.POST_CHUNK_SIZE / 2;
             }
         }
 
