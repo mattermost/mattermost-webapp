@@ -10,62 +10,62 @@
 /* eslint max-nested-callbacks: ["error", 5] */
 
 describe('Message deletion', () => {
-  before(() => {
-      // 1. Go to Main Channel View with "user-1"
-      cy.toMainChannelView('user-1');
-  });
+    before(() => {
+        // 1. Go to Main Channel View with "user-1"
+        cy.toMainChannelView('user-1');
+    });
 
-  it('M13336 Delete both parent post and reply when deleting parent post from center', () => {
-      // 1. Post message in center.
-      cy.postMessage('test message deletion {enter}');
+    it('M13336 Delete both parent post and reply when deleting parent post from center', () => {
+        // 1. Post message in center.
+        cy.postMessage('test message deletion {enter}');
 
-      cy.getLastPostId().then((parentMessageId) => {
-          // 2. Mouseover the post and click post comment icon.
-          cy.clickPostCommentIcon();
+        cy.getLastPostId().then((parentMessageId) => {
+            // 2. Mouseover the post and click post comment icon.
+            cy.clickPostCommentIcon();
 
-          // * Check that the RHS is open
-          cy.get('#rhsContainer').should('be.visible');
+            // * Check that the RHS is open
+            cy.get('#rhsContainer').should('be.visible');
 
-          // 3. Post a reply in RHS.
-          cy.postMessageReplyInRHS('test message reply in RHS {enter}');
+            // 3. Post a reply in RHS.
+            cy.postMessageReplyInRHS('test message reply in RHS {enter}');
 
-          cy.getLastPostId().then((replyMessageId) => {
-              // 4. Click post dot menu in center.
-              cy.clickPostDotMenu(parentMessageId);
+            cy.getLastPostId().then((replyMessageId) => {
+                // 4. Click post dot menu in center.
+                cy.clickPostDotMenu(parentMessageId);
 
-              // 5. Click delete button.
-              cy.get(`#CENTER_button_${parentMessageId}`).click();
-              cy.get(`#delete_post_${parentMessageId}`).click({force: true});
+                // 5. Click delete button.
+                cy.get(`#CENTER_button_${parentMessageId}`).click();
+                cy.get(`#delete_post_${parentMessageId}`).click({force: true});
 
-              // * Check that confirmation dialog is open.
-              cy.get('#deletePostModal').should('be.visible');
-              
-              // * Check that confirmation dialog contains correct text
-              cy.get('#deletePostModal').should('have', 'Are you sure you want to delete this Post?');
-              
-              // * Check that confirmation dialog shows that the post has one comment on it
-              cy.get('#deletePostModal').should('have', 'This post has 1 comment on it.');
+                // * Check that confirmation dialog is open.
+                cy.get('#deletePostModal').should('be.visible');
 
-              // 6. Confirm deletion.
-              cy.get('#deletePostModalButton').click();
+                // * Check that confirmation dialog contains correct text
+                cy.get('#deletePostModal').should('have', 'Are you sure you want to delete this Post?');
 
-              // * Check that the modal is closed
-              cy.get('#deletePostModal').should('not.be.visible');
+                // * Check that confirmation dialog shows that the post has one comment on it
+                cy.get('#deletePostModal').should('have', 'This post has 1 comment on it.');
 
-              // * Check that the RHS is closed.
-              cy.get('#rhsContainer').should('not.be.visible');
+                // 6. Confirm deletion.
+                cy.get('#deletePostModalButton').click();
 
-              // * Check that parent message is no longer visible.
-              cy.get(`#post_${parentMessageId}`).should('not.be.visible');
+                // * Check that the modal is closed
+                cy.get('#deletePostModal').should('not.be.visible');
 
-              // * Check that reply message is no longer visible.
-              cy.get(`#post_${replyMessageId}`).should('not.be.visible');
-          });
+                // * Check that the RHS is closed.
+                cy.get('#rhsContainer').should('not.be.visible');
 
-          cy.getLastPostId().then((replyMessageId) => {
-              // * Check that last message do not contain (message deleted)
-              cy.get(`#post_${replyMessageId}`).should('not.have', '(message deleted)');
-          });
-      });
-  });
+                // * Check that parent message is no longer visible.
+                cy.get(`#post_${parentMessageId}`).should('not.be.visible');
+
+                // * Check that reply message is no longer visible.
+                cy.get(`#post_${replyMessageId}`).should('not.be.visible');
+            });
+
+            cy.getLastPostId().then((replyMessageId) => {
+                // * Check that last message do not contain (message deleted)
+                cy.get(`#post_${replyMessageId}`).should('not.have', '(message deleted)');
+            });
+        });
+    });
 });

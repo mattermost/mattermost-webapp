@@ -49,15 +49,15 @@ describe('components/MenuItemAction', () => {
 `);
     });
     test('should match snapshot with id', () => {
-      const wrapper = shallow(
-          <MenuItemActionImpl
-              onClick={jest.fn()}
-              buttonId="test-id"
-              text='Whatever'
-          />
-      );
+        const wrapper = shallow(
+            <MenuItemActionImpl
+                onClick={jest.fn()}
+                buttonId='test-id'
+                text='Whatever'
+            />
+        );
 
-      expect(wrapper).toMatchInlineSnapshot(`
+        expect(wrapper).toMatchInlineSnapshot(`
 <button
   className="style--none"
   id="test-id"
@@ -66,5 +66,5 @@ describe('components/MenuItemAction', () => {
   Whatever
 </button>
 `);
-  });
+    });
 });
