@@ -351,7 +351,21 @@ export default class FileUpload extends PureComponent {
 
         this.props.onUploadError(null);
 
-        var files = e.originalEvent.dataTransfer.files;
+        const items = e.originalEvent.dataTransfer.items || [];
+        const droppedFiles = e.originalEvent.dataTransfer.files;
+        const files = [];
+        Array.from(droppedFiles).forEach((file, index) => {
+            const item = items[index];
+            if (item && item.webkitGetAsEntry && item.webkitGetAsEntry().isDirectory) {
+                return;
+            }
+            files.push(file);
+        });
+
+        if (files.length === 0) {
+            this.props.onUploadError(localizeMessage('file_upload.drag_folder', 'Folders cannot be uploaded. Please drag all files separately.'));
+            return;
+        }
 
         if (typeof files !== 'string' && files.length) {
             this.checkPluginHooksAndUploadFiles(files);

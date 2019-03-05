@@ -1948,6 +1948,7 @@
   "file_info_preview.size": "Size ",
   "file_info_preview.type": "File type ",
   "file_upload.upload_files": "Upload files",
+  "file_upload.drag_folder": "Folders cannot be uploaded. Please drag all files separately.",
   "file_upload.disabled": "File attachments are disabled.",
   "file_upload.fileAbove": "File above {max}MB cannot be uploaded: {filename}",
   "file_upload.filesAbove": "Files above {max}MB cannot be uploaded: {filenames}",
