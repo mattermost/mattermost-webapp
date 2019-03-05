@@ -4,9 +4,11 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
+import {generateIndex} from 'utils/admin_console_index.jsx';
+
 import AdminSidebarCategory from 'components/admin_console/admin_sidebar_category.jsx';
 import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header';
 import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';
@@ -16,6 +18,7 @@ export default class AdminSidebar extends React.Component {
     static get contextTypes() {
         return {
             router: PropTypes.object.isRequired,
+            intl: intlShape.isRequired,
         };
     }
 
@@ -25,6 +28,7 @@ export default class AdminSidebar extends React.Component {
         plugins: PropTypes.object,
         buildEnterpriseReady: PropTypes.bool,
         siteName: PropTypes.string,
+        onFilterChange: PropTypes.func.isRequired,
         actions: PropTypes.shape({
 
             /*
@@ -36,6 +40,14 @@ export default class AdminSidebar extends React.Component {
 
     static defaultProps = {
         plugins: {},
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            sections: null,
+        };
+        this.idx = null;
     }
 
     componentDidMount() {
@@ -60,6 +72,41 @@ export default class AdminSidebar extends React.Component {
         }
     }
 
+    onFilterChange = (e) => {
+        const filter = e.target.value;
+        if (filter === '') {
+            this.setState({sections: null});
+            this.props.onFilterChange(filter);
+            return;
+        }
+
+        if (this.idx === null) {
+            this.idx = generateIndex(this.context.intl);
+        }
+        let query = '';
+        for (const term of filter.split(' ')) {
+            term.trim();
+            if (term !== '') {
+                query += term + ' ';
+                query += term + '* ';
+            }
+        }
+        const sections = this.idx.search(query);
+        this.setState({sections});
+        this.props.onFilterChange(filter);
+
+        const validSection = sections.indexOf(this.context.router.history.location.pathname.replace('/admin_console/', '')) !== -1;
+        if (!validSection) {
+            const visibleSections = this.visibleSections();
+            for (const section of sections) {
+                if (visibleSections.has(section)) {
+                    this.context.router.history.replace('/admin_console/' + sections);
+                    break;
+                }
+            }
+        }
+    }
+
     updateTitle = () => {
         let currentSiteName = '';
         if (this.props.siteName) {
@@ -67,6 +114,42 @@ export default class AdminSidebar extends React.Component {
         }
 
         document.title = Utils.localizeMessage('sidebar_right_menu.console', 'System Console') + currentSiteName;
+    }
+
+    visibleSections = () => {
+        const isVisible = (item) => {
+            if (!item.schema) {
+                return false;
+            }
+
+            if (!item.title) {
+                return false;
+            }
+
+            if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
+                return false;
+            }
+            return true;
+        };
+        const result = new Set();
+        for (const item of Object.values(AdminDefinition.reporting)) {
+            if (isVisible(item)) {
+                result.add(item.url);
+            }
+        }
+        for (const item of Object.values(AdminDefinition.other)) {
+            if (isVisible(item)) {
+                result.add(item.url);
+            }
+        }
+        for (const section of Object.values(AdminDefinition.settings)) {
+            for (const item of Object.values(section)) {
+                if (isVisible(item)) {
+                    result.add(section.url + '/' + item.url);
+                }
+            }
+        }
+        return result;
     }
 
     renderSettingsMenu = (section) => {
@@ -82,6 +165,18 @@ export default class AdminSidebar extends React.Component {
 
             if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
                 return;
+            }
+
+            if (this.state.sections !== null) {
+                let active = false;
+                for (const url of this.state.sections) {
+                    if (url.endsWith('/' + item.url)) {
+                        active = true;
+                    }
+                }
+                if (!active) {
+                    return;
+                }
             }
 
             menuEntries.push((
@@ -135,6 +230,18 @@ export default class AdminSidebar extends React.Component {
 
             if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
                 return;
+            }
+
+            if (this.state.sections !== null) {
+                let active = false;
+                for (const url of this.state.sections) {
+                    if (url === item.url) {
+                        active = true;
+                    }
+                }
+                if (!active) {
+                    return;
+                }
             }
 
             menuEntries.push((
@@ -205,6 +312,15 @@ export default class AdminSidebar extends React.Component {
                 <AdminSidebarHeader/>
                 <div className='nav-pills__container'>
                     <ul className='nav nav-pills nav-stacked'>
+                        <li>
+                            <input
+                                className='filter'
+                                type='text'
+                                onKeyUp={this.onFilterChange}
+                                placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Filter')}
+                            />
+                        </li>
+
                         {this.renderRootMenu(AdminDefinition.reporting, 'fa-bar-chart', 'admin.sidebar.reports', 'REPORTING')}
                         <AdminSidebarCategory
                             sectionClass='sections--settings'

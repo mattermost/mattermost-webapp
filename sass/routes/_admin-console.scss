@@ -14,6 +14,10 @@
     overflow: auto;
     padding: 10px 20px 0;
 
+    mark {
+        border-radius: 5%;
+    }
+
     .btn {
         &.btn-default {
             background: alpha-color($black, .7);
@@ -502,6 +506,10 @@
     width: 220px;
     z-index: 10;
 
+    mark {
+        border-radius: 5%;
+    }
+
     body.announcement-bar--fixed & {
         top: $announcement-bar-height;
     }
@@ -525,9 +533,19 @@
         padding-bottom: 20px;
         position: relative;
 
+        .filter {
+            background: #333;
+            border: 1px solid $light-gray;
+            color: $white;
+            padding: 5px;
+            margin: 4px 0 3px;
+            width: 100%;
+        }
+
         ul {
             margin-top: 1px;
         }
+
     }
 
     .sidebar-category {

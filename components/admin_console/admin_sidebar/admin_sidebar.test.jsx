@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {IntlProvider} from 'react-intl';
 import {shallow} from 'enzyme';
 
 import AdminSidebar from 'components/admin_console/admin_sidebar/admin_sidebar.jsx';
@@ -15,6 +16,8 @@ jest.mock('utils/utils', () => {
 });
 
 describe('components/AdminSidebar', () => {
+    const intlProvider = new IntlProvider({locale: 'en', defaultLocale: 'en'}, {});
+    const {intl} = intlProvider.getChildContext();
     const defaultProps = {
         license: {},
         config: {
@@ -40,6 +43,7 @@ describe('components/AdminSidebar', () => {
                 webapp: {},
             },
         },
+        onFilterChange: jest.fn(),
         actions: {
             getPlugins: jest.fn(),
         },
@@ -47,7 +51,7 @@ describe('components/AdminSidebar', () => {
 
     test('should match snapshot', () => {
         const props = {...defaultProps};
-        const context = {router: {}};
+        const context = {router: {}, intl};
         const wrapper = shallow(<AdminSidebar {...props}/>, {context});
         expect(wrapper).toMatchSnapshot();
     });
@@ -78,12 +82,13 @@ describe('components/AdminSidebar', () => {
                     webapp: {},
                 },
             },
+            onFilterChange: jest.fn(),
             actions: {
                 getPlugins: jest.fn(),
             },
         };
 
-        const context = {router: {}};
+        const context = {router: {}, intl};
         const wrapper = shallow(<AdminSidebar {...props}/>, {context});
         expect(wrapper).toMatchSnapshot();
     });
@@ -116,12 +121,13 @@ describe('components/AdminSidebar', () => {
                     webapp: {},
                 },
             },
+            onFilterChange: jest.fn(),
             actions: {
                 getPlugins: jest.fn(),
             },
         };
 
-        const context = {router: {}};
+        const context = {router: {}, intl};
         const wrapper = shallow(<AdminSidebar {...props}/>, {context});
         expect(wrapper).toMatchSnapshot();
     });
@@ -168,12 +174,13 @@ describe('components/AdminSidebar', () => {
                     webapp: {},
                 },
             },
+            onFilterChange: jest.fn(),
             actions: {
                 getPlugins: jest.fn(),
             },
         };
 
-        const context = {router: {}};
+        const context = {router: {}, intl};
         const wrapper = shallow(<AdminSidebar {...props}/>, {context});
         expect(wrapper).toMatchSnapshot();
     });

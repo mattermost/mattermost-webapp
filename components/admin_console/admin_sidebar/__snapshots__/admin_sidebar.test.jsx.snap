@@ -11,6 +11,14 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
     <ul
       className="nav nav-pills nav-stacked"
     >
+      <li>
+        <input
+          className="filter"
+          onKeyUp={[Function]}
+          placeholder="Filter"
+          type="text"
+        />
+      </li>
       <AdminSidebarCategory
         icon="fa-bar-chart"
         parentLink="/admin_console"
@@ -623,6 +631,14 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
     <ul
       className="nav nav-pills nav-stacked"
     >
+      <li>
+        <input
+          className="filter"
+          onKeyUp={[Function]}
+          placeholder="Filter"
+          type="text"
+        />
+      </li>
       <AdminSidebarCategory
         icon="fa-bar-chart"
         parentLink="/admin_console"
@@ -1228,6 +1244,14 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
     <ul
       className="nav nav-pills nav-stacked"
     >
+      <li>
+        <input
+          className="filter"
+          onKeyUp={[Function]}
+          placeholder="Filter"
+          type="text"
+        />
+      </li>
       <AdminSidebarCategory
         icon="fa-bar-chart"
         parentLink="/admin_console"
@@ -2072,6 +2096,14 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
     <ul
       className="nav nav-pills nav-stacked"
     >
+      <li>
+        <input
+          className="filter"
+          onKeyUp={[Function]}
+          placeholder="Filter"
+          type="text"
+        />
+      </li>
       <AdminSidebarCategory
         icon="fa-bar-chart"
         parentLink="/admin_console"

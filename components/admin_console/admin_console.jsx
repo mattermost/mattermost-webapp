@@ -6,6 +6,7 @@ import 'bootstrap';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
+import Mark from 'mark.js';
 
 import AnnouncementBar from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
@@ -41,11 +42,33 @@ export default class AdminConsole extends React.Component {
         }).isRequired,
     }
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            filter: '',
+        };
+        this.markInstance = null;
+    }
+
     componentDidMount() {
         this.props.actions.getConfig();
         this.props.actions.getEnvironmentConfig();
         this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin']);
         reloadIfServerVersionChanged();
+    }
+
+    componentDidUpdate() {
+        if (this.markInstance !== null) {
+            this.markInstance.unmark();
+        }
+
+        // Is necesary to recreate the instances to get again the DOM elements after the re-render
+        this.markInstance = new Mark(document.querySelectorAll('.nav-pills .sidebar-section,.admin-console .wrapper--fixed'));
+        this.markInstance.mark(this.state.filter, {accuracy: 'complementary'});
+    }
+
+    onFilterChange = (filter) => {
+        this.setState({filter});
     }
 
     mainRolesLoaded(roles) {
@@ -175,7 +198,7 @@ export default class AdminConsole extends React.Component {
             <div className='admin-console__wrapper'>
                 <AnnouncementBar/>
                 <SystemNotice/>
-                <AdminSidebar/>
+                <AdminSidebar onFilterChange={this.onFilterChange}/>
                 <div className='admin-console'>
                     {this.renderRoutes(extraProps)}
                 </div>
