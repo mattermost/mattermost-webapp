@@ -7,14 +7,19 @@ import {FormattedDate} from 'react-intl';
 
 export default class DateSeparator extends React.PureComponent {
     static propTypes = {
-
-        /*
-         * The date to display in the separator
-         */
         date: PropTypes.instanceOf(Date),
+        timeZone: PropTypes.string,
+        enableTimezone: PropTypes.bool,
     }
 
     render() {
+        const {
+            date,
+            enableTimezone,
+            timeZone,
+        } = this.props;
+        const timezoneProps = enableTimezone && timeZone ? {timeZone} : {};
+
         return (
             <div
                 className='date-separator'
@@ -22,7 +27,8 @@ export default class DateSeparator extends React.PureComponent {
                 <hr className='separator__hr'/>
                 <div className='separator__text'>
                     <FormattedDate
-                        value={this.props.date}
+                        {...timezoneProps}
+                        value={date}
                         weekday='short'
                         month='short'
                         day='2-digit'

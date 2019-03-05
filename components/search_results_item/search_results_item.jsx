@@ -13,7 +13,7 @@ import CommentIcon from 'components/common/comment_icon.jsx';
 import DotMenu from 'components/dot_menu';
 import PostProfilePicture from 'components/post_profile_picture';
 import UserProfile from 'components/user_profile';
-import DateSeparator from 'components/post_view/date_separator.jsx';
+import DateSeparator from 'components/post_view/date_separator';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import ArchiveIcon from 'components/svg/archive_icon';
