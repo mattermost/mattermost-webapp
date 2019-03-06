@@ -40,9 +40,13 @@ export default class LocalDateTime extends React.PureComponent {
 
         const date = eventTime ? new Date(eventTime) : new Date();
 
-        const title = moment(date);
-        if (enableTimezone) {
+        let title = moment(date);
+        if (enableTimezone && timeZone) {
             title.tz(timeZone);
+
+            title = title.toString() + ' (' + title.tz() + ')';
+        } else {
+            title = title.toString();
         }
 
         const timezoneProps = enableTimezone && timeZone ? {timeZone} : {};
@@ -51,7 +55,7 @@ export default class LocalDateTime extends React.PureComponent {
             <time
                 className='post__time'
                 dateTime={date.toISOString()}
-                title={enableTimezone ? title.toString() + ' (' + title.tz() + ')' : title.toString()}
+                title={title}
             >
                 <FormattedTime
                     {...timezoneProps}

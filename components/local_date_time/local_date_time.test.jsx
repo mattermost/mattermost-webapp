@@ -19,8 +19,8 @@ describe('components/LocalDateTime', () => {
                 eventTime={new Date('Fri Jan 12 2018 20:15:13 GMT+0800 (+08)').getTime()}
             />
         );
-        expect(wrapper).toMatchSnapshot();
 
+        expect(wrapper.find('time').prop('title')).toBe('Fri Jan 12 2018 12:15:13 GMT+0000');
         expect(wrapper.find('span').text()).toBe('12:15 PM');
     });
 
@@ -32,8 +32,8 @@ describe('components/LocalDateTime', () => {
                 timeZone={'Australia/Sydney'}
             />
         );
-        expect(wrapper).toMatchSnapshot();
 
+        expect(wrapper.find('time').prop('title')).toBe('Fri Jan 12 2018 12:15:13 GMT+0000');
         expect(wrapper.find('span').text()).toBe('12:15 PM');
     });
 
@@ -46,9 +46,25 @@ describe('components/LocalDateTime', () => {
                 timeZone={'Australia/Sydney'}
             />
         );
-        expect(wrapper).toMatchSnapshot();
 
+        expect(wrapper.find('time').prop('title')).toBe('Fri Jan 12 2018 15:15:13 GMT+0000');
         expect(wrapper.find('span').text()).toBe('15:15');
+    });
+
+    test('should render date with timezone enabled, but no timezone defined', () => {
+        // Clear the default set above.
+        moment.tz.setDefault();
+
+        const wrapper = mountWithIntl(
+            <LocalDateTime
+                eventTime={new Date('Fri Jan 12 2018 20:15:13 GMT+0000 (+00)').getTime()}
+                enableTimezone={true}
+            />
+        );
+
+        // Can't do an exact match here, since without a default, the timezone gets set to local
+        // and will vary from machine to machine.
+        expect(wrapper.find('time').prop('title')).toEqual(expect.not.stringContaining('undefined'));
     });
 
     test('should render date with timezone enabled', () => {
@@ -59,8 +75,8 @@ describe('components/LocalDateTime', () => {
                 timeZone={'Australia/Sydney'}
             />
         );
-        expect(wrapper).toMatchSnapshot();
 
+        expect(wrapper.find('time').prop('title')).toBe('Sat Jan 13 2018 07:15:13 GMT+1100 (Australia/Sydney)');
         expect(wrapper.find('span').text()).toBe('7:15 AM');
     });
 
@@ -73,8 +89,8 @@ describe('components/LocalDateTime', () => {
                 timeZone={'Australia/Sydney'}
             />
         );
-        expect(wrapper).toMatchSnapshot();
 
+        expect(wrapper.find('time').prop('title')).toBe('Sat Jan 13 2018 15:15:13 GMT+1100 (Australia/Sydney)');
         expect(wrapper.find('span').text()).toBe('15:15');
     });
 });
