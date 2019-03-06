@@ -23,6 +23,47 @@ Array [
 ]
 `;
 
+exports[`messageHtmlToComponent link with enabled a tooltip plugin 1`] = `
+Array [
+  <p>
+    lorem ipsum 
+    <a
+      className="theme markdown__link"
+      href="http://www.dolor.com"
+      rel="noreferrer"
+      target="_blank"
+    >
+      <LinkTooltip
+        href="http://www.dolor.com"
+        title="www.dolor.com"
+      />
+    </a>
+     sit amet
+  </p>,
+  "
+",
+]
+`;
+
+exports[`messageHtmlToComponent link without enabled tooltip plugins 1`] = `
+Array [
+  <p>
+    lorem ipsum 
+    <a
+      className="theme markdown__link"
+      href="http://www.dolor.com"
+      rel="noreferrer"
+      target="_blank"
+    >
+      www.dolor.com
+    </a>
+     sit amet
+  </p>,
+  "
+",
+]
+`;
+
 exports[`messageHtmlToComponent plain text 1`] = `
 Array [
   <p>
