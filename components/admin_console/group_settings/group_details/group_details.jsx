@@ -156,7 +156,7 @@ export default class GroupDetails extends React.PureComponent {
                                         text={localizeMessage('admin.group_settings.group_details.add_team', 'Add Team')}
                                     />
                                     <MenuItemAction
-                                        onClick={this.openAddTeam}
+                                        onClick={this.openAddChannel}
                                         text={localizeMessage('admin.group_settings.group_details.add_channel', 'Add Channel')}
                                     />
                                 </Menu>
