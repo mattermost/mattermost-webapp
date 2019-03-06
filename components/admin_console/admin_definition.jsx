@@ -764,6 +764,17 @@ export default {
             url: 'access-control',
             title: t('admin.sidebar.access-control'),
             title_default: 'Access Control',
+            group_detail: {
+                url: 'groups/:group_id',
+                isHidden: needsUtils.or(
+                    needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')),
+                    (config) => !config.ServiceSettings.ExperimentalLdapGroupSync,
+                ),
+                schema: {
+                    id: 'GroupDetail',
+                    component: GroupDetails,
+                },
+            },
             groups: {
                 url: 'groups',
                 title: t('admin.sidebar.groups'),
@@ -775,17 +786,6 @@ export default {
                 schema: {
                     id: 'Groups',
                     component: GroupSettings,
-                },
-            },
-            group_detail: {
-                url: 'groups/:group_id',
-                isHidden: needsUtils.or(
-                    needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')),
-                    (config) => !config.ServiceSettings.ExperimentalLdapGroupSync,
-                ),
-                schema: {
-                    id: 'GroupDetail',
-                    component: GroupDetails,
                 },
             },
         },
