@@ -34,8 +34,7 @@ describe('Message deletion', () => {
                 cy.clickPostDotMenu(parentMessageId);
 
                 // 5. Click delete button.
-                cy.get(`#CENTER_button_${parentMessageId}`).click();
-                cy.get(`#delete_post_${parentMessageId}`).click({force: true});
+                cy.get(`#delete_post_${parentMessageId}`).click();
 
                 // * Check that confirmation dialog is open.
                 cy.get('#deletePostModal').should('be.visible');
