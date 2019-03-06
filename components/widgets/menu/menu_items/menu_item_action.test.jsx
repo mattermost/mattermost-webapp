@@ -52,7 +52,6 @@ describe('components/MenuItemAction', () => {
         const wrapper = shallow(
             <MenuItemActionImpl
                 onClick={jest.fn()}
-                buttonId='test-id'
                 text='Whatever'
             />
         );
@@ -60,7 +59,6 @@ describe('components/MenuItemAction', () => {
         expect(wrapper).toMatchInlineSnapshot(`
 <button
   className="style--none"
-  id="test-id"
   onClick={[MockFunction]}
 >
   Whatever

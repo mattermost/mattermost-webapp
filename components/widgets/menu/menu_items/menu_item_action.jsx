@@ -6,10 +6,9 @@ import PropTypes from 'prop-types';
 
 import menuItem from './menu_item.jsx';
 
-export const MenuItemActionImpl = ({onClick, text, extraText, buttonId}) => (
+export const MenuItemActionImpl = ({onClick, text, extraText}) => (
     <button
         className='style--none'
-        id={buttonId}
         onClick={onClick}
     >
         {text}
@@ -21,7 +20,6 @@ MenuItemActionImpl.propTypes = {
     onClick: PropTypes.func.isRequired,
     text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     extraText: PropTypes.string,
-    buttonId: PropTypes.string,
 };
 
 const MenuItemAction = menuItem(MenuItemActionImpl);
