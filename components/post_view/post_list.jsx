@@ -20,7 +20,7 @@ import DateSeparator from 'components/post_view/date_separator';
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
 
 import CombinedUserActivityPost from './combined_user_activity_post';
-import NewMessageIndicator from './new_message_indicator.jsx';
+import NewMessagesBelow from './new_messages_below';
 import Post from './post';
 import ScrollToBottomArrows from './scroll_to_bottom_arrows.jsx';
 import CreateChannelIntroMessage from './channel_intro_message';
@@ -55,11 +55,6 @@ export default class PostList extends React.PureComponent {
          * The last time the channel was viewed, sets the new message separator
          */
         lastViewedAt: PropTypes.number,
-
-        /**
-         * The user id of the logged in user
-         */
-        currentUserId: PropTypes.string,
 
         /**
          * Set to focus this post
@@ -105,7 +100,6 @@ export default class PostList extends React.PureComponent {
 
         this.state = {
             atEnd: false,
-            unViewedCount: 0,
             isDoingInitialLoad: true,
             isScrolling: false,
             lastViewed: props.lastViewedAt,
@@ -159,7 +153,7 @@ export default class PostList extends React.PureComponent {
             this.atBottom = false;
             this.extraPagesLoaded = 0;
 
-            this.setState({atEnd: false, isDoingInitialLoad: !this.props.postIds, unViewedCount: 0}); // eslint-disable-line react/no-did-update-set-state
+            this.setState({atEnd: false, isDoingInitialLoad: !this.props.postIds}); // eslint-disable-line react/no-did-update-set-state
 
             this.loadPosts(this.props.channel.id);
         }
@@ -173,14 +167,6 @@ export default class PostList extends React.PureComponent {
 
         const prevPostIds = prevProps.postIds || [];
         const postIds = this.props.postIds || [];
-
-        if (this.props.focusedPostId == null) {
-            const hasNewPosts = (prevPostIds.length === 0 && postIds.length > 0) || (prevPostIds.length > 0 && postIds.length > 0 && prevPostIds[0] !== postIds[0]);
-
-            if (snapshot && !snapshot.wasAtBottom && hasNewPosts) {
-                this.setUnreadsBelow(postIds, this.props.currentUserId);
-            }
-        }
 
         const postList = this.postListRef.current;
         if (!postList) {
@@ -282,7 +268,6 @@ export default class PostList extends React.PureComponent {
         // Scroll to new message indicator since we have unread posts and we can't show every new post in the screen
         if (messageSeparator && (postList.scrollHeight - messageSeparator.offsetTop) > postList.clientHeight) {
             messageSeparator.scrollIntoView();
-            this.setUnreadsBelow(postIds, this.props.currentUserId);
             return true;
         }
 
@@ -290,21 +275,6 @@ export default class PostList extends React.PureComponent {
         this.atBottom = true;
         postList.scrollTop = postList.scrollHeight;
         return true;
-    }
-
-    setUnreadsBelow = (/*postIds, currentUserId*/) => {
-        // TODO this is broken
-        // const unViewedCount = posts.reduce((count, post) => {
-        //     if (post.create_at > this.state.lastViewed &&
-        //         post.user_id !== currentUserId &&
-        //         post.state !== Constants.POST_DELETED) {
-        //         return count + 1;
-        //     }
-        //     return count;
-        // }, 0);
-        // if (this.mounted) {
-        //     this.setState({unViewedCount});
-        // }
     }
 
     handleScrollStop = () => {
@@ -363,16 +333,11 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        const {posts, hasMoreBefore} = await this.props.actions.loadInitialPosts(channelId, focusedPostId);
+        const {hasMoreBefore} = await this.props.actions.loadInitialPosts(channelId, focusedPostId);
 
         if (focusedPostId) {
             this.hasScrolledToFocusedPost = true;
         } else {
-            if (!this.checkBottom()) {
-                const postsArray = posts.order.map((id) => posts.posts[id]);
-                this.setUnreadsBelow(postsArray, this.props.currentUserId);
-            }
-
             this.hasScrolledToNewMessageSeparator = true;
         }
 
@@ -444,7 +409,6 @@ export default class PostList extends React.PureComponent {
             if (this.checkBottom()) {
                 this.setState({
                     lastViewed: new Date().getTime(),
-                    unViewedCount: 0,
                     isScrolling: false,
                 });
             }
@@ -635,6 +599,20 @@ export default class PostList extends React.PureComponent {
             postVisibility += Constants.POST_CHUNK_SIZE / 2;
         }
 
+        const atBottom = this.checkBottom();
+
+        let newMessagesBelow = null;
+        if (!this.props.focusedPostId) {
+            newMessagesBelow = (
+                <NewMessagesBelow
+                    atBottom={atBottom}
+                    lastViewedBottom={this.state.lastViewed}
+                    postIds={this.props.postIds}
+                    onClick={this.scrollToBottom}
+                />
+            );
+        }
+
         return (
             <div id='post-list'>
                 <FloatingTimestamp
@@ -644,13 +622,10 @@ export default class PostList extends React.PureComponent {
                 />
                 <ScrollToBottomArrows
                     isScrolling={this.state.isScrolling}
-                    atBottom={this.checkBottom()}
+                    atBottom={atBottom}
                     onClick={this.scrollToBottom}
                 />
-                <NewMessageIndicator
-                    newMessages={this.state.unViewedCount}
-                    onClick={this.scrollToBottom}
-                />
+                {newMessagesBelow}
                 <div
                     ref={this.postListRef}
                     className='post-list-holder-by-time'

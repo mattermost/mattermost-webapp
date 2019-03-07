@@ -10,7 +10,6 @@ import {
     makeGetPostIdsAroundPost,
 } from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 
 import {
@@ -49,7 +48,6 @@ function makeMapStateToProps() {
             postVisibility,
             loadingPosts: state.views.channel.loadingPosts[ownProps.channelId],
             focusedPostId: ownProps.focusedPostId,
-            currentUserId: getCurrentUserId(state),
             fullWidth: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
         };
     };

@@ -8,6 +8,7 @@ import {DATE_LINE, START_OF_NEW_MESSAGES} from 'mattermost-redux/utils/post_list
 
 import LoadingScreen from 'components/loading_screen';
 import DateSeparator from 'components/post_view/date_separator';
+import NewMessagesBelow from 'components/post_view/new_messages_below';
 import Post from 'components/post_view/post';
 
 import PostList from './post_list';
@@ -126,5 +127,24 @@ describe('PostList', () => {
 
         expect(wrapper.find('.new-separator').exists()).toBe(true);
         expect(wrapper.find(Post).find({postId: 'post1'}).prop('previousPostId')).toBe(START_OF_NEW_MESSAGES);
+    });
+
+    describe('new messages below', () => {
+        test('should mount outside of permalink view', () => {
+            const wrapper = shallow(<PostList {...baseProps}/>);
+
+            expect(wrapper.find(NewMessagesBelow).exists()).toBe(true);
+        });
+
+        test('should not mount when in permalink view', () => {
+            const props = {
+                ...baseProps,
+                focusedPostId: '1234',
+            };
+
+            const wrapper = shallow(<PostList {...props}/>);
+
+            expect(wrapper.find(NewMessagesBelow).exists()).toBe(false);
+        });
     });
 });
