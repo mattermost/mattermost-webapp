@@ -10,6 +10,8 @@ import Post from 'components/post_view/post';
 
 import PostList from './post_list';
 
+import {DATE_LINE, START_OF_NEW_MESSAGES} from './index';
+
 describe('PostList', () => {
     const baseProps = {
         channel: {id: 'channel'},
@@ -17,10 +19,11 @@ describe('PostList', () => {
         focusedPostId: '',
         fullWidth: true,
         lastViewedAt: 0,
-        posts: [
-            {id: 'post1', message: 'Hello, World 1!', create_at: new Date(2019, 2, 4, 12).getTime()},
-            {id: 'post2', message: 'Hello, World 2!', create_at: new Date(2019, 2, 4, 11).getTime()},
-            {id: 'post3', message: 'Hello, World 3!', create_at: new Date(2019, 2, 4, 10).getTime()},
+        postIds: [
+            'post1',
+            'post2',
+            'post3',
+            DATE_LINE + 1551711600000,
         ],
         postVisibility: 10,
         actions: {
@@ -33,7 +36,7 @@ describe('PostList', () => {
     test('should render loading screen while loading posts', () => {
         const props = {
             ...baseProps,
-            posts: [],
+            postIds: [],
         };
 
         const wrapper = shallow(<PostList {...props}/>);
@@ -51,7 +54,15 @@ describe('PostList', () => {
 
             wrapper.setState({isDoingInitialLoad: false});
 
-            expect(wrapper.find(Post)).toHaveLength(3);
+            const posts = wrapper.find(Post);
+
+            expect(posts).toHaveLength(3);
+            expect(posts.at(0).prop('postId')).toBe('post3');
+            expect(posts.at(0).prop('previousPostId')).toBe(DATE_LINE + 1551711600000);
+            expect(posts.at(1).prop('postId')).toBe('post2');
+            expect(posts.at(1).prop('previousPostId')).toBe('post3');
+            expect(posts.at(2).prop('postId')).toBe('post1');
+            expect(posts.at(2).prop('previousPostId')).toBe('post2');
         });
 
         test('should limit the number based on postVisibility', () => {
@@ -68,105 +79,52 @@ describe('PostList', () => {
         });
     });
 
-    describe('date separators', () => {
-        test('should render above posts made all on the same day', () => {
-            const wrapper = shallow(<PostList {...baseProps}/>);
+    test('should render date separators', () => {
+        const props = {
+            ...baseProps,
+            postIds: [
+                'post1',
+                'post2',
+                DATE_LINE + 1551715200000,
+                'post3',
+                DATE_LINE + 1551632400000,
+            ],
+        };
 
-            wrapper.setState({
-                atEnd: true,
-                isDoingInitialLoad: false,
-            });
+        const wrapper = shallow(<PostList {...props}/>);
 
-            expect(wrapper.find(DateSeparator)).toHaveLength(1);
-            expect(wrapper.find('.post-list__content').children()).toMatchSnapshot();
+        wrapper.setState({
+            atEnd: true,
+            isDoingInitialLoad: false,
         });
 
-        test('should render between posts made on different days', () => {
-            const props = {
-                ...baseProps,
-                posts: [
-                    {id: 'post1', message: 'Hello, World 1!', create_at: new Date(2019, 2, 4, 12).getTime()},
-                    {id: 'post2', message: 'Hello, World 2!', create_at: new Date(2019, 2, 4, 11).getTime()},
-                    {id: 'post3', message: 'Hello, World 3!', create_at: new Date(2019, 2, 3, 12).getTime()},
-                ],
-            };
+        const separators = wrapper.find(DateSeparator);
 
-            const wrapper = shallow(<PostList {...props}/>);
-
-            wrapper.setState({
-                atEnd: true,
-                isDoingInitialLoad: false,
-            });
-
-            expect(wrapper.find(DateSeparator)).toHaveLength(2);
-            expect(wrapper.find('.post-list__content').children()).toMatchSnapshot();
-        });
+        expect(separators).toHaveLength(2);
+        expect(separators.at(0).prop('date')).toBe(1551632400000);
+        expect(separators.at(1).prop('date')).toBe(1551715200000);
     });
 
-    describe('new message line', () => {
-        test('should not render on first read', () => {
-            const props = {
-                ...baseProps,
-                lastViewedAt: 0,
-            };
+    test('should render new messages line', () => {
+        const props = {
+            ...baseProps,
+            postIds: [
+                'post1',
+                START_OF_NEW_MESSAGES,
+                'post2',
+                'post3',
+                DATE_LINE + 1551632400000,
+            ],
+        };
 
-            const wrapper = shallow(<PostList {...props}/>);
+        const wrapper = shallow(<PostList {...props}/>);
 
-            wrapper.setState({
-                atEnd: true,
-                isDoingInitialLoad: false,
-            });
-
-            expect(wrapper.find('.new-separator').exists()).toBe(false);
+        wrapper.setState({
+            atEnd: true,
+            isDoingInitialLoad: false,
         });
 
-        test('should render new message line between posts', () => {
-            const props = {
-                ...baseProps,
-                lastViewedAt: new Date(2019, 2, 3, 13).getTime(),
-            };
-
-            const wrapper = shallow(<PostList {...props}/>);
-
-            wrapper.setState({
-                atEnd: true,
-                isDoingInitialLoad: false,
-            });
-
-            expect(wrapper.find('.new-separator').exists()).toBe(true);
-            expect(wrapper.find('.post-list__content').children()).toMatchSnapshot();
-        });
-
-        test('should not render when all posts have been read', () => {
-            const props = {
-                ...baseProps,
-                lastViewedAt: baseProps.posts[0].create_at,
-            };
-
-            const wrapper = shallow(<PostList {...props}/>);
-
-            wrapper.setState({
-                atEnd: true,
-                isDoingInitialLoad: false,
-            });
-
-            expect(wrapper.find('.new-separator').exists()).toBe(false);
-        });
-
-        test('should not render on first read', () => {
-            const props = {
-                ...baseProps,
-                lastViewedAt: 0,
-            };
-
-            const wrapper = shallow(<PostList {...props}/>);
-
-            wrapper.setState({
-                atEnd: true,
-                isDoingInitialLoad: false,
-            });
-
-            expect(wrapper.find('.new-separator').exists()).toBe(false);
-        });
+        expect(wrapper.find('.new-separator').exists()).toBe(true);
+        expect(wrapper.find(Post).find({postId: 'post1'}).prop('previousPostId')).toBe(START_OF_NEW_MESSAGES);
     });
 });

@@ -3,10 +3,15 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {makeGetPostsAroundPost, makeGetPostsInChannel} from 'mattermost-redux/selectors/entities/posts';
+import {
+    getPostIdsInChannel,
+    makeGetPostIdsAroundPost,
+} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 
 import {
     checkAndSetMobileView,
@@ -18,23 +23,29 @@ import {Preferences} from 'utils/constants.jsx';
 import PostList from './post_list.jsx';
 
 function makeMapStateToProps() {
-    const getPostsInChannel = makeGetPostsInChannel();
-    const getPostsAroundPost = makeGetPostsAroundPost();
+    const getPostIdsAroundPost = makeGetPostIdsAroundPost();
+
+    const preparePostIdsForPostList = makePreparePostIdsForPostList();
 
     return function mapStateToProps(state, ownProps) {
         const postVisibility = state.views.channel.postVisibility[ownProps.channelId];
+        const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
 
-        let posts;
+        let postIds;
         if (ownProps.focusedPostId) {
-            posts = getPostsAroundPost(state, ownProps.focusedPostId, ownProps.channelId);
+            postIds = getPostIdsAroundPost(state, ownProps.focusedPostId, ownProps.channelId);
         } else {
-            posts = getPostsInChannel(state, ownProps.channelId, postVisibility);
+            postIds = getPostIdsInChannel(state, ownProps.channelId);
+        }
+
+        if (postIds) {
+            postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true});
         }
 
         return {
             channel: getChannel(state, ownProps.channelId) || {},
-            lastViewedAt: state.views.channel.lastChannelViewTime[ownProps.channelId],
-            posts,
+            lastViewedAt,
+            postIds,
             postVisibility,
             loadingPosts: state.views.channel.loadingPosts[ownProps.channelId],
             focusedPostId: ownProps.focusedPostId,
