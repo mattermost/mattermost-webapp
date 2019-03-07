@@ -48,21 +48,4 @@ describe('components/MenuItemAction', () => {
 </button>
 `);
     });
-    test('should match snapshot with id', () => {
-        const wrapper = shallow(
-            <MenuItemActionImpl
-                onClick={jest.fn()}
-                text='Whatever'
-            />
-        );
-
-        expect(wrapper).toMatchInlineSnapshot(`
-<button
-  className="style--none"
-  onClick={[MockFunction]}
->
-  Whatever
-</button>
-`);
-    });
 });
