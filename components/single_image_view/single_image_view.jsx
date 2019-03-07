@@ -63,10 +63,6 @@ export default class SingleImageView extends React.PureComponent {
         this.mounted = false;
     }
 
-    setViewPortRef = (node) => {
-        this.viewPort = node;
-    }
-
     imageLoaded = () => {
         if (this.mounted) {
             this.setState({loaded: true});
@@ -133,24 +129,22 @@ export default class SingleImageView extends React.PureComponent {
         let viewImageModal;
         let fadeInClass = '';
 
-        let height = previewHeight;
-        if (height < PREVIEW_IMAGE_MIN_DIMENSION) {
-            height = PREVIEW_IMAGE_MIN_DIMENSION;
-        }
-
-        let width = previewWidth;
-        if (width < PREVIEW_IMAGE_MIN_DIMENSION) {
-            width = PREVIEW_IMAGE_MIN_DIMENSION;
-        }
-
         const fileType = getFileType(fileInfo.extension);
-        let svgClass = '';
+        let styleIfSvgWithDimentions = {};
         let imageContainerStyle = {};
+        let svgClass = '';
         if (fileType === FileTypes.SVG) {
-            svgClass = 'post-image normal';
-            imageContainerStyle = {
-                height: 150,
-            };
+            svgClass = 'svg';
+            if (this.state.dimensions.height) {
+                styleIfSvgWithDimentions = {
+                    width: '100%',
+                };
+            } else {
+                imageContainerStyle = {
+                    height: 150,
+                    width: 'auto',
+                };
+            }
         }
 
         if (loaded) {
@@ -167,7 +161,6 @@ export default class SingleImageView extends React.PureComponent {
 
         return (
             <div
-                ref='singleImageView'
                 className={`${'file-view--single'}`}
             >
                 <div
@@ -180,12 +173,12 @@ export default class SingleImageView extends React.PureComponent {
                         style={imageContainerStyle}
                     >
                         <div
-                            className={`image-loaded ${fadeInClass}`}
-                            style={{height: fileType === FileTypes.SVG ? '100%' : 'initial'}}
+                            className={`image-loaded ${fadeInClass} ${svgClass}`}
+                            style={styleIfSvgWithDimentions}
                             onClick={this.handleImageClick}
                         >
                             <SizeAwareImage
-                                className={`${minPreviewClass} ${svgClass}`}
+                                className={minPreviewClass}
                                 src={previewURL}
                                 dimensions={this.state.dimensions}
                                 onImageLoaded={this.imageLoaded}

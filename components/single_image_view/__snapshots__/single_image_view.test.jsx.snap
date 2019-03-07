@@ -28,16 +28,12 @@ exports[`components/SingleImageView should match snapshot 1`] = `
       style={Object {}}
     >
       <div
-        className="image-loaded "
+        className="image-loaded  "
         onClick={[Function]}
-        style={
-          Object {
-            "height": "initial",
-          }
-        }
+        style={Object {}}
       >
         <SizeAwareImage
-          className=" "
+          className=""
           dimensions={
             Object {
               "height": 200,
@@ -82,16 +78,12 @@ exports[`components/SingleImageView should match snapshot 2`] = `
       style={Object {}}
     >
       <div
-        className="image-loaded image-fade-in"
+        className="image-loaded image-fade-in "
         onClick={[Function]}
-        style={
-          Object {
-            "height": "initial",
-          }
-        }
+        style={Object {}}
       >
         <SizeAwareImage
-          className=" "
+          className=""
           dimensions={
             Object {
               "height": 200,
@@ -153,20 +145,17 @@ exports[`components/SingleImageView should match snapshot, SVG image 1`] = `
       style={
         Object {
           "height": 150,
+          "width": "auto",
         }
       }
     >
       <div
-        className="image-loaded "
+        className="image-loaded  svg"
         onClick={[Function]}
-        style={
-          Object {
-            "height": "100%",
-          }
-        }
+        style={Object {}}
       >
         <SizeAwareImage
-          className=" post-image normal"
+          className=""
           dimensions={
             Object {
               "height": undefined,
@@ -211,20 +200,17 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
       style={
         Object {
           "height": 150,
+          "width": "auto",
         }
       }
     >
       <div
-        className="image-loaded image-fade-in"
+        className="image-loaded image-fade-in svg"
         onClick={[Function]}
-        style={
-          Object {
-            "height": "100%",
-          }
-        }
+        style={Object {}}
       >
         <SizeAwareImage
-          className=" post-image normal"
+          className=""
           dimensions={
             Object {
               "height": undefined,
@@ -283,16 +269,12 @@ exports[`components/SingleImageView should set loaded state on callback of onIma
       style={Object {}}
     >
       <div
-        className="image-loaded image-fade-in"
+        className="image-loaded image-fade-in "
         onClick={[Function]}
-        style={
-          Object {
-            "height": "initial",
-          }
-        }
+        style={Object {}}
       >
         <SizeAwareImage
-          className=" "
+          className=""
           dimensions={
             Object {
               "height": 200,

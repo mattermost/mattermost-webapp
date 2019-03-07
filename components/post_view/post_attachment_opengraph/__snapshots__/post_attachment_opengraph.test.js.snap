@@ -38,26 +38,19 @@ exports[`components/post_view/PostAttachmentOpenGraph Match snapshot for large i
             <div>
               description
                
-              <a
-                aria-label="Toggle Embed Visibility"
-                className="post__embed-visibility"
-                data-expanded={true}
-                onClick={[MockFunction]}
-              />
             </div>
-            <SizeAwareImage
-              className="attachment__image attachment__image--opengraph large_image"
-              dimensions={
-                Object {
-                  "height": 180,
-                  "width": 400,
-                }
-              }
-              onImageLoaded={[Function]}
-              src="http://mattermost.com/OpenGraphImage.jpg"
-            />
           </div>
         </div>
+      </div>
+      <div
+        className="attachment__image__container--opengraph"
+      >
+        <SizeAwareImage
+          className="attachment__image attachment__image--opengraph"
+          dimensions={null}
+          onImageLoaded={[Function]}
+          src="/api/v4/image?url=http%3A%2F%2Fmattermost.com%2FOpenGraphImage.jpg"
+        />
       </div>
     </div>
   </div>
@@ -113,14 +106,9 @@ exports[`components/post_view/PostAttachmentOpenGraph Match snapshot for small i
       >
         <SizeAwareImage
           className="attachment__image attachment__image--opengraph"
-          dimensions={
-            Object {
-              "height": 100,
-              "width": 100,
-            }
-          }
+          dimensions={null}
           onImageLoaded={[Function]}
-          src="http://mattermost.com/OpenGraphImage.jpg"
+          src="/api/v4/image?url=http%3A%2F%2Fmattermost.com%2FOpenGraphImage.jpg"
         />
       </div>
     </div>
@@ -188,14 +176,9 @@ exports[`components/post_view/PostAttachmentOpenGraph Match snapshot for with re
       >
         <SizeAwareImage
           className="attachment__image attachment__image--opengraph"
-          dimensions={
-            Object {
-              "height": 100,
-              "width": 100,
-            }
-          }
+          dimensions={null}
           onImageLoaded={[Function]}
-          src="http://mattermost.com/OpenGraphImage.jpg"
+          src="/api/v4/image?url=http%3A%2F%2Fmattermost.com%2FOpenGraphImage.jpg"
         />
       </div>
     </div>

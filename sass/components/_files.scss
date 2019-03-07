@@ -216,6 +216,13 @@
                     max-width: 50px;
                 }
             }
+            &.svg {
+                  width: 100%;
+                  height: inherit;
+                img {
+                    height: inherit;
+               }
+            }
         }
 
         .image-fade-in {

@@ -51,6 +51,7 @@ export default class SizeAwareImage extends React.PureComponent {
     }
 
     componentDidMount() {
+        this.mounted = true;
         this.loadImage();
     }
 
@@ -61,6 +62,7 @@ export default class SizeAwareImage extends React.PureComponent {
     }
 
     componentWillUnmount() {
+        this.mounted = false;
         this.stopWaitingForHeight();
     }
 
@@ -95,22 +97,25 @@ export default class SizeAwareImage extends React.PureComponent {
     }
 
     handleLoad = (image) => {
-        if (this.props.onImageLoaded && image.height) {
-            this.props.onImageLoaded({height: image.height, width: image.width});
+        if (this.mounted) {
+            if (this.props.onImageLoaded && image.height) {
+                this.props.onImageLoaded({height: image.height, width: image.width});
+            }
+            this.setState({
+                loaded: true,
+                error: false,
+            });
         }
-
-        this.setState({
-            loaded: true,
-            error: false,
-        });
     };
 
     handleError = () => {
-        this.stopWaitingForHeight();
-        if (this.props.onImageLoadFail) {
-            this.props.onImageLoadFail();
+        if (this.mounted) {
+            this.stopWaitingForHeight();
+            if (this.props.onImageLoadFail) {
+                this.props.onImageLoadFail();
+            }
+            this.setState({error: true});
         }
-        this.setState({error: true});
     };
 
     render() {
