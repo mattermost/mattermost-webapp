@@ -20,7 +20,6 @@
             white-space: nowrap;
         }
         .user__name {
-            @include opacity(.8);
             font-weight: 400;
         }
     }

@@ -8,6 +8,7 @@ import AtMention from 'components/at_mention';
 import LatexBlock from 'components/latex_block';
 import SizeAwareImage from 'components/size_aware_image';
 import PostEmoji from 'components/post_emoji';
+import LinkTooltip from '../components/link_tooltip/link_tooltip';
 
 /*
  * Converts HTML to React components using html-to-react.
@@ -18,6 +19,7 @@ import PostEmoji from 'components/post_emoji';
  * - imageProps - If specified, any extra props that should be passed into the image component.
  * - latex - If specified, latex is replaced with the LatexBlock component. Defaults to true.
  * - imagesMetadata - the dimensions of the image as retrieved from post.metadata.images.
+ * - hasPluginTooltips - If specified, the LinkTooltip component is placed inside links. Defaults to false.
  */
 export function messageHtmlToComponent(html, isRHS, options = {}) {
     if (!html) {
@@ -32,6 +34,21 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
     }
 
     const processingInstructions = [];
+    if (options.hasPluginTooltips) {
+        const hrefAttrib = 'href';
+        processingInstructions.push({
+            replaceChildren: true,
+            shouldProcessNode: (node) => node.type === 'tag' && node.name === 'a' && node.attribs[hrefAttrib],
+            processNode: (node, children) => {
+                return (
+                    <LinkTooltip
+                        href={node.attribs[hrefAttrib]}
+                        title={children[0]}
+                    />
+                );
+            },
+        });
+    }
     if (!('mentions' in options) || options.mentions) {
         const mentionAttrib = 'data-mention';
         processingInstructions.push({

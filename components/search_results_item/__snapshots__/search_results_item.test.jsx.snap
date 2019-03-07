@@ -4,7 +4,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
 <div
   className="search-item__container"
 >
-  <DateSeparator
+  <Connect(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
   <div
@@ -226,7 +226,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
 <div
   className="search-item__container"
 >
-  <DateSeparator
+  <Connect(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
   <div
@@ -430,7 +430,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
 <div
   className="search-item__container"
 >
-  <DateSeparator
+  <Connect(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
   <div
@@ -634,7 +634,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
 <div
   className="search-item__container"
 >
-  <DateSeparator
+  <Connect(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
   <div

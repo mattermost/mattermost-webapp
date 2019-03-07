@@ -8,6 +8,7 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
   bsClass="modal"
   dialogComponentClass={[Function]}
   enforceFocus={false}
+  id="deletePostModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -90,6 +91,7 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
     <button
       autoFocus={true}
       className="btn btn-danger"
+      id="deletePostModalButton"
       onClick={[Function]}
       type="button"
     >
@@ -111,6 +113,7 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
   bsClass="modal"
   dialogComponentClass={[Function]}
   enforceFocus={false}
+  id="deletePostModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -202,6 +205,7 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
     <button
       autoFocus={true}
       className="btn btn-danger"
+      id="deletePostModalButton"
       onClick={[Function]}
       type="button"
     >
@@ -223,6 +227,7 @@ exports[`components/delete_post_modal should match snapshot for post with 1 comm
   bsClass="modal"
   dialogComponentClass={[Function]}
   enforceFocus={false}
+  id="deletePostModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -305,6 +310,7 @@ exports[`components/delete_post_modal should match snapshot for post with 1 comm
     <button
       autoFocus={true}
       className="btn btn-danger"
+      id="deletePostModalButton"
       onClick={[Function]}
       type="button"
     >

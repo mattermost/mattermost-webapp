@@ -75,6 +75,11 @@ export default class Markdown extends React.PureComponent {
          * prop for passed down to image component for dimensions
          */
         imagesMetadata: PropTypes.object,
+
+        /**
+         * Whether or not to place the LinkTooltip component inside links
+         */
+        hasPluginTooltips: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -103,6 +108,7 @@ export default class Markdown extends React.PureComponent {
         return messageHtmlToComponent(htmlFormattedText, this.props.isRHS, {
             imageProps: this.props.imageProps,
             imagesMetadata: this.props.imagesMetadata,
+            hasPluginTooltips: this.props.hasPluginTooltips,
         });
     }
 }
