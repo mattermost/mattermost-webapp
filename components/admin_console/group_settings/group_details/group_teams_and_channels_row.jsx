@@ -31,6 +31,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
 
     removeItem = () => {
         this.props.onRemoveItem(this.props.id, this.props.type);
+        this.setState({showConfirmationModal: false});
     }
 
     toggleCollapse = () => {
