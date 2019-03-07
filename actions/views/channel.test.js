@@ -126,7 +126,7 @@ describe('channel view actions', () => {
 
                 expect(result.posts).toBe(posts);
 
-                expect(PostActions.getPosts).toHaveBeenCalledWith('channel', 0, Posts.POST_CHUNK_SIZE);
+                expect(PostActions.getPosts).toHaveBeenCalledWith('channel', 0, Posts.POST_CHUNK_SIZE / 2);
             });
 
             test('when enough posts are received', async () => {
@@ -141,7 +141,7 @@ describe('channel view actions', () => {
             });
 
             test('when not enough posts are received', async () => {
-                const posts = {posts: {}, order: new Array(Posts.POST_CHUNK_SIZE - 1)};
+                const posts = {posts: {}, order: new Array((Posts.POST_CHUNK_SIZE / 2) - 1)};
 
                 PostActions.getPosts.mockReturnValue(() => ({data: posts}));
 
