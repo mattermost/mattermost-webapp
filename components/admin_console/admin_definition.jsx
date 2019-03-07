@@ -2746,7 +2746,7 @@ export default {
                             label: t('admin.team.siteNameTitle'),
                             label_default: 'Site Name:',
                             help_text: t('admin.team.siteNameDescription'),
-                            help_text_default: 'Name of service shown in login screens and UI.',
+                            help_text_default: 'Name of service shown in login screens and UI. When not specified, it defaults to "Mattermost".',
                             placeholder: t('admin.team.siteNameExample'),
                             placeholder_default: 'E.g.: "Mattermost"',
                             max_length: Constants.MAX_SITENAME_LENGTH,
