@@ -4,13 +4,13 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {DATE_LINE, START_OF_NEW_MESSAGES} from 'mattermost-redux/utils/post_list';
+
 import LoadingScreen from 'components/loading_screen';
 import DateSeparator from 'components/post_view/date_separator';
 import Post from 'components/post_view/post';
 
 import PostList from './post_list';
-
-import {DATE_LINE, START_OF_NEW_MESSAGES} from './index';
 
 describe('PostList', () => {
     const baseProps = {
