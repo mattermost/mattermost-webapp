@@ -29,7 +29,7 @@
     "localforage": "1.7.3",
     "localforage-observable": "1.4.0",
     "marked": "github:mattermost/marked#7ad73fe76f2264c533767f9105e7c7cff0fa34f1",
-    "mattermost-redux": "github:mattermost/mattermost-redux#33634b9633331e769312c42001b9f8d72e492781",
+    "mattermost-redux": "github:mattermost/mattermost-redux#7cdad4bd96d10ac7b69e8f9de8443f7fc7a116e5",
     "moment-timezone": "0.5.23",
     "pdfjs-dist": "2.0.489",
     "perfect-scrollbar": "0.8.1",
@@ -161,9 +161,7 @@
     "setupFiles": [
       "jest-canvas-mock"
     ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/tests/setup.js"
-    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/setup.js",
     "testURL": "http://localhost:8065"
   },
   "jest-junit": {
