@@ -246,7 +246,7 @@ export function deleteAndRemovePost(post) {
             });
         }
 
-        dispatch(PostActions.postRemoved(post));
+        dispatch(PostActions.removePost(post));
 
         return {data: true};
     };
