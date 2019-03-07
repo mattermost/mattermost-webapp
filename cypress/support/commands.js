@@ -146,6 +146,11 @@ Cypress.Commands.add('postMessage', (message) => {
     cy.wait(500); // eslint-disable-line
 });
 
+Cypress.Commands.add('postMessageReplyInRHS', (message) => {
+    cy.get('#reply_textbox').type(message).type('{enter}');
+    cy.wait(500); // eslint-disable-line
+});
+
 Cypress.Commands.add('getLastPost', () => {
     return cy.get('#postListContent').children().last();
 });
