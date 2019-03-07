@@ -241,10 +241,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "integrations",
             "permissions": Array [
-              "manage_webhooks",
+              "manage_incoming_webhooks",
+              "manage_outgoing_webhooks",
               "manage_oauth",
               "manage_slash_commands",
-              "manage_emojis",
+              "create_emojis",
+              "delete_emojis",
+              "delete_others_emojis",
             ],
           },
         ]
@@ -378,10 +381,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "integrations",
             "permissions": Array [
-              "manage_webhooks",
+              "manage_incoming_webhooks",
+              "manage_outgoing_webhooks",
               "manage_oauth",
               "manage_slash_commands",
-              "manage_emojis",
+              "create_emojis",
+              "delete_emojis",
+              "delete_others_emojis",
             ],
           },
         ]
@@ -515,10 +521,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "integrations",
             "permissions": Array [
-              "manage_webhooks",
+              "manage_incoming_webhooks",
+              "manage_outgoing_webhooks",
               "manage_oauth",
               "manage_slash_commands",
-              "manage_emojis",
+              "create_emojis",
+              "delete_emojis",
+              "delete_others_emojis",
             ],
           },
         ]
@@ -652,10 +661,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "integrations",
             "permissions": Array [
-              "manage_webhooks",
+              "manage_incoming_webhooks",
+              "manage_outgoing_webhooks",
               "manage_oauth",
               "manage_slash_commands",
-              "manage_emojis",
+              "create_emojis",
+              "delete_emojis",
+              "delete_others_emojis",
             ],
           },
         ]
@@ -793,10 +805,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "integrations",
             "permissions": Array [
-              "manage_webhooks",
+              "manage_incoming_webhooks",
+              "manage_outgoing_webhooks",
               "manage_oauth",
               "manage_slash_commands",
-              "manage_emojis",
+              "create_emojis",
+              "delete_emojis",
+              "delete_others_emojis",
             ],
           },
         ]

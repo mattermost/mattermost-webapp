@@ -297,6 +297,7 @@ export default class DotMenu extends Component {
                         onClick={this.handlePinMenuItemActivated}
                     />
                     <MenuItemAction
+                        id={`delete_post_${this.props.post.id}`}
                         show={this.state.canDelete}
                         text={Utils.localizeMessage('post_info.del', 'Delete')}
                         onClick={this.handleDeleteMenuItemActivated}

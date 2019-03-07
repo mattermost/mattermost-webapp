@@ -4,7 +4,6 @@
     padding: 0;
     .MenuWrapper {
         height: 100%;
-        padding: 10px 0px 10px 10px;
     }
     .MenuWrapper:first-child {
         width: 100%;
@@ -12,5 +11,8 @@
         .Menu {
             left: -45px;
         }
+    }
+    .status-selector {
+        margin: 3px 0px 0 6px;
     }
 }

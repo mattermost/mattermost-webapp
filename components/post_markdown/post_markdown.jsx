@@ -35,6 +35,11 @@ export default class PostMarkdown extends React.PureComponent {
         options: PropTypes.object,
 
         pluginHooks: PropTypes.arrayOf(PropTypes.object),
+
+        /**
+         * Whether or not to place the LinkTooltip component inside links
+         */
+        hasPluginTooltips: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -71,6 +76,7 @@ export default class PostMarkdown extends React.PureComponent {
                 proxyImages={proxyImages}
                 options={this.props.options}
                 channelNamesMap={channelNamesMap}
+                hasPluginTooltips={this.props.hasPluginTooltips}
                 imagesMetadata={this.props.post && this.props.post.metadata && this.props.post.metadata.images}
             />
         );

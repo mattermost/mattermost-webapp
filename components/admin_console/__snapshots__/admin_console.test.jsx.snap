@@ -1,5 +1,121 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/AdminConsole should generate the routes 1`] = `
+<div
+  className="admin-console__wrapper"
+>
+  <Connect(AnnouncementBarController) />
+  <Connect(SystemNotice) />
+  <Connect(AdminSidebar) />
+  <div
+    className="admin-console"
+  >
+    <Switch>
+      <Route
+        key="system_analytics"
+        path="/system_analytics"
+        render={[Function]}
+      />
+      <Route
+        key="team_analytics"
+        path="/team_analytics"
+        render={[Function]}
+      />
+      <Route
+        key="users"
+        path="/users"
+        render={[Function]}
+      />
+      <Route
+        key="logs"
+        path="/logs"
+        render={[Function]}
+      />
+      <Route
+        key="license"
+        path="/license"
+        render={[Function]}
+      />
+      <Route
+        key="audits"
+        path="/audits"
+        render={[Function]}
+      />
+      <Route
+        key="general"
+        path="/general"
+        render={[Function]}
+      />
+      <Route
+        key="access-control"
+        path="/access-control"
+        render={[Function]}
+      />
+      <Route
+        key="permissions"
+        path="/permissions"
+        render={[Function]}
+      />
+      <Route
+        key="authentication"
+        path="/authentication"
+        render={[Function]}
+      />
+      <Route
+        key="security"
+        path="/security"
+        render={[Function]}
+      />
+      <Route
+        key="notifications"
+        path="/notifications"
+        render={[Function]}
+      />
+      <Route
+        key="integrations"
+        path="/integrations"
+        render={[Function]}
+      />
+      <Route
+        key="plugins"
+        path="/plugins"
+        render={[Function]}
+      />
+      <Route
+        key="files"
+        path="/files"
+        render={[Function]}
+      />
+      <Route
+        key="customization"
+        path="/customization"
+        render={[Function]}
+      />
+      <Route
+        key="compliance"
+        path="/compliance"
+        render={[Function]}
+      />
+      <Route
+        key="advanced"
+        path="/advanced"
+        render={[Function]}
+      />
+      <Redirect
+        push={false}
+        to="/system_analytics"
+      />
+    </Switch>
+  </div>
+  <DiscardChangesModal
+    onCancel={[MockFunction]}
+    onConfirm={[MockFunction]}
+    show={false}
+  />
+  <Connect(ModalController) />
+</div>
+`;
+
 exports[`components/AdminConsole should redirect to / when not system admin 1`] = `
 <Redirect
   push={false}

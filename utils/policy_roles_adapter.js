@@ -22,12 +22,14 @@ const MAPPING = {
 
     enableOnlyAdminIntegrations: {
         true: [
-            {roleName: 'team_user', permission: Permissions.MANAGE_WEBHOOKS, shouldHave: false},
+            {roleName: 'team_user', permission: Permissions.MANAGE_INCOMING_WEBHOOKS, shouldHave: false},
+            {roleName: 'team_user', permission: Permissions.MANAGE_OUTGOING_WEBHOOKS, shouldHave: false},
             {roleName: 'team_user', permission: Permissions.MANAGE_SLASH_COMMANDS, shouldHave: false},
             {roleName: 'system_user', permission: Permissions.MANAGE_OAUTH, shouldHave: false},
         ],
         false: [
-            {roleName: 'team_user', permission: Permissions.MANAGE_WEBHOOKS, shouldHave: true},
+            {roleName: 'team_user', permission: Permissions.MANAGE_INCOMING_WEBHOOKS, shouldHave: true},
+            {roleName: 'team_user', permission: Permissions.MANAGE_OUTGOING_WEBHOOKS, shouldHave: true},
             {roleName: 'team_user', permission: Permissions.MANAGE_SLASH_COMMANDS, shouldHave: true},
             {roleName: 'system_user', permission: Permissions.MANAGE_OAUTH, shouldHave: true},
         ],

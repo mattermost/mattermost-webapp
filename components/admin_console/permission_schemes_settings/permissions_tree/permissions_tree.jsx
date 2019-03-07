@@ -114,8 +114,11 @@ export default class PermissionsTree extends React.Component {
     updateGroups = () => {
         const {config, scope} = this.props;
         const integrationsGroup = this.groups[this.groups.length - 1];
-        if ((config.EnableIncomingWebhooks === 'true' || config.EnableOutgoingWebhooks === 'true') && integrationsGroup.permissions.indexOf('manage_webhooks') === -1) {
-            integrationsGroup.permissions.push('manage_webhooks');
+        if (config.EnableIncomingWebhooks === 'true' && integrationsGroup.permissions.indexOf('manage_incoming_webhooks') === -1) {
+            integrationsGroup.permissions.push('manage_incoming_webhooks');
+        }
+        if (config.EnableOutgoingWebhooks === 'true' && integrationsGroup.permissions.indexOf('manage_outgoing_webhooks') === -1) {
+            integrationsGroup.permissions.push('manage_outgoing_webhooks');
         }
         if (config.EnableOAuthServiceProvider === 'true' && integrationsGroup.permissions.indexOf('manage_oauth') === -1) {
             integrationsGroup.permissions.push('manage_oauth');
@@ -123,8 +126,14 @@ export default class PermissionsTree extends React.Component {
         if (config.EnableCommands === 'true' && integrationsGroup.permissions.indexOf('manage_slash_commands') === -1) {
             integrationsGroup.permissions.push('manage_slash_commands');
         }
-        if (config.EnableCustomEmoji === 'true' && integrationsGroup.permissions.indexOf('manage_emojis') === -1) {
-            integrationsGroup.permissions.push('manage_emojis');
+        if (config.EnableCustomEmoji === 'true' && integrationsGroup.permissions.indexOf('create_emojis') === -1) {
+            integrationsGroup.permissions.push('create_emojis');
+        }
+        if (config.EnableCustomEmoji === 'true' && integrationsGroup.permissions.indexOf('delete_emojis') === -1) {
+            integrationsGroup.permissions.push('delete_emojis');
+        }
+        if (config.EnableCustomEmoji === 'true' && integrationsGroup.permissions.indexOf('delete_others_emojis') === -1) {
+            integrationsGroup.permissions.push('delete_others_emojis');
         }
         if (scope === 'team_scope' && this.groups[0].id !== 'teams_team_scope') {
             this.groups[0].id = 'teams_team_scope';

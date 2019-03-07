@@ -80,6 +80,12 @@ export default class PluginRegistry {
         return dispatchPluginComponentAction('PostMessageAttachment', this.id, component);
     }
 
+    // Register a component to show as a tooltip when a user hovers on a link in a post.
+    // Accepts a React component. Returns a unique identifier.
+    registerLinkTooltipComponent(component) {
+        return dispatchPluginComponentAction('LinkTooltip', this.id, component);
+    }
+
     // Add a button to the channel header. If there are more than one buttons registered by any
     // plugin, a dropdown menu is created to contain all the plugin buttons.
     // Accepts the following:

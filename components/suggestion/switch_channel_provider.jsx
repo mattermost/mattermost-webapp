@@ -12,10 +12,11 @@ import {
     getDirectAndGroupChannels,
     getSortedUnreadChannelIds,
     makeGetChannel,
+    getMyChannelMemberships,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUser,
@@ -27,7 +28,11 @@ import {
 import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {logError} from 'mattermost-redux/actions/errors';
 
-import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
+import {
+    sortChannelsByTypeAndDisplayName,
+    isDirectChannelVisible,
+    isUnreadChannel,
+} from 'mattermost-redux/utils/channel_utils';
 
 import DraftIcon from 'components/svg/draft_icon';
 import GlobeIcon from 'components/svg/globe_icon';
@@ -385,7 +390,7 @@ export default class SwitchChannelProvider extends Provider {
                             user,
                             newChannel
                         );
-                        const isDMVisible = getBool(getState(), Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, user.id, false);
+                        const isDMVisible = isDirectChannelVisible(user.id, config, getMyPreferences(state), channel, getLastPostPerChannel(state)[channel.id], isUnreadChannel(getMyChannelMemberships(state), channel));
                         if (isDMVisible) {
                             wrappedChannel.type = Constants.MENTION_CHANNELS;
                         } else {
