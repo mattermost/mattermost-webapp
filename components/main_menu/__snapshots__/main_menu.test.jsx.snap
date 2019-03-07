@@ -148,7 +148,8 @@ exports[`components/Menu should match snapshot with id 1`] = `
         Array [
           "manage_slash_commands",
           "manage_oauth",
-          "manage_webhooks",
+          "manage_incoming_webhooks",
+          "manage_outgoing_webhooks",
         ]
       }
       teamId="team-id"
@@ -380,7 +381,8 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
         Array [
           "manage_slash_commands",
           "manage_oauth",
-          "manage_webhooks",
+          "manage_incoming_webhooks",
+          "manage_outgoing_webhooks",
         ]
       }
       teamId="team-id"
@@ -654,7 +656,8 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
         Array [
           "manage_slash_commands",
           "manage_oauth",
-          "manage_webhooks",
+          "manage_incoming_webhooks",
+          "manage_outgoing_webhooks",
         ]
       }
       teamId="team-id"
@@ -910,7 +913,8 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
         Array [
           "manage_slash_commands",
           "manage_oauth",
-          "manage_webhooks",
+          "manage_incoming_webhooks",
+          "manage_outgoing_webhooks",
         ]
       }
       teamId="team-id"
@@ -1184,7 +1188,8 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
         Array [
           "manage_slash_commands",
           "manage_oauth",
-          "manage_webhooks",
+          "manage_incoming_webhooks",
+          "manage_outgoing_webhooks",
         ]
       }
       teamId="team-id"
@@ -1457,7 +1462,8 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         Array [
           "manage_slash_commands",
           "manage_oauth",
-          "manage_webhooks",
+          "manage_incoming_webhooks",
+          "manage_outgoing_webhooks",
         ]
       }
       teamId="team-id"
@@ -1748,7 +1754,8 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
         Array [
           "manage_slash_commands",
           "manage_oauth",
-          "manage_webhooks",
+          "manage_incoming_webhooks",
+          "manage_outgoing_webhooks",
         ]
       }
       teamId="team-id"
