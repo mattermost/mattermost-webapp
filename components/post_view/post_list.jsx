@@ -17,7 +17,7 @@ import * as Utils from 'utils/utils.jsx';
 import {isFromWebhook} from 'utils/post_utils.jsx';
 
 import LoadingScreen from 'components/loading_screen.jsx';
-import DateSeparator from 'components/post_view/date_separator.jsx';
+import DateSeparator from 'components/post_view/date_separator';
 
 import FloatingTimestamp from './floating_timestamp.jsx';
 import NewMessageIndicator from './new_message_indicator.jsx';
