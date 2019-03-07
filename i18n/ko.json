@@ -1328,7 +1328,7 @@
   "admin.team.showFullname": "본명으로 보기",
   "admin.team.showNickname": "별명이 있으면 별명으로, 없으면 본명으로 보기",
   "admin.team.showUsername": "사용자명으로 보기 (기본)",
-  "admin.team.siteNameDescription": "Name of service shown in login screens and UI.",
+  "admin.team.siteNameDescription": "Name of service shown in login screens and UI. When not specified, it defaults to \"Mattermost\".",
   "admin.team.siteNameExample": "예시 \"Mattermost\"",
   "admin.team.siteNameTitle": "사이트 이름:",
   "admin.team.teamCreationDescription": "When false, only System Administrators can create teams.",
