@@ -4,10 +4,16 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {redirectUserToDefaultTeam} from 'actions/global_actions.jsx';
+
 import {browserHistory} from 'utils/browser_history';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import Confirm from 'components/mfa/confirm';
+import Confirm from 'components/mfa/confirm/confirm.jsx';
 import Constants from 'utils/constants.jsx';
+
+jest.mock('actions/global_actions.jsx', () => ({
+    redirectUserToDefaultTeam: jest.fn(),
+}));
 
 describe('components/mfa/components/Confirm', () => {
     const baseProps = {
@@ -26,21 +32,21 @@ describe('components/mfa/components/Confirm', () => {
 
     test('should submit on form submit', () => {
         const props = {
-            history: {
-                push: jest.fn(),
+            actions: {
+                loadMe: jest.fn(),
             },
         };
 
         const wrapper = mountWithIntl(<Confirm {...props}/>);
         wrapper.find('form').simulate('submit');
 
-        expect(props.history.push).toHaveBeenCalledWith('/');
+        expect(redirectUserToDefaultTeam).toHaveBeenCalled();
     });
 
     test('should submit on enter', () => {
         const props = {
-            history: {
-                push: jest.fn(),
+            actions: {
+                loadMe: jest.fn(),
             },
         };
 
@@ -57,6 +63,20 @@ describe('components/mfa/components/Confirm', () => {
         };
         map.keydown(event);
 
-        expect(props.history.push).toHaveBeenCalledWith('/');
+        expect(redirectUserToDefaultTeam).toHaveBeenCalled();
+    });
+
+    test('should submit and load user', () => {
+        const props = {
+            shouldLoadUser: true,
+            actions: {
+                loadMe: jest.fn().mockResolvedValue({}),
+            },
+        };
+
+        const wrapper = mountWithIntl(<Confirm {...props}/>);
+        wrapper.find('form').simulate('submit');
+
+        expect(props.actions.loadMe).toHaveBeenCalled();
     });
 });
