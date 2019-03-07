@@ -116,7 +116,10 @@ export default class PostMessageView extends React.PureComponent {
         }
 
         return (
-            <span className='post-edited__indicator'>
+            <span
+                id={`postEdited_${this.props.post.id}`}
+                className='post-edited__indicator'
+            >
                 <FormattedMessage
                     id='post_message_view.edited'
                     defaultMessage='(edited)'
