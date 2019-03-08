@@ -35,6 +35,21 @@ describe('TextFormatting.mentionHighlighting', () => {
         mentionKeys: [{key: 'Words', caseSensitive: true}],
         expected: '<p>These are words and <span class="mention--highlight">Words</span> and wORDS</p>',
     }, {
+        name: 'multibyte mentions',
+        input: '我爱吃番茄炒饭',
+        mentionKeys: [{key: '番茄'}],
+        expected: '<p>我爱吃<span class="mention--highlight">番茄</span>炒饭</p>',
+    }, {
+        name: 'multibyte mentions twice in one sentence',
+        input: '石橋さんが石橋を渡る',
+        mentionKeys: [{key: '石橋'}],
+        expected: '<p><span class="mention--highlight">石橋</span>さんが<span class="mention--highlight">石橋</span>を渡る</p>',
+    }, {
+        name: 'combine multibyte and ascii mentions key',
+        input: '３words 3words',
+        mentionKeys: [{key: 'words'}],
+        expected: '<p>３<span class="mention--highlight">words</span> 3words</p>',
+    }, {
         name: 'at mention linking disabled, mentioned by non-at-mention',
         input: 'These are @words',
         atMentions: false,
