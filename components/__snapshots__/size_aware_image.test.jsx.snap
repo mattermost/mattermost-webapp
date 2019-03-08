@@ -13,8 +13,22 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
       containerClass="file__image-loading"
     />
   </div>
-  <img
-    src="data:image/png;base64,abc123"
-  />
+  <div
+    className="image-loading__container undefined"
+  >
+    <div>
+      <svg
+        style={
+          Object {
+            "maxHeight": "200",
+            "maxWidth": "300",
+            "verticalAlign": "middle",
+          }
+        }
+        viewBox="0 0 300 200"
+        xmlns="http://www.w3.org/2000/svg"
+      />
+    </div>
+  </div>
 </Fragment>
 `;
