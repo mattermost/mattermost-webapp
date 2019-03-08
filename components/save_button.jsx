@@ -20,14 +20,20 @@ export default class SaveButton extends React.PureComponent {
 
     static defaultProps = {
         disabled: false,
-        savingMessage: localizeMessage('save_button.saving', 'Saving'),
-        defaultMessage: localizeMessage('save_button.save', 'Save'),
         btnClass: 'btn-primary',
         extraClasses: '',
     }
 
     render() {
-        const {saving, disabled, savingMessage, defaultMessage, btnClass, extraClasses, ...props} = this.props; // eslint-disable-line no-use-before-define
+        const {
+            saving,
+            disabled,
+            savingMessage = localizeMessage('save_button.saving', 'Saving'),
+            defaultMessage = localizeMessage('save_button.save', 'Save'),
+            btnClass,
+            extraClasses,
+            ...props
+        } = this.props; // eslint-disable-line no-use-before-define
 
         let className = 'save-button btn';
         if (!disabled || saving) {
