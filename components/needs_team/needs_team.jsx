@@ -83,17 +83,17 @@ export default class NeedsTeam extends React.Component {
         const team = this.updateCurrentTeam(this.props);
 
         DesktopBridge.connect((event, data) => {
-            switch(event) {
-                case 'updateUserActivityStatus':
-                    // ping the server if the desktop app reports the user is still active
-                    if (this.props.currentUser && data.userIsActive === true) {
-                        this.userIsActive = true;
+            switch (event) {
+            case 'updateUserActivityStatus':
+                // ping the server if the desktop app reports the user is still active
+                if (this.props.currentUser && data.userIsActive === true) {
+                    this.userIsActive = true;
 
-                        // a hacky way to keep the user's status as online; will not clear a status of away
-                        this.props.actions.viewChannel('');
-                    } else if (data.userIsActive === false) {
-                        this.userIsActive = false;
-                    }
+                    // a hacky way to keep the user's status as online; will not clear a status of away
+                    this.props.actions.viewChannel('');
+                } else if (data.userIsActive === false) {
+                    this.userIsActive = false;
+                }
             }
         });
 

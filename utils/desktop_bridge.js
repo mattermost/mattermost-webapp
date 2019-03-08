@@ -15,4 +15,4 @@ export function connect(callbackFunction) {
 
 const updateUserActivityStatus = (userIsActive) => {
     callback('updateUserActivityStatus', {userIsActive});
-}
+};
