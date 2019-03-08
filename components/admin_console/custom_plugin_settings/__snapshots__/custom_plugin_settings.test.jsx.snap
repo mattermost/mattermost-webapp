@@ -181,7 +181,6 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
     >
       <SaveButton
         btnClass="btn-primary"
-        defaultMessage="Save"
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -236,7 +235,6 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
     >
       <SaveButton
         btnClass="btn-primary"
-        defaultMessage="Save"
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -452,7 +450,6 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
     >
       <SaveButton
         btnClass="btn-primary"
-        defaultMessage="Save"
         disabled={true}
         extraClasses=""
         onClick={[Function]}
