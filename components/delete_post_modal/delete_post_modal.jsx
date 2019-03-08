@@ -106,6 +106,7 @@ export default class DeletePostModal extends React.PureComponent {
                 onHide={this.onHide}
                 onExited={this.props.onHide}
                 enforceFocus={false}
+                id='deletePostModal'
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
@@ -149,6 +150,7 @@ export default class DeletePostModal extends React.PureComponent {
                         autoFocus={true}
                         className='btn btn-danger'
                         onClick={this.handleDelete}
+                        id='deletePostModalButton'
                     >
                         <FormattedMessage
                             id='delete_post.del'

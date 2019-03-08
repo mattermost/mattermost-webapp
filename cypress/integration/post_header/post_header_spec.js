@@ -65,19 +65,19 @@ describe('Post Header', () => {
 
         cy.getLastPostId().then((postId) => {
             // * Check that the center flag icon of a post is not visible
-            cy.get(`#centerPostFlag_${postId}`).should('not.be.visible');
+            cy.get(`#CENTER_flagIcon_${postId}`).should('not.be.visible');
 
             // 4. Click the center flag icon of a post
             cy.clickPostFlagIcon(postId);
 
             // * Check that the center flag icon of a post becomes visible
-            cy.get(`#centerPostFlag_${postId}`).should('be.visible').should('have.attr', 'class', 'style--none flag-icon__container visible');
+            cy.get(`#CENTER_flagIcon_${postId}`).should('be.visible').should('have.attr', 'class', 'style--none flag-icon__container visible');
 
             // 5. Click again the center flag icon of a post
             cy.clickPostFlagIcon(postId);
 
             // * Check that the center flag icon of a post is now hidden.
-            cy.get(`#centerPostFlag_${postId}`).should('not.be.visible');
+            cy.get(`#CENTER_flagIcon_${postId}`).should('not.be.visible');
         });
     });
 

@@ -13,7 +13,7 @@ import DelayedAction from 'utils/delayed_action.jsx';
 import * as Utils from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import CreateComment from 'components/create_comment';
-import DateSeparator from 'components/post_view/date_separator.jsx';
+import DateSeparator from 'components/post_view/date_separator';
 import FloatingTimestamp from 'components/post_view/floating_timestamp.jsx';
 import RhsComment from 'components/rhs_comment';
 import RhsHeaderPost from 'components/rhs_header_post';
@@ -260,7 +260,6 @@ export default class RhsThread extends React.Component {
             }
 
             const keyPrefix = comPost.id ? comPost.id : comPost.pending_post_id;
-            const reverseCount = postsLength - i - 1;
 
             commentsLists.push(
                 <RhsComment
@@ -269,7 +268,6 @@ export default class RhsThread extends React.Component {
                     post={comPost}
                     previousPostId={previousPostId}
                     teamId={this.props.channel.team_id}
-                    lastPostCount={(reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT) ? reverseCount : -1}
                     currentUserId={currentUserId}
                     isBusy={this.state.isBusy}
                     removePost={this.props.actions.removePost}

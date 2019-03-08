@@ -32,7 +32,7 @@ export default class SizeAwareImage extends React.PureComponent {
         /*
          * A callback that is called as soon as the image component has a height value
          */
-        onHeightReceived: PropTypes.func.isRequired,
+        onImageLoaded: PropTypes.func,
 
         /*
          * A callback that is called when image load fails
@@ -51,6 +51,7 @@ export default class SizeAwareImage extends React.PureComponent {
     }
 
     componentDidMount() {
+        this.mounted = true;
         this.loadImage();
     }
 
@@ -61,6 +62,7 @@ export default class SizeAwareImage extends React.PureComponent {
     }
 
     componentWillUnmount() {
+        this.mounted = false;
         this.stopWaitingForHeight();
     }
 
@@ -76,8 +78,8 @@ export default class SizeAwareImage extends React.PureComponent {
 
     waitForHeight = (image) => {
         if (image && image.height) {
-            if (this.props.onHeightReceived) {
-                this.props.onHeightReceived(image.height);
+            if (this.props.onImageLoaded) {
+                this.props.onImageLoaded({height: image.height, width: image.width});
             }
             this.heightTimeout = 0;
         } else {
@@ -95,22 +97,25 @@ export default class SizeAwareImage extends React.PureComponent {
     }
 
     handleLoad = (image) => {
-        if (this.props.onHeightReceived && image.height) {
-            this.props.onHeightReceived(image.height);
+        if (this.mounted) {
+            if (this.props.onImageLoaded && image.height) {
+                this.props.onImageLoaded({height: image.height, width: image.width});
+            }
+            this.setState({
+                loaded: true,
+                error: false,
+            });
         }
-
-        this.setState({
-            loaded: true,
-            error: false,
-        });
     };
 
     handleError = () => {
-        this.stopWaitingForHeight();
-        if (this.props.onImageLoadFail) {
-            this.props.onImageLoadFail();
+        if (this.mounted) {
+            this.stopWaitingForHeight();
+            if (this.props.onImageLoadFail) {
+                this.props.onImageLoadFail();
+            }
+            this.setState({error: true});
         }
-        this.setState({error: true});
     };
 
     render() {
@@ -120,7 +125,7 @@ export default class SizeAwareImage extends React.PureComponent {
         } = this.props;
 
         Reflect.deleteProperty(props, 'showLoader');
-        Reflect.deleteProperty(props, 'onHeightReceived');
+        Reflect.deleteProperty(props, 'onImageLoaded');
         Reflect.deleteProperty(props, 'onImageLoadFail');
 
         let src;

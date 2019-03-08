@@ -43,11 +43,6 @@ export default class PostHeader extends React.PureComponent {
          */
         isFirstReply: PropTypes.bool,
 
-        /*
-         * Post identifiers for selenium tests
-         */
-        lastPostCount: PropTypes.number,
-
         /**
          * Function to get the post list HTML element
          */
@@ -156,7 +151,6 @@ export default class PostHeader extends React.PureComponent {
                         handleCommentClick={this.props.handleCommentClick}
                         handleDropdownOpened={this.props.handleDropdownOpened}
                         compactDisplay={this.props.compactDisplay}
-                        lastPostCount={this.props.lastPostCount}
                         replyCount={this.props.replyCount}
                         isFirstReply={this.props.isFirstReply}
                         showTimeWithoutHover={this.props.showTimeWithoutHover}

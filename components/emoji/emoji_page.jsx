@@ -58,7 +58,7 @@ export default class EmojiPage extends React.Component {
                     </h1>
                     <TeamPermissionGate
                         teamId={this.props.teamId}
-                        permissions={[Permissions.MANAGE_EMOJIS]}
+                        permissions={[Permissions.CREATE_EMOJIS]}
                     >
                         <Link
                             className='add-link'

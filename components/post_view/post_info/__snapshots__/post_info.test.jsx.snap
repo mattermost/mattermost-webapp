@@ -112,8 +112,6 @@ exports[`components/post_view/PostInfo should match snapshot, flagged post 1`] =
     className="col"
   >
     <Connect(PostFlagIcon)
-      idCount={-1}
-      idPrefix="centerPostFlag"
       isEphemeral={false}
       isFlagged={true}
       postId="e584uzbwwpny9kengqayx5ayzw"
@@ -138,8 +136,6 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
       postId="e584uzbwwpny9kengqayx5ayzw"
     />
     <Connect(PostFlagIcon)
-      idCount={-1}
-      idPrefix="centerPostFlag"
       isEphemeral={false}
       isFlagged={false}
       postId="e584uzbwwpny9kengqayx5ayzw"
@@ -155,7 +151,6 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
       handleCommentClick={[MockFunction]}
       handleDropdownOpened={[Function]}
       isFlagged={false}
-      location="CENTER"
       post={
         Object {
           "channel_id": "g6139tbospd18cmxroesdk3kkc",
@@ -181,8 +176,7 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
       commentCount={0}
       extraClass="pull-right"
       handleCommentClick={[MockFunction]}
-      idCount={-1}
-      idPrefix="commentIcon"
+      location="CENTER"
       postId="e584uzbwwpny9kengqayx5ayzw"
       searchStyle=""
     />
@@ -262,7 +256,6 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
       handleCommentClick={[MockFunction]}
       handleDropdownOpened={[Function]}
       isFlagged={false}
-      location="CENTER"
       post={
         Object {
           "channel_id": "g6139tbospd18cmxroesdk3kkc",
@@ -295,8 +288,7 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
       commentCount={0}
       extraClass="pull-right"
       handleCommentClick={[MockFunction]}
-      idCount={-1}
-      idPrefix="commentIcon"
+      location="CENTER"
       postId="e584uzbwwpny9kengqayx5ayzw"
       searchStyle=""
     />

@@ -604,7 +604,7 @@ export default class EmojiPicker extends React.PureComponent {
             }
             return (
                 <EmojiPickerItem
-                    key={emoji.filename + ':' + emoji.id}
+                    key={emoji.filename + ':' + emojiIndex}
                     emoji={emoji}
                     onItemOver={this.handleItemOver}
                     onItemClick={this.handleItemClick}

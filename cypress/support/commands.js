@@ -46,9 +46,9 @@ Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPasswo
 // ***********************************************************
 
 // Go to Account Settings modal
-Cypress.Commands.add('toAccountSettingsModal', (username, isLoggedInAlready = false, {otherUsername, otherPassword, otherURL} = {}) => {
+Cypress.Commands.add('toAccountSettingsModal', (username = 'user-1', isLoggedInAlready = false, {otherUsername, otherPassword, otherURL} = {}) => {
     if (!isLoggedInAlready) {
-        cy.login('user-1', {otherUsername, otherPassword, otherURL});
+        cy.login(username, {otherUsername, otherPassword, otherURL});
         cy.visit('/');
     }
 
@@ -79,6 +79,29 @@ Cypress.Commands.add('toAccountSettingsModalChannelSwitcher', (username, setToOn
     } else if (!isOn && setToOn) {
         cy.get('#channelSwitcherSectionEnabled').click();
     }
+
+    cy.get('#saveSetting').click();
+    cy.get('#accountSettingsHeader > .close').click();
+});
+
+/**
+ * Change the message display setting
+ * @param {String} setting - as 'STANDARD' or 'COMPACT'
+ * @param {String} username - User to login as
+ */
+Cypress.Commands.add('changeMessageDisplaySetting', (setting = 'STANDARD', username = 'user-1') => {
+    const SETTINGS = {STANDARD: '#message_displayFormatA', COMPACT: '#message_displayFormatB'};
+
+    cy.toAccountSettingsModal(username);
+    cy.get('#displayButton').click();
+
+    cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
+
+    cy.get('#message_displayTitle').scrollIntoView();
+    cy.get('#message_displayTitle').click();
+    cy.get('.section-max').scrollIntoView();
+
+    cy.get(SETTINGS[setting]).check().should('be.checked');
 
     cy.get('#saveSetting').click();
     cy.get('#accountSettingsHeader > .close').click();
@@ -146,6 +169,11 @@ Cypress.Commands.add('postMessage', (message) => {
     cy.wait(500); // eslint-disable-line
 });
 
+Cypress.Commands.add('postMessageReplyInRHS', (message) => {
+    cy.get('#reply_textbox').type(message).type('{enter}');
+    cy.wait(500); // eslint-disable-line
+});
+
 Cypress.Commands.add('getLastPost', () => {
     return cy.get('#postListContent').children().last();
 });
@@ -160,68 +188,88 @@ Cypress.Commands.add('getLastPostId', () => {
 // Post header
 // ***********************************************************
 
-// Click post time at center view
-Cypress.Commands.add('clickPostTime', (postId) => {
+/**
+ * Click post time
+ * @param {String} postId - Post ID
+ * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
+ */
+Cypress.Commands.add('clickPostTime', (postId, location = 'CENTER') => {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#CENTER_time_${postId}`).click({force: true});
+        cy.get(`#${location}_time_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#CENTER_time_${lastPostId}`).click({force: true});
+            cy.get(`#${location}_time_${lastPostId}`).click({force: true});
         });
     }
 });
 
-// Click flag icon by post ID or to most recent post (if post ID is not provided)
-Cypress.Commands.add('clickPostFlagIcon', (postId) => {
+/**
+ * Click flag icon by post ID or to most recent post (if post ID is not provided)
+ * @param {String} postId - Post ID
+ * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
+ */
+Cypress.Commands.add('clickPostFlagIcon', (postId, location = 'CENTER') => {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#centerPostFlag_${postId}`).click({force: true});
+        cy.get(`#${location}_flagIcon_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#centerPostFlag_${lastPostId}`).click({force: true});
+            cy.get(`#${location}_flagIcon_${lastPostId}`).click({force: true});
         });
     }
 });
 
-// Click dot menu by post ID or to most recent post (if post ID is not provided)
-Cypress.Commands.add('clickPostDotMenu', (postId) => {
+/**
+ * Click dot menu by post ID or to most recent post (if post ID is not provided)
+ * @param {String} postId - Post ID
+ * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
+ */
+Cypress.Commands.add('clickPostDotMenu', (postId, location = 'CENTER') => {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#CENTER_button_${postId}`).click({force: true});
+        cy.get(`#${location}_button_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#CENTER_button_${lastPostId}`).click({force: true});
+            cy.get(`#${location}_button_${lastPostId}`).click({force: true});
         });
     }
 });
 
-// Click post reaction icon at center view
-Cypress.Commands.add('clickPostReactionIcon', (postId) => {
+/**
+ * Click post reaction icon
+ * @param {String} postId - Post ID
+ * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT'
+ */
+Cypress.Commands.add('clickPostReactionIcon', (postId, location = 'CENTER') => {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#CENTER_reaction_${postId}`).click({force: true});
+        cy.get(`#${location}_reaction_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#CENTER_reaction_${lastPostId}`).click({force: true});
+            cy.get(`#${location}_reaction_${lastPostId}`).click({force: true});
         });
     }
 });
 
-// Click comment icon by post ID or to most recent post (if post ID is not provided)
-// This open up the RHS
-Cypress.Commands.add('clickPostCommentIcon', (postId) => {
+/**
+ * Click comment icon by post ID or to most recent post (if post ID is not provided)
+ * This open up the RHS
+ * @param {String} postId - Post ID
+ * @param {String} location - as 'CENTER', 'SEARCH'
+ */
+Cypress.Commands.add('clickPostCommentIcon', (postId, location = 'CENTER') => {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#commentIcon_${postId}`).click({force: true});
+        cy.get(`#${location}_commentIcon_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#commentIcon_${lastPostId}`).click({force: true});
+            cy.get(`#${location}_commentIcon_${lastPostId}`).click({force: true});
         });
     }
 });

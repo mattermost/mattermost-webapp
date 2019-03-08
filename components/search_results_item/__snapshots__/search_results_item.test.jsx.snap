@@ -4,7 +4,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
 <div
   className="search-item__container"
 >
-  <DateSeparator
+  <Connect(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
   <div
@@ -99,9 +99,8 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               />
             </span>
             <Connect(PostFlagIcon)
-              idCount={-1}
-              idPrefix="searchPostFlag"
               isFlagged={true}
+              location="SEARCH"
               postId="id"
             />
           </div>
@@ -137,8 +136,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               commentCount={0}
               extraClass=""
               handleCommentClick={[Function]}
-              idCount={-1}
-              idPrefix="searchCommentIcon"
+              location="SEARCH"
               postId="id"
               searchStyle="search-item__comment"
             />
@@ -228,7 +226,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
 <div
   className="search-item__container"
 >
-  <DateSeparator
+  <Connect(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
   <div
@@ -305,9 +303,8 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
               postId="id"
             />
             <Connect(PostFlagIcon)
-              idCount={-1}
-              idPrefix="searchPostFlag"
               isFlagged={true}
+              location="SEARCH"
               postId="id"
             />
           </div>
@@ -343,8 +340,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
               commentCount={0}
               extraClass=""
               handleCommentClick={[Function]}
-              idCount={-1}
-              idPrefix="searchCommentIcon"
+              location="SEARCH"
               postId="id"
               searchStyle="search-item__comment"
             />
@@ -434,7 +430,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
 <div
   className="search-item__container"
 >
-  <DateSeparator
+  <Connect(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
   <div
@@ -511,9 +507,8 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               postId="id"
             />
             <Connect(PostFlagIcon)
-              idCount={-1}
-              idPrefix="searchPostFlag"
               isFlagged={true}
+              location="SEARCH"
               postId="id"
             />
           </div>
@@ -549,8 +544,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               commentCount={0}
               extraClass=""
               handleCommentClick={[Function]}
-              idCount={-1}
-              idPrefix="searchCommentIcon"
+              location="SEARCH"
               postId="id"
               searchStyle="search-item__comment"
             />
@@ -640,7 +634,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
 <div
   className="search-item__container"
 >
-  <DateSeparator
+  <Connect(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
   <div

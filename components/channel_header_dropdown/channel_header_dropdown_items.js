@@ -170,6 +170,14 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                 </MenuGroup>
 
                 <MenuGroup divider={divider}>
+                    <MenuItemToggleModalRedux
+                        id='channelEditHeader'
+                        show={(channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) && !isArchived && !isReadonly}
+                        modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
+                        dialogType={EditChannelHeaderModal}
+                        dialogProps={{channel}}
+                        text={localizeMessage('channel_header.setHeader', 'Edit Channel Header')}
+                    />
                     <ChannelPermissionGate
                         channelId={channel.id}
                         teamId={channel.team_id}

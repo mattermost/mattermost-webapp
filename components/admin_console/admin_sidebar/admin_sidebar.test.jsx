@@ -87,4 +87,94 @@ describe('components/AdminSidebar', () => {
         const wrapper = shallow(<AdminSidebar {...props}/>, {context});
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot, with license (without any explicit feature)', () => {
+        const props = {
+            license: {
+                IsLicensed: 'true',
+            },
+            config: {
+                PluginSettings: {
+                    Enable: true,
+                    EnableUploads: true,
+                },
+            },
+            buildEnterpriseReady: true,
+            siteName: 'test snap',
+            plugins: {
+                plugin_0: {
+                    active: false,
+                    description: 'The plugin 0.',
+                    id: 'plugin_0',
+                    name: 'Plugin 0',
+                    version: '0.1.0',
+                    settings_schema: {
+                        footer: '',
+                        header: '',
+                        settings: [],
+                    },
+                    webapp: {},
+                },
+            },
+            actions: {
+                getPlugins: jest.fn(),
+            },
+        };
+
+        const context = {router: {}};
+        const wrapper = shallow(<AdminSidebar {...props}/>, {context});
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, with license (with all feature)', () => {
+        const props = {
+            license: {
+                IsLicensed: 'true',
+                DataRetention: 'true',
+                LDAPGroups: 'true',
+                LDAP: 'true',
+                Cluster: 'true',
+                Metrics: 'true',
+                SAML: 'true',
+                Compliance: 'true',
+                CustomTermsOfService: 'true',
+                MessageExport: 'true',
+                Elasticsearch: 'true',
+                CustomPermissionsSchemes: 'true',
+            },
+            config: {
+                PluginSettings: {
+                    Enable: true,
+                    EnableUploads: true,
+                },
+                ServiceSettings: {
+                    ExperimentalLdapGroupSync: true,
+                },
+            },
+            buildEnterpriseReady: true,
+            siteName: 'test snap',
+            plugins: {
+                plugin_0: {
+                    active: false,
+                    description: 'The plugin 0.',
+                    id: 'plugin_0',
+                    name: 'Plugin 0',
+                    version: '0.1.0',
+                    settings_schema: {
+                        footer: '',
+                        header: '',
+                        settings: [],
+                    },
+                    webapp: {},
+                },
+            },
+            actions: {
+                getPlugins: jest.fn(),
+            },
+        };
+
+        const context = {router: {}};
+        const wrapper = shallow(<AdminSidebar {...props}/>, {context});
+        expect(wrapper).toMatchSnapshot();
+    });
 });

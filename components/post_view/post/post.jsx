@@ -64,11 +64,6 @@ export default class Post extends React.PureComponent {
         replyCount: PropTypes.number,
 
         /**
-         * The post count used for selenium tests
-         */
-        lastPostCount: PropTypes.number,
-
-        /**
          * Function to get the post list HTML element
          */
         getPostList: PropTypes.func.isRequired,
@@ -257,7 +252,6 @@ export default class Post extends React.PureComponent {
                             handleCommentClick={this.handleCommentClick}
                             handleDropdownOpened={this.handleDropdownOpened}
                             compactDisplay={this.props.compactDisplay}
-                            lastPostCount={this.props.lastPostCount}
                             isFirstReply={this.props.isFirstReply}
                             replyCount={this.props.replyCount}
                             showTimeWithoutHover={!hideProfilePicture}
@@ -268,7 +262,6 @@ export default class Post extends React.PureComponent {
                             post={post}
                             handleCommentClick={this.handleCommentClick}
                             compactDisplay={this.props.compactDisplay}
-                            lastPostCount={this.props.lastPostCount}
                             isCommentMention={this.props.isCommentMention}
                             isFirstReply={this.props.isFirstReply}
                         />

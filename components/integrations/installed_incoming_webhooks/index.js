@@ -19,7 +19,7 @@ import InstalledIncomingWebhooks from './installed_incoming_webhooks.jsx';
 function mapStateToProps(state) {
     const config = getConfig(state);
     const teamId = getCurrentTeamId(state);
-    const canManageOthersWebhooks = haveITeamPermission(state, {team: teamId, permission: Permissions.MANAGE_OTHERS_WEBHOOKS});
+    const canManageOthersWebhooks = haveITeamPermission(state, {team: teamId, permission: Permissions.MANAGE_OTHERS_INCOMING_WEBHOOKS});
     const incomingHooks = getIncomingHooks(state);
     const incomingWebhooks = Object.keys(incomingHooks).
         map((key) => incomingHooks[key]).

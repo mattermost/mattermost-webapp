@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
-import Constants from 'utils/constants.jsx';
+import Constants, {Locations} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
@@ -116,7 +116,7 @@ export default class RhsRootPost extends React.Component {
                 isPermalink={isPermalink}
                 eventTime={post.create_at}
                 postId={post.id}
-                location={'RHS_ROOT'}
+                location={Locations.RHS_ROOT}
             />
         );
     };
@@ -190,7 +190,7 @@ export default class RhsRootPost extends React.Component {
                     postId={post.id}
                     teamId={teamId}
                     getDotMenuRef={this.getDotMenuRef}
-                    location='RHS_ROOT'
+                    location={Locations.RHS_ROOT}
                     showEmojiPicker={this.state.showEmojiPicker}
                     toggleEmojiPicker={this.toggleEmojiPicker}
                 />
@@ -277,7 +277,7 @@ export default class RhsRootPost extends React.Component {
         const dotMenu = (
             <DotMenu
                 post={this.props.post}
-                location={'RHS_ROOT'}
+                location={Locations.RHS_ROOT}
                 isFlagged={this.props.isFlagged}
                 handleDropdownOpened={this.handleDropdownOpened}
                 handleAddReactionClick={this.toggleEmojiPicker}
@@ -304,7 +304,7 @@ export default class RhsRootPost extends React.Component {
         if (this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
             postFlagIcon = (
                 <PostFlagIcon
-                    idPrefix={'rhsRootPostFlag'}
+                    location={Locations.RHS_ROOT}
                     postId={post.id}
                     isFlagged={this.props.isFlagged}
                 />

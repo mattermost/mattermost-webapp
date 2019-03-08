@@ -10,6 +10,7 @@ function mapStateToProps(state, ownProps) {
     return {
         channel: getChannel(state, ownProps.channelId),
         pluginHooks: state.plugins.components.MessageWillFormat,
+        hasPluginTooltips: Boolean(state.plugins.components.LinkTooltip),
     };
 }
 

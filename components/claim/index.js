@@ -7,7 +7,6 @@ import {bindActionCreators} from 'redux';
 import {switchLdapToEmail} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {checkMfa} from 'actions/views/mfa';
 import {getPasswordConfig} from 'utils/utils.jsx';
 
 import ClaimController from './claim_controller.jsx';
@@ -27,7 +26,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            checkMfa,
             switchLdapToEmail,
         }, dispatch),
     };

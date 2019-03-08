@@ -13,6 +13,7 @@ import GroupProfile from 'components/admin_console/group_settings/group_details/
 import GroupTeamsAndChannels from 'components/admin_console/group_settings/group_details/group_teams_and_channels';
 import GroupUsers from 'components/admin_console/group_settings/group_details/group_users';
 import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
+import BlockableLink from 'components/admin_console/blockable_link';
 
 import TeamSelectorModal from 'components/team_selector_modal';
 import ChannelSelectorModal from 'components/channel_selector_modal';
@@ -101,7 +102,11 @@ export default class GroupDetails extends React.PureComponent {
         const {group, members, groupTeams, groupChannels, memberCount} = this.props;
         return (
             <div className='wrapper--fixed'>
-                <h3 className='admin-console-header'>
+                <h3 className='admin-console-header with-back'>
+                    <BlockableLink
+                        to='/admin_console/access-control/groups'
+                        className='fa fa-angle-left back'
+                    />
                     <FormattedMessage
                         id='admin.group_settings.group_detail.group_configuration'
                         defaultMessage='Group Configuration'
@@ -134,7 +139,7 @@ export default class GroupDetails extends React.PureComponent {
                     titleId={t('admin.group_settings.group_detail.groupTeamsAndChannelsTitle')}
                     titleDefault='Team and Channel Membership'
                     subtitleId={t('admin.group_settings.group_detail.groupTeamsAndChannelsDescription')}
-                    subtitleDefault='Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically.'
+                    subtitleDefault='Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below.'
                     button={(
                         <div className='group-profile-add-menu'>
                             <MenuWrapper>
@@ -151,7 +156,7 @@ export default class GroupDetails extends React.PureComponent {
                                         text={localizeMessage('admin.group_settings.group_details.add_team', 'Add Team')}
                                     />
                                     <MenuItemAction
-                                        onClick={this.openAddTeam}
+                                        onClick={this.openAddChannel}
                                         text={localizeMessage('admin.group_settings.group_details.add_channel', 'Add Channel')}
                                     />
                                 </Menu>

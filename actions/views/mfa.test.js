@@ -7,7 +7,6 @@ import * as UserActions from 'mattermost-redux/actions/users';
 
 import {
     activateMfa,
-    checkMfa,
     deactivateMfa,
     generateMfaSecret,
 } from 'actions/views/mfa';
@@ -69,26 +68,6 @@ describe('actions/views/mfa', () => {
             await store.dispatch(generateMfaSecret());
 
             expect(UserActions.generateMfaSecret).toHaveBeenCalledWith(currentUserId);
-        });
-    });
-
-    describe('checkMfa', () => {
-        it('should skip actually checking for MFA if MFA is disabled', async () => {
-            const store = configureStore({
-                entities: {
-                    general: {
-                        config: {
-                            EnableMultifactorAuthentication: 'false',
-                        },
-                    },
-                },
-            });
-
-            const loginId = 'user';
-            const result = await store.dispatch(checkMfa(loginId));
-
-            expect(result).toEqual({data: false});
-            expect(UserActions.checkMfa).not.toHaveBeenCalled();
         });
     });
 });

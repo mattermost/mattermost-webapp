@@ -10,7 +10,7 @@ import {
     isPostPendingOrFailed,
 } from 'mattermost-redux/utils/post_utils';
 
-import Constants from 'utils/constants.jsx';
+import Constants, {Locations} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
@@ -29,7 +29,6 @@ export default class RhsComment extends React.Component {
     static propTypes = {
         post: PropTypes.object,
         teamId: PropTypes.string.isRequired,
-        lastPostCount: PropTypes.number,
         currentUserId: PropTypes.string.isRequired,
         compactDisplay: PropTypes.bool,
         isFlagged: PropTypes.bool,
@@ -73,10 +72,6 @@ export default class RhsComment extends React.Component {
         }
 
         if (this.state.showEmojiPicker !== nextState.showEmojiPicker) {
-            return true;
-        }
-
-        if (nextProps.lastPostCount !== this.props.lastPostCount) {
             return true;
         }
 
@@ -131,7 +126,7 @@ export default class RhsComment extends React.Component {
                 isPermalink={isPermalink}
                 eventTime={post.create_at}
                 postId={post.id}
-                location='RHS_COMMENT'
+                location={Locations.RHS_COMMENT}
             />
         );
     };
@@ -194,11 +189,6 @@ export default class RhsComment extends React.Component {
 
     render() {
         const {post, isConsecutivePost, isReadOnly, channelIsArchived} = this.props;
-
-        let idCount = -1;
-        if (this.props.lastPostCount >= 0 && this.props.lastPostCount < Constants.TEST_ID_COUNT) {
-            idCount = this.props.lastPostCount;
-        }
 
         const isEphemeral = isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
@@ -331,7 +321,7 @@ export default class RhsComment extends React.Component {
                     postId={post.id}
                     teamId={this.props.teamId}
                     getDotMenuRef={this.getDotMenuRef}
-                    location='RHS_COMMENT'
+                    location={Locations.RHS_COMMENT}
                     showEmojiPicker={this.state.showEmojiPicker}
                     toggleEmojiPicker={this.toggleEmojiPicker}
                 />
@@ -349,7 +339,7 @@ export default class RhsComment extends React.Component {
             const dotMenu = (
                 <DotMenu
                     post={this.props.post}
-                    location='RHS_COMMENT'
+                    location={Locations.RHS_COMMENT}
                     isFlagged={this.props.isFlagged}
                     handleDropdownOpened={this.handleDropdownOpened}
                     handleAddReactionClick={this.toggleEmojiPicker}
@@ -383,8 +373,7 @@ export default class RhsComment extends React.Component {
 
         const flagIcon = (
             <PostFlagIcon
-                idPrefix={'rhsCommentFlag'}
-                idCount={idCount}
+                location={Locations.RHS_COMMENT}
                 postId={post.id}
                 isFlagged={this.props.isFlagged}
                 isEphemeral={isEphemeral}

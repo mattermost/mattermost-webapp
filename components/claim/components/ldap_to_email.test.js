@@ -10,7 +10,6 @@ describe('components/claim/components/ldap_to_email.jsx', () => {
     const requiredProps = {
         email: '',
         passwordConfig: {},
-        checkMfa: jest.fn(),
         switchLdapToEmail: jest.fn(() => Promise.resolve({data: true})),
     };
 

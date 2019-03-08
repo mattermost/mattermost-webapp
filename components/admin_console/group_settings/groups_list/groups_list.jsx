@@ -204,7 +204,7 @@ export default class GroupsList extends React.PureComponent {
                     <div className='group-description'>
                         <FormattedMessage
                             id='admin.group_settings.groups_list.mappingHeader'
-                            defaultMessage='AD/LDAP Linking'
+                            defaultMessage='Mattermost Linking'
                         />
                     </div>
                     <div className='group-actions'/>

@@ -483,8 +483,10 @@ export const PermissionsScope = {
     [Permissions.PERMANENT_DELETE_USER]: 'system_scope',
     [Permissions.UPLOAD_FILE]: 'channel_scope',
     [Permissions.GET_PUBLIC_LINK]: 'system_scope',
-    [Permissions.MANAGE_WEBHOOKS]: 'team_scope',
-    [Permissions.MANAGE_OTHERS_WEBHOOKS]: 'team_scope',
+    [Permissions.MANAGE_INCOMING_WEBHOOKS]: 'team_scope',
+    [Permissions.MANAGE_OTHERS_INCOMING_WEBHOOKS]: 'team_scope',
+    [Permissions.MANAGE_OUTGOING_WEBHOOKS]: 'team_scope',
+    [Permissions.MANAGE_OTHERS_OUTGOING_WEBHOOKS]: 'team_scope',
     [Permissions.MANAGE_OAUTH]: 'system_scope',
     [Permissions.MANAGE_SYSTEM_WIDE_OAUTH]: 'system_scope',
     [Permissions.CREATE_POST]: 'channel_scope',
@@ -503,8 +505,9 @@ export const PermissionsScope = {
     [Permissions.READ_USER_ACCESS_TOKEN]: 'system_scope',
     [Permissions.REVOKE_USER_ACCESS_TOKEN]: 'system_scope',
     [Permissions.MANAGE_JOBS]: 'system_scope',
-    [Permissions.MANAGE_EMOJIS]: 'team_scope',
-    [Permissions.MANAGE_OTHERS_EMOJIS]: 'team_scope',
+    [Permissions.CREATE_EMOJIS]: 'team_scope',
+    [Permissions.DELETE_EMOJIS]: 'team_scope',
+    [Permissions.DELETE_OTHERS_EMOJIS]: 'team_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -536,7 +539,8 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
         Permissions.DELETE_POST,
         Permissions.EDIT_POST,
-        Permissions.MANAGE_EMOJIS,
+        Permissions.MANAGE_CREATE_EMOJIS,
+        Permissions.MANAGE_DELETE_EMOJIS,
     ],
     channel_admin: [
         Permissions.MANAGE_CHANNEL_ROLES,
@@ -548,13 +552,20 @@ export const DefaultRolePermissions = {
         Permissions.IMPORT_TEAM,
         Permissions.MANAGE_TEAM_ROLES,
         Permissions.MANAGE_CHANNEL_ROLES,
-        Permissions.MANAGE_OTHERS_WEBHOOKS,
         Permissions.MANAGE_SLASH_COMMANDS,
         Permissions.MANAGE_OTHERS_SLASH_COMMANDS,
-        Permissions.MANAGE_WEBHOOKS,
+        Permissions.MANAGE_INCOMING_WEBHOOKS,
+        Permissions.MANAGE_OUTGOING_WEBHOOKS,
         Permissions.DELETE_POST,
         Permissions.DELETE_OTHERS_POSTS,
     ],
+};
+
+export const Locations = {
+    CENTER: 'CENTER',
+    RHS_ROOT: 'RHS_ROOT',
+    RHS_COMMENT: 'RHS_COMMENT',
+    SEARCH: 'SEARCH',
 };
 
 export const Constants = {
@@ -571,6 +582,7 @@ export const Constants = {
     AnnouncementBarTypes,
     AnnouncementBarMessages,
     FileTypes,
+    Locations,
 
     MAX_POST_VISIBILITY: 1000000,
 
@@ -1204,10 +1216,6 @@ export const Constants = {
     ANIMATION_TIMEOUT: 1000,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
     DIAGNOSTICS_SEGMENT_KEY: 'placeholder_segment_key',
-    TEST_ID_COUNT: 0,
-    CENTER: 'center',
-    RHS: 'rhs',
-    RHS_ROOT: 'rhsroot',
     TEAMMATE_NAME_DISPLAY: {
         SHOW_USERNAME: 'username',
         SHOW_NICKNAME_FULLNAME: 'nickname_full_name',
