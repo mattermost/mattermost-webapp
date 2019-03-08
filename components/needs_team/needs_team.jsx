@@ -12,6 +12,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+import * as DesktopBridge from 'utils/desktop_bridge';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {makeAsyncComponent} from 'components/async_load';
 import loadBackstageController from 'bundle-loader?lazy!components/backstage';
@@ -61,6 +62,7 @@ export default class NeedsTeam extends React.Component {
     constructor(params) {
         super(params);
         this.blurTime = new Date().getTime();
+        this.userIsActive = true;
 
         if (this.props.mfaRequired) {
             this.props.history.push('/mfa/setup');
@@ -79,6 +81,21 @@ export default class NeedsTeam extends React.Component {
         }, WAKEUP_CHECK_INTERVAL);
 
         const team = this.updateCurrentTeam(this.props);
+
+        DesktopBridge.connect((event, data) => {
+            switch(event) {
+                case 'updateUserActivityStatus':
+                    // ping the server if the desktop app reports the user is still active
+                    if (this.props.currentUser && data.userIsActive === true) {
+                        this.userIsActive = true;
+
+                        // a hacky way to keep the user's status as online; will not clear a status of away
+                        this.props.actions.viewChannel('');
+                    } else if (data.userIsActive === false) {
+                        this.userIsActive = false;
+                    }
+            }
+        });
 
         this.state = {
             team,
