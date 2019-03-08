@@ -33,7 +33,7 @@ export default class SaveButton extends React.PureComponent {
             btnClass,
             extraClasses,
             ...props
-        } = this.props; // eslint-disable-line no-use-before-define
+        } = this.props;
 
         let className = 'save-button btn';
         if (!disabled || saving) {
