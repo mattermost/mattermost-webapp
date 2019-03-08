@@ -34,6 +34,7 @@ exports[`components/post_view/ShowMore should match snapshot, PostAttachment on 
   >
     <div
       className="post-attachment-collapse__gradient"
+      id="collapseGradient"
     />
     <div
       className="post-attachment-collapse__show-more"
@@ -43,6 +44,7 @@ exports[`components/post_view/ShowMore should match snapshot, PostAttachment on 
       />
       <button
         className="post-collapse__show-more-button"
+        id="showMoreButton"
         onClick={[Function]}
       >
         <span
@@ -70,6 +72,7 @@ exports[`components/post_view/ShowMore should match snapshot, PostAttachment on 
   >
     <div
       className="post-attachment-collapse__gradient"
+      id="collapseGradient"
     />
     <div
       className="post-attachment-collapse__show-more"
@@ -79,6 +82,7 @@ exports[`components/post_view/ShowMore should match snapshot, PostAttachment on 
       />
       <button
         className="post-collapse__show-more-button"
+        id="showMoreButton"
         onClick={[Function]}
       >
         <span
@@ -107,6 +111,7 @@ exports[`components/post_view/ShowMore should match snapshot, PostMessageView on
   >
     <div
       className="post-collapse__gradient"
+      id="collapseGradient"
     />
     <div
       className="post-collapse__show-more"
@@ -116,6 +121,7 @@ exports[`components/post_view/ShowMore should match snapshot, PostMessageView on
       />
       <button
         className="post-collapse__show-more-button"
+        id="showMoreButton"
         onClick={[Function]}
       >
         <span
@@ -143,6 +149,7 @@ exports[`components/post_view/ShowMore should match snapshot, PostMessageView on
   >
     <div
       className="post-collapse__gradient"
+      id="collapseGradient"
     />
     <div
       className="post-collapse__show-more"
@@ -152,6 +159,7 @@ exports[`components/post_view/ShowMore should match snapshot, PostMessageView on
       />
       <button
         className="post-collapse__show-more-button"
+        id="showMoreButton"
         onClick={[Function]}
       >
         <span
