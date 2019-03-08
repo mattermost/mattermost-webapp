@@ -53,7 +53,9 @@ describe('actions/post_utils', () => {
                     [latestPost.id]: latestPost,
                 },
                 postsInChannel: {
-                    current_channel_id: [latestPost.id],
+                    current_channel_id: [
+                        {order: [latestPost.id], recent: true},
+                    ],
                 },
                 postsInThread: {},
                 messagesHistory: {

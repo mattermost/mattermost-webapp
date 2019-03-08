@@ -75,7 +75,6 @@ function makeMapStateToProps() {
             showTutorialTip: enableTutorial && tutorialStep === TutorialSteps.POST_POPOVER,
             messageInHistoryItem: getMessageInHistoryItem(state),
             draft,
-            recentPostIdInChannel,
             commentCountForPost: getCommentCountForPost(state, {post}),
             latestReplyablePostId,
             locale: getCurrentLocale(state),

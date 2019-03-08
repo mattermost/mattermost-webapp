@@ -87,7 +87,9 @@ describe('rhs view actions', () => {
                     },
                 },
                 postsInChannel: {
-                    [channelId]: [latestPostId],
+                    [channelId]: [
+                        {order: [latestPostId], recent: true},
+                    ],
                 },
                 postsInThread: {},
                 messagesHistory: {
@@ -97,8 +99,14 @@ describe('rhs view actions', () => {
                     messages: ['test message'],
                 },
             },
+            preferences: {
+                myPreferences: {},
+            },
             users: {
                 currentUserId,
+                profiles: {
+                    [currentUserId]: {id: currentUserId},
+                },
             },
             teams: {
                 currentTeamId: teamId,
@@ -427,16 +435,15 @@ describe('rhs view actions', () => {
         test('it dispatches the correct actions', () => {
             store.dispatch(onEditLatestPost());
 
-            const testStore = mockStore(initialState);
-            testStore.dispatch(PostActions.setEditingPost(
-                latestPostId,
-                0,
-                'reply_textbox',
-                'Comment',
-                true
-            ));
-
-            expect(store.getActions()).toEqual(testStore.getActions());
+            expect(store.getActions()).toEqual([
+                PostActions.setEditingPost(
+                    latestPostId,
+                    0,
+                    'reply_textbox',
+                    'Comment',
+                    true
+                ),
+            ]);
         });
     });
 });

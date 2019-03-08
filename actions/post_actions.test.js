@@ -17,8 +17,6 @@ jest.mock('mattermost-redux/actions/posts', () => ({
     addReaction: (...args) => ({type: 'MOCK_ADD_REACTION', args}),
     createPost: (...args) => ({type: 'MOCK_CREATE_POST', args}),
     createPostImmediately: (...args) => ({type: 'MOCK_CREATE_POST_IMMEDIATELY', args}),
-    getPosts: (...args) => ({type: 'MOCK_GET_POSTS', args}),
-    getPostsBefore: (...args) => ({type: 'MOCK_GET_POSTS_BEFORE', args}),
     flagPost: (...args) => ({type: 'MOCK_FLAG_POST', args}),
     unflagPost: (...args) => ({type: 'MOCK_UNFLAG_POST', args}),
     pinPost: (...args) => ({type: 'MOCK_PIN_POST', args}),
@@ -65,7 +63,9 @@ describe('Actions.Posts', () => {
                     [latestPost.id]: latestPost,
                 },
                 postsInChannel: {
-                    current_channel_id: [latestPost.id],
+                    current_channel_id: [
+                        {order: [latestPost.id], recent: true},
+                    ],
                 },
                 postsInThread: {},
                 messagesHistory: {
@@ -149,10 +149,6 @@ describe('Actions.Posts', () => {
             posts: {
                 editingPost: {},
             },
-            channel: {
-                loadingPosts: {},
-                postVisibility: {current_channel_id: 60},
-            },
             rhs: {searchTerms: ''},
         },
     };
@@ -216,48 +212,6 @@ describe('Actions.Posts', () => {
 
         await testStore.dispatch(Actions.hideEditPostModal());
         expect(testStore.getActions()).toEqual([{type: ActionTypes.HIDE_EDIT_POST_MODAL}]);
-    });
-
-    test('increasePostVisibility', async () => {
-        const testStore = await mockStore(initialState);
-
-        await testStore.dispatch(Actions.increasePostVisibility('current_channel_id'));
-        expect(testStore.getActions()).toEqual([
-            {channelId: 'current_channel_id', data: true, type: 'LOADING_POSTS'},
-            {args: ['current_channel_id', 2, 30], type: 'MOCK_GET_POSTS'},
-            {
-                meta: {batch: true},
-                payload: [
-                    {channelId: 'current_channel_id', data: false, type: 'LOADING_POSTS'},
-                ],
-                type: 'BATCHING_REDUCER.BATCH',
-            },
-        ]);
-
-        await testStore.dispatch(Actions.increasePostVisibility('current_channel_id', 'latest_post_id'));
-        expect(testStore.getActions()).toEqual([
-            {channelId: 'current_channel_id', data: true, type: 'LOADING_POSTS'},
-            {args: ['current_channel_id', 2, 30], type: 'MOCK_GET_POSTS'},
-            {
-                meta: {batch: true},
-                payload: [
-                    {channelId: 'current_channel_id', data: false, type: 'LOADING_POSTS'},
-                ],
-                type: 'BATCHING_REDUCER.BATCH',
-            },
-            {channelId: 'current_channel_id', data: true, type: 'LOADING_POSTS'},
-            {
-                args: ['current_channel_id', 'latest_post_id', 2, 30],
-                type: 'MOCK_GET_POSTS_BEFORE',
-            },
-            {
-                meta: {batch: true},
-                payload: [
-                    {channelId: 'current_channel_id', data: false, type: 'LOADING_POSTS'},
-                ],
-                type: 'BATCHING_REDUCER.BATCH',
-            },
-        ]);
     });
 
     test('searchForTerm', async () => {
