@@ -46,9 +46,9 @@ Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPasswo
 // ***********************************************************
 
 // Go to Account Settings modal
-Cypress.Commands.add('toAccountSettingsModal', (username, isLoggedInAlready = false, {otherUsername, otherPassword, otherURL} = {}) => {
+Cypress.Commands.add('toAccountSettingsModal', (username = 'user-1', isLoggedInAlready = false, {otherUsername, otherPassword, otherURL} = {}) => {
     if (!isLoggedInAlready) {
-        cy.login('user-1', {otherUsername, otherPassword, otherURL});
+        cy.login(username, {otherUsername, otherPassword, otherURL});
         cy.visit('/');
     }
 
@@ -79,6 +79,29 @@ Cypress.Commands.add('toAccountSettingsModalChannelSwitcher', (username, setToOn
     } else if (!isOn && setToOn) {
         cy.get('#channelSwitcherSectionEnabled').click();
     }
+
+    cy.get('#saveSetting').click();
+    cy.get('#accountSettingsHeader > .close').click();
+});
+
+/**
+ * Change the message display setting
+ * @param {String} setting - as 'STANDARD' or 'COMPACT'
+ * @param {String} username - User to login as
+ */
+Cypress.Commands.add('changeMessageDisplaySetting', (setting = 'STANDARD', username = 'user-1') => {
+    const SETTINGS = {STANDARD: '#message_displayFormatA', COMPACT: '#message_displayFormatB'};
+
+    cy.toAccountSettingsModal(username);
+    cy.get('#displayButton').click();
+
+    cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
+
+    cy.get('#message_displayTitle').scrollIntoView();
+    cy.get('#message_displayTitle').click();
+    cy.get('.section-max').scrollIntoView();
+
+    cy.get(SETTINGS[setting]).check().should('be.checked');
 
     cy.get('#saveSetting').click();
     cy.get('#accountSettingsHeader > .close').click();
@@ -143,6 +166,11 @@ Cypress.Commands.add('postMessage', (message) => {
     cy.get('#post_textbox').type(message).type('{enter}');
 
     // add wait time to ensure that a post gets posted and not on pending state
+    cy.wait(500); // eslint-disable-line
+});
+
+Cypress.Commands.add('postMessageReplyInRHS', (message) => {
+    cy.get('#reply_textbox').type(message).type('{enter}');
     cy.wait(500); // eslint-disable-line
 });
 

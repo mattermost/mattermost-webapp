@@ -27,4 +27,18 @@ That was some latex!`;
 
         expect(messageHtmlToComponent(html)).toMatchSnapshot();
     });
+
+    test('link without enabled tooltip plugins', () => {
+        const input = 'lorem ipsum www.dolor.com sit amet';
+        const html = TextFormatting.formatText(input);
+
+        expect(messageHtmlToComponent(html)).toMatchSnapshot();
+    });
+
+    test('link with enabled a tooltip plugin', () => {
+        const input = 'lorem ipsum www.dolor.com sit amet';
+        const html = TextFormatting.formatText(input);
+
+        expect(messageHtmlToComponent(html, false, {hasPluginTooltips: true})).toMatchSnapshot();
+    });
 });

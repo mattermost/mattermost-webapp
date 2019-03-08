@@ -5,7 +5,7 @@
     .groups-list--global-actions {
         display: flex;
         background: $white;
-        padding: 7px 14px;
+        padding: 8px 20px;
         .group-list-search {
             display: flex;
             flex-grow: 1;
@@ -29,7 +29,7 @@
         }
     }
     .groups-list--header {
-        border-bottom: 1px solid #cccccc;
+        border-bottom: solid 1px rgba(0,0,0,0.1);
         display: flex;
         flex-direction: row;
         font-size: 1.1em;
@@ -75,7 +75,6 @@
         background: $white;
         padding: 5px;
         height: auto;
-        border-top: 1px solid $gray;
         .btn-link {
             color: $dark-gray;
             &.disabled {
@@ -141,6 +140,8 @@
 
     .group-actions {
         width: 130px;
+        text-align: right;
+        padding-right: 20px;
     }
 
     .group {
@@ -204,7 +205,7 @@
 
 .group-users {
     .group-users--header {
-        background: $black;
+        background: #333;
         color: $white;
         padding: 10px 20px;
         a {
@@ -259,6 +260,9 @@
                     color: $gray;
                 }
             }
+            .email-label {
+                margin-right: 5px;
+            }
         }
     }
     .group-users--footer {
@@ -269,7 +273,6 @@
         background: $white;
         padding: 5px;
         height: auto;
-        border-top: 1px solid $gray;
         &.empty {
             border-top: 0;
             padding: 0;
@@ -307,7 +310,7 @@
         font-size: 1.1em;
         font-weight: bold;
         padding: 5px 20px;
-        border-bottom: 1px solid $dark-gray;
+        border-bottom: solid 1px rgba(0,0,0,0.1);
     }
     .group-teams-and-channels--body {
         .group-teams-and-channels-row {
@@ -333,6 +336,8 @@
                 width: 16px;
                 height: 16px;
                 margin: 0 5px;
+                color: inherit;
+                opacity: .7;
             }
             .team-icon-private {
                 font-size: .35em;
@@ -363,6 +368,8 @@
 
 .group-profile-add-menu {
     position: relative;
+    margin-left: 10px;
+    margin-top: -36px;
     .fa-caret-down {
         margin-left: 5px;
     }

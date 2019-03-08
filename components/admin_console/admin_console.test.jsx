@@ -8,12 +8,21 @@ import AdminConsole from 'components/admin_console/admin_console';
 
 describe('components/AdminConsole', () => {
     const baseProps = {
-        config: {},
+        config: {
+            TestField: true,
+        },
         license: {},
         match: {
             url: '',
         },
-        roles: {},
+        roles: {
+            channel_admin: 'test',
+            channel_user: 'test',
+            team_admin: 'test',
+            team_user: 'test',
+            system_admin: 'test',
+            system_user: 'test',
+        },
         showNavigationPrompt: false,
         isCurrentUserSystemAdmin: false,
         actions: {
@@ -30,7 +39,18 @@ describe('components/AdminConsole', () => {
     test('should redirect to / when not system admin', () => {
         const props = {
             ...baseProps,
-            isCurrentSystemAdmin: false,
+            isCurrentUserSystemAdmin: false,
+        };
+        const wrapper = shallow(
+            <AdminConsole {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should generate the routes', () => {
+        const props = {
+            ...baseProps,
+            isCurrentUserSystemAdmin: true,
         };
         const wrapper = shallow(
             <AdminConsole {...props}/>
