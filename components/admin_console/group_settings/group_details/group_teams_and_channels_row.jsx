@@ -122,9 +122,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                             defaultMessage='Yes, Remove'
                         />
                     }
-                    onConfirm={() => {
-                        this.removeItem();
-                    }}
+                    onConfirm={this.removeItem}
                     onCancel={() => this.setState({showConfirmationModal: false})}
                 />
 
