@@ -17,7 +17,6 @@ import FloatingTimestamp from './floating_timestamp.jsx';
 import PostListRow from './post_list_row';
 import ScrollToBottomArrows from './scroll_to_bottom_arrows.jsx';
 
-const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
 
 const MAX_EXTRA_PAGES_LOADED = 10;
@@ -78,25 +77,7 @@ export default class PostList extends React.PureComponent {
 
         actions: PropTypes.shape({
 
-            /**
-             * Function to get posts in the channel
-             */
-            getPosts: PropTypes.func.isRequired,
-
-            /**
-             * Function to get posts in the channel older than the focused post
-             */
-            getPostsBefore: PropTypes.func.isRequired,
-
-            /**
-             * Function to get posts in the channel newer than the focused post
-             */
-            getPostsAfter: PropTypes.func.isRequired,
-
-            /**
-             * Function to get the post thread for the focused post
-             */
-            getPostThread: PropTypes.func.isRequired,
+            loadInitialPosts: PropTypes.func.isRequired,
 
             /**
              * Function to increase the number of posts being rendered
@@ -107,8 +88,6 @@ export default class PostList extends React.PureComponent {
              * Function to check and set if app is in mobile view
              */
             checkAndSetMobileView: PropTypes.func.isRequired,
-
-            receivedPostsInChannel: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -244,44 +223,27 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        let posts;
-        if (focusedPostId) {
-            const getPostThreadAsync = this.props.actions.getPostThread(focusedPostId, false);
-            const getPostsBeforeAsync = this.props.actions.getPostsBefore(channelId, focusedPostId, 0, POSTS_PER_PAGE);
-            const getPostsAfterAsync = this.props.actions.getPostsAfter(channelId, focusedPostId, 0, POSTS_PER_PAGE);
-
-            const result = await getPostsBeforeAsync;
-            posts = result.data;
-            await getPostsAfterAsync;
-            const threadResult = await getPostThreadAsync;
-            const threadPosts = threadResult.data;
-
-            // Hack to fix permalink view while working on postsInChannel since it no longer stores the results of getPostThread
-            if (threadPosts) {
-                this.props.actions.receivedPostsInChannel({
-                    posts: {focusedPostId: threadPosts.posts[focusedPostId]},
-                    order: [focusedPostId],
-                }, channelId);
-            }
-        } else {
-            const result = await this.props.actions.getPosts(channelId, 0, POSTS_PER_PAGE);
-            posts = result.data;
-        }
+        const {hasMoreBefore} = await this.props.actions.loadInitialPosts(channelId, focusedPostId);
 
         if (this.mounted) {
-            const atEnd = Boolean(posts && posts.order.length < POSTS_PER_PAGE);
-            const newState = {
+            this.setState({
                 loadingFirstSetOfPosts: false,
-                atEnd,
-            };
-
-            this.setState(newState);
+                atEnd: !hasMoreBefore,
+            });
         }
     }
 
     loadMorePosts = async () => {
+        const oldestPost = this.getOldestVisiblePost();
+
+        if (!oldestPost) {
+            // loadMorePosts shouldn't be called if we don't already have posts
+            return;
+        }
+
         this.loadingMorePosts = true;
-        const {moreToLoad, error} = await this.props.actions.increasePostVisibility(this.props.channel.id, this.props.focusedPostId);
+
+        const {moreToLoad, error} = await this.props.actions.increasePostVisibility(this.props.channel.id, oldestPost.id);
         if (error) {
             if (this.autoRetriesCount < MAX_NUMBER_OF_AUTO_RETRIES) {
                 this.autoRetriesCount++;
@@ -291,20 +253,23 @@ export default class PostList extends React.PureComponent {
             }
         } else {
             this.loadingMorePosts = false;
-            if (this.mounted && this.props.posts) {
-                const atEnd = !moreToLoad && this.props.posts.length < this.props.postVisibility;
-                const newState = {
-                    atEnd,
-                    autoRetryEnable: true,
-                };
 
-                this.setState(newState);
+            if (this.mounted && this.props.posts) {
+                this.setState({
+                    atEnd: !moreToLoad,
+                    autoRetryEnable: true,
+                });
             }
+
             if (!this.state.autoRetryEnable) {
                 this.autoRetriesCount = 0;
             }
         }
     };
+
+    getOldestVisiblePost = () => {
+        return this.props.posts[this.props.postVisibility] || this.props.posts[this.props.posts.length - 1];
+    }
 
     togglePostMenu = (opened) => {
         const dynamicListStyle = this.state.dynamicListStyle;
