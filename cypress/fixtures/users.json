@@ -12,5 +12,12 @@
         "email": "user-1@sample.mattermost.com",
         "firstName": "Victor",
         "lastName": "Welch"
+    },
+    "user-2": {
+        "username": "samuel.tucker",
+        "password": "user-2",
+        "email": "user-2@sample.mattermost.com",
+        "firstName": "Samuel",
+        "lastName": "Tucker"
     }
 }

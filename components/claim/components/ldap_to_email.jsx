@@ -13,7 +13,6 @@ export default class LDAPToEmail extends React.Component {
     static propTypes = {
         email: PropTypes.string,
         passwordConfig: PropTypes.object,
-        checkMfa: PropTypes.func.isRequired,
         switchLdapToEmail: PropTypes.func.isRequired,
     };
 
@@ -74,49 +73,25 @@ export default class LDAPToEmail extends React.Component {
         state.ldapPassword = ldapPassword;
         this.setState(state);
 
-        this.props.checkMfa(this.props.email).then((result) => {
-            if (result.error) {
-                this.setState({
-                    error: result.error.message,
-                });
-                return;
-            }
-
-            const requiresMfa = result.data;
-            if (requiresMfa) {
-                this.setState({
-                    showMfa: true,
-                });
-            } else {
-                this.submit(this.props.email, password, '', ldapPassword);
-            }
-        });
+        this.submit(this.props.email, password, '', ldapPassword);
     }
 
     submit(loginId, password, token, ldapPassword) {
-        this.props.switchLdapToEmail(
-            ldapPassword || this.state.ldapPassword,
-            this.props.email,
-            password,
-            token).
-            then(({data, error: err}) => {
-                if (data && data.follow_link) {
-                    window.location.href = data.follow_link;
-                } else if (err) {
-                    if (err.server_error_id.startsWith('model.user.is_valid.pwd')) {
-                        this.setState({passwordError: err.message, showMfa: false});
-                    } else {
-                        switch (err.server_error_id) {
-                        case 'ent.ldap.do_login.invalid_password.app_error':
-                            this.setState({ldapPasswordError: err.message, showMfa: false});
-                            break;
-                        default:
-                            this.setState({serverError: err.message, showMfa: false});
-                        }
-                    }
+        this.props.switchLdapToEmail(ldapPassword || this.state.ldapPassword, this.props.email, password, token).then(({data, error: err}) => {
+            if (data && data.follow_link) {
+                window.location.href = data.follow_link;
+            } else if (err) {
+                if (err.server_error_id.startsWith('model.user.is_valid.pwd')) {
+                    this.setState({passwordError: err.message, showMfa: false});
+                } else if (err.server_error_id === 'ent.ldap.do_login.invalid_password.app_error') {
+                    this.setState({ldapPasswordError: err.message, showMfa: false});
+                } else if (!this.state.showMfa && err.server_error_id === 'mfa.validate_token.authenticate.app_error') {
+                    this.setState({showMfa: true});
+                } else {
+                    this.setState({serverError: err.message, showMfa: false});
                 }
             }
-            );
+        });
     }
 
     render() {

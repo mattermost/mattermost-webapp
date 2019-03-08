@@ -47,7 +47,7 @@ export default class Integrations extends React.Component {
             options.push(
                 <TeamPermissionGate
                     teamId={this.props.team.id}
-                    permissions={[Permissions.MANAGE_WEBHOOKS]}
+                    permissions={[Permissions.MANAGE_INCOMING_WEBHOOKS]}
                     key='incomingWebhookPermission'
                 >
                     <IntegrationOption
@@ -75,7 +75,7 @@ export default class Integrations extends React.Component {
             options.push(
                 <TeamPermissionGate
                     teamId={this.props.team.id}
-                    permissions={[Permissions.MANAGE_WEBHOOKS]}
+                    permissions={[Permissions.MANAGE_OUTGOING_WEBHOOKS]}
                     key='outgoingWebhookPermission'
                 >
                     <IntegrationOption

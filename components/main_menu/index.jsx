@@ -35,11 +35,12 @@ function mapStateToProps(state) {
     const helpLink = config.HelpLink;
     const reportAProblemLink = config.ReportAProblemLink;
 
-    let canCreateCustomEmoji = haveISystemPermission(state, {permission: Permissions.MANAGE_EMOJIS});
-    if (!canCreateCustomEmoji) {
+    let canCreateOrDeleteCustomEmoji = (haveISystemPermission(state, {permission: Permissions.CREATE_EMOJIS}) || haveISystemPermission(state, {permission: Permissions.DELETE_EMOJIS}));
+    if (!canCreateOrDeleteCustomEmoji) {
         for (const team of getMyTeams(state)) {
-            if (haveITeamPermission(state, {team: team.id, permission: Permissions.MANAGE_EMOJIS})) {
-                canCreateCustomEmoji = true;
+            if (haveITeamPermission(state, {team: team.id, permission: Permissions.CREATE_EMOJIS}) || haveITeamPermission(state, {team: team.id, permission: Permissions.DELETE_EMOJIS})) {
+                canCreateOrDeleteCustomEmoji = true;
+
                 break;
             }
         }
@@ -62,7 +63,7 @@ function mapStateToProps(state) {
         helpLink,
         reportAProblemLink,
         pluginMenuItems: state.plugins.components.MainMenu,
-        canCreateCustomEmoji,
+        canCreateOrDeleteCustomEmoji,
         moreTeamsToJoin,
         teamId: currentTeam.id,
         teamName: currentTeam.name,

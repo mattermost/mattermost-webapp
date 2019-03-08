@@ -26,7 +26,7 @@ describe('plugins/MainMenuActions', () => {
             showDropdown: true,
             onToggleDropdown: () => {}, //eslint-disable-line no-empty-function
             pluginMenuItems: [{id: 'someplugin', text: 'some plugin text', action: pluginAction}],
-            canCreateCustomEmoji: true,
+            canCreateOrDeleteCustomEmoji: true,
             moreTeamsToJoin: true,
             actions: {
                 openModal: jest.fn(),

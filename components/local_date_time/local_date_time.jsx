@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedTime} from 'react-intl';
+import moment from 'moment-timezone';
 
 export default class LocalDateTime extends React.PureComponent {
     static propTypes = {
@@ -39,13 +40,22 @@ export default class LocalDateTime extends React.PureComponent {
 
         const date = eventTime ? new Date(eventTime) : new Date();
 
+        let title = moment(date);
+        if (enableTimezone && timeZone) {
+            title.tz(timeZone);
+
+            title = title.toString() + ' (' + title.tz() + ')';
+        } else {
+            title = title.toString();
+        }
+
         const timezoneProps = enableTimezone && timeZone ? {timeZone} : {};
 
         return (
             <time
                 className='post__time'
                 dateTime={date.toISOString()}
-                title={date}
+                title={title}
             >
                 <FormattedTime
                     {...timezoneProps}

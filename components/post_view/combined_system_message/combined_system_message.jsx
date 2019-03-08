@@ -24,6 +24,10 @@ const postTypeMessage = {
             id: t('combined_system_message.joined_channel.one'),
             defaultMessage: '{firstUser} **joined the channel**.',
         },
+        one_you: {
+            id: t('combined_system_message.joined_channel.one_you'),
+            defaultMessage: 'You **joined the channel**.',
+        },
         two: {
             id: t('combined_system_message.joined_channel.two'),
             defaultMessage: '{firstUser} and {secondUser} **joined the channel**.',
@@ -74,6 +78,10 @@ const postTypeMessage = {
             id: t('combined_system_message.left_channel.one'),
             defaultMessage: '{firstUser} **left the channel**.',
         },
+        one_you: {
+            id: t('combined_system_message.left_channel.one_you'),
+            defaultMessage: 'You **left the channel**.',
+        },
         two: {
             id: t('combined_system_message.left_channel.two'),
             defaultMessage: '{firstUser} and {secondUser} **left the channel**.',
@@ -87,6 +95,10 @@ const postTypeMessage = {
         one: {
             id: t('combined_system_message.joined_team.one'),
             defaultMessage: '{firstUser} **joined the team**.',
+        },
+        one_you: {
+            id: t('combined_system_message.joined_team.one_you'),
+            defaultMessage: 'You **joined the team**.',
         },
         two: {
             id: t('combined_system_message.joined_team.two'),
@@ -137,6 +149,10 @@ const postTypeMessage = {
         one: {
             id: t('combined_system_message.left_team.one'),
             defaultMessage: '{firstUser} **left the team**.',
+        },
+        one_you: {
+            id: t('combined_system_message.left_team.one_you'),
+            defaultMessage: 'You **left the team**.',
         },
         two: {
             id: t('combined_system_message.left_team.two'),

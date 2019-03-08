@@ -99,7 +99,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       ],
       "results": Array [
         Object {
-          "isThrow": false,
+          "type": "return",
           "value": undefined,
         },
       ],
@@ -258,11 +258,11 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       ],
       "results": Array [
         Object {
-          "isThrow": false,
+          "type": "return",
           "value": undefined,
         },
         Object {
-          "isThrow": false,
+          "type": "return",
           "value": undefined,
         },
       ],
@@ -417,7 +417,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       ],
       "results": Array [
         Object {
-          "isThrow": false,
+          "type": "return",
           "value": undefined,
         },
       ],
@@ -570,11 +570,11 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       ],
       "results": Array [
         Object {
-          "isThrow": false,
+          "type": "return",
           "value": undefined,
         },
         Object {
-          "isThrow": false,
+          "type": "return",
           "value": undefined,
         },
       ],

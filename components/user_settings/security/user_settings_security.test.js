@@ -102,6 +102,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const event = {currentTarget: {getAttribute: jest.fn().mockReturnValue(appId)}, preventDefault: jest.fn()};
 
         const wrapper = shallow(<UserSettingsSecurity {...requiredProps}/>);
+        wrapper.setState({authorizedApps: []});
         wrapper.instance().deauthorizeApp(event);
 
         expect(requiredProps.actions.deauthorizeOAuthApp).toHaveBeenCalled();
