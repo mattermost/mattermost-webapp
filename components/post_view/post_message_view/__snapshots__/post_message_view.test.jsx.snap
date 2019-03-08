@@ -14,7 +14,7 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
     <Connect(PostMarkdown)
       imageProps={
         Object {
-          "onHeightReceived": [Function],
+          "onImageLoaded": [Function],
         }
       }
       isRHS={false}
@@ -52,7 +52,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show Less
     <Connect(PostMarkdown)
       imageProps={
         Object {
-          "onHeightReceived": [Function],
+          "onImageLoaded": [Function],
         }
       }
       isRHS={false}
@@ -90,7 +90,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show More
     <Connect(PostMarkdown)
       imageProps={
         Object {
-          "onHeightReceived": [Function],
+          "onImageLoaded": [Function],
         }
       }
       isRHS={false}
@@ -148,7 +148,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on edited po
     <Connect(PostMarkdown)
       imageProps={
         Object {
-          "onHeightReceived": [Function],
+          "onImageLoaded": [Function],
         }
       }
       isRHS={false}
@@ -210,7 +210,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on ephemeral
     <Connect(PostMarkdown)
       imageProps={
         Object {
-          "onHeightReceived": [Function],
+          "onImageLoaded": [Function],
         }
       }
       isRHS={false}

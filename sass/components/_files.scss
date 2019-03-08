@@ -193,9 +193,6 @@
             min-width: 40px;
             max-height: 350px;
             max-width: 100%;
-            align-content: center;
-            justify-content: center;
-            opacity: 0;
             overflow: hidden;
             position: relative;
             z-index: 2;
@@ -218,6 +215,13 @@
                     max-height: initial;
                     max-width: 50px;
                 }
+            }
+            &.svg {
+                  width: 100%;
+                  height: inherit;
+                img {
+                    height: inherit;
+               }
             }
         }
 
