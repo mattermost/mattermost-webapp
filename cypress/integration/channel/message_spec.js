@@ -79,6 +79,18 @@ describe('Message', () => {
         // 2. Post message
         cy.postMessage('@here. @all. @channel.');
 
+        // * Check that confirm modal is displayed
+        cy.get('#confirmModal').should('be.visible');
+
+        // 3. Confirm multiple mentions
+        cy.get('#confirmModalButton').click();
+
+        // * Check that confirm modal is closed
+        cy.get('#confirmModal').should('not.be.visible');
+
+        // 4 Waiting create post is done
+        cy.wait(500); // eslint-disable-line
+
         cy.getLastPostId().then((postId) => {
             const divPostId = `#postMessageText_${postId}`;
 
