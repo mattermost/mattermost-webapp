@@ -157,7 +157,9 @@
     "setupFiles": [
       "jest-canvas-mock"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/tests/setup.js",
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setup.js"
+    ],
     "testURL": "http://localhost:8065"
   },
   "jest-junit": {
