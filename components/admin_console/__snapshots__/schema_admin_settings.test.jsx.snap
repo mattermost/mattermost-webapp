@@ -598,7 +598,6 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
     >
       <SaveButton
         btnClass="btn-primary"
-        defaultMessage="Save"
         disabled={true}
         extraClasses=""
         onClick={[Function]}

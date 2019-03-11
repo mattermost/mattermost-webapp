@@ -153,7 +153,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
   >
     <SaveButton
       btnClass="btn-primary"
-      defaultMessage="Save"
       disabled={true}
       extraClasses=""
       onClick={[Function]}
@@ -479,7 +478,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
   >
     <SaveButton
       btnClass="btn-primary"
-      defaultMessage="Save"
       disabled={true}
       extraClasses=""
       onClick={[Function]}
@@ -733,7 +731,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
   >
     <SaveButton
       btnClass="btn-primary"
-      defaultMessage="Save"
       disabled={true}
       extraClasses=""
       onClick={[Function]}
