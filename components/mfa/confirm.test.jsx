@@ -8,7 +8,7 @@ import {redirectUserToDefaultTeam} from 'actions/global_actions.jsx';
 
 import {browserHistory} from 'utils/browser_history';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import Confirm from 'components/mfa/confirm/confirm.jsx';
+import Confirm from 'components/mfa/confirm.jsx';
 import Constants from 'utils/constants.jsx';
 
 jest.mock('actions/global_actions.jsx', () => ({
@@ -64,19 +64,5 @@ describe('components/mfa/components/Confirm', () => {
         map.keydown(event);
 
         expect(redirectUserToDefaultTeam).toHaveBeenCalled();
-    });
-
-    test('should submit and load user', () => {
-        const props = {
-            shouldLoadUser: true,
-            actions: {
-                loadMe: jest.fn().mockResolvedValue({}),
-            },
-        };
-
-        const wrapper = mountWithIntl(<Confirm {...props}/>);
-        wrapper.find('form').simulate('submit');
-
-        expect(props.actions.loadMe).toHaveBeenCalled();
     });
 });
