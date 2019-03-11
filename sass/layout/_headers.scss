@@ -224,7 +224,7 @@
         font-size: 14px;
         font-weight: 600;
         margin: 0 7px 0 0;
-        max-width: 100%;
+        max-width: calc(100% - 40px);
         overflow: hidden;
         text-overflow: ellipsis;
         vertical-align: top;
@@ -296,6 +296,7 @@
             display: flex;
             flex: 0 1 auto;
             min-width: 0;
+            width: 100%;
         }
 
         > a {
@@ -308,6 +309,10 @@
             font-size: inherit;
             line-height: inherit;
             margin: 0;
+        }
+
+        .MenuWrapper {
+            width: 100%;
         }
 
         .modal {
