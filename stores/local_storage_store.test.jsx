@@ -36,8 +36,8 @@ describe('stores/LocalStorageStore', () => {
     test('should persist recent emojis per user', () => {
         const userId1 = 'userId1';
         const userId2 = 'userId2';
-        const recentEmojis1 = ['smile', 'joy', 'grin'].join(',');
-        const recentEmojis2 = ['customEmoji', '+1', 'mattermost'].join(',');
+        const recentEmojis1 = ['smile', 'joy', 'grin'];
+        const recentEmojis2 = ['customEmoji', '+1', 'mattermost'];
 
         assert.equal(LocalStorageStore.getRecentEmojis(userId1), null);
         assert.equal(LocalStorageStore.getRecentEmojis(userId2), null);
@@ -52,11 +52,9 @@ describe('stores/LocalStorageStore', () => {
         LocalStorageStore.setRecentEmojis(userId2, recentEmojis2);
 
         const recentEmojisForUser1 = LocalStorageStore.getRecentEmojis(userId1);
-        assert.equal(recentEmojisForUser1, recentEmojis1);
-        assert.equal(typeof recentEmojisForUser1, 'string');
+        assert.deepEqual(recentEmojisForUser1, recentEmojis1);
 
         const recentEmojisForUser2 = LocalStorageStore.getRecentEmojis(userId2);
-        assert.equal(recentEmojisForUser2, recentEmojis2);
-        assert.equal(typeof recentEmojisForUser2, 'string');
+        assert.deepEqual(recentEmojisForUser2, recentEmojis2);
     });
 });

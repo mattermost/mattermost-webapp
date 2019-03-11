@@ -16,6 +16,7 @@ describe('Selectors.Emojis', () => {
                     currentUserId: userId1,
                 },
             },
+            storage: {storage: {}},
         };
 
         assert.deepEqual(Selectors.getRecentEmojis(testState), []);
