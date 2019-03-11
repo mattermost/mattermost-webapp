@@ -3,8 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import {localizeMessage} from 'utils/utils.jsx';
+import {intlShape} from 'react-intl';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 
@@ -20,14 +19,25 @@ export default class SaveButton extends React.PureComponent {
 
     static defaultProps = {
         disabled: false,
-        savingMessage: localizeMessage('save_button.saving', 'Saving'),
-        defaultMessage: localizeMessage('save_button.save', 'Save'),
         btnClass: 'btn-primary',
         extraClasses: '',
     }
 
+    static contextTypes = {
+        intl: intlShape,
+    };
+
     render() {
-        const {saving, disabled, savingMessage, defaultMessage, btnClass, extraClasses, ...props} = this.props; // eslint-disable-line no-use-before-define
+        const {formatMessage} = this.context.intl;
+        const {
+            saving,
+            disabled,
+            savingMessage,
+            defaultMessage,
+            btnClass,
+            extraClasses,
+            ...props
+        } = this.props;
 
         let className = 'save-button btn';
         if (!disabled || saving) {
@@ -37,6 +47,9 @@ export default class SaveButton extends React.PureComponent {
         if (extraClasses) {
             className += ' ' + extraClasses;
         }
+
+        const savingMessageComponent = savingMessage || formatMessage({id: 'save_button.saving', defaultMessage: 'Saving'});
+        const defaultMessageComponent = defaultMessage || formatMessage({id: 'save_button.save', defaultMessage: 'Save'});
 
         return (
             <button
@@ -48,9 +61,9 @@ export default class SaveButton extends React.PureComponent {
             >
                 <LoadingWrapper
                     loading={saving}
-                    text={savingMessage}
+                    text={savingMessageComponent}
                 >
-                    {defaultMessage}
+                    {defaultMessageComponent}
                 </LoadingWrapper>
             </button>
         );
