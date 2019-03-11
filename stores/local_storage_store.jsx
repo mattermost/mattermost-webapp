@@ -38,12 +38,17 @@ class LocalStorageStoreClass {
     }
 
     getRecentEmojis(userId) {
-        return localStorage.getItem(getRecentEmojisKey(userId));
+        const recentEmojis = localStorage.getItem(getRecentEmojisKey(userId));
+        if (!recentEmojis) {
+            return null;
+        }
+
+        return JSON.parse(recentEmojis);
     }
 
-    setRecentEmojis(userId, recentEmojis = '') {
-        if (recentEmojis) {
-            localStorage.setItem(getRecentEmojisKey(userId), recentEmojis);
+    setRecentEmojis(userId, recentEmojis = []) {
+        if (recentEmojis.length) {
+            localStorage.setItem(getRecentEmojisKey(userId), JSON.stringify(recentEmojis));
         }
     }
 

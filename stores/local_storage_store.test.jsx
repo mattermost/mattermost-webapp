@@ -42,8 +42,8 @@ describe('stores/LocalStorageStore', () => {
         assert.equal(LocalStorageStore.getRecentEmojis(userId1), null);
         assert.equal(LocalStorageStore.getRecentEmojis(userId2), null);
 
-        LocalStorageStore.setRecentEmojis(userId1, '');
-        LocalStorageStore.setRecentEmojis(userId2, '');
+        LocalStorageStore.setRecentEmojis(userId1, []);
+        LocalStorageStore.setRecentEmojis(userId2, []);
 
         assert.equal(LocalStorageStore.getRecentEmojis(userId1), null);
         assert.equal(LocalStorageStore.getRecentEmojis(userId2), null);

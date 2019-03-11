@@ -25,6 +25,6 @@ export const getRecentEmojis = createSelector(
             return [];
         }
 
-        return recentEmojis.split(',');
+        return recentEmojis;
     }
 );

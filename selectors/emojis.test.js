@@ -9,7 +9,6 @@ import * as Selectors from 'selectors/emojis';
 
 describe('Selectors.Emojis', () => {
     it('getRecentEmojis', () => {
-        const recentEmojis = ['rage', 'nauseated_face', 'innocent', '+1', 'sob', 'grinning', 'mm'];
         const userId1 = 'user_id_1';
         const testState = {
             entities: {
@@ -21,6 +20,13 @@ describe('Selectors.Emojis', () => {
 
         assert.deepEqual(Selectors.getRecentEmojis(testState), []);
 
+        const recentEmojis = ['rage', 'nauseated_face', 'innocent', '+1', 'sob', 'grinning', 'mm'];
+        LocalStorageStore.setRecentEmojis(userId1, recentEmojis);
+        setTimeout(() => {
+            assert.deepEqual(Selectors.getRecentEmojis(testState), recentEmojis);
+        }, 0);
+
+        recentEmojis.push('joy');
         LocalStorageStore.setRecentEmojis(userId1, recentEmojis);
         setTimeout(() => {
             assert.deepEqual(Selectors.getRecentEmojis(testState), recentEmojis);

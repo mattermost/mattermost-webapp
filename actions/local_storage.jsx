@@ -23,7 +23,7 @@ export function setRecentEmojis(recentEmojis = []) {
     return (dispatch, getState) => {
         const currentUserId = getCurrentUserId(getState());
 
-        LocalStorageStore.setRecentEmojis(currentUserId, recentEmojis.join(','));
+        LocalStorageStore.setRecentEmojis(currentUserId, recentEmojis);
 
         return {data: true};
     };
