@@ -3,7 +3,9 @@
 
 import store from 'stores/redux_store.jsx';
 
-import {handlePostEditEvent} from './websocket_actions';
+import {closeRightHandSide} from 'actions/views/rhs';
+
+import {handlePostEditEvent, handleUserRemovedEvent} from './websocket_actions';
 
 jest.mock('stores/redux_store', () => {
     return {
@@ -11,6 +13,7 @@ jest.mock('stores/redux_store', () => {
         getState: () => ({
             entities: {
                 users: {
+                    currentUserId: 'currentUserId',
                     profiles: {
                         user: {
                             id: 'user',
@@ -25,24 +28,57 @@ jest.mock('stores/redux_store', () => {
                 },
                 channels: {
                     currentChannelId: 'otherChannel',
+                    channels: {},
+                },
+                preferences: {
+                    myPreferences: {},
+                },
+            },
+            views: {
+                rhs: {
+                    selectedChannelId: 'otherChannel',
                 },
             },
         }),
     };
 });
 
-test('handlePostEditEvent', async () => {
-    const post = '{"id":"test","create_at":123,"update_at":123,"user_id":"user","channel_id":"12345","root_id":"","message":"asd","pending_post_id":"2345","metadata":{}}';
-    const expectedAction = {type: 'RECEIVED_POST', data: JSON.parse(post)};
-    const msg = {
-        data: {
-            post,
-        },
-        broadcast: {
-            channel_id: '1234657',
-        },
-    };
+jest.mock('actions/views/rhs', () => ({
+    closeRightHandSide: jest.fn(() => {
+        return {type: ''};
+    }),
+}));
 
-    handlePostEditEvent(msg);
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+describe('handlePostEditEvent', () => {
+    test('post edited', async () => {
+        const post = '{"id":"test","create_at":123,"update_at":123,"user_id":"user","channel_id":"12345","root_id":"","message":"asd","pending_post_id":"2345","metadata":{}}';
+        const expectedAction = {type: 'RECEIVED_POST', data: JSON.parse(post)};
+        const msg = {
+            data: {
+                post,
+            },
+            broadcast: {
+                channel_id: '1234657',
+            },
+        };
+
+        handlePostEditEvent(msg);
+        expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+    });
+});
+
+describe('handleUserRemovedEvent', () => {
+    test('should close RHS', async () => {
+        const msg = {
+            data: {
+                channel_id: 'otherChannel',
+            },
+            broadcast: {
+                user_id: 'currentUserId',
+            },
+        };
+
+        handleUserRemovedEvent(msg);
+        expect(closeRightHandSide).toHaveBeenCalled();
+    });
 });
