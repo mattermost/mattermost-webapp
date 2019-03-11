@@ -32,4 +32,31 @@ describe('stores/LocalStorageStore', () => {
         assert.equal(LocalStorageStore.getPreviousChannelName(userId2, teamId1), channel2);
         assert.equal(LocalStorageStore.getPreviousChannelName(userId2, teamId2), channel3);
     });
+
+    test('should persist recent emojis per user', () => {
+        const userId1 = 'userId1';
+        const userId2 = 'userId2';
+        const recentEmojis1 = ['smile', 'joy', 'grin'].join(',');
+        const recentEmojis2 = ['customEmoji', '+1', 'mattermost'].join(',');
+
+        assert.equal(LocalStorageStore.getRecentEmojis(userId1), null);
+        assert.equal(LocalStorageStore.getRecentEmojis(userId2), null);
+
+        LocalStorageStore.setRecentEmojis(userId1, '');
+        LocalStorageStore.setRecentEmojis(userId2, '');
+
+        assert.equal(LocalStorageStore.getRecentEmojis(userId1), null);
+        assert.equal(LocalStorageStore.getRecentEmojis(userId2), null);
+
+        LocalStorageStore.setRecentEmojis(userId1, recentEmojis1);
+        LocalStorageStore.setRecentEmojis(userId2, recentEmojis2);
+
+        const recentEmojisForUser1 = LocalStorageStore.getRecentEmojis(userId1);
+        assert.equal(recentEmojisForUser1, recentEmojis1);
+        assert.equal(typeof recentEmojisForUser1, 'string');
+
+        const recentEmojisForUser2 = LocalStorageStore.getRecentEmojis(userId2);
+        assert.equal(recentEmojisForUser2, recentEmojis2);
+        assert.equal(typeof recentEmojisForUser2, 'string');
+    });
 });

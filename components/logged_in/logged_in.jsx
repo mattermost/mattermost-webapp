@@ -8,15 +8,11 @@ import {Redirect} from 'react-router';
 import {viewChannel} from 'mattermost-redux/actions/channels';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {setGlobalItem} from 'actions/storage';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
 import store from 'stores/redux_store.jsx';
-import LocalStorageStore from 'stores/local_storage_store';
-
-import Constants from 'utils/constants.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -85,13 +81,6 @@ export default class LoggedIn extends React.PureComponent {
         if (!this.props.currentUser) {
             $('#root').attr('class', '');
             GlobalActions.emitUserLoggedOutEvent('/login?redirect_to=' + encodeURIComponent(this.props.location.pathname), true, false);
-        }
-
-        if (this.props.currentUser) {
-            const recentEmojis = LocalStorageStore.getPreviousRecentEmojis(this.props.currentUser.id);
-            if (recentEmojis) {
-                dispatch(setGlobalItem(Constants.RECENT_EMOJI_KEY, recentEmojis));
-            }
         }
 
         $('body').on('mouseenter mouseleave', '.post', function mouseOver(ev) {

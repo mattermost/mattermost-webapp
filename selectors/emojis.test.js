@@ -3,29 +3,27 @@
 
 import assert from 'assert';
 
-import {Constants} from 'utils/constants';
+import LocalStorageStore from 'stores/local_storage_store';
+
 import * as Selectors from 'selectors/emojis';
 
 describe('Selectors.Emojis', () => {
     it('getRecentEmojis', () => {
         const recentEmojis = ['rage', 'nauseated_face', 'innocent', '+1', 'sob', 'grinning', 'mm'];
-        let testState = {
-            storage: {
-                storage: {
-                    [Constants.RECENT_EMOJI_KEY]: {value: JSON.stringify(recentEmojis), timestamp: new Date()},
-                },
-            },
-        };
-
-        assert.deepEqual(Selectors.getRecentEmojis(testState), recentEmojis);
-
-        testState = {
-            storage: {
-                storage: {
+        const userId1 = 'user_id_1';
+        const testState = {
+            entities: {
+                users: {
+                    currentUserId: userId1,
                 },
             },
         };
 
         assert.deepEqual(Selectors.getRecentEmojis(testState), []);
+
+        LocalStorageStore.setRecentEmojis(userId1, recentEmojis);
+        setTimeout(() => {
+            assert.deepEqual(Selectors.getRecentEmojis(testState), recentEmojis);
+        }, 0);
     });
 });
