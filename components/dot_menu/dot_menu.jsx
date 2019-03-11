@@ -116,8 +116,8 @@ class DotMenu extends Component {
 
     static getDerivedStateFromProps(props) {
         return {
-            canDelete: PostUtils.canDeletePost(props.post),
-            canEdit: PostUtils.canEditPost(props.post),
+            canDelete: PostUtils.canDeletePost(props.post) && !props.isReadOnly,
+            canEdit: PostUtils.canEditPost(props.post) && !props.isReadOnly,
         };
     }
 
