@@ -5,8 +5,6 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
-import Constants from 'utils/constants.jsx';
-
 // setPreviousTeamId is a pseudo-action that writes not to the Redux store, but back to local
 // storage.
 //
@@ -21,14 +19,11 @@ export function setPreviousTeamId(teamId) {
     };
 }
 
-export function setPreviousRecentEmojis() {
+export function setRecentEmojis(recentEmojis = []) {
     return (dispatch, getState) => {
         const currentUserId = getCurrentUserId(getState());
 
-        const recentEmojis = getState().storage.storage[Constants.RECENT_EMOJI_KEY];
-        if (recentEmojis && recentEmojis.value) {
-            LocalStorageStore.setPreviousRecentEmojis(currentUserId, recentEmojis.value);
-        }
+        LocalStorageStore.setRecentEmojis(currentUserId, recentEmojis);
 
         return {data: true};
     };
