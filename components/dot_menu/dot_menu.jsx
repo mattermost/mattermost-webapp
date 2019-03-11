@@ -199,7 +199,9 @@ export default class DotMenu extends Component {
 
     refCallback = (ref) => {
         if (ref) {
-            const {y, height} = ref.rect();
+            const rect = ref.rect();
+            const y = rect.y || rect.top;
+            const height = rect.height;
             const windowHeight = window.innerHeight;
             if ((y + height) > (windowHeight - MENU_BOTTOM_MARGIN)) {
                 this.setState({openUp: true});
