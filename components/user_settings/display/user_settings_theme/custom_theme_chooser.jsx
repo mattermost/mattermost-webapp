@@ -380,6 +380,7 @@ export default class CustomThemeChooser extends React.Component {
                 <textarea
                     ref='textarea'
                     className='form-control'
+                    id='pasteBox'
                     value={this.state.copyTheme}
                     onPaste={this.pasteBoxChange}
                     onChange={this.onChangeHandle}
