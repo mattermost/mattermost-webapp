@@ -3,8 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import {localizeMessage} from 'utils/utils.jsx';
+import {intlShape} from 'react-intl';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 
@@ -24,12 +23,17 @@ export default class SaveButton extends React.PureComponent {
         extraClasses: '',
     }
 
+    static contextTypes = {
+        intl: intlShape,
+    };
+
     render() {
+        const {formatMessage} = this.context.intl;
         const {
             saving,
             disabled,
-            savingMessage = localizeMessage('save_button.saving', 'Saving'),
-            defaultMessage = localizeMessage('save_button.save', 'Save'),
+            savingMessage,
+            defaultMessage,
             btnClass,
             extraClasses,
             ...props
@@ -44,6 +48,9 @@ export default class SaveButton extends React.PureComponent {
             className += ' ' + extraClasses;
         }
 
+        const savingMessageComponent = savingMessage || formatMessage({id: 'save_button.saving', defaultMessage: 'Saving'});
+        const defaultMessageComponent = defaultMessage || formatMessage({id: 'save_button.save', defaultMessage: 'Save'});
+
         return (
             <button
                 type='submit'
@@ -54,9 +61,9 @@ export default class SaveButton extends React.PureComponent {
             >
                 <LoadingWrapper
                     loading={saving}
-                    text={savingMessage}
+                    text={savingMessageComponent}
                 >
-                    {defaultMessage}
+                    {defaultMessageComponent}
                 </LoadingWrapper>
             </button>
         );
