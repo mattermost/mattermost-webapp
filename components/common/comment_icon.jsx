@@ -60,14 +60,16 @@ export default class CommentIcon extends React.PureComponent {
                 placement='top'
                 overlay={tooltip}
             >
-                <button
-                    id={`${this.props.location}_commentIcon_${this.props.postId}`}
-                    className={iconStyle + ' color--link style--none ' + this.props.extraClass}
-                    onClick={this.props.handleCommentClick}
-                >
-                    <ReplyIcon className='comment-icon'/>
-                    {commentCountSpan}
-                </button>
+                <div>
+                    <button
+                        id={`${this.props.location}_commentIcon_${this.props.postId}`}
+                        className={iconStyle + ' style--none ' + this.props.extraClass}
+                        onClick={this.props.handleCommentClick}
+                    >
+                        {commentCountSpan}
+                        <ReplyIcon className='comment-icon'/>
+                    </button>
+                </div>
             </OverlayTrigger>
         );
     }

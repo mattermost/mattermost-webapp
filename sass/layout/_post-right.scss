@@ -30,9 +30,17 @@
             }
         }
 
+        &:hover {
+            .post__header {
+                .col__reply {
+                    visibility: visible;
+                }
+            }
+        }
+
         .post__header {
             .col__reply {
-                text-align: right;
+                visibility: hidden;
             }
         }
 

@@ -1290,19 +1290,50 @@
             > div,
             > button {
                 @include border-radius(4px);
-                display: flex;
-                flex: 1;
-                height: 24px;
-                top: 0;
-                width: 24px;
+                margin: 0 4px 0 0;
+
+            &:hover {
+                a,
+                button {
+                    svg,
+                    .comment-count {
+                        @include opacity(1);
+                    }
+                }
             }
 
-            .comment-icon__container {
-                flex: 0;
-                justify-content: flex-end;
-                padding: 0 4px 0 0;
-                width: auto;
+                &:last-child {
+                    margin: 0;
+                }
+            }
+
+            li {
+                button {
+                    justify-content: left;
+                }
+            }
+
+            a,
+            button {
+                display: flex;
+                flex: 1;
                 align-items: center;
+                justify-content: center;
+                height: 24px;
+                width: 24px;
+
+                &.comment-icon__container {
+                    width: auto;
+                    padding: 0 4px;
+                }
+
+                svg {
+                    @include opacity(.4);
+                }
+
+                .comment-count {
+                    @include opacity(.5);
+                }
             }
 
             .dropdown {
@@ -1314,44 +1345,18 @@
                 }
             }
 
-            .reacticon__container,
-            .icon {
-                display: flex;
-                flex: 1;
-                margin: 0;
-                top: 0;
-                align-items: center;
-            }
-
-            .reacticon__container {
-                width: 28px;
-            }
-
-
             > .open, > div {
                 display: flex;
                 flex: 1;
                 justify-content: center;
             }
 
-            span {
-                svg {
-                    flex: 1;
-                    height: 16px;
-                    top: 0;
-                    width: 16px;
-                }
-            }
-
-            svg {
-                flex: 1;
-                height: 16px;
-                top: 0;
-                width: 16px;
-            }
-
             &.dot_small {
                 min-width: auto !important;
+            }
+
+            .icon {
+                display: flex;
             }
         }
 
@@ -1387,10 +1392,6 @@
                 height: 32px;
                 width: 32px;
             }
-        }
-
-        path {
-            fill: inherit;
         }
 
         img {
@@ -1438,23 +1439,6 @@
             a {
                 padding: 5px 15px;
             }
-        }
-    }
-
-    .post__dropdown {
-        display: flex;
-        justify-content: center;
-        text-decoration: none;
-        vertical-align: middle;
-        width: 100%;
-        visibility: hidden;
-
-        &:after {
-            content: '...';
-            font-family: 'Open Sans', sans-serif;
-            position: relative;
-            top: -1px;
-            width: 100%;
         }
     }
 
@@ -1677,7 +1661,7 @@
         &:before {
             content: '\f065';
             font-size: 14px;
-}
+        }
 
         &[data-expanded='true']:before {
             content: '\f066';
@@ -1758,11 +1742,7 @@
     }
 
     .comment-icon__container {
-        display: inline-block;
-        fill: $primary-color;
-        position: relative;
         text-decoration: none;
-        top: 1px;
         visibility: hidden;
 
         &:focus {
@@ -1773,41 +1753,15 @@
             visibility: visible;
         }
 
-        svg {
-            height: 17px;
-            width: 17px;
-        }
-
         .comment-count {
-            margin-left: 2px;
+            margin-right: 3px;
+            font-weight: 600;
         }
 
         .comment-icon {
-            display: inline-block;
             fill: inherit;
-            margin: 0 1px 0 5px;
-            position: relative;
-            top: 1px;
-            vertical-align: top;
-        }
-
-        path {
-            fill: inherit;
-        }
-    }
-
-    .reacticon__container {
-        display: inline-block;
-        fill: $primary-color;
-        font-size: 16px;
-        vertical-align: top;
-        visibility: hidden;
-
-        svg {
-            height: 14px;
-            position: relative;
-            top: 1px;
-            width: 14px;
+            display: flex;
+            align-items: center;
         }
     }
 

@@ -21,6 +21,7 @@ import Pluggable from 'plugins/pluggable';
 import Menu from 'components/widgets/menu/menu.jsx';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
 import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action.jsx';
+import DotsIcon from 'components/svg/dots_icon';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -249,7 +250,9 @@ export default class DotMenu extends Component {
                         className='post__dropdown color--link style--none'
                         type='button'
                         aria-expanded='false'
-                    />
+                    >
+                        <DotsIcon className='icon'/>
+                    </button>
                 </OverlayTrigger>
                 <Menu
                     openLeft={true}
