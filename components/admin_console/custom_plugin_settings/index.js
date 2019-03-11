@@ -21,6 +21,7 @@ function makeGetPluginSchema() {
                 settings = plugin.settings_schema.settings.map((setting) => {
                     return {
                         ...setting,
+                        help_text_markdown: true,
                         label: setting.display_name,
                     };
                 });
