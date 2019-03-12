@@ -62,7 +62,6 @@ export default class NeedsTeam extends React.Component {
     constructor(params) {
         super(params);
         this.blurTime = new Date().getTime();
-        this.userIsActive = true;
 
         if (this.props.mfaRequired) {
             this.props.history.push('/mfa/setup');
@@ -86,8 +85,6 @@ export default class NeedsTeam extends React.Component {
         const webapp = getWebappConnector();
         if (webapp) {
             webapp.on('updateUserActivityStatus', (userIsActive) => {
-                this.userIsActive = userIsActive;
-
                 // ping the server if the desktop app reports the user is still active
                 if (this.props.currentUser && userIsActive === true) {
                     // a hacky way to keep the user's status as online; will not clear a status of away
