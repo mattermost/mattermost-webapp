@@ -54,7 +54,7 @@ export default class GroupsList extends React.PureComponent {
 
     closeFilters = (e) => {
         const filtersNode = document.getElementById('group-filters');
-        if (filtersNode.contains(e.target) || (e.target.parentNode && e.target.parentNode.tagName === 'g')) {
+        if (!filtersNode || filtersNode.contains(e.target) || (e.target.parentNode && e.target.parentNode.tagName === 'g')) {
             return;
         }
         this.setState({showFilters: false});
