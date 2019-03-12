@@ -41,7 +41,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       className="group-description"
     >
       <FormattedMessage
-        defaultMessage="AD/LDAP Linking"
+        defaultMessage="Mattermost Linking"
         id="admin.group_settings.groups_list.mappingHeader"
         values={Object {}}
       />
@@ -143,7 +143,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       className="group-description"
     >
       <FormattedMessage
-        defaultMessage="AD/LDAP Linking"
+        defaultMessage="Mattermost Linking"
         id="admin.group_settings.groups_list.mappingHeader"
         values={Object {}}
       />
@@ -245,7 +245,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       className="group-description"
     >
       <FormattedMessage
-        defaultMessage="AD/LDAP Linking"
+        defaultMessage="Mattermost Linking"
         id="admin.group_settings.groups_list.mappingHeader"
         values={Object {}}
       />
@@ -347,7 +347,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       className="group-description"
     >
       <FormattedMessage
-        defaultMessage="AD/LDAP Linking"
+        defaultMessage="Mattermost Linking"
         id="admin.group_settings.groups_list.mappingHeader"
         values={Object {}}
       />
@@ -448,7 +448,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       className="group-description"
     >
       <FormattedMessage
-        defaultMessage="AD/LDAP Linking"
+        defaultMessage="Mattermost Linking"
         id="admin.group_settings.groups_list.mappingHeader"
         values={Object {}}
       />
@@ -587,7 +587,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       className="group-description"
     >
       <FormattedMessage
-        defaultMessage="AD/LDAP Linking"
+        defaultMessage="Mattermost Linking"
         id="admin.group_settings.groups_list.mappingHeader"
         values={Object {}}
       />
@@ -831,7 +831,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       className="group-description"
     >
       <FormattedMessage
-        defaultMessage="AD/LDAP Linking"
+        defaultMessage="Mattermost Linking"
         id="admin.group_settings.groups_list.mappingHeader"
         values={Object {}}
       />
@@ -1075,7 +1075,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       className="group-description"
     >
       <FormattedMessage
-        defaultMessage="AD/LDAP Linking"
+        defaultMessage="Mattermost Linking"
         id="admin.group_settings.groups_list.mappingHeader"
         values={Object {}}
       />
@@ -1214,7 +1214,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       className="group-description"
     >
       <FormattedMessage
-        defaultMessage="AD/LDAP Linking"
+        defaultMessage="Mattermost Linking"
         id="admin.group_settings.groups_list.mappingHeader"
         values={Object {}}
       />
@@ -1317,7 +1317,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       className="group-description"
     >
       <FormattedMessage
-        defaultMessage="AD/LDAP Linking"
+        defaultMessage="Mattermost Linking"
         id="admin.group_settings.groups_list.mappingHeader"
         values={Object {}}
       />

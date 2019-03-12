@@ -152,6 +152,7 @@ export default class DialogElement extends React.PureComponent {
                     helpText={helpTextContent}
                     placeholder={placeholder}
                     value={this.state.value}
+                    listStyle={'bottom'}
                 />
             );
         }

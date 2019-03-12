@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import SingleImageView from 'components/single_image_view/single_image_view.jsx';
+import SizeAwareImage from 'components/size_aware_image';
 
 describe('components/SingleImageView', () => {
     const baseProps = {
@@ -55,31 +56,6 @@ describe('components/SingleImageView', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call setViewPortWidth on handleResize', () => {
-        const wrapper = shallow(
-            <SingleImageView {...baseProps}/>
-        );
-
-        const instance = wrapper.instance();
-        instance.setViewPortWidth = jest.fn();
-
-        instance.handleResize();
-        expect(instance.setViewPortWidth).toHaveBeenCalledTimes(1);
-    });
-
-    test('should match state on setViewPortWidth', () => {
-        const wrapper = shallow(
-            <SingleImageView {...baseProps}/>
-        );
-
-        wrapper.setState({viewPortWidth: 300});
-        const instance = wrapper.instance();
-        instance.viewPort = {getBoundingClientRect: () => ({width: 500})};
-        instance.setViewPortWidth();
-
-        expect(wrapper.state('viewPortWidth')).toEqual(500);
-    });
-
     test('should match state on handleImageClick', () => {
         const wrapper = shallow(
             <SingleImageView {...baseProps}/>
@@ -116,5 +92,15 @@ describe('components/SingleImageView', () => {
         wrapper.instance().toggleEmbedVisibility();
         expect(props.actions.toggleEmbedVisibility).toHaveBeenCalledTimes(1);
         expect(props.actions.toggleEmbedVisibility).toBeCalledWith('original_post_id');
+    });
+
+    test('should set loaded state on callback of onImageLoaded on SizeAwareImage component', () => {
+        const wrapper = shallow(
+            <SingleImageView {...baseProps}/>
+        );
+        expect(wrapper.state('loaded')).toEqual(false);
+        wrapper.find(SizeAwareImage).prop('onImageLoaded')();
+        expect(wrapper.state('loaded')).toEqual(true);
+        expect(wrapper).toMatchSnapshot();
     });
 });

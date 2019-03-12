@@ -110,10 +110,14 @@ export default class ShowMore extends React.PureComponent {
 
             attachmentTextOverflow = (
                 <div className='post-collapse'>
-                    <div className={collapseGradientClass}/>
+                    <div
+                        id='collapseGradient'
+                        className={collapseGradientClass}
+                    />
                     <div className={collapseShowMoreClass}>
                         <div className='post-collapse__show-more-line'/>
                         <button
+                            id='showMoreButton'
                             className='post-collapse__show-more-button'
                             onClick={this.toggleCollapse}
                         >

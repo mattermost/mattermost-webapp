@@ -4,23 +4,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import SizeAwareImage from 'components/size_aware_image';
 import {postListScrollChange} from 'actions/global_actions.jsx';
 import * as CommonUtils from 'utils/commons.jsx';
 import {PostTypes} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
 import {getImageSrc, isSystemMessage} from 'utils/post_utils.jsx';
-import {getFileDimensionsForDisplay} from 'utils/file_utils';
-
-const MAX_DIMENSIONS_LARGE_IMAGE = {
-    maxHeight: 200,
-    maxWidth: 400,
-};
-
-const MAX_DIMENSIONS_SMALL_IMAGE = {
-    maxHeight: 80,
-    maxWidth: 95,
-};
 
 const DIMENSIONS_NEAREST_POINT_IMAGE = {
     height: 80,
@@ -77,7 +67,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         const hasLargeImage = metadata && metadata.images && metadata.images[imageUrl] && imageUrl ? this.hasLargeImage(metadata.images[imageUrl]) : false;
 
         this.state = {
-            imageLoaded: Boolean(metadata),
             hasLargeImage,
             removePreview,
             imageUrl,
@@ -88,9 +77,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         this.mounted = true;
         if (!this.props.post.metadata) {
             this.fetchData(this.props.link);
-            if (this.state.imageUrl) {
-                this.loadImage(this.state.imageUrl);
-            }
         }
     }
 
@@ -115,12 +101,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
         if (nextProps.link !== this.props.link && !nextProps.post.metadata) {
             this.fetchData(nextProps.link);
-        }
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (!this.props.post.metadata && (this.state.imageUrl !== prevState.imageUrl)) {
-            this.loadImage(this.state.imageUrl);
         }
     }
 
@@ -149,24 +129,17 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         return hasLargeImage;
     }
 
-    onImageLoad = (image) => {
+    onImageLoad = ({width, height}) => {
         if (!this.mounted) {
             return;
         }
 
-        const hasLargeImage = this.hasLargeImage({width: image.target.naturalWidth, height: image.target.naturalHeight});
+        const hasLargeImage = this.hasLargeImage({width, height});
 
         this.setState({
             hasLargeImage,
-            imageLoaded: true,
         });
         postListScrollChange();
-    }
-
-    loadImage(src) {
-        const img = new Image();
-        img.onload = this.onImageLoad;
-        img.src = src;
     }
 
     imageToggleAnchorTag(imageUrl) {
@@ -183,54 +156,44 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         return null;
     }
 
-    wrapInSmallImageContainer(imageElement) {
-        return (
-            <div className='attachment__image__container--opengraph'>
-                {imageElement}
-            </div>
-        );
+    loadLargeImage(imageUrl) {
+        if (imageUrl && this.props.isEmbedVisible && this.state.hasLargeImage) {
+            const {metadata} = this.props.post;
+            let imagesDimensions = null;
+            if (metadata && metadata.images && metadata.images[imageUrl]) {
+                imagesDimensions = metadata.images[imageUrl];
+            }
+            return (
+                <SizeAwareImage
+                    className='attachment__image attachment__image--opengraph large_image'
+                    src={imageUrl}
+                    dimensions={imagesDimensions}
+                    onImageLoaded={this.onImageLoad}
+                />
+            );
+        }
+        return null;
     }
 
-    imageTag(imageUrl, renderingForLargeImage = false) {
-        let element = null;
-        const {metadata} = this.props.post;
-
-        if (
-            imageUrl && renderingForLargeImage === this.state.hasLargeImage &&
-            (!renderingForLargeImage || (renderingForLargeImage && this.props.isEmbedVisible))
-        ) {
-            if (this.state.imageLoaded) {
-                const imagesDimensions = metadata && metadata.images && metadata.images[imageUrl];
-
-                if (renderingForLargeImage) {
-                    const imageDimensions = getFileDimensionsForDisplay(imagesDimensions, MAX_DIMENSIONS_LARGE_IMAGE);
-
-                    element = (
-                        <img
-                            className={'attachment__image attachment__image--opengraph large_image'}
-                            src={imageUrl}
-                            {...imageDimensions}
-                        />
-                    );
-                } else {
-                    const imageDimensions = getFileDimensionsForDisplay(imagesDimensions, MAX_DIMENSIONS_SMALL_IMAGE);
-                    element = this.wrapInSmallImageContainer(
-                        <img
-                            className={'attachment__image attachment__image--opengraph'}
-                            src={imageUrl}
-                            {...imageDimensions}
-                        />
-                    );
-                }
-            } else if (renderingForLargeImage) {
-                element = <img className={'attachment__image attachment__image--opengraph loading large_image'}/>;
-            } else {
-                element = this.wrapInSmallImageContainer(
-                    <img className={'attachment__image attachment__image--opengraph loading '}/>
-                );
+    loadSmallImage(imageUrl) {
+        if (imageUrl && !this.state.hasLargeImage) {
+            const {metadata} = this.props.post;
+            let imagesDimensions = null;
+            if (metadata && metadata.images && metadata.images[imageUrl]) {
+                imagesDimensions = metadata.images[imageUrl];
             }
+            return (
+                <div className='attachment__image__container--opengraph'>
+                    <SizeAwareImage
+                        className='attachment__image attachment__image--opengraph'
+                        src={imageUrl}
+                        dimensions={imagesDimensions}
+                        onImageLoaded={this.onImageLoad}
+                    />
+                </div>
+            );
         }
-        return element;
+        return null;
     }
 
     truncateText(text) {
@@ -309,7 +272,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                                 {' '}
                                 {this.imageToggleAnchorTag(imageUrl)}
                             </div>
-                            {this.imageTag(imageUrl, true)}
+                            {this.loadLargeImage(imageUrl)}
                         </div>
                     </div>
                 </React.Fragment>
@@ -345,7 +308,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                             </h1>
                             {body}
                         </div>
-                        {this.imageTag(imageUrl, false)}
+                        {this.loadSmallImage(imageUrl)}
                     </div>
                 </div>
             </div>

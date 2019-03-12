@@ -52,7 +52,7 @@ export default class EmojiListItem extends React.Component {
             deleteButton = (
                 <TeamPermissionGate
                     teamId={this.props.currentTeam.id}
-                    permissions={[Permissions.MANAGE_EMOJIS]}
+                    permissions={[Permissions.DELETE_EMOJIS]}
                 >
                     <DeleteEmoji onDelete={this.handleDelete}/>
                 </TeamPermissionGate>
@@ -61,11 +61,11 @@ export default class EmojiListItem extends React.Component {
             deleteButton = (
                 <TeamPermissionGate
                     teamId={this.props.currentTeam.id}
-                    permissions={[Permissions.MANAGE_EMOJIS]}
+                    permissions={[Permissions.DELETE_EMOJIS]}
                 >
                     <TeamPermissionGate
                         teamId={this.props.currentTeam.id}
-                        permissions={[Permissions.MANAGE_OTHERS_EMOJIS]}
+                        permissions={[Permissions.DELETE_OTHERS_EMOJIS]}
                     >
                         <DeleteEmoji onDelete={this.handleDelete}/>
                     </TeamPermissionGate>

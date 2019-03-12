@@ -85,7 +85,7 @@ export default class GroupDetails extends React.PureComponent {
     addTeams = (teams) => {
         const promises = [];
         for (const team of teams) {
-            promises.push(this.props.actions.link(this.props.groupID, team.id, Groups.SYNCABLE_TYPE_TEAM, {can_leave: true, auto_add: true}));
+            promises.push(this.props.actions.link(this.props.groupID, team.id, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true}));
         }
         return Promise.all(promises).finally(() => this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_TEAM));
     }
@@ -93,7 +93,7 @@ export default class GroupDetails extends React.PureComponent {
     addChannels = async (channels) => {
         const promises = [];
         for (const channel of channels) {
-            promises.push(this.props.actions.link(this.props.groupID, channel.id, Groups.SYNCABLE_TYPE_CHANNEL, {can_leave: true, auto_add: true}));
+            promises.push(this.props.actions.link(this.props.groupID, channel.id, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true}));
         }
         return Promise.all(promises).finally(() => this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_CHANNEL));
     }
@@ -139,7 +139,7 @@ export default class GroupDetails extends React.PureComponent {
                     titleId={t('admin.group_settings.group_detail.groupTeamsAndChannelsTitle')}
                     titleDefault='Team and Channel Membership'
                     subtitleId={t('admin.group_settings.group_detail.groupTeamsAndChannelsDescription')}
-                    subtitleDefault='Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below, but not to the group specifically.'
+                    subtitleDefault='Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below.'
                     button={(
                         <div className='group-profile-add-menu'>
                             <MenuWrapper>
@@ -156,7 +156,7 @@ export default class GroupDetails extends React.PureComponent {
                                         text={localizeMessage('admin.group_settings.group_details.add_team', 'Add Team')}
                                     />
                                     <MenuItemAction
-                                        onClick={this.openAddTeam}
+                                        onClick={this.openAddChannel}
                                         text={localizeMessage('admin.group_settings.group_details.add_channel', 'Add Channel')}
                                     />
                                 </Menu>

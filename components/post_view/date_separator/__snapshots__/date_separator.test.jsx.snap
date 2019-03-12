@@ -1,0 +1,174 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/DateSeparator should render date with timezone enabled 1`] = `
+<DateSeparator
+  date={2018-01-12T20:15:13.000Z}
+  enableTimezone={true}
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "onError": [Function],
+      "textComponent": "span",
+      "timeZone": "Etc/UTC",
+    }
+  }
+  timeZone="Australia/Sydney"
+>
+  <div
+    className="date-separator"
+  >
+    <hr
+      className="separator__hr"
+    />
+    <div
+      className="separator__text"
+    >
+      <FormattedDate
+        day="2-digit"
+        month="short"
+        timeZone="Australia/Sydney"
+        value={2018-01-12T20:15:13.000Z}
+        weekday="short"
+        year="numeric"
+      >
+        <span>
+          Sat, Jan 13, 2018
+        </span>
+      </FormattedDate>
+    </div>
+  </div>
+</DateSeparator>
+`;
+
+exports[`components/post_view/DateSeparator should render date without timezone 1`] = `
+<DateSeparator
+  date={2018-01-12T12:15:13.000Z}
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "onError": [Function],
+      "textComponent": "span",
+      "timeZone": "Etc/UTC",
+    }
+  }
+>
+  <div
+    className="date-separator"
+  >
+    <hr
+      className="separator__hr"
+    />
+    <div
+      className="separator__text"
+    >
+      <FormattedDate
+        day="2-digit"
+        month="short"
+        value={2018-01-12T12:15:13.000Z}
+        weekday="short"
+        year="numeric"
+      >
+        <span>
+          Fri, Jan 12, 2018
+        </span>
+      </FormattedDate>
+    </div>
+  </div>
+</DateSeparator>
+`;
+
+exports[`components/post_view/DateSeparator should render date without timezone enabled 1`] = `
+<DateSeparator
+  date={2018-01-12T12:15:13.000Z}
+  enableTimezone={false}
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "onError": [Function],
+      "textComponent": "span",
+      "timeZone": "Etc/UTC",
+    }
+  }
+  timeZone="Australia/Sydney"
+>
+  <div
+    className="date-separator"
+  >
+    <hr
+      className="separator__hr"
+    />
+    <div
+      className="separator__text"
+    >
+      <FormattedDate
+        day="2-digit"
+        month="short"
+        value={2018-01-12T12:15:13.000Z}
+        weekday="short"
+        year="numeric"
+      >
+        <span>
+          Fri, Jan 12, 2018
+        </span>
+      </FormattedDate>
+    </div>
+  </div>
+</DateSeparator>
+`;

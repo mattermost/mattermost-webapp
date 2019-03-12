@@ -156,7 +156,8 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         Array [
           "manage_slash_commands",
           "manage_oauth",
-          "manage_webhooks",
+          "manage_incoming_webhooks",
+          "manage_outgoing_webhooks",
         ]
       }
       teamId="someteamid"
