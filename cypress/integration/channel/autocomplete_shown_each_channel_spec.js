@@ -15,7 +15,6 @@ describe('Identical Message Drafts', () => {
     });
 
     it('M14432 shows Autocomplete in each channel', () => {
-
         // 1. Go to test Channel A on sidebar
         cy.get('#sidebarItem_town-square').scrollIntoView();
         cy.get('#sidebarItem_town-square').should('be.visible').click();
@@ -23,13 +22,12 @@ describe('Identical Message Drafts', () => {
         // * Validate if the channel has been opened
         cy.url().should('include', '/ad-1/channels/town-square');
 
-
         // 2. Start a draft in Channel A containing just "@"
         cy.get('#post_textbox').scrollIntoView();
         cy.get('#post_textbox').clear().type('@');
 
         // * At mention auto-complete appears in Channel A
-        cy.get('#suggestionList').should('be.visible')
+        cy.get('#suggestionList').should('be.visible');
 
         // 3. Go to test Channel B on sidebar
         cy.get('#sidebarItem_ratione-1').scrollIntoView();
@@ -52,7 +50,6 @@ describe('Identical Message Drafts', () => {
         // * Validate if the channel has been opened
         // * At mention auto-complete is preserved in Channel A
         cy.url().should('include', '/ad-1/channels/town-square');
-        cy.get('#suggestionList').should('be.visible')
-
+        cy.get('#suggestionList').should('be.visible');
     });
 });
