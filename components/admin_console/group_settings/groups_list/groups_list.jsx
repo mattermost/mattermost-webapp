@@ -13,6 +13,8 @@ import PreviousIcon from 'components/icon/previous_icon';
 import SearchIcon from 'components/svg/search_icon';
 import CheckboxCheckedIcon from 'components/svg/checkbox_checked_icon.jsx';
 
+import {Constants} from 'utils/constants';
+
 const LDAP_GROUPS_PAGE_SIZE = 200;
 
 const FILTER_STATE_SEARCH_KEY_MAPPING = {
@@ -241,7 +243,7 @@ export default class GroupsList extends React.PureComponent {
     handleGroupSearchKeyUp = (e) => {
         const {key} = e;
         const {searchString} = this.state;
-        if (key === 'Enter') {
+        if (key === Constants.KeyCodes.ENTER[0]) {
             this.searchGroups();
         }
         const newState = {};
