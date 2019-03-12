@@ -1,7 +1,7 @@
 @charset 'UTF-8';
 
 .select-suggestion-container {
-    position: relative;
+    position: static;
     margin: 8px 8px 0 0;
 
     &:hover {
@@ -19,9 +19,8 @@
         text-rendering: auto;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        top: 8px;
+        bottom: 22px;
         position: absolute;
-        right: 1rem;
         opacity: .4;
         font-size: 16px;
         pointer-events: none;

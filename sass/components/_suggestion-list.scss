@@ -4,6 +4,7 @@
     @extend %popover-box-shadow;
     width: 100%;
     z-index: 100;
+    position: absolute;
 
     .suggestion-list__item {
         &:hover {
@@ -26,12 +27,10 @@
 
 .suggestion-list--top {
     bottom: 100%;
-    position: absolute;
 }
 
 .suggestion-list--bottom {
     height: 0;
-    position: relative;
 }
 
 .suggestion-list__content {
@@ -63,11 +62,11 @@
 }
 
 .suggestion-list__content--top {
-    bottom: 0;
+    bottom: -8px;
     position: absolute;
 }
 
-.suggestion-list--bottom {
+.suggestion-list__content--bottom {
     position: relative;
 }
 

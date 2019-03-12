@@ -75,15 +75,31 @@
         .select-suggestion-container {
             margin: 0;
 
+            .suggestion-list--top {
+                height: 0;
+                bottom: initial;
+            }
+
+            .suggestion-list {
+                width: calc(100% - 50px);                
+
+                .suggestion-list__content--top {
+                    position: relative;
+                    bottom: initial;
+                    transform: translateY(calc(-100% - 36px));
+                }
+            }
+
             .form-control {
                 height: 36px;
                 padding: 8px 12px;
             }
 
             &:after {
-                top: 9px;
-                right: 12px;
+                left: calc(100% - 27px);
+                bottom: 27px;
                 font-size: 20px;
+                position: relative;
             }
         }
 
