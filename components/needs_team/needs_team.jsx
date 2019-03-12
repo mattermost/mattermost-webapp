@@ -84,10 +84,10 @@ export default class NeedsTeam extends React.Component {
 
         // add listeners for events emitted by the desktop
         const webapp = getWebappConnector();
-        if(webapp) {
-            webapp.on('updateUserActivityStatus', userIsActive => {
+        if (webapp) {
+            webapp.on('updateUserActivityStatus', (userIsActive) => {
                 this.userIsActive = userIsActive;
-    
+
                 // ping the server if the desktop app reports the user is still active
                 if (this.props.currentUser && userIsActive === true) {
                     // a hacky way to keep the user's status as online; will not clear a status of away
