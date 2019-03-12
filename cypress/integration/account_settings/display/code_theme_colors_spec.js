@@ -38,7 +38,7 @@ function navigateToThemeSettings() {
     cy.get('.section-max').scrollIntoView();
 }
 
-describe('M14319 Display Settings > Custom Theme > Code Theme', () => {
+describe('AS14319 Theme Colors - Code', () => {
     before(() => {
         // 1. Login and navigate to the app
         cy.login('user-1');
