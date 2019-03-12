@@ -48,7 +48,7 @@ export default class GroupsList extends React.PureComponent {
     closeFilters = (e) => {
         const filtersNode = document.getElementById('group-filters');
         if (filtersNode.contains(e.target) || (e.target.parentNode && e.target.parentNode.tagName === 'g')) {
-            return null;
+            return;
         }
         this.setState({showFilters: false});
         document.removeEventListener('click', this.closeFilters);
