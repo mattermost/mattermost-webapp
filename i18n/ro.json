@@ -1594,7 +1594,7 @@
   "channel_modal.purposeEx": "De exemplu: \"Un canal pentru a trimite bug-uri și îmbunătățiri\"",
   "channel_modal.type": "Tip",
   "channel_notifications.allActivity": "Pentru toată activitatea",
-  "channel_notifications.globalDefault": "Implicit la nivel global ({notifyLevel})",
+  "channel_notifications.globalDefault": "Implicit la nivel global",
   "channel_notifications.ignoreChannelMentions": "Ignore mentions for @channel, @here and @all",
   "channel_notifications.muteChannel.help": "Blocarea dezactivează notificările desktop, e-mail și împingere pentru acest canal. Canalul nu va fi marcat ca necitit dacă nu sunteți menționat.",
   "channel_notifications.muteChannel.off.title": "Închis",

@@ -1594,7 +1594,7 @@
   "channel_modal.purposeEx": "E.g.: \"A channel to file bugs and improvements\"",
   "channel_modal.type": "Type",
   "channel_notifications.allActivity": "Voor alle activiteiten",
-  "channel_notifications.globalDefault": "Globale standaard ({notifyLevel})",
+  "channel_notifications.globalDefault": "Globale standaard",
   "channel_notifications.ignoreChannelMentions": "Ignore mentions for @channel, @here and @all",
   "channel_notifications.muteChannel.help": "Muting turns off desktop, email and push notifications for this channel. The channel will not be marked as unread unless you're mentioned.",
   "channel_notifications.muteChannel.off.title": "Uit",

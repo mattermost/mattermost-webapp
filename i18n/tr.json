@@ -1594,7 +1594,7 @@
   "channel_modal.purposeEx": "Örnek: \"Hatalar ve geliştirmeler kanalı\"",
   "channel_modal.type": "Tür",
   "channel_notifications.allActivity": "Tüm işlemler için",
-  "channel_notifications.globalDefault": "Genel varsayılan ({notifyLevel})",
+  "channel_notifications.globalDefault": "Genel varsayılan",
   "channel_notifications.ignoreChannelMentions": "Ignore mentions for @channel, @here and @all",
   "channel_notifications.muteChannel.help": "Bildirimler kapatıldığında bu kanal için masaüstü, e-posta ve anında bildirimler alınmaz. Siz anılmadıkça kanal okunmamış olarak işaretlenmeyecek.",
   "channel_notifications.muteChannel.off.title": "Kapat",

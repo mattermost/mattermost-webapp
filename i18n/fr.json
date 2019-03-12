@@ -1594,7 +1594,7 @@
   "channel_modal.purposeEx": "Ex. : « Un canal pour rapporter des bogues ou des améliorations »",
   "channel_modal.type": "Type",
   "channel_notifications.allActivity": "Pour toute activité",
-  "channel_notifications.globalDefault": "Par défaut (général) ({notifyLevel})",
+  "channel_notifications.globalDefault": "Par défaut (général)",
   "channel_notifications.ignoreChannelMentions": "Ignore mentions for @channel, @here and @all",
   "channel_notifications.muteChannel.help": "Mettre en sourdine supprime toutes les notifications de bureau, par e-mail et push pour ce canal. Ce canal ne sera pas marqué en non lu à moins que vous soyez mentionné.",
   "channel_notifications.muteChannel.off.title": "Désactivé",

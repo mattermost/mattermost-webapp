@@ -1594,7 +1594,7 @@
   "channel_modal.purposeEx": "Ex.: \"Um canal para arquivar bugs e melhorias\"",
   "channel_modal.type": "Tipo",
   "channel_notifications.allActivity": "Para todas as atividades",
-  "channel_notifications.globalDefault": "Global padrão ({notifyLevel})",
+  "channel_notifications.globalDefault": "Global padrão",
   "channel_notifications.ignoreChannelMentions": "Ignore mentions for @channel, @here and @all",
   "channel_notifications.muteChannel.help": "Silenciar desativa as notificações de área de trabalho, e-mail e push para este canal. O canal não será marcado como não lido, a menos que você seja mencionado.",
   "channel_notifications.muteChannel.off.title": "Desligado",

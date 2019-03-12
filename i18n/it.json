@@ -1594,7 +1594,7 @@
   "channel_modal.purposeEx": "Es.: \"Un canale per segnalare bug e miglioramenti\"",
   "channel_modal.type": "Tipo",
   "channel_notifications.allActivity": "Per tutte le attività",
-  "channel_notifications.globalDefault": "Default Globale ({notifyLevel})",
+  "channel_notifications.globalDefault": "Default Globale",
   "channel_notifications.ignoreChannelMentions": "Ignore mentions for @channel, @here and @all",
   "channel_notifications.muteChannel.help": "Silenziando si disabilitano le notifiche desktop, email e push per questo canale. Questo canale non verrà segnato con non letto a meno che tu non venga citato.",
   "channel_notifications.muteChannel.off.title": "Disattivo",
