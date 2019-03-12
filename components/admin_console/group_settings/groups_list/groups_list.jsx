@@ -202,6 +202,10 @@ export default class GroupsList extends React.PureComponent {
         });
     }
 
+    regex = (str) => {
+        return new RegExp(`(${str})`, 'gi');
+    }
+
     searchGroups = () => {
         document.removeEventListener('click', this.closeFilters);
 
@@ -211,7 +215,7 @@ export default class GroupsList extends React.PureComponent {
         let opts = {q: ''};
 
         Object.entries(FILTER_STATE_SEARCH_KEY_MAPPING).forEach(([key, value]) => {
-            const re = new RegExp(`(${value.filter})`, 'gi');
+            const re = this.regex(value.filter);
             if (re.test(searchString)) {
                 newState[key] = true;
                 q = q.replace(re, '');
@@ -242,8 +246,7 @@ export default class GroupsList extends React.PureComponent {
         }
         const newState = {};
         Object.entries(FILTER_STATE_SEARCH_KEY_MAPPING).forEach(([k, value]) => {
-            const re = new RegExp(`(${value.filter})`, 'gi');
-            if (!re.test(searchString)) {
+            if (!this.regex(value.filter).test(searchString)) {
                 newState[k] = false;
             }
         });
@@ -253,7 +256,7 @@ export default class GroupsList extends React.PureComponent {
     newSearchString = (searchString, stateKey, checked) => {
         let newSearchString = searchString;
         const {filter} = FILTER_STATE_SEARCH_KEY_MAPPING[stateKey];
-        const re = new RegExp(`(${filter})`, 'gi');
+        const re = this.regex(filter);
         const stringFilterPresent = re.test(searchString);
 
         if (stringFilterPresent && !checked) {
