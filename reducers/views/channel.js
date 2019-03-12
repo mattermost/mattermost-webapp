@@ -108,6 +108,13 @@ function keepChannelIdAsUnread(state = null, action) {
         return null;
     }
 
+    case ActionTypes.RECEIVED_FOCUSED_POST: {
+        if (state && action.channelId !== state.id) {
+            return null;
+        }
+        return state;
+    }
+
     case UserTypes.LOGOUT_SUCCESS:
         return null;
     default:
