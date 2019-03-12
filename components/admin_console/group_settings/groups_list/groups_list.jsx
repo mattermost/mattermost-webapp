@@ -15,6 +15,13 @@ import CheckboxCheckedIcon from 'components/svg/checkbox_checked_icon.jsx';
 
 const LDAP_GROUPS_PAGE_SIZE = 200;
 
+const FILTER_STATE_SEARCH_KEY_MAPPING = {
+    filterIsConfigured: {filter: 'is:configured', option: {is_configured: true}},
+    filterIsUnconfigured: {filter: 'is:notconfigured', option: {is_configured: false}},
+    filterIsLinked: {filter: 'is:linked', option: {is_linked: true}},
+    filterIsUnlinked: {filter: 'is:notlinked', option: {is_linked: false}},
+};
+
 export default class GroupsList extends React.PureComponent {
     static propTypes = {
         groups: PropTypes.arrayOf(PropTypes.object),
@@ -199,35 +206,30 @@ export default class GroupsList extends React.PureComponent {
     searchGroups = () => {
         document.removeEventListener('click', this.closeFilters);
         this.setState({loading: true, showFilters: false});
-        const {searchString, filterIsLinked, filterIsUnlinked, filterIsConfigured, filterIsUnconfigured} = this.state;
+        let {searchString} = this.state;
 
-        const opts = {q: searchString};
-        if (filterIsLinked) {
-            opts.is_linked = true;
-        }
-        if (filterIsUnlinked) {
-            opts.is_linked = false;
-        }
-        if (filterIsConfigured) {
-            opts.is_configured = true;
-        }
-        if (filterIsUnconfigured) {
-            opts.is_configured = false;
-        }
+        const newState = {...this.state};
+        let q = searchString;
+        let opts = {q: ''};
+
+        Object.entries(FILTER_STATE_SEARCH_KEY_MAPPING).forEach(([key, value]) => {
+            const re = new RegExp(`(${value.filter})`, 'gi');
+            if (re.test(searchString)) {
+                newState[key] = true;
+                q = q.replace(re, '');
+                opts = Object.assign(opts, value.option);
+            } else if (this.state[key]) {
+                searchString += ' ' + value.filter;
+            }
+        });
+
+        opts.q = q.trim();
+        newState.searchString = searchString;
+        newState.showFilters = false;
+        this.setState(newState);
 
         this.props.actions.getLdapGroups(this.state.page, LDAP_GROUPS_PAGE_SIZE, opts).then(() => {
             this.setState({loading: false});
-        });
-    }
-
-    clearFilters = () => {
-        this.setState({
-            filterIsConfigured: false,
-            filterIsUnconfigured: false,
-            filterIsLinked: false,
-            filterIsUnlinked: false,
-            showFilters: false,
-            searchString: '',
         });
     }
 
@@ -236,6 +238,41 @@ export default class GroupsList extends React.PureComponent {
         if (key === 'Enter') {
             this.searchGroups();
         }
+        const newState = {};
+        Object.entries(FILTER_STATE_SEARCH_KEY_MAPPING).forEach(([k, value]) => {
+            const {searchString} = this.state;
+            const re = new RegExp(`(${value.filter})`, 'gi');
+            if (!re.test(searchString)) {
+                newState[k] = false;
+            }
+        });
+        this.setState(newState);
+    }
+
+    newSearchString = (searchString, stateKey, checked) => {
+        let newSearchString = searchString;
+        const {filter} = FILTER_STATE_SEARCH_KEY_MAPPING[stateKey];
+        const re = new RegExp(`(${filter})`, 'gi');
+        const stringFilterPresent = re.test(searchString);
+
+        if (stringFilterPresent && !checked) {
+            newSearchString = searchString.replace(re, '').trim();
+        }
+
+        if (!stringFilterPresent && checked) {
+            newSearchString += ' ' + filter;
+        }
+
+        return newSearchString.replace(/\s{2,}/g, ' ');
+    }
+
+    handleFilterCheck = (updates) => {
+        let {searchString} = this.state;
+        updates.forEach((item) => {
+            searchString = this.newSearchString(searchString, item[0], item[1]);
+            this.setState({[item[0]]: item[1]});
+        });
+        this.setState({searchString});
     }
 
     renderSearchFilters = () => {
@@ -247,7 +284,7 @@ export default class GroupsList extends React.PureComponent {
                 <div className='filter-row'>
                     <span
                         className={'filter-check ' + (this.state.filterIsLinked ? 'checked' : '')}
-                        onClick={() => this.setState({filterIsLinked: !this.state.filterIsLinked, filterIsUnlinked: false})}
+                        onClick={() => this.handleFilterCheck([['filterIsLinked', !this.state.filterIsLinked], ['filterIsUnlinked', false]])}
                     >
                         {this.state.filterIsLinked && <CheckboxCheckedIcon/>}
                     </span>
@@ -258,24 +295,24 @@ export default class GroupsList extends React.PureComponent {
                         />
                     </span>
                 </div>
-                {/* <div className='filter-row'>
+                <div className='filter-row'>
                     <span
                         className={'filter-check ' + (this.state.filterIsUnlinked ? 'checked' : '')}
-                        onClick={() => this.setState({filterIsUnlinked: !this.state.filterIsUnlinked, filterIsLinked: false})}
+                        onClick={() => this.handleFilterCheck([['filterIsUnlinked', !this.state.filterIsUnlinked], ['filterIsLinked', false]])}
                     >
                         {this.state.filterIsUnlinked && <CheckboxCheckedIcon/>}
                     </span>
                     <span>
                         <FormattedMessage
                             id='admin.group_settings.filters.isUnlinked'
-                            defaultMessage='Is Unlinked'
+                            defaultMessage='Is Not Linked'
                         />
                     </span>
-                </div> */}
+                </div>
                 <div className='filter-row'>
                     <span
                         className={'filter-check ' + (this.state.filterIsConfigured ? 'checked' : '')}
-                        onClick={() => this.setState({filterIsConfigured: !this.state.filterIsConfigured, filterIsUnconfigured: false})}
+                        onClick={() => this.handleFilterCheck([['filterIsConfigured', !this.state.filterIsConfigured], ['filterIsUnconfigured', false]])}
                     >
                         {this.state.filterIsConfigured && <CheckboxCheckedIcon/>}
                     </span>
@@ -286,20 +323,20 @@ export default class GroupsList extends React.PureComponent {
                         />
                     </span>
                 </div>
-                {/* <div className='filter-row'>
+                <div className='filter-row'>
                     <span
                         className={'filter-check ' + (this.state.filterIsUnconfigured ? 'checked' : '')}
-                        onClick={() => this.setState({filterIsUnconfigured: !this.state.filterIsUnconfigured, filterIsConfigured: false})}
+                        onClick={() => this.handleFilterCheck([['filterIsUnconfigured', !this.state.filterIsUnconfigured], ['filterIsConfigured', false]])}
                     >
                         {this.state.filterIsUnconfigured && <CheckboxCheckedIcon/>}
                     </span>
                     <span>
                         <FormattedMessage
                             id='admin.group_settings.filters.isUnconfigured'
-                            defaultMessage='Is Unconfigured'
+                            defaultMessage='Is Not Configured'
                         />
                     </span>
-                </div> */}
+                </div>
                 <a
                     onClick={this.searchGroups}
                     className='btn btn-primary search-groups-btn'
@@ -309,19 +346,24 @@ export default class GroupsList extends React.PureComponent {
                         defaultMessage='Search'
                     />
                 </a>
-                {/* <button
-                    type='button'
-                    className='btn btn-link cancel-filters'
-                    onClick={this.clearFilters}
-                >
-                    <FormattedMessage
-                        id='add_user_to_channel_modal.cancel'
-                        defaultMessage='Cancel'
-                    />
-                </button> */}
             </div>
         );
     }
+
+    resetFiltersAndSearch = () => {
+        this.setState({
+            showFilters: false,
+            filterIsLinked: false,
+            filterIsUnlinked: false,
+            filterIsConfigured: false,
+            filterIsUnconfigured: false,
+            searchString: '',
+            loading: true,
+        });
+        this.props.actions.getLdapGroups(this.state.page, LDAP_GROUPS_PAGE_SIZE, {q: ''}).then(() => {
+            this.setState({loading: false});
+        });
+    };
 
     render = () => {
         const startCount = (this.state.page * LDAP_GROUPS_PAGE_SIZE) + 1;
@@ -349,7 +391,11 @@ export default class GroupsList extends React.PureComponent {
                             aria-hidden='true'
                         />
                         <i
-                            className={'fa fa-caret-down group-filter-caret ' + (this.state.showFilters ? 'hidden' : '')}
+                            className={'fa fa-times-circle group-filter-action ' + (this.state.searchString.length ? '' : 'hidden')}
+                            onClick={this.resetFiltersAndSearch}
+                        />
+                        <i
+                            className={'fa fa-caret-down group-filter-action ' + (this.state.showFilters ? 'hidden' : '')}
                             onClick={() => {
                                 document.addEventListener('click', this.closeFilters);
                                 this.setState({showFilters: true});
