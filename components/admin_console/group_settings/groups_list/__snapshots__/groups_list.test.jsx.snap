@@ -23,7 +23,11 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
         id="searchIcon"
       />
       <i
-        className="fa fa-caret-down group-filter-caret "
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
         onClick={[Function]}
       />
     </div>
@@ -143,7 +147,11 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
         id="searchIcon"
       />
       <i
-        className="fa fa-caret-down group-filter-caret "
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
         onClick={[Function]}
       />
     </div>
@@ -264,7 +272,11 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
         id="searchIcon"
       />
       <i
-        className="fa fa-caret-down group-filter-caret "
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
         onClick={[Function]}
       />
     </div>
@@ -385,7 +397,11 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
         id="searchIcon"
       />
       <i
-        className="fa fa-caret-down group-filter-caret "
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
         onClick={[Function]}
       />
     </div>
@@ -506,7 +522,11 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
         id="searchIcon"
       />
       <i
-        className="fa fa-caret-down group-filter-caret "
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
         onClick={[Function]}
       />
     </div>
@@ -664,7 +684,11 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
         id="searchIcon"
       />
       <i
-        className="fa fa-caret-down group-filter-caret "
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
         onClick={[Function]}
       />
     </div>
@@ -927,7 +951,11 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
         id="searchIcon"
       />
       <i
-        className="fa fa-caret-down group-filter-caret "
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
         onClick={[Function]}
       />
     </div>
@@ -1190,7 +1218,11 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
         id="searchIcon"
       />
       <i
-        className="fa fa-caret-down group-filter-caret "
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
         onClick={[Function]}
       />
     </div>
@@ -1348,7 +1380,11 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
         id="searchIcon"
       />
       <i
-        className="fa fa-caret-down group-filter-caret "
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
         onClick={[Function]}
       />
     </div>
@@ -1470,7 +1506,11 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
         id="searchIcon"
       />
       <i
-        className="fa fa-caret-down group-filter-caret "
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
         onClick={[Function]}
       />
     </div>
