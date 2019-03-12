@@ -44,12 +44,11 @@ export default class GroupsList extends React.PureComponent {
             loading: true,
             page: 0,
             showFilters: false,
-            filterIsLinked: false,
-            filterIsUnlinked: false,
-            filterIsConfigured: false,
-            filterIsUnconfigured: false,
             searchString: '',
         };
+        Object.entries(FILTER_STATE_SEARCH_KEY_MAPPING).forEach(([key]) => {
+            this.state[key] = false;
+        });
     }
 
     closeFilters = (e) => {
@@ -353,15 +352,15 @@ export default class GroupsList extends React.PureComponent {
     }
 
     resetFiltersAndSearch = () => {
-        this.setState({
+        const newState = {
             showFilters: false,
-            filterIsLinked: false,
-            filterIsUnlinked: false,
-            filterIsConfigured: false,
-            filterIsUnconfigured: false,
             searchString: '',
             loading: true,
+        };
+        Object.entries(FILTER_STATE_SEARCH_KEY_MAPPING).forEach(([key]) => {
+            newState[key] = false;
         });
+        this.setState(newState);
         this.props.actions.getLdapGroups(this.state.page, LDAP_GROUPS_PAGE_SIZE, {q: ''}).then(() => {
             this.setState({loading: false});
         });
