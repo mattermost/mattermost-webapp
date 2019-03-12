@@ -12,11 +12,11 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import * as DesktopBridge from 'utils/desktop_bridge';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {makeAsyncComponent} from 'components/async_load';
 import loadBackstageController from 'bundle-loader?lazy!components/backstage';
 import ChannelController from 'components/channel_layout/channel_controller';
+import {getWebappConnector} from 'desktop';
 
 const BackstageController = makeAsyncComponent(loadBackstageController);
 
@@ -82,20 +82,19 @@ export default class NeedsTeam extends React.Component {
 
         const team = this.updateCurrentTeam(this.props);
 
-        DesktopBridge.connect((event, data) => {
-            switch (event) {
-            case 'updateUserActivityStatus':
+        // add listeners for events emitted by the desktop
+        const webapp = getWebappConnector();
+        if(webapp) {
+            webapp.on('updateUserActivityStatus', userIsActive => {
+                this.userIsActive = userIsActive;
+    
                 // ping the server if the desktop app reports the user is still active
-                if (this.props.currentUser && data.userIsActive === true) {
-                    this.userIsActive = true;
-
+                if (this.props.currentUser && userIsActive === true) {
                     // a hacky way to keep the user's status as online; will not clear a status of away
                     this.props.actions.viewChannel('');
-                } else if (data.userIsActive === false) {
-                    this.userIsActive = false;
                 }
-            }
-        });
+            });
+        }
 
         this.state = {
             team,

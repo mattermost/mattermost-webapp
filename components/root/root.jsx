@@ -20,6 +20,7 @@ import BrowserStore from 'stores/browser_store.jsx';
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
+import {initializeDesktopBridge} from 'desktop';
 import 'plugins/export.js';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
@@ -183,6 +184,8 @@ export default class Root extends React.Component {
 
         const afterIntl = () => {
             initializePlugins();
+
+            initializeDesktopBridge();
 
             if (this.props.location.pathname === '/' && this.props.noAccounts) {
                 this.props.history.push('/signup_user_complete');
