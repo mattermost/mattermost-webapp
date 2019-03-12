@@ -115,8 +115,8 @@ export default class DotMenu extends Component {
 
     static getDerivedStateFromProps(props) {
         return {
-            canDelete: PostUtils.canDeletePost(props.post),
-            canEdit: PostUtils.canEditPost(props.post),
+            canDelete: PostUtils.canDeletePost(props.post) && !props.isReadOnly,
+            canEdit: PostUtils.canEditPost(props.post) && !props.isReadOnly,
         };
     }
 
@@ -199,7 +199,9 @@ export default class DotMenu extends Component {
 
     refCallback = (ref) => {
         if (ref) {
-            const {y, height} = ref.rect();
+            const rect = ref.rect();
+            const y = rect.y || rect.top;
+            const height = rect.height;
             const windowHeight = window.innerHeight;
             if ((y + height) > (windowHeight - MENU_BOTTOM_MARGIN)) {
                 this.setState({openUp: true});
@@ -297,6 +299,7 @@ export default class DotMenu extends Component {
                         onClick={this.handlePinMenuItemActivated}
                     />
                     <MenuItemAction
+                        id={`delete_post_${this.props.post.id}`}
                         show={this.state.canDelete}
                         text={Utils.localizeMessage('post_info.del', 'Delete')}
                         onClick={this.handleDeleteMenuItemActivated}

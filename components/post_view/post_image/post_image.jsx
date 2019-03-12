@@ -88,7 +88,7 @@ export default class PostImage extends React.PureComponent {
                     src={PostUtils.getImageSrc(this.props.link, this.props.hasImageProxy)}
                     dimensions={this.props.dimensions}
                     showLoader={true}
-                    onHeightReceived={this.handleLoadComplete}
+                    onImageLoaded={this.handleLoadComplete}
                     onImageLoadFail={this.handleLoadError}
                     onClick={this.onImageClick}
                 />

@@ -5,7 +5,7 @@ import {Constants} from 'utils/constants.jsx';
 const getPreviousTeamIdKey = (userId) => ['user_prev_team', userId].join(':');
 const getPreviousChannelNameKey = (userId, teamId) => ['user_team_prev_channel', userId, teamId].join(':');
 const getPenultimateChannelNameKey = (userId, teamId) => ['user_team_penultimate_channel', userId, teamId].join(':');
-const getPreviousRecentEmojisKey = (userId) => ['recent_emojis', userId].join(':');
+const getRecentEmojisKey = (userId) => ['recent_emojis', userId].join(':');
 
 // LocalStorageStore exposes an interface for accessing entries in the localStorage.
 //
@@ -37,12 +37,19 @@ class LocalStorageStoreClass {
         localStorage.setItem(getPreviousTeamIdKey(userId), teamId);
     }
 
-    getPreviousRecentEmojis(userId) {
-        return localStorage.getItem(getPreviousRecentEmojisKey(userId));
+    getRecentEmojis(userId) {
+        const recentEmojis = localStorage.getItem(getRecentEmojisKey(userId));
+        if (!recentEmojis) {
+            return null;
+        }
+
+        return JSON.parse(recentEmojis);
     }
 
-    setPreviousRecentEmojis(userId, recentEmojis) {
-        localStorage.setItem(getPreviousRecentEmojisKey(userId), recentEmojis);
+    setRecentEmojis(userId, recentEmojis = []) {
+        if (recentEmojis.length) {
+            localStorage.setItem(getRecentEmojisKey(userId), JSON.stringify(recentEmojis));
+        }
     }
 
     setWasLoggedIn(wasLoggedIn) {

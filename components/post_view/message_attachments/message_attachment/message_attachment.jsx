@@ -60,7 +60,7 @@ export default class MessageAttachment extends React.PureComponent {
         };
 
         this.imageProps = {
-            onHeightReceived: this.handleHeightReceived,
+            onImageLoaded: this.handleHeightReceived,
         };
     }
 
@@ -72,14 +72,14 @@ export default class MessageAttachment extends React.PureComponent {
         this.mounted = false;
     }
 
-    handleHeightReceivedForThumbUrl = (height) => {
+    handleHeightReceivedForThumbUrl = ({height}) => {
         const {attachment} = this.props;
         if (!this.props.imagesMetadata || (this.props.imagesMetadata && !this.props.imagesMetadata[attachment.thumb_url])) {
             this.handleHeightReceived(height);
         }
     }
 
-    handleHeightReceivedForImageUrl = (height) => {
+    handleHeightReceivedForImageUrl = ({height}) => {
         const {attachment} = this.props;
         if (!this.props.imagesMetadata || (this.props.imagesMetadata && !this.props.imagesMetadata[attachment.image_url])) {
             this.handleHeightReceived(height);
@@ -347,7 +347,7 @@ export default class MessageAttachment extends React.PureComponent {
                 <div className='attachment__image-container'>
                     <SizeAwareImage
                         className='attachment__image'
-                        onHeightReceived={this.handleHeightReceivedForImageUrl}
+                        onImageLoaded={this.handleHeightReceivedForImageUrl}
                         src={getImageSrc(attachment.image_url, this.props.hasImageProxy)}
                         dimensions={this.props.imagesMetadata[attachment.image_url]}
                     />
@@ -360,7 +360,7 @@ export default class MessageAttachment extends React.PureComponent {
             thumb = (
                 <div className='attachment__thumb-container'>
                     <SizeAwareImage
-                        onHeightReceived={this.handleHeightReceivedForThumbUrl}
+                        onImageLoaded={this.handleHeightReceivedForThumbUrl}
                         src={getImageSrc(attachment.thumb_url, this.props.hasImageProxy)}
                         dimensions={this.props.imagesMetadata[attachment.thumb_url]}
                     />
