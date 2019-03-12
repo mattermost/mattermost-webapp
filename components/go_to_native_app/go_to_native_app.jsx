@@ -22,22 +22,35 @@ export default class GoNativeApp extends PureComponent {
         let nativeLocation = window.location.href.replace('/vault#', '');
         nativeLocation = nativeLocation.replace(/^(https|http)/, 'mattermost');
 
-        //***** TESTING PURPOSE - REMOVE BEFORE MERGE ****
-        nativeLocation = nativeLocation.replace(/\/\/[^/]+/, '//pre-release.mattermost.com');
-
         safeOpenProtocol(nativeLocation,
             () => this.setState({protocolUnsupported: true}),
-            () => setTimeout(redirectWeb, 3000),
+            () => protocolDetected(),
             () => this.setState({browserUnsupported: true})
         );
 
-        let goNativeAppMessage = null;
+        let goNativeAppMessage = (
+            <a
+                href='/downloads'
+                className='btn btn-primary btn-lg get-app__download'
+            >
+                <FormattedMessage
+                    id='get_app.systemDialogMessage'
+                    defaultMessage='View in Desktop App'
+                />
+            </a>
+        );
+
         if (protocolUnsupported) {
             goNativeAppMessage = (
-                <FormattedMessage
-                    id='get_app.protocolUnsupported'
-                    defaultMessage='Unable to open Mattermost.'
-                />
+                <a
+                    href='/downloads'
+                    className='btn btn-primary btn-lg get-app__download'
+                >
+                    <FormattedMessage
+                        id='get_app.downloadMattermost'
+                        defaultMessage='Download App'
+                    />
+                </a>
             );
         } else if (browserUnsupported) {
             goNativeAppMessage = (
@@ -46,16 +59,9 @@ export default class GoNativeApp extends PureComponent {
                     defaultMessage='This browser does not support opening applications.'
                 />
             );
-        } else {
-            goNativeAppMessage = (
-                <FormattedMessage
-                    id='get_app.systemDialogMessage'
-                    defaultMessage='Please click `Open Mattermost` if you see the system dialog.'
-                />
-            );
         }
 
-        // prompt user to download in case they don't have the mobile app.
+        // prompt user to download in case they don't have the native app.
         return (
             <div className='get-app get-app--android'>
                 <img
@@ -65,43 +71,36 @@ export default class GoNativeApp extends PureComponent {
                 <div className='get-app__launching'>
                     <FormattedMessage
                         id='get_app.launching'
-                        defaultMessage='Launching...'
+                        defaultMessage='Where would you like to view this?'
                     />
-                </div>
-                <div className='get-app__status'>
-                    {goNativeAppMessage}
-                </div>
-                <div>
                     <div className='get-app__alternative'>
                         <FormattedMessage
                             id='get_app.ifNothingPrompts'
-                            defaultMessage='If nothing prompts from browser,'
+                            defaultMessage='You can view it in Mattermost desktop app or continue in the web browser.'
                         />
                     </div>
-                    <a
-                        href='/downloads'
-                        className='btn btn-primary get-app__download'
-                    >
-                        <FormattedMessage
-                            id='get_app.downloadMattermost'
-                            defaultMessage='Download & run Mattermost'
-                        />
-                    </a>
                 </div>
-                <a
-                    href='/'
-                    className='btn btn-secondary get-app__continue'
-                >
-                    <FormattedMessage
-                        id='get_app.continueToBrowser'
-                        defaultMessage='Continue to web site'
-                    />
-                </a>
+                <div>
+                    <div className='get-app__status'>
+                        {goNativeAppMessage}
+                    </div>
+                    <div className='get-app__status'>
+                        <a
+                            href='/'
+                            className='btn btn-default btn-lg get-app__continue'
+                        >
+                            <FormattedMessage
+                                id='get_app.continueToBrowser'
+                                defaultMessage='View In Browser'
+                            />
+                        </a>
+                    </div>
+                </div>
             </div>
         );
     }
 }
 
-function redirectWeb() {
-    window.location = window.location.href.replace('/vault#', '');
+function protocolDetected() {
+    // Code in case everything worked
 }
