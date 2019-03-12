@@ -205,9 +205,8 @@ export default class GroupsList extends React.PureComponent {
 
     searchGroups = () => {
         document.removeEventListener('click', this.closeFilters);
-        this.setState({loading: true, showFilters: false});
-        let {searchString} = this.state;
 
+        let {searchString} = this.state;
         const newState = {...this.state};
         let q = searchString;
         let opts = {q: ''};
@@ -224,7 +223,10 @@ export default class GroupsList extends React.PureComponent {
         });
 
         opts.q = q.trim();
+
         newState.searchString = searchString;
+        newState.showFilters = false;
+        newState.loading = true;
         newState.showFilters = false;
         this.setState(newState);
 
@@ -235,12 +237,12 @@ export default class GroupsList extends React.PureComponent {
 
     handleGroupSearchKeyUp = (e) => {
         const {key} = e;
+        const {searchString} = this.state;
         if (key === 'Enter') {
             this.searchGroups();
         }
         const newState = {};
         Object.entries(FILTER_STATE_SEARCH_KEY_MAPPING).forEach(([k, value]) => {
-            const {searchString} = this.state;
             const re = new RegExp(`(${value.filter})`, 'gi');
             if (!re.test(searchString)) {
                 newState[k] = false;
