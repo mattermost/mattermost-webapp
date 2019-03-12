@@ -12,10 +12,10 @@ import {
     markChannelAsRead,
     selectChannel,
 } from 'mattermost-redux/actions/channels';
-import {logout} from 'mattermost-redux/actions/users';
+import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentTeamId, getTeam, getMyTeams, getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId, getTeam, getMyTeams, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChannelMember as selectMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
@@ -272,7 +272,17 @@ export function emitBrowserFocus(focus) {
 }
 
 export async function redirectUserToDefaultTeam() {
-    const state = getState();
+    let state = getState();
+
+    // Assume we need to load the user if they don't have any team memberships loaded
+    const shouldLoadUser = Utils.isEmptyObject(getTeamMemberships(state));
+
+    if (shouldLoadUser) {
+        await dispatch(loadMe());
+    }
+
+    state = getState();
+
     const userId = getCurrentUserId(state);
     const locale = getCurrentLocale(state);
     const teamId = LocalStorageStore.getPreviousTeamId(userId);
