@@ -444,6 +444,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
         wrapper.find('a.search-groups-btn').first().simulate('click');
         expect(getLdapGroups).toHaveBeenCalledTimes(2);
+        expect(getLdapGroups).toHaveBeenCalledWith(0, 200, {q: 'foo', is_configured: true, is_linked: false});
         expect(wrapper.state().filterIsConfigured).toEqual(true);
         expect(wrapper.state().filterIsUnlinked).toEqual(true);
     });
