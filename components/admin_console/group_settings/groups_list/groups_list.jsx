@@ -72,16 +72,14 @@ export default class GroupsList extends React.PureComponent {
         e.preventDefault();
         const page = this.state.page < 1 ? 0 : this.state.page - 1;
         this.setState({checked: {}, page, loading: true});
-        await this.props.actions.getLdapGroups(page, LDAP_GROUPS_PAGE_SIZE);
-        this.setState({loading: false});
+        this.searchGroups(page);
     }
 
     nextPage = async (e) => {
         e.preventDefault();
         const page = this.state.page + 1;
         this.setState({checked: {}, page, loading: true});
-        await this.props.actions.getLdapGroups(page, LDAP_GROUPS_PAGE_SIZE);
-        this.setState({loading: false});
+        this.searchGroups(page);
     }
 
     onCheckToggle = (key) => {
@@ -208,11 +206,15 @@ export default class GroupsList extends React.PureComponent {
         return new RegExp(`(${str})`, 'gi');
     }
 
-    searchGroups = () => {
+    searchGroups = (page) => {
         document.removeEventListener('click', this.closeFilters);
 
         let {searchString} = this.state;
+
         const newState = {...this.state};
+        delete newState.page;
+        delete newState.checked;
+
         let q = searchString;
         let opts = {q: ''};
 
@@ -235,7 +237,7 @@ export default class GroupsList extends React.PureComponent {
         newState.showFilters = false;
         this.setState(newState);
 
-        this.props.actions.getLdapGroups(this.state.page, LDAP_GROUPS_PAGE_SIZE, opts).then(() => {
+        this.props.actions.getLdapGroups(page, LDAP_GROUPS_PAGE_SIZE, opts).then(() => {
             this.setState({loading: false});
         });
     }
@@ -344,7 +346,7 @@ export default class GroupsList extends React.PureComponent {
                     </span>
                 </div>
                 <a
-                    onClick={this.searchGroups}
+                    onClick={() => this.searchGroups(0)}
                     className='btn btn-primary search-groups-btn'
                 >
                     <FormattedMessage
