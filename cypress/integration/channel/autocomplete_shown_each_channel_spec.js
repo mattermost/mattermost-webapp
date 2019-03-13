@@ -55,7 +55,7 @@ describe('Identical Message Drafts', () => {
     });
 
     after(() => {
-        // 7. Clear channel textbox
+        // 8. Clear channel textbox
         cy.clearPostTextbox('town-square');
         cy.clearPostTextbox('autem-2');
     });
