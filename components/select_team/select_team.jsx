@@ -117,22 +117,24 @@ export default class SelectTeam extends React.Component {
                 </div>
             );
         } else {
-            let openTeamContents = [];
+            let joinableTeamContents = [];
             listableTeams.forEach((listableTeam) => {
-                openTeamContents.push(
-                    <SelectTeamItem
-                        key={'team_' + listableTeam.name}
-                        team={listableTeam}
-                        onTeamClick={this.handleTeamClick}
-                        loading={this.state.loadingTeamId === listableTeam.id}
-                        canJoinPublicTeams={canJoinPublicTeams}
-                        canJoinPrivateTeams={canJoinPrivateTeams}
-                    />
-                );
+                if ((listableTeam.allow_open_invite && canJoinPublicTeams) || (!listableTeam.allow_open_invite && canJoinPrivateTeams)) {
+                    joinableTeamContents.push(
+                        <SelectTeamItem
+                            key={'team_' + listableTeam.name}
+                            team={listableTeam}
+                            onTeamClick={this.handleTeamClick}
+                            loading={this.state.loadingTeamId === listableTeam.id}
+                            canJoinPublicTeams={canJoinPublicTeams}
+                            canJoinPrivateTeams={canJoinPrivateTeams}
+                        />
+                    );
+                }
             });
 
-            if (openTeamContents.length === 0 && (canCreateTeams || canManageSystem)) {
-                openTeamContents = (
+            if (joinableTeamContents.length === 0 && (canCreateTeams || canManageSystem)) {
+                joinableTeamContents = (
                     <div className='signup-team-dir-err'>
                         <div>
                             <FormattedMessage
@@ -142,8 +144,8 @@ export default class SelectTeam extends React.Component {
                         </div>
                     </div>
                 );
-            } else if (openTeamContents.length === 0) {
-                openTeamContents = (
+            } else if (joinableTeamContents.length === 0) {
+                joinableTeamContents = (
                     <div className='signup-team-dir-err'>
                         <div>
                             <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
@@ -175,7 +177,7 @@ export default class SelectTeam extends React.Component {
                         />
                     </h4>
                     <div className='signup-team-all'>
-                        {openTeamContents}
+                        {joinableTeamContents}
                     </div>
                 </div>
             );
