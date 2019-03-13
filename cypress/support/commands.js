@@ -300,3 +300,12 @@ Cypress.Commands.add('removeTeamMember', (teamURL, username) => {
     cy.get('#removeFromTeam').click({force: true});
     cy.get('.modal-header .close').click();
 });
+
+// ***********************************************************
+// Text Box
+// ***********************************************************
+
+Cypress.Commands.add('clearPostTextbox', (channelName = 'town-square') => {
+    cy.get(`#sidebarItem_${channelName}`).click();
+    cy.get('#post_textbox').clear();
+});

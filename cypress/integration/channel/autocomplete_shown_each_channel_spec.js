@@ -14,7 +14,8 @@ describe('Identical Message Drafts', () => {
         cy.visit('/');
 
         // 2. Clear channel textbox
-        cy.get('#post_textbox').clear();
+        cy.clearPostTextbox('town-square');
+        cy.clearPostTextbox('autem-2');
     });
 
     it('M14432 shows Autocomplete in each channel', () => {
@@ -35,10 +36,8 @@ describe('Identical Message Drafts', () => {
 
         // * Validate if the newly navigated channel is open
         // * autocomplete should not be visible in channel
-        // * Clear channel textbox
         cy.url().should('include', '/channels/autem-2');
         cy.get('#suggestionList').should('not.be.visible');
-        cy.get('#post_textbox').clear();
 
         // 6. Start a draft in Channel B containing just "@"
         cy.get('#post_textbox').type('@');
@@ -57,6 +56,8 @@ describe('Identical Message Drafts', () => {
 
     after(() => {
         // 7. Clear channel textbox
-        cy.get('#post_textbox').clear();
+        cy.clearPostTextbox('town-square');
+        cy.clearPostTextbox('autem-2');
     });
 });
+
