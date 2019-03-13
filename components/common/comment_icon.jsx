@@ -67,7 +67,10 @@ export default class CommentIcon extends React.PureComponent {
                         onClick={this.props.handleCommentClick}
                     >
                         {commentCountSpan}
-                        <ReplyIcon className='comment-icon'/>
+                        <ReplyIcon
+                            className='comment-icon'
+                            size='small'
+                        />
                     </button>
                 </div>
             </OverlayTrigger>
