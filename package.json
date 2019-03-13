@@ -29,7 +29,7 @@
     "localforage": "1.7.3",
     "localforage-observable": "1.4.0",
     "marked": "github:mattermost/marked#7ad73fe76f2264c533767f9105e7c7cff0fa34f1",
-    "mattermost-redux": "github:mattermost/mattermost-redux#375eaa8160811653b90fa953c92b7cb38f38e45a",
+    "mattermost-redux": "github:mattermost/mattermost-redux#98856a37d8f5ee6fab2e49f29b2b950d91c11537",
     "moment-timezone": "0.5.23",
     "pdfjs-dist": "2.0.489",
     "perfect-scrollbar": "0.8.1",
