@@ -1705,6 +1705,22 @@
 }
 
 @media screen and (max-width: 550px) {
+    .file-view--single {
+        .file__image {
+            .image-loaded {
+                img {
+                    max-width: 100%;
+                }
+            }
+        }
+    }
+
+    .post {
+        .img-div {
+            max-width: 100%;
+        }
+    }
+
     .app__body {
         .more-modal {
             &.more-system-members {
@@ -1737,12 +1753,6 @@
 @media screen and (max-width: 480px) {
     #user-profile-popover {
         left: 50px !important;
-    }
-
-    .post {
-        .img-div {
-            max-width: 100%;
-        }
     }
 
     .nav-tabs {
