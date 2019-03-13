@@ -2068,17 +2068,6 @@ export default {
                             isDisabled: (config) => !config.EmailSettings.SendEmailNotifications,
                         },
                         {
-                            type: Constants.SettingsTypes.TYPE_GENERATED,
-                            key: 'EmailSettings.InviteSalt',
-                            label: t('admin.email.inviteSaltTitle'),
-                            label_default: 'Email Invite Salt:',
-                            help_text: t('admin.email.inviteSaltDescription'),
-                            help_text_default: '32-character salt added to signing of email invites. Randomly generated on install. Click "Regenerate" to create new salt.',
-                            disabled_help_text: t('admin.security.inviteSalt.disabled'),
-                            disabled_help_text_default: 'Invite salt cannot be changed while sending emails is disabled.',
-                            isDisabled: (config) => !config.EmailSettings.SendEmailNotifications,
-                        },
-                        {
                             type: Constants.SettingsTypes.TYPE_BOOL,
                             key: 'TeamSettings.EnableOpenServer',
                             label: t('admin.team.openServerTitle'),
