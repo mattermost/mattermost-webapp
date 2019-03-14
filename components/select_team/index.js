@@ -13,7 +13,7 @@ import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getSortedListableTeams, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
-import {addUserToTeamFromInvite} from 'actions/team_actions';
+import {addUserToTeam} from 'actions/team_actions';
 
 import SelectTeam from './select_team.jsx';
 
@@ -23,6 +23,7 @@ function mapStateToProps(state) {
     const myTeamMemberships = Object.values(getTeamMemberships(state));
 
     return {
+        currentUserId: currentUser.id,
         currentUserRoles: currentUser.roles || '',
         customDescriptionText: config.CustomDescriptionText,
         isMemberOfTeam: myTeamMemberships && myTeamMemberships.length > 0,
@@ -40,7 +41,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getTeams,
             loadRolesIfNeeded,
-            addUserToTeamFromInvite,
+            addUserToTeam,
         }, dispatch),
     };
 }

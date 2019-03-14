@@ -27,6 +27,7 @@ const TEAMS_PER_PAGE = 200;
 
 export default class SelectTeam extends React.Component {
     static propTypes = {
+        currentUserId: PropTypes.string.isRequired,
         currentUserRoles: PropTypes.string,
         customDescriptionText: PropTypes.string,
         isMemberOfTeam: PropTypes.bool.isRequired,
@@ -40,7 +41,7 @@ export default class SelectTeam extends React.Component {
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired,
             loadRolesIfNeeded: PropTypes.func.isRequired,
-            addUserToTeamFromInvite: PropTypes.func.isRequired,
+            addUserToTeam: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -69,7 +70,7 @@ export default class SelectTeam extends React.Component {
     handleTeamClick = async (team) => {
         this.setState({loadingTeamId: team.id});
 
-        const {data, error} = await this.props.actions.addUserToTeamFromInvite('', team.invite_id);
+        const {data, error} = await this.props.actions.addUserToTeam(team.id, this.props.currentUserId);
         if (data) {
             this.props.history.push(`/${team.name}/channels/town-square`);
         } else if (error) {
