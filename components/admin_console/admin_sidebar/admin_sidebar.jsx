@@ -32,6 +32,7 @@ export default class AdminSidebar extends React.Component {
         buildEnterpriseReady: PropTypes.bool,
         siteName: PropTypes.string,
         onFilterChange: PropTypes.func.isRequired,
+        navigationBlocked: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
 
             /*
@@ -97,6 +98,10 @@ export default class AdminSidebar extends React.Component {
         const sections = this.idx.search(query);
         this.setState({sections, filter});
         this.props.onFilterChange(filter);
+
+        if (this.props.navigationBlocked) {
+            return;
+        }
 
         const validSection = sections.indexOf(this.context.router.history.location.pathname.replace('/admin_console/', '')) !== -1;
         if (!validSection) {
