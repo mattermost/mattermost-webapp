@@ -1596,7 +1596,7 @@
   "channel_notifications.allActivity": "Für alle Aktivitäten",
   "channel_notifications.globalDefault": "Globaler Standard",
   "channel_notifications.ignoreChannelMentions": "Erwähnungen für @channel, @here und @all ignorieren",
-  "channel_notifications.ignoreChannelMentions.help": "Bei Aktivierung lösen @channel, @here und @all keine Erwähnungen aus oder erwähnen Benachrichtigungen in diesem Kanal.",
+  "channel_notifications.ignoreChannelMentions.help": "Wenn aktiviert, werden @channel, @here und @all keine Erwähnungen oder Benachrichtigungen in diesem Kanal auslösen.",
   "channel_notifications.ignoreChannelMentions.off.title": "Aus",
   "channel_notifications.ignoreChannelMentions.on.title": "Ein",
   "channel_notifications.muteChannel.help": "Stummschaltung schaltet Desktop-, E-Mail- und Push-Benachrichtigungen für diesen Kanal ab. Der Kanal wird nicht als ungelesen markiert, ausser Sie werden erwähnt.",
