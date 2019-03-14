@@ -6,7 +6,6 @@ import 'bootstrap';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
-import Mark from 'mark.js';
 
 import AnnouncementBar from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
@@ -18,6 +17,7 @@ import DiscardChangesModal from 'components/discard_changes_modal.jsx';
 
 import AdminSidebar from './admin_sidebar';
 import AdminDefinition from './admin_definition';
+import Highlight from './highlight';
 
 export default class AdminConsole extends React.Component {
     static propTypes = {
@@ -47,7 +47,6 @@ export default class AdminConsole extends React.Component {
         this.state = {
             filter: '',
         };
-        this.markInstance = null;
     }
 
     componentDidMount() {
@@ -55,16 +54,6 @@ export default class AdminConsole extends React.Component {
         this.props.actions.getEnvironmentConfig();
         this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin']);
         reloadIfServerVersionChanged();
-    }
-
-    componentDidUpdate() {
-        if (this.markInstance !== null) {
-            this.markInstance.unmark();
-        }
-
-        // Is necesary to recreate the instances to get again the DOM elements after the re-render
-        this.markInstance = new Mark(document.querySelectorAll('.nav-pills .sidebar-section,.admin-console .wrapper--fixed'));
-        this.markInstance.mark(this.state.filter, {accuracy: 'complementary'});
     }
 
     onFilterChange = (filter) => {
@@ -198,9 +187,13 @@ export default class AdminConsole extends React.Component {
             <div className='admin-console__wrapper'>
                 <AnnouncementBar/>
                 <SystemNotice/>
-                <AdminSidebar onFilterChange={this.onFilterChange}/>
+                <Highlight filter={this.state.filter}>
+                    <AdminSidebar onFilterChange={this.onFilterChange}/>
+                </Highlight>
                 <div className='admin-console'>
-                    {this.renderRoutes(extraProps)}
+                    <Highlight filter={this.state.filter}>
+                        {this.renderRoutes(extraProps)}
+                    </Highlight>
                 </div>
                 {discardChangesModal}
                 <ModalController/>
