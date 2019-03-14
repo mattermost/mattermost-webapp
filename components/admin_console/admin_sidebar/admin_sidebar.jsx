@@ -15,6 +15,7 @@ import AdminSidebarCategory from 'components/admin_console/admin_sidebar_categor
 import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header';
 import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';
 import AdminDefinition from 'components/admin_console/admin_definition.jsx';
+import Highlight from 'components/admin_console/highlight.jsx';
 import SearchIcon from 'components/svg/search_icon.jsx';
 
 export default class AdminSidebar extends React.Component {
@@ -50,6 +51,7 @@ export default class AdminSidebar extends React.Component {
         super(props);
         this.state = {
             sections: null,
+            filter: '',
         };
         this.idx = null;
     }
@@ -331,59 +333,61 @@ export default class AdminSidebar extends React.Component {
         return (
             <div className='admin-sidebar'>
                 <AdminSidebarHeader/>
-                <div className='nav-pills__container'>
-                    <ul className='nav nav-pills nav-stacked'>
-                        <li className='filter-container'>
-                            <SearchIcon
-                                id='searchIcon'
-                                className='search__icon'
-                                aria-hidden='true'
-                            />
-                            <input
-                                className={'filter ' + (this.state.filter ? 'active' : '')}
-                                type='text'
-                                onChange={this.onFilterChange}
-                                value={this.state.filter}
-                                placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Find settings')}
-                            />
-                            {this.state.filter &&
-                                <div
-                                    className='sidebar__search-clear visible'
-                                    onClick={this.handleClearFilter}
-                                >
-                                    <OverlayTrigger
-                                        trigger={['hover', 'focus']}
-                                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                                        placement='bottom'
-                                        overlay={filterClearTooltip}
-                                    >
-                                        <span
-                                            className='sidebar__search-clear-x'
-                                            aria-hidden='true'
-                                        >
-                                            {'×'}
-                                        </span>
-                                    </OverlayTrigger>
-                                </div>}
-                        </li>
-
-                        {this.renderRootMenu(AdminDefinition.reporting, 'fa-bar-chart', 'admin.sidebar.reports', 'REPORTING')}
-                        <AdminSidebarCategory
-                            sectionClass='sections--settings'
-                            parentLink='/admin_console'
-                            icon='fa-gear'
-                            title={
-                                <FormattedMessage
-                                    id='admin.sidebar.settings'
-                                    defaultMessage='SETTINGS'
+                <Highlight filter={this.state.filter}>
+                    <div className='nav-pills__container'>
+                        <ul className='nav nav-pills nav-stacked'>
+                            <li className='filter-container'>
+                                <SearchIcon
+                                    id='searchIcon'
+                                    className='search__icon'
+                                    aria-hidden='true'
                                 />
-                            }
-                        >
-                            {Object.values(AdminDefinition.settings).map(this.renderSettingsMenu)}
-                        </AdminSidebarCategory>
-                        {this.renderRootMenu(AdminDefinition.other, 'fa-wrench', 'admin.sidebar.other', 'OTHER')}
-                    </ul>
-                </div>
+                                <input
+                                    className={'filter ' + (this.state.filter ? 'active' : '')}
+                                    type='text'
+                                    onChange={this.onFilterChange}
+                                    value={this.state.filter}
+                                    placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Find settings')}
+                                />
+                                {this.state.filter &&
+                                    <div
+                                        className='sidebar__search-clear visible'
+                                        onClick={this.handleClearFilter}
+                                    >
+                                        <OverlayTrigger
+                                            trigger={['hover', 'focus']}
+                                            delayShow={Constants.OVERLAY_TIME_DELAY}
+                                            placement='bottom'
+                                            overlay={filterClearTooltip}
+                                        >
+                                            <span
+                                                className='sidebar__search-clear-x'
+                                                aria-hidden='true'
+                                            >
+                                                {'×'}
+                                            </span>
+                                        </OverlayTrigger>
+                                    </div>}
+                            </li>
+
+                            {this.renderRootMenu(AdminDefinition.reporting, 'fa-bar-chart', 'admin.sidebar.reports', 'REPORTING')}
+                            <AdminSidebarCategory
+                                sectionClass='sections--settings'
+                                parentLink='/admin_console'
+                                icon='fa-gear'
+                                title={
+                                    <FormattedMessage
+                                        id='admin.sidebar.settings'
+                                        defaultMessage='SETTINGS'
+                                    />
+                                }
+                            >
+                                {Object.values(AdminDefinition.settings).map(this.renderSettingsMenu)}
+                            </AdminSidebarCategory>
+                            {this.renderRootMenu(AdminDefinition.other, 'fa-wrench', 'admin.sidebar.other', 'OTHER')}
+                        </ul>
+                    </div>
+                </Highlight>
             </div>
         );
     }

@@ -27,6 +27,7 @@ describe('components/AdminSidebar', () => {
             },
         },
         buildEnterpriseReady: false,
+        navigationBlocked: false,
         siteName: 'test snap',
         plugins: {
             plugin_0: {
@@ -67,6 +68,7 @@ describe('components/AdminSidebar', () => {
             },
             buildEnterpriseReady: false,
             siteName: 'test snap',
+            navigationBlocked: false,
             plugins: {
                 plugin_0: {
                     active: false,
@@ -105,6 +107,7 @@ describe('components/AdminSidebar', () => {
                 },
             },
             buildEnterpriseReady: true,
+            navigationBlocked: false,
             siteName: 'test snap',
             plugins: {
                 plugin_0: {
@@ -158,6 +161,7 @@ describe('components/AdminSidebar', () => {
                 },
             },
             buildEnterpriseReady: true,
+            navigationBlocked: false,
             siteName: 'test snap',
             plugins: {
                 plugin_0: {

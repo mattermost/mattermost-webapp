@@ -187,9 +187,7 @@ export default class AdminConsole extends React.Component {
             <div className='admin-console__wrapper'>
                 <AnnouncementBar/>
                 <SystemNotice/>
-                <Highlight filter={this.state.filter}>
-                    <AdminSidebar onFilterChange={this.onFilterChange}/>
-                </Highlight>
+                <AdminSidebar onFilterChange={this.onFilterChange}/>
                 <div className='admin-console'>
                     <Highlight filter={this.state.filter}>
                         {this.renderRoutes(extraProps)}
