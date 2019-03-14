@@ -22,7 +22,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
         <input
           className="filter "
           onChange={[Function]}
-          placeholder="Find in System Console"
+          placeholder="Find settings"
           type="text"
         />
       </li>
@@ -649,7 +649,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
         <input
           className="filter "
           onChange={[Function]}
-          placeholder="Find in System Console"
+          placeholder="Find settings"
           type="text"
         />
       </li>
@@ -1269,7 +1269,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
         <input
           className="filter "
           onChange={[Function]}
-          placeholder="Find in System Console"
+          placeholder="Find settings"
           type="text"
         />
       </li>
@@ -2128,7 +2128,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
         <input
           className="filter "
           onChange={[Function]}
-          placeholder="Find in System Console"
+          placeholder="Find settings"
           type="text"
         />
       </li>

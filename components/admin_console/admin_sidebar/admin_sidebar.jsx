@@ -310,7 +310,7 @@ export default class AdminSidebar extends React.Component {
     }
 
     handleClearFilter = () => {
-        this.setState({filter: ''});
+        this.setState({sections: null, filter: ''});
     }
 
     render() {
@@ -338,7 +338,7 @@ export default class AdminSidebar extends React.Component {
                                 type='text'
                                 onChange={this.onFilterChange}
                                 value={this.state.filter}
-                                placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Find in System Console')}
+                                placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Find settings')}
                             />
                             {this.state.filter &&
                                 <div
