@@ -333,8 +333,8 @@ export default class AdminSidebar extends React.Component {
         return (
             <div className='admin-sidebar'>
                 <AdminSidebarHeader/>
-                <Highlight filter={this.state.filter}>
-                    <div className='nav-pills__container'>
+                <div className='nav-pills__container'>
+                    <Highlight filter={this.state.filter}>
                         <ul className='nav nav-pills nav-stacked'>
                             <li className='filter-container'>
                                 <SearchIcon
@@ -386,8 +386,8 @@ export default class AdminSidebar extends React.Component {
                             </AdminSidebarCategory>
                             {this.renderRootMenu(AdminDefinition.other, 'fa-wrench', 'admin.sidebar.other', 'OTHER')}
                         </ul>
-                    </div>
-                </Highlight>
+                    </Highlight>
+                </div>
             </div>
         );
     }

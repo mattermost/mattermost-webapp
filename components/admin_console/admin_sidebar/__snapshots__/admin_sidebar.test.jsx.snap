@@ -5,11 +5,11 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
   className="admin-sidebar"
 >
   <Connect(SidebarHeader) />
-  <Highlight
-    filter=""
+  <div
+    className="nav-pills__container"
   >
-    <div
-      className="nav-pills__container"
+    <Highlight
+      filter=""
     >
       <ul
         className="nav nav-pills nav-stacked"
@@ -627,8 +627,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           </AdminSidebarSection>
         </AdminSidebarCategory>
       </ul>
-    </div>
-  </Highlight>
+    </Highlight>
+  </div>
 </div>
 `;
 
@@ -637,11 +637,11 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
   className="admin-sidebar"
 >
   <Connect(SidebarHeader) />
-  <Highlight
-    filter=""
+  <div
+    className="nav-pills__container"
   >
-    <div
-      className="nav-pills__container"
+    <Highlight
+      filter=""
     >
       <ul
         className="nav nav-pills nav-stacked"
@@ -1252,8 +1252,8 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
           </AdminSidebarSection>
         </AdminSidebarCategory>
       </ul>
-    </div>
-  </Highlight>
+    </Highlight>
+  </div>
 </div>
 `;
 
@@ -1262,11 +1262,11 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
   className="admin-sidebar"
 >
   <Connect(SidebarHeader) />
-  <Highlight
-    filter=""
+  <div
+    className="nav-pills__container"
   >
-    <div
-      className="nav-pills__container"
+    <Highlight
+      filter=""
     >
       <ul
         className="nav nav-pills nav-stacked"
@@ -2116,8 +2116,8 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           />
         </AdminSidebarCategory>
       </ul>
-    </div>
-  </Highlight>
+    </Highlight>
+  </div>
 </div>
 `;
 
@@ -2126,11 +2126,11 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
   className="admin-sidebar"
 >
   <Connect(SidebarHeader) />
-  <Highlight
-    filter=""
+  <div
+    className="nav-pills__container"
   >
-    <div
-      className="nav-pills__container"
+    <Highlight
+      filter=""
     >
       <ul
         className="nav nav-pills nav-stacked"
@@ -2820,7 +2820,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           />
         </AdminSidebarCategory>
       </ul>
-    </div>
-  </Highlight>
+    </Highlight>
+  </div>
 </div>
 `;
