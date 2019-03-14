@@ -1594,6 +1594,7 @@
   "channel_notifications.muteChannel.help": "Silenciar apaga las notificaciones de escritorio, correo electrónico y dispositivos móviles para este canal. El canal no será marcado como sin leer a menos que seas mencionado.",
   "channel_notifications.muteChannel.off.title": "Apagado",
   "channel_notifications.muteChannel.on.title": "Encendido",
+  "channel_notifications.muteChannel.on.title.collapse": "Silenciado. Las notificaciones de Escritorio, correo electrónico y móviles, no serán enviadas para este canal.",
   "channel_notifications.muteChannel.settings": "Silenciar canal",
   "channel_notifications.never": "Nunca",
   "channel_notifications.onlyMentions": "Sólo para menciones",
