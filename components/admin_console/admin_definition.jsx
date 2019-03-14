@@ -2938,7 +2938,7 @@ export default {
                             placeholder: t('admin.service.internalConnectionsEx'),
                             placeholder_default: 'webhooks.internal.example.com 127.0.0.1 10.0.16.0/28',
                             help_text: t('admin.service.internalConnectionsDesc'),
-                            help_text_default: 'In testing environments, such as when developing integrations locally on a development machine, use this setting to specify domains, IP addresses, or CIDR notations to allow internal connections. Separate two or more domains with spaces. **Not recommended for use in production**, since this can allow a user to extract confidential data from your server or internal network.\n \nBy default, user-supplied URLs such as those used for Open Graph metadata, webhooks, or slash commands will not be allowed to connect to reserved IP addresses including loopback or link-local addresses used for internal networks. Push notification and OAuth 2.0 server URLs are trusted and not affected by this setting.',
+                            help_text_default: 'A whitelist of local network addresses that can be requested by the Mattermost server on behalf of a client. Care should be used when configuring this setting to prevent unintended access to your local network. See [documentation](https://mattermost.com/pl/default-allow-untrusted-internal-connections) to learn more.',
                             help_text_markdown: true,
                         },
                     ],
