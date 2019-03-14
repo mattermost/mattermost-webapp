@@ -311,6 +311,7 @@ export default class AdminSidebar extends React.Component {
 
     handleClearFilter = () => {
         this.setState({sections: null, filter: ''});
+        this.props.onFilterChange('');
     }
 
     render() {
