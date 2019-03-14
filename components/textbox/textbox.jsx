@@ -290,7 +290,6 @@ export default class Textbox extends React.Component {
                 <div
                     ref='preview'
                     className='form-control custom-textarea textbox-preview-area'
-                    style={{display: this.state.preview ? 'block' : 'none'}}
                 >
                     <PostMarkdown
                         isRHS={this.props.isRHS}
