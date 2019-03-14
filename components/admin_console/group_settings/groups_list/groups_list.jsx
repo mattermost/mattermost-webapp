@@ -53,13 +53,8 @@ export default class GroupsList extends React.PureComponent {
         });
     }
 
-    closeFilters = (e) => {
-        const filtersNode = document.getElementById('group-filters');
-        if (!filtersNode || filtersNode.contains(e.target) || (e.target.parentNode && e.target.parentNode.tagName === 'g')) {
-            return;
-        }
+    closeFilters = () => {
         this.setState({showFilters: false});
-        document.removeEventListener('click', this.closeFilters);
     }
 
     componentDidMount() {
@@ -207,8 +202,6 @@ export default class GroupsList extends React.PureComponent {
     }
 
     searchGroups = (page) => {
-        document.removeEventListener('click', this.closeFilters);
-
         let {searchString} = this.state;
 
         const newState = {...this.state};
@@ -288,6 +281,10 @@ export default class GroupsList extends React.PureComponent {
             <div
                 id='group-filters'
                 className='group-search-filters'
+                onClick={(e) => {
+                    document.removeEventListener('click', this.closeFilters);
+                    document.addEventListener('click', this.closeFilters, {once: true});
+                }}
             >
                 <div className='filter-row'>
                     <span
@@ -405,7 +402,7 @@ export default class GroupsList extends React.PureComponent {
                         <i
                             className={'fa fa-caret-down group-filter-action ' + (this.state.showFilters ? 'hidden' : '')}
                             onClick={() => {
-                                document.addEventListener('click', this.closeFilters);
+                                document.addEventListener('click', this.closeFilters, {once: true});
                                 this.setState({showFilters: true});
                             }}
                         />
