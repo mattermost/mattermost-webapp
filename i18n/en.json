@@ -1299,7 +1299,7 @@
   "admin.sidebar.experimental": "Experimental",
   "admin.sidebar.external": "External Services",
   "admin.sidebar.files": "Files",
-  "admin.sidebar.filter": "Filter",
+  "admin.sidebar.filter": "Find in System Console",
   "admin.sidebar.general": "General",
   "admin.sidebar.gif": "GIF (Beta)",
   "admin.sidebar.gitlab": "GitLab",

@@ -16,6 +16,7 @@
 
     mark {
         border-radius: 5%;
+        background-color: $highlight-color;
     }
 
     .btn {
@@ -508,6 +509,7 @@
 
     mark {
         border-radius: 5%;
+        background-color: $highlight-color;
     }
 
     body.announcement-bar--fixed & {
@@ -533,13 +535,37 @@
         padding-bottom: 20px;
         position: relative;
 
-        .filter {
-            background: #333;
-            border: 1px solid $light-gray;
-            color: $white;
-            padding: 5px;
-            margin: 4px 0 3px;
-            width: 100%;
+        .filter-container{
+            position: relative;
+            margin: 6px 0 0 0;
+            .search__icon {
+                stroke: #999;
+                width: 16px;
+                height: 16px;
+                position: absolute;
+                top: 15px;
+                left: 15px
+            }
+            .filter {
+                background: $black;
+                border: 2px solid #444;
+                border-radius: 20px;
+                color: $white;
+                padding: 5px 25px;
+                margin: 5px 5px 4px 5px;
+                width: 210px;
+                font-size: 14px;
+                &:focus, &.active {
+                    border-color: $primary-color;
+                }
+            }
+            .sidebar__search-clear {
+                color: $white;
+                font-weight: bold;
+                position: absolute;
+                top: 8px;
+                right: 6px
+            }
         }
 
         ul {

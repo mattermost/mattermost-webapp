@@ -5,14 +5,17 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, intlShape} from 'react-intl';
+import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 
 import * as Utils from 'utils/utils.jsx';
+import Constants from 'utils/constants.jsx';
 import {generateIndex} from 'utils/admin_console_index.jsx';
 
 import AdminSidebarCategory from 'components/admin_console/admin_sidebar_category.jsx';
 import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header';
 import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';
 import AdminDefinition from 'components/admin_console/admin_definition.jsx';
+import SearchIcon from 'components/svg/search_icon.jsx';
 
 export default class AdminSidebar extends React.Component {
     static get contextTypes() {
@@ -75,7 +78,7 @@ export default class AdminSidebar extends React.Component {
     onFilterChange = (e) => {
         const filter = e.target.value;
         if (filter === '') {
-            this.setState({sections: null});
+            this.setState({sections: null, filter});
             this.props.onFilterChange(filter);
             return;
         }
@@ -92,7 +95,7 @@ export default class AdminSidebar extends React.Component {
             }
         }
         const sections = this.idx.search(query);
-        this.setState({sections});
+        this.setState({sections, filter});
         this.props.onFilterChange(filter);
 
         const validSection = sections.indexOf(this.context.router.history.location.pathname.replace('/admin_console/', '')) !== -1;
@@ -306,19 +309,56 @@ export default class AdminSidebar extends React.Component {
         return customPlugins;
     }
 
+    handleClearFilter = () => {
+        this.setState({filter: ''});
+    }
+
     render() {
+        const filterClearTooltip = (
+            <Tooltip id='admin-sidebar-fitler-clear'>
+                <FormattedMessage
+                    id='admin.sidebar.filter-clear'
+                    defaultMessage='Clear search'
+                />
+            </Tooltip>
+        );
         return (
             <div className='admin-sidebar'>
                 <AdminSidebarHeader/>
                 <div className='nav-pills__container'>
                     <ul className='nav nav-pills nav-stacked'>
-                        <li>
-                            <input
-                                className='filter'
-                                type='text'
-                                onKeyUp={this.onFilterChange}
-                                placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Filter')}
+                        <li className='filter-container'>
+                            <SearchIcon
+                                id='searchIcon'
+                                className='search__icon'
+                                aria-hidden='true'
                             />
+                            <input
+                                className={'filter ' + (this.state.filter ? 'active' : '')}
+                                type='text'
+                                onChange={this.onFilterChange}
+                                value={this.state.filter}
+                                placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Find in System Console')}
+                            />
+                            {this.state.filter &&
+                                <div
+                                    className='sidebar__search-clear visible'
+                                    onClick={this.handleClearFilter}
+                                >
+                                    <OverlayTrigger
+                                        trigger={['hover', 'focus']}
+                                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                                        placement='bottom'
+                                        overlay={filterClearTooltip}
+                                    >
+                                        <span
+                                            className='sidebar__search-clear-x'
+                                            aria-hidden='true'
+                                        >
+                                            {'×'}
+                                        </span>
+                                    </OverlayTrigger>
+                                </div>}
                         </li>
 
                         {this.renderRootMenu(AdminDefinition.reporting, 'fa-bar-chart', 'admin.sidebar.reports', 'REPORTING')}

@@ -11,11 +11,18 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
     <ul
       className="nav nav-pills nav-stacked"
     >
-      <li>
+      <li
+        className="filter-container"
+      >
+        <SearchIcon
+          aria-hidden="true"
+          className="search__icon"
+          id="searchIcon"
+        />
         <input
-          className="filter"
-          onKeyUp={[Function]}
-          placeholder="Filter"
+          className="filter "
+          onChange={[Function]}
+          placeholder="Find in System Console"
           type="text"
         />
       </li>
@@ -631,11 +638,18 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
     <ul
       className="nav nav-pills nav-stacked"
     >
-      <li>
+      <li
+        className="filter-container"
+      >
+        <SearchIcon
+          aria-hidden="true"
+          className="search__icon"
+          id="searchIcon"
+        />
         <input
-          className="filter"
-          onKeyUp={[Function]}
-          placeholder="Filter"
+          className="filter "
+          onChange={[Function]}
+          placeholder="Find in System Console"
           type="text"
         />
       </li>
@@ -1244,11 +1258,18 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
     <ul
       className="nav nav-pills nav-stacked"
     >
-      <li>
+      <li
+        className="filter-container"
+      >
+        <SearchIcon
+          aria-hidden="true"
+          className="search__icon"
+          id="searchIcon"
+        />
         <input
-          className="filter"
-          onKeyUp={[Function]}
-          placeholder="Filter"
+          className="filter "
+          onChange={[Function]}
+          placeholder="Find in System Console"
           type="text"
         />
       </li>
@@ -2096,11 +2117,18 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
     <ul
       className="nav nav-pills nav-stacked"
     >
-      <li>
+      <li
+        className="filter-container"
+      >
+        <SearchIcon
+          aria-hidden="true"
+          className="search__icon"
+          id="searchIcon"
+        />
         <input
-          className="filter"
-          onKeyUp={[Function]}
-          placeholder="Filter"
+          className="filter "
+          onChange={[Function]}
+          placeholder="Find in System Console"
           type="text"
         />
       </li>
