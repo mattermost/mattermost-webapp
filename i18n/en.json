@@ -1654,7 +1654,6 @@
   "channel_info.purpose": "Purpose:",
   "channel_info.url": "URL:",
   "channel_invite.addNewMembers": "Add New Members to ",
-  "channel_loader.connection_error": "There appears to be a problem with your internet connection.",
   "channel_loader.posted": "Posted",
   "channel_loader.postedImage": " posted an image",
   "channel_loader.socketError": "Please check connection, Mattermost unreachable. If issue persists, ask administrator to [check WebSocket port](!https://about.mattermost.com/default-websocket-port-help).",
