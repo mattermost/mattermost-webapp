@@ -281,7 +281,7 @@ export default class GroupsList extends React.PureComponent {
             <div
                 id='group-filters'
                 className='group-search-filters'
-                onClick={(e) => {
+                onClick={() => {
                     document.removeEventListener('click', this.closeFilters);
                     document.addEventListener('click', this.closeFilters, {once: true});
                 }}
