@@ -19,16 +19,16 @@ export default class Highlight extends React.Component {
     }
 
     redrawHighlight = debounce(() => {
+        if (this.markInstance !== null) {
+            this.markInstance.unmark();
+        }
+
         if (!this.props.filter) {
             return;
         }
 
         if (!this.ref.current) {
             return;
-        }
-
-        if (this.markInstance !== null) {
-            this.markInstance.unmark();
         }
 
         // Is necesary to recreate the instances to get again the DOM elements after the re-render

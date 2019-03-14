@@ -537,26 +537,27 @@
 
         .filter-container{
             position: relative;
-            margin: 6px 0 0 0;
             .search__icon {
                 stroke: #999;
                 width: 16px;
                 height: 16px;
                 position: absolute;
-                top: 15px;
-                left: 15px
+                top: 14px;
+                left: 14px
             }
             .filter {
                 background: $black;
-                border: 2px solid #444;
+                border: 1px solid #666;
                 border-radius: 20px;
                 color: $white;
                 padding: 5px 25px;
-                margin: 5px 5px 4px 5px;
+                margin: 5px;
                 width: 210px;
                 font-size: 14px;
+                outline: none;
                 &:focus, &.active {
-                    border-color: $primary-color;
+                    margin: 4px;
+                    border: 2px solid $primary-color;
                 }
             }
             .sidebar__search-clear {
