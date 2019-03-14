@@ -110,7 +110,7 @@ export default class AdminSidebar extends React.Component {
             const visibleSections = this.visibleSections();
             for (const section of sections) {
                 if (visibleSections.has(section)) {
-                    this.context.router.history.replace('/admin_console/' + sections);
+                    this.context.router.history.replace('/admin_console/' + section);
                     break;
                 }
             }
