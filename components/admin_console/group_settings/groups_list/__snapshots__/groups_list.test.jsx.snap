@@ -158,6 +158,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
     <div
       className="group-search-filters"
       id="group-filters"
+      onClick={[Function]}
     >
       <div
         className="filter-row"
