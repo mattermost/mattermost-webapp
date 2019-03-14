@@ -1594,6 +1594,7 @@
   "channel_notifications.muteChannel.help": "ミュートはこのチャンネルのデスクトップ、電子メール、プッシュ通知をオフにします。あなたについての投稿が行われるまで、このチャンネルは未読としてマークされません。",
   "channel_notifications.muteChannel.off.title": "オフ",
   "channel_notifications.muteChannel.on.title": "オン",
+  "channel_notifications.muteChannel.on.title.collapse": "ミュートが有効になっています。このチャンネルに関するデスクトップ通知、電子メール通知、プッシュ通知が送信されなくなります。",
   "channel_notifications.muteChannel.settings": "ミュートチャンネル",
   "channel_notifications.never": "通知しない",
   "channel_notifications.onlyMentions": "あなたについての投稿のみ",

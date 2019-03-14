@@ -1594,6 +1594,7 @@
   "channel_notifications.muteChannel.help": "Вимкнення звуку вимикає настільний, електронний та push-сповіщення для цього каналу. Канал не буде позначено як непрочитаний, якщо ви не згадали.",
   "channel_notifications.muteChannel.off.title": "Вимкнено",
   "channel_notifications.muteChannel.on.title": "На",
+  "channel_notifications.muteChannel.on.title.collapse": "Mute is enabled. Desktop, email and push notifications will not be sent for this channel.",
   "channel_notifications.muteChannel.settings": "Вимкнути канал",
   "channel_notifications.never": "Ніколи",
   "channel_notifications.onlyMentions": "Тільки при згадках",
