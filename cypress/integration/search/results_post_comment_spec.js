@@ -32,11 +32,7 @@ describe('Search', () => {
             cy.get('#search-items-container').find(postMessageText).should('have.text', `${message}\n`);
 
             // 5. Click on the reply button on the search result
-            // This button is visible only on hover. As a result,
-            // we have to force click here because we cannot
-            // trigger a CSS hover state.
-            // See - https://github.com/cypress-io/cypress/issues/1485#issuecomment-386085145
-            cy.get(`#SEARCH_commentIcon_${postId}`).click({force: true});
+            cy.clickPostCommentIcon(postId, 'SEARCH');
 
             // 6. Reply with a comment
             cy.get('#reply_textbox').type(`${comment}{enter}`);
