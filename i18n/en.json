@@ -361,6 +361,8 @@
   "admin.elasticsearch.enableIndexingTitle": "Enable Elasticsearch Indexing:",
   "admin.elasticsearch.enableSearchingDescription": "Requires a successful connection to the Elasticsearch server. When true, Elasticsearch will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used.",
   "admin.elasticsearch.enableSearchingTitle": "Enable Elasticsearch for search queries:",
+  "admin.elasticsearch.enableAutocompleteDescription": "Requires a successful connection to the Elasticsearch server. When true, Elasticsearch will be used for all autocompletion queries on users and channels using the latest index. Autocompletion results may be incomplete until a bulk index of the existing users and channels database is finished. When false, database autocomplete is used.",
+  "admin.elasticsearch.enableAutocompleteTitle": "Enable Elasticsearch for autocomplete queries:",
   "admin.elasticsearch.password": "E.g.: \"yourpassword\"",
   "admin.elasticsearch.passwordDescription": "(Optional) The password to authenticate to the Elasticsearch server.",
   "admin.elasticsearch.passwordTitle": "Server Password:",
