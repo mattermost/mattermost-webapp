@@ -16,7 +16,7 @@ import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {makeAsyncComponent} from 'components/async_load';
 import loadBackstageController from 'bundle-loader?lazy!components/backstage';
 import ChannelController from 'components/channel_layout/channel_controller';
-import {getWebappConnector} from 'desktop';
+import {desktopBridge} from 'desktop';
 
 const BackstageController = makeAsyncComponent(loadBackstageController);
 
@@ -30,6 +30,7 @@ const TEAMS_PER_PAGE = 200;
 export default class NeedsTeam extends React.Component {
     static propTypes = {
         params: PropTypes.object,
+        status: PropTypes.string,
         currentUser: PropTypes.object,
         currentChannelId: PropTypes.string,
         currentTeamId: PropTypes.string,
@@ -44,6 +45,7 @@ export default class NeedsTeam extends React.Component {
             selectTeam: PropTypes.func.isRequired,
             setPreviousTeamId: PropTypes.func.isRequired,
             loadStatusesForChannelAndSidebar: PropTypes.func.isRequired,
+            setStatus: PropTypes.func.isRequired,
         }).isRequired,
         theme: PropTypes.object.isRequired,
         mfaRequired: PropTypes.bool.isRequired,
@@ -82,16 +84,25 @@ export default class NeedsTeam extends React.Component {
         const team = this.updateCurrentTeam(this.props);
 
         // add listeners for events emitted by the desktop
-        const webapp = getWebappConnector();
-        if (webapp) {
-            webapp.on('updateUserActivityStatus', (userIsActive) => {
-                // ping the server if the desktop app reports the user is still active
-                if (this.props.currentUser && userIsActive === true) {
-                    // a hacky way to keep the user's status as online; will not clear a status of away
-                    this.props.actions.viewChannel('');
-                }
-            });
-        }
+        desktopBridge.on('user-status-update', ({userIsActive}) => {
+            if(!this.props.currentUser) {
+                return;
+            }
+
+            // update the server with the users current active status
+            // - only update away status once to prevent the desktop app from overiding other online clients
+            if (userIsActive === true) {
+                this.props.actions.setStatus({
+                    user_id: this.props.currentUser.id,
+                    status: Constants.UserStatuses.ONLINE,
+                }, false);
+            } else if(this.props.status === Constants.UserStatuses.ONLINE) {
+                this.props.actions.setStatus({
+                    user_id: this.props.currentUser.id,
+                    status: Constants.UserStatuses.AWAY,
+                }, false);
+            }
+        });
 
         this.state = {
             team,

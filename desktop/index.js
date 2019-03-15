@@ -1,33 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import WebappConnector from './WebappConnector';
-
 /**
- * Connect the webapp to the desktop bridge
+ * Create a placehold desktopBridge if one doens't exist. Likely means we're not running in the desktop client.
  */
-export function initializeDesktopBridge() {
-    if (window.desktopBridge && !window.desktopBridge.ready && window.desktopBridge.registerWebappConnector) {
-        window.desktopBridge.registerWebappConnector(new WebappConnector());
-    }
+if(!window.desktopBridge) {
+    window.desktopBridge = {
+        on: () => {
+            console.log("Desktop bridge has not been initialized.")
+        },
+        emit: () => {},
+    };
 }
 
 /**
- * Get a reference to the desktop connector on the desktop bridge
+ * Returns a reference to the desktop bridge if available, or an object to silently ignore any interraction
  */
-export function getDesktopConnector() {
-    if (window.desktopBridge && window.desktopBridge.ready) {
-        return window.desktopBridge.desktop;
-    }
-    return null;
-}
-
-/**
- * Get a reference to the webapp connector on the desktop bridge
- */
-export function getWebappConnector() {
-    if (window.desktopBridge && window.desktopBridge.ready) {
-        return window.desktopBridge.webapp;
-    }
-    return null;
-}
+export const desktopBridge = window.desktopBridge;
