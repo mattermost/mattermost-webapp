@@ -21,7 +21,6 @@ export default class MultiSelect extends React.Component {
         options: PropTypes.arrayOf(PropTypes.object),
         optionRenderer: PropTypes.func,
         values: PropTypes.arrayOf(PropTypes.object),
-        valueKey: PropTypes.string,
         valueRenderer: PropTypes.func,
         handleInput: PropTypes.func,
         handleDelete: PropTypes.func,
@@ -166,10 +165,9 @@ export default class MultiSelect extends React.Component {
             return;
         }
 
-        const valueKey = this.props.valueKey;
         const values = [...this.props.values];
         for (let i = 0; i < values.length; i++) {
-            if (values[i][valueKey] === change.removedValue[valueKey]) {
+            if (values[i].id === change.removedValue.id) {
                 values.splice(i, 1);
                 break;
             }

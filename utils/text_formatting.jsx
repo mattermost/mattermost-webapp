@@ -6,15 +6,12 @@ import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 import emojiRegex from 'emoji-regex';
 
 import {formatWithRenderer} from 'utils/markdown';
-import RemoveMarkdown from 'utils/markdown/remove_markdown';
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
 
-import Constants from './constants.jsx';
 import * as Emoticons from './emoticons.jsx';
 import * as Markdown from './markdown';
 
-const removeMarkdown = new RemoveMarkdown();
 const punctuation = XRegExp.cache('[^\\pL\\d]');
 
 const AT_MENTION_PATTERN = /\B@([a-z0-9.\-_]*)/gi;
@@ -44,6 +41,8 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 // - team - The current team.
 // - proxyImages - If specified, images are proxied. Defaults to false.
 // - autolinkedUrlSchemes - An array of url schemes that will be allowed for autolinking. Defaults to autolinking with any url scheme.
+// - renderer - a custom renderer object to use in the formatWithRenderer function. Defaults to empty.
+// - minimumHashtagLength - Minimum number of characters in a hashtag. Defaults to 3.
 export function formatText(text, inputOptions) {
     if (!text || typeof text !== 'string') {
         return '';
@@ -59,9 +58,8 @@ export function formatText(text, inputOptions) {
         options.searchPatterns = parseSearchTerms(options.searchTerm).map(convertSearchTermToRegex);
     }
 
-    if (options.removeMarkdown) {
-        output = formatWithRenderer(output, removeMarkdown);
-        output = sanitizeHtml(output);
+    if (options.renderer) {
+        output = formatWithRenderer(output, options.renderer);
         output = doFormatText(output, options);
     } else if (!('markdown' in options) || options.markdown) {
         // the markdown renderer will call doFormatText as necessary
@@ -99,7 +97,7 @@ export function doFormatText(text, options) {
     }
 
     output = autolinkEmails(output, tokens);
-    output = autolinkHashtags(output, tokens);
+    output = autolinkHashtags(output, tokens, options.minimumHashtagLength);
 
     if (!('emoticons' in options) || options.emoticon) {
         output = Emoticons.handleEmoticons(output, tokens);
@@ -339,7 +337,7 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
     return output;
 }
 
-function autolinkHashtags(text, tokens) {
+function autolinkHashtags(text, tokens, minimumHashtagLength = 3) {
     let output = text;
 
     var newTokens = new Map();
@@ -368,7 +366,7 @@ function autolinkHashtags(text, tokens) {
         const index = tokens.size;
         const alias = `$MM_HASHTAG${index}$`;
 
-        if (text.length < Constants.MIN_HASHTAG_LINK_LENGTH + 1) {
+        if (originalText.length < minimumHashtagLength + 1) {
             // too short to be a hashtag
             return fullMatch;
         }
