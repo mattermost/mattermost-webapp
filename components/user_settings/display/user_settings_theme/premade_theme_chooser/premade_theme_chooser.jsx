@@ -35,6 +35,7 @@ export default class PremadeThemeChooser extends React.Component {
                         key={'premade-theme-key' + k}
                     >
                         <div
+                            id={`premadeTheme${premadeTheme.type.replace(' ', '')}`}
                             className={activeClass}
                             onClick={() => this.props.updateTheme(premadeTheme)}
                         >
