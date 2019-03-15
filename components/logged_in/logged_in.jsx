@@ -7,6 +7,7 @@ import React from 'react';
 import {Redirect} from 'react-router';
 import {viewChannel} from 'mattermost-redux/actions/channels';
 
+import {reportUserActive, restoreOnlineIfNeeded} from 'actions/user_actions';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -68,6 +69,8 @@ export default class LoggedIn extends React.PureComponent {
         // Listen for focused tab/window state
         window.addEventListener('focus', this.onFocusListener);
         window.addEventListener('blur', this.onBlurListener);
+
+        window.addEventListener('message', this.onMessageListener);
 
         // Because current CSS requires the root tag to have specific stuff
 
@@ -135,6 +138,7 @@ export default class LoggedIn extends React.PureComponent {
         // Listen for focussed tab/window state
         window.removeEventListener('focus', this.onFocusListener);
         window.removeEventListener('blur', this.onBlurListener);
+        window.removeEventListener('message', this.onMessageListener);
     }
 
     render() {
@@ -163,5 +167,23 @@ export default class LoggedIn extends React.PureComponent {
 
     onBlurListener() {
         GlobalActions.emitBrowserFocus(false);
+    }
+
+    onMessageListener(event) {
+        // Handle messages from electron app
+        if (event.origin.indexOf('file://') !== 0) {
+            return;
+        }
+
+        switch (event.data) {
+        case 'send-ping':
+            dispatch(reportUserActive());
+            break;
+        case 'restore-online':
+            dispatch(restoreOnlineIfNeeded());
+            break;
+        default:
+            break;
+        }
     }
 }

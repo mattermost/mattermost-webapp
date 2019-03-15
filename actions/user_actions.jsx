@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getChannelAndMyMember, getChannelMembersByIds} from 'mattermost-redux/actions/channels';
+import {getChannelAndMyMember, getChannelMembersByIds, markChannelAsRead} from 'mattermost-redux/actions/channels';
 import {deletePreferences as deletePreferencesRedux, savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
 import {getTeamMembersByIds} from 'mattermost-redux/actions/teams';
 import * as UserActions from 'mattermost-redux/actions/users';
@@ -431,4 +431,21 @@ export async function sendPasswordResetEmail(email, success, error) {
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
     }
+}
+
+export function restoreOnlineIfNeeded() {
+    return async (doDispatch, doGetState) => {
+        const {currentUserId} = doGetState().entities.users;
+        const {data: userStatus} = await UserActions.getStatus(currentUserId)(doDispatch, doGetState);
+
+        if (userStatus.status === UserStatuses.AWAY && !userStatus.manual) {
+            UserActions.setStatus({user_id: currentUserId, status: 'online'})(doDispatch, doGetState);
+        }
+    };
+}
+
+export function reportUserActive() {
+    return async (doDispatch) => {
+        doDispatch(markChannelAsRead(''));
+    };
 }
