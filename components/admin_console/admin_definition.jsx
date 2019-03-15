@@ -1623,7 +1623,8 @@ export default {
                                 let ldapUsers = 0;
                                 let deleteCount = 0;
                                 let updateCount = 0;
-                                let ldapGroups = 0;
+                                let linkedLdapGroupsCount; // Deprecated.
+                                let totalLdapGroupsCount = 0;
                                 let groupDeleteCount = 0;
                                 let groupMemberDeleteCount = 0;
                                 let groupMemberAddCount = 0;
@@ -1641,8 +1642,15 @@ export default {
                                         updateCount = job.data.update_count;
                                     }
 
+                                    // Deprecated groups count representing the number of linked LDAP groups.
                                     if (job.data.ldap_groups_count) {
-                                        ldapGroups = job.data.ldap_groups_count;
+                                        linkedLdapGroupsCount = job.data.ldap_groups_count;
+                                    }
+
+                                    // Groups count representing the total number of LDAP groups available based on
+                                    // the configured based DN and groups filter.
+                                    if (job.data.total_ldap_groups_count) {
+                                        totalLdapGroupsCount = job.data.total_ldap_groups_count;
                                     }
 
                                     if (job.data.group_delete_count) {
@@ -1661,11 +1669,11 @@ export default {
                                 return (
                                     <span>
                                         <FormattedMessage
-                                            id='admin.ldap.jobExtraInfo'
-                                            defaultMessage='Scanned {ldapUsers, number} LDAP users and {ldapGroups, number} groups.'
+                                            id={linkedLdapGroupsCount ? 'admin.ldap.jobExtraInfo' : 'admin.ldap.jobExtraInfoTotal'}
+                                            defaultMessage={linkedLdapGroupsCount ? 'Scanned {ldapUsers, number} LDAP users and {ldapGroups, number} linked groups.' : 'Scanned {ldapUsers, number} LDAP users and {ldapGroups, number} groups.'}
                                             values={{
                                                 ldapUsers,
-                                                ldapGroups,
+                                                ldapGroups: linkedLdapGroupsCount || totalLdapGroupsCount, // Show the old count for jobs records containing the old JSON key.
                                             }}
                                         />
                                         <ul>
