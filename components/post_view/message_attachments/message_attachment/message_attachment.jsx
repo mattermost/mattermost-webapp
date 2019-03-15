@@ -16,6 +16,7 @@ import SizeAwareImage from 'components/size_aware_image';
 
 import ActionButton from '../action_button';
 import ActionMenu from '../action_menu';
+import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
 
 const MAX_ATTACHMENT_TEXT_HEIGHT = 200;
 
@@ -314,7 +315,7 @@ export default class MessageAttachment extends React.PureComponent {
                             message={attachment.title}
                             options={{
                                 mentionHighlight: false,
-                                markdown: false,
+                                renderer: new LinkOnlyRenderer(),
                                 autolinkedUrlSchemes: [],
                             }}
                         />

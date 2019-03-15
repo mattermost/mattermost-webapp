@@ -6,7 +6,6 @@ import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 import emojiRegex from 'emoji-regex';
 
 import {formatWithRenderer} from 'utils/markdown';
-import RemoveMarkdown from 'utils/markdown/remove_markdown';
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
 
@@ -14,7 +13,6 @@ import Constants from './constants.jsx';
 import * as Emoticons from './emoticons.jsx';
 import * as Markdown from './markdown';
 
-const removeMarkdown = new RemoveMarkdown();
 const punctuation = XRegExp.cache('[^\\pL\\d]');
 
 const AT_MENTION_PATTERN = /\B@([a-z0-9.\-_]*)/gi;
@@ -44,6 +42,7 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 // - team - The current team.
 // - proxyImages - If specified, images are proxied. Defaults to false.
 // - autolinkedUrlSchemes - An array of url schemes that will be allowed for autolinking. Defaults to autolinking with any url scheme.
+// - renderer - a custom renderer object to use in the formatWithRenderer function. Defaults to empty.
 export function formatText(text, inputOptions) {
     if (!text || typeof text !== 'string') {
         return '';
@@ -59,9 +58,8 @@ export function formatText(text, inputOptions) {
         options.searchPatterns = parseSearchTerms(options.searchTerm).map(convertSearchTermToRegex);
     }
 
-    if (options.removeMarkdown) {
-        output = formatWithRenderer(output, removeMarkdown);
-        output = sanitizeHtml(output);
+    if (options.renderer) {
+        output = formatWithRenderer(output, options.renderer);
         output = doFormatText(output, options);
     } else if (!('markdown' in options) || options.markdown) {
         // the markdown renderer will call doFormatText as necessary
