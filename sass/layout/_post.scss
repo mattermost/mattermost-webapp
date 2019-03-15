@@ -513,7 +513,7 @@
         }
 
         .icon--emoji {
-            @include opacity(.5);
+            @include opacity(.4);
             @include single-transition(all, .15s);
             cursor: pointer;
 
@@ -1290,6 +1290,7 @@
             > div,
             > button {
                 @include border-radius(4px);
+                @include single-transition(all, .15s);
                 margin: 0 4px 0 0;
 
             &:hover {
@@ -1329,9 +1330,11 @@
 
                 svg {
                     @include opacity(.4);
+                    @include single-transition(all, .15s);
                 }
 
                 .comment-count {
+                    @include single-transition(all, .15s);
                     @include opacity(.5);
                 }
             }
