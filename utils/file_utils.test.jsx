@@ -6,7 +6,6 @@ import assert from 'assert';
 import {
     trimFilename,
     canUploadFiles,
-    getFileDimensionsForDisplay,
     getFileTypeFromMime,
 } from 'utils/file_utils.jsx';
 import * as UserAgent from 'utils/user_agent';
@@ -108,37 +107,5 @@ describe('FileUtils.canUploadFiles', () => {
         it('mime type for no suffix', () => {
             assert.equal(getFileTypeFromMime('asdasd'), 'other');
         });
-    });
-});
-
-describe('FileUtils.getFileDimensionsForDisplay', () => {
-    it('return image dimensions as they are smaller than max dimensions', () => {
-        const expectedDimensions = getFileDimensionsForDisplay({height: 200, width: 200}, {maxHeight: 300, maxWidth: 300});
-        expect(expectedDimensions).toEqual({height: 200, width: 200});
-    });
-
-    it('return image dimensions based on height dimetions as ratio of height > width', () => {
-        const expectedDimensions = getFileDimensionsForDisplay({height: 600, width: 400}, {maxHeight: 300, maxWidth: 300});
-        expect(expectedDimensions).toEqual({height: 300, width: 200});
-    });
-
-    it('return image dimensions based on width dimetions as ratio of width > height', () => {
-        const expectedDimensions = getFileDimensionsForDisplay({height: 400, width: 600}, {maxHeight: 300, maxWidth: 300});
-        expect(expectedDimensions).toEqual({height: 200, width: 300});
-    });
-
-    it('return image dimensions based on width ratio', () => {
-        const expectedDimensions = getFileDimensionsForDisplay({height: 200, width: 600}, {maxHeight: 300, maxWidth: 300});
-        expect(expectedDimensions).toEqual({height: 100, width: 300});
-    });
-
-    it('return image dimensions based on height ratio', () => {
-        const expectedDimensions = getFileDimensionsForDisplay({height: 600, width: 200}, {maxHeight: 300, maxWidth: 300});
-        expect(expectedDimensions).toEqual({height: 300, width: 100});
-    });
-
-    it('return null if dimensions does not exists', () => {
-        const expectedDimensions = getFileDimensionsForDisplay(null, {maxHeight: 300, maxWidth: 300});
-        expect(expectedDimensions).toEqual(null);
     });
 });

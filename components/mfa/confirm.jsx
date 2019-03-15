@@ -7,6 +7,8 @@ import {FormattedMessage} from 'react-intl';
 import Constants from 'utils/constants.jsx';
 import {isKeyPressed} from 'utils/utils.jsx';
 
+import {redirectUserToDefaultTeam} from 'actions/global_actions.jsx';
+
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 const KeyCodes = Constants.KeyCodes;
@@ -22,8 +24,7 @@ export default class Confirm extends React.Component {
 
     submit = (e) => {
         e.preventDefault();
-
-        this.props.history.push('/');
+        redirectUserToDefaultTeam();
     }
 
     onKeyPress = (e) => {

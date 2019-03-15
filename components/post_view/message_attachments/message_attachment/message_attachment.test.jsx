@@ -164,4 +164,17 @@ describe('components/post_view/MessageAttachment', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot when the attachment has a link in the title', () => {
+        const props = {
+            ...baseProps,
+            attachment: {
+                title: 'Do you like https://mattermost.com?',
+            },
+        };
+
+        const wrapper = shallow(<MessageAttachment {...props}/>);
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });

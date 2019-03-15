@@ -13,9 +13,17 @@ describe('Actions.Emojis', () => {
         store = await configureStore();
     });
 
-    it('addRecentEmoji', async () => {
+    test('Emoji alias is stored in recent emojis', async () => {
         store.dispatch(Actions.addRecentEmoji('grinning'));
         assert.ok(getRecentEmojis(store.getState()).includes('grinning'));
+    });
+
+    test('First alias is stored in recent emojis even if second alias used', async () => {
+        store.dispatch(Actions.addRecentEmoji('cop'));
+        assert.ok(getRecentEmojis(store.getState()).includes('policeman'));
+    });
+
+    test('Invalid emoji are not stored in recents', async () => {
         store.dispatch(Actions.addRecentEmoji('joramwilander'));
         assert.ok(!getRecentEmojis(store.getState()).includes('joramwilander'));
     });

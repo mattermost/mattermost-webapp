@@ -4,6 +4,44 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
 <div
   className="group-teams-and-channels-row"
 >
+  <ConfirmModal
+    confirmButtonClass="btn btn-primary"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Yes, Remove"
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
+        values={Object {}}
+      />
+    }
+    message={
+      <FormattedMessage
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test private-channel' channel.  Please note this action will not remove the existing group users from the 'Test private-channel' channel."
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
+        values={
+          Object {
+            "displayType": "channel",
+            "name": "Test private-channel",
+          }
+        }
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Remove Membership from the 'Test private-channel' channel?"
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
+        values={
+          Object {
+            "displayType": "channel",
+            "name": "Test private-channel",
+          }
+        }
+      />
+    }
+  />
   <div
     className="arrow-icon"
   />
@@ -43,6 +81,44 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
 <div
   className="group-teams-and-channels-row"
 >
+  <ConfirmModal
+    confirmButtonClass="btn btn-primary"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Yes, Remove"
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
+        values={Object {}}
+      />
+    }
+    message={
+      <FormattedMessage
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test private-team' team.  Please note this action will not remove the existing group users from the 'Test private-team' team."
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
+        values={
+          Object {
+            "displayType": "team",
+            "name": "Test private-team",
+          }
+        }
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Remove Membership from the 'Test private-team' team?"
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
+        values={
+          Object {
+            "displayType": "team",
+            "name": "Test private-team",
+          }
+        }
+      />
+    }
+  />
   <div
     className="arrow-icon"
   />
@@ -86,6 +162,44 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
 <div
   className="group-teams-and-channels-row"
 >
+  <ConfirmModal
+    confirmButtonClass="btn btn-primary"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Yes, Remove"
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
+        values={Object {}}
+      />
+    }
+    message={
+      <FormattedMessage
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test public-channel' channel.  Please note this action will not remove the existing group users from the 'Test public-channel' channel."
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
+        values={
+          Object {
+            "displayType": "channel",
+            "name": "Test public-channel",
+          }
+        }
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Remove Membership from the 'Test public-channel' channel?"
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
+        values={
+          Object {
+            "displayType": "channel",
+            "name": "Test public-channel",
+          }
+        }
+      />
+    }
+  />
   <div
     className="arrow-icon"
   />
@@ -125,6 +239,44 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
 <div
   className="group-teams-and-channels-row"
 >
+  <ConfirmModal
+    confirmButtonClass="btn btn-primary"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Yes, Remove"
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
+        values={Object {}}
+      />
+    }
+    message={
+      <FormattedMessage
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test public-team' team.  Please note this action will not remove the existing group users from the 'Test public-team' team."
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
+        values={
+          Object {
+            "displayType": "team",
+            "name": "Test public-team",
+          }
+        }
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Remove Membership from the 'Test public-team' team?"
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
+        values={
+          Object {
+            "displayType": "team",
+            "name": "Test public-team",
+          }
+        }
+      />
+    }
+  />
   <div
     className="arrow-icon"
   />
@@ -161,6 +313,44 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
 <div
   className="group-teams-and-channels-row has-clidren"
 >
+  <ConfirmModal
+    confirmButtonClass="btn btn-primary"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Yes, Remove"
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
+        values={Object {}}
+      />
+    }
+    message={
+      <FormattedMessage
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test team with children' team.  Please note this action will not remove the existing group users from the 'Test team with children' team."
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
+        values={
+          Object {
+            "displayType": "team",
+            "name": "Test team with children",
+          }
+        }
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Remove Membership from the 'Test team with children' team?"
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
+        values={
+          Object {
+            "displayType": "team",
+            "name": "Test team with children",
+          }
+        }
+      />
+    }
+  />
   <div
     className="arrow-icon"
   >
@@ -202,6 +392,44 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
 <div
   className="group-teams-and-channels-row has-clidren collapsed"
 >
+  <ConfirmModal
+    confirmButtonClass="btn btn-primary"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Yes, Remove"
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
+        values={Object {}}
+      />
+    }
+    message={
+      <FormattedMessage
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test team with children' team.  Please note this action will not remove the existing group users from the 'Test team with children' team."
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
+        values={
+          Object {
+            "displayType": "team",
+            "name": "Test team with children",
+          }
+        }
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Remove Membership from the 'Test team with children' team?"
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
+        values={
+          Object {
+            "displayType": "team",
+            "name": "Test team with children",
+          }
+        }
+      />
+    }
+  />
   <div
     className="arrow-icon"
   >

@@ -24,6 +24,8 @@ export default class SuggestionList extends React.PureComponent {
         terms: PropTypes.array.isRequired,
         selection: PropTypes.string.isRequired,
         components: PropTypes.array.isRequired,
+        dropdownPosition: PropTypes.number,
+        inputWidth: PropTypes.number,
     };
 
     static defaultProps = {
@@ -161,8 +163,16 @@ export default class SuggestionList extends React.PureComponent {
         const mainClass = 'suggestion-list suggestion-list--' + this.props.location;
         const contentClass = 'suggestion-list__content suggestion-list__content--' + this.props.location;
 
+        let style = {};
+        if (this.props.dropdownPosition && this.props.location === 'bottom') {
+            style = {top: this.props.dropdownPosition + 5, width: this.props.inputWidth};
+        }
+
         return (
-            <div className={mainClass}>
+            <div
+                className={mainClass}
+                style={style}
+            >
                 <div
                     id='suggestionList'
                     ref='content'

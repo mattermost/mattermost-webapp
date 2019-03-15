@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import SaveButton from 'components/save_button.jsx';
 
@@ -12,7 +13,7 @@ describe('components/SaveButton', () => {
     };
 
     test('should match snapshot, on defaultMessage', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SaveButton {...baseProps}/>
         );
 
@@ -25,7 +26,7 @@ describe('components/SaveButton', () => {
 
     test('should match snapshot, on savingMessage', () => {
         const props = {...baseProps, saving: true, disabled: true};
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SaveButton {...props}/>
         );
 
@@ -38,7 +39,7 @@ describe('components/SaveButton', () => {
 
     test('should match snapshot, extraClasses', () => {
         const props = {...baseProps, extraClasses: 'some-class'};
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SaveButton {...props}/>
         );
 

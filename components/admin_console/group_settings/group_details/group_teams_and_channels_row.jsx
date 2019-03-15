@@ -5,6 +5,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
+import ConfirmModal from 'components/confirm_modal.jsx';
+
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
 
@@ -20,8 +22,16 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         onToggleCollapse: PropTypes.func.isRequired,
     }
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            showConfirmationModal: false,
+        };
+    }
+
     removeItem = () => {
         this.props.onRemoveItem(this.props.id, this.props.type);
+        this.setState({showConfirmationModal: false});
     }
 
     toggleCollapse = () => {
@@ -86,8 +96,36 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
             break;
         }
 
+        const displayType = this.props.type.split('-')[1];
+
         return (
             <div className={'group-teams-and-channels-row' + extraClasses}>
+                <ConfirmModal
+                    show={this.state.showConfirmationModal}
+                    title={
+                        <FormattedMessage
+                            id='admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header'
+                            defaultMessage={`Remove Membership from the '${this.props.name}' ${displayType}?`}
+                            values={{name: this.props.name, displayType}}
+                        />
+                    }
+                    message={
+                        <FormattedMessage
+                            id='admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body'
+                            defaultMessage={`Removing this membership will prevent future users in this group from being added to the '${this.props.name}' ${displayType}.  Please note this action will not remove the existing group users from the '${this.props.name}' ${displayType}.`}
+                            values={{name: this.props.name, displayType}}
+                        />
+                    }
+                    confirmButtonText={
+                        <FormattedMessage
+                            id='admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button'
+                            defaultMessage='Yes, Remove'
+                        />
+                    }
+                    onConfirm={this.removeItem}
+                    onCancel={() => this.setState({showConfirmationModal: false})}
+                />
+
                 <div className='arrow-icon'>
                     {arrowIcon}
                 </div>
@@ -100,7 +138,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                     {!this.props.implicit &&
                         <button
                             className='btn btn-link'
-                            onClick={this.removeItem}
+                            onClick={() => this.setState({showConfirmationModal: true})}
                         >
                             <FormattedMessage
                                 id='admin.group_settings.group_details.group_teams_and_channels_row.remove'

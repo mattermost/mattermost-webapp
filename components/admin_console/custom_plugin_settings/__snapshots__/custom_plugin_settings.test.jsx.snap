@@ -19,17 +19,17 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         className="banner"
         dangerouslySetInnerHTML={
           Object {
-            "__html": "<h1 class=\\"markdown__heading\\">Header</h1><p><em>This</em> is the <strong>header</strong></p>
-",
+            "__html": "<h1 class=\\"markdown__heading\\">Header</h1><p><em>This</em> is the <strong>header</strong></p>",
           }
         }
       />
       <AdminTextSetting
         disabled={false}
         helpText={
-          <span>
-            This is some help text for the text field.
-          </span>
+          <HelpText
+            isTranslated={false}
+            text="This is some help text for the text field."
+          />
         }
         id="settinga"
         key="testplugin_text_settinga"
@@ -50,9 +50,10 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           />
         }
         helpText={
-          <span>
-            This is some help text for the bool field.
-          </span>
+          <HelpText
+            isTranslated={false}
+            text="This is some help text for the bool field."
+          />
         }
         id="settingb"
         key="testplugin_bool_settingb"
@@ -71,9 +72,10 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       <DropdownSetting
         disabled={false}
         helpText={
-          <span>
-            This is some help text for the dropdown field.
-          </span>
+          <HelpText
+            isTranslated={false}
+            text="This is some help text for the dropdown field."
+          />
         }
         id="settingc"
         isDisabled={false}
@@ -102,9 +104,10 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       <RadioSetting
         disabled={false}
         helpText={
-          <span>
-            This is some help text for the radio field.
-          </span>
+          <HelpText
+            isTranslated={false}
+            text="This is some help text for the radio field."
+          />
         }
         id="settingd"
         key="testplugin_radio_settingd"
@@ -132,9 +135,10 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       <GeneratedSetting
         disabled={false}
         helpText={
-          <span>
-            This is some help text for the generated field.
-          </span>
+          <HelpText
+            isTranslated={false}
+            text="This is some help text for the generated field."
+          />
         }
         id="settinge"
         key="testplugin_generated_settinge"
@@ -155,9 +159,10 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       <UserAutocompleteSetting
         disabled={false}
         helpText={
-          <span>
-            This is some help text for the user autocomplete field.
-          </span>
+          <HelpText
+            isTranslated={false}
+            text="This is some help text for the user autocomplete field."
+          />
         }
         id="settingf"
         key="testplugin_userautocomplete_settingf"
@@ -170,8 +175,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         className="banner"
         dangerouslySetInnerHTML={
           Object {
-            "__html": "<h1 class=\\"markdown__heading\\">Footer</h1><p><em>This</em> is the <strong>footer</strong></p>
-",
+            "__html": "<h1 class=\\"markdown__heading\\">Footer</h1><p><em>This</em> is the <strong>footer</strong></p>",
           }
         }
       />
@@ -181,7 +185,6 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
     >
       <SaveButton
         btnClass="btn-primary"
-        defaultMessage="Save"
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -236,7 +239,6 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
     >
       <SaveButton
         btnClass="btn-primary"
-        defaultMessage="Save"
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -290,17 +292,17 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         className="banner"
         dangerouslySetInnerHTML={
           Object {
-            "__html": "<h1 class=\\"markdown__heading\\">Header</h1><p><em>This</em> is the <strong>header</strong></p>
-",
+            "__html": "<h1 class=\\"markdown__heading\\">Header</h1><p><em>This</em> is the <strong>header</strong></p>",
           }
         }
       />
       <AdminTextSetting
         disabled={false}
         helpText={
-          <span>
-            This is some help text for the text field.
-          </span>
+          <HelpText
+            isTranslated={false}
+            text="This is some help text for the text field."
+          />
         }
         id="settinga"
         key="testplugin_text_settinga"
@@ -321,9 +323,10 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           />
         }
         helpText={
-          <span>
-            This is some help text for the bool field.
-          </span>
+          <HelpText
+            isTranslated={false}
+            text="This is some help text for the bool field."
+          />
         }
         id="settingb"
         key="testplugin_bool_settingb"
@@ -342,9 +345,10 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       <DropdownSetting
         disabled={false}
         helpText={
-          <span>
-            This is some help text for the dropdown field.
-          </span>
+          <HelpText
+            isTranslated={false}
+            text="This is some help text for the dropdown field."
+          />
         }
         id="settingc"
         isDisabled={false}
@@ -373,9 +377,10 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       <RadioSetting
         disabled={false}
         helpText={
-          <span>
-            This is some help text for the radio field.
-          </span>
+          <HelpText
+            isTranslated={false}
+            text="This is some help text for the radio field."
+          />
         }
         id="settingd"
         key="testplugin_radio_settingd"
@@ -403,9 +408,10 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       <GeneratedSetting
         disabled={false}
         helpText={
-          <span>
-            This is some help text for the generated field.
-          </span>
+          <HelpText
+            isTranslated={false}
+            text="This is some help text for the generated field."
+          />
         }
         id="settinge"
         key="testplugin_generated_settinge"
@@ -426,9 +432,10 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       <UserAutocompleteSetting
         disabled={false}
         helpText={
-          <span>
-            This is some help text for the user autocomplete field.
-          </span>
+          <HelpText
+            isTranslated={false}
+            text="This is some help text for the user autocomplete field."
+          />
         }
         id="settingf"
         key="testplugin_userautocomplete_settingf"
@@ -441,8 +448,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         className="banner"
         dangerouslySetInnerHTML={
           Object {
-            "__html": "<h1 class=\\"markdown__heading\\">Footer</h1><p><em>This</em> is the <strong>footer</strong></p>
-",
+            "__html": "<h1 class=\\"markdown__heading\\">Footer</h1><p><em>This</em> is the <strong>footer</strong></p>",
           }
         }
       />
@@ -452,7 +458,6 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
     >
       <SaveButton
         btnClass="btn-primary"
-        defaultMessage="Save"
         disabled={true}
         extraClasses=""
         onClick={[Function]}

@@ -67,7 +67,7 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
             <Connect(Markdown)
               imageProps={
                 Object {
-                  "onHeightReceived": [Function],
+                  "onImageLoaded": [Function],
                 }
               }
               message="short text"
@@ -84,7 +84,7 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
                   "width": 200,
                 }
               }
-              onHeightReceived={[Function]}
+              onImageLoaded={[Function]}
               src="image_url"
             />
           </div>
@@ -114,7 +114,7 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
                 "width": 200,
               }
             }
-            onHeightReceived={[Function]}
+            onImageLoaded={[Function]}
             src="thumb_url"
           />
         </div>
@@ -198,7 +198,7 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
             <Connect(Markdown)
               imageProps={
                 Object {
-                  "onHeightReceived": [Function],
+                  "onImageLoaded": [Function],
                 }
               }
               message="short text"
@@ -215,7 +215,7 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
                   "width": 200,
                 }
               }
-              onHeightReceived={[Function]}
+              onImageLoaded={[Function]}
               src="image_url"
             />
           </div>
@@ -230,10 +230,54 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
                 "width": 200,
               }
             }
-            onHeightReceived={[Function]}
+            onImageLoaded={[Function]}
             src="thumb_url"
           />
         </div>
+        <div
+          style={
+            Object {
+              "clear": "both",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/MessageAttachment should match snapshot when the attachment has a link in the title 1`] = `
+<div
+  className="attachment "
+>
+  <div
+    className="attachment__content"
+  >
+    <div
+      className="clearfix attachment__container attachment__container--undefined"
+    >
+      <h1
+        className="attachment__title"
+      >
+        <Connect(Markdown)
+          message="Do you like https://mattermost.com?"
+          options={
+            Object {
+              "autolinkedUrlSchemes": Array [],
+              "mentionHighlight": false,
+              "renderer": LinkOnlyRenderer {
+                "options": Object {},
+              },
+            }
+          }
+        />
+      </h1>
+      <div>
+        <div
+          className="attachment__body attachment__body--no_thumb"
+          onClick={[Function]}
+        />
         <div
           style={
             Object {
@@ -265,8 +309,10 @@ exports[`components/post_view/MessageAttachment should match snapshot when the a
           options={
             Object {
               "autolinkedUrlSchemes": Array [],
-              "markdown": false,
               "mentionHighlight": false,
+              "renderer": LinkOnlyRenderer {
+                "options": Object {},
+              },
             }
           }
         />
@@ -307,8 +353,10 @@ exports[`components/post_view/MessageAttachment should match snapshot when the a
           options={
             Object {
               "autolinkedUrlSchemes": Array [],
-              "markdown": false,
               "mentionHighlight": false,
+              "renderer": LinkOnlyRenderer {
+                "options": Object {},
+              },
             }
           }
         />

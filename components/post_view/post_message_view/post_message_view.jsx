@@ -82,7 +82,7 @@ export default class PostMessageView extends React.PureComponent {
         };
 
         this.imageProps = {
-            onHeightReceived: this.handleHeightReceived,
+            onImageLoaded: this.handleHeightReceived,
         };
     }
 

@@ -142,7 +142,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
     >
       <SaveButton
         btnClass="btn-primary"
-        defaultMessage="Save"
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -423,7 +422,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
     >
       <SaveButton
         btnClass="btn-primary"
-        defaultMessage="Save"
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -600,7 +598,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
     >
       <SaveButton
         btnClass="btn-primary"
-        defaultMessage="Save"
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -881,7 +878,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
     >
       <SaveButton
         btnClass="btn-primary"
-        defaultMessage="Save"
         disabled={true}
         extraClasses=""
         onClick={[Function]}
