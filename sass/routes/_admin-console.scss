@@ -542,21 +542,21 @@
                 width: 16px;
                 height: 16px;
                 position: absolute;
-                top: 14px;
-                left: 14px
+                top: 16px;
+                left: 18px
             }
             .filter {
-                background: $black;
+                background: rgba(255, 255, 255, .05);
                 border: 1px solid #666;
                 border-radius: 20px;
                 color: $white;
-                padding: 5px 25px;
-                margin: 5px;
-                width: 210px;
+                padding: 5px 36px;
+                margin: 8px;
+                width: 204px;
                 font-size: 14px;
                 outline: none;
                 &:focus, &.active {
-                    margin: 4px;
+                    margin: 7px;
                     border: 2px solid $primary-color;
                 }
             }
@@ -564,8 +564,8 @@
                 color: $white;
                 font-weight: bold;
                 position: absolute;
-                top: 8px;
-                right: 6px
+                top: 11px;
+                right: 10px
             }
         }
 
