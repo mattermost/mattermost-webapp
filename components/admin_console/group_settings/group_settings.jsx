@@ -9,8 +9,11 @@ import GroupsList from 'components/admin_console/group_settings/groups_list';
 import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
+import {getSiteURL} from 'utils/url.jsx';
+
 export default class GroupSettings extends React.PureComponent {
     render = () => {
+        const siteURL = getSiteURL();
         return (
             <div className='wrapper--fixed'>
                 <h3 className='admin-console-header'>
@@ -34,7 +37,8 @@ export default class GroupSettings extends React.PureComponent {
                     titleId={t('admin.group_settings.ldapGroupsTitle')}
                     titleDefault='AD/LDAP Groups'
                     subtitleId={t('admin.group_settings.ldapGroupsDescription')}
-                    subtitleDefault='Link and configure groups from your AD/LDAP to Mattermost. Please ensure you have configured a [group filter](/admin_console/authentication/ldap).'
+                    subtitleDefault={`Link and configure groups from your AD/LDAP to Mattermost. Please ensure you have configured a [group filter](${siteURL}/admin_console/authentication/ldap).`}
+                    subtitleValues={{siteURL}}
                 >
                     <GroupsList/>
                 </AdminPanel>
