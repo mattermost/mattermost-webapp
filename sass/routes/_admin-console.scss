@@ -543,7 +543,7 @@
                 height: 16px;
                 position: absolute;
                 top: 16px;
-                left: 18px
+                left: 21px
             }
             .filter {
                 background: rgba(255, 255, 255, .05);
@@ -564,8 +564,8 @@
                 color: $white;
                 font-weight: bold;
                 position: absolute;
-                top: 11px;
-                right: 10px
+                top: 10px;
+                right: 12px
             }
         }
 
@@ -576,6 +576,7 @@
     }
 
     .sidebar-category {
+        margin-top: 0px;
         .category-title {
             background: alpha-color($white, .15);
             color: $white;
