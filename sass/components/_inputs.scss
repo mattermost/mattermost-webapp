@@ -1,9 +1,9 @@
 @charset 'UTF-8';
 
 .help-text {
-    opacity: .5;
     display: block;
     margin: 10px 0 0;
+    color: $gray;
 
     &.no-margin {
         margin: 0;
@@ -16,6 +16,10 @@
     ul,
     ol {
         padding-left: 23px;
+    }
+
+    a {
+        opacity: .5;
     }
 
     .help-link {
