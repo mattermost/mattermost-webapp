@@ -468,6 +468,8 @@
   "admin.experimental.emailBatchingInterval.title": "Email Batching Interval",
   "admin.experimental.enableChannelViewedMessages.desc": "This setting determines whether `channel_viewed` WebSocket events are sent, which synchronize unread notifications across clients and devices. Disabling the setting in larger deployments may improve server performance.",
   "admin.experimental.enableChannelViewedMessages.title": "Enable Channel Viewed WebSocket Messages",
+  "admin.experimental.enableClickToReply.desc": "When enabled, clicking directly on a post‘s body will start a reply–an alternative to clicking the reply button in the post context menu.",
+  "admin.experimental.enableClickToReply.title": "Enable Click-to-Reply",
   "admin.experimental.enablePreviewFeatures.desc": "When true, preview features can be enabled from **Account Settings > Advanced > Preview pre-release features**. When false, disables and hides preview features from **Account Settings > Advanced > Preview pre-release features**.",
   "admin.experimental.enablePreviewFeatures.title": "Enable Preview Features",
   "admin.experimental.enableThemeSelection.desc": "Enables the **Display > Theme** tab in Account Settings so users can select their theme.",

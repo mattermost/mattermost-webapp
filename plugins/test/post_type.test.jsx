@@ -29,6 +29,7 @@ describe('plugins/PostMessageView', () => {
         actions: {
             selectPost: jest.fn().mockResolvedValue({}),
         },
+        enableClickToReply: false,
     };
 
     test('should match snapshot with extended post type', () => {

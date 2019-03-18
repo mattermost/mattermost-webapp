@@ -35,6 +35,7 @@ describe('components/post_view/PostAttachment', () => {
         actions: {
             selectPost: jest.fn().mockResolvedValue({}),
         },
+        enableClickToReply: false,
     };
 
     test('should match snapshot', () => {

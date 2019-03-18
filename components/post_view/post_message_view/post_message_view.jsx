@@ -65,6 +65,16 @@ export default class PostMessageView extends React.PureComponent {
          */
         pluginPostTypes: PropTypes.object,
 
+        /**
+         * Whether or not experimental click-to-reply is enabled.
+         */
+        enableClickToReply: PropTypes.bool.isRequired,
+
+        /**
+         * Whether or not this is a system message
+         */
+        isSystemMessage: PropTypes.bool,
+
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
         }).isRequired,
@@ -90,8 +100,10 @@ export default class PostMessageView extends React.PureComponent {
         };
     }
 
-    handlePostMessageClick = () => {
-        if (!this.props.isRHS) {
+    handlePostMessageClick = (e) => {
+        Utils.handleFormattedTextClick(e);
+
+        if (this.props.enableClickToReply && !e.defaultPrevented && !this.props.isRHS && !this.props.isSystemMessage) {
             this.props.actions.selectPost(this.props.post);
         }
     }
@@ -136,6 +148,14 @@ export default class PostMessageView extends React.PureComponent {
                 />
             </span>
         );
+    }
+
+    getClassName = () => {
+        let className = 'post-message__text';
+        if (this.props.enableClickToReply) {
+            className += ' post-message__text--clickable';
+        }
+        return className;
     }
 
     render() {
@@ -185,8 +205,8 @@ export default class PostMessageView extends React.PureComponent {
             >
                 <div
                     id={`postMessageText_${post.id}`}
-                    className='post-message__text'
-                    onClick={(event) => Utils.handleFormattedTextClick(event, this.handlePostMessageClick)}
+                    className={this.getClassName()}
+                    onClick={this.handlePostMessageClick}
                 >
                     <PostMarkdown
                         message={message}

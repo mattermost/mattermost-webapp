@@ -68,6 +68,11 @@ export default class Post extends React.PureComponent {
          */
         getPostList: PropTypes.func.isRequired,
 
+        /**
+         * Whether or not experimental click-to-reply is enabled.
+         */
+        enableClickToReply: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
         }).isRequired,
@@ -265,6 +270,7 @@ export default class Post extends React.PureComponent {
                             compactDisplay={this.props.compactDisplay}
                             isCommentMention={this.props.isCommentMention}
                             isFirstReply={this.props.isFirstReply}
+                            isSystemMessage={isSystemMessage}
                         />
                     </div>
                 </div>

@@ -81,6 +81,11 @@ export default class PostBody extends React.PureComponent {
          * Set not to allow edits on post
          */
         isReadOnly: PropTypes.bool,
+
+        /**
+         * Whether or not this is a system message
+         */
+        isSystemMessage: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -169,6 +174,7 @@ export default class PostBody extends React.PureComponent {
                     post={this.props.post}
                     compactDisplay={this.props.compactDisplay}
                     hasMention={true}
+                    isSystemMessage={this.props.isSystemMessage}
                 />
             </React.Fragment>
         );

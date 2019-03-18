@@ -17,6 +17,7 @@ exports[`plugins/PostMessageView should match snapshot with extended post type 1
       "name": "smile",
     }
   }
+  enableClickToReply={false}
   enableFormatting={true}
   isRHS={false}
   options={Object {}}

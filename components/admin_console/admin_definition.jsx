@@ -3347,6 +3347,15 @@ export default {
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'ExperimentalSettings.EnableClickToReply',
+                            label: t('admin.experimental.enableClickToReply.title'),
+                            label_default: 'Enable Click-to-Reply',
+                            help_text: t('admin.experimental.enableClickToReply.desc'),
+                            help_text_default: 'When enabled, clicking directly on a post‘s body will start a reply–an alternative to clicking the reply button in the post context menu.',
+                            help_text_markdown: false,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
                             key: 'ExperimentalSettings.ClientSideCertEnable',
                             label: t('admin.experimental.clientSideCertEnable.title'),
                             label_default: 'Enable Client-Side Certification',

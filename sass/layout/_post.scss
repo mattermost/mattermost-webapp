@@ -747,8 +747,6 @@
     }
 
     &:hover {
-        cursor: pointer;
-
         .dropdown,
         .comment-icon__container,
         .reacticon,
@@ -808,13 +806,6 @@
     }
 
     &.post--thread {
-        &.post--comment {
-            .post__body {
-                &:hover {
-                    cursor: text;
-                }
-            }
-        }
         &.same--user {
             padding: 0 .5em 0 1em;
 
@@ -1130,11 +1121,7 @@
         .post__body {
             border-left: 4px solid $gray;
             padding-left: 7px;
-
-            &:hover {
-                cursor: pointer;
-            }
-
+            
             &.mention-comment {
                 border-left: 4px solid $yellow;
                 border-color: $yellow;
@@ -1925,6 +1912,12 @@
 .post-message {
     position: relative;
     overflow: hidden;
+}
+
+#post-list .post:not(.post--system) .post-message__text.post-message__text--clickable {
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .post-collapse {
