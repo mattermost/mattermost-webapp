@@ -63,7 +63,7 @@ export default class CommentIcon extends React.PureComponent {
                 <div>
                     <button
                         id={`${this.props.location}_commentIcon_${this.props.postId}`}
-                        className={iconStyle + ' style--none ' + this.props.extraClass}
+                        className={iconStyle + ' post-controls__button style--none ' + this.props.extraClass}
                         onClick={this.props.handleCommentClick}
                     >
                         {commentCountSpan}

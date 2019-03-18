@@ -247,7 +247,7 @@ export default class DotMenu extends Component {
                 >
                     <button
                         id={`${this.props.location}_button_${this.props.post.id}`}
-                        className='post__dropdown color--link style--none'
+                        className='post-controls__button post__dropdown color--link style--none'
                         type='button'
                         aria-expanded='false'
                     >

@@ -1,0 +1,32 @@
+.post-controls__button {
+    @include border-radius(4px);
+    @include single-transition(all, .15s);
+    display: flex;
+    flex: 1;
+    align-items: center;
+    margin: 0 4px 0 0;
+    justify-content: center;
+    height: 24px;
+    width: 24px;
+
+    &.comment-icon__container {
+        width: auto;
+        padding: 0 4px;
+    }
+
+    svg {
+        @include single-transition(all, .15s);
+    }
+
+    .comment-count {
+        @include single-transition(all, .15s);
+        margin-right: 3px;
+        font-weight: 600;
+    }
+
+    .comment-icon {
+        fill: inherit;
+        display: flex;
+        align-items: center;
+    }
+}

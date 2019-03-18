@@ -1287,55 +1287,17 @@
             white-space: normal;
             z-index: 6;
 
-            > div,
-            > button {
-                @include border-radius(4px);
-                @include single-transition(all, .15s);
-                margin: 0 4px 0 0;
-
-            &:hover {
-                a,
-                button {
-                    svg,
-                    .comment-count {
-                        @include opacity(1);
-                    }
-                }
-            }
-
+            > div {
                 &:last-child {
-                    margin: 0;
+                    .post-controls__button {
+                        margin: 0;
+                    }
                 }
             }
 
             li {
                 button {
                     justify-content: left;
-                }
-            }
-
-            a,
-            button {
-                display: flex;
-                flex: 1;
-                align-items: center;
-                justify-content: center;
-                height: 24px;
-                width: 24px;
-
-                &.comment-icon__container {
-                    width: auto;
-                    padding: 0 4px;
-                }
-
-                svg {
-                    @include opacity(.4);
-                    @include single-transition(all, .15s);
-                }
-
-                .comment-count {
-                    @include single-transition(all, .15s);
-                    @include opacity(.5);
                 }
             }
 
@@ -1741,30 +1703,6 @@
             position: relative;
             top: 3px;
             width: 18px;
-        }
-    }
-
-    .comment-icon__container {
-        text-decoration: none;
-        visibility: hidden;
-
-        &:focus {
-            outline: none;
-        }
-
-        &.icon--visible {
-            visibility: visible;
-        }
-
-        .comment-count {
-            margin-right: 3px;
-            font-weight: 600;
-        }
-
-        .comment-icon {
-            fill: inherit;
-            display: flex;
-            align-items: center;
         }
     }
 

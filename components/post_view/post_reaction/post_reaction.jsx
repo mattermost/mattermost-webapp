@@ -93,7 +93,7 @@ export default class PostReaction extends React.PureComponent {
                     >
                         <button
                             id={`${location}_reaction_${postId}`}
-                            className='reacticon__container color--link style--none'
+                            className='post-controls__button reacticon__container color--link style--none'
                             onClick={this.props.toggleEmojiPicker}
                         >
                             <EmojiIcon className='icon icon--emoji'/>
