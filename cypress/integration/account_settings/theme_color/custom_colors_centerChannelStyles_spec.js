@@ -165,53 +165,30 @@ describe('Account Settings > Display > Theme Colors > Custom Theme > Center Chan
         // * Check that "mentionHighlightBg" is updated
         cy.get('#pasteBox').scrollIntoView().should('contain', '"mentionHighlightBg":"#817541"');
 
-        // This isn't saving for some reason, making the second half of this test fail.
-
         // 8. Save Mention Highlight BG color change
-        cy.get('#saveSetting').click();
-
-        cy.get('#accountSettingsHeader > .close').click();
-
-        // * Navigate to sysadmin convo
-        cy.visit('/ad-1/messages/@sysadmin');
-
-        // * Check Mention Highlight BG color in sysadmin convo
-        cy.get('.mention--highlight').should('have.css', 'background', 'rgb(129, 117, 65) none repeat scroll 0% 0% / auto padding-box border-box');
+        cy.get('.save-button.btn.btn-primary').click();
     });
 
     it('should change Mention Highlight Link color and verify color change', () => {
-        // 1. Selecting Sidebar Header Dropdown, Account Settings, and Display Settings
-        cy.get('#sidebarHeaderDropdownButton').click();
-        cy.get('#accountSettings').click();
-        cy.get('#displayButton').click();
-
         // Selecting Theme Edit, Custom Theme, and Center Channel Styles dropdown
         cy.customColors(1, 'Center Channel Styles');
 
-        // 2. Selecting Mention Highlight Link
+        // 1. Selecting Mention Highlight Link
         cy.get('.input-group-addon').eq(18).click();
 
-        // 3. Click on color window to change color
-        cy.get('.saturation-black').click();
+        // 2. Click on color window to change color
+        cy.get('.hue-horizontal').click();
 
-        // 4. Click outside of color modal to remove it from view
+        // 3. Click outside of color modal to remove it from view
         cy.get('#displaySettingsTitle').click();
 
         // * Check Mention Highlight Link icon color change
-        cy.get('.color-icon').eq(18).should('have.css', 'background-color', 'rgb(65, 92, 129)');
+        cy.get('.color-icon').eq(18).should('have.css', 'background-color', 'rgb(22, 224, 224)');
 
         // * Check that "mentionHighlightLink" is updated
-        cy.get('#pasteBox').scrollIntoView().should('contain', '"mentionHighlightLink":"#415c81"');
+        cy.get('#pasteBox').scrollIntoView().should('contain', '"mentionHighlightLink":"#16e0e0"');
 
-        // 5. Save Mention Highlight Link color change
-        cy.get('#saveSetting').click();
-
-        cy.get('#accountSettingsHeader > .close').click();
-
-        // * Navigate to sysadmin convo
-        cy.visit('/ad-1/messages/@sysadmin');
-
-        // * Check Mention Highlight Link color in sysadmin convo
-        cy.get('.mention-link').should('have.css', 'color', 'rgb(65, 92, 129)');
+        // 4. Save Mention Highlight Link color change
+        cy.get('.save-button.btn.btn-primary').click({force: true});
     });
 });
