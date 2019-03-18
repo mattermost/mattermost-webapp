@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+/* eslint max-nested-callbacks: ["error", 5] */
+
 describe('Edit Message', () => {
     it('M13909 Escape should not close modal when an autocomplete drop down is in use', () => {
         // 1. Login as "user-1" and go to /
@@ -60,5 +62,51 @@ describe('Edit Message', () => {
 
         // * Assert emoji picker is not visible
         cy.get('#emojiPicker').should('not.exist');
+    });
+
+    it('M13482 Display correct timestamp for edited message', () => {
+        // 1. Login as "user-1" and go to /
+        cy.login('user-1');
+        cy.visit('/');
+
+        // 2. Post a message
+        cy.postMessage('Checking timestamp {enter}');
+
+        cy.getLastPostId().then((postId) => {
+            // 3. Mouseover post to display the timestamp
+            cy.get(`#post_${postId}`).trigger('mouseover');
+
+            cy.get(`#CENTER_time_${postId}`).find('#localDateTime').invoke('attr', 'title').then((originalTimeStamp) => {
+                // 4. Click dot menu
+                cy.clickPostDotMenu(postId);
+
+                // 5. Click the edit button
+                cy.get(`#edit_post_${postId}`).click();
+
+                // * Edit modal should appear
+                cy.get('.edit-modal').should('be.visible');
+
+                // 6. Edit the post
+                cy.get('#edit_textbox').type('Some text {enter}');
+
+                // * Edit modal should disappear
+                cy.get('.edit-modal').should('not.be.visible');
+
+                // 7. Mouseover the post again
+                cy.get(`#post_${postId}`).trigger('mouseover');
+
+                // * Current post timestamp should have not been changed by edition
+                cy.get(`#CENTER_time_${postId}`).find('#localDateTime').invoke('attr', 'title').should('be', originalTimeStamp);
+
+                // 8. Open RHS by clicking the post comment icon
+                cy.clickPostCommentIcon(postId);
+
+                // * Check that the RHS is open
+                cy.get('#rhsContainer').should('be.visible');
+
+                // * Check that the RHS timeStamp equals the original post timeStamp
+                cy.get(`#CENTER_time_${postId}`).find('#localDateTime').invoke('attr', 'title').should('be', originalTimeStamp);
+            });
+        });
     });
 });
