@@ -24,7 +24,7 @@ describe('Account Settings > Display > Theme Colors > Custom Theme > Center Chan
         // 2. Click the Display tab
         cy.get('#displayButton').click();
 
-        // * Check that it changed into the Display section
+        // * Check that it changed into the Display sectiogit pun
         cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
 
         //  * Check the min setting view for each element that is present and contains the expected values
