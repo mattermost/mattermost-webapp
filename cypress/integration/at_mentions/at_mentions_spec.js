@@ -18,6 +18,7 @@ describe('at-mention', () => {
     it('N14571 still triggers notification if username is not listed in words that trigger mentions', function() {
         const receiver = this.usersJSON['user-1'];
         const sender = this.usersJSON['user-2'];
+        const message = `@${receiver.username} I'm messaging you! ${Date.now()}`;
 
         // 1. Login and navigate to the account settings
         cy.toAccountSettingsModal(receiver.username);
@@ -45,24 +46,25 @@ describe('at-mention', () => {
         cy.get('#saveSetting').scrollIntoView().click();
         cy.get('#accountSettingsHeader > .close').click();
 
-        // 7. Navigate to the channel we were mention to clear the notification gem
+        // 7. Navigate to the channel we were mention to
+        // clear the notification gem and get the channelId
         cy.get('#sidebarItem_town-square').click();
 
-        // 8. Navigate to a channel we are NOT going to post to
-        cy.get('#sidebarItem_saepe-5').click({force: true});
+        // 8. Get the current channelId
+        cy.getCurrentChannelId().as('channelId');
 
         // 9. Stub out Notification so we can spy on it
         cy.window().then((win) => {
             cy.stub(win, 'Notification').as('notifyStub');
         });
 
-        // Town Square Channel Id
-        const channelId = 'qxj8bebmjib9fjgexdgoepod3y';
+        // 10. Navigate to a channel we are NOT going to post to
+        cy.get('#sidebarItem_saepe-5').click({force: true});
 
-        const message = `@${receiver.username} I'm messaging you! ${Date.now()}`;
-
-        // 10. Use another account to post a message @-mentioning our receiver
-        cy.task('postMessageAs', {sender, message, channelId});
+        // 11. Use another account to post a message @-mentioning our receiver
+        cy.get('@channelId').then((channelId) => {
+            cy.task('postMessageAs', {sender, message, channelId});
+        });
 
         // * Verify the stub
         cy.get('@notifyStub').should((stub) => {
@@ -78,6 +80,26 @@ describe('at-mention', () => {
         });
 
         // * Verify unread mentions badge
-        cy.get('#sidebarItem_town-square').find('#unreadMentions').should('be.visible').and('have.text', '1');
+        cy.get('#sidebarItem_town-square').
+            find('#unreadMentions').
+            should('be.visible').
+            and('have.text', '1');
+
+        // 12. Go to the channel where you were messaged
+        cy.get('#sidebarItem_town-square').click();
+
+        // * Verify that the message is there
+        cy.getLastPostId().then((postId) => {
+            const postMessageTextId = `#postMessageText_${postId}`;
+
+            // * Verify entire message
+            cy.get(postMessageTextId).should('have.text', message);
+
+            // * Verify highlight of username
+            cy.get(postMessageTextId).
+                find(`[data-mention=${receiver.username}]`).
+                should('be.visible').
+                and('have.text', `@${receiver.username}`);
+        });
     });
 });
