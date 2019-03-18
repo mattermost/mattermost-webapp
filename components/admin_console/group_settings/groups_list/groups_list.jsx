@@ -198,7 +198,7 @@ export default class GroupsList extends React.PureComponent {
     }
 
     regex = (str) => {
-        return new RegExp(`(${str})`, 'gi');
+        return new RegExp(`(${str})`, 'i');
     }
 
     searchGroups = (page) => {

@@ -438,7 +438,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                 }}
             />
         );
-        wrapper.setState({showFilters: true, searchString: 'foo is:configured is:notlinked'});
+        wrapper.setState({showFilters: true, searchString: 'foo iS:ConfiGuReD is:notlinked'});
         expect(wrapper.state().filterIsConfigured).toEqual(false);
         expect(wrapper.state().filterIsUnlinked).toEqual(false);
 
