@@ -49,7 +49,7 @@ exports[`components/post_view/PostReaction should match snapshot 1`] = `
       }
     >
       <button
-        className="reacticon__container color--link style--none"
+        className="post-controls__button reacticon__container color--link style--none"
         id="CENTER_reaction_post_id_1"
         onClick={[MockFunction]}
       >
