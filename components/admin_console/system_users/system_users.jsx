@@ -318,7 +318,7 @@ export default class SystemUsers extends React.Component {
                         value={this.props.filter}
                         onChange={this.handleFilterChange}
                     >
-                        <option value=''>{'None'}</option>
+                        <option value=''>{Utils.localizeMessage('admin.system_users.allUsers', 'All Users')}</option>
                         <option value={SearchUserOptionsFilter.SYSTEM_ADMIN}>{Utils.localizeMessage('admin.system_users.system_admin', 'System Admin')}</option>
                         <option value={SearchUserOptionsFilter.ALLOW_INACTIVE}>{Utils.localizeMessage('admin.system_users.inactive', 'Inactive')}</option>
                     </select>

@@ -70,4 +70,38 @@ describe('Message', () => {
             cy.focused().should('contain', 'AA');
         });
     });
+
+    it('M14320 @here., @all. and @channel. (ending in a period) still highlight', () => {
+        // 1. Login and go to /
+        cy.login('user-1');
+        cy.visit('/');
+
+        // 2. Post message
+        cy.postMessage('@here. @all. @channel.');
+
+        // * Check that confirm modal is displayed
+        cy.get('#confirmModal').should('be.visible');
+
+        // 3. Confirm multiple mentions
+        cy.get('#confirmModalButton').click();
+
+        // * Check that confirm modal is closed
+        cy.get('#confirmModal').should('not.be.visible');
+
+        // 4 Waiting create post is done
+        cy.wait(500); // eslint-disable-line
+
+        cy.getLastPostId().then((postId) => {
+            const divPostId = `#postMessageText_${postId}`;
+
+            // * Check that the message contains the whole content sent ie. mentions with dots.
+            cy.get(divPostId).find('p').should('have', '@here. @all. @channel.');
+
+            // * Check that only the at-mention are inside span.mention--highlight
+            cy.get(divPostId).find('.mention--highlight').
+                first().should('have', '@here').should('not.have', '.').
+                next().should('have', '@all').should('not.have', '.').
+                next().should('have', '@channel').should('not.have', '.');
+        });
+    });
 });

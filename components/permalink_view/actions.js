@@ -63,6 +63,7 @@ export function focusPost(postId, returnTo = '') {
         dispatch({
             type: ActionTypes.RECEIVED_FOCUSED_POST,
             data: postId,
+            channelId,
         });
 
         dispatch(loadChannelsForCurrentUser());

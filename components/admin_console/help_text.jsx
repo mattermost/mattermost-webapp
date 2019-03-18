@@ -24,6 +24,10 @@ export default class HelpText extends React.PureComponent {
         textValues: PropTypes.object,
     };
 
+    static defaultProps = {
+        isTranslated: true,
+    };
+
     renderTranslated = () => {
         if (this.props.isMarkdown) {
             return (

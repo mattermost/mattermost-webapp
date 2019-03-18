@@ -23,7 +23,7 @@ export function formatWithRenderer(text, renderer) {
         mangle: false,
     };
 
-    return marked(text, markdownOptions);
+    return (marked(text, markdownOptions)).trim();
 }
 
 export function stripMarkdown(text) {

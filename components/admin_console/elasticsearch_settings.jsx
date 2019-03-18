@@ -36,6 +36,7 @@ export default class ElasticsearchSettings extends AdminSettings {
         config.ElasticsearchSettings.Sniff = this.state.sniff;
         config.ElasticsearchSettings.EnableIndexing = this.state.enableIndexing;
         config.ElasticsearchSettings.EnableSearching = this.state.enableSearching;
+        config.ElasticsearchSettings.EnableAutocomplete = this.state.enableAutocomplete;
 
         return config;
     }
@@ -48,6 +49,7 @@ export default class ElasticsearchSettings extends AdminSettings {
             sniff: config.ElasticsearchSettings.Sniff,
             enableIndexing: config.ElasticsearchSettings.EnableIndexing,
             enableSearching: config.ElasticsearchSettings.EnableSearching,
+            enableAutocomplete: config.ElasticsearchSettings.EnableAutocomplete,
             configTested: true,
             canSave: true,
             canPurgeAndIndex: config.ElasticsearchSettings.EnableIndexing,
@@ -59,6 +61,7 @@ export default class ElasticsearchSettings extends AdminSettings {
             if (value === false) {
                 this.setState({
                     enableSearching: false,
+                    enableAutocomplete: false,
                 });
             } else {
                 this.setState({
@@ -75,7 +78,7 @@ export default class ElasticsearchSettings extends AdminSettings {
             });
         }
 
-        if (id !== 'enableSearching') {
+        if (id !== 'enableSearching' && id !== 'enableAutocomplete') {
             this.setState({
                 canPurgeAndIndex: false,
             });
@@ -368,6 +371,25 @@ export default class ElasticsearchSettings extends AdminSettings {
                     disabled={!this.state.enableIndexing || !this.state.configTested}
                     onChange={this.handleSettingChanged}
                     setByEnv={this.isSetByEnv('ElasticsearchSettings.EnableSearching')}
+                />
+                <BooleanSetting
+                    id='enableAutocomplete'
+                    label={
+                        <FormattedMessage
+                            id='admin.elasticsearch.enableAutocompleteTitle'
+                            defaultMessage='Enable Elasticsearch for autocomplete queries:'
+                        />
+                    }
+                    helpText={
+                        <FormattedMessage
+                            id='admin.elasticsearch.enableAutocompleteDescription'
+                            defaultMessage='Requires a successful connection to the Elasticsearch server. When true, Elasticsearch will be used for all autocompletion queries on users and channels using the latest index. Autocompletion results may be incomplete until a bulk index of the existing users and channels database is finished. When false, database autocomplete is used.'
+                        />
+                    }
+                    value={this.state.enableAutocomplete}
+                    disabled={!this.state.enableIndexing || !this.state.configTested}
+                    onChange={this.handleSettingChanged}
+                    setByEnv={this.isSetByEnv('ElasticsearchSettings.EnableAutocomplete')}
                 />
             </SettingsGroup>
         );
