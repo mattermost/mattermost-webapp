@@ -12,11 +12,14 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import store from 'stores/redux_store.jsx';
+import {loadProfilesForSidebar, setStatusAsOnline, setStatusAsAway} from 'actions/user_actions.jsx';
 import {makeAsyncComponent} from 'components/async_load';
 import loadBackstageController from 'bundle-loader?lazy!components/backstage';
 import ChannelController from 'components/channel_layout/channel_controller';
 import {desktopBridge} from 'desktop';
+
+const dispatch = store.dispatch;
 
 const BackstageController = makeAsyncComponent(loadBackstageController);
 
@@ -85,22 +88,16 @@ export default class NeedsTeam extends React.Component {
 
         // add listeners for events emitted by the desktop
         desktopBridge.on('user-status-update', ({userIsActive}) => {
-            if(!this.props.currentUser) {
+            if (!this.props.currentUser) {
                 return;
             }
 
             // update the server with the users current active status
             // - only update away status once to prevent the desktop app from overiding other online clients
             if (userIsActive === true) {
-                this.props.actions.setStatus({
-                    user_id: this.props.currentUser.id,
-                    status: Constants.UserStatuses.ONLINE,
-                }, false);
-            } else if(this.props.status === Constants.UserStatuses.ONLINE) {
-                this.props.actions.setStatus({
-                    user_id: this.props.currentUser.id,
-                    status: Constants.UserStatuses.AWAY,
-                }, false);
+                dispatch(setStatusAsOnline());
+            } else if (this.props.status === Constants.UserStatuses.ONLINE) {
+                dispatch(setStatusAsAway());
             }
         });
 

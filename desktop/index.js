@@ -2,14 +2,12 @@
 // See LICENSE.txt for license information.
 
 /**
- * Create a placehold desktopBridge if one doens't exist. Likely means we're not running in the desktop client.
+ * Create a placeholder desktopBridge if one doens't exist. Likely means we're not running in the desktop client.
  */
-if(!window.desktopBridge) {
+if (!window.desktopBridge) {
     window.desktopBridge = {
-        on: () => {
-            console.log("Desktop bridge has not been initialized.")
-        },
-        emit: () => {},
+        on: () => {}, //eslint-disable-line no-empty-function
+        emit: () => {}, //eslint-disable-line no-empty-function
     };
 }
 

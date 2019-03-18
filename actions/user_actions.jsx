@@ -424,6 +424,34 @@ export function autoResetStatus() {
     };
 }
 
+export function setStatusAsOnline() {
+    return async (doDispatch, doGetState) => {
+        const {currentUserId} = getState().entities.users;
+        const {data: userStatus} = await UserActions.getStatus(currentUserId)(doDispatch, doGetState);
+
+        if (userStatus.status === UserStatuses.AWAY && !userStatus.manual) {
+            UserActions.setStatus({user_id: currentUserId, status: UserStatuses.ONLINE, manual: false}, false)(doDispatch, doGetState);
+            return userStatus;
+        }
+
+        return userStatus;
+    };
+}
+
+export function setStatusAsAway() {
+    return async (doDispatch, doGetState) => {
+        const {currentUserId} = getState().entities.users;
+        const {data: userStatus} = await UserActions.getStatus(currentUserId)(doDispatch, doGetState);
+
+        if (userStatus.status === UserStatuses.ONLINE && !userStatus.manual) {
+            UserActions.setStatus({user_id: currentUserId, status: UserStatuses.AWAY, manual: false}, false)(doDispatch, doGetState);
+            return userStatus;
+        }
+
+        return userStatus;
+    };
+}
+
 export async function sendPasswordResetEmail(email, success, error) {
     const {data, error: err} = await UserActions.sendPasswordResetEmail(email)(dispatch, getState);
     if (data && success) {

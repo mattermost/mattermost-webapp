@@ -64,6 +64,7 @@ describe('components/needs_team', () => {
         selectTeam: jest.fn(),
         setPreviousTeamId: jest.fn(),
         loadStatusesForChannelAndSidebar: jest.fn(),
+        setStatus: jest.fn(),
     };
     const baseProps = {
         actions,
