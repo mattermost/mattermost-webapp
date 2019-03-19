@@ -86,7 +86,7 @@ describe('at-mention', () => {
             and('have.text', '1');
 
         // 12. Go to the channel where you were messaged
-        cy.get('#sidebarItem_town-square').click();
+        cy.get('#sidebarItem_town-square').scrollIntoView().click();
 
         // * Verify that the message is there
         cy.getLastPostId().then((postId) => {
