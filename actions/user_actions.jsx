@@ -429,7 +429,7 @@ export function setStatusAsOnline() {
         const {currentUserId} = getState().entities.users;
         const {data: userStatus} = await UserActions.getStatus(currentUserId)(doDispatch, doGetState);
 
-        if (userStatus.status === UserStatuses.AWAY && !userStatus.manual) {
+        if (!userStatus.manual) {
             UserActions.setStatus({user_id: currentUserId, status: UserStatuses.ONLINE, manual: false}, false)(doDispatch, doGetState);
             return userStatus;
         }
