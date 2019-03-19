@@ -95,7 +95,7 @@ describe('Actions.Team', () => {
         expect(channelActions.getChannelStats).toHaveBeenCalledWith('currentChannelId');
     });
 
-    test('addUserToTeamFromInvite', async () => {
+    test('addUserToTeam', async () => {
         await testStore.dispatch(Actions.addUserToTeam('teamId', 'userId'));
         expect(TeamActions.addUserToTeam).toHaveBeenCalledWith('teamId', 'userId');
         expect(TeamActions.getTeam).toHaveBeenCalledWith('teamId');
