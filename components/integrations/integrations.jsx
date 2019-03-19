@@ -7,6 +7,8 @@ import {FormattedMessage} from 'react-intl';
 
 import {Permissions} from 'mattermost-redux/constants';
 
+import BotAccountsIcon from 'images/bot_accounts_icon.svg';
+
 import * as Utils from 'utils/utils.jsx';
 import IncomingWebhookIcon from 'images/incoming_webhook.jpg';
 import OAuthIcon from 'images/oauth_icon.png';
@@ -153,6 +155,30 @@ export default class Integrations extends React.Component {
                 </SystemPermissionGate>
             );
         }
+
+        options.push(
+            <SystemPermissionGate
+                permissions={['manage_bots']}
+                key='botsPermissions'
+            >
+                <IntegrationOption
+                    image={BotAccountsIcon}
+                    title={
+                        <FormattedMessage
+                            id='bots.manage.header'
+                            defaultMessage='Bot Accounts'
+                        />
+                    }
+                    description={
+                        <FormattedMessage
+                            id='bots.manage.description'
+                            defaultMessage='Create a Bot User and interact with the app through the API.'
+                        />
+                    }
+                    link={'/' + this.props.team.name + '/integrations/bots'}
+                />
+            </SystemPermissionGate>
+        );
 
         return (
             <div className='backstage-content row'>

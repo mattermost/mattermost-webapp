@@ -22,6 +22,7 @@ export default class ConfirmIntegration extends React.Component {
             oauthApps: PropTypes.object,
             incomingHooks: PropTypes.object,
             outgoingHooks: PropTypes.object,
+            bots: PropTypes.object,
         };
     }
 
@@ -56,6 +57,7 @@ export default class ConfirmIntegration extends React.Component {
         const incomingHook = this.props.incomingHooks[this.state.id];
         const outgoingHook = this.props.outgoingHooks[this.state.id];
         const oauthApp = this.props.oauthApps[this.state.id];
+        const bot = this.props.bots[this.state.id];
 
         if (this.state.type === Constants.Integrations.COMMAND && command) {
             const commandToken = command.token;
@@ -218,6 +220,24 @@ export default class ConfirmIntegration extends React.Component {
                         defaultMessage='**URL(s)**: {url}'
                         values={{
                             url: oauthApp.callback_urls,
+                        }}
+                    />
+                </p>
+            );
+        } else if (this.state.type === Constants.Integrations.BOT && bot) {
+            headerText = (
+                <FormattedMessage
+                    id='bots.manage.header'
+                    defaultMessage='Bot Accounts'
+                />
+            );
+            helpText = (
+                <p>
+                    <FormattedMarkdownMessage
+                        id='bots.manage.created.text'
+                        defaultMessage='Your Bot Account {botname} has been created successfully. Please use the following Bot Access Token to connect to the bot (see documentation for further details).'
+                        values={{
+                            botname: bot.display_name,
                         }}
                     />
                 </p>

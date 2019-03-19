@@ -8,7 +8,7 @@ import {defineMessages, FormattedDate, FormattedMessage, injectIntl, intlShape} 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import {AcceptedProfileImageTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
@@ -93,8 +93,6 @@ const prevSections = {
     email: 'position',
     picture: 'email',
 };
-
-const ACCEPTED_PROFILE_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/bmp'];
 
 class UserSettingsGeneralTab extends React.Component {
     static propTypes = {
@@ -328,7 +326,7 @@ class UserSettingsGeneralTab extends React.Component {
         const {formatMessage} = this.props.intl;
         const file = this.state.pictureFile;
 
-        if (!ACCEPTED_PROFILE_IMAGE_TYPES.includes(file.type)) {
+        if (!AcceptedProfileImageTypes.includes(file.type)) {
             this.setState({clientError: formatMessage(holders.validImage), serverError: ''});
             return;
         } else if (file.size > this.props.maxFileSize) {
