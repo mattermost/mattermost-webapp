@@ -81,6 +81,7 @@ describe('at-mention', () => {
 
         // * Verify unread mentions badge
         cy.get('#sidebarItem_town-square').
+            scrollIntoView().
             find('#unreadMentions').
             should('be.visible').
             and('have.text', '1');
