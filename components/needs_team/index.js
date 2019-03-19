@@ -7,10 +7,9 @@ import {withRouter} from 'react-router-dom';
 
 import {fetchMyChannelsAndMembers, markChannelAsRead, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads, getTeams, joinTeam, selectTeam} from 'mattermost-redux/actions/teams';
-import {setStatus} from 'mattermost-redux/actions/users';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 
@@ -32,7 +31,6 @@ function mapStateToProps(state, ownProps) {
         currentTeamId: getCurrentTeamId(state),
         teamsList: getMyTeams(state),
         currentChannelId: getCurrentChannelId(state),
-        status: getStatusForUserId(state, currentUser.id),
     };
 }
 
@@ -48,7 +46,6 @@ function mapDispatchToProps(dispatch) {
             setPreviousTeamId,
             selectTeam,
             loadStatusesForChannelAndSidebar,
-            setStatus,
         }, dispatch),
     };
 }

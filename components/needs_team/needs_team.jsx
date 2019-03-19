@@ -33,7 +33,6 @@ const TEAMS_PER_PAGE = 200;
 export default class NeedsTeam extends React.Component {
     static propTypes = {
         params: PropTypes.object,
-        status: PropTypes.string,
         currentUser: PropTypes.object,
         currentChannelId: PropTypes.string,
         currentTeamId: PropTypes.string,
@@ -48,7 +47,6 @@ export default class NeedsTeam extends React.Component {
             selectTeam: PropTypes.func.isRequired,
             setPreviousTeamId: PropTypes.func.isRequired,
             loadStatusesForChannelAndSidebar: PropTypes.func.isRequired,
-            setStatus: PropTypes.func.isRequired,
         }).isRequired,
         theme: PropTypes.object.isRequired,
         mfaRequired: PropTypes.bool.isRequired,
@@ -93,10 +91,9 @@ export default class NeedsTeam extends React.Component {
             }
 
             // update the server with the users current active status
-            // - only update away status once to prevent the desktop app from overiding other online clients
             if (userIsActive === true) {
                 dispatch(setStatusAsOnline());
-            } else if (this.props.status === Constants.UserStatuses.ONLINE) {
+            } else {
                 dispatch(setStatusAsAway());
             }
         });

@@ -430,7 +430,7 @@ export function setStatusAsOnline() {
         const {data: userStatus} = await UserActions.getStatus(currentUserId)(doDispatch, doGetState);
 
         if (!userStatus.manual) {
-            UserActions.setStatus({user_id: currentUserId, status: UserStatuses.ONLINE, manual: false}, false)(doDispatch, doGetState);
+            UserActions.setStatus({user_id: currentUserId, status: UserStatuses.ONLINE}, false)(doDispatch, doGetState);
             return userStatus;
         }
 
@@ -444,7 +444,7 @@ export function setStatusAsAway() {
         const {data: userStatus} = await UserActions.getStatus(currentUserId)(doDispatch, doGetState);
 
         if (userStatus.status === UserStatuses.ONLINE && !userStatus.manual) {
-            UserActions.setStatus({user_id: currentUserId, status: UserStatuses.AWAY, manual: false}, false)(doDispatch, doGetState);
+            UserActions.setStatus({user_id: currentUserId, status: UserStatuses.AWAY}, false)(doDispatch, doGetState);
             return userStatus;
         }
 
