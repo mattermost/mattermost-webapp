@@ -17,22 +17,25 @@ jest.mock('utils/policy_roles_adapter', () => ({
 }));
 
 describe('components/select_team/SelectTeam', () => {
-    const addUserToTeamFromInvite = jest.fn().mockResolvedValue({data: true});
+    const addUserToTeam = jest.fn().mockResolvedValue({data: true});
     const baseProps = {
         currentUserRoles: 'system_admin',
+        currentUserId: 'test',
         isMemberOfTeam: true,
-        joinableTeams: [
-            {id: 'team_id_1', delete_at: 0, name: 'team-a', display_name: 'Team A'},
-            {id: 'team_id_2', delete_at: 0, name: 'b-team', display_name: 'B Team'},
+        listableTeams: [
+            {id: 'team_id_1', delete_at: 0, name: 'team-a', display_name: 'Team A', allow_open_invite: true},
+            {id: 'team_id_2', delete_at: 0, name: 'b-team', display_name: 'B Team', allow_open_invite: true},
         ],
         siteName: 'Mattermost',
         canCreateTeams: false,
         canManageSystem: true,
+        canJoinPublicTeams: true,
+        canJoinPrivateTeams: false,
         history: {push: jest.fn()},
         actions: {
             getTeams: jest.fn(),
             loadRolesIfNeeded: jest.fn(),
-            addUserToTeamFromInvite,
+            addUserToTeam,
         },
     };
 
@@ -62,22 +65,22 @@ describe('components/select_team/SelectTeam', () => {
     });
 
     test('should match snapshot, on no joinable team but can create team', () => {
-        const props = {...baseProps, joinableTeams: []};
+        const props = {...baseProps, listableTeams: []};
         const wrapper = shallow(<SelectTeam {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, on no joinable team and is not system admin nor can create team', () => {
-        const props = {...baseProps, joinableTeams: [], currentUserRoles: '', canManageSystem: false, canCreateTeams: false};
+        const props = {...baseProps, listableTeams: [], currentUserRoles: '', canManageSystem: false, canCreateTeams: false};
         const wrapper = shallow(<SelectTeam {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match state and call addUserToTeamFromInvite on handleTeamClick', async () => {
+    test('should match state and call addUserToTeam on handleTeamClick', async () => {
         const wrapper = shallow(<SelectTeam {...baseProps}/>);
         await wrapper.instance().handleTeamClick({id: 'team_id'});
         expect(wrapper.state('loadingTeamId')).toEqual('team_id');
-        expect(addUserToTeamFromInvite).toHaveBeenCalledTimes(1);
+        expect(addUserToTeam).toHaveBeenCalledTimes(1);
     });
 
     test('should call emitUserLoggedOutEvent on handleLogoutClick', () => {

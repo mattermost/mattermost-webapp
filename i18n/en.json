@@ -2627,6 +2627,7 @@
   "search_results.usagePin4": "To pin a message: Go to the message that you want to pin and click [...] > \"Pin to channel\".",
   "select_team.icon": "Select Team Icon",
   "select_team.join.icon": "Join Team Icon",
+  "select_team.private.icon": "Private Team",
   "setting_item_max.cancel": "Cancel",
   "setting_item_min.edit": "Edit",
   "setting_picture.cancel": "Cancel",
