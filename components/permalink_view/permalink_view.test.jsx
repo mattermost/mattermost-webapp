@@ -138,7 +138,7 @@ describe('components/PermalinkView', () => {
                 expect(testStore.getActions()).toEqual([
                     {type: 'MOCK_GET_POST_THREAD', data: {posts: {postid1: {id: 'postid1', message: 'some message', channel_id: 'channelid1'}}, order: ['postid1']}},
                     {type: 'MOCK_SELECT_CHANNEL', args: ['channelid1']},
-                    {type: 'RECEIVED_FOCUSED_POST', data: 'postid1'},
+                    {type: 'RECEIVED_FOCUSED_POST', data: 'postid1', channelId: 'channelid1'},
                     {type: 'MOCK_LOAD_CHANNELS_FOR_CURRENT_USER'},
                     {type: 'MOCK_GET_CHANNEL_STATS', args: ['channelid1']},
                 ]);
@@ -146,6 +146,7 @@ describe('components/PermalinkView', () => {
 
             test('should focus post in not loaded channel', async () => {
                 const testStore = await mockStore(initialState);
+
                 await testStore.dispatch(focusPost('postid2'));
 
                 expect(getPostThread).toHaveBeenCalledWith('postid2');
@@ -154,7 +155,7 @@ describe('components/PermalinkView', () => {
                     {type: 'MOCK_GET_CHANNEL', data: {id: 'channelid2', type: 'O', team_id: 'current_team_id'}},
                     {type: 'MOCK_JOIN_CHANNEL', args: ['current_user_id', null, 'channelid2']},
                     {type: 'MOCK_SELECT_CHANNEL', args: ['channelid2']},
-                    {type: 'RECEIVED_FOCUSED_POST', data: 'postid2'},
+                    {type: 'RECEIVED_FOCUSED_POST', data: 'postid2', channelId: 'channelid2'},
                     {type: 'MOCK_LOAD_CHANNELS_FOR_CURRENT_USER'},
                     {type: 'MOCK_GET_CHANNEL_STATS', args: ['channelid2']},
                 ]);

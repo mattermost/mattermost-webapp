@@ -7,24 +7,20 @@ exports[`components/Markdown should not render markdown when formatting is disab
 `;
 
 exports[`components/Markdown should render properly 1`] = `
-Array [
-  <p
-    key="0"
+<p
+  key="0"
+>
+  This 
+  <em
+    key="1"
   >
-    This 
-    <em
-      key="1"
-    >
-      is
-    </em>
-     some 
-    <strong
-      key="3"
-    >
-      Markdown
-    </strong>
-  </p>,
-  "
-",
-]
+    is
+  </em>
+   some 
+  <strong
+    key="3"
+  >
+    Markdown
+  </strong>
+</p>
 `;

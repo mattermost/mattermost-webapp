@@ -6,6 +6,7 @@ import emojiRegex from 'emoji-regex';
 import {formatText, autolinkAtMentions, highlightSearchTerms, handleUnicodeEmoji} from 'utils/text_formatting.jsx';
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
+import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
 
 describe('formatText', () => {
     test('jumbo emoji should be able to handle up to 3 spaces before the emoji character', () => {
@@ -133,5 +134,30 @@ describe('handleUnicodeEmoji', () => {
 
         const output = handleUnicodeEmoji(text, emojiMap, UNICODE_EMOJI_REGEX);
         expect(output).toBe('<span class="emoticon emoticon--unicode">🤟</span>');
+    });
+});
+
+describe('linkOnlyMarkdown', () => {
+    const options = {markdown: false, renderer: new LinkOnlyRenderer()};
+    test('link without a title', () => {
+        const text = 'Do you like https://www.mattermost.com?';
+        const output = formatText(text, options);
+        expect(output).toBe(
+            'Do you like <a class="theme markdown__link" href="https://www.mattermost.com" target="_blank">' +
+            'https://www.mattermost.com</a>?');
+    });
+    test('link with a title', () => {
+        const text = 'Do you like [Mattermost](https://www.mattermost.com)?';
+        const output = formatText(text, options);
+        expect(output).toBe(
+            'Do you like <a class="theme markdown__link" href="https://www.mattermost.com" target="_blank">' +
+            'Mattermost</a>?');
+    });
+    test('link with header signs to skip', () => {
+        const text = '#### Do you like [Mattermost](https://www.mattermost.com)?';
+        const output = formatText(text, options);
+        expect(output).toBe(
+            'Do you like <a class="theme markdown__link" href="https://www.mattermost.com" target="_blank">' +
+            'Mattermost</a>?');
     });
 });

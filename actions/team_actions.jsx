@@ -19,9 +19,9 @@ export function removeUserFromTeamAndGetStats(teamId, userId) {
     };
 }
 
-export function addUserToTeamFromInvite(token, inviteId) {
+export function addUserToTeam(teamId, userId) {
     return async (dispatch) => {
-        const {data: member, error} = await dispatch(TeamActions.addUserToTeamFromInvite(token, inviteId));
+        const {data: member, error} = await dispatch(TeamActions.addUserToTeam(teamId, userId));
         if (member) {
             const {data} = await dispatch(TeamActions.getTeam(member.team_id));
 

@@ -183,6 +183,14 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
         expect(wrapper.state('emailInterval')).toBe(nextProps.emailInterval);
         expect(wrapper.state('enableEmailBatching')).toBe(nextProps.enableEmailBatching);
         expect(wrapper.state('sendEmailNotifications')).toBe(nextProps.sendEmailNotifications);
-        expect(wrapper.state('newInterval')).toBe(Preferences.INTERVAL_IMMEDIATE);
+        expect(wrapper.state('newInterval')).toBe(Preferences.INTERVAL_NEVER);
+
+        nextProps.enableEmail = true;
+        nextProps.emailInterval = Preferences.INTERVAL_FIFTEEN_MINUTES;
+        wrapper.setProps(nextProps);
+        expect(wrapper.state('emailInterval')).toBe(nextProps.emailInterval);
+        expect(wrapper.state('enableEmailBatching')).toBe(nextProps.enableEmailBatching);
+        expect(wrapper.state('sendEmailNotifications')).toBe(nextProps.sendEmailNotifications);
+        expect(wrapper.state('newInterval')).toBe(Preferences.INTERVAL_FIFTEEN_MINUTES);
     });
 });

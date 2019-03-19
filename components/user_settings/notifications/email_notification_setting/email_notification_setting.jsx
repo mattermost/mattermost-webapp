@@ -40,6 +40,7 @@ export default class EmailNotificationSetting extends React.Component {
 
         const {
             emailInterval,
+            enableEmail,
             enableEmailBatching,
             sendEmailNotifications,
         } = props;
@@ -48,15 +49,16 @@ export default class EmailNotificationSetting extends React.Component {
             emailInterval,
             enableEmailBatching,
             sendEmailNotifications,
-            newInterval: getEmailInterval(sendEmailNotifications, enableEmailBatching, emailInterval),
+            newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
         };
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
         const {
-            sendEmailNotifications,
-            enableEmailBatching,
             emailInterval,
+            enableEmail,
+            enableEmailBatching,
+            sendEmailNotifications,
         } = nextProps;
 
         if (sendEmailNotifications !== prevState.sendEmailNotifications ||
@@ -67,7 +69,7 @@ export default class EmailNotificationSetting extends React.Component {
                 emailInterval,
                 enableEmailBatching,
                 sendEmailNotifications,
-                newInterval: getEmailInterval(sendEmailNotifications, enableEmailBatching, emailInterval),
+                newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
             };
         }
 

@@ -297,6 +297,7 @@ export default class CustomThemeChooser extends React.Component {
                             id={element.id}
                         >
                             <select
+                                id='codeThemeSelect'
                                 className='form-control'
                                 type='text'
                                 defaultValue={theme[element.id]}
@@ -380,6 +381,7 @@ export default class CustomThemeChooser extends React.Component {
                 <textarea
                     ref='textarea'
                     className='form-control'
+                    id='pasteBox'
                     value={this.state.copyTheme}
                     onPaste={this.pasteBoxChange}
                     onChange={this.onChangeHandle}
@@ -418,7 +420,10 @@ export default class CustomThemeChooser extends React.Component {
                         {sidebarElements}
                     </div>
                 </div>
-                <div className='theme-elements row'>
+                <div
+                    id='centerChannelStyles'
+                    className='theme-elements row'
+                >
                     <div
                         ref='centerChannelStylesHeader'
                         className='theme-elements__header'
