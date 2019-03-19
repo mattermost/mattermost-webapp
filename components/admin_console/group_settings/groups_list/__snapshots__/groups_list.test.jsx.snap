@@ -7,7 +7,234 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   <div
     className="groups-list--global-actions"
   >
-    <div />
+    <div
+      className="group-list-search"
+    >
+      <input
+        onChange={[Function]}
+        onKeyUp={[Function]}
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+      <SearchIcon
+        aria-hidden="true"
+        className="search__icon"
+        id="searchIcon"
+      />
+      <i
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
+        onClick={[Function]}
+      />
+    </div>
+    <div
+      className="group-list-link-unlink"
+    >
+      <button
+        className="btn btn-inactive disabled"
+      >
+        <i
+          className="icon fa fa-link"
+        />
+        <FormattedMessage
+          defaultMessage="Link Selected Groups"
+          id="admin.group_settings.groups_list.link_selected"
+          values={Object {}}
+        />
+      </button>
+    </div>
+  </div>
+  <div
+    className="groups-list--header"
+  >
+    <div
+      className="group-name"
+    >
+      <FormattedMessage
+        defaultMessage="Name"
+        id="admin.group_settings.groups_list.nameHeader"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="group-description"
+    >
+      <FormattedMessage
+        defaultMessage="Mattermost Linking"
+        id="admin.group_settings.groups_list.mappingHeader"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="group-actions"
+    />
+  </div>
+  <div
+    className="groups-list--body"
+  >
+    <div
+      className="groups-list-loading"
+    >
+      <i
+        className="fa fa-spinner fa-pulse fa-2x"
+      />
+    </div>
+  </div>
+  <div
+    className="groups-list--footer"
+  >
+    <div
+      className="counter"
+    >
+      <FormattedMessage
+        defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
+        id="admin.group_settings.groups_list.paginatorCount"
+        values={
+          Object {
+            "endCount": 0,
+            "startCount": 1,
+            "total": 0,
+          }
+        }
+      />
+    </div>
+    <button
+      className="btn btn-link prev disabled"
+      disabled={true}
+      onClick={null}
+    >
+      <PreviousIcon
+        additionalClassName={null}
+      />
+    </button>
+    <button
+      className="btn btn-link next disabled"
+      disabled={true}
+      onClick={null}
+    >
+      <NextIcon
+        additionalClassName={null}
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/group_settings/GroupsList should match snapshot, with filters open 1`] = `
+<div
+  className="groups-list"
+>
+  <div
+    className="groups-list--global-actions"
+  >
+    <div
+      className="group-list-search"
+    >
+      <input
+        onChange={[Function]}
+        onKeyUp={[Function]}
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+      <SearchIcon
+        aria-hidden="true"
+        className="search__icon"
+        id="searchIcon"
+      />
+      <i
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action hidden"
+        onClick={[Function]}
+      />
+    </div>
+    <div
+      className="group-search-filters"
+      id="group-filters"
+      onClick={[Function]}
+    >
+      <div
+        className="filter-row"
+      >
+        <span
+          className="filter-check checked"
+          onClick={[Function]}
+        >
+          <CheckboxCheckedIcon />
+        </span>
+        <span>
+          <FormattedMessage
+            defaultMessage="Is Linked"
+            id="admin.group_settings.filters.isLinked"
+            values={Object {}}
+          />
+        </span>
+      </div>
+      <div
+        className="filter-row"
+      >
+        <span
+          className="filter-check checked"
+          onClick={[Function]}
+        >
+          <CheckboxCheckedIcon />
+        </span>
+        <span>
+          <FormattedMessage
+            defaultMessage="Is Not Linked"
+            id="admin.group_settings.filters.isUnlinked"
+            values={Object {}}
+          />
+        </span>
+      </div>
+      <div
+        className="filter-row"
+      >
+        <span
+          className="filter-check "
+          onClick={[Function]}
+        />
+        <span>
+          <FormattedMessage
+            defaultMessage="Is Configured"
+            id="admin.group_settings.filters.isConfigured"
+            values={Object {}}
+          />
+        </span>
+      </div>
+      <div
+        className="filter-row"
+      >
+        <span
+          className="filter-check "
+          onClick={[Function]}
+        />
+        <span>
+          <FormattedMessage
+            defaultMessage="Is Not Configured"
+            id="admin.group_settings.filters.isUnconfigured"
+            values={Object {}}
+          />
+        </span>
+      </div>
+      <a
+        className="btn btn-primary search-groups-btn"
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Search"
+          id="search_bar.search"
+          values={Object {}}
+        />
+      </a>
+    </div>
     <div
       className="group-list-link-unlink"
     >
@@ -108,7 +335,30 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   <div
     className="groups-list--global-actions"
   >
-    <div />
+    <div
+      className="group-list-search"
+    >
+      <input
+        onChange={[Function]}
+        onKeyUp={[Function]}
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+      <SearchIcon
+        aria-hidden="true"
+        className="search__icon"
+        id="searchIcon"
+      />
+      <i
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
+        onClick={[Function]}
+      />
+    </div>
     <div
       className="group-list-link-unlink"
     >
@@ -210,7 +460,30 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   <div
     className="groups-list--global-actions"
   >
-    <div />
+    <div
+      className="group-list-search"
+    >
+      <input
+        onChange={[Function]}
+        onKeyUp={[Function]}
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+      <SearchIcon
+        aria-hidden="true"
+        className="search__icon"
+        id="searchIcon"
+      />
+      <i
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
+        onClick={[Function]}
+      />
+    </div>
     <div
       className="group-list-link-unlink"
     >
@@ -312,7 +585,30 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   <div
     className="groups-list--global-actions"
   >
-    <div />
+    <div
+      className="group-list-search"
+    >
+      <input
+        onChange={[Function]}
+        onKeyUp={[Function]}
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+      <SearchIcon
+        aria-hidden="true"
+        className="search__icon"
+        id="searchIcon"
+      />
+      <i
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
+        onClick={[Function]}
+      />
+    </div>
     <div
       className="group-list-link-unlink"
     >
@@ -414,7 +710,30 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   <div
     className="groups-list--global-actions"
   >
-    <div />
+    <div
+      className="group-list-search"
+    >
+      <input
+        onChange={[Function]}
+        onKeyUp={[Function]}
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+      <SearchIcon
+        aria-hidden="true"
+        className="search__icon"
+        id="searchIcon"
+      />
+      <i
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
+        onClick={[Function]}
+      />
+    </div>
     <div
       className="group-list-link-unlink"
     >
@@ -553,7 +872,30 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   <div
     className="groups-list--global-actions"
   >
-    <div />
+    <div
+      className="group-list-search"
+    >
+      <input
+        onChange={[Function]}
+        onKeyUp={[Function]}
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+      <SearchIcon
+        aria-hidden="true"
+        className="search__icon"
+        id="searchIcon"
+      />
+      <i
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
+        onClick={[Function]}
+      />
+    </div>
     <div
       className="group-list-link-unlink"
     >
@@ -797,7 +1139,30 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   <div
     className="groups-list--global-actions"
   >
-    <div />
+    <div
+      className="group-list-search"
+    >
+      <input
+        onChange={[Function]}
+        onKeyUp={[Function]}
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+      <SearchIcon
+        aria-hidden="true"
+        className="search__icon"
+        id="searchIcon"
+      />
+      <i
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
+        onClick={[Function]}
+      />
+    </div>
     <div
       className="group-list-link-unlink"
     >
@@ -1041,7 +1406,30 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   <div
     className="groups-list--global-actions"
   >
-    <div />
+    <div
+      className="group-list-search"
+    >
+      <input
+        onChange={[Function]}
+        onKeyUp={[Function]}
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+      <SearchIcon
+        aria-hidden="true"
+        className="search__icon"
+        id="searchIcon"
+      />
+      <i
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
+        onClick={[Function]}
+      />
+    </div>
     <div
       className="group-list-link-unlink"
     >
@@ -1180,7 +1568,30 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   <div
     className="groups-list--global-actions"
   >
-    <div />
+    <div
+      className="group-list-search"
+    >
+      <input
+        onChange={[Function]}
+        onKeyUp={[Function]}
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+      <SearchIcon
+        aria-hidden="true"
+        className="search__icon"
+        id="searchIcon"
+      />
+      <i
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
+        onClick={[Function]}
+      />
+    </div>
     <div
       className="group-list-link-unlink"
     >
@@ -1283,7 +1694,30 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   <div
     className="groups-list--global-actions"
   >
-    <div />
+    <div
+      className="group-list-search"
+    >
+      <input
+        onChange={[Function]}
+        onKeyUp={[Function]}
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+      <SearchIcon
+        aria-hidden="true"
+        className="search__icon"
+        id="searchIcon"
+      />
+      <i
+        className="fa fa-times-circle group-filter-action hidden"
+        onClick={[Function]}
+      />
+      <i
+        className="fa fa-caret-down group-filter-action "
+        onClick={[Function]}
+      />
+    </div>
     <div
       className="group-list-link-unlink"
     >
