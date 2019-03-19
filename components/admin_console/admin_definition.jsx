@@ -155,6 +155,25 @@ export default {
             url: 'system_analytics',
             title: t('admin.sidebar.view_statistics'),
             title_default: 'Site Statistics',
+            searchableStrings: [
+                'analytics.system.title',
+                'analytics.system.totalPosts',
+                'analytics.system.activeUsers',
+                'analytics.system.totalSessions',
+                'analytics.system.totalCommands',
+                'analytics.system.totalIncomingWebhooks',
+                'analytics.system.totalOutgoingWebhooks',
+                'analytics.system.totalWebsockets',
+                'analytics.system.totalMasterDbConnections',
+                'analytics.system.totalReadDbConnections',
+                'analytics.system.postTypes',
+                'analytics.system.channelTypes',
+                'analytics.system.totalUsers',
+                'analytics.system.totalTeams',
+                'analytics.system.totalChannels',
+                'analytics.system.dailyActiveUsers',
+                'analytics.system.monthlyActiveUsers',
+            ],
             schema: {
                 id: 'SystemAnalytics',
                 component: SystemAnalytics,
@@ -164,6 +183,17 @@ export default {
             url: 'team_analytics',
             title: t('admin.sidebar.statistics'),
             title_default: 'Team Statistics',
+            searchableStrings: [
+                ['analytics.team.title', {team: ''}],
+                'analytics.system.info',
+                'analytics.team.totalPosts',
+                'analytics.team.activeUsers',
+                'analytics.team.totalUsers',
+                'analytics.team.publicChannels',
+                'analytics.team.privateGroups',
+                'analytics.team.recentUsers',
+                'analytics.team.newlyCreated',
+            ],
             schema: {
                 id: 'TeamAnalytics',
                 component: TeamAnalytics,
@@ -173,6 +203,9 @@ export default {
             url: 'users',
             title: t('admin.sidebar.users'),
             title_default: 'Users',
+            searchableStrings: [
+                ['admin.system_users.title', {siteName: ''}],
+            ],
             schema: {
                 id: 'SystemUsers',
                 component: SystemUsers,
@@ -182,6 +215,10 @@ export default {
             url: 'logs',
             title: t('admin.sidebar.logs'),
             title_default: 'Logs',
+            searchableStrings: [
+                'admin.logs.bannerDesc',
+                'admin.logs.title',
+            ],
             schema: {
                 id: 'ServerLogs',
                 component: ServerLogs,
@@ -801,6 +838,18 @@ export default {
                     needsUtils.not(needsUtils.hasLicense),
                     needsUtils.not(needsUtils.hasLicenseFeature('CustomPermissionsSchemes'))
                 ),
+                searchableStrings: [
+                    'admin.permissions.documentationLinkText',
+                    'admin.permissions.teamOverrideSchemesNoSchemes',
+                    'admin.permissions.loadMoreSchemes',
+                    'admin.permissions.introBanner',
+                    'admin.permissions.systemSchemeBannerTitle',
+                    'admin.permissions.systemSchemeBannerText',
+                    'admin.permissions.systemSchemeBannerButton',
+                    'admin.permissions.teamOverrideSchemesTitle',
+                    'admin.permissions.teamOverrideSchemesBannerText',
+                    'admin.permissions.teamOverrideSchemesNewButton',
+                ],
                 schema: {
                     id: 'PermissionSchemes',
                     component: PermissionSchemesSettings,
@@ -1623,7 +1672,8 @@ export default {
                                 let ldapUsers = 0;
                                 let deleteCount = 0;
                                 let updateCount = 0;
-                                let ldapGroups = 0;
+                                let linkedLdapGroupsCount; // Deprecated.
+                                let totalLdapGroupsCount = 0;
                                 let groupDeleteCount = 0;
                                 let groupMemberDeleteCount = 0;
                                 let groupMemberAddCount = 0;
@@ -1641,8 +1691,15 @@ export default {
                                         updateCount = job.data.update_count;
                                     }
 
+                                    // Deprecated groups count representing the number of linked LDAP groups.
                                     if (job.data.ldap_groups_count) {
-                                        ldapGroups = job.data.ldap_groups_count;
+                                        linkedLdapGroupsCount = job.data.ldap_groups_count;
+                                    }
+
+                                    // Groups count representing the total number of LDAP groups available based on
+                                    // the configured based DN and groups filter.
+                                    if (job.data.total_ldap_groups_count) {
+                                        totalLdapGroupsCount = job.data.total_ldap_groups_count;
                                     }
 
                                     if (job.data.group_delete_count) {
@@ -1661,11 +1718,11 @@ export default {
                                 return (
                                     <span>
                                         <FormattedMessage
-                                            id='admin.ldap.jobExtraInfo'
-                                            defaultMessage='Scanned {ldapUsers, number} LDAP users and {ldapGroups, number} groups.'
+                                            id={linkedLdapGroupsCount ? 'admin.ldap.jobExtraInfo' : 'admin.ldap.jobExtraInfoTotal'}
+                                            defaultMessage={linkedLdapGroupsCount ? 'Scanned {ldapUsers, number} LDAP users and {ldapGroups, number} linked groups.' : 'Scanned {ldapUsers, number} LDAP users and {ldapGroups, number} groups.'}
                                             values={{
                                                 ldapUsers,
-                                                ldapGroups,
+                                                ldapGroups: linkedLdapGroupsCount || totalLdapGroupsCount, // Show the old count for jobs records containing the old JSON key.
                                             }}
                                         />
                                         <ul>
@@ -2068,17 +2125,6 @@ export default {
                             isDisabled: (config) => !config.EmailSettings.SendEmailNotifications,
                         },
                         {
-                            type: Constants.SettingsTypes.TYPE_GENERATED,
-                            key: 'EmailSettings.InviteSalt',
-                            label: t('admin.email.inviteSaltTitle'),
-                            label_default: 'Email Invite Salt:',
-                            help_text: t('admin.email.inviteSaltDescription'),
-                            help_text_default: '32-character salt added to signing of email invites. Randomly generated on install. Click "Regenerate" to create new salt.',
-                            disabled_help_text: t('admin.security.inviteSalt.disabled'),
-                            disabled_help_text_default: 'Invite salt cannot be changed while sending emails is disabled.',
-                            isDisabled: (config) => !config.EmailSettings.SendEmailNotifications,
-                        },
-                        {
                             type: Constants.SettingsTypes.TYPE_BOOL,
                             key: 'TeamSettings.EnableOpenServer',
                             label: t('admin.team.openServerTitle'),
@@ -2101,6 +2147,20 @@ export default {
                 url: 'password',
                 title: t('admin.sidebar.password'),
                 title_default: 'Password',
+                searchableStrings: [
+                    'user.settings.security.passwordMinLength',
+                    'admin.security.password',
+                    ['admin.password.minimumLength', {max: '', min: ''}],
+                    ['admin.password.minimumLengthDescription', {max: '', min: ''}],
+                    'passwordRequirements',
+                    'admin.password.lowercase',
+                    'admin.password.uppercase',
+                    'admin.password.number',
+                    'admin.password.symbol',
+                    'admin.password.preview',
+                    'admin.service.attemptTitle',
+                    'admin.service.attemptDescription',
+                ],
                 schema: {
                     id: 'PasswordSettings',
                     component: PasswordSettings,
@@ -2339,6 +2399,38 @@ export default {
                 url: 'notifications_email',
                 title: t('admin.sidebar.email'),
                 title_default: 'Email',
+                searchableStrings: [
+                    'admin.notifications.email',
+                    'admin.email.notification.contents.title',
+                    'admin.email.notificationsTitle',
+                    'admin.email.notificationsDescription',
+                    'admin.email.enablePreviewModeBannerTitle',
+                    'admin.email.enablePreviewModeBannerDescription',
+                    'admin.email.enableEmailBatchingTitle',
+                    'admin.email.enableEmailBatchingDesc',
+                    'admin.email.notificationDisplayTitle',
+                    'admin.email.notificationDisplayDescription',
+                    'admin.email.notificationEmailTitle',
+                    'admin.email.notificationEmailDescription',
+                    'admin.email.replyToAddressTitle',
+                    'admin.email.replyToAddressDescription',
+                    'admin.email.notificationOrganization',
+                    'admin.email.notificationOrganizationDescription',
+                    'admin.email.smtpServerTitle',
+                    'admin.email.smtpServerDescription',
+                    'admin.email.smtpPortTitle',
+                    'admin.email.smtpPortDescription',
+                    'admin.email.enableSMTPAuthTitle',
+                    'admin.email.enableSMTPAuthDesc',
+                    'admin.email.smtpUsernameTitle',
+                    'admin.email.smtpUsernameDescription',
+                    'admin.email.smtpPasswordTitle',
+                    'admin.email.smtpPasswordDescription',
+                    'admin.email.skipServerCertificateVerification.title',
+                    'admin.email.skipServerCertificateVerification.description',
+                    'admin.service.securityTitle',
+                    'admin.service.securityDesc',
+                ],
                 schema: {
                     id: 'EmailNotificationsSettings',
                     component: EmailNotificationsSettings,
@@ -2348,6 +2440,13 @@ export default {
                 url: 'push',
                 title: t('admin.sidebar.push'),
                 title_default: 'Mobile Push',
+                searchableStrings: [
+                    'admin.notifications.push',
+                    'admin.email.pushTitle',
+                    'admin.email.pushServerTitle',
+                    'admin.email.pushContentTitle',
+                    'admin.email.pushContentDesc',
+                ],
                 schema: {
                     id: 'PushNotificationsSettings',
                     component: PushNotificationsSettings,
@@ -2475,6 +2574,16 @@ export default {
                 url: 'management',
                 title: t('admin.sidebar.plugins.management'),
                 title_default: 'Management',
+                searchableStrings: [
+                    'admin.plugin.management.title',
+                    'admin.plugins.settings.enable',
+                    'admin.plugins.settings.enableDesc',
+                    'admin.plugin.uploadTitle',
+                    'admin.plugin.installedTitle',
+                    'admin.plugin.installedDesc',
+                    'admin.plugin.uploadDesc',
+                    'admin.plugin.uploadDisabledDesc',
+                ],
                 schema: {
                     id: 'PluginManagementSettings',
                     component: PluginManagement,
@@ -2996,6 +3105,15 @@ export default {
                 title: t('admin.sidebar.customTermsOfService'),
                 title_default: 'Custom Terms of Service (Beta)',
                 isHidden: needsUtils.not(needsUtils.hasLicenseFeature('CustomTermsOfService')),
+                searchableStrings: [
+                    'admin.support.termsOfServiceTitle',
+                    'admin.support.enableTermsOfServiceTitle',
+                    'admin.support.enableTermsOfServiceHelp',
+                    'admin.support.termsOfServiceTextTitle',
+                    'admin.support.termsOfServiceTextHelp',
+                    'admin.support.termsOfServiceReAcceptanceTitle',
+                    'admin.support.termsOfServiceReAcceptanceHelp',
+                ],
                 schema: {
                     id: 'TermsOfServiceSettings',
                     component: CustomTermsOfServiceSettings,
@@ -3047,6 +3165,20 @@ export default {
                 title: t('admin.sidebar.data_retention'),
                 title_default: 'Data Retention Policy',
                 isHidden: needsUtils.not(needsUtils.hasLicenseFeature('DataRetention')),
+                searchableStrings: [
+                    'admin.data_retention.title',
+                    'admin.data_retention.messageRetentionDays.description',
+                    'admin.data_retention.fileRetentionDays.description',
+                    ['admin.data_retention.note.description', {documentationLink: ''}],
+                    'admin.data_retention.enableMessageDeletion.title',
+                    'admin.data_retention.enableMessageDeletion.description',
+                    'admin.data_retention.enableFileDeletion.title',
+                    'admin.data_retention.enableFileDeletion.description',
+                    'admin.data_retention.deletionJobStartTime.title',
+                    'admin.data_retention.deletionJobStartTime.description',
+                    'admin.data_retention.createJob.title',
+                    'admin.data_retention.createJob.help',
+                ],
                 schema: {
                     id: 'DataRetentionSettings',
                     component: DataRetentionSettings,
@@ -3057,6 +3189,24 @@ export default {
                 title: t('admin.sidebar.compliance_export'),
                 title_default: 'Compliance Export (Beta)',
                 isHidden: needsUtils.not(needsUtils.hasLicenseFeature('MessageExport')),
+                searchableStrings: [
+                    'admin.service.complianceExportTitle',
+                    'admin.service.complianceExportDesc',
+                    'admin.complianceExport.exportJobStartTime.title',
+                    'admin.complianceExport.exportJobStartTime.description',
+                    'admin.complianceExport.exportFormat.title',
+                    ['admin.complianceExport.exportFormat.description', {siteURL: ''}],
+                    'admin.complianceExport.createJob.title',
+                    'admin.complianceExport.createJob.help',
+                    'admin.complianceExport.globalRelayCustomerType.title',
+                    'admin.complianceExport.globalRelayCustomerType.description',
+                    'admin.complianceExport.globalRelaySmtpUsername.title',
+                    'admin.complianceExport.globalRelaySmtpUsername.description',
+                    'admin.complianceExport.globalRelaySmtpPassword.title',
+                    'admin.complianceExport.globalRelaySmtpPassword.description',
+                    'admin.complianceExport.globalRelayEmailAddress.title',
+                    'admin.complianceExport.globalRelayEmailAddress.description',
+                ],
                 schema: {
                     id: 'MessageExportSettings',
                     component: MessageExportSettings,
@@ -3162,6 +3312,28 @@ export default {
                 url: 'database',
                 title: t('admin.sidebar.database'),
                 title_default: 'Database',
+                searchableStrings: [
+                    'admin.database.title',
+                    ['admin.recycle.recycleDescription', {featureName: '', reloadConfiguration: ''}],
+                    'admin.recycle.recycleDescription.featureName',
+                    'admin.recycle.recycleDescription.reloadConfiguration',
+                    'admin.recycle.button',
+                    'admin.sql.noteDescription',
+                    'admin.sql.driverName',
+                    'admin.sql.driverNameDescription',
+                    'admin.sql.dataSource',
+                    'admin.sql.dataSourceDescription',
+                    'admin.sql.maxConnectionsTitle',
+                    'admin.sql.maxConnectionsDescription',
+                    'admin.sql.maxOpenTitle',
+                    'admin.sql.maxOpenDescription',
+                    'admin.sql.queryTimeoutTitle',
+                    'admin.sql.queryTimeoutDescription',
+                    'admin.sql.connMaxLifetimeTitle',
+                    'admin.sql.connMaxLifetimeDescription',
+                    'admin.sql.traceTitle',
+                    'admin.sql.traceDescription',
+                ],
                 schema: {
                     id: 'DatabaseSettings',
                     component: DatabaseSettings,
@@ -3172,6 +3344,30 @@ export default {
                 title: t('admin.sidebar.elasticsearch'),
                 title_default: 'Elasticsearch',
                 isHidden: needsUtils.not(needsUtils.hasLicenseFeature('Elasticsearch')),
+                searchableStrings: [
+                    'admin.elasticsearch.title',
+                    'admin.elasticsearch.enableIndexingTitle',
+                    ['admin.elasticsearch.enableIndexingDescription', {documentationLink: ''}],
+                    'admin.elasticsearch.enableIndexingDescription.documentationLinkText',
+                    'admin.elasticsearch.connectionUrlTitle',
+                    ['admin.elasticsearch.connectionUrlDescription', {documentationLink: ''}],
+                    'admin.elasticsearch.connectionUrlExample.documentationLinkText',
+                    'admin.elasticsearch.usernameTitle',
+                    'admin.elasticsearch.usernameDescription',
+                    'admin.elasticsearch.passwordTitle',
+                    'admin.elasticsearch.passwordDescription',
+                    'admin.elasticsearch.sniffTitle',
+                    'admin.elasticsearch.sniffDescription',
+                    'admin.elasticsearch.testHelpText',
+                    'admin.elasticsearch.elasticsearch_test_button',
+                    'admin.elasticsearch.bulkIndexingTitle',
+                    'admin.elasticsearch.createJob.help',
+                    'admin.elasticsearch.purgeIndexesHelpText',
+                    'admin.elasticsearch.purgeIndexesButton',
+                    'admin.elasticsearch.purgeIndexesButton.label',
+                    'admin.elasticsearch.enableSearchingTitle',
+                    'admin.elasticsearch.enableSearchingDescription',
+                ],
                 schema: {
                     id: 'ElasticSearchSettings',
                     component: ElasticSearchSettings,
@@ -3210,7 +3406,7 @@ export default {
                             placeholder: t('admin.service.internalConnectionsEx'),
                             placeholder_default: 'webhooks.internal.example.com 127.0.0.1 10.0.16.0/28',
                             help_text: t('admin.service.internalConnectionsDesc'),
-                            help_text_default: 'In testing environments, such as when developing integrations locally on a development machine, use this setting to specify domains, IP addresses, or CIDR notations to allow internal connections. Separate two or more domains with spaces. **Not recommended for use in production**, since this can allow a user to extract confidential data from your server or internal network.\n \nBy default, user-supplied URLs such as those used for Open Graph metadata, webhooks, or slash commands will not be allowed to connect to reserved IP addresses including loopback or link-local addresses used for internal networks. Push notification and OAuth 2.0 server URLs are trusted and not affected by this setting.',
+                            help_text_default: 'A whitelist of local network addresses that can be requested by the Mattermost server on behalf of a client. Care should be used when configuring this setting to prevent unintended access to your local network. See [documentation](https://mattermost.com/pl/default-allow-untrusted-internal-connections) to learn more.',
                             help_text_markdown: true,
                         },
                     ],
@@ -3221,6 +3417,24 @@ export default {
                 title: t('admin.sidebar.cluster'),
                 title_default: 'High Availability',
                 isHidden: needsUtils.not(needsUtils.hasLicenseFeature('Cluster')),
+                searchableStrings: [
+                    'admin.advance.cluster',
+                    'admin.cluster.noteDescription',
+                    'admin.cluster.enableTitle',
+                    'admin.cluster.enableDescription',
+                    'admin.cluster.ClusterName',
+                    'admin.cluster.ClusterNameDesc',
+                    'admin.cluster.OverrideHostname',
+                    'admin.cluster.OverrideHostnameDesc',
+                    'admin.cluster.UseIpAddress',
+                    'admin.cluster.UseIpAddressDesc',
+                    'admin.cluster.UseExperimentalGossip',
+                    'admin.cluster.UseExperimentalGossipDesc',
+                    'admin.cluster.GossipPort',
+                    'admin.cluster.GossipPortDesc',
+                    'admin.cluster.StreamingPort',
+                    'admin.cluster.StreamingPortDesc',
+                ],
                 schema: {
                     id: 'ClusterSettings',
                     component: ClusterSettings,
@@ -3647,6 +3861,16 @@ export default {
             title: t('admin.sidebar.license'),
             title_default: 'Edition and License',
             isHidden: (config, state, license, enterpriseReady) => !enterpriseReady,
+            searchableStrings: [
+                'admin.license.title',
+                'admin.license.uploadDesc',
+                'admin.license.keyRemove',
+                'admin.license.edition',
+                'admin.license.type',
+                'admin.license.key',
+                'Mattermost Enterprise Edition. Unlock enterprise features in this software through the purchase of a subscription from ',
+                'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.',
+            ],
             schema: {
                 id: 'LicenseSettings',
                 component: LicenseSettings,
@@ -3657,6 +3881,10 @@ export default {
             title: t('admin.sidebar.audits'),
             title_default: 'Complaince and Auditing',
             isHidden: needsUtils.not(needsUtils.hasLicense),
+            searchableStrings: [
+                'admin.audits.title',
+                'admin.audits.reload',
+            ],
             schema: {
                 id: 'Audits',
                 component: Audits,

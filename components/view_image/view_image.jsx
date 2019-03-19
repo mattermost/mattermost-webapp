@@ -140,7 +140,7 @@ export default class ViewImageModal extends React.PureComponent {
         const fileInfo = this.props.fileInfos[index];
         const fileType = Utils.getFileType(fileInfo.extension);
 
-        if (fileType === FileTypes.IMAGE) {
+        if (fileType === FileTypes.IMAGE && Boolean(fileInfo.id)) {
             let previewUrl;
             if (fileInfo.has_image_preview) {
                 previewUrl = getFilePreviewUrl(fileInfo.id);

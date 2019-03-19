@@ -26,9 +26,9 @@ jest.mock('mattermost-redux/actions/teams', () => ({
             type: 'GET_TEAM_STATS',
         };
     }),
-    addUserToTeamFromInvite: jest.fn(() => {
+    addUserToTeam: jest.fn(() => {
         return {
-            type: 'ADD_USERS_TO_TEAM_INVITE',
+            type: 'ADD_USERS_TO_TEAM',
             data: {
                 team_id: 'teamId',
             },
@@ -95,9 +95,9 @@ describe('Actions.Team', () => {
         expect(channelActions.getChannelStats).toHaveBeenCalledWith('currentChannelId');
     });
 
-    test('addUserToTeamFromInvite', async () => {
-        await testStore.dispatch(Actions.addUserToTeamFromInvite('token', 'inviteId'));
-        expect(TeamActions.addUserToTeamFromInvite).toHaveBeenCalledWith('token', 'inviteId');
+    test('addUserToTeam', async () => {
+        await testStore.dispatch(Actions.addUserToTeam('teamId', 'userId'));
+        expect(TeamActions.addUserToTeam).toHaveBeenCalledWith('teamId', 'userId');
         expect(TeamActions.getTeam).toHaveBeenCalledWith('teamId');
     });
 });

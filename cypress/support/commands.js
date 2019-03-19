@@ -300,3 +300,79 @@ Cypress.Commands.add('removeTeamMember', (teamURL, username) => {
     cy.get('#removeFromTeam').click({force: true});
     cy.get('.modal-header .close').click();
 });
+
+// ***********************************************************
+// Text Box
+// ***********************************************************
+
+Cypress.Commands.add('clearPostTextbox', (channelName = 'town-square') => {
+    cy.get(`#sidebarItem_${channelName}`).click();
+    cy.get('#post_textbox').clear();
+});
+
+// ***********************************************************
+// Min Setting View
+// ************************************************************
+
+// Checking min setting view for display
+Cypress.Commands.add('minDisplaySettings', () => {
+    cy.get('#themeTitle').should('be.visible', 'contain', 'Theme');
+    cy.get('#themeEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#clockTitle').should('be.visible', 'contain', 'Clock Display');
+    cy.get('#clockEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#name_formatTitle').should('be.visible', 'contain', 'Teammate Name Display');
+    cy.get('#name_formatEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#collapseTitle').should('be.visible', 'contain', 'Default appearance of image previews');
+    cy.get('#collapseEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#message_displayTitle').should('be.visible', 'contain', 'Message Display');
+    cy.get('#message_displayEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#languagesTitle').scrollIntoView().should('be.visible', 'contain', 'Language');
+    cy.get('#languagesEdit').should('be.visible', 'contain', 'Edit');
+});
+
+// Selects Edit Theme, selects Custom Theme, checks display, selects custom drop-down for color options
+Cypress.Commands.add('customColors', (dropdownInt, dropdownName) => {
+    cy.get('#themeEdit').scrollIntoView().click();
+
+    cy.get('#customThemes').click();
+
+    // Checking Custom Theme Display
+    cy.get('#displaySettingsTitle').scrollIntoView();
+    cy.get('.theme-elements__header').should('be.visible', 'contain', 'Sidebar Styles');
+    cy.get('.theme-elements__header').should('be.visible', 'contain', 'Center Channel Styles');
+    cy.get('.theme-elements__header').should('be.visible', 'contain', 'Link and BUtton Sytles');
+    cy.get('.padding-top').should('be.visible', 'contain', 'Import theme Colors from Slack');
+    cy.get('#saveSetting').should('be.visible', 'contain', 'Save');
+    cy.get('#cancelSetting').should('be.visible', 'contain', 'Cancel');
+
+    cy.get('.theme-elements__header').eq(dropdownInt).should('contain', dropdownName).click();
+});
+
+// Reverts theme color changes to the default Mattermost theme
+Cypress.Commands.add('defaultTheme', (username) => {
+    cy.toAccountSettingsModal(username);
+    cy.get('#displayButton').click();
+    cy.get('#themeEdit').click();
+    cy.get('#standardThemes').click();
+    cy.get('.col-xs-6.col-sm-3.premade-themes').first().click();
+    cy.get('#saveSetting').click();
+});
+
+// ***********************************************************
+// Change User Status
+// ************************************************************
+
+// Need to be in main channel view
+// 0 = Online
+// 1 = Away
+// 2 = Do Not Disturb
+// 3 = Offline
+Cypress.Commands.add('userStatus', (statusInt) => {
+    cy.get('.status-wrapper.status-selector').click();
+    cy.get('.MenuItem').eq(statusInt).click();
+});
