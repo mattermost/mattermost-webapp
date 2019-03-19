@@ -14,6 +14,7 @@ function mapStateToProps(state) {
     return {
         canDownloadFiles: canDownloadFiles(config),
         enablePublicLink: config.EnablePublicLink === 'true',
+        pluginFilePreviewComponents: state.plugins.components.FilePreview,
     };
 }
 

@@ -9,7 +9,9 @@ import SizeAwareImage from 'components/size_aware_image';
 
 describe('components/SingleImageView', () => {
     const baseProps = {
-        postId: 'original_post_id',
+        post: {
+            id: 'original_post_id',
+        },
         fileInfo: {
             id: 'file_info_id',
             post_id: 'post_id',

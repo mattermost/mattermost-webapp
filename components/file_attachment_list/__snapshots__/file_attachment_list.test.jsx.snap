@@ -72,6 +72,16 @@ exports[`components/FileAttachmentList should match snapshot, multiple files ord
       ]
     }
     onModalDismissed={[Function]}
+    post={
+      Object {
+        "file_ids": Array [
+          "file_id_1",
+          "file_id_2",
+          "file_id_3",
+        ],
+        "id": "post_id",
+      }
+    }
     show={false}
     startIndex={0}
   />
@@ -89,6 +99,13 @@ exports[`components/FileAttachmentList should match snapshot, single image view 
     }
   }
   isEmbedVisible={false}
-  postId="post_id"
+  post={
+    Object {
+      "file_ids": Array [
+        "file_id_1",
+      ],
+      "id": "post_id",
+    }
+  }
 />
 `;

@@ -17,6 +17,7 @@ describe('components/ViewImageModal', () => {
         onModalDismissed,
         canDownloadFiles: true,
         enablePublicLink: true,
+        post: {},
     };
 
     test('should match snapshot, modal not shown', () => {

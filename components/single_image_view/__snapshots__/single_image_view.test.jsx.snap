@@ -111,6 +111,11 @@ exports[`components/SingleImageView should match snapshot 2`] = `
         ]
       }
       onModalDismissed={[Function]}
+      post={
+        Object {
+          "id": "original_post_id",
+        }
+      }
       show={false}
     />
   </div>
@@ -235,6 +240,11 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
         ]
       }
       onModalDismissed={[Function]}
+      post={
+        Object {
+          "id": "original_post_id",
+        }
+      }
       show={false}
     />
   </div>
@@ -302,6 +312,11 @@ exports[`components/SingleImageView should set loaded state on callback of onIma
         ]
       }
       onModalDismissed={[Function]}
+      post={
+        Object {
+          "id": "original_post_id",
+        }
+      }
       show={false}
     />
   </div>
