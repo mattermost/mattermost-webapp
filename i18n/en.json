@@ -2279,7 +2279,7 @@
   "integrations.help.appDirectory": "App Directory",
   "integrations.incomingWebhook.description": "Incoming webhooks allow external integrations to send messages",
   "integrations.incomingWebhook.title": "Incoming Webhook",
-  "integrations.oauthApps.description": "OAuth 2.0 allows external applications to make authorized requests to the Mattermost API.",
+  "integrations.oauthApps.description": "OAuth 2.0 allows external applications to make authorized requests to the Mattermost API",
   "integrations.oauthApps.title": "OAuth 2.0 Applications",
   "integrations.outgoingWebhook.description": "Outgoing webhooks allow external integrations to receive and respond to messages",
   "integrations.outgoingWebhook.title": "Outgoing Webhook",
