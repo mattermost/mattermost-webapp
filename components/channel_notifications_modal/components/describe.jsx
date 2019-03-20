@@ -9,14 +9,20 @@ import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'u
 
 export default function Describe({section, isCollapsed, memberNotifyLevel, globalNotifyLevel, ignoreChannelMentions}) {
     if (memberNotifyLevel === NotificationLevels.DEFAULT && globalNotifyLevel) {
+        const levelsFormattedMessageId = 'channel_notifications.levels.' + globalNotifyLevel;
         return (
-            <FormattedMessage
-                id='channel_notifications.globalDefault'
-                defaultMessage='Global default ({notifyLevel})'
-                values={{
-                    notifyLevel: (globalNotifyLevel),
-                }}
-            />
+            <React.Fragment>
+                <FormattedMessage
+                    id='channel_notifications.globalDefault'
+                    defaultMessage='Global default'
+                />
+                <span>{' ('}</span>
+                <FormattedMessage
+                    id={levelsFormattedMessageId}
+                    defaultMessage={globalNotifyLevel}
+                />
+                <span>{')'}</span>
+            </React.Fragment>
         );
     } else if (memberNotifyLevel === NotificationLevels.MENTION && section === NotificationSections.MARK_UNREAD) {
         if (isCollapsed) {

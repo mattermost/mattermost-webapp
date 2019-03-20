@@ -17,6 +17,7 @@ import DiscardChangesModal from 'components/discard_changes_modal.jsx';
 
 import AdminSidebar from './admin_sidebar';
 import AdminDefinition from './admin_definition';
+import Highlight from './highlight';
 
 export default class AdminConsole extends React.Component {
     static propTypes = {
@@ -41,11 +42,22 @@ export default class AdminConsole extends React.Component {
         }).isRequired,
     }
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            filter: '',
+        };
+    }
+
     componentDidMount() {
         this.props.actions.getConfig();
         this.props.actions.getEnvironmentConfig();
         this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin']);
         reloadIfServerVersionChanged();
+    }
+
+    onFilterChange = (filter) => {
+        this.setState({filter});
     }
 
     mainRolesLoaded(roles) {
@@ -175,9 +187,11 @@ export default class AdminConsole extends React.Component {
             <div className='admin-console__wrapper'>
                 <AnnouncementBar/>
                 <SystemNotice/>
-                <AdminSidebar/>
+                <AdminSidebar onFilterChange={this.onFilterChange}/>
                 <div className='admin-console'>
-                    {this.renderRoutes(extraProps)}
+                    <Highlight filter={this.state.filter}>
+                        {this.renderRoutes(extraProps)}
+                    </Highlight>
                 </div>
                 {discardChangesModal}
                 <ModalController/>

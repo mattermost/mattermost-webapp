@@ -54,10 +54,10 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       <AdminTextSetting
         disabled={false}
         helpText={
-          <FormattedMessage
-            defaultMessage="This is some help text for the text field."
-            id="help-text-a"
-            values={Object {}}
+          <HelpText
+            isTranslated={true}
+            text="help-text-a"
+            textDefault="This is some help text for the text field."
           />
         }
         id="FirstSettings.settinga"
@@ -79,10 +79,10 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           />
         }
         helpText={
-          <FormattedMessage
-            defaultMessage="This is some help text for the bool field."
-            id="help-text-b"
-            values={Object {}}
+          <HelpText
+            isTranslated={true}
+            text="help-text-b"
+            textDefault="This is some help text for the bool field."
           />
         }
         id="FirstSettings.settingb"
@@ -102,10 +102,10 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       <DropdownSetting
         disabled={false}
         helpText={
-          <FormattedMessage
-            defaultMessage="This is some help text for the dropdown field."
-            id="help-text-c"
-            values={Object {}}
+          <HelpText
+            isTranslated={true}
+            text="help-text-c"
+            textDefault="This is some help text for the dropdown field."
           />
         }
         id="FirstSettings.settingc"
@@ -135,10 +135,10 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       <RadioSetting
         disabled={false}
         helpText={
-          <FormattedMessage
-            defaultMessage="This is some help text for the radio field."
-            id="help-text-d"
-            values={Object {}}
+          <HelpText
+            isTranslated={true}
+            text="help-text-d"
+            textDefault="This is some help text for the radio field."
           />
         }
         id="SecondSettings.settingd"
@@ -167,10 +167,10 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       <GeneratedSetting
         disabled={false}
         helpText={
-          <FormattedMessage
-            defaultMessage="This is some help text for the generated field."
-            id="help-text-e"
-            values={Object {}}
+          <HelpText
+            isTranslated={true}
+            text="help-text-e"
+            textDefault="This is some help text for the generated field."
           />
         }
         id="SecondSettings.settinge"
@@ -192,10 +192,10 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       <UserAutocompleteSetting
         disabled={false}
         helpText={
-          <FormattedMessage
-            defaultMessage="This is some help text for the user autocomplete field."
-            id="help-text-f"
-            values={Object {}}
+          <HelpText
+            isTranslated={true}
+            text="help-text-f"
+            textDefault="This is some help text for the user autocomplete field."
           />
         }
         id="SecondSettings.settingf"
@@ -208,10 +208,10 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       <AdminTextSetting
         disabled={false}
         helpText={
-          <FormattedMessage
-            defaultMessage="This is some help text for the number field."
-            id="help-text-g"
-            values={Object {}}
+          <HelpText
+            isTranslated={true}
+            text="help-text-g"
+            textDefault="This is some help text for the number field."
           />
         }
         id="SecondSettings.settingg"
@@ -226,10 +226,10 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       <AdminTextSetting
         disabled={false}
         helpText={
-          <FormattedMessage
-            defaultMessage="This is some help text for the number field."
-            id="help-text-h"
-            values={Object {}}
+          <HelpText
+            isTranslated={true}
+            text="help-text-h"
+            textDefault="This is some help text for the number field."
           />
         }
         id="SecondSettings.settingh"
@@ -260,10 +260,10 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       <DropdownSetting
         disabled={false}
         helpText={
-          <FormattedMessage
-            defaultMessage="This is some help text for the language field."
-            id="help-text-i"
-            values={Object {}}
+          <HelpText
+            isTranslated={true}
+            text="help-text-i"
+            textDefault="This is some help text for the language field."
           />
         }
         id="SecondSettings.settingi"
@@ -361,10 +361,10 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       <MultiSelectSetting
         disabled={false}
         helpText={
-          <FormattedMessage
-            defaultMessage="This is some help text for the multiple-language field."
-            id="help-text-j"
-            values={Object {}}
+          <HelpText
+            isTranslated={true}
+            text="help-text-j"
+            textDefault="This is some help text for the multiple-language field."
           />
         }
         id="SecondSettings.settingj"
@@ -486,10 +486,10 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           }
         }
         helpText={
-          <FormattedMessage
-            defaultMessage="This is some help text for the button field."
-            id="help-text-k"
-            values={Object {}}
+          <HelpText
+            isTranslated={true}
+            text="help-text-k"
+            textDefault="This is some help text for the button field."
           />
         }
         includeDetailedError={true}
@@ -514,10 +514,10 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           />
         }
         helpText={
-          <FormattedMessage
-            defaultMessage="This is some help text for the second bool field."
-            id="help-text-l"
-            values={Object {}}
+          <HelpText
+            isTranslated={true}
+            text="help-text-l"
+            textDefault="This is some help text for the second bool field."
           />
         }
         id="FirstSettings.settingl"
@@ -537,10 +537,10 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       <ColorSetting
         disabled={false}
         helpText={
-          <FormattedMessage
-            defaultMessage="This is some help text for the color field."
-            id="help-text-m"
-            values={Object {}}
+          <HelpText
+            isTranslated={true}
+            text="help-text-m"
+            textDefault="This is some help text for the color field."
           />
         }
         id="FirstSettings.settingm"
@@ -586,10 +586,10 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           />
         }
         helpText={
-          <FormattedMessage
-            defaultMessage="This is some help text for the permissions field."
-            id="help-text-o"
-            values={Object {}}
+          <HelpText
+            isTranslated={true}
+            text="help-text-o"
+            textDefault="This is some help text for the permissions field."
           />
         }
         id="settingo"
@@ -612,7 +612,6 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
     >
       <SaveButton
         btnClass="btn-primary"
-        defaultMessage="Save"
         disabled={true}
         extraClasses=""
         onClick={[Function]}

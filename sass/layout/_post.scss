@@ -31,8 +31,11 @@
         left: 0;
         position: absolute;
         top: 0;
-        white-space: normal;
         z-index: 2;
+
+        p {
+            margin: 0;
+        }
     }
 
     .help__text {
@@ -1661,8 +1664,7 @@
         margin: 0;
         text-rendering: auto;
         position: relative;
-        // previous value of 5 interferred with search help popup
-        z-index: 4;
+        z-index: 2;
 
         &.pull-left {
             margin: 4px 5px 0 0;

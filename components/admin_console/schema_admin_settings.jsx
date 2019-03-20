@@ -27,6 +27,7 @@ import SettingsGroup from 'components/admin_console/settings_group.jsx';
 import JobsTable from 'components/admin_console/jobs';
 import FileUploadSetting from 'components/admin_console/file_upload_setting.jsx';
 import RemoveFileSetting from 'components/admin_console/remove_file_setting.jsx';
+import HelpText from 'components/admin_console/help_text';
 import SaveButton from 'components/save_button.jsx';
 import FormError from 'components/form_error.jsx';
 
@@ -286,8 +287,8 @@ export default class SchemaAdminSettings extends React.Component {
             return <span>{''}</span>;
         }
 
-        if (this.props.schema.translate === false) {
-            return <span>{setting.help_text}</span>;
+        if (!setting.help_text) {
+            return null;
         }
 
         let helpText;
@@ -306,26 +307,15 @@ export default class SchemaAdminSettings extends React.Component {
             helpTextDefault = setting.help_text_default;
         }
 
-        if (typeof helpText === 'string') {
-            if (isMarkdown) {
-                return (
-                    <FormattedMarkdownMessage
-                        id={helpText}
-                        values={helpTextValues}
-                        defaultMessage={helpTextDefault}
-                    />
-                );
-            }
-            return (
-                <FormattedMessage
-                    id={helpText}
-                    defaultMessage={helpTextDefault}
-                    values={helpTextValues}
-                />
-            );
-        }
-
-        return helpText;
+        return (
+            <HelpText
+                isMarkdown={isMarkdown}
+                isTranslated={this.props.schema.translate}
+                text={helpText}
+                textDefault={helpTextDefault}
+                textValues={helpTextValues}
+            />
+        );
     }
 
     renderLabel = (setting) => {

@@ -84,6 +84,9 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
             />
         );
         wrapper.find('.btn-link').simulate('click');
+        expect(wrapper.instance().state.showConfirmationModal).toEqual(true);
+        wrapper.instance().removeItem();
         expect(onRemoveItem).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'public-team');
+        expect(wrapper.instance().state.showConfirmationModal).toEqual(false);
     });
 });

@@ -1594,7 +1594,7 @@
   "channel_modal.purposeEx": "예시: \"버그 수정과 품질 개선을 위한 채널입니다.\"",
   "channel_modal.type": "종류",
   "channel_notifications.allActivity": "모든 활동",
-  "channel_notifications.globalDefault": "전역 기본 설정 ({notifyLevel})",
+  "channel_notifications.globalDefault": "전역 기본 설정",
   "channel_notifications.ignoreChannelMentions": "Ignore mentions for @channel, @here and @all",
   "channel_notifications.muteChannel.help": "이채널의 바탕화면, 이메일, 푸쉬 알림이 음소거 됩니다. 언급되지 않는 한 채널은 읽지 않은 상태로 표시 되지 않습니다.",
   "channel_notifications.muteChannel.off.title": "끄기",

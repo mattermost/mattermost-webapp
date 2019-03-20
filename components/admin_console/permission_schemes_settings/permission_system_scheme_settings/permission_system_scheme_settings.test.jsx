@@ -168,8 +168,6 @@ describe('components/admin_console/permission_schemes_settings/permission_system
         expect(wrapper.state().showResetDefaultModal).toBe(false);
         wrapper.find('.reset-defaults-btn').first().simulate('click');
         expect(wrapper.state().showResetDefaultModal).toBe(true);
-        wrapper.find('.btn-cancel').first().simulate('click');
-        expect(wrapper.state().showResetDefaultModal).toBe(false);
     });
 
     test('should have default permissions that match the defaults constant', () => {
@@ -179,8 +177,7 @@ describe('components/admin_console/permission_schemes_settings/permission_system
         expect(wrapper.state().roles.all_users.permissions.length).toBe(0);
         expect(wrapper.state().roles.channel_admin.permissions.length).toBe(0);
         expect(wrapper.state().roles.team_admin.permissions.length).toBe(0);
-        wrapper.find('.reset-defaults-btn').first().simulate('click');
-        wrapper.find('.btn-default').first().simulate('click');
+        wrapper.instance().resetDefaults();
         expect(wrapper.state().roles.all_users.permissions).toBe(DefaultRolePermissions.all_users);
         expect(wrapper.state().roles.channel_admin.permissions).toBe(DefaultRolePermissions.channel_admin);
         expect(wrapper.state().roles.team_admin.permissions).toBe(DefaultRolePermissions.team_admin);
