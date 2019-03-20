@@ -22,11 +22,6 @@ export default class PostImage extends React.PureComponent {
         onLinkLoaded: PropTypes.func,
 
         /**
-         * The function to call if image load fails
-         */
-        onLinkLoadError: PropTypes.func,
-
-        /**
          * The function to call if image is clicked
          */
         handleImageClick: PropTypes.func,
@@ -63,16 +58,6 @@ export default class PostImage extends React.PureComponent {
         }
     }
 
-    handleLoadError = () => {
-        if (!this.mounted) {
-            return;
-        }
-
-        if (this.props.onLinkLoadError) {
-            this.props.onLinkLoadError();
-        }
-    }
-
     onImageClick = (e) => {
         e.preventDefault();
         this.props.handleImageClick();
@@ -89,7 +74,6 @@ export default class PostImage extends React.PureComponent {
                     dimensions={this.props.dimensions}
                     showLoader={true}
                     onImageLoaded={this.handleLoadComplete}
-                    onImageLoadFail={this.handleLoadError}
                     onClick={this.onImageClick}
                 />
             </div>
