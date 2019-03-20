@@ -26,28 +26,50 @@ export default class LinkTooltip extends React.PureComponent {
         super(props);
 
         this.tooltipContainerRef = React.createRef();
+        this.show = false;
     }
 
     showTooltip = (e) => {
-        const target = $(e.target);
-        const tooltipContainer = $(this.tooltipContainerRef.current);
+        //clear the hideTimeout in the case when the cursor is moved from a tooltipContainer child to the link
+        clearTimeout(this.hideTimeout);
 
-        this.timeout = setTimeout(() => {
-            tooltipContainer.show();
+        if (!this.show) {
+            const target = $(e.target);
+            const tooltipContainer = $(this.tooltipContainerRef.current);
 
-            this.popper = new Popper(target, tooltipContainer, {
-                placement: 'bottom',
-                modifiers: {
-                    preventOverflow: {enabled: false},
-                    hide: {enabled: false},
-                },
-            });
-        }, Constants.OVERLAY_TIME_DELAY);
+            //clear the old this.showTimeout if there is any before overriding
+            clearTimeout(this.showTimeout);
+
+            this.showTimeout = setTimeout(() => {
+                this.show = true;
+
+                tooltipContainer.show();
+                tooltipContainer.children().on('mouseover', () => clearTimeout(this.hideTimeout));
+                tooltipContainer.children().on('mouseleave', this.hideTooltip);
+
+                this.popper = new Popper(target, tooltipContainer, {
+                    placement: 'bottom',
+                    modifiers: {
+                        preventOverflow: {enabled: false},
+                        hide: {enabled: false},
+                    },
+                });
+            }, Constants.OVERLAY_TIME_DELAY);
+        }
     };
 
     hideTooltip = () => {
-        clearTimeout(this.timeout);
-        $(this.tooltipContainerRef.current).hide();
+        //clear the old this.hideTimeout if there is any before overriding
+        clearTimeout(this.hideTimeout);
+
+        this.hideTimeout = setTimeout(() => {
+            this.show = false;
+
+            //prevent executing the showTimeout after the hideTooltip
+            clearTimeout(this.showTimeout);
+
+            $(this.tooltipContainerRef.current).hide();
+        }, Constants.OVERLAY_TIME_DELAY_SMALL);
     };
 
     render() {
