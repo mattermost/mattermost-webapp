@@ -14,6 +14,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
         titleDefault: 'test-title-default',
         subtitleId: 'test-subtitle-id',
         subtitleDefault: 'test-subtitle-default',
+        subtitleValues: {foo: 'bar'},
         onHeaderClick: null,
         button: null,
     };
@@ -41,6 +42,11 @@ describe('components/widgets/admin_console/AdminPanel', () => {
         <InjectIntl(FormattedMarkdownMessage)
           defaultMessage="test-subtitle-default"
           id="test-subtitle-id"
+          values={
+            Object {
+              "foo": "bar",
+            }
+          }
         />
       </span>
     </div>
@@ -80,6 +86,11 @@ describe('components/widgets/admin_console/AdminPanel', () => {
         <InjectIntl(FormattedMarkdownMessage)
           defaultMessage="test-subtitle-default"
           id="test-subtitle-id"
+          values={
+            Object {
+              "foo": "bar",
+            }
+          }
         />
       </span>
     </div>
@@ -126,6 +137,11 @@ describe('components/widgets/admin_console/AdminPanel', () => {
         <InjectIntl(FormattedMarkdownMessage)
           defaultMessage="test-subtitle-default"
           id="test-subtitle-id"
+          values={
+            Object {
+              "foo": "bar",
+            }
+          }
         />
       </span>
     </div>
