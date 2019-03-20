@@ -60,6 +60,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
   </span>
   <span
     className="badge"
+    id="unreadMentions"
   >
     6
   </span>
@@ -132,6 +133,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
   </span>
   <span
     className="badge"
+    id="unreadMentions"
   >
     6
   </span>

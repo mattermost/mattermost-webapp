@@ -376,3 +376,11 @@ Cypress.Commands.add('userStatus', (statusInt) => {
     cy.get('.status-wrapper.status-selector').click();
     cy.get('.MenuItem').eq(statusInt).click();
 });
+
+// ***********************************************************
+// Channel
+// ************************************************************
+
+Cypress.Commands.add('getCurrentChannelId', () => {
+    return cy.get('#channel-header').invoke('attr', 'data-channelid');
+});

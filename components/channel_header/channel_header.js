@@ -496,6 +496,7 @@ export default class ChannelHeader extends React.PureComponent {
         return (
             <div
                 id='channel-header'
+                data-channelid={`${channel.id}`}
                 className='channel-header alt'
             >
                 <div className='flex-parent'>
@@ -505,7 +506,6 @@ export default class ChannelHeader extends React.PureComponent {
                             className='channel-header__info'
                         >
                             <div
-                                id='channelHeaderTitle'
                                 className='channel-header__title dropdown'
                             >
                                 <h2>

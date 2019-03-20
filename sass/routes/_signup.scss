@@ -540,6 +540,10 @@
             height: 3.5em;
             line-height: 3.6em;
             padding: 0 15px;
+            &.disabled {
+                cursor: default;
+                color: $dark-gray;
+            }
         }
     }
 

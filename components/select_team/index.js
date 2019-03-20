@@ -10,10 +10,10 @@ import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Permissions} from 'mattermost-redux/constants';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getSortedJoinableTeams, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
+import {getSortedListableTeams, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
-import {addUserToTeamFromInvite} from 'actions/team_actions';
+import {addUserToTeam} from 'actions/team_actions';
 
 import SelectTeam from './select_team.jsx';
 
@@ -23,13 +23,16 @@ function mapStateToProps(state) {
     const myTeamMemberships = Object.values(getTeamMemberships(state));
 
     return {
+        currentUserId: currentUser.id,
         currentUserRoles: currentUser.roles || '',
         customDescriptionText: config.CustomDescriptionText,
         isMemberOfTeam: myTeamMemberships && myTeamMemberships.length > 0,
-        joinableTeams: getSortedJoinableTeams(state, currentUser.locale),
+        listableTeams: getSortedListableTeams(state, currentUser.locale),
         siteName: config.SiteName,
         canCreateTeams: haveISystemPermission(state, {permission: Permissions.CREATE_TEAM}),
         canManageSystem: haveISystemPermission(state, {permission: Permissions.MANAGE_SYSTEM}),
+        canJoinPublicTeams: haveISystemPermission(state, {permission: Permissions.JOIN_PUBLIC_TEAMS}),
+        canJoinPrivateTeams: haveISystemPermission(state, {permission: Permissions.JOIN_PRIVATE_TEAMS}),
     };
 }
 
@@ -38,7 +41,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getTeams,
             loadRolesIfNeeded,
-            addUserToTeamFromInvite,
+            addUserToTeam,
         }, dispatch),
     };
 }

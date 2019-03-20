@@ -39,7 +39,7 @@ export default class NeedsTeam extends React.Component {
             viewChannel: PropTypes.func.isRequired,
             markChannelAsRead: PropTypes.func.isRequired,
             getTeams: PropTypes.func.isRequired,
-            joinTeam: PropTypes.func.isRequired,
+            addUserToTeam: PropTypes.func.isRequired,
             selectTeam: PropTypes.func.isRequired,
             setPreviousTeamId: PropTypes.func.isRequired,
             loadStatusesForChannelAndSidebar: PropTypes.func.isRequired,
@@ -162,7 +162,7 @@ export default class NeedsTeam extends React.Component {
         const openTeams = await this.props.actions.getTeams(0, TEAMS_PER_PAGE);
         const team = openTeams.data.find((teamObj) => teamObj.name === props.match.params.team);
         if (team) {
-            const {error} = await props.actions.joinTeam(team.invite_id, team.id);
+            const {error} = await props.actions.addUserToTeam(team.id, props.currentUser && props.currentUser.id);
             if (error) {
                 props.history.push('/error?type=team_not_found');
             } else {
