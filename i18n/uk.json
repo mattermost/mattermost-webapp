@@ -1594,7 +1594,7 @@
   "channel_modal.purposeEx": "Наприклад: \"Канал для помилок і побажань\"",
   "channel_modal.type": "Тип ",
   "channel_notifications.allActivity": "При будь-якої активності",
-  "channel_notifications.globalDefault": "За замовчуванням глобально",
+  "channel_notifications.globalDefault": "За замовчуванням глобально ({notifyLevel})",
   "channel_notifications.ignoreChannelMentions": "Ignore mentions for @channel, @here and @all",
   "channel_notifications.muteChannel.help": "Вимкнення звуку вимикає настільний, електронний та push-сповіщення для цього каналу. Канал не буде позначено як непрочитаний, якщо ви не згадали.",
   "channel_notifications.muteChannel.off.title": "Вимкнено",
