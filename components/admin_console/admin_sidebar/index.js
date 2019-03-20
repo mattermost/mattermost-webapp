@@ -6,6 +6,8 @@ import {bindActionCreators} from 'redux';
 import {getPlugins} from 'mattermost-redux/actions/admin';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
+import {getNavigationBlocked} from 'selectors/views/admin';
+
 import AdminSidebar from './admin_sidebar.jsx';
 
 function mapStateToProps(state) {
@@ -18,6 +20,7 @@ function mapStateToProps(state) {
         license,
         config: state.entities.admin.config,
         plugins: state.entities.admin.plugins,
+        navigationBlocked: getNavigationBlocked(state),
         buildEnterpriseReady,
         siteName,
     };

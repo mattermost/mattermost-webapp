@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import LoadingImagePreview from 'components/loading_image_preview';
-import {createPlaceholderImage, loadImage} from 'utils/image_utils';
+import {loadImage} from 'utils/image_utils';
 
 const WAIT_FOR_HEIGHT_TIMEOUT = 100;
 
@@ -38,6 +38,11 @@ export default class SizeAwareImage extends React.PureComponent {
          * A callback that is called when image load fails
          */
         onImageLoadFail: PropTypes.func,
+
+        /*
+         * css classes that can added to the img as well as parent div on svg for placeholder
+         */
+        className: PropTypes.string,
     }
 
     constructor(props) {
@@ -69,7 +74,7 @@ export default class SizeAwareImage extends React.PureComponent {
     loadImage = () => {
         const image = loadImage(this.props.src, this.handleLoad);
 
-        image.onerror = this.handleError();
+        image.onerror = this.handleError;
 
         if (!this.props.dimensions) {
             this.waitForHeight(image);
@@ -118,40 +123,54 @@ export default class SizeAwareImage extends React.PureComponent {
         }
     };
 
-    render() {
+    renderImageLoaderIfNeeded = () => {
+        if (!this.state.loaded && this.props.showLoader && !this.state.error) {
+            return (
+                <div style={{position: 'absolute', top: '50%', transform: 'translate(-50%, -50%)', left: '50%'}}>
+                    <LoadingImagePreview
+                        containerClass={'file__image-loading'}
+                    />
+                </div>
+            );
+        }
+        return null;
+    }
+
+    renderImageOrPlaceholder = () => {
         const {
             dimensions,
+            src,
             ...props
         } = this.props;
 
+        if (dimensions && dimensions.width && !this.state.loaded) {
+            return (
+                <div className={`image-loading__container ${this.props.className}`}>
+                    <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
+                        style={{verticalAlign: 'middle', maxHeight: `${dimensions.height}`, maxWidth: `${dimensions.width}`}}
+                    />
+                </div>
+            );
+        }
         Reflect.deleteProperty(props, 'showLoader');
         Reflect.deleteProperty(props, 'onImageLoaded');
         Reflect.deleteProperty(props, 'onImageLoadFail');
 
-        let src;
-        if (!this.state.loaded && dimensions) {
-            // Generate a blank image as a placeholder because that will scale down to fit the available space
-            // while maintaining the correct aspect ratio
-            src = createPlaceholderImage(dimensions.width, dimensions.height);
-        } else if (this.state.error) {
-            return null;
-        } else {
-            src = this.props.src;
-        }
+        return (
+            <img
+                {...props}
+                src={src}
+            />
+        );
+    }
 
+    render() {
         return (
             <React.Fragment>
-                {!this.state.loaded && this.props.showLoader &&
-                    <div style={{position: 'absolute'}}>
-                        <LoadingImagePreview
-                            containerClass={'file__image-loading'}
-                        />
-                    </div>
-                }
-                <img
-                    {...props}
-                    src={src}
-                />
+                {this.renderImageLoaderIfNeeded()}
+                {this.renderImageOrPlaceholder()}
             </React.Fragment>
         );
     }
