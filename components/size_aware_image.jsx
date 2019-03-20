@@ -123,46 +123,54 @@ export default class SizeAwareImage extends React.PureComponent {
         }
     };
 
-    render() {
+    renderImageLoaderIfNeeded = () => {
+        if (!this.state.loaded && this.props.showLoader && !this.state.error) {
+            return (
+                <div style={{position: 'absolute', top: '50%', transform: 'translate(-50%, -50%)', left: '50%'}}>
+                    <LoadingImagePreview
+                        containerClass={'file__image-loading'}
+                    />
+                </div>
+            );
+        }
+        return null;
+    }
+
+    renderImageOrPlaceholder = () => {
         const {
             dimensions,
             src,
             ...props
         } = this.props;
 
+        if (dimensions && dimensions.width && !this.state.loaded) {
+            return (
+                <div className={`image-loading__container ${this.props.className}`}>
+                    <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
+                        style={{verticalAlign: 'middle', maxHeight: `${dimensions.height}`, maxWidth: `${dimensions.width}`}}
+                    />
+                </div>
+            );
+        }
         Reflect.deleteProperty(props, 'showLoader');
         Reflect.deleteProperty(props, 'onImageLoaded');
         Reflect.deleteProperty(props, 'onImageLoadFail');
 
-        if (this.state.error) {
-            return null;
-        }
+        return (
+            <img
+                {...props}
+                src={src}
+            />
+        );
+    }
 
+    render() {
         return (
             <React.Fragment>
-                {!this.state.loaded && this.props.showLoader &&
-                    <div style={{position: 'absolute'}}>
-                        <LoadingImagePreview
-                            containerClass={'file__image-loading'}
-                        />
-                    </div>
-                }
-                {dimensions && dimensions.width && !this.state.loaded ? (
-                    <div className={`image-loading__container ${this.props.className}`}>
-                        <div>
-                            <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
-                                style={{verticalAlign: 'middle', maxHeight: `${dimensions.height}`, maxWidth: `${dimensions.width}`}}
-                            />
-                        </div>
-                    </div>
-                ) : (
-                    <img
-                        {...props}
-                        src={src}
-                    />
-                )}
+                {this.renderImageLoaderIfNeeded()}
+                {this.renderImageOrPlaceholder()}
             </React.Fragment>
         );
     }

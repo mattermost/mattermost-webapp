@@ -89,15 +89,18 @@ describe('components/SizeAwareImage', () => {
         expect(baseProps.onImageLoaded).toHaveBeenCalledWith({height, width});
     });
 
-    test('should call onImageLoadFail when image load fails and should render empty/null', () => {
+    test('should call onImageLoadFail when image load fails and should have svg', () => {
         const onImageLoadFail = jest.fn();
         const props = {...baseProps, onImageLoadFail};
 
-        const wrapper = shallow(<SizeAwareImage {...props}/>);
+        const wrapper = mount(<SizeAwareImage {...props}/>);
+        wrapper.setState({loaded: false});
         wrapper.instance().handleError();
         expect(props.onImageLoadFail).toHaveBeenCalled();
 
+        expect(wrapper.state('error')).toBe(true);
         expect(wrapper.find('img').exists()).toEqual(false);
+        expect(wrapper.find('svg').exists()).toEqual(true);
         expect(wrapper.find(LoadingImagePreview).exists()).toEqual(false);
     });
 });
