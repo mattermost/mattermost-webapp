@@ -14,10 +14,6 @@ describe('Message Draft and Switch Channels', () => {
         cy.visit('/');
     });
 
-    after(() => {
-        cy.get('#post_textbox').clear();
-    });
-
     it('M14358 Message Draft Pencil Icon Visible in Channel Switcher', () => {
         // 1. In a test channel, type some text in the message input box
         // 2. Do not send the post
@@ -44,6 +40,9 @@ describe('Message Draft and Switch Channels', () => {
         // 4. Press CTRL/CMD+K
         cy.typeCmdOrCtrl().type('K', {release: true});
 
+        //* Click on hint in modal to get out of overlapping suggestion list
+        cy.get('#quickSwitchHint').click();
+
         // 5. Type the first few letters of the channel name you typed the message draft in
         cy.get('#quickSwitchInput').type('tow');
         cy.wait(500);  // eslint-disable-line
@@ -53,6 +52,10 @@ describe('Message Draft and Switch Channels', () => {
 
         //* Validate if the draft icon is visible to left of the channel name in the filtered list
         cy.get('#switchChannel_town-square #draftIcon').should('be.visible');
+
+        //* Escape channel switcher and reset post textbox for test channel
+        cy.get('.close').click();
+        cy.clearPostTextbox('town-square');
     });
 });
 
