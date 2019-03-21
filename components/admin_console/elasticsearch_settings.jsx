@@ -315,7 +315,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                                 createJobHelpText={
                                     <FormattedMessage
                                         id='admin.elasticsearch.createJob.help'
-                                        defaultMessage='All posts in the database will be indexed from oldest to newest. Elasticsearch is available during indexing but search results may be incomplete until the indexing job is complete.'
+                                        defaultMessage='All users, channels and posts in the database will be indexed from oldest to newest. Elasticsearch is available during indexing but search results may be incomplete until the indexing job is complete.'
                                     />
                                 }
                                 getExtraInfoText={this.getExtraInfo}
@@ -328,7 +328,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.elasticsearch.purgeIndexesHelpText'
-                            defaultMessage='Purging will entirely remove the index on the Elasticsearch server. Search results may be incomplete until a bulk index of the existing post database is rebuilt.'
+                            defaultMessage='Purging will entirely remove the indexes on the Elasticsearch server. Search results may be incomplete until a bulk index of the existing database is rebuilt.'
                         />
                     }
                     buttonText={
