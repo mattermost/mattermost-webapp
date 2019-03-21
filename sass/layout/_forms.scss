@@ -11,6 +11,11 @@
     @include input-placeholder {
         color: inherit;
     }
+
+    &.form-sm {
+        font-size: 13px;
+        height: 32px;
+    }
 }
 
 .form-horizontal {

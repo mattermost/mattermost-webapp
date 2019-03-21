@@ -169,6 +169,7 @@ export default class Bot extends React.PureComponent {
         Object.values(this.props.accessTokens).forEach((token) => {
             let activeLink;
             let disableClass = '';
+            let disabledText;
 
             if (token.is_active) {
                 activeLink = (
@@ -186,7 +187,15 @@ export default class Bot extends React.PureComponent {
                         />
                     </a>);
             } else {
-                disableClass = 'bot-list__disabled';
+                disableClass = 'light';
+                disabledText = (
+                    <span className='margin-right light'>
+                        <FormattedMessage
+                            id='user.settings.tokens.deactivatedWarning'
+                            defaultMessage='(Disabled)'
+                        />
+                    </span>
+                );
                 activeLink = (
                     <a
                         name={token.id + '_activate'}
@@ -207,42 +216,47 @@ export default class Bot extends React.PureComponent {
             tokenList.push(
                 <div
                     key={token.id}
-                    className={'bot-list__item ' + disableClass}
+                    className='bot-list__item'
                 >
-                    <div className='whitespace--nowrap overflow--ellipsis'>
-                        <b>
-                            <FormattedMessage
-                                id='user.settings.tokens.tokenDesc'
-                                defaultMessage='Token Description: '
-                            />
-                        </b>
-                        {token.description}
-                    </div>
-                    <div className='setting-box__token-id whitespace--nowrap overflow--ellipsis'>
-                        <b>
-                            <FormattedMessage
-                                id='user.settings.tokens.tokenId'
-                                defaultMessage='Token ID: '
-                            />
-                        </b>
-                        {token.id}
-                    </div>
-                    <div>
-                        {activeLink}
-                        {' - '}
-                        <a
-                            name={token.id + '_delete'}
-                            href='#'
-                            onClick={(e) => {
-                                e.preventDefault();
-                                this.confirmRevokeToken(token.id);
-                            }}
-                        >
-                            <FormattedMessage
-                                id='user.settings.tokens.delete'
-                                defaultMessage='Delete'
-                            />
-                        </a>
+                    <div className='item-details__row d-flex justify-content-between'>
+                        <div className={disableClass}>
+                            <div className='whitespace--nowrap overflow--ellipsis'>
+                                <b>
+                                    <FormattedMessage
+                                        id='user.settings.tokens.tokenDesc'
+                                        defaultMessage='Token Description: '
+                                    />
+                                </b>
+                                {token.description}
+                            </div>
+                            <div className='setting-box__token-id whitespace--nowrap overflow--ellipsis'>
+                                <b>
+                                    <FormattedMessage
+                                        id='user.settings.tokens.tokenId'
+                                        defaultMessage='Token ID: '
+                                    />
+                                </b>
+                                {token.id}
+                            </div>
+                        </div>
+                        <div>
+                            {disabledText}
+                            {activeLink}
+                            {' - '}
+                            <a
+                                name={token.id + '_delete'}
+                                href='#'
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    this.confirmRevokeToken(token.id);
+                                }}
+                            >
+                                <FormattedMessage
+                                    id='user.settings.tokens.delete'
+                                    defaultMessage='Delete'
+                                />
+                            </a>
+                        </div>
                     </div>
                 </div>
             );
@@ -301,25 +315,22 @@ export default class Bot extends React.PureComponent {
                     key={'create'}
                     className='bot-list__item'
                 >
-                    <div
-                        key={'create'}
-                        className='padding-left x2'
-                    >
+                    <div key={'create'}>
                         <form
                             className='form-horizontal'
                             onSubmit={this.handleCreateToken}
                         >
                             <div className='row'>
-                                <label className='col-sm-auto control-label padding-right x2'>
+                                <label className='col-sm-auto control-label'>
                                     <FormattedMessage
                                         id='user.settings.tokens.name'
                                         defaultMessage='Token Description: '
                                     />
                                 </label>
-                                <div className='col-sm-5'>
+                                <div className='col-sm-4'>
                                     <input
                                         autoFocus={true}
-                                        className='form-control'
+                                        className='form-control form-sm'
                                         type='text'
                                         maxLength={64}
                                         value={this.state.token.description}
@@ -328,39 +339,39 @@ export default class Bot extends React.PureComponent {
                                 </div>
                             </div>
                             <div>
-                                <div className='padding-top x2'>
+                                <div className='padding-top padding-bottom'>
                                     <FormattedMessage
                                         id='user.settings.tokens.nameHelp'
                                         defaultMessage='Enter a description for your token to remember what it does.'
                                     />
                                 </div>
-                                <div>
-                                    <label
-                                        id='clientError'
-                                        className='bot-token-has-error margin-top margin-bottom'
-                                    >
-                                        {this.state.error}
-                                    </label>
-                                </div>
-                                <SaveButton
-                                    btnClass='btn-primary'
-                                    savingMessage={
-                                        <FormattedMessage
-                                            id='user.settings.tokens.save'
-                                            defaultMessage='Save'
-                                        />
-                                    }
-                                    saving={false}
-                                />
-                                <button
-                                    className='btn btn-link'
-                                    onClick={this.closeCreateToken}
+                                <label
+                                    id='clientError'
+                                    className='has-error is-empty'
                                 >
-                                    <FormattedMessage
-                                        id='user.settings.tokens.cancel'
-                                        defaultMessage='Cancel'
+                                    {this.state.error}
+                                </label>
+                                <div className='margin-top'>
+                                    <SaveButton
+                                        btnClass='btn-sm btn-primary'
+                                        savingMessage={
+                                            <FormattedMessage
+                                                id='user.settings.tokens.save'
+                                                defaultMessage='Save'
+                                            />
+                                        }
+                                        saving={false}
                                     />
-                                </button>
+                                    <button
+                                        className='btn btn-sm btn-link'
+                                        onClick={this.closeCreateToken}
+                                    >
+                                        <FormattedMessage
+                                            id='user.settings.tokens.cancel'
+                                            defaultMessage='Cancel'
+                                        />
+                                    </button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -370,15 +381,15 @@ export default class Bot extends React.PureComponent {
             tokenList.push(
                 <div
                     key={'created'}
-                    className='alert alert-warning'
+                    className='bot-list__item alert alert-warning'
                 >
-                    <WarningIcon additionalClassName='margin-right'/>
-                    <FormattedMessage
-                        id='user.settings.tokens.copy'
-                        defaultMessage="Please copy the access token below. You won't be able to see it again!"
-                    />
-                    <br/>
-                    <br/>
+                    <div className='margin-bottom'>
+                        <WarningIcon additionalClassName='margin-right'/>
+                        <FormattedMessage
+                            id='user.settings.tokens.copy'
+                            defaultMessage="Please copy the access token below. You won't be able to see it again!"
+                        />
+                    </div>
                     <div className='whitespace--nowrap overflow--ellipsis'>
                         <FormattedMessage
                             id='user.settings.tokens.name'
@@ -400,17 +411,17 @@ export default class Bot extends React.PureComponent {
                         />
                         {this.state.token.token}
                     </strong>
-                    <br/>
-                    <br/>
-                    <button
-                        className='btn btn-primary'
-                        onClick={this.closeCreateToken}
-                    >
-                        <FormattedMessage
-                            id='bot.create_token.close'
-                            defaultMessage='Close'
-                        />
-                    </button>
+                    <div className='margin-top'>
+                        <button
+                            className='btn btn-sm btn-primary'
+                            onClick={this.closeCreateToken}
+                        >
+                            <FormattedMessage
+                                id='bot.create_token.close'
+                                defaultMessage='Close'
+                            />
+                        </button>
+                    </div>
                 </div>
             );
         }
@@ -418,22 +429,26 @@ export default class Bot extends React.PureComponent {
         return (
             <div className='backstage-list__item'>
                 <div className='item-details'>
-                    <div className='item-details__row'>
-                        <span className='item-details__name'>
+                    <div className='item-details__row d-flex justify-content-between'>
+                        <strong className='item-details__name'>
                             {displayName + ' (@' + username + ')'}
-                        </span>
+                        </strong>
+                        {options}
                     </div>
-                    {description}
-                    <div className='bot-owner__text'>
+                    <div className='bot-details__description'>
+                        {description}
+                    </div>
+                    <div className='light small'>
                         <FormattedMessage
                             id='bots.managed_by'
                             defaultMessage='Managed by '
                         />
                         {ownerUsername}
                     </div>
-                    {tokenList}
+                    <div className='bot-list'>
+                        {tokenList}
+                    </div>
                 </div>
-                {options}
                 <ConfirmModal
                     title={
                         <FormattedMessage

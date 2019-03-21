@@ -220,7 +220,6 @@
     }
 
     .item-details {
-        color: $dark-gray;
         flex-grow: 1;
         flex-shrink: 1;
         overflow: hidden;
@@ -230,11 +229,6 @@
     .item-details__row + .item-details__row {
         @include clearfix;
         text-overflow: ellipsis;
-    }
-
-    .item-details__name {
-        color: black;
-        font-weight: 600;
     }
 
     .item-details__trigger {
@@ -342,6 +336,8 @@
 }
 
 .integration-option {
+    @include single-transition(all, .2s, ease);
+    @include border-radius(4px);
     background-color: $white;
     border: 1px solid $light-gray;
     display: inline-block;
@@ -357,6 +353,7 @@
     }
 
     &:hover {
+        @extend %box-shadow-1;
         color: default;
         text-decoration: none;
     }
@@ -433,21 +430,37 @@
     padding-top: 7px;
 }
 
-.bot-list__item {
-	border: 1px solid rgba(0, 0, 0, 0.1);
-	border-radius: 4px;
-    padding: 12px;
-    color: #000000;
-    font-family: "Open Sans";
-    font-size: 13px;
-    line-height: 20px;
+.bot-list {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    margin-top: 12px;
+    line-height: 24px;
 }
 
-.bot-owner__text {
-	color: rgba(0,0,0,0.5);
-	font-family: "Open Sans";
-	font-size: 12px;
-	line-height: 18px;
+.bot-list__item {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 12px;
+    font-size: 13px;
+
+    &:first-child {
+        border: none;
+    }
+
+    &.alert {
+        margin: 0;
+        padding: 12px;
+        border-radius: 0;
+    }
+
+    .form-horizontal {
+        .control-label {
+            padding-top: 4px;
+        }
+    }
+}
+
+.bot-details__description {
+    margin: 4px 0;
 }
 
 .bot-disabled {
