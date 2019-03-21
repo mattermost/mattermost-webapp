@@ -7,64 +7,99 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-/*eslint max-nested-callbacks: ["error", 4]*/
+/*eslint max-nested-callbacks: ["error", 3]*/
 /*eslint-disable func-names*/
 
-describe('at-mention', () => {
-    before(() => {
-        cy.fixture('users').as('usersJSON');
+function setNotificationSettings(desiredSettings = {first: true, username: true, shouts: true, custom: true, customText: '@'}) {
+    // Navigate to settings modal
+    cy.toAccountSettingsModal(null, true);
+
+    // Select "Notifications"
+    cy.get('#notificationsButton').click();
+
+    // Notifications header should be visible
+    cy.get('#notificationSettingsTitle').
+        scrollIntoView().
+        should('be.visible').
+        and('contain', 'Notifications');
+
+    // Open up 'Words that trigger mentions' sub-section
+    cy.get('#keysTitle').
+        scrollIntoView().
+        click();
+
+    const settings = [
+        {key: 'first', selector: '#notificationTriggerFirst'},
+        {key: 'username', selector: '#notificationTriggerUsername'},
+        {key: 'shouts', selector: '#notificationTriggerShouts'},
+        {key: 'custom', selector: '#notificationTriggerCustom'},
+    ];
+
+    // Set check boxes to desired state
+    settings.forEach((setting) => {
+        const checkbox = desiredSettings[setting.key] ? {state: 'check', verify: 'be.checked'} : {state: 'uncheck', verify: 'not.be.checked'};
+        cy.get(setting.selector)[checkbox.state]().should(checkbox.verify);
     });
 
-    it('N14571 still triggers notification if username is not listed in words that trigger mentions', function() {
-        const receiver = this.usersJSON['user-1'];
-        const sender = this.usersJSON['user-2'];
-        const message = `@${receiver.username} I'm messaging you! ${Date.now()}`;
+    // Set Custom field
+    if (desiredSettings.custom && desiredSettings.customText) {
+        cy.get('#notificationTriggerCustomText').
+            clear().
+            type(desiredSettings.customText);
+    }
 
-        // 1. Login and navigate to the account settings
-        cy.toAccountSettingsModal(receiver.username);
+    // Click “Save” and close modal
+    cy.get('#saveSetting').
+        scrollIntoView().
+        click();
+    cy.get('#accountSettingsHeader > .close').
+        click().
+        should('be.hidden');
+}
 
-        // 2. Select "Notifications"
-        cy.get('#notificationsButton').click();
+describe('at-mention', () => {
+    beforeEach(() => {
+        cy.fixture('users').as('usersJSON');
 
-        // * Notifications header should be visible
-        cy.get('#notificationSettingsTitle').should('be.visible').should('contain', 'Notifications');
+        cy.get('@usersJSON').
+            its('user-1').
+            as('receiver');
 
-        // 3. Open up 'Words that trigger mentions' sub-section
-        cy.get('#keysTitle').scrollIntoView();
-        cy.get('#keysTitle').click();
+        cy.get('@usersJSON').
+            its('user-2').
+            as('sender');
 
-        // 4. Set checkboxes to desired state
-        cy.get('#notificationTriggerFirst').uncheck().should('not.be.checked');
-        cy.get('#notificationTriggerUsername').uncheck().should('not.be.checked');
-        cy.get('#notificationTriggerShouts').check().should('be.checked');
-        cy.get('#notificationTriggerCustom').check().should('be.checked');
+        // 1. Login and navigate to the app
+        cy.get('@receiver').then((receiver) => {
+            cy.login(receiver.username);
+        });
 
-        // 5. Set Custom field to not include our name
-        cy.get('#notificationTriggerCustomText').clear().type('@');
+        cy.visit('/');
 
-        // 6. Click “Save” and close modal
-        cy.get('#saveSetting').scrollIntoView().click();
-        cy.get('#accountSettingsHeader > .close').click();
-
-        // 7. Navigate to the channel we were mention to
+        // 2. Navigate to the channel we were mention to
         // clear the notification gem and get the channelId
-        cy.get('#sidebarItem_town-square').click();
+        cy.get('#sidebarItem_town-square').click({force: true});
 
-        // 8. Get the current channelId
+        // 3. Get the current channelId
         cy.getCurrentChannelId().as('channelId');
 
-        // 9. Stub out Notification so we can spy on it
+        // 4. Navigate to a channel we are NOT going to post to
+        cy.get('#sidebarItem_saepe-5').click({force: true});
+
+        // 7. Stub out Notification so we can spy on it
         cy.window().then((win) => {
             cy.stub(win, 'Notification').as('notifyStub');
         });
+    });
 
-        // 10. Navigate to a channel we are NOT going to post to
-        cy.get('#sidebarItem_saepe-5').click({force: true});
+    it('N14571 still triggers notification if username is not listed in words that trigger mentions', function() {
+        // 1. Set Notification settings
+        setNotificationSettings({first: false, username: false, shouts: true, custom: true});
 
-        // 11. Use another account to post a message @-mentioning our receiver
-        cy.get('@channelId').then((channelId) => {
-            cy.task('postMessageAs', {sender, message, channelId});
-        });
+        const message = `@${this.receiver.username} I'm messaging you! ${Date.now()}`;
+
+        // 2. Use another account to post a message @-mentioning our receiver
+        cy.task('postMessageAs', {sender: this.sender, message, channelId: this.channelId});
 
         // * Verify the stub
         cy.get('@notifyStub').should((stub) => {
@@ -73,7 +108,7 @@ describe('at-mention', () => {
             // * Verify notification is coming from Town Square
             expect(title).to.equal('Town Square');
 
-            const body = `@${sender.username}: ${message}`;
+            const body = `@${this.sender.username}: ${message}`;
 
             // * Verify additional args of notification
             expect(opts).to.include({body, tag: body, requireInteraction: false, silent: false});
@@ -86,21 +121,60 @@ describe('at-mention', () => {
             should('be.visible').
             and('have.text', '1');
 
-        // 12. Go to the channel where you were messaged
+        // 3. Go to the channel where you were messaged
         cy.get('#sidebarItem_town-square').click();
 
-        // * Verify that the message is there
+        // 4. Get last post message text
         cy.getLastPostId().then((postId) => {
-            const postMessageTextId = `#postMessageText_${postId}`;
-
-            // * Verify entire message
-            cy.get(postMessageTextId).should('have.text', message);
-
-            // * Verify highlight of username
-            cy.get(postMessageTextId).
-                find(`[data-mention=${receiver.username}]`).
-                should('be.visible').
-                and('have.text', `@${receiver.username}`);
+            cy.get(`#postMessageText_${postId}`).as('postMessageText');
         });
+
+        // * Verify entire message
+        cy.get('@postMessageText').
+            should('be.visible').
+            and('have.text', message);
+
+        // * Verify highlight of username
+        cy.get('@postMessageText').
+            find(`[data-mention=${this.receiver.username}]`).
+            should('be.visible').
+            and('have.text', `@${this.receiver.username}`);
+    });
+
+    it('N14570 does not trigger notifications with "Your non-case sensitive username" unchecked', function() {
+        // 1. Set Notification settings
+        setNotificationSettings({first: false, username: false, shouts: true, custom: true});
+
+        const message = `Hey ${this.receiver.username}! I'm messaging you! ${Date.now()}`;
+
+        // 2. Use another account to post a message @-mentioning our receiver
+        cy.task('postMessageAs', {sender: this.sender, message, channelId: this.channelId});
+
+        // * Verify stub was not called
+        cy.get('@notifyStub').should('be.not.called');
+
+        // * Verify unread mentions badge does not exist
+        cy.get('#sidebarItem_town-square').
+            scrollIntoView().
+            find('#unreadMentions').
+            should('be.not.visible');
+
+        // 3. Go to the channel where you were messaged
+        cy.get('#sidebarItem_town-square').click();
+
+        // 4. Get last post message text
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#postMessageText_${postId}`).as('postMessageText');
+        });
+
+        // * Verify message contents
+        cy.get('@postMessageText').
+            should('be.visible').
+            and('have.text', message);
+
+        // * Verify it's not highlighted
+        cy.get('@postMessageText').
+            find(`[data-mention=${this.receiver.username}]`).
+            should('not.exist');
     });
 });
