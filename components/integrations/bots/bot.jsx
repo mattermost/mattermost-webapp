@@ -445,7 +445,7 @@ export default class Bot extends React.PureComponent {
                         />
                         {ownerUsername}
                     </div>
-                    <div className='bot-list'>
+                    <div className='bot-list is-empty'>
                         {tokenList}
                     </div>
                 </div>

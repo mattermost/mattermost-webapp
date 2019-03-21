@@ -431,15 +431,16 @@
 }
 
 .bot-list {
+    background: #f9f9f9;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     margin-top: 12px;
     line-height: 24px;
+    padding-bottom: 6px;
 }
 
 .bot-list__item {
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    padding: 12px;
+    padding: 12px 12px 6px;
     font-size: 13px;
 
     &:first-child {
@@ -482,10 +483,6 @@
     }
 }
 
-.bot-list__disabled {
-    opacity: 0.5;
-}
-
 .bot-img {
     width: 129px;
     height: 129px;
@@ -520,7 +517,13 @@
 }
 
 .bot-list__disabled {
-    opacity: 0.5;
+    .item-details {
+        color: rgba($black, .6);
+    }
+
+    .bot-list {
+        opacity: .6;
+    }
 }
 
 .bot-token-has-error {
