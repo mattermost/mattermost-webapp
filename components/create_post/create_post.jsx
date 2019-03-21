@@ -208,6 +208,8 @@ export default class CreatePost extends React.Component {
             */
             clearDraftUploads: PropTypes.func.isRequired,
 
+            runMessageWillBePostedHooks: PropTypes.func.isRequired,
+
             /**
             *  func called for setting drafts
             */
@@ -320,7 +322,7 @@ export default class CreatePost extends React.Component {
         this.setState({showEmojiPicker: false});
     }
 
-    doSubmit = (e) => {
+    doSubmit = async (e) => {
         const channelId = this.props.currentChannel.id;
         if (e) {
             e.preventDefault();
@@ -386,7 +388,7 @@ export default class CreatePost extends React.Component {
         } else if (isReaction && this.props.emojiMap.has(isReaction[2])) {
             this.sendReaction(isReaction);
         } else {
-            this.sendMessage(post);
+            await this.sendMessage(post);
         }
 
         this.setState({
@@ -507,13 +509,15 @@ export default class CreatePost extends React.Component {
         this.doSubmit(e);
     }
 
-    sendMessage = (post) => {
+    sendMessage = async (originalPost) => {
         const {
             actions,
             currentChannel,
             currentUserId,
             draft,
         } = this.props;
+
+        let post = originalPost;
 
         post.channel_id = currentChannel.id;
 
@@ -524,7 +528,17 @@ export default class CreatePost extends React.Component {
         post.create_at = time;
         post.parent_id = this.state.parentId;
 
-        actions.onSubmitPost(post, draft.fileInfos);
+        const hookResult = await actions.runMessageWillBePostedHooks(post);
+
+        if (hookResult.error) {
+            this.setState({
+                serverError: hookResult.error,
+            });
+        } else {
+            post = hookResult.data;
+
+            actions.onSubmitPost(post, draft.fileInfos);
+        }
 
         this.setState({
             submitting: false,
