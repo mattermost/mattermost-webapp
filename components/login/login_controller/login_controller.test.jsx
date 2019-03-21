@@ -75,7 +75,7 @@ describe('components/login/LoginController', () => {
             initializing: false,
         };
 
-        LocalStorageStore.setWasLoggedIn(true);
+        LocalStorageStore.setWasLoggedIn(window.basename, true);
         const wrapper = shallowWithIntl(
             <LoginController {...props}/>
         ).dive();
@@ -92,7 +92,7 @@ describe('components/login/LoginController', () => {
             },
         };
 
-        LocalStorageStore.setWasLoggedIn(true);
+        LocalStorageStore.setWasLoggedIn(window.basename, true);
         const wrapper = shallowWithIntl(
             <LoginController {...props}/>
         ).dive();

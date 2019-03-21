@@ -103,12 +103,12 @@ class LoginController extends React.Component {
         }
 
         // Determine if the user was unexpectedly logged out.
-        if (LocalStorageStore.getWasLoggedIn()) {
+        if (LocalStorageStore.getWasLoggedIn(window.basename)) {
             if (extra === Constants.SIGNIN_CHANGE) {
                 // Assume that if the user triggered a sign in change, it was intended to logout.
                 // We can't preflight this, since in some flows it's the server that invalidates
                 // our session after we use it to complete the sign in change.
-                LocalStorageStore.setWasLoggedIn(false);
+                LocalStorageStore.setWasLoggedIn(window.basename, false);
             } else {
                 // Although the authority remains the local sessionExpired bit on the state, set this
                 // extra field in the querystring to signal the desktop app. And although eslint
@@ -325,7 +325,7 @@ class LoginController extends React.Component {
 
         // Record a successful login to local storage. If an unintentional logout occurs, e.g.
         // via session expiration, this bit won't get reset and we can notify the user as such.
-        LocalStorageStore.setWasLoggedIn(true);
+        LocalStorageStore.setWasLoggedIn(window.basename, true);
         if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
             browserHistory.push(redirectTo);
         } else if (team) {
@@ -420,7 +420,7 @@ class LoginController extends React.Component {
     }
 
     onDismissSessionExpired = () => {
-        LocalStorageStore.setWasLoggedIn(false);
+        LocalStorageStore.setWasLoggedIn(window.basename, false);
         this.setState({sessionExpired: false});
     }
 

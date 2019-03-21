@@ -42,6 +42,20 @@ Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPasswo
     cy.get('#post_textbox').should('be.visible');
 });
 
+Cypress.Commands.add('getSubpath', () => {
+    cy.visit('/');
+    cy.url().then((url) => {
+        cy.location().its('origin').then((origin) => {
+            if (url === origin) {
+                return '';
+            }
+
+            // Remove trailing slash
+            return url.replace(origin, '').substring(0, url.length - origin.length - 1);
+        });
+    });
+});
+
 // ***********************************************************
 // Account Settings Modal
 // ***********************************************************

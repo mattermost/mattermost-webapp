@@ -6,6 +6,7 @@ const getPreviousTeamIdKey = (userId) => ['user_prev_team', userId].join(':');
 const getPreviousChannelNameKey = (userId, teamId) => ['user_team_prev_channel', userId, teamId].join(':');
 const getPenultimateChannelNameKey = (userId, teamId) => ['user_team_penultimate_channel', userId, teamId].join(':');
 const getRecentEmojisKey = (userId) => ['recent_emojis', userId].join(':');
+const getWasLoggedInKey = (subpath) => ['was_logged_in', subpath].join(':');
 
 // LocalStorageStore exposes an interface for accessing entries in the localStorage.
 //
@@ -52,16 +53,16 @@ class LocalStorageStoreClass {
         }
     }
 
-    setWasLoggedIn(wasLoggedIn) {
+    setWasLoggedIn(subpath, wasLoggedIn) {
         if (wasLoggedIn) {
-            localStorage.setItem('was_logged_in', 'true');
+            localStorage.setItem(getWasLoggedInKey(subpath), 'true');
         } else {
-            localStorage.setItem('was_logged_in', 'false');
+            localStorage.setItem(getWasLoggedInKey(subpath), 'false');
         }
     }
 
-    getWasLoggedIn() {
-        return localStorage.getItem('was_logged_in') === 'true';
+    getWasLoggedIn(subpath) {
+        return localStorage.getItem(getWasLoggedInKey(subpath)) === 'true';
     }
 }
 
