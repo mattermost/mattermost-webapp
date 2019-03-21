@@ -172,7 +172,7 @@ export default class Integrations extends React.Component {
                     description={
                         <FormattedMessage
                             id='bots.manage.description'
-                            defaultMessage='Create a Bot User and interact with the app through the API.'
+                            defaultMessage='Use bot accounts to integrate with Mattermost through plugins or the API'
                         />
                     }
                     link={'/' + this.props.team.name + '/integrations/bots'}
