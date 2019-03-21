@@ -210,7 +210,7 @@ export default class Integrations extends React.Component {
                         }}
                     />
                 </div>
-                <div>
+                <div className='integrations-list d-flex flex-wrap'>
                     {options}
                 </div>
             </div>
