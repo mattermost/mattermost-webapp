@@ -60,7 +60,6 @@ export default class PostListRow extends React.PureComponent {
         }
 
         if (listId === PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES) {
-            console.log('did it');
             return (
                 <button
                     className='more-messages-text theme style--none color--link'

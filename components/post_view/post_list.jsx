@@ -356,12 +356,12 @@ export default class PostList extends React.PureComponent {
         if (newMessagesSeparatorIndex > 0) {
             return {
                 index: newMessagesSeparatorIndex,
-                postition: 'start',
+                position: 'start',
             };
         }
         return {
             index: 0,
-            postition: 'end',
+            position: 'end',
         };
     }
 
