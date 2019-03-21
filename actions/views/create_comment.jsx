@@ -118,7 +118,7 @@ export function submitCommand(channelId, rootId, draft) {
 
         if (error) {
             if (error.sendMessage) {
-                dispatch(submitPost(channelId, rootId, draft));
+                await dispatch(submitPost(channelId, rootId, draft));
             } else {
                 throw (error);
             }
