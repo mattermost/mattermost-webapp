@@ -128,7 +128,10 @@ export default class FileAttachmentList extends React.Component {
 
         return (
             <React.Fragment>
-                <div className='post-image__columns clearfix'>
+                <div
+                    id='fileAttachmentList'
+                    className='post-image__columns clearfix'
+                >
                     {postFiles}
                 </div>
                 <ViewImageModal

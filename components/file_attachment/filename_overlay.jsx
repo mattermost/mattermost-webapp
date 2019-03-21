@@ -69,6 +69,7 @@ export default class FilenameOverlay extends React.PureComponent {
                     <a
                         href='#'
                         onClick={handleImageClick}
+                        id='post-image__name'
                         className='post-image__name'
                         rel='noopener noreferrer'
                     >

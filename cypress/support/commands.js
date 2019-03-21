@@ -363,6 +363,35 @@ Cypress.Commands.add('defaultTheme', (username) => {
     cy.get('#saveSetting').click();
 });
 
+// Check posting 4 attchments
+Cypress.Commands.add('postFourAttachments', (btnlabel) => {
+    cy.getLastPostId().then((postID) => {
+        // * Verify if show more button is visible and all 4 attachments are posted
+        cy.get(`#${postID}_message`).find('#showMoreButton').contains(btnlabel).then((showMoreLess) => {
+            showMoreLess.click();
+
+            // * Check posting of 4 file attachments
+            cy.get(`#${postID}_message`).find('#fileAttachmentList').children().should('have.length', '4');
+
+            //* Check the first attachment name
+            cy.get(`#${postID}_message`).find('#fileAttachmentList').children().eq(0).
+                find('#post-image__name').contains('mattermost-icon.png').should('exist');
+
+            //* Check the second attachment name
+            cy.get(`#${postID}_message`).find('#fileAttachmentList').children().eq(1).
+                find('#post-image__name').contains('mattermost-icon.png').should('exist');
+
+            //* Check the third attachment name
+            cy.get(`#${postID}_message`).find('#fileAttachmentList').children().eq(2).
+                find('#post-image__name').contains('mattermost-icon.png').should('exist');
+
+            //* Check the fourth attachemnt name
+            cy.get(`#${postID}_message`).find('#fileAttachmentList').children().eq(3).
+                find('#post-image__name').contains('long_text_post.txt').should('exist');
+        });
+    });
+});
+
 // ***********************************************************
 // Change User Status
 // ************************************************************

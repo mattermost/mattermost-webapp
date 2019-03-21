@@ -313,10 +313,14 @@ export default class ViewImageModal extends React.PureComponent {
                             onClick={(e) => e.stopPropagation()}
                         >
                             <div
+                                id={closeButtonClass}
                                 className={closeButtonClass}
                                 onClick={this.props.onModalDismissed}
                             />
-                            <div className='modal-image__content'>
+                            <div
+                                id='modal-image__content'
+                                className='modal-image__content'
+                            >
                                 {content}
                             </div>
                             <PopoverBar

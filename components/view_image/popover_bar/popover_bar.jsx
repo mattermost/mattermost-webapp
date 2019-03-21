@@ -92,6 +92,7 @@ export default class PopoverBar extends React.PureComponent {
 
         return (
             <div
+                id='popoverBar'
                 ref='imageFooter'
                 className={footerClass}
             >
