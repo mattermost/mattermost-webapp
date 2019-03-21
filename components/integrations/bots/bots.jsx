@@ -81,10 +81,48 @@ export default class Bots extends React.PureComponent {
     componentDidMount() {
         this.props.actions.loadBots().then(
             (result) => {
-                Promise.all(result.data.map((bot) => this.props.actions.getUserAccessTokensForUser(bot.user_id)).concat(result.data.map((bot) => this.props.actions.getUser(bot.user_id)))).then(() => {
-                    this.setState({loading: false});
-                });
+                // We don't need to wait for this and we need to accept failure in the case where bot.owner_id is a plugin id
+                result.data.map((bot) => this.props.actions.getUser(bot.owner_id));
+                Promise.all(
+                    result.data.map((bot) => this.props.actions.getUserAccessTokensForUser(bot.user_id)).
+                        concat(result.data.map((bot) => this.props.actions.getUser(bot.user_id)))).
+                    then(() => {
+                        this.setState({loading: false});
+                    });
             }
+        );
+    }
+
+    DisabledSection(props) {
+        if (!props.hasDisabled) {
+            return null;
+        }
+        const botsToDisplay = React.Children.map(props.disabledBots, (child) => {
+            return React.cloneElement(child, {filter: props.filter});
+        });
+        return (
+            <React.Fragment>
+                <div className='bot-disabled'>
+                    <FormattedMessage
+                        id='bots.disabled'
+                        defaultMessage='Disabled'
+                    />
+                </div>
+                <div className='bot-list__disabled'>
+                    {botsToDisplay}
+                </div>
+            </React.Fragment>
+        );
+    }
+
+    EnabledSection(props) {
+        const botsToDisplay = React.Children.map(props.enabledBots, (child) => {
+            return React.cloneElement(child, {filter: props.filter});
+        });
+        return (
+            <div>
+                {botsToDisplay}
+            </div>
         );
     }
 
@@ -104,39 +142,6 @@ export default class Bots extends React.PureComponent {
         };
         const enabledBots = bots.filter((bot) => bot.delete_at === 0).map(botToJSX);
         const disabledBots = bots.filter((bot) => bot.delete_at > 0).map(botToJSX);
-
-        function DisabledSection(props) {
-            if (!props.hasDisabled) {
-                return null;
-            }
-            const botsToDisplay = React.Children.map(props.disabledBots, (child) => {
-                return React.cloneElement(child, {filter: props.filter});
-            });
-            return (
-                <React.Fragment>
-                    <div className='bot-disabled'>
-                        <FormattedMessage
-                            id='bots.disabled'
-                            defaultMessage='Disabled'
-                        />
-                    </div>
-                    <div className='bot-list__disabled'>
-                        {botsToDisplay}
-                    </div>
-                </React.Fragment>
-            );
-        }
-
-        function EnabledSection(props) {
-            const botsToDisplay = React.Children.map(props.enabledBots, (child) => {
-                return React.cloneElement(child, {filter: props.filter});
-            });
-            return (
-                <div>
-                    {botsToDisplay}
-                </div>
-            );
-        }
 
         return (
             <BackstageList
@@ -182,10 +187,10 @@ export default class Bots extends React.PureComponent {
                 searchPlaceholder={Utils.localizeMessage('bots.manage.search', 'Search Bot Accounts')}
                 loading={this.state.loading}
             >
-                <EnabledSection
+                <this.EnabledSection
                     enabledBots={enabledBots}
                 />
-                <DisabledSection
+                <this.DisabledSection
                     hasDisabled={disabledBots.length > 0}
                     disabledBots={disabledBots}
                 />

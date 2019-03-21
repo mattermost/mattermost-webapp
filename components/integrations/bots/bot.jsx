@@ -61,6 +61,17 @@ export default class Bot extends React.PureComponent {
         team: PropTypes.object.isRequired,
     };
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            confirmingId: '',
+            creatingTokenState: 'CLOSED',
+            token: {},
+            error: '',
+        };
+    }
+
     enableBot = () => {
         this.props.actions.enableBot(this.props.bot.user_id);
     }
@@ -117,6 +128,16 @@ export default class Bot extends React.PureComponent {
     handleCreateToken = async (e) => {
         e.preventDefault();
 
+        if (this.state.token.description === '') {
+            this.setState({error: (
+                <FormattedMessage
+                    id='bot.token.error.description'
+                    defaultMessage='Please enter a description.'
+                />
+            )});
+            return;
+        }
+
         const {data, error} = await this.props.actions.createUserAccessToken(this.props.bot.user_id, this.state.token.description);
         if (data) {
             this.setState({creatingTokenState: 'CREATED', token: data});
@@ -125,19 +146,11 @@ export default class Bot extends React.PureComponent {
         }
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            confirmingId: '',
-            createingTokenState: 'CLOSED',
-            token: {},
-            error: '',
-        };
-    }
-
     render() {
-        const bot = this.props.bot;
+        const username = this.props.bot.username || '';
+        const description = this.props.bot.description || '';
+        const displayName = this.props.bot.display_name || '';
+
         let ownerUsername = 'plugin';
         if (this.props.owner && this.props.owner.username) {
             ownerUsername = this.props.owner.username;
@@ -145,9 +158,9 @@ export default class Bot extends React.PureComponent {
 
         const filter = this.props.filter ? this.props.filter.toLowerCase() : '';
         if (filter &&
-            bot.username.toLowerCase().indexOf(filter) === -1 &&
-            bot.display_name.toLowerCase().indexOf(filter) === -1 &&
-            bot.description.toLowerCase().indexOf(filter) === -1 &&
+            username.toLowerCase().indexOf(filter) === -1 &&
+            displayName.toLowerCase().indexOf(filter) === -1 &&
+            description.toLowerCase().indexOf(filter) === -1 &&
             ownerUsername.toLowerCase().indexOf(filter) === -1) {
             return null;
         }
@@ -324,7 +337,7 @@ export default class Bot extends React.PureComponent {
                                 <div>
                                     <label
                                         id='clientError'
-                                        className='has-error margin-top margin-bottom'
+                                        className='bot-token-has-error margin-top margin-bottom'
                                     >
                                         {this.state.error}
                                     </label>
@@ -407,10 +420,10 @@ export default class Bot extends React.PureComponent {
                 <div className='item-details'>
                     <div className='item-details__row'>
                         <span className='item-details__name'>
-                            {bot.display_name + ' (@' + bot.username + ')'}
+                            {displayName + ' (@' + username + ')'}
                         </span>
                     </div>
-                    {bot.description}
+                    {description}
                     <div className='bot-owner__text'>
                         <FormattedMessage
                             id='bots.managed_by'
