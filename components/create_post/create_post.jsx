@@ -367,35 +367,37 @@ export default class CreatePost extends React.Component {
             const args = {};
             args.channel_id = channelId;
             args.team_id = this.props.currentTeamId;
-            this.props.actions.executeCommand(post.message, args).then(
-                ({error}) => {
-                    this.setState({submitting: false});
-                    if (error) {
-                        if (error.sendMessage) {
-                            this.sendMessage(post);
-                        } else {
-                            this.setState({
-                                serverError: {
-                                    ...error,
-                                    submittedMessage: post.message,
-                                },
-                                message: post.message,
-                            });
-                        }
-                    }
+
+            const {error} = await this.props.actions.executeCommand(post.message, args);
+
+            if (error) {
+                if (error.sendMessage) {
+                    await this.sendMessage(post);
+                } else {
+                    this.setState({
+                        serverError: {
+                            ...error,
+                            submittedMessage: post.message,
+                        },
+                        message: post.message,
+                    });
                 }
-            );
+            }
         } else if (isReaction && this.props.emojiMap.has(isReaction[2])) {
             this.sendReaction(isReaction);
+
+            this.setState({message: ''});
         } else {
-            await this.sendMessage(post);
+            const {error} = await this.sendMessage(post);
+
+            if (!error) {
+                this.setState({message: ''});
+            }
         }
 
         this.setState({
-            message: '',
             submitting: false,
             postError: null,
-            serverError: null,
             enableSendButton: false,
         });
 
@@ -506,7 +508,7 @@ export default class CreatePost extends React.Component {
             return;
         }
 
-        this.doSubmit(e);
+        await this.doSubmit(e);
     }
 
     sendMessage = async (originalPost) => {
@@ -533,16 +535,21 @@ export default class CreatePost extends React.Component {
         if (hookResult.error) {
             this.setState({
                 serverError: hookResult.error,
+                submitting: false,
             });
-        } else {
-            post = hookResult.data;
 
-            actions.onSubmitPost(post, draft.fileInfos);
+            return hookResult;
         }
+
+        post = hookResult.data;
+
+        actions.onSubmitPost(post, draft.fileInfos);
 
         this.setState({
             submitting: false,
         });
+
+        return {data: true};
     }
 
     sendReaction(isReaction) {

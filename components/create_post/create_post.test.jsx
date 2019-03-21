@@ -79,6 +79,9 @@ const actionsProp = {
         return {data: true};
     },
     getChannelTimezones: emptyFunction,
+    runMessageWillBePostedHooks: async (post) => {
+        return {data: post};
+    },
 };
 
 function createPost({
@@ -376,7 +379,7 @@ describe('components/create_post', () => {
         expect(GlobalActions.showChannelNameUpdateModal).toHaveBeenCalledWith(currentChannelProp);
     });
 
-    it('onSubmit test for "/unknown" message ', () => {
+    it('onSubmit test for "/unknown" message ', async () => {
         jest.mock('actions/channel_actions.jsx', () => ({
             executeCommand: jest.fn((message, _args, resolve) => resolve()),
         }));
@@ -387,12 +390,11 @@ describe('components/create_post', () => {
             message: '/unknown',
         });
 
-        const form = wrapper.find('#create_post');
-        form.simulate('Submit', {preventDefault: jest.fn()});
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
         expect(wrapper.state('submitting')).toBe(false);
     });
 
-    it('onSubmit test for addReaction message', () => {
+    it('onSubmit test for addReaction message', async () => {
         const addReaction = jest.fn();
 
         const wrapper = shallowWithIntl(
@@ -408,8 +410,7 @@ describe('components/create_post', () => {
             message: '+:smile:',
         });
 
-        const form = wrapper.find('#create_post');
-        form.simulate('Submit', {preventDefault: jest.fn()});
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
         expect(addReaction).toHaveBeenCalledWith('a', 'smile');
     });
 
@@ -716,7 +717,7 @@ describe('components/create_post', () => {
         expect(wrapper.state('showPostDeletedModal')).toBe(false);
     });
 
-    it('Should have called actions.onSubmitPost on sendMessage', () => {
+    it('Should have called actions.onSubmitPost on sendMessage', async () => {
         const onSubmitPost = jest.fn();
         const wrapper = shallowWithIntl(createPost({
             actions: {
@@ -725,7 +726,7 @@ describe('components/create_post', () => {
             },
         }));
         const post = {message: 'message', file_ids: []};
-        wrapper.instance().sendMessage(post);
+        await wrapper.instance().sendMessage(post);
 
         expect(onSubmitPost).toHaveBeenCalledTimes(1);
         expect(onSubmitPost.mock.calls[0][0]).toEqual(post);
@@ -835,7 +836,7 @@ describe('components/create_post', () => {
         });
         expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
 
-        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
         expect(onSubmitPost).toHaveBeenCalledWith(
             expect.objectContaining({
