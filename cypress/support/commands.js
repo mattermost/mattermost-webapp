@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import users from '../fixtures/users.json';
+import theme from '../fixtures/theme.json';
 
 // ***********************************************************
 // Read more: https://on.cypress.io/custom-commands
@@ -432,4 +433,76 @@ Cypress.Commands.add('userStatus', (statusInt) => {
 
 Cypress.Commands.add('getCurrentChannelId', () => {
     return cy.get('#channel-header').invoke('attr', 'data-channelid');
+});
+
+// ***********************************************************
+// API - Preference
+// ************************************************************
+
+/**
+ * Update user's preference directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {Array} preference - a list of user's preferences
+ */
+Cypress.Commands.add('updateUserPreference', (preferences = []) => {
+    cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/me/preferences',
+        method: 'PUT',
+        body: preferences,
+    });
+});
+
+/**
+ * Update channel display mode preference of a user directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} value - Either "full" (default) or "centered"
+ */
+Cypress.Commands.add('updateChannelDisplayModePreference', (value = 'full') => {
+    cy.getCookie('MMUSERID').then((cookie) => {
+        const preference = {
+            user_id: cookie.value,
+            category: 'display_settings',
+            name: 'channel_display_mode',
+            value,
+        };
+
+        cy.updateUserPreference([preference]);
+    });
+});
+
+/**
+ * Update message display preference of a user directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} value - Either "clean" (default) or "compact"
+ */
+Cypress.Commands.add('updateMessageDisplayPreference', (value = 'clean') => {
+    cy.getCookie('MMUSERID').then((cookie) => {
+        const preference = {
+            user_id: cookie.value,
+            category: 'display_settings',
+            name: 'message_display',
+            value,
+        };
+
+        cy.updateUserPreference([preference]);
+    });
+});
+
+/**
+ * Update theme preference of a user directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {Object} value - theme object.  Will pass default value if none is provided.
+ */
+Cypress.Commands.add('updateThemePreference', (value = JSON.stringify(theme.default)) => {
+    cy.getCookie('MMUSERID').then((cookie) => {
+        const preference = {
+            user_id: cookie.value,
+            category: 'theme',
+            name: '',
+            value,
+        };
+
+        cy.updateUserPreference([preference]);
+    });
 });
