@@ -184,6 +184,55 @@ Cypress.Commands.add('getLastPostId', () => {
     });
 });
 
+function getLastPostIdWithRetry() {
+    cy.getLastPostId().then((postId) => {
+        if (!postId.includes(':')) {
+            return postId;
+        }
+
+        return Cypress.Promise.delay(1000).then(getLastPostIdWithRetry);
+    });
+}
+
+/**
+ * Only return valid post ID and do retry if last post is still on pending state
+ */
+Cypress.Commands.add('getLastPostIdWithRetry', () => {
+    return getLastPostIdWithRetry();
+});
+
+/**
+ * Post message from a file instantly post a message in a textbox
+ * instead of typing into it which takes longer period of time.
+ * @param {String} file - includes path and filename relative to cypress/fixtures
+ * @param {String} target - either #post_textbox or #reply_textbox
+ */
+Cypress.Commands.add('postMessageFromFile', (file, target = '#post_textbox') => {
+    cy.fixture(file, 'utf-8').then((text) => {
+        cy.get(target).then((textbox) => {
+            textbox.val(text);
+        }).type(' {backspace}{enter}');
+    });
+});
+
+/**
+ * Compares HTML content of a last post against the given file
+ * instead of typing into it which takes longer period of time.
+ * @param {String} file - includes path and filename relative to cypress/fixtures
+ */
+Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file) => {
+    // * Verify that HTML Content is correct
+    cy.getLastPostIdWithRetry().then((postId) => {
+        const postMessageTextId = `#postMessageText_${postId}`;
+
+        cy.fixture(file, 'utf-8').then((expectedHtml) => {
+            cy.get(postMessageTextId).then((content) => {
+                assert.equal(content[0].innerHTML, expectedHtml.replace(/\n$/, ''));
+            });
+        });
+    });
+});
+
 // ***********************************************************
 // Post header
 // ***********************************************************
