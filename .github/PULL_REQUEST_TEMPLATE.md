@@ -1,21 +1,28 @@
-Please make sure you've read the [pull request](http://docs.mattermost.com/developer/contribution-guide.html#preparing-a-pull-request) section of our [code contribution guidelines](http://docs.mattermost.com/developer/contribution-guide.html).
+<!-- Thank you for contributing a pull request! Here are a few tips to help you:
 
-When filling in a section please remove the help text and the above text.
+1. If this is your first contribution, make sure you've read the Contribution Checklist https://developers.mattermost.com/contribute/getting-started/contribution-checklist/
+2. Read our blog post about "Submitting Great PRs" https://developers.mattermost.com/blog/2019-01-24-submitting-great-prs
+3. Take a look at other repository specific documentation at https://developers.mattermost.com/contribute
+-->
 
 #### Summary
-[A brief description of what this pull request does.]
+<!--
+A description of what this pull request does.
+-->
 
 #### Ticket Link
-[Please link the GitHub issue or Jira ticket this PR addresses.]
+<!--
+If this pull request addresses a Help Wanted ticket, please link the relevant GitHub issue, e.g.
 
-#### Checklist
-[Place an '[x]' (no spaces) in all applicable fields. Please remove unrelated fields.]
-- [ ] Ran `make check-style` to check for style errors (required for all pull requests)
-- [ ] Ran `make test` to ensure unit and component tests passed
-- [ ] Added or updated unit tests (required for all new features)
-- [ ] Needs to be implemented in mobile (link to PR or User Story)
-- [ ] Has server changes (please link)
-- [ ] Has redux changes (please link)
-- [ ] Has UI changes
-- [ ] Includes text changes and localization file ([.../i18n/en.json](https://github.com/mattermost/mattermost-webapp/blob/master/i18n/en.json)) updates
-- [ ] Touches critical sections of the codebase (auth, posting, etc.)
+  Fixes https://github.com/mattermost/mattermost-server/issues/XXXXX
+
+Otherwise, link the JIRA ticket.
+-->
+
+#### Related PR's
+<!--
+Your might submit multiple PR's that together fix a ticket. If so, please link them there and remove unrelated fields from the list. Otherwise please remove this section.
+-->
+- Has server changes (please link here)
+- Has redux changes (please link here)
+- Has mobile changes (please link here)
