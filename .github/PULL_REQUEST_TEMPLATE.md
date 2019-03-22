@@ -21,7 +21,7 @@ Otherwise, link the JIRA ticket.
 
 #### Related PR's
 <!--
-Your might submit multiple PR's that together fix a ticket. If so, please link them there and remove unrelated fields from the list. Otherwise please remove this section.
+List all PRs related to resolving a ticket. For instance, if you submitted a PR to `mattermost/mattermost-server`, please include it here.
 -->
 - Has server changes (please link here)
 - Has redux changes (please link here)
