@@ -390,7 +390,7 @@ export default class AddBot extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='bot.add.username.help'
-                                        defaultMessage='You can use lowercase letters, numbers, periods, dahses, and underscores.'
+                                        defaultMessage='You can use lowercase letters, numbers, periods, dashes, and underscores.'
                                     />
                                 </div>
                             </div>
