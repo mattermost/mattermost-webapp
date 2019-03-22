@@ -419,8 +419,8 @@ export default class AddBot extends React.Component {
                                     className='btn btn-sm btn-primary btn-file sel-btn'
                                 >
                                     <FormattedMessage
-                                        id='setting_picture.select'
-                                        defaultMessage='Select'
+                                        id='bots.image.upload'
+                                        defaultMessage='Upload an image'
                                     />
                                     <input
                                         accept='.jpg,.png,.bmp'
