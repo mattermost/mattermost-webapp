@@ -127,7 +127,7 @@ export default class Bots extends React.PureComponent {
     }
 
     render() {
-        const bots = Object.values(this.props.bots);
+        const bots = Object.values(this.props.bots).sort((a, b) => a.username.localeCompare(b.username));
         const botToJSX = (bot) => {
             return (
                 <Bot
