@@ -6,11 +6,8 @@ import {mount, shallow} from 'enzyme';
 import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
-import {getMembershipForCurrentEntities} from 'actions/views/profile_popover';
-
 import Pluggable from 'plugins/pluggable/pluggable.jsx';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-import ProfilePopover from 'components/profile_popover';
 
 class ProfilePopoverPlugin extends React.PureComponent {
     render() {
