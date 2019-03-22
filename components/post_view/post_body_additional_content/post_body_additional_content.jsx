@@ -69,7 +69,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         this.generateToggleableEmbed = this.generateToggleableEmbed.bind(this);
         this.generateStaticEmbed = this.generateStaticEmbed.bind(this);
         this.isLinkToggleable = this.isLinkToggleable.bind(this);
-        this.handleLinkLoadError = this.handleLinkLoadError.bind(this);
         this.handleLinkLoaded = this.handleLinkLoaded.bind(this);
 
         this.state = {
@@ -150,10 +149,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
             image.onload = () => {
                 this.handleLinkLoaded();
             };
-
-            image.onerror = () => {
-                this.handleLinkLoadError();
-            };
         }
     }
 
@@ -189,14 +184,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
 
         return false;
-    }
-
-    handleLinkLoadError() {
-        if (this.mounted) {
-            this.setState({
-                linkLoadError: true,
-            });
-        }
     }
 
     handleLinkLoaded() {
@@ -236,7 +223,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                 <PostImage
                     channelId={this.props.post.channel_id}
                     link={link}
-                    onLinkLoadError={this.handleLinkLoadError}
                     onLinkLoaded={this.handleLinkLoaded}
                     handleImageClick={this.handleImageClick}
                     dimensions={dimensions}
