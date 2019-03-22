@@ -9,7 +9,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
+import {ModalIdentifiers} from 'utils/constants.jsx';
 
 import AboutBuildModal from 'components/about_build_modal';
 
@@ -25,6 +25,7 @@ export default class AdminNavbarDropdown extends React.Component {
         locale: PropTypes.string.isRequired,
         navigationBlocked: PropTypes.bool,
         teams: PropTypes.arrayOf(PropTypes.object).isRequired,
+        redirectChannelPerTeam: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             deferNavigation: PropTypes.func,
         }).isRequired,
@@ -40,7 +41,7 @@ export default class AdminNavbarDropdown extends React.Component {
     };
 
     render() {
-        const {locale, teams} = this.props;
+        const {locale, teams, redirectChannelPerTeam} = this.props;
         const teamToRender = []; // Array of team components
         let switchTeams;
 
@@ -51,7 +52,7 @@ export default class AdminNavbarDropdown extends React.Component {
                 teamToRender.push(
                     <MenuItemBlockableLink
                         key={'team_' + team.name}
-                        to={'/' + team.name + `/channels/${Constants.DEFAULT_CHANNEL}`}
+                        to={'/' + team.name + `/channels/${redirectChannelPerTeam[team.id]}`}
                         text={Utils.localizeMessage('navbar_dropdown.switchTo', 'Switch to ') + ' ' + team.display_name}
                     />
                 );
