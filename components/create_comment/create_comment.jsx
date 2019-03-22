@@ -200,6 +200,7 @@ export default class CreateComment extends React.PureComponent {
             },
             channelTimezoneCount: 0,
             uploadsProgressPercent: {},
+            renderScrollbar: false,
         };
 
         this.lastBlurAt = 0;
@@ -738,11 +739,16 @@ export default class CreateComment extends React.PureComponent {
         this.lastBlurAt = Date.now();
     }
 
+    handleHeightChange = (height, maxHeight) => {
+        this.setState({renderScrollbar: height > maxHeight});
+    }
+
     render() {
         const {draft} = this.state;
         const {readOnlyChannel} = this.props;
         const {formatMessage} = this.context.intl;
         const enableAddButton = this.shouldEnableAddButton();
+        const {renderScrollbar} = this.state;
 
         const notifyAllTitle = (
             <FormattedMessage
@@ -889,9 +895,14 @@ export default class CreateComment extends React.PureComponent {
             createMessage = Utils.localizeMessage('create_comment.addComment', 'Add a comment...');
         }
 
+        let scrollbarClass = '';
+        if (renderScrollbar) {
+            scrollbarClass = ' scroll';
+        }
+
         return (
             <form onSubmit={this.handleSubmit}>
-                <div className='post-create'>
+                <div className={'post-create' + scrollbarClass}>
                     <div
                         id={this.props.rootId}
                         className='post-create-body comment-create-body'
@@ -902,6 +913,7 @@ export default class CreateComment extends React.PureComponent {
                                 onKeyPress={this.commentMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
                                 onComposition={this.emitTypingEvent}
+                                onHeightChange={this.handleHeightChange}
                                 handlePostError={this.handlePostError}
                                 value={readOnlyChannel ? '' : draft.message}
                                 onBlur={this.handleBlur}
