@@ -39,8 +39,6 @@ describe('Long message', () => {
             const postMessageId = `#${postId}_message`;
 
             cy.get(postMessageId).within(() => {
-                // const postMessageTextId = `#postMessageText_${postId}`;
-
                 // * Verify collapsed post
                 verifyCollapsedPost(postId);
 
