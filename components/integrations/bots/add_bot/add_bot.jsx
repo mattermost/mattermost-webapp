@@ -186,7 +186,7 @@ export default class AddBot extends React.Component {
                 error: (
                     <FormattedMessage
                         id='bots.manage.add.invalid_username'
-                        defaultMessage='Please enter a valid username.'
+                        defaultMessage='Usernames have to begin with a lowercase letter and be 3-22 characters long. You can use lowercase letters, numbers, periods, dashes, and underscores.'
                     />
                 ),
             });
@@ -307,13 +307,13 @@ export default class AddBot extends React.Component {
             buttonText = (
                 <FormattedMessage
                     id='bots.manage.edit.title'
-                    defaultMessage='Edit Bot Account'
+                    defaultMessage='Update'
                 />
             );
             buttonActiveText = (
                 <FormattedMessage
                     id='bots.manage.edit.editing'
-                    defaultMessage='Editing...'
+                    defaultMessage='Updating...'
                 />
             );
         }
@@ -328,7 +328,7 @@ export default class AddBot extends React.Component {
                     <Tooltip id='removeIcon'>
                         <FormattedMessage
                             id='bot.remove_profile_picture'
-                            defaultMessage='Reset Default Icon'
+                            defaultMessage='Remove Bot Icon'
                         />
                     </Tooltip>
                 )}
@@ -390,7 +390,7 @@ export default class AddBot extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='bot.add.username.help'
-                                        defaultMessage='Usernames must be all lowercase. They cannot be longer than 21 characters and can only contain letters, numbers, periods, hyphens, and underscores.'
+                                        defaultMessage='You can use lowercase letters, numbers, periods, dahses, and underscores.'
                                     />
                                 </div>
                             </div>
@@ -452,7 +452,7 @@ export default class AddBot extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='bot.add.display_name.help'
-                                        defaultMessage={'You can choose to display your bot\'s full name rather than its username.'}
+                                        defaultMessage={'(Optional) You can choose to display your bot\'s full name rather than its username.'}
                                     />
                                 </div>
                             </div>
@@ -479,7 +479,7 @@ export default class AddBot extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='bot.add.description.help'
-                                        defaultMessage='Let others know what this bot does.'
+                                        defaultMessage='(Optional) Let others know what this bot does.'
                                     />
                                 </div>
                             </div>
