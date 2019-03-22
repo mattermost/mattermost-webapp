@@ -311,11 +311,11 @@ export default class PluginRegistry {
 
     // Register a component to override file previews. Accepts a function to run before file is
     // previewed and a react component to be rendered as the file preview.
-    // - handler - A function to check whether preview needs to be overridden. Receives fileInfo and post as arguments.
+    // - override - A function to check whether preview needs to be overridden. Receives fileInfo and post as arguments.
     // Returns true is preview should be overridden and false otherwise.
     // - component - A react component to display instead of original preview. Receives fileInfo and post as props.
     // Returns a unique identifier.
-    registerFilePreviewComponent(handler, component) {
+    registerFilePreviewComponent(override, component) {
         const id = generateId();
 
         store.dispatch({
@@ -324,7 +324,7 @@ export default class PluginRegistry {
             data: {
                 id,
                 pluginId: this.id,
-                handler,
+                override,
                 component,
             },
         });

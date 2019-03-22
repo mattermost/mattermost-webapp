@@ -270,7 +270,7 @@ export default class ViewImageModal extends React.PureComponent {
         }
 
         for (const preview of this.props.pluginFilePreviewComponents) {
-            if (preview.handler(fileInfo, this.props.post)) {
+            if (preview.override(fileInfo, this.props.post)) {
                 content = (
                     <preview.component
                         fileInfo={fileInfo}

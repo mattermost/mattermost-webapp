@@ -300,7 +300,7 @@ describe('components/ViewImageModal', () => {
         const pluginFilePreviewComponents = [{
             id: generateId(),
             pluginId: 'file-preview',
-            handler: () => true,
+            override: () => true,
             component: () => <div>{'Preview'}</div>,
         }];
         const props = {...requiredProps, pluginFilePreviewComponents};
@@ -313,7 +313,7 @@ describe('components/ViewImageModal', () => {
         const pluginFilePreviewComponents = [{
             id: generateId(),
             pluginId: 'file-preview',
-            handler: () => false,
+            override: () => false,
             component: () => <div>{'Preview'}</div>,
         }];
         const props = {...requiredProps, pluginFilePreviewComponents};
