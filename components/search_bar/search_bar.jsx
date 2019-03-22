@@ -223,6 +223,7 @@ export default class SearchBar extends React.Component {
             <div className='sidebar-right__table'>
                 <div className='sidebar-collapse__container'>
                     <div
+                        id='sidebarCollapse'
                         className='sidebar-collapse'
                         onClick={this.handleClose}
                     >

@@ -29,8 +29,13 @@ For more information on Groups, please see [documentation](!https://www.mattermo
   <AdminPanel
     className=""
     id="ldap_groups"
-    subtitleDefault="Link and configure groups from your AD/LDAP to Mattermost. Please ensure you have configured a [group filter](/admin_console/authentication/ldap)."
+    subtitleDefault="Link and configure groups from your AD/LDAP to Mattermost. Please ensure you have configured a [group filter](http://localhost:8065/admin_console/authentication/ldap)."
     subtitleId="admin.group_settings.ldapGroupsDescription"
+    subtitleValues={
+      Object {
+        "siteURL": "http://localhost:8065",
+      }
+    }
     titleDefault="AD/LDAP Groups"
     titleId="admin.group_settings.ldapGroupsTitle"
   >
