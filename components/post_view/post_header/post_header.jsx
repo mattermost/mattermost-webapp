@@ -62,6 +62,11 @@ export default class PostHeader extends React.PureComponent {
          * Whether or not the post username can be overridden.
          */
         enablePostUsernameOverride: PropTypes.bool.isRequired,
+
+        /**
+         * The user that made the post.
+         */
+        user: PropTypes.object,
     }
 
     render() {
@@ -96,15 +101,6 @@ export default class PostHeader extends React.PureComponent {
                     />
                 );
             }
-
-            indicator = (
-                <div className='bot-indicator'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
         } else if (fromAutoResponder) {
             userProfile = (
                 <UserProfile
@@ -112,15 +108,6 @@ export default class PostHeader extends React.PureComponent {
                     hideStatus={true}
                     hasMention={true}
                 />
-            );
-
-            indicator = (
-                <div className='bot-indicator'>
-                    <FormattedMessage
-                        id='post_info.auto_responder'
-                        defaultMessage='AUTOMATIC REPLY'
-                    />
-                </div>
             );
         } else if (isSystemMessage) {
             userProfile = (
@@ -139,6 +126,17 @@ export default class PostHeader extends React.PureComponent {
 
         if (this.props.compactDisplay) {
             colon = (<strong className='colon'>{':'}</strong>);
+        }
+
+        if (fromWebhook || fromAutoResponder || (this.props.user && this.props.user.is_bot)) {
+            indicator = (
+                <div className='bot-indicator'>
+                    <FormattedMessage
+                        id='post_info.bot'
+                        defaultMessage='BOT'
+                    />
+                </div>
+            );
         }
 
         return (

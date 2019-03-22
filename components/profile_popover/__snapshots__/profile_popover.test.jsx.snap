@@ -12,7 +12,6 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       >
         @some_username
       </span>
-       
     </span>
   }
 >

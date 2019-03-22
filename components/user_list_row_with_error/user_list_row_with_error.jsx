@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Client4} from 'mattermost-redux/client';
+import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
@@ -78,6 +79,19 @@ export default class UserListRowWithError extends React.Component {
             status = this.props.status;
         }
 
+        let tag = null;
+        if (this.props.user.is_bot) {
+            status = null;
+            tag = (
+                <div className='bot-indicator bot-indicator__admin'>
+                    <FormattedMessage
+                        id='post_info.bot'
+                        defaultMessage='BOT'
+                    />
+                </div>
+            );
+        }
+
         let userCountID = null;
         let userCountEmail = null;
         if (this.props.userCount >= 0) {
@@ -113,6 +127,7 @@ export default class UserListRowWithError extends React.Component {
                                 className='more-modal__name'
                             >
                                 {Utils.displayEntireNameForUser(this.props.user)}
+                                {tag}
                             </div>
                             <div
                                 id={userCountEmail}

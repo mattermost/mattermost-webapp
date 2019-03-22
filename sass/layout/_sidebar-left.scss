@@ -47,6 +47,10 @@
         .icon__draft {
             top: 2px;
         }
+
+        .icon__bot {
+            top: 2px;
+        }
     }
 
     .sidebar-item__name {
@@ -254,7 +258,8 @@
                     &.icon__archive,
                     &.icon__globe,
                     &.icon__draft,
-                    &.icon__lock {
+                    &.icon__lock,
+                    &.icon__bot {
                         @include opacity(.5);
                     }
                 }
@@ -317,7 +322,8 @@
                     &.icon__archive,
                     &.icon__globe,
                     &.icon__draft,
-                    &.icon__lock {
+                    &.icon__lock,
+                    &.icon__bot {
                         @include opacity(.7);
                     }
                 }

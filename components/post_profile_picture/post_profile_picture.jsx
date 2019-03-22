@@ -52,8 +52,8 @@ export default class PostProfilePicture extends React.PureComponent {
         return src;
     };
 
-    getStatus = (fromAutoResponder, fromWebhook) => {
-        if (fromAutoResponder || fromWebhook) {
+    getStatus = (fromAutoResponder, fromWebhook, isBot) => {
+        if (fromAutoResponder || fromWebhook || isBot) {
             return '';
         }
 
@@ -78,7 +78,7 @@ export default class PostProfilePicture extends React.PureComponent {
 
         const hasMention = !fromAutoResponder && !fromWebhook;
         const src = this.getProfilePicSrcForPost(fromAutoResponder, fromWebhook);
-        const status = this.getStatus(fromAutoResponder, fromWebhook);
+        const status = this.getStatus(fromAutoResponder, fromWebhook, user.is_bot);
 
         return (
             <ProfilePicture

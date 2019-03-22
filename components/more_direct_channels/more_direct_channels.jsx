@@ -302,7 +302,7 @@ export default class MoreDirectChannels extends React.Component {
             rowSelected = 'more-modal__row--selected';
         }
 
-        const status = option.delete_at ? null : this.props.statuses[option.id];
+        const status = option.delete_at || option.is_bot ? null : this.props.statuses[option.id];
 
         return (
             <div
