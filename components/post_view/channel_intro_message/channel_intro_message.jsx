@@ -171,7 +171,7 @@ function createDMIntroMessage(channel, centeredIntro) {
                         }}
                     />
                 </p>
-                {createSetHeaderButton(channel)}
+                {teammate.is_bot ? null : createSetHeaderButton(channel)}
             </div>
         );
     }

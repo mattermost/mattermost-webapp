@@ -3,15 +3,17 @@
 
 import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import PostHeader from './post_header.jsx';
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
 
     return {
         enablePostUsernameOverride,
+        user: getUser(state, ownProps.post.user_id),
     };
 }
 
