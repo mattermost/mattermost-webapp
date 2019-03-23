@@ -10,6 +10,7 @@ import {FormattedMessage} from 'react-intl';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import SaveButton from 'components/save_button.jsx';
 import WarningIcon from 'components/icon/warning_icon';
+import * as Utils from 'utils/utils.jsx';
 
 export default class Bot extends React.PureComponent {
     static propTypes = {
@@ -426,8 +427,17 @@ export default class Bot extends React.PureComponent {
             );
         }
 
+        const imageURL = Utils.imageURLForUser(this.props.bot.user_id);
+
         return (
             <div className='backstage-list__item'>
+                <div className={'bot-list-img-container'}>
+                    <img
+                        className={'bot-list-img'}
+                        alt={'bot image'}
+                        src={imageURL}
+                    />
+                </div>
                 <div className='item-details'>
                     <div className='item-details__row d-flex justify-content-between'>
                         <strong className='item-details__name'>

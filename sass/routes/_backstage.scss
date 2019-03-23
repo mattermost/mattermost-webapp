@@ -490,6 +490,20 @@
     }
 }
 
+.bot-list-img {
+    width: 32px;
+    height: 32px;
+}
+
+.bot-list-img-container {
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+    border-radius: 50%;
+    float: left;
+    margin-right: 5px;
+}
+
 .bot-img {
     width: 129px;
     height: 129px;
