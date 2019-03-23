@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {uploadProfileImage, setDefaultProfileImage} from 'mattermost-redux/actions/users';
+import {uploadProfileImage, setDefaultProfileImage, createUserAccessToken} from 'mattermost-redux/actions/users';
 import {createBot, patchBot} from 'mattermost-redux/actions/bots';
 import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -29,6 +29,7 @@ function mapDispatchToProps(dispatch) {
             patchBot,
             uploadProfileImage,
             setDefaultProfileImage,
+            createUserAccessToken,
         }, dispatch),
     };
 }

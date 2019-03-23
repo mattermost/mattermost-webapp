@@ -13,7 +13,6 @@ import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import AddIcon from 'components/icon/add_icon';
-import {getDirectTeammate} from 'utils/utils.jsx';
 
 import GroupMessageOption from './group_message_option';
 

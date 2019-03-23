@@ -60,6 +60,11 @@ export default class AddBot extends React.Component {
             * Set profile image to default
             */
             setDefaultProfileImage: PropTypes.func.isRequired,
+
+            /**
+            * For creating default access token
+            */
+            createUserAccessToken: PropTypes.func.isRequired,
         }),
     }
 
@@ -251,16 +256,27 @@ export default class AddBot extends React.Component {
             data = result.data;
             error = result.error;
 
+            let token = '';
             if (!error) {
                 if (this.state.pictureFile && this.state.pictureFile !== 'default') {
-                    const imageResult = await this.props.actions.uploadProfileImage(data.user_id, this.state.pictureFile);
-                    error = imageResult.error;
+                    await this.props.actions.uploadProfileImage(data.user_id, this.state.pictureFile);
                 } else {
                     await this.props.actions.setDefaultProfileImage(data.user_id);
                 }
+                const tokenResult = await this.props.actions.createUserAccessToken(data.user_id,
+                    Utils.localizeMessage('bot.token.default.description', 'Default Token')
+                );
+
+                // On error just skip the confirmation because we have a bot without a token.
+                if (tokenResult.error) {
+                    browserHistory.push(`/${this.props.team.name}/integrations/bots`);
+                    return;
+                }
+
+                token = tokenResult.data.token;
             }
             if (data) {
-                browserHistory.push(`/${this.props.team.name}/integrations/confirm?type=bots&id=${data.user_id}`);
+                browserHistory.push(`/${this.props.team.name}/integrations/confirm?type=bots&id=${data.user_id}&token=${token}`);
                 return;
             }
         }

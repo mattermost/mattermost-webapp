@@ -225,6 +225,8 @@ export default class ConfirmIntegration extends React.Component {
                 </p>
             );
         } else if (this.state.type === Constants.Integrations.BOT && bot) {
+            const botToken = (new URLSearchParams(this.props.location.search)).get('token');
+
             headerText = (
                 <FormattedMessage
                     id='bots.manage.header'
@@ -235,10 +237,24 @@ export default class ConfirmIntegration extends React.Component {
                 <p>
                     <FormattedMarkdownMessage
                         id='bots.manage.created.text'
-                        defaultMessage='Your Bot Account {botname} has been created successfully. Please use the following Bot Access Token to connect to the bot (see documentation for further details).'
+                        defaultMessage='Your Bot Account **{botname}** has been created successfully. Please use the following Bot Access Token to connect to the bot (see documentation for further details).'
                         values={{
-                            botname: bot.display_name,
+                            botname: bot.display_name || bot.username,
                         }}
+                    />
+                </p>
+            );
+            tokenText = (
+                <p className='word-break--all'>
+                    <FormattedMarkdownMessage
+                        id='add_outgoing_webhook.token'
+                        defaultMessage='**Token**: {token}'
+                        values={{
+                            token: botToken,
+                        }}
+                    />
+                    <CopyText
+                        value={botToken}
                     />
                 </p>
             );
