@@ -217,6 +217,14 @@
         position: relative;
     }
 
+    .backstage-form__footer {
+        .has-error {
+            float: none !important;
+            max-width: 100%;
+            margin-bottom: 16px;
+        }
+    }
+
     .backstage-filters {
         display: block;
 

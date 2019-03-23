@@ -317,10 +317,17 @@
     margin-top: 2.5em;
     padding-top: 1.8em;
     text-align: right;
+    overflow: hidden;
 
     .has-error {
         float: left;
         margin: 0;
+        max-width: 50%;
+
+        .control-label {
+            text-align: left;
+            padding: 0;
+        }
     }
 }
 
@@ -428,20 +435,23 @@
 }
 
 .bot-list {
-    background: #f9f9f9;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     margin-top: 12px;
     line-height: 24px;
-    padding-bottom: 6px;
 }
 
 .bot-list__item {
-    padding: 12px 12px 6px;
+    background: alpha-color($black, 0.02);
+    padding: 8px 12px;
     font-size: 13px;
 
     &:first-child {
         border: none;
+    }
+
+    &:hover {
+        background: alpha-color($black, 0.06);
     }
 
     &.alert {
