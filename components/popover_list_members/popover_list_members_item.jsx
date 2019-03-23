@@ -49,14 +49,14 @@ export default class PopoverListMembersItem extends React.PureComponent {
         }
 
         const status = this.props.user.is_bot ? null : this.props.status;
-        const botTag = this.props.user.is_bot ? null : (
+        const botTag = this.props.user.is_bot ? (
             <div className='bot-indicator bot-indicator__popoverlist'>
                 <FormattedMessage
                     id='post_info.bot'
                     defaultMessage='BOT'
                 />
             </div>
-        );
+        ) : null;
 
         return (
             <div
