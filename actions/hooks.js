@@ -13,13 +13,15 @@ export function runMessageWillBePostedHooks(originalPost) {
         for (const hook of hooks) {
             const result = await hook.hook(post); // eslint-disable-line no-await-in-loop
 
-            if (result.error) {
-                return {
-                    error: result.error,
-                };
-            }
+            if (result) {
+                if (result.error) {
+                    return {
+                        error: result.error,
+                    };
+                }
 
-            post = result.post;
+                post = result.post;
+            }
         }
 
         return {data: post};

@@ -131,4 +131,28 @@ describe('runMessageWillBePostedHooks', () => {
         expect(result).toEqual({data: {message: 'testasync'}});
         expect(hook).toHaveBeenCalledWith(post);
     });
+
+    test('should assume post is unchanged if a hook returns undefined', async () => {
+        const hook1 = jest.fn();
+        const hook2 = jest.fn((post) => ({post: {...post, message: post.message + 'b'}}));
+
+        const store = mockStore({
+            plugins: {
+                components: {
+                    MessageWillBePosted: [
+                        {hook: hook1},
+                        {hook: hook2},
+                    ],
+                },
+            },
+        });
+        const post = {message: 'test'};
+
+        const result = await store.dispatch(runMessageWillBePostedHooks(post));
+
+        expect(result).toEqual({data: {message: 'testb'}});
+        expect(hook1).toHaveBeenCalledWith(post);
+        expect(hook2).toHaveBeenCalled();
+        expect(hook2).toHaveBeenCalledWith(post);
+    });
 });
