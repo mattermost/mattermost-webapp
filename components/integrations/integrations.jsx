@@ -156,7 +156,8 @@ export default class Integrations extends React.Component {
             );
         }
 
-        options.push(
+        // Commenting out bot accounts UI until 5.12
+        /*options.push(
             <SystemPermissionGate
                 permissions={['manage_bots']}
                 key='botsPermissions'
@@ -178,7 +179,7 @@ export default class Integrations extends React.Component {
                     link={'/' + this.props.team.name + '/integrations/bots'}
                 />
             </SystemPermissionGate>
-        );
+        );*/
 
         return (
             <div className='backstage-content row'>
