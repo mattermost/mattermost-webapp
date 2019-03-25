@@ -374,4 +374,114 @@ describe('components/admin_console/group_settings/GroupsList', () => {
         expect(state.page).toBe(1);
         expect(state.loading).toBe(false);
     });
+
+    test('should match snapshot, with filters open', () => {
+        const wrapper = shallow(
+            <GroupsList
+                groups={[]}
+                total={0}
+                actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
+        );
+        wrapper.setState({showFilters: true, filterIsLinked: true, filterIsUnlinked: true});
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('clicking the clear icon clears searchString', () => {
+        const wrapper = shallow(
+            <GroupsList
+                groups={[]}
+                total={0}
+                actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
+        );
+        wrapper.setState({searchString: 'foo'});
+        wrapper.find('i.fa-times-circle').first().simulate('click');
+        expect(wrapper.state().searchString).toEqual('');
+    });
+
+    test('clicking the down arrow opens the filters', () => {
+        const wrapper = shallow(
+            <GroupsList
+                groups={[]}
+                total={0}
+                actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
+        );
+        expect(wrapper.state().showFilters).toEqual(false);
+        wrapper.find('i.fa-caret-down').first().simulate('click');
+        expect(wrapper.state().showFilters).toEqual(true);
+    });
+
+    test('clicking search invokes getLdapGroups', () => {
+        const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
+        const wrapper = shallow(
+            <GroupsList
+                groups={[]}
+                total={0}
+                actions={{
+                    getLdapGroups,
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
+        );
+        wrapper.setState({showFilters: true, searchString: 'foo iS:ConfiGuReD is:notlinked'});
+        expect(wrapper.state().filterIsConfigured).toEqual(false);
+        expect(wrapper.state().filterIsUnlinked).toEqual(false);
+
+        wrapper.find('a.search-groups-btn').first().simulate('click');
+        expect(getLdapGroups).toHaveBeenCalledTimes(2);
+        expect(getLdapGroups).toHaveBeenCalledWith(0, 200, {q: 'foo', is_configured: true, is_linked: false});
+        expect(wrapper.state().filterIsConfigured).toEqual(true);
+        expect(wrapper.state().filterIsUnlinked).toEqual(true);
+    });
+
+    test('checking a filter checkbox add the filter to the searchString', () => {
+        const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
+        const wrapper = shallow(
+            <GroupsList
+                groups={[]}
+                total={0}
+                actions={{
+                    getLdapGroups,
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
+        );
+        wrapper.setState({showFilters: true, searchString: 'foo'});
+        wrapper.find('span.filter-check').first().simulate('click');
+        expect(wrapper.state().searchString).toEqual('foo is:linked');
+    });
+
+    test('unchecking a filter checkbox removes the filter from the searchString', () => {
+        const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
+        const wrapper = shallow(
+            <GroupsList
+                groups={[]}
+                total={0}
+                actions={{
+                    getLdapGroups,
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
+        );
+        wrapper.setState({showFilters: true, searchString: 'foo is:linked', filterIsLinked: true});
+        wrapper.find('span.filter-check').first().simulate('click');
+        expect(wrapper.state().searchString).toEqual('foo');
+    });
 });

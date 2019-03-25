@@ -2,7 +2,7 @@
     "baseUrl": "http://localhost:8065",
     "viewportWidth": 1300,
     "defaultCommandTimeout": 20000,
-    "pluginsFile": false,
+    "taskTimeout": 20000,
     "video": false,
     "reporter": "junit",
     "reporterOptions": {

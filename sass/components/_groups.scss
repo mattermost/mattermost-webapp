@@ -1,8 +1,12 @@
+#ldap_groups {
+    overflow: visible;
+}
 .groups-list {
     @include single-transition(all, .4s, ease-in-out, 0s);
     padding: .8em 1.5rem;
 
     .groups-list--global-actions {
+        position: relative;
         display: flex;
         background: $white;
         padding: 8px 20px;
@@ -11,7 +15,7 @@
             flex-grow: 1;
             stroke: $dark-gray;
             position: relative;
-            border: 1px solid $dark-gray;
+            border: 1px solid rgba(0, 0, 0, .1);
             border-radius: 15px;
             height: 30px;
             input {
@@ -21,11 +25,57 @@
                 font-size: .95em;
                 width: 100%;
             }
+            input:focus {
+                outline: none;
+            }
+            margin-top: 2px;
+            .group-filter-action {
+                padding: 8px 10px 0px 0px;
+                &.hidden {
+                    visibility: hidden;
+                }
+            }
         }
         .group-list-link-unlink {
             display: flex;
             flex-grow: 1;
             justify-content: flex-end;
+        }
+        .group-search-filters {
+            position: absolute;
+            width: 303px;
+            background-color: white;
+            top: 40px;
+            border: 1px solid rgba(0, 0, 0, .1);
+            padding: 20px;
+            .search-groups-btn {
+                float: right;
+                bottom: 20px;
+                right: 20px;
+            }
+            .cancel-filters {
+                float: right;
+            }
+            .filter-row {
+                height: 30px;
+                vertical-align: middle;
+            }
+            .filter-check {
+                border-radius: 3px;
+                border: 2px solid $dark-gray;
+                height: 18px;
+                width: 18px;
+                display: inline-block;
+                margin-right: 7px;
+                vertical-align: middle;
+                &.checked {
+                    border: 0;
+                    svg {
+                        background: $white;
+                        fill: $primary-color;
+                    }
+                }
+            }
         }
     }
     .groups-list--header {
