@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {postListScrollChange} from 'actions/global_actions';
 import SizeAwareImage from 'components/size_aware_image';
 import * as PostUtils from 'utils/post_utils.jsx';
 
@@ -50,9 +49,6 @@ export default class PostImage extends React.PureComponent {
             return;
         }
 
-        if (!this.props.dimensions) {
-            postListScrollChange();
-        }
         if (this.props.onLinkLoaded) {
             this.props.onLinkLoaded();
         }

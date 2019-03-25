@@ -7,7 +7,6 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {postListScrollChange} from 'actions/global_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import Reaction from 'components/post_view/reaction';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -64,12 +63,6 @@ export default class ReactionList extends React.PureComponent {
     componentDidMount() {
         if (this.props.post.has_reactions && !this.props.post.metadata) {
             this.props.actions.getReactionsForPost(this.props.post.id);
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.reactions !== prevProps.reactions) {
-            postListScrollChange();
         }
     }
 

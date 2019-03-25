@@ -4,8 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {postListScrollChange} from 'actions/global_actions';
-
 import {getImageSrc} from 'utils/post_utils';
 import {isUrlSafe} from 'utils/url';
 import {handleFormattedTextClick} from 'utils/utils';
@@ -99,8 +97,6 @@ export default class MessageAttachment extends React.PureComponent {
             this.setState((prevState) => {
                 return {checkOverflow: prevState.checkOverflow + 1};
             });
-
-            postListScrollChange();
         }
     };
 

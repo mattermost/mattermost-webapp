@@ -44,11 +44,6 @@ export default class PostHeader extends React.PureComponent {
         isFirstReply: PropTypes.bool,
 
         /**
-         * Function to get the post list HTML element
-         */
-        getPostList: PropTypes.func.isRequired,
-
-        /**
          * Set to mark post as being hovered over
          */
         hover: PropTypes.bool.isRequired,
@@ -154,7 +149,6 @@ export default class PostHeader extends React.PureComponent {
                         replyCount={this.props.replyCount}
                         isFirstReply={this.props.isFirstReply}
                         showTimeWithoutHover={this.props.showTimeWithoutHover}
-                        getPostList={this.props.getPostList}
                         hover={this.props.hover}
                     />
                 </div>
