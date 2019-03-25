@@ -48,6 +48,8 @@ export default class PopoverListMembersItem extends React.PureComponent {
             );
         }
 
+        const botClass = this.props.user.is_bot ? ' more-modal__row--bot' : '';
+
         const status = this.props.user.is_bot ? null : this.props.status;
         const botTag = this.props.user.is_bot ? (
             <div className='bot-indicator bot-indicator__popoverlist'>
@@ -60,7 +62,7 @@ export default class PopoverListMembersItem extends React.PureComponent {
 
         return (
             <div
-                className='more-modal__row'
+                className={'more-modal__row' + botClass}
                 onClick={this.handleClick}
             >
                 <ProfilePicture
@@ -69,9 +71,11 @@ export default class PopoverListMembersItem extends React.PureComponent {
                     width='32'
                     height='32'
                 />
-                <div className='more-modal__details'>
+                <div className='more-modal__details d-flex whitespace--nowrap'>
                     <div className='more-modal__name'>
                         {name}
+                    </div>
+                    <div>
                         {botTag}
                     </div>
                 </div>
