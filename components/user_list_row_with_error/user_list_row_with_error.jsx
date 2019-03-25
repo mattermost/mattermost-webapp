@@ -62,7 +62,9 @@ export default class UserListRowWithError extends React.Component {
         let email = this.props.user.email;
         let emailStyle = 'more-modal__description';
         let status;
-        if (this.props.extraInfo && this.props.extraInfo.length > 0) {
+        if (this.props.user.is_bot) {
+            email = null;
+        } else if (this.props.extraInfo && this.props.extraInfo.length > 0) {
             email = (
                 <FormattedMarkdownMessage
                     id='admin.user_item.emailTitle'
