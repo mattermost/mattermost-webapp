@@ -6,11 +6,6 @@ import {mount, shallow} from 'enzyme';
 
 import SizeAwareImage from 'components/size_aware_image';
 import MessageAttachment from 'components/post_view/message_attachments/message_attachment/message_attachment.jsx';
-import {postListScrollChange} from 'actions/global_actions';
-
-jest.mock('actions/global_actions.jsx', () => ({
-    postListScrollChange: jest.fn(),
-}));
 
 describe('components/post_view/MessageAttachment', () => {
     const attachment = {
@@ -48,18 +43,16 @@ describe('components/post_view/MessageAttachment', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match state and have called postListScrollChange on handleImageHeightReceived', () => {
+    test('should change checkOverflow state on handleHeightReceived change', () => {
         const wrapper = shallow(<MessageAttachment {...baseProps}/>);
         const instance = wrapper.instance();
         instance.checkAttachmentTextOverflow = jest.fn();
 
         wrapper.setState({checkOverflow: 0});
         instance.handleHeightReceived(1);
-        expect(postListScrollChange).toHaveBeenCalledTimes(1);
         expect(wrapper.state('checkOverflow')).toEqual(1);
 
         instance.handleHeightReceived(0);
-        expect(postListScrollChange).toHaveBeenCalledTimes(1);
         expect(wrapper.state('checkOverflow')).toEqual(1);
     });
 

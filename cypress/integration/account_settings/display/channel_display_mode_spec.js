@@ -9,8 +9,9 @@
 
 describe('Account Settings > Display > Channel Display Mode', () => {
     before(() => {
-        // 1. Go to Account Settings with "user-1"
-        cy.toAccountSettingsModal('user-1');
+        // 1. Set default preference of a user on channel and message display
+        cy.updateChannelDisplayModePreference('centered');
+        cy.updateMessageDisplayPreference();
     });
 
     beforeEach(() => {
@@ -18,6 +19,9 @@ describe('Account Settings > Display > Channel Display Mode', () => {
     });
 
     it('should render in min setting view', () => {
+        // 1. Go to Account Settings with "user-1"
+        cy.toAccountSettingsModal('user-1');
+
         // * Check that the Display tab is loaded
         cy.get('#displayButton').should('be.visible');
 
@@ -68,7 +72,7 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         cy.get('#accountSettingsHeader > .close').click();
 
         // 8. Go to channel which has any posts
-        cy.get('#sidebarItem_ratione-1').click();
+        cy.get('#sidebarItem_town-square').click();
 
         // * Validate if the post content in center channel is fulled.
         // * 1179px is fulled width when the viewport width is 1500px
@@ -105,10 +109,24 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         cy.get('#accountSettingsHeader > .close').click();
 
         // 8. Go to channel which has any posts
-        cy.get('#sidebarItem_ratione-1').click();
+        cy.get('#sidebarItem_town-square').click();
 
         //* Validate if the post content in center channel is fixed and centered
         cy.get('.post__content').last().should('have.css', 'width', '1000px');
         cy.get('.post__content').last().should('have.class', 'center');
+    });
+
+    it('Width of center view when message display is compact and channel display mode is either centered or full', () => {
+        // 1. Set message display to compact with channel display mode set to centered
+        cy.updateMessageDisplayPreference('compact');
+
+        // * Verify that the width is at 1000px
+        cy.get('.post__content').last().should('have.css', 'width', '1000px');
+
+        // 2. Set channel display mode to full (default) with message display in compact
+        cy.updateChannelDisplayModePreference();
+
+        // * Verify that the width is at 1123px
+        cy.get('.post__content').last().should('have.css', 'width', '1123px');
     });
 });

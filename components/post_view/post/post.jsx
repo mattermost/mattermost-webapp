@@ -41,7 +41,7 @@ export default class Post extends React.PureComponent {
         /**
          * Set to highlight the background of the post
          */
-        highlight: PropTypes.bool,
+        shouldHighlight: PropTypes.bool,
 
         /**
          * Set to render this post as if it was attached to the previous post
@@ -62,11 +62,6 @@ export default class Post extends React.PureComponent {
          * The number of replies in the same thread as this post
          */
         replyCount: PropTypes.number,
-
-        /**
-         * Function to get the post list HTML element
-         */
-        getPostList: PropTypes.func.isRequired,
 
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
@@ -129,7 +124,7 @@ export default class Post extends React.PureComponent {
             className += ' post--hide-controls';
         }
 
-        if (this.props.highlight) {
+        if (this.props.shouldHighlight) {
             className += ' post--highlight';
         }
 
@@ -255,7 +250,6 @@ export default class Post extends React.PureComponent {
                             isFirstReply={this.props.isFirstReply}
                             replyCount={this.props.replyCount}
                             showTimeWithoutHover={!hideProfilePicture}
-                            getPostList={this.props.getPostList}
                             hover={this.state.hover}
                         />
                         <PostBody

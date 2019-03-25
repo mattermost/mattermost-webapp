@@ -576,6 +576,15 @@ export const Locations = {
     SEARCH: 'SEARCH',
 };
 
+export const PostListRowListIds = {
+    DATE_LINE: 'date-',
+    START_OF_NEW_MESSAGES: 'START_OF_NEW_MESSAGES',
+    CHANNEL_INTRO_MESSAGE: 'CHANNEL_INTRO_MESSAGE',
+    MORE_MESSAGES_LOADER: 'MORE_MESSAGES_LOADER',
+    MAX_MESSAGES_LOADED: 'MAX_MESSAGES_LOADED',
+    MANUAL_TRIGGER_LOAD_MESSAGES: 'MANUAL_TRIGGER_LOAD_MESSAGES',
+};
+
 export const Constants = {
     SettingsTypes,
     JobTypes,
@@ -591,7 +600,7 @@ export const Constants = {
     AnnouncementBarMessages,
     FileTypes,
     Locations,
-
+    PostListRowListIds,
     MAX_POST_VISIBILITY: 1000000,
 
     IGNORE_POST_TYPES: [PostTypes.JOIN_LEAVE, PostTypes.JOIN_TEAM, PostTypes.LEAVE_TEAM, PostTypes.JOIN_CHANNEL, PostTypes.LEAVE_CHANNEL, PostTypes.REMOVE_FROM_CHANNEL, PostTypes.ADD_REMOVE],

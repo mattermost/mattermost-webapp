@@ -28,10 +28,10 @@ import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants
 
 import {connectionErrorCount} from 'selectors/views/system';
 
-import {postListScrollChangeToBottom} from 'actions/global_actions.jsx';
 import {addReaction, createPost, setEditingPost} from 'actions/post_actions.jsx';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {executeCommand} from 'actions/command';
+import {runMessageWillBePostedHooks} from 'actions/hooks';
 import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap} from 'selectors/emojis';
@@ -98,7 +98,6 @@ function makeMapStateToProps() {
 function onSubmitPost(post, fileInfos) {
     return (dispatch) => {
         dispatch(createPost(post, fileInfos));
-        postListScrollChangeToBottom();
     };
 }
 
@@ -118,6 +117,7 @@ function mapDispatchToProps(dispatch) {
             openModal,
             executeCommand,
             getChannelTimezones,
+            runMessageWillBePostedHooks,
         }, dispatch),
     };
 }

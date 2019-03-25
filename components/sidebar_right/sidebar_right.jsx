@@ -6,7 +6,6 @@ import React from 'react';
 import classNames from 'classnames';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {postListScrollChange} from 'actions/global_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import FileUploadOverlay from 'components/file_upload_overlay.jsx';
@@ -38,7 +37,6 @@ export default class SidebarRight extends React.PureComponent {
 
         if (!wasOpen && isOpen) {
             trackEvent('ui', 'ui_rhs_opened');
-            setTimeout(postListScrollChange, 0);
         }
 
         const {actions, isPinnedPosts, channel} = this.props;
