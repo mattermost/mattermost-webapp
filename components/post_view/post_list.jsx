@@ -31,7 +31,7 @@ export default class PostList extends React.PureComponent {
         posts: PropTypes.array,
 
         /**
-         * Array of Ids in the channel inlcuding date separators, new message indicator, more messages loader,
+         * Array of Ids in the channel including date separators, new message indicator, more messages loader,
          * manual load messages trigger and postId in the order of newest to oldest for populating virtual list rows
          */
         postListIds: PropTypes.array,
@@ -297,7 +297,7 @@ export default class PostList extends React.PureComponent {
     onScroll = ({scrollDirection, scrollOffset, scrollUpdateWasRequested}) => {
         const isNotLoadingPosts = !this.state.postsLoading && !this.loadingPosts;
         const didUserScrollBackwards = scrollDirection === 'backward' && !scrollUpdateWasRequested;
-        const isOffsetWithInRange = scrollOffset < 1000 || window.scrollOfsetHelper; //initial offset will be 0 before the desired first scroll position
+        const isOffsetWithInRange = scrollOffset < 1000;
         if (isNotLoadingPosts && didUserScrollBackwards && isOffsetWithInRange && !this.state.atEnd) {
             this.loadingPosts = true;
             this.loadMorePosts();

@@ -63,11 +63,6 @@ export default class Post extends React.PureComponent {
          */
         replyCount: PropTypes.number,
 
-        /**
-         * The post count used for selenium tests
-         */
-        lastPostCount: PropTypes.number,
-
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
         }).isRequired,

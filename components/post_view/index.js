@@ -25,6 +25,7 @@ const isChannelLoading = (params, channel, team) => {
     if (params.postid) {
         return false;
     }
+
     if (channel && team) {
         if (channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL) {
             if (channel.name !== params.identifier) {
@@ -34,11 +35,11 @@ const isChannelLoading = (params, channel, team) => {
         if (channel.team_id && channel.team_id !== team.id) {
             return true;
         }
-    } else {
-        return true;
+
+        return false;
     }
 
-    return false;
+    return true;
 };
 
 function makeMapStateToProps() {
