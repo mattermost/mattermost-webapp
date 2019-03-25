@@ -9,6 +9,9 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import exif2css from 'exif2css';
 
+import * as UserUtils from 'mattermost-redux/utils/user_utils';
+import {General} from 'mattermost-redux/constants';
+
 import BotDefaultIcon from 'images/bot_default_icon.png';
 
 import {browserHistory} from 'utils/browser_history';
@@ -17,6 +20,9 @@ import SpinnerButton from 'components/spinner_button.jsx';
 import FormError from 'components/form_error.jsx';
 import {AcceptedProfileImageTypes, OVERLAY_TIME_DELAY} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+
+const roleOptionSystemAdmin = 'System Admin';
+const roleOptionMember = 'Member';
 
 export default class AddBot extends React.Component {
     static propTypes = {
@@ -32,9 +38,19 @@ export default class AddBot extends React.Component {
         bot: PropTypes.object,
 
         /**
+        *  Roles of the bot to edit (if editing)
+        */
+        roles: PropTypes.string,
+
+        /**
         * Maximum upload file size (for bot accoutn profile picture)
         */
         maxFileSize: PropTypes.number.isRequired,
+
+        /**
+         * Editing user has the MANAGE_SYSTEM permission
+        */
+        editingUserHasManageSystem: PropTypes.bool.isRequired,
 
         /**
         * Bot to edit
@@ -65,6 +81,11 @@ export default class AddBot extends React.Component {
             * For creating default access token
             */
             createUserAccessToken: PropTypes.func.isRequired,
+
+            /**
+            * For creating setting bot to system admin or special posting permissions
+            */
+            updateUserRoles: PropTypes.func.isRequired,
         }),
     }
 
@@ -78,12 +99,18 @@ export default class AddBot extends React.Component {
             description: '',
             adding: false,
             image: BotDefaultIcon,
+            role: roleOptionMember,
+            postAll: false,
+            postChannels: false,
         };
 
         if (this.props.bot) {
             this.state.username = this.props.bot.username;
             this.state.displayName = this.props.bot.display_name;
             this.state.description = this.props.bot.description;
+            this.state.role = UserUtils.isSystemAdmin(this.props.roles) ? roleOptionSystemAdmin : roleOptionMember;
+            this.state.postAll = UserUtils.hasPostAllRole(this.props.roles);
+            this.state.postChannels = UserUtils.hasPostAllPublicRole(this.props.roles);
         }
     }
 
@@ -102,6 +129,24 @@ export default class AddBot extends React.Component {
     updateDescription = (e) => {
         this.setState({
             description: e.target.value,
+        });
+    }
+
+    updateRole = (e) => {
+        this.setState({
+            role: e.target.value,
+        });
+    }
+
+    updatePostAll = (e) => {
+        this.setState({
+            postAll: e.target.checked,
+        });
+    }
+
+    updatePostChannels = (e) => {
+        this.setState({
+            postChannels: e.target.checked,
         });
     }
 
@@ -179,6 +224,25 @@ export default class AddBot extends React.Component {
         return {transform, transformOrigin};
     }
 
+    updateRoles = async (data) => {
+        let roles = General.SYSTEM_USER_ROLE;
+
+        if (this.state.role === roleOptionSystemAdmin) {
+            roles += ' ' + General.SYSTEM_ADMIN_ROLE;
+        } else if (this.state.postAll) {
+            roles += ' ' + General.SYSTEM_POST_ALL_ROLE;
+        } else if (this.state.postChannels) {
+            roles += ' ' + General.SYSTEM_POST_ALL_PUBLIC_ROLE;
+        }
+
+        const rolesResult = await this.props.actions.updateUserRoles(data.user_id, roles);
+        if (rolesResult) {
+            return rolesResult.error;
+        }
+
+        return null;
+    }
+
     handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -247,6 +311,10 @@ export default class AddBot extends React.Component {
                 }
             }
 
+            if (!error && data) {
+                error = this.updateRoles(data);
+            }
+
             if (data) {
                 browserHistory.push(`/${this.props.team.name}/integrations/bots`);
                 return;
@@ -275,6 +343,11 @@ export default class AddBot extends React.Component {
 
                 token = tokenResult.data.token;
             }
+
+            if (!error && data) {
+                error = this.updateRoles(data);
+            }
+
             if (data) {
                 browserHistory.push(`/${this.props.team.name}/integrations/confirm?type=bots&id=${data.user_id}&token=${token}`);
                 return;
@@ -496,6 +569,94 @@ export default class AddBot extends React.Component {
                                     <FormattedMessage
                                         id='bot.add.description.help'
                                         defaultMessage='(Optional) Let others know what this bot does.'
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className='form-group'>
+                            <label
+                                className='control-label col-sm-4'
+                                htmlFor='role'
+                            >
+                                <FormattedMessage
+                                    id='bot.add.role'
+                                    defaultMessage='Role'
+                                />
+                            </label>
+                            <div className='col-md-5 col-sm-8'>
+                                <select
+                                    className='form-control'
+                                    value={this.state.role}
+                                    disabled={!this.props.editingUserHasManageSystem}
+                                    onChange={this.updateRole}
+                                >
+                                    <option
+                                        value={roleOptionMember}
+                                    >
+                                        {roleOptionMember}
+                                    </option>
+                                    <option
+                                        value={roleOptionSystemAdmin}
+                                    >
+                                        {roleOptionSystemAdmin}
+                                    </option>
+                                </select>
+                                <div className='form__help'>
+                                    <FormattedMessage
+                                        id='bot.add.role.help'
+                                        defaultMessage='Choose what role the bot should have.'
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className='form-group'>
+                            <label
+                                className='control-label col-sm-4'
+                                htmlFor='postAll'
+                            >
+                                <FormattedMessage
+                                    id='bot.add.post_all'
+                                    defaultMessage='post:all'
+                                />
+                            </label>
+                            <div className='col-md-5 col-sm-8 checkbox'>
+                                <input
+                                    id='postAll'
+                                    type='checkbox'
+                                    checked={this.state.postAll || this.state.role === roleOptionSystemAdmin}
+                                    onChange={this.updatePostAll}
+                                    disabled={!this.props.editingUserHasManageSystem || this.state.role === roleOptionSystemAdmin}
+                                />
+                                <div className='form__help'>
+                                    <FormattedMessage
+                                        id='bot.add.post_all.help'
+                                        defaultMessage='Bot will have access to post to all Mattermost channels including direct messages.'
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className='form-group'>
+                            <label
+                                className='control-label col-sm-4'
+                                htmlFor='postChannels'
+                            >
+                                <FormattedMessage
+                                    id='bot.add.post_channels'
+                                    defaultMessage='post:channels'
+                                />
+                            </label>
+                            <div className='col-md-5 col-sm-8 checkbox'>
+                                <input
+                                    id='postChannels'
+                                    type='checkbox'
+                                    checked={this.state.postChannels || this.state.role === roleOptionSystemAdmin || this.state.postAll}
+                                    onChange={this.updatePostChannels}
+                                    disabled={!this.props.editingUserHasManageSystem || this.state.role === roleOptionSystemAdmin || this.state.postAll}
+                                />
+                                <div className='form__help'>
+                                    <FormattedMessage
+                                        id='bot.add.post_channels.help'
+                                        defaultMessage='Bot will have access to post to all Mattermost public channels.'
                                     />
                                 </div>
                             </div>

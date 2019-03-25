@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
+import Constants from 'utils/constants.jsx';
 
 import Bot from './bot.jsx';
 
@@ -79,7 +80,10 @@ export default class Bots extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.actions.loadBots().then(
+        this.props.actions.loadBots(
+            Constants.Integrations.START_PAGE_NUM,
+            Constants.Integrations.PAGE_SIZE
+        ).then(
             (result) => {
                 // We don't need to wait for this and we need to accept failure in the case where bot.owner_id is a plugin id
                 result.data.map((bot) => this.props.actions.getUser(bot.owner_id));
