@@ -125,6 +125,7 @@ export default class PostList extends React.PureComponent {
             unViewedCount: 0,
             postListIds: [channelIntroMessage],
             postsObjById: {channelIntroMessage},
+            floatingTimestampDate: 0,
         };
 
         this.listRef = React.createRef();
