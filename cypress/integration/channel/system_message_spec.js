@@ -3,20 +3,20 @@
 
 function getLines(e) {
     const $cont = Cypress.$(e);
-    const text_arr = $cont.text().split(" ");
+    const textArr = $cont.text().split(' ');
 
-    for (let i = 0; i < text_arr.length; i++) {
-        text_arr[i] = "<span>" + text_arr[i] + " </span>";
+    for (let i = 0; i < textArr.length; i++) {
+        textArr[i] = '<span>' + textArr[i] + ' </span>';
     }
 
-    $cont.html(text_arr.join(""));
+    $cont.html(textArr.join(''));
 
-    const $wordSpans = $cont.find("span");
+    const $wordSpans = $cont.find('span');
     const lineArray = [];
-    var lineIndex = 0,
-        lineStart = true;
+    var lineIndex = 0;
+    var lineStart = true;
 
-    $wordSpans.each(function(idx) {
+    $wordSpans.each(function handleWord(idx) {
         const top = Cypress.$(this).position().top;
 
         if (lineStart) {
@@ -39,62 +39,64 @@ function getLines(e) {
     return lineArray.length;
 }
 
-describe("System Message", () => {
+describe('System Message', () => {
     before(() => {
         // 1. Login and go to /
-        cy.login("user-1");
-        cy.visit("/");
+        cy.login('user-1');
+        cy.visit('/');
     });
 
-    it("MM-14636 - Validate that system message is wrapping properly", () => {
+    it('MM-14636 - Validate that system message is wrapping properly', () => {
         // 2. Open channel header textbox
-        cy.get("#channelHeaderDropdownButton")
-            .should("be.visible")
-            .click();
-        cy.get("#channelHeaderDropdownMenu")
-            .should("be.visible")
-            .find("#channelEditHeader")
-            .click();
+        cy.get('#channelHeaderDropdownButton').
+            should('be.visible').
+            click();
+        cy.get('#channelHeaderDropdownMenu').
+            should('be.visible').
+            find('#channelEditHeader').
+            click();
 
         // 3. Enter short description
-        cy.get("#edit_textbox")
-            .clear()
-            .type("> newheader")
-            .type("{enter}")
-            .wait(500);
+        cy.get('#edit_textbox').
+            clear().
+            type('> newheader').
+            type('{enter}').
+            wait(500);
 
-        cy.getLastPost()
-            .should("contain", "System")
-            .and("contain", `user-1 updated the channel`);
-        cy.getLastPost().then(function(desc) {
-            const lines = getLines(desc.find("p")[1]); 
-            assert(lines === 1, "second line of the message should be a short one");
-        });
+        cy.getLastPost().
+            should('contain', 'System').
+            and('contain', 'user-1 updated the channel');
+        const validateSingle = (desc) => {
+            const lines = getLines(desc.find('p')[1]);
+            assert(lines === 1, 'second line of the message should be a short one');
+        };
+        cy.getLastPost().then(validateSingle);
 
         // 4. Open channel header textbox
-        cy.get("#channelHeaderDropdownButton")
-            .should("be.visible")
-            .click();
-        cy.get("#channelHeaderDropdownMenu")
-            .should("be.visible")
-            .find("#channelEditHeader")
-            .click();
+        cy.get('#channelHeaderDropdownButton').
+            should('be.visible').
+            click();
+        cy.get('#channelHeaderDropdownMenu').
+            should('be.visible').
+            find('#channelEditHeader').
+            click();
 
         // 5. Enter long description
-        cy.get("#edit_textbox")
-            .clear()
-            .type(">")
-            .type(" newheader".repeat(20))
-            .type("{enter}")
-            .wait(500);
+        cy.get('#edit_textbox').
+            clear().
+            type('>').
+            type(' newheader'.repeat(20)).
+            type('{enter}').
+            wait(500);
 
-        cy.getLastPost()
-            .should("contain", "System")
-            .and("contain", `user-1 updated the channel`);
+        cy.getLastPost().
+            should('contain', 'System').
+            and('contain', 'user-1 updated the channel');
 
-        cy.getLastPost().then(function(desc) {
-            const lines = getLines(desc.find("p")[1]); 
-            assert(lines > 1, "second line of the message should be a long one");
-        });
+        const validateMulti = (desc) => {
+            const lines = getLines(desc.find('p')[1]);
+            assert(lines > 1, 'second line of the message should be a long one');
+        };
+        cy.getLastPost().then(validateMulti);
     });
 });
