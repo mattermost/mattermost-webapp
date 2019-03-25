@@ -18,30 +18,27 @@ import {Constants} from 'utils/constants.jsx';
 
 import PostList from './post_list.jsx';
 
-// This function is added add a fail safe for the channel sync issue we have.
-// When user switches team for the first time we show channel of previous team and then settle for the right channel after that
+// This function is added as a fail safe for the channel sync issue we have.
+// When the user switches to a team for the first time we show the channel of previous team and then settle for the right channel after that
 // This causes the scroll correction etc an issue because post_list is not mounted for new channel instead it is updated
 const isChannelLoading = (params, channel, team) => {
-    let channelLoading = false;
-    if (channel) {
+    if (params.postid) {
+        return false;
+    }
+    if (channel && team) {
         if (channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL) {
             if (channel.name !== params.identifier) {
-                channelLoading = true;
-            }
-
-            if (channel.team_id && channel.team_id !== team.id) {
-                channelLoading = true;
+                return true;
             }
         }
+        if (channel.team_id && channel.team_id !== team.id) {
+            return true;
+        }
     } else {
-        channelLoading = true;
+        return true;
     }
 
-    if (channel && (channel.team_id && channel.team_id !== team.id)) {
-        channelLoading = true;
-    }
-
-    return channelLoading;
+    return false;
 };
 
 function makeMapStateToProps() {

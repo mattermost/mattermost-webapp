@@ -14,8 +14,6 @@ export default class NewMessageSeparator extends React.PureComponent {
         return (
             <div
                 id={this.props.separatorId}
-                key='unviewed'
-                ref='newMessageSeparator'
                 className='new-separator'
             >
                 <hr className='separator__hr'/>

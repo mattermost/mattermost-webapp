@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import debounce from 'lodash/debounce';
 import {batchActions} from 'redux-batched-actions';
 
 import {
@@ -319,20 +318,6 @@ export async function redirectUserToDefaultTeam() {
     } else {
         browserHistory.push('/select_team');
     }
-}
-
-export const postListScrollChange = debounce(() => {
-    AppDispatcher.handleViewAction({
-        type: EventTypes.POST_LIST_SCROLL_CHANGE,
-        value: false,
-    });
-});
-
-export function postListScrollChangeToBottom() {
-    AppDispatcher.handleViewAction({
-        type: EventTypes.POST_LIST_SCROLL_CHANGE,
-        value: true,
-    });
 }
 
 let serverVersion = '';

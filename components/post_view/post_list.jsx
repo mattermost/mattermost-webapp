@@ -17,10 +17,6 @@ import FloatingTimestamp from './floating_timestamp.jsx';
 import PostListRow from './post_list_row';
 import ScrollToBottomArrows from './scroll_to_bottom_arrows.jsx';
 
-if (typeof ResizeObserver === 'undefined') {
-    global.ResizeObserver = require('resize-observer-polyfill').default; //eslint-disable-line
-}
-
 const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
 
@@ -34,8 +30,16 @@ export default class PostList extends React.PureComponent {
          */
         posts: PropTypes.array,
 
+        /**
+         * Array of Ids in the channel inlcuding date separators, new message indicator, more messages loader,
+         * manual load messages trigger and postId in the order of newest to oldest for populating virtual list rows
+         */
         postListIds: PropTypes.array,
 
+        /**
+         * Object of posts with post.id as key. This is used for passing down post as we need extra metadata made in
+         * getPostsAroundPost and getPostsInChannel. The metadata includes `consecutivePostByUser`, `isFirstReply` etc
+         */
         postsObjById: PropTypes.object,
 
         /**
@@ -63,6 +67,10 @@ export default class PostList extends React.PureComponent {
          */
         focusedPostId: PropTypes.string,
 
+        /**
+         * When switching teams we might end up in a state where we select channel from previous team
+         * This flag is explicitly added for adding a loader in these cases to not mounting post list
+         */
         channelLoading: PropTypes.bool,
 
         actions: PropTypes.shape({
@@ -105,13 +113,14 @@ export default class PostList extends React.PureComponent {
         this.loadingPosts = false;
         this.extraPagesLoaded = 0;
         const channelIntroMessage = PostListRowListIds.CHANNEL_INTRO_MESSAGE;
+        const isMobile = Utils.isMobile();
         this.state = {
             atEnd: false,
             postsLoading: !props.posts || props.channelLoading,
             isScrolling: false,
             lastViewed: props.lastViewedAt,
             autoRetryEnable: true,
-            isMobile: Utils.isMobile(),
+            isMobile,
             atBottom: true,
             unViewedCount: 0,
             postListIds: [channelIntroMessage],
@@ -119,7 +128,9 @@ export default class PostList extends React.PureComponent {
         };
 
         this.listRef = React.createRef();
-        this.scrollStopAction = new DelayedAction(this.handleScrollStop);
+        if (isMobile) {
+            this.scrollStopAction = new DelayedAction(this.handleScrollStop);
+        }
     }
 
     componentDidMount() {
@@ -188,6 +199,7 @@ export default class PostList extends React.PureComponent {
             this.setState({
                 isMobile: true,
             });
+            this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
     }
 
@@ -290,11 +302,15 @@ export default class PostList extends React.PureComponent {
             this.loadMorePosts();
         }
 
-        if (this.state.isMobile && !this.state.isScrolling) {
-            this.setState({
-                isScrolling: true,
-            });
-            this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
+        if (this.state.isMobile) {
+            if (!this.state.isScrolling) {
+                this.setState({
+                    isScrolling: true,
+                });
+            }
+            if (this.scrollStopAction) {
+                this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
+            }
         }
     }
 
