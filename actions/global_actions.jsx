@@ -36,7 +36,6 @@ import LocalStorageStore from 'stores/local_storage_store';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 
 import {ActionTypes, Constants, PostTypes, RHSStates} from 'utils/constants.jsx';
-import EventTypes from 'utils/event_types.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {equalServerVersions} from 'utils/server_version';
