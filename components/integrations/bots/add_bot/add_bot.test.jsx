@@ -18,6 +18,7 @@ describe('components/integrations/bots/AddBot', () => {
             <AddBot
                 maxFileSize={100}
                 team={team}
+                editingUserHasManageSystem={true}
             />
         );
         expect(wrapper.containsMatchingElement(
@@ -47,6 +48,7 @@ describe('components/integrations/bots/AddBot', () => {
                 bot={bot}
                 maxFileSize={100}
                 team={team}
+                editingUserHasManageSystem={true}
             />
         );
         expect(wrapper.containsMatchingElement(

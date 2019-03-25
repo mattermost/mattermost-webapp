@@ -108,9 +108,9 @@ export default class AddBot extends React.Component {
             this.state.username = this.props.bot.username;
             this.state.displayName = this.props.bot.display_name;
             this.state.description = this.props.bot.description;
-            this.state.role = UserUtils.isSystemAdmin(this.props.roles) ? roleOptionSystemAdmin : roleOptionMember;
-            this.state.postAll = UserUtils.hasPostAllRole(this.props.roles);
-            this.state.postChannels = UserUtils.hasPostAllPublicRole(this.props.roles);
+            this.state.role = UserUtils.isSystemAdmin(this.props.roles || '') ? roleOptionSystemAdmin : roleOptionMember;
+            this.state.postAll = UserUtils.hasPostAllRole(this.props.roles || '');
+            this.state.postChannels = UserUtils.hasPostAllPublicRole(this.props.roles || '');
         }
     }
 
@@ -299,8 +299,12 @@ export default class AddBot extends React.Component {
         let error;
         if (this.props.bot) {
             const result = await this.props.actions.patchBot(this.props.bot.user_id, bot);
-            data = result.data;
-            error = result.error;
+            if (result) {
+                data = result.data;
+                error = result.error;
+            } else {
+                error = Utils.localizeMessage('bot.edit_failed', 'Failed to edit bot');
+            }
 
             if (!error) {
                 if (this.state.pictureFile && this.state.pictureFile !== 'default') {
@@ -321,8 +325,12 @@ export default class AddBot extends React.Component {
             }
         } else {
             const result = await this.props.actions.createBot(bot);
-            data = result.data;
-            error = result.error;
+            if (result) {
+                data = result.data;
+                error = result.error;
+            } else {
+                error = Utils.localizeMessage('bot.create_failed', 'Failed to create bot');
+            }
 
             let token = '';
             if (!error) {
@@ -336,7 +344,7 @@ export default class AddBot extends React.Component {
                 );
 
                 // On error just skip the confirmation because we have a bot without a token.
-                if (tokenResult.error) {
+                if (!tokenResult || tokenResult.error) {
                     browserHistory.push(`/${this.props.team.name}/integrations/bots`);
                     return;
                 }
