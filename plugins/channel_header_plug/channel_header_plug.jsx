@@ -117,7 +117,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
 
     createButton = (plug) => {
         let activeClass = '';
-        if (plug.active()) {
+        if (plug.active && plug.active()) {
             activeClass = ' active';
         }
         return (
@@ -179,7 +179,12 @@ export default class ChannelHeaderPlug extends React.PureComponent {
 
     render() {
         let components = this.props.components || [];
-        components = components.filter((c) => c.show());
+        components = components.filter((c) => {
+            if (c.show) {
+                return c.show();
+            }
+            return true;
+        });
 
         if (components.length === 0) {
             return null;
