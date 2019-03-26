@@ -34,7 +34,6 @@ describe('components/post_view/PostInfo', () => {
         handleDropdownOpened: jest.fn(),
         compactDisplay: false,
         replyCount: 0,
-        getPostList: jest.fn(),
         useMilitaryTime: false,
         isFlagged: false,
         hover: false,

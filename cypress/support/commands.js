@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import users from '../fixtures/users.json';
+import theme from '../fixtures/theme.json';
 
 // ***********************************************************
 // Read more: https://on.cypress.io/custom-commands
@@ -181,6 +182,55 @@ Cypress.Commands.add('getLastPost', () => {
 Cypress.Commands.add('getLastPostId', () => {
     return cy.get('#postListContent').children().last().invoke('attr', 'id').then((divPostId) => {
         return divPostId.replace('post_', '');
+    });
+});
+
+function getLastPostIdWithRetry() {
+    cy.getLastPostId().then((postId) => {
+        if (!postId.includes(':')) {
+            return postId;
+        }
+
+        return Cypress.Promise.delay(1000).then(getLastPostIdWithRetry);
+    });
+}
+
+/**
+ * Only return valid post ID and do retry if last post is still on pending state
+ */
+Cypress.Commands.add('getLastPostIdWithRetry', () => {
+    return getLastPostIdWithRetry();
+});
+
+/**
+ * Post message from a file instantly post a message in a textbox
+ * instead of typing into it which takes longer period of time.
+ * @param {String} file - includes path and filename relative to cypress/fixtures
+ * @param {String} target - either #post_textbox or #reply_textbox
+ */
+Cypress.Commands.add('postMessageFromFile', (file, target = '#post_textbox') => {
+    cy.fixture(file, 'utf-8').then((text) => {
+        cy.get(target).then((textbox) => {
+            textbox.val(text);
+        }).type(' {backspace}{enter}');
+    });
+});
+
+/**
+ * Compares HTML content of a last post against the given file
+ * instead of typing into it which takes longer period of time.
+ * @param {String} file - includes path and filename relative to cypress/fixtures
+ */
+Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file) => {
+    // * Verify that HTML Content is correct
+    cy.getLastPostIdWithRetry().then((postId) => {
+        const postMessageTextId = `#postMessageText_${postId}`;
+
+        cy.fixture(file, 'utf-8').then((expectedHtml) => {
+            cy.get(postMessageTextId).then((content) => {
+                assert.equal(content[0].innerHTML, expectedHtml.replace(/\n$/, ''));
+            });
+        });
     });
 });
 
@@ -375,4 +425,84 @@ Cypress.Commands.add('defaultTheme', (username) => {
 Cypress.Commands.add('userStatus', (statusInt) => {
     cy.get('.status-wrapper.status-selector').click();
     cy.get('.MenuItem').eq(statusInt).click();
+});
+
+// ***********************************************************
+// Channel
+// ************************************************************
+
+Cypress.Commands.add('getCurrentChannelId', () => {
+    return cy.get('#channel-header').invoke('attr', 'data-channelid');
+});
+
+// ***********************************************************
+// API - Preference
+// ************************************************************
+
+/**
+ * Update user's preference directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {Array} preference - a list of user's preferences
+ */
+Cypress.Commands.add('updateUserPreference', (preferences = []) => {
+    cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/me/preferences',
+        method: 'PUT',
+        body: preferences,
+    });
+});
+
+/**
+ * Update channel display mode preference of a user directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} value - Either "full" (default) or "centered"
+ */
+Cypress.Commands.add('updateChannelDisplayModePreference', (value = 'full') => {
+    cy.getCookie('MMUSERID').then((cookie) => {
+        const preference = {
+            user_id: cookie.value,
+            category: 'display_settings',
+            name: 'channel_display_mode',
+            value,
+        };
+
+        cy.updateUserPreference([preference]);
+    });
+});
+
+/**
+ * Update message display preference of a user directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} value - Either "clean" (default) or "compact"
+ */
+Cypress.Commands.add('updateMessageDisplayPreference', (value = 'clean') => {
+    cy.getCookie('MMUSERID').then((cookie) => {
+        const preference = {
+            user_id: cookie.value,
+            category: 'display_settings',
+            name: 'message_display',
+            value,
+        };
+
+        cy.updateUserPreference([preference]);
+    });
+});
+
+/**
+ * Update theme preference of a user directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {Object} value - theme object.  Will pass default value if none is provided.
+ */
+Cypress.Commands.add('updateThemePreference', (value = JSON.stringify(theme.default)) => {
+    cy.getCookie('MMUSERID').then((cookie) => {
+        const preference = {
+            user_id: cookie.value,
+            category: 'theme',
+            name: '',
+            value,
+        };
+
+        cy.updateUserPreference([preference]);
+    });
 });

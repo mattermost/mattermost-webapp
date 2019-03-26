@@ -6,13 +6,7 @@ import {shallow} from 'enzyme';
 
 import {Posts} from 'mattermost-redux/constants';
 
-import {postListScrollChange} from 'actions/global_actions';
-
 import PostMessageView from 'components/post_view/post_message_view/post_message_view.jsx';
-
-jest.mock('actions/global_actions', () => ({
-    postListScrollChange: jest.fn(),
-}));
 
 describe('components/post_view/PostAttachment', () => {
     const post = {
@@ -76,18 +70,16 @@ describe('components/post_view/PostAttachment', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match state and call GlobalActions.postListScrollChange on handleHeightChange', () => {
+    test('should match checkOverflow state on handleHeightReceived change', () => {
         const wrapper = shallow(<PostMessageView {...baseProps}/>);
         const instance = wrapper.instance();
         instance.checkOverflow = jest.fn();
 
         wrapper.setState({checkOverflow: 0});
         instance.handleHeightReceived(1);
-        expect(postListScrollChange).toHaveBeenCalledTimes(1);
         expect(wrapper.state('checkOverflow')).toEqual(1);
 
         instance.handleHeightReceived(0);
-        expect(postListScrollChange).toHaveBeenCalledTimes(1);
         expect(wrapper.state('checkOverflow')).toEqual(1);
     });
 });

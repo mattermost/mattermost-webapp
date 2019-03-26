@@ -296,7 +296,6 @@
             display: flex;
             flex: 0 1 auto;
             min-width: 0;
-            width: 100%;
         }
 
         > a {
@@ -630,7 +629,7 @@
             display: block;
             font-size: 14px;
             font-weight: 600;
-            max-width: 100%;
+            max-width: 120px;
             overflow: hidden;
             text-decoration: none;
             text-overflow: ellipsis;

@@ -27,6 +27,7 @@ const AdminPanel = (props) => (
                     <FormattedMarkdownMessage
                         id={props.subtitleId}
                         defaultMessage={props.subtitleDefault}
+                        values={props.subtitleValues}
                     />
                 </span>
             </div>
@@ -48,6 +49,7 @@ AdminPanel.propTypes = {
     titleDefault: PropTypes.string.isRequired,
     subtitleId: PropTypes.string.isRequired,
     subtitleDefault: PropTypes.string.isRequired,
+    subtitleValues: PropTypes.object,
     onHeaderClick: PropTypes.func,
     button: PropTypes.node,
 };

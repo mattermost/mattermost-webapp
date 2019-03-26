@@ -9,7 +9,7 @@ import LoadingImagePreview from 'components/loading_image_preview';
 
 jest.mock('utils/image_utils');
 
-import {createPlaceholderImage, loadImage} from 'utils/image_utils';
+import {loadImage} from 'utils/image_utils';
 
 describe('components/SizeAwareImage', () => {
     const baseProps = {
@@ -23,18 +23,14 @@ describe('components/SizeAwareImage', () => {
 
     loadImage.mockReturnValue(() => ({}));
 
-    test('should render a placeholder when first mounted with dimensions', () => {
-        createPlaceholderImage.mockImplementation(() => 'data:image/png;base64,abc123');
-
+    test('should render an svg when first mounted with dimensions', () => {
         const wrapper = mount(<SizeAwareImage {...baseProps}/>);
 
-        const src = wrapper.find('img').prop('src');
-        expect(src.startsWith('data:image')).toBeTruthy();
+        const viewBox = wrapper.find('svg').prop('viewBox');
+        expect(viewBox).toEqual('0 0 300 200');
     });
 
     test('should render a placeholder and has loader when showLoader is true', () => {
-        const placeholder = 'data:image/png;base64,abc123';
-        createPlaceholderImage.mockImplementation(() => placeholder);
         const props = {
             ...baseProps,
             showLoader: true,
@@ -42,7 +38,6 @@ describe('components/SizeAwareImage', () => {
 
         const wrapper = shallow(<SizeAwareImage {...props}/>);
         expect(wrapper.find(LoadingImagePreview).exists()).toEqual(true);
-        expect(wrapper.find('img').prop('src')).toEqual(placeholder);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -94,15 +89,18 @@ describe('components/SizeAwareImage', () => {
         expect(baseProps.onImageLoaded).toHaveBeenCalledWith({height, width});
     });
 
-    test('should call onImageLoadFail when image load fails and should render empty/null', () => {
+    test('should call onImageLoadFail when image load fails and should have svg', () => {
         const onImageLoadFail = jest.fn();
         const props = {...baseProps, onImageLoadFail};
 
-        const wrapper = shallow(<SizeAwareImage {...props}/>);
+        const wrapper = mount(<SizeAwareImage {...props}/>);
+        wrapper.setState({loaded: false});
         wrapper.instance().handleError();
         expect(props.onImageLoadFail).toHaveBeenCalled();
 
+        expect(wrapper.state('error')).toBe(true);
         expect(wrapper.find('img').exists()).toEqual(false);
+        expect(wrapper.find('svg').exists()).toEqual(true);
         expect(wrapper.find(LoadingImagePreview).exists()).toEqual(false);
     });
 });

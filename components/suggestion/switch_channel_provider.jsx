@@ -31,6 +31,7 @@ import {logError} from 'mattermost-redux/actions/errors';
 import {
     sortChannelsByTypeAndDisplayName,
     isDirectChannelVisible,
+    isGroupChannelVisible,
     isUnreadChannel,
 } from 'mattermost-redux/utils/channel_utils';
 
@@ -129,6 +130,7 @@ class SwitchChannelSuggestion extends Suggestion {
             <div
                 onClick={this.handleClick}
                 className={className}
+                id={`switchChannel_${channel.name}`}
                 {...Suggestion.baseProps}
             >
                 {icon}
@@ -371,7 +373,7 @@ export default class SwitchChannelProvider extends Provider {
                 } else if (newChannel.type === Constants.GM_CHANNEL) {
                     newChannel.name = getChannelDisplayName(newChannel);
                     wrappedChannel.name = newChannel.name;
-                    const isGMVisible = getBool(getState(), Preferences.CATEGORY_GROUP_CHANNEL_SHOW, newChannel.id, false);
+                    const isGMVisible = isGroupChannelVisible(config, getMyPreferences(state), channel, getLastPostPerChannel(state)[channel.id], isUnreadChannel(getMyChannelMemberships(state), channel));
                     if (isGMVisible) {
                         wrappedChannel.type = Constants.MENTION_CHANNELS;
                     } else {
