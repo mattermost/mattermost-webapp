@@ -250,7 +250,7 @@ export default class AddBot extends React.Component {
             return;
         }
 
-        if (!this.state.username) {
+        if (!this.state.username || this.state.username.length < 3) {
             this.setState({
                 error: (
                     <FormattedMessage
@@ -290,7 +290,7 @@ export default class AddBot extends React.Component {
         });
 
         const bot = {
-            username: this.state.username,
+            username: this.state.username.toLowerCase(),
             display_name: this.state.displayName,
             description: this.state.description,
         };
@@ -479,7 +479,7 @@ export default class AddBot extends React.Component {
                                 <input
                                     id='username'
                                     type='text'
-                                    maxLength='64'
+                                    maxLength='22'
                                     className='form-control'
                                     value={this.state.username}
                                     onChange={this.updateUsername}

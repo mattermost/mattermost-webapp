@@ -377,12 +377,12 @@ export default class SystemUsersDropdown extends React.Component {
                             {this.renderAccessToken()}
                             <MenuItemAction
                                 show={showMakeActive}
-                                onClick={this.handleMakeActive}
+                                onClick={this.handleMakeActive && !user.is_bot}
                                 text={Utils.localizeMessage('admin.user_item.makeActive', 'Activate')}
                                 disabled={disableActivationToggle}
                             />
                             <MenuItemAction
-                                show={showMakeNotActive}
+                                show={showMakeNotActive && !user.is_bot}
                                 onClick={this.handleShowDeactivateMemberModal}
                                 text={Utils.localizeMessage('admin.user_item.makeInactive', 'Deactivate')}
                                 disabled={disableActivationToggle}
