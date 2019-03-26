@@ -3,6 +3,7 @@
 
 import * as AdminActions from 'mattermost-redux/actions/admin';
 import * as UserActions from 'mattermost-redux/actions/users';
+import * as TeamActions from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
 import {bindClientFunc} from 'mattermost-redux/actions/helpers';
 
@@ -309,4 +310,13 @@ export function confirmNavigation() {
             type: ActionTypes.CONFIRM_NAVIGATION,
         });
     };
+}
+
+export async function invalidateAllEmailInvites(success, error) {
+    const {data, error: err} = await dispatch(TeamActions.invalidateAllEmailInvites());
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }

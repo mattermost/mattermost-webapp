@@ -12,7 +12,9 @@ import {
     removeIdpSamlCertificate, uploadIdpSamlCertificate,
     removePrivateSamlCertificate, uploadPrivateSamlCertificate,
     removePublicSamlCertificate, uploadPublicSamlCertificate,
+    invalidateAllEmailInvites,
 } from 'actions/admin_actions';
+
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
 import PluginManagement from 'components/admin_console/plugin_management';
@@ -2139,6 +2141,19 @@ export default {
                             label_default: 'Enable Email Invitations: ',
                             help_text: t('admin.team.emailInvitationsDescription'),
                             help_text_default: 'When true users can invite others to the system using email.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BUTTON,
+                            key: 'InvalidateEmailInvitesButton',
+                            action: invalidateAllEmailInvites,
+                            label: t('admin.team.invalidateEmailInvitesTitle'),
+                            label_default: 'Invalidate pending email invites',
+                            help_text: t('admin.team.invalidateEmailInvitesDescription'),
+                            help_text_default: 'This will invalidate active email invitations that have not been accepted by the user.  By default email invitations expire after 48 hours.',
+                            error_message: t('admin.team.invalidateEmailInvitesFail'),
+                            error_message_default: 'Unable to invalidate pending email invites: {error}',
+                            success_message: t('admin.team.invalidateEmailInvitesSuccess'),
+                            success_message_default: 'Pending email invitations invalidated successfully',
                         },
                     ],
                 },
