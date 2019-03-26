@@ -82,7 +82,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     componentDidMount() {
         // check the availability of the image rendered(if any) in the first render.
         const embedMetadata = this.props.post.metadata && this.props.post.metadata.embeds && this.props.post.metadata.embeds[0];
-        if (!embedMetadata || (embedMetadata && !embedMetadata.url)) {
+        if (!embedMetadata || !embedMetadata.url) {
             this.loadShortenedImageLink();
         }
         this.preCheckImageLink();
