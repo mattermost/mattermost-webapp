@@ -148,46 +148,4 @@ describe('plugins/Pluggable', () => {
 
         expect(wrapper.type()).toBe(null);
     });
-
-    /*test('should match snapshot with no overridden component', () => {
-        getMembershipForCurrentEntities.mockImplementation((...args) => {
-            return {type: 'MOCK_GET_MEMBERSHIP_FOR_CURRENT_ENTITIES', args};
-        });
-
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <Pluggable
-                    components={{}}
-                    theme={{}}
-                >
-                    <ProfilePopover
-                        userId='someUserId'
-                        user={{id: 'someUserId', name: 'some_user_name'}}
-                        src='src'
-                    />
-                </Pluggable>
-            </Provider>
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot with overridden component', () => {
-        const wrapper = mount(
-            <Provider store={store}>
-                <Pluggable
-                    components={{ProfilePopover: [{component: ProfilePopoverPlugin}]}}
-                    theme={{id: 'theme_id'}}
-                >
-                    <ProfilePopover
-                        userId='someUserId'
-                        user={{id: 'someUserId', name: 'some_user_name'}}
-                        src='src'
-                    />
-                </Pluggable>
-            </Provider>
-        );
-
-        expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('#pluginId').text()).toBe('ProfilePopoverPlugin');
-    });*/
 });
