@@ -42,20 +42,23 @@ describe('Recent Emoji', () => {
         // 8. Click chosen emoji
         cy.get('.emoji-picker__item').eq(secondEmoji).click();
 
-        // 9. Wait 500 millisecond
+        // 9. Post icon
+        cy.get('#create_post').submit();
+
+        // 10. Wait 500 millisecond
         cy.wait(500); // eslint-disable-line
 
-        // 10. Open emoji list
+        // 11. Open emoji list
         cy.get('#emojiPickerButton').click();
 
         // * Assert first emoji should equal with second recent emoji
         cy.get('.emoji-picker__item').eq(firstEmoji).find('img').then(($el) => {
-            cy.get('.emoji-picker__item').eq(1).find('img').should('have.attr', 'src', $el.attr('src'));
+            cy.get('.emoji-picker__item').eq(1).find('img').should('have.attr', 'class', $el.attr('class'));
         });
 
         // * Assert second emoji should equal with first recent emoji
         cy.get('.emoji-picker__item').eq(secondEmoji).find('img').then(($el) => {
-            cy.get('.emoji-picker__item').eq(0).find('img').should('have.attr', 'src', $el.attr('src'));
+            cy.get('.emoji-picker__item').eq(0).find('img').should('have.attr', 'class', $el.attr('class'));
         });
     });
 });
