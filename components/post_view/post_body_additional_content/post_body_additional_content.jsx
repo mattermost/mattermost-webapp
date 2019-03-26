@@ -70,7 +70,8 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         this.generateStaticEmbed = this.generateStaticEmbed.bind(this);
         this.isLinkToggleable = this.isLinkToggleable.bind(this);
         this.handleLinkLoaded = this.handleLinkLoaded.bind(this);
-        const embedMetadata = props.post.metadata && props.post.metadata.embeds && props.post.metadata.embeds[0];
+        const {metadata} = props.post;
+        const embedMetadata = metadata && metadata.embeds && metadata.embeds[0];
         const link = embedMetadata && embedMetadata.url ? embedMetadata.url : Utils.extractFirstLink(props.post.message);
         this.state = {
             link,
