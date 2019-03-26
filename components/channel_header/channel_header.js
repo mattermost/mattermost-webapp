@@ -280,23 +280,6 @@ export default class ChannelHeader extends React.PureComponent {
 
         const channelNamesMap = channel.props && channel.props.channel_mentions;
 
-        const popoverContent = (
-            <Popover
-                id='header-popover'
-                bStyle='info'
-                bSize='large'
-                placement='bottom'
-                className='channel-header__popover'
-                onMouseOver={this.handleOnMouseOver}
-                onMouseOut={this.handleOnMouseOut}
-            >
-                <Markdown
-                    message={channel.header}
-                    options={this.getPopoverMarkdownOptions(channelNamesMap)}
-                />
-            </Popover>
-        );
-
         let channelTitle = channel.display_name;
         let archivedIcon = null;
         if (channelIsArchived) {
@@ -355,6 +338,22 @@ export default class ChannelHeader extends React.PureComponent {
         let headerTextContainer;
         const headerText = (isDirect && dmUser.is_bot) ? dmBot.description : channel.header;
         if (headerText) {
+            const popoverContent = (
+                <Popover
+                    id='header-popover'
+                    bStyle='info'
+                    bSize='large'
+                    placement='bottom'
+                    className='channel-header__popover'
+                    onMouseOver={this.handleOnMouseOver}
+                    onMouseOut={this.handleOnMouseOut}
+                >
+                    <Markdown
+                        message={headerText}
+                        options={this.getPopoverMarkdownOptions(channelNamesMap)}
+                    />
+                </Popover>
+            );
             headerTextContainer = (
                 <OverlayTrigger
                     trigger={'click'}
