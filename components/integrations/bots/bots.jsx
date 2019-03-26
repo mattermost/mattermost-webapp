@@ -85,15 +85,21 @@ export default class Bots extends React.PureComponent {
             Constants.Integrations.PAGE_SIZE
         ).then(
             (result) => {
-                if (result) {
-                    // We don't need to wait for this and we need to accept failure in the case where bot.owner_id is a plugin id
-                    result.data.map((bot) => this.props.actions.getUser(bot.owner_id));
-                    Promise.all(
-                        result.data.map((bot) => this.props.actions.getUserAccessTokensForUser(bot.user_id)).
-                            concat(result.data.map((bot) => this.props.actions.getUser(bot.user_id)))).
-                        then(() => {
-                            this.setState({loading: false});
-                        });
+                if (result.data) {
+                    const promises = [];
+
+                    for (const bot of result.data) {
+                        // We don't need to wait for this and we need to accept failure in the case where bot.owner_id is a plugin id
+                        this.props.actions.getUser(bot.owner_id);
+
+                        // We want to wait for these.
+                        promises.push(this.props.actions.getUser(bot.user_id));
+                        promises.push(this.props.actions.getUserAccessTokensForUser(bot.user_id));
+                    }
+
+                    Promise.all(promises).then(() => {
+                        this.setState({loading: false});
+                    });
                 }
             }
         );

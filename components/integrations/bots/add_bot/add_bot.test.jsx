@@ -4,8 +4,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-//import {FormattedMessage} from 'react-intl';
-
 import TestHelper from 'tests/helpers/client-test-helper';
 
 import AddBot from './add_bot.jsx';

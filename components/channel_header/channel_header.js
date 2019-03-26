@@ -96,7 +96,7 @@ export default class ChannelHeader extends React.PureComponent {
 
     componentDidMount() {
         this.props.actions.getCustomEmojisInText(this.props.channel ? this.props.channel.header : '');
-        if (this.props.dmUser) {
+        if (this.props.dmUser && this.props.dmUser.is_bot) {
             this.props.actions.loadBot(this.props.dmUser.id);
         }
         document.addEventListener('keydown', this.handleShortcut);
