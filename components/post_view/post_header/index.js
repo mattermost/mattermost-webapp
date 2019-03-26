@@ -10,10 +10,12 @@ import PostHeader from './post_header.jsx';
 function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
+    const user = getUser(state, ownProps.post.user_id);
+    const isBot = user ? user.is_bot : false;
 
     return {
         enablePostUsernameOverride,
-        user: getUser(state, ownProps.post.user_id),
+        isBot,
     };
 }
 
