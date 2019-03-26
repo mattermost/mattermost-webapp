@@ -33,22 +33,19 @@ describe('Recent Emoji', () => {
         // 5. Submit post
         cy.get('#create_post').submit();
 
-        // 6. Open emoji list
-        cy.get('#emojiPickerButton').click();
-
-        // 7. Get second emoji
-        const secondEmoji = getRandomInt(maxRandom);
-
-        // 8. Click chosen emoji
-        cy.get('.emoji-picker__item').eq(secondEmoji).click();
-
-        // 9. Post icon
-        cy.get('#create_post').submit();
-
-        // 10. Wait 500 millisecond
+        // 6. Wait 500 millisecond
         cy.wait(500); // eslint-disable-line
 
-        // 11. Open emoji list
+        // 7. Post reaction to post
+        cy.clickPostReactionIcon();
+
+        // 8. Get second emoji
+        const secondEmoji = getRandomInt(maxRandom);
+
+        // 9. Click chosen emoji
+        cy.get('.emoji-picker__item').eq(secondEmoji).click();
+
+        // 10. Show emoji list
         cy.get('#emojiPickerButton').click();
 
         // * Assert first emoji should equal with second recent emoji
