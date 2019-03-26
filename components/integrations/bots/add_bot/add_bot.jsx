@@ -7,8 +7,6 @@ import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
-import exif2css from 'exif2css';
-
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {General} from 'mattermost-redux/constants';
 
@@ -20,6 +18,7 @@ import SpinnerButton from 'components/spinner_button.jsx';
 import FormError from 'components/form_error.jsx';
 import {AcceptedProfileImageTypes, OVERLAY_TIME_DELAY} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import * as FileUtils from 'utils/file_utils.jsx';
 
 const roleOptionSystemAdmin = 'System Admin';
 const roleOptionMember = 'Member';
@@ -157,8 +156,8 @@ export default class AddBot extends React.Component {
 
             var reader = new FileReader();
             reader.onload = (e2) => {
-                const orientation = this.getExifOrientation(e2.target.result);
-                const orientationStyles = this.getOrientationStyles(orientation);
+                const orientation = FileUtils.getExifOrientation(e2.target.result);
+                const orientationStyles = FileUtils.getOrientationStyles(orientation);
 
                 this.setState({
                     image: this.previewBlob,
@@ -175,53 +174,6 @@ export default class AddBot extends React.Component {
 
     setDefault = () => {
         this.setState({pictureFile: 'default', image: BotDefaultIcon});
-    }
-
-    // based on https://stackoverflow.com/questions/7584794/accessing-jpeg-exif-rotation-data-in-javascript-on-the-client-side/32490603#32490603
-    getExifOrientation(data) {
-        var view = new DataView(data);
-
-        if (view.getUint16(0, false) !== 0xFFD8) {
-            return -2;
-        }
-
-        var length = view.byteLength;
-        var offset = 2;
-
-        while (offset < length) {
-            var marker = view.getUint16(offset, false);
-            offset += 2;
-
-            if (marker === 0xFFE1) {
-                if (view.getUint32(offset += 2, false) !== 0x45786966) {
-                    return -1;
-                }
-
-                var little = view.getUint16(offset += 6, false) === 0x4949;
-                offset += view.getUint32(offset + 4, little);
-                var tags = view.getUint16(offset, little);
-                offset += 2;
-
-                for (var i = 0; i < tags; i++) {
-                    if (view.getUint16(offset + (i * 12), little) === 0x0112) {
-                        return view.getUint16(offset + (i * 12) + 8, little);
-                    }
-                }
-            } else if ((marker & 0xFF00) === 0xFF00) {
-                offset += view.getUint16(offset, false);
-            } else {
-                break;
-            }
-        }
-        return -1;
-    }
-
-    getOrientationStyles(orientation) {
-        const {
-            transform,
-            'transform-origin': transformOrigin,
-        } = exif2css(orientation);
-        return {transform, transformOrigin};
     }
 
     updateRoles = async (data) => {
