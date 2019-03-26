@@ -42,7 +42,7 @@ export default class AddBot extends React.Component {
         roles: PropTypes.string,
 
         /**
-        * Maximum upload file size (for bot accoutn profile picture)
+        * Maximum upload file size (for bot account profile picture)
         */
         maxFileSize: PropTypes.number.isRequired,
 
@@ -62,7 +62,7 @@ export default class AddBot extends React.Component {
             createBot: PropTypes.func.isRequired,
 
             /**
-            * Creates a new bot account.
+            * Patches an existing bot account.
             */
             patchBot: PropTypes.func.isRequired,
 
