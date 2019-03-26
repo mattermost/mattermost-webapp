@@ -19,7 +19,7 @@ If this pull request addresses a Help Wanted ticket, please link the relevant Gi
 Otherwise, link the JIRA ticket.
 -->
 
-#### Related PR's
+#### Related Pull Requests
 <!--
 List all PRs related to resolving a ticket. For instance, if you submitted a PR to `mattermost/mattermost-server`, please include it here.
 -->
