@@ -81,7 +81,8 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
 
     componentDidMount() {
         // check the availability of the image rendered(if any) in the first render.
-        const embedMetadata = this.props.post.metadata && this.props.post.metadata.embeds && this.props.post.metadata.embeds[0];
+        const {metadata} = this.props.post;
+        const embedMetadata = metadata && metadata.embeds && metadata.embeds[0];
         if (!embedMetadata || !embedMetadata.url) {
             this.loadShortenedImageLink();
         }
@@ -111,7 +112,8 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.post.message !== this.props.post.message) {
-            const embedMetadata = nextProps.post.metadata.embeds && nextProps.post.metadata.embeds[0];
+            const {metadata} = nextProps.post;
+            const embedMetadata = metadata && metadata.embeds && metadata.embeds[0];
             const link = embedMetadata && embedMetadata.url ? embedMetadata.url : Utils.extractFirstLink(nextProps.post.message);
 
             this.setState({
