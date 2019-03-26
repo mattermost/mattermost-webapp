@@ -118,7 +118,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                 link,
             }, () => {
                 // check the availability of the image link
-                if (!embedMetadata || (embedMetadata && !embedMetadata.url)) {
+                if (!embedMetadata || !embedMetadata.url) {
                     this.loadShortenedImageLink();
                 }
                 this.preCheckImageLink();
