@@ -83,7 +83,7 @@ export default class SearchResultsHeader extends React.Component {
         } else if (this.props.isCard) {
             title = (
                 <FormattedMessage
-                    id='search_header.title4'
+                    id='search_header.title5'
                     defaultMessage='Extra information'
                 />
             );

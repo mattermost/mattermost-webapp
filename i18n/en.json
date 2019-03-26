@@ -2624,6 +2624,7 @@
   "search_header.title2": "Recent Mentions",
   "search_header.title3": "Flagged Posts",
   "search_header.title4": "Pinned posts in {channelDisplayName}",
+  "search_header.title5": "Extra information",
   "search_item.channelArchived": "Archived",
   "search_item.direct": "Direct Message (with {username})",
   "search_item.jump": "Jump",
