@@ -315,6 +315,7 @@ export default class PluginRegistry {
     // Returns true is preview should be overridden and false otherwise.
     // - component - A react component to display instead of original preview. Receives fileInfo and post as props.
     // Returns a unique identifier.
+    // Only one plugin can override a file preview at a time. If two plugins try to override the same file preview, the first plugin will perform the override and the second will not. Plugin precedence is ordered alphabetically by plugin ID.
     registerFilePreviewComponent(override, component) {
         const id = generateId();
 
