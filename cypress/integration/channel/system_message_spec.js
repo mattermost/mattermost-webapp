@@ -1,6 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// ***************************************************************
+// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
+// ***************************************************************
+
+// helper function to count the lines in a block of text by wrapping each word in a span and finding where the text breaks the line
 function getLines(e) {
     const $cont = Cypress.$(e);
     const textArr = $cont.text().split(' ');
@@ -44,6 +51,7 @@ describe('System Message', () => {
         // 1. Login and go to /
         cy.login('user-1');
         cy.visit('/');
+        cy.updateTeammateDisplayModePreference();
     });
 
     it('MM-14636 - Validate that system message is wrapping properly', () => {
@@ -65,9 +73,10 @@ describe('System Message', () => {
 
         cy.getLastPost().
             should('contain', 'System').
-            and('contain', 'user-1 updated the channel');
+            and('contain', '@user-1 updated the channel header from:').
+            and('contain', 'newheader');
         const validateSingle = (desc) => {
-            const lines = getLines(desc.find('p')[1]);
+            const lines = getLines(desc.find('p').last());
             assert(lines === 1, 'second line of the message should be a short one');
         };
         cy.getLastPost().then(validateSingle);
@@ -91,10 +100,11 @@ describe('System Message', () => {
 
         cy.getLastPost().
             should('contain', 'System').
-            and('contain', 'user-1 updated the channel');
+            and('contain', '@user-1 updated the channel header from:').
+            and('contain', ' newheader'.repeat(20));
 
         const validateMulti = (desc) => {
-            const lines = getLines(desc.find('p')[1]);
+            const lines = getLines(desc.find('p').last());
             assert(lines > 1, 'second line of the message should be a long one');
         };
         cy.getLastPost().then(validateMulti);

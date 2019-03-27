@@ -454,6 +454,32 @@ Cypress.Commands.add('updateUserPreference', (preferences = []) => {
 });
 
 /**
+ * Update teammate display mode preference of a user
+ * @param {String} username - current user
+ * @param {String} value - Either "username" (default) or "nickname_full_name" or "full_name"
+ */
+Cypress.Commands.add('updateTeammateDisplayModePreference', (username, value = 'username') => {
+    const conf = {
+        username: '#name_formatFormatA',
+        nickname_full_name: '#name_formatFormatB',
+        full_name: '#name_formatFormatC',
+    };
+    cy.toAccountSettingsModal(username);
+    cy.get('#displayButton').click();
+
+    cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
+
+    cy.get('#name_formatTitle').scrollIntoView();
+    cy.get('#name_formatTitle').click();
+    cy.get('.section-max').scrollIntoView();
+
+    cy.get(conf[value]).check().should('be.checked');
+
+    cy.get('#saveSetting').click();
+    cy.get('#accountSettingsHeader > .close').click();
+});
+
+/**
  * Update channel display mode preference of a user directly via API
  * This API assume that the user is logged in and has cookie to access
  * @param {String} value - Either "full" (default) or "centered"
