@@ -82,13 +82,13 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
 
     componentDidMount() {
         // check the availability of the image rendered(if any) in the first render.
+        this.mounted = true;
         const {metadata} = this.props.post;
-        const embedMetadata = metadata && metadata.embeds && metadata.embeds[0];
-        if (!embedMetadata || !embedMetadata.url) {
+
+        if (!metadata) {
             this.loadShortenedImageLink();
         }
         this.preCheckImageLink();
-        this.mounted = true;
     }
 
     componentWillUnmount() {
@@ -121,7 +121,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                 link,
             }, () => {
                 // check the availability of the image link
-                if (!embedMetadata || !embedMetadata.url) {
+                if (!metadata) {
                     this.loadShortenedImageLink();
                 }
                 this.preCheckImageLink();
