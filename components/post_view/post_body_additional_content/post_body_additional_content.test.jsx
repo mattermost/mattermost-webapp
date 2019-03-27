@@ -92,4 +92,68 @@ describe('components/post_view/PostBodyAdditionalContent', () => {
         expect(fileInfos.length).toBe(1);
         expect(fileInfos[0].link).toBe(PostUtils.getImageSrc(link, true));
     });
+
+    test('should call getRedirectLocation call as there is no metadata', () => {
+        const link = 'http://example.com/';
+
+        const props = {
+            ...baseProps,
+            hasImageProxy: true,
+            post: {
+                ...post,
+                message: link,
+            },
+        };
+
+        const wrapper = shallow(
+            <PostBodyAdditionalContent {...props}>
+                <div/>
+            </PostBodyAdditionalContent>
+        );
+
+        expect(baseProps.actions.getRedirectLocation).toHaveBeenCalledTimes(1);
+
+        wrapper.setProps({
+            post: {
+                ...props.post,
+                message: 'http://example.com/new',
+            },
+        });
+        expect(baseProps.actions.getRedirectLocation).toHaveBeenCalledTimes(2);
+    });
+
+    test('should not call getRedirectLocation call as there is metadata available', () => {
+        const link = 'http://example.com/';
+
+        const props = {
+            ...baseProps,
+            hasImageProxy: true,
+            post: {
+                ...post,
+                message: link,
+                metadata: {
+                    embeds: [{
+                        url: link,
+                        type: 'opengraph',
+                    }],
+                },
+            },
+        };
+
+        const wrapper = shallow(
+            <PostBodyAdditionalContent {...props}>
+                <div/>
+            </PostBodyAdditionalContent>
+        );
+
+        expect(baseProps.actions.getRedirectLocation).not.toHaveBeenCalled();
+
+        wrapper.setProps({
+            post: {
+                ...props.post,
+                message: 'http://example.com/new',
+            },
+        });
+        expect(baseProps.actions.getRedirectLocation).not.toHaveBeenCalled();
+    });
 });
