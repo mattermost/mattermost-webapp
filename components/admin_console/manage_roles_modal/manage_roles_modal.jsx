@@ -169,7 +169,7 @@ export default class ManageRolesModal extends React.PureComponent {
         }
 
         let additionalRoles;
-        if (this.state.hasUserAccessTokenRole || this.state.isSystemAdmin) {
+        if (this.state.hasUserAccessTokenRole || this.state.isSystemAdmin || user.is_bot) {
             additionalRoles = (
                 <div>
                     <p>
@@ -226,32 +226,56 @@ export default class ManageRolesModal extends React.PureComponent {
 
         let userAccessTokenContent;
         if (this.props.userAccessTokensEnabled) {
-            userAccessTokenContent = (
-                <div>
-                    <div className='checkbox'>
-                        <label>
-                            <input
-                                type='checkbox'
-                                ref='postall'
-                                checked={this.state.hasUserAccessTokenRole || this.state.isSystemAdmin}
-                                disabled={this.state.isSystemAdmin}
-                                onChange={this.handleUserAccessTokenChange}
-                            />
-                            <FormattedMarkdownMessage
-                                id='admin.manage_roles.allowUserAccessTokens'
-                                defaultMessage='Allow this account to generate [personal access tokens](!https://about.mattermost.com/default-user-access-tokens).'
-                            />
-                            <span className='d-block padding-top padding-bottom light'>
-                                <FormattedHTMLMessage
-                                    id='admin.manage_roles.allowUserAccessTokensDesc'
-                                    defaultMessage="Removing this permission doesn't delete existing tokens. To delete them, go to the user's Manage Tokens menu."
+            if (user.is_bot) {
+                userAccessTokenContent = (
+                    <div>
+                        <div className='member-row--padded member-row-lone-padding'>
+                            {additionalRoles}
+                        </div>
+                    </div>
+                );
+            } else {
+                userAccessTokenContent = (
+                    <div>
+                        <div className='checkbox'>
+                            <label>
+                                <input
+                                    type='checkbox'
+                                    ref='postall'
+                                    checked={this.state.hasUserAccessTokenRole || this.state.isSystemAdmin}
+                                    disabled={this.state.isSystemAdmin}
+                                    onChange={this.handleUserAccessTokenChange}
                                 />
-                            </span>
-                        </label>
+                                <FormattedMarkdownMessage
+                                    id='admin.manage_roles.allowUserAccessTokens'
+                                    defaultMessage='Allow this account to generate [personal access tokens](!https://about.mattermost.com/default-user-access-tokens).'
+                                />
+                                <span className='d-block padding-top padding-bottom light'>
+                                    <FormattedHTMLMessage
+                                        id='admin.manage_roles.allowUserAccessTokensDesc'
+                                        defaultMessage="Removing this permission doesn't delete existing tokens. To delete them, go to the user's Manage Tokens menu."
+                                    />
+                                </span>
+                            </label>
+                        </div>
+                        <div className='member-row--padded'>
+                            {additionalRoles}
+                        </div>
                     </div>
-                    <div className='member-row--padded'>
-                        {additionalRoles}
-                    </div>
+                );
+            }
+        }
+
+        let email = user.email;
+        let tag = null;
+        if (user.is_bot) {
+            email = '';
+            tag = (
+                <div className='bot-indicator bot-indicator__admin'>
+                    <FormattedMessage
+                        id='post_info.bot'
+                        defaultMessage='BOT'
+                    />
                 </div>
             );
         }
@@ -266,9 +290,10 @@ export default class ManageRolesModal extends React.PureComponent {
                     <div className='manage-teams__info'>
                         <div className='manage-teams__name'>
                             {name}
+                            {tag}
                         </div>
                         <div className='manage-teams__email'>
-                            {user.email}
+                            {email}
                         </div>
                     </div>
                 </div>

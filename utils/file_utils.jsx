@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import exif2css from 'exif2css';
+
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
 
@@ -62,4 +64,51 @@ export function getFileTypeFromMime(mimetype) {
     }
 
     return 'other';
+}
+
+// based on https://stackoverflow.com/questions/7584794/accessing-jpeg-exif-rotation-data-in-javascript-on-the-client-side/32490603#32490603
+export function getExifOrientation(data) {
+    var view = new DataView(data);
+
+    if (view.getUint16(0, false) !== 0xFFD8) {
+        return -2;
+    }
+
+    var length = view.byteLength;
+    var offset = 2;
+
+    while (offset < length) {
+        var marker = view.getUint16(offset, false);
+        offset += 2;
+
+        if (marker === 0xFFE1) {
+            if (view.getUint32(offset += 2, false) !== 0x45786966) {
+                return -1;
+            }
+
+            var little = view.getUint16(offset += 6, false) === 0x4949;
+            offset += view.getUint32(offset + 4, little);
+            var tags = view.getUint16(offset, little);
+            offset += 2;
+
+            for (var i = 0; i < tags; i++) {
+                if (view.getUint16(offset + (i * 12), little) === 0x0112) {
+                    return view.getUint16(offset + (i * 12) + 8, little);
+                }
+            }
+        } else if ((marker & 0xFF00) === 0xFF00) {
+            offset += view.getUint16(offset, false);
+        } else {
+            break;
+        }
+    }
+    return -1;
+}
+
+export function getOrientationStyles(orientation) {
+    const {
+        transform,
+        'transform-origin': transformOrigin,
+    } = exif2css(orientation);
+    return {transform, transformOrigin};
 }

@@ -48,13 +48,6 @@ export default class BackstageSidebar extends React.Component {
     }
 
     renderIntegrations() {
-        if (!this.props.enableIncomingWebhooks &&
-            !this.props.enableOutgoingWebhooks &&
-            !this.props.enableCommands &&
-            !this.props.enableOAuthServiceProvider) {
-            return null;
-        }
-
         let incomingWebhooks = null;
         if (this.props.enableIncomingWebhooks) {
             incomingWebhooks = (
@@ -136,6 +129,24 @@ export default class BackstageSidebar extends React.Component {
             );
         }
 
+        // Commenting out bot accounts UI until 5.12
+        const botAccounts = null;
+
+        /*const botAccounts = (
+            <SystemPermissionGate permissions={['manage_bots']}>
+                <BackstageSection
+                    name='bots'
+                    parentLink={'/' + this.props.team.name + '/integrations'}
+                    title={
+                        <FormattedMessage
+                            id='backstage_sidebar.bots'
+                            defaultMessage='Bot Accounts'
+                        />
+                    }
+                />
+            </SystemPermissionGate>
+        );*/
+
         return (
             <TeamPermissionGate
                 permissions={[Permissions.MANAGE_INCOMING_WEBHOOKS, Permissions.MANAGE_OUTGOING_WEBHOOKS, Permissions.MANAGE_SLASH_COMMANDS, Permissions.MANAGE_OAUTH]}
@@ -156,6 +167,7 @@ export default class BackstageSidebar extends React.Component {
                     {outgoingWebhooks}
                     {commands}
                     {oauthApps}
+                    {botAccounts}
                 </BackstageCategory>
             </TeamPermissionGate>
         );

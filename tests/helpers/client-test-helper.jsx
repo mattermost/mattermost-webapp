@@ -104,6 +104,19 @@ class TestHelperClass {
         return post;
     }
 
+    fakeBot = () => {
+        return {
+            user_id: this.generateId(),
+            username: this.generateId(),
+            display_name: 'Fake bot',
+            description: 'This is a fake bot',
+            owner_id: this.generateId(),
+            create_at: 1507840900004,
+            update_at: 1507840900004,
+            delete_at: 0,
+        };
+    }
+
     randomString = (length) => {
         var text = '';
         var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

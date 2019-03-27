@@ -7,7 +7,7 @@ import {intlShape} from 'react-intl';
 
 export default class LoadingSpinner extends React.PureComponent {
     static propTypes = {
-        text: PropTypes.string,
+        text: PropTypes.node,
     }
 
     static defaultProps = {

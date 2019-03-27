@@ -57,6 +57,11 @@ export default class PostHeader extends React.PureComponent {
          * Whether or not the post username can be overridden.
          */
         enablePostUsernameOverride: PropTypes.bool.isRequired,
+
+        /**
+         * If the user that made the post is a bot.
+         */
+        isBot: PropTypes.bool.isRequired,
     }
 
     render() {
@@ -74,7 +79,7 @@ export default class PostHeader extends React.PureComponent {
         let indicator;
         let colon;
 
-        if (fromWebhook) {
+        if (fromWebhook && !this.props.isBot) {
             if (post.props.override_username && this.props.enablePostUsernameOverride) {
                 userProfile = (
                     <UserProfile
