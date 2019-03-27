@@ -5,6 +5,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Route, Switch} from 'react-router-dom';
 
+import Bots from 'components/integrations/bots';
+import AddBot from 'components/integrations/bots/add_bot';
+
 import Pluggable from 'plugins/pluggable';
 import AnnouncementBar from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
@@ -184,6 +187,21 @@ export default class BackstageController extends React.Component {
                             extraProps={extraProps}
                             path={`${this.props.match.url}/add`}
                             component={AddEmoji}
+                        />
+                        <BackstageRoute
+                            extraProps={extraProps}
+                            path={`${this.props.match.url}/bots/add`}
+                            component={AddBot}
+                        />
+                        <BackstageRoute
+                            extraProps={extraProps}
+                            path={`${this.props.match.url}/bots/edit`}
+                            component={AddBot}
+                        />
+                        <BackstageRoute
+                            extraProps={extraProps}
+                            path={`${this.props.match.url}/bots`}
+                            component={Bots}
                         />
                     </Switch>
                 </div>

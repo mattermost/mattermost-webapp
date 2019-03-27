@@ -26,7 +26,7 @@ export default class SpinnerButton extends PureComponent {
         /**
          * Set the text used while spinning
          */
-        spinningText: PropTypes.string.isRequired,
+        spinningText: PropTypes.node.isRequired,
 
         /**
          * Callback function when button is clicked

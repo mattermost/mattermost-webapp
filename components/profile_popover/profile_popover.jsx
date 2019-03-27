@@ -43,6 +43,11 @@ class ProfilePopover extends React.PureComponent {
         user: PropTypes.object,
 
         /**
+         * The bot this profile picture is being opened for (if bot)
+         */
+        bot: PropTypes.object,
+
+        /**
          * Status for the user, either 'offline', 'away', 'dnd' or 'online'
          */
         status: PropTypes.string,
@@ -94,6 +99,7 @@ class ProfilePopover extends React.PureComponent {
             getMembershipForCurrentEntities: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
+            loadBot: PropTypes.func.isRequired,
         }).isRequired,
 
         /**
@@ -123,6 +129,7 @@ class ProfilePopover extends React.PureComponent {
 
     componentDidMount() {
         this.props.actions.getMembershipForCurrentEntities(this.props.userId);
+        this.props.actions.loadBot(this.props.userId);
     }
 
     handleShowDirectChannel(e) {
@@ -246,6 +253,17 @@ class ProfilePopover extends React.PureComponent {
             );
         }
 
+        if (this.props.user.is_bot && this.props.bot) {
+            dataContent.push(
+                <div
+                    key='bot-description'
+                    className='overflow--ellipsis text-nowrap'
+                >
+                    {this.props.bot.description}
+                </div>
+            );
+        }
+
         if (this.props.user.position) {
             const position = this.props.user.position.substring(0, Constants.MAX_POSITION_LENGTH);
             dataContent.push(
@@ -265,7 +283,7 @@ class ProfilePopover extends React.PureComponent {
         }
 
         const email = this.props.user.email;
-        if (email) {
+        if (email && !this.props.user.is_bot) {
             dataContent.push(
                 <hr
                     key='user-popover-hr2'
@@ -408,7 +426,9 @@ class ProfilePopover extends React.PureComponent {
         );
 
         let roleTitle;
-        if (Utils.isSystemAdmin(this.props.user.roles)) {
+        if (this.props.user.is_bot) {
+            roleTitle = <span className='user-popover__role'>{Utils.localizeMessage('bots.is_bot', 'BOT')}</span>;
+        } else if (Utils.isSystemAdmin(this.props.user.roles)) {
             roleTitle = <span className='user-popover__role'>{Utils.localizeMessage('admin.permissions.roles.system_admin.name', 'System Admin')}</span>;
         } else if (this.props.isTeamAdmin) {
             roleTitle = <span className='user-popover__role'>{Utils.localizeMessage('admin.permissions.roles.team_admin.name', 'Team Admin')}</span>;
@@ -420,7 +440,14 @@ class ProfilePopover extends React.PureComponent {
         if (this.props.hasMention) {
             title = <a onClick={this.handleMentionKeyClick}>{title}</a>;
         }
-        title = <span><span className='user-popover__username'>{title}</span> {roleTitle}</span>;
+        title = (
+            <span>
+                <span className='user-popover__username'>
+                    {title}
+                </span>
+                {roleTitle}
+            </span>
+        );
 
         return (
             <Popover

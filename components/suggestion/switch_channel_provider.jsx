@@ -35,6 +35,8 @@ import {
     isUnreadChannel,
 } from 'mattermost-redux/utils/channel_utils';
 
+import {FormattedMessage} from 'react-intl';
+
 import DraftIcon from 'components/svg/draft_icon';
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
@@ -126,6 +128,21 @@ class SwitchChannelSuggestion extends Suggestion {
             );
         }
 
+        let tag = null;
+        if (channel.type === Constants.DM_CHANNEL) {
+            var teammate = Utils.getDirectTeammate(channel.id);
+            if (teammate && teammate.is_bot) {
+                tag = (
+                    <div className='bot-indicator bot-indicator__autocomplete'>
+                        <FormattedMessage
+                            id='post_info.bot'
+                            defaultMessage='BOT'
+                        />
+                    </div>
+                );
+            }
+        }
+
         return (
             <div
                 onClick={this.handleClick}
@@ -135,6 +152,7 @@ class SwitchChannelSuggestion extends Suggestion {
             >
                 {icon}
                 {displayName}
+                {tag}
                 {badge}
             </div>
         );

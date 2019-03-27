@@ -9,7 +9,7 @@ import LoadingSpinner from './loading_spinner.jsx';
 export default class LoadingWrapper extends React.Component {
     static propTypes = {
         loading: PropTypes.bool.isRequired,
-        text: PropTypes.string,
+        text: PropTypes.node,
         children: PropTypes.node,
     }
 

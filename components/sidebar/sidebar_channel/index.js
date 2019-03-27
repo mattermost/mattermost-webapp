@@ -74,6 +74,7 @@ function makeMapStateToProps() {
         let channelTeammateId = '';
         let channelTeammateDeletedAt = 0;
         let channelTeammateUsername = '';
+        let channelTeammateIsBot = false;
         let channelDisplayName = channel.display_name;
         if (channel.type === Constants.DM_CHANNEL) {
             teammate = getUser(state, channel.teammate_id);
@@ -81,6 +82,7 @@ function makeMapStateToProps() {
                 channelTeammateId = teammate.id;
                 channelTeammateDeletedAt = teammate.delete_at;
                 channelTeammateUsername = teammate.username;
+                channelTeammateIsBot = teammate.is_bot;
             }
 
             channelDisplayName = displayUsername(teammate, teammateNameDisplay, false);
@@ -109,6 +111,7 @@ function makeMapStateToProps() {
             channelTeammateId,
             channelTeammateUsername,
             channelTeammateDeletedAt,
+            channelTeammateIsBot,
             hasDraft: draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length) && currentChannelId !== channel.id,
             showTutorialTip: enableTutorial && tutorialStep === Constants.TutorialSteps.CHANNEL_POPOVER,
             townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL] && channelsByName[Constants.DEFAULT_CHANNEL].display_name,

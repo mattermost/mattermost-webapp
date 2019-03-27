@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import {OverlayTrigger} from 'react-bootstrap';
 
+import {FormattedMessage} from 'react-intl';
+
 import {imageURLForUser, isMobile} from 'utils/utils.jsx';
 
 import ProfilePopover from 'components/profile_popover';
@@ -63,6 +65,18 @@ export default class UserProfile extends PureComponent {
             profileImg = imageURLForUser(user);
         }
 
+        let tag = null;
+        if (user && user.is_bot) {
+            tag = (
+                <div className='bot-indicator bot-indicator__popoverlist'>
+                    <FormattedMessage
+                        id='post_info.bot'
+                        defaultMessage='BOT'
+                    />
+                </div>
+            );
+        }
+
         return (
             <OverlayTrigger
                 ref='overlay'
@@ -83,6 +97,7 @@ export default class UserProfile extends PureComponent {
             >
                 <div className='user-popover'>
                     {name}
+                    {tag}
                 </div>
             </OverlayTrigger>
         );
