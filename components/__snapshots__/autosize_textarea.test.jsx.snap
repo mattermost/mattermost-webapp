@@ -1,8 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/AutosizeTextarea should match snapshot, init 1`] = `
-<div>
+<div
+  className=""
+>
+  <div
+    className="custom-textarea__placeholder hidden"
+  />
   <textarea
+    height={46}
     onChange={[Function]}
     rows={1}
   />

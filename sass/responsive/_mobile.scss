@@ -1,6 +1,9 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
+    .custom-textarea__placeholder {
+        padding-right: 130px;
+    }
     .textarea-wrapper {
         .help__text {
             display: none;
