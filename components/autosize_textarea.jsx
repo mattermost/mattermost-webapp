@@ -122,12 +122,6 @@ export default class AutosizeTextarea extends React.Component {
             heightProps.height = this.height;
         }
 
-        if (this.refs.textarea && this.refs.textarea.value) {
-            heightProps.height = 46;
-        } else {
-            heightProps.height = 46;
-        }
-
         return (
             <div className=''>
                 <div

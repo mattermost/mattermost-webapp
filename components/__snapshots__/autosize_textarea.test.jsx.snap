@@ -8,7 +8,6 @@ exports[`components/AutosizeTextarea should match snapshot, init 1`] = `
     className="custom-textarea__placeholder hidden"
   />
   <textarea
-    height={46}
     onChange={[Function]}
     rows={1}
   />
