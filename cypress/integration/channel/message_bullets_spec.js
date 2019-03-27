@@ -27,7 +27,7 @@ This is more normal text.`;
         cy.postMessage(messageText);
 
         // 3. Get last postId
-        cy.getLastPostId().then((postId) => {
+        cy.getLastPostIdWithRetry().then((postId) => {
             const postMessageTextId = `#postMessageText_${postId}`;
 
             //  * Verify text sizes

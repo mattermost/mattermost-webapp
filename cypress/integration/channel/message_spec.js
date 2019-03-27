@@ -49,7 +49,7 @@ describe('Message', () => {
         // 2. Post message
         cy.postMessage('Message');
 
-        cy.getLastPostId().then((postId) => {
+        cy.getLastPostIdWithRetry().then((postId) => {
             const divPostId = `#post_${postId}`;
 
             // 3. Left click on post to move the focus out of the main input box
@@ -91,7 +91,7 @@ describe('Message', () => {
         // 4 Waiting create post is done
         cy.wait(500); // eslint-disable-line
 
-        cy.getLastPostId().then((postId) => {
+        cy.getLastPostIdWithRetry().then((postId) => {
             const divPostId = `#postMessageText_${postId}`;
 
             // * Check that the message contains the whole content sent ie. mentions with dots.
