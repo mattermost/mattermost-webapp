@@ -102,7 +102,6 @@ describe('components/post_view/PostBodyAdditionalContent', () => {
             post: {
                 ...post,
                 message: link,
-                metadata: {},
             },
         };
 
