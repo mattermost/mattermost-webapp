@@ -6,7 +6,7 @@ import React from 'react';
 import {tween, styler, composite, delay, chain} from 'popmotion';
 import {CSSTransition} from 'react-transition-group';
 
-const ANIMATION_DURATION = 80;
+const ANIMATION_DURATION = 180;
 
 export default class MenuWrapperAnimation extends React.PureComponent {
     static propTypes = {
@@ -15,12 +15,10 @@ export default class MenuWrapperAnimation extends React.PureComponent {
     };
 
     onEntering = (node) => {
-        const maxHeight = Math.min(node.scrollHeight + 10, ((window.innerHeight - 70) * 80) / 100);
         const nodeStyler = styler(node);
 
         composite({
-            maxHeight: tween({from: 0, to: maxHeight, duration: ANIMATION_DURATION}),
-            opacity: tween({from: 0, to: 1, duration: ANIMATION_DURATION / 2}),
+            opacity: tween({from: 0, to: 1, duration: ANIMATION_DURATION}),
         }).start({
             update: (v) => nodeStyler.set({
                 ...v,
@@ -29,7 +27,6 @@ export default class MenuWrapperAnimation extends React.PureComponent {
             complete: () => {
                 nodeStyler.set({
                     overflowY: null,
-                    maxHeight: null,
                     opacity: null,
                 });
             },
@@ -38,11 +35,9 @@ export default class MenuWrapperAnimation extends React.PureComponent {
 
     onExiting = (node) => {
         node.style.overflowY = 'hidden';
-        const maxHeight = Math.min(node.scrollHeight + 10, ((window.innerHeight - 70) * 80) / 100);
         const nodeStyler = styler(node);
         composite({
-            maxHeight: tween({from: maxHeight, to: 0, duration: ANIMATION_DURATION}),
-            opacity: chain(delay(ANIMATION_DURATION / 2), tween({from: 1, to: 0, duration: ANIMATION_DURATION / 2})),
+            opacity: chain(delay(0), tween({from: 1, to: 0, duration: ANIMATION_DURATION})),
         }).start({
             update: (v) => nodeStyler.set({
                 ...v,
@@ -51,7 +46,6 @@ export default class MenuWrapperAnimation extends React.PureComponent {
             complete: () => {
                 nodeStyler.set({
                     overflowY: null,
-                    maxHeight: null,
                     opacity: null,
                 });
             },
