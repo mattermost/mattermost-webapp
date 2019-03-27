@@ -272,6 +272,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
             <ViewImageModal
                 show={this.state.showPreviewModal}
                 onModalDismissed={() => this.setState({showPreviewModal: false})}
+                postId={this.props.post.id}
                 startIndex={0}
                 fileInfos={[{
                     has_preview_image: false,

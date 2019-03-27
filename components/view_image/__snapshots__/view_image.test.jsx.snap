@@ -1,5 +1,76 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/ViewImageModal should fall back to default preview if plugin does not need to override preview component 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="modal-image"
+  dialogClassName="modal-image"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[MockFunction]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div
+      className="modal-image__wrapper"
+      onClick={[MockFunction]}
+    >
+      <div
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <div
+          className="modal-close"
+          onClick={[MockFunction]}
+        />
+        <div
+          className="modal-image__content"
+        >
+          <LoadingImagePreview
+            containerClass="view-image__loading"
+            loading="Loading"
+            progress={0}
+          />
+        </div>
+        <Connect(PopoverBar)
+          canDownloadFiles={true}
+          enablePublicLink={true}
+          fileIndex={0}
+          fileURL="/api/v4/files/file_id?download=1"
+          isExternalFile={false}
+          onGetPublicLink={[Function]}
+          show={false}
+          showPublicLink={true}
+          totalFiles={1}
+        />
+      </div>
+    </div>
+  </ModalBody>
+</Modal>
+`;
+
 exports[`components/ViewImageModal should match snapshot for external file 1`] = `
 <Modal
   animation={true}
@@ -257,6 +328,81 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
         className="image-control image-next"
       />
     </a>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`components/ViewImageModal should match snapshot when plugin overrides the preview component 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="modal-image"
+  dialogClassName="modal-image"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[MockFunction]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div
+      className="modal-image__wrapper"
+      onClick={[MockFunction]}
+    >
+      <div
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <div
+          className="modal-close"
+          onClick={[MockFunction]}
+        />
+        <div
+          className="modal-image__content"
+        >
+          <component
+            fileInfo={
+              Object {
+                "extension": "jpg",
+                "id": "file_id",
+              }
+            }
+            post={Object {}}
+          />
+        </div>
+        <Connect(PopoverBar)
+          canDownloadFiles={true}
+          enablePublicLink={true}
+          fileIndex={0}
+          fileURL="/api/v4/files/file_id?download=1"
+          isExternalFile={false}
+          onGetPublicLink={[Function]}
+          show={false}
+          showPublicLink={true}
+          totalFiles={1}
+        />
+      </div>
+    </div>
   </ModalBody>
 </Modal>
 `;
