@@ -47,6 +47,7 @@ import loadCreateTeam from 'bundle-loader?lazy!components/create_team';
 import loadMfa from 'bundle-loader?lazy!components/mfa/mfa_controller';
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url.jsx';
+import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 
 const CreateTeam = makeAsyncComponent(loadCreateTeam);
 const ErrorPage = makeAsyncComponent(loadErrorPage);
@@ -142,6 +143,10 @@ export default class Root extends React.Component {
     }
 
     onConfigLoaded = () => {
+        if (isDevMode()) {
+            enableDevModeFeatures();
+        }
+
         const segmentKey = Constants.DIAGNOSTICS_SEGMENT_KEY;
         const diagnosticId = this.props.diagnosticId;
 

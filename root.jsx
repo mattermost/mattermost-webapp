@@ -7,7 +7,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {Router, Route} from 'react-router-dom';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {logError} from 'mattermost-redux/actions/errors';
 import PDFJS from 'pdfjs-dist';
 
@@ -17,7 +16,7 @@ import 'sass/styles.scss';
 import 'katex/dist/katex.min.css';
 
 import {browserHistory} from 'utils/browser_history';
-import {setCSRFFromCookie} from 'utils/utils';
+import {isDevMode, setCSRFFromCookie} from 'utils/utils';
 import {makeAsyncComponent} from 'components/async_load';
 import store from 'stores/redux_store.jsx';
 import loadRoot from 'bundle-loader?lazy!components/root';
@@ -42,9 +41,7 @@ function preRenderSetup(callwhendone) {
         req.setRequestHeader('Content-Type', 'application/json');
         req.send(JSON.stringify(l));
 
-        const state = store.getState();
-        const config = getConfig(state);
-        if (config.EnableDeveloper === 'true') {
+        if (isDevMode()) {
             store.dispatch(logError({type: 'developer', message: 'DEVELOPER MODE: A JavaScript error has occurred.  Please use the JavaScript console to capture and report the error (row: ' + line + ' col: ' + column + ').'}, true));
         }
     };

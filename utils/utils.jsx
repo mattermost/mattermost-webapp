@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {
@@ -1648,4 +1649,31 @@ export function setCSRFFromCookie() {
             }
         }
     }
+}
+
+/**
+ * Returns true if in dev mode, false otherwise.
+ */
+export function isDevMode() {
+    const config = getConfig(store.getState());
+    return config.EnableDeveloper === 'true';
+}
+
+/**
+ * Enables dev mode features.
+ */
+export function enableDevModeFeatures() {
+    /*eslint no-extend-native: ["error", { "exceptions": ["Set", "Map"] }]*/
+    Object.defineProperty(Set.prototype, 'length', {
+        configurable: true, // needed for testing
+        get: () => {
+            throw new Error('Set.length is not supported. Use Set.size instead.');
+        },
+    });
+    Object.defineProperty(Map.prototype, 'length', {
+        configurable: true, // needed for testing
+        get: () => {
+            throw new Error('Map.length is not supported. Use Map.size instead.');
+        },
+    });
 }
