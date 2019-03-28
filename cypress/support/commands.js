@@ -177,7 +177,7 @@ Cypress.Commands.add('getLastPost', () => {
 });
 
 Cypress.Commands.add('getLastPostId', () => {
-    return cy.get('#postListContent').children().children().children().children().children().first().invoke('attr', 'id').then((divPostId) => {
+    return cy.get('#postListContent [id^=post]:first').invoke('attr', 'id').then((divPostId) => {
         return divPostId.replace('post_', '');
     });
 });
