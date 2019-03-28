@@ -233,7 +233,7 @@ function makeChannelSearchFilter(channelPrefix) {
             const usersInChannel = usersInChannels[channel.id] || new Set([]);
 
             // In case the channel is a DM and the profilesInChannel is not populated
-            if (!usersInChannel.length && channel.type === Constants.DM_CHANNEL) {
+            if (!usersInChannel.size && channel.type === Constants.DM_CHANNEL) {
                 const userId = Utils.getUserIdFromChannelId(channel.name);
                 const user = getUser(curState, userId);
                 if (user) {
