@@ -32,26 +32,11 @@ import ProfilePopover from './profile_popover.jsx';
 function hasManageChannelMemberPermission(state) {
     const myMemberships = getMyChannelMemberships(state);
     const teamId = getCurrentTeamId(state);
-    const permissions = [
-        Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
-        Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
-    ];
 
-    for (const channelId in myMemberships) {
-        if (myMemberships.hasOwnProperty(channelId)) {
-            for (const permission of permissions) {
-                const hasPermission = haveIChannelPermission(
-                    state,
-                    {
-                        channel: channelId,
-                        team: teamId,
-                        permission,
-                    }
-                );
-                if (hasPermission) {
-                    return true;
-                }
-            }
+    for (const channelId of Object.keys(myMemberships)) {
+        if (haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS}) ||
+            haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS})) {
+            return true;
         }
     }
     return false;
