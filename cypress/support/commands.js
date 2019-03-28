@@ -173,7 +173,7 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
 });
 
 Cypress.Commands.add('getLastPost', () => {
-    return cy.get('#postListContent').children().children().children().children().children().first();
+    return cy.get('#postListContent [id^=post]:first');
 });
 
 Cypress.Commands.add('getLastPostId', () => {
