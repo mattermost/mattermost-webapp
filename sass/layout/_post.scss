@@ -1,17 +1,5 @@
 @charset 'UTF-8';
 
-.custom-textarea__placeholder {
-    @include opacity(.5);
-    pointer-events: none;
-    white-space: nowrap;
-    position: absolute;
-    line-height: 20px;
-    padding: 13px 85px 12px 16px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
-}
-
 .custom-textarea {
     background: transparent;
     border: 1px solid #cccccc;

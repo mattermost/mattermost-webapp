@@ -58,7 +58,6 @@ export default class AutosizeTextarea extends React.Component {
     recalculateSize = () => {
         const height = this.refs.reference.scrollHeight;
         const textarea = this.refs.textarea;
-        const placeholder = this.refs.placeholder;
 
         if (height > 0 && height !== this.height) {
             const style = getComputedStyle(textarea);
@@ -72,12 +71,6 @@ export default class AutosizeTextarea extends React.Component {
             if (this.props.onHeightChange) {
                 this.props.onHeightChange(height, parseInt(style.maxHeight, 10));
             }
-        }
-
-        if (this.refs.reference.value) {
-            placeholder.classList.add('hidden');
-        } else {
-            placeholder.classList.remove('hidden');
         }
     };
 
@@ -122,14 +115,21 @@ export default class AutosizeTextarea extends React.Component {
             heightProps.height = this.height;
         }
 
-        return (
-            <div className=''>
+        let textareaPlaceholder = null;
+        if (!this.props.value && !this.props.defaultValue) {
+            textareaPlaceholder = (
                 <div
-                    ref='placeholder'
-                    className='custom-textarea__placeholder hidden'
+                    {...otherProps}
+                    style={style.placeholder}
                 >
-                    {placeholder}
+                    {this.props.placeholder}
                 </div>
+            );
+        }
+
+        return (
+            <div>
+                {textareaPlaceholder}
                 <textarea
                     ref='textarea'
                     id={id}
@@ -160,4 +160,5 @@ export default class AutosizeTextarea extends React.Component {
 const style = {
     container: {height: 0, overflow: 'hidden'},
     reference: {height: 'auto', width: '100%'},
+    placeholder: {overflow: 'hidden', textOverflow: 'ellipsis', opacity: 0.5, 'pointer-events': 'none', position: 'absolute', 'white-space': 'nowrap'},
 };

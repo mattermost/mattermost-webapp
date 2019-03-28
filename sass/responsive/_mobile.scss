@@ -1,9 +1,6 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
-    .custom-textarea__placeholder {
-        padding-right: 130px;
-    }
     .textarea-wrapper {
         .help__text {
             display: none;
@@ -55,6 +52,10 @@
 
     .post-create__container {
         z-index: 2;
+
+        .custom-textarea.custom-textarea--emoji-picker {
+            padding-right: 135px;
+        }
 
         .post-create-footer {
             padding: 0 10px;
