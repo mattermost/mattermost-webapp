@@ -94,7 +94,7 @@ class ProfilePopover extends React.PureComponent {
          * Determines if the current user has permissions to manage members in private and/or public
          * channels. Used to determine if the Add User to Channel modal button should be visible.
          */
-        hasManageChannelMemberPermission: PropTypes.bool.isRequired,
+        canManageChannelMembers: PropTypes.bool.isRequired,
 
         /**
          * @internal
@@ -213,7 +213,7 @@ class ProfilePopover extends React.PureComponent {
         delete popoverProps.actions;
         delete popoverProps.isTeamAdmin;
         delete popoverProps.isChannelAdmin;
-        delete popoverProps.hasManageChannelMemberPermission;
+        delete popoverProps.canManageChannelMembers;
         delete popoverProps.intl;
 
         const {formatMessage} = this.props.intl;
@@ -384,7 +384,7 @@ class ProfilePopover extends React.PureComponent {
                 </div>
             );
 
-            if (this.props.hasManageChannelMemberPermission) {
+            if (this.props.canManageChannelMembers) {
                 dataContent.push(
                     <div
                         data-toggle='tooltip'

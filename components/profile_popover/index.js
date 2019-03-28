@@ -12,6 +12,7 @@ import {
     getCurrentTeamId,
 } from 'mattermost-redux/selectors/entities/teams';
 import {
+    getChannel,
     getCurrentChannel,
     getChannelMembersInChannels,
     getMyChannelMemberships,
@@ -19,7 +20,7 @@ import {
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
 import {loadBot} from 'mattermost-redux/actions/bots';
-import {Permissions} from 'mattermost-redux/constants';
+import {General, Permissions} from 'mattermost-redux/constants';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {getMembershipForCurrentEntities} from 'actions/views/profile_popover';
@@ -30,12 +31,17 @@ import {getSelectedPost, getRhsState} from 'selectors/rhs';
 
 import ProfilePopover from './profile_popover.jsx';
 
-function hasManageChannelMemberPermission(state) {
+function canManageAnyChannelMembers(state) {
     const myMemberships = getMyChannelMemberships(state);
     const teamId = getCurrentTeamId(state);
 
     for (const channelId of Object.keys(myMemberships)) {
-        if (haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS}) ||
+        const channel = getChannel(state, channelId);
+
+        if (channel.type === General.OPEN_CHANNEL &&
+            haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS})) {
+            return true;
+        } else if (channel.type === General.PRIVATE_CHANNEL &&
             haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS})) {
             return true;
         }
@@ -76,7 +82,7 @@ function mapStateToProps(state, ownProps) {
         enableTimezone: areTimezonesEnabledAndSupported(state),
         isTeamAdmin,
         isChannelAdmin,
-        hasManageChannelMemberPermission: hasManageChannelMemberPermission(state),
+        canManageChannelMembers: canManageAnyChannelMembers(state),
         status: getStatusForUserId(state, userId),
         teamUrl: getCurrentRelativeTeamUrl(state),
         user: getUser(state, userId),
