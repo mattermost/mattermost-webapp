@@ -795,7 +795,7 @@ describe('components/CreateComment', () => {
         instance.focusTextbox = jest.fn();
         const blur = jest.fn();
         const focus = jest.fn();
-        instance.refs = {textbox: {getWrappedInstance: () => ({blur, focus})}};
+        instance.refs = {textbox: {blur, focus}};
 
         const commentMsgKey = {
             preventDefault: jest.fn(),

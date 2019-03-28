@@ -136,4 +136,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps, null, {withRef: true})(SidebarChannel);
+export default connect(makeMapStateToProps, mapDispatchToProps, null, {forwardRef: true})(SidebarChannel);

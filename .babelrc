@@ -35,6 +35,7 @@
                     },
                     debug: false,
                     useBuiltIns: 'usage',
+                    corejs: 2,
                     shippedProposals: true,
                 }],
                 ['@babel/preset-react', {

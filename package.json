@@ -47,7 +47,7 @@
     "react-day-picker": "7.3.0",
     "react-dom": "16.8.6",
     "react-intl": "2.8.0",
-    "react-redux": "5.1.1",
+    "react-redux": "6.0.1",
     "react-router-dom": "5.0.0",
     "react-select": "2.4.2",
     "react-transition-group": "2.7.1",

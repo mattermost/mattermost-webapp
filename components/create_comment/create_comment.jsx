@@ -483,7 +483,7 @@ export default class CreateComment extends React.PureComponent {
         if (allowSending) {
             e.persist();
             if (this.refs.textbox) {
-                this.refs.textbox.getWrappedInstance().blur();
+                this.refs.textbox.blur();
             }
 
             if (withClosedCodeBlock && message) {
@@ -545,7 +545,7 @@ export default class CreateComment extends React.PureComponent {
         if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.UP) && message === '') {
             e.preventDefault();
             if (this.refs.textbox) {
-                this.refs.textbox.getWrappedInstance().blur();
+                this.refs.textbox.blur();
             }
 
             const {data: canEditNow} = this.props.onEditLatestPost();
@@ -668,8 +668,8 @@ export default class CreateComment extends React.PureComponent {
             if (index !== -1) {
                 uploadsInProgress.splice(index, 1);
 
-                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
-                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload) {
+                    this.refs.fileUpload.cancelUpload(id);
                 }
             }
         } else {
@@ -700,7 +700,7 @@ export default class CreateComment extends React.PureComponent {
     }
 
     getFileUploadTarget = () => {
-        return this.refs.textbox.getWrappedInstance();
+        return this.refs.textbox;
     }
 
     getCreateCommentControls = () => {
@@ -717,7 +717,7 @@ export default class CreateComment extends React.PureComponent {
 
     focusTextbox = (keepFocus = false) => {
         if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
-            this.refs.textbox.getWrappedInstance().focus();
+            this.refs.textbox.focus();
         }
     }
 
