@@ -158,12 +158,10 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
             <hr />
             <SaveButton
               btnClass="btn-primary"
-              defaultMessage="Save"
               disabled={false}
               extraClasses=""
               onClick={[Function]}
               saving={false}
-              savingMessage="Saving"
             >
               <button
                 className="save-button btn btn-primary"
@@ -447,12 +445,10 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
             <hr />
             <SaveButton
               btnClass="btn-primary"
-              defaultMessage="Save"
               disabled={false}
               extraClasses=""
               onClick={[Function]}
               saving={false}
-              savingMessage="Saving"
             >
               <button
                 className="save-button btn btn-primary"

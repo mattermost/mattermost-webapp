@@ -58,8 +58,10 @@
         flex-direction: column;
 
         .system-users__filter {
-            flex: 1 1 auto;
-            padding-bottom: 12px;
+            &:first-child {
+                flex: 1 1 auto;
+                padding-bottom: 12px;
+            }
         }
 
         > label {

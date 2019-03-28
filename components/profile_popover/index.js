@@ -17,7 +17,8 @@ import {
     getMyChannelMemberships,
 } from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-
+import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
+import {loadBot} from 'mattermost-redux/actions/bots';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
@@ -79,6 +80,7 @@ function mapStateToProps(state, ownProps) {
         status: getStatusForUserId(state, userId),
         teamUrl: getCurrentRelativeTeamUrl(state),
         user: getUser(state, userId),
+        bot: getBotAccounts(state)[userId],
     };
 }
 
@@ -88,6 +90,7 @@ function mapDispatchToProps(dispatch) {
             openDirectChannelToUserId,
             openModal,
             getMembershipForCurrentEntities,
+            loadBot,
         }, dispatch),
     };
 }

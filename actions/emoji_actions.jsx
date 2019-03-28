@@ -5,10 +5,10 @@ import * as EmojiActions from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import store from 'stores/redux_store.jsx';
-import {setGlobalItem} from 'actions/storage';
+import {setRecentEmojis} from 'actions/local_storage';
 import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
 
-import {ActionTypes, Constants} from 'utils/constants.jsx';
+import {ActionTypes} from 'utils/constants.jsx';
 
 export async function addEmoji(emoji, image, success, error) {
     const {data, error: err} = await EmojiActions.createCustomEmoji(emoji, image)(store.dispatch, store.getState);
@@ -79,6 +79,6 @@ export function addRecentEmoji(alias) {
             recentEmojis.splice(0, recentEmojis.length - MAXIMUM_RECENT_EMOJI);
         }
 
-        dispatch(setGlobalItem(Constants.RECENT_EMOJI_KEY, JSON.stringify(recentEmojis)));
+        dispatch(setRecentEmojis(recentEmojis));
     };
 }

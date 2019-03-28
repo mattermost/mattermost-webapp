@@ -19,8 +19,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         className="banner"
         dangerouslySetInnerHTML={
           Object {
-            "__html": "<h1 class=\\"markdown__heading\\">Header</h1><p><em>This</em> is the <strong>header</strong></p>
-",
+            "__html": "<h1 class=\\"markdown__heading\\">Header</h1><p><em>This</em> is the <strong>header</strong></p>",
           }
         }
       />
@@ -176,8 +175,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         className="banner"
         dangerouslySetInnerHTML={
           Object {
-            "__html": "<h1 class=\\"markdown__heading\\">Footer</h1><p><em>This</em> is the <strong>footer</strong></p>
-",
+            "__html": "<h1 class=\\"markdown__heading\\">Footer</h1><p><em>This</em> is the <strong>footer</strong></p>",
           }
         }
       />
@@ -187,7 +185,6 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
     >
       <SaveButton
         btnClass="btn-primary"
-        defaultMessage="Save"
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -242,7 +239,6 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
     >
       <SaveButton
         btnClass="btn-primary"
-        defaultMessage="Save"
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -296,8 +292,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         className="banner"
         dangerouslySetInnerHTML={
           Object {
-            "__html": "<h1 class=\\"markdown__heading\\">Header</h1><p><em>This</em> is the <strong>header</strong></p>
-",
+            "__html": "<h1 class=\\"markdown__heading\\">Header</h1><p><em>This</em> is the <strong>header</strong></p>",
           }
         }
       />
@@ -453,8 +448,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         className="banner"
         dangerouslySetInnerHTML={
           Object {
-            "__html": "<h1 class=\\"markdown__heading\\">Footer</h1><p><em>This</em> is the <strong>footer</strong></p>
-",
+            "__html": "<h1 class=\\"markdown__heading\\">Footer</h1><p><em>This</em> is the <strong>footer</strong></p>",
           }
         }
       />
@@ -464,7 +458,6 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
     >
       <SaveButton
         btnClass="btn-primary"
-        defaultMessage="Save"
         disabled={true}
         extraClasses=""
         onClick={[Function]}

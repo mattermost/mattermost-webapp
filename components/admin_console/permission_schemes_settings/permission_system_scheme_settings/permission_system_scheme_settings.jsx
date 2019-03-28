@@ -4,7 +4,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
-import {Modal} from 'react-bootstrap';
+
+import ConfirmModal from 'components/confirm_modal.jsx';
 
 import {PermissionsScope, DefaultRolePermissions} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -320,54 +321,32 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                     </div>
                 </div>
 
-                <Modal
-                    dialogClassName='admin-modal'
+                <ConfirmModal
                     show={this.state.showResetDefaultModal}
-                    onHide={() => this.setState({showResetDefaultModal: false})}
-                >
-                    <Modal.Header
-                        closeButton={true}
-                    >
-                        <h4 className='modal-title'>
-                            <FormattedMessage
-                                id='admin.permissions.systemScheme.resetDefaultsButtonModalTitle'
-                                defaultMessage='Reset to Default?'
-                            />
-                        </h4>
-                    </Modal.Header>
-                    <Modal.Body>
+                    title={
+                        <FormattedMessage
+                            id='admin.permissions.systemScheme.resetDefaultsButtonModalTitle'
+                            defaultMessage='Reset to Default?'
+                        />
+                    }
+                    message={
                         <FormattedMessage
                             id='admin.permissions.systemScheme.resetDefaultsButtonModalBody'
                             defaultMessage='This will reset all selections on this page to their default settings. Are you sure you want to reset?'
                         />
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <button
-                            type='button'
-                            className='btn btn-cancel'
-                            onClick={() => this.setState({showResetDefaultModal: false})}
-                        >
-                            <FormattedMessage
-                                id='confirm_modal.cancel'
-                                defaultMessage='Cancel'
-                            />
-                        </button>
-                        <button
-                            id='linkModalCloseButton'
-                            type='button'
-                            className='btn btn-default'
-                            onClick={() => {
-                                this.resetDefaults();
-                                this.setState({showResetDefaultModal: false});
-                            }}
-                        >
-                            <FormattedMessage
-                                id='admin.permissions.systemScheme.resetDefaultsConfirmationButton'
-                                defaultMessage='Yes, Reset'
-                            />
-                        </button>
-                    </Modal.Footer>
-                </Modal>
+                    }
+                    confirmButtonText={
+                        <FormattedMessage
+                            id='admin.permissions.systemScheme.resetDefaultsConfirmationButton'
+                            defaultMessage='Yes, Reset'
+                        />
+                    }
+                    onConfirm={() => {
+                        this.resetDefaults();
+                        this.setState({showResetDefaultModal: false});
+                    }}
+                    onCancel={() => this.setState({showResetDefaultModal: false})}
+                />
 
             </div>
         );

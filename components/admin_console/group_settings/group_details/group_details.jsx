@@ -85,7 +85,7 @@ export default class GroupDetails extends React.PureComponent {
     addTeams = (teams) => {
         const promises = [];
         for (const team of teams) {
-            promises.push(this.props.actions.link(this.props.groupID, team.id, Groups.SYNCABLE_TYPE_TEAM, {can_leave: true, auto_add: true}));
+            promises.push(this.props.actions.link(this.props.groupID, team.id, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true}));
         }
         return Promise.all(promises).finally(() => this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_TEAM));
     }
@@ -93,7 +93,7 @@ export default class GroupDetails extends React.PureComponent {
     addChannels = async (channels) => {
         const promises = [];
         for (const channel of channels) {
-            promises.push(this.props.actions.link(this.props.groupID, channel.id, Groups.SYNCABLE_TYPE_CHANNEL, {can_leave: true, auto_add: true}));
+            promises.push(this.props.actions.link(this.props.groupID, channel.id, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true}));
         }
         return Promise.all(promises).finally(() => this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_CHANNEL));
     }

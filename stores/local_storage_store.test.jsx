@@ -32,4 +32,29 @@ describe('stores/LocalStorageStore', () => {
         assert.equal(LocalStorageStore.getPreviousChannelName(userId2, teamId1), channel2);
         assert.equal(LocalStorageStore.getPreviousChannelName(userId2, teamId2), channel3);
     });
+
+    test('should persist recent emojis per user', () => {
+        const userId1 = 'userId1';
+        const userId2 = 'userId2';
+        const recentEmojis1 = ['smile', 'joy', 'grin'];
+        const recentEmojis2 = ['customEmoji', '+1', 'mattermost'];
+
+        assert.equal(LocalStorageStore.getRecentEmojis(userId1), null);
+        assert.equal(LocalStorageStore.getRecentEmojis(userId2), null);
+
+        LocalStorageStore.setRecentEmojis(userId1, []);
+        LocalStorageStore.setRecentEmojis(userId2, []);
+
+        assert.equal(LocalStorageStore.getRecentEmojis(userId1), null);
+        assert.equal(LocalStorageStore.getRecentEmojis(userId2), null);
+
+        LocalStorageStore.setRecentEmojis(userId1, recentEmojis1);
+        LocalStorageStore.setRecentEmojis(userId2, recentEmojis2);
+
+        const recentEmojisForUser1 = LocalStorageStore.getRecentEmojis(userId1);
+        assert.deepEqual(recentEmojisForUser1, recentEmojis1);
+
+        const recentEmojisForUser2 = LocalStorageStore.getRecentEmojis(userId2);
+        assert.deepEqual(recentEmojisForUser2, recentEmojis2);
+    });
 });

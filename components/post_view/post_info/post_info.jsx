@@ -65,11 +65,6 @@ export default class PostInfo extends React.PureComponent {
         compactDisplay: PropTypes.bool,
 
         /**
-         * Function to get the post list HTML element
-         */
-        getPostList: PropTypes.func.isRequired,
-
-        /**
          * Set to mark post as being hovered over
          */
         hover: PropTypes.bool.isRequired,
@@ -262,8 +257,8 @@ export default class PostInfo extends React.PureComponent {
         const showPostTime = this.props.hover || this.props.showTimeWithoutHover;
         let postTime;
         if (showPostTime) {
-            // timestamp should not be a permalink if the post has been deleted, is ephemeral message, or is pending
-            const isPermalink = !(isEphemeral || Posts.POST_DELETED === post.state || ReduxPostUtils.isPostPendingOrFailed(post));
+            // timestamp should not be a permalink if the post has been deleted, is ephemeral message, is pending, or is combined activity
+            const isPermalink = !(isEphemeral || Posts.POST_DELETED === post.state || ReduxPostUtils.isPostPendingOrFailed(post) || post.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY);
 
             postTime = (
                 <PostTime

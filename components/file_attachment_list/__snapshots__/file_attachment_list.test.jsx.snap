@@ -72,6 +72,7 @@ exports[`components/FileAttachmentList should match snapshot, multiple files ord
       ]
     }
     onModalDismissed={[Function]}
+    postId="post_id"
     show={false}
     startIndex={0}
   />

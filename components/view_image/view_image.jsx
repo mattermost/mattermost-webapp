@@ -25,6 +25,11 @@ export default class ViewImageModal extends React.PureComponent {
     static propTypes = {
 
         /**
+         * The post the files are attached to
+         */
+        post: PropTypes.object.isRequired,
+
+        /**
          * Set whether to show this modal or not
          */
         show: PropTypes.bool.isRequired,
@@ -46,12 +51,14 @@ export default class ViewImageModal extends React.PureComponent {
 
         canDownloadFiles: PropTypes.bool.isRequired,
         enablePublicLink: PropTypes.bool.isRequired,
+        pluginFilePreviewComponents: PropTypes.arrayOf(PropTypes.object),
     };
 
     static defaultProps = {
         show: false,
         fileInfos: [],
         startIndex: 0,
+        pluginFilePreviewComponents: [],
     };
 
     constructor(props) {
@@ -140,7 +147,7 @@ export default class ViewImageModal extends React.PureComponent {
         const fileInfo = this.props.fileInfos[index];
         const fileType = Utils.getFileType(fileInfo.extension);
 
-        if (fileType === FileTypes.IMAGE) {
+        if (fileType === FileTypes.IMAGE && Boolean(fileInfo.id)) {
             let previewUrl;
             if (fileInfo.has_image_preview) {
                 previewUrl = getFilePreviewUrl(fileInfo.id);
@@ -260,6 +267,18 @@ export default class ViewImageModal extends React.PureComponent {
                     progress={progress}
                 />
             );
+        }
+
+        for (const preview of this.props.pluginFilePreviewComponents) {
+            if (preview.override(fileInfo, this.props.post)) {
+                content = (
+                    <preview.component
+                        fileInfo={fileInfo}
+                        post={this.props.post}
+                    />
+                );
+                break;
+            }
         }
 
         let leftArrow = null;

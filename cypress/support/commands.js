@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import users from '../fixtures/users.json';
+import theme from '../fixtures/theme.json';
 
 // ***********************************************************
 // Read more: https://on.cypress.io/custom-commands
@@ -184,6 +185,55 @@ Cypress.Commands.add('getLastPostId', () => {
     });
 });
 
+function getLastPostIdWithRetry() {
+    cy.getLastPostId().then((postId) => {
+        if (!postId.includes(':')) {
+            return postId;
+        }
+
+        return Cypress.Promise.delay(1000).then(getLastPostIdWithRetry);
+    });
+}
+
+/**
+ * Only return valid post ID and do retry if last post is still on pending state
+ */
+Cypress.Commands.add('getLastPostIdWithRetry', () => {
+    return getLastPostIdWithRetry();
+});
+
+/**
+ * Post message from a file instantly post a message in a textbox
+ * instead of typing into it which takes longer period of time.
+ * @param {String} file - includes path and filename relative to cypress/fixtures
+ * @param {String} target - either #post_textbox or #reply_textbox
+ */
+Cypress.Commands.add('postMessageFromFile', (file, target = '#post_textbox') => {
+    cy.fixture(file, 'utf-8').then((text) => {
+        cy.get(target).then((textbox) => {
+            textbox.val(text);
+        }).type(' {backspace}{enter}');
+    });
+});
+
+/**
+ * Compares HTML content of a last post against the given file
+ * instead of typing into it which takes longer period of time.
+ * @param {String} file - includes path and filename relative to cypress/fixtures
+ */
+Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file) => {
+    // * Verify that HTML Content is correct
+    cy.getLastPostIdWithRetry().then((postId) => {
+        const postMessageTextId = `#postMessageText_${postId}`;
+
+        cy.fixture(file, 'utf-8').then((expectedHtml) => {
+            cy.get(postMessageTextId).then((content) => {
+                assert.equal(content[0].innerHTML, expectedHtml.replace(/\n$/, ''));
+            });
+        });
+    });
+});
+
 // ***********************************************************
 // Post header
 // ***********************************************************
@@ -299,4 +349,186 @@ Cypress.Commands.add('removeTeamMember', (teamURL, username) => {
     cy.focused().type(username, {force: true});
     cy.get('#removeFromTeam').click({force: true});
     cy.get('.modal-header .close').click();
+});
+
+// ***********************************************************
+// Text Box
+// ***********************************************************
+
+Cypress.Commands.add('clearPostTextbox', (channelName = 'town-square') => {
+    cy.get(`#sidebarItem_${channelName}`).click();
+    cy.get('#post_textbox').clear();
+});
+
+// ***********************************************************
+// Min Setting View
+// ************************************************************
+
+// Checking min setting view for display
+Cypress.Commands.add('minDisplaySettings', () => {
+    cy.get('#themeTitle').should('be.visible', 'contain', 'Theme');
+    cy.get('#themeEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#clockTitle').should('be.visible', 'contain', 'Clock Display');
+    cy.get('#clockEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#name_formatTitle').should('be.visible', 'contain', 'Teammate Name Display');
+    cy.get('#name_formatEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#collapseTitle').should('be.visible', 'contain', 'Default appearance of image previews');
+    cy.get('#collapseEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#message_displayTitle').should('be.visible', 'contain', 'Message Display');
+    cy.get('#message_displayEdit').should('be.visible', 'contain', 'Edit');
+
+    cy.get('#languagesTitle').scrollIntoView().should('be.visible', 'contain', 'Language');
+    cy.get('#languagesEdit').should('be.visible', 'contain', 'Edit');
+});
+
+// Selects Edit Theme, selects Custom Theme, checks display, selects custom drop-down for color options
+Cypress.Commands.add('customColors', (dropdownInt, dropdownName) => {
+    cy.get('#themeEdit').scrollIntoView().click();
+
+    cy.get('#customThemes').click();
+
+    // Checking Custom Theme Display
+    cy.get('#displaySettingsTitle').scrollIntoView();
+    cy.get('.theme-elements__header').should('be.visible', 'contain', 'Sidebar Styles');
+    cy.get('.theme-elements__header').should('be.visible', 'contain', 'Center Channel Styles');
+    cy.get('.theme-elements__header').should('be.visible', 'contain', 'Link and BUtton Sytles');
+    cy.get('.padding-top').should('be.visible', 'contain', 'Import theme Colors from Slack');
+    cy.get('#saveSetting').should('be.visible', 'contain', 'Save');
+    cy.get('#cancelSetting').should('be.visible', 'contain', 'Cancel');
+
+    cy.get('.theme-elements__header').eq(dropdownInt).should('contain', dropdownName).click();
+});
+
+// Reverts theme color changes to the default Mattermost theme
+Cypress.Commands.add('defaultTheme', (username) => {
+    cy.toAccountSettingsModal(username);
+    cy.get('#displayButton').click();
+    cy.get('#themeEdit').click();
+    cy.get('#standardThemes').click();
+    cy.get('.col-xs-6.col-sm-3.premade-themes').first().click();
+    cy.get('#saveSetting').click();
+});
+
+// ***********************************************************
+// Change User Status
+// ************************************************************
+
+// Need to be in main channel view
+// 0 = Online
+// 1 = Away
+// 2 = Do Not Disturb
+// 3 = Offline
+Cypress.Commands.add('userStatus', (statusInt) => {
+    cy.get('.status-wrapper.status-selector').click();
+    cy.get('.MenuItem').eq(statusInt).click();
+});
+
+// ***********************************************************
+// Channel
+// ************************************************************
+
+Cypress.Commands.add('getCurrentChannelId', () => {
+    return cy.get('#channel-header').invoke('attr', 'data-channelid');
+});
+
+// ***********************************************************
+// API - Preference
+// ************************************************************
+
+/**
+ * Update user's preference directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {Array} preference - a list of user's preferences
+ */
+Cypress.Commands.add('updateUserPreference', (preferences = []) => {
+    cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/me/preferences',
+        method: 'PUT',
+        body: preferences,
+    });
+});
+
+/**
+ * Update teammate display mode preference of a user
+ * @param {String} username - current user
+ * @param {String} value - Either "username" (default) or "nickname_full_name" or "full_name"
+ */
+Cypress.Commands.add('updateTeammateDisplayModePreference', (username, value = 'username') => {
+    const conf = {
+        username: '#name_formatFormatA',
+        nickname_full_name: '#name_formatFormatB',
+        full_name: '#name_formatFormatC',
+    };
+    cy.toAccountSettingsModal(username);
+    cy.get('#displayButton').click();
+
+    cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
+
+    cy.get('#name_formatTitle').scrollIntoView();
+    cy.get('#name_formatTitle').click();
+    cy.get('.section-max').scrollIntoView();
+
+    cy.get(conf[value]).check().should('be.checked');
+
+    cy.get('#saveSetting').click();
+    cy.get('#accountSettingsHeader > .close').click();
+});
+
+/**
+ * Update channel display mode preference of a user directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} value - Either "full" (default) or "centered"
+ */
+Cypress.Commands.add('updateChannelDisplayModePreference', (value = 'full') => {
+    cy.getCookie('MMUSERID').then((cookie) => {
+        const preference = {
+            user_id: cookie.value,
+            category: 'display_settings',
+            name: 'channel_display_mode',
+            value,
+        };
+
+        cy.updateUserPreference([preference]);
+    });
+});
+
+/**
+ * Update message display preference of a user directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} value - Either "clean" (default) or "compact"
+ */
+Cypress.Commands.add('updateMessageDisplayPreference', (value = 'clean') => {
+    cy.getCookie('MMUSERID').then((cookie) => {
+        const preference = {
+            user_id: cookie.value,
+            category: 'display_settings',
+            name: 'message_display',
+            value,
+        };
+
+        cy.updateUserPreference([preference]);
+    });
+});
+
+/**
+ * Update theme preference of a user directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {Object} value - theme object.  Will pass default value if none is provided.
+ */
+Cypress.Commands.add('updateThemePreference', (value = JSON.stringify(theme.default)) => {
+    cy.getCookie('MMUSERID').then((cookie) => {
+        const preference = {
+            user_id: cookie.value,
+            category: 'theme',
+            name: '',
+            value,
+        };
+
+        cy.updateUserPreference([preference]);
+    });
 });

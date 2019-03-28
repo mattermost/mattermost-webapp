@@ -154,7 +154,7 @@ export default class ConfirmModal extends React.Component {
             cancelButton = (
                 <button
                     type='button'
-                    className='btn btn-link'
+                    className='btn btn-link btn-cancel'
                     onClick={this.handleCancel}
                 >
                     {cancelText}
@@ -168,6 +168,7 @@ export default class ConfirmModal extends React.Component {
                 show={this.props.show}
                 onHide={this.props.onCancel}
                 onExited={this.props.onExited}
+                id='confirmModal'
             >
                 <Modal.Header closeButton={false}>
                     <Modal.Title>{this.props.title}</Modal.Title>
@@ -183,6 +184,7 @@ export default class ConfirmModal extends React.Component {
                         type='button'
                         className={this.props.confirmButtonClass}
                         onClick={this.handleConfirm}
+                        id='confirmModalButton'
                     >
                         {this.props.confirmButtonText}
                     </button>

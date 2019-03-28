@@ -17,6 +17,7 @@ import {isPostPendingOrFailed} from 'mattermost-redux/utils/post_utils';
 
 import * as PostActions from 'actions/post_actions.jsx';
 import {executeCommand} from 'actions/command';
+import {runMessageWillBePostedHooks} from 'actions/hooks';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import EmojiMap from 'utils/emoji_map';
 import {getPostDraft} from 'selectors/rhs';
@@ -59,14 +60,14 @@ export function makeOnMoveHistoryIndex(rootId, direction) {
 }
 
 export function submitPost(channelId, rootId, draft) {
-    return (dispatch, getState) => {
+    return async (dispatch, getState) => {
         const state = getState();
 
         const userId = getCurrentUserId(state);
 
         const time = Utils.getTimestamp();
 
-        const post = {
+        let post = {
             file_ids: [],
             message: draft.message,
             channel_id: channelId,
@@ -77,7 +78,14 @@ export function submitPost(channelId, rootId, draft) {
             create_at: time,
         };
 
-        dispatch(PostActions.createPost(post, draft.fileInfos));
+        const hookResult = await dispatch(runMessageWillBePostedHooks(post));
+        if (hookResult.error) {
+            return {error: hookResult.error};
+        }
+
+        post = hookResult.data;
+
+        return dispatch(PostActions.createPost(post, draft.fileInfos));
     };
 }
 
@@ -110,7 +118,7 @@ export function submitCommand(channelId, rootId, draft) {
 
         if (error) {
             if (error.sendMessage) {
-                dispatch(submitPost(channelId, rootId, draft));
+                await dispatch(submitPost(channelId, rootId, draft));
             } else {
                 throw (error);
             }

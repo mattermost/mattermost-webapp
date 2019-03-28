@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import debounce from 'lodash/debounce';
 import {batchActions} from 'redux-batched-actions';
 
 import {
@@ -12,10 +11,10 @@ import {
     markChannelAsRead,
     selectChannel,
 } from 'mattermost-redux/actions/channels';
-import {logout} from 'mattermost-redux/actions/users';
+import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentTeamId, getTeam, getMyTeams, getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId, getTeam, getMyTeams, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChannelMember as selectMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
@@ -23,7 +22,6 @@ import {ChannelTypes} from 'mattermost-redux/action_types';
 import {browserHistory} from 'utils/browser_history';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import {stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
-import {setPreviousRecentEmojis} from 'actions/local_storage';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {closeRightHandSide, closeMenu as closeRhsMenu, updateRhsState} from 'actions/views/rhs';
 import {clearUserCookie} from 'actions/views/root';
@@ -38,7 +36,6 @@ import LocalStorageStore from 'stores/local_storage_store';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 
 import {ActionTypes, Constants, PostTypes, RHSStates} from 'utils/constants.jsx';
-import EventTypes from 'utils/event_types.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {equalServerVersions} from 'utils/server_version';
@@ -240,8 +237,6 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
         LocalStorageStore.setWasLoggedIn(false);
     }
 
-    dispatch(setPreviousRecentEmojis());
-
     dispatch(logout()).then(() => {
         if (shouldSignalLogout) {
             BrowserStore.signalLogout();
@@ -275,7 +270,17 @@ export function emitBrowserFocus(focus) {
 }
 
 export async function redirectUserToDefaultTeam() {
-    const state = getState();
+    let state = getState();
+
+    // Assume we need to load the user if they don't have any team memberships loaded
+    const shouldLoadUser = Utils.isEmptyObject(getTeamMemberships(state));
+
+    if (shouldLoadUser) {
+        await dispatch(loadMe());
+    }
+
+    state = getState();
+
     const userId = getCurrentUserId(state);
     const locale = getCurrentLocale(state);
     const teamId = LocalStorageStore.getPreviousTeamId(userId);
@@ -312,20 +317,6 @@ export async function redirectUserToDefaultTeam() {
     } else {
         browserHistory.push('/select_team');
     }
-}
-
-export const postListScrollChange = debounce(() => {
-    AppDispatcher.handleViewAction({
-        type: EventTypes.POST_LIST_SCROLL_CHANGE,
-        value: false,
-    });
-});
-
-export function postListScrollChangeToBottom() {
-    AppDispatcher.handleViewAction({
-        type: EventTypes.POST_LIST_SCROLL_CHANGE,
-        value: true,
-    });
 }
 
 let serverVersion = '';

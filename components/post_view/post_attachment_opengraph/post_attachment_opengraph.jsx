@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import SizeAwareImage from 'components/size_aware_image';
-import {postListScrollChange} from 'actions/global_actions.jsx';
 import * as CommonUtils from 'utils/commons.jsx';
 import {PostTypes} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url';
@@ -139,7 +138,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         this.setState({
             hasLargeImage,
         });
-        postListScrollChange();
     }
 
     imageToggleAnchorTag(imageUrl) {

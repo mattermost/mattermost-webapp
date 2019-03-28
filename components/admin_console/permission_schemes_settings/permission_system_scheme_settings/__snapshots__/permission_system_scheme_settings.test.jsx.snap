@@ -153,7 +153,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
   >
     <SaveButton
       btnClass="btn-primary"
-      defaultMessage="Save"
       disabled={true}
       extraClasses=""
       onClick={[Function]}
@@ -189,86 +188,34 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       />
     </div>
   </div>
-  <Modal
-    animation={true}
-    autoFocus={true}
-    backdrop={true}
-    bsClass="modal"
-    dialogClassName="admin-modal"
-    dialogComponentClass={[Function]}
-    enforceFocus={true}
-    keyboard={true}
-    manager={
-      ModalManager {
-        "add": [Function],
-        "containers": Array [],
-        "data": Array [],
-        "handleContainerOverflow": true,
-        "hideSiblingNodes": true,
-        "isTopModal": [Function],
-        "modals": Array [],
-        "remove": [Function],
-      }
+  <ConfirmModal
+    confirmButtonClass="btn btn-primary"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Yes, Reset"
+        id="admin.permissions.systemScheme.resetDefaultsConfirmationButton"
+        values={Object {}}
+      />
     }
-    onHide={[Function]}
-    renderBackdrop={[Function]}
-    restoreFocus={true}
-    show={false}
-  >
-    <ModalHeader
-      bsClass="modal-header"
-      closeButton={true}
-      closeLabel="Close"
-    >
-      <h4
-        className="modal-title"
-      >
-        <FormattedMessage
-          defaultMessage="Reset to Default?"
-          id="admin.permissions.systemScheme.resetDefaultsButtonModalTitle"
-          values={Object {}}
-        />
-      </h4>
-    </ModalHeader>
-    <ModalBody
-      bsClass="modal-body"
-      componentClass="div"
-    >
+    message={
       <FormattedMessage
         defaultMessage="This will reset all selections on this page to their default settings. Are you sure you want to reset?"
         id="admin.permissions.systemScheme.resetDefaultsButtonModalBody"
         values={Object {}}
       />
-    </ModalBody>
-    <ModalFooter
-      bsClass="modal-footer"
-      componentClass="div"
-    >
-      <button
-        className="btn btn-cancel"
-        onClick={[Function]}
-        type="button"
-      >
-        <FormattedMessage
-          defaultMessage="Cancel"
-          id="confirm_modal.cancel"
-          values={Object {}}
-        />
-      </button>
-      <button
-        className="btn btn-default"
-        id="linkModalCloseButton"
-        onClick={[Function]}
-        type="button"
-      >
-        <FormattedMessage
-          defaultMessage="Yes, Reset"
-          id="admin.permissions.systemScheme.resetDefaultsConfirmationButton"
-          values={Object {}}
-        />
-      </button>
-    </ModalFooter>
-  </Modal>
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Reset to Default?"
+        id="admin.permissions.systemScheme.resetDefaultsButtonModalTitle"
+        values={Object {}}
+      />
+    }
+  />
 </div>
 `;
 
@@ -479,7 +426,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
   >
     <SaveButton
       btnClass="btn-primary"
-      defaultMessage="Save"
       disabled={true}
       extraClasses=""
       onClick={[Function]}
@@ -515,86 +461,34 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       />
     </div>
   </div>
-  <Modal
-    animation={true}
-    autoFocus={true}
-    backdrop={true}
-    bsClass="modal"
-    dialogClassName="admin-modal"
-    dialogComponentClass={[Function]}
-    enforceFocus={true}
-    keyboard={true}
-    manager={
-      ModalManager {
-        "add": [Function],
-        "containers": Array [],
-        "data": Array [],
-        "handleContainerOverflow": true,
-        "hideSiblingNodes": true,
-        "isTopModal": [Function],
-        "modals": Array [],
-        "remove": [Function],
-      }
+  <ConfirmModal
+    confirmButtonClass="btn btn-primary"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Yes, Reset"
+        id="admin.permissions.systemScheme.resetDefaultsConfirmationButton"
+        values={Object {}}
+      />
     }
-    onHide={[Function]}
-    renderBackdrop={[Function]}
-    restoreFocus={true}
-    show={false}
-  >
-    <ModalHeader
-      bsClass="modal-header"
-      closeButton={true}
-      closeLabel="Close"
-    >
-      <h4
-        className="modal-title"
-      >
-        <FormattedMessage
-          defaultMessage="Reset to Default?"
-          id="admin.permissions.systemScheme.resetDefaultsButtonModalTitle"
-          values={Object {}}
-        />
-      </h4>
-    </ModalHeader>
-    <ModalBody
-      bsClass="modal-body"
-      componentClass="div"
-    >
+    message={
       <FormattedMessage
         defaultMessage="This will reset all selections on this page to their default settings. Are you sure you want to reset?"
         id="admin.permissions.systemScheme.resetDefaultsButtonModalBody"
         values={Object {}}
       />
-    </ModalBody>
-    <ModalFooter
-      bsClass="modal-footer"
-      componentClass="div"
-    >
-      <button
-        className="btn btn-cancel"
-        onClick={[Function]}
-        type="button"
-      >
-        <FormattedMessage
-          defaultMessage="Cancel"
-          id="confirm_modal.cancel"
-          values={Object {}}
-        />
-      </button>
-      <button
-        className="btn btn-default"
-        id="linkModalCloseButton"
-        onClick={[Function]}
-        type="button"
-      >
-        <FormattedMessage
-          defaultMessage="Yes, Reset"
-          id="admin.permissions.systemScheme.resetDefaultsConfirmationButton"
-          values={Object {}}
-        />
-      </button>
-    </ModalFooter>
-  </Modal>
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Reset to Default?"
+        id="admin.permissions.systemScheme.resetDefaultsButtonModalTitle"
+        values={Object {}}
+      />
+    }
+  />
 </div>
 `;
 
@@ -733,7 +627,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
   >
     <SaveButton
       btnClass="btn-primary"
-      defaultMessage="Save"
       disabled={true}
       extraClasses=""
       onClick={[Function]}
@@ -769,85 +662,33 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       />
     </div>
   </div>
-  <Modal
-    animation={true}
-    autoFocus={true}
-    backdrop={true}
-    bsClass="modal"
-    dialogClassName="admin-modal"
-    dialogComponentClass={[Function]}
-    enforceFocus={true}
-    keyboard={true}
-    manager={
-      ModalManager {
-        "add": [Function],
-        "containers": Array [],
-        "data": Array [],
-        "handleContainerOverflow": true,
-        "hideSiblingNodes": true,
-        "isTopModal": [Function],
-        "modals": Array [],
-        "remove": [Function],
-      }
+  <ConfirmModal
+    confirmButtonClass="btn btn-primary"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Yes, Reset"
+        id="admin.permissions.systemScheme.resetDefaultsConfirmationButton"
+        values={Object {}}
+      />
     }
-    onHide={[Function]}
-    renderBackdrop={[Function]}
-    restoreFocus={true}
-    show={false}
-  >
-    <ModalHeader
-      bsClass="modal-header"
-      closeButton={true}
-      closeLabel="Close"
-    >
-      <h4
-        className="modal-title"
-      >
-        <FormattedMessage
-          defaultMessage="Reset to Default?"
-          id="admin.permissions.systemScheme.resetDefaultsButtonModalTitle"
-          values={Object {}}
-        />
-      </h4>
-    </ModalHeader>
-    <ModalBody
-      bsClass="modal-body"
-      componentClass="div"
-    >
+    message={
       <FormattedMessage
         defaultMessage="This will reset all selections on this page to their default settings. Are you sure you want to reset?"
         id="admin.permissions.systemScheme.resetDefaultsButtonModalBody"
         values={Object {}}
       />
-    </ModalBody>
-    <ModalFooter
-      bsClass="modal-footer"
-      componentClass="div"
-    >
-      <button
-        className="btn btn-cancel"
-        onClick={[Function]}
-        type="button"
-      >
-        <FormattedMessage
-          defaultMessage="Cancel"
-          id="confirm_modal.cancel"
-          values={Object {}}
-        />
-      </button>
-      <button
-        className="btn btn-default"
-        id="linkModalCloseButton"
-        onClick={[Function]}
-        type="button"
-      >
-        <FormattedMessage
-          defaultMessage="Yes, Reset"
-          id="admin.permissions.systemScheme.resetDefaultsConfirmationButton"
-          values={Object {}}
-        />
-      </button>
-    </ModalFooter>
-  </Modal>
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Reset to Default?"
+        id="admin.permissions.systemScheme.resetDefaultsButtonModalTitle"
+        values={Object {}}
+      />
+    }
+  />
 </div>
 `;

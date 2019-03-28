@@ -287,6 +287,10 @@ export default class SchemaAdminSettings extends React.Component {
             return <span>{''}</span>;
         }
 
+        if (!setting.help_text) {
+            return null;
+        }
+
         let helpText;
         let isMarkdown;
         let helpTextValues;

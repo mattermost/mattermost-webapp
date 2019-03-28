@@ -105,6 +105,7 @@ export default class AtMention extends React.PureComponent {
                         src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
                         isRHS={this.props.isRHS}
                         hasMention={this.props.hasMention}
+                        hide={this.hideOverlay}
                     />
                 </Overlay>
                 <a

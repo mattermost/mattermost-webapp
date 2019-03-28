@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {postListScrollChange} from 'actions/global_actions';
 import SizeAwareImage from 'components/size_aware_image';
 import * as PostUtils from 'utils/post_utils.jsx';
 
@@ -20,11 +19,6 @@ export default class PostImage extends React.PureComponent {
          * Function to call when image is loaded
          */
         onLinkLoaded: PropTypes.func,
-
-        /**
-         * The function to call if image load fails
-         */
-        onLinkLoadError: PropTypes.func,
 
         /**
          * The function to call if image is clicked
@@ -55,21 +49,8 @@ export default class PostImage extends React.PureComponent {
             return;
         }
 
-        if (!this.props.dimensions) {
-            postListScrollChange();
-        }
         if (this.props.onLinkLoaded) {
             this.props.onLinkLoaded();
-        }
-    }
-
-    handleLoadError = () => {
-        if (!this.mounted) {
-            return;
-        }
-
-        if (this.props.onLinkLoadError) {
-            this.props.onLinkLoadError();
         }
     }
 
@@ -89,7 +70,6 @@ export default class PostImage extends React.PureComponent {
                     dimensions={this.props.dimensions}
                     showLoader={true}
                     onImageLoaded={this.handleLoadComplete}
-                    onImageLoadFail={this.handleLoadError}
                     onClick={this.onImageClick}
                 />
             </div>

@@ -31,8 +31,11 @@
         left: 0;
         position: absolute;
         top: 0;
-        white-space: normal;
         z-index: 2;
+
+        p {
+            margin: 0;
+        }
     }
 
     .help__text {
@@ -272,8 +275,6 @@
     .post-list-holder-by-time {
         -webkit-overflow-scrolling: touch;
         height: 100%;
-        overflow-y: scroll;
-        padding: 1em 0 0;
         width: 100%;
         position: absolute;
         &.active {
@@ -689,7 +690,6 @@
 
     .post-list__content {
         display: table-cell;
-        vertical-align: bottom;
 
         .dropdown-menu {
             &.bottom {
@@ -1661,8 +1661,7 @@
         margin: 0;
         text-rendering: auto;
         position: relative;
-        // previous value of 5 interferred with search help popup
-        z-index: 4;
+        z-index: 2;
 
         &.pull-left {
             margin: 4px 5px 0 0;
@@ -1886,6 +1885,23 @@
 
 .bot-indicator {
     margin: 2px 10px 0 -4px;
+}
+
+.bot-indicator__autocomplete {
+    margin: 0px 4px;
+    padding: 0px 5px;
+    display: inline;
+}
+
+.bot-indicator__popoverlist {
+    margin: 0px 4px;
+    display: inline;
+}
+
+.bot-indicator__admin {
+    margin: 0px 4px;
+    background: rgba(61, 60, 64, 0.15);
+    display: inline;
 }
 
 .post__pinned-badge {

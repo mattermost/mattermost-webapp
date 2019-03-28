@@ -5,7 +5,7 @@ import assert from 'assert';
 
 import * as TextFormatting from 'utils/text_formatting.jsx';
 
-describe('TextFormatting.Hashtags', () => {
+describe('TextFormatting.Hashtags with default setting', () => {
     it('Not hashtags', (done) => {
         assert.equal(
             TextFormatting.formatText('# hashtag').trim(),
@@ -191,6 +191,30 @@ describe('TextFormatting.Hashtags', () => {
         assert.equal(
             TextFormatting.formatText('#test@example.com').trim(),
             "<p><a class='mention-link' href='#' data-hashtag='#test@example.com'>#test@example.com</a></p>"
+        );
+
+        done();
+    });
+});
+
+describe('TextFormatting.Hashtags with various settings', () => {
+    it('Boundary of MinimumHashtagLength', (done) => {
+        assert.equal(
+            TextFormatting.formatText('#疑問', {minimumHashtagLength: 2}).trim(),
+            "<p><a class='mention-link' href='#' data-hashtag='#疑問'>#疑問</a></p>"
+        );
+        assert.equal(
+            TextFormatting.formatText('This is a sentence #疑問 containing a hashtag', {minimumHashtagLength: 2}).trim(),
+            "<p>This is a sentence <a class='mention-link' href='#' data-hashtag='#疑問'>#疑問</a> containing a hashtag</p>"
+        );
+
+        assert.equal(
+            TextFormatting.formatText('#疑', {minimumHashtagLength: 2}).trim(),
+            '<p>#疑</p>'
+        );
+        assert.equal(
+            TextFormatting.formatText('This is a sentence #疑 containing a hashtag', {minimumHashtagLength: 2}).trim(),
+            '<p>This is a sentence #疑 containing a hashtag</p>'
         );
 
         done();

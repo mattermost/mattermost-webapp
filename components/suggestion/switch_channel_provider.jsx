@@ -31,8 +31,11 @@ import {logError} from 'mattermost-redux/actions/errors';
 import {
     sortChannelsByTypeAndDisplayName,
     isDirectChannelVisible,
+    isGroupChannelVisible,
     isUnreadChannel,
 } from 'mattermost-redux/utils/channel_utils';
+
+import {FormattedMessage} from 'react-intl';
 
 import DraftIcon from 'components/svg/draft_icon';
 import GlobeIcon from 'components/svg/globe_icon';
@@ -125,14 +128,31 @@ class SwitchChannelSuggestion extends Suggestion {
             );
         }
 
+        let tag = null;
+        if (channel.type === Constants.DM_CHANNEL) {
+            var teammate = Utils.getDirectTeammate(channel.id);
+            if (teammate && teammate.is_bot) {
+                tag = (
+                    <div className='bot-indicator bot-indicator__autocomplete'>
+                        <FormattedMessage
+                            id='post_info.bot'
+                            defaultMessage='BOT'
+                        />
+                    </div>
+                );
+            }
+        }
+
         return (
             <div
                 onClick={this.handleClick}
                 className={className}
+                id={`switchChannel_${channel.name}`}
                 {...Suggestion.baseProps}
             >
                 {icon}
                 {displayName}
+                {tag}
                 {badge}
             </div>
         );
@@ -371,7 +391,7 @@ export default class SwitchChannelProvider extends Provider {
                 } else if (newChannel.type === Constants.GM_CHANNEL) {
                     newChannel.name = getChannelDisplayName(newChannel);
                     wrappedChannel.name = newChannel.name;
-                    const isGMVisible = getBool(getState(), Preferences.CATEGORY_GROUP_CHANNEL_SHOW, newChannel.id, false);
+                    const isGMVisible = isGroupChannelVisible(config, getMyPreferences(state), channel, getLastPostPerChannel(state)[channel.id], isUnreadChannel(getMyChannelMemberships(state), channel));
                     if (isGMVisible) {
                         wrappedChannel.type = Constants.MENTION_CHANNELS;
                     } else {
