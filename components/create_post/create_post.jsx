@@ -258,6 +258,7 @@ export default class CreatePost extends React.Component {
             showConfirmModal: false,
             channelTimezoneCount: 0,
             uploadsProgressPercent: {},
+            renderScrollbar: false,
             orientation: null,
         };
 
@@ -1023,6 +1024,10 @@ export default class CreatePost extends React.Component {
         return message.trim().length !== 0 || fileInfos.length !== 0;
     }
 
+    handleHeightChange = (height, maxHeight) => {
+        this.setState({renderScrollbar: height > maxHeight});
+    }
+
     render() {
         const {
             currentChannel,
@@ -1034,6 +1039,7 @@ export default class CreatePost extends React.Component {
         } = this.props;
         const {formatMessage} = this.context.intl;
         const members = currentChannelMembersCount - 1;
+        const {renderScrollbar} = this.state;
 
         const notifyAllTitle = (
             <FormattedMessage
@@ -1183,6 +1189,11 @@ export default class CreatePost extends React.Component {
             );
         }
 
+        let scrollbarClass = '';
+        if (renderScrollbar) {
+            scrollbarClass = ' scroll';
+        }
+
         return (
             <form
                 id='create_post'
@@ -1191,7 +1202,7 @@ export default class CreatePost extends React.Component {
                 className={centerClass}
                 onSubmit={this.handleSubmit}
             >
-                <div className={'post-create' + attachmentsDisabled}>
+                <div className={'post-create' + attachmentsDisabled + scrollbarClass}>
                     <div className='post-create-body'>
                         <div className='post-body__cell'>
                             <Textbox
@@ -1199,6 +1210,7 @@ export default class CreatePost extends React.Component {
                                 onKeyPress={this.postMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
                                 onComposition={this.emitTypingEvent}
+                                onHeightChange={this.handleHeightChange}
                                 handlePostError={this.handlePostError}
                                 value={readOnlyChannel ? '' : this.state.message}
                                 onBlur={this.handleBlur}

@@ -51,11 +51,19 @@ export default class AutosizeTextarea extends React.Component {
         this.refs.textarea.blur();
     }
 
+    componentDidMount() {
+        this.recalculateSize();
+    }
+
     componentDidUpdate() {
         this.recalculateSize();
     }
 
     recalculateSize = () => {
+        if (!this.refs.reference || !this.refs.textarea) {
+            return;
+        }
+
         const height = this.refs.reference.scrollHeight;
 
         if (height > 0 && height !== this.height) {
