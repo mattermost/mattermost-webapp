@@ -116,8 +116,10 @@ export default class ChannelHeader extends React.PureComponent {
         if (header !== prevHeader) {
             this.props.actions.getCustomEmojisInText(header);
         }
-        if (this.props.dmUser !== prevProps.dmUser && this.props.dmUser) {
-            this.props.actions.loadBot(this.props.dmUser.id);
+        const dmUser = this.props.dmUser;
+        const prevDmUser = prevProps.dmUser || {};
+        if (dmUser && dmUser.id !== prevDmUser.id && dmUser.is_bot) {
+            this.props.actions.loadBot(dmUser.id);
         }
     }
 
