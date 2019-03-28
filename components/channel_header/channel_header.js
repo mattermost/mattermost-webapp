@@ -504,14 +504,19 @@ export default class ChannelHeader extends React.PureComponent {
 
         let title = (
             <MenuWrapper>
-                <div id='channelHeaderDropdownButton'>
+                <div
+                    id='channelHeaderDropdownButton'
+                    className='channel-header__top'
+                >
                     {toggleFavorite}
                     <strong
                         id='channelHeaderTitle'
                         className='heading'
                     >
-                        {archivedIcon}
-                        {channelTitle}
+                        <span>
+                            {archivedIcon}
+                            {channelTitle}
+                        </span>
                     </strong>
                     <span
                         id='channelHeaderDropdownIcon'
@@ -524,14 +529,19 @@ export default class ChannelHeader extends React.PureComponent {
         );
         if (isDirect && dmUser.is_bot) {
             title = (
-                <div id='channelHeaderDropdownButton'>
+                <div
+                    id='channelHeaderDropdownButton'
+                    className='channel-header__top'
+                >
                     {toggleFavorite}
                     <strong
                         id='channelHeaderTitle'
                         className='heading'
                     >
-                        {archivedIcon}
-                        {channelTitle}
+                        <span>
+                            {archivedIcon}
+                            {channelTitle}
+                        </span>
                     </strong>
                     <div className='bot-indicator bot-indicator__popoverlist'>
                         <FormattedMessage
