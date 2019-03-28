@@ -163,7 +163,6 @@ export default class PostList extends React.PureComponent {
         }
 
         if (prevProps.channelLoading && !this.props.channelLoading) {
-            this.currentChannelId = this.props.channel.id;
             this.loadPosts(this.props.channel.id, this.props.focusedPostId);
         }
     }
