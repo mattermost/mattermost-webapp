@@ -15,45 +15,26 @@ describe('Header', () => {
     });
 
     it('M13564 Ellipsis indicates the channel header is too long', () => {
-        // 2. Open channel header textbox
-        cy.get('#channelHeaderDropdownButton').should('be.visible').click();
-        cy.get('#channelHeaderDropdownMenu').should('be.visible').find('#channelEditHeader').click();
-
-        // 3. Enter short description
-        cy.get('#edit_textbox').clear().type('> newheader').type('{enter}').wait(500);
+        // 2. Update channel header text
+        cy.updateChannelHeader('> newheader');
 
         // * Check if channel header description has no ellipsis
         cy.get('#channelHeaderDescription').ellipsis(false);
 
-        // 4. Open channel header textbox
-        cy.get('#channelHeaderDropdownButton').should('be.visible').click();
-        cy.get('#channelHeaderDropdownMenu').should('be.visible').find('#channelEditHeader').click();
-
-        // 5. Enter long description
-        cy.get('#edit_textbox').clear().type('>').type(' newheader'.repeat(20)).type('{enter}').wait(500);
+        // 3. Update channel header text to a long string
+        cy.updateChannelHeader('>' + ' newheader'.repeat(20));
 
         // * Check if channel header description has ellipsis
         cy.get('#channelHeaderDescription').ellipsis(true);
     });
 
-    it('MM-14730 - Validate that channel header displays quote correctly', () => {
-        // 2. Open channel header textbox
-        cy.get('#channelHeaderDropdownButton').
-            should('be.visible').
-            click();
-        cy.get('#channelHeaderDropdownMenu').
-            should('be.visible').
-            find('#channelEditHeader').
-            click();
+    it('CS14730 - Channel Header: Markdown quote', () => {
+        // 2. Update channel header text
+        const header = 'This is a quote in the header';
+        cy.updateChannelHeader('>' + header);
 
-        // 3. Enter description with a quote markdown
-        cy.get('#edit_textbox').
-            clear().
-            type('>This is a quote in the header').
-            type('{enter}').
-            wait(500);
-
-        // 4. Make sure that description contains a blockquote sign
+        // * Make sure that description contains a blockquote sign
         cy.get('#channelHeaderDescription > span > blockquote').should('be.visible');
+        cy.get('#channelHeaderDescription').should('have.html', `<span><blockquote> <p class="markdown__paragraph-inline">${header}</p></blockquote></span>`);
     });
 });

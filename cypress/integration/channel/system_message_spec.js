@@ -55,22 +55,10 @@ describe('System Message', () => {
     });
 
     it('MM-14636 - Validate that system message is wrapping properly', () => {
-        // 2. Open channel header textbox
-        cy.get('#channelHeaderDropdownButton').
-            should('be.visible').
-            click();
-        cy.get('#channelHeaderDropdownMenu').
-            should('be.visible').
-            find('#channelEditHeader').
-            click();
+        // 2. Update channel header textbox
+        cy.updateChannelHeader('> newheader');
 
-        // 3. Enter short description
-        cy.get('#edit_textbox').
-            clear().
-            type('> newheader').
-            type('{enter}').
-            wait(500);
-
+        // * Check the status update
         cy.getLastPost().
             should('contain', 'System').
             and('contain', '@user-1 updated the channel header from:').
@@ -81,23 +69,10 @@ describe('System Message', () => {
         };
         cy.getLastPost().then(validateSingle);
 
-        // 4. Open channel header textbox
-        cy.get('#channelHeaderDropdownButton').
-            should('be.visible').
-            click();
-        cy.get('#channelHeaderDropdownMenu').
-            should('be.visible').
-            find('#channelEditHeader').
-            click();
+        // 3. Update the status to a long string
+        cy.updateChannelHeader('>' + ' newheader'.repeat(20));
 
-        // 5. Enter long description
-        cy.get('#edit_textbox').
-            clear().
-            type('>').
-            type(' newheader'.repeat(20)).
-            type('{enter}').
-            wait(500);
-
+        // * Check that the status is updated and is spread on more than one line
         cy.getLastPost().
             should('contain', 'System').
             and('contain', '@user-1 updated the channel header from:').
