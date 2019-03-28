@@ -35,4 +35,25 @@ describe('Header', () => {
         // * Check if channel header description has ellipsis
         cy.get('#channelHeaderDescription').ellipsis(true);
     });
+
+    it('MM-14730 - Validate that channel header displays quote correctly', () => {
+        // 2. Open channel header textbox
+        cy.get('#channelHeaderDropdownButton').
+            should('be.visible').
+            click();
+        cy.get('#channelHeaderDropdownMenu').
+            should('be.visible').
+            find('#channelEditHeader').
+            click();
+
+        // 3. Enter description with a quote markdown
+        cy.get('#edit_textbox').
+            clear().
+            type('>This is a quote in the header').
+            type('{enter}').
+            wait(500);
+
+        // 4. Make sure that description contains a blockquote sign
+        cy.get('#channelHeaderDescription > span > blockquote').should('be.visible');
+    });
 });
