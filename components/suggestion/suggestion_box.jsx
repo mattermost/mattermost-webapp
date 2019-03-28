@@ -317,7 +317,7 @@ export default class SuggestionBox extends React.Component {
         const textbox = this.getTextbox();
         const pretext = textbox.value.substring(0, textbox.selectionStart) + e.data;
 
-        this.pretext = pretext;
+        this.handlePretextChanged(pretext);
         if (this.props.onComposition) {
             this.props.onComposition();
         }
