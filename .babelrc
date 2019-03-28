@@ -9,6 +9,7 @@
                 safari: 12,
             },
             modules: false,
+            corejs: 2,
             debug: false,
             useBuiltIns: 'usage',
             shippedProposals: true,
