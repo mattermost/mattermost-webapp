@@ -111,31 +111,16 @@ export default class SearchChannelWithPermissionsProvider extends Provider {
             const channelId = channel.id;
             const teamId = getCurrentTeamId(state);
 
-            const canManagePublicChannels = haveIChannelPermission(
-                state,
-                {
-                    channel: channelId,
-                    team: teamId,
-                    permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
-                }
-            );
-            const canManagePrivateChannels = haveIChannelPermission(
-                state,
-                {
-                    channel: channelId,
-                    team: teamId,
-                    permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
-                }
-            );
-
             const searchString = channel.display_name;
 
-            if (canManagePublicChannels && channel.type === Constants.OPEN_CHANNEL) {
+            if (channel.type === Constants.OPEN_CHANNEL &&
+                haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS})) {
+                return searchString.toLowerCase().includes(channelPrefixLower);
+            } else if (channel.type === Constants.PRIVATE_CHANNEL &&
+                haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS})) {
                 return searchString.toLowerCase().includes(channelPrefixLower);
             }
-            if (canManagePrivateChannels && channel.type === Constants.PRIVATE_CHANNEL) {
-                return searchString.toLowerCase().includes(channelPrefixLower);
-            }
+
             return false;
         };
     }
