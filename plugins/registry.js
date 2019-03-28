@@ -288,6 +288,33 @@ export default class PluginRegistry {
         unregisterPluginReconnectHandler(this.id);
     }
 
+    // Register a hook that will be called when a message is posted by the user before it
+    // is sent to the server. Accepts a function that receives the post as an argument.
+    //
+    // To reject a post, return an object containing an error such as
+    //     {error: {message: 'Rejected'}}
+    // To modify or allow the post without modifcation, return an object containing the post
+    // such as
+    //     {post: {...}}
+    //
+    // If the hook function is asynchronous, the message will not be sent to the server
+    // until the hook returns.
+    registerMessageWillBePostedHook(hook) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'MessageWillBePosted',
+            data: {
+                id,
+                pluginId: this.id,
+                hook,
+            },
+        });
+
+        return id;
+    }
+
     // Register a hook that will be called before a message is formatted into Markdown.
     // Accepts a function that receives the unmodified post and the message (potentially
     // already modified by other hooks) as arguments. This function must return a string
@@ -303,6 +330,30 @@ export default class PluginRegistry {
                 id,
                 pluginId: this.id,
                 hook,
+            },
+        });
+
+        return id;
+    }
+
+    // Register a component to override file previews. Accepts a function to run before file is
+    // previewed and a react component to be rendered as the file preview.
+    // - override - A function to check whether preview needs to be overridden. Receives fileInfo and post as arguments.
+    // Returns true is preview should be overridden and false otherwise.
+    // - component - A react component to display instead of original preview. Receives fileInfo and post as props.
+    // Returns a unique identifier.
+    // Only one plugin can override a file preview at a time. If two plugins try to override the same file preview, the first plugin will perform the override and the second will not. Plugin precedence is ordered alphabetically by plugin ID.
+    registerFilePreviewComponent(override, component) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'FilePreview',
+            data: {
+                id,
+                pluginId: this.id,
+                override,
+                component,
             },
         });
 

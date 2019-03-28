@@ -4,11 +4,11 @@
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
-import exif2css from 'exif2css';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {Constants} from 'utils/constants.jsx';
 import {fileSizeToString, localizeMessage} from 'utils/utils.jsx';
+import * as FileUtils from 'utils/file_utils.jsx';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 import FormError from 'components/form_error.jsx';
@@ -99,8 +99,8 @@ export default class SettingPicture extends Component {
 
             var reader = new FileReader();
             reader.onload = (e) => {
-                const orientation = this.getExifOrientation(e.target.result);
-                const orientationStyles = this.getOrientationStyles(orientation);
+                const orientation = FileUtils.getExifOrientation(e.target.result);
+                const orientationStyles = FileUtils.getOrientationStyles(orientation);
 
                 this.setState({
                     image: this.previewBlob,
@@ -109,53 +109,6 @@ export default class SettingPicture extends Component {
             };
             reader.readAsArrayBuffer(file);
         }
-    }
-
-    // based on https://stackoverflow.com/questions/7584794/accessing-jpeg-exif-rotation-data-in-javascript-on-the-client-side/32490603#32490603
-    getExifOrientation(data) {
-        var view = new DataView(data);
-
-        if (view.getUint16(0, false) !== 0xFFD8) {
-            return -2;
-        }
-
-        var length = view.byteLength;
-        var offset = 2;
-
-        while (offset < length) {
-            var marker = view.getUint16(offset, false);
-            offset += 2;
-
-            if (marker === 0xFFE1) {
-                if (view.getUint32(offset += 2, false) !== 0x45786966) {
-                    return -1;
-                }
-
-                var little = view.getUint16(offset += 6, false) === 0x4949;
-                offset += view.getUint32(offset + 4, little);
-                var tags = view.getUint16(offset, little);
-                offset += 2;
-
-                for (var i = 0; i < tags; i++) {
-                    if (view.getUint16(offset + (i * 12), little) === 0x0112) {
-                        return view.getUint16(offset + (i * 12) + 8, little);
-                    }
-                }
-            } else if ((marker & 0xFF00) === 0xFF00) {
-                offset += view.getUint16(offset, false);
-            } else {
-                break;
-            }
-        }
-        return -1;
-    }
-
-    getOrientationStyles(orientation) {
-        const {
-            transform,
-            'transform-origin': transformOrigin,
-        } = exif2css(orientation);
-        return {transform, transformOrigin};
     }
 
     renderImg = () => {

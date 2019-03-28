@@ -208,6 +208,8 @@ export default class CreatePost extends React.Component {
             */
             clearDraftUploads: PropTypes.func.isRequired,
 
+            runMessageWillBePostedHooks: PropTypes.func.isRequired,
+
             /**
             *  func called for setting drafts
             */
@@ -257,6 +259,7 @@ export default class CreatePost extends React.Component {
             channelTimezoneCount: 0,
             uploadsProgressPercent: {},
             renderScrollbar: false,
+            orientation: null,
         };
 
         this.lastBlurAt = 0;
@@ -272,6 +275,7 @@ export default class CreatePost extends React.Component {
             }
             return value;
         });
+        this.onOrientationChange();
 
         // wait to load these since they may have changed since the component was constructed (particularly in the case of skipping the tutorial)
         this.setState({
@@ -283,6 +287,7 @@ export default class CreatePost extends React.Component {
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
+        this.setOrientationListeners();
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -307,6 +312,46 @@ export default class CreatePost extends React.Component {
     componentWillUnmount() {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
+        this.removeOrientationListeners();
+    }
+
+    setOrientationListeners = () => {
+        if ((window.screen.orientation) && ('onchange' in window.screen.orientation)) {
+            window.screen.orientation.addEventListener('change', this.onOrientationChange);
+        } else if ('onorientationchange' in window) {
+            window.addEventListener('orientationchange', this.onOrientationChange);
+        }
+    };
+
+    removeOrientationListeners = () => {
+        if ((window.screen.orientation) && ('onchange' in window.screen.orientation)) {
+            window.screen.orientation.removeEventListener('change', this.onOrientationChange);
+        } else if ('onorientationchange' in window) {
+            window.removeEventListener('orientationchange', this.onOrientationChange);
+        }
+    };
+
+    onOrientationChange = () => {
+        if (!UserAgent.isIosWeb()) {
+            return;
+        }
+
+        //Hide keyboard on iOS when orientation changes
+        const {orientation: prevOrientation} = this.state;
+        const LANDSCAPE_ANGLE = 90;
+        let orientation = 'portrait';
+        if (window.orientation) {
+            orientation = Math.abs(window.orientation) === LANDSCAPE_ANGLE ? 'landscape' : 'portrait';
+        }
+
+        if (window.screen.orientation) {
+            orientation = window.screen.orientation.type.split('-')[0];
+        }
+
+        this.setState({orientation});
+        if (prevOrientation && orientation !== prevOrientation && (document.activeElement || {}).id === 'post_textbox') {
+            this.refs.textbox.blur();
+        }
     }
 
     handlePostError = (postError) => {
@@ -321,7 +366,7 @@ export default class CreatePost extends React.Component {
         this.setState({showEmojiPicker: false});
     }
 
-    doSubmit = (e) => {
+    doSubmit = async (e) => {
         const channelId = this.props.currentChannel.id;
         if (e) {
             e.preventDefault();
@@ -366,35 +411,37 @@ export default class CreatePost extends React.Component {
             const args = {};
             args.channel_id = channelId;
             args.team_id = this.props.currentTeamId;
-            this.props.actions.executeCommand(post.message, args).then(
-                ({error}) => {
-                    this.setState({submitting: false});
-                    if (error) {
-                        if (error.sendMessage) {
-                            this.sendMessage(post);
-                        } else {
-                            this.setState({
-                                serverError: {
-                                    ...error,
-                                    submittedMessage: post.message,
-                                },
-                                message: post.message,
-                            });
-                        }
-                    }
+
+            const {error} = await this.props.actions.executeCommand(post.message, args);
+
+            if (error) {
+                if (error.sendMessage) {
+                    await this.sendMessage(post);
+                } else {
+                    this.setState({
+                        serverError: {
+                            ...error,
+                            submittedMessage: post.message,
+                        },
+                        message: post.message,
+                    });
                 }
-            );
+            }
         } else if (isReaction && this.props.emojiMap.has(isReaction[2])) {
             this.sendReaction(isReaction);
+
+            this.setState({message: ''});
         } else {
-            this.sendMessage(post);
+            const {error} = await this.sendMessage(post);
+
+            if (!error) {
+                this.setState({message: ''});
+            }
         }
 
         this.setState({
-            message: '',
             submitting: false,
             postError: null,
-            serverError: null,
             enableSendButton: false,
         });
 
@@ -505,16 +552,18 @@ export default class CreatePost extends React.Component {
             return;
         }
 
-        this.doSubmit(e);
+        await this.doSubmit(e);
     }
 
-    sendMessage = (post) => {
+    sendMessage = async (originalPost) => {
         const {
             actions,
             currentChannel,
             currentUserId,
             draft,
         } = this.props;
+
+        let post = originalPost;
 
         post.channel_id = currentChannel.id;
 
@@ -525,11 +574,26 @@ export default class CreatePost extends React.Component {
         post.create_at = time;
         post.parent_id = this.state.parentId;
 
+        const hookResult = await actions.runMessageWillBePostedHooks(post);
+
+        if (hookResult.error) {
+            this.setState({
+                serverError: hookResult.error,
+                submitting: false,
+            });
+
+            return hookResult;
+        }
+
+        post = hookResult.data;
+
         actions.onSubmitPost(post, draft.fileInfos);
 
         this.setState({
             submitting: false,
         });
+
+        return {data: true};
     }
 
     sendReaction(isReaction) {

@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/new_message_separator should render new_message_separator 1`] = `
+<div
+  className="new-separator"
+  id="1234"
+>
+  <hr
+    className="separator__hr"
+  />
+  <div
+    className="separator__text"
+  >
+    <FormattedMessage
+      defaultMessage="New Messages"
+      id="posts_view.newMsg"
+      values={Object {}}
+    />
+  </div>
+</div>
+`;

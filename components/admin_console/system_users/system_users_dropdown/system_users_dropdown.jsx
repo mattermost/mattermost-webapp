@@ -337,7 +337,7 @@ export default class SystemUsersDropdown extends React.Component {
         let showMakeNotActive = !Utils.isSystemAdmin(user.roles);
         let showManageTeams = true;
         let showRevokeSessions = true;
-        const showMfaReset = this.props.mfaEnabled && user.mfa_active;
+        const showMfaReset = this.props.mfaEnabled && user.mfa_active && !user.is_bot;
 
         if (user.delete_at > 0) {
             currentRoles = (
@@ -376,13 +376,13 @@ export default class SystemUsersDropdown extends React.Component {
                         >
                             {this.renderAccessToken()}
                             <MenuItemAction
-                                show={showMakeActive}
+                                show={showMakeActive && !user.is_bot}
                                 onClick={this.handleMakeActive}
                                 text={Utils.localizeMessage('admin.user_item.makeActive', 'Activate')}
                                 disabled={disableActivationToggle}
                             />
                             <MenuItemAction
-                                show={showMakeNotActive}
+                                show={showMakeNotActive && !user.is_bot}
                                 onClick={this.handleShowDeactivateMemberModal}
                                 text={Utils.localizeMessage('admin.user_item.makeInactive', 'Deactivate')}
                                 disabled={disableActivationToggle}
@@ -407,23 +407,23 @@ export default class SystemUsersDropdown extends React.Component {
                                 text={Utils.localizeMessage('admin.user_item.resetMfa', 'Remove MFA')}
                             />
                             <MenuItemAction
-                                show={user.auth_service && this.props.experimentalEnableAuthenticationTransfer}
+                                show={user.auth_service && this.props.experimentalEnableAuthenticationTransfer && !user.is_bot}
                                 onClick={this.handleResetPassword}
                                 text={Utils.localizeMessage('admin.user_item.switchToEmail', 'Switch to Email/Password')}
                             />
                             <MenuItemAction
-                                show={!user.auth_service}
+                                show={!user.auth_service && !user.is_bot}
                                 onClick={this.handleResetPassword}
                                 text={Utils.localizeMessage('admin.user_item.resetPwd', 'Reset Password')}
                             />
                             <MenuItemAction
-                                show={!user.auth_service}
+                                show={!user.auth_service && !user.is_bot}
                                 onClick={this.handleResetEmail}
                                 text={Utils.localizeMessage('admin.user_item.resetEmail', 'Update Email')}
                             />
                             <SystemPermissionGate permissions={[Permissions.REVOKE_USER_ACCESS_TOKEN]}>
                                 <MenuItemAction
-                                    show={showRevokeSessions}
+                                    show={showRevokeSessions && !user.is_bot}
                                     onClick={this.handleShowRevokeSessionsModal}
                                     text={Utils.localizeMessage('admin.user_item.revokeSessions', 'Revoke Sessions')}
                                 />

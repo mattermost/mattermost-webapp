@@ -9,7 +9,10 @@ export default class FloatingTimestamp extends React.PureComponent {
     static propTypes = {
         isScrolling: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool,
-        createAt: PropTypes.number,
+        createAt: PropTypes.oneOfType([
+            PropTypes.instanceOf(Date),
+            PropTypes.number,
+        ]).isRequired,
         isRhsPost: PropTypes.bool,
     }
 

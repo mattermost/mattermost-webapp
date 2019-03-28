@@ -76,6 +76,11 @@ export default class SidebarChannel extends React.PureComponent {
         channelTeammateDeletedAt: PropTypes.number,
 
         /**
+         * Teammate is_bot (for direct messages)
+         */
+        channelTeammateIsBot: PropTypes.bool,
+
+        /**
          * Whether the channel contains a draft in the center channel
          */
         hasDraft: PropTypes.bool.isRequired,
@@ -296,6 +301,7 @@ export default class SidebarChannel extends React.PureComponent {
                     membersCount={this.props.membersCount}
                     teammateId={this.props.channelTeammateId}
                     teammateDeletedAt={this.props.channelTeammateDeletedAt}
+                    teammateIsBot={this.props.channelTeammateIsBot}
                     channelIsArchived={this.props.channelIsArchived}
                 />
                 {tutorialTip}

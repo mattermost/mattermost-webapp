@@ -22,10 +22,16 @@ describe('components/integrations/ConfirmIntegration', () => {
         client_secret: '<==secret==>',
         callback_urls: 'someCallback',
     };
+    const userId = 'b5tpgt4iepf45jt768jz84djhd';
+    const bot = {
+        user_id: userId,
+        display_name: 'bot',
+    };
     const commands = {[id]: {id, token}};
     const oauthApps = {[id]: oauthApp};
     const incomingHooks = {[id]: {id}};
     const outgoingHooks = {[id]: {id, token}};
+    const bots = {[userId]: bot};
 
     const props = {
         team,
@@ -34,6 +40,7 @@ describe('components/integrations/ConfirmIntegration', () => {
         oauthApps,
         incomingHooks,
         outgoingHooks,
+        bots,
     };
 
     test('should match snapshot, oauthApps case', () => {

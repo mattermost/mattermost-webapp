@@ -302,7 +302,19 @@ export default class MoreDirectChannels extends React.Component {
             rowSelected = 'more-modal__row--selected';
         }
 
-        const status = option.delete_at ? null : this.props.statuses[option.id];
+        const status = option.delete_at || option.is_bot ? null : this.props.statuses[option.id];
+
+        let tag = null;
+        if (option.is_bot) {
+            tag = (
+                <div className='bot-indicator bot-indicator__popoverlist'>
+                    <FormattedMessage
+                        id='post_info.bot'
+                        defaultMessage='BOT'
+                    />
+                </div>
+            );
+        }
 
         return (
             <div
@@ -322,6 +334,7 @@ export default class MoreDirectChannels extends React.Component {
                 >
                     <div className='more-modal__name'>
                         {modalName}
+                        {tag}
                     </div>
                     <div className='more-modal__description'>
                         {option.email}

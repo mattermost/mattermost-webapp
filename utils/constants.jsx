@@ -576,6 +576,15 @@ export const Locations = {
     SEARCH: 'SEARCH',
 };
 
+export const PostListRowListIds = {
+    DATE_LINE: 'date-',
+    START_OF_NEW_MESSAGES: 'START_OF_NEW_MESSAGES',
+    CHANNEL_INTRO_MESSAGE: 'CHANNEL_INTRO_MESSAGE',
+    MORE_MESSAGES_LOADER: 'MORE_MESSAGES_LOADER',
+    MAX_MESSAGES_LOADED: 'MAX_MESSAGES_LOADED',
+    MANUAL_TRIGGER_LOAD_MESSAGES: 'MANUAL_TRIGGER_LOAD_MESSAGES',
+};
+
 export const Constants = {
     SettingsTypes,
     JobTypes,
@@ -591,7 +600,7 @@ export const Constants = {
     AnnouncementBarMessages,
     FileTypes,
     Locations,
-
+    PostListRowListIds,
     MAX_POST_VISIBILITY: 1000000,
 
     IGNORE_POST_TYPES: [PostTypes.JOIN_LEAVE, PostTypes.JOIN_TEAM, PostTypes.LEAVE_TEAM, PostTypes.JOIN_CHANNEL, PostTypes.LEAVE_CHANNEL, PostTypes.REMOVE_FROM_CHANNEL, PostTypes.ADD_REMOVE],
@@ -1161,6 +1170,7 @@ export const Constants = {
         INCOMING_WEBHOOK: 'incoming_webhooks',
         OUTGOING_WEBHOOK: 'outgoing_webhooks',
         OAUTH_APP: 'oauth2-apps',
+        BOT: 'bots',
     },
     FeatureTogglePrefix: 'feature_enabled_',
     PRE_RELEASE_FEATURES: {
@@ -1233,6 +1243,8 @@ export const Constants = {
     TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
     TRIPLE_BACK_TICKS: /```/g,
 };
+
+export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
 
 t('suggestion.mention.channels');
 t('suggestion.mention.morechannels');

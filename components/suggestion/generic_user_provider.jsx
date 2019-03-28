@@ -4,6 +4,8 @@
 import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 
+import {FormattedMessage} from 'react-intl';
+
 import {autocompleteUsers} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -30,6 +32,18 @@ class UserSuggestion extends Suggestion {
             description = `- ${Utils.getFullName(item)}`;
         }
 
+        let tag = null;
+        if (item.is_bot) {
+            tag = (
+                <div className='bot-indicator'>
+                    <FormattedMessage
+                        id='post_info.bot'
+                        defaultMessage='BOT'
+                    />
+                </div>
+            );
+        }
+
         return (
             <div
                 className={className}
@@ -43,6 +57,7 @@ class UserSuggestion extends Suggestion {
                 <span className='admin-setting-user--align'>
                     {'@' + username}
                 </span>
+                {tag}
                 <span className='admin-setting-user__fullname'>
                     {' '}
                     {description}
