@@ -122,7 +122,7 @@ export default class AutosizeTextarea extends React.Component {
                     {...otherProps}
                     style={style.placeholder}
                 >
-                    {this.props.placeholder}
+                    {placeholder}
                 </div>
             );
         }

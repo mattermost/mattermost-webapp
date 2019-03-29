@@ -20,21 +20,6 @@
         background: #ffffac !important;
         color: #d04444 !important;
     }
-
-    &.custom-textarea--placeholder {
-        white-space: nowrap;
-        max-height: 46px !important;
-
-        &:after {
-            content: '';
-            position: absolute;
-            display: block;
-            right: 0;
-            top: 0;
-            width: 80px;
-            height: 100%;
-        }
-    }
 }
 
 .textarea-wrapper {
