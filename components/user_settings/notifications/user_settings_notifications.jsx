@@ -861,21 +861,19 @@ export default class NotificationsTab extends React.Component {
                 );
 
                 autoResponderSection = (
-                    <div>
-                        <SettingItemMin
-                            title={
-                                <FormattedMessage
-                                    id='user.settings.notifications.autoResponder'
-                                    defaultMessage='Automatic Direct Message Replies'
-                                />
-                            }
-                            width='medium'
-                            describe={describe}
-                            section={'auto-responder'}
-                            updateSection={this.updateSection}
-                        />
-                        <div className='divider-dark'/>
-                    </div>
+
+                    <SettingItemMin
+                        title={
+                            <FormattedMessage
+                                id='user.settings.notifications.autoResponder'
+                                defaultMessage='Automatic Direct Message Replies'
+                            />
+                        }
+                        width='medium'
+                        describe={describe}
+                        section={'auto-responder'}
+                        updateSection={this.updateSection}
+                    />
                 );
             }
         }
