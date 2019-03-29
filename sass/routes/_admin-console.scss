@@ -231,6 +231,16 @@
             padding: 1.2em;
         }
 
+        code {
+            background: $bg--gray;
+        }
+
+        p {
+            &:last-child {
+                margin: 0 0 2px;
+            }
+        }
+
         .banner__url {
             background: alpha-color($black, .07);
             border-radius: 2px;
