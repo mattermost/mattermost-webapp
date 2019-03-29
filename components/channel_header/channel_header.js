@@ -272,6 +272,7 @@ export default class ChannelHeader extends React.PureComponent {
         if (Utils.isEmptyObject(channel) ||
             Utils.isEmptyObject(channelMember) ||
             Utils.isEmptyObject(currentUser) ||
+            (!dmUser && channel.type === Constants.DM_CHANNEL) ||
             (dmUser && dmUser.is_bot && !dmBot)
         ) {
             // Use an empty div to make sure the header's height stays constant
