@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {tween, styler, composite, delay, chain} from 'popmotion';
+import {tween, styler} from 'popmotion';
 import {CSSTransition} from 'react-transition-group';
 
 const ANIMATION_DURATION = 180;
@@ -16,40 +16,12 @@ export default class MenuWrapperAnimation extends React.PureComponent {
 
     onEntering = (node) => {
         const nodeStyler = styler(node);
-
-        composite({
-            opacity: tween({from: 0, to: 1, duration: ANIMATION_DURATION}),
-        }).start({
-            update: (v) => nodeStyler.set({
-                ...v,
-                overflowY: 'hidden',
-            }),
-            complete: () => {
-                nodeStyler.set({
-                    overflowY: null,
-                    opacity: null,
-                });
-            },
-        });
+        tween({from: {opacity: 0}, to: {opacity: 1}, duration: ANIMATION_DURATION}).start(nodeStyler.set);
     }
 
     onExiting = (node) => {
-        node.style.overflowY = 'hidden';
         const nodeStyler = styler(node);
-        composite({
-            opacity: chain(delay(0), tween({from: 1, to: 0, duration: ANIMATION_DURATION})),
-        }).start({
-            update: (v) => nodeStyler.set({
-                ...v,
-                overflowY: 'hidden',
-            }),
-            complete: () => {
-                nodeStyler.set({
-                    overflowY: null,
-                    opacity: null,
-                });
-            },
-        });
+        tween({from: {opacity: 1}, to: {opacity: 0}, duration: ANIMATION_DURATION}).start(nodeStyler.set);
     }
 
     render() {
