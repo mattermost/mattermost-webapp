@@ -423,6 +423,25 @@ Cypress.Commands.add('updateUserPreference', (preferences = []) => {
 });
 
 /**
+ * Update channel header
+ * @param {String} text - Text to set the header to
+ */
+Cypress.Commands.add('updateChannelHeader', (text) => {
+    cy.get('#channelHeaderDropdownButton').
+        should('be.visible').
+        click();
+    cy.get('#channelHeaderDropdownMenu').
+        should('be.visible').
+        find('#channelEditHeader').
+        click();
+    cy.get('#edit_textbox').
+        clear().
+        type(text).
+        type('{enter}').
+        wait(500);
+});
+
+/**
  * Update teammate display mode preference of a user
  * @param {String} username - current user
  * @param {String} value - Either "username" (default) or "nickname_full_name" or "full_name"
