@@ -478,6 +478,7 @@ export default class PostList extends React.PureComponent {
                                         initScrollToIndex={this.initScrollToIndex}
                                         onNewItemsMounted={this.onNewItemsMounted}
                                         canLoadMorePosts={this.canLoadMorePosts}
+                                        skipResizeClass='col__reply'
                                     >
                                         {this.renderRow}
                                     </DynamicSizeList>
