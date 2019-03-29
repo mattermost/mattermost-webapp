@@ -19,7 +19,7 @@ describe('Message deletion', () => {
         // 1. Post message in center.
         cy.postMessage('test message deletion {enter}');
 
-        cy.getLastPostId().then((parentMessageId) => {
+        cy.getLastPostIdWithRetry().then((parentMessageId) => {
             // 2. Mouseover the post and click post comment icon.
             cy.clickPostCommentIcon();
 
@@ -29,7 +29,7 @@ describe('Message deletion', () => {
             // 3. Post a reply in RHS.
             cy.postMessageReplyInRHS('test message reply in RHS {enter}');
 
-            cy.getLastPostId().then((replyMessageId) => {
+            cy.getLastPostIdWithRetry().then((replyMessageId) => {
                 // 4. Click post dot menu in center.
                 cy.clickPostDotMenu(parentMessageId);
 
@@ -61,7 +61,7 @@ describe('Message deletion', () => {
                 cy.get(`#post_${replyMessageId}`).should('not.be.visible');
             });
 
-            cy.getLastPostId().then((replyMessageId) => {
+            cy.getLastPostIdWithRetry().then((replyMessageId) => {
                 // * Check that last message do not contain (message deleted)
                 cy.get(`#post_${replyMessageId}`).should('not.have', '(message deleted)');
             });

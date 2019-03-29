@@ -30,11 +30,11 @@ describe('Message Draft', () => {
         cy.get('#post_textbox').type('comm');
 
         //3. Go to another test channel without submitting the draft in the previous channel
-        cy.get('#sidebarItem_ratione-1').scrollIntoView();
-        cy.get('#sidebarItem_ratione-1').should('be.visible').click();
+        cy.get('#sidebarItem_autem-2').scrollIntoView();
+        cy.get('#sidebarItem_autem-2').should('be.visible').click();
 
         //* Validate if the newly navigated channel is open
-        cy.url().should('include', '/ad-1/channels/ratione-1');
+        cy.url().should('include', '/ad-1/channels/autem-2');
 
         //* Validate if the draft icon is visible on side bar on the previous channel with a draft
         cy.get('#sidebarItem_town-square #draftIcon').should('be.visible');

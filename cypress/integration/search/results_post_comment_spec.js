@@ -25,11 +25,11 @@ describe('Search', () => {
         cy.get('#searchBox').type(message).type('{enter}');
 
         // 4. Get last postId
-        cy.getLastPostId().then((postId) => {
+        cy.getLastPostIdWithRetry().then((postId) => {
             const postMessageText = `#postMessageText_${postId}`;
 
             // * Search results should have our original message
-            cy.get('#search-items-container').find(postMessageText).should('have.text', `${message}\n`);
+            cy.get('#search-items-container').find(postMessageText).should('have.text', `${message}`);
 
             // 5. Click on the reply button on the search result
             cy.clickPostCommentIcon(postId, 'SEARCH');
@@ -41,18 +41,18 @@ describe('Search', () => {
             cy.get('#rhsContainer').should('be.visible');
 
             // * Verify that the original message is in the RHS
-            cy.get('#rhsContainer').find(postMessageText).should('have.text', `${message}\n`);
+            cy.get('#rhsContainer').find(postMessageText).should('have.text', `${message}`);
         });
 
         // 7. Get the comment id
-        cy.getLastPostId().then((commentId) => {
+        cy.getLastPostIdWithRetry().then((commentId) => {
             const commentText = `#postMessageText_${commentId}`;
 
             // * Verify comment in RHS
-            cy.get('#rhsContainer').find(commentText).should('have.text', `${comment}\n`);
+            cy.get('#rhsContainer').find(commentText).should('have.text', `${comment}`);
 
             // * Verify comment main thread
-            cy.get('#postListContent').find(commentText).should('have.text', `${comment}\n`);
+            cy.get('#postListContent').find(commentText).should('have.text', `${comment}`);
         });
     });
 });
