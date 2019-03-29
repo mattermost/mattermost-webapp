@@ -110,14 +110,14 @@ export default class PostList extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.loadingPosts = false;
+        this.loadingMorePosts = false;
         this.extraPagesLoaded = 0;
 
         const channelIntroMessage = PostListRowListIds.CHANNEL_INTRO_MESSAGE;
         const isMobile = Utils.isMobile();
         this.state = {
             atEnd: false,
-            postsLoading: !props.posts || props.channelLoading,
+            loadingFirstSetOfPosts: !props.posts || props.channelLoading,
             isScrolling: false,
             lastViewed: props.lastViewedAt,
             autoRetryEnable: true,
@@ -242,7 +242,7 @@ export default class PostList extends React.PureComponent {
         if (this.mounted) {
             const atEnd = Boolean(posts && posts.order.length < POSTS_PER_PAGE);
             const newState = {
-                postsLoading: false,
+                loadingFirstSetOfPosts: false,
                 atEnd,
             };
 
@@ -251,6 +251,7 @@ export default class PostList extends React.PureComponent {
     }
 
     loadMorePosts = async () => {
+        this.loadingMorePosts = true;
         const {moreToLoad, error} = await this.props.actions.increasePostVisibility(this.props.channel.id, this.props.focusedPostId);
         if (error) {
             if (this.autoRetriesCount < MAX_NUMBER_OF_AUTO_RETRIES) {
@@ -260,7 +261,7 @@ export default class PostList extends React.PureComponent {
                 this.setState({autoRetryEnable: false});
             }
         } else {
-            this.loadingPosts = false;
+            this.loadingMorePosts = false;
             if (this.mounted && this.props.posts) {
                 const atEnd = !moreToLoad && this.props.posts.length < this.props.postVisibility;
                 const newState = {
@@ -296,11 +297,11 @@ export default class PostList extends React.PureComponent {
     }
 
     onScroll = ({scrollDirection, scrollOffset, scrollUpdateWasRequested}) => {
-        const isNotLoadingPosts = !this.state.postsLoading && !this.loadingPosts;
+        const isNotLoadingPosts = !this.state.loadingFirstSetOfPosts && !this.loadingMorePosts;
         const didUserScrollBackwards = scrollDirection === 'backward' && !scrollUpdateWasRequested;
         const isOffsetWithInRange = scrollOffset < 1000;
         if (isNotLoadingPosts && didUserScrollBackwards && isOffsetWithInRange && !this.state.atEnd) {
-            this.loadingPosts = true;
+            this.loadingMorePosts = true;
             this.loadMorePosts();
         }
 
@@ -399,7 +400,7 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        if (this.state.postsLoading || this.loadingPosts) {
+        if (this.state.loadingFirstSetOfPosts || this.loadingMorePosts) {
             // Should already be loading posts
             return;
         }
@@ -423,7 +424,7 @@ export default class PostList extends React.PureComponent {
     render() {
         const channel = this.props.channel;
 
-        if (this.state.postsLoading || channel == null) {
+        if (this.state.loadingFirstSetOfPosts || channel == null) {
             return (
                 <div id='post-list'>
                     <LoadingScreen
