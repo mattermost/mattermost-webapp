@@ -112,6 +112,7 @@ export default class PostList extends React.PureComponent {
 
         this.loadingPosts = false;
         this.extraPagesLoaded = 0;
+
         const channelIntroMessage = PostListRowListIds.CHANNEL_INTRO_MESSAGE;
         const isMobile = Utils.isMobile();
         this.state = {
@@ -260,7 +261,7 @@ export default class PostList extends React.PureComponent {
             }
         } else {
             this.loadingPosts = false;
-            if (this.mounted) {
+            if (this.mounted && this.props.posts) {
                 const atEnd = !moreToLoad && this.props.posts.length < this.props.postVisibility;
                 const newState = {
                     atEnd,
