@@ -317,6 +317,7 @@ export default class SystemUsersDropdown extends React.Component {
         if (!user) {
             return <div/>;
         }
+
         let currentRoles = (
             <FormattedMessage
                 id='admin.user_item.member'
@@ -365,16 +366,18 @@ export default class SystemUsersDropdown extends React.Component {
                 {deactivateMemberModal}
                 {revokeSessionsModal}
                 <MenuWrapper>
-                    <a>
-                        <span>{currentRoles} </span>
-                        <span className='caret'/>
-                    </a>
+                    <div className='text-right'>
+                        <a>
+                            <span>{currentRoles} </span>
+                            <span className='caret'/>
+                        </a>
+                        {this.renderAccessToken()}
+                    </div>
                     <div>
                         <Menu
                             openLeft={true}
                             ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
                         >
-                            {this.renderAccessToken()}
                             <MenuItemAction
                                 show={showMakeActive && !user.is_bot}
                                 onClick={this.handleMakeActive}
