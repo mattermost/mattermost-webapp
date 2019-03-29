@@ -165,9 +165,6 @@ function isMac() {
 
 Cypress.Commands.add('postMessage', (message) => {
     cy.get('#post_textbox').type(message).type('{enter}');
-
-    // add wait time to ensure that a post gets posted and not on pending state
-    cy.wait(500); // eslint-disable-line
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
@@ -176,11 +173,11 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
 });
 
 Cypress.Commands.add('getLastPost', () => {
-    return cy.get('#postListContent').children().last();
+    return cy.get('#postListContent [id^=post]:first');
 });
 
 Cypress.Commands.add('getLastPostId', () => {
-    return cy.get('#postListContent').children().last().invoke('attr', 'id').then((divPostId) => {
+    return cy.get('#postListContent [id^=post]:first').invoke('attr', 'id').then((divPostId) => {
         return divPostId.replace('post_', '');
     });
 });
@@ -238,21 +235,25 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file) => {
 // Post header
 // ***********************************************************
 
+function clickPostHeaderItem(postId, location, item) {
+    if (postId) {
+        cy.get(`#post_${postId}`).trigger('mouseover');
+        cy.get(`#${location}_${item}_${postId}`).scrollIntoView().click({force: true});
+    } else {
+        cy.getLastPostIdWithRetry().then((lastPostId) => {
+            cy.get(`#post_${lastPostId}`).trigger('mouseover');
+            cy.get(`#${location}_${item}_${lastPostId}`).scrollIntoView().click({force: true});
+        });
+    }
+}
+
 /**
  * Click post time
  * @param {String} postId - Post ID
  * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
  */
 Cypress.Commands.add('clickPostTime', (postId, location = 'CENTER') => {
-    if (postId) {
-        cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#${location}_time_${postId}`).click({force: true});
-    } else {
-        cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#${location}_time_${lastPostId}`).click({force: true});
-        });
-    }
+    clickPostHeaderItem(postId, location, 'time');
 });
 
 /**
@@ -261,15 +262,7 @@ Cypress.Commands.add('clickPostTime', (postId, location = 'CENTER') => {
  * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
  */
 Cypress.Commands.add('clickPostFlagIcon', (postId, location = 'CENTER') => {
-    if (postId) {
-        cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#${location}_flagIcon_${postId}`).click({force: true});
-    } else {
-        cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#${location}_flagIcon_${lastPostId}`).click({force: true});
-        });
-    }
+    clickPostHeaderItem(postId, location, 'flagIcon');
 });
 
 /**
@@ -278,15 +271,7 @@ Cypress.Commands.add('clickPostFlagIcon', (postId, location = 'CENTER') => {
  * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
  */
 Cypress.Commands.add('clickPostDotMenu', (postId, location = 'CENTER') => {
-    if (postId) {
-        cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#${location}_button_${postId}`).click({force: true});
-    } else {
-        cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#${location}_button_${lastPostId}`).click({force: true});
-        });
-    }
+    clickPostHeaderItem(postId, location, 'button');
 });
 
 /**
@@ -295,15 +280,7 @@ Cypress.Commands.add('clickPostDotMenu', (postId, location = 'CENTER') => {
  * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT'
  */
 Cypress.Commands.add('clickPostReactionIcon', (postId, location = 'CENTER') => {
-    if (postId) {
-        cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#${location}_reaction_${postId}`).click({force: true});
-    } else {
-        cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#${location}_reaction_${lastPostId}`).click({force: true});
-        });
-    }
+    clickPostHeaderItem(postId, location, 'reaction');
 });
 
 /**
@@ -313,15 +290,7 @@ Cypress.Commands.add('clickPostReactionIcon', (postId, location = 'CENTER') => {
  * @param {String} location - as 'CENTER', 'SEARCH'
  */
 Cypress.Commands.add('clickPostCommentIcon', (postId, location = 'CENTER') => {
-    if (postId) {
-        cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#${location}_commentIcon_${postId}`).click({force: true});
-    } else {
-        cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#${location}_commentIcon_${lastPostId}`).click({force: true});
-        });
-    }
+    clickPostHeaderItem(postId, location, 'commentIcon');
 });
 
 // Close RHS by clicking close button

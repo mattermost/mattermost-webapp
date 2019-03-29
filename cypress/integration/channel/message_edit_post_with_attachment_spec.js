@@ -36,7 +36,7 @@ describe('MM-13697 Edit Post with attachment', () => {
         cy.wait(500); // eslint-disable-line
 
         // 7. Get last post ID
-        cy.getLastPostId().then((postID) => {
+        cy.getLastPostIdWithRetry().then((postID) => {
             // 8. click  dot menu button
             cy.clickPostDotMenu();
 
