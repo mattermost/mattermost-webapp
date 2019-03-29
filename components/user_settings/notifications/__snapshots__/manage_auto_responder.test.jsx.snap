@@ -383,7 +383,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                       id="autoResponderMessageInput"
                       maxLength={200}
                       onChange={[Function]}
-                      placeholder="Message"
                       rows="5"
                       style={
                         Object {
@@ -406,7 +405,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                         id="autoResponderMessageInput-reference"
                         maxLength={200}
                         onChange={[Function]}
-                        placeholder="Message"
                         rows="5"
                         style={
                           Object {
