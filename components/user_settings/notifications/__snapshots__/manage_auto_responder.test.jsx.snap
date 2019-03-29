@@ -377,14 +377,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                   }
                   value="Hello World!"
                 >
-                  <div
-                    className=""
-                  >
-                    <div
-                      className="custom-textarea__placeholder hidden"
-                    >
-                      Message
-                    </div>
+                  <div>
                     <textarea
                       className="form-control"
                       id="autoResponderMessageInput"

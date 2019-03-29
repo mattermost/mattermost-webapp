@@ -1,11 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/AutosizeTextarea should match snapshot, init 1`] = `
-<div
-  className=""
->
+<div>
   <div
-    className="custom-textarea__placeholder hidden"
+    style={
+      Object {
+        "opacity": 0.5,
+        "overflow": "hidden",
+        "pointer-events": "none",
+        "position": "absolute",
+        "textOverflow": "ellipsis",
+        "white-space": "nowrap",
+      }
+    }
   />
   <textarea
     onChange={[Function]}
