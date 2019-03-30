@@ -21,6 +21,9 @@ const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
 
 const MAX_EXTRA_PAGES_LOADED = 10;
+const OVERSCAN_COUNT_BACKWARD = window.OVERSCAN_COUNT_BACKWARD || 50; // Exposing the value for PM to test will be removed soon
+const OVERSCAN_COUNT_FORWARD = window.OVERSCAN_COUNT_FORWARD || 100; // Exposing the value for PM to test will be removed soon
+const HEIGHT_TRIGGER_FOR_MORE_POSTS = window.HEIGHT_TRIGGER_FOR_MORE_POSTS || 1000; // Exposing the value for PM to test will be removed soon
 
 export default class PostList extends React.PureComponent {
     static propTypes = {
@@ -299,7 +302,7 @@ export default class PostList extends React.PureComponent {
     onScroll = ({scrollDirection, scrollOffset, scrollUpdateWasRequested}) => {
         const isNotLoadingPosts = !this.state.loadingFirstSetOfPosts && !this.loadingMorePosts;
         const didUserScrollBackwards = scrollDirection === 'backward' && !scrollUpdateWasRequested;
-        const isOffsetWithInRange = scrollOffset < 1000;
+        const isOffsetWithInRange = scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
         if (isNotLoadingPosts && didUserScrollBackwards && isOffsetWithInRange && !this.state.atEnd) {
             this.loadingMorePosts = true;
             this.loadMorePosts();
@@ -473,7 +476,8 @@ export default class PostList extends React.PureComponent {
                                         itemCount={this.state.postListIds.length}
                                         itemData={this.state.postListIds}
                                         itemKey={this.itemKey}
-                                        overscanCount={100}
+                                        overscanCountForward={OVERSCAN_COUNT_FORWARD}
+                                        overscanCountBackward={OVERSCAN_COUNT_BACKWARD}
                                         onScroll={this.onScroll}
                                         onItemsRendered={this.onItemsRendered}
                                         initScrollToIndex={this.initScrollToIndex}
