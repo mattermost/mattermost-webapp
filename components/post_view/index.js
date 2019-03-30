@@ -61,7 +61,7 @@ function makeMapStateToProps() {
         const channel = getChannel(state, ownProps.channelId);
         const team = getTeamByName(state, ownProps.match.params.team);
         let teammate;
-        if (channel.type === Constants.DM_CHANNEL && channel.teammate_id) {
+        if (channel && channel.type === Constants.DM_CHANNEL && channel.teammate_id) {
             teammate = getUser(state, channel.teammate_id);
         }
 
