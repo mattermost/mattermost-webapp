@@ -18,7 +18,6 @@ export default class AutocompleteSelector extends React.PureComponent {
         helpText: PropTypes.node,
         placeholder: PropTypes.string,
         footer: PropTypes.node,
-        listStyle: PropTypes.string,
     };
 
     static defaultProps = {
@@ -80,7 +79,6 @@ export default class AutocompleteSelector extends React.PureComponent {
             helpText,
             inputClassName,
             value,
-            listStyle,
         } = this.props;
 
         const {focused} = this.state;
@@ -132,7 +130,6 @@ export default class AutocompleteSelector extends React.PureComponent {
                         openOnFocus={true}
                         openWhenEmpty={true}
                         replaceAllInputOnSelect={true}
-                        listStyle={listStyle}
                     />
                     {helpTextContent}
                     {footer}
