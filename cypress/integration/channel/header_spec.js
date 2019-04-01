@@ -39,12 +39,19 @@ describe('Header', () => {
     });
 
     it('M14784 - An ellipsis indicates the channel header is too long - DM', () => {
+        // 3. Open Account Setting and enable Compact View on the Display tab
         cy.changeMessageDisplaySetting('COMPACT');
-        const header = 'quote newheader newheader newheader newheader newheader newheader newheader newheader newheader newheader';
+
+        // 4. Open a DM with user named 'user-2'
         cy.get('#directChannel > .add-channel-btn').click().wait(100);
         cy.focused().type('user-2', {force: true}).type('{enter}', {force: true}).wait(500);
         cy.get('#saveItems').click();
+
+        // 5. Update DM channel header
+        const header = 'quote newheader newheader newheader newheader newheader newheader newheader newheader newheader newheader';
         cy.updateChannelHeader('>' + header);
+
+        // * Check if channel header description has ellipsis
         cy.get('#channelHeaderDescription').ellipsis(true);
     });
 });
