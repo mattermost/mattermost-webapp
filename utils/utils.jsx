@@ -3,6 +3,7 @@
 
 import $ from 'jquery';
 import React from 'react';
+import _ from 'lodash';
 import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
@@ -1676,4 +1677,19 @@ export function enableDevModeFeatures() {
             throw new Error('Map.length is not supported. Use Map.size instead.');
         },
     });
+}
+
+// Splits the term by a splitStr and composes a list of the parts of
+// the split concatenated with the rest, forming a set of suggesitons
+// matchable with startsWith
+//
+// E.g.: for "one.two.three" by "." it would yield
+// ["one.two.three", "two.three", "three"]
+export function getSuggestionsSplitBy(term, splitStr) {
+    const splitTerm = term.split(splitStr);
+    return splitTerm.map((st, i) => splitTerm.slice(i).join(splitStr));
+}
+
+export function getSuggestionsSplitByMultiple(term, splitStrs) {
+    return _.uniq(_.flatMap(splitStrs, (splitStr) => getSuggestionsSplitBy(term, splitStr)));
 }

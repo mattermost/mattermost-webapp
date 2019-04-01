@@ -4,6 +4,7 @@
 import XRegExp from 'xregexp';
 
 import {Constants} from 'utils/constants.jsx';
+import {getSuggestionsSplitByMultiple} from 'utils/utils.jsx';
 
 import Provider from '../provider.jsx';
 
@@ -44,6 +45,31 @@ export default class AtMentionProvider extends Provider {
         }));
     }
 
+    // retrieves the parts of the profile that should be checked
+    // against the term
+    getProfileSuggestions(profile) {
+        const profileSuggestions = [];
+        if (!profile) {
+            return profileSuggestions;
+        }
+
+        if (profile.username) {
+            const usernameSuggestions = getSuggestionsSplitByMultiple(profile.username.toLowerCase(), Constants.AUTOCOMPLETE_SPLIT_CHARACTERS);
+            profileSuggestions.push(...usernameSuggestions);
+        }
+        if (profile.first_name) {
+            profileSuggestions.push(profile.first_name.toLowerCase());
+        }
+        if (profile.last_name) {
+            profileSuggestions.push(profile.last_name.toLowerCase());
+        }
+        if (profile.nickname) {
+            profileSuggestions.push(profile.nickname.toLowerCase());
+        }
+
+        return profileSuggestions;
+    }
+
     // filterProfile constrains profiles to those matching the latest prefix.
     filterProfile(profile) {
         if (!profile) {
@@ -55,13 +81,9 @@ export default class AtMentionProvider extends Provider {
         }
 
         const prefixLower = this.latestPrefix.toLowerCase();
+        const profileSuggestions = this.getProfileSuggestions(profile);
 
-        return (
-            (profile.username && profile.username.toLowerCase().startsWith(prefixLower)) ||
-            (profile.first_name && profile.first_name.toLowerCase().startsWith(prefixLower)) ||
-            (profile.last_name && profile.last_name.toLowerCase().startsWith(prefixLower)) ||
-            (profile.nickname && profile.nickname.toLowerCase().startsWith(prefixLower))
-        );
+        return profileSuggestions.some((suggestion) => suggestion.startsWith(prefixLower));
     }
 
     // localMembers matches up to 25 local results from the store before the server has responded.
