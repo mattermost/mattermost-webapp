@@ -86,13 +86,12 @@ export default class SelectTeamItem extends React.PureComponent {
                     className={canJoin ? '' : 'disabled'}
                 >
                     <span className='signup-team-dir__name'>{team.display_name}</span>
-                    {canJoin}
                     {!team.allow_open_invite &&
                         <span
                             className='fa fa-lock light'
                             title={formatMessage({id: 'select_team.private.icon', defaultMessage: 'Private team'})}
                         />}
-                    {icon}
+                    {canJoin && icon}
                 </a>
             </div>
         );
