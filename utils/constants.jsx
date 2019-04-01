@@ -383,7 +383,6 @@ export const AnnouncementBarMessages = {
     LICENSE_EXPIRING: t('announcement_bar.error.license_expiring'),
     LICENSE_PAST_GRACE: t('announcement_bar.error.past_grace'),
     PREVIEW_MODE: t('announcement_bar.error.preview_mode'),
-    SITE_URL: t('announcement_bar.error.site_url'),
     WEBSOCKET_PORT_ERROR: t('channel_loader.socketError'),
 };
 
