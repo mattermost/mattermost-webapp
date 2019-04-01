@@ -2463,6 +2463,7 @@
   "msg_typing.areTyping": "{users} and {last} are typing...",
   "msg_typing.isTyping": "{user} is typing...",
   "multiselect.add": "Add",
+  "multiselect.adding": "Adding...",
   "multiselect.go": "Go",
   "multiselect.list.notFound": "No items found",
   "multiselect.loading": "Loading...",
