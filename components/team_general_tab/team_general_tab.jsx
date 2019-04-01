@@ -171,7 +171,7 @@ export default class GeneralTab extends React.Component {
     }
 
     handleInviteIdSubmit = async () => {
-        let state = {serverError: '', clientError: ''};
+        const state = {serverError: '', clientError: ''};
         this.setState(state);
 
         const {error} = await this.props.actions.regenerateTeamInviteId(this.props.team.id);
@@ -322,10 +322,6 @@ export default class GeneralTab extends React.Component {
 
     updateAllowedDomains(e) {
         this.setState({allowed_domains: e.target.value});
-    }
-
-    updateInviteId(e) {
-        this.setState({invite_id: e.target.value});
     }
 
     render() {
