@@ -54,6 +54,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
     componentClass="div"
   >
     <MultiSelect
+      buttonSubmitLoadingText="Adding..."
       buttonSubmitText="Add"
       handleAdd={[Function]}
       handleDelete={[Function]}
