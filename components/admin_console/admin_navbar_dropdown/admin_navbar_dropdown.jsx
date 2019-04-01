@@ -25,7 +25,6 @@ export default class AdminNavbarDropdown extends React.Component {
         locale: PropTypes.string.isRequired,
         navigationBlocked: PropTypes.bool,
         teams: PropTypes.arrayOf(PropTypes.object).isRequired,
-        redirectChannelPerTeam: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             deferNavigation: PropTypes.func,
         }).isRequired,
@@ -41,7 +40,7 @@ export default class AdminNavbarDropdown extends React.Component {
     };
 
     render() {
-        const {locale, teams, redirectChannelPerTeam} = this.props;
+        const {locale, teams} = this.props;
         const teamToRender = []; // Array of team components
         let switchTeams;
 
@@ -52,7 +51,7 @@ export default class AdminNavbarDropdown extends React.Component {
                 teamToRender.push(
                     <MenuItemBlockableLink
                         key={'team_' + team.name}
-                        to={'/' + team.name + `/channels/${redirectChannelPerTeam[team.id]}`}
+                        to={'/' + team.name}
                         text={Utils.localizeMessage('navbar_dropdown.switchTo', 'Switch to ') + ' ' + team.display_name}
                     />
                 );

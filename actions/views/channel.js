@@ -99,9 +99,7 @@ export function leaveChannel(channelId) {
         }
 
         const teamUrl = getCurrentRelativeTeamUrl(state);
-        const currentTeamId = getCurrentTeamId(state);
-        const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
-        browserHistory.push(teamUrl + '/channels/' + redirectChannel);
+        browserHistory.push(teamUrl);
 
         const {error} = await dispatch(leaveChannelRedux(channelId));
         if (error) {
