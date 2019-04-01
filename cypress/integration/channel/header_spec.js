@@ -53,5 +53,11 @@ describe('Header', () => {
 
         // * Check if channel header description has ellipsis
         cy.get('#channelHeaderDescription').ellipsis(true);
+
+        // 6. Click the header to see the whole text
+        cy.get('#channelHeaderDescription').click();
+
+        // * Check that no elippsis is present
+        cy.get('#header-popover > div.popover-content').should('have.html', `<blockquote>\n<p>${header}</p>\n</blockquote>`);
     });
 });
