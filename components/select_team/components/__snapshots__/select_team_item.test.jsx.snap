@@ -15,7 +15,6 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     >
       team_display_name
     </span>
-    <Component />
     <span
       className="fa fa-refresh fa-spin right signup-team__icon"
       title="Loading Icon"
@@ -39,7 +38,6 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     >
       team_display_name
     </span>
-    <Component />
     <span
       className="fa fa-lock light"
       title="Private team"
@@ -71,10 +69,6 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
       className="fa fa-lock light"
       title="Private team"
     />
-    <span
-      className="fa fa-angle-right right signup-team__icon"
-      title="Join Team Icon"
-    />
   </a>
 </div>
 `;
@@ -94,7 +88,6 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     >
       team_display_name
     </span>
-    <Component />
     <span
       className="fa fa-angle-right right signup-team__icon"
       title="Join Team Icon"
@@ -118,10 +111,6 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     >
       team_display_name
     </span>
-    <span
-      className="fa fa-angle-right right signup-team__icon"
-      title="Join Team Icon"
-    />
   </a>
 </div>
 `;
@@ -335,7 +324,6 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
                 >
                   team_display_name
                 </span>
-                true
                 <span
                   className="fa fa-angle-right right signup-team__icon"
                   title="Join Team Icon"
@@ -385,7 +373,6 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     >
       team_display_name
     </span>
-    <Component />
     <span
       className="fa fa-angle-right right signup-team__icon"
       title="Join Team Icon"
