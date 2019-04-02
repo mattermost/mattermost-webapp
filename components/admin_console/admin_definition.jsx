@@ -12,7 +12,7 @@ import {
     removeIdpSamlCertificate, uploadIdpSamlCertificate,
     removePrivateSamlCertificate, uploadPrivateSamlCertificate,
     removePublicSamlCertificate, uploadPublicSamlCertificate,
-    invalidateAllEmailInvites
+    invalidateAllEmailInvites,
 } from 'actions/admin_actions';
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
@@ -274,7 +274,7 @@ export default {
             },
         },
         permissions: {
-            url: 'permissions',
+            url: 'permissions/schemes',
             title: t('admin.sidebar.permissions'),
             title_default: 'Permissions',
             isHidden: needsUtils.or(
@@ -296,6 +296,27 @@ export default {
             schema: {
                 id: 'PermissionSchemes',
                 component: PermissionSchemesSettings,
+            },
+        },
+        systemScheme: {
+            url: 'permissions/system-scheme',
+            title: t('admin.sidebar.system-scheme'),
+            title_default: 'System scheme',
+            isHidden: needsUtils.or(
+                needsUtils.not(needsUtils.hasLicense),
+                needsUtils.hasLicenseFeature('CustomPermissionsSchemes')
+            ),
+            schema: {
+                id: 'PermissionSystemScheme',
+                component: PermissionSystemSchemeSettings,
+            },
+        },
+        teamScheme: {
+            url: 'permissions/team-override-scheme',
+            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('CustomPermissionsSchemes')),
+            schema: {
+                id: 'PermissionSystemScheme',
+                component: PermissionTeamSchemeSettings,
             },
         },
     },
@@ -604,6 +625,18 @@ export default {
                         placeholder: t('admin.image.localExample'),
                         placeholder_default: 'E.g.: "./data/"',
                         isDisabled: needsUtils.not(needsUtils.stateValueEqual('FileSettings.DriverName', FILE_STORAGE_DRIVER_LOCAL)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_NUMBER,
+                        key: 'FileSettings.MaxFileSize',
+                        label: t('admin.image.maxFileSizeTitle'),
+                        label_default: 'Maximum File Size:',
+                        help_text: t('admin.image.maxFileSizeDescription'),
+                        help_text_default: 'Maximum file size for message attachments in megabytes. Caution: Verify server memory can support your setting choice. Large file sizes increase the risk of server crashes and failed uploads due to network interruptions.',
+                        placeholder: t('admin.image.maxFileSizeExample'),
+                        placeholder_default: '50',
+                        onConfigLoad: (configVal) => configVal / MEBIBYTE,
+                        onConfigSave: (displayVal) => displayVal * MEBIBYTE,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3535,7 +3568,7 @@ export default {
                         isHidden: needsUtils.not(needsUtils.hasLicense), // E10 and higher
                         isDisabled: needsUtils.stateValueFalse('ThemeSettings.EnableThemeSelection'),
                     },
-    
+
                     // {
                     //     type: Constants.SettingsTypes.TYPE_LIST,
                     //     key: 'ThemeSettings.AllowedThemes',
@@ -3549,7 +3582,6 @@ export default {
                     //     isHidden: needsUtils.not(needsUtils.hasLicense), // E10 and higher
                     //     isDisabled: needsUtils.stateValueTrue('ThemeSettings.EnableThemeSelection'),
                     // },
-    
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'ThemeSettings.DefaultTheme',
@@ -3689,8 +3721,7 @@ export default {
                         help_text_markdown: false,
                         placeholder: t('admin.experimental.userStatusAwayTimeout.example'),
                         placeholder_default: 'E.g.: "300"',
-                    },
-    
+                    }, // eslint-disable-next-line lines-around-comment
                     // {
                     //     type: Constants.SettingsTypes.TYPE_BOOL,
                     //     key: 'ServiceSettings.ExperimentalStrictCSRFEnforcement',
@@ -3700,7 +3731,6 @@ export default {
                     //     help_text_default: 'TODO',
                     //     help_text_markdown: false,
                     // },
-    
                     // {
                     //     type: Constants.SettingsTypes.TYPE_LIST,
                     //     key: 'TeamSettings.ExperimentalDefaultChannels',
@@ -3712,7 +3742,6 @@ export default {
                     //     placeholder: t('admin.experimental.experimentalDefaultChannels.example'),
                     //     placeholder_default: 'E.g.: "channel1, channel2, off-topic"',
                     // },
-    
                     // {
                     //     type: Constants.SettingsTypes.TYPE_TEXT,
                     //     key: 'EmailSettings.ReplyToAddress',
@@ -3724,10 +3753,9 @@ export default {
                     //     placeholder: t('admin.experimental.replyToAddress.example'),
                     //     placeholder_default: 'E.g.: "reply-to@example.com"',
                     // },
-    
                 ],
             },
-        }
+        },
     },
 };
 

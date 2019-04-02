@@ -245,7 +245,6 @@ export default class AdminSidebar extends React.Component {
     }
 
     renderRootMenu = (section, icon, title, titleDefault) => {
-        console.log(section);
         const menuEntries = [];
         Object.values(section).forEach((item) => {
             if (!item.title) {
@@ -391,7 +390,6 @@ export default class AdminSidebar extends React.Component {
                                         </OverlayTrigger>
                                     </div>}
                             </li>
-                                
                             {this.renderRootMenu(AdminDefinition.about, 'fa-info', 'admin.sidebar.about', 'ABOUT')}
                             {this.renderRootMenu(AdminDefinition.reporting, 'fa-bar-chart', 'admin.sidebar.reports', 'REPORTING')}
                             {this.renderRootMenu(AdminDefinition.user_management, 'fa-users', 'admin.sidebar.user_management', 'USER MANAGEMENT')}
