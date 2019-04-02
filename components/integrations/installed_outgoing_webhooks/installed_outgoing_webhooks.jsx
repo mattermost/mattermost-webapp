@@ -126,22 +126,25 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
     }
 
     render() {
-        const outgoingWebhooks = this.props.outgoingWebhooks.sort(this.outgoingWebhookCompare).map((outgoingWebhook) => {
-            const canChange = this.props.canManageOthersWebhooks || this.props.user.id === outgoingWebhook.creator_id;
-            const channel = this.props.channels[outgoingWebhook.channel_id];
-            return (
-                <InstalledOutgoingWebhook
-                    key={outgoingWebhook.id}
-                    outgoingWebhook={outgoingWebhook}
-                    onRegenToken={this.regenOutgoingWebhookToken}
-                    onDelete={this.removeOutgoingHook}
-                    creator={this.props.users[outgoingWebhook.creator_id] || {}}
-                    canChange={canChange}
-                    team={this.props.team}
-                    channel={channel}
-                />
-            );
-        });
+        const outgoingWebhooks = (filter) => this.props.outgoingWebhooks.
+            sort(this.outgoingWebhookCompare).
+            filter((outgoingWebhook) => InstalledOutgoingWebhook.matchesFilter(outgoingWebhook, this.props.channels[outgoingWebhook.channel_id], filter)).
+            map((outgoingWebhook) => {
+                const canChange = this.props.canManageOthersWebhooks || this.props.user.id === outgoingWebhook.creator_id;
+                const channel = this.props.channels[outgoingWebhook.channel_id];
+                return (
+                    <InstalledOutgoingWebhook
+                        key={outgoingWebhook.id}
+                        outgoingWebhook={outgoingWebhook}
+                        onRegenToken={this.regenOutgoingWebhookToken}
+                        onDelete={this.removeOutgoingHook}
+                        creator={this.props.users[outgoingWebhook.creator_id] || {}}
+                        canChange={canChange}
+                        team={this.props.team}
+                        channel={channel}
+                    />
+                );
+            });
 
         return (
             <BackstageList
@@ -162,6 +165,12 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
                     <FormattedMessage
                         id='installed_outgoing_webhooks.empty'
                         defaultMessage='No outgoing webhooks found'
+                    />
+                }
+                emptyTextSearch={
+                    <FormattedMessage
+                        id='installed_outgoing_webhooks.emptySearch'
+                        defaultMessage='No outgoing webhooks match {searchTerm}'
                     />
                 }
                 helpText={
@@ -199,7 +208,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
                 searchPlaceholder={Utils.localizeMessage('installed_outgoing_webhooks.search', 'Search Outgoing Webhooks')}
                 loading={this.state.loading}
             >
-                {outgoingWebhooks}
+                {(filter) => outgoingWebhooks(filter)}
             </BackstageList>
         );
     }

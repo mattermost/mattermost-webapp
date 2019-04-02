@@ -156,25 +156,21 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
     });
 
     test('Should match result when matchesFilter is called', () => {
-        const wrapper = shallow(
-            <InstalledOutgoingWebhook {...baseProps}/>
-        );
+        expect(InstalledOutgoingWebhook.matchesFilter({}, {}, 'word')).toEqual(false);
+        expect(InstalledOutgoingWebhook.matchesFilter({display_name: null}, {}, 'word')).toEqual(false);
+        expect(InstalledOutgoingWebhook.matchesFilter({description: null}, {}, 'word')).toEqual(false);
+        expect(InstalledOutgoingWebhook.matchesFilter({trigger_words: null}, {}, 'word')).toEqual(false);
+        expect(InstalledOutgoingWebhook.matchesFilter({}, {name: null}, 'channel')).toEqual(false);
 
-        expect(wrapper.instance().matchesFilter({}, {}, 'word')).toEqual(false);
-        expect(wrapper.instance().matchesFilter({display_name: null}, {}, 'word')).toEqual(false);
-        expect(wrapper.instance().matchesFilter({description: null}, {}, 'word')).toEqual(false);
-        expect(wrapper.instance().matchesFilter({trigger_words: null}, {}, 'word')).toEqual(false);
-        expect(wrapper.instance().matchesFilter({}, {name: null}, 'channel')).toEqual(false);
+        expect(InstalledOutgoingWebhook.matchesFilter({}, {}, '')).toEqual(true);
 
-        expect(wrapper.instance().matchesFilter({}, {}, '')).toEqual(true);
+        expect(InstalledOutgoingWebhook.matchesFilter({display_name: 'Word'}, {}, 'word')).toEqual(true);
+        expect(InstalledOutgoingWebhook.matchesFilter({display_name: 'word'}, {}, 'word')).toEqual(true);
+        expect(InstalledOutgoingWebhook.matchesFilter({description: 'Trigger description'}, {}, 'description')).toEqual(true);
 
-        expect(wrapper.instance().matchesFilter({display_name: 'Word'}, {}, 'word')).toEqual(true);
-        expect(wrapper.instance().matchesFilter({display_name: 'word'}, {}, 'word')).toEqual(true);
-        expect(wrapper.instance().matchesFilter({description: 'Trigger description'}, {}, 'description')).toEqual(true);
+        expect(InstalledOutgoingWebhook.matchesFilter({trigger_words: ['Trigger']}, {}, 'trigger')).toEqual(true);
+        expect(InstalledOutgoingWebhook.matchesFilter({trigger_words: ['word', 'Trigger']}, {}, 'trigger')).toEqual(true);
 
-        expect(wrapper.instance().matchesFilter({trigger_words: ['Trigger']}, {}, 'trigger')).toEqual(true);
-        expect(wrapper.instance().matchesFilter({trigger_words: ['word', 'Trigger']}, {}, 'trigger')).toEqual(true);
-
-        expect(wrapper.instance().matchesFilter({}, {name: 'channel_name'}, 'channel')).toEqual(true);
+        expect(InstalledOutgoingWebhook.matchesFilter({}, {name: 'channel_name'}, 'channel')).toEqual(true);
     });
 });

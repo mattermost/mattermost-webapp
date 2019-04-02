@@ -60,7 +60,7 @@ export default class InstalledCommand extends React.PureComponent {
         this.props.onDelete(this.props.command);
     }
 
-    matchesFilter(command, filter) {
+    static matchesFilter(command, filter) {
         if (!filter) {
             return true;
         }
@@ -74,7 +74,7 @@ export default class InstalledCommand extends React.PureComponent {
         const command = this.props.command;
         const filter = this.props.filter ? this.props.filter.toLowerCase() : '';
 
-        if (!this.matchesFilter(command, filter)) {
+        if (!InstalledCommand.matchesFilter(command, filter)) {
             return null;
         }
 

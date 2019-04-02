@@ -79,8 +79,9 @@ export default class InstalledCommands extends React.PureComponent {
     }
 
     render() {
-        const commands = this.props.commands.
+        const commands = (filter) => this.props.commands.
             filter((command) => command.team_id === this.props.team.id).
+            filter((command) => InstalledCommand.matchesFilter(command, filter)).
             sort(this.commandCompare).map((command) => {
                 const canChange = this.props.canManageOthersSlashCommands || this.props.user.id === command.creator_id;
 
@@ -118,6 +119,12 @@ export default class InstalledCommands extends React.PureComponent {
                         defaultMessage='No slash commands found'
                     />
                 }
+                emptyTextSearch={
+                    <FormattedMessage
+                        id='installed_commands.emptySearch'
+                        defaultMessage='No slash commands match {searchTerm}'
+                    />
+                }
                 helpText={
                     <FormattedMessage
                         id='installed_commands.help'
@@ -153,7 +160,7 @@ export default class InstalledCommands extends React.PureComponent {
                 searchPlaceholder={Utils.localizeMessage('installed_commands.search', 'Search Slash Commands')}
                 loading={this.props.loading}
             >
-                {commands}
+                {(filter) => commands(filter)}
             </BackstageList>
         );
     }

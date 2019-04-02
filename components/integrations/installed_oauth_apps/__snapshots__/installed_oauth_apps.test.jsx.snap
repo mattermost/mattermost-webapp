@@ -1,124 +1,374 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = `
-<BackstageList
-  addLink="/test/integrations/oauth2-apps/add"
-  addText="Add OAuth 2.0 Application"
-  emptyText={
-    <FormattedMessage
-      defaultMessage="No OAuth 2.0 Applications found"
-      id="installed_oauth_apps.empty"
-      values={Object {}}
-    />
+<BrowserRouter
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "onError": [Function],
+      "textComponent": "span",
+      "timeZone": "Etc/UTC",
+    }
   }
-  header={
-    <FormattedMessage
-      defaultMessage="OAuth 2.0 Applications"
-      id="installed_oauth_apps.header"
-      values={Object {}}
-    />
-  }
-  helpText={
-    <FormattedMessage
-      defaultMessage="Create {oauthApplications} to securely integrate bots and third-party apps with Mattermost. Visit the {appDirectory} to find available self-hosted apps."
-      id="installed_oauth_apps.help"
-      values={
+>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "undefinedundefined",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <InstalledOAuthApps
+      actions={
         Object {
-          "appDirectory": <a
-            href="https://about.mattermost.com/default-app-directory/"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <FormattedMessage
-              defaultMessage="App Directory"
-              id="installed_oauth_apps.help.appDirectory"
-              values={Object {}}
-            />
-          </a>,
-          "oauthApplications": <a
-            href="https://docs.mattermost.com/developer/oauth-2-0-applications.html"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <FormattedMessage
-              defaultMessage="OAuth 2.0 applications"
-              id="installed_oauth_apps.help.oauthApplications"
-              values={Object {}}
-            />
-          </a>,
+          "deleteOAuthApp": [MockFunction],
+          "loadOAuthAppsAndProfiles": [MockFunction] {
+            "calls": Array [
+              Array [],
+              Array [],
+            ],
+            "results": Array [
+              Object {
+                "type": "return",
+                "value": Promise {},
+              },
+              Object {
+                "type": "return",
+                "value": Promise {},
+              },
+            ],
+          },
+          "regenOAuthAppSecret": [MockFunction],
         }
       }
-    />
-  }
-  loading={true}
-  searchPlaceholder="Search OAuth 2.0 Applications"
->
-  <Connect(InstalledOAuthApp)
-    key="facxd9wpzpbpfp8pad78xj75pr"
-    oauthApp={
-      Object {
-        "callback_urls": Array [
-          "https://test.com/callback",
-        ],
-        "client_secret": "88cxd9wpzpbpfp8pad78xj75pr",
-        "create_at": 1501365458934,
-        "creator_id": "88oybd1dwfdoxpkpw1h5kpbyco",
-        "description": "testing",
-        "homepage": "https://test.com",
-        "icon_url": "https://test.com/icon",
-        "id": "facxd9wpzpbpfp8pad78xj75pr",
-        "is_trusted": false,
-        "name": "firstApp",
-        "update_at": 1501365458934,
+      canManageOauth={true}
+      enableOAuthServiceProvider={true}
+      oauthApps={
+        Object {
+          "facxd9wpzpbpfp8pad78xj75pr": Object {
+            "callback_urls": Array [
+              "https://test.com/callback",
+            ],
+            "client_secret": "88cxd9wpzpbpfp8pad78xj75pr",
+            "create_at": 1501365458934,
+            "creator_id": "88oybd1dwfdoxpkpw1h5kpbyco",
+            "description": "testing",
+            "homepage": "https://test.com",
+            "icon_url": "https://test.com/icon",
+            "id": "facxd9wpzpbpfp8pad78xj75pr",
+            "is_trusted": false,
+            "name": "firstApp",
+            "update_at": 1501365458934,
+          },
+          "fzcxd9wpzpbpfp8pad78xj75pr": Object {
+            "callback_urls": Array [
+              "https://test2.com/callback",
+              "https://test2.com/callback2",
+            ],
+            "client_secret": "decxd9wpzpbpfp8pad78xj75pr",
+            "create_at": 1501365459984,
+            "creator_id": "88oybd2dwfdoxpkpw1h5kpbyco",
+            "description": "testing2",
+            "homepage": "https://test2.com",
+            "icon_url": "https://test2.com/icon",
+            "id": "fzcxd9wpzpbpfp8pad78xj75pr",
+            "is_trusted": true,
+            "name": "secondApp",
+            "update_at": 1501365479988,
+          },
+        }
       }
-    }
-    onDelete={[Function]}
-    onRegenerateSecret={[MockFunction]}
-    regenOAuthAppSecretRequest={
-      Object {
-        "error": null,
-        "status": "not_started",
+      regenOAuthAppSecretRequest={
+        Object {
+          "error": null,
+          "status": "not_started",
+        }
       }
-    }
-    team={
-      Object {
-        "name": "test",
+      team={
+        Object {
+          "name": "test",
+        }
       }
-    }
-  />
-  <Connect(InstalledOAuthApp)
-    key="fzcxd9wpzpbpfp8pad78xj75pr"
-    oauthApp={
-      Object {
-        "callback_urls": Array [
-          "https://test2.com/callback",
-          "https://test2.com/callback2",
-        ],
-        "client_secret": "decxd9wpzpbpfp8pad78xj75pr",
-        "create_at": 1501365459984,
-        "creator_id": "88oybd2dwfdoxpkpw1h5kpbyco",
-        "description": "testing2",
-        "homepage": "https://test2.com",
-        "icon_url": "https://test2.com/icon",
-        "id": "fzcxd9wpzpbpfp8pad78xj75pr",
-        "is_trusted": true,
-        "name": "secondApp",
-        "update_at": 1501365479988,
-      }
-    }
-    onDelete={[Function]}
-    onRegenerateSecret={[MockFunction]}
-    regenOAuthAppSecretRequest={
-      Object {
-        "error": null,
-        "status": "not_started",
-      }
-    }
-    team={
-      Object {
-        "name": "test",
-      }
-    }
-  />
-</BackstageList>
+    >
+      <BackstageList
+        addLink="/test/integrations/oauth2-apps/add"
+        addText="Add OAuth 2.0 Application"
+        emptyText={
+          <FormattedMessage
+            defaultMessage="No OAuth 2.0 Applications found"
+            id="installed_oauth_apps.empty"
+            values={Object {}}
+          />
+        }
+        emptyTextSearch={
+          <FormattedMessage
+            defaultMessage="No OAuth 2.0 Applications match {searchTerm}"
+            id="installed_oauth_apps.emptySearch"
+            values={Object {}}
+          />
+        }
+        header={
+          <FormattedMessage
+            defaultMessage="OAuth 2.0 Applications"
+            id="installed_oauth_apps.header"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="Create {oauthApplications} to securely integrate bots and third-party apps with Mattermost. Visit the {appDirectory} to find available self-hosted apps."
+            id="installed_oauth_apps.help"
+            values={
+              Object {
+                "appDirectory": <a
+                  href="https://about.mattermost.com/default-app-directory/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <FormattedMessage
+                    defaultMessage="App Directory"
+                    id="installed_oauth_apps.help.appDirectory"
+                    values={Object {}}
+                  />
+                </a>,
+                "oauthApplications": <a
+                  href="https://docs.mattermost.com/developer/oauth-2-0-applications.html"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <FormattedMessage
+                    defaultMessage="OAuth 2.0 applications"
+                    id="installed_oauth_apps.help.oauthApplications"
+                    values={Object {}}
+                  />
+                </a>,
+              }
+            }
+          />
+        }
+        loading={true}
+        searchPlaceholder="Search OAuth 2.0 Applications"
+      >
+        <div
+          className="backstage-content"
+        >
+          <div
+            className="backstage-header"
+          >
+            <h1>
+              <FormattedMessage
+                defaultMessage="OAuth 2.0 Applications"
+                id="installed_oauth_apps.header"
+                values={Object {}}
+              >
+                <span>
+                  OAuth 2.0 Applications
+                </span>
+              </FormattedMessage>
+            </h1>
+            <Link
+              className="add-link"
+              replace={false}
+              to="/test/integrations/oauth2-apps/add"
+            >
+              <a
+                className="add-link"
+                href="/test/integrations/oauth2-apps/add"
+                onClick={[Function]}
+              >
+                <button
+                  className="btn btn-primary"
+                  type="button"
+                >
+                  <span>
+                    Add OAuth 2.0 Application
+                  </span>
+                </button>
+              </a>
+            </Link>
+          </div>
+          <div
+            className="backstage-filters"
+          >
+            <div
+              className="backstage-filter__search"
+            >
+              <SearchIcon>
+                <FormattedMessage
+                  defaultMessage="Search Icon"
+                  id="generic_icons.search"
+                  values={Object {}}
+                >
+                  <i
+                    className="fa fa-search"
+                    title="Search Icon"
+                  />
+                </FormattedMessage>
+              </SearchIcon>
+              <input
+                className="form-control"
+                onChange={[Function]}
+                placeholder="Search OAuth 2.0 Applications"
+                style={
+                  Object {
+                    "flexGrow": 0,
+                    "flexShrink": 0,
+                  }
+                }
+                type="search"
+                value=""
+              />
+            </div>
+          </div>
+          <span
+            className="backstage-list__help"
+          >
+            <FormattedMessage
+              defaultMessage="Create {oauthApplications} to securely integrate bots and third-party apps with Mattermost. Visit the {appDirectory} to find available self-hosted apps."
+              id="installed_oauth_apps.help"
+              values={
+                Object {
+                  "appDirectory": <a
+                    href="https://about.mattermost.com/default-app-directory/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <FormattedMessage
+                      defaultMessage="App Directory"
+                      id="installed_oauth_apps.help.appDirectory"
+                      values={Object {}}
+                    />
+                  </a>,
+                  "oauthApplications": <a
+                    href="https://docs.mattermost.com/developer/oauth-2-0-applications.html"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <FormattedMessage
+                      defaultMessage="OAuth 2.0 applications"
+                      id="installed_oauth_apps.help.oauthApplications"
+                      values={Object {}}
+                    />
+                  </a>,
+                }
+              }
+            >
+              <span>
+                Create 
+                <a
+                  href="https://docs.mattermost.com/developer/oauth-2-0-applications.html"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <FormattedMessage
+                    defaultMessage="OAuth 2.0 applications"
+                    id="installed_oauth_apps.help.oauthApplications"
+                    values={Object {}}
+                  >
+                    <span>
+                      OAuth 2.0 applications
+                    </span>
+                  </FormattedMessage>
+                </a>
+                 to securely integrate bots and third-party apps with Mattermost. Visit the 
+                <a
+                  href="https://about.mattermost.com/default-app-directory/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <FormattedMessage
+                    defaultMessage="App Directory"
+                    id="installed_oauth_apps.help.appDirectory"
+                    values={Object {}}
+                  >
+                    <span>
+                      App Directory
+                    </span>
+                  </FormattedMessage>
+                </a>
+                 to find available self-hosted apps.
+              </span>
+            </FormattedMessage>
+          </span>
+          <div
+            className="backstage-list"
+          >
+            <LoadingScreen
+              position="relative"
+              style={Object {}}
+            >
+              <div
+                className="loading-screen"
+                style={
+                  Object {
+                    "position": "relative",
+                  }
+                }
+              >
+                <div
+                  className="loading__content"
+                >
+                  <h3>
+                    <FormattedMessage
+                      defaultMessage="Loading"
+                      id="loading_screen.loading"
+                      values={Object {}}
+                    >
+                      <span>
+                        Loading
+                      </span>
+                    </FormattedMessage>
+                  </h3>
+                  <div
+                    className="round round-1"
+                  />
+                  <div
+                    className="round round-2"
+                  />
+                  <div
+                    className="round round-3"
+                  />
+                </div>
+              </div>
+            </LoadingScreen>
+          </div>
+        </div>
+      </BackstageList>
+    </InstalledOAuthApps>
+  </Router>
+</BrowserRouter>
 `;

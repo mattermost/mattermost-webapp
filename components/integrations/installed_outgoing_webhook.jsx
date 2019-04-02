@@ -86,7 +86,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
         );
     }
 
-    matchesFilter(outgoingWebhook, channel, filter) {
+    static matchesFilter(outgoingWebhook, channel, filter) {
         if (!filter) {
             return true;
         }
@@ -128,7 +128,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
         const triggerWordsFull = 0;
         const triggerWordsStartsWith = 1;
 
-        if (outgoingWebhook && !this.matchesFilter(outgoingWebhook, channel, filter)) {
+        if (outgoingWebhook && !InstalledOutgoingWebhook.matchesFilter(outgoingWebhook, channel, filter)) {
             return null;
         }
 

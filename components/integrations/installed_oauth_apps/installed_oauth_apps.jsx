@@ -92,18 +92,21 @@ export default class InstalledOAuthApps extends React.PureComponent {
     }
 
     render() {
-        const oauthApps = Object.values(this.props.oauthApps).sort(this.oauthAppCompare).map((app) => {
-            return (
-                <InstalledOAuthApp
-                    key={app.id}
-                    team={this.props.team}
-                    oauthApp={app}
-                    regenOAuthAppSecretRequest={this.props.regenOAuthAppSecretRequest}
-                    onRegenerateSecret={this.props.actions.regenOAuthAppSecret}
-                    onDelete={this.deleteOAuthApp}
-                />
-            );
-        });
+        const oauthApps = (filter) => Object.values(this.props.oauthApps).
+            filter((app) => InstalledOAuthApp.matchesFilter(app, filter)).
+            sort(this.oauthAppCompare).
+            map((app) => {
+                return (
+                    <InstalledOAuthApp
+                        key={app.id}
+                        team={this.props.team}
+                        oauthApp={app}
+                        regenOAuthAppSecretRequest={this.props.regenOAuthAppSecretRequest}
+                        onRegenerateSecret={this.props.actions.regenOAuthAppSecret}
+                        onDelete={this.deleteOAuthApp}
+                    />
+                );
+            });
 
         const integrationsEnabled = this.props.enableOAuthServiceProvider && this.props.canManageOauth;
         let props;
@@ -160,11 +163,17 @@ export default class InstalledOAuthApps extends React.PureComponent {
                         defaultMessage='No OAuth 2.0 Applications found'
                     />
                 }
+                emptyTextSearch={
+                    <FormattedMessage
+                        id='installed_oauth_apps.emptySearch'
+                        defaultMessage='No OAuth 2.0 Applications match {searchTerm}'
+                    />
+                }
                 searchPlaceholder={localizeMessage('installed_oauth_apps.search', 'Search OAuth 2.0 Applications')}
                 loading={this.state.loading}
                 {...props}
             >
-                {oauthApps}
+                {(filter) => oauthApps(filter)}
             </BackstageList>
         );
     }

@@ -108,21 +108,24 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
     }
 
     render() {
-        const incomingWebhooks = this.props.incomingWebhooks.sort(this.incomingWebhookCompare).map((incomingWebhook) => {
-            const canChange = this.props.canManageOthersWebhooks || this.props.user.id === incomingWebhook.user_id;
-            const channel = this.props.channels[incomingWebhook.channel_id];
-            return (
-                <InstalledIncomingWebhook
-                    key={incomingWebhook.id}
-                    incomingWebhook={incomingWebhook}
-                    onDelete={this.deleteIncomingWebhook}
-                    creator={this.props.users[incomingWebhook.user_id] || {}}
-                    canChange={canChange}
-                    team={this.props.team}
-                    channel={channel}
-                />
-            );
-        });
+        const incomingWebhooks = (filter) => this.props.incomingWebhooks.
+            sort(this.incomingWebhookCompare).
+            filter((incomingWebhook) => InstalledIncomingWebhook.matchesFilter(incomingWebhook, this.props.channels[incomingWebhook.channel_id], filter)).
+            map((incomingWebhook) => {
+                const canChange = this.props.canManageOthersWebhooks || this.props.user.id === incomingWebhook.user_id;
+                const channel = this.props.channels[incomingWebhook.channel_id];
+                return (
+                    <InstalledIncomingWebhook
+                        key={incomingWebhook.id}
+                        incomingWebhook={incomingWebhook}
+                        onDelete={this.deleteIncomingWebhook}
+                        creator={this.props.users[incomingWebhook.user_id] || {}}
+                        canChange={canChange}
+                        team={this.props.team}
+                        channel={channel}
+                    />
+                );
+            });
 
         return (
             <BackstageList
@@ -143,6 +146,12 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
                     <FormattedMessage
                         id='installed_incoming_webhooks.empty'
                         defaultMessage='No incoming webhooks found'
+                    />
+                }
+                emptyTextSearch={
+                    <FormattedMessage
+                        id='installed_incoming_webhooks.emptySearch'
+                        defaultMessage='No incoming webhooks match {searchTerm}'
                     />
                 }
                 helpText={
@@ -180,7 +189,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
                 searchPlaceholder={Utils.localizeMessage('installed_incoming_webhooks.search', 'Search Incoming Webhooks')}
                 loading={this.state.loading}
             >
-                {incomingWebhooks}
+                {(filter) => incomingWebhooks(filter)}
             </BackstageList>
         );
     }

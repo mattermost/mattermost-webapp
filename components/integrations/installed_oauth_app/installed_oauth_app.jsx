@@ -91,7 +91,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
         this.props.onDelete(this.props.oauthApp);
     }
 
-    matchesFilter = (oauthApp, filter) => {
+    static matchesFilter = (oauthApp, filter) => {
         if (!filter) {
             return true;
         }
@@ -111,7 +111,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
             );
         }
 
-        if (!this.matchesFilter(oauthApp, this.props.filter)) {
+        if (!InstalledOAuthApp.matchesFilter(oauthApp, this.props.filter)) {
             return null;
         }
 
