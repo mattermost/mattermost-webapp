@@ -585,7 +585,7 @@ export default class FileUpload extends PureComponent {
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
 
         let bodyAction;
-        if (this.props.pluginFileUploadMethods.length === 0) {
+        if (this.props.pluginFileUploadMethods.length === 1) {
             bodyAction = (
                 <div
                     id='fileUploadButton'
