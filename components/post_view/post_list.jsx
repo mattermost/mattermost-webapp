@@ -281,7 +281,7 @@ export default class PostList extends React.PureComponent {
         } else {
             this.loadingMorePosts = false;
             if (this.mounted && this.props.posts) {
-                const atEnd = !moreToLoad && this.props.posts.length < this.props.postVisibility;
+                const atEnd = !moreToLoad;
                 const newState = {
                     atEnd,
                     autoRetryEnable: true,
