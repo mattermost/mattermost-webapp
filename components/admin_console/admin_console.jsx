@@ -104,7 +104,6 @@ export default class AdminConsole extends React.Component {
                         />
                     );
                 })}
-                {/* {Object.values(AdminDefinition.settings).map(this.renderSectionRoutes.bind(this, extraProps))} */}
                 <Redirect to={`${this.props.match.url}/${firstUrl}`}/>
             </Switch>
         );
