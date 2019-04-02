@@ -15,10 +15,10 @@ describe('components/post_view/post_list', () => {
     }];
 
     const actions = {
-        getPosts: jest.fn().mockResolvedValue({data: {order: [], posts:{}}}),
-        getPostsBefore: jest.fn().mockResolvedValue({data: {order: [], posts:{}}}),
-        getPostsAfter: jest.fn().mockResolvedValue({data: {order: [], posts:{}}}),
-        getPostThread: jest.fn().mockResolvedValue({data: {order: [], posts:{}}}),
+        getPosts: jest.fn().mockResolvedValue({data: {order: [], posts: {}}}),
+        getPostsBefore: jest.fn().mockResolvedValue({data: {order: [], posts: {}}}),
+        getPostsAfter: jest.fn().mockResolvedValue({data: {order: [], posts: {}}}),
+        getPostThread: jest.fn().mockResolvedValue({data: {order: [], posts: {}}}),
         increasePostVisibility: jest.fn().mockResolvedValue({moreToLoad: true}),
         checkAndSetMobileView: jest.fn(),
     };
@@ -39,19 +39,19 @@ describe('components/post_view/post_list', () => {
         actions,
     };
 
-    test('should return index of loader when all are unread messages in the view', () => {
+    test('should return index of loader when all are unread messages in the view and call increasePostVisibility action', () => {
         const postsArray = [];
         const Ids = [];
-        const createAtValue = 12346
+        const createAtValue = 12346;
         for (var i = 1; i <= 30; i++) {
             const postCreatedAt = createAtValue + i;
             postsArray.push({
-              id: `${postCreatedAt}`,
-              message: 'test',
-              create_at: postCreatedAt,
+                id: `${postCreatedAt}`,
+                message: 'test',
+                create_at: postCreatedAt,
             });
             Ids.push(`${postCreatedAt}`);
-        };
+        }
 
         const postListIds = [...Ids, PostListRowListIds.START_OF_NEW_MESSAGES];
         const props = {
@@ -63,5 +63,6 @@ describe('components/post_view/post_list', () => {
         const wrapper = shallow(<PostList {...props}/>);
         const initScrollToIndex = wrapper.instance().initScrollToIndex();
         expect(initScrollToIndex).toEqual({index: 31, position: 'start'}); //Loader will be at pos 31
+        expect(actions.increasePostVisibility).toHaveBeenCalledTimes(1);
     });
 });
