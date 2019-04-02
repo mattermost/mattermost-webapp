@@ -18,6 +18,11 @@ exports[`components/AdminConsole should generate the routes 1`] = `
     >
       <Switch>
         <Route
+          key="license"
+          path="/license"
+          render={[Function]}
+        />
+        <Route
           key="system_analytics"
           path="/system_analytics"
           render={[Function]}
@@ -28,87 +33,243 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           render={[Function]}
         />
         <Route
-          key="users"
-          path="/users"
-          render={[Function]}
-        />
-        <Route
           key="logs"
           path="/logs"
           render={[Function]}
         />
         <Route
-          key="license"
-          path="/license"
+          key="users"
+          path="/users"
           render={[Function]}
         />
         <Route
-          key="audits"
-          path="/audits"
+          key="groups/:group_id"
+          path="/groups/:group_id"
           render={[Function]}
         />
         <Route
-          key="general"
-          path="/general"
+          key="groups"
+          path="/groups"
           render={[Function]}
         />
         <Route
-          key="access-control"
-          path="/access-control"
+          key="permissions/schemes"
+          path="/permissions/schemes"
           render={[Function]}
         />
         <Route
-          key="permissions"
-          path="/permissions"
+          key="permissions/system-scheme"
+          path="/permissions/system-scheme"
           render={[Function]}
         />
         <Route
-          key="authentication"
-          path="/authentication"
+          key="permissions/team-override-scheme"
+          path="/permissions/team-override-scheme"
           render={[Function]}
         />
         <Route
-          key="security"
-          path="/security"
+          key="web_server"
+          path="/web_server"
           render={[Function]}
         />
         <Route
-          key="notifications"
-          path="/notifications"
+          key="database"
+          path="/database"
           render={[Function]}
         />
         <Route
-          key="integrations"
-          path="/integrations"
+          key="elasticsearch"
+          path="/elasticsearch"
           render={[Function]}
         />
         <Route
-          key="plugins"
-          path="/plugins"
+          key="file_storage"
+          path="/file_storage"
           render={[Function]}
         />
         <Route
-          key="files"
-          path="/files"
+          key="image_proxy"
+          path="/image_proxy"
           render={[Function]}
         />
         <Route
-          key="customization"
-          path="/customization"
+          key="notifications_email"
+          path="/notifications_email"
           render={[Function]}
         />
         <Route
-          key="compliance"
-          path="/compliance"
+          key="push"
+          path="/push"
           render={[Function]}
         />
         <Route
-          key="advanced"
-          path="/advanced"
+          key="cluster"
+          path="/cluster"
+          render={[Function]}
+        />
+        <Route
+          key="rate"
+          path="/rate"
+          render={[Function]}
+        />
+        <Route
+          key="logging"
+          path="/logging"
+          render={[Function]}
+        />
+        <Route
+          key="session_lengths"
+          path="/session_lengths"
+          render={[Function]}
+        />
+        <Route
+          key="metrics"
+          path="/metrics"
+          render={[Function]}
+        />
+        <Route
+          key="developer"
+          path="/developer"
+          render={[Function]}
+        />
+        <Route
+          key="customization_new"
+          path="/customization_new"
+          render={[Function]}
+        />
+        <Route
+          key="localization"
+          path="/localization"
+          render={[Function]}
+        />
+        <Route
+          key="users_and_teams"
+          path="/users_and_teams"
+          render={[Function]}
+        />
+        <Route
+          key="announcement"
+          path="/announcement"
+          render={[Function]}
+        />
+        <Route
+          key="emoji"
+          path="/emoji"
+          render={[Function]}
+        />
+        <Route
+          key="posts"
+          path="/posts"
+          render={[Function]}
+        />
+        <Route
+          key="file_sharing_and_downloads"
+          path="/file_sharing_and_downloads"
+          render={[Function]}
+        />
+        <Route
+          key="public_links"
+          path="/public_links"
+          render={[Function]}
+        />
+        <Route
+          key="signup"
+          path="/signup"
+          render={[Function]}
+        />
+        <Route
+          key="authentication_email"
+          path="/authentication_email"
+          render={[Function]}
+        />
+        <Route
+          key="password"
+          path="/password"
+          render={[Function]}
+        />
+        <Route
+          key="mfa"
+          path="/mfa"
+          render={[Function]}
+        />
+        <Route
+          key="ldap"
+          path="/ldap"
+          render={[Function]}
+        />
+        <Route
+          key="saml"
+          path="/saml"
+          render={[Function]}
+        />
+        <Route
+          key="gitlab"
+          path="/gitlab"
+          render={[Function]}
+        />
+        <Route
+          key="oauth"
+          path="/oauth"
+          render={[Function]}
+        />
+        <Route
+          key="integrations/features"
+          path="/integrations/features"
+          render={[Function]}
+        />
+        <Route
+          key="integrations/plugins"
+          path="/integrations/plugins"
+          render={[Function]}
+        />
+        <Route
+          key="plugins/custom/:plugin_id"
+          path="/plugins/custom/:plugin_id"
+          render={[Function]}
+        />
+        <Route
+          key="integrations/gif"
+          path="/integrations/gif"
+          render={[Function]}
+        />
+        <Route
+          key="integrations/cors"
+          path="/integrations/cors"
+          render={[Function]}
+        />
+        <Route
+          key="compliance/data_retention"
+          path="/compliance/data_retention"
+          render={[Function]}
+        />
+        <Route
+          key="compliance/export"
+          path="/compliance/export"
+          render={[Function]}
+        />
+        <Route
+          key="compliance/settings"
+          path="/compliance/settings"
+          render={[Function]}
+        />
+        <Route
+          key="compliance/monitoring"
+          path="/compliance/monitoring"
+          render={[Function]}
+        />
+        <Route
+          key="compliance/custom_terms_of_service"
+          path="/compliance/custom_terms_of_service"
+          render={[Function]}
+        />
+        <Route
+          key="compliance/experimental_features"
+          path="/compliance/experimental_features"
           render={[Function]}
         />
         <Redirect
-          to="/system_analytics"
+          push={false}
+          to="/license"
         />
       </Switch>
     </Highlight>
