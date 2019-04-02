@@ -1902,15 +1902,23 @@
         border-radius: 0;
         z-index: 1070;
 
+        > ul {
+            margin-top: 66px;
+        }
+
         &.bottom {
             margin-top: 0;
+        }
+
+        .search-grid-container {
+            height: calc(100vh - 170px);
         }
     }
 
     .emoji-picker__inner {
         display: flex;
         flex-direction: column;
-        height: 100%;
+        height: calc(100vh - 100px);
 
         >* {
             flex-grow: 0;

@@ -79,7 +79,7 @@
 
     .nav-tabs {
         margin-bottom: 0px;
-        height: 34px;
+        flex: 0 0 34px;
         display: flex;
         justify-content: flex-end;
 
@@ -148,6 +148,9 @@
     background: $primary-color;
     border: 1px solid $light-gray;
     color: $white;
+    position: absolute;
+    top: 0;
+    width: 100%;
 
     .emoji-picker__header-title {
         margin-top: 2px;
