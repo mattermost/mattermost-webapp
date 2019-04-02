@@ -332,7 +332,6 @@ export default class PostList extends React.PureComponent {
         const didUserScrollBackwards = scrollDirection === 'backward' && !scrollUpdateWasRequested;
         const isOffsetWithInRange = scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
         if (isNotLoadingPosts && didUserScrollBackwards && isOffsetWithInRange && !this.state.atEnd) {
-            this.loadingMorePosts = true;
             this.loadMorePosts();
         }
 
@@ -410,7 +409,16 @@ export default class PostList extends React.PureComponent {
         const newMessagesSeparatorIndex = this.state.postListIds.findIndex(
             (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
         );
+
         if (newMessagesSeparatorIndex > 0) {
+            const topMostPostIndex = getClosestValidPostIndex(this.state.postListIds, this.state.postListIds.length);
+            if (newMessagesSeparatorIndex === topMostPostIndex + 1) {
+                this.loadMorePosts();
+                return {
+                    index: this.state.postListIds.length - 1,
+                    position: 'start',
+                };
+            }
             return {
                 index: newMessagesSeparatorIndex,
                 position: 'start',
