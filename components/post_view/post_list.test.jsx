@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import PostList from 'components/post_view/post_list.jsx';
@@ -26,7 +27,7 @@ const returnDummyPostsAndIds = () => {
         postsArray,
         Ids,
     };
-}
+};
 
 describe('components/post_view/post_list', () => {
     const posts = [{
