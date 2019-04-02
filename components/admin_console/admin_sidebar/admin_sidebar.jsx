@@ -392,7 +392,7 @@ export default class AdminSidebar extends React.Component {
                             </li>
                             {this.renderRootMenu(AdminDefinition.about, 'fa-info', 'admin.sidebar.about', 'ABOUT')}
                             {this.renderRootMenu(AdminDefinition.reporting, 'fa-bar-chart', 'admin.sidebar.reports', 'REPORTING')}
-                            {this.renderRootMenu(AdminDefinition.user_management, 'fa-users', 'admin.sidebar.user_management', 'USER MANAGEMENT')}
+                            {this.renderRootMenu(AdminDefinition.user_management, 'fa-users', 'admin.sidebar.userManagement', 'USER MANAGEMENT')}
                             {this.renderRootMenu(AdminDefinition.environment, 'fa-server', 'admin.sidebar.environment', 'ENVIRONMENT')}
                             {this.renderRootMenu(AdminDefinition.site, 'fa-cogs', 'admin.sidebar.site', 'SITE CONFIGURATION')}
                             {this.renderRootMenu(AdminDefinition.authentication, 'fa-shield', 'admin.sidebar.authentication', 'AUTHENTICATION')}

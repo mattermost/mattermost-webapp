@@ -263,8 +263,8 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           render={[Function]}
         />
         <Route
-          key="compliance/experimental_features"
-          path="/compliance/experimental_features"
+          key="experimental/features"
+          path="/experimental/features"
           render={[Function]}
         />
         <Redirect

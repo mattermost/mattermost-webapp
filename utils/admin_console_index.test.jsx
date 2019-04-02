@@ -19,13 +19,14 @@ describe('AdminConsoleIndex.generateIndex', () => {
             'mfa',
             'ldap',
             'saml',
+            'experimental/features',
             'authentication_email',
-            'compliance/experimental_features',
         ]);
         expect(idx.search('saml')).toEqual([
             'saml',
             'session_lengths',
             'authentication_email',
+            'experimental/features',
         ]);
         expect(idx.search('nginx')).toEqual([
             'rate',
@@ -48,13 +49,14 @@ describe('AdminConsoleIndex.generateIndex', () => {
             'mfa',
             'ldap',
             'saml',
+            'experimental/features',
             'authentication_email',
-            'compliance/experimental_features',
         ]);
         expect(idx.search('saml')).toEqual([
             'saml',
             'session_lengths',
             'authentication_email',
+            'experimental/features',
         ]);
         expect(idx.search('nginx')).toEqual([
             'rate',

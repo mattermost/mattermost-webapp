@@ -176,7 +176,7 @@ export default {
     reporting: {
         system_analytics: {
             url: 'system_analytics',
-            title: t('admin.sidebar.view_statistics'),
+            title: t('admin.sidebar.siteStatistics'),
             title_default: 'Site Statistics',
             searchableStrings: [
                 'analytics.system.title',
@@ -204,7 +204,7 @@ export default {
         },
         team_analytics: {
             url: 'team_analytics',
-            title: t('admin.sidebar.statistics'),
+            title: t('admin.sidebar.teamStatistics'),
             title_default: 'Team Statistics',
             searchableStrings: [
                 ['analytics.team.title', {team: ''}],
@@ -300,8 +300,8 @@ export default {
         },
         systemScheme: {
             url: 'permissions/system-scheme',
-            title: t('admin.sidebar.system-scheme'),
-            title_default: 'System scheme',
+            title: t('admin.sidebar.systemScheme'),
+            title_default: 'System Scheme',
             isHidden: needsUtils.or(
                 needsUtils.not(needsUtils.hasLicense),
                 needsUtils.hasLicenseFeature('CustomPermissionsSchemes')
@@ -323,11 +323,11 @@ export default {
     environment: {
         web_server: {
             url: 'web_server',
-            title: t('admin.sidebar.web_server'),
+            title: t('admin.sidebar.webServer'),
             title_default: 'Web Server',
             schema: {
                 id: 'ServiceSettings',
-                name: t('admin.environment.web_server'),
+                name: t('admin.environment.webServer'),
                 name_default: 'Web Server',
                 settings: [
                     {
@@ -591,7 +591,7 @@ export default {
             title_default: 'File Storage',
             schema: {
                 id: 'FileSettings',
-                name: t('admin.filesStorage'),
+                name: t('admin.environment.fileStorage'),
                 name_default: 'File Storage',
                 settings: [
                     {
@@ -1238,7 +1238,7 @@ export default {
             title_default: 'Customization',
             schema: {
                 id: 'Customization',
-                name: t('admin.customization.customization'),
+                name: t('admin.site.customization'),
                 name_default: 'Customization',
                 settings: [
                     {
@@ -1359,7 +1359,7 @@ export default {
             title_default: 'Localization',
             schema: {
                 id: 'LocalizationSettings',
-                name: t('admin.general.localization'),
+                name: t('admin.site.localization'),
                 name_default: 'Localization',
                 settings: [
                     {
@@ -1401,7 +1401,7 @@ export default {
             title_default: 'Users and Teams',
             schema: {
                 id: 'UserAndTeamsSettings',
-                name: t('admin.general.usersAndTeams'),
+                name: t('admin.site.usersAndTeams'),
                 name_default: 'Users and Teams',
                 settings: [
                     {
@@ -1541,7 +1541,7 @@ export default {
             isHidden: needsUtils.not(needsUtils.hasLicense),
             schema: {
                 id: 'AnnouncementSettings',
-                name: t('admin.customization.announcement'),
+                name: t('admin.site.announcementBanner'),
                 name_default: 'Announcement Banner',
                 settings: [
                     {
@@ -1593,7 +1593,7 @@ export default {
             title_default: 'Emoji',
             schema: {
                 id: 'EmojiSettings',
-                name: t('admin.customization.emoji'),
+                name: t('admin.site.emoji'),
                 name_default: 'Emoji',
                 settings: [
                     {
@@ -1695,7 +1695,7 @@ export default {
             title_default: 'Public Links',
             schema: {
                 id: 'PublicLinkSettings',
-                name: t('admin.security.public_links'),
+                name: t('admin.site.public_links'),
                 name_default: 'Public Links',
                 settings: [
                     {
@@ -1725,7 +1725,7 @@ export default {
             title_default: 'Sign Up',
             schema: {
                 id: 'SignupSettings',
-                name: t('admin.security.signup'),
+                name: t('admin.authentication.signup'),
                 name_default: 'Signup',
                 settings: [
                     {
@@ -1854,7 +1854,7 @@ export default {
             title_default: 'MFA',
             schema: {
                 id: 'ServiceSettings',
-                name: t('admin.mfa.title'),
+                name: t('admin.authentication.mfa'),
                 name_default: 'Multi-factor Authentication',
                 settings: [
                     {
@@ -3024,17 +3024,14 @@ export default {
         },
     },
     integrations: {
-        url: 'integrations',
-        title: t('admin.sidebar.integrations'),
-        title_default: 'Integrations',
         features: {
             url: 'integrations/features',
-            title: t('admin.integrations.features'),
+            title: t('admin.sidebar.features'),
             title_default: 'Features',
             schema: {
                 id: 'CustomIntegrationSettings',
-                name: t('admin.integrations.custom'),
-                name_default: 'Custom Integrations',
+                name: t('admin.integrations.integrationsFeatures'),
+                name_default: 'Integrations Features',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3144,7 +3141,7 @@ export default {
             title_default: 'GIF (Beta)',
             schema: {
                 id: 'GifSettings',
-                name: t('admin.customization.gif'),
+                name: t('admin.integrations.gif'),
                 name_default: 'GIF (Beta)',
                 settings: [
                     {
@@ -3181,7 +3178,7 @@ export default {
             title_default: 'CORS',
             schema: {
                 id: 'CORSSettings',
-                name: t('admin.security.cors'),
+                name: t('admin.integrations.corsSettings'),
                 name_default: 'CORS Settings',
                 settings: [
                     {
@@ -3233,12 +3230,9 @@ export default {
         },
     },
     compliance: {
-        url: 'compliance',
-        title: t('admin.sidebar.compliance'),
-        title_default: 'Compliance',
         data_retention: {
             url: 'compliance/data_retention',
-            title: t('admin.sidebar.data_retention'),
+            title: t('admin.sidebar.dataRetentionPolicy'),
             title_default: 'Data Retention Policy',
             isHidden: needsUtils.not(needsUtils.hasLicenseFeature('DataRetention')),
             searchableStrings: [
@@ -3262,7 +3256,7 @@ export default {
         },
         message_export: {
             url: 'compliance/export',
-            title: t('admin.sidebar.compliance_export'),
+            title: t('admin.sidebar.complianceExport'),
             title_default: 'Compliance Export (Beta)',
             isHidden: needsUtils.not(needsUtils.hasLicenseFeature('MessageExport')),
             searchableStrings: [
@@ -3295,7 +3289,7 @@ export default {
             isHidden: needsUtils.not(needsUtils.hasLicenseFeature('Compliance')),
             schema: {
                 id: 'ComplianceSettings',
-                name: t('admin.compliance.title'),
+                name: t('admin.compliance.complianceSettings'),
                 name_default: 'Compliance Settings',
                 settings: [
                     {
@@ -3344,7 +3338,7 @@ export default {
         },
         audits: {
             url: 'compliance/monitoring',
-            title: t('admin.sidebar.audits'),
+            title: t('admin.sidebar.complianceMonitoring'),
             title_default: 'Compliance Monitoring',
             isHidden: needsUtils.not(needsUtils.hasLicense),
             searchableStrings: [
@@ -3377,23 +3371,50 @@ export default {
         },
     },
     experimental: {
-        url: 'experimental',
-        title: t('admin.sidebar.experimental'),
-        title_default: 'Experimental',
         experimental_features: {
-            url: 'compliance/experimental_features',
-            title: t('admin.sidebar.experimental_features'),
+            url: 'experimental/features',
+            title: t('admin.sidebar.experimentalFeatures'),
             title_default: 'Features',
             schema: {
                 id: 'ExperimentalSettings',
-                name: t('admin.experimental.features'),
-                name_default: 'Features',
+                name: t('admin.experimental.experimentalFeatures'),
+                name_default: 'Experimental Features',
                 settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'LdapSettings.LoginButtonColor',
+                        label: t('admin.experimental.ldapSettingsLoginButtonColor.title'),
+                        label_default: 'AD/LDAP Login Button Color:',
+                        help_text: t('admin.experimental.ldapSettingsLoginButtonColor.desc'),
+                        help_text_default: 'Specify the color of the AD/LDAP login button for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
+                        help_text_markdown: false,
+                        isHidden: needsUtils.not(needsUtils.hasLicenseFeature('LDAP')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'LdapSettings.LoginButtonBorderColor',
+                        label: t('admin.experimental.ldapSettingsLoginButtonBorderColor.title'),
+                        label_default: 'AD/LDAP Login Button Border Color:',
+                        help_text: t('admin.experimental.ldapSettingsLoginButtonBorderColor.desc'),
+                        help_text_default: 'Specify the color of the AD/LDAP login button border for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
+                        help_text_markdown: false,
+                        isHidden: needsUtils.not(needsUtils.hasLicenseFeature('LDAP')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'LdapSettings.LoginButtonTextColor',
+                        label: t('admin.experimental.ldapSettingsLoginButtonTextColor.title'),
+                        label_default: 'AD/LDAP Login Button Text Color:',
+                        help_text: t('admin.experimental.ldapSettingsLoginButtonTextColor.desc'),
+                        help_text_default: 'Specify the color of the AD/LDAP login button text for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
+                        help_text_markdown: false,
+                        isHidden: needsUtils.not(needsUtils.hasLicenseFeature('LDAP')),
+                    },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.ExperimentalEnableAuthenticationTransfer',
                         label: t('admin.experimental.experimentalEnableAuthenticationTransfer.title'),
-                        label_default: 'Allow Authentication Transfer',
+                        label_default: 'Allow Authentication Transfer:',
                         help_text: t('admin.experimental.experimentalEnableAuthenticationTransfer.desc'),
                         help_text_default: 'When true, users can change their sign-in method to any that is enabled on the server, either via Account Settings or the APIs. When false, Users cannot change their sign-in method, regardless of which authentication options are enabled.',
                         help_text_markdown: false,
@@ -3403,7 +3424,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.CloseUnusedDirectMessages',
                         label: t('admin.experimental.closeUnusedDirectMessages.title'),
-                        label_default: 'Autoclose Direct Messages in Sidebar',
+                        label_default: 'Autoclose Direct Messages in Sidebar:',
                         help_text: t('admin.experimental.closeUnusedDirectMessages.desc'),
                         help_text_default: 'When true, direct message conversations with no activity for 7 days will be hidden from the sidebar. When false, conversations remain in the sidebar until they are manually closed.',
                         help_text_markdown: false,
@@ -3412,7 +3433,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ExperimentalSettings.DisablePostMetadata',
                         label: t('admin.experimental.disablePostMetadata.title'),
-                        label_default: 'Disable Post Metadata',
+                        label_default: 'Disable Post Metadata:',
                         help_text: t('admin.experimental.disablePostMetadata.desc'),
                         help_text_default: 'Load channels with more accurate scroll positioning by loading post metadata. Enabling this setting may increase channel and post load times.',
                         help_text_markdown: false,
@@ -3421,7 +3442,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
                         key: 'ExperimentalSettings.LinkMetadataTimeoutMilliseconds',
                         label: t('admin.experimental.linkMetadataTimeoutMilliseconds.title'),
-                        label_default: 'Link Metadata Timeout',
+                        label_default: 'Link Metadata Timeout:',
                         help_text: t('admin.experimental.linkMetadataTimeoutMilliseconds.desc'),
                         help_text_default: 'The number of milliseconds to wait for metadata from a third-party link. Used with Post Metadata.',
                         help_text_markdown: false,
@@ -3433,7 +3454,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
                         key: 'EmailSettings.EmailBatchingBufferSize',
                         label: t('admin.experimental.emailBatchingBufferSize.title'),
-                        label_default: 'Email Batching Buffer Size',
+                        label_default: 'Email Batching Buffer Size:',
                         help_text: t('admin.experimental.emailBatchingBufferSize.desc'),
                         help_text_default: 'Specify the maximum number of notifications batched into a single email.',
                         help_text_markdown: false,
@@ -3444,7 +3465,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
                         key: 'EmailSettings.EmailBatchingInterval',
                         label: t('admin.experimental.emailBatchingInterval.title'),
-                        label_default: 'Email Batching Interval',
+                        label_default: 'Email Batching Interval:',
                         help_text: t('admin.experimental.emailBatchingInterval.desc'),
                         help_text_default: 'Specify the maximum frequency, in seconds, which the batching job checks for new notifications. Longer batching intervals will increase performance.',
                         help_text_markdown: false,
@@ -3452,10 +3473,37 @@ export default {
                         placeholder_default: 'E.g.: "30"',
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'EmailSettings.LoginButtonColor',
+                        label: t('admin.experimental.emailSettingsLoginButtonColor.title'),
+                        label_default: 'Email Login Button Color:',
+                        help_text: t('admin.experimental.emailSettingsLoginButtonColor.desc'),
+                        help_text_default: 'Specify the color of the email login button for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
+                        help_text_markdown: false,
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'EmailSettings.LoginButtonBorderColor',
+                        label: t('admin.experimental.emailSettingsLoginButtonBorderColor.title'),
+                        label_default: 'Email Login Button Border Color:',
+                        help_text: t('admin.experimental.emailSettingsLoginButtonBorderColor.desc'),
+                        help_text_default: 'Specify the color of the email login button border for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
+                        help_text_markdown: false,
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'EmailSettings.LoginButtonTextColor',
+                        label: t('admin.experimental.emailSettingsLoginButtonTextColor.title'),
+                        label_default: 'Email Login Button Text Color:',
+                        help_text: t('admin.experimental.emailSettingsLoginButtonTextColor.desc'),
+                        help_text_default: 'Specify the color of the email login button text for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
+                        help_text_markdown: false,
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'TeamSettings.EnableUserDeactivation',
                         label: t('admin.experimental.enableUserDeactivation.title'),
-                        label_default: 'Enable Account Deactivation',
+                        label_default: 'Enable Account Deactivation:',
                         help_text: t('admin.experimental.enableUserDeactivation.desc'),
                         help_text_default: 'When true, users may deactivate their own account from **Account Settings > Advanced**. If a user deactivates their own account, they will get an email notification confirming they were deactivated. When false, users may not deactivate their own account.',
                         help_text_markdown: true,
@@ -3464,7 +3512,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'TeamSettings.ExperimentalEnableAutomaticReplies',
                         label: t('admin.experimental.experimentalEnableAutomaticReplies.title'),
-                        label_default: 'Enable Automatic Replies',
+                        label_default: 'Enable Automatic Replies:',
                         help_text: t('admin.experimental.experimentalEnableAutomaticReplies.desc'),
                         help_text_default: 'When true, users can enable Automatic Replies in **Account Settings > Notifications**. Users set a custom message that will be automatically sent in response to Direct Messages. When false, disables the Automatic Direct Message Replies feature and hides it from Account Settings.',
                         help_text_markdown: true,
@@ -3473,7 +3521,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableChannelViewedMessages',
                         label: t('admin.experimental.enableChannelViewedMessages.title'),
-                        label_default: 'Enable Channel Viewed WebSocket Messages',
+                        label_default: 'Enable Channel Viewed WebSocket Messages:',
                         help_text: t('admin.experimental.enableChannelViewedMessages.desc'),
                         help_text_default: 'This setting determines whether `channel_viewed` WebSocket events are sent, which synchronize unread notifications across clients and devices. Disabling the setting in larger deployments may improve server performance.',
                         help_text_markdown: false,
@@ -3482,7 +3530,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ExperimentalSettings.ClientSideCertEnable',
                         label: t('admin.experimental.clientSideCertEnable.title'),
-                        label_default: 'Enable Client-Side Certification',
+                        label_default: 'Enable Client-Side Certification:',
                         help_text: t('admin.experimental.clientSideCertEnable.desc'),
                         help_text_default: 'Enables client-side certification for your Mattermost server. See [documentation](!https://docs.mattermost.com/deployment/certificate-based-authentication.html) to learn more.',
                         help_text_markdown: true,
@@ -3492,7 +3540,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
                         key: 'ExperimentalSettings.ClientSideCertCheck',
                         label: t('admin.experimental.clientSideCertCheck.title'),
-                        label_default: 'Client-Side Certification Login Method',
+                        label_default: 'Client-Side Certification Login Method:',
                         help_text: t('admin.experimental.clientSideCertCheck.desc'),
                         help_text_default: 'When **primary**, after the client side certificate is verified, user’s email is retrieved from the certificate and is used to log in without a password. When **secondary**, after the client side certificate is verified, user’s email is retrieved from the certificate and matched against the one supplied by the user. If they match, the user logs in with regular email/password credentials.',
                         help_text_markdown: true,
@@ -3515,7 +3563,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.ExperimentalEnableDefaultChannelLeaveJoinMessages',
                         label: t('admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title'),
-                        label_default: 'Enable Default Channel Leave/Join System Messages',
+                        label_default: 'Enable Default Channel Leave/Join System Messages:',
                         help_text: t('admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc'),
                         help_text_default: 'This setting determines whether team leave/join system messages are posted in the default town-square channel.',
                         help_text_markdown: false,
@@ -3524,7 +3572,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.ExperimentalEnableHardenedMode',
                         label: t('admin.experimental.experimentalEnableHardenedMode.title'),
-                        label_default: 'Enable Hardened Mode',
+                        label_default: 'Enable Hardened Mode:',
                         help_text: t('admin.experimental.experimentalEnableHardenedMode.desc'),
                         help_text_default: 'Enables a hardened mode for Mattermost that makes user experience trade-offs in the interest of security. See [documentation](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) to learn more.',
                         help_text_markdown: true,
@@ -3533,16 +3581,16 @@ export default {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.ExperimentalLdapGroupSync',
                         label: t('admin.experimental.experimentalLdapGroupSync.title'),
-                        label_default: 'Enable AD/LDAP Group Sync',
+                        label_default: 'Enable AD/LDAP Group Sync:',
                         help_text: t('admin.experimental.experimentalLdapGroupSync.desc'),
-                        help_text_default: 'When true, enables **AD/LDAP Group Sync** configurable under **Access Controls > Groups**. See [documentation](!https://docs.mattermost.com/deployment/ldap-group-sync.html) to learn more.',
+                        help_text_default: 'When true, enables **AD/LDAP Group Sync** configurable under **Access Controls > Groups**. See [documentation](!https://mattermost.com/pl/default-ldap-group-sync) to learn more.',
                         help_text_markdown: true,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnablePreviewFeatures',
                         label: t('admin.experimental.enablePreviewFeatures.title'),
-                        label_default: 'Enable Preview Features',
+                        label_default: 'Enable Preview Features:',
                         help_text: t('admin.experimental.enablePreviewFeatures.desc'),
                         help_text_default: 'When true, preview features can be enabled from **Account Settings > Advanced > Preview pre-release features**. When false, disables and hides preview features from **Account Settings > Advanced > Preview pre-release features**.',
                         help_text_markdown: true,
@@ -3551,7 +3599,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ThemeSettings.EnableThemeSelection',
                         label: t('admin.experimental.enableThemeSelection.title'),
-                        label_default: 'Enable Theme Selection',
+                        label_default: 'Enable Theme Selection:',
                         help_text: t('admin.experimental.enableThemeSelection.desc'),
                         help_text_default: 'Enables the **Display > Theme** tab in Account Settings so users can select their theme.',
                         help_text_markdown: true,
@@ -3561,7 +3609,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ThemeSettings.AllowCustomThemes',
                         label: t('admin.experimental.allowCustomThemes.title'),
-                        label_default: 'Allow Custom Themes',
+                        label_default: 'Allow Custom Themes:',
                         help_text: t('admin.experimental.allowCustomThemes.desc'),
                         help_text_default: 'Enables the **Display > Theme > Custom Theme** section in Account Settings.',
                         help_text_markdown: true,
@@ -3573,7 +3621,7 @@ export default {
                     //     type: Constants.SettingsTypes.TYPE_LIST,
                     //     key: 'ThemeSettings.AllowedThemes',
                     //     label: t('admin.experimental.allowedThemes.title'),
-                    //     label_default: 'Allowed Themes',
+                    //     label_default: 'Allowed Themes:',
                     //     help_text: t('admin.experimental.allowedThemes.desc'),
                     //     help_text_default: 'A comma-separated list of themes that can be chosen by users when "EnableThemeSelection" is set to true.',
                     //     help_text_markdown: true,
@@ -3586,7 +3634,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'ThemeSettings.DefaultTheme',
                         label: t('admin.experimental.defaultTheme.title'),
-                        label_default: 'Default Theme',
+                        label_default: 'Default Theme:',
                         help_text: t('admin.experimental.defaultTheme.desc'),
                         help_text_default: 'Set a default theme that applies to all new users on the system.',
                         help_text_markdown: true,
@@ -3618,7 +3666,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableTutorial',
                         label: t('admin.experimental.enableTutorial.title'),
-                        label_default: 'Enable Tutorial',
+                        label_default: 'Enable Tutorial:',
                         help_text: t('admin.experimental.enableTutorial.desc'),
                         help_text_default: 'When true, users are prompted with a tutorial when they open Mattermost for the first time after account creation. When false, the tutorial is disabled, and users are placed in Town Square when they open Mattermost for the first time after account creation.',
                         help_text_markdown: false,
@@ -3627,7 +3675,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableUserTypingMessages',
                         label: t('admin.experimental.enableUserTypingMessages.title'),
-                        label_default: 'Enable User Typing Messages',
+                        label_default: 'Enable User Typing Messages:',
                         help_text: t('admin.experimental.enableUserTypingMessages.desc'),
                         help_text_default: 'This setting determines whether "user is typing..." messages are displayed below the message box. Disabling the setting in larger deployments may improve server performance.',
                         help_text_markdown: false,
@@ -3636,7 +3684,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
                         key: 'ServiceSettings.TimeBetweenUserTypingUpdatesMilliseconds',
                         label: t('admin.experimental.timeBetweenUserTypingUpdatesMilliseconds.title'),
-                        label_default: 'User Typing Timeout',
+                        label_default: 'User Typing Timeout:',
                         help_text: t('admin.experimental.timeBetweenUserTypingUpdatesMilliseconds.desc'),
                         help_text_default: 'The number of milliseconds to wait between emitting user typing websocket events.',
                         help_text_markdown: false,
@@ -3648,7 +3696,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'TeamSettings.EnableXToLeaveChannelsFromLHS',
                         label: t('admin.experimental.enableXToLeaveChannelsFromLHS.title'),
-                        label_default: 'Enable X to Leave Channels from Left-Hand Sidebar',
+                        label_default: 'Enable X to Leave Channels from Left-Hand Sidebar:',
                         help_text: t('admin.experimental.enableXToLeaveChannelsFromLHS.desc'),
                         help_text_default: 'When true, users can leave Public and Private Channels by clicking the “x” beside the channel name. When false, users must use the **Leave Channel** option from the channel menu to leave channels.',
                         help_text_markdown: true,
@@ -3657,7 +3705,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'TeamSettings.ExperimentalPrimaryTeam',
                         label: t('admin.experimental.experimentalPrimaryTeam.title'),
-                        label_default: 'Primary Team',
+                        label_default: 'Primary Team:',
                         help_text: t('admin.experimental.experimentalPrimaryTeam.desc'),
                         help_text_default: 'The primary team of which users on the server are members. When a primary team is set, the options to join other teams or leave the primary team are disabled.',
                         help_text_markdown: true,
@@ -3665,10 +3713,40 @@ export default {
                         placeholder_default: 'E.g.: "teamname"',
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SamlSettings.LoginButtonColor',
+                        label: t('admin.experimental.samlSettingsLoginButtonColor.title'),
+                        label_default: 'SAML Login Button Color:',
+                        help_text: t('admin.experimental.samlSettingsLoginButtonColor.desc'),
+                        help_text_default: 'Specify the color of the SAML login button for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
+                        help_text_markdown: false,
+                        isHidden: needsUtils.not(needsUtils.hasLicenseFeature('SAML')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SamlSettings.LoginButtonBorderColor',
+                        label: t('admin.experimental.samlSettingsLoginButtonBorderColor.title'),
+                        label_default: 'SAML Login Button Border Color:',
+                        help_text: t('admin.experimental.samlSettingsLoginButtonBorderColor.desc'),
+                        help_text_default: 'Specify the color of the SAML login button border for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
+                        help_text_markdown: false,
+                        isHidden: needsUtils.not(needsUtils.hasLicenseFeature('SAML')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SamlSettings.LoginButtonTextColor',
+                        label: t('admin.experimental.samlSettingsLoginButtonTextColor.title'),
+                        label_default: 'SAML Login Button Text Color:',
+                        help_text: t('admin.experimental.samlSettingsLoginButtonTextColor.desc'),
+                        help_text_default: 'Specify the color of the SAML login button text for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
+                        help_text_markdown: false,
+                        isHidden: needsUtils.not(needsUtils.hasLicenseFeature('SAML')),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.ExperimentalChannelOrganization',
                         label: t('admin.experimental.experimentalChannelOrganization.title'),
-                        label_default: 'Sidebar Organization',
+                        label_default: 'Sidebar Organization:',
                         help_text: t('admin.experimental.experimentalChannelOrganization.desc'),
                         help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list.',
                         help_text_markdown: true,
@@ -3677,7 +3755,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'DisplaySettings.ExperimentalTimezone',
                         label: t('admin.experimental.experimentalTimezone.title'),
-                        label_default: 'Timezone',
+                        label_default: 'Timezone:',
                         help_text: t('admin.experimental.experimentalTimezone.desc'),
                         help_text_default: 'Select the timezone used for timestamps in the user interface and email notifications. When true, the Timezone setting is visible in the Account Settings and a time zone is automatically assigned in the next active session. When false, the Timezone setting is hidden in the Account Settings.',
                         help_text_markdown: false,
@@ -3686,7 +3764,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'TeamSettings.ExperimentalHideTownSquareinLHS',
                         label: t('admin.experimental.experimentalHideTownSquareinLHS.title'),
-                        label_default: 'Town Square is Hidden in Left-Hand Sidebar',
+                        label_default: 'Town Square is Hidden in Left-Hand Sidebar:',
                         help_text: t('admin.experimental.experimentalHideTownSquareinLHS.desc'),
                         help_text_default: 'When true, hides Town Square in the left-hand sidebar if there are no unread messages in the channel. When false, Town Square is always visible in the left-hand sidebar even if all messages have been read.',
                         help_text_markdown: true,
@@ -3696,7 +3774,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'TeamSettings.ExperimentalTownSquareIsReadOnly',
                         label: t('admin.experimental.experimentalTownSquareIsReadOnly.title'),
-                        label_default: 'Town Square is Read-Only',
+                        label_default: 'Town Square is Read-Only:',
                         help_text: t('admin.experimental.experimentalTownSquareIsReadOnly.desc'),
                         help_text_default: 'When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are able to change the channel name, header or purpose. When false, anyone can post in Town Square.',
                         help_text_markdown: true,
@@ -3706,7 +3784,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'EmailSettings.UseChannelInEmailNotifications',
                         label: t('admin.experimental.useChannelInEmailNotifications.title'),
-                        label_default: 'Use Channel Name in Email Notifications',
+                        label_default: 'Use Channel Name in Email Notifications:',
                         help_text: t('admin.experimental.useChannelInEmailNotifications.desc'),
                         help_text_default: 'When true, channel and team name appears in email notification subject lines. Useful for servers using only one team. When false, only team name appears in email notification subject line.',
                         help_text_markdown: false,
@@ -3715,7 +3793,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
                         key: 'TeamSettings.UserStatusAwayTimeout',
                         label: t('admin.experimental.userStatusAwayTimeout.title'),
-                        label_default: 'User Status Away Timeout',
+                        label_default: 'User Status Away Timeout:',
                         help_text: t('admin.experimental.userStatusAwayTimeout.desc'),
                         help_text_default: 'This setting defines the number of seconds after which the user’s status indicator changes to "Away", when they are away from Mattermost.',
                         help_text_markdown: false,
@@ -3726,7 +3804,7 @@ export default {
                     //     type: Constants.SettingsTypes.TYPE_BOOL,
                     //     key: 'ServiceSettings.ExperimentalStrictCSRFEnforcement',
                     //     label: t('admin.experimental.experimentalStrictCSRFEnforcement.title'),
-                    //     label_default: 'TODO',
+                    //     label_default: 'TODO:',
                     //     help_text: t('admin.experimental.experimentalStrictCSRFEnforcement.desc'),
                     //     help_text_default: 'TODO',
                     //     help_text_markdown: false,
@@ -3735,7 +3813,7 @@ export default {
                     //     type: Constants.SettingsTypes.TYPE_LIST,
                     //     key: 'TeamSettings.ExperimentalDefaultChannels',
                     //     label: t('admin.experimental.experimentalDefaultChannels.title'),
-                    //     label_default: 'Default Channels',
+                    //     label_default: 'Default Channels:',
                     //     help_text: t('admin.experimental.experimentalDefaultChannels.desc'),
                     //     help_text_default: 'A comma-separated list of default channels every user is added to automatically after joining a new team. Only applies to public channels, but affects all teams on the server. When not set, every user is added to `off-topic` and `town-square` channel by default. Note that even if `town-square` is not listed, every user is added to that channel after joining a new team.',
                     //     help_text_markdown: true,
@@ -3746,7 +3824,7 @@ export default {
                     //     type: Constants.SettingsTypes.TYPE_TEXT,
                     //     key: 'EmailSettings.ReplyToAddress',
                     //     label: t('admin.experimental.replyToAddress.title'),
-                    //     label_default: 'Reply To Address',
+                    //     label_default: 'Reply To Address:',
                     //     help_text: t('admin.experimental.replyToAddress.desc'),
                     //     help_text_default: 'TODO',
                     //     help_text_markdown: true,

@@ -50,7 +50,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             title={
               <FormattedMessage
                 defaultMessage="Site Statistics"
-                id="admin.sidebar.view_statistics"
+                id="admin.sidebar.siteStatistics"
                 values={Object {}}
               />
             }
@@ -63,7 +63,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             title={
               <FormattedMessage
                 defaultMessage="Team Statistics"
-                id="admin.sidebar.statistics"
+                id="admin.sidebar.teamStatistics"
                 values={Object {}}
               />
             }
@@ -89,7 +89,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           title={
             <FormattedMessage
               defaultMessage="USER MANAGEMENT"
-              id="admin.sidebar.user_management"
+              id="admin.sidebar.userManagement"
               values={Object {}}
             />
           }
@@ -128,7 +128,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             title={
               <FormattedMessage
                 defaultMessage="Web Server"
-                id="admin.sidebar.web_server"
+                id="admin.sidebar.webServer"
                 values={Object {}}
               />
             }
@@ -453,7 +453,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             title={
               <FormattedMessage
                 defaultMessage="Features"
-                id="admin.integrations.features"
+                id="admin.sidebar.features"
                 values={Object {}}
               />
             }
@@ -497,13 +497,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               />
             }
           />
-          <AdminSidebarSection
-            key="custompluginplugin_0"
-            name="plugins/custom/plugin_0"
-            parentLink=""
-            subsection={false}
-            title="Plugin 0"
-          />
         </AdminSidebarCategory>
         <AdminSidebarCategory
           icon="fa-flask"
@@ -518,14 +511,14 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           }
         >
           <AdminSidebarSection
-            key="compliance/experimental_features"
-            name="compliance/experimental_features"
+            key="experimental/features"
+            name="experimental/features"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
                 defaultMessage="Features"
-                id="admin.sidebar.experimental_features"
+                id="admin.sidebar.experimentalFeatures"
                 values={Object {}}
               />
             }
@@ -587,7 +580,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
             title={
               <FormattedMessage
                 defaultMessage="Site Statistics"
-                id="admin.sidebar.view_statistics"
+                id="admin.sidebar.siteStatistics"
                 values={Object {}}
               />
             }
@@ -600,7 +593,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
             title={
               <FormattedMessage
                 defaultMessage="Team Statistics"
-                id="admin.sidebar.statistics"
+                id="admin.sidebar.teamStatistics"
                 values={Object {}}
               />
             }
@@ -626,7 +619,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
           title={
             <FormattedMessage
               defaultMessage="USER MANAGEMENT"
-              id="admin.sidebar.user_management"
+              id="admin.sidebar.userManagement"
               values={Object {}}
             />
           }
@@ -665,7 +658,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
             title={
               <FormattedMessage
                 defaultMessage="Web Server"
-                id="admin.sidebar.web_server"
+                id="admin.sidebar.webServer"
                 values={Object {}}
               />
             }
@@ -990,7 +983,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
             title={
               <FormattedMessage
                 defaultMessage="Features"
-                id="admin.integrations.features"
+                id="admin.sidebar.features"
                 values={Object {}}
               />
             }
@@ -1048,14 +1041,14 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
           }
         >
           <AdminSidebarSection
-            key="compliance/experimental_features"
-            name="compliance/experimental_features"
+            key="experimental/features"
+            name="experimental/features"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
                 defaultMessage="Features"
-                id="admin.sidebar.experimental_features"
+                id="admin.sidebar.experimentalFeatures"
                 values={Object {}}
               />
             }
@@ -1143,7 +1136,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             title={
               <FormattedMessage
                 defaultMessage="Site Statistics"
-                id="admin.sidebar.view_statistics"
+                id="admin.sidebar.siteStatistics"
                 values={Object {}}
               />
             }
@@ -1156,7 +1149,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             title={
               <FormattedMessage
                 defaultMessage="Team Statistics"
-                id="admin.sidebar.statistics"
+                id="admin.sidebar.teamStatistics"
                 values={Object {}}
               />
             }
@@ -1182,7 +1175,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           title={
             <FormattedMessage
               defaultMessage="USER MANAGEMENT"
-              id="admin.sidebar.user_management"
+              id="admin.sidebar.userManagement"
               values={Object {}}
             />
           }
@@ -1247,7 +1240,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             title={
               <FormattedMessage
                 defaultMessage="Web Server"
-                id="admin.sidebar.web_server"
+                id="admin.sidebar.webServer"
                 values={Object {}}
               />
             }
@@ -1650,7 +1643,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             title={
               <FormattedMessage
                 defaultMessage="Features"
-                id="admin.integrations.features"
+                id="admin.sidebar.features"
                 values={Object {}}
               />
             }
@@ -1715,7 +1708,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             title={
               <FormattedMessage
                 defaultMessage="Data Retention Policy"
-                id="admin.sidebar.data_retention"
+                id="admin.sidebar.dataRetentionPolicy"
                 values={Object {}}
               />
             }
@@ -1728,7 +1721,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             title={
               <FormattedMessage
                 defaultMessage="Compliance Export (Beta)"
-                id="admin.sidebar.compliance_export"
+                id="admin.sidebar.complianceExport"
                 values={Object {}}
               />
             }
@@ -1754,7 +1747,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             title={
               <FormattedMessage
                 defaultMessage="Compliance Monitoring"
-                id="admin.sidebar.audits"
+                id="admin.sidebar.complianceMonitoring"
                 values={Object {}}
               />
             }
@@ -1786,14 +1779,14 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           }
         >
           <AdminSidebarSection
-            key="compliance/experimental_features"
-            name="compliance/experimental_features"
+            key="experimental/features"
+            name="experimental/features"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
                 defaultMessage="Features"
-                id="admin.sidebar.experimental_features"
+                id="admin.sidebar.experimentalFeatures"
                 values={Object {}}
               />
             }
@@ -1881,7 +1874,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             title={
               <FormattedMessage
                 defaultMessage="Site Statistics"
-                id="admin.sidebar.view_statistics"
+                id="admin.sidebar.siteStatistics"
                 values={Object {}}
               />
             }
@@ -1894,7 +1887,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             title={
               <FormattedMessage
                 defaultMessage="Team Statistics"
-                id="admin.sidebar.statistics"
+                id="admin.sidebar.teamStatistics"
                 values={Object {}}
               />
             }
@@ -1920,7 +1913,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           title={
             <FormattedMessage
               defaultMessage="USER MANAGEMENT"
-              id="admin.sidebar.user_management"
+              id="admin.sidebar.userManagement"
               values={Object {}}
             />
           }
@@ -1945,8 +1938,8 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="System scheme"
-                id="admin.sidebar.system-scheme"
+                defaultMessage="System Scheme"
+                id="admin.sidebar.systemScheme"
                 values={Object {}}
               />
             }
@@ -1972,7 +1965,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             title={
               <FormattedMessage
                 defaultMessage="Web Server"
-                id="admin.sidebar.web_server"
+                id="admin.sidebar.webServer"
                 values={Object {}}
               />
             }
@@ -2310,7 +2303,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             title={
               <FormattedMessage
                 defaultMessage="Features"
-                id="admin.integrations.features"
+                id="admin.sidebar.features"
                 values={Object {}}
               />
             }
@@ -2375,7 +2368,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             title={
               <FormattedMessage
                 defaultMessage="Compliance Monitoring"
-                id="admin.sidebar.audits"
+                id="admin.sidebar.complianceMonitoring"
                 values={Object {}}
               />
             }
@@ -2394,14 +2387,14 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           }
         >
           <AdminSidebarSection
-            key="compliance/experimental_features"
-            name="compliance/experimental_features"
+            key="experimental/features"
+            name="experimental/features"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
                 defaultMessage="Features"
-                id="admin.sidebar.experimental_features"
+                id="admin.sidebar.experimentalFeatures"
                 values={Object {}}
               />
             }
