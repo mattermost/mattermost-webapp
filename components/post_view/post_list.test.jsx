@@ -7,6 +7,7 @@ import {shallow} from 'enzyme';
 import {DATE_LINE} from 'mattermost-redux/utils/post_list';
 
 import LoadingScreen from 'components/loading_screen';
+import {PostListRowListIds} from 'utils/constants';
 
 import NewMessagesBelow from './new_messages_below';
 import PostList from './post_list';
@@ -110,6 +111,45 @@ describe('PostList', () => {
             wrapper.setState({loadingFirstSetOfPosts: false});
 
             expect(wrapper.find(NewMessagesBelow).exists()).toBe(false);
+        });
+    });
+
+    describe('initScrollToIndex', () => {
+        test('should return index of start of new messages and call increasePostVisibility when all posts are unread', () => {
+            const postListIds = [];
+            for (let i = 0; i < 30; i++) {
+                postListIds.push(`post${i}`);
+            }
+            postListIds.push(PostListRowListIds.START_OF_NEW_MESSAGES);
+
+            const props = {
+                ...baseProps,
+                postListIds,
+            };
+
+            const wrapper = shallow(<PostList {...props}/>);
+            const initScrollToIndex = wrapper.instance().initScrollToIndex();
+
+            expect(initScrollToIndex).toEqual({index: 31, position: 'start'});
+
+            expect(baseProps.actions.increasePostVisibility).toHaveBeenCalledTimes(1);
+        });
+    });
+
+    describe('loadMorePosts', () => {
+        test('should set state.atEnd to true after loading all posts in the channel', async () => {
+            baseProps.actions.increasePostVisibility.mockResolvedValue({moreToLoad: false});
+
+            const wrapper = shallow(<PostList {...baseProps}/>);
+
+            await wrapper.instance().loadMorePosts();
+
+            expect(baseProps.actions.increasePostVisibility).toHaveBeenCalledTimes(1);
+            expect(baseProps.actions.increasePostVisibility).toHaveBeenCalledWith(baseProps.channel.id, 'post3');
+
+            wrapper.update();
+
+            expect(wrapper.state('atEnd')).toEqual(true);
         });
     });
 });
