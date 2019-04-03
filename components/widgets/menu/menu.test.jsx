@@ -10,7 +10,7 @@ jest.mock('utils/utils', () => {
     const original = require.requireActual('utils/utils');
     return {
         ...original,
-        isMobile: jest.fn(() => false)
+        isMobile: jest.fn(() => false),
     };
 });
 
