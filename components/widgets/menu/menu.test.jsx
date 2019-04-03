@@ -20,9 +20,9 @@ describe('components/Menu', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
 <ul
-  aria-label='test-label'
-  className='Menu dropdown-menu'
-  role='menu'
+  aria-label="test-label"
+  className="Menu dropdown-menu"
+  role="menu"
   style={Object {}}
 >
   text
@@ -42,10 +42,10 @@ describe('components/Menu', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
 <ul
-  aria-label='test-label'
-  className='Menu dropdown-menu'
-  id='test-id'
-  role='menu'
+  aria-label="test-label"
+  className="Menu dropdown-menu"
+  id="test-id"
+  role="menu"
   style={Object {}}
 >
   text
@@ -69,9 +69,9 @@ describe('components/Menu', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
 <ul
-  aria-label='test-label'
-  className='Menu dropdown-menu'
-  role='menu'
+  aria-label="test-label"
+  className="Menu dropdown-menu"
+  role="menu"
   style={Object {}}
 >
   text
@@ -95,15 +95,15 @@ describe('components/Menu', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
 <ul
-  aria-label='test-label'
-  className='Menu dropdown-menu'
-  role='menu'
+  aria-label="test-label"
+  className="Menu dropdown-menu"
+  role="menu"
   style={
     Object {
-      'bottom': '100%',
-      'left': 'inherit',
-      'right': 0,
-      'top': 'auto',
+      "bottom": "100%",
+      "left": "inherit",
+      "right": 0,
+      "top": "auto",
     }
   }
 >
