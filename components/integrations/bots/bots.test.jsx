@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 import {BrowserRouter} from 'react-router-dom';
 
 import TestHelper from 'tests/helpers/client-test-helper';
