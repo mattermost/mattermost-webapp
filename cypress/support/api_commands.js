@@ -72,8 +72,6 @@ Cypress.Commands.add('apiCreateChannel', (teamId, name, displayName, type = 'O',
             purpose,
             header,
         },
-    }).then((response) => {
-        return response;
     });
 });
 
@@ -88,8 +86,6 @@ Cypress.Commands.add('apiDeleteChannel', (channelId) => {
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/channels/' + channelId,
         method: 'DELETE',
-    }).then((response) => {
-        return response;
     });
 });
 
@@ -118,8 +114,6 @@ Cypress.Commands.add('apiCreateTeam', (name, displayName, type = 'O') => {
             display_name: displayName,
             type,
         },
-    }).then((response) => {
-        return response;
     });
 });
 
@@ -134,8 +128,6 @@ Cypress.Commands.add('apiDeleteTeam', (teamId, permanent = false) => {
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/teams/' + teamId + (permanent ? '/?permanent=true' : ''),
         method: 'DELETE',
-    }).then((response) => {
-        return response;
     });
 });
 
