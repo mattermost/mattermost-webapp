@@ -9,11 +9,15 @@
 
 describe('Account Settings > Display > Channel Display Mode', () => {
     before(() => {
-        cy.login('user-1');
+        cy.apiLogin('user-1');
 
         // 1. Set default preference of a user on channel and message display
-        cy.updateChannelDisplayModePreference('centered');
-        cy.updateMessageDisplayPreference();
+        cy.apiSaveChannelDisplayModePreference('centered');
+        cy.apiSaveMessageDisplayPreference();
+
+        // Post a message to a channel
+        cy.visit('/');
+        cy.postMessage('Test for channel display mode {enter}');
     });
 
     beforeEach(() => {
@@ -77,8 +81,8 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         cy.get('#sidebarItem_town-square').click();
 
         // * Validate if the post content in center channel is fulled.
-        // * 1179px is fulled width when the viewport width is 1500px
-        cy.get('.post__content').last().should('have.css', 'width', '1179px');
+        // * 1187px is fulled width when the viewport width is 1500px
+        cy.get('.post__content').last().should('have.css', 'width', '1187px');
     });
 
     it('AS13225 Channel display mode setting to "Fixed width, centered"', () => {
@@ -120,15 +124,15 @@ describe('Account Settings > Display > Channel Display Mode', () => {
 
     it('Width of center view when message display is compact and channel display mode is either centered or full', () => {
         // 1. Set message display to compact with channel display mode set to centered
-        cy.updateMessageDisplayPreference('compact');
+        cy.apiSaveMessageDisplayPreference('compact');
 
         // * Verify that the width is at 1000px
         cy.get('.post__content').last().should('have.css', 'width', '1000px');
 
         // 2. Set channel display mode to full (default) with message display in compact
-        cy.updateChannelDisplayModePreference();
+        cy.apiSaveChannelDisplayModePreference();
 
-        // * Verify that the width is at 1123px
-        cy.get('.post__content').last().should('have.css', 'width', '1123px');
+        // * Verify that the width is at 1131px
+        cy.get('.post__content').last().should('have.css', 'width', '1131px');
     });
 });

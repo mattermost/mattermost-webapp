@@ -71,7 +71,7 @@ describe('at-mention', () => {
 
         // 1. Login and navigate to the app
         cy.get('@receiver').then((receiver) => {
-            cy.login(receiver.username);
+            cy.apiLogin(receiver.username);
         });
 
         cy.visit('/');
