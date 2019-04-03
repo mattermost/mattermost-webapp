@@ -10,31 +10,22 @@
 /*eslint max-nested-callbacks: ["error", 3]*/
 /*eslint-disable func-names*/
 
-describe('Demoted user', () => {
-    beforeEach(() => {
-        cy.fixture('users').as('usersJSON');
+import users from '../../fixtures/users.json';
 
-        cy.get('@usersJSON').
-            its('sysadmin').
-            as('sysadmin');
+const user = users['user-1'];
+const sysadmin = users.sysadmin;
 
-        cy.get('@usersJSON').
-            its('user-1').
-            as('user');
-    });
-
-    it('SC14734 cannot continue to view System Console', function() {
+describe('System Console', () => {
+    it('SC14734 Demoted user cannot continue to view System Console', () => {
         // 1. Login and navigate to the app as user
-        cy.get('@user').then((user) => {
-            cy.login(user.username);
-        });
+        cy.login(user.username);
 
         // 2. Get MMUSERID cookie to use userId later
         cy.getCookie('MMUSERID').as('userId');
 
         // 3. Set user to be a sysadmin, so it can access the system console
         cy.get('@userId').then((userId) => {
-            cy.task('externalRequest', {user: this.sysadmin, method: 'put', path: `users/${userId.value}/roles`, data: {roles: 'system_user system_admin'}}).
+            cy.task('externalRequest', {user: sysadmin, method: 'put', path: `users/${userId.value}/roles`, data: {roles: 'system_user system_admin'}}).
                 its('status').
                 should('be.equal', 200);
         });
@@ -46,7 +37,7 @@ describe('Demoted user', () => {
 
         // 5. Change the role of the user back to user
         cy.get('@userId').then((userId) => {
-            cy.task('externalRequest', {user: this.sysadmin, method: 'put', path: `users/${userId.value}/roles`, data: {roles: 'system_user'}}).
+            cy.task('externalRequest', {user: sysadmin, method: 'put', path: `users/${userId.value}/roles`, data: {roles: 'system_user'}}).
                 its('status').
                 should('be.equal', 200);
         });
