@@ -8,6 +8,8 @@
         max-width: 270px;
         overflow-x: hidden;
         overflow-y: auto;
+        padding: 8px 0;
+
         li {
             a {
                 color: inherit;
@@ -18,6 +20,7 @@
     &.Menu-enter {
         &.dropdown-menu {
             opacity: 0;
+
             @media screen and (min-width: 641px) {
                 max-height: 0;
                 overflow: hidden;
