@@ -718,7 +718,7 @@
     .browser--ie & {
         .post__header {
             .col__reply {
-                .comment-icon__container, .card-icon__container {
+                .comment-icon__container {
                     flex: 0 1 auto;
                     align-items: center;
                 }
@@ -828,7 +828,7 @@
 
                     }
 
-                    .flag-icon__container {
+                    .flag-icon__container, .card-icon__container {
                         left: 32px;
                         margin-left: 7px;
                         position: absolute;
@@ -1111,7 +1111,7 @@
     }
 
     &.post--root {
-        .comment-icon__container, .card-icon__container {
+        .comment-icon__container {
             visibility: visible;
         }
     }
@@ -1147,7 +1147,7 @@
                 }
             }
 
-            .flag-icon__container {
+            .flag-icon__container, .card-icon__container {
                 left: 32px;
                 margin-left: 7px;
                 position: absolute;
@@ -1194,7 +1194,7 @@
     }
 
     &.other--root {
-        .comment-icon__container, .card-icon__container {
+        .comment-icon__container {
             &.icon--show {
                 visibility: visible;
             }
@@ -1296,7 +1296,7 @@
                 width: 24px;
             }
 
-            .comment-icon__container, .card-icon__container {
+            .comment-icon__container {
                 flex: 0;
                 justify-content: flex-end;
                 padding: 0 4px 0 0;
@@ -1756,7 +1756,7 @@
         }
     }
 
-    .comment-icon__container, .card-icon__container {
+    .comment-icon__container {
         display: inline-block;
         fill: $primary-color;
         position: relative;
@@ -1808,6 +1808,15 @@
             top: 1px;
             width: 14px;
         }
+    }
+
+    .card-icon__container {
+        display: inline-block;
+        height: 15px;
+        margin-left: 7px;
+        position: relative;
+        vertical-align: top;
+        color: $gray;
     }
 
     .flag-icon__container {

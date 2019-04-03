@@ -201,14 +201,6 @@ export default class PostInfo extends React.PureComponent {
                 {dotMenu}
                 {postReaction}
                 {commentIcon}
-                {post.props && post.props.card &&
-                    <button
-                        className='card-icon__container icon--show color--link style--none pull-right'
-                        onClick={this.props.handleCardClick}
-                    >
-                        <i className='fa fa-info-circle'/>
-                    </button>
-                }
             </div>
         );
     };
@@ -229,6 +221,18 @@ export default class PostInfo extends React.PureComponent {
                     isFlagged={this.props.isFlagged}
                     isEphemeral={isEphemeral}
                 />
+            );
+        }
+
+        let postInfoIcon;
+        if (post.props && post.props.card) {
+            postInfoIcon = (
+                <button
+                    className='card-icon__container icon--show style--none'
+                    onClick={this.props.handleCardClick}
+                >
+                    <i className='fa fa-info-circle'/>
+                </button>
             );
         }
 
@@ -287,6 +291,7 @@ export default class PostInfo extends React.PureComponent {
                 <div className='col'>
                     {postTime}
                     {pinnedBadge}
+                    {postInfoIcon}
                     {postFlagIcon}
                     {visibleMessage}
                 </div>

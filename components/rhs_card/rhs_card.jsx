@@ -10,6 +10,7 @@ import DelayedAction from 'utils/delayed_action.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SearchResultsHeader from 'components/search_results_header';
 import Markdown from 'components/markdown';
+import Post from 'components/post_view/post';
 
 export function renderView(props) {
     return (
@@ -126,6 +127,12 @@ export default class RhsCard extends React.Component {
                     onScroll={this.handleScroll}
                 >
                     <div className='post-right__scroll'>
+                        <Post
+                            ref={selected.id}
+                            key={'post ' + (selected.id || selected.pending_post_id)}
+                            post={selected}
+                        />
+
                         {content}
                     </div>
                 </Scrollbars>
