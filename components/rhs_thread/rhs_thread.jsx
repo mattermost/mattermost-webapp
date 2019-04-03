@@ -55,6 +55,7 @@ export default class RhsThread extends React.Component {
         previewEnabled: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             removePost: PropTypes.func.isRequired,
+            selectPostCard: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -147,6 +148,17 @@ export default class RhsThread extends React.Component {
         if (UserAgent.isMobile() && document.activeElement.id === 'reply_textbox') {
             this.scrollToBottom();
         }
+    }
+
+    handleCardClick = (e) => {
+        e.preventDefault();
+
+        const post = this.props.selected;
+        if (!post) {
+            return;
+        }
+
+        this.props.actions.selectPostCard(post);
     }
 
     onBusy = (isBusy) => {
@@ -356,6 +368,7 @@ export default class RhsThread extends React.Component {
                             previewCollapsed={this.props.previewCollapsed}
                             previewEnabled={this.props.previewEnabled}
                             isBusy={this.state.isBusy}
+                            handleCardClick={this.handleCardClick}
                         />
                         {isFakeDeletedPost && rootPostDay && <DateSeparator date={rootPostDay}/>}
                         <div

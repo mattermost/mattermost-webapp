@@ -40,6 +40,7 @@ export default class RhsRootPost extends React.Component {
         channelIsArchived: PropTypes.bool.isRequired,
         channelType: PropTypes.string,
         channelDisplayName: PropTypes.string,
+        handleCardClick: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -311,6 +312,18 @@ export default class RhsRootPost extends React.Component {
             );
         }
 
+        let postInfoIcon;
+        if (this.props.post.props && this.props.post.props.card) {
+            postInfoIcon = (
+                <button
+                    className='card-icon__container icon--show style--none'
+                    onClick={this.props.handleCardClick}
+                >
+                    <i className='fa fa-info-circle'/>
+                </button>
+            );
+        }
+
         return (
             <div
                 id='thread--root'
@@ -334,6 +347,7 @@ export default class RhsRootPost extends React.Component {
                             <div className='col'>
                                 {this.renderPostTime(isEphemeral)}
                                 {pinnedBadge}
+                                {postInfoIcon}
                                 {postFlagIcon}
                             </div>
                             {dotMenuContainer}
