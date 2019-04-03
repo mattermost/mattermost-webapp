@@ -53,6 +53,11 @@ export default class Post extends React.PureComponent {
          */
         previousPostIsComment: PropTypes.bool,
 
+        /*
+         * Function called when the post options dropdown is opened
+         */
+        togglePostMenu: PropTypes.func,
+
         /**
          * Set to render this comment as a mention
          */
@@ -98,6 +103,10 @@ export default class Post extends React.PureComponent {
     }
 
     handleDropdownOpened = (opened) => {
+        if (this.props.togglePostMenu) {
+            this.props.togglePostMenu(opened);
+        }
+
         this.setState({
             dropdownOpened: opened,
         });

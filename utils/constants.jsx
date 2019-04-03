@@ -383,7 +383,6 @@ export const AnnouncementBarMessages = {
     LICENSE_EXPIRING: t('announcement_bar.error.license_expiring'),
     LICENSE_PAST_GRACE: t('announcement_bar.error.past_grace'),
     PREVIEW_MODE: t('announcement_bar.error.preview_mode'),
-    SITE_URL: t('announcement_bar.error.site_url'),
     WEBSOCKET_PORT_ERROR: t('channel_loader.socketError'),
 };
 
@@ -1230,6 +1229,7 @@ export const Constants = {
     DEFAULT_NOTIFICATION_DURATION: 5000,
     STATUS_INTERVAL: 60000,
     AUTOCOMPLETE_TIMEOUT: 100,
+    AUTOCOMPLETE_SPLIT_CHARACTERS: ['.', '-', '_'],
     ANIMATION_TIMEOUT: 1000,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
     DIAGNOSTICS_SEGMENT_KEY: 'placeholder_segment_key',

@@ -252,6 +252,7 @@ export default class DotMenu extends Component {
                     />
                 </OverlayTrigger>
                 <Menu
+                    id={`${this.props.location}_dropdown_${this.props.post.id}`}
                     openLeft={true}
                     openUp={this.state.openUp}
                     ref={this.refCallback}

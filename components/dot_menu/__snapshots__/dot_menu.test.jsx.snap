@@ -42,6 +42,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
   </OverlayTrigger>
   <Menu
     ariaLabel="Post extra options"
+    id="CENTER_dropdown_post_id_1"
     openLeft={true}
     openUp={false}
   >
@@ -150,6 +151,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
   </OverlayTrigger>
   <Menu
     ariaLabel="Post extra options"
+    id="CENTER_dropdown_post_id_1"
     openLeft={true}
     openUp={false}
   >

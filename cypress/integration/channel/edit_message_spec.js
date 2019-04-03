@@ -28,7 +28,7 @@ describe('Edit Message', () => {
         cy.get('#suggestionList').should('be.visible');
 
         // 5. Press the escape key
-        cy.get('#edit_textbox').type('{esc}');
+        cy.get('#edit_textbox').focus().type('{esc}');
 
         // * Check if the textbox contains expected text
         cy.get('#edit_textbox').should('contain', 'Hello World! @');
@@ -72,7 +72,7 @@ describe('Edit Message', () => {
         // 2. Post a message
         cy.postMessage('Checking timestamp {enter}');
 
-        cy.getLastPostId().then((postId) => {
+        cy.getLastPostIdWithRetry().then((postId) => {
             // 3. Mouseover post to display the timestamp
             cy.get(`#post_${postId}`).trigger('mouseover');
 

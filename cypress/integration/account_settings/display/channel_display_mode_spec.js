@@ -9,6 +9,8 @@
 
 describe('Account Settings > Display > Channel Display Mode', () => {
     before(() => {
+        cy.login('user-1');
+
         // 1. Set default preference of a user on channel and message display
         cy.updateChannelDisplayModePreference('centered');
         cy.updateMessageDisplayPreference();

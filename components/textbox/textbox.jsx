@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -28,6 +27,7 @@ export default class Textbox extends React.Component {
         onChange: PropTypes.func.isRequired,
         onKeyPress: PropTypes.func.isRequired,
         onComposition: PropTypes.func,
+        onHeightChange: PropTypes.func,
         createMessage: PropTypes.string.isRequired,
         previewMessageLink: PropTypes.string,
         onKeyDown: PropTypes.func,
@@ -114,13 +114,8 @@ export default class Textbox extends React.Component {
     }
 
     handleHeightChange = (height, maxHeight) => {
-        const wrapper = $(this.refs.wrapper);
-
-        // Move over attachment icon to compensate for the scrollbar
-        if (height > maxHeight) {
-            wrapper.closest('.post-create').addClass('scroll');
-        } else {
-            wrapper.closest('.post-create').removeClass('scroll');
+        if (this.props.onHeightChange) {
+            this.props.onHeightChange(height, maxHeight);
         }
     }
 

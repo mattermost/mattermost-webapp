@@ -151,7 +151,7 @@ export default class InteractiveDialog extends React.Component {
 
         return (
             <Modal
-                dialogClassName='about-modal modal--overflow-visible'
+                dialogClassName='about-modal'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}

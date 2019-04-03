@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
@@ -171,8 +170,6 @@ export default class SuggestionBox extends React.Component {
             selection: '',
             allowDividers: true,
             presentationType: 'text',
-            dropdownPosition: 0,
-            inputWidth: 0,
         };
     }
 
@@ -269,8 +266,8 @@ export default class SuggestionBox extends React.Component {
             return;
         }
 
-        this.getDropdownPosition();
         this.setState({focused: true});
+
         if (this.props.openOnFocus || this.props.openWhenEmpty) {
             setTimeout(() => {
                 const textbox = this.getTextbox();
@@ -317,7 +314,7 @@ export default class SuggestionBox extends React.Component {
         const textbox = this.getTextbox();
         const pretext = textbox.value.substring(0, textbox.selectionStart) + e.data;
 
-        this.pretext = pretext;
+        this.handlePretextChanged(pretext);
         if (this.props.onComposition) {
             this.props.onComposition();
         }
@@ -601,13 +598,6 @@ export default class SuggestionBox extends React.Component {
         this.container = container;
     };
 
-    getDropdownPosition = () => {
-        const input = ReactDOM.findDOMNode(this.refs.input);
-        const dropdownPosition = input.getBoundingClientRect().top;
-        const inputWidth = input.clientWidth;
-        this.setState({dropdownPosition, inputWidth});
-    }
-
     render() {
         const {
             listComponent,
@@ -671,8 +661,6 @@ export default class SuggestionBox extends React.Component {
                         terms={this.state.terms}
                         selection={this.state.selection}
                         components={this.state.components}
-                        dropdownPosition={this.state.dropdownPosition}
-                        inputWidth={this.state.inputWidth}
                     />
                 }
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'date' &&

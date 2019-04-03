@@ -202,6 +202,7 @@ export default class ChannelInviteModal extends React.Component {
         );
 
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
+        const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
         let users = filterProfilesMatchingTerm(this.props.profilesNotInCurrentChannel, this.state.term);
         users = users.filter((user) => user.delete_at === 0);
@@ -222,6 +223,7 @@ export default class ChannelInviteModal extends React.Component {
                 maxValues={MAX_SELECTABLE_VALUES}
                 numRemainingText={numRemainingText}
                 buttonSubmitText={buttonSubmitText}
+                buttonSubmitLoadingText={buttonSubmitLoadingText}
                 saving={this.state.saving}
                 loading={this.state.loadingUsers}
             />

@@ -116,8 +116,10 @@ export default class ChannelHeader extends React.PureComponent {
         if (header !== prevHeader) {
             this.props.actions.getCustomEmojisInText(header);
         }
-        if (this.props.dmUser !== prevProps.dmUser && this.props.dmUser) {
-            this.props.actions.loadBot(this.props.dmUser.id);
+        const dmUser = this.props.dmUser;
+        const prevDmUser = prevProps.dmUser || {};
+        if (dmUser && dmUser.id !== prevDmUser.id && dmUser.is_bot) {
+            this.props.actions.loadBot(dmUser.id);
         }
     }
 
@@ -270,6 +272,7 @@ export default class ChannelHeader extends React.PureComponent {
         if (Utils.isEmptyObject(channel) ||
             Utils.isEmptyObject(channelMember) ||
             Utils.isEmptyObject(currentUser) ||
+            (!dmUser && channel.type === Constants.DM_CHANNEL) ||
             (dmUser && dmUser.is_bot && !dmBot)
         ) {
             // Use an empty div to make sure the header's height stays constant
@@ -504,14 +507,19 @@ export default class ChannelHeader extends React.PureComponent {
 
         let title = (
             <MenuWrapper>
-                <div id='channelHeaderDropdownButton'>
+                <div
+                    id='channelHeaderDropdownButton'
+                    className='channel-header__top'
+                >
                     {toggleFavorite}
                     <strong
                         id='channelHeaderTitle'
                         className='heading'
                     >
-                        {archivedIcon}
-                        {channelTitle}
+                        <span>
+                            {archivedIcon}
+                            {channelTitle}
+                        </span>
                     </strong>
                     <span
                         id='channelHeaderDropdownIcon'
@@ -524,14 +532,19 @@ export default class ChannelHeader extends React.PureComponent {
         );
         if (isDirect && dmUser.is_bot) {
             title = (
-                <div id='channelHeaderDropdownButton'>
+                <div
+                    id='channelHeaderDropdownButton'
+                    className='channel-header__top'
+                >
                     {toggleFavorite}
                     <strong
                         id='channelHeaderTitle'
                         className='heading'
                     >
-                        {archivedIcon}
-                        {channelTitle}
+                        <span>
+                            {archivedIcon}
+                            {channelTitle}
+                        </span>
                     </strong>
                     <div className='bot-indicator bot-indicator__popoverlist'>
                         <FormattedMessage

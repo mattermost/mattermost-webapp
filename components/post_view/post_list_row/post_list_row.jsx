@@ -19,6 +19,7 @@ export default class PostListRow extends React.PureComponent {
         fullWidth: PropTypes.bool,
         shouldHighlight: PropTypes.bool,
         loadMorePosts: PropTypes.func,
+        togglePostMenu: PropTypes.func,
     }
 
     render() {
@@ -30,6 +31,7 @@ export default class PostListRow extends React.PureComponent {
                     key={'post ' + (post.id || post.pending_post_id)}
                     post={post}
                     shouldHighlight={this.props.shouldHighlight}
+                    togglePostMenu={this.props.togglePostMenu}
                 />
             );
         }
