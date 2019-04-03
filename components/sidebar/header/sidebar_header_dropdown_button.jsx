@@ -15,6 +15,7 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
     static propTypes = {
         showTutorialTip: PropTypes.bool.isRequired,
         teamDescription: PropTypes.string.isRequired,
+        teamId: PropTypes.string.isRequired,
         currentUser: PropTypes.object.isRequired,
         teamDisplayName: PropTypes.string.isRequired,
     };
@@ -40,6 +41,7 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
             <h1
                 id='headerTeamName'
                 className='team__name'
+                data-teamid={this.props.teamId}
             >
                 {this.props.teamDisplayName}
             </h1>

@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {getRandomInt} from '../utils';
+
 import users from '../fixtures/users.json';
 import theme from '../fixtures/theme.json';
 
@@ -36,6 +38,104 @@ Cypress.Commands.add('apiLogout', () => {
     cy.request({
         url: '/api/v4/users/logout',
         method: 'POST',
+    });
+});
+
+// *****************************************************************************
+// Channels
+// https://api.mattermost.com/#tag/channels
+// *****************************************************************************
+
+/**
+ * Creates a channel directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} teamId - The team ID of the team to create the channel on
+ * @param {String} name - The unique handle for the channel, will be present in the channel URL
+ * @param {String} displayName - The non-unique UI name for the channel
+ * @param {String} type - 'O' for a public channel (default), 'P' for a private channel
+ * @param {String} purpose - A short description of the purpose of the channel
+ * @param {String} header - Markdown-formatted text to display in the header of the channel
+ * All parameters required except purpose and header
+ */
+Cypress.Commands.add('apiCreateChannel', (teamId, name, displayName, type = 'O', purpose = '', header = '') => {
+    const uniqueName = `${name}-${getRandomInt(9999).toString()}`;
+
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/channels',
+        method: 'POST',
+        body: {
+            team_id: teamId,
+            name: uniqueName,
+            display_name: displayName,
+            type,
+            purpose,
+            header,
+        },
+    }).then((response) => {
+        return response;
+    });
+});
+
+/**
+ * Deletes a channel directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} channelId - The channel ID to be deleted
+ * All parameter required
+ */
+Cypress.Commands.add('apiDeleteChannel', (channelId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/channels/' + channelId,
+        method: 'DELETE',
+    }).then((response) => {
+        return response;
+    });
+});
+
+// *****************************************************************************
+// Teams
+// https://api.mattermost.com/#tag/teams
+// *****************************************************************************
+
+/**
+ * Creates a team directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} name - Unique handler for a team, will be present in the team URL
+ * @param {String} displayName - Non-unique UI name for the team
+ * @param {String} type - 'O' for open (default), 'I' for invite only
+ * All parameters required
+ */
+Cypress.Commands.add('apiCreateTeam', (name, displayName, type = 'O') => {
+    const uniqueName = `${name}-${getRandomInt(9999).toString()}`;
+
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/teams',
+        method: 'POST',
+        body: {
+            name: uniqueName,
+            display_name: displayName,
+            type,
+        },
+    }).then((response) => {
+        return response;
+    });
+});
+
+/**
+ * Deletes a team directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} teamId - The team ID to be deleted
+ * All parameter required
+ */
+Cypress.Commands.add('apiDeleteTeam', (teamId, permanent = false) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/teams/' + teamId + (permanent ? '/?permanent=true' : ''),
+        method: 'DELETE',
+    }).then((response) => {
+        return response;
     });
 });
 
