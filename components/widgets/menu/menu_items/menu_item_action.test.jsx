@@ -20,7 +20,9 @@ describe('components/MenuItemAction', () => {
   className="style--none"
   onClick={[MockFunction]}
 >
-  Whatever
+  <span>
+    Whatever
+  </span>
 </button>
 `);
     });
@@ -35,7 +37,7 @@ describe('components/MenuItemAction', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
 <button
-  className="style--none"
+  className="style--none MenuItem__help"
   onClick={[MockFunction]}
 >
   <span>
