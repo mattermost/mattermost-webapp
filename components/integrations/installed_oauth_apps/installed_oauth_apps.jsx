@@ -3,11 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {localizeMessage} from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import InstalledOAuthApp from '../installed_oauth_app';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class InstalledOAuthApps extends React.PureComponent {
     static propTypes = {
@@ -164,7 +165,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
                     />
                 }
                 emptyTextSearch={
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='installed_oauth_apps.emptySearch'
                         defaultMessage='No OAuth 2.0 Applications match {searchTerm}'
                     />
@@ -173,7 +174,10 @@ export default class InstalledOAuthApps extends React.PureComponent {
                 loading={this.state.loading}
                 {...props}
             >
-                {(filter) => oauthApps(filter)}
+                {(filter) => {
+                    const children = oauthApps(filter);
+                    return [children, children.length > 0];
+                }}
             </BackstageList>
         );
     }

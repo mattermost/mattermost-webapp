@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import * as Utils from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import Constants from 'utils/constants.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import Bot from './bot.jsx';
 
@@ -132,9 +133,9 @@ export default class Bots extends React.PureComponent {
             return React.cloneElement(child, {filter: props.filter});
         });
         return (
-            <div>
+            <>
                 {botsToDisplay}
-            </div>
+            </>
         );
     }
 
@@ -146,14 +147,14 @@ export default class Bots extends React.PureComponent {
                     key={bot.user_id}
                     bot={bot}
                     owner={this.props.owners[bot.user_id]}
-                    accessTokens={this.props.accessTokens[bot.user_id] || {}}
+                    accessTokens={this.props.accessTokens[bot.user_id] ? {[bot.user_id]: this.props.accessTokens[bot.user_id]} : {}}
                     actions={this.props.actions}
                     team={this.props.team}
                 />
             );
         };
-        const enabledBots = bots.filter((bot) => bot.delete_at === 0).map(botToJSX);
-        const disabledBots = bots.filter((bot) => bot.delete_at > 0).map(botToJSX);
+        const enabledBots = (filter) => bots.filter((bot) => bot.delete_at === 0).filter((bot) => Bot.matchesFilter(bot, filter, this.props.owners[bot.user_id])).map(botToJSX);
+        const disabledBots = (filter) => bots.filter((bot) => bot.delete_at > 0).filter((bot) => Bot.matchesFilter(bot, filter, this.props.owners[bot.user_id])).map(botToJSX);
 
         return (
             <BackstageList
@@ -174,6 +175,12 @@ export default class Bots extends React.PureComponent {
                     <FormattedMessage
                         id='bots.manage.empty'
                         defaultMessage='No bot accounts found'
+                    />
+                }
+                emptyTextSearch={
+                    <FormattedMarkdownMessage
+                        id='bots.manage.emptySearch'
+                        defaultMessage='No bot accounts match **{searchTerm}**'
                     />
                 }
                 helpText={
@@ -199,13 +206,20 @@ export default class Bots extends React.PureComponent {
                 searchPlaceholder={Utils.localizeMessage('bots.manage.search', 'Search Bot Accounts')}
                 loading={this.state.loading}
             >
-                <this.EnabledSection
-                    enabledBots={enabledBots}
-                />
-                <this.DisabledSection
-                    hasDisabled={disabledBots.length > 0}
-                    disabledBots={disabledBots}
-                />
+                {(filter) => {
+                    const enabled = enabledBots(filter);
+                    const disabled = disabledBots(filter);
+                    return [(<div key='sections'>
+                        <this.EnabledSection
+                            enabledBots={enabled}
+                        />
+                        <this.DisabledSection
+                            hasDisabled={disabled.length > 0}
+                            disabledBots={disabled}
+                        />
+                    </div>), enabled.length > 0 || disabled.length > 0];
+                }}
+
             </BackstageList>
         );
     }

@@ -3,8 +3,10 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import {BrowserRouter} from 'react-router-dom';
 
 import TestHelper from 'tests/helpers/client-test-helper';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import Bot from './bot.jsx';
 import Bots from './bots.jsx';
@@ -32,8 +34,7 @@ describe('components/integrations/bots/Bots', () => {
             [bot2.user_id]: bot2,
             [bot3.user_id]: bot3,
         };
-
-        const wrapper = shallow(
+        const wrapper = mountWithIntl(<BrowserRouter>
             <Bots
                 bots={bots}
                 team={team}
@@ -41,9 +42,9 @@ describe('components/integrations/bots/Bots', () => {
                 owners={{}}
                 actions={actions}
             />
-        );
-
-        expect(wrapper.find('EnabledSection').shallow().contains(
+        </BrowserRouter>);
+        wrapper.find('Bots').setState({loading: false});
+        expect(wrapper.find('EnabledSection').contains(
             <Bot
                 key={bot1.user_id}
                 bot={bot1}
@@ -53,7 +54,7 @@ describe('components/integrations/bots/Bots', () => {
                 actions={actions}
             />
         )).toEqual(true);
-        expect(wrapper.find('EnabledSection').shallow().contains(
+        expect(wrapper.find('EnabledSection').contains(
             <Bot
                 key={bot2.user_id}
                 bot={bot2}
@@ -63,7 +64,7 @@ describe('components/integrations/bots/Bots', () => {
                 actions={actions}
             />
         )).toEqual(true);
-        expect(wrapper.find('EnabledSection').shallow().contains(
+        expect(wrapper.find('EnabledSection').contains(
             <Bot
                 key={bot3.user_id}
                 bot={bot3}
@@ -97,7 +98,7 @@ describe('components/integrations/bots/Bots', () => {
             [bot1.user_id]: passedTokens,
         };
 
-        const wrapper = shallow(
+        const wrapper = mountWithIntl(<BrowserRouter>
             <Bots
                 bots={bots}
                 team={team}
@@ -105,14 +106,15 @@ describe('components/integrations/bots/Bots', () => {
                 owners={owners}
                 actions={actions}
             />
-        );
+        </BrowserRouter>);
+        wrapper.find('Bots').setState({loading: false});
 
-        expect(wrapper.find('EnabledSection').shallow().contains(
+        expect(wrapper.find('EnabledSection').contains(
             <Bot
                 key={bot1.user_id}
                 bot={bot1}
                 owner={owner}
-                accessTokens={passedTokens}
+                accessTokens={tokens}
                 team={team}
                 actions={actions}
             />

@@ -3,11 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import InstalledCommand from '../installed_command.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class InstalledCommands extends React.PureComponent {
     static propTypes = {
@@ -120,7 +121,7 @@ export default class InstalledCommands extends React.PureComponent {
                     />
                 }
                 emptyTextSearch={
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='installed_commands.emptySearch'
                         defaultMessage='No slash commands match {searchTerm}'
                     />
@@ -160,7 +161,10 @@ export default class InstalledCommands extends React.PureComponent {
                 searchPlaceholder={Utils.localizeMessage('installed_commands.search', 'Search Slash Commands')}
                 loading={this.props.loading}
             >
-                {(filter) => commands(filter)}
+                {(filter) => {
+                    const children = commands(filter);
+                    return [children, children.length > 0];
+                }}
             </BackstageList>
         );
     }

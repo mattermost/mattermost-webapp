@@ -50,13 +50,14 @@ export default class BackstageList extends React.Component {
             children = <LoadingScreen/>;
         } else {
             children = this.props.children;
+            let hasChildren = true;
             if (typeof children === 'function') {
-                children = children(filter);
+                [children, hasChildren] = children(filter);
             }
             children = React.Children.map(children, (child) => {
                 return React.cloneElement(child, {filter});
             });
-            if (children.length === 0) {
+            if (children.length === 0 || !hasChildren) {
                 if (!filter) {
                     if (this.props.emptyText) {
                         children = (

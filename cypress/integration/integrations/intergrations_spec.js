@@ -134,4 +134,24 @@ describe('Integrations page', () => {
         // * Validate that the correct empty message is shown
         cy.get('.backstage-list__empty').should('be.visible').contains('No OAuth 2.0 Applications match some random stuff');
     });
+
+    it('should should display correct message when bot account not found', () => {
+        // 3. Open hidden bot account page
+        cy.visit('/ad-1/integrations/bots');
+
+        // 4. Add new bot
+        cy.get('.btn').click();
+
+        // 5. Fill in dummy details
+        cy.get('#username').type(`test-bot${getRandomInt(10000)}`);
+
+        // 6. Save
+        cy.get('.backstage-form__footer > .btn-primary').click();
+
+        // 7. Type random stuff into the search box
+        cy.get('.form-control').type('some random stuff{enter}');
+
+        // * Validate that the correct empty message is shown
+        cy.get('.backstage-list__empty').should('be.visible').contains('No bot accounts match some random stuff');
+    });
 });

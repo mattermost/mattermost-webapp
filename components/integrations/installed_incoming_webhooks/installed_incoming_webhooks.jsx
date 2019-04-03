@@ -3,12 +3,13 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import InstalledIncomingWebhook from 'components/integrations/installed_incoming_webhook.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class InstalledIncomingWebhooks extends React.PureComponent {
     static propTypes = {
@@ -149,7 +150,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
                     />
                 }
                 emptyTextSearch={
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='installed_incoming_webhooks.emptySearch'
                         defaultMessage='No incoming webhooks match {searchTerm}'
                     />
@@ -189,7 +190,10 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
                 searchPlaceholder={Utils.localizeMessage('installed_incoming_webhooks.search', 'Search Incoming Webhooks')}
                 loading={this.state.loading}
             >
-                {(filter) => incomingWebhooks(filter)}
+                {(filter) => {
+                    const children = incomingWebhooks(filter);
+                    return [children, children.length > 0];
+                }}
             </BackstageList>
         );
     }
