@@ -168,6 +168,7 @@ export const ActionTypes = keyMirror({
 
     INCREMENT_WS_ERROR_COUNT: null,
     RESET_WS_ERROR_COUNT: null,
+    MARK_LAST_CHANNEL_READ: null,
 });
 
 export const ModalIdentifiers = {

@@ -55,6 +55,7 @@ export function emitChannelClickEvent(channel) {
             fail();
         }
     }
+
     function switchToChannel(chan) {
         const state = getState();
         const getMyChannelMemberPromise = dispatch(getMyChannelMember(chan.id));
@@ -95,6 +96,9 @@ export function emitChannelClickEvent(channel) {
             data: chan.id,
             channel: chan,
             member: member || {},
+        }, {
+            type: ActionTypes.MARK_LAST_CHANNEL_READ,
+            channelId: oldChannelId,
         }]));
     }
 

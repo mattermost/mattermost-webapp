@@ -38,10 +38,10 @@ function postVisibility(state = {}, action) {
 
 function lastChannelViewTime(state = {}, action) {
     switch (action.type) {
-    case ActionTypes.SELECT_CHANNEL_WITH_MEMBER: {
-        if (action.member) {
+    case ActionTypes.MARK_LAST_CHANNEL_READ: {
+        if (action.channelId) {
             const nextState = {...state};
-            nextState[action.data] = action.member.last_viewed_at;
+            nextState[action.channelId] = Date.now();
             return nextState;
         }
         return state;
