@@ -1,18 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {shallow} from 'enzyme';
+import React from "react";
+import { shallow } from "enzyme";
 
-import {MenuItemActionImpl} from './menu_item_action.jsx';
+import { MenuItemActionImpl } from "./menu_item_action.jsx";
 
-describe('components/MenuItemAction', () => {
-    test('should match snapshot', () => {
+describe("components/MenuItemAction", () => {
+    test("should match snapshot", () => {
         const wrapper = shallow(
-            <MenuItemActionImpl
-                onClick={jest.fn()}
-                text='Whatever'
-            />
+            <MenuItemActionImpl onClick={jest.fn()} text="Whatever" />
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
@@ -20,26 +17,29 @@ describe('components/MenuItemAction', () => {
   className="style--none"
   onClick={[MockFunction]}
 >
-  Whatever
+  <span>
+    Whatever
+  </span>
 </button>
 `);
     });
-    test('should match snapshot with extra text', () => {
+    test("should match snapshot with extra text", () => {
         const wrapper = shallow(
             <MenuItemActionImpl
                 onClick={jest.fn()}
-                text='Whatever'
-                extraText='Extra Text'
+                text="Whatever"
+                extraText="Extra Text"
             />
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
 <button
-  className="style--none"
+  className="style--none MenuItem__help"
   onClick={[MockFunction]}
 >
-  Whatever
-  <br />
+  <span>
+    Whatever
+  </span>
   <span
     className="extra-text"
   >

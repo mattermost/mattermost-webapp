@@ -27,6 +27,13 @@
             width: 100%;
             height: 28px;
 
+            &.MenuItem__help {
+                height: auto;
+                padding: 8px 24px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
             &:hover {
                 background: alpha-color($black, .08);
             }
