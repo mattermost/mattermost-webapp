@@ -3113,7 +3113,7 @@ export default {
         plugins: {
             url: 'integrations/plugins',
             title: t('admin.integrations.plugins'),
-            title_default: 'Plugins',
+            title_default: 'Plugins (Beta)',
             searchableStrings: [
                 'admin.plugin.management.title',
                 'admin.plugins.settings.enable',
@@ -3139,11 +3139,11 @@ export default {
         gif: {
             url: 'integrations/gif',
             title: t('admin.sidebar.gif'),
-            title_default: 'GIF (Beta)',
+            title_default: 'GIF',
             schema: {
                 id: 'GifSettings',
                 name: t('admin.integrations.gif'),
-                name_default: 'GIF (Beta)',
+                name_default: 'GIF Settings',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,

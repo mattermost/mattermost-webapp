@@ -465,7 +465,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Plugins"
+                defaultMessage="Plugins (Beta)"
                 id="admin.integrations.plugins"
                 values={Object {}}
               />
@@ -478,7 +478,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="GIF (Beta)"
+                defaultMessage="GIF"
                 id="admin.sidebar.gif"
                 values={Object {}}
               />
@@ -1002,7 +1002,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Plugins"
+                defaultMessage="Plugins (Beta)"
                 id="admin.integrations.plugins"
                 values={Object {}}
               />
@@ -1015,7 +1015,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="GIF (Beta)"
+                defaultMessage="GIF"
                 id="admin.sidebar.gif"
                 values={Object {}}
               />
@@ -1662,7 +1662,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Plugins"
+                defaultMessage="Plugins (Beta)"
                 id="admin.integrations.plugins"
                 values={Object {}}
               />
@@ -1675,7 +1675,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="GIF (Beta)"
+                defaultMessage="GIF"
                 id="admin.sidebar.gif"
                 values={Object {}}
               />
@@ -2322,7 +2322,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Plugins"
+                defaultMessage="Plugins (Beta)"
                 id="admin.integrations.plugins"
                 values={Object {}}
               />
@@ -2335,7 +2335,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="GIF (Beta)"
+                defaultMessage="GIF"
                 id="admin.sidebar.gif"
                 values={Object {}}
               />
