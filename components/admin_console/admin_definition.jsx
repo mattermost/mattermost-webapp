@@ -3024,6 +3024,7 @@ export default {
         },
     },
     integrations: {
+        id: 'integrations',
         features: {
             url: 'integrations/features',
             title: t('admin.sidebar.features'),

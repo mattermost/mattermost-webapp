@@ -497,6 +497,13 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               />
             }
           />
+          <AdminSidebarSection
+            key="custompluginplugin_0"
+            name="plugins/custom/plugin_0"
+            parentLink=""
+            subsection={false}
+            title="Plugin 0"
+          />
         </AdminSidebarCategory>
         <AdminSidebarCategory
           icon="fa-flask"

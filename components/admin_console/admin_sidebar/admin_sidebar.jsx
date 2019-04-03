@@ -287,7 +287,7 @@ export default class AdminSidebar extends React.Component {
 
         // Special case for plugins entries
         let extraEntries;
-        if (section.url === 'integrations') {
+        if (section.id === 'integrations') {
             extraEntries = this.renderPluginsMenu();
         }
 
