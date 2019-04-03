@@ -11,7 +11,7 @@ export default class Menu extends React.PureComponent {
         children: PropTypes.node,
         openLeft: PropTypes.bool,
         openUp: PropTypes.bool,
-        onMobile: PropTypes.bool,
+        mobile: PropTypes.bool,
         id: PropTypes.string,
         ariaLabel: PropTypes.string.isRequired,
     };
@@ -30,13 +30,13 @@ export default class Menu extends React.PureComponent {
     }
 
     render() {
-        const {children, openUp, openLeft, onMobile, id, ariaLabel} = this.props;
+        const {children, openUp, openLeft, mobile, id, ariaLabel} = this.props;
         const styles = {};
-        if (openLeft && (!isMobile() || onMobile === false)) {
+        if (openLeft && (!isMobile() || mobile === false)) {
             styles.left = 'inherit';
             styles.right = 0;
         }
-        if (openUp && (!isMobile() || onMobile === false)) {
+        if (openUp && (!isMobile() || mobile === false)) {
             styles.bottom = '100%';
             styles.top = 'auto';
         }
