@@ -128,7 +128,7 @@ export default class TeamSidebar extends React.PureComponent {
         plugins.push(
             <div
                 key='team-sidebar-bottom-plugin'
-                className='team-sidebar-bottom-plugin'
+                className='team-sidebar-bottom-plugin is-empty'
             >
                 <Pluggable pluggableName='BottomTeamSidebar'/>
             </div>

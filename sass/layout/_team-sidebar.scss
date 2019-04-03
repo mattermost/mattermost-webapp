@@ -19,6 +19,8 @@
     }
 
     .team-sidebar-bottom-plugin {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-top: 1px solid transparent;
         width: 100%;
         flex: 0 0 auto;
         padding: 16px 0 6px;
@@ -75,22 +77,6 @@
         overflow: hidden;
         flex: 1 1 auto;
         position: relative;
-
-        &:before,
-        &:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            pointer-events: none;
-            width: 100%;
-            height: 50px;
-        }
-
-        &:before {
-            @include background-image(linear-gradient(transparent, rgba($black, 0.3)));
-            z-index: 5;
-        }
 
         .team-container {
             display: flex;
