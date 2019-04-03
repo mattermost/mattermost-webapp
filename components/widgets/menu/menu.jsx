@@ -32,11 +32,11 @@ export default class Menu extends React.PureComponent {
     render() {
         const {children, openUp, openLeft, onMobile, id, ariaLabel} = this.props;
         const styles = {};
-        if (openLeft && (!isMobile() || !onMobile)) {
+        if (openLeft && (!isMobile() || onMobile === false)) {
             styles.left = 'inherit';
             styles.right = 0;
         }
-        if (openUp && (!isMobile() || !onMobile)) {
+        if (openUp && (!isMobile() || onMobile === false)) {
             styles.bottom = '100%';
             styles.top = 'auto';
         }
