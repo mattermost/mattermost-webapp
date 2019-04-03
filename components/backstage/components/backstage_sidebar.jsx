@@ -129,10 +129,7 @@ export default class BackstageSidebar extends React.Component {
             );
         }
 
-        // Commenting out bot accounts UI until 5.12
-        const botAccounts = null;
-
-        /*const botAccounts = (
+        const botAccounts = (
             <SystemPermissionGate permissions={['manage_bots']}>
                 <BackstageSection
                     name='bots'
@@ -145,7 +142,7 @@ export default class BackstageSidebar extends React.Component {
                     }
                 />
             </SystemPermissionGate>
-        );*/
+        );
 
         return (
             <TeamPermissionGate
