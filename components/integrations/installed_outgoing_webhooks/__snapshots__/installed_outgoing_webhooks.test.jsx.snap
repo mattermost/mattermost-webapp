@@ -161,7 +161,7 @@ exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot
           />
         }
         emptyTextSearch={
-          <FormattedMessage
+          <FormattedHTMLMessage
             defaultMessage="No outgoing webhooks match {searchTerm}"
             id="installed_outgoing_webhooks.emptySearch"
             values={Object {}}

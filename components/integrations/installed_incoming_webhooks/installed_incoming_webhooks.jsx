@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -149,7 +149,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
                     />
                 }
                 emptyTextSearch={
-                    <FormattedMessage
+                    <FormattedHTMLMessage
                         id='installed_incoming_webhooks.emptySearch'
                         defaultMessage='No incoming webhooks match {searchTerm}'
                     />

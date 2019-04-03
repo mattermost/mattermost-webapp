@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
@@ -120,7 +120,7 @@ export default class InstalledCommands extends React.PureComponent {
                     />
                 }
                 emptyTextSearch={
-                    <FormattedMessage
+                    <FormattedHTMLMessage
                         id='installed_commands.emptySearch'
                         defaultMessage='No slash commands match {searchTerm}'
                     />

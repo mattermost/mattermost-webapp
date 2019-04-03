@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import {localizeMessage} from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
@@ -164,7 +164,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
                     />
                 }
                 emptyTextSearch={
-                    <FormattedMessage
+                    <FormattedHTMLMessage
                         id='installed_oauth_apps.emptySearch'
                         defaultMessage='No OAuth 2.0 Applications match {searchTerm}'
                     />
