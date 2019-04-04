@@ -43,31 +43,6 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           render={[Function]}
         />
         <Route
-          key="groups/:group_id"
-          path="/groups/:group_id"
-          render={[Function]}
-        />
-        <Route
-          key="groups"
-          path="/groups"
-          render={[Function]}
-        />
-        <Route
-          key="permissions/schemes"
-          path="/permissions/schemes"
-          render={[Function]}
-        />
-        <Route
-          key="permissions/system-scheme"
-          path="/permissions/system-scheme"
-          render={[Function]}
-        />
-        <Route
-          key="permissions/team-override-scheme"
-          path="/permissions/team-override-scheme"
-          render={[Function]}
-        />
-        <Route
           key="web_server"
           path="/web_server"
           render={[Function]}
@@ -75,11 +50,6 @@ exports[`components/AdminConsole should generate the routes 1`] = `
         <Route
           key="database"
           path="/database"
-          render={[Function]}
-        />
-        <Route
-          key="elasticsearch"
-          path="/elasticsearch"
           render={[Function]}
         />
         <Route
@@ -103,11 +73,6 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           render={[Function]}
         />
         <Route
-          key="cluster"
-          path="/cluster"
-          render={[Function]}
-        />
-        <Route
           key="rate"
           path="/rate"
           render={[Function]}
@@ -120,11 +85,6 @@ exports[`components/AdminConsole should generate the routes 1`] = `
         <Route
           key="session_lengths"
           path="/session_lengths"
-          render={[Function]}
-        />
-        <Route
-          key="metrics"
-          path="/metrics"
           render={[Function]}
         />
         <Route
@@ -145,11 +105,6 @@ exports[`components/AdminConsole should generate the routes 1`] = `
         <Route
           key="users_and_teams"
           path="/users_and_teams"
-          render={[Function]}
-        />
-        <Route
-          key="announcement"
-          path="/announcement"
           render={[Function]}
         />
         <Route
@@ -193,23 +148,8 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           render={[Function]}
         />
         <Route
-          key="authentication/ldap"
-          path="/authentication/ldap"
-          render={[Function]}
-        />
-        <Route
-          key="saml"
-          path="/saml"
-          render={[Function]}
-        />
-        <Route
           key="gitlab"
           path="/gitlab"
-          render={[Function]}
-        />
-        <Route
-          key="oauth"
-          path="/oauth"
           render={[Function]}
         />
         <Route
@@ -238,38 +178,13 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           render={[Function]}
         />
         <Route
-          key="compliance/data_retention"
-          path="/compliance/data_retention"
-          render={[Function]}
-        />
-        <Route
-          key="compliance/export"
-          path="/compliance/export"
-          render={[Function]}
-        />
-        <Route
-          key="compliance/settings"
-          path="/compliance/settings"
-          render={[Function]}
-        />
-        <Route
-          key="compliance/monitoring"
-          path="/compliance/monitoring"
-          render={[Function]}
-        />
-        <Route
-          key="compliance/custom_terms_of_service"
-          path="/compliance/custom_terms_of_service"
-          render={[Function]}
-        />
-        <Route
           key="experimental/features"
           path="/experimental/features"
           render={[Function]}
         />
         <Redirect
           push={false}
-          to="/undefined"
+          to="/license"
         />
       </Switch>
     </Highlight>

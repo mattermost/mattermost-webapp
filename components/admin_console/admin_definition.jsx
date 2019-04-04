@@ -3165,7 +3165,7 @@ export default {
         gif: {
             url: 'integrations/gif',
             title: t('admin.sidebar.gif'),
-            title_default: 'GIF',
+            title_default: 'GIF (Beta)',
             schema: {
                 id: 'GifSettings',
                 name: t('admin.integrations.gif'),

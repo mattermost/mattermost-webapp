@@ -24,6 +24,7 @@ export default class AdminConsole extends React.Component {
         config: PropTypes.object.isRequired,
         environmentConfig: PropTypes.object,
         license: PropTypes.object.isRequired,
+        buildEnterpriseReady: PropTypes.bool,
         roles: PropTypes.object.isRequired,
         match: PropTypes.shape({
             url: PropTypes.string.isRequired,
@@ -73,72 +74,48 @@ export default class AdminConsole extends React.Component {
     }
 
     renderRoutes = (extraProps) => {
-        const firstUrl = Object.values(AdminDefinition.about)[0].url;
+        const sections = Object.values(AdminDefinition).map((section) => {
+            return Object.values(section);
+        });
+        const sectionsConcat = Array.prototype.concat(...sections);
+        const schemas = sectionsConcat.map((item) => {
+            if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
+                return false;
+            }
+            if (!item.schema) {
+                return false;
+            }
+            return (
+                <Route
+                    key={item.url}
+                    path={`${this.props.match.url}/${item.url}`}
+                    render={(props) => (
+                        <SchemaAdminSettings
+                            {...extraProps}
+                            {...props}
+                            schema={item.schema}
+                        />
+                    )}
+                />
+            );
+        });
+        const defaultUrlSchema = sectionsConcat.find((item) => {
+            // return first available url
+            if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
+                return false;
+            }
+            if (item.schema) {
+                return item;
+            }
+            return false;
+        });
+        const defaultUrl = defaultUrlSchema.url;
+
         return (
             <Switch>
-                {Object.values({
-                    ...AdminDefinition.about,
-                    ...AdminDefinition.reporting,
-                    ...AdminDefinition.user_management,
-                    ...AdminDefinition.environment,
-                    ...AdminDefinition.site,
-                    ...AdminDefinition.authentication,
-                    ...AdminDefinition.integrations,
-                    ...AdminDefinition.compliance,
-                    ...AdminDefinition.experimental,
-                }).map((item) => {
-                    if (!item.schema) {
-                        return null;
-                    }
-                    return (
-                        <Route
-                            key={item.url}
-                            path={`${this.props.match.url}/${item.url}`}
-                            render={(props) => (
-                                <SchemaAdminSettings
-                                    {...extraProps}
-                                    {...props}
-                                    schema={item.schema}
-                                />
-                            )}
-                        />
-                    );
-                })}
-                <Redirect to={`${this.props.match.url}/${firstUrl}`}/>
+                {schemas}
+                {<Redirect to={`${this.props.match.url}/${defaultUrl}`}/>}
             </Switch>
-        );
-    }
-
-    renderSectionRoutes = (extraProps, section) => {
-        const firstUrl = Object.values(section).filter((i) => i.schema)[0].url;
-        return (
-            <Route
-                key={section.url}
-                path={`${this.props.match.url}/${section.url}`}
-                render={(props) => (
-                    <Switch>
-                        {Object.values(section).map((item) => {
-                            if (!item.schema) {
-                                return null;
-                            }
-                            return (
-                                <Route
-                                    key={item.url}
-                                    path={`${props.match.url}/${item.url}`}
-                                    render={(subprops) => (
-                                        <SchemaAdminSettings
-                                            {...extraProps}
-                                            {...subprops}
-                                            schema={item.schema}
-                                        />
-                                    )}
-                                />
-                            );
-                        })}
-                        <Redirect to={`${props.match.url}/${firstUrl}`}/>
-                    </Switch>
-                )}
-            />
         );
     }
 
