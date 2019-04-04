@@ -1,42 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import users from '../fixtures/users.json';
-import theme from '../fixtures/theme.json';
-
 // ***********************************************************
 // Read more: https://on.cypress.io/custom-commands
 // ***********************************************************
-
-Cypress.Commands.add('login', (username, {otherUsername, otherPassword, otherURL} = {}) => {
-    const user = users[username];
-    const usernameParam = user && user.username ? user.username : otherUsername;
-    const passwordParam = user && user.password ? user.password : otherPassword;
-    const urlParam = otherURL ? `${otherURL}/api/v4/users/login` : '/api/v4/users/login';
-
-    cy.request({
-        url: urlParam,
-        method: 'POST',
-        body: {login_id: usernameParam, password: passwordParam},
-    });
-});
 
 Cypress.Commands.add('logout', () => {
     cy.get('#logout').click({force: true});
     cy.visit('/');
 });
 
-Cypress.Commands.add('logoutByAPI', ({otherURL} = {}) => {
-    const urlParam = otherURL ? `${otherURL}/api/v4/users/logout` : '/api/v4/users/logout';
-
-    cy.request({
-        url: urlParam,
-        method: 'POST',
-    });
-});
-
 Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPassword, otherURL} = {}) => {
-    cy.login('user-1', {otherUsername, otherPassword, otherURL});
+    cy.apiLogin('user-1', {otherUsername, otherPassword, otherURL});
     cy.visit('/');
 
     cy.get('#post_textbox').should('be.visible');
@@ -49,7 +24,7 @@ Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPasswo
 // Go to Account Settings modal
 Cypress.Commands.add('toAccountSettingsModal', (username = 'user-1', isLoggedInAlready = false, {otherUsername, otherPassword, otherURL} = {}) => {
     if (!isLoggedInAlready) {
-        cy.login(username, {otherUsername, otherPassword, otherURL});
+        cy.apiLogin(username, {otherUsername, otherPassword, otherURL});
         cy.visit('/');
     }
 
@@ -103,6 +78,32 @@ Cypress.Commands.add('changeMessageDisplaySetting', (setting = 'STANDARD', usern
     cy.get('.section-max').scrollIntoView();
 
     cy.get(SETTINGS[setting]).check().should('be.checked');
+
+    cy.get('#saveSetting').click();
+    cy.get('#accountSettingsHeader > .close').click();
+});
+
+/**
+ * Update teammate display mode preference of a user
+ * @param {String} username - current user
+ * @param {String} value - Either "username" (default) or "nickname_full_name" or "full_name"
+ */
+Cypress.Commands.add('updateTeammateDisplayModePreference', (username, value = 'username') => {
+    const conf = {
+        username: '#name_formatFormatA',
+        nickname_full_name: '#name_formatFormatB',
+        full_name: '#name_formatFormatC',
+    };
+    cy.toAccountSettingsModal(username);
+    cy.get('#displayButton').click();
+
+    cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
+
+    cy.get('#name_formatTitle').scrollIntoView();
+    cy.get('#name_formatTitle').click();
+    cy.get('.section-max').scrollIntoView();
+
+    cy.get(conf[value]).check().should('be.checked');
 
     cy.get('#saveSetting').click();
     cy.get('#accountSettingsHeader > .close').click();
@@ -311,13 +312,17 @@ Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
 
 Cypress.Commands.add('removeTeamMember', (teamURL, username) => {
     cy.logout();
-    cy.login('sysadmin');
+    cy.apiLogin('sysadmin');
     cy.visit(`/${teamURL}`);
     cy.get('#sidebarHeaderDropdownButton').click();
     cy.get('#manageMembers').click();
     cy.focused().type(username, {force: true});
     cy.get('#removeFromTeam').click({force: true});
     cy.get('.modal-header .close').click();
+});
+
+Cypress.Commands.add('getCurrentTeamId', () => {
+    return cy.get('#headerTeamName').invoke('attr', 'data-teamid');
 });
 
 // ***********************************************************
@@ -404,24 +409,6 @@ Cypress.Commands.add('getCurrentChannelId', () => {
     return cy.get('#channel-header').invoke('attr', 'data-channelid');
 });
 
-// ***********************************************************
-// API - Preference
-// ************************************************************
-
-/**
- * Update user's preference directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {Array} preference - a list of user's preferences
- */
-Cypress.Commands.add('updateUserPreference', (preferences = []) => {
-    cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/users/me/preferences',
-        method: 'PUT',
-        body: preferences,
-    });
-});
-
 /**
  * Update channel header
  * @param {String} text - Text to set the header to
@@ -439,84 +426,4 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         type(text).
         type('{enter}').
         wait(500);
-});
-
-/**
- * Update teammate display mode preference of a user
- * @param {String} username - current user
- * @param {String} value - Either "username" (default) or "nickname_full_name" or "full_name"
- */
-Cypress.Commands.add('updateTeammateDisplayModePreference', (username, value = 'username') => {
-    const conf = {
-        username: '#name_formatFormatA',
-        nickname_full_name: '#name_formatFormatB',
-        full_name: '#name_formatFormatC',
-    };
-    cy.toAccountSettingsModal(username);
-    cy.get('#displayButton').click();
-
-    cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
-
-    cy.get('#name_formatTitle').scrollIntoView();
-    cy.get('#name_formatTitle').click();
-    cy.get('.section-max').scrollIntoView();
-
-    cy.get(conf[value]).check().should('be.checked');
-
-    cy.get('#saveSetting').click();
-    cy.get('#accountSettingsHeader > .close').click();
-});
-
-/**
- * Update channel display mode preference of a user directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} value - Either "full" (default) or "centered"
- */
-Cypress.Commands.add('updateChannelDisplayModePreference', (value = 'full') => {
-    cy.getCookie('MMUSERID').then((cookie) => {
-        const preference = {
-            user_id: cookie.value,
-            category: 'display_settings',
-            name: 'channel_display_mode',
-            value,
-        };
-
-        cy.updateUserPreference([preference]);
-    });
-});
-
-/**
- * Update message display preference of a user directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} value - Either "clean" (default) or "compact"
- */
-Cypress.Commands.add('updateMessageDisplayPreference', (value = 'clean') => {
-    cy.getCookie('MMUSERID').then((cookie) => {
-        const preference = {
-            user_id: cookie.value,
-            category: 'display_settings',
-            name: 'message_display',
-            value,
-        };
-
-        cy.updateUserPreference([preference]);
-    });
-});
-
-/**
- * Update theme preference of a user directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {Object} value - theme object.  Will pass default value if none is provided.
- */
-Cypress.Commands.add('updateThemePreference', (value = JSON.stringify(theme.default)) => {
-    cy.getCookie('MMUSERID').then((cookie) => {
-        const preference = {
-            user_id: cookie.value,
-            category: 'theme',
-            name: '',
-            value,
-        };
-
-        cy.updateUserPreference([preference]);
-    });
 });

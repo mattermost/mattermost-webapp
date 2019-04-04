@@ -41,7 +41,7 @@ function navigateToThemeSettings() {
 describe('AS14319 Theme Colors - Code', () => {
     before(() => {
         // 1. Login and navigate to the app
-        cy.login('user-1');
+        cy.apiLogin('user-1');
         cy.visit('/');
 
         // 2. Enter in code block for message
