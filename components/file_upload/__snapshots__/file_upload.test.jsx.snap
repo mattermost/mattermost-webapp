@@ -4,15 +4,6 @@ exports[`components/FileUpload should match snapshot 1`] = `
 <span
   className=""
 >
-  <input
-    accept=""
-    aria-label="Upload files"
-    className="file-attachment-menu-item-input"
-    multiple={true}
-    onChange={[Function]}
-    onClick={[Function]}
-    type="file"
-  />
   <MenuWrapper
     animationComponent={[Function]}
     className=""
@@ -34,9 +25,7 @@ exports[`components/FileUpload should match snapshot 1`] = `
       openUp={true}
     >
       <li>
-        <a
-          onClick={[Function]}
-        >
+        <a>
           <i
             className="fa fa-laptop"
           />
@@ -44,6 +33,15 @@ exports[`components/FileUpload should match snapshot 1`] = `
             defaultMessage="Your computer"
             id="yourcomputer"
             values={Object {}}
+          />
+          <input
+            accept=""
+            aria-label="Upload files"
+            className="file-attachment-menu-item-input"
+            multiple={true}
+            onChange={[Function]}
+            onClick={[Function]}
+            type="file"
           />
         </a>
       </li>
