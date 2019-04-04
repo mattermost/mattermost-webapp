@@ -229,7 +229,10 @@ export default class PostInfo extends React.PureComponent {
             postInfoIcon = (
                 <button
                     className='card-icon__container icon--show style--none'
-                    onClick={this.props.handleCardClick}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        this.props.handleCardClick(this.props.post);
+                    }}
                 >
                     <i className='fa fa-info-circle'/>
                 </button>

@@ -150,10 +150,15 @@ export default class RhsThread extends React.Component {
         }
     }
 
-    handleCardClick = (e) => {
-        e.preventDefault();
+    handleCardClick = (post) => {
+        if (!post) {
+            return;
+        }
 
-        const post = this.props.selected;
+        this.props.actions.selectPostCard(post);
+    }
+
+    handleCardClickPost = (post) => {
         if (!post) {
             return;
         }
@@ -285,6 +290,7 @@ export default class RhsThread extends React.Component {
                     removePost={this.props.actions.removePost}
                     previewCollapsed={this.props.previewCollapsed}
                     previewEnabled={this.props.previewEnabled}
+                    handleCardClick={this.handleCardClickPost}
                 />
             );
         }

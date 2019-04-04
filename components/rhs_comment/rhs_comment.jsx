@@ -43,6 +43,7 @@ export default class RhsComment extends React.Component {
         pluginPostTypes: PropTypes.object,
         channelIsArchived: PropTypes.bool.isRequired,
         isConsecutivePost: PropTypes.bool,
+        handleCardClick: PropTypes.func,
     };
 
     constructor(props) {
@@ -380,6 +381,21 @@ export default class RhsComment extends React.Component {
             />
         );
 
+        let postInfoIcon;
+        if (post.props && post.props.card) {
+            postInfoIcon = (
+                <button
+                    className='card-icon__container icon--show style--none'
+                    onClick={(e) => {
+                        e.preventDefault();
+                        this.props.handleCardClick(post);
+                    }}
+                >
+                    <i className='fa fa-info-circle'/>
+                </button>
+            );
+        }
+
         return (
             <div
                 ref={'post_body_' + post.id}
@@ -400,6 +416,7 @@ export default class RhsComment extends React.Component {
                             <div className='col'>
                                 {this.renderPostTime(isEphemeral)}
                                 {pinnedBadge}
+                                {postInfoIcon}
                                 {flagIcon}
                                 {visibleMessage}
                             </div>

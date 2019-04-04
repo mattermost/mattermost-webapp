@@ -11,6 +11,7 @@ import * as Utils from 'utils/utils.jsx';
 import SearchResultsHeader from 'components/search_results_header';
 import Markdown from 'components/markdown';
 import Post from 'components/post_view/post';
+import DateSeparator from 'components/post_view/date_separator';
 
 export function renderView(props) {
     return (
@@ -39,6 +40,7 @@ export function renderThumbVertical(props) {
 export default class RhsCard extends React.Component {
     static propTypes = {
         selected: PropTypes.object,
+        channel: PropTypes.object,
         pluginPostCardTypes: PropTypes.object,
     }
 
@@ -92,7 +94,7 @@ export default class RhsCard extends React.Component {
             return (<div/>);
         }
 
-        const {selected, pluginPostCardTypes} = this.props;
+        const {channel, selected, pluginPostCardTypes} = this.props;
         const postType = selected.type;
         let content = null;
         if (pluginPostCardTypes.hasOwnProperty(postType)) {
@@ -107,6 +109,8 @@ export default class RhsCard extends React.Component {
                 </div>
             );
         }
+
+        const postDate = Utils.getDateForUnixTicks(selected.create_at);
 
         return (
             <div
@@ -127,6 +131,8 @@ export default class RhsCard extends React.Component {
                     onScroll={this.handleScroll}
                 >
                     <div className='post-right__scroll'>
+                        <DateSeparator date={postDate}/>
+                        <div className='card-info-channel__name'>{channel.display_name}</div>
                         <Post
                             ref={selected.id}
                             key={'post ' + (selected.id || selected.pending_post_id)}

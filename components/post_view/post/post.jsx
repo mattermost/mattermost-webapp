@@ -103,10 +103,7 @@ export default class Post extends React.PureComponent {
         this.props.actions.selectPost(post);
     }
 
-    handleCardClick = (e) => {
-        e.preventDefault();
-
-        const post = this.props.post;
+    handleCardClick = (post) => {
         if (!post) {
             return;
         }
