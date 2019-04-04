@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 
-import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
+import Constants, {RHSStates} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-import SearchResultsHeader from 'components/search_results_header';
+import RhsCardHeader from 'components/rhs_card_header';
 import Markdown from 'components/markdown';
 import Post from 'components/post_view/post';
 import DateSeparator from 'components/post_view/date_separator';
@@ -42,6 +42,7 @@ export default class RhsCard extends React.Component {
         selected: PropTypes.object,
         channel: PropTypes.object,
         pluginPostCardTypes: PropTypes.object,
+        previousRhsState: PropTypes.oneOf(Object.values(RHSStates)),
     }
 
     static defaultProps = {
@@ -117,10 +118,7 @@ export default class RhsCard extends React.Component {
                 className='sidebar-right__body sidebar-right__card'
                 ref='sidebarbody'
             >
-                <SearchResultsHeader
-                    isCard={true}
-                    channelDisplayName={'not-used'}
-                />
+                <RhsCardHeader previousRhsState={this.props.previousRhsState}/>
                 <Scrollbars
                     autoHide={true}
                     autoHideTimeout={500}
