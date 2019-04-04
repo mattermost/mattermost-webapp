@@ -6,14 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
-// CustomRenderer renders Markdown text without <p> tags, matching the output of FormattedMarkdownMessage.
-class CustomRenderer extends marked.Renderer {
-    paragraph(text) {
-        return text;
-    }
-}
+import FormattedMarkdownMessage, {CustomRenderer} from 'components/formatted_markdown_message';
 
 export default class HelpText extends React.PureComponent {
     static propTypes = {
