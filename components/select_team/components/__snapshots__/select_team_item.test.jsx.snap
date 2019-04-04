@@ -34,14 +34,14 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     onClick={[Function]}
   >
     <span
-      className="fa fa-lock"
-      title="Private team"
-    />
-    <span
       className="signup-team-dir__name"
     >
       team_display_name
     </span>
+    <span
+      className="fa fa-lock light"
+      title="Private team"
+    />
     <span
       className="fa fa-angle-right right signup-team__icon"
       title="Join Team Icon"
@@ -61,14 +61,14 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     onClick={null}
   >
     <span
-      className="fa fa-lock"
-      title="Private team"
-    />
-    <span
       className="signup-team-dir__name"
     >
       team_display_name
     </span>
+    <span
+      className="fa fa-lock light"
+      title="Private team"
+    />
   </a>
 </div>
 `;
