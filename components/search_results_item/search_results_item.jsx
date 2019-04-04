@@ -88,6 +88,7 @@ export default class SearchResultsItem extends React.PureComponent {
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func.isRequired,
             selectPost: PropTypes.func.isRequired,
+            selectPostCard: PropTypes.func.isRequired,
             setRhsExpanded: PropTypes.func.isRequired,
         }).isRequired,
     };
@@ -113,6 +114,14 @@ export default class SearchResultsItem extends React.PureComponent {
         this.props.actions.setRhsExpanded(false);
         browserHistory.push(`/${this.props.currentTeamName}/pl/${this.props.post.id}`);
     };
+
+    handleCardClick = (post) => {
+        if (!post) {
+            return;
+        }
+
+        this.props.actions.selectPostCard(post);
+    }
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
@@ -220,6 +229,7 @@ export default class SearchResultsItem extends React.PureComponent {
 
         let message;
         let flagContent;
+        let postInfoIcon;
         let rhsControls;
         if (post.state === Constants.POST_DELETED) {
             message = (
@@ -238,6 +248,20 @@ export default class SearchResultsItem extends React.PureComponent {
                     isFlagged={this.props.isFlagged}
                 />
             );
+
+            if (post.props && post.props.card) {
+                postInfoIcon = (
+                    <button
+                        className='card-icon__container icon--show style--none'
+                        onClick={(e) => {
+                            e.preventDefault();
+                            this.handleCardClick(this.props.post);
+                        }}
+                    >
+                        <i className='fa fa-info-circle'/>
+                    </button>
+                );
+            }
 
             rhsControls = (
                 <div className='col__controls col__reply'>
@@ -335,6 +359,7 @@ export default class SearchResultsItem extends React.PureComponent {
                                 <div className='col'>
                                     {this.renderPostTime()}
                                     {pinnedBadge}
+                                    {postInfoIcon}
                                     {flagContent}
                                 </div>
                                 {rhsControls}

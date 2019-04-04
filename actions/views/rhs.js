@@ -50,6 +50,17 @@ export function selectPostFromRightHandSideSearch(post) {
     };
 }
 
+export function selectPostCardFromRightHandSideSearch(post) {
+    return async (dispatch, getState) => {
+        dispatch({
+            type: ActionTypes.SELECT_POST_CARD,
+            postId: post.id,
+            channelId: post.channel_id,
+            previousRhsState: getRhsState(getState()),
+        });
+    };
+}
+
 export function selectPostFromRightHandSideSearchByPostId(postId) {
     return async (dispatch, getState) => {
         const post = getPost(getState(), postId);
