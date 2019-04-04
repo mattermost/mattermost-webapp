@@ -142,171 +142,88 @@ export default class AdminSidebar extends React.Component {
             return true;
         };
         const result = new Set();
-        for (const item of Object.values(AdminDefinition.reporting)) {
-            if (isVisible(item)) {
-                result.add(item.url);
-            }
-        }
-        for (const item of Object.values(AdminDefinition.user_management)) {
-            if (isVisible(item)) {
-                result.add(item.url);
-            }
-        }
-        for (const item of Object.values(AdminDefinition.environment)) {
-            if (isVisible(item)) {
-                result.add(item.url);
-            }
-        }
-        for (const item of Object.values(AdminDefinition.site)) {
-            if (isVisible(item)) {
-                result.add(item.url);
-            }
-        }
-        for (const item of Object.values(AdminDefinition.authentication)) {
-            if (isVisible(item)) {
-                result.add(item.url);
-            }
-        }
-        for (const item of Object.values(AdminDefinition.integrations)) {
-            if (isVisible(item)) {
-                result.add(item.url);
+        for (const section of Object.values(AdminDefinition)) {
+            for (const item of Object.values(section)) {
+                if (isVisible(item)) {
+                    result.add(item.url);
+                }
             }
         }
         return result;
     }
 
-    renderSettingsMenu = (section) => {
-        const menuEntries = [];
-        Object.values(section).forEach((item) => {
-            if (!item.schema) {
-                return;
-            }
-
-            if (!item.title) {
-                return;
-            }
-
-            if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
-                return;
-            }
-
-            if (this.state.sections !== null) {
-                let active = false;
-                for (const url of this.state.sections) {
-                    if (url.endsWith('/' + item.url)) {
-                        active = true;
-                    }
-                }
-                if (!active) {
+    renderRootMenu = (definition) => {
+        const sidebarSections = [];
+        Object.values(definition).forEach((section, sectionIndex) => {
+            const sidebarItems = [];
+            Object.values(section).forEach((item, itemIndex) => {
+                if (!item.title) {
                     return;
                 }
-            }
 
-            menuEntries.push((
-                <AdminSidebarSection
-                    key={item.url}
-                    name={item.url}
-                    title={
-                        <FormattedMessage
-                            id={item.title}
-                            defaultMessage={item.title_default}
-                        />
-                    }
-                />
-            ));
-        });
-
-        if (menuEntries.length === 0) {
-            return null;
-        }
-
-        // Special case for plugins entries
-        let extraEntries;
-        if (section.url === 'plugins') {
-            extraEntries = this.renderPluginsMenu();
-        }
-
-        return (
-            <AdminSidebarSection
-                key={section.url}
-                name={section.url}
-                type='text'
-                title={
-                    <FormattedMessage
-                        id={section.title}
-                        defaultMessage={section.title_default}
-                    />
-                }
-            >
-                {menuEntries}
-                {extraEntries}
-            </AdminSidebarSection>
-        );
-    }
-
-    renderRootMenu = (section, icon, title, titleDefault) => {
-        const menuEntries = [];
-        Object.values(section).forEach((item) => {
-            if (!item.title) {
-                return;
-            }
-
-            if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
-                return;
-            }
-
-            if (this.state.sections !== null) {
-                let active = false;
-                for (const url of this.state.sections) {
-                    if (url === item.url) {
-                        active = true;
-                    }
-                }
-                if (!active) {
+                if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
                     return;
                 }
+
+                if (this.state.sections !== null) {
+                    let active = false;
+                    for (const url of this.state.sections) {
+                        if (url === item.url) {
+                            active = true;
+                        }
+                    }
+                    if (!active) {
+                        return;
+                    }
+                }
+
+                sidebarItems.push((
+                    <AdminSidebarSection
+                        key={itemIndex}
+                        name={item.url}
+                        title={
+                            <FormattedMessage
+                                id={item.title}
+                                defaultMessage={item.title_default}
+                            />
+                        }
+                    />
+                ));
+            });
+
+            // If no visible items, don't display this section
+            if (sidebarItems.length === 0) {
+                return null;
             }
 
-            menuEntries.push((
-                <AdminSidebarSection
-                    key={item.url}
-                    name={item.url}
-                    title={
-                        <FormattedMessage
-                            id={item.title}
-                            defaultMessage={item.title_default}
-                        />
-                    }
-                />
-            ));
-        });
+            // Special case for plugins entries
+            let moreSidebarItems;
+            if (section.id === 'integrations') {
+                moreSidebarItems = this.renderPluginsMenu();
+            }
 
-        if (menuEntries.length === 0) {
+            if (sidebarItems.length) {
+                sidebarSections.push((
+                    <AdminSidebarCategory
+                        key={sectionIndex}
+                        parentLink='/admin_console'
+                        icon={section.icon}
+                        sectionClass=''
+                        title={
+                            <FormattedMessage
+                                id={section.sectionTitle}
+                                defaultMessage={section.sectionTitleDefault}
+                            />
+                        }
+                    >
+                        {sidebarItems}
+                        {moreSidebarItems}
+                    </AdminSidebarCategory>
+                ));
+            }
             return null;
-        }
-
-        // Special case for plugins entries
-        let extraEntries;
-        if (section.id === 'integrations') {
-            extraEntries = this.renderPluginsMenu();
-        }
-
-        return (
-            <AdminSidebarCategory
-                parentLink='/admin_console'
-                icon={icon}
-                sectionClass=''
-                title={
-                    <FormattedMessage
-                        id={title}
-                        defaultMessage={titleDefault}
-                    />
-                }
-            >
-                {menuEntries}
-                {extraEntries}
-            </AdminSidebarCategory>
-        );
+        });
+        return sidebarSections;
     }
 
     renderPluginsMenu = () => {
@@ -390,15 +307,7 @@ export default class AdminSidebar extends React.Component {
                                         </OverlayTrigger>
                                     </div>}
                             </li>
-                            {this.renderRootMenu(AdminDefinition.about, 'fa-info', 'admin.sidebar.about', 'ABOUT')}
-                            {this.renderRootMenu(AdminDefinition.reporting, 'fa-bar-chart', 'admin.sidebar.reports', 'REPORTING')}
-                            {this.renderRootMenu(AdminDefinition.user_management, 'fa-users', 'admin.sidebar.userManagement', 'USER MANAGEMENT')}
-                            {this.renderRootMenu(AdminDefinition.environment, 'fa-server', 'admin.sidebar.environment', 'ENVIRONMENT')}
-                            {this.renderRootMenu(AdminDefinition.site, 'fa-cogs', 'admin.sidebar.site', 'SITE CONFIGURATION')}
-                            {this.renderRootMenu(AdminDefinition.authentication, 'fa-shield', 'admin.sidebar.authentication', 'AUTHENTICATION')}
-                            {this.renderRootMenu(AdminDefinition.integrations, 'fa-plug', 'admin.sidebar.integrations', 'INTEGRATIONS')}
-                            {this.renderRootMenu(AdminDefinition.compliance, 'fa-list', 'admin.sidebar.compliance', 'COMPLIANCE')}
-                            {this.renderRootMenu(AdminDefinition.experimental, 'fa-flask', 'admin.sidebar.experimental', 'EXPERIMENTAL')}
+                            {this.renderRootMenu(AdminDefinition)}
                         </ul>
                     </Highlight>
                 </div>

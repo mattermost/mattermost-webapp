@@ -124,9 +124,9 @@ const MINIMUM_IDLE_TIMEOUT = 5;
 //   - remove_action: An store action to remove the file.
 //   - fileType: A list of extensions separated by ",". E.g. ".jpg,.png,.gif".
 
-export const needsUtils = {
-    not: (func) => (config, state, license) => !func(config, state, license),
-    and: (...funcs) => (config, state, license) => {
+export const it = {
+    isnt: (func) => (config, state, license, enterpriseReady) => !func(config, state, license, enterpriseReady),
+    both: (...funcs) => (config, state, license) => {
         for (const func of funcs) {
             if (!func(config, state, license)) {
                 return false;
@@ -134,29 +134,38 @@ export const needsUtils = {
         }
         return true;
     },
-    or: (...funcs) => (config, state, license) => {
+    either: (...funcs) => (config, state, license, enterpriseReady) => {
         for (const func of funcs) {
-            if (func(config, state, license)) {
+            if (func(config, state, license, enterpriseReady)) {
                 return true;
             }
         }
         return false;
     },
-    stateValueMatch: (key, regex) => (config, state) => state[key].match(regex),
-    stateValueEqual: (key, value) => (config, state) => state[key] === value,
-    stateValueTrue: (key) => (config, state) => Boolean(state[key]),
-    stateValueFalse: (key) => (config, state) => !state[key],
-    hasLicense: (config, state, license) => license.IsLicensed === 'true',
-    hasLicenseFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
+    stateMatches: (key, regex) => (config, state) => state[key].match(regex),
+    stateEquals: (key, value) => (config, state) => state[key] === value,
+    stateIsTrue: (key) => (config, state) => Boolean(state[key]),
+    stateIsFalse: (key) => (config, state) => !state[key],
+    configIsTrue: (group, setting) => (config) => Boolean(config[group][setting]),
+    configIsFalse: (group, setting) => (config) => !config[group][setting],
+    enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
+    licensed: (config, state, license) => license.IsLicensed === 'true',
+    licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
 };
 
 export default {
     about: {
+        icon: 'fa-info',
+        sectionTitle: t('admin.sidebar.about'),
+        sectionTitleDefault: 'About',
         license: {
             url: 'license',
             title: t('admin.sidebar.license'),
             title_default: 'Edition and License',
-            isHidden: (config, state, license, enterpriseReady) => !enterpriseReady,
+            isHidden: it.either(
+                it.isnt(it.enterpriseReady),
+                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            ),
             searchableStrings: [
                 'admin.license.title',
                 'admin.license.uploadDesc',
@@ -174,6 +183,9 @@ export default {
         },
     },
     reporting: {
+        icon: 'fa-bar-chart',
+        sectionTitle: t('admin.sidebar.reports'),
+        sectionTitleDefault: 'Reporting',
         system_analytics: {
             url: 'system_analytics',
             title: t('admin.sidebar.siteStatistics'),
@@ -225,7 +237,7 @@ export default {
         server_logs: {
             url: 'logs',
             title: t('admin.sidebar.logs'),
-            title_default: 'Logs',
+            title_default: 'Server Logs',
             searchableStrings: [
                 'admin.logs.bannerDesc',
                 'admin.logs.title',
@@ -237,6 +249,9 @@ export default {
         },
     },
     user_management: {
+        icon: 'fa-users',
+        sectionTitle: t('admin.sidebar.userManagement'),
+        sectionTitleDefault: 'User Management',
         system_users: {
             url: 'users',
             title: t('admin.sidebar.users'),
@@ -251,9 +266,9 @@ export default {
         },
         group_detail: {
             url: 'groups/:group_id',
-            isHidden: needsUtils.or(
-                needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')),
-                (config) => !config.ServiceSettings.ExperimentalLdapGroupSync,
+            isHidden: it.either(
+                it.isnt(it.licensedForFeature('LDAPGroups')),
+                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
             ),
             schema: {
                 id: 'GroupDetail',
@@ -264,9 +279,9 @@ export default {
             url: 'groups',
             title: t('admin.sidebar.groups'),
             title_default: 'Groups',
-            isHidden: needsUtils.or(
-                needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')),
-                (config) => !config.ServiceSettings.ExperimentalLdapGroupSync,
+            isHidden: it.either(
+                it.isnt(it.licensedForFeature('LDAPGroups')),
+                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
             ),
             schema: {
                 id: 'Groups',
@@ -277,9 +292,9 @@ export default {
             url: 'permissions/schemes',
             title: t('admin.sidebar.permissions'),
             title_default: 'Permissions',
-            isHidden: needsUtils.or(
-                needsUtils.not(needsUtils.hasLicense),
-                needsUtils.not(needsUtils.hasLicenseFeature('CustomPermissionsSchemes'))
+            isHidden: it.either(
+                it.isnt(it.licensed),
+                it.isnt(it.licensedForFeature('CustomPermissionsSchemes'))
             ),
             searchableStrings: [
                 'admin.permissions.documentationLinkText',
@@ -302,9 +317,9 @@ export default {
             url: 'permissions/system-scheme',
             title: t('admin.sidebar.systemScheme'),
             title_default: 'System Scheme',
-            isHidden: needsUtils.or(
-                needsUtils.not(needsUtils.hasLicense),
-                needsUtils.hasLicenseFeature('CustomPermissionsSchemes')
+            isHidden: it.either(
+                it.isnt(it.licensed),
+                it.licensedForFeature('CustomPermissionsSchemes')
             ),
             schema: {
                 id: 'PermissionSystemScheme',
@@ -313,7 +328,7 @@ export default {
         },
         teamScheme: {
             url: 'permissions/team-override-scheme',
-            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('CustomPermissionsSchemes')),
+            isHidden: it.isnt(it.licensedForFeature('CustomPermissionsSchemes')),
             schema: {
                 id: 'PermissionSystemScheme',
                 component: PermissionTeamSchemeSettings,
@@ -321,10 +336,14 @@ export default {
         },
     },
     environment: {
+        icon: 'fa-server',
+        sectionTitle: t('admin.sidebar.environment'),
+        sectionTitleDefault: 'Environment',
         web_server: {
             url: 'web_server',
             title: t('admin.sidebar.webServer'),
             title_default: 'Web Server',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             schema: {
                 id: 'ServiceSettings',
                 name: t('admin.environment.webServer'),
@@ -367,7 +386,7 @@ export default {
                         disabled_help_text: t('admin.service.forward80To443Description.disabled'),
                         disabled_help_text_default: 'Forwards all insecure traffic from port 80 to secure port 443. Not recommended when using a proxy server.\n \nThis setting cannot be enabled until your server is [listening](#ListenAddress) on port 443.',
                         disabled_help_text_markdown: true,
-                        isDisabled: needsUtils.not(needsUtils.stateValueMatch('ServiceSettings.ListenAddress', /:443$/)),
+                        isDisabled: it.isnt(it.stateMatches('ServiceSettings.ListenAddress', /:443$/)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -395,7 +414,7 @@ export default {
                         label_default: 'TLS Certificate File:',
                         help_text: t('admin.service.tlsCertFileDescription'),
                         help_text_default: 'The certificate file to use.',
-                        isDisabled: needsUtils.stateValueTrue('ServiceSettings.UseLetsEncrypt'),
+                        isDisabled: it.stateIsTrue('ServiceSettings.UseLetsEncrypt'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -404,7 +423,7 @@ export default {
                         label_default: 'TLS Key File:',
                         help_text: t('admin.service.tlsKeyFileDescription'),
                         help_text_default: 'The private key file to use.',
-                        isDisabled: needsUtils.stateValueTrue('ServiceSettings.UseLetsEncrypt'),
+                        isDisabled: it.stateIsTrue('ServiceSettings.UseLetsEncrypt'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -416,7 +435,7 @@ export default {
                         disabled_help_text: t('admin.service.useLetsEncryptDescription.disabled'),
                         disabled_help_text_default: 'Enable the automatic retrieval of certificates from Let\'s Encrypt. The certificate will be retrieved when a client attempts to connect from a new domain. This will work with multiple domains.\n \nThis setting cannot be enabled unless the [Forward port 80 to 443](#Forward80To443) setting is set to true.',
                         disabled_help_text_markdown: true,
-                        isDisabled: needsUtils.stateValueFalse('ServiceSettings.Forward80To443'),
+                        isDisabled: it.stateIsFalse('ServiceSettings.Forward80To443'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -425,7 +444,7 @@ export default {
                         label_default: 'Let\'s Encrypt Certificate Cache File:',
                         help_text: t('admin.service.letsEncryptCertificateCacheFileDescription'),
                         help_text_default: 'Certificates retrieved and other data about the Let\'s Encrypt service will be stored in this file.',
-                        isDisabled: needsUtils.stateValueFalse('ServiceSettings.UseLetsEncrypt'),
+                        isDisabled: it.stateIsFalse('ServiceSettings.UseLetsEncrypt'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -524,6 +543,7 @@ export default {
             url: 'database',
             title: t('admin.sidebar.database'),
             title_default: 'Database',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             searchableStrings: [
                 'admin.database.title',
                 ['admin.recycle.recycleDescription', {featureName: '', reloadConfiguration: ''}],
@@ -555,7 +575,10 @@ export default {
             url: 'elasticsearch',
             title: t('admin.sidebar.elasticsearch'),
             title_default: 'Elasticsearch',
-            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('Elasticsearch')),
+            isHidden: it.either(
+                it.isnt(it.licensedForFeature('Elasticsearch')),
+                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin')
+            ),
             searchableStrings: [
                 'admin.elasticsearch.title',
                 'admin.elasticsearch.enableIndexingTitle',
@@ -589,6 +612,7 @@ export default {
             url: 'file_storage',
             title: t('admin.sidebar.fileStorage'),
             title_default: 'File Storage',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             schema: {
                 id: 'FileSettings',
                 name: t('admin.environment.fileStorage'),
@@ -624,7 +648,7 @@ export default {
                         help_text_default: 'Directory to which files and images are written. If blank, defaults to ./data/.',
                         placeholder: t('admin.image.localExample'),
                         placeholder_default: 'E.g.: "./data/"',
-                        isDisabled: needsUtils.not(needsUtils.stateValueEqual('FileSettings.DriverName', FILE_STORAGE_DRIVER_LOCAL)),
+                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_LOCAL)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -647,7 +671,7 @@ export default {
                         help_text_default: 'Name you selected for your S3 bucket in AWS.',
                         placeholder: t('admin.image.amazonS3BucketExample'),
                         placeholder_default: 'E.g.: "mattermost-media"',
-                        isDisabled: needsUtils.not(needsUtils.stateValueEqual('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -658,7 +682,7 @@ export default {
                         help_text_default: 'AWS region you selected when creating your S3 bucket. If no region is set, Mattermost attempts to get the appropriate region from AWS, or sets it to "us-east-1" if none found.',
                         placeholder: t('admin.image.amazonS3RegionExample'),
                         placeholder_default: 'E.g.: "us-east-1"',
-                        isDisabled: needsUtils.not(needsUtils.stateValueEqual('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -670,7 +694,7 @@ export default {
                         help_text_default: '(Optional) Only required if you do not want to authenticate to S3 using an [IAM role](!https://about.mattermost.com/default-iam-role). Enter the Access Key ID provided by your Amazon EC2 administrator.',
                         placeholder: t('admin.image.amazonS3IdExample'),
                         placeholder_default: 'E.g.: "AKIADTOVBGERKLCBV"',
-                        isDisabled: needsUtils.not(needsUtils.stateValueEqual('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -681,7 +705,7 @@ export default {
                         help_text_default: 'Hostname of your S3 Compatible Storage provider. Defaults to "s3.amazonaws.com".',
                         placeholder: t('admin.image.amazonS3EndpointExample'),
                         placeholder_default: 'E.g.: "s3.amazonaws.com"',
-                        isDisabled: needsUtils.not(needsUtils.stateValueEqual('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -692,7 +716,7 @@ export default {
                         help_text_default: '(Optional) The secret access key associated with your Amazon S3 Access Key ID.',
                         placeholder: t('admin.image.amazonS3SecretExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
-                        isDisabled: needsUtils.not(needsUtils.stateValueEqual('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -701,7 +725,7 @@ export default {
                         label_default: 'Enable Secure Amazon S3 Connections:',
                         help_text: t('admin.image.amazonS3SSLDescription'),
                         help_text_default: 'When false, allow insecure connections to Amazon S3. Defaults to secure connections only.',
-                        isDisabled: needsUtils.not(needsUtils.stateValueEqual('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -711,8 +735,8 @@ export default {
                         help_text: t('admin.image.amazonS3SSEDescription'),
                         help_text_markdown: true,
                         help_text_default: 'When true, encrypt files in Amazon S3 using server-side encryption with Amazon S3-managed keys. See [documentation](!https://about.mattermost.com/default-server-side-encryption) to learn more.',
-                        isHidden: needsUtils.not(needsUtils.hasLicense),
-                        isDisabled: needsUtils.not(needsUtils.stateValueEqual('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isHidden: it.isnt(it.licensed),
+                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -721,7 +745,7 @@ export default {
                         label_default: 'Enable Amazon S3 Debugging:',
                         help_text: t('admin.image.amazonS3TraceDescription'),
                         help_text_default: '(Development Mode) When true, log additional debugging information to the system logs.',
-                        isDisabled: needsUtils.not(needsUtils.stateValueEqual('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BUTTON,
@@ -743,8 +767,11 @@ export default {
             url: 'image_proxy',
             title: t('admin.sidebar.imageProxy'),
             title_default: 'Image Proxy',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             schema: {
                 id: 'ImageProxy',
+                name: t('admin.environment.imageProxy'),
+                name_default: 'Image Proxy',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -774,7 +801,7 @@ export default {
                                 display_name_default: 'local',
                             },
                         ],
-                        isDisabled: needsUtils.stateValueFalse('ImageProxySettings.Enable'),
+                        isDisabled: it.stateIsFalse('ImageProxySettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -783,9 +810,9 @@ export default {
                         label_default: 'Remote Image Proxy URL:',
                         help_text: t('admin.image.proxyURLDescription'),
                         help_text_default: 'URL of your remote image proxy server.',
-                        isDisabled: needsUtils.or(
-                            needsUtils.stateValueFalse('ImageProxySettings.Enable'),
-                            needsUtils.stateValueEqual('ImageProxySettings.ImageProxyType', 'local'),
+                        isDisabled: it.either(
+                            it.stateIsFalse('ImageProxySettings.Enable'),
+                            it.stateEquals('ImageProxySettings.ImageProxyType', 'local'),
                         ),
                     },
                     {
@@ -795,9 +822,9 @@ export default {
                         label_default: 'Remote Image Proxy Options:',
                         help_text: t('admin.image.proxyOptionsDescription'),
                         help_text_default: 'Additional options such as the URL signing key. Refer to your image proxy documentation to learn more about what options are supported.',
-                        isDisabled: needsUtils.or(
-                            needsUtils.stateValueFalse('ImageProxySettings.Enable'),
-                            needsUtils.stateValueEqual('ImageProxySettings.ImageProxyType', 'local'),
+                        isDisabled: it.either(
+                            it.stateIsFalse('ImageProxySettings.Enable'),
+                            it.stateEquals('ImageProxySettings.ImageProxyType', 'local'),
                         ),
                     },
                 ],
@@ -807,6 +834,7 @@ export default {
             url: 'notifications_email',
             title: t('admin.sidebar.emailNotifications'),
             title_default: 'Email Notifications',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             searchableStrings: [
                 'admin.notifications.email',
                 'admin.email.notification.contents.title',
@@ -848,6 +876,7 @@ export default {
             url: 'push',
             title: t('admin.sidebar.pushNotifications'),
             title_default: 'Push Notifications',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             searchableStrings: [
                 'admin.notifications.push',
                 'admin.email.pushTitle',
@@ -857,6 +886,8 @@ export default {
             ],
             schema: {
                 id: 'PushNotificationsSettings',
+                name: t('admin.environment.pushNotifications'),
+                name_default: 'Push Notifications',
                 component: PushNotificationsSettings,
             },
         },
@@ -864,7 +895,10 @@ export default {
             url: 'cluster',
             title: t('admin.sidebar.cluster'),
             title_default: 'High Availability',
-            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('Cluster')),
+            isHidden: it.either(
+                it.isnt(it.licensedForFeature('Cluster')),
+                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin')
+            ),
             searchableStrings: [
                 'admin.advance.cluster',
                 'admin.cluster.noteDescription',
@@ -892,10 +926,11 @@ export default {
             url: 'rate',
             title: t('admin.sidebar.rateLimiting'),
             title_default: 'Rate Limiting',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             schema: {
                 id: 'ServiceSettings',
                 name: t('admin.rate.title'),
-                name_default: 'Rate Limit Settings',
+                name_default: 'Rate Limiting',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_BANNER,
@@ -920,7 +955,7 @@ export default {
                         placeholder_default: 'E.g.: "10"',
                         help_text: t('admin.rate.queriesDescription'),
                         help_text_default: 'Throttles API at this number of requests per second.',
-                        isDisabled: needsUtils.stateValueEqual('RateLimitSettings.Enable', false),
+                        isDisabled: it.stateEquals('RateLimitSettings.Enable', false),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -931,7 +966,7 @@ export default {
                         placeholder_default: 'E.g.: "100"',
                         help_text: t('admin.rate.maxBurstDescription'),
                         help_text_default: 'Maximum number of requests allowed beyond the per second query limit.',
-                        isDisabled: needsUtils.stateValueEqual('RateLimitSettings.Enable', false),
+                        isDisabled: it.stateEquals('RateLimitSettings.Enable', false),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -942,7 +977,7 @@ export default {
                         placeholder_default: 'E.g.: "10000"',
                         help_text: t('admin.rate.memoryDescription'),
                         help_text_default: 'Maximum number of users sessions connected to the system as determined by "Vary rate limit by remote address" and "Vary rate limit by HTTP header".',
-                        isDisabled: needsUtils.stateValueEqual('RateLimitSettings.Enable', false),
+                        isDisabled: it.stateEquals('RateLimitSettings.Enable', false),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -951,7 +986,7 @@ export default {
                         label_default: 'Vary rate limit by remote address:',
                         help_text: t('admin.rate.remoteDescription'),
                         help_text_default: 'When true, rate limit API access by IP address.',
-                        isDisabled: needsUtils.stateValueEqual('RateLimitSettings.Enable', false),
+                        isDisabled: it.stateEquals('RateLimitSettings.Enable', false),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -960,7 +995,7 @@ export default {
                         label_default: 'Vary rate limit by user:',
                         help_text: t('admin.rate.varyByUserDescription'),
                         help_text_default: 'When true, rate limit API access by user athentication token.',
-                        isDisabled: needsUtils.stateValueEqual('RateLimitSettings.Enable', false),
+                        isDisabled: it.stateEquals('RateLimitSettings.Enable', false),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -971,9 +1006,9 @@ export default {
                         placeholder_default: 'E.g.: "X-Real-IP", "X-Forwarded-For"',
                         help_text: t('admin.rate.httpHeaderDescription'),
                         help_text_default: 'When filled in, vary rate limiting by HTTP header field specified (e.g. when configuring NGINX set to "X-Real-IP", when configuring AmazonELB set to "X-Forwarded-For").',
-                        isDisabled: needsUtils.or(
-                            needsUtils.stateValueEqual('RateLimitSettings.Enable', false),
-                            needsUtils.stateValueEqual('RateLimitSettings.VaryByRemoteAddr', true),
+                        isDisabled: it.either(
+                            it.stateEquals('RateLimitSettings.Enable', false),
+                            it.stateEquals('RateLimitSettings.VaryByRemoteAddr', true),
                         ),
                     },
                 ],
@@ -983,6 +1018,7 @@ export default {
             url: 'logging',
             title: t('admin.sidebar.logging'),
             title_default: 'Logging',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             schema: {
                 id: 'LogSettings',
                 name: t('admin.general.log'),
@@ -1004,7 +1040,7 @@ export default {
                         help_text: t('admin.log.levelDescription'),
                         help_text_default: 'This setting determines the level of detail at which log events are written to the console. ERROR: Outputs only error messages. INFO: Outputs error messages and information around startup and initialization. DEBUG: Prints high detail for developers working on debugging issues.',
                         options: DefinitionConstants.LOG_LEVEL_OPTIONS,
-                        isDisabled: needsUtils.stateValueFalse('LogSettings.EnableConsole'),
+                        isDisabled: it.stateIsFalse('LogSettings.EnableConsole'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1013,7 +1049,7 @@ export default {
                         label_default: 'Output console logs as JSON:',
                         help_text: t('admin.log.jsonDescription'),
                         help_text_default: 'When true, logged events are written in a machine readable JSON format. Otherwise they are printed as plain text. Changing this setting requires a server restart before taking effect.',
-                        isDisabled: needsUtils.stateValueFalse('LogSettings.EnableConsole'),
+                        isDisabled: it.stateIsFalse('LogSettings.EnableConsole'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1031,7 +1067,7 @@ export default {
                         help_text: t('admin.log.fileLevelDescription'),
                         help_text_default: 'This setting determines the level of detail at which log events are written to the log file. ERROR: Outputs only error messages. INFO: Outputs error messages and information around startup and initialization. DEBUG: Prints high detail for developers working on debugging issues.',
                         options: DefinitionConstants.LOG_LEVEL_OPTIONS,
-                        isDisabled: needsUtils.stateValueFalse('LogSettings.EnableFile'),
+                        isDisabled: it.stateIsFalse('LogSettings.EnableFile'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1040,7 +1076,7 @@ export default {
                         label_default: 'Output file logs as JSON:',
                         help_text: t('admin.log.jsonDescription'),
                         help_text_default: 'When true, logged events are written in a machine readable JSON format. Otherwise they are printed as plain text. Changing this setting requires a server restart before taking effect.',
-                        isDisabled: needsUtils.stateValueFalse('LogSettings.EnableFile'),
+                        isDisabled: it.stateIsFalse('LogSettings.EnableFile'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1051,7 +1087,7 @@ export default {
                         help_text_default: 'The location of the log files. If blank, they are stored in the ./logs directory. The path that you set must exist and Mattermost must have write permissions in it. Changing this setting requires a server restart before taking effect.',
                         placeholder: t('admin.log.locationPlaceholder'),
                         placeholder_default: 'Enter your file location',
-                        isDisabled: needsUtils.stateValueFalse('LogSettings.EnableFile'),
+                        isDisabled: it.stateIsFalse('LogSettings.EnableFile'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1093,6 +1129,7 @@ export default {
             url: 'session_lengths',
             title: t('admin.sidebar.sessionLengths'),
             title_default: 'Session Lengths',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             schema: {
                 id: 'SessionLengths',
                 name: t('admin.environment.sessionLengths'),
@@ -1148,7 +1185,7 @@ export default {
                         help_text_markdown: true,
                         placeholder: t('admin.service.sessionIdleTimeoutEx'),
                         placeholder_default: 'E.g.: "60"',
-                        isHidden: needsUtils.not(needsUtils.hasLicenseFeature('Compliance')),
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
                         onConfigSave: (value) => {
                             if (value !== 0 && value < MINIMUM_IDLE_TIMEOUT) {
                                 return MINIMUM_IDLE_TIMEOUT;
@@ -1163,7 +1200,10 @@ export default {
             url: 'metrics',
             title: t('admin.sidebar.metrics'),
             title_default: 'Performance Monitoring',
-            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('Metrics')),
+            isHidden: it.either(
+                it.isnt(it.licensedForFeature('Metrics')),
+                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin')
+            ),
             schema: {
                 id: 'MetricsSettings',
                 name: t('admin.advance.metrics'),
@@ -1195,6 +1235,7 @@ export default {
             url: 'developer',
             title: t('admin.sidebar.developer'),
             title_default: 'Developer',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             schema: {
                 id: 'ServiceSettings',
                 name: t('admin.developer.title'),
@@ -1232,6 +1273,9 @@ export default {
         },
     },
     site: {
+        icon: 'fa-cogs',
+        sectionTitle: t('admin.sidebar.site'),
+        sectionTitleDefault: 'Site Configuration',
         customization: {
             url: 'customization_new',
             title: t('admin.sidebar.customization'),
@@ -1273,7 +1317,7 @@ export default {
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: BrandImageSetting,
-                        isDisabled: needsUtils.stateValueFalse('TeamSettings.EnableCustomBrand'),
+                        isDisabled: it.stateIsFalse('TeamSettings.EnableCustomBrand'),
                         key: 'CustomBrandImage',
                     },
                     {
@@ -1283,7 +1327,7 @@ export default {
                         label_default: 'Custom Brand Text:',
                         help_text: t('admin.team.brandTextDescription'),
                         help_text_default: 'Text that will appear below your custom brand image on your login screen. Supports Markdown-formatted text. Maximum 500 characters allowed.',
-                        isDisabled: needsUtils.stateValueFalse('TeamSettings.EnableCustomBrand'),
+                        isDisabled: it.stateIsFalse('TeamSettings.EnableCustomBrand'),
                         max_length: Constants.MAX_CUSTOM_BRAND_TEXT_LENGTH,
                     },
                     {
@@ -1412,7 +1456,7 @@ export default {
                         help_text: t('admin.team.teamCreationDescription'),
                         help_text_default: 'When false, only System Administrators can create teams.',
                         permissions_mapping_name: 'enableTeamCreation',
-                        isHidden: needsUtils.hasLicense,
+                        isHidden: it.licensed,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -1505,7 +1549,7 @@ export default {
                         help_text: t('admin.team.editOthersPostsDesc'),
                         help_text_default: 'When true, Team Administrators and System Administrators can edit other user\'s posts.  When false, only System Administrators can edit other user\'s posts.',
                         permissions_mapping_name: 'editOthersPosts',
-                        isHidden: needsUtils.hasLicense,
+                        isHidden: it.licensed,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1538,7 +1582,7 @@ export default {
             url: 'announcement',
             title: t('admin.sidebar.announcement'),
             title_default: 'Announcement Banner',
-            isHidden: needsUtils.not(needsUtils.hasLicense),
+            isHidden: it.isnt(it.licensed),
             schema: {
                 id: 'AnnouncementSettings',
                 name: t('admin.site.announcementBanner'),
@@ -1559,21 +1603,21 @@ export default {
                         label_default: 'Banner Text:',
                         help_text: t('admin.customization.announcement.bannerTextDesc'),
                         help_text_default: 'Text that will appear in the announcement banner.',
-                        isDisabled: needsUtils.stateValueFalse('AnnouncementSettings.EnableBanner'),
+                        isDisabled: it.stateIsFalse('AnnouncementSettings.EnableBanner'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'AnnouncementSettings.BannerColor',
                         label: t('admin.customization.announcement.bannerColorTitle'),
                         label_default: 'Banner Color:',
-                        isDisabled: needsUtils.stateValueFalse('AnnouncementSettings.EnableBanner'),
+                        isDisabled: it.stateIsFalse('AnnouncementSettings.EnableBanner'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'AnnouncementSettings.BannerTextColor',
                         label: t('admin.customization.announcement.bannerTextColorTitle'),
                         label_default: 'Banner Text Color:',
-                        isDisabled: needsUtils.stateValueFalse('AnnouncementSettings.EnableBanner'),
+                        isDisabled: it.stateIsFalse('AnnouncementSettings.EnableBanner'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1582,7 +1626,7 @@ export default {
                         label_default: 'Allow Banner Dismissal:',
                         help_text: t('admin.customization.announcement.allowBannerDismissalDesc'),
                         help_text_default: 'When true, users can dismiss the banner until its next update. When false, the banner is permanently visible until it is turned off by the System Admin.',
-                        isDisabled: needsUtils.stateValueFalse('AnnouncementSettings.EnableBanner'),
+                        isDisabled: it.stateIsFalse('AnnouncementSettings.EnableBanner'),
                     },
                 ],
             },
@@ -1647,6 +1691,7 @@ export default {
                         help_text: t('admin.service.googleDescription'),
                         help_text_default: 'Set this key to enable the display of titles for embedded YouTube video previews. Without the key, YouTube previews will still be created based on hyperlinks appearing in messages or comments but they will not show the video title. View a [Google Developers Tutorial](!https://www.youtube.com/watch?v=Im69kzhpR3I) for instructions on how to obtain a key and add YouTube Data API v3 as a service to your key.',
                         help_text_markdown: true,
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                 ],
             },
@@ -1675,7 +1720,7 @@ export default {
                         label_default: 'Allow File Uploads on Mobile:',
                         help_text: t('admin.file.enableMobileUploadDesc'),
                         help_text_default: 'When false, disables file uploads on mobile apps. If Allow File Sharing is set to true, users can still upload files from a mobile web browser.',
-                        isHidden: needsUtils.not(needsUtils.hasLicense),
+                        isHidden: it.isnt(it.licensed),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1684,7 +1729,7 @@ export default {
                         label_default: 'Allow File Downloads on Mobile:',
                         help_text: t('admin.file.enableMobileDownloadDesc'),
                         help_text_default: 'When false, disables file downloads on mobile apps. Users can still download files from a mobile web browser.',
-                        isHidden: needsUtils.not(needsUtils.hasLicense),
+                        isHidden: it.isnt(it.licensed),
                     },
                 ],
             },
@@ -1719,10 +1764,13 @@ export default {
         },
     },
     authentication: {
+        icon: 'fa-shield',
+        sectionTitle: t('admin.sidebar.authentication'),
+        sectionTitleDefault: 'Authentication',
         signup: {
             url: 'signup',
-            title: t('admin.sidebar.signUp'),
-            title_default: 'Sign Up',
+            title: t('admin.sidebar.signup'),
+            title_default: 'Signup',
             schema: {
                 id: 'SignupSettings',
                 name: t('admin.authentication.signup'),
@@ -1753,6 +1801,7 @@ export default {
                         label_default: 'Enable Open Server: ',
                         help_text: t('admin.team.openServerDescription'),
                         help_text_default: 'When true, anyone can signup for a user account on this server without the need to be invited.',
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1785,7 +1834,7 @@ export default {
             schema: {
                 id: 'EmailSettings',
                 name: t('admin.authentication.email'),
-                name_default: 'Email Authentication',
+                name_default: 'Email',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1880,17 +1929,17 @@ export default {
                         help_text: t('admin.service.enforceMfaDesc'),
                         help_text_markdown: true,
                         help_text_default: 'When true, [multi-factor authentication](!https://docs.mattermost.com/deployment/auth.html) is required for login. New users will be required to configure MFA on signup. Logged in users without MFA configured are redirected to the MFA setup page until configuration is complete.\n \nIf your system has users with login methods other than AD/LDAP and email, MFA must be enforced with the authentication provider outside of Mattermost.',
-                        isDisabled: needsUtils.stateValueFalse('ServiceSettings.EnableMultifactorAuthentication'),
-                        isHidden: needsUtils.not(needsUtils.hasLicenseFeature('MFA')),
+                        isDisabled: it.stateIsFalse('ServiceSettings.EnableMultifactorAuthentication'),
+                        isHidden: it.isnt(it.licensedForFeature('MFA')),
                     },
                 ],
             },
         },
         ldap: {
-            url: 'ldap',
+            url: 'authentication/ldap',
             title: t('admin.sidebar.ldap'),
             title_default: 'AD/LDAP',
-            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('LDAP')),
+            isHidden: it.isnt(it.licensedForFeature('LDAP')),
             schema: {
                 id: 'LdapSettings',
                 name: t('admin.authentication.ldap'),
@@ -1921,9 +1970,9 @@ export default {
                         help_text_default: 'The domain or IP address of AD/LDAP server.',
                         placeholder: t('admin.ldap.serverEx'),
                         placeholder_default: 'E.g.: "10.0.0.23"',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -1935,9 +1984,9 @@ export default {
                         help_text_default: 'The port Mattermost will use to connect to the AD/LDAP server. Default is 389.',
                         placeholder: t('admin.ldap.portEx'),
                         placeholder_default: 'E.g.: "389"',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -1963,9 +2012,9 @@ export default {
                                 display_name_default: 'STARTTLS',
                             },
                         ],
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -1975,7 +2024,7 @@ export default {
                         label_default: 'Skip Certificate Verification:',
                         help_text: t('admin.ldap.skipCertificateVerificationDesc'),
                         help_text_default: 'Skips the certificate verification step for TLS or STARTTLS connections. Not recommended for production environments where TLS is required. For testing only.',
-                        isDisabled: needsUtils.stateValueFalse('LdapSettings.ConnectionSecurity'),
+                        isDisabled: it.stateIsFalse('LdapSettings.ConnectionSecurity'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1986,9 +2035,9 @@ export default {
                         help_text_default: 'The Base DN is the Distinguished Name of the location where Mattermost should start its search for users in the AD/LDAP tree.',
                         placeholder: t('admin.ldap.baseEx'),
                         placeholder_default: 'E.g.: "ou=Unit Name,dc=corp,dc=example,dc=com"',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -1998,9 +2047,9 @@ export default {
                         label_default: 'Bind Username:',
                         help_text: t('admin.ldap.bindUserDesc'),
                         help_text_default: 'The username used to perform the AD/LDAP search. This should typically be an account created specifically for use with Mattermost. It should have access limited to read the portion of the AD/LDAP tree specified in the BaseDN field.',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -2010,9 +2059,9 @@ export default {
                         label_default: 'Bind Password:',
                         help_text: t('admin.ldap.bindPwdDesc'),
                         help_text_default: 'Password of the user given in "Bind Username".',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -2024,9 +2073,9 @@ export default {
                         help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for user objects. Only the users selected by the query will be able to access Mattermost. For Active Directory, the query to filter out disabled users is (&(objectCategory=Person)(!(UserAccountControl:1.2.840.113556.1.4.803:=2))).',
                         placeholder: t('admin.ldap.userFilterEx'),
                         placeholder_default: 'Ex. "(objectClass=user)"',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -2039,8 +2088,8 @@ export default {
                         help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for group objects. Only the groups selected by the query will be available to Mattermost. From [Groups](/admin_console/access-control/groups), select which AD/LDAP groups should be linked and configured.',
                         placeholder: t('admin.ldap.groupFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=group)"',
-                        isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
-                        isHidden: (config) => needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
+                        isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
+                        isHidden: (config) => it.isnt(it.licensedForFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2051,8 +2100,8 @@ export default {
                         help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the Group Name. Defaults to "Common name" when blank.',
                         placeholder: t('admin.ldap.groupDisplayNameAttributeEx'),
                         placeholder_default: 'E.g.: "cn"',
-                        isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
-                        isHidden: (config) => needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
+                        isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
+                        isHidden: (config) => it.isnt(it.licensedForFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2063,8 +2112,8 @@ export default {
                         help_text_default: 'The attribute in the AD/LDAP server used as unique identifier for Groups. This should be a AD/LDAP attribute with a value that does not change.',
                         placeholder: t('admin.ldap.groupIdAttributeEx'),
                         placeholder_default: 'E.g.: "entryUUID"',
-                        isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
-                        isHidden: (config) => needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
+                        isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
+                        isHidden: (config) => it.isnt(it.licensedForFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2075,9 +2124,9 @@ export default {
                         placeholder_default: 'E.g.: "givenName"',
                         help_text: t('admin.ldap.firstnameAttrDesc'),
                         help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the first name of users in Mattermost. When set, users cannot edit their first name, since it is synchronized with the LDAP server. When left blank, users can set their first name in Account Settings.',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -2089,9 +2138,9 @@ export default {
                         placeholder_default: 'E.g.: "sn"',
                         help_text: t('admin.ldap.lastnameAttrDesc'),
                         help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the last name of users in Mattermost. When set, users cannot edit their last name, since it is synchronized with the LDAP server. When left blank, users can set their last name in Account Settings.',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -2103,9 +2152,9 @@ export default {
                         placeholder_default: 'E.g.: "nickname"',
                         help_text: t('admin.ldap.nicknameAttrDesc'),
                         help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the nickname of users in Mattermost. When set, users cannot edit their nickname, since it is synchronized with the LDAP server. When left blank, users can set their nickname in Account Settings.',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -2117,9 +2166,9 @@ export default {
                         placeholder_default: 'E.g.: "title"',
                         help_text: t('admin.ldap.positionAttrDesc'),
                         help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the position field in Mattermost. When set, users cannot edit their position, since it is synchronized with the LDAP server. When left blank, users can set their position in Account Settings.',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -2131,9 +2180,9 @@ export default {
                         placeholder_default: 'E.g.: "mail" or "userPrincipalName"',
                         help_text: t('admin.ldap.emailAttrDesc'),
                         help_text_default: 'The attribute in the AD/LDAP server used to populate the email address field in Mattermost.',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -2145,9 +2194,9 @@ export default {
                         placeholder_default: 'E.g.: "sAMAccountName"',
                         help_text: t('admin.ldap.usernameAttrDesc'),
                         help_text_default: 'The attribute in the AD/LDAP server used to populate the username field in Mattermost. This may be the same as the Login ID Attribute.',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -2160,9 +2209,9 @@ export default {
                         help_text: t('admin.ldap.idAttrDesc'),
                         help_text_markdown: true,
                         help_text_default: 'The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one.\n \nIf you need to change this field after users have already logged in, use the [mattermost ldap idmigrate](!https://about.mattermost.com/default-mattermost-ldap-idmigrate) CLI tool.',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueEqual('LdapSettings.Enable', false),
-                            needsUtils.stateValueEqual('LdapSettings.EnableSync', false),
+                        isDisabled: it.both(
+                            it.stateEquals('LdapSettings.Enable', false),
+                            it.stateEquals('LdapSettings.EnableSync', false),
                         ),
                     },
                     {
@@ -2175,9 +2224,9 @@ export default {
                         help_text: t('admin.ldap.loginAttrDesc'),
                         help_text_markdown: true,
                         help_text_default: 'The attribute in the AD/LDAP server used to log in to Mattermost. Normally this attribute is the same as the "Username Attribute" field above.\n \nIf your team typically uses domain/username to log in to other services with AD/LDAP, you may enter domain/username in this field to maintain consistency between sites.',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -2189,9 +2238,9 @@ export default {
                         placeholder_default: 'E.g.: "AD/LDAP Username"',
                         help_text: t('admin.ldap.loginNameDesc'),
                         help_text_default: 'The placeholder text that appears in the login field on the login page. Defaults to "AD/LDAP Username".',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -2201,9 +2250,9 @@ export default {
                         label_default: 'Synchronization Interval (minutes):',
                         help_text: t('admin.ldap.syncIntervalHelpText'),
                         help_text_default: 'AD/LDAP Synchronization updates Mattermost user information to reflect updates on the AD/LDAP server. For example, when a user\'s name changes on the AD/LDAP server, the change updates in Mattermost when synchronization is performed. Accounts removed from or disabled in the AD/LDAP server have their Mattermost accounts set to "Inactive" and have their account sessions revoked. Mattermost performs synchronization on the interval entered. For example, if 60 is entered, Mattermost synchronizes every 60 minutes.',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -2215,9 +2264,9 @@ export default {
                         placeholder_default: 'E.g.: "2000"',
                         help_text: t('admin.ldap.maxPageSizeHelpText'),
                         help_text_default: 'The maximum number of users the Mattermost server will request from the AD/LDAP server at one time. 0 is unlimited.',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -2229,9 +2278,9 @@ export default {
                         placeholder_default: 'E.g.: "60"',
                         help_text: t('admin.ldap.queryDesc'),
                         help_text_default: 'The timeout value for queries to the AD/LDAP server. Increase if you are getting timeout errors caused by a slow AD/LDAP server.',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -2247,9 +2296,9 @@ export default {
                         error_message_default: 'AD/LDAP Test Failure: {error}',
                         success_message: t('admin.ldap.testSuccess'),
                         success_message_default: 'AD/LDAP Test Successful',
-                        isDisabled: needsUtils.and(
-                            needsUtils.stateValueFalse('LdapSettings.Enable'),
-                            needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
@@ -2260,7 +2309,7 @@ export default {
                         help_text: t('admin.ldap.syncNowHelpText'),
                         help_text_markdown: true,
                         help_text_default: 'Initiates an AD/LDAP synchronization immediately. See the table below for status of each synchronization. Please review "System Console > Logs" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.',
-                        isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
                         render_job: (job) => {
                             let ldapUsers = 0;
                             let deleteCount = 0;
@@ -2386,7 +2435,7 @@ export default {
             url: 'saml',
             title: t('admin.sidebar.saml'),
             title_default: 'SAML 2.0',
-            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('SAML')),
+            isHidden: it.isnt(it.licensedForFeature('SAML')),
             schema: {
                 id: 'SamlSettings',
                 name: t('admin.authentication.saml'),
@@ -2409,7 +2458,7 @@ export default {
                         help_text: t('admin.saml.enableSyncWithLdapDescription'),
                         help_text_default: 'When true, Mattermost periodically synchronizes SAML user attributes, including user deactivation and removal, from AD/LDAP. Enable and configure synchronization settings at **Authentication > AD/LDAP**. When false, user attributes are updated from SAML during user login. See [documentation](!https://about.mattermost.com/default-saml-ldap-sync) to learn more.',
                         help_text_markdown: true,
-                        isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2419,9 +2468,9 @@ export default {
                         help_text: t('admin.saml.enableSyncWithLdapIncludeAuthDescription'),
                         help_text_default: 'When true, Mattermost will override the SAML ID attribute with the AD/LDAP ID attribute if configured or override the SAML Email attribute with the AD/LDAP Email attribute if SAML ID attribute is not present.  This will allow you automatically migrate users from Email binding to ID binding to prevent creation of new users when an email address changes for a user. Moving from true to false, will remove the override from happening.\n \n**Note:** SAML IDs must match the LDAP IDs to prevent disabling of user accounts.  Please review [documentation](!https://docs.mattermost.com/deployment/sso-saml-ldapsync.html) for more information.',
                         help_text_markdown: true,
-                        isDisabled: needsUtils.or(
-                            needsUtils.stateValueFalse('SamlSettings.Enable'),
-                            needsUtils.stateValueFalse('SamlSettings.EnableSyncWithLdap'),
+                        isDisabled: it.either(
+                            it.stateIsFalse('SamlSettings.Enable'),
+                            it.stateIsFalse('SamlSettings.EnableSyncWithLdap'),
                         ),
                     },
                     {
@@ -2433,7 +2482,7 @@ export default {
                         help_text_default: 'The URL where Mattermost sends a SAML request to start login sequence.',
                         placeholder: t('admin.saml.idpUrlEx'),
                         placeholder_default: 'E.g.: "https://idp.example.org/SAML2/SSO/Login"',
-                        isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2444,7 +2493,7 @@ export default {
                         help_text_default: 'The issuer URL for the Identity Provider you use for SAML requests.',
                         placeholder: t('admin.saml.idpDescriptorUrlEx'),
                         placeholder_default: 'E.g.: "https://idp.example.org/SAML2/issuer"',
-                        isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_FILE_UPLOAD,
@@ -2461,7 +2510,7 @@ export default {
                         removing_text_default: 'Removing Certificate...',
                         uploading_text: t('admin.saml.uploading.certificate'),
                         uploading_text_default: 'Uploading Certificate...',
-                        isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                         fileType: '.crt,.cer,.cert,.pem',
                         upload_action: uploadIdpSamlCertificate,
                         remove_action: removeIdpSamlCertificate,
@@ -2473,7 +2522,7 @@ export default {
                         label_default: 'Verify Signature:',
                         help_text: t('admin.saml.verifyDescription'),
                         help_text_default: 'When false, Mattermost will not verify that the signature sent from a SAML Response matches the Service Provider Login URL. Not recommended for production environments. For testing only.',
-                        isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2484,9 +2533,9 @@ export default {
                         help_text_default: 'This field is also known as the Assertion Consumer Service URL.',
                         placeholder: t('admin.saml.assertionConsumerServiceURLEx'),
                         placeholder_default: 'E.g.: "https://<your-mattermost-url>/login/sso/saml"',
-                        isDisabled: needsUtils.or(
-                            needsUtils.stateValueFalse('SamlSettings.Enable'),
-                            needsUtils.stateValueFalse('SamlSettings.Verify'),
+                        isDisabled: it.either(
+                            it.stateIsFalse('SamlSettings.Enable'),
+                            it.stateIsFalse('SamlSettings.Verify'),
                         ),
                         onConfigLoad: (value, config) => {
                             const siteUrl = config.ServiceSettings.SiteURL;
@@ -2504,7 +2553,7 @@ export default {
                         label_default: 'Enable Encryption:',
                         help_text: t('admin.saml.encryptDescription'),
                         help_text_default: 'When false, Mattermost will not decrypt SAML Assertions encrypted with your Service Provider Public Certificate. Not recommended for production environments. For testing only.',
-                        isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_FILE_UPLOAD,
@@ -2521,9 +2570,9 @@ export default {
                         removing_text_default: 'Removing Private Key...',
                         uploading_text: t('admin.saml.uploading.privateKey'),
                         uploading_text_default: 'Uploading Private Key...',
-                        isDisabled: needsUtils.or(
-                            needsUtils.stateValueFalse('SamlSettings.Enable'),
-                            needsUtils.stateValueFalse('SamlSettings.Encrypt'),
+                        isDisabled: it.either(
+                            it.stateIsFalse('SamlSettings.Enable'),
+                            it.stateIsFalse('SamlSettings.Encrypt'),
                         ),
                         fileType: '.key',
                         upload_action: uploadPrivateSamlCertificate,
@@ -2544,9 +2593,9 @@ export default {
                         removing_text_default: 'Removing Certificate...',
                         uploading_text: t('admin.saml.uploading.certificate'),
                         uploading_text_default: 'Uploading Certificate...',
-                        isDisabled: needsUtils.or(
-                            needsUtils.stateValueFalse('SamlSettings.Enable'),
-                            needsUtils.stateValueFalse('SamlSettings.Encrypt'),
+                        isDisabled: it.either(
+                            it.stateIsFalse('SamlSettings.Enable'),
+                            it.stateIsFalse('SamlSettings.Encrypt'),
                         ),
                         fileType: '.crt,.cer',
                         upload_action: uploadPublicSamlCertificate,
@@ -2561,7 +2610,7 @@ export default {
                         placeholder_default: 'E.g.: "Email" or "PrimaryEmail"',
                         help_text: t('admin.saml.emailAttrDesc'),
                         help_text_default: 'The attribute in the SAML Assertion that will be used to populate the email addresses of users in Mattermost.',
-                        isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2572,7 +2621,7 @@ export default {
                         placeholder_default: 'E.g.: "Username"',
                         help_text: t('admin.saml.usernameAttrDesc'),
                         help_text_default: 'The attribute in the SAML Assertion that will be used to populate the username field in Mattermost.',
-                        isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2583,7 +2632,7 @@ export default {
                         placeholder_default: 'E.g.: "Id"',
                         help_text: t('admin.saml.idAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to bind users from SAML to users in Mattermost.',
-                        isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2594,7 +2643,7 @@ export default {
                         placeholder_default: 'E.g.: "FirstName"',
                         help_text: t('admin.saml.firstnameAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the first name of users in Mattermost.',
-                        isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2605,7 +2654,7 @@ export default {
                         placeholder_default: 'E.g.: "LastName"',
                         help_text: t('admin.saml.lastnameAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the last name of users in Mattermost.',
-                        isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2616,7 +2665,7 @@ export default {
                         placeholder_default: 'E.g.: "Nickname"',
                         help_text: t('admin.saml.nicknameAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the nickname of users in Mattermost.',
-                        isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2627,7 +2676,7 @@ export default {
                         placeholder_default: 'E.g.: "Role"',
                         help_text: t('admin.saml.positionAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the position of users in Mattermost.',
-                        isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2638,7 +2687,7 @@ export default {
                         placeholder_default: 'E.g.: "Locale" or "PrimaryLanguage"',
                         help_text: t('admin.saml.localeAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the language of users in Mattermost.',
-                        isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2649,7 +2698,7 @@ export default {
                         placeholder_default: 'E.g.: "OKTA"',
                         help_text: t('admin.saml.loginButtonTextDesc'),
                         help_text_default: '(Optional) The text that appears in the login button on the login page. Defaults to "SAML".',
-                        isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                 ],
             },
@@ -2658,7 +2707,7 @@ export default {
             url: 'gitlab',
             title: t('admin.sidebar.gitlab'),
             title_default: 'GitLab',
-            isHidden: needsUtils.hasLicense,
+            isHidden: it.licensed,
             schema: {
                 id: 'GitLabSettings',
                 name: t('admin.authentication.gitlab'),
@@ -2692,7 +2741,7 @@ export default {
                         help_text_default: 'Obtain this value via the instructions above for logging into GitLab.',
                         placeholder: t('admin.gitlab.clientIdExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
-                        isDisabled: needsUtils.stateValueFalse('GitLabSettings.Enable'),
+                        isDisabled: it.stateIsFalse('GitLabSettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2703,7 +2752,7 @@ export default {
                         help_text_default: 'Obtain this value via the instructions above for logging into GitLab.',
                         placeholder: t('admin.gitlab.clientSecretExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
-                        isDisabled: needsUtils.stateValueFalse('GitLabSettings.Enable'),
+                        isDisabled: it.stateIsFalse('GitLabSettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2714,7 +2763,7 @@ export default {
                         help_text_default: 'Enter the URL of your GitLab instance, e.g. https://example.com:3000. If your GitLab instance is not set up with SSL, start the URL with http:// instead of https://.',
                         placeholder: t('admin.gitlab.siteUrlExample'),
                         placeholder_default: 'E.g.: https://',
-                        isDisabled: needsUtils.stateValueFalse('GitLabSettings.Enable'),
+                        isDisabled: it.stateIsFalse('GitLabSettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2762,7 +2811,7 @@ export default {
             url: 'oauth',
             title: t('admin.sidebar.oauth'),
             title_default: 'OAuth 2.0',
-            isHidden: needsUtils.not(needsUtils.hasLicense),
+            isHidden: it.isnt(it.licensed),
             schema: {
                 id: 'OAuthSettings',
                 name: t('admin.authentication.oauth'),
@@ -2830,7 +2879,7 @@ export default {
                                 value: Constants.GOOGLE_SERVICE,
                                 display_name: t('admin.oauth.google'),
                                 display_name_default: 'Google Apps',
-                                isHidden: needsUtils.not(needsUtils.hasLicenseFeature('GoogleOAuth')),
+                                isHidden: it.isnt(it.licensedForFeature('GoogleOAuth')),
                                 help_text: t('admin.google.EnableMarkdownDesc'),
                                 help_text_default: '1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand sidebar and enter "Mattermost - your-company-name" as the **Project Name**, then click **Create**.\n3. Click the **OAuth consent screen** header and enter "Mattermost" as the **Product name shown to users**, then click **Save**.\n4. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n5. Under **Restrictions** and **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n7. Finally, go to [Google+ API](!https://console.developers.google.com/apis/api/plus/overview") and click *Enable*. This might take a few minutes to propagate through Google`s systems.',
                                 help_text_markdown: true,
@@ -2839,7 +2888,7 @@ export default {
                                 value: Constants.OFFICE365_SERVICE,
                                 display_name: t('admin.oauth.office365'),
                                 display_name_default: 'Office 365 (Beta)',
-                                isHidden: needsUtils.not(needsUtils.hasLicenseFeature('Office365OAuth')),
+                                isHidden: it.isnt(it.licensedForFeature('Office365OAuth')),
                                 help_text: t('admin.office365.EnableMarkdownDesc'),
                                 help_text_default: '1. [Log in](!https://login.microsoftonline.com/) to your Microsoft or Office 365 account. Make sure it`s the account on the same [tenant](!https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0) that you would like users to log in with.\n2. Go to [https://apps.dev.microsoft.com](!https://apps.dev.microsoft.com), click **Go to app list** > **Add an app** and use "Mattermost - your-company-name" as the **Application Name**.\n3. Under **Application Secrets**, click **Generate New Password** and paste it to the **Application Secret Password** field below.\n4. Under **Platforms**, click **Add Platform**, choose **Web** and enter **your-mattermost-url/signup/office365/complete** (example: http://localhost:8065/signup/office365/complete) under **Redirect URIs**. Also uncheck **Allow Implicit Flow**.\n5. Finally, click **Save** and then paste the **Application ID** below.',
                                 help_text_markdown: true,
@@ -2855,7 +2904,7 @@ export default {
                         help_text_default: 'Obtain this value via the instructions above for logging into GitLab.',
                         placeholder: t('admin.gitlab.clientIdExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
-                        isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'gitlab')),
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'gitlab')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2866,7 +2915,7 @@ export default {
                         help_text_default: 'Obtain this value via the instructions above for logging into GitLab.',
                         placeholder: t('admin.gitlab.clientSecretExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
-                        isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'gitlab')),
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'gitlab')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2877,7 +2926,7 @@ export default {
                         help_text_default: 'Enter the URL of your GitLab instance, e.g. https://example.com:3000. If your GitLab instance is not set up with SSL, start the URL with http:// instead of https://.',
                         placeholder: t('admin.gitlab.siteUrlExample'),
                         placeholder_default: 'E.g.: https://',
-                        isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'gitlab')),
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'gitlab')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2891,7 +2940,7 @@ export default {
                             return '';
                         },
                         isDisabled: true,
-                        isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'gitlab')),
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'gitlab')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2905,7 +2954,7 @@ export default {
                             return '';
                         },
                         isDisabled: true,
-                        isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'gitlab')),
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'gitlab')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2919,7 +2968,7 @@ export default {
                             return '';
                         },
                         isDisabled: true,
-                        isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'gitlab')),
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'gitlab')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2930,7 +2979,7 @@ export default {
                         help_text_default: 'The Client ID you received when registering your application with Google.',
                         placeholder: t('admin.google.clientIdExample'),
                         placeholder_default: 'E.g.: "7602141235235-url0fhs1mayfasbmop5qlfns8dh4.apps.googleusercontent.com"',
-                        isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'google')),
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'google')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2941,7 +2990,7 @@ export default {
                         help_text_default: 'The Client Secret you received when registering your application with Google.',
                         placeholder: t('admin.google.clientSecretExample'),
                         placeholder_default: 'E.g.: "H8sz0Az-dDs2p15-7QzD231"',
-                        isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'google')),
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'google')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2950,7 +2999,7 @@ export default {
                         label_default: 'User API Endpoint:',
                         dynamic_value: () => 'https://www.googleapis.com/plus/v1/people/me',
                         isDisabled: true,
-                        isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'google')),
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'google')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2959,7 +3008,7 @@ export default {
                         label_default: 'Auth Endpoint:',
                         dynamic_value: () => 'https://accounts.google.com/o/oauth2/v2/auth',
                         isDisabled: true,
-                        isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'google')),
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'google')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2968,7 +3017,7 @@ export default {
                         label_default: 'Token Endpoint:',
                         dynamic_value: () => 'https://www.googleapis.com/oauth2/v4/token',
                         isDisabled: true,
-                        isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'google')),
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'google')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2979,7 +3028,7 @@ export default {
                         help_text_default: 'The Application/Client ID you received when registering your application with Microsoft.',
                         placeholder: t('admin.office365.clientIdExample'),
                         placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
-                        isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'office365')),
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2990,7 +3039,7 @@ export default {
                         help_text_default: 'The Application Secret Password you generated when registering your application with Microsoft.',
                         placeholder: t('admin.office365.clientSecretExample'),
                         placeholder_default: 'E.g.: "shAieM47sNBfgl20f8ci294"',
-                        isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'office365')),
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2999,7 +3048,7 @@ export default {
                         label_default: 'User API Endpoint:',
                         dynamic_value: () => 'https://graph.microsoft.com/v1.0/me',
                         isDisabled: true,
-                        isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'office365')),
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3008,7 +3057,7 @@ export default {
                         label_default: 'Auth Endpoint:',
                         dynamic_value: () => 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
                         isDisabled: true,
-                        isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'office365')),
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3017,13 +3066,16 @@ export default {
                         label_default: 'Token Endpoint:',
                         dynamic_value: () => 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
                         isDisabled: true,
-                        isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'office365')),
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
                     },
                 ],
             },
         },
     },
     integrations: {
+        icon: 'fa-plug',
+        sectionTitle: t('admin.sidebar.integrations'),
+        sectionTitleDefault: 'Integrations',
         id: 'integrations',
         features: {
             url: 'integrations/features',
@@ -3078,7 +3130,7 @@ export default {
                         help_text: t('admin.service.integrationAdminDesc'),
                         help_text_default: 'When true, webhooks and slash commands can only be created, edited and viewed by Team and System Admins, and OAuth 2.0 applications by System Admins. Integrations are available to all users after they have been created by the Admin.',
                         permissions_mapping_name: 'enableOnlyAdminIntegrations',
-                        isHidden: needsUtils.hasLicense,
+                        isHidden: it.licensed,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3110,32 +3162,6 @@ export default {
                 ],
             },
         },
-        plugins: {
-            url: 'integrations/plugins',
-            title: t('admin.integrations.plugins'),
-            title_default: 'Plugins (Beta)',
-            searchableStrings: [
-                'admin.plugin.management.title',
-                'admin.plugins.settings.enable',
-                'admin.plugins.settings.enableDesc',
-                'admin.plugin.uploadTitle',
-                'admin.plugin.installedTitle',
-                'admin.plugin.installedDesc',
-                'admin.plugin.uploadDesc',
-                'admin.plugin.uploadDisabledDesc',
-            ],
-            schema: {
-                id: 'PluginManagementSettings',
-                component: PluginManagement,
-            },
-        },
-        custom: {
-            url: 'plugins/custom/:plugin_id',
-            schema: {
-                id: 'CustomPluginSettings',
-                component: CustomPluginSettings,
-            },
-        },
         gif: {
             url: 'integrations/gif',
             title: t('admin.sidebar.gif'),
@@ -3143,7 +3169,7 @@ export default {
             schema: {
                 id: 'GifSettings',
                 name: t('admin.integrations.gif'),
-                name_default: 'GIF Settings',
+                name_default: 'GIF',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3177,10 +3203,11 @@ export default {
             url: 'integrations/cors',
             title: t('admin.sidebar.cors'),
             title_default: 'CORS',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             schema: {
-                id: 'CORSSettings',
-                name: t('admin.integrations.corsSettings'),
-                name_default: 'CORS Settings',
+                id: 'CORS',
+                name: t('admin.integrations.cors'),
+                name_default: 'CORS',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3229,13 +3256,43 @@ export default {
                 ],
             },
         },
+        plugins: {
+            url: 'integrations/plugins',
+            title: t('admin.integrations.plugins'),
+            title_default: 'Plugins (Beta)',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            searchableStrings: [
+                'admin.plugin.management.title',
+                'admin.plugins.settings.enable',
+                'admin.plugins.settings.enableDesc',
+                'admin.plugin.uploadTitle',
+                'admin.plugin.installedTitle',
+                'admin.plugin.installedDesc',
+                'admin.plugin.uploadDesc',
+                'admin.plugin.uploadDisabledDesc',
+            ],
+            schema: {
+                id: 'PluginManagementSettings',
+                component: PluginManagement,
+            },
+        },
+        custom: {
+            url: 'plugins/custom/:plugin_id',
+            schema: {
+                id: 'CustomPluginSettings',
+                component: CustomPluginSettings,
+            },
+        },
     },
     compliance: {
+        icon: 'fa-list',
+        sectionTitle: t('admin.sidebar.compliance'),
+        sectionTitleDefault: 'Compliance',
         data_retention: {
             url: 'compliance/data_retention',
             title: t('admin.sidebar.dataRetentionPolicy'),
             title_default: 'Data Retention Policy',
-            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('DataRetention')),
+            isHidden: it.isnt(it.licensedForFeature('DataRetention')),
             searchableStrings: [
                 'admin.data_retention.title',
                 'admin.data_retention.messageRetentionDays.description',
@@ -3259,7 +3316,7 @@ export default {
             url: 'compliance/export',
             title: t('admin.sidebar.complianceExport'),
             title_default: 'Compliance Export (Beta)',
-            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('MessageExport')),
+            isHidden: it.isnt(it.licensedForFeature('MessageExport')),
             searchableStrings: [
                 'admin.service.complianceExportTitle',
                 'admin.service.complianceExportDesc',
@@ -3287,7 +3344,7 @@ export default {
             url: 'compliance/settings',
             title: t('admin.sidebar.compliance'),
             title_default: 'Compliance Settings',
-            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('Compliance')),
+            isHidden: it.isnt(it.licensedForFeature('Compliance')),
             schema: {
                 id: 'ComplianceSettings',
                 name: t('admin.compliance.complianceSettings'),
@@ -3299,7 +3356,7 @@ export default {
                         label_markdown: true,
                         label_default: 'This feature is replaced by a new [Compliance Export]({siteURL}/admin_console/compliance/export) feature, and will be removed in a future release. We recommend migrating to the new system.',
                         label_values: {siteURL: getSiteURL()},
-                        isHidden: needsUtils.not(needsUtils.hasLicense),
+                        isHidden: it.isnt(it.licensed),
                         banner_type: 'info',
                     },
                     {
@@ -3310,7 +3367,7 @@ export default {
                         help_text: t('admin.compliance.enableDesc'),
                         help_text_default: 'When true, Mattermost allows compliance reporting from the **Compliance and Auditing** tab. See [documentation](!https://docs.mattermost.com/administration/compliance.html) to learn more.',
                         help_text_markdown: true,
-                        isHidden: needsUtils.not(needsUtils.hasLicense),
+                        isHidden: it.isnt(it.licensed),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3321,8 +3378,8 @@ export default {
                         help_text_default: 'Directory to which compliance reports are written. If blank, will be set to ./data/.',
                         placeholder: t('admin.compliance.directoryExample'),
                         placeholder_default: 'E.g.: "./data/"',
-                        isDisabled: needsUtils.stateValueFalse('ComplianceSettings.Enable'),
-                        isHidden: needsUtils.not(needsUtils.hasLicense),
+                        isDisabled: it.stateIsFalse('ComplianceSettings.Enable'),
+                        isHidden: it.isnt(it.licensed),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3331,8 +3388,8 @@ export default {
                         label_default: 'Enable Daily Report:',
                         help_text: t('admin.compliance.enableDailyDesc'),
                         help_text_default: 'When true, Mattermost will generate a daily compliance report.',
-                        isDisabled: needsUtils.stateValueFalse('ComplianceSettings.Enable'),
-                        isHidden: needsUtils.not(needsUtils.hasLicense),
+                        isDisabled: it.stateIsFalse('ComplianceSettings.Enable'),
+                        isHidden: it.isnt(it.licensed),
                     },
                 ],
             },
@@ -3341,7 +3398,7 @@ export default {
             url: 'compliance/monitoring',
             title: t('admin.sidebar.complianceMonitoring'),
             title_default: 'Compliance Monitoring',
-            isHidden: needsUtils.not(needsUtils.hasLicense),
+            isHidden: it.isnt(it.licensed),
             searchableStrings: [
                 'admin.audits.title',
                 'admin.audits.reload',
@@ -3355,7 +3412,7 @@ export default {
             url: 'compliance/custom_terms_of_service',
             title: t('admin.sidebar.customTermsOfService'),
             title_default: 'Custom Terms of Service (Beta)',
-            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('CustomTermsOfService')),
+            isHidden: it.isnt(it.licensedForFeature('CustomTermsOfService')),
             searchableStrings: [
                 'admin.support.termsOfServiceTitle',
                 'admin.support.enableTermsOfServiceTitle',
@@ -3372,6 +3429,9 @@ export default {
         },
     },
     experimental: {
+        icon: 'fa-flask',
+        sectionTitle: t('admin.sidebar.experimental'),
+        sectionTitleDefault: 'Experimental',
         experimental_features: {
             url: 'experimental/features',
             title: t('admin.sidebar.experimentalFeatures'),
@@ -3389,7 +3449,7 @@ export default {
                         help_text: t('admin.experimental.ldapSettingsLoginButtonColor.desc'),
                         help_text_default: 'Specify the color of the AD/LDAP login button for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
-                        isHidden: needsUtils.not(needsUtils.hasLicenseFeature('LDAP')),
+                        isHidden: it.isnt(it.licensedForFeature('LDAP')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3399,7 +3459,7 @@ export default {
                         help_text: t('admin.experimental.ldapSettingsLoginButtonBorderColor.desc'),
                         help_text_default: 'Specify the color of the AD/LDAP login button border for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
-                        isHidden: needsUtils.not(needsUtils.hasLicenseFeature('LDAP')),
+                        isHidden: it.isnt(it.licensedForFeature('LDAP')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3409,7 +3469,7 @@ export default {
                         help_text: t('admin.experimental.ldapSettingsLoginButtonTextColor.desc'),
                         help_text_default: 'Specify the color of the AD/LDAP login button text for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
-                        isHidden: needsUtils.not(needsUtils.hasLicenseFeature('LDAP')),
+                        isHidden: it.isnt(it.licensedForFeature('LDAP')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3419,7 +3479,7 @@ export default {
                         help_text: t('admin.experimental.experimentalEnableAuthenticationTransfer.desc'),
                         help_text_default: 'When true, users can change their sign-in method to any that is enabled on the server, either via Account Settings or the APIs. When false, Users cannot change their sign-in method, regardless of which authentication options are enabled.',
                         help_text_markdown: false,
-                        isHidden: needsUtils.not(needsUtils.hasLicense), // documented as E20 and higher, but only E10 in the code
+                        isHidden: it.isnt(it.licensed), // documented as E20 and higher, but only E10 in the code
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3449,7 +3509,7 @@ export default {
                         help_text_markdown: false,
                         placeholder: t('admin.experimental.linkMetadataTimeoutMilliseconds.example'),
                         placeholder_default: 'E.g.: "5000"',
-                        isDisabled: needsUtils.stateValueFalse('ExperimentalSettings.DisablePostMetadata'),
+                        isDisabled: it.stateIsFalse('ExperimentalSettings.DisablePostMetadata'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -3535,7 +3595,7 @@ export default {
                         help_text: t('admin.experimental.clientSideCertEnable.desc'),
                         help_text_default: 'Enables client-side certification for your Mattermost server. See [documentation](!https://docs.mattermost.com/deployment/certificate-based-authentication.html) to learn more.',
                         help_text_markdown: true,
-                        isHidden: needsUtils.not(needsUtils.hasLicenseFeature('SAML')),
+                        isHidden: it.isnt(it.licensedForFeature('SAML')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -3557,8 +3617,8 @@ export default {
                                 display_name_default: 'secondary',
                             },
                         ],
-                        isDisabled: needsUtils.stateValueFalse('ExperimentalSettings.ClientSideCertEnable'),
-                        isHidden: needsUtils.not(needsUtils.hasLicenseFeature('SAML')),
+                        isDisabled: it.stateIsFalse('ExperimentalSettings.ClientSideCertEnable'),
+                        isHidden: it.isnt(it.licensedForFeature('SAML')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3604,7 +3664,7 @@ export default {
                         help_text: t('admin.experimental.enableThemeSelection.desc'),
                         help_text_default: 'Enables the **Display > Theme** tab in Account Settings so users can select their theme.',
                         help_text_markdown: true,
-                        isHidden: needsUtils.not(needsUtils.hasLicense), // E10 and higher
+                        isHidden: it.isnt(it.licensed), // E10 and higher
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3614,8 +3674,8 @@ export default {
                         help_text: t('admin.experimental.allowCustomThemes.desc'),
                         help_text_default: 'Enables the **Display > Theme > Custom Theme** section in Account Settings.',
                         help_text_markdown: true,
-                        isHidden: needsUtils.not(needsUtils.hasLicense), // E10 and higher
-                        isDisabled: needsUtils.stateValueFalse('ThemeSettings.EnableThemeSelection'),
+                        isHidden: it.isnt(it.licensed), // E10 and higher
+                        isDisabled: it.stateIsFalse('ThemeSettings.EnableThemeSelection'),
                     },
 
                     // {
@@ -3628,8 +3688,8 @@ export default {
                     //     help_text_markdown: true,
                     //     placeholder: t('admin.experimental.allowedThemes.example'),
                     //     placeholder_default: 'E.g.: "default, organization, mattermostDark, windows10"',
-                    //     isHidden: needsUtils.not(needsUtils.hasLicense), // E10 and higher
-                    //     isDisabled: needsUtils.stateValueTrue('ThemeSettings.EnableThemeSelection'),
+                    //     isHidden: it.isnt(it.licensed), // E10 and higher
+                    //     isDisabled: it.stateIsTrue('ThemeSettings.EnableThemeSelection'),
                     // },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3661,7 +3721,7 @@ export default {
                                 display_name_default: 'windows10',
                             },
                         ],
-                        isHidden: needsUtils.not(needsUtils.hasLicense), // E10 and higher
+                        isHidden: it.isnt(it.licensed), // E10 and higher
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3691,7 +3751,7 @@ export default {
                         help_text_markdown: false,
                         placeholder: t('admin.experimental.timeBetweenUserTypingUpdatesMilliseconds.example'),
                         placeholder_default: 'E.g.: "5000"',
-                        isDisabled: needsUtils.stateValueFalse('ServiceSettings.EnableUserTypingMessages'),
+                        isDisabled: it.stateIsFalse('ServiceSettings.EnableUserTypingMessages'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3721,7 +3781,7 @@ export default {
                         help_text: t('admin.experimental.samlSettingsLoginButtonColor.desc'),
                         help_text_default: 'Specify the color of the SAML login button for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
-                        isHidden: needsUtils.not(needsUtils.hasLicenseFeature('SAML')),
+                        isHidden: it.isnt(it.licensedForFeature('SAML')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3731,7 +3791,7 @@ export default {
                         help_text: t('admin.experimental.samlSettingsLoginButtonBorderColor.desc'),
                         help_text_default: 'Specify the color of the SAML login button border for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
-                        isHidden: needsUtils.not(needsUtils.hasLicenseFeature('SAML')),
+                        isHidden: it.isnt(it.licensedForFeature('SAML')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3741,7 +3801,7 @@ export default {
                         help_text: t('admin.experimental.samlSettingsLoginButtonTextColor.desc'),
                         help_text_default: 'Specify the color of the SAML login button text for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
-                        isHidden: needsUtils.not(needsUtils.hasLicenseFeature('SAML')),
+                        isHidden: it.isnt(it.licensedForFeature('SAML')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3769,7 +3829,7 @@ export default {
                         help_text: t('admin.experimental.experimentalHideTownSquareinLHS.desc'),
                         help_text_default: 'When true, hides Town Square in the left-hand sidebar if there are no unread messages in the channel. When false, Town Square is always visible in the left-hand sidebar even if all messages have been read.',
                         help_text_markdown: true,
-                        isHidden: needsUtils.not(needsUtils.hasLicense), // E10 and higher
+                        isHidden: it.isnt(it.licensed), // E10 and higher
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3779,7 +3839,7 @@ export default {
                         help_text: t('admin.experimental.experimentalTownSquareIsReadOnly.desc'),
                         help_text_default: 'When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are able to change the channel name, header or purpose. When false, anyone can post in Town Square.',
                         help_text_markdown: true,
-                        isHidden: needsUtils.not(needsUtils.hasLicense), // E10 and higher
+                        isHidden: it.isnt(it.licensed), // E10 and higher
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,

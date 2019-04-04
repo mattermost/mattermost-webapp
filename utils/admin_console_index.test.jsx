@@ -17,7 +17,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
         expect(idx.search('ldap')).toEqual([
             'session_lengths',
             'mfa',
-            'ldap',
+            'authentication/ldap',
             'saml',
             'experimental/features',
             'authentication_email',
@@ -47,7 +47,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
         expect(idx.search('ldap')).toEqual([
             'session_lengths',
             'mfa',
-            'ldap',
+            'authentication/ldap',
             'saml',
             'experimental/features',
             'authentication_email',
