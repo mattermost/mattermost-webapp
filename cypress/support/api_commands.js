@@ -24,7 +24,7 @@ import theme from '../fixtures/theme.json';
 Cypress.Commands.add('apiLogin', (username = 'user-1') => {
     const user = users[username];
 
-    cy.request({
+    return cy.request({
         url: '/api/v4/users/login',
         method: 'POST',
         body: {login_id: user.username, password: user.password},
@@ -35,7 +35,7 @@ Cypress.Commands.add('apiLogin', (username = 'user-1') => {
  * Logout a user directly via API
  */
 Cypress.Commands.add('apiLogout', () => {
-    cy.request({
+    return cy.request({
         url: '/api/v4/users/logout',
         method: 'POST',
     });
@@ -142,7 +142,7 @@ Cypress.Commands.add('apiDeleteTeam', (teamId, permanent = false) => {
  * @param {Array} preference - a list of user's preferences
  */
 Cypress.Commands.add('apiSaveUserPreference', (preferences = []) => {
-    cy.request({
+    return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/me/preferences',
         method: 'PUT',
@@ -156,7 +156,7 @@ Cypress.Commands.add('apiSaveUserPreference', (preferences = []) => {
  * @param {String} value - Either "full" (default) or "centered"
  */
 Cypress.Commands.add('apiSaveChannelDisplayModePreference', (value = 'full') => {
-    cy.getCookie('MMUSERID').then((cookie) => {
+    return cy.getCookie('MMUSERID').then((cookie) => {
         const preference = {
             user_id: cookie.value,
             category: 'display_settings',
@@ -164,7 +164,7 @@ Cypress.Commands.add('apiSaveChannelDisplayModePreference', (value = 'full') => 
             value,
         };
 
-        cy.apiSaveUserPreference([preference]);
+        return cy.apiSaveUserPreference([preference]);
     });
 });
 
@@ -174,7 +174,7 @@ Cypress.Commands.add('apiSaveChannelDisplayModePreference', (value = 'full') => 
  * @param {String} value - Either "clean" (default) or "compact"
  */
 Cypress.Commands.add('apiSaveMessageDisplayPreference', (value = 'clean') => {
-    cy.getCookie('MMUSERID').then((cookie) => {
+    return cy.getCookie('MMUSERID').then((cookie) => {
         const preference = {
             user_id: cookie.value,
             category: 'display_settings',
@@ -182,7 +182,7 @@ Cypress.Commands.add('apiSaveMessageDisplayPreference', (value = 'clean') => {
             value,
         };
 
-        cy.apiSaveUserPreference([preference]);
+        return cy.apiSaveUserPreference([preference]);
     });
 });
 
@@ -192,7 +192,7 @@ Cypress.Commands.add('apiSaveMessageDisplayPreference', (value = 'clean') => {
  * @param {Object} value - theme object.  Will pass default value if none is provided.
  */
 Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.default)) => {
-    cy.getCookie('MMUSERID').then((cookie) => {
+    return cy.getCookie('MMUSERID').then((cookie) => {
         const preference = {
             user_id: cookie.value,
             category: 'theme',
@@ -200,6 +200,6 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
             value,
         };
 
-        cy.apiSaveUserPreference([preference]);
+        return cy.apiSaveUserPreference([preference]);
     });
 });
