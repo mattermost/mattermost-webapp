@@ -81,10 +81,16 @@ export default class PostBody extends React.PureComponent {
          * Set not to allow edits on post
          */
         isReadOnly: PropTypes.bool,
+
+        /**
+         * Max height before show "show more".
+         */
+        maxHeight: PropTypes.number,
     }
 
     static defaultProps = {
         isReadOnly: false,
+        maxHeight: 600,
     }
 
     constructor(props) {
@@ -169,6 +175,7 @@ export default class PostBody extends React.PureComponent {
                     post={this.props.post}
                     compactDisplay={this.props.compactDisplay}
                     hasMention={true}
+                    maxHeight={this.props.maxHeight}
                 />
             </React.Fragment>
         );

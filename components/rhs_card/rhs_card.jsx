@@ -114,7 +114,7 @@ export default class RhsCard extends React.Component {
 
         return (
             <div
-                className='sidebar-right__body'
+                className='sidebar-right__body sidebar-right__card'
                 ref='sidebarbody'
             >
                 <SearchResultsHeader
@@ -137,6 +137,7 @@ export default class RhsCard extends React.Component {
                             ref={selected.id}
                             key={'post ' + (selected.id || selected.pending_post_id)}
                             post={selected}
+                            maxHeight={150}
                         />
 
                         {content}

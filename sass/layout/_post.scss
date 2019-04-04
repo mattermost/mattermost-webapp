@@ -1998,6 +1998,12 @@
     }
 }
 
+.sidebar-right__card {
+    .post-message--collapsed {
+        max-height: 150px;
+    }
+}
+
 .post-message--collapsed {
     .post-message__text-container {
         // If this max-height is changed, the MAX_POST_HEIGHT constant in
