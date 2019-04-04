@@ -338,7 +338,7 @@ export default class SystemUsersDropdown extends React.Component {
         let showMakeNotActive = !Utils.isSystemAdmin(user.roles);
         let showManageTeams = true;
         let showRevokeSessions = true;
-        const showMfaReset = this.props.mfaEnabled && user.mfa_active && !user.is_bot;
+        const showMfaReset = this.props.mfaEnabled && Boolean(user.mfa_active) && !user.is_bot;
 
         if (user.delete_at > 0) {
             currentRoles = (
@@ -410,7 +410,7 @@ export default class SystemUsersDropdown extends React.Component {
                                 text={Utils.localizeMessage('admin.user_item.resetMfa', 'Remove MFA')}
                             />
                             <MenuItemAction
-                                show={user.auth_service && this.props.experimentalEnableAuthenticationTransfer && !user.is_bot}
+                                show={Boolean(user.auth_service) && this.props.experimentalEnableAuthenticationTransfer && !user.is_bot}
                                 onClick={this.handleResetPassword}
                                 text={Utils.localizeMessage('admin.user_item.switchToEmail', 'Switch to Email/Password')}
                             />
