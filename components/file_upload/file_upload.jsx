@@ -564,10 +564,6 @@ export default class FileUpload extends PureComponent {
         this.setState({menuOpen: false});
     }
 
-    simulateInputClick = () => {
-        this.fileInput.current.click();
-    }
-
     render() {
         const {formatMessage} = this.context.intl;
         let multiple = true;
@@ -624,16 +620,6 @@ export default class FileUpload extends PureComponent {
             });
             bodyAction = (
                 <React.Fragment>
-                    <input
-                        aria-label={formatMessage(holders.uploadFile)}
-                        ref={this.fileInput}
-                        type='file'
-                        className='file-attachment-menu-item-input'
-                        onChange={this.handleChange}
-                        onClick={this.handleLocalFileUploaded}
-                        multiple={multiple}
-                        accept={accept}
-                    />
                     <MenuWrapper>
                         <button
                             type='button'
@@ -652,11 +638,21 @@ export default class FileUpload extends PureComponent {
                             ariaLabel={formatMessage({id: 'file_upload.menuAriaLabel', defaultMessage: 'Upload type selector'})}
                         >
                             <li>
-                                <a onClick={this.simulateInputClick}>
+                                <a>
                                     <i className='fa fa-laptop'/>
                                     <FormattedMessage
                                         id='yourcomputer'
                                         defaultMessage='Your computer'
+                                    />
+                                    <input
+                                        aria-label={formatMessage(holders.uploadFile)}
+                                        ref={this.fileInput}
+                                        type='file'
+                                        className='file-attachment-menu-item-input'
+                                        onChange={this.handleChange}
+                                        onClick={this.handleLocalFileUploaded}
+                                        multiple={multiple}
+                                        accept={accept}
                                     />
                                 </a>
                             </li>
