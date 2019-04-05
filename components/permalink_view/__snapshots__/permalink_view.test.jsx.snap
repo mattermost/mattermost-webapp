@@ -8,7 +8,7 @@ exports[`components/PermalinkView should match snapshot 1`] = `
   <withRouter(Connect(ChannelHeader))
     channelId="channel_id"
   />
-  <withRouter(Connect(PostList))
+  <Connect(PostList)
     channelId="channel_id"
     focusedPostId="post_id"
   />
@@ -41,7 +41,7 @@ exports[`components/PermalinkView should match snapshot with archived channel 1`
   <withRouter(Connect(ChannelHeader))
     channelId="channel_id"
   />
-  <withRouter(Connect(PostList))
+  <Connect(PostList)
     channelId="channel_id"
     focusedPostId="post_id"
   />

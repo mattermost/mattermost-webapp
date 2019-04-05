@@ -275,6 +275,8 @@
     .post-list-holder-by-time {
         -webkit-overflow-scrolling: touch;
         height: 100%;
+        overflow-y: scroll;
+        padding: 1em 0 0;
         width: 100%;
         position: absolute;
         &.active {
@@ -690,6 +692,7 @@
 
     .post-list__content {
         display: table-cell;
+        vertical-align: bottom;
 
         .dropdown-menu {
             &.bottom {

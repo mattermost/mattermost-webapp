@@ -28,6 +28,7 @@ import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants
 
 import {connectionErrorCount} from 'selectors/views/system';
 
+import {postListScrollChangeToBottom} from 'actions/global_actions.jsx';
 import {addReaction, createPost, setEditingPost} from 'actions/post_actions.jsx';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {executeCommand} from 'actions/command';
@@ -98,6 +99,7 @@ function makeMapStateToProps() {
 function onSubmitPost(post, fileInfos) {
     return (dispatch) => {
         dispatch(createPost(post, fileInfos));
+        postListScrollChangeToBottom();
     };
 }
 

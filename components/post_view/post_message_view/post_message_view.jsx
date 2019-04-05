@@ -6,6 +6,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 
+import * as GlobalActions from 'actions/global_actions';
+
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';
 
@@ -92,6 +94,8 @@ export default class PostMessageView extends React.PureComponent {
             this.setState((prevState) => {
                 return {checkOverflow: prevState.checkOverflow + 1};
             });
+
+            GlobalActions.postListScrollChange();
         }
     };
 

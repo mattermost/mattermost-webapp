@@ -223,18 +223,3 @@ export function isErrorInvalidSlashCommand(error) {
 
     return false;
 }
-
-export function getClosestValidPostIndex(postIds, index) {
-    let postIndex = index;
-    while (postIndex >= 0) {
-        const postId = postIds[postIndex];
-        if (postId && postId.indexOf(Constants.PostListRowListIds.DATE_LINE) < 0 &&
-            postId.indexOf(Constants.PostListRowListIds.START_OF_NEW_MESSAGES) < 0 &&
-            postId !== 'CHANNEL_INTRO_MESSAGE' &&
-            postId !== 'MORE_MESSAGES_LOADER') {
-            break;
-        }
-        postIndex--;
-    }
-    return postIndex;
-}
