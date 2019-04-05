@@ -176,9 +176,9 @@ export default class SingleImageView extends React.PureComponent {
                         <div
                             className={`image-loaded ${fadeInClass} ${svgClass}`}
                             style={styleIfSvgWithDimentions}
-                            onClick={this.handleImageClick}
                         >
                             <SizeAwareImage
+                                onClick={this.handleImageClick}
                                 className={minPreviewClass}
                                 src={previewURL}
                                 dimensions={this.state.dimensions}

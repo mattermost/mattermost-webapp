@@ -188,14 +188,15 @@
             @include single-transition(all, .1s, linear);
             @include border-radius(4px);
             bottom: 0;
-            cursor: pointer;
             min-height: 40px;
             min-width: 40px;
             max-height: 350px;
             max-width: 100%;
+
             img {
                 @include single-transition(all, .1s, linear);
                 align-self: center;
+                cursor: pointer;
                 max-height: 350px;
                 overflow: hidden;
                 position: relative;
