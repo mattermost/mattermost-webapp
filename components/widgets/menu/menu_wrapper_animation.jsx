@@ -6,7 +6,7 @@ import React from 'react';
 import {tween, styler} from 'popmotion';
 import {CSSTransition} from 'react-transition-group';
 
-const ANIMATION_DURATION = 180;
+const ANIMATION_DURATION = 80;
 
 export default class MenuWrapperAnimation extends React.PureComponent {
     static propTypes = {
