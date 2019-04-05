@@ -337,7 +337,7 @@ Cypress.Commands.add('leaveTeam', () => {
 
     // * Check that the "leave team modal" closed
     cy.get('#leaveTeamModal').should('not.be.visible');
-})
+});
 
 // ***********************************************************
 // Text Box
