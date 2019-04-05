@@ -3169,7 +3169,7 @@ export default {
             schema: {
                 id: 'GifSettings',
                 name: t('admin.integrations.gif'),
-                name_default: 'GIF',
+                name_default: 'GIF (Beta)',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
