@@ -107,4 +107,36 @@ describe('Teams Suite', () => {
         // 9. Remove user from team
         cy.removeTeamMember(teamURL, user.firstName);
     });
+
+    it('TS14633 Leave all teams', () => {
+        // 1. Login and go to /
+        cy.apiLogin('user-2');
+        cy.visit('/');
+
+        function leaveTeamUntilCant() {
+            cy.leaveTeam();
+            // eslint-disable-next-line max-nested-callbacks
+            cy.apiGetTeams().then((response) => {
+                if (response.body.length > 0) {
+                    leaveTeamUntilCant();
+                }
+            });
+        }
+
+        // * check for user not being on any teams
+        // * if they are on atleast 1, start leaving teams
+        // eslint-disable-next-line max-nested-callbacks
+        cy.apiGetTeams().then((response) => {
+            if (response.body.length > 0) {
+                leaveTeamUntilCant();
+            }
+        });
+
+        cy.get('a.signup-team-login').should('contain', 'Create a new team');
+
+        cy.logout();
+
+        // * Ensure user is logged out
+        cy.url().should('include', 'login');
+    });
 });
