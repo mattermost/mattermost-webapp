@@ -49,11 +49,9 @@ export default class IntlProvider extends React.PureComponent {
             // Already loaded
             return;
         }
-
         const localeInfo = I18n.getLanguageInfo(locale);
 
-        if (locale === 'en' || !localeInfo) {
-            // English is loaded by default and invalid locales fall back to English, so we should never hit this
+        if (!localeInfo) {
             return;
         }
 
