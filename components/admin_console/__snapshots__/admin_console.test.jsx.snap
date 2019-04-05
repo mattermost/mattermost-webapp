@@ -3,6 +3,7 @@
 exports[`components/AdminConsole should generate the routes 1`] = `
 <div
   className="admin-console__wrapper"
+  id="adminConsoleWrapper"
 >
   <Connect(AnnouncementBarController) />
   <Connect(SystemNotice) />
