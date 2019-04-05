@@ -42,12 +42,9 @@ export default class MenuWrapper extends React.PureComponent {
         if (this.node.current.contains(e.target)) {
             return;
         }
-
-        if (this.state.open) {
-            this.setState({open: false});
-            if (this.props.onToggle) {
-                this.props.onToggle(false);
-            }
+        this.setState({open: false});
+        if (this.props.onToggle) {
+            this.props.onToggle(false);
         }
     }
 

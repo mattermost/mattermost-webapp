@@ -127,10 +127,6 @@ export default class PostList extends React.PureComponent {
             postListIds: [channelIntroMessage],
             postsObjById: {channelIntroMessage},
             floatingTimestampDate: 0,
-            postMenuOpened: false,
-            dynamicListStyle: {
-                willChange: 'transform',
-            },
         };
 
         this.listRef = React.createRef();
@@ -201,20 +197,9 @@ export default class PostList extends React.PureComponent {
 
     handleWindowResize = () => {
         this.props.actions.checkAndSetMobileView();
-        const isMobile = Utils.isMobile();
-        if (isMobile !== this.state.isMobile) {
-            const dynamicListStyle = this.state.dynamicListStyle;
-            if (this.state.postMenuOpened) {
-                if (!isMobile && dynamicListStyle.willChange === 'unset') {
-                    dynamicListStyle.willChange = 'transform';
-                } else if (isMobile && dynamicListStyle.willChange === 'transform') {
-                    dynamicListStyle.willChange = 'unset';
-                }
-            }
-
+        if (Utils.isMobile() !== this.state.isMobile) {
             this.setState({
-                isMobile,
-                dynamicListStyle,
+                isMobile: true,
             });
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
@@ -232,7 +217,7 @@ export default class PostList extends React.PureComponent {
         if (this.mounted) {
             this.setState({unViewedCount});
         }
-    };
+    }
 
     loadPosts = async (channelId, focusedPostId) => {
         if (!channelId) {
@@ -289,19 +274,7 @@ export default class PostList extends React.PureComponent {
                 this.autoRetriesCount = 0;
             }
         }
-    };
-
-    togglePostMenu = (opened) => {
-        const dynamicListStyle = this.state.dynamicListStyle;
-        if (this.state.isMobile) {
-            dynamicListStyle.willChange = opened ? 'unset' : 'transform';
-        }
-
-        this.setState({
-            postMenuOpened: opened,
-            dynamicListStyle,
-        });
-    };
+    }
 
     renderRow = ({itemId, style}) => {
         return (
@@ -312,7 +285,6 @@ export default class PostList extends React.PureComponent {
                     shouldHighlight={itemId === this.props.focusedPostId}
                     post={this.props.postsObjById[itemId]}
                     loadMorePosts={this.loadMorePosts}
-                    togglePostMenu={this.togglePostMenu}
                 />
             </div>
         );
@@ -462,8 +434,6 @@ export default class PostList extends React.PureComponent {
             );
         }
 
-        const {dynamicListStyle} = this.state;
-
         return (
             <div id='post-list'>
                 {this.state.isMobile && (
@@ -509,7 +479,6 @@ export default class PostList extends React.PureComponent {
                                         onNewItemsMounted={this.onNewItemsMounted}
                                         canLoadMorePosts={this.canLoadMorePosts}
                                         skipResizeClass='col__reply'
-                                        style={dynamicListStyle}
                                     >
                                         {this.renderRow}
                                     </DynamicSizeList>
