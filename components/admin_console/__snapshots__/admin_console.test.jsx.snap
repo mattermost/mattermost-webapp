@@ -183,7 +183,6 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           render={[Function]}
         />
         <Redirect
-          push={false}
           to="/license"
         />
       </Switch>
