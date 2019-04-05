@@ -16,7 +16,6 @@ exports[`components/PermalinkView should match snapshot 1`] = `
     id="archive-link-home"
   >
     <Link
-      replace={false}
       to="/team_name/channels/channel_name"
     >
       <FormattedMessage
@@ -49,7 +48,6 @@ exports[`components/PermalinkView should match snapshot with archived channel 1`
     id="archive-link-home"
   >
     <Link
-      replace={false}
       to="/team_name/channels/channel_name"
     >
       <InjectIntl(FormattedMarkdownMessage)

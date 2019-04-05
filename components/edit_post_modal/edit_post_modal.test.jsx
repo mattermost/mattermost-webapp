@@ -442,20 +442,6 @@ describe('components/EditPostModal', () => {
         expect(instance.handleHide).not.toBeCalled();
     });
 
-    it('should set instance.editbox on setEditboxRef', () => {
-        const wrapper = shallow(createEditPost());
-
-        wrapper.instance().setEditboxRef();
-        expect(wrapper.instance().editbox).toEqual(undefined);
-
-        const focus = jest.fn();
-        const ref = {getWrappedInstance: () => ({focus})};
-        wrapper.instance().setEditboxRef(ref);
-        wrapper.update();
-        expect(wrapper.instance().editbox).toEqual({focus});
-        expect(wrapper.instance().editbox.focus).toHaveBeenCalledTimes(1);
-    });
-
     it('should disable the button on not canEditPost and text in it', () => {
         const actions = {
             editPost: jest.fn(),

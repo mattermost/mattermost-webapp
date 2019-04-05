@@ -6,7 +6,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
 >
   <BackstageHeader>
     <Link
-      replace={false}
       to="/test/integrations/oauth2-apps"
     >
       <FormattedMessage
@@ -292,7 +291,6 @@ https://test.com/callback2"
         />
         <Link
           className="btn btn-link btn-sm"
-          replace={false}
           to="/test/integrations/oauth2-apps"
         >
           <FormattedMessage
@@ -327,7 +325,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
 >
   <BackstageHeader>
     <Link
-      replace={false}
       to="/test/integrations/oauth2-apps"
     >
       <FormattedMessage
@@ -616,7 +613,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
         />
         <Link
           className="btn btn-link btn-sm"
-          replace={false}
           to="/test/integrations/oauth2-apps"
         >
           <FormattedMessage

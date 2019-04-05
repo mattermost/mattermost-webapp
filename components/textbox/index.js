@@ -27,4 +27,4 @@ const mapDispatchToProps = (dispatch) => ({
     }, dispatch),
 });
 
-export default connect(makeMapStateToProps, mapDispatchToProps, null, {withRef: true})(Textbox);
+export default connect(makeMapStateToProps, mapDispatchToProps, null, {forwardRef: true})(Textbox);

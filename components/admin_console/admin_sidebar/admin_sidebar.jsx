@@ -10,6 +10,7 @@ import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants.jsx';
 import {generateIndex} from 'utils/admin_console_index.jsx';
+import {browserHistory} from 'utils/browser_history';
 
 import AdminSidebarCategory from 'components/admin_console/admin_sidebar_category.jsx';
 import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header';
@@ -21,7 +22,6 @@ import SearchIcon from 'components/svg/search_icon.jsx';
 export default class AdminSidebar extends React.Component {
     static get contextTypes() {
         return {
-            router: PropTypes.object.isRequired,
             intl: intlShape.isRequired,
         };
     }
@@ -105,12 +105,12 @@ export default class AdminSidebar extends React.Component {
             return;
         }
 
-        const validSection = sections.indexOf(this.context.router.history.location.pathname.replace('/admin_console/', '')) !== -1;
+        const validSection = sections.indexOf(browserHistory.location.pathname.replace('/admin_console/', '')) !== -1;
         if (!validSection) {
             const visibleSections = this.visibleSections();
             for (const section of sections) {
                 if (visibleSections.has(section)) {
-                    this.context.router.history.replace('/admin_console/' + section);
+                    browserHistory.replace('/admin_console/' + section);
                     break;
                 }
             }
