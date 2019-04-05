@@ -4,48 +4,19 @@ exports[`components/FileUpload should match snapshot 1`] = `
 <span
   className=""
 >
-  <MenuWrapper
-    animationComponent={[Function]}
-    className=""
+  <div
+    className="icon icon--attachment"
+    id="fileUploadButton"
   >
-    <button
-      className="style--none"
-      type="button"
-    >
-      <div
-        className="icon icon--attachment"
-        id="fileUploadButton"
-      >
-        <AttachmentIcon />
-      </div>
-    </button>
-    <Menu
-      ariaLabel="Upload type selector"
-      openLeft={true}
-      openUp={true}
-    >
-      <li>
-        <a>
-          <i
-            className="fa fa-laptop"
-          />
-          <FormattedMessage
-            defaultMessage="Your computer"
-            id="yourcomputer"
-            values={Object {}}
-          />
-          <input
-            accept=""
-            aria-label="Upload files"
-            className="file-attachment-menu-item-input"
-            multiple={true}
-            onChange={[Function]}
-            onClick={[Function]}
-            type="file"
-          />
-        </a>
-      </li>
-    </Menu>
-  </MenuWrapper>
+    <AttachmentIcon />
+    <input
+      accept=""
+      aria-label="Upload files"
+      multiple={true}
+      onChange={[Function]}
+      onClick={[Function]}
+      type="file"
+    />
+  </div>
 </span>
 `;
