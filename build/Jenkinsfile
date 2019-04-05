@@ -39,6 +39,7 @@ pipeline {
                 ansiColor('xterm') {
                     sh """
                         cp i18n/en.json /tmp/en.json
+                        git clone https://github.com/mattermost/mattermost-utilities ../mattermost-utilities
                         make i18n-extract
                         diff /tmp/en.json i18n/en.json
                     """
