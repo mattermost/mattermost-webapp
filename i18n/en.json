@@ -658,7 +658,7 @@
   "admin.image.storeLocal": "Local File System",
   "admin.image.storeTitle": "File Storage System:",
   "admin.integrations.cors": "CORS",
-  "admin.integrations.gif": "GIF",
+  "admin.integrations.gif": "GIF (Beta)",
   "admin.integrations.integrationsFeatures": "Integrations Features",
   "admin.integrations.plugins": "Plugins (Beta)",
   "admin.jobTable.cancelButton": "Cancel",
