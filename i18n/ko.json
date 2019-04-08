@@ -905,7 +905,7 @@
   "admin.permissions.permission.create_user_access_token.name": "Create user access token",
   "admin.permissions.permission.delete_emojis.description": "커스텀 이모지 관리",
   "admin.permissions.permission.delete_emojis.name": "커스텀 이모지 관리",
-  "admin.permissions.permission.delete_others_emojis.description": "Delete others' custom emoji.",
+  "admin.permissions.permission.delete_others_emojis.description": "Allow users to delete custom emoji that were created by other users.",
   "admin.permissions.permission.delete_others_emojis.name": "Delete Others' Custom Emoji",
   "admin.permissions.permission.delete_others_posts.description": "Posts made by other users can be deleted.",
   "admin.permissions.permission.delete_others_posts.name": "Delete Others' Posts",
@@ -2991,7 +2991,7 @@
   "user.settings.general.emailSamlCantUpdate": "SAML을 통해 로그인 하였기에 이메일을 업데이트 할 수 없습니다. 알림에 사용되는 이메일 주소는 {email} 입니다.",
   "user.settings.general.emptyName": "'편집'을 클릭하여 본명을 설정",
   "user.settings.general.emptyNickname": "'편집'을 클릭하여 별명을 설정",
-  "user.settings.general.emptyPassword": "Please enter your current password.",
+  "user.settings.general.emptyPassword": "현재 비밀번호를 입력해주세요.",
   "user.settings.general.emptyPosition": "'편집'를 눌러 부서 정보를 수정하세요.",
   "user.settings.general.field_handled_externally": "이 필드는 로그인 제공자를 통해 처리됩니다. 변경하려는 경우 로그인 제공자를 통해 변경해야 합니다.",
   "user.settings.general.firstName": "이름",
@@ -2999,7 +2999,7 @@
   "user.settings.general.icon": "일반 설정",
   "user.settings.general.imageTooLarge": "이미지를 업로드 할 수 없습니다. 파일이 너무 큽니다.",
   "user.settings.general.imageUpdated": "Image last updated {date}",
-  "user.settings.general.incorrectPassword": "Your password is incorrect.",
+  "user.settings.general.incorrectPassword": "패스워드가 일치하지 않습니다.",
   "user.settings.general.lastName": "성",
   "user.settings.general.loginGitlab": "GitLab을 통해서 로그인 되었습니다. ({email})",
   "user.settings.general.loginGoogle": "Google을 통해서 로그인 되었습니다. ({email})",
@@ -3257,5 +3257,5 @@
   "web.header.logout": "로그아웃",
   "web.root.signup_info": "모든 팀 커뮤니케이션 활동을 한 곳에 모아 빠르게 찾고 공유할 수 있습니다.",
   "yourcomputer": "Your computer",
-  "youtube_video.notFound": "패스워드를 찾을 수 없습니다."
+  "youtube_video.notFound": "영상을 찾을 수 없습니다."
 }
