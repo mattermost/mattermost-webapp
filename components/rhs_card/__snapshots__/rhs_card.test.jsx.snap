@@ -2,12 +2,9 @@
 
 exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defining card types 1`] = `
 <div
-  className="sidebar-right__body"
+  className="sidebar-right__body sidebar-right__card"
 >
-  <Connect(SearchResultsHeader)
-    channelDisplayName="not-used"
-    isCard={true}
-  />
+  <Connect(RhsCardHeader) />
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -29,6 +26,26 @@ exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defini
     <div
       className="post-right__scroll"
     >
+      <Connect(DateSeparator)
+        date={2018-11-23T17:43:15.740Z}
+      />
+      <div
+        className="card-info-channel__name"
+      >
+        Town Square
+      </div>
+      <Connect(Post)
+        key="post 123"
+        maxHeight={150}
+        post={
+          Object {
+            "create_at": 1542994995740,
+            "id": "123",
+            "message": "test",
+            "type": "test",
+          }
+        }
+      />
       <div
         className="card"
       >
@@ -41,12 +58,9 @@ exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defini
 
 exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining card types don't match with the post type 1`] = `
 <div
-  className="sidebar-right__body"
+  className="sidebar-right__body sidebar-right__card"
 >
-  <Connect(SearchResultsHeader)
-    channelDisplayName="not-used"
-    isCard={true}
-  />
+  <Connect(RhsCardHeader) />
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -68,6 +82,26 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
     <div
       className="post-right__scroll"
     >
+      <Connect(DateSeparator)
+        date={2018-11-23T17:43:15.740Z}
+      />
+      <div
+        className="card-info-channel__name"
+      >
+        Town Square
+      </div>
+      <Connect(Post)
+        key="post 123"
+        maxHeight={150}
+        post={
+          Object {
+            "create_at": 1542994995740,
+            "id": "123",
+            "message": "test",
+            "type": "test",
+          }
+        }
+      />
       <div
         className="card"
       >
@@ -80,12 +114,9 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
 
 exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining card types match with the post type 1`] = `
 <div
-  className="sidebar-right__body"
+  className="sidebar-right__body sidebar-right__card"
 >
-  <Connect(SearchResultsHeader)
-    channelDisplayName="not-used"
-    isCard={true}
-  />
+  <Connect(RhsCardHeader) />
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -107,9 +138,30 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
     <div
       className="post-right__scroll"
     >
+      <Connect(DateSeparator)
+        date={2018-11-23T17:43:15.740Z}
+      />
+      <div
+        className="card-info-channel__name"
+      >
+        Town Square
+      </div>
+      <Connect(Post)
+        key="post 123"
+        maxHeight={150}
+        post={
+          Object {
+            "create_at": 1542994995740,
+            "id": "123",
+            "message": "test",
+            "type": "test",
+          }
+        }
+      />
       <component
         post={
           Object {
+            "create_at": 1542994995740,
             "id": "123",
             "message": "test",
             "type": "test",

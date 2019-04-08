@@ -10,11 +10,21 @@ describe('comoponents/rhs_card/RhsCard', () => {
         id: '123',
         message: 'test',
         type: 'test',
+        create_at: 1542994995740,
+    };
+
+    const currentChannel = {
+        id: '111',
+        name: 'town-square',
+        display_name: 'Town Square',
     };
 
     it('should match when no post is selected', () => {
         const wrapper = shallow(
-            <RhsCard selected={null}/>,
+            <RhsCard
+                selected={null}
+                channel={currentChannel}
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -22,7 +32,10 @@ describe('comoponents/rhs_card/RhsCard', () => {
 
     it('should match on post when no plugin defining card types', () => {
         const wrapper = shallow(
-            <RhsCard selected={post}/>,
+            <RhsCard
+                selected={post}
+                channel={currentChannel}
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -33,6 +46,7 @@ describe('comoponents/rhs_card/RhsCard', () => {
             <RhsCard
                 selected={post}
                 pluginPostCardTypes={{notMatchingType: {component: () => <i/>}}}
+                channel={currentChannel}
             />,
         );
 
@@ -44,6 +58,7 @@ describe('comoponents/rhs_card/RhsCard', () => {
             <RhsCard
                 selected={post}
                 pluginPostCardTypes={{test: {component: () => <i/>}}}
+                channel={currentChannel}
             />,
         );
 
