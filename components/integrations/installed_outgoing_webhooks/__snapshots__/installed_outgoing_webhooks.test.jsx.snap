@@ -1,407 +1,177 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot 1`] = `
-<BrowserRouter
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
->
-  <Router
-    history={
+<div>
+  <InstalledOutgoingWebhook
+    canChange={true}
+    channel={
       Object {
-        "action": "POP",
-        "block": [Function],
-        "createHref": [Function],
-        "go": [Function],
-        "goBack": [Function],
-        "goForward": [Function],
-        "length": 1,
-        "listen": [Function],
-        "location": Object {
-          "hash": "",
-          "pathname": "undefinedundefined",
-          "search": "",
-          "state": undefined,
-        },
-        "push": [Function],
-        "replace": [Function],
+        "display_name": "town-square",
+        "id": "mdpzfpfcxi85zkkqkzkch4b85h",
+        "name": "town-square",
       }
     }
-  >
-    <InstalledOutgoingWebhooks
-      actions={
+    creator={
+      Object {
+        "first_name": "sudheer",
+        "id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+        "roles": "system_admin system_user",
+        "username": "sudheerdev",
+      }
+    }
+    key="7h88x419ubbyuxzs7dfwtgkfgr"
+    onDelete={[Function]}
+    onRegenToken={[Function]}
+    outgoingWebhook={
+      Object {
+        "0": "asdf",
+        "callback_urls": Array [
+          "http://adsfdasd.com",
+        ],
+        "channel_id": "mdpzfpfcxi85zkkqkzkch4b85h",
+        "content_type": "application/x-www-form-urlencoded",
+        "create_at": 1508327769020,
+        "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+        "delete_at": 0,
+        "description": "build status",
+        "display_name": "",
+        "id": "7h88x419ubbyuxzs7dfwtgkfgr",
+        "team_id": "eatxocwc3bg9ffo9xyybnj4omr",
+        "token": "xoxz1z7c3tgi9xhrfudn638q9r",
+        "trigger_when": 0,
+        "trigger_words": Array [
+          "build",
+        ],
+        "update_at": 1508329149618,
+      }
+    }
+    team={
+      Object {
+        "id": "testteamid",
+        "name": "test",
+      }
+    }
+  />
+  <InstalledOutgoingWebhook
+    canChange={true}
+    channel={
+      Object {
+        "display_name": "town-square",
+        "id": "mdpzfpfcxi85zkkqkzkch4b85h",
+        "name": "town-square",
+      }
+    }
+    creator={
+      Object {
+        "first_name": "sudheer",
+        "id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+        "roles": "system_admin system_user",
+        "username": "sudheerdev",
+      }
+    }
+    key="7h88x419ubbyuxzs7dfwtgkffr"
+    onDelete={[Function]}
+    onRegenToken={[Function]}
+    outgoingWebhook={
+      Object {
+        "0": "asdf",
+        "callback_urls": Array [
+          "http://adsfdasd.com",
+        ],
+        "channel_id": "mdpzfpfcxi85zkkqkzkch4b85h",
+        "content_type": "application/x-www-form-urlencoded",
+        "create_at": 1508327769020,
+        "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+        "delete_at": 0,
+        "description": "test",
+        "display_name": "",
+        "id": "7h88x419ubbyuxzs7dfwtgkffr",
+        "team_id": "eatxocwc3bg9ffo9xyybnj4omr",
+        "token": "xoxz1z7c3tgi9xhrfudn638q9r",
+        "trigger_when": 0,
+        "trigger_words": Array [
+          "test",
+        ],
+        "update_at": 1508329149618,
+      }
+    }
+    team={
+      Object {
+        "id": "testteamid",
+        "name": "test",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot 2`] = `<div />`;
+
+exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot 3`] = `
+<BackstageList
+  addLink="/test/integrations/outgoing_webhooks/add"
+  addText={
+    <FormattedMessage
+      defaultMessage="Add Outgoing Webhook"
+      id="installed_outgoing_webhooks.add"
+      values={Object {}}
+    />
+  }
+  emptyText={
+    <FormattedMessage
+      defaultMessage="No outgoing webhooks found"
+      id="installed_outgoing_webhooks.empty"
+      values={Object {}}
+    />
+  }
+  emptyTextSearch={
+    <InjectIntl(FormattedMarkdownMessage)
+      defaultMessage="No outgoing webhooks match {searchTerm}"
+      id="installed_outgoing_webhooks.emptySearch"
+    />
+  }
+  header={
+    <FormattedMessage
+      defaultMessage="Installed Outgoing Webhooks"
+      id="installed_outgoing_webhooks.header"
+      values={Object {}}
+    />
+  }
+  helpText={
+    <FormattedMessage
+      defaultMessage="Use outgoing webhooks to connect external tools to Mattermost. {buildYourOwn} or visit the {appDirectory} to find self-hosted, third-party apps and integrations."
+      id="installed_outgoing_webhooks.help"
+      values={
         Object {
-          "loadOutgoingHooksAndProfilesForTeam": [Function],
-          "regenOutgoingHookToken": [Function],
-          "removeOutgoingHook": [Function],
-        }
-      }
-      canChange={true}
-      channels={
-        Object {
-          "mdpzfpfcxi85zkkqkzkch4b85h": Object {
-            "display_name": "town-square",
-            "id": "mdpzfpfcxi85zkkqkzkch4b85h",
-            "name": "town-square",
-          },
-        }
-      }
-      enableOutgoingWebhooks={true}
-      key="1"
-      outgoingWebhooks={
-        Array [
-          Object {
-            "0": "asdf",
-            "callback_urls": Array [
-              "http://adsfdasd.com",
-            ],
-            "channel_id": "mdpzfpfcxi85zkkqkzkch4b85h",
-            "content_type": "application/x-www-form-urlencoded",
-            "create_at": 1508327769020,
-            "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
-            "delete_at": 0,
-            "description": "build status",
-            "display_name": "",
-            "id": "7h88x419ubbyuxzs7dfwtgkfgr",
-            "team_id": "eatxocwc3bg9ffo9xyybnj4omr",
-            "token": "xoxz1z7c3tgi9xhrfudn638q9r",
-            "trigger_when": 0,
-            "trigger_words": Array [
-              "build",
-            ],
-            "update_at": 1508329149618,
-          },
-          Object {
-            "0": "asdf",
-            "callback_urls": Array [
-              "http://adsfdasd.com",
-            ],
-            "channel_id": "mdpzfpfcxi85zkkqkzkch4b85h",
-            "content_type": "application/x-www-form-urlencoded",
-            "create_at": 1508327769020,
-            "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
-            "delete_at": 0,
-            "description": "test",
-            "display_name": "",
-            "id": "7h88x419ubbyuxzs7dfwtgkffr",
-            "team_id": "eatxocwc3bg9ffo9xyybnj4omr",
-            "token": "xoxz1z7c3tgi9xhrfudn638q9r",
-            "trigger_when": 0,
-            "trigger_words": Array [
-              "test",
-            ],
-            "update_at": 1508329149618,
-          },
-        ]
-      }
-      team={
-        Object {
-          "id": "testteamid",
-          "name": "test",
-        }
-      }
-      teamId="testteamid"
-      user={
-        Object {
-          "first_name": "sudheer",
-          "id": "zaktnt8bpbgu8mb6ez9k64r7sa",
-          "roles": "system_admin system_user",
-          "username": "sudheerdev",
-        }
-      }
-      users={
-        Object {
-          "zaktnt8bpbgu8mb6ez9k64r7sa": Object {
-            "first_name": "sudheer",
-            "id": "zaktnt8bpbgu8mb6ez9k64r7sa",
-            "roles": "system_admin system_user",
-            "username": "sudheerdev",
-          },
-        }
-      }
-    >
-      <BackstageList
-        addLink="/test/integrations/outgoing_webhooks/add"
-        addText={
-          <FormattedMessage
-            defaultMessage="Add Outgoing Webhook"
-            id="installed_outgoing_webhooks.add"
-            values={Object {}}
-          />
-        }
-        emptyText={
-          <FormattedMessage
-            defaultMessage="No outgoing webhooks found"
-            id="installed_outgoing_webhooks.empty"
-            values={Object {}}
-          />
-        }
-        emptyTextSearch={
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="No outgoing webhooks match {searchTerm}"
-            id="installed_outgoing_webhooks.emptySearch"
-          />
-        }
-        header={
-          <FormattedMessage
-            defaultMessage="Installed Outgoing Webhooks"
-            id="installed_outgoing_webhooks.header"
-            values={Object {}}
-          />
-        }
-        helpText={
-          <FormattedMessage
-            defaultMessage="Use outgoing webhooks to connect external tools to Mattermost. {buildYourOwn} or visit the {appDirectory} to find self-hosted, third-party apps and integrations."
-            id="installed_outgoing_webhooks.help"
-            values={
-              Object {
-                "appDirectory": <a
-                  href="https://about.mattermost.com/default-app-directory/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <FormattedMessage
-                    defaultMessage="App Directory"
-                    id="installed_outgoing_webhooks.help.appDirectory"
-                    values={Object {}}
-                  />
-                </a>,
-                "buildYourOwn": <a
-                  href="http://docs.mattermost.com/developer/webhooks-outgoing.html"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <FormattedMessage
-                    defaultMessage="Build your own"
-                    id="installed_outgoing_webhooks.help.buildYourOwn"
-                    values={Object {}}
-                  />
-                </a>,
-              }
-            }
-          />
-        }
-        loading={true}
-        searchPlaceholder="Search Outgoing Webhooks"
-      >
-        <div
-          className="backstage-content"
-        >
-          <div
-            className="backstage-header"
-          >
-            <h1>
-              <FormattedMessage
-                defaultMessage="Installed Outgoing Webhooks"
-                id="installed_outgoing_webhooks.header"
-                values={Object {}}
-              >
-                <span>
-                  Installed Outgoing Webhooks
-                </span>
-              </FormattedMessage>
-            </h1>
-            <Link
-              className="add-link"
-              replace={false}
-              to="/test/integrations/outgoing_webhooks/add"
-            >
-              <a
-                className="add-link"
-                href="/test/integrations/outgoing_webhooks/add"
-                onClick={[Function]}
-              >
-                <button
-                  className="btn btn-primary"
-                  type="button"
-                >
-                  <span>
-                    <FormattedMessage
-                      defaultMessage="Add Outgoing Webhook"
-                      id="installed_outgoing_webhooks.add"
-                      values={Object {}}
-                    >
-                      <span>
-                        Add Outgoing Webhook
-                      </span>
-                    </FormattedMessage>
-                  </span>
-                </button>
-              </a>
-            </Link>
-          </div>
-          <div
-            className="backstage-filters"
-          >
-            <div
-              className="backstage-filter__search"
-            >
-              <SearchIcon>
-                <FormattedMessage
-                  defaultMessage="Search Icon"
-                  id="generic_icons.search"
-                  values={Object {}}
-                >
-                  <i
-                    className="fa fa-search"
-                    title="Search Icon"
-                  />
-                </FormattedMessage>
-              </SearchIcon>
-              <input
-                className="form-control"
-                onChange={[Function]}
-                placeholder="Search Outgoing Webhooks"
-                style={
-                  Object {
-                    "flexGrow": 0,
-                    "flexShrink": 0,
-                  }
-                }
-                type="search"
-                value=""
-              />
-            </div>
-          </div>
-          <span
-            className="backstage-list__help"
+          "appDirectory": <a
+            href="https://about.mattermost.com/default-app-directory/"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             <FormattedMessage
-              defaultMessage="Use outgoing webhooks to connect external tools to Mattermost. {buildYourOwn} or visit the {appDirectory} to find self-hosted, third-party apps and integrations."
-              id="installed_outgoing_webhooks.help"
-              values={
-                Object {
-                  "appDirectory": <a
-                    href="https://about.mattermost.com/default-app-directory/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    <FormattedMessage
-                      defaultMessage="App Directory"
-                      id="installed_outgoing_webhooks.help.appDirectory"
-                      values={Object {}}
-                    />
-                  </a>,
-                  "buildYourOwn": <a
-                    href="http://docs.mattermost.com/developer/webhooks-outgoing.html"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    <FormattedMessage
-                      defaultMessage="Build your own"
-                      id="installed_outgoing_webhooks.help.buildYourOwn"
-                      values={Object {}}
-                    />
-                  </a>,
-                }
-              }
-            >
-              <span>
-                Use outgoing webhooks to connect external tools to Mattermost. 
-                <a
-                  href="http://docs.mattermost.com/developer/webhooks-outgoing.html"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <FormattedMessage
-                    defaultMessage="Build your own"
-                    id="installed_outgoing_webhooks.help.buildYourOwn"
-                    values={Object {}}
-                  >
-                    <span>
-                      Build your own
-                    </span>
-                  </FormattedMessage>
-                </a>
-                 or visit the 
-                <a
-                  href="https://about.mattermost.com/default-app-directory/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <FormattedMessage
-                    defaultMessage="App Directory"
-                    id="installed_outgoing_webhooks.help.appDirectory"
-                    values={Object {}}
-                  >
-                    <span>
-                      App Directory
-                    </span>
-                  </FormattedMessage>
-                </a>
-                 to find self-hosted, third-party apps and integrations.
-              </span>
-            </FormattedMessage>
-          </span>
-          <div
-            className="backstage-list"
+              defaultMessage="App Directory"
+              id="installed_outgoing_webhooks.help.appDirectory"
+              values={Object {}}
+            />
+          </a>,
+          "buildYourOwn": <a
+            href="http://docs.mattermost.com/developer/webhooks-outgoing.html"
+            rel="noopener noreferrer"
+            target="_blank"
           >
-            <LoadingScreen
-              position="relative"
-              style={Object {}}
-            >
-              <div
-                className="loading-screen"
-                style={
-                  Object {
-                    "position": "relative",
-                  }
-                }
-              >
-                <div
-                  className="loading__content"
-                >
-                  <h3>
-                    <FormattedMessage
-                      defaultMessage="Loading"
-                      id="loading_screen.loading"
-                      values={Object {}}
-                    >
-                      <span>
-                        Loading
-                      </span>
-                    </FormattedMessage>
-                  </h3>
-                  <div
-                    className="round round-1"
-                  />
-                  <div
-                    className="round round-2"
-                  />
-                  <div
-                    className="round round-3"
-                  />
-                </div>
-              </div>
-            </LoadingScreen>
-          </div>
-        </div>
-      </BackstageList>
-    </InstalledOutgoingWebhooks>
-  </Router>
-</BrowserRouter>
+            <FormattedMessage
+              defaultMessage="Build your own"
+              id="installed_outgoing_webhooks.help.buildYourOwn"
+              values={Object {}}
+            />
+          </a>,
+        }
+      }
+    />
+  }
+  loading={true}
+  searchPlaceholder="Search Outgoing Webhooks"
+>
+  <Component />
+</BackstageList>
 `;

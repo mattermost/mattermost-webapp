@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 import {Link} from 'react-router-dom';
 
 import DeleteIntegration from 'components/integrations/delete_integration.jsx';
-import InstalledOutgoingWebhook from 'components/integrations/installed_outgoing_webhook.jsx';
+import InstalledOutgoingWebhook, {matchesFilter} from 'components/integrations/installed_outgoing_webhook.jsx';
 
 describe('components/integrations/InstalledOutgoingWebhook', () => {
     const team = {
@@ -156,21 +156,21 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
     });
 
     test('Should match result when matchesFilter is called', () => {
-        expect(InstalledOutgoingWebhook.matchesFilter({}, {}, 'word')).toEqual(false);
-        expect(InstalledOutgoingWebhook.matchesFilter({display_name: null}, {}, 'word')).toEqual(false);
-        expect(InstalledOutgoingWebhook.matchesFilter({description: null}, {}, 'word')).toEqual(false);
-        expect(InstalledOutgoingWebhook.matchesFilter({trigger_words: null}, {}, 'word')).toEqual(false);
-        expect(InstalledOutgoingWebhook.matchesFilter({}, {name: null}, 'channel')).toEqual(false);
+        expect(matchesFilter({}, {}, 'word')).toEqual(false);
+        expect(matchesFilter({display_name: null}, {}, 'word')).toEqual(false);
+        expect(matchesFilter({description: null}, {}, 'word')).toEqual(false);
+        expect(matchesFilter({trigger_words: null}, {}, 'word')).toEqual(false);
+        expect(matchesFilter({}, {name: null}, 'channel')).toEqual(false);
 
-        expect(InstalledOutgoingWebhook.matchesFilter({}, {}, '')).toEqual(true);
+        expect(matchesFilter({}, {}, '')).toEqual(true);
 
-        expect(InstalledOutgoingWebhook.matchesFilter({display_name: 'Word'}, {}, 'word')).toEqual(true);
-        expect(InstalledOutgoingWebhook.matchesFilter({display_name: 'word'}, {}, 'word')).toEqual(true);
-        expect(InstalledOutgoingWebhook.matchesFilter({description: 'Trigger description'}, {}, 'description')).toEqual(true);
+        expect(matchesFilter({display_name: 'Word'}, {}, 'word')).toEqual(true);
+        expect(matchesFilter({display_name: 'word'}, {}, 'word')).toEqual(true);
+        expect(matchesFilter({description: 'Trigger description'}, {}, 'description')).toEqual(true);
 
-        expect(InstalledOutgoingWebhook.matchesFilter({trigger_words: ['Trigger']}, {}, 'trigger')).toEqual(true);
-        expect(InstalledOutgoingWebhook.matchesFilter({trigger_words: ['word', 'Trigger']}, {}, 'trigger')).toEqual(true);
+        expect(matchesFilter({trigger_words: ['Trigger']}, {}, 'trigger')).toEqual(true);
+        expect(matchesFilter({trigger_words: ['word', 'Trigger']}, {}, 'trigger')).toEqual(true);
 
-        expect(InstalledOutgoingWebhook.matchesFilter({}, {name: 'channel_name'}, 'channel')).toEqual(true);
+        expect(matchesFilter({}, {name: 'channel_name'}, 'channel')).toEqual(true);
     });
 });

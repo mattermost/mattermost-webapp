@@ -3,10 +3,8 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {BrowserRouter} from 'react-router-dom';
 
 import InstalledOutgoingWebhooks from 'components/integrations/installed_outgoing_webhooks/installed_outgoing_webhooks.jsx';
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 describe('components/integrations/InstalledOutgoingWebhooks', () => {
     let outgoingWebhooks = {};
@@ -55,7 +53,7 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
 
     test('should match snapshot', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
-        const wrapper = mountWithIntl(<BrowserRouter>
+        const wrapper = shallow(
             <InstalledOutgoingWebhooks
                 key={1}
                 outgoingWebhooks={outgoingWebhooks}
@@ -92,8 +90,10 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                     },
                 }}
                 enableOutgoingWebhooks={true}
-            /></BrowserRouter>
+            />
         );
+        expect(shallow(<div>{wrapper.instance().outgoingWebhooks('town')}</div>)).toMatchSnapshot();
+        expect(shallow(<div>{wrapper.instance().outgoingWebhooks('ZZZ')}</div>)).toMatchSnapshot();
         expect(wrapper).toMatchSnapshot();
     });
 

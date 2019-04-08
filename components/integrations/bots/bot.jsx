@@ -12,6 +12,24 @@ import SaveButton from 'components/save_button.jsx';
 import WarningIcon from 'components/icon/warning_icon';
 import * as Utils from 'utils/utils.jsx';
 
+export function matchesFilter(bot, filter, owner) {
+    if (!filter) {
+        return true;
+    }
+    const username = bot.username || '';
+    const description = bot.description || '';
+    const displayName = bot.display_name || '';
+
+    let ownerUsername = 'plugin';
+    if (owner && owner.username) {
+        ownerUsername = owner.username;
+    }
+    return !(username.toLowerCase().indexOf(filter) === -1 &&
+        displayName.toLowerCase().indexOf(filter) === -1 &&
+        description.toLowerCase().indexOf(filter) === -1 &&
+        ownerUsername.toLowerCase().indexOf(filter) === -1);
+}
+
 export default class Bot extends React.PureComponent {
     static propTypes = {
 
@@ -147,25 +165,6 @@ export default class Bot extends React.PureComponent {
         }
     }
 
-    static matchesFilter(bot, filter, owner) {
-        const username = bot.username || '';
-        const description = bot.description || '';
-        const displayName = bot.display_name || '';
-
-        let ownerUsername = 'plugin';
-        if (owner && owner.username) {
-            ownerUsername = owner.username;
-        }
-        if (filter &&
-            username.toLowerCase().indexOf(filter) === -1 &&
-            displayName.toLowerCase().indexOf(filter) === -1 &&
-            description.toLowerCase().indexOf(filter) === -1 &&
-            ownerUsername.toLowerCase().indexOf(filter) === -1) {
-            return false;
-        }
-        return true;
-    }
-
     render() {
         const username = this.props.bot.username || '';
         const description = this.props.bot.description || '';
@@ -176,7 +175,7 @@ export default class Bot extends React.PureComponent {
             ownerUsername = this.props.owner.username;
         }
         const filter = this.props.filter ? this.props.filter.toLowerCase() : '';
-        if (!Bot.matchesFilter(this.props.bot, filter, this.props.owner)) {
+        if (!matchesFilter(this.props.bot, filter, this.props.owner)) {
             return null;
         }
 

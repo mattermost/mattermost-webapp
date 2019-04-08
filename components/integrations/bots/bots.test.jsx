@@ -2,10 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {BrowserRouter} from 'react-router-dom';
+
+import {shallow} from 'enzyme';
 
 import TestHelper from 'tests/helpers/client-test-helper';
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import Bot from './bot.jsx';
 import Bots from './bots.jsx';
@@ -33,7 +33,7 @@ describe('components/integrations/bots/Bots', () => {
             [bot2.user_id]: bot2,
             [bot3.user_id]: bot3,
         };
-        const wrapper = mountWithIntl(<BrowserRouter>
+        const wrapperFull = shallow(
             <Bots
                 bots={bots}
                 team={team}
@@ -41,9 +41,11 @@ describe('components/integrations/bots/Bots', () => {
                 owners={{}}
                 actions={actions}
             />
-        </BrowserRouter>);
-        wrapper.find('Bots').setState({loading: false});
-        expect(wrapper.find('EnabledSection').contains(
+        );
+        wrapperFull.instance().setState({loading: false});
+        const wrapper = shallow(<div>{wrapperFull.instance().bots()[0]}</div>);
+
+        expect(wrapper.find('EnabledSection').shallow().contains(
             <Bot
                 key={bot1.user_id}
                 bot={bot1}
@@ -53,7 +55,7 @@ describe('components/integrations/bots/Bots', () => {
                 actions={actions}
             />
         )).toEqual(true);
-        expect(wrapper.find('EnabledSection').contains(
+        expect(wrapper.find('EnabledSection').shallow().contains(
             <Bot
                 key={bot2.user_id}
                 bot={bot2}
@@ -63,7 +65,7 @@ describe('components/integrations/bots/Bots', () => {
                 actions={actions}
             />
         )).toEqual(true);
-        expect(wrapper.find('EnabledSection').contains(
+        expect(wrapper.find('EnabledSection').shallow().contains(
             <Bot
                 key={bot3.user_id}
                 bot={bot3}
@@ -97,7 +99,7 @@ describe('components/integrations/bots/Bots', () => {
             [bot1.user_id]: passedTokens,
         };
 
-        const wrapper = mountWithIntl(<BrowserRouter>
+        const wrapperFull = shallow(
             <Bots
                 bots={bots}
                 team={team}
@@ -105,10 +107,11 @@ describe('components/integrations/bots/Bots', () => {
                 owners={owners}
                 actions={actions}
             />
-        </BrowserRouter>);
-        wrapper.find('Bots').setState({loading: false});
+        );
+        wrapperFull.instance().setState({loading: false});
+        const wrapper = shallow(<div>{wrapperFull.instance().bots()[0]}</div>);
 
-        expect(wrapper.find('EnabledSection').contains(
+        expect(wrapper.find('EnabledSection').shallow().contains(
             <Bot
                 key={bot1.user_id}
                 bot={bot1}

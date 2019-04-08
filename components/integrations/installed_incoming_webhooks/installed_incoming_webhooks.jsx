@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
-import InstalledIncomingWebhook from 'components/integrations/installed_incoming_webhook.jsx';
+import InstalledIncomingWebhook, {matchesFilter} from 'components/integrations/installed_incoming_webhook.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class InstalledIncomingWebhooks extends React.PureComponent {
@@ -108,26 +108,26 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
         return displayNameA.localeCompare(displayNameB);
     }
 
-    render() {
-        const incomingWebhooks = (filter) => this.props.incomingWebhooks.
-            sort(this.incomingWebhookCompare).
-            filter((incomingWebhook) => InstalledIncomingWebhook.matchesFilter(incomingWebhook, this.props.channels[incomingWebhook.channel_id], filter)).
-            map((incomingWebhook) => {
-                const canChange = this.props.canManageOthersWebhooks || this.props.user.id === incomingWebhook.user_id;
-                const channel = this.props.channels[incomingWebhook.channel_id];
-                return (
-                    <InstalledIncomingWebhook
-                        key={incomingWebhook.id}
-                        incomingWebhook={incomingWebhook}
-                        onDelete={this.deleteIncomingWebhook}
-                        creator={this.props.users[incomingWebhook.user_id] || {}}
-                        canChange={canChange}
-                        team={this.props.team}
-                        channel={channel}
-                    />
-                );
-            });
+    incomingWebhooks = (filter) => this.props.incomingWebhooks.
+        sort(this.incomingWebhookCompare).
+        filter((incomingWebhook) => matchesFilter(incomingWebhook, this.props.channels[incomingWebhook.channel_id], filter)).
+        map((incomingWebhook) => {
+            const canChange = this.props.canManageOthersWebhooks || this.props.user.id === incomingWebhook.user_id;
+            const channel = this.props.channels[incomingWebhook.channel_id];
+            return (
+                <InstalledIncomingWebhook
+                    key={incomingWebhook.id}
+                    incomingWebhook={incomingWebhook}
+                    onDelete={this.deleteIncomingWebhook}
+                    creator={this.props.users[incomingWebhook.user_id] || {}}
+                    canChange={canChange}
+                    team={this.props.team}
+                    channel={channel}
+                />
+            );
+        });
 
+    render() {
         return (
             <BackstageList
                 header={
@@ -191,7 +191,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
                 loading={this.state.loading}
             >
                 {(filter) => {
-                    const children = incomingWebhooks(filter);
+                    const children = this.incomingWebhooks(filter);
                     return [children, children.length > 0];
                 }}
             </BackstageList>

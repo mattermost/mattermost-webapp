@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {localizeMessage} from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import InstalledOAuthApp from '../installed_oauth_app';
+import {matchesFilter} from '../installed_oauth_app/installed_oauth_app';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class InstalledOAuthApps extends React.PureComponent {
@@ -92,23 +93,23 @@ export default class InstalledOAuthApps extends React.PureComponent {
         return nameA.localeCompare(nameB);
     }
 
-    render() {
-        const oauthApps = (filter) => Object.values(this.props.oauthApps).
-            filter((app) => InstalledOAuthApp.matchesFilter(app, filter)).
-            sort(this.oauthAppCompare).
-            map((app) => {
-                return (
-                    <InstalledOAuthApp
-                        key={app.id}
-                        team={this.props.team}
-                        oauthApp={app}
-                        regenOAuthAppSecretRequest={this.props.regenOAuthAppSecretRequest}
-                        onRegenerateSecret={this.props.actions.regenOAuthAppSecret}
-                        onDelete={this.deleteOAuthApp}
-                    />
-                );
-            });
+    oauthApps = (filter) => Object.values(this.props.oauthApps).
+        filter((app) => matchesFilter(app, filter)).
+        sort(this.oauthAppCompare).
+        map((app) => {
+            return (
+                <InstalledOAuthApp
+                    key={app.id}
+                    team={this.props.team}
+                    oauthApp={app}
+                    regenOAuthAppSecretRequest={this.props.regenOAuthAppSecretRequest}
+                    onRegenerateSecret={this.props.actions.regenOAuthAppSecret}
+                    onDelete={this.deleteOAuthApp}
+                />
+            );
+        });
 
+    render() {
         const integrationsEnabled = this.props.enableOAuthServiceProvider && this.props.canManageOauth;
         let props;
         if (integrationsEnabled) {
@@ -175,7 +176,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
                 {...props}
             >
                 {(filter) => {
-                    const children = oauthApps(filter);
+                    const children = this.oauthApps(filter);
                     return [children, children.length > 0];
                 }}
             </BackstageList>

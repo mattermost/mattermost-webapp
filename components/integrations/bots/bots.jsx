@@ -10,7 +10,7 @@ import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import Constants from 'utils/constants.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import Bot from './bot.jsx';
+import Bot, {matchesFilter} from './bot.jsx';
 
 export default class Bots extends React.PureComponent {
     static propTypes = {
@@ -133,29 +133,46 @@ export default class Bots extends React.PureComponent {
             return React.cloneElement(child, {filter: props.filter});
         });
         return (
-            <>
+            <div>
                 {botsToDisplay}
-            </>
+            </div>
         );
     }
 
-    render() {
-        const bots = Object.values(this.props.bots).sort((a, b) => a.username.localeCompare(b.username));
-        const botToJSX = (bot) => {
-            return (
-                <Bot
-                    key={bot.user_id}
-                    bot={bot}
-                    owner={this.props.owners[bot.user_id]}
-                    accessTokens={this.props.accessTokens[bot.user_id] ? {[bot.user_id]: this.props.accessTokens[bot.user_id]} : {}}
-                    actions={this.props.actions}
-                    team={this.props.team}
-                />
-            );
-        };
-        const enabledBots = (filter) => bots.filter((bot) => bot.delete_at === 0).filter((bot) => Bot.matchesFilter(bot, filter, this.props.owners[bot.user_id])).map(botToJSX);
-        const disabledBots = (filter) => bots.filter((bot) => bot.delete_at > 0).filter((bot) => Bot.matchesFilter(bot, filter, this.props.owners[bot.user_id])).map(botToJSX);
+    botToJSX = (bot) => {
+        return (
+            <Bot
+                key={bot.user_id}
+                bot={bot}
+                owner={this.props.owners[bot.user_id]}
+                accessTokens={this.props.accessTokens[bot.user_id] ? {[bot.user_id]: this.props.accessTokens[bot.user_id]} : {}}
+                actions={this.props.actions}
+                team={this.props.team}
+            />
+        );
+    };
 
+    bots = (filter) => {
+        const bots = Object.values(this.props.bots).sort((a, b) => a.username.localeCompare(b.username));
+        const match = (bot) => matchesFilter(bot, filter, this.props.owners[bot.user_id]);
+        const enabledBots = bots.filter((bot) => bot.delete_at === 0).filter(match).map(this.botToJSX);
+        const disabledBots = bots.filter((bot) => bot.delete_at > 0).filter(match).map(this.botToJSX);
+        const sections = (
+            <div key='sections'>
+                <this.EnabledSection
+                    enabledBots={enabledBots}
+                />
+                <this.DisabledSection
+                    hasDisabled={disabledBots.length > 0}
+                    disabledBots={disabledBots}
+                />
+            </div>
+        );
+
+        return [sections, enabledBots.length > 0 || disabledBots.length > 0];
+    }
+
+    render() {
         return (
             <BackstageList
                 header={
@@ -206,20 +223,7 @@ export default class Bots extends React.PureComponent {
                 searchPlaceholder={Utils.localizeMessage('bots.manage.search', 'Search Bot Accounts')}
                 loading={this.state.loading}
             >
-                {(filter) => {
-                    const enabled = enabledBots(filter);
-                    const disabled = disabledBots(filter);
-                    return [(<div key='sections'>
-                        <this.EnabledSection
-                            enabledBots={enabled}
-                        />
-                        <this.DisabledSection
-                            hasDisabled={disabled.length > 0}
-                            disabledBots={disabled}
-                        />
-                    </div>), enabled.length > 0 || disabled.length > 0];
-                }}
-
+                {this.bots}
             </BackstageList>
         );
     }
