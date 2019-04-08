@@ -19,6 +19,7 @@ jest.mock('actions/global_actions.jsx', () => ({
     emitUserPostedEvent: jest.fn(),
     showChannelNameUpdateModal: jest.fn(),
     toggleShortcutsModal: jest.fn(),
+    postListScrollChange: jest.fn(),
 }));
 
 jest.mock('react-dom', () => ({

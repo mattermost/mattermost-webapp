@@ -145,11 +145,18 @@ export function increasePostVisibility(channelId, focusedPostId) {
             return true;
         }
 
-        dispatch({
-            type: ActionTypes.LOADING_POSTS,
-            data: true,
-            channelId,
-        });
+        dispatch(batchActions([
+            {
+                type: ActionTypes.LOADING_POSTS,
+                data: true,
+                channelId,
+            },
+            {
+                type: ActionTypes.INCREASE_POST_VISIBILITY,
+                data: channelId,
+                amount: POST_INCREASE_AMOUNT,
+            },
+        ]));
 
         const page = Math.floor(currentPostVisibility / POST_INCREASE_AMOUNT);
 
@@ -161,25 +168,13 @@ export function increasePostVisibility(channelId, focusedPostId) {
         }
         const posts = result.data;
 
-        const actions = [{
+        dispatch({
             type: ActionTypes.LOADING_POSTS,
             data: false,
             channelId,
-        }];
+        });
 
-        if (posts) {
-            actions.push({
-                type: ActionTypes.INCREASE_POST_VISIBILITY,
-                data: channelId,
-                amount: posts.order.length,
-            });
-        }
-
-        dispatch(batchActions(actions));
-        return {
-            moreToLoad: posts ? posts.order.length >= POST_INCREASE_AMOUNT : false,
-            error: result.error,
-        };
+        return posts ? posts.order.length >= POST_INCREASE_AMOUNT : false;
     };
 }
 

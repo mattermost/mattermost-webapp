@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import debounce from 'lodash/debounce';
 import {batchActions} from 'redux-batched-actions';
 
 import {
@@ -37,6 +38,7 @@ import LocalStorageStore from 'stores/local_storage_store';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 
 import {ActionTypes, Constants, PostTypes, RHSStates} from 'utils/constants.jsx';
+import EventTypes from 'utils/event_types.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {equalServerVersions} from 'utils/server_version';
@@ -319,6 +321,20 @@ export async function redirectUserToDefaultTeam() {
     } else {
         browserHistory.push('/select_team');
     }
+}
+
+export const postListScrollChange = debounce(() => {
+    AppDispatcher.handleViewAction({
+        type: EventTypes.POST_LIST_SCROLL_CHANGE,
+        value: false,
+    });
+});
+
+export function postListScrollChangeToBottom() {
+    AppDispatcher.handleViewAction({
+        type: EventTypes.POST_LIST_SCROLL_CHANGE,
+        value: true,
+    });
 }
 
 let serverVersion = '';

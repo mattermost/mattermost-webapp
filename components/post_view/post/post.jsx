@@ -41,7 +41,7 @@ export default class Post extends React.PureComponent {
         /**
          * Set to highlight the background of the post
          */
-        shouldHighlight: PropTypes.bool,
+        highlight: PropTypes.bool,
 
         /**
          * Set to render this post as if it was attached to the previous post
@@ -53,11 +53,6 @@ export default class Post extends React.PureComponent {
          */
         previousPostIsComment: PropTypes.bool,
 
-        /*
-         * Function called when the post options dropdown is opened
-         */
-        togglePostMenu: PropTypes.func,
-
         /**
          * Set to render this comment as a mention
          */
@@ -67,6 +62,11 @@ export default class Post extends React.PureComponent {
          * The number of replies in the same thread as this post
          */
         replyCount: PropTypes.number,
+
+        /**
+         * Function to get the post list HTML element
+         */
+        getPostList: PropTypes.func.isRequired,
 
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
@@ -103,10 +103,6 @@ export default class Post extends React.PureComponent {
     }
 
     handleDropdownOpened = (opened) => {
-        if (this.props.togglePostMenu) {
-            this.props.togglePostMenu(opened);
-        }
-
         this.setState({
             dropdownOpened: opened,
         });
@@ -133,7 +129,7 @@ export default class Post extends React.PureComponent {
             className += ' post--hide-controls';
         }
 
-        if (this.props.shouldHighlight) {
+        if (this.props.highlight) {
             className += ' post--highlight';
         }
 
@@ -259,6 +255,7 @@ export default class Post extends React.PureComponent {
                             isFirstReply={this.props.isFirstReply}
                             replyCount={this.props.replyCount}
                             showTimeWithoutHover={!hideProfilePicture}
+                            getPostList={this.props.getPostList}
                             hover={this.state.hover}
                         />
                         <PostBody
