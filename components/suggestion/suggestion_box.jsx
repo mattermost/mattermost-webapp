@@ -6,7 +6,7 @@ import React from 'react';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
-import QuickInput from 'components/quick_input.jsx';
+import QuillEditor from 'components/quill_editor';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -80,6 +80,7 @@ export default class SuggestionBox extends React.Component {
          * Function called when a key is pressed and the input box is in focus
          */
         onKeyDown: PropTypes.func,
+        onKeyPress: PropTypes.func,
         onComposition: PropTypes.func,
 
         /**
@@ -127,7 +128,15 @@ export default class SuggestionBox extends React.Component {
          * If true, listen for clicks on a mention and populate the input with said mention, defaults to false
          */
         listenForMentionKeyClick: PropTypes.bool,
-    }
+
+        /**
+         * The reference created in Textbox and passed through to be bound to the QuillEditor.
+         */
+        editorRef: PropTypes.oneOfType([
+            PropTypes.shape({current: PropTypes.func}),
+            PropTypes.shape({current: PropTypes.object}),
+        ]).isRequired,
+    };
 
     static defaultProps = {
         listStyle: 'top',
@@ -185,13 +194,16 @@ export default class SuggestionBox extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.contextId !== this.props.contextId) {
-            const textbox = this.getTextbox();
-            const pretext = textbox.value.substring(0, textbox.selectionEnd).toLowerCase();
-
-            this.handlePretextChanged(pretext);
+            // TODO: implement
+            // const editor = this.getEditor();
+            // const selectionEnd = editor.getSelection()[length];
+            // const pretext = editor.getText().substring(0, selectionEnd).toLowerCase();
+            //
+            // this.handlePretextChanged(pretext);
         }
     }
 
+    // TODO: check that this works
     handleMentionKeyClick = (mentionKey, isRHS) => {
         if (this.props.isRHS !== isRHS) {
             return;
@@ -207,29 +219,20 @@ export default class SuggestionBox extends React.Component {
         this.addTextAtCaret(insertText, '');
     }
 
-    getTextbox = () => {
-        if (!this.refs.input) {
-            return null;
-        }
-
-        const input = this.refs.input.getInput();
-
-        if (input.getDOMNode) {
-            return input.getDOMNode();
-        }
-
-        return input;
+    getEditor = () => {
+        return this.props.editorRef.current;
     }
 
-    recalculateSize = () => {
-        // Pretty hacky way to force an AutosizeTextarea to recalculate its height if that's what
-        // we're rendering as the input
-        const input = this.refs.input.getInput();
-
-        if (input.recalculateSize) {
-            input.recalculateSize();
-        }
-    }
+    // TODO: implement
+    // recalculateSize = () => {
+    //     // Pretty hacky way to force an AutosizeTextarea to recalculate its height if that's what
+    //     // we're rendering as the input
+    //     const input = this.refs.input.getInput();
+    //
+    //     if (input.recalculateSize) {
+    //         input.recalculateSize();
+    //     }
+    // }
 
     handleEmitClearSuggestions = (delay = 0) => {
         setTimeout(() => {
@@ -259,6 +262,7 @@ export default class SuggestionBox extends React.Component {
         }
     };
 
+    // TODO: implement
     handleFocusIn = (e) => {
         // Focus is switching FROM e.relatedTarget, so only treat this as a focus event if we're not switching
         // between children (like from the textbox to the suggestion list)
@@ -270,9 +274,13 @@ export default class SuggestionBox extends React.Component {
 
         if (this.props.openOnFocus || this.props.openWhenEmpty) {
             setTimeout(() => {
-                const textbox = this.getTextbox();
-                if (textbox) {
-                    const pretext = textbox.value.substring(0, textbox.selectionEnd);
+                const editor = this.getEditor();
+
+                // TODO: not yet updated to the new way editor works
+                if (editor) {
+                    const cleanedValue = editor.getText().slice(0, -1);
+                    const selectionEnd = editor.getSelection().index;
+                    const pretext = cleanedValue.substring(0, selectionEnd);
                     if (this.props.openWhenEmpty || pretext.length >= this.props.requiredCharacters) {
                         this.handlePretextChanged(pretext);
                     }
@@ -285,19 +293,21 @@ export default class SuggestionBox extends React.Component {
         }
     };
 
-    handleChange = (e) => {
-        const textbox = this.getTextbox();
-        const pretext = textbox.value.substring(0, textbox.selectionEnd).toLowerCase();
+    handleChange = (value, localText, localCaret) => {
+        const pretext = localText.slice(0, localCaret).toLowerCase();
 
         if (!this.composing && this.pretext !== pretext) {
             this.handlePretextChanged(pretext);
         }
 
         if (this.props.onChange) {
-            this.props.onChange(e);
+            // handled by Textbox.handleChange -> CreatePost.handleChange (save draft, send message)
+            this.props.onChange({target: {value}});
         }
     }
 
+    // TODO: implement
+    // is handled by createPost.emitTypingEvent
     handleCompositionStart = () => {
         this.composing = true;
         if (this.props.onComposition) {
@@ -305,14 +315,17 @@ export default class SuggestionBox extends React.Component {
         }
     }
 
+    // TODO: implement
+    // is handled by createPost.emitTypingEvent
     handleCompositionUpdate = (e) => {
         if (!e.data) {
             return;
         }
 
         // The caret appears before the CJK character currently being composed, so re-add it to the pretext
-        const textbox = this.getTextbox();
-        const pretext = textbox.value.substring(0, textbox.selectionStart) + e.data;
+        const editor = this.getEditor();
+        const selectionEnd = editor.getSelection()[length];
+        const pretext = editor.value.substring(0, selectionEnd) + e.data;
 
         this.handlePretextChanged(pretext);
         if (this.props.onComposition) {
@@ -320,6 +333,8 @@ export default class SuggestionBox extends React.Component {
         }
     }
 
+    // TODO: implement
+    // is handled by createPost.emitTypingEvent
     handleCompositionEnd = () => {
         this.composing = false;
         if (this.props.onComposition) {
@@ -327,56 +342,30 @@ export default class SuggestionBox extends React.Component {
         }
     }
 
-    addTextAtCaret = (term, matchedPretext) => {
-        const textbox = this.getTextbox();
-        const caret = textbox.selectionEnd;
-        const text = this.props.value;
-        const pretext = textbox.value.substring(0, textbox.selectionEnd);
-
-        let prefix;
-        let keepPretext = false;
-        if (pretext.toLowerCase().endsWith(matchedPretext.toLowerCase())) {
-            prefix = pretext.substring(0, pretext.length - matchedPretext.length);
-        } else {
-            // the pretext has changed since we got a term to complete so see if the term still fits the pretext
-            const termWithoutMatched = term.substring(matchedPretext.length);
-            const overlap = SuggestionBox.findOverlap(pretext, termWithoutMatched);
-
-            keepPretext = overlap.length === 0;
-            prefix = pretext.substring(0, pretext.length - overlap.length - matchedPretext.length);
-        }
-
-        const suffix = text.substring(caret);
-
-        let newValue;
-        if (keepPretext) {
-            newValue = pretext;
-        } else {
-            newValue = prefix + term + ' ' + suffix;
-        }
-
-        textbox.value = newValue;
+    // TODO: implement
+    addMentionAtCaret = (mention) => {
+        const newValue = this.getEditor().addMentionAtCaret(mention);
 
         if (this.props.onChange) {
             // fake an input event to send back to parent components
-            const e = {
-                target: textbox,
-            };
-
-            // don't call handleChange or we'll get into an event loop
-            this.props.onChange(e);
+            // don't call handleChange from editor or we'll get into an event loop
+            this.props.onChange({target: {value: newValue}});
         }
-
-        // set the caret position after the next rendering
-        window.requestAnimationFrame(() => {
-            if (textbox.value === newValue) {
-                Utils.setCaretPosition(textbox, prefix.length + term.length + 1);
-            }
-        });
     }
 
+    addEmojiAtCaret = (term, matchedPretext) => {
+        const newValue = this.getEditor().addEmojiAtCaret(term, matchedPretext);
+
+        if (this.props.onChange) {
+            // fake an input event to send back to parent components
+            // don't call handleChange from editor or we'll get into an event loop
+            this.props.onChange({target: {value: newValue}});
+        }
+    }
+
+    // TODO: need to convert
     replaceText = (term) => {
-        const textbox = this.getTextbox();
+        const textbox = this.getEditor();
         textbox.value = term;
 
         if (this.props.onChange) {
@@ -390,11 +379,12 @@ export default class SuggestionBox extends React.Component {
         }
     }
 
+    // TODO: need to convert
     handleCompleteWord = (term, matchedPretext) => {
         if (this.props.replaceAllInputOnSelect) {
             this.replaceText(term);
         } else {
-            this.addTextAtCaret(term, matchedPretext);
+            this.addEmojiAtCaret(term, matchedPretext);
         }
 
         if (this.props.onItemSelected) {
@@ -410,7 +400,7 @@ export default class SuggestionBox extends React.Component {
 
         this.clear();
 
-        this.refs.input.focus();
+        this.getEditor().focus();
 
         for (const provider of this.props.providers) {
             if (provider.handleCompleteWord) {
@@ -478,6 +468,11 @@ export default class SuggestionBox extends React.Component {
                     if (this.state.terms[i] === this.state.selection) {
                         matchedPretext = this.state.matchedPretext[i];
                     }
+                }
+
+                // remove the tab or enter passed on by the quill editor
+                if (this.pretext.endsWith('\t') || this.pretext.endsWith('\n')) {
+                    this.pretext = this.pretext.slice(0, -1);
                 }
 
                 // If these don't match, the user typed quickly and pressed enter before we could
@@ -604,6 +599,7 @@ export default class SuggestionBox extends React.Component {
             dateComponent,
             listStyle,
             renderNoResults,
+            editorRef,
             ...props
         } = this.props;
 
@@ -611,6 +607,8 @@ export default class SuggestionBox extends React.Component {
 
         // Don't pass props used by SuggestionBox
         Reflect.deleteProperty(props, 'providers');
+
+        // TODO: if onChange isn't passed, why was it sent to the textarea?
         Reflect.deleteProperty(props, 'onChange'); // We use onInput instead of onChange on the actual input
         Reflect.deleteProperty(props, 'onComposition');
         Reflect.deleteProperty(props, 'onItemSelected');
@@ -636,15 +634,22 @@ export default class SuggestionBox extends React.Component {
                 ref={this.setContainerRef}
                 className={this.props.containerClass}
             >
-                <QuickInput
-                    ref='input'
+                <QuillEditor
+                    ref={editorRef}
                     autoComplete='off'
-                    {...props}
-                    onInput={this.handleChange}
+                    id={props.id}
+                    className={props.className}
+                    spellCheck={props.spellCheck}
+                    placeholder={props.placeholder}
+                    onKeyPress={props.onKeyPress}
+                    onKeyDown={this.handleKeyDown}
+                    style={props.style}
+                    value={props.value}
+                    disabled={props.disabled}
+                    onChange={this.handleChange}
                     onCompositionStart={this.handleCompositionStart}
                     onCompositionUpdate={this.handleCompositionUpdate}
                     onCompositionEnd={this.handleCompositionEnd}
-                    onKeyDown={this.handleKeyDown}
                 />
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
                     <SuggestionListComponent
@@ -675,22 +680,5 @@ export default class SuggestionBox extends React.Component {
                 }
             </div>
         );
-    }
-
-    // Finds the longest substring that's at both the end of b and the start of a. For example,
-    // if a = "firepit" and b = "pitbull", findOverlap would return "pit".
-    static findOverlap(a, b) {
-        const aLower = a.toLowerCase();
-        const bLower = b.toLowerCase();
-
-        for (let i = bLower.length; i > 0; i--) {
-            const substring = bLower.substring(0, i);
-
-            if (aLower.endsWith(substring)) {
-                return substring;
-            }
-        }
-
-        return '';
     }
 }

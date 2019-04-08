@@ -96,7 +96,7 @@ export default class AddUserToChannelModal extends React.Component {
             return;
         }
 
-        const textbox = this.channelSearchBox.getTextbox();
+        const textbox = this.channelSearchBox.getEditor();
         if (document.activeElement !== textbox) {
             textbox.focus();
             placeCaretAtEnd(textbox);

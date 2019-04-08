@@ -57,7 +57,7 @@ export default class QuickSwitchModal extends React.PureComponent {
             return;
         }
 
-        const textbox = this.switchBox.getTextbox();
+        const textbox = this.switchBox.getEditor();
         if (document.activeElement !== textbox) {
             textbox.focus();
             Utils.placeCaretAtEnd(textbox);

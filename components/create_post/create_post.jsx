@@ -265,6 +265,9 @@ export default class CreatePost extends React.Component {
         this.lastBlurAt = 0;
         this.lastChannelSwitchAt = 0;
         this.draftsForChannel = {};
+
+        // this is the Textbox. Needed to focus, blur, and update the message.
+        this.textboxRef = React.createRef();
     }
 
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
@@ -350,7 +353,7 @@ export default class CreatePost extends React.Component {
 
         this.setState({orientation});
         if (prevOrientation && orientation !== prevOrientation && (document.activeElement || {}).id === 'post_textbox') {
-            this.refs.textbox.getWrappedInstance().blur();
+            this.textboxRef.current.blur();
         }
     }
 
@@ -613,8 +616,8 @@ export default class CreatePost extends React.Component {
     }
 
     focusTextbox = (keepFocus = false) => {
-        if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
-            this.refs.textbox.getWrappedInstance().focus();
+        if (this.textboxRef.current && (keepFocus || !UserAgent.isMobile())) {
+            this.textboxRef.current.focus();
         }
     }
 
@@ -631,8 +634,8 @@ export default class CreatePost extends React.Component {
 
         if (allowSending) {
             e.persist();
-            if (this.refs.textbox) {
-                this.refs.textbox.getWrappedInstance().blur();
+            if (this.textboxRef.current) {
+                this.textboxRef.current.blur();
             }
 
             if (withClosedCodeBlock && message) {
@@ -788,8 +791,8 @@ export default class CreatePost extends React.Component {
                     uploadsInProgress,
                 };
 
-                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
-                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload) {
+                    this.refs.fileUpload.cancelUpload(id);
                 }
             }
         } else {
@@ -844,9 +847,10 @@ export default class CreatePost extends React.Component {
         return draft.fileInfos.length + draft.uploadsInProgress.length;
     }
 
+    // TODO: need to fix?
     getFileUploadTarget = () => {
-        if (this.refs.textbox) {
-            return this.refs.textbox.getWrappedInstance();
+        if (this.textboxRef.current) {
+            return this.textboxRef.current;
         }
 
         return null;
@@ -859,6 +863,7 @@ export default class CreatePost extends React.Component {
     fillMessageFromHistory() {
         const lastMessage = this.props.messageInHistoryItem;
         if (lastMessage) {
+            // TODO: need to implement with new QuillEditor
             this.setState({
                 message: lastMessage,
             });
@@ -901,15 +906,19 @@ export default class CreatePost extends React.Component {
         } else {
             type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         }
-        if (this.refs.textbox) {
-            this.refs.textbox.getWrappedInstance().blur();
+        if (this.textboxRef.current) {
+            this.textboxRef.current.blur();
         }
+
+        // TODO: implement this with new QuillEditor
         this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, 'post_textbox', type);
     }
 
     replyToLastPost = (e) => {
         e.preventDefault();
         const latestReplyablePostId = this.props.latestReplyablePostId;
+
+        // TODO: implement this with new QuillEditor
         const replyBox = document.getElementById('reply_textbox');
         if (replyBox) {
             replyBox.focus();
@@ -919,6 +928,7 @@ export default class CreatePost extends React.Component {
         }
     }
 
+    // TODO: implement this with new QuillEditor
     loadPrevMessage = (e) => {
         e.preventDefault();
         this.props.actions.moveHistoryIndexBack(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
@@ -958,20 +968,14 @@ export default class CreatePost extends React.Component {
             return;
         }
 
-        if (this.state.message === '') {
-            this.setState({message: ':' + emojiAlias + ': '});
-        } else {
-            //check whether there is already a blank at the end of the current message
-            const newMessage = ((/\s+$/).test(this.state.message)) ? this.state.message + ':' + emojiAlias + ': ' : this.state.message + ' :' + emojiAlias + ': ';
-
-            this.setState({message: newMessage});
-        }
+        this.textboxRef.current.addEmojiAtCaret(':' + emojiAlias + ':');
 
         this.setState({showEmojiPicker: false});
 
         this.focusTextbox();
     }
 
+    // TODO: imlement this?
     handleGifClick = (gif) => {
         if (this.state.message === '') {
             this.setState({message: gif});
@@ -1218,7 +1222,7 @@ export default class CreatePost extends React.Component {
                                 createMessage={createMessage}
                                 channelId={currentChannel.id}
                                 id='post_textbox'
-                                ref='textbox'
+                                ref={this.textboxRef}
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
                                 badConnection={this.props.badConnection}

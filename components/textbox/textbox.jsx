@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import AutosizeTextarea from 'components/autosize_textarea.jsx';
+import QuillEditor from 'components/quill_editor';
 import PostMarkdown from 'components/post_markdown';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
 import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
@@ -76,6 +76,9 @@ export default class Textbox extends React.Component {
         }
 
         this.checkMessageLength(props.value);
+
+        this.editorRef = React.createRef();
+        this.suggestionBoxRef = React.createRef();
     }
 
     handleChange = (e) => {
@@ -120,23 +123,30 @@ export default class Textbox extends React.Component {
     }
 
     focus = () => {
-        const textbox = this.refs.message.getTextbox();
+        this.editorRef.current.focus();
 
-        textbox.focus();
-        Utils.placeCaretAtEnd(textbox);
+        // TODO: implement
+        //Utils.placeCaretAtEnd(editor);
 
         // reset character count warning
-        this.checkMessageLength(textbox.value);
+        //this.checkMessageLength(editor.value);
     }
 
     blur = () => {
-        const textbox = this.refs.message.getTextbox();
-        textbox.blur();
+        this.editorRef.current.blur();
     };
 
-    recalculateSize = () => {
-        this.refs.message.recalculateSize();
-    }
+    // TODO: implement
+    // recalculateSize = () => {
+    //     this.refs.message.recalculateSize();
+    // };
+
+    addEmojiAtCaret = (text) => {
+        // From create_post -- pass through to the SuggestionBox
+        // Needs to be handled by suggestionBox to prevent an event loop
+        // TODO: test the above statement...
+        this.suggestionBoxRef.current.addEmojiAtCaret(text, '');
+    };
 
     togglePreview = (e) => {
         e.preventDefault();
@@ -299,7 +309,8 @@ export default class Textbox extends React.Component {
             >
                 <SuggestionBox
                     id={this.props.id}
-                    ref='message'
+                    editorRef={this.editorRef}
+                    ref={this.suggestionBoxRef}
                     className={textboxClassName}
                     spellCheck='true'
                     placeholder={this.props.createMessage}
@@ -310,7 +321,7 @@ export default class Textbox extends React.Component {
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
                     style={{visibility: this.state.preview ? 'hidden' : 'visible'}}
-                    inputComponent={AutosizeTextarea}
+                    inputComponent={QuillEditor}
                     listComponent={SuggestionList}
                     listStyle={this.props.suggestionListStyle}
                     providers={this.suggestionProviders}
