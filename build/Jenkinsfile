@@ -39,8 +39,9 @@ pipeline {
                 ansiColor('xterm') {
                     sh """
                         cp i18n/en.json /tmp/en.json
-                        git clone https://github.com/mattermost/mattermost-mobile /tmp/mattermost-mobile
-                        npm run mmjstool -- i18n extract-webapp --webapp-dir . --mobile-dir /tmp/mattermost-mobile
+                        mkdir -p /tmp/fake-mobile-dir/assets/base/i18n/
+                        echo '{}' > /tmp/fake-mobile-dir/assets/base/i18n/en.json
+                        npm run mmjstool -- i18n extract-webapp --webapp-dir . --mobile-dir /tmp/fake-mobile-dir
                         diff /tmp/en.json i18n/en.json
                     """
                 }
