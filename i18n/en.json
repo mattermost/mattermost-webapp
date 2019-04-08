@@ -903,7 +903,7 @@
   "admin.permissions.permission.create_team.name": "Create teams",
   "admin.permissions.permission.create_user_access_token.description": "Create user access token",
   "admin.permissions.permission.create_user_access_token.name": "Create user access token",
-  "admin.permissions.permission.delete_emojis.description": "Allow users to delete custom emoji they created.",
+  "admin.permissions.permission.delete_emojis.description": "Allow users to delete custom emoji that they created.",
   "admin.permissions.permission.delete_emojis.name": "Delete Own Custom Emoji",
   "admin.permissions.permission.delete_others_emojis.description": "Allow users to delete custom emoji that were created by other users.",
   "admin.permissions.permission.delete_others_emojis.name": "Delete Others' Custom Emoji",
