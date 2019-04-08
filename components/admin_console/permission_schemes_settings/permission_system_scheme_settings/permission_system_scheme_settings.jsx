@@ -5,6 +5,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
+import Permissions from 'mattermost-redux/constants/permissions';
+
 import ConfirmModal from 'components/confirm_modal.jsx';
 
 import {PermissionsScope, DefaultRolePermissions} from 'utils/constants.jsx';
@@ -50,6 +52,14 @@ export default class PermissionSystemSchemeSettings extends React.Component {
         };
         this.rolesNeeded = ['system_admin', 'system_user', 'team_admin', 'team_user', 'channel_admin', 'channel_user'];
     }
+
+    excludedPermissions = [
+        Permissions.VIEW_MEMBERS,
+        Permissions.JOIN_PUBLIC_TEAMS,
+        Permissions.LIST_PUBLIC_TEAMS,
+        Permissions.JOIN_PRIVATE_TEAMS,
+        Permissions.LIST_PRIVATE_TEAMS,
+    ]
 
     componentDidMount() {
         this.props.actions.loadRolesIfNeeded(this.rolesNeeded);
@@ -129,10 +139,29 @@ export default class PermissionSystemSchemeSettings extends React.Component {
         };
     }
 
+    restoreExcludedPermissions = (roles) => {
+        for (const permission of this.props.roles.system_user.permissions) {
+            if (this.excludedPermissions.includes(permission)) {
+                roles.system_user.permissions.push(permission);
+            }
+        }
+        for (const permission of this.props.roles.team_user.permissions) {
+            if (this.excludedPermissions.includes(permission)) {
+                roles.team_user.permissions.push(permission);
+            }
+        }
+        for (const permission of this.props.roles.channel_user.permissions) {
+            if (this.excludedPermissions.includes(permission)) {
+                roles.channel_user.permissions.push(permission);
+            }
+        }
+        return roles;
+    }
+
     handleSubmit = async () => {
         const teamAdminPromise = this.props.actions.editRole(this.state.roles.team_admin);
         const channelAdminPromise = this.props.actions.editRole(this.state.roles.channel_admin);
-        const roles = this.deriveRolesFromAllUsers(this.state.roles.all_users);
+        const roles = this.restoreExcludedPermissions(this.deriveRolesFromAllUsers(this.state.roles.all_users));
         const systemUserPromise = this.props.actions.editRole(roles.system_user);
         const teamUserPromise = this.props.actions.editRole(roles.team_user);
         const channelUserPromise = this.props.actions.editRole(roles.channel_user);
