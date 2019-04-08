@@ -569,21 +569,3 @@ describe('Utils.localizeMessage', () => {
         });
     });
 });
-
-describe('Utils.getSuggestionsSplitBy', () => {
-    test('correct suggestions when splitting by a character', () => {
-        const term = 'one.two.three';
-        const expectedSuggestions = ['one.two.three', 'two.three', 'three'];
-
-        expect(Utils.getSuggestionsSplitBy(term, '.')).toEqual(expectedSuggestions);
-    });
-});
-
-describe('Utils.getSuggestionsSplitByMultiple', () => {
-    test('correct suggestions when splitting by multiple characters', () => {
-        const term = 'one.two-three';
-        const expectedSuggestions = ['one.two-three', 'two-three', 'three'];
-
-        expect(Utils.getSuggestionsSplitByMultiple(term, ['.', '-'])).toEqual(expectedSuggestions);
-    });
-});
