@@ -34,4 +34,13 @@ describe('components/ProfilePopover', () => {
         ).dive();
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot for mobile view', () => {
+        const props = {...baseProps, isMobile: true};
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>
+        ).dive();
+        expect(wrapper).toMatchSnapshot();
+    });
 });

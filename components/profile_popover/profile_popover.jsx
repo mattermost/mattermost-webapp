@@ -107,6 +107,11 @@ class ProfilePopover extends React.PureComponent {
          */
         intl: intlShape.isRequired,
 
+        /**
+         * True if in mobile view
+         */
+        isMobile: PropTypes.bool.isRequired,
+
         ...Popover.propTypes,
     }
 
@@ -114,6 +119,7 @@ class ProfilePopover extends React.PureComponent {
         isRHS: false,
         hasMention: false,
         status: UserStatuses.OFFLINE,
+        isMobile: false,
     }
 
     constructor(props) {
@@ -133,14 +139,12 @@ class ProfilePopover extends React.PureComponent {
     }
 
     handleShowDirectChannel(e) {
-        const {actions} = this.props;
+        const {actions, user, isMobile} = this.props;
         e.preventDefault();
 
-        if (!this.props.user) {
+        if (!user) {
             return;
         }
-
-        const user = this.props.user;
 
         if (this.state.loadingDMChannel !== -1) {
             return;
@@ -150,7 +154,7 @@ class ProfilePopover extends React.PureComponent {
 
         actions.openDirectChannelToUserId(user.id).then((result) => {
             if (!result.error) {
-                if (Utils.isMobile()) {
+                if (isMobile) {
                     GlobalActions.emitCloseRightHandSide();
                 }
                 this.setState({loadingDMChannel: -1});
@@ -187,8 +191,8 @@ class ProfilePopover extends React.PureComponent {
     }
 
     render() {
-        if (!this.props.user) {
-            return null;
+        if (!this.props.user || this.props.isMobile) {
+            return <div/>;
         }
 
         const popoverProps = Object.assign({}, this.props);
@@ -210,6 +214,7 @@ class ProfilePopover extends React.PureComponent {
         delete popoverProps.isTeamAdmin;
         delete popoverProps.isChannelAdmin;
         delete popoverProps.intl;
+        delete popoverProps.isMobile;
 
         const {formatMessage} = this.props.intl;
 

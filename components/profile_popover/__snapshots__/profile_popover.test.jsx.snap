@@ -112,3 +112,5 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
   />
 </Popover>
 `;
+
+exports[`components/ProfilePopover should match snapshot for mobile view 1`] = `<div />`;

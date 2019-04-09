@@ -60,6 +60,7 @@ function mapStateToProps(state, ownProps) {
         teamUrl: getCurrentRelativeTeamUrl(state),
         user: getUser(state, userId),
         bot: getBotAccounts(state)[userId],
+        isMobile: state.views.channel.mobileView,
     };
 }
 
