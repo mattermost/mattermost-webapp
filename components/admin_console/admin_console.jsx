@@ -74,17 +74,19 @@ export default class AdminConsole extends React.Component {
     }
 
     renderRoutes = (extraProps) => {
-        const sections = Object.values(AdminDefinition).map((section) => {
-            return Object.values(section);
-        });
-        const sectionsConcat = Array.prototype.concat(...sections);
-        const schemas = sectionsConcat.map((item) => {
-            if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
-                return false;
-            }
-            if (!item.schema) {
-                return false;
-            }
+        const schemas = Object.values(AdminDefinition).reduce((acc, section) => {
+            const items = Object.values(section).filter((item) => {
+                if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
+                    return false;
+                }
+                if (!item.schema) {
+                    return false;
+                }
+                return true;
+            });
+            return acc.concat(items);
+        }, []);
+        const schemaRoutes = schemas.map((item) => {
             return (
                 <Route
                     key={item.url}
@@ -99,21 +101,11 @@ export default class AdminConsole extends React.Component {
                 />
             );
         });
-        const defaultUrlSchema = sectionsConcat.find((item) => {
-            // return first available url
-            if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
-                return false;
-            }
-            if (item.schema) {
-                return item;
-            }
-            return false;
-        });
-        const defaultUrl = defaultUrlSchema.url;
+        const defaultUrl = schemas[0].url;
 
         return (
             <Switch>
-                {schemas}
+                {schemaRoutes}
                 {<Redirect to={`${this.props.match.url}/${defaultUrl}`}/>}
             </Switch>
         );
