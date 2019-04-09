@@ -192,13 +192,6 @@ function createDMIntroMessage(channel, centeredIntro) {
 }
 
 function createOffTopicIntroMessage(channel, centeredIntro) {
-    var uiType = (
-        <FormattedMessage
-            id='intro_messages.channel'
-            defaultMessage='channel'
-        />
-    );
-
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const children = createSetHeaderButton(channel);
     let setHeaderButton = null;
@@ -214,7 +207,7 @@ function createOffTopicIntroMessage(channel, centeredIntro) {
         );
     }
 
-    const channelInviteButton = createInviteChannelMemberButton(channel, uiType);
+    const channelInviteButton = createInviteChannelMemberButton(channel);
 
     return (
         <div
@@ -345,19 +338,12 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
 function createStandardIntroMessage(channel, centeredIntro, locale) {
     var uiName = channel.display_name;
     var creatorName = Utils.getDisplayNameByUserId(channel.creator_id);
-    var uiType;
     var memberMessage;
     const channelIsArchived = channel.delete_at !== 0;
 
     if (channelIsArchived) {
         memberMessage = '';
     } else if (channel.type === Constants.PRIVATE_CHANNEL) {
-        uiType = (
-            <FormattedMessage
-                id='intro_messages.group'
-                defaultMessage='private channel'
-            />
-        );
         memberMessage = (
             <FormattedMessage
                 id='intro_messages.onlyInvited'
@@ -365,12 +351,6 @@ function createStandardIntroMessage(channel, centeredIntro, locale) {
             />
         );
     } else {
-        uiType = (
-            <FormattedMessage
-                id='intro_messages.channel'
-                defaultMessage='channel'
-            />
-        );
         memberMessage = (
             <FormattedMessage
                 id='intro_messages.anyMember'
@@ -390,26 +370,45 @@ function createStandardIntroMessage(channel, centeredIntro, locale) {
 
     var createMessage;
     if (creatorName === '') {
+        if (channel.type === Constants.PRIVATE_CHANNEL) {
+            createMessage = (
+                <FormattedMessage
+                    id='intro_messages.noCreatorPrivate'
+                    defaultMessage='This is the start of the {name} private channel, created on {date}.'
+                    values={{name: (uiName), date}}
+                />
+            );
+        } else if (channel.type === Constants.OPEN_CHANNEL) {
+            createMessage = (
+                <FormattedMessage
+                    id='intro_messages.noCreator'
+                    defaultMessage='This is the start of the {name} channel, created on {date}.'
+                    values={{name: (uiName), date}}
+                />
+            );
+        }
+    } else if (channel.type === Constants.PRIVATE_CHANNEL) {
         createMessage = (
-            <FormattedMessage
-                id='intro_messages.noCreator'
-                defaultMessage='This is the start of the {name} {type}, created on {date}.'
-                values={{
-                    name: (uiName),
-                    type: (uiType),
-                    date,
-                }}
-            />
+            <span>
+                <FormattedMessage
+                    id='intro_messages.creatorPrivate'
+                    defaultMessage='This is the start of the {name} private channel, created by {creator} on {date}.'
+                    values={{
+                        name: (uiName),
+                        creator: (creatorName),
+                        date,
+                    }}
+                />
+            </span>
         );
-    } else {
+    } else if (channel.type === Constants.OPEN_CHANNEL) {
         createMessage = (
             <span>
                 <FormattedMessage
                     id='intro_messages.creator'
-                    defaultMessage='This is the start of the {name} {type}, created by {creator} on {date}.'
+                    defaultMessage='This is the start of the {name} channel, created by {creator} on {date}.'
                     values={{
                         name: (uiName),
-                        type: (uiType),
                         creator: (creatorName),
                         date,
                     }}
@@ -420,18 +419,27 @@ function createStandardIntroMessage(channel, centeredIntro, locale) {
 
     var purposeMessage = '';
     if (channel.purpose && channel.purpose !== '') {
-        purposeMessage = (
-            <span>
-                <FormattedMessage
-                    id='intro_messages.purpose'
-                    defaultMessage=" This {type}'s purpose is: {purpose}"
-                    values={{
-                        purpose: channel.purpose,
-                        type: (uiType),
-                    }}
-                />
-            </span>
-        );
+        if (channel.type === Constants.PRIVATE_CHANNEL) {
+            purposeMessage = (
+                <span>
+                    <FormattedMessage
+                        id='intro_messages.purposePrivate'
+                        defaultMessage=" This private channel's purpose is: {purpose}"
+                        values={{purpose: channel.purpose}}
+                    />
+                </span>
+            );
+        } else if (channel.type === Constants.OPEN_CHANNEL) {
+            purposeMessage = (
+                <span>
+                    <FormattedMessage
+                        id='intro_messages.purpose'
+                        defaultMessage=" This channel's purpose is: {purpose}"
+                        values={{purpose: channel.purpose}}
+                    />
+                </span>
+            );
+        }
     }
 
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
@@ -449,7 +457,7 @@ function createStandardIntroMessage(channel, centeredIntro, locale) {
         );
     }
 
-    const channelInviteButton = createInviteChannelMemberButton(channel, uiType);
+    const channelInviteButton = createInviteChannelMemberButton(channel);
 
     return (
         <div
@@ -477,7 +485,7 @@ function createStandardIntroMessage(channel, centeredIntro, locale) {
     );
 }
 
-function createInviteChannelMemberButton(channel, uiType) {
+function createInviteChannelMemberButton(channel) {
     const channelIsArchived = channel.delete_at !== 0;
     if (channelIsArchived) {
         return null;
@@ -505,13 +513,16 @@ function createInviteChannelMemberButton(channel, uiType) {
                         />
                     )}
                 </FormattedMessage>
-                <FormattedMessage
-                    id='intro_messages.invite'
-                    defaultMessage='Invite others to this {type}'
-                    values={{
-                        type: (uiType),
-                    }}
-                />
+                {isPrivate &&
+                    <FormattedMessage
+                        id='intro_messages.invitePrivate'
+                        defaultMessage='Invite others to this private channel'
+                    />}
+                {!isPrivate &&
+                    <FormattedMessage
+                        id='intro_messages.invite'
+                        defaultMessage='Invite others to this channel'
+                    />}
             </ToggleModalButton>
         </ChannelPermissionGate>
     );
