@@ -4,6 +4,8 @@
 // find the emoji by name
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
+const literalEmojiToName = new Map([[':)', 'slightly_smiling_face'], [':-)', 'slightly_smiling_face'], [';)', 'wink'], [';-)', 'wink'], [':o', 'open_mouth'], [':-o', 'scream'], [':]', 'smirk'], [':-]', 'smirk'], [':[', 'rage'], [':-[', 'rage'], [':D', 'smile'], [':-D', 'smile'], ['x-d', 'stuck_out_tongue_closed_eyes'], [':p', 'stuck_out_tongue'], [':-p', 'stuck_out_tongue'], [':(', 'slightly_frowning_face'], [':-(', 'slightly_frowning_face'], [':`(', 'cry'], [':`-(', 'cry'], [':/', 'confused'], [':-/', 'confused'], [':s', 'confounded'], [':-s', 'confounded'], [':|', 'neutral_face'], [':-|', 'neutral_face'], [':$', 'flushed'], [':-$', 'flushed'], [':x', 'mask'], [':-x', 'mask'], ['<3', 'heart'], ['</3', 'broken_heart'], [':+1', 'thumbsup'], [':-1', 'thumbsdown']]);
+
 export const getEmojiUrl = (name, emojiMap) => {
     const emoji = emojiMap.get(name);
     let imageUrl = '';
@@ -12,6 +14,61 @@ export const getEmojiUrl = (name, emojiMap) => {
     }
 
     return imageUrl;
+};
+
+const getPossibleText = (leafText, localCaret, numberOfChars) => {
+    if (localCaret < numberOfChars) {
+        return null;
+    }
+
+    // only bother trying to match the last word
+    let startIdx = localCaret;
+    while (startIdx > 0 && leafText.charAt(startIdx - 1) !== ' ') {
+        startIdx--;
+    }
+
+    if (localCaret - startIdx < numberOfChars) {
+        return null;
+    }
+
+    return leafText.slice(startIdx, localCaret);
+};
+
+export const detectEmojiOnColon = (leafText, localCaret, emojiMap) => {
+    // TODO: handle config to disable this feature
+
+    // emoji names must be at least 2 characters long, 4 including colons
+    const text = getPossibleText(leafText, localCaret, 4);
+    if (!text) {
+        return null;
+    }
+
+    if (text.charAt(0) === ':' && text.charAt(text.length - 1) === ':') {
+        const subText = text.slice(1, -1);
+        if (emojiMap.has(subText)) {
+            return {name: subText, text};
+        }
+    }
+
+    return null;
+};
+
+export const detectLiteralEmojiOnSpace = (leafText, localCaret) => {
+    // TODO: handle config to disable this feature
+
+    const withoutSpace = leafText.slice(0, -1);
+
+    // emoji's like :) must be at least 2 characters long
+    const text = getPossibleText(withoutSpace, localCaret - 1, 2);
+    if (!text) {
+        return null;
+    }
+
+    const name = literalEmojiToName.get(text);
+    if (name) {
+        return {name, text: text + ' '};
+    }
+    return null;
 };
 
 // Finds the longest substring that's at both the end of b and the start of a. For example,

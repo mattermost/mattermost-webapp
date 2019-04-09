@@ -101,6 +101,28 @@ export default class QuillEditor extends React.Component {
         const [leaf, localCaret] = this.editor.getLeaf(this.editor.getSelection().index);
         const leafText = leaf.text || '';
 
+        // TODO: where should this go... Not suggestion box, and right now emoji logic is
+        //   here, so keep it here for now
+        if (localCaret >= 4 &&
+            leafText.length >= 4 &&
+            delta.ops[delta.ops.length - 1].hasOwnProperty('insert') &&
+            delta.ops[delta.ops.length - 1].insert === ':') {
+            const matched = Utils.detectEmojiOnColon(leafText, localCaret, this.props.emojiMap);
+            if (matched) {
+                this.insertEmojiReplacingLength(matched.name, matched.text.length);
+            }
+        }
+
+        if (localCaret > 2 &&
+            leafText.length > 2 &&
+            delta.ops[delta.ops.length - 1].hasOwnProperty('insert') &&
+            delta.ops[delta.ops.length - 1].insert === ' ') {
+            const matched = Utils.detectLiteralEmojiOnSpace(leafText, localCaret, this.props.emojiMap);
+            if (matched) {
+                this.insertEmojiReplacingLength(matched.name, matched.text.length);
+            }
+        }
+
         // handled by SuggestionBox.handleChange
         this.props.onChange(newValue, leafText, localCaret);
     };
@@ -148,25 +170,27 @@ export default class QuillEditor extends React.Component {
             keepPretext = overlap.length === 0;
         }
 
-        // get the emoji Url
-        // Todo: should separate this? It depends on props that this component shouldn't care about
-        //   but not sure of the best way to get the props into a non-react component
         const emojiName = term.slice(1, -1);
-        const imageUrl = Utils.getEmojiUrl(emojiName, this.props.emojiMap);
-
-        if (!keepPretext) {
-            const delta = new Delta().
-                retain(globalCaret - matchedPretext.length).
-                delete(matchedPretext.length);
-            this.editor.updateContents(delta);
-            globalCaret -= matchedPretext.length;
-        }
-
-        this.editor.insertEmbed(globalCaret, 'emoji', {name: emojiName, imageUrl});
-        this.editor.setSelection(globalCaret + 1);
+        this.insertEmojiReplacingLength(emojiName, matchedPretext.length);
 
         return Utils.prepareMarkdown(this.editor.getContents().ops);
     }
+
+    insertEmojiReplacingLength = (name, length) => {
+        let globalCaret = this.editor.getSelection().index;
+
+        // get the emoji Url
+        // Todo: should separate this? It depends on props that this component shouldn't care about
+        //   but not sure of the best way to get the props into a non-react component
+        const imageUrl = Utils.getEmojiUrl(name, this.props.emojiMap);
+
+        const delta = new Delta().retain(globalCaret - length).delete(length);
+        this.editor.updateContents(delta);
+        globalCaret -= length;
+
+        this.editor.insertEmbed(globalCaret, 'emoji', {name, imageUrl});
+        this.editor.setSelection(globalCaret + 1);
+    };
 
     render = () => {
         // TODO: we're rerendering often... Eventually figure out why.
