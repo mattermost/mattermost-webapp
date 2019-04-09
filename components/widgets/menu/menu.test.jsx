@@ -72,14 +72,7 @@ describe('components/Menu', () => {
   aria-label="test-label"
   className="Menu dropdown-menu"
   role="menu"
-  style={
-    Object {
-      "bottom": "100%",
-      "left": "inherit",
-      "right": 0,
-      "top": "auto",
-    }
-  }
+  style={Object {}}
 >
   text
 </ul>

@@ -17,7 +17,6 @@ describe('components/MenuItemLink', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
 <Link
-  replace={false}
   to="/wherever"
 >
   Whatever

@@ -564,6 +564,10 @@ export default class FileUpload extends PureComponent {
         this.setState({menuOpen: false});
     }
 
+    simulateInputClick = () => {
+        this.fileInput.current.click();
+    }
+
     render() {
         const {formatMessage} = this.context.intl;
         let multiple = true;
@@ -581,7 +585,7 @@ export default class FileUpload extends PureComponent {
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
 
         let bodyAction;
-        if (this.props.pluginFileUploadMethods.length === 1) {
+        if (this.props.pluginFileUploadMethods.length === 0) {
             bodyAction = (
                 <div
                     id='fileUploadButton'
@@ -620,6 +624,16 @@ export default class FileUpload extends PureComponent {
             });
             bodyAction = (
                 <React.Fragment>
+                    <input
+                        aria-label={formatMessage(holders.uploadFile)}
+                        ref={this.fileInput}
+                        type='file'
+                        className='file-attachment-menu-item-input'
+                        onChange={this.handleChange}
+                        onClick={this.handleLocalFileUploaded}
+                        multiple={multiple}
+                        accept={accept}
+                    />
                     <MenuWrapper>
                         <button
                             type='button'
@@ -638,21 +652,11 @@ export default class FileUpload extends PureComponent {
                             ariaLabel={formatMessage({id: 'file_upload.menuAriaLabel', defaultMessage: 'Upload type selector'})}
                         >
                             <li>
-                                <a>
+                                <a onClick={this.simulateInputClick}>
                                     <i className='fa fa-laptop'/>
                                     <FormattedMessage
                                         id='yourcomputer'
                                         defaultMessage='Your computer'
-                                    />
-                                    <input
-                                        aria-label={formatMessage(holders.uploadFile)}
-                                        ref={this.fileInput}
-                                        type='file'
-                                        className='file-attachment-menu-item-input'
-                                        onChange={this.handleChange}
-                                        onClick={this.handleLocalFileUploaded}
-                                        multiple={multiple}
-                                        accept={accept}
                                     />
                                 </a>
                             </li>

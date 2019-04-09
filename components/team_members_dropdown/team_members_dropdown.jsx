@@ -20,6 +20,7 @@ export default class TeamMembersDropdown extends React.Component {
         currentUser: PropTypes.object.isRequired,
         teamMember: PropTypes.object.isRequired,
         teamUrl: PropTypes.string.isRequired,
+        currentTeam: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getMyTeamMembers: PropTypes.func.isRequired,
             getMyTeamUnreads: PropTypes.func.isRequired,
@@ -122,8 +123,8 @@ export default class TeamMembersDropdown extends React.Component {
             );
         }
 
-        const teamMember = this.props.teamMember;
-        const user = this.props.user;
+        const {currentTeam, teamMember, user} = this.props;
+
         let currentRoles = (
             <FormattedMessage
                 id='team_members_dropdown.member'
@@ -164,7 +165,7 @@ export default class TeamMembersDropdown extends React.Component {
             showMakeAdmin = false;
         }
 
-        const canRemoveFromTeam = this.props.user.id !== me.id;
+        const canRemoveFromTeam = this.props.user.id !== me.id && !currentTeam.group_constrained;
 
         let makeDemoteModal = null;
         if (this.props.user.id === me.id) {

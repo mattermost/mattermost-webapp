@@ -36,4 +36,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, null, {withRef: true})(FileUpload);
+export default connect(mapStateToProps, mapDispatchToProps, null, {forwardRef: true})(FileUpload);
