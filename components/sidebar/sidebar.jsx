@@ -384,7 +384,7 @@ export default class Sidebar extends React.PureComponent {
     }
 
     updateScrollbarOnChannelChange = (channelId) => {
-        const curChannel = this.refs[channelId].getWrappedInstance().refs.channel.getBoundingClientRect();
+        const curChannel = this.refs[channelId].refs.channel.getBoundingClientRect();
         if ((curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT < 0) || (curChannel.top + curChannel.height > this.refs.scrollbar.view.getBoundingClientRect().height)) {
             this.refs.scrollbar.scrollTop(this.refs.scrollbar.view.scrollTop + (curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT));
         }

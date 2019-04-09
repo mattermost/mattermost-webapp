@@ -546,11 +546,13 @@ export default class ChannelHeader extends React.PureComponent {
                             {channelTitle}
                         </span>
                     </strong>
-                    <div className='bot-indicator bot-indicator__popoverlist'>
-                        <FormattedMessage
-                            id='post_info.bot'
-                            defaultMessage='BOT'
-                        />
+                    <div>
+                        <div className='bot-indicator bot-indicator__popoverlist'>
+                            <FormattedMessage
+                                id='post_info.bot'
+                                defaultMessage='BOT'
+                            />
+                        </div>
                     </div>
                 </div>
             );
