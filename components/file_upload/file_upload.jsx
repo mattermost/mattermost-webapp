@@ -616,12 +616,18 @@ export default class FileUpload extends PureComponent {
                         }}
                     >
                         <a>
-                            {item.icon}
+                            {item.icon}&nbsp;
                             {item.text}
                         </a>
                     </li>
                 );
             });
+            const customStyles = {
+                left: 'inherit',
+                right: 0,
+                bottom: '100%',
+                top: 'auto',
+            };
             bodyAction = (
                 <React.Fragment>
                     <input
@@ -650,10 +656,11 @@ export default class FileUpload extends PureComponent {
                             openLeft={true}
                             openUp={true}
                             ariaLabel={formatMessage({id: 'file_upload.menuAriaLabel', defaultMessage: 'Upload type selector'})}
+                            customStyles={customStyles}
                         >
                             <li>
                                 <a onClick={this.simulateInputClick}>
-                                    <i className='fa fa-laptop'/>
+                                    <i className='fa fa-laptop'/>&nbsp;
                                     <FormattedMessage
                                         id='yourcomputer'
                                         defaultMessage='Your computer'
