@@ -367,7 +367,10 @@ export default class CreatePost extends React.Component {
     }
 
     doSubmit = async (e) => {
-        const {actions} = this.props;
+        const {
+            actions,
+            currentUserId,
+        } = this.props;
         const channelId = this.props.currentChannel.id;
         if (e) {
             e.preventDefault();
@@ -377,12 +380,16 @@ export default class CreatePost extends React.Component {
             return;
         }
 
-        let ignoreSlash = false;
-        const serverError = this.state.serverError;
-
+        const time = Utils.getTimestamp();
+        const userId = currentUserId;
         let post = {};
         post.file_ids = [];
         post.message = this.state.message;
+        post.channel_id = channelId;
+        post.pending_post_id = `${userId}:${time}`;
+        post.user_id = userId;
+        post.create_at = time;
+        post.parent_id = this.state.parentId;
 
         if (post.message.trim().length === 0 && this.props.draft.fileInfos.length === 0) {
             return;
@@ -407,6 +414,8 @@ export default class CreatePost extends React.Component {
             return;
         }
 
+        let ignoreSlash = false;
+        const serverError = this.state.serverError;
         if (serverError && isErrorInvalidSlashCommand(serverError) && serverError.submittedMessage === post.message) {
             post.message = serverError.submittedMessage;
             ignoreSlash = true;
@@ -577,21 +586,22 @@ export default class CreatePost extends React.Component {
     sendMessage = async (originalPost) => {
         const {
             actions,
-            currentChannel,
-            currentUserId,
+
+            // currentChannel,
+            // currentUserId,
             draft,
         } = this.props;
 
         const post = originalPost;
 
-        post.channel_id = currentChannel.id;
+        // post.channel_id = currentChannel.id;
 
-        const time = Utils.getTimestamp();
-        const userId = currentUserId;
-        post.pending_post_id = `${userId}:${time}`;
-        post.user_id = userId;
-        post.create_at = time;
-        post.parent_id = this.state.parentId;
+        // const time = Utils.getTimestamp();
+        // const userId = currentUserId;
+        // post.pending_post_id = `${userId}:${time}`;
+        // post.user_id = userId;
+        // post.create_at = time;
+        // post.parent_id = this.state.parentId;
 
         // const hookResult = await actions.runMessageWillBePostedHooks(post);
 
