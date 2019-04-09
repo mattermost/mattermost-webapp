@@ -367,6 +367,7 @@ export default class CreatePost extends React.Component {
     }
 
     doSubmit = async (e) => {
+        const {actions} = this.props;
         const channelId = this.props.currentChannel.id;
         if (e) {
             e.preventDefault();
@@ -376,21 +377,39 @@ export default class CreatePost extends React.Component {
             return;
         }
 
-        let message = this.state.message;
         let ignoreSlash = false;
         const serverError = this.state.serverError;
 
-        if (serverError && isErrorInvalidSlashCommand(serverError) && serverError.submittedMessage === message) {
-            message = serverError.submittedMessage;
-            ignoreSlash = true;
-        }
-
-        const post = {};
+        let post = {};
         post.file_ids = [];
-        post.message = message;
+        post.message = this.state.message;
 
         if (post.message.trim().length === 0 && this.props.draft.fileInfos.length === 0) {
             return;
+        }
+
+        const hookResult = await actions.runMessageWillBePostedHooks(post);
+
+        if (hookResult.error) {
+            this.setState({
+                serverError: hookResult.error,
+                submitting: false,
+                message: '',
+            });
+
+            return;
+        }
+
+        post = hookResult.data;
+
+        if (post.message === '') {
+            this.setState({message: '', postError: null, enableSendButton: false});
+            return;
+        }
+
+        if (serverError && isErrorInvalidSlashCommand(serverError) && serverError.submittedMessage === post.message) {
+            post.message = serverError.submittedMessage;
+            ignoreSlash = true;
         }
 
         if (this.state.postError) {
@@ -401,7 +420,7 @@ export default class CreatePost extends React.Component {
             return;
         }
 
-        this.props.actions.addMessageIntoHistory(this.state.message);
+        this.props.actions.addMessageIntoHistory(post.message);
 
         this.setState({submitting: true, serverError: null});
 
@@ -563,7 +582,7 @@ export default class CreatePost extends React.Component {
             draft,
         } = this.props;
 
-        let post = originalPost;
+        const post = originalPost;
 
         post.channel_id = currentChannel.id;
 
@@ -574,18 +593,18 @@ export default class CreatePost extends React.Component {
         post.create_at = time;
         post.parent_id = this.state.parentId;
 
-        const hookResult = await actions.runMessageWillBePostedHooks(post);
+        // const hookResult = await actions.runMessageWillBePostedHooks(post);
 
-        if (hookResult.error) {
-            this.setState({
-                serverError: hookResult.error,
-                submitting: false,
-            });
+        // if (hookResult.error) {
+        //     this.setState({
+        //         serverError: hookResult.error,
+        //         submitting: false,
+        //     });
 
-            return hookResult;
-        }
+        //     return hookResult;
+        // }
 
-        post = hookResult.data;
+        // post = hookResult.data;
 
         actions.onSubmitPost(post, draft.fileInfos);
 

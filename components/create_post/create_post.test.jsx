@@ -413,7 +413,7 @@ describe('components/create_post', () => {
         expect(addReaction).toHaveBeenCalledWith('a', 'smile');
     });
 
-    it('onSubmit test for removeReaction message', () => {
+    it('onSubmit test for removeReaction message', async () => {
         const removeReaction = jest.fn();
 
         const wrapper = shallowWithIntl(
@@ -429,8 +429,7 @@ describe('components/create_post', () => {
             message: '-:smile:',
         });
 
-        const form = wrapper.find('#create_post');
-        form.simulate('Submit', {preventDefault: jest.fn()});
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
         expect(removeReaction).toHaveBeenCalledWith('a', 'smile');
     });
 
