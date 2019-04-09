@@ -75,6 +75,7 @@
         -webkit-overflow-scrolling: touch;
         background-color: alpha-color($black, .2);
         overflow: hidden;
+        height: 100%;
         flex: 1 1 auto;
         position: relative;
 
