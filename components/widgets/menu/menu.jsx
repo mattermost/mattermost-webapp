@@ -30,9 +30,11 @@ export default class Menu extends React.PureComponent {
     }
 
     render() {
-        const {children, openUp, openLeft, id, ariaLabel, customStyles } = this.props;
+        const {children, openUp, openLeft, id, ariaLabel, customStyles} = this.props;
         let styles = {};
-        if (!customStyles) {
+        if (customStyles) {
+            styles = customStyles;
+        } else {
             if (openLeft && !isMobile()) {
                 styles.left = 'inherit';
                 styles.right = 0;
@@ -41,8 +43,6 @@ export default class Menu extends React.PureComponent {
                 styles.bottom = '100%';
                 styles.top = 'auto';
             }
-        } else {
-            styles = customStyles;
         }
 
         return (
