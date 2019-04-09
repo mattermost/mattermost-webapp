@@ -12,7 +12,7 @@ import {getRandomInt} from '../../utils';
 describe('Integrations page', () => {
     before(() => {
         // 1. Login
-        cy.login('sysadmin');
+        cy.apiLogin('sysadmin');
         cy.visit('/');
 
         // 2. Enable integrations in system console
@@ -23,14 +23,14 @@ describe('Integrations page', () => {
         cy.toIntegrationSettings();
 
         // * Validate that all sections are enabled
-        cy.get('.section').should('have.length', 4);
+        cy.get('.section').should('have.length', 5);
     });
 
     it('should should display correct message when incoming webhook not found', () => {
         // 3. Open incoming web hooks page
         cy.get(':nth-child(1) > .section-title > .section-title__text > span').click();
 
-        // 4. Add web hook
+        // 4. Add web 'include', '/newPage'hook
         cy.get('.btn').click();
 
         // 5. Pick the channel
@@ -136,8 +136,8 @@ describe('Integrations page', () => {
     });
 
     it('should should display correct message when bot account not found', () => {
-        // 3. Open hidden bot account page
-        cy.visit('/ad-1/integrations/bots');
+        // 3. Open  bot account page
+        cy.get(':nth-child(5) > .section-title > .section-title__text > span').click();
 
         // 4. Add new bot
         cy.get('.btn').click();
@@ -147,6 +147,9 @@ describe('Integrations page', () => {
 
         // 6. Save
         cy.get('.backstage-form__footer > .btn-primary').click();
+
+        // * Make sure we are done saving
+        cy.location('pathname', {timeout: 60000}).should('match', new RegExp('bots$'));
 
         // 7. Type random stuff into the search box
         cy.get('.form-control').type('some random stuff{enter}');

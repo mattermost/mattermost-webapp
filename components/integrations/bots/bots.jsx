@@ -145,7 +145,7 @@ export default class Bots extends React.PureComponent {
                 key={bot.user_id}
                 bot={bot}
                 owner={this.props.owners[bot.user_id]}
-                accessTokens={this.props.accessTokens[bot.user_id] ? {[bot.user_id]: this.props.accessTokens[bot.user_id]} : {}}
+                accessTokens={this.props.accessTokens[bot.user_id] || {}}
                 actions={this.props.actions}
                 team={this.props.team}
             />

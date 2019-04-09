@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
-import InstalledCommand from '../installed_command.jsx';
+import InstalledCommand, {matchesFilter} from '../installed_command.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class InstalledCommands extends React.PureComponent {
@@ -82,7 +82,7 @@ export default class InstalledCommands extends React.PureComponent {
     render() {
         const commands = (filter) => this.props.commands.
             filter((command) => command.team_id === this.props.team.id).
-            filter((command) => InstalledCommand.matchesFilter(command, filter)).
+            filter((command) => matchesFilter(command, filter)).
             sort(this.commandCompare).map((command) => {
                 const canChange = this.props.canManageOthersSlashCommands || this.props.user.id === command.creator_id;
 

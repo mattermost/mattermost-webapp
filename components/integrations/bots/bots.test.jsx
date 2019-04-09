@@ -116,7 +116,7 @@ describe('components/integrations/bots/Bots', () => {
                 key={bot1.user_id}
                 bot={bot1}
                 owner={owner}
-                accessTokens={tokens}
+                accessTokens={passedTokens}
                 team={team}
                 actions={actions}
             />

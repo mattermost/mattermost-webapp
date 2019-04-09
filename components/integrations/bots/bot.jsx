@@ -181,9 +181,6 @@ export default class Bot extends React.PureComponent {
 
         const tokenList = [];
         Object.values(this.props.accessTokens).forEach((token) => {
-            if (!token.id) {
-                return;
-            }
             let activeLink;
             let disableClass = '';
             let disabledText;
