@@ -28,7 +28,7 @@ export default class Textbox extends React.Component {
         onKeyPress: PropTypes.func.isRequired,
         onComposition: PropTypes.func,
         onHeightChange: PropTypes.func,
-        createMessage: PropTypes.string.isRequired,
+        placeholder: PropTypes.string,
         previewMessageLink: PropTypes.string,
         onKeyDown: PropTypes.func,
         onBlur: PropTypes.func,
@@ -313,7 +313,7 @@ export default class Textbox extends React.Component {
                     ref={this.suggestionBoxRef}
                     className={textboxClassName}
                     spellCheck='true'
-                    placeholder={this.props.createMessage}
+                    placeholder={this.props.placeholder}
                     onChange={this.handleChange}
                     onKeyPress={this.props.onKeyPress}
                     onKeyDown={this.handleKeyDown}

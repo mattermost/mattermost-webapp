@@ -1183,11 +1183,11 @@ export default class CreatePost extends React.Component {
             );
         }
 
-        let createMessage;
+        let placeholder;
         if (readOnlyChannel) {
-            createMessage = Utils.localizeMessage('create_post.read_only', 'This channel is read-only. Only members with permission can post here.');
+            placeholder = Utils.localizeMessage('create_post.read_only', 'This channel is read-only. Only members with permission can post here.');
         } else {
-            createMessage = formatMessage(
+            placeholder = formatMessage(
                 {id: 'create_post.write', defaultMessage: 'Write to {channelDisplayName}'},
                 {channelDisplayName: currentChannel.display_name}
             );
@@ -1219,7 +1219,7 @@ export default class CreatePost extends React.Component {
                                 value={readOnlyChannel ? '' : this.state.message}
                                 onBlur={this.handleBlur}
                                 emojiEnabled={this.props.enableEmojiPicker}
-                                createMessage={createMessage}
+                                placeholder={placeholder}
                                 channelId={currentChannel.id}
                                 id='post_textbox'
                                 ref={this.textboxRef}

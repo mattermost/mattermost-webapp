@@ -216,7 +216,7 @@ export default class SuggestionBox extends React.Component {
             insertText = ' ' + insertText;
         }
 
-        this.addTextAtCaret(insertText, '');
+        this.addMentionAtCaret(insertText, '');
     }
 
     getEditor = () => {
@@ -636,7 +636,6 @@ export default class SuggestionBox extends React.Component {
             >
                 <QuillEditor
                     ref={editorRef}
-                    autoComplete='off'
                     id={props.id}
                     className={props.className}
                     spellCheck={props.spellCheck}

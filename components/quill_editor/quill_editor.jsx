@@ -13,35 +13,47 @@ import * as Utils from './utils';
 // TODO: there's got to be a better way to do this...
 initializeBlots();
 
-// TODO: need to respect config (whether or not to show emojis). See post_emoji component.
+// QuillEditor is a mix between controlled and uncontrolled component.
+// (see: https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html)
+// Controlled because CreatePost holds the message state (passed through to props.value).
+// Uncontrolled, because the Quill object uses its own state (a shadow dom tree).
+// QuillEditor transforms the Quill object's internal state into a markdown string, and sends
+// that markdown string up to be worked with and stored into the message state (which is then
+// passed to QuillEditor's props.value).
+// When the parent components change the message state, QuillEditor will transform that
+// into the Quill object's state.
+// Source of Truth: therefore, the single source of truth is always CreatePosts's message state.
+// If that changes, QuillEditor's contents will be changed.
 export default class QuillEditor extends React.Component {
     static propTypes = {
+        id: PropTypes.string.isRequired,
+        className: PropTypes.string.isRequired,
+        spellCheck: PropTypes.string.isRequired,
+        placeholder: PropTypes.string,
+        onKeyPress: PropTypes.func.isRequired,
+        onKeyDown: PropTypes.func.isRequired,
+        style: PropTypes.object,
+        value: PropTypes.string.isRequired,
+        disabled: PropTypes.bool,
+        onChange: PropTypes.func.isRequired,
 
-        // TODO: for optional rendering. Will need later.
+        // TODO: will implement
+        onCompositionStart: PropTypes.func.isRequired,
+        onCompositionUpdate: PropTypes.func.isRequired,
+        onCompositionEnd: PropTypes.func.isRequired,
+
+        // TODO: need to implement conditional rendering.
         config: PropTypes.object.isRequired,
         emojiMap: PropTypes.object.isRequired,
-        value: PropTypes.string,
-        placeholder: PropTypes.string,
-        id: PropTypes.string,
-        onChange: PropTypes.func.isRequired,
-        onKeyPress: PropTypes.func,
-        onKeyDown: PropTypes.func.isRequired,
-        className: PropTypes.string.isRequired,
 
-        // TODO: are the below needed?
+        // TODO: implement height-related functionality
         onHeightChange: PropTypes.func,
-        defaultValue: PropTypes.string,
     };
 
     constructor(props) {
         super(props);
         this.quillEl = React.createRef();
-
-        // TODO: move this into Redux eventually. Then wire the higher level components to use that,
-        //  instead of polling this component via ref.
-        this.state = {
-            valueInMarkdown: '',
-        };
+        this.state = {valueInMarkdown: this.props.value};
     }
 
     componentDidMount = () => {
@@ -60,7 +72,28 @@ export default class QuillEditor extends React.Component {
         this.editor.off('text-change');
     }
 
-    // todo: need to implement? Check AutosizeTextEditor
+    shouldComponentUpdate = (nextProps, nextState) => {
+        // The Quill object never needs to be re-rendered in response to props or state change,
+        // at least after its been mounted (in this way it's an uncontrolled component)
+        // But it does need to respond to props.value changes from parents -- the parent is
+        // the single source of truth (in this way it's a controlled component)
+
+        if (nextState.valueInMarkdown !== this.state.valueInMarkdown) {
+            // we're just updating component state
+            return false;
+        }
+
+        if (nextProps.value !== this.state.valueInMarkdown) {
+            // we're receiving a new value from our parents.
+            this.setState({valueInMarkdown: nextProps.value || ''});
+
+            // TODO: convert the parent's source of truth to Quill's format
+            this.editor.setContents([{insert: nextProps.value}]);
+        }
+        return false;
+    }
+
+    // todo: need to implement. Check AutosizeTextEditor
     // get selectionStart() {
     //     return this.forwardedRef.current.getEditorSelection();
     // }
@@ -85,24 +118,25 @@ export default class QuillEditor extends React.Component {
         this.editor.blur();
     }
 
-    // TODO: refactor upstream components to use something like a delta format?
     handleChange = (delta, oldContents, source) => {
         const contents = this.editor.getContents().ops;
         const newValue = Utils.prepareMarkdown(contents);
-
         if (newValue === this.state.valueInMarkdown) {
+
+            // TODO: remove. for testing only.
+            console.log("was same: handleChange, newValue: " + newValue + "; valueInMarkdown: " + this.state.valueInMarkdown);
             return;
         }
 
-        // TODO: extend this upwards.
-        this.setState({valueInMarkdown: newValue});
+        // TODO: remove. for testing only.
+        console.log("handleChange, newValue: " + newValue + "; valueInMarkdown: " + this.state.valueInMarkdown);
 
         // SuggestionBox.handleChange needs to know the caret and pretext
-        const [leaf, localCaret] = this.editor.getLeaf(this.editor.getSelection().index);
+        const [leaf, localCaret] = this.editor.getLeaf(this.editor.getSelection(true).index);
         const leafText = leaf.text || '';
 
-        // TODO: where should this go... Not suggestion box, and right now emoji logic is
-        //   here, so keep it here for now
+        // Create emojis as they are typed.
+        // TODO: render conditionally based on config settings.
         if (localCaret >= 4 &&
             leafText.length >= 4 &&
             delta.ops[delta.ops.length - 1].hasOwnProperty('insert') &&
@@ -123,6 +157,9 @@ export default class QuillEditor extends React.Component {
             }
         }
 
+        // we now have this value, so no need to rerender when props.value is changed to this.
+        this.setState({valueInMarkdown: newValue});
+
         // handled by SuggestionBox.handleChange
         this.props.onChange(newValue, leafText, localCaret);
     };
@@ -133,9 +170,12 @@ export default class QuillEditor extends React.Component {
 
         this.editor.insertText(globalCaret, mention);
 
-        return Utils.prepareMarkdown(this.editor.getContents().ops);
+        const newValue = Utils.prepareMarkdown(this.editor.getContents().ops);
+        this.setState({valueInMarkdown: newValue});
+        return newValue;
     }
 
+    // called from SuggestionBox or CreatePost (through Textbox)
     addEmojiAtCaret = (term, matchedPretext) => {
         // getSelection will focus the editor
         this.editor.focus();
@@ -173,7 +213,9 @@ export default class QuillEditor extends React.Component {
         const emojiName = term.slice(1, -1);
         this.insertEmojiReplacingLength(emojiName, matchedPretext.length);
 
-        return Utils.prepareMarkdown(this.editor.getContents().ops);
+        const newValue = Utils.prepareMarkdown(this.editor.getContents().ops);
+        this.setState({valueInMarkdown: newValue});
+        return newValue;
     }
 
     insertEmojiReplacingLength = (name, length) => {
@@ -193,10 +235,10 @@ export default class QuillEditor extends React.Component {
     };
 
     render = () => {
-        // TODO: we're rerendering often... Eventually figure out why.
+        // TODO: for testing only. remove.
         console.log('rendering QuillEditor'); //eslint-disable-line
 
-        // TODO: impilement: disabled, onCompositionStart/End/Update
+        // TODO: implement: disabled, onCompositionStart/End/Update
         const {
             onKeyPress,
             onKeyDown,
@@ -207,9 +249,6 @@ export default class QuillEditor extends React.Component {
             // the old behaviour to address ABC-213.
             // TODO: might not need `id` since we're passing down a ref... Investigate.
             id,
-
-            // TODO: need to refactor, do we need value?
-            value,
         } = this.props;
 
         return (

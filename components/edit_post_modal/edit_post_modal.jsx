@@ -212,7 +212,9 @@ export default class EditPostModal extends React.PureComponent {
     handleEntered = () => {
         if (this.editbox) {
             this.editbox.focus();
-            this.editbox.recalculateSize();
+
+            // TODO: needed?
+            //this.editbox.recalculateSize();
         }
     }
 
