@@ -68,7 +68,6 @@ export default class TeamSidebar extends React.PureComponent {
         }
         root.classList.add('multi-teams');
 
-        const plugins = [];
         const teams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale).
             map((team) => {
                 const member = this.props.myTeamMembers[team.id];
@@ -125,10 +124,10 @@ export default class TeamSidebar extends React.PureComponent {
             );
         }
 
-        plugins.push(
+        teams.push(
             <div
                 key='team-sidebar-bottom-plugin'
-                className='team-sidebar-bottom-plugin is-empty'
+                className='team-sidebar-bottom-plugin'
             >
                 <Pluggable pluggableName='BottomTeamSidebar'/>
             </div>
@@ -149,7 +148,6 @@ export default class TeamSidebar extends React.PureComponent {
                         {teams}
                     </Scrollbars>
                 </div>
-                {plugins}
             </div>
         );
     }

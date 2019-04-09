@@ -1,6 +1,4 @@
 .team-sidebar {
-    display: flex;
-    flex-direction: column;
     height: 100%;
     left: 0;
     position: fixed;
@@ -19,11 +17,11 @@
     }
 
     .team-sidebar-bottom-plugin {
-        background-color: rgba(0, 0, 0, 0.2);
-        border-top: 1px solid transparent;
+        position: absolute;
+        bottom: 0;
+        left: 0;
         width: 100%;
-        flex: 0 0 auto;
-        padding: 16px 0 6px;
+        margin-bottom: 15px;
     }
 
     .team-btn__content {
@@ -74,9 +72,8 @@
     .team-wrapper {
         -webkit-overflow-scrolling: touch;
         background-color: alpha-color($black, .2);
+        height: 100%;
         overflow: hidden;
-        flex: 1 1 auto;
-        position: relative;
 
         .team-container {
             display: flex;
