@@ -31,11 +31,11 @@ export default class MenuWrapper extends React.PureComponent {
     }
 
     componentDidMount() {
-        document.addEventListener('click', this.close, false);
+        document.addEventListener('click', this.close, true);
     }
 
     componentWillUnmount() {
-        document.removeEventListener('click', this.close, false);
+        document.removeEventListener('click', this.close, true);
     }
 
     close = (e) => {
