@@ -15,3 +15,13 @@ exports[`components/channel_members_dropdown should match snapshot for channel_m
   />
 </button>
 `;
+
+exports[`components/channel_members_dropdown should match snapshot for group_constrained channel 1`] = `
+<div>
+  <FormattedMessage
+    defaultMessage="Channel Admin"
+    id="channel_members_dropdown.channel_admin"
+    values={Object {}}
+  />
+</div>
+`;

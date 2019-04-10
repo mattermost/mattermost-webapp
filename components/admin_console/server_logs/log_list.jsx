@@ -25,8 +25,8 @@ export default class Logs extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.nextPage = this.nextPage.bind(this);
-        this.previousPage = this.previousPage.bind(this);
+        this.logPanel = React.createRef();
+
         this.state = {
             nextDisabled: false,
         };
@@ -34,17 +34,18 @@ export default class Logs extends React.PureComponent {
 
     componentDidMount() {
         // Scroll Down to get the latest logs
-        var node = this.refs.logPanel;
+        const node = this.logPanel.current;
         node.scrollTop = node.scrollHeight;
+        node.focus();
     }
 
     componentDidUpdate() {
         // Scroll Down to get the latest logs
-        var node = this.refs.logPanel;
+        const node = this.logPanel.current;
         node.scrollTop = node.scrollHeight;
     }
 
-    nextPage(e) {
+    nextPage = (e) => {
         e.preventDefault();
 
         this.setState({nextDisabled: true});
@@ -53,7 +54,7 @@ export default class Logs extends React.PureComponent {
         this.props.nextPage();
     }
 
-    previousPage(e) {
+    previousPage = (e) => {
         e.preventDefault();
 
         this.props.previousPage();
@@ -132,7 +133,7 @@ export default class Logs extends React.PureComponent {
             <div>
                 <div
                     tabIndex='-1'
-                    ref='logPanel'
+                    ref={this.logPanel}
                     className='log__panel'
                 >
                     {content}

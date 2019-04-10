@@ -238,7 +238,9 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     setEditboxRef = (ref) => {
-        this.editbox = ref;
+        if (ref && ref.getWrappedInstance) {
+            this.editbox = ref.getWrappedInstance();
+        }
 
         if (this.editbox) {
             this.editbox.focus();
