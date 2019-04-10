@@ -3,11 +3,9 @@
 
 import {combineReducers} from 'redux';
 
-import en from 'i18n/en.json';
-
 import {ActionTypes} from 'utils/constants.jsx';
 
-function translations(state = {en}, action) {
+function translations(state = {}, action) {
     switch (action.type) {
     case ActionTypes.RECEIVED_TRANSLATIONS:
         return {
