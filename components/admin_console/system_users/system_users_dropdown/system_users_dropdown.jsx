@@ -75,6 +75,8 @@ export default class SystemUsersDropdown extends React.Component {
         actions: PropTypes.shape({
             updateUserActive: PropTypes.func.isRequired,
             revokeAllSessions: PropTypes.func.isRequired,
+            enableBot: PropTypes.func.isRequired,
+            disableBot: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -92,6 +94,18 @@ export default class SystemUsersDropdown extends React.Component {
     handleMakeActive = (e) => {
         e.preventDefault();
         this.props.actions.updateUserActive(this.props.user.id, true).
+            then(this.onUpdateActiveResult);
+    }
+
+    handleEnableBot = (e) => {
+        e.preventDefault();
+        this.props.actions.enableBot(this.props.user.id).
+            then(this.onUpdateActiveResult);
+    }
+
+    handleDisableBot = (e) => {
+        e.preventDefault();
+        this.props.actions.disableBot(this.props.user.id).
             then(this.onUpdateActiveResult);
     }
 
@@ -347,6 +361,14 @@ export default class SystemUsersDropdown extends React.Component {
                     defaultMessage='Inactive'
                 />
             );
+            if (user.is_bot) {
+                currentRoles = (
+                    <FormattedMessage
+                        id='bots.disabled'
+                        defaultMessage='Disabled'
+                    />
+                );
+            }
             showMakeActive = true;
             showMakeNotActive = false;
             showManageTeams = false;
@@ -385,9 +407,21 @@ export default class SystemUsersDropdown extends React.Component {
                                 disabled={disableActivationToggle}
                             />
                             <MenuItemAction
+                                show={showMakeActive && user.is_bot}
+                                onClick={this.handleEnableBot}
+                                text={Utils.localizeMessage('bot.manage.enable', 'Enable')}
+                                disabled={disableActivationToggle}
+                            />
+                            <MenuItemAction
                                 show={showMakeNotActive && !user.is_bot}
                                 onClick={this.handleShowDeactivateMemberModal}
                                 text={Utils.localizeMessage('admin.user_item.makeInactive', 'Deactivate')}
+                                disabled={disableActivationToggle}
+                            />
+                            <MenuItemAction
+                                show={showMakeNotActive && user.is_bot}
+                                onClick={this.handleDisableBot}
+                                text={Utils.localizeMessage('bot.manage.disable', 'Disable')}
                                 disabled={disableActivationToggle}
                             />
                             <MenuItemAction

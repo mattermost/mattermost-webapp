@@ -28,6 +28,8 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         actions: {
             updateUserActive: jest.fn(() => Promise.resolve({})),
             revokeAllSessions: jest.fn().mockResolvedValue({data: true}),
+            enableBot: jest.fn(() => Promise.resolve({})),
+            disableBot: jest.fn(() => Promise.resolve({})),
         },
     };
 
@@ -74,6 +76,54 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         const wrapper = shallow(<SystemUsersDropdown {...props}/>);
 
         await wrapper.instance().handleDeactivateMember();
+
+        expect(requiredProps.onError).toHaveBeenCalledTimes(1);
+        expect(requiredProps.onError).toHaveBeenCalledWith({id: retVal.error.server_error_id, ...retVal.error});
+    });
+
+    test('handleEnableBot() should have called enableBot', async () => {
+        const wrapper = shallow(<SystemUsersDropdown {...requiredProps}/>);
+
+        const event = {preventDefault: jest.fn()};
+        await wrapper.instance().handleEnableBot(event);
+
+        expect(requiredProps.actions.enableBot).toHaveBeenCalledTimes(1);
+    });
+
+    test('handleEnableBot() should have called onError', async () => {
+        const retVal = {error: {server_error_id: 'id', message: 'error'}};
+        const enableBot = jest.fn(() => {
+            return Promise.resolve(retVal);
+        });
+        const props = {...requiredProps, actions: {...requiredProps.actions, enableBot}};
+        const wrapper = shallow(<SystemUsersDropdown {...props}/>);
+
+        const event = {preventDefault: jest.fn()};
+        await wrapper.instance().handleEnableBot(event);
+
+        expect(requiredProps.onError).toHaveBeenCalledTimes(1);
+        expect(requiredProps.onError).toHaveBeenCalledWith({id: retVal.error.server_error_id, ...retVal.error});
+    });
+
+    test('handleDisableBot() should have called disableBot', async () => {
+        const wrapper = shallow(<SystemUsersDropdown {...requiredProps}/>);
+
+        const event = {preventDefault: jest.fn()};
+        await wrapper.instance().handleDisableBot(event);
+
+        expect(requiredProps.actions.disableBot).toHaveBeenCalledTimes(1);
+    });
+
+    test('handleDisableBot() should have called onError', async () => {
+        const retVal = {error: {server_error_id: 'id', message: 'error'}};
+        const disableBot = jest.fn(() => {
+            return Promise.resolve(retVal);
+        });
+        const props = {...requiredProps, actions: {...requiredProps.actions, disableBot}};
+        const wrapper = shallow(<SystemUsersDropdown {...props}/>);
+
+        const event = {preventDefault: jest.fn()};
+        await wrapper.instance().handleDisableBot(event);
 
         expect(requiredProps.onError).toHaveBeenCalledTimes(1);
         expect(requiredProps.onError).toHaveBeenCalledWith({id: retVal.error.server_error_id, ...retVal.error});
