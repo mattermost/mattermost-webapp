@@ -108,13 +108,13 @@ class EditChannelHeaderModal extends React.PureComponent {
 
     focusTextbox = () => {
         if (this.refs.editChannelHeaderTextbox) {
-            this.refs.editChannelHeaderTextbox.focus();
+            this.refs.editChannelHeaderTextbox.getWrappedInstance().focus();
         }
     }
 
     blurTextbox = () => {
         if (this.refs.editChannelHeaderTextbox) {
-            this.refs.editChannelHeaderTextbox.blur();
+            this.refs.editChannelHeaderTextbox.getWrappedInstance().blur();
         }
     }
 
