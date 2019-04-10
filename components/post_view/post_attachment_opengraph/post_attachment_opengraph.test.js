@@ -47,7 +47,6 @@ describe('components/post_view/PostAttachmentOpenGraph', () => {
         toggleEmbedVisibility: jest.fn(),
         actions: {
             editPost: jest.fn(),
-            getOpenGraphMetadata: jest.fn(),
         },
     };
 

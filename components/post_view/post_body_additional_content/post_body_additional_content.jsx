@@ -53,7 +53,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         options: PropTypes.object,
 
         actions: PropTypes.shape({
-            getRedirectLocation: PropTypes.func.isRequired,
             toggleEmbedVisibility: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -70,8 +69,8 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         this.generateStaticEmbed = this.generateStaticEmbed.bind(this);
         this.isLinkToggleable = this.isLinkToggleable.bind(this);
         this.handleLinkLoaded = this.handleLinkLoaded.bind(this);
-        const {metadata} = props.post;
-        const embedMetadata = metadata && metadata.embeds && metadata.embeds[0];
+        const {embeds} = props.post.metadata;
+        const embedMetadata = embeds && embeds[0];
         const link = embedMetadata && embedMetadata.url ? embedMetadata.url : Utils.extractFirstLink(props.post.message);
         this.state = {
             link,
@@ -83,11 +82,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     componentDidMount() {
         // check the availability of the image rendered(if any) in the first render.
         this.mounted = true;
-        const {metadata} = this.props.post;
-
-        if (!metadata) {
-            this.loadShortenedImageLink();
-        }
         this.preCheckImageLink();
     }
 
@@ -95,35 +89,16 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         this.mounted = false;
     }
 
-    async loadShortenedImageLink() {
-        if (this.state.link && !this.isLinkImage(this.state.link) && !YoutubeVideo.isYoutubeLink(this.state.link) && this.props.enableLinkPreviews) {
-            const {data} = await this.props.actions.getRedirectLocation(this.state.link);
-            const {link} = this.state;
-            if (data && data.location && this.mounted) {
-                this.setState((state) => {
-                    if (state.link !== link) {
-                        return {};
-                    }
-                    return {link: data.location};
-                });
-                this.preCheckImageLink();
-            }
-        }
-    }
-
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.post.message !== this.props.post.message) {
-            const {metadata} = nextProps.post;
-            const embedMetadata = metadata && metadata.embeds && metadata.embeds[0];
+            const {embeds} = nextProps.post.metadata;
+            const embedMetadata = embeds && embeds[0];
             const link = embedMetadata && embedMetadata.url ? embedMetadata.url : Utils.extractFirstLink(nextProps.post.message);
 
             this.setState({
                 link,
             }, () => {
                 // check the availability of the image link
-                if (!metadata) {
-                    this.loadShortenedImageLink();
-                }
                 this.preCheckImageLink();
             });
         }
@@ -145,7 +120,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                 postId={this.props.post.id}
                 key={this.props.post.id}
                 options={this.props.options}
-                imagesMetadata={this.props.post.metadata && this.props.post.metadata.images}
+                imagesMetadata={this.props.post.metadata.images}
             />
         );
     }
@@ -230,7 +205,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
 
         if (this.isLinkImage(link)) {
-            const dimensions = this.props.post.metadata && this.props.post.metadata.images && this.props.post.metadata.images[link];
+            const dimensions = this.props.post.metadata.images && this.props.post.metadata.images[link];
             return (
                 <PostImage
                     channelId={this.props.post.channel_id}

@@ -23,7 +23,6 @@ function mapStateToProps(state, ownProps) {
     } else {
         displayTextOnly = state.entities.emojis.nonExistentEmoji.has(ownProps.name) ||
             config.EnableCustomEmoji !== 'true' ||
-            config.ExperimentalEnablePostMetadata === 'true' ||
             getCurrentUserId(state) === '';
     }
 

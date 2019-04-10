@@ -4,7 +4,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getReactionsForPost as getReactionsForPostAction} from 'mattermost-redux/actions/posts';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -35,7 +34,6 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             addReaction,
-            getReactionsForPost: getReactionsForPostAction,
         }, dispatch),
     };
 }

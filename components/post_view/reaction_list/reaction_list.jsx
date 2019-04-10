@@ -41,11 +41,6 @@ export default class ReactionList extends React.PureComponent {
         actions: PropTypes.shape({
 
             /**
-             * Function to get reactions for a post
-             */
-            getReactionsForPost: PropTypes.func.isRequired,
-
-            /**
              * Function to add a reaction to the post
              */
             addReaction: PropTypes.func.isRequired,
@@ -58,12 +53,6 @@ export default class ReactionList extends React.PureComponent {
         this.state = {
             showEmojiPicker: false,
         };
-    }
-
-    componentDidMount() {
-        if (this.props.post.has_reactions && !this.props.post.metadata) {
-            this.props.actions.getReactionsForPost(this.props.post.id);
-        }
     }
 
     getTarget = () => {
