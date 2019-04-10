@@ -8,11 +8,10 @@ import menuItem from './menu_item.jsx';
 
 export const MenuItemActionImpl = ({onClick, text, extraText}) => (
     <button
-        className='style--none'
+        className={'style--none' + (extraText ? ' MenuItem__help' : '')}
         onClick={onClick}
     >
-        {text}
-        {extraText && <br/>}
+        <span>{text}</span>
         {extraText && <span className='extra-text'>{extraText}</span>}
     </button>
 );

@@ -246,7 +246,10 @@ export default class Post extends React.PureComponent {
                 onMouseLeave={this.unsetHover}
                 onTouchStart={this.setHover}
             >
-                <div className={'post__content ' + centerClass}>
+                <div
+                    id='postContent'
+                    className={'post__content ' + centerClass}
+                >
                     <div className='post__img'>
                         {profilePic}
                     </div>

@@ -350,7 +350,7 @@ export default class CreatePost extends React.Component {
 
         this.setState({orientation});
         if (prevOrientation && orientation !== prevOrientation && (document.activeElement || {}).id === 'post_textbox') {
-            this.refs.textbox.blur();
+            this.refs.textbox.getWrappedInstance().blur();
         }
     }
 

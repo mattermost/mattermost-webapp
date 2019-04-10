@@ -165,7 +165,6 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
     </button>
      - 
     <Link
-      replace={false}
       to="/test/integrations/outgoing_webhooks/edit?id=7h88x419ubbyuxzs7dfwtgkffr"
     >
       <FormattedMessage

@@ -3,7 +3,6 @@
 
 import $ from 'jquery';
 import React from 'react';
-import _ from 'lodash';
 import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
@@ -515,7 +514,7 @@ export function applyTheme(theme) {
         changeCss('.sidebar--left .status.status--group', 'background:' + changeOpacity(theme.sidebarText, 0.3));
         changeCss('@media(max-width: 768px){.app__body .modal .settings-modal .settings-table .nav>li>button, .app__body #sidebarDropdownMenu .menu-divider', 'border-color:' + changeOpacity(theme.sidebarText, 0.2));
         changeCss('@media(max-width: 768px){.app__body .modal .settings-modal .settings-table .nav>li>button, .app__body .modal .settings-modal .settings-table .nav>li.active>button', 'color:' + theme.sidebarText);
-        changeCss('.app__body .sidebar--left .sidebar__switcher', 'border-color:' + changeOpacity(theme.sidebarText, 0.2));
+        changeCss('.app__body .team-sidebar .team-sidebar-bottom-plugin, .app__body .sidebar--left .sidebar__switcher', 'border-color:' + changeOpacity(theme.sidebarText, 0.2));
         changeCss('.app__body .team-sidebar .team-btn .badge', 'border-color:' + changeOpacity(theme.sidebarText, 0.5));
         changeCss('@media(max-width: 768px){.sidebar--left .add-channel-btn:hover, .sidebar--left .add-channel-btn:focus', 'color:' + changeOpacity(theme.sidebarText, 0.6));
         changeCss('@media(max-width: 768px){.app__body .search__icon svg', 'stroke:' + theme.sidebarText);
@@ -732,7 +731,7 @@ export function applyTheme(theme) {
         changeCss('@media(min-width: 768px){.app__body .search-bar__container .search__form .search-bar, .app__body .form-control', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .input-group-addon, .app__body .post-create__container .post-body__actions > span, .app__body .post-create__container .post-body__actions > a', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('@media(min-width: 768px){.app__body .post-list__table .post-list__content .dropdown-menu a:hover, .dropdown-menu > li > button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
-        changeCss('.app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
+        changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > a:hover, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .attachment .attachment__content, .app__body .attachment-actions button', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.5));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.03));
@@ -1677,19 +1676,4 @@ export function enableDevModeFeatures() {
             throw new Error('Map.length is not supported. Use Map.size instead.');
         },
     });
-}
-
-// Splits the term by a splitStr and composes a list of the parts of
-// the split concatenated with the rest, forming a set of suggesitons
-// matchable with startsWith
-//
-// E.g.: for "one.two.three" by "." it would yield
-// ["one.two.three", "two.three", "three"]
-export function getSuggestionsSplitBy(term, splitStr) {
-    const splitTerm = term.split(splitStr);
-    return splitTerm.map((st, i) => splitTerm.slice(i).join(splitStr));
-}
-
-export function getSuggestionsSplitByMultiple(term, splitStrs) {
-    return _.uniq(_.flatMap(splitStrs, (splitStr) => getSuggestionsSplitBy(term, splitStr)));
 }

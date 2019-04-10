@@ -23,6 +23,7 @@ function mapStateToProps(state) {
         currentUser,
         teamDescription: currentTeam.description,
         teamDisplayName: currentTeam.display_name,
+        teamId: currentTeam.id,
         showTutorialTip,
     };
 }

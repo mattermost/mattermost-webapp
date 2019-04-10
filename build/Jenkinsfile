@@ -20,19 +20,39 @@ pipeline {
     stages {
         stage('Install') {
             steps {
-                sh 'make node_modules'
+                ansiColor('xterm') {
+                    sh 'make node_modules'
+                }
             }
         }
 
         stage('Check Style') {
             steps {
-                sh 'make check-style'
+                ansiColor('xterm') {
+                    sh 'make check-style'
+                }
+            }
+        }
+
+        stage('Check i18n') {
+            steps {
+                ansiColor('xterm') {
+                    sh """
+                        cp i18n/en.json /tmp/en.json
+                        mkdir -p /tmp/fake-mobile-dir/assets/base/i18n/
+                        echo '{}' > /tmp/fake-mobile-dir/assets/base/i18n/en.json
+                        npm run mmjstool -- i18n extract-webapp --webapp-dir . --mobile-dir /tmp/fake-mobile-dir
+                        diff /tmp/en.json i18n/en.json
+                    """
+                }
             }
         }
 
         stage('Test') {
             steps {
-                sh 'make test'
+                ansiColor('xterm') {
+                    sh 'make test'
+                }
             }
             post {
                 always {
@@ -43,7 +63,9 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'make package'
+                ansiColor('xterm') {
+                    sh 'make package'
+                }
             }
         }
 

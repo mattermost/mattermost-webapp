@@ -16,8 +16,7 @@ test: node_modules ## Runs tests
 	npm run test
 
 i18n-extract: ## Extract strings for translation from the source code
-	@[[ -d $(MM_UTILITIES_DIR) ]] || echo "You must clone github.com/mattermost/mattermost-utilities repo in .. to use this command"
-	@[[ -d $(MM_UTILITIES_DIR) ]] && cd $(MM_UTILITIES_DIR) && npm install && npm run babel && node mmjstool/build/index.js i18n extract-webapp
+	npm run mmjstool -- i18n extract-webapp
 
 node_modules: package.json package-lock.json
 	@echo Getting dependencies using npm

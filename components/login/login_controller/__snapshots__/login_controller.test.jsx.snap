@@ -85,7 +85,6 @@ exports[`components/login/LoginController should match snapshot when expired 1`]
             <Link
               className="btn-close"
               onClick={[Function]}
-              replace={false}
               to="/login"
             >
               <span>
@@ -160,7 +159,6 @@ exports[`components/login/LoginController should show session expiry notificatio
             <Link
               className="btn-close"
               onClick={[Function]}
-              replace={false}
               to="/login"
             >
               <span>

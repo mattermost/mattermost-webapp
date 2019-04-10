@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Permissions} from 'mattermost-redux/constants';
 
-//import BotAccountsIcon from 'images/bot_default_icon.png';
+import BotAccountsIcon from 'images/bot_default_icon.png';
 
 import * as Utils from 'utils/utils.jsx';
 import IncomingWebhookIcon from 'images/incoming_webhook.jpg';
@@ -156,8 +156,7 @@ export default class Integrations extends React.Component {
             );
         }
 
-        // Commenting out bot accounts UI until 5.12
-        /*options.push(
+        options.push(
             <SystemPermissionGate
                 permissions={['manage_bots']}
                 key='botsPermissions'
@@ -179,7 +178,7 @@ export default class Integrations extends React.Component {
                     link={'/' + this.props.team.name + '/integrations/bots'}
                 />
             </SystemPermissionGate>
-        );*/
+        );
 
         return (
             <div className='backstage-content row'>

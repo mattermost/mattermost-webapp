@@ -10,7 +10,7 @@
 describe('Header', () => {
     before(() => {
         // 1. Login and go to /
-        cy.login('user-1');
+        cy.apiLogin('user-1');
         cy.visit('/');
     });
 

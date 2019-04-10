@@ -12,14 +12,14 @@
 describe('Message', () => {
     it('M13701 Consecutive message does not repeat profile info', () => {
         // 1. Login as sysadmin and go to /
-        cy.login('sysadmin');
+        cy.apiLogin('sysadmin');
         cy.visit('/');
 
         // 2. Post a message to force next user message to display a message
         cy.postMessage('Hello');
 
         // 3. Login as "user-1" and go to /
-        cy.login('user-1');
+        cy.apiLogin('user-1');
         cy.visit('/');
 
         // 4. Post message "One"
@@ -43,7 +43,7 @@ describe('Message', () => {
 
     it('M14012 Focus move to main input box when a character key is selected', () => {
         // 1. Login and go to /
-        cy.login('user-1');
+        cy.apiLogin('user-1');
         cy.visit('/');
 
         // 2. Post message
@@ -73,7 +73,7 @@ describe('Message', () => {
 
     it('M14320 @here., @all. and @channel. (ending in a period) still highlight', () => {
         // 1. Login and go to /
-        cy.login('user-1');
+        cy.apiLogin('user-1');
         cy.visit('/');
 
         // 2. Post message

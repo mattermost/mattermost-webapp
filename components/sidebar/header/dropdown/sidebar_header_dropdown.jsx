@@ -20,6 +20,7 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
     static propTypes = {
         teamDescription: PropTypes.string.isRequired,
         teamDisplayName: PropTypes.string.isRequired,
+        teamId: PropTypes.string.isRequired,
         currentUser: PropTypes.object,
         showTutorialTip: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
@@ -74,6 +75,7 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
                     teamDescription={this.props.teamDescription}
                     currentUser={this.props.currentUser}
                     teamDisplayName={this.props.teamDisplayName}
+                    teamId={this.props.teamId}
                 />
                 <MainMenu id='sidebarDropdownMenu'/>
             </MenuWrapper>

@@ -3,8 +3,9 @@
 
 import XRegExp from 'xregexp';
 
+import {getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
+
 import {Constants} from 'utils/constants.jsx';
-import {getSuggestionsSplitByMultiple} from 'utils/utils.jsx';
 
 import Provider from '../provider.jsx';
 
