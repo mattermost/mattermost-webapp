@@ -9,20 +9,16 @@
 
 /* eslint max-nested-callbacks: ["error", 3] */
 
-import {getRandomInt} from '../../utils';
-
 describe('Recent Emoji', () => {
     before(() => {
         // 1. Login and go to /
-        cy.login('user-1');
+        cy.apiLogin();
         cy.visit('/');
     });
 
     it('M14014 Recently used emojis are shown 1st', async () => {
-        const maxRandom = 400;
-
         // 2. Get random emoji index
-        const firstEmoji = getRandomInt(maxRandom);
+        const firstEmoji = 200;
 
         // 3. Show emoji list
         cy.get('#emojiPickerButton').should('be.visible').click();
@@ -40,7 +36,7 @@ describe('Recent Emoji', () => {
         cy.clickPostReactionIcon();
 
         // 8. Get second emoji
-        const secondEmoji = getRandomInt(maxRandom);
+        const secondEmoji = 100;
 
         // 9. Click chosen emoji
         cy.get('.emoji-picker__item').eq(secondEmoji).click();
