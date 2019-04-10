@@ -28,6 +28,7 @@ export default class LoggedIn extends React.PureComponent {
         enableTimezone: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             autoUpdateTimezone: PropTypes.func.isRequired,
+            getClientConfig: PropTypes.func.isRequired,
         }).isRequired,
         showTermsOfService: PropTypes.bool.isRequired,
     }
@@ -52,6 +53,9 @@ export default class LoggedIn extends React.PureComponent {
         if (this.props.enableTimezone) {
             this.props.actions.autoUpdateTimezone(getBrowserTimezone());
         }
+
+        // Fetch new client config to avoid that Enforce MFA Updates are not synced to client during login flow
+        this.props.actions.getClientConfig();
 
         // Make sure the websockets close and reset version
         $(window).on('beforeunload',

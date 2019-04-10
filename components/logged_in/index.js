@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {getClientConfig} from 'mattermost-redux/actions/general';
 import {autoUpdateTimezone} from 'mattermost-redux/actions/timezone';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -30,6 +31,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             autoUpdateTimezone,
+            getClientConfig,
         }, dispatch),
     };
 }
