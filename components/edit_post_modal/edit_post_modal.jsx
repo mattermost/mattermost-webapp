@@ -48,15 +48,21 @@ export default class EditPostModal extends React.PureComponent {
             postError: '',
             errorClass: null,
             showEmojiPicker: false,
+            show: false,
         };
+
+        this.textboxRef = React.createRef();
     }
 
-    UNSAFE_componentWillUpdate(nextProps) { // eslint-disable-line camelcase
-        if (!this.props.editingPost.show && nextProps.editingPost.show) {
-            this.setState({
-                editText: nextProps.editingPost.post.message_source || nextProps.editingPost.post.message,
-            });
+    static getDerivedStateFromProps = (props, state) => {
+        const msg = props.editingPost.post ? props.editingPost.post.message_source || props.editingPost.post.message : '';
+        if (props.editingPost.show && !state.show) {
+            return {
+                editText: msg,
+                show: true,
+            };
         }
+        return null;
     }
 
     getContainer = () => {
@@ -65,41 +71,25 @@ export default class EditPostModal extends React.PureComponent {
 
     toggleEmojiPicker = () => {
         this.setState({showEmojiPicker: !this.state.showEmojiPicker});
-        if (!this.state.showEmojiPicker && this.editbox) {
-            this.editbox.focus();
-        }
     }
 
     hideEmojiPicker = () => {
         this.setState({showEmojiPicker: false});
-        if (this.editbox) {
-            this.editbox.focus();
-        }
     }
 
     handleEmojiClick = (emoji) => {
-        const emojiAlias = emoji && (emoji.name || (emoji.aliases && emoji.aliases[0]));
+        const emojiAlias = emoji.name || emoji.aliases[0];
 
         if (!emojiAlias) {
             //Oops.. There went something wrong
             return;
         }
 
-        if (this.state.editText === '') {
-            this.setState({editText: ':' + emojiAlias + ': '});
-        } else {
-            //check whether there is already a blank at the end of the current message
-            const newMessage = ((/\s+$/).test(this.state.editText)) ?
-                this.state.editText + ':' + emojiAlias + ': ' : this.state.editText + ' :' + emojiAlias + ': ';
+        this.textboxRef.current.getWrappedInstance().addEmojiAtCaret(':' + emojiAlias + ':');
 
-            this.setState({editText: newMessage});
-        }
+        // draft update will happen in handleChange
 
         this.setState({showEmojiPicker: false});
-
-        if (this.editbox) {
-            this.editbox.focus();
-        }
     }
 
     handleGifClick = (gif) => {
@@ -110,7 +100,7 @@ export default class EditPostModal extends React.PureComponent {
             this.setState({editText: newMessage});
         }
         this.setState({showEmojiPicker: false});
-        this.editbox.focus();
+        this.textboxRef.current.getWrappedInstance().focus();
     }
 
     getEditPostControls = () => {
@@ -187,11 +177,11 @@ export default class EditPostModal extends React.PureComponent {
     handleEditKeyPress = (e) => {
         if (!UserAgent.isMobile() && !this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
             e.preventDefault();
-            this.editbox.blur();
+            this.textboxRef.current.getWrappedInstance().blur();
             this.handleEdit();
         } else if (this.props.ctrlSend && e.ctrlKey && Utils.isKeyPressed(e, KeyCodes.ENTER)) {
             e.preventDefault();
-            this.editbox.blur();
+            this.textboxRef.current.getWrappedInstance().blur();
             this.handleEdit();
         }
     }
@@ -207,20 +197,21 @@ export default class EditPostModal extends React.PureComponent {
     handleHide = (doRefocus = true) => {
         this.refocusId = doRefocus ? this.props.editingPost.refocusId : null;
         this.props.actions.hideEditPostModal();
+        this.setState({show: false});
     }
 
     handleEntered = () => {
-        if (this.editbox) {
-            this.editbox.focus();
+        if (this.textboxRef.current) {
+            this.textboxRef.current.getWrappedInstance().focus();
 
             // TODO: needed?
-            //this.editbox.recalculateSize();
+            //this.textboxRef.current.getWrappedInstance().recalculateSize();
         }
     }
 
     handleExit = () => {
-        if (this.editbox) {
-            this.editbox.hidePreview();
+        if (this.textboxRef.current) {
+            this.textboxRef.current.getWrappedInstance().hidePreview();
         }
     }
 
@@ -236,17 +227,7 @@ export default class EditPostModal extends React.PureComponent {
         }
 
         this.refocusId = null;
-        this.setState({editText: '', postError: '', errorClass: null, showEmojiPicker: false});
-    }
-
-    setEditboxRef = (ref) => {
-        if (ref && ref.getWrappedInstance) {
-            this.editbox = ref.getWrappedInstance();
-        }
-
-        if (this.editbox) {
-            this.editbox.focus();
-        }
+        this.setState({editText: '', postError: '', errorClass: null, showEmojiPicker: false, show: false});
     }
 
     isSaveDisabled = () => {
@@ -331,7 +312,7 @@ export default class EditPostModal extends React.PureComponent {
                         supportsCommands={false}
                         suggestionListStyle='bottom'
                         id='edit_textbox'
-                        ref={this.setEditboxRef}
+                        ref={this.textboxRef}
                         characterLimit={this.props.maxPostSize}
                     />
                     <span

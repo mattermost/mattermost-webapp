@@ -123,17 +123,17 @@ export default class Textbox extends React.Component {
     }
 
     focus = () => {
-        this.editorRef.current.focus();
+        this.editorRef.current.getWrappedInstance().focus();
+
+        this.editorRef.current.getWrappedInstance().setCaretToEnd();
 
         // TODO: implement
-        //Utils.placeCaretAtEnd(editor);
-
         // reset character count warning
         //this.checkMessageLength(editor.value);
     }
 
     blur = () => {
-        this.editorRef.current.blur();
+        this.editorRef.current.getWrappedInstance().blur();
     };
 
     // TODO: implement

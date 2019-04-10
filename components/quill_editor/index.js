@@ -20,4 +20,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, null, null, {forwardRef: true})(QuillEditor);
+export default connect(mapStateToProps, null, null, {withRef: true})(QuillEditor);

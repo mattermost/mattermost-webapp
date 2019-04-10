@@ -353,7 +353,7 @@ export default class CreatePost extends React.Component {
 
         this.setState({orientation});
         if (prevOrientation && orientation !== prevOrientation && (document.activeElement || {}).id === 'post_textbox') {
-            this.textboxRef.current.blur();
+            this.textboxRef.current.getWrappedInstance().blur();
         }
     }
 
@@ -617,7 +617,7 @@ export default class CreatePost extends React.Component {
 
     focusTextbox = (keepFocus = false) => {
         if (this.textboxRef.current && (keepFocus || !UserAgent.isMobile())) {
-            this.textboxRef.current.focus();
+            this.textboxRef.current.getWrappedInstance().focus();
         }
     }
 
@@ -635,7 +635,7 @@ export default class CreatePost extends React.Component {
         if (allowSending) {
             e.persist();
             if (this.textboxRef.current) {
-                this.textboxRef.current.blur();
+                this.textboxRef.current.getWrappedInstance().blur();
             }
 
             if (withClosedCodeBlock && message) {
@@ -850,7 +850,7 @@ export default class CreatePost extends React.Component {
     // TODO: need to fix?
     getFileUploadTarget = () => {
         if (this.textboxRef.current) {
-            return this.textboxRef.current;
+            return this.textboxRef.current.getWrappedInstance();
         }
 
         return null;
@@ -863,7 +863,6 @@ export default class CreatePost extends React.Component {
     fillMessageFromHistory() {
         const lastMessage = this.props.messageInHistoryItem;
         if (lastMessage) {
-            // TODO: need to implement with new QuillEditor
             this.setState({
                 message: lastMessage,
             });
@@ -907,7 +906,7 @@ export default class CreatePost extends React.Component {
             type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         }
         if (this.textboxRef.current) {
-            this.textboxRef.current.blur();
+            this.textboxRef.current.getWrappedInstance().blur();
         }
 
         // TODO: implement this with new QuillEditor
@@ -918,7 +917,6 @@ export default class CreatePost extends React.Component {
         e.preventDefault();
         const latestReplyablePostId = this.props.latestReplyablePostId;
 
-        // TODO: implement this with new QuillEditor
         const replyBox = document.getElementById('reply_textbox');
         if (replyBox) {
             replyBox.focus();
@@ -928,7 +926,6 @@ export default class CreatePost extends React.Component {
         }
     }
 
-    // TODO: implement this with new QuillEditor
     loadPrevMessage = (e) => {
         e.preventDefault();
         this.props.actions.moveHistoryIndexBack(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
@@ -968,11 +965,9 @@ export default class CreatePost extends React.Component {
             return;
         }
 
-        this.textboxRef.current.addEmojiAtCaret(':' + emojiAlias + ':');
+        this.textboxRef.current.getWrappedInstance().addEmojiAtCaret(':' + emojiAlias + ':');
 
         this.setState({showEmojiPicker: false});
-
-        this.focusTextbox();
     }
 
     // TODO: imlement this?

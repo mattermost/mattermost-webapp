@@ -220,7 +220,7 @@ export default class SuggestionBox extends React.Component {
     }
 
     getEditor = () => {
-        return this.props.editorRef.current;
+        return this.props.editorRef.current.getWrappedInstance();
     }
 
     // TODO: implement
@@ -301,7 +301,7 @@ export default class SuggestionBox extends React.Component {
         }
 
         if (this.props.onChange) {
-            // handled by Textbox.handleChange -> CreatePost.handleChange (save draft, send message)
+            // handled by Textbox.handleChange -> parent.handleChange
             this.props.onChange({target: {value}});
         }
     }
@@ -637,6 +637,7 @@ export default class SuggestionBox extends React.Component {
                 <QuillEditor
                     ref={editorRef}
                     id={props.id}
+                    key={props.id}
                     className={props.className}
                     spellCheck={props.spellCheck}
                     placeholder={props.placeholder}

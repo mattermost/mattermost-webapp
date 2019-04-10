@@ -75,6 +75,7 @@ class EditChannelHeaderModal extends React.PureComponent {
             show: true,
             showError: false,
         };
+        this.textboxRef = React.createRef();
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -107,14 +108,14 @@ class EditChannelHeaderModal extends React.PureComponent {
     }
 
     focusTextbox = () => {
-        if (this.refs.editChannelHeaderTextbox) {
-            this.refs.editChannelHeaderTextbox.getWrappedInstance().focus();
+        if (this.textboxRef.current) {
+            this.textboxRef.current.getWrappedInstance().focus();
         }
     }
 
     blurTextbox = () => {
-        if (this.refs.editChannelHeaderTextbox) {
-            this.refs.editChannelHeaderTextbox.getWrappedInstance().blur();
+        if (this.textboxRef.current) {
+            this.textboxRef.current.getWrappedInstance().blur();
         }
     }
 
@@ -211,7 +212,7 @@ class EditChannelHeaderModal extends React.PureComponent {
                             previewMessageLink={localizeMessage('edit_channel_header.previewHeader', 'Edit Header')}
                             handlePostError={this.handlePostError}
                             id='edit_textbox'
-                            ref='editChannelHeaderTextbox'
+                            ref={this.textboxRef}
                             characterLimit={1024}
                         />
                         <br/>

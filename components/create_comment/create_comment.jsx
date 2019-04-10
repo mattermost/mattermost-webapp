@@ -13,7 +13,12 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand} from 'utils/post_utils.jsx';
+import {
+    containsAtChannel,
+    postMessageOnKeyPress,
+    shouldFocusMainTextbox,
+    isErrorInvalidSlashCommand,
+} from 'utils/post_utils.jsx';
 import {getTable, formatMarkdownTableMessage} from 'utils/paste.jsx';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
@@ -206,6 +211,7 @@ export default class CreateComment extends React.PureComponent {
         this.lastBlurAt = 0;
         this.draftsForPost = {};
         this.doInitialScrollToBottom = false;
+        this.textboxRef = React.createRef();
     }
 
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
@@ -328,32 +334,11 @@ export default class CreateComment extends React.PureComponent {
             return;
         }
 
-        const {draft} = this.state;
+        this.textboxRef.current.getWrappedInstance().addEmojiAtCaret(':' + emojiAlias + ':');
 
-        let newMessage = '';
-        if (draft.message === '') {
-            newMessage = `:${emojiAlias}: `;
-        } else if ((/\s+$/).test(draft.message)) {
-            // Check whether there is already a blank at the end of the current message
-            newMessage = `${draft.message}:${emojiAlias}: `;
-        } else {
-            newMessage = `${draft.message} :${emojiAlias}: `;
-        }
+        // draft update will happen in handleChange
 
-        const modifiedDraft = {
-            ...draft,
-            message: newMessage,
-        };
-
-        this.props.onUpdateCommentDraft(modifiedDraft);
-        this.draftsForPost[this.props.rootId] = modifiedDraft;
-
-        this.setState({
-            showEmojiPicker: false,
-            draft: modifiedDraft,
-        });
-
-        this.focusTextbox();
+        this.setState({showEmojiPicker: false});
     }
 
     handleGifClick = (gif) => {
@@ -482,8 +467,8 @@ export default class CreateComment extends React.PureComponent {
 
         if (allowSending) {
             e.persist();
-            if (this.refs.textbox) {
-                this.refs.textbox.getWrappedInstance().blur();
+            if (this.textboxRef.current) {
+                this.textboxRef.current.getWrappedInstance().blur();
             }
 
             if (withClosedCodeBlock && message) {
@@ -544,8 +529,8 @@ export default class CreateComment extends React.PureComponent {
 
         if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.UP) && message === '') {
             e.preventDefault();
-            if (this.refs.textbox) {
-                this.refs.textbox.getWrappedInstance().blur();
+            if (this.textboxRef.current) {
+                this.textboxRef.current.getWrappedInstance().blur();
             }
 
             const {data: canEditNow} = this.props.onEditLatestPost();
@@ -668,8 +653,8 @@ export default class CreateComment extends React.PureComponent {
             if (index !== -1) {
                 uploadsInProgress.splice(index, 1);
 
-                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
-                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload) {
+                    this.refs.fileUpload.cancelUpload(id);
                 }
             }
         } else {
@@ -700,7 +685,7 @@ export default class CreateComment extends React.PureComponent {
     }
 
     getFileUploadTarget = () => {
-        return this.refs.textbox.getWrappedInstance();
+        return this.textboxRef.current.getWrappedInstance();
     }
 
     getCreateCommentControls = () => {
@@ -716,8 +701,8 @@ export default class CreateComment extends React.PureComponent {
     }
 
     focusTextbox = (keepFocus = false) => {
-        if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
-            this.refs.textbox.getWrappedInstance().focus();
+        if (this.textboxRef.current && (keepFocus || !UserAgent.isMobile())) {
+            this.textboxRef.current.getWrappedInstance().focus();
         }
     }
 
@@ -867,7 +852,10 @@ export default class CreateComment extends React.PureComponent {
                 <span
                     role='button'
                     tabIndex='0'
-                    aria-label={formatMessage({id: 'create_post.open_emoji_picker', defaultMessage: 'Open emoji picker'})}
+                    aria-label={formatMessage({
+                        id: 'create_post.open_emoji_picker',
+                        defaultMessage: 'Open emoji picker',
+                    })}
                     className='emoji-picker__container'
                 >
                     <EmojiPickerOverlay
@@ -888,11 +876,11 @@ export default class CreateComment extends React.PureComponent {
             );
         }
 
-        let createMessage;
+        let placeholder;
         if (readOnlyChannel) {
-            createMessage = Utils.localizeMessage('create_post.read_only', 'This channel is read-only. Only members with permission can post here.');
+            placeholder = Utils.localizeMessage('create_post.read_only', 'This channel is read-only. Only members with permission can post here.');
         } else {
-            createMessage = Utils.localizeMessage('create_comment.addComment', 'Add a comment...');
+            placeholder = Utils.localizeMessage('create_comment.addComment', 'Add a comment...');
         }
 
         let scrollbarClass = '';
@@ -917,14 +905,13 @@ export default class CreateComment extends React.PureComponent {
                                 handlePostError={this.handlePostError}
                                 value={readOnlyChannel ? '' : draft.message}
                                 onBlur={this.handleBlur}
-                                createMessage={createMessage}
+                                placeholder={placeholder}
                                 emojiEnabled={this.props.enableEmojiPicker}
-                                initialText=''
                                 channelId={this.props.channelId}
                                 isRHS={true}
                                 popoverMentionKeyClick={true}
                                 id='reply_textbox'
-                                ref='textbox'
+                                ref={this.textboxRef}
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
                                 badConnection={this.props.badConnection}

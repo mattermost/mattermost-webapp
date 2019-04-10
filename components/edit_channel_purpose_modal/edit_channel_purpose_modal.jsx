@@ -59,6 +59,7 @@ export default class EditChannelPurposeModal extends React.PureComponent {
             show: true,
             submitted: false,
         };
+        this.textboxRef = React.createRef();
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -94,7 +95,7 @@ export default class EditChannelPurposeModal extends React.PureComponent {
     }
 
     handleEntering = () => {
-        Utils.placeCaretAtEnd(this.purpose);
+        this.textboxRef.current.getWrappedInstance().focus();
     }
 
     onHide = () => {
@@ -127,10 +128,6 @@ export default class EditChannelPurposeModal extends React.PureComponent {
         e.preventDefault();
         this.setState({purpose: e.target.value});
     }
-
-    getPurpose = (node) => {
-        this.purpose = node;
-    };
 
     render() {
         let serverError = null;
@@ -195,7 +192,7 @@ export default class EditChannelPurposeModal extends React.PureComponent {
                         {channelPurposeModal}
                     </p>
                     <textarea
-                        ref={this.getPurpose}
+                        ref={this.textboxRef}
                         className='form-control no-resize'
                         rows='6'
                         maxLength='250'

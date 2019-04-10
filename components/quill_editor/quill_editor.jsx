@@ -53,7 +53,11 @@ export default class QuillEditor extends React.Component {
     constructor(props) {
         super(props);
         this.quillEl = React.createRef();
-        this.state = {valueInMarkdown: this.props.value};
+        this.state = {
+            valueInMarkdown: '',
+            prevValue: '',
+            prevId: '',
+        };
     }
 
     componentDidMount = () => {
@@ -65,11 +69,24 @@ export default class QuillEditor extends React.Component {
                 placeholder: this.props.placeholder,
             });
         this.editor.on('text-change', this.handleChange);
+
+        // TODO: convert the parent's source of truth to Quill's format
+        this.editor.setContents([{insert: this.props.value}]);
     }
 
     componentWillUnmount = () => {
         // prevent memory leaks (wish it was this easy in real life)
         this.editor.off('text-change');
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.id !== state.prevId) {
+            return {
+                prevId: props.id,
+                valueInMarkdown: props.value,
+            };
+        }
+        return null;
     }
 
     shouldComponentUpdate = (nextProps, nextState) => {
@@ -79,13 +96,22 @@ export default class QuillEditor extends React.Component {
         // the single source of truth (in this way it's a controlled component)
 
         if (nextState.valueInMarkdown !== this.state.valueInMarkdown) {
-            // we're just updating component state
+            // we're just being notified the component state has changed. No need to do anything.
             return false;
         }
 
         if (nextProps.value !== this.state.valueInMarkdown) {
+            // this prevents a loop from create comment. Not sure why it updates with old props after
+            // a typing event.
+            if (nextProps.value === this.state.prevValue && this.props.id === 'reply_textbox') {
+                return false;
+            }
+
             // we're receiving a new value from our parents.
-            this.setState({valueInMarkdown: nextProps.value || ''});
+            this.setState({
+                valueInMarkdown: nextProps.value || '',
+                prevValue: this.state.valueInMarkdown,
+            });
 
             // TODO: convert the parent's source of truth to Quill's format
             this.editor.setContents([{insert: nextProps.value}]);
@@ -118,18 +144,14 @@ export default class QuillEditor extends React.Component {
         this.editor.blur();
     }
 
-    handleChange = (delta, oldContents, source) => {
+    setCaretToEnd = () => {
+        this.editor.setSelection(this.editor.getLength());
+    }
+
+    // unused params: oldContents, source
+    handleChange = (delta) => {
         const contents = this.editor.getContents().ops;
         const newValue = Utils.prepareMarkdown(contents);
-        if (newValue === this.state.valueInMarkdown) {
-
-            // TODO: remove. for testing only.
-            console.log("was same: handleChange, newValue: " + newValue + "; valueInMarkdown: " + this.state.valueInMarkdown);
-            return;
-        }
-
-        // TODO: remove. for testing only.
-        console.log("handleChange, newValue: " + newValue + "; valueInMarkdown: " + this.state.valueInMarkdown);
 
         // SuggestionBox.handleChange needs to know the caret and pretext
         const [leaf, localCaret] = this.editor.getLeaf(this.editor.getSelection(true).index);
@@ -158,7 +180,10 @@ export default class QuillEditor extends React.Component {
         }
 
         // we now have this value, so no need to rerender when props.value is changed to this.
-        this.setState({valueInMarkdown: newValue});
+        this.setState({
+            valueInMarkdown: newValue,
+            prevValue: this.state.valueInMarkdown,
+        });
 
         // handled by SuggestionBox.handleChange
         this.props.onChange(newValue, leafText, localCaret);
@@ -171,7 +196,10 @@ export default class QuillEditor extends React.Component {
         this.editor.insertText(globalCaret, mention);
 
         const newValue = Utils.prepareMarkdown(this.editor.getContents().ops);
-        this.setState({valueInMarkdown: newValue});
+        this.setState({
+            valueInMarkdown: newValue,
+            prevValue: this.state.valueInMarkdown,
+        });
         return newValue;
     }
 
@@ -179,42 +207,31 @@ export default class QuillEditor extends React.Component {
     addEmojiAtCaret = (term, matchedPretext) => {
         // getSelection will focus the editor
         this.editor.focus();
-        let globalCaret = this.editor.getSelection().index;
+        const globalCaret = this.editor.getSelection().index;
 
         // get the leaf we're currently in -- could be a text leaf if we were just typing,
         // or a blank leaf if we used the emoji picker right after a previous emoji
-        let [leaf, localCaret] = this.editor.getLeaf(globalCaret);
+        const [leaf, localCaret] = this.editor.getLeaf(globalCaret);
 
         // we're or-ing an empty string here because if this is line with no text,
         // text will be undefined
-        let text = leaf.text || '';
+        const text = leaf.text || '';
 
         // remove the \t or \n that quill adds, if any
         const recentChar = text.charAt(localCaret - 1);
         if (recentChar === '\t' || recentChar === '\n') {
-            text = text.slice(0, localCaret - 1) + text.slice(localCaret);
             const removeChar = new Delta().retain(globalCaret - 1).delete(1);
             this.editor.updateContents(removeChar);
-            globalCaret -= 1;
-            localCaret -= 1;
-        }
-
-        const pretext = text.substring(0, localCaret);
-
-        let keepPretext = false;
-        if (!pretext.toLowerCase().endsWith(matchedPretext.toLowerCase())) {
-            // the pretext has changed since we got a term to complete so see if the term still fits the pretext
-            const termWithoutMatched = term.substring(matchedPretext.length);
-            const overlap = Utils.findOverlap(pretext, termWithoutMatched);
-
-            keepPretext = overlap.length === 0;
         }
 
         const emojiName = term.slice(1, -1);
         this.insertEmojiReplacingLength(emojiName, matchedPretext.length);
 
         const newValue = Utils.prepareMarkdown(this.editor.getContents().ops);
-        this.setState({valueInMarkdown: newValue});
+        this.setState({
+            valueInMarkdown: newValue,
+            prevValue: this.state.valueInMarkdown,
+        });
         return newValue;
     }
 
@@ -235,9 +252,6 @@ export default class QuillEditor extends React.Component {
     };
 
     render = () => {
-        // TODO: for testing only. remove.
-        console.log('rendering QuillEditor'); //eslint-disable-line
-
         // TODO: implement: disabled, onCompositionStart/End/Update
         const {
             onKeyPress,
