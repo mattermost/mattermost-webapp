@@ -5,6 +5,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
+import Permissions from 'mattermost-redux/constants/permissions';
+
 import {PermissionsScope} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -25,6 +27,14 @@ import PermissionsTree from '../permissions_tree';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import TeamInList from './team_in_list';
+
+const EXCLUDED_PERMISSIONS = [
+    Permissions.VIEW_MEMBERS,
+    Permissions.JOIN_PUBLIC_TEAMS,
+    Permissions.LIST_PUBLIC_TEAMS,
+    Permissions.JOIN_PRIVATE_TEAMS,
+    Permissions.LIST_PRIVATE_TEAMS,
+];
 
 export default class PermissionTeamSchemeSettings extends React.Component {
     static propTypes = {
@@ -180,6 +190,20 @@ export default class PermissionTeamSchemeSettings extends React.Component {
         };
     }
 
+    restoreExcludedPermissions = (baseTeam, baseChannel, roles) => {
+        for (const permission of baseTeam.permissions) {
+            if (EXCLUDED_PERMISSIONS.includes(permission)) {
+                roles.team_user.permissions.push(permission);
+            }
+        }
+        for (const permission of baseChannel.permissions) {
+            if (EXCLUDED_PERMISSIONS.includes(permission)) {
+                roles.channel_user.permissions.push(permission);
+            }
+        }
+        return roles;
+    }
+
     handleNameChange = (e) => {
         this.setState({schemeName: e.target.value, saveNeeded: true});
         this.props.actions.setNavigationBlocked(true);
@@ -203,10 +227,15 @@ export default class PermissionTeamSchemeSettings extends React.Component {
 
         this.setState({saving: true});
         if (this.props.schemeId) {
-            const derived = this.deriveRolesFromAllUsers(
+            let derived = this.deriveRolesFromAllUsers(
                 this.props.roles[this.props.scheme.default_team_user_role],
                 this.props.roles[this.props.scheme.default_channel_user_role],
                 allUsers
+            );
+            derived = this.restoreExcludedPermissions(
+                this.props.roles[this.props.scheme.default_team_user_role],
+                this.props.roles[this.props.scheme.default_channel_user_role],
+                derived
             );
             teamUser = derived.team_user;
             channelUser = derived.channel_user;
@@ -216,10 +245,15 @@ export default class PermissionTeamSchemeSettings extends React.Component {
             });
             schemeId = this.props.schemeId;
         } else {
-            const derived = this.deriveRolesFromAllUsers(
+            let derived = this.deriveRolesFromAllUsers(
                 this.props.roles.team_user,
                 this.props.roles.channel_user,
                 allUsers
+            );
+            derived = this.restoreExcludedPermissions(
+                this.props.roles.team_user,
+                this.props.roles.channel_user,
+                derived
             );
             teamUser = derived.team_user;
             channelUser = derived.channel_user;
