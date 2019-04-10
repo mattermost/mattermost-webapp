@@ -23,6 +23,14 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import PermissionsTree from '../permissions_tree';
 
+const EXCLUDED_PERMISSIONS = [
+    Permissions.VIEW_MEMBERS,
+    Permissions.JOIN_PUBLIC_TEAMS,
+    Permissions.LIST_PUBLIC_TEAMS,
+    Permissions.JOIN_PRIVATE_TEAMS,
+    Permissions.LIST_PRIVATE_TEAMS,
+];
+
 export default class PermissionSystemSchemeSettings extends React.Component {
     static propTypes = {
         roles: PropTypes.object.isRequired,
@@ -52,14 +60,6 @@ export default class PermissionSystemSchemeSettings extends React.Component {
         };
         this.rolesNeeded = ['system_admin', 'system_user', 'team_admin', 'team_user', 'channel_admin', 'channel_user'];
     }
-
-    excludedPermissions = [
-        Permissions.VIEW_MEMBERS,
-        Permissions.JOIN_PUBLIC_TEAMS,
-        Permissions.LIST_PUBLIC_TEAMS,
-        Permissions.JOIN_PRIVATE_TEAMS,
-        Permissions.LIST_PRIVATE_TEAMS,
-    ]
 
     componentDidMount() {
         this.props.actions.loadRolesIfNeeded(this.rolesNeeded);
@@ -141,17 +141,17 @@ export default class PermissionSystemSchemeSettings extends React.Component {
 
     restoreExcludedPermissions = (roles) => {
         for (const permission of this.props.roles.system_user.permissions) {
-            if (this.excludedPermissions.includes(permission)) {
+            if (EXCLUDED_PERMISSIONS.includes(permission)) {
                 roles.system_user.permissions.push(permission);
             }
         }
         for (const permission of this.props.roles.team_user.permissions) {
-            if (this.excludedPermissions.includes(permission)) {
+            if (EXCLUDED_PERMISSIONS.includes(permission)) {
                 roles.team_user.permissions.push(permission);
             }
         }
         for (const permission of this.props.roles.channel_user.permissions) {
-            if (this.excludedPermissions.includes(permission)) {
+            if (EXCLUDED_PERMISSIONS.includes(permission)) {
                 roles.channel_user.permissions.push(permission);
             }
         }

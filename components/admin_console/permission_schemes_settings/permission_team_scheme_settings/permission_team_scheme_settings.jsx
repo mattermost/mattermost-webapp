@@ -28,6 +28,14 @@ import LocalizedInput from 'components/localized_input/localized_input';
 
 import TeamInList from './team_in_list';
 
+const EXCLUDED_PERMISSIONS = [
+    Permissions.VIEW_MEMBERS,
+    Permissions.JOIN_PUBLIC_TEAMS,
+    Permissions.LIST_PUBLIC_TEAMS,
+    Permissions.JOIN_PRIVATE_TEAMS,
+    Permissions.LIST_PRIVATE_TEAMS,
+];
+
 export default class PermissionTeamSchemeSettings extends React.Component {
     static propTypes = {
         schemeId: PropTypes.string,
@@ -67,14 +75,6 @@ export default class PermissionTeamSchemeSettings extends React.Component {
     static defaultProps = {
         scheme: null,
     }
-
-    excludedPermissions = [
-        Permissions.VIEW_MEMBERS,
-        Permissions.JOIN_PUBLIC_TEAMS,
-        Permissions.LIST_PUBLIC_TEAMS,
-        Permissions.JOIN_PRIVATE_TEAMS,
-        Permissions.LIST_PRIVATE_TEAMS,
-    ]
 
     componentDidMount() {
         this.props.actions.loadRolesIfNeeded(['team_admin', 'team_user', 'channel_admin', 'channel_user']);
@@ -192,12 +192,12 @@ export default class PermissionTeamSchemeSettings extends React.Component {
 
     restoreExcludedPermissions = (baseTeam, baseChannel, roles) => {
         for (const permission of baseTeam.permissions) {
-            if (this.excludedPermissions.includes(permission)) {
+            if (EXCLUDED_PERMISSIONS.includes(permission)) {
                 roles.team_user.permissions.push(permission);
             }
         }
         for (const permission of baseChannel.permissions) {
-            if (this.excludedPermissions.includes(permission)) {
+            if (EXCLUDED_PERMISSIONS.includes(permission)) {
                 roles.channel_user.permissions.push(permission);
             }
         }
