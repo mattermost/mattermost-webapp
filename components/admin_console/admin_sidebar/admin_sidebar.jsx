@@ -147,16 +147,29 @@ export default class AdminSidebar extends React.Component {
                 result.add(item.url);
             }
         }
-        for (const item of Object.values(AdminDefinition.other)) {
+        for (const item of Object.values(AdminDefinition.user_management)) {
             if (isVisible(item)) {
                 result.add(item.url);
             }
         }
-        for (const section of Object.values(AdminDefinition.settings)) {
-            for (const item of Object.values(section)) {
-                if (isVisible(item)) {
-                    result.add(section.url + '/' + item.url);
-                }
+        for (const item of Object.values(AdminDefinition.environment)) {
+            if (isVisible(item)) {
+                result.add(item.url);
+            }
+        }
+        for (const item of Object.values(AdminDefinition.site)) {
+            if (isVisible(item)) {
+                result.add(item.url);
+            }
+        }
+        for (const item of Object.values(AdminDefinition.authentication)) {
+            if (isVisible(item)) {
+                result.add(item.url);
+            }
+        }
+        for (const item of Object.values(AdminDefinition.integrations)) {
+            if (isVisible(item)) {
+                result.add(item.url);
             }
         }
         return result;
@@ -232,6 +245,7 @@ export default class AdminSidebar extends React.Component {
     }
 
     renderRootMenu = (section, icon, title, titleDefault) => {
+        console.log(section);
         const menuEntries = [];
         Object.values(section).forEach((item) => {
             if (!item.title) {
@@ -272,10 +286,17 @@ export default class AdminSidebar extends React.Component {
             return null;
         }
 
+        // Special case for plugins entries
+        let extraEntries;
+        if (section.url === 'integrations') {
+            extraEntries = this.renderPluginsMenu();
+        }
+
         return (
             <AdminSidebarCategory
                 parentLink='/admin_console'
                 icon={icon}
+                sectionClass=''
                 title={
                     <FormattedMessage
                         id={title}
@@ -284,6 +305,7 @@ export default class AdminSidebar extends React.Component {
                 }
             >
                 {menuEntries}
+                {extraEntries}
             </AdminSidebarCategory>
         );
     }
@@ -307,7 +329,7 @@ export default class AdminSidebar extends React.Component {
                 customPlugins.push(
                     <AdminSidebarSection
                         key={'customplugin' + p.id}
-                        name={'custom/' + p.id}
+                        name={'plugins/custom/' + p.id}
                         title={p.name}
                     />
                 );
@@ -369,22 +391,16 @@ export default class AdminSidebar extends React.Component {
                                         </OverlayTrigger>
                                     </div>}
                             </li>
-
+                                
+                            {this.renderRootMenu(AdminDefinition.about, 'fa-info', 'admin.sidebar.about', 'ABOUT')}
                             {this.renderRootMenu(AdminDefinition.reporting, 'fa-bar-chart', 'admin.sidebar.reports', 'REPORTING')}
-                            <AdminSidebarCategory
-                                sectionClass='sections--settings'
-                                parentLink='/admin_console'
-                                icon='fa-gear'
-                                title={
-                                    <FormattedMessage
-                                        id='admin.sidebar.settings'
-                                        defaultMessage='SETTINGS'
-                                    />
-                                }
-                            >
-                                {Object.values(AdminDefinition.settings).map(this.renderSettingsMenu)}
-                            </AdminSidebarCategory>
-                            {this.renderRootMenu(AdminDefinition.other, 'fa-wrench', 'admin.sidebar.other', 'OTHER')}
+                            {this.renderRootMenu(AdminDefinition.user_management, 'fa-users', 'admin.sidebar.user_management', 'USER MANAGEMENT')}
+                            {this.renderRootMenu(AdminDefinition.environment, 'fa-server', 'admin.sidebar.environment', 'ENVIRONMENT')}
+                            {this.renderRootMenu(AdminDefinition.site, 'fa-cogs', 'admin.sidebar.site', 'SITE CONFIGURATION')}
+                            {this.renderRootMenu(AdminDefinition.authentication, 'fa-shield', 'admin.sidebar.authentication', 'AUTHENTICATION')}
+                            {this.renderRootMenu(AdminDefinition.integrations, 'fa-plug', 'admin.sidebar.integrations', 'INTEGRATIONS')}
+                            {this.renderRootMenu(AdminDefinition.compliance, 'fa-list', 'admin.sidebar.compliance', 'COMPLIANCE')}
+                            {this.renderRootMenu(AdminDefinition.experimental, 'fa-flask', 'admin.sidebar.experimental', 'EXPERIMENTAL')}
                         </ul>
                     </Highlight>
                 </div>

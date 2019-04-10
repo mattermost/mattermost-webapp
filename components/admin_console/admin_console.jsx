@@ -73,10 +73,20 @@ export default class AdminConsole extends React.Component {
     }
 
     renderRoutes = (extraProps) => {
-        const firstUrl = Object.values(AdminDefinition.reporting)[0].url;
+        const firstUrl = Object.values(AdminDefinition.about)[0].url;
         return (
             <Switch>
-                {Object.values({...AdminDefinition.reporting, ...AdminDefinition.other}).map((item) => {
+                {Object.values({
+                    ...AdminDefinition.about,
+                    ...AdminDefinition.reporting,
+                    ...AdminDefinition.user_management,
+                    ...AdminDefinition.environment,
+                    ...AdminDefinition.site,
+                    ...AdminDefinition.authentication,
+                    ...AdminDefinition.integrations,
+                    ...AdminDefinition.compliance,
+                    ...AdminDefinition.experimental,
+                }).map((item) => {
                     if (!item.schema) {
                         return null;
                     }
@@ -94,7 +104,7 @@ export default class AdminConsole extends React.Component {
                         />
                     );
                 })}
-                {Object.values(AdminDefinition.settings).map(this.renderSectionRoutes.bind(this, extraProps))}
+                {/* {Object.values(AdminDefinition.settings).map(this.renderSectionRoutes.bind(this, extraProps))} */}
                 <Redirect to={`${this.props.match.url}/${firstUrl}`}/>
             </Switch>
         );
