@@ -14,6 +14,7 @@ import CommandProvider from 'components/suggestion/command_provider.jsx';
 import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
+import {postListScrollChange} from 'actions/global_actions';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -114,6 +115,7 @@ export default class Textbox extends React.Component {
     }
 
     handleHeightChange = (height, maxHeight) => {
+        postListScrollChange();
         if (this.props.onHeightChange) {
             this.props.onHeightChange(height, maxHeight);
         }
