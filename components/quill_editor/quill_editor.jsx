@@ -28,9 +28,9 @@ export default class QuillEditor extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
         className: PropTypes.string.isRequired,
-        spellCheck: PropTypes.string.isRequired,
+        spellCheck: PropTypes.string,
         placeholder: PropTypes.string,
-        onKeyPress: PropTypes.func.isRequired,
+        onKeyPress: PropTypes.func,
         onKeyDown: PropTypes.func.isRequired,
         style: PropTypes.object,
         value: PropTypes.string.isRequired,
@@ -56,7 +56,6 @@ export default class QuillEditor extends React.Component {
         this.state = {
             valueInMarkdown: '',
             prevValue: '',
-            prevId: '',
         };
     }
 
@@ -79,21 +78,14 @@ export default class QuillEditor extends React.Component {
         this.editor.off('text-change');
     }
 
-    static getDerivedStateFromProps(props, state) {
-        if (props.id !== state.prevId) {
-            return {
-                prevId: props.id,
-                valueInMarkdown: props.value,
-            };
-        }
-        return null;
-    }
-
     shouldComponentUpdate = (nextProps, nextState) => {
         // The Quill object never needs to be re-rendered in response to props or state change,
         // at least after its been mounted (in this way it's an uncontrolled component)
         // But it does need to respond to props.value changes from parents -- the parent is
-        // the single source of truth (in this way it's a controlled component)
+        // the single source of truth (in this way it's a controlled component).
+        // That kind of updating the child component /should/ happen in `componentDidUpdate`,
+        // but because we never need to render, and we return false, that will never be called.
+        // So do that here.
 
         if (nextState.valueInMarkdown !== this.state.valueInMarkdown) {
             // we're just being notified the component state has changed. No need to do anything.
@@ -203,7 +195,7 @@ export default class QuillEditor extends React.Component {
         return newValue;
     }
 
-    // called from SuggestionBox or CreatePost (through Textbox)
+    // called from SuggestionBox or a parent (eg, CreatePost -- through Textbox)
     addEmojiAtCaret = (term, matchedPretext) => {
         // getSelection will focus the editor
         this.editor.focus();
@@ -213,13 +205,13 @@ export default class QuillEditor extends React.Component {
         // or a blank leaf if we used the emoji picker right after a previous emoji
         const [leaf, localCaret] = this.editor.getLeaf(globalCaret);
 
-        // we're or-ing an empty string here because if this is line with no text,
+        // we're or-ing an empty string here because if this is a line with no text,
         // text will be undefined
         const text = leaf.text || '';
 
-        // remove the \t or \n that quill adds, if any
+        // remove the \t or \n that quill adds, if any.
         const recentChar = text.charAt(localCaret - 1);
-        if (recentChar === '\t' || recentChar === '\n') {
+        if (recentChar === '\t' || leaf.constructor.name === 'Break') {
             const removeChar = new Delta().retain(globalCaret - 1).delete(1);
             this.editor.updateContents(removeChar);
         }

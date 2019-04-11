@@ -6,20 +6,20 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import AutosizeTextarea from 'components/autosize_textarea.jsx';
+import QuillEditor from 'components/quill_editor';
 import PostMarkdown from 'components/post_markdown';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
 import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
 import CommandProvider from 'components/suggestion/command_provider.jsx';
 import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionBoxQL from 'components/suggestion/suggestion_box_ql.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
-export default class Textbox extends React.Component {
+export default class TextboxQL extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
         channelId: PropTypes.string,
@@ -28,7 +28,7 @@ export default class Textbox extends React.Component {
         onKeyPress: PropTypes.func.isRequired,
         onComposition: PropTypes.func,
         onHeightChange: PropTypes.func,
-        createMessage: PropTypes.string.isRequired,
+        placeholder: PropTypes.string,
         previewMessageLink: PropTypes.string,
         onKeyDown: PropTypes.func,
         onBlur: PropTypes.func,
@@ -76,6 +76,9 @@ export default class Textbox extends React.Component {
         }
 
         this.checkMessageLength(props.value);
+
+        this.editorRef = React.createRef();
+        this.suggestionBoxRef = React.createRef();
     }
 
     handleChange = (e) => {
@@ -120,23 +123,30 @@ export default class Textbox extends React.Component {
     }
 
     focus = () => {
-        const textbox = this.refs.message.getTextbox();
+        this.editorRef.current.getWrappedInstance().focus();
 
-        textbox.focus();
-        Utils.placeCaretAtEnd(textbox);
+        this.editorRef.current.getWrappedInstance().setCaretToEnd();
 
+        // TODO: implement
         // reset character count warning
-        this.checkMessageLength(textbox.value);
+        //this.checkMessageLength(editor.value);
     }
 
     blur = () => {
-        const textbox = this.refs.message.getTextbox();
-        textbox.blur();
+        this.editorRef.current.getWrappedInstance().blur();
     };
 
-    recalculateSize = () => {
-        this.refs.message.recalculateSize();
-    }
+    // TODO: implement
+    // recalculateSize = () => {
+    //     this.refs.message.recalculateSize();
+    // };
+
+    addEmojiAtCaret = (text) => {
+        // From create_post -- pass through to the SuggestionBox
+        // Needs to be handled by suggestionBox to prevent an event loop
+        // TODO: test the above statement...
+        this.suggestionBoxRef.current.addEmojiAtCaret(text, '');
+    };
 
     togglePreview = (e) => {
         e.preventDefault();
@@ -297,12 +307,13 @@ export default class Textbox extends React.Component {
                 ref='wrapper'
                 className='textarea-wrapper'
             >
-                <SuggestionBox
+                <SuggestionBoxQL
                     id={this.props.id}
-                    ref='message'
+                    editorRef={this.editorRef}
+                    ref={this.suggestionBoxRef}
                     className={textboxClassName}
                     spellCheck='true'
-                    placeholder={this.props.createMessage}
+                    placeholder={this.props.placeholder}
                     onChange={this.handleChange}
                     onKeyPress={this.props.onKeyPress}
                     onKeyDown={this.handleKeyDown}
@@ -310,7 +321,6 @@ export default class Textbox extends React.Component {
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
                     style={{visibility: this.state.preview ? 'hidden' : 'visible'}}
-                    inputComponent={AutosizeTextarea}
                     listComponent={SuggestionList}
                     listStyle={this.props.suggestionListStyle}
                     providers={this.suggestionProviders}

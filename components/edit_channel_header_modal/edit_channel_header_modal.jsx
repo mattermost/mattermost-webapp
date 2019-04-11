@@ -7,7 +7,7 @@ import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-int
 
 import {RequestStatus} from 'mattermost-redux/constants';
 
-import Textbox from 'components/textbox';
+import TextboxQL from 'components/textbox_ql';
 import Constants from 'utils/constants.jsx';
 import {isMobile} from 'utils/user_agent.jsx';
 import {isKeyPressed, localizeMessage} from 'utils/utils.jsx';
@@ -201,7 +201,7 @@ class EditChannelHeaderModal extends React.PureComponent {
                                 defaultMessage='Edit the text appearing next to the channel name in the channel header.'
                             />
                         </p>
-                        <Textbox
+                        <TextboxQL
                             value={this.state.header}
                             onChange={this.handleChange}
                             onKeyPress={this.handleKeyPress}

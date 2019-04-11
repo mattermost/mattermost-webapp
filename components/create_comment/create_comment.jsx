@@ -28,7 +28,7 @@ import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
-import Textbox from 'components/textbox';
+import TextboxQL from 'components/textbox_ql';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
 
@@ -896,7 +896,7 @@ export default class CreateComment extends React.PureComponent {
                         className='post-create-body comment-create-body'
                     >
                         <div className='post-body__cell'>
-                            <Textbox
+                            <TextboxQL
                                 onChange={this.handleChange}
                                 onKeyPress={this.commentMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}

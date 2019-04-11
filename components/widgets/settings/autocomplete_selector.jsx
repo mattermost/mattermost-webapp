@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionBoxQL from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 export default class AutocompleteSelector extends React.PureComponent {
@@ -112,7 +112,7 @@ export default class AutocompleteSelector extends React.PureComponent {
             <div className='form-group'>
                 {labelContent}
                 <div className={inputClassName}>
-                    <SuggestionBox
+                    <SuggestionBoxQL
                         placeholder={placeholder}
                         ref={this.setSuggestionRef}
                         listComponent={SuggestionList}

@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import {getFullName} from 'mattermost-redux/utils/user_utils';
 
 import SearchChannelWithPermissionsProvider from 'components/suggestion/search_channel_with_permissions_provider.jsx';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionBoxQL from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 import {placeCaretAtEnd} from 'utils/utils.jsx';
@@ -228,7 +228,7 @@ export default class AddUserToChannelModal extends React.Component {
         );
 
         const content = (
-            <SuggestionBox
+            <SuggestionBoxQL
                 ref={this.setSearchBoxRef}
                 className='form-control focused'
                 onChange={this.onInputChange}

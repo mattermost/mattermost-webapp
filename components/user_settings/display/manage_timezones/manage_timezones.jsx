@@ -9,7 +9,7 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import {getBrowserTimezone} from 'utils/timezone';
 
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionBoxQL from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import TimezoneProvider from 'components/suggestion/timezone_provider.jsx';
 
@@ -187,7 +187,7 @@ export default class ManageTimezones extends React.PureComponent {
                     />
                 </label>
                 <div className='padding-top'>
-                    <SuggestionBox
+                    <SuggestionBoxQL
                         ref={this.setSwitchBoxRef}
                         className='form-control focused'
                         type='search'

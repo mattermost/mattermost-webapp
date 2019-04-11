@@ -11,7 +11,7 @@ import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import {t} from 'utils/i18n';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionBoxQL from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
 import SwitchTeamProvider from 'components/suggestion/switch_team_provider.jsx';
@@ -270,7 +270,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                     >
                         {help}
                     </div>
-                    <SuggestionBox
+                    <SuggestionBoxQL
                         id='quickSwitchInput'
                         ref={this.setSwitchBoxRef}
                         className='form-control focused'

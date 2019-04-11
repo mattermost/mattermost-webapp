@@ -6,7 +6,7 @@ import React from 'react';
 
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import Setting from 'components/admin_console/setting.jsx';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionBoxQL from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 export default class UserAutocompleteSetting extends React.Component {
@@ -46,7 +46,7 @@ export default class UserAutocompleteSetting extends React.Component {
                 <div
                     className='admin-setting-user__dropdown'
                 >
-                    <SuggestionBox
+                    <SuggestionBoxQL
                         id={'admin_user_setting_' + this.props.id}
                         className='form-control'
                         placeholder={this.props.placeholder}

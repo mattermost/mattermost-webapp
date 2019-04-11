@@ -12,7 +12,7 @@ import * as Utils from 'utils/utils.jsx';
 import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
-import Textbox from 'components/textbox';
+import TextboxQL from 'components/textbox_ql';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -300,7 +300,7 @@ export default class EditPostModal extends React.PureComponent {
                     bsClass={`modal-body edit-modal-body${this.state.showEmojiPicker ? ' edit-modal-body--add-reaction' : ''}`}
                     ref='editModalBody'
                 >
-                    <Textbox
+                    <TextboxQL
                         onChange={this.handleChange}
                         onKeyPress={this.handleEditKeyPress}
                         onKeyDown={this.handleKeyDown}
