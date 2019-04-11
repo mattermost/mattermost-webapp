@@ -262,7 +262,6 @@ export default class SuggestionBoxQL extends React.Component {
         }
     };
 
-    // TODO: implement
     handleFocusIn = (e) => {
         // Focus is switching FROM e.relatedTarget, so only treat this as a focus event if we're not switching
         // between children (like from the textbox to the suggestion list)
@@ -591,6 +590,12 @@ export default class SuggestionBoxQL extends React.Component {
 
         // Save ref
         this.container = container;
+
+        // Blur and focus so that handleFocusIn is called for the first time -- for every editor except
+        // the main creat_post, the editor is focused before this has a chance to fire, and then
+        // the SuggestionList's prop `open` is not set to `true` until the next focusing event
+        this.props.editorRef.current.getWrappedInstance().blur();
+        this.props.editorRef.current.getWrappedInstance().focus();
     };
 
     render() {

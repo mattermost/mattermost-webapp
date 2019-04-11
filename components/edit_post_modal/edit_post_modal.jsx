@@ -55,8 +55,8 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     static getDerivedStateFromProps = (props, state) => {
-        const msg = props.editingPost.post ? props.editingPost.post.message_source || props.editingPost.post.message : '';
         if (props.editingPost.show && !state.show) {
+            const msg = props.editingPost.post ? props.editingPost.post.message_source || props.editingPost.post.message : '';
             return {
                 editText: msg,
                 show: true,
