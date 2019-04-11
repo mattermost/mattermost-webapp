@@ -7,6 +7,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {RequestStatus} from 'mattermost-redux/constants';
 
+import TextboxQL from 'components/textbox_ql';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -94,8 +95,20 @@ export default class EditChannelPurposeModal extends React.PureComponent {
         this.setState({serverError: ''});
     }
 
+    focusTextbox = () => {
+        if (this.textboxRef.current) {
+            this.textboxRef.current.getWrappedInstance().focus();
+        }
+    }
+
+    blurTextbox = () => {
+        if (this.textboxRef.current) {
+            this.textboxRef.current.getWrappedInstance().blur();
+        }
+    }
+
     handleEntering = () => {
-        this.textboxRef.current.getWrappedInstance().focus();
+        this.focusTextbox();
     }
 
     onHide = () => {
@@ -125,7 +138,6 @@ export default class EditChannelPurposeModal extends React.PureComponent {
     }
 
     handleChange = (e) => {
-        e.preventDefault();
         this.setState({purpose: e.target.value});
     }
 
@@ -191,12 +203,12 @@ export default class EditChannelPurposeModal extends React.PureComponent {
                     <p>
                         {channelPurposeModal}
                     </p>
-                    <textarea
+                    <TextboxQL
+                        value={this.state.purpose}
                         ref={this.textboxRef}
                         className='form-control no-resize'
-                        rows='6'
-                        maxLength='250'
-                        value={this.state.purpose}
+                        rows={6}
+                        characterLimit={250}
                         onKeyDown={this.handleKeyDown}
                         onChange={this.handleChange}
                     />

@@ -92,9 +92,7 @@ class EditChannelHeaderModal extends React.PureComponent {
     }
 
     handleChange = (e) => {
-        this.setState({
-            header: e.target.value,
-        });
+        this.setState({header: e.target.value});
     }
 
     handleSave = () => {

@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import QuillEditor from 'components/quill_editor';
 import PostMarkdown from 'components/post_markdown';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
 import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
@@ -21,11 +20,11 @@ const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
 export default class TextboxQL extends React.Component {
     static propTypes = {
-        id: PropTypes.string.isRequired,
+        id: PropTypes.string,
         channelId: PropTypes.string,
         value: PropTypes.string.isRequired,
         onChange: PropTypes.func.isRequired,
-        onKeyPress: PropTypes.func.isRequired,
+        onKeyPress: PropTypes.func,
         onComposition: PropTypes.func,
         onHeightChange: PropTypes.func,
         placeholder: PropTypes.string,

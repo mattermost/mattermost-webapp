@@ -26,7 +26,7 @@ initializeBlots();
 // If that changes, QuillEditor's contents will be changed.
 export default class QuillEditor extends React.Component {
     static propTypes = {
-        id: PropTypes.string.isRequired,
+        id: PropTypes.string,
         className: PropTypes.string.isRequired,
         spellCheck: PropTypes.string,
         placeholder: PropTypes.string,
