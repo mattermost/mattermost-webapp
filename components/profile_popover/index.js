@@ -13,7 +13,7 @@ import {
 import {
     getCurrentChannel,
     getChannelMembersInChannels,
-    canManageAnyChannelMembers,
+    canManageAnyChannelMembersInCurrentTeam,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
 import {loadBot} from 'mattermost-redux/actions/bots';
@@ -60,7 +60,7 @@ function mapStateToProps(state, ownProps) {
         enableTimezone: areTimezonesEnabledAndSupported(state),
         isTeamAdmin,
         isChannelAdmin,
-        canManageChannelMembers: canManageAnyChannelMembers(state),
+        canManageAnyChannelMembersInCurrentTeam: canManageAnyChannelMembersInCurrentTeam(state),
         status: getStatusForUserId(state, userId),
         teamUrl: getCurrentRelativeTeamUrl(state),
         user: getUser(state, userId),

@@ -18,7 +18,7 @@ describe('components/ProfilePopover', () => {
         isChannelAdmin: false,
         isTeamAdmin: false,
         teamUrl: '',
-        canManageChannelMembers: true,
+        canManageAnyChannelMembersInCurrentTeam: true,
         actions: {
             getMembershipForCurrentEntities: jest.fn(),
             openDirectChannelToUserId: jest.fn(),
