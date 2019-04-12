@@ -196,9 +196,9 @@ export default class SearchResults extends React.PureComponent {
             }, this);
         }
 
-        let loadingScreen = null;
+        let loadingMorePostsComponent = null;
         if (!this.props.isSearchAtEnd) {
-            loadingScreen = (
+            loadingMorePostsComponent = (
                 <div className='loading-screen'>
                     <div className='loading__content'>
                         <div className='round round-1'/>
@@ -233,7 +233,7 @@ export default class SearchResults extends React.PureComponent {
                         className='search-items-container'
                     >
                         {ctls}
-                        {loadingScreen}
+                        {loadingMorePostsComponent}
                     </div>
                 </Scrollbars>
             </div>
