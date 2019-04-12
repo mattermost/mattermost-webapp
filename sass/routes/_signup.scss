@@ -1,5 +1,13 @@
 @charset 'UTF-8';
 
+body {
+    &.announcement-bar--fixed {
+        .signup-header {
+            top: 24px;
+        }
+    }
+}
+
 .signup-header {
     background: $bg--gray;
     line-height: 33px;
