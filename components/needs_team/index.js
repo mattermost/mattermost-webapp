@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
 
 import {fetchMyChannelsAndMembers, markChannelAsRead, viewChannel} from 'mattermost-redux/actions/channels';
-import {getMyTeamUnreads, getTeams, selectTeam} from 'mattermost-redux/actions/teams';
+import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -42,7 +42,7 @@ function mapDispatchToProps(dispatch) {
             getMyTeamUnreads,
             viewChannel,
             markChannelAsRead,
-            getTeams,
+            getTeamByName,
             addUserToTeam,
             setPreviousTeamId,
             selectTeam,

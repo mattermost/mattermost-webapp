@@ -184,7 +184,10 @@ export default class AdminConsole extends React.Component {
         };
 
         return (
-            <div className='admin-console__wrapper'>
+            <div
+                className='admin-console__wrapper'
+                id='adminConsoleWrapper'
+            >
                 <AnnouncementBar/>
                 <SystemNotice/>
                 <AdminSidebar onFilterChange={this.onFilterChange}/>

@@ -112,4 +112,12 @@ describe('components/channel_members_dropdown', () => {
             done();
         });
     });
+
+    test('should match snapshot for group_constrained channel', () => {
+        baseProps.channel.group_constrained = true;
+        const wrapper = shallow(
+            <ChannelMembersDropdown {...baseProps}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
 });

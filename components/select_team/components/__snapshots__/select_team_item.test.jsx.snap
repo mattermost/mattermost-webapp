@@ -220,7 +220,6 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
                 "timeZone": "Etc/UTC",
               },
             },
-            "_currentlyRenderingComponent": null,
             "_didScheduleRenderPhaseUpdate": false,
             "_dispatcher": Object {
               "readContext": [Function],
@@ -281,7 +280,6 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
             "_isReRender": false,
             "_newState": null,
             "_numberOfReRenders": 0,
-            "_previousComponentIdentity": null,
             "_renderPhaseUpdates": null,
             "_rendered": <div
               className="signup-team-dir"

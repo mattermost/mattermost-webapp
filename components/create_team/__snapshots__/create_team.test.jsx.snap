@@ -29,7 +29,6 @@ exports[`/components/create_team should match snapshot 1`] = `
             render={[Function]}
           />
           <Redirect
-            push={false}
             to="http://localhost:8065/create_team/display_name"
           />
         </Switch>

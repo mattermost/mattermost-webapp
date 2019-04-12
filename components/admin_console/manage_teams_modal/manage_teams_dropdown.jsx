@@ -12,6 +12,7 @@ import * as Utils from 'utils/utils.jsx';
 
 export default class ManageTeamsDropdown extends React.Component {
     static propTypes = {
+        team: PropTypes.object.isRequired,
         user: PropTypes.object.isRequired,
         teamMember: PropTypes.object.isRequired,
         onError: PropTypes.func.isRequired,
@@ -44,7 +45,7 @@ export default class ManageTeamsDropdown extends React.Component {
 
     render() {
         const isTeamAdmin = Utils.isAdmin(this.props.teamMember.roles) || this.props.teamMember.scheme_admin;
-
+        const {team} = this.props;
         let title;
         if (isTeamAdmin) {
             title = Utils.localizeMessage('admin.user_item.teamAdmin', 'Team Admin');
@@ -73,6 +74,7 @@ export default class ManageTeamsDropdown extends React.Component {
                         text={Utils.localizeMessage('admin.user_item.makeMember', 'Make Member')}
                     />
                     <MenuItemAction
+                        show={!team.group_constrained}
                         onClick={this.removeFromTeam}
                         text={Utils.localizeMessage('team_members_dropdown.leave_team', 'Remove from Team')}
                     />

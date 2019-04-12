@@ -2,9 +2,11 @@
 // See LICENSE.txt for license information.
 
 const postMessageAs = require('./post_message_as');
+const externalRequest = require('./external_request');
 
 module.exports = (on) => {
     on('task', {
         postMessageAs,
+        externalRequest,
     });
 };
