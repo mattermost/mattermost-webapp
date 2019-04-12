@@ -17,6 +17,10 @@ describe('PolicyRolesAdapter', function() {
                     Permissions.EDIT_POST,
                     Permissions.DELETE_POST,
                     Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
+                    Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES,
+                    Permissions.DELETE_PUBLIC_CHANNEL,
+                    Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES,
+                    Permissions.DELETE_PRIVATE_CHANNEL,
                 ],
             },
             team_user: {
@@ -26,10 +30,6 @@ describe('PolicyRolesAdapter', function() {
                     Permissions.ADD_USER_TO_TEAM,
                     Permissions.CREATE_PUBLIC_CHANNEL,
                     Permissions.CREATE_PRIVATE_CHANNEL,
-                    Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES,
-                    Permissions.DELETE_PUBLIC_CHANNEL,
-                    Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES,
-                    Permissions.DELETE_PRIVATE_CHANNEL,
                 ],
             },
             channel_admin: {
@@ -139,13 +139,13 @@ describe('PolicyRolesAdapter', function() {
                 roles.team_user.permissions = [];
                 const updatedRoles = rolesFromMapping({restrictPublicChannelManagement: 'all'}, roles);
                 expect(Object.values(updatedRoles).length).toEqual(1);
-                expect(updatedRoles.team_user.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
+                expect(updatedRoles.channel_user.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
             });
 
             test('channel_admin', function() {
                 const updatedRoles = rolesFromMapping({restrictPublicChannelManagement: 'channel_admin'}, roles);
                 expect(Object.values(updatedRoles).length).toEqual(3);
-                expect(updatedRoles.team_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
+                expect(updatedRoles.channel_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
                 expect(updatedRoles.channel_admin.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
                 expect(updatedRoles.team_admin.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
             });
@@ -153,7 +153,7 @@ describe('PolicyRolesAdapter', function() {
             test('team_admin', function() {
                 const updatedRoles = rolesFromMapping({restrictPublicChannelManagement: 'team_admin'}, roles);
                 expect(Object.values(updatedRoles).length).toEqual(2);
-                expect(updatedRoles.team_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
+                expect(updatedRoles.channel_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
                 expect(updatedRoles.team_admin.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
             });
 
@@ -161,7 +161,7 @@ describe('PolicyRolesAdapter', function() {
                 roles.team_admin.permissions.push(Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES);
                 const updatedRoles = rolesFromMapping({restrictPublicChannelManagement: 'system_admin'}, roles);
                 expect(Object.values(updatedRoles).length).toEqual(2);
-                expect(updatedRoles.team_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
+                expect(updatedRoles.channel_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
                 expect(updatedRoles.team_admin.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
             });
         });
@@ -251,23 +251,23 @@ describe('PolicyRolesAdapter', function() {
 
         describe('channel-team-mixed-based', function() {
             test('returns the expected policy value for a channel/team mixed based policy', function() {
-                addPermissionToRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.team_user);
+                addPermissionToRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.channel_user);
                 let value = mappingValueFromRoles('restrictPublicChannelDeletion', roles);
                 expect(value).toEqual('all');
 
-                removePermissionFromRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.team_user);
+                removePermissionFromRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.channel_user);
                 addPermissionToRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.channel_admin);
                 addPermissionToRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.team_admin);
                 value = mappingValueFromRoles('restrictPublicChannelDeletion', roles);
                 expect(value).toEqual('channel_admin');
 
-                removePermissionFromRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.team_user);
+                removePermissionFromRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.channel_user);
                 removePermissionFromRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.channel_admin);
                 addPermissionToRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.team_admin);
                 value = mappingValueFromRoles('restrictPublicChannelDeletion', roles);
                 expect(value).toEqual('team_admin');
 
-                removePermissionFromRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.team_user);
+                removePermissionFromRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.channel_user);
                 removePermissionFromRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.channel_admin);
                 removePermissionFromRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.team_admin);
                 value = mappingValueFromRoles('restrictPublicChannelDeletion', roles);
