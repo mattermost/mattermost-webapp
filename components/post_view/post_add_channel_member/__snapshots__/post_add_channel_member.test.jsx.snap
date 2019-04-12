@@ -5,59 +5,105 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, empty 
 exports[`components/post_view/PostAddChannelMember should match snapshot, empty postId 1`] = `""`;
 
 exports[`components/post_view/PostAddChannelMember should match snapshot, private channel 1`] = `
-<p>
-  <Connect(AtMention)
-    mentionName="username_1"
-  />
-   
-  <FormattedMessage
-    defaultMessage="did not get notified by this mention because they are not in the channel. Would you like to "
-    id="post_body.check_for_out_of_channel_mentions.message.one"
-    values={Object {}}
-  />
-  <a
-    id="add_channel_member_link"
-    onClick={[Function]}
-  >
+<Fragment>
+  <p>
+    <Connect(AtMention)
+      mentionName="username_1"
+    />
+     
     <FormattedMessage
-      defaultMessage="add them to this private channel"
-      id="post_body.check_for_out_of_channel_mentions.link.private"
+      defaultMessage="did not get notified by this mention because they are not in the channel. Would you like to "
+      id="post_body.check_for_out_of_channel_mentions.message.one"
       values={Object {}}
     />
-  </a>
-  <FormattedMessage
-    defaultMessage="? They will have access to all message history."
-    id="post_body.check_for_out_of_channel_mentions.message_last"
-    values={Object {}}
-  />
-</p>
+    <a
+      id="add_channel_member_link"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="add them to this private channel"
+        id="post_body.check_for_out_of_channel_mentions.link.private"
+        values={Object {}}
+      />
+    </a>
+    <FormattedMessage
+      defaultMessage="? They will have access to all message history."
+      id="post_body.check_for_out_of_channel_mentions.message_last"
+      values={Object {}}
+    />
+  </p>
+</Fragment>
 `;
 
 exports[`components/post_view/PostAddChannelMember should match snapshot, public channel 1`] = `
-<p>
-  <Connect(AtMention)
-    mentionName="username_1"
-  />
-   
-  <FormattedMessage
-    defaultMessage="did not get notified by this mention because they are not in the channel. Would you like to "
-    id="post_body.check_for_out_of_channel_mentions.message.one"
-    values={Object {}}
-  />
-  <a
-    id="add_channel_member_link"
-    onClick={[Function]}
-  >
+<Fragment>
+  <p>
+    <Connect(AtMention)
+      mentionName="username_1"
+    />
+     
     <FormattedMessage
-      defaultMessage="add them to the channel"
-      id="post_body.check_for_out_of_channel_mentions.link.public"
+      defaultMessage="did not get notified by this mention because they are not in the channel. Would you like to "
+      id="post_body.check_for_out_of_channel_mentions.message.one"
       values={Object {}}
     />
-  </a>
-  <FormattedMessage
-    defaultMessage="? They will have access to all message history."
-    id="post_body.check_for_out_of_channel_mentions.message_last"
-    values={Object {}}
-  />
-</p>
+    <a
+      id="add_channel_member_link"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="add them to the channel"
+        id="post_body.check_for_out_of_channel_mentions.link.public"
+        values={Object {}}
+      />
+    </a>
+    <FormattedMessage
+      defaultMessage="? They will have access to all message history."
+      id="post_body.check_for_out_of_channel_mentions.message_last"
+      values={Object {}}
+    />
+  </p>
+</Fragment>
+`;
+
+exports[`components/post_view/PostAddChannelMember should match snapshot, with no-groups usernames 1`] = `
+<Fragment>
+  <p>
+    <Connect(AtMention)
+      mentionName="username_1"
+    />
+     
+    <FormattedMessage
+      defaultMessage="did not get notified by this mention because they are not in the channel. Would you like to "
+      id="post_body.check_for_out_of_channel_mentions.message.one"
+      values={Object {}}
+    />
+    <a
+      id="add_channel_member_link"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="add them to the channel"
+        id="post_body.check_for_out_of_channel_mentions.link.public"
+        values={Object {}}
+      />
+    </a>
+    <FormattedMessage
+      defaultMessage="? They will have access to all message history."
+      id="post_body.check_for_out_of_channel_mentions.message_last"
+      values={Object {}}
+    />
+  </p>
+  <p>
+    <Connect(AtMention)
+      mentionName="user_id_2"
+    />
+     
+    <FormattedMessage
+      defaultMessage="did not get notified by this mention because they are not in the channel. They are also not a member of the groups linked to this channel."
+      id="post_body.check_for_out_of_channel_groups_mentions.message"
+      values={Object {}}
+    />
+  </p>
+</Fragment>
 `;
