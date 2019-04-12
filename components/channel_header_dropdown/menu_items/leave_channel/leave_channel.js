@@ -24,6 +24,11 @@ export default class LeaveChannel extends React.PureComponent {
         isDefault: PropTypes.bool.isRequired,
 
         /**
+         * Use for test selector
+         */
+        id: PropTypes.string,
+
+        /**
          * Object with action creators
          */
         actions: PropTypes.shape({
@@ -53,10 +58,11 @@ export default class LeaveChannel extends React.PureComponent {
     }
 
     render() {
-        const {channel, isDefault} = this.props;
+        const {channel, isDefault, id} = this.props;
 
         return (
             <MenuItemAction
+                id={id}
                 show={!isDefault && channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
                 onClick={this.handleLeave}
                 text={localizeMessage('channel_header.leave', 'Leave Channel')}
