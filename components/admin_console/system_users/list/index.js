@@ -10,8 +10,11 @@ import SystemUsersList from './system_users_list.jsx';
 import {getUsers} from './selectors.jsx';
 
 function mapStateToProps(state, ownProps) {
+    const users = getUsers(state, ownProps.loading, ownProps.teamId, ownProps.term, ownProps.filter).filter((user) => {
+        return !user.is_bot;
+    });
     return {
-        users: getUsers(state, ownProps.loading, ownProps.teamId, ownProps.term, ownProps.filter),
+        users,
     };
 }
 
