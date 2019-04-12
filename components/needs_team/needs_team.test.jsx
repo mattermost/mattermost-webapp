@@ -45,21 +45,18 @@ describe('components/needs_team', () => {
         },
     };
 
-    const teamData = [
-        ...teamsList,
-        {
-            id: 'kemjcpu9bi877yegqjs18ndp4d',
-            invite_id: 'kemjcpu9bi877yegqjs18ndp4a',
-            name: 'new',
-        },
-    ];
+    const teamData = {
+        id: 'kemjcpu9bi877yegqjs18ndp4d',
+        invite_id: 'kemjcpu9bi877yegqjs18ndp4a',
+        name: 'new',
+    };
 
     const actions = {
         fetchMyChannelsAndMembers: jest.fn().mockResolvedValue({data: true}),
         getMyTeamUnreads: jest.fn(),
         viewChannel: jest.fn(),
         markChannelAsRead: jest.fn(),
-        getTeams: jest.fn().mockResolvedValue({data: teamData}),
+        getTeamByName: jest.fn().mockResolvedValue({data: teamData}),
         addUserToTeam: jest.fn().mockResolvedValue({data: true}),
         selectTeam: jest.fn(),
         setPreviousTeamId: jest.fn(),

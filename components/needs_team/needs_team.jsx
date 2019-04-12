@@ -24,7 +24,6 @@ let lastTime = (new Date()).getTime();
 const WAKEUP_CHECK_INTERVAL = 30000; // 30 seconds
 const WAKEUP_THRESHOLD = 60000; // 60 seconds
 const UNREAD_CHECK_TIME_MILLISECONDS = 10000;
-const TEAMS_PER_PAGE = 200;
 
 export default class NeedsTeam extends React.Component {
     static propTypes = {
@@ -38,7 +37,7 @@ export default class NeedsTeam extends React.Component {
             getMyTeamUnreads: PropTypes.func.isRequired,
             viewChannel: PropTypes.func.isRequired,
             markChannelAsRead: PropTypes.func.isRequired,
-            getTeams: PropTypes.func.isRequired,
+            getTeamByName: PropTypes.func.isRequired,
             addUserToTeam: PropTypes.func.isRequired,
             selectTeam: PropTypes.func.isRequired,
             setPreviousTeamId: PropTypes.func.isRequired,
@@ -159,8 +158,7 @@ export default class NeedsTeam extends React.Component {
     }
 
     joinTeam = async (props) => {
-        const openTeams = await this.props.actions.getTeams(0, TEAMS_PER_PAGE);
-        const team = openTeams.data.find((teamObj) => teamObj.name === props.match.params.team);
+        const {data: team} = await this.props.actions.getTeamByName(props.match.params.team);
         if (team) {
             const {error} = await props.actions.addUserToTeam(team.id, props.currentUser && props.currentUser.id);
             if (error) {
