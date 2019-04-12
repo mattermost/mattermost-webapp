@@ -196,22 +196,12 @@ export default class QuillEditor extends React.Component {
     }
 
     // called from SuggestionBox or a parent (eg, CreatePost -- through Textbox)
-    addEmojiAtCaret = (term, matchedPretext) => {
-        // getSelection will focus the editor
+    addEmojiAtCaret = (term, matchedPretext, tabOrEnter) => {
         this.editor.focus();
         const globalCaret = this.editor.getSelection().index;
 
-        // get the leaf we're currently in -- could be a text leaf if we were just typing,
-        // or a blank leaf if we used the emoji picker right after a previous emoji
-        const [leaf, localCaret] = this.editor.getLeaf(globalCaret);
-
-        // we're or-ing an empty string here because if this is a line with no text,
-        // text will be undefined
-        const text = leaf.text || '';
-
         // remove the \t or \n that quill adds, if any.
-        const recentChar = text.charAt(localCaret - 1);
-        if (recentChar === '\t' || leaf.constructor.name === 'Break') {
+        if (tabOrEnter) {
             const removeChar = new Delta().retain(globalCaret - 1).delete(1);
             this.editor.updateContents(removeChar);
         }
@@ -242,6 +232,15 @@ export default class QuillEditor extends React.Component {
         this.editor.insertEmbed(globalCaret, 'emoji', {name, imageUrl});
         this.editor.setSelection(globalCaret + 1);
     };
+
+    replaceText = (text) => {
+        this.editor.focus();
+        this.editor.setContents([{insert: text}]);
+        this.setState({
+            valueInMarkdown: text,
+            prevValue: this.state.valueInMarkdown,
+        });
+    }
 
     render = () => {
         // TODO: implement: disabled, onCompositionStart/End/Update

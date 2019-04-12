@@ -352,8 +352,8 @@ export default class SuggestionBoxQL extends React.Component {
         }
     }
 
-    addEmojiAtCaret = (term, matchedPretext) => {
-        const newValue = this.getEditor().addEmojiAtCaret(term, matchedPretext);
+    addEmojiAtCaret = (term, matchedPretext, tabOrEnter) => {
+        const newValue = this.getEditor().addEmojiAtCaret(term, matchedPretext, tabOrEnter);
 
         if (this.props.onChange) {
             // fake an input event to send back to parent components
@@ -362,28 +362,22 @@ export default class SuggestionBoxQL extends React.Component {
         }
     }
 
-    // TODO: need to convert
     replaceText = (term) => {
-        const textbox = this.getEditor();
-        textbox.value = term;
+        const editor = this.getEditor();
+        editor.replaceText(term);
 
         if (this.props.onChange) {
             // fake an input event to send back to parent components
-            const e = {
-                target: textbox,
-            };
-
             // don't call handleChange or we'll get into an event loop
-            this.props.onChange(e);
+            this.props.onChange({target: {value: term}});
         }
     }
 
-    // TODO: need to convert
-    handleCompleteWord = (term, matchedPretext) => {
+    handleCompleteWord = (term, matchedPretext, tabOrEnter = false) => {
         if (this.props.replaceAllInputOnSelect) {
             this.replaceText(term);
         } else {
-            this.addEmojiAtCaret(term, matchedPretext);
+            this.addEmojiAtCaret(term, matchedPretext, tabOrEnter);
         }
 
         if (this.props.onItemSelected) {
@@ -469,15 +463,10 @@ export default class SuggestionBoxQL extends React.Component {
                     }
                 }
 
-                // remove the tab or enter passed on by the quill editor
-                if (this.pretext.endsWith('\t') || this.pretext.endsWith('\n')) {
-                    this.pretext = this.pretext.slice(0, -1);
-                }
-
                 // If these don't match, the user typed quickly and pressed enter before we could
                 // update the pretext, so update the pretext before completing
                 if (this.pretext.endsWith(matchedPretext)) {
-                    this.handleCompleteWord(this.state.selection, matchedPretext);
+                    this.handleCompleteWord(this.state.selection, matchedPretext, true);
                 } else {
                     clearTimeout(this.timeoutId);
                     this.nonDebouncedPretextChanged(this.pretext, true);
