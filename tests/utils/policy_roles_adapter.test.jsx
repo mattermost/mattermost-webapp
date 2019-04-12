@@ -136,7 +136,7 @@ describe('PolicyRolesAdapter', function() {
 
         describe('channelTeamMixedPolicies', function() {
             test('all', function() {
-                roles.team_user.permissions = [];
+                roles.channel_user.permissions = [];
                 const updatedRoles = rolesFromMapping({restrictPublicChannelManagement: 'all'}, roles);
                 expect(Object.values(updatedRoles).length).toEqual(1);
                 expect(updatedRoles.channel_user.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
