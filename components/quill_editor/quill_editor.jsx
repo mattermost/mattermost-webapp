@@ -36,8 +36,6 @@ export default class QuillEditor extends React.Component {
         value: PropTypes.string.isRequired,
         disabled: PropTypes.bool,
         onChange: PropTypes.func.isRequired,
-
-        // TODO: will implement
         onCompositionStart: PropTypes.func.isRequired,
         onCompositionUpdate: PropTypes.func.isRequired,
         onCompositionEnd: PropTypes.func.isRequired,
@@ -181,11 +179,39 @@ export default class QuillEditor extends React.Component {
         this.props.onChange(newValue, leafText, localCaret);
     };
 
-    // TODO: in the middle of implementing this.
-    addMentionAtCaret = (mention) => {
-        const globalCaret = this.editor.getSelection().index;
+    handleCompositionUpdate = (e) => {
+        const [leaf] = this.editor.getLeaf(this.editor.getSelection(true).index);
+        const leafText = leaf.text || '';
+
+        if (this.props.onCompositionUpdate) {
+            this.props.onCompositionUpdate(e, leafText);
+        }
+    }
+
+    addTextAtCaret = (mention, matchedPretext, tabOrEnter, spaceAfter) => {
+        let globalCaret = this.editor.getSelection(true).index;
+
+        // remove the \t or \n that quill adds, if any.
+        if (tabOrEnter) {
+            const removeChar = new Delta().retain(globalCaret - 1).delete(1);
+            this.editor.updateContents(removeChar);
+            globalCaret -= 1;
+        }
+
+        // replace matchedPretext, if any.
+        if (matchedPretext) {
+            const delta = new Delta().retain(globalCaret - matchedPretext.length).delete(matchedPretext.length);
+            this.editor.updateContents(delta);
+            globalCaret -= matchedPretext.length;
+        }
 
         this.editor.insertText(globalCaret, mention);
+        globalCaret += mention.length;
+        this.editor.setSelection(globalCaret);
+
+        if (spaceAfter) {
+            this.editor.insertText(globalCaret, ' ');
+        }
 
         const newValue = Utils.prepareMarkdown(this.editor.getContents().ops);
         this.setState({
@@ -221,8 +247,6 @@ export default class QuillEditor extends React.Component {
         let globalCaret = this.editor.getSelection().index;
 
         // get the emoji Url
-        // Todo: should separate this? It depends on props that this component shouldn't care about
-        //   but not sure of the best way to get the props into a non-react component
         const imageUrl = Utils.getEmojiUrl(name, this.props.emojiMap);
 
         const delta = new Delta().retain(globalCaret - length).delete(length);
@@ -231,6 +255,7 @@ export default class QuillEditor extends React.Component {
 
         this.editor.insertEmbed(globalCaret, 'emoji', {name, imageUrl});
         this.editor.setSelection(globalCaret + 1);
+        this.editor.insertText(globalCaret + 1, ' ');
     };
 
     replaceText = (text) => {
@@ -243,10 +268,12 @@ export default class QuillEditor extends React.Component {
     }
 
     render = () => {
-        // TODO: implement: disabled, onCompositionStart/End/Update
         const {
             onKeyPress,
             onKeyDown,
+            onCompositionStart,
+            onCompositionUpdate,
+            onCompositionEnd,
 
             // TODO: The provided `id` is sometimes hard-coded and used to interface with the
             // component, e.g. `post_textbox`, so it can't be changed. This would ideally be
@@ -263,6 +290,9 @@ export default class QuillEditor extends React.Component {
                 className={this.props.className}
                 onKeyPress={onKeyPress}
                 onKeyDown={onKeyDown}
+                onCompositionStart={onCompositionStart}
+                onCompositionUpdate={this.handleCompositionUpdate}
+                onCompositionEnd={onCompositionEnd}
             />
         );
     }

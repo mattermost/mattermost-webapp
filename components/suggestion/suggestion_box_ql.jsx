@@ -203,7 +203,6 @@ export default class SuggestionBoxQL extends React.Component {
         }
     }
 
-    // TODO: check that this works
     handleMentionKeyClick = (mentionKey, isRHS) => {
         if (this.props.isRHS !== isRHS) {
             return;
@@ -216,7 +215,7 @@ export default class SuggestionBoxQL extends React.Component {
             insertText = ' ' + insertText;
         }
 
-        this.addMentionAtCaret(insertText, '');
+        this.addMentionAtCaret(insertText);
     }
 
     getEditor = () => {
@@ -305,7 +304,6 @@ export default class SuggestionBoxQL extends React.Component {
         }
     }
 
-    // TODO: implement
     // is handled by createPost.emitTypingEvent
     handleCompositionStart = () => {
         this.composing = true;
@@ -314,17 +312,14 @@ export default class SuggestionBoxQL extends React.Component {
         }
     }
 
-    // TODO: implement
     // is handled by createPost.emitTypingEvent
-    handleCompositionUpdate = (e) => {
+    handleCompositionUpdate = (e, localText) => {
         if (!e.data) {
             return;
         }
 
         // The caret appears before the CJK character currently being composed, so re-add it to the pretext
-        const editor = this.getEditor();
-        const selectionEnd = editor.getSelection()[length];
-        const pretext = editor.value.substring(0, selectionEnd) + e.data;
+        const pretext = localText + e.data;
 
         this.handlePretextChanged(pretext);
         if (this.props.onComposition) {
@@ -332,7 +327,6 @@ export default class SuggestionBoxQL extends React.Component {
         }
     }
 
-    // TODO: implement
     // is handled by createPost.emitTypingEvent
     handleCompositionEnd = () => {
         this.composing = false;
@@ -341,9 +335,8 @@ export default class SuggestionBoxQL extends React.Component {
         }
     }
 
-    // TODO: implement
-    addMentionAtCaret = (mention) => {
-        const newValue = this.getEditor().addMentionAtCaret(mention);
+    addEmojiAtCaret = (term, matchedPretext, tabOrEnter) => {
+        const newValue = this.getEditor().addEmojiAtCaret(term, matchedPretext, tabOrEnter, true);
 
         if (this.props.onChange) {
             // fake an input event to send back to parent components
@@ -352,8 +345,8 @@ export default class SuggestionBoxQL extends React.Component {
         }
     }
 
-    addEmojiAtCaret = (term, matchedPretext, tabOrEnter) => {
-        const newValue = this.getEditor().addEmojiAtCaret(term, matchedPretext, tabOrEnter);
+    addTextAtCaret = (mention, matchedPretext, tabOrEnter) => {
+        const newValue = this.getEditor().addTextAtCaret(mention, matchedPretext, tabOrEnter, true);
 
         if (this.props.onChange) {
             // fake an input event to send back to parent components
@@ -376,8 +369,10 @@ export default class SuggestionBoxQL extends React.Component {
     handleCompleteWord = (term, matchedPretext, tabOrEnter = false) => {
         if (this.props.replaceAllInputOnSelect) {
             this.replaceText(term);
-        } else {
+        } else if ((/^:\w{2,}:$/).test(term)) {
             this.addEmojiAtCaret(term, matchedPretext, tabOrEnter);
+        } else {
+            this.addTextAtCaret(term, matchedPretext, tabOrEnter);
         }
 
         if (this.props.onItemSelected) {
@@ -646,31 +641,31 @@ export default class SuggestionBoxQL extends React.Component {
                     onCompositionEnd={this.handleCompositionEnd}
                 />
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
-                    <SuggestionListComponent
-                        ref='list'
-                        open={this.state.focused}
-                        pretext={this.pretext}
-                        location={listStyle}
-                        renderDividers={renderDividers}
-                        renderNoResults={renderNoResults}
-                        onCompleteWord={this.handleCompleteWord}
-                        cleared={this.state.cleared}
-                        matchedPretext={this.state.matchedPretext}
-                        items={this.state.items}
-                        terms={this.state.terms}
-                        selection={this.state.selection}
-                        components={this.state.components}
-                    />
+                <SuggestionListComponent
+                    ref='list'
+                    open={this.state.focused}
+                    pretext={this.pretext}
+                    location={listStyle}
+                    renderDividers={renderDividers}
+                    renderNoResults={renderNoResults}
+                    onCompleteWord={this.handleCompleteWord}
+                    cleared={this.state.cleared}
+                    matchedPretext={this.state.matchedPretext}
+                    items={this.state.items}
+                    terms={this.state.terms}
+                    selection={this.state.selection}
+                    components={this.state.components}
+                />
                 }
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'date' &&
-                    <SuggestionDateComponent
-                        ref='date'
-                        items={this.state.items}
-                        terms={this.state.terms}
-                        components={this.state.components}
-                        matchedPretext={this.state.matchedPretext}
-                        onCompleteWord={this.handleCompleteWord}
-                    />
+                <SuggestionDateComponent
+                    ref='date'
+                    items={this.state.items}
+                    terms={this.state.terms}
+                    components={this.state.components}
+                    matchedPretext={this.state.matchedPretext}
+                    onCompleteWord={this.handleCompleteWord}
+                />
                 }
             </div>
         );
