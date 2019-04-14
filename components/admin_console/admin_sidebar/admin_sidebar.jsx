@@ -245,7 +245,7 @@ export default class AdminSidebar extends React.Component {
                 customPlugins.push(
                     <AdminSidebarSection
                         key={'customplugin' + p.id}
-                        name={'plugins/custom/' + p.id}
+                        name={'integrations/plugin_' + p.id}
                         title={p.name}
                     />
                 );
