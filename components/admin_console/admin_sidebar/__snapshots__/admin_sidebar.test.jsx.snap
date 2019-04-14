@@ -38,7 +38,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           title={
             <FormattedMessage
               defaultMessage="Reporting"
-              id="admin.sidebar.reports"
+              id="admin.sidebar.reporting"
               values={Object {}}
             />
           }
@@ -459,7 +459,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             title={
               <FormattedMessage
                 defaultMessage="Features"
-                id="admin.sidebar.features"
+                id="admin.sidebar.integrationsFeatures"
                 values={Object {}}
               />
             }
@@ -582,7 +582,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
           title={
             <FormattedMessage
               defaultMessage="Reporting"
-              id="admin.sidebar.reports"
+              id="admin.sidebar.reporting"
               values={Object {}}
             />
           }
@@ -1003,7 +1003,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
             title={
               <FormattedMessage
                 defaultMessage="Features"
-                id="admin.sidebar.features"
+                id="admin.sidebar.integrationsFeatures"
                 values={Object {}}
               />
             }
@@ -1146,7 +1146,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           title={
             <FormattedMessage
               defaultMessage="Reporting"
-              id="admin.sidebar.reports"
+              id="admin.sidebar.reporting"
               values={Object {}}
             />
           }
@@ -1671,7 +1671,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             title={
               <FormattedMessage
                 defaultMessage="Features"
-                id="admin.sidebar.features"
+                id="admin.sidebar.integrationsFeatures"
                 values={Object {}}
               />
             }
@@ -1893,7 +1893,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           title={
             <FormattedMessage
               defaultMessage="Reporting"
-              id="admin.sidebar.reports"
+              id="admin.sidebar.reporting"
               values={Object {}}
             />
           }
@@ -2340,7 +2340,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             title={
               <FormattedMessage
                 defaultMessage="Features"
-                id="admin.sidebar.features"
+                id="admin.sidebar.integrationsFeatures"
                 values={Object {}}
               />
             }

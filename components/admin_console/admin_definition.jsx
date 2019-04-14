@@ -184,7 +184,7 @@ export default {
     },
     reporting: {
         icon: 'fa-bar-chart',
-        sectionTitle: t('admin.sidebar.reports'),
+        sectionTitle: t('admin.sidebar.reporting'),
         sectionTitleDefault: 'Reporting',
         system_analytics: {
             url: 'system_analytics',
@@ -3079,7 +3079,7 @@ export default {
         id: 'integrations',
         features: {
             url: 'integrations/features',
-            title: t('admin.sidebar.features'),
+            title: t('admin.sidebar.integrationsFeatures'),
             title_default: 'Features',
             schema: {
                 id: 'CustomIntegrationSettings',
