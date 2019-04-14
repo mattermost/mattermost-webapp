@@ -140,34 +140,12 @@ describe('components/CreateComment', () => {
         const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );
+        const instance = wrapper.instance();
+        const addEmojiAtCaret = jest.fn();
+        instance.textboxRef = {current: {getWrappedInstance: () => ({addEmojiAtCaret})}};
 
-        wrapper.instance().handleEmojiClick({name: 'smile'});
-        expect(onUpdateCommentDraft).toHaveBeenCalled();
-
-        // Empty message case
-        expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
-            expect.objectContaining({message: ':smile: '})
-        );
-        expect(wrapper.state().draft.message).toBe(':smile: ');
-
-        wrapper.setState({draft: {message: 'test', uploadsInProgress: [], fileInfos: []}});
-        wrapper.instance().handleEmojiClick({name: 'smile'});
-
-        // Message with no space at the end
-        expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
-            expect.objectContaining({message: 'test :smile: '})
-        );
-        expect(wrapper.state().draft.message).toBe('test :smile: ');
-
-        wrapper.setState({draft: {message: 'test ', uploadsInProgress: [], fileInfos: []}});
-        wrapper.instance().handleEmojiClick({name: 'smile'});
-
-        // Message with space at the end
-        expect(onUpdateCommentDraft.mock.calls[2][0]).toEqual(
-            expect.objectContaining({message: 'test :smile: '})
-        );
-        expect(wrapper.state().draft.message).toBe('test :smile: ');
-
+        instance.handleEmojiClick({name: 'smile'});
+        expect(addEmojiAtCaret).toHaveBeenCalledWith(':smile:');
         expect(wrapper.state().showEmojiPicker).toBe(false);
     });
 
@@ -794,8 +772,7 @@ describe('components/CreateComment', () => {
         instance.commentMsgKeyPress = jest.fn();
         instance.focusTextbox = jest.fn();
         const blur = jest.fn();
-        const focus = jest.fn();
-        instance.refs = {textbox: {getWrappedInstance: () => ({blur, focus})}};
+        instance.textboxRef = {current: {getWrappedInstance: () => ({blur})}};
 
         const commentMsgKey = {
             preventDefault: jest.fn(),

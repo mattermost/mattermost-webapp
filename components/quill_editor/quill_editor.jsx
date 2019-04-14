@@ -267,12 +267,35 @@ export default class QuillEditor extends React.Component {
         });
     }
 
+    recalculateSize = () => {
+        // TODO: implement
+        //if (!this.refs.reference || !this.refs.textarea) {
+        //    return;
+        //}
+        //
+        //const height = this.refs.reference.scrollHeight;
+        //const textarea = this.refs.textarea;
+        //
+        //if (height > 0 && height !== this.height) {
+        //    const style = getComputedStyle(textarea);
+        //    const borderWidth = parseInt(style.borderTopWidth, 10) + parseInt(style.borderBottomWidth, 10);
+        //
+        //    // Directly change the height to avoid circular rerenders
+        //    textarea.style.height = String(height + borderWidth) + 'px';
+        //
+        //    this.height = height;
+        //
+        //    if (this.props.onHeightChange) {
+        //        this.props.onHeightChange(height, parseInt(style.maxHeight, 10));
+        //    }
+        //}
+    };
+
     render = () => {
         const {
             onKeyPress,
             onKeyDown,
             onCompositionStart,
-            onCompositionUpdate,
             onCompositionEnd,
 
             // TODO: The provided `id` is sometimes hard-coded and used to interface with the

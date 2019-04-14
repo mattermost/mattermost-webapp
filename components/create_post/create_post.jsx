@@ -958,7 +958,7 @@ export default class CreatePost extends React.Component {
     }
 
     handleEmojiClick = (emoji) => {
-        const emojiAlias = emoji.name || emoji.aliases[0];
+        const emojiAlias = emoji && (emoji.name || (emoji.aliases && emoji.aliases[0]));
 
         if (!emojiAlias) {
             //Oops.. There went something wrong

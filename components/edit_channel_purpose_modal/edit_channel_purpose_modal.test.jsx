@@ -6,6 +6,7 @@ import {shallow} from 'enzyme';
 
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx';
 import Constants from 'utils/constants.jsx';
+import TextboxQL from 'components/textbox_ql';
 
 describe('comoponents/EditChannelPurposeModal', () => {
     const channel = {
@@ -202,10 +203,10 @@ describe('comoponents/EditChannelPurposeModal', () => {
             {disableLifecycleMethods: true}
         );
 
-        wrapper.find('textarea').simulate(
+        const secondWrapper = shallow(wrapper.getElement().props.children[1]);
+        secondWrapper.find(TextboxQL).simulate(
             'change',
             {
-                preventDefault: jest.fn(),
                 target: {value: 'new info'},
             }
         );
@@ -273,7 +274,8 @@ describe('comoponents/EditChannelPurposeModal', () => {
             {disableLifecycleMethods: true}
         );
 
-        wrapper.find('textarea').simulate('keydown', {
+        const secondWrapper = shallow(wrapper.getElement().props.children[1]);
+        secondWrapper.find(TextboxQL).simulate('keydown', {
             preventDefault: jest.fn(),
             key: Constants.KeyCodes.ENTER[0],
             keyCode: Constants.KeyCodes.ENTER[1],
@@ -298,7 +300,8 @@ describe('comoponents/EditChannelPurposeModal', () => {
             {disableLifecycleMethods: true}
         );
 
-        wrapper.find('textarea').simulate('keydown', {
+        const secondWrapper = shallow(wrapper.getElement().props.children[1]);
+        secondWrapper.find(TextboxQL).simulate('keydown', {
             preventDefault: jest.fn(),
             key: Constants.KeyCodes.ENTER[0],
             keyCode: Constants.KeyCodes.ENTER[1],

@@ -135,10 +135,9 @@ export default class TextboxQL extends React.Component {
         this.editorRef.current.getWrappedInstance().blur();
     };
 
-    // TODO: implement
-    // recalculateSize = () => {
-    //     this.refs.message.recalculateSize();
-    // };
+     recalculateSize = () => {
+         this.editorRef.current.getWrappedInstance().recalculateSize();
+     };
 
     addEmojiAtCaret = (text) => {
         // From create_post -- pass through to the SuggestionBox

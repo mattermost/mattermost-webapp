@@ -48,21 +48,17 @@ export default class EditPostModal extends React.PureComponent {
             postError: '',
             errorClass: null,
             showEmojiPicker: false,
-            show: false,
         };
 
         this.textboxRef = React.createRef();
     }
 
-    static getDerivedStateFromProps = (props, state) => {
-        if (props.editingPost.show && !state.show) {
-            const msg = props.editingPost.post ? props.editingPost.post.message_source || props.editingPost.post.message : '';
-            return {
-                editText: msg,
-                show: true,
-            };
+    componentDidUpdate = (prevProps) => {
+        if (!prevProps.editingPost.show && this.props.editingPost.show) {
+            this.setState({
+                editText: this.props.editingPost.post.message_source || this.props.editingPost.post.message,
+            });
         }
-        return null;
     }
 
     getContainer = () => {
@@ -78,7 +74,7 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     handleEmojiClick = (emoji) => {
-        const emojiAlias = emoji.name || emoji.aliases[0];
+        const emojiAlias = emoji && (emoji.name || (emoji.aliases && emoji.aliases[0]));
 
         if (!emojiAlias) {
             //Oops.. There went something wrong
@@ -197,15 +193,13 @@ export default class EditPostModal extends React.PureComponent {
     handleHide = (doRefocus = true) => {
         this.refocusId = doRefocus ? this.props.editingPost.refocusId : null;
         this.props.actions.hideEditPostModal();
-        this.setState({show: false});
     }
 
     handleEntered = () => {
         if (this.textboxRef.current) {
             this.textboxRef.current.getWrappedInstance().focus();
 
-            // TODO: needed?
-            //this.textboxRef.current.getWrappedInstance().recalculateSize();
+            this.textboxRef.current.getWrappedInstance().recalculateSize();
         }
     }
 
@@ -227,7 +221,7 @@ export default class EditPostModal extends React.PureComponent {
         }
 
         this.refocusId = null;
-        this.setState({editText: '', postError: '', errorClass: null, showEmojiPicker: false, show: false});
+        this.setState({editText: '', postError: '', errorClass: null, showEmojiPicker: false});
     }
 
     isSaveDisabled = () => {

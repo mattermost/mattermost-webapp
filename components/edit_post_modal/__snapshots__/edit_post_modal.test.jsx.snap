@@ -55,7 +55,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
     bsClass="modal-body edit-modal-body"
     componentClass="div"
   >
-    <Connect(Textbox)
+    <Connect(TextboxQL)
       channelId="5"
       characterLimit={4000}
       createMessage="Edit the post..."
@@ -185,7 +185,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
     bsClass="modal-body edit-modal-body"
     componentClass="div"
   >
-    <Connect(Textbox)
+    <Connect(TextboxQL)
       channelId="5"
       characterLimit={4000}
       createMessage="Edit the post..."
@@ -315,7 +315,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
     bsClass="modal-body edit-modal-body"
     componentClass="div"
   >
-    <Connect(Textbox)
+    <Connect(TextboxQL)
       channelId="5"
       characterLimit={4000}
       createMessage="Edit the post..."
@@ -445,7 +445,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
     bsClass="modal-body edit-modal-body"
     componentClass="div"
   >
-    <Connect(Textbox)
+    <Connect(TextboxQL)
       channelId="5"
       characterLimit={4000}
       createMessage="Edit the post..."
@@ -554,7 +554,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
     bsClass="modal-body edit-modal-body"
     componentClass="div"
   >
-    <Connect(Textbox)
+    <Connect(TextboxQL)
       channelId="5"
       characterLimit={4000}
       createMessage="Edit the post..."
@@ -684,7 +684,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
     bsClass="modal-body edit-modal-body"
     componentClass="div"
   >
-    <Connect(Textbox)
+    <Connect(TextboxQL)
       channelId="5"
       characterLimit={4000}
       createMessage="Edit the post..."
@@ -814,7 +814,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
     bsClass="modal-body edit-modal-body"
     componentClass="div"
   >
-    <Connect(Textbox)
+    <Connect(TextboxQL)
       channelId="5"
       characterLimit={4000}
       createMessage="Edit the post..."
@@ -944,7 +944,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
     bsClass="modal-body edit-modal-body edit-modal-body--add-reaction"
     componentClass="div"
   >
-    <Connect(Textbox)
+    <Connect(TextboxQL)
       channelId="5"
       characterLimit={4000}
       createMessage="Edit the post..."
@@ -1074,7 +1074,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
     bsClass="modal-body edit-modal-body"
     componentClass="div"
   >
-    <Connect(Textbox)
+    <Connect(TextboxQL)
       channelId="5"
       characterLimit={4000}
       createMessage="Edit the post..."

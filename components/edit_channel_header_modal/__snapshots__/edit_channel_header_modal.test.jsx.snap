@@ -56,7 +56,7 @@ exports[`components/EditChannelHeaderModal edit dirrect message channel 1`] = `
           values={Object {}}
         />
       </p>
-      <Connect(Textbox)
+      <Connect(TextboxQL)
         characterLimit={1024}
         createMessage="Edit the Channel Header..."
         id="edit_textbox"
@@ -162,7 +162,7 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
           values={Object {}}
         />
       </p>
-      <Connect(Textbox)
+      <Connect(TextboxQL)
         characterLimit={1024}
         createMessage="Edit the Channel Header..."
         id="edit_textbox"
@@ -278,7 +278,7 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
           values={Object {}}
         />
       </p>
-      <Connect(Textbox)
+      <Connect(TextboxQL)
         characterLimit={1024}
         createMessage="Edit the Channel Header..."
         id="edit_textbox"
@@ -394,7 +394,7 @@ exports[`components/EditChannelHeaderModal hide error message on new request 1`]
           values={Object {}}
         />
       </p>
-      <Connect(Textbox)
+      <Connect(TextboxQL)
         characterLimit={1024}
         createMessage="Edit the Channel Header..."
         id="edit_textbox"
@@ -500,7 +500,7 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
           values={Object {}}
         />
       </p>
-      <Connect(Textbox)
+      <Connect(TextboxQL)
         characterLimit={1024}
         createMessage="Edit the Channel Header..."
         id="edit_textbox"
@@ -606,7 +606,7 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
           values={Object {}}
         />
       </p>
-      <Connect(Textbox)
+      <Connect(TextboxQL)
         characterLimit={1024}
         createMessage="Edit the Channel Header..."
         id="edit_textbox"

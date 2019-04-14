@@ -192,26 +192,21 @@ describe('components/create_post', () => {
 
     it('Check for emoji click message states', () => {
         const wrapper = shallowWithIntl(createPost());
+        const addEmojiAtCaret = jest.fn();
+        wrapper.instance().textboxRef = {current: {getWrappedInstance: () => ({addEmojiAtCaret})}};
 
         wrapper.find('.icon.icon--emoji').simulate('click');
         expect(wrapper.state('showEmojiPicker')).toBe(true);
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
-        expect(wrapper.state('message')).toBe(':smile: ');
+        expect(addEmojiAtCaret).toBeCalledWith(':smile:');
 
         wrapper.setState({
             message: 'test',
         });
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
-        expect(wrapper.state('message')).toBe('test :smile: ');
-
-        wrapper.setState({
-            message: 'test ',
-        });
-
-        wrapper.instance().handleEmojiClick({name: 'smile'});
-        expect(wrapper.state('message')).toBe('test :smile: ');
+        expect(addEmojiAtCaret).toBeCalledWith(':smile:');
     });
 
     it('onChange textbox should call setDraft and change message state', () => {

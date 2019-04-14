@@ -124,8 +124,8 @@ export function shouldFocusMainTextbox(e, activeElement) {
     // Do not focus if we're currently focused on a textarea, input, or ql-editor
     const keepFocusTags = ['TEXTAREA', 'INPUT'];
     if (!activeElement ||
-        activeElement.className.indexOf('ql-editor') !== -1 ||
-        keepFocusTags.includes(activeElement.tagName)) {
+        keepFocusTags.includes(activeElement.tagName) ||
+        (activeElement && activeElement.className && activeElement.className.indexOf('ql-editor') !== -1)) {
         return false;
     }
 

@@ -175,47 +175,50 @@ describe('components/EditPostModal', () => {
     it('should add emoji to editText when an emoji is clicked', () => {
         const wrapper = shallow(createEditPost());
         const instance = wrapper.instance();
+
+        const addEmojiAtCaret = jest.fn();
+        instance.textboxRef = {current: {getWrappedInstance: () => ({addEmojiAtCaret})}};
+
         wrapper.setState({editText: ''});
         instance.handleEmojiClick(null);
+        expect(addEmojiAtCaret).not.toBeCalled();
         instance.handleEmojiClick({});
+        expect(addEmojiAtCaret).not.toBeCalled();
         instance.handleEmojiClick({aliases: []});
-        expect(wrapper.state().editText).toBe('');
+        expect(addEmojiAtCaret).not.toBeCalled();
 
         wrapper.setState({editText: ''});
         instance.handleEmojiClick({name: '+1', aliases: ['thumbsup']});
-        expect(wrapper.state().editText).toBe(':+1: ');
+        expect(addEmojiAtCaret).toBeCalledWith(':+1:');
 
         wrapper.setState({editText: 'test'});
         instance.handleEmojiClick({name: '-1', aliases: ['thumbsdown']});
-        expect(wrapper.state().editText).toBe('test :-1: ');
-
-        wrapper.setState({editText: 'test '});
-        instance.handleEmojiClick({name: '-1', aliases: ['thumbsdown']});
-        expect(wrapper.state().editText).toBe('test :-1: ');
+        expect(addEmojiAtCaret).toBeCalledWith(':-1:');
     });
 
     it('should set the focus and recalculate the size of the edit box after entering', () => {
         const wrapper = shallow(createEditPost());
         const instance = wrapper.instance();
-        instance.editbox = {focus: jest.fn(), recalculateSize: jest.fn()};
+        const focus = jest.fn();
+        const recalculateSize = jest.fn();
+        instance.textboxRef = {current: {getWrappedInstance: () => ({focus, recalculateSize})}};
 
-        const ref = instance.editbox;
-        expect(ref.focus).not.toBeCalled();
-        expect(ref.recalculateSize).not.toBeCalled();
+        expect(focus).not.toBeCalled();
+        expect(recalculateSize).not.toBeCalled();
         instance.handleEntered();
-        expect(ref.focus).toBeCalled();
-        expect(ref.recalculateSize).toBeCalled();
+        expect(focus).toBeCalled();
+        expect(recalculateSize).toBeCalled();
     });
 
     it('should hide the preview when exiting', () => {
         const wrapper = shallow(createEditPost());
         const instance = wrapper.instance();
-        instance.editbox = {hidePreview: jest.fn()};
+        const hidePreview = jest.fn();
+        instance.textboxRef = {current: {getWrappedInstance: () => ({hidePreview})}};
 
-        const ref = instance.editbox;
-        expect(ref.hidePreview).not.toBeCalled();
+        expect(hidePreview).not.toBeCalled();
         instance.handleExit();
-        expect(ref.hidePreview).toBeCalled();
+        expect(hidePreview).toBeCalled();
     });
 
     it('should close without saving when post text is not changed', () => {
@@ -379,7 +382,8 @@ describe('components/EditPostModal', () => {
             global.navigator = {userAgent: 'Android'};
             const wrapper = shallow(createEditPost({ctrlSend: true}));
             const instance = wrapper.instance();
-            instance.editbox = {blur: jest.fn()};
+            const blur = jest.fn();
+            instance.textboxRef = {current: {getWrappedInstance: () => ({blur})}};
 
             const preventDefault = jest.fn();
             instance.handleEdit = jest.fn();
@@ -398,7 +402,8 @@ describe('components/EditPostModal', () => {
             global.navigator = {userAgent: 'Chrome'};
             const wrapper = shallow(createEditPost({ctrlSend: false}));
             const instance = wrapper.instance();
-            instance.editbox = {blur: jest.fn()};
+            const blur = jest.fn();
+            instance.textboxRef = {current: {getWrappedInstance: () => ({blur})}};
 
             const preventDefault = jest.fn();
             instance.handleEdit = jest.fn();

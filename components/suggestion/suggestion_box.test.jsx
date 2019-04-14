@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
-import SuggestionBoxQL from 'components/suggestion/suggestion_box.jsx';
+import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 jest.mock('utils/user_agent', () => {
@@ -24,18 +24,18 @@ describe('components/SuggestionBox', () => {
     };
 
     test('findOverlap', () => {
-        expect(SuggestionBoxQL.findOverlap('', 'blue')).toBe('');
-        expect(SuggestionBoxQL.findOverlap('red', '')).toBe('');
-        expect(SuggestionBoxQL.findOverlap('red', 'blue')).toBe('');
-        expect(SuggestionBoxQL.findOverlap('red', 'dog')).toBe('d');
-        expect(SuggestionBoxQL.findOverlap('red', 'education')).toBe('ed');
-        expect(SuggestionBoxQL.findOverlap('red', 'reduce')).toBe('red');
-        expect(SuggestionBoxQL.findOverlap('black', 'ack')).toBe('ack');
+        expect(SuggestionBox.findOverlap('', 'blue')).toBe('');
+        expect(SuggestionBox.findOverlap('red', '')).toBe('');
+        expect(SuggestionBox.findOverlap('red', 'blue')).toBe('');
+        expect(SuggestionBox.findOverlap('red', 'dog')).toBe('d');
+        expect(SuggestionBox.findOverlap('red', 'education')).toBe('ed');
+        expect(SuggestionBox.findOverlap('red', 'reduce')).toBe('red');
+        expect(SuggestionBox.findOverlap('black', 'ack')).toBe('ack');
     });
 
     test('should avoid ref access on unmount race', (done) => {
         const wrapper = mount(
-            <SuggestionBoxQL {...baseProps}/>
+            <SuggestionBox {...baseProps}/>
         );
         wrapper.instance().handleFocusIn({});
         wrapper.unmount();
@@ -45,7 +45,7 @@ describe('components/SuggestionBox', () => {
     test('should match state and/or call function on handleFocusOut', () => {
         const onBlur = jest.fn();
         const wrapper = shallow(
-            <SuggestionBoxQL
+            <SuggestionBox
                 {...baseProps}
                 onBlur={onBlur}
             />
@@ -76,7 +76,7 @@ describe('components/SuggestionBox', () => {
 
     test('should force pretext change on context change', () => {
         const wrapper = shallow(
-            <SuggestionBoxQL
+            <SuggestionBox
                 {...baseProps}
             />
         );
@@ -96,7 +96,7 @@ describe('components/SuggestionBox', () => {
 
     test('should force pretext change on composition update', () => {
         const wrapper = shallow(
-            <SuggestionBoxQL
+            <SuggestionBox
                 {...baseProps}
             />
         );

@@ -238,6 +238,16 @@ describe('PostUtils.shouldFocusMainTextbox', () => {
                 activeElement: {tagName: 'BODY'},
                 expected: false,
             },
+            {
+                event: {key: 'a'},
+                activeElement: {className: 'ql-editor'},
+                expected: false,
+            },
+            {
+                event: {key: 'a'},
+                activeElement: {className: 'ql-input ql-editor other class names'},
+                expected: false,
+            },
         ]) {
             const shouldFocus = PostUtils.shouldFocusMainTextbox(data.event, data.activeElement);
             assert.equal(shouldFocus, data.expected);

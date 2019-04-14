@@ -14,16 +14,14 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
       <div
         className="post-body__cell"
       >
-        <Connect(Textbox)
+        <Connect(TextboxQL)
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
-          createMessage="This channel is read-only. Only members with permission can post here."
           disabled={true}
           emojiEnabled={true}
           handlePostError={[Function]}
           id="reply_textbox"
-          initialText=""
           isRHS={true}
           listenForMentionKeyClick={true}
           onBlur={[Function]}
@@ -32,6 +30,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
           onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
+          placeholder="This channel is read-only. Only members with permission can post here."
           popoverMentionKeyClick={true}
           value=""
         />
@@ -108,16 +107,14 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
       <div
         className="post-body__cell"
       >
-        <Connect(Textbox)
+        <Connect(TextboxQL)
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
-          createMessage="Add a comment..."
           disabled={false}
           emojiEnabled={true}
           handlePostError={[Function]}
           id="reply_textbox"
-          initialText=""
           isRHS={true}
           listenForMentionKeyClick={true}
           onBlur={[Function]}
@@ -126,6 +123,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
+          placeholder="Add a comment..."
           popoverMentionKeyClick={true}
           value="Test message"
         />
@@ -237,16 +235,14 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
       <div
         className="post-body__cell"
       >
-        <Connect(Textbox)
+        <Connect(TextboxQL)
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
-          createMessage="Add a comment..."
           disabled={false}
           emojiEnabled={false}
           handlePostError={[Function]}
           id="reply_textbox"
-          initialText=""
           isRHS={true}
           listenForMentionKeyClick={true}
           onBlur={[Function]}
@@ -255,6 +251,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
+          placeholder="Add a comment..."
           popoverMentionKeyClick={true}
           value="Test message"
         />
@@ -355,16 +352,14 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
       <div
         className="post-body__cell"
       >
-        <Connect(Textbox)
+        <Connect(TextboxQL)
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
-          createMessage="Add a comment..."
           disabled={false}
           emojiEnabled={true}
           handlePostError={[Function]}
           id="reply_textbox"
-          initialText=""
           isRHS={true}
           listenForMentionKeyClick={true}
           onBlur={[Function]}
@@ -373,6 +368,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
+          placeholder="Add a comment..."
           popoverMentionKeyClick={true}
           value=""
         />
@@ -484,16 +480,14 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
       <div
         className="post-body__cell"
       >
-        <Connect(Textbox)
+        <Connect(TextboxQL)
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
-          createMessage="Add a comment..."
           disabled={false}
           emojiEnabled={true}
           handlePostError={[Function]}
           id="reply_textbox"
-          initialText=""
           isRHS={true}
           listenForMentionKeyClick={true}
           onBlur={[Function]}
@@ -502,6 +496,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
+          placeholder="Add a comment..."
           popoverMentionKeyClick={true}
           value="Test message"
         />
