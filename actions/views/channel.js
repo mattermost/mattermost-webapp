@@ -1,7 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {batchActions} from 'redux-batched-actions';
+
 import {leaveChannel as leaveChannelRedux, joinChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
+import * as PostActions from 'mattermost-redux/actions/posts';
+import {Posts} from 'mattermost-redux/constants';
 import {getChannel, getChannelByName, getCurrentChannel, getDefaultChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
@@ -117,3 +121,84 @@ export function autocompleteUsersInChannel(prefix, channelId) {
     };
 }
 
+export function loadInitialPosts(channelId, focusedPostId) {
+    return async (dispatch) => {
+        let posts;
+        let hasMoreBefore = false;
+        let hasMoreAfter = false;
+
+        if (focusedPostId) {
+            const result = await dispatch(PostActions.getPostsAround(channelId, focusedPostId, Posts.POST_CHUNK_SIZE / 2));
+
+            posts = result.data;
+
+            if (posts) {
+                // If the post is at index i, there are i posts after it and len - i - 1 before it
+                const numPostsAfter = posts.order.indexOf(focusedPostId);
+                const numPostsBefore = posts.order.length - numPostsAfter - 1;
+
+                hasMoreBefore = numPostsBefore >= Posts.POST_CHUNK_SIZE / 2;
+                hasMoreAfter = numPostsAfter >= Posts.POST_CHUNK_SIZE / 2;
+            }
+        } else {
+            const result = await dispatch(PostActions.getPosts(channelId, 0, Posts.POST_CHUNK_SIZE / 2));
+
+            posts = result.data;
+
+            if (posts) {
+                hasMoreBefore = posts && posts.order.length >= Posts.POST_CHUNK_SIZE / 2;
+            }
+        }
+
+        return {
+            posts,
+            hasMoreBefore,
+            hasMoreAfter,
+        };
+    };
+}
+
+export function increasePostVisibility(channelId, beforePostId) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        if (state.views.channel.loadingPosts[channelId]) {
+            return true;
+        }
+
+        const currentPostVisibility = state.views.channel.postVisibility[channelId];
+
+        if (currentPostVisibility >= Constants.MAX_POST_VISIBILITY) {
+            return true;
+        }
+
+        dispatch({
+            type: ActionTypes.LOADING_POSTS,
+            data: true,
+            channelId,
+        });
+
+        const result = await dispatch(PostActions.getPostsBefore(channelId, beforePostId, 0, Posts.POST_CHUNK_SIZE / 2));
+        const posts = result.data;
+
+        const actions = [{
+            type: ActionTypes.LOADING_POSTS,
+            data: false,
+            channelId,
+        }];
+
+        if (posts) {
+            actions.push({
+                type: ActionTypes.INCREASE_POST_VISIBILITY,
+                data: channelId,
+                amount: posts.order.length,
+            });
+        }
+
+        dispatch(batchActions(actions));
+
+        return {
+            moreToLoad: posts ? posts.order.length >= Posts.POST_CHUNK_SIZE / 2 : false,
+            error: result.error,
+        };
+    };
+}

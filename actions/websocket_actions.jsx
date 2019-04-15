@@ -22,9 +22,16 @@ import {
     markChannelAsRead,
 } from 'mattermost-redux/actions/channels';
 import {setServerVersion} from 'mattermost-redux/actions/general';
+import {
+    getCustomEmojiForReaction,
+    getPosts,
+    getProfilesAndStatusesForPosts,
+    postDeleted,
+    receivedPost,
+    receivedPostsInChannel,
+} from 'mattermost-redux/actions/posts';
 import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 
-import {getPosts, getProfilesAndStatusesForPosts, getCustomEmojiForReaction} from 'mattermost-redux/actions/posts';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getMe, getStatusesByIds, getProfilesByIds} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
@@ -413,12 +420,8 @@ export function debouncePostEvent(func, wait) {
                 if (!posts.hasOwnProperty(channelId)) {
                     continue;
                 }
-                dispatch({
-                    type: PostTypes.RECEIVED_POSTS,
-                    data: {posts: posts[channelId]},
-                    channelId,
-                    receivedNewPosts: true,
-                });
+
+                dispatch(receivedPostsInChannel(posts[channelId], channelId));
                 getProfilesAndStatusesForPosts(posts[channelId], dispatch, getState);
             }
         }
@@ -465,10 +468,7 @@ function handleNewPostEventWrapped(msg) {
 export function handlePostEditEvent(msg) {
     // Store post
     const post = JSON.parse(msg.data.post);
-    dispatch({
-        type: PostTypes.RECEIVED_POST,
-        data: post,
-    });
+    dispatch(receivedPost(post));
 
     getProfilesAndStatusesForPosts([post], dispatch, getState);
     const currentChannelId = getCurrentChannelId(getState());
@@ -483,7 +483,7 @@ export function handlePostEditEvent(msg) {
 
 function handlePostDeleteEvent(msg) {
     const post = JSON.parse(msg.data.post);
-    dispatch({type: PostTypes.POST_DELETED, data: post});
+    dispatch(postDeleted(post));
 }
 
 async function handleTeamAddedEvent(msg) {

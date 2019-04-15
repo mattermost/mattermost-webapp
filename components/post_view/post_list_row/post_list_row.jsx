@@ -5,16 +5,19 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import * as PostListUtils from 'mattermost-redux/utils/post_list';
+
+import CombinedUserActivityPost from 'components/post_view/combined_user_activity_post';
 import Post from 'components/post_view/post';
 import DateSeparator from 'components/post_view/date_separator';
 import NewMessageSeparator from 'components/post_view/new_message_separator/new_message_separator';
-import CreateChannelIntroMessage from 'components/post_view/channel_intro_message/';
+import ChannelIntroMessage from 'components/post_view/channel_intro_message/';
 import {PostListRowListIds} from 'utils/constants';
 
 export default class PostListRow extends React.PureComponent {
     static propTypes = {
-        post: PropTypes.object,
         listId: PropTypes.string.isRequired,
+        previousListId: PropTypes.string,
         channel: PropTypes.object,
         fullWidth: PropTypes.bool,
         shouldHighlight: PropTypes.bool,
@@ -23,30 +26,20 @@ export default class PostListRow extends React.PureComponent {
     }
 
     render() {
-        const {post, listId} = this.props;
-        if (post) {
-            return (
-                <Post
-                    ref={post.id}
-                    key={'post ' + (post.id || post.pending_post_id)}
-                    post={post}
-                    shouldHighlight={this.props.shouldHighlight}
-                    togglePostMenu={this.props.togglePostMenu}
-                />
-            );
-        }
+        const {listId, previousListId} = this.props;
 
-        if (listId.indexOf(PostListRowListIds.DATE_LINE) === 0) {
-            const postDay = new Date(listId.split(PostListRowListIds.DATE_LINE)[1]);
+        if (PostListUtils.isDateLine(listId)) {
+            const date = PostListUtils.getDateForDateLine(listId);
+
             return (
                 <DateSeparator
-                    key={listId}
-                    date={postDay}
+                    key={date}
+                    date={date}
                 />
             );
         }
 
-        if (listId === PostListRowListIds.START_OF_NEW_MESSAGES) {
+        if (PostListUtils.isStartOfNewMessages(listId)) {
             return (
                 <NewMessageSeparator separatorId={listId}/>
             );
@@ -54,7 +47,7 @@ export default class PostListRow extends React.PureComponent {
 
         if (listId === PostListRowListIds.CHANNEL_INTRO_MESSAGE) {
             return (
-                <CreateChannelIntroMessage
+                <ChannelIntroMessage
                     channel={this.props.channel}
                     fullWidth={this.props.fullWidth}
                 />
@@ -89,6 +82,26 @@ export default class PostListRow extends React.PureComponent {
             );
         }
 
-        return null;
+        const postProps = {
+            previousPostId: previousListId,
+            shouldHighlight: this.props.shouldHighlight,
+            togglePostMenu: this.props.togglePostMenu,
+        };
+
+        if (PostListUtils.isCombinedUserActivityPost(listId)) {
+            return (
+                <CombinedUserActivityPost
+                    combinedId={listId}
+                    {...postProps}
+                />
+            );
+        }
+
+        return (
+            <Post
+                postId={listId}
+                {...postProps}
+            />
+        );
     }
 }

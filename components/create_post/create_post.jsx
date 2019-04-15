@@ -105,11 +105,6 @@ export default class CreatePost extends React.Component {
         }).isRequired,
 
         /**
-        *  Data used adding reaction on +/- to recent post
-        */
-        recentPostIdInChannel: PropTypes.string,
-
-        /**
         *  Data used dispatching handleViewAction
         */
         commentCountForPost: PropTypes.number,

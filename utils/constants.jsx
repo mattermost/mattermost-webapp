@@ -25,6 +25,7 @@ import windows10ThemeImage from 'images/themes/windows_dark.png';
 import logoWebhook from 'images/webhook_icon.jpg';
 
 import Permissions from 'mattermost-redux/constants/permissions';
+import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import {t} from 'utils/i18n';
 
@@ -106,14 +107,6 @@ export const ActionTypes = keyMirror({
     TOGGLE_RHS_EXPANDED: null,
 
     UPDATE_MOBILE_VIEW: null,
-
-    SEARCH_FLAGGED_POSTS_REQUEST: null,
-    SEARCH_FLAGGED_POSTS_SUCCESS: null,
-    SEARCH_FLAGGED_POSTS_FAILURE: null,
-
-    SEARCH_PINNED_POSTS_REQUEST: null,
-    SEARCH_PINNED_POSTS_SUCCESS: null,
-    SEARCH_PINNED_POSTS_FAILURE: null,
 
     SET_NAVIGATION_BLOCKED: null,
     DEFER_NAVIGATION: null,
@@ -582,8 +575,8 @@ export const Locations = {
 };
 
 export const PostListRowListIds = {
-    DATE_LINE: 'date-',
-    START_OF_NEW_MESSAGES: 'START_OF_NEW_MESSAGES',
+    DATE_LINE: PostListUtils.DATE_LINE,
+    START_OF_NEW_MESSAGES: PostListUtils.START_OF_NEW_MESSAGES,
     CHANNEL_INTRO_MESSAGE: 'CHANNEL_INTRO_MESSAGE',
     MORE_MESSAGES_LOADER: 'MORE_MESSAGES_LOADER',
     MAX_MESSAGES_LOADED: 'MAX_MESSAGES_LOADED',
