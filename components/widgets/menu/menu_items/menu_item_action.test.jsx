@@ -20,9 +20,7 @@ describe('components/MenuItemAction', () => {
   className="style--none"
   onClick={[MockFunction]}
 >
-  <span>
-    Whatever
-  </span>
+  Whatever
 </button>
 `);
     });
@@ -40,9 +38,7 @@ describe('components/MenuItemAction', () => {
   className="style--none MenuItem__help"
   onClick={[MockFunction]}
 >
-  <span>
-    Whatever
-  </span>
+  Whatever
   <span
     className="extra-text"
   >
