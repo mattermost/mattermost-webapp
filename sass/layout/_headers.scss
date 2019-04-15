@@ -222,10 +222,14 @@
     .heading {
         font-size: 14px;
         font-weight: 600;
-        margin: 0 7px 0 0;
+        margin: 0 8px 0 0;
         flex: 1 1 0;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+
+    .bot-indicator {
+        margin-left: 0;
     }
 
     .caret {
@@ -331,8 +335,10 @@
         height: 20px;
 
         span[data-emoticon] {
-            position: relative;
-            top: -1px;
+            .emoticon {
+                position: relative;
+                top: -1px;
+            }
         }
 
         blockquote {

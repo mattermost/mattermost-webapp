@@ -67,7 +67,6 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
     >
       <Link
         className="edit-button"
-        replace={false}
         to="/admin_console/permissions/team-override-scheme/id"
       >
         <FormattedMessage
@@ -186,7 +185,6 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
     >
       <Link
         className="edit-button"
-        replace={false}
         to="/admin_console/permissions/team-override-scheme/id"
       >
         <FormattedMessage
@@ -380,7 +378,6 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
     >
       <Link
         className="edit-button"
-        replace={false}
         to="/admin_console/permissions/team-override-scheme/id"
       >
         <FormattedMessage

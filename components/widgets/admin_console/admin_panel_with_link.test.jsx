@@ -32,7 +32,6 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
     <Link
       className="btn btn-primary"
       disabled={false}
-      replace={false}
       to="/path"
     >
       <FormattedMessage
@@ -70,7 +69,6 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
     <Link
       className="btn btn-primary"
       disabled={true}
-      replace={false}
       to="/path"
     >
       <FormattedMessage

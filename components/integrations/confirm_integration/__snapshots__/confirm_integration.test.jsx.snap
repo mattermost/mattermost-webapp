@@ -8,7 +8,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, comma
 >
   <BackstageHeader>
     <Link
-      replace={false}
       to="/team_test/integrations/commands"
     >
       <FormattedMessage
@@ -64,7 +63,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, comma
     >
       <Link
         className="btn btn-primary"
-        replace={false}
         to="/team_test/integrations/commands"
         type="submit"
       >
@@ -85,7 +83,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
 >
   <BackstageHeader>
     <Link
-      replace={false}
       to="/team_test/integrations/incoming_webhooks"
     >
       <FormattedMessage
@@ -141,7 +138,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
     >
       <Link
         className="btn btn-primary"
-        replace={false}
         to="/team_test/integrations/incoming_webhooks"
         type="submit"
       >
@@ -162,7 +158,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
 >
   <BackstageHeader>
     <Link
-      replace={false}
       to="/team_test/integrations/oauth2-apps"
     >
       <FormattedMessage
@@ -257,7 +252,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
     >
       <Link
         className="btn btn-primary"
-        replace={false}
         to="/team_test/integrations/oauth2-apps"
         type="submit"
       >
@@ -280,7 +274,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
 >
   <BackstageHeader>
     <Link
-      replace={false}
       to="/team_test/integrations/outgoing_webhooks"
     >
       <FormattedMessage
@@ -336,7 +329,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
     >
       <Link
         className="btn btn-primary"
-        replace={false}
         to="/team_test/integrations/outgoing_webhooks"
         type="submit"
       >

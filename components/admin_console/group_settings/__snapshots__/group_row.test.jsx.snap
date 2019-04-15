@@ -80,7 +80,6 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
       className="group-actions"
     >
       <Link
-        replace={false}
         to="/admin_console/access-control/groups/group-id"
       >
         <FormattedMessage
@@ -172,7 +171,6 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
       className="group-actions"
     >
       <Link
-        replace={false}
         to="/admin_console/access-control/groups/group-id"
       >
         <FormattedMessage
@@ -223,7 +221,6 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
       className="group-actions"
     >
       <Link
-        replace={false}
         to="/admin_console/access-control/groups/group-id"
       >
         <FormattedMessage

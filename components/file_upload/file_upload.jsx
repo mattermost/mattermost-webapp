@@ -585,7 +585,7 @@ export default class FileUpload extends PureComponent {
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
 
         let bodyAction;
-        if (this.props.pluginFileUploadMethods.length === 1) {
+        if (this.props.pluginFileUploadMethods.length === 0) {
             bodyAction = (
                 <div
                     id='fileUploadButton'
@@ -607,6 +607,8 @@ export default class FileUpload extends PureComponent {
             const pluginFileUploadMethods = this.props.pluginFileUploadMethods.map((item) => {
                 return (
                     <li
+                        className='MenuItem'
+                        role='MenuItem'
                         key={item.pluginId + '_fileuploadpluginmenuitem'}
                         onClick={() => {
                             if (item.action) {
@@ -615,10 +617,10 @@ export default class FileUpload extends PureComponent {
                             this.setState({menuOpen: false});
                         }}
                     >
-                        <a>
+                        <button className='style--none'>
                             {item.icon}
                             {item.text}
-                        </a>
+                        </button>
                     </li>
                 );
             });
@@ -651,14 +653,20 @@ export default class FileUpload extends PureComponent {
                             openUp={true}
                             ariaLabel={formatMessage({id: 'file_upload.menuAriaLabel', defaultMessage: 'Upload type selector'})}
                         >
-                            <li>
-                                <a onClick={this.simulateInputClick}>
+                            <li
+                                className='MenuItem'
+                                role='MenuItem'
+                            >
+                                <button
+                                    className='style--none'
+                                    onClick={this.simulateInputClick}
+                                >
                                     <i className='fa fa-laptop'/>
                                     <FormattedMessage
                                         id='yourcomputer'
                                         defaultMessage='Your computer'
                                     />
-                                </a>
+                                </button>
                             </li>
                             {pluginFileUploadMethods}
                         </Menu>

@@ -14,18 +14,18 @@ import {canManageMembers} from 'utils/channel_utils.jsx';
 import ChannelMembersDropdown from './channel_members_dropdown.jsx';
 
 function mapStateToProps(state, ownProps) {
+    const {channel} = ownProps;
     const canChangeMemberRoles = haveIChannelPermission(
         state,
         {
-            channel: ownProps.channel.id,
-            team: ownProps.channel.team_id,
+            channel: channel.id,
+            team: channel.team_id,
             permission: Permissions.MANAGE_CHANNEL_ROLES,
         }
     );
     const license = getLicense(state);
     const isLicensed = license.IsLicensed === 'true';
-
-    const canRemoveMember = canManageMembers(ownProps.channel);
+    const canRemoveMember = canManageMembers(channel);
 
     return {
         currentUserId: getCurrentUserId(state),
