@@ -45,20 +45,20 @@ function channelMapping(permission) {
 function channelTeamMixedMapping(permission) {
     return {
         all: [
-            {roleName: 'team_user', permission, shouldHave: true},
+            {roleName: 'channel_user', permission, shouldHave: true},
         ],
         channel_admin: [
-            {roleName: 'team_user', permission, shouldHave: false},
+            {roleName: 'channel_user', permission, shouldHave: false},
             {roleName: 'channel_admin', permission, shouldHave: true},
             {roleName: 'team_admin', permission, shouldHave: true},
         ],
         team_admin: [
-            {roleName: 'team_user', permission, shouldHave: false},
+            {roleName: 'channel_user', permission, shouldHave: false},
             {roleName: 'channel_admin', permission, shouldHave: false},
             {roleName: 'team_admin', permission, shouldHave: true},
         ],
         system_admin: [
-            {roleName: 'team_user', permission, shouldHave: false},
+            {roleName: 'channel_user', permission, shouldHave: false},
             {roleName: 'channel_admin', permission, shouldHave: false},
             {roleName: 'team_admin', permission, shouldHave: false},
         ],
