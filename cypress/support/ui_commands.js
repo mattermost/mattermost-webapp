@@ -325,6 +325,20 @@ Cypress.Commands.add('getCurrentTeamId', () => {
     return cy.get('#headerTeamName').invoke('attr', 'data-teamid');
 });
 
+Cypress.Commands.add('leaveTeam', () => {
+    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+    cy.get('#sidebarDropdownMenu #leaveTeam').should('be.visible').click();
+
+    // * Check that the "leave team modal" opened up
+    cy.get('#leaveTeamModal').should('be.visible');
+
+    // 4. click on yes
+    cy.get('#leaveTeamYes').click();
+
+    // * Check that the "leave team modal" closed
+    cy.get('#leaveTeamModal').should('not.be.visible');
+});
+
 // ***********************************************************
 // Text Box
 // ***********************************************************
