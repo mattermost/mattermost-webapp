@@ -3,12 +3,12 @@
 
 import React from 'react';
 import {RequestStatus} from 'mattermost-redux/constants';
+import {shallow} from 'enzyme/build';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+
 import Constants from 'utils/constants.jsx';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal/edit_channel_header_modal.jsx';
-import Textbox from 'components/textbox';
-import {shallow} from 'enzyme/build';
 import TextboxQL from '../textbox_ql';
 
 const KeyCodes = Constants.KeyCodes;
