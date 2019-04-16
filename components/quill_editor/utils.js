@@ -34,11 +34,11 @@ const getPossibleText = (leafText, localCaret, numberOfChars) => {
     return leafText.slice(startIdx, localCaret);
 };
 
-export const detectEmojiOnColon = (leafText, localCaret, emojiMap) => {
+export const detectEmojiOnColon = (leafText, localCaret, numberOfChars, emojiMap) => {
     // TODO: handle config to disable this feature
 
-    // emoji names must be at least 2 characters long, 4 including colons
-    const text = getPossibleText(leafText, localCaret, 4);
+    // emoji names must be at least numberOfChars long, including colons
+    const text = getPossibleText(leafText, localCaret, numberOfChars);
     if (!text) {
         return null;
     }
@@ -53,13 +53,13 @@ export const detectEmojiOnColon = (leafText, localCaret, emojiMap) => {
     return null;
 };
 
-export const detectLiteralEmojiOnSpace = (leafText, localCaret) => {
+export const detectLiteralEmojiOnSpace = (leafText, localCaret, numberOfChars) => {
     // TODO: handle config to disable this feature
 
     const withoutSpace = leafText.slice(0, -1);
 
-    // emoji's like :) must be at least 2 characters long
-    const text = getPossibleText(withoutSpace, localCaret - 1, 2);
+    // emoji's like :) must be at least numberOfChars-1 long
+    const text = getPossibleText(withoutSpace, localCaret - 1, numberOfChars - 1);
     if (!text) {
         return null;
     }

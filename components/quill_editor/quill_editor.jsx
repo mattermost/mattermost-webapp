@@ -10,20 +10,19 @@ import Delta from 'quill-delta';
 import {initializeBlots} from './blots';
 import * as Utils from './utils';
 
-// TODO: there's got to be a better way to do this...
 initializeBlots();
 
 // QuillEditor is a mix between controlled and uncontrolled component.
 // (see: https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html)
-// Controlled because CreatePost holds the message state (passed through to props.value).
+// Controlled because parent (eg, CreatePost) holds the message state (passed through to props.value).
 // Uncontrolled, because the Quill object uses its own state (a shadow dom tree).
 // QuillEditor transforms the Quill object's internal state into a markdown string, and sends
 // that markdown string up to be worked with and stored into the message state (which is then
 // passed to QuillEditor's props.value).
 // When the parent components change the message state, QuillEditor will transform that
 // into the Quill object's state.
-// Source of Truth: therefore, the single source of truth is always CreatePosts's message state.
-// If that changes, QuillEditor's contents will be changed.
+// Source of Truth: therefore, the single source of truth is always the parents's message state.
+// If the parent's message state changes, QuillEditor's contents will be changed.
 export default class QuillEditor extends React.Component {
     static propTypes = {
         id: PropTypes.string,
@@ -39,13 +38,11 @@ export default class QuillEditor extends React.Component {
         onCompositionStart: PropTypes.func.isRequired,
         onCompositionUpdate: PropTypes.func.isRequired,
         onCompositionEnd: PropTypes.func.isRequired,
+        onHeightChange: PropTypes.func,
 
         // TODO: need to implement conditional rendering.
         config: PropTypes.object.isRequired,
         emojiMap: PropTypes.object.isRequired,
-
-        // TODO: implement height-related functionality
-        onHeightChange: PropTypes.func,
     };
 
     constructor(props) {
@@ -147,23 +144,26 @@ export default class QuillEditor extends React.Component {
         const [leaf, localCaret] = this.editor.getLeaf(this.editor.getSelection(true).index);
         const leafText = leaf.text || '';
 
-        // Create emojis as they are typed.
+        // Create emojis as they are typed. Text must be at least 3 characters long, to include one letter emoji like :a:
         // TODO: render conditionally based on config settings.
-        if (localCaret >= 4 &&
-            leafText.length >= 4 &&
+        const minNumOfChars = 3;
+        if (localCaret >= minNumOfChars &&
+            leafText.length >= minNumOfChars &&
             delta.ops[delta.ops.length - 1].hasOwnProperty('insert') &&
             delta.ops[delta.ops.length - 1].insert === ':') {
-            const matched = Utils.detectEmojiOnColon(leafText, localCaret, this.props.emojiMap);
+            const matched = Utils.detectEmojiOnColon(leafText, localCaret, minNumOfChars, this.props.emojiMap);
             if (matched) {
                 this.insertEmojiReplacingLength(matched.name, matched.text.length);
             }
         }
 
-        if (localCaret > 2 &&
-            leafText.length > 2 &&
+        // Text must be at least 3 characters long, to include two-character literals, like :), plus the space
+        const literalMinNumOfChars = 3;
+        if (localCaret >= literalMinNumOfChars &&
+            leafText.length >= literalMinNumOfChars &&
             delta.ops[delta.ops.length - 1].hasOwnProperty('insert') &&
             delta.ops[delta.ops.length - 1].insert === ' ') {
-            const matched = Utils.detectLiteralEmojiOnSpace(leafText, localCaret, this.props.emojiMap);
+            const matched = Utils.detectLiteralEmojiOnSpace(leafText, localCaret, literalMinNumOfChars, this.props.emojiMap);
             if (matched) {
                 this.insertEmojiReplacingLength(matched.name, matched.text.length);
             }
@@ -188,7 +188,7 @@ export default class QuillEditor extends React.Component {
         }
     }
 
-    addTextAtCaret = (mention, matchedPretext, tabOrEnter, spaceAfter) => {
+    addTextAtCaret = (text, matchedPretext, tabOrEnter = false) => {
         let globalCaret = this.editor.getSelection(true).index;
 
         // remove the \t or \n that quill adds, if any.
@@ -205,13 +205,13 @@ export default class QuillEditor extends React.Component {
             globalCaret -= matchedPretext.length;
         }
 
-        this.editor.insertText(globalCaret, mention);
-        globalCaret += mention.length;
+        this.editor.insertText(globalCaret, text);
+        globalCaret += text.length;
         this.editor.setSelection(globalCaret);
 
-        if (spaceAfter) {
-            this.editor.insertText(globalCaret, ' ');
-        }
+        // Following You Aren't Going to Need It (YAGNI), for now we always need to add a space after inserting text.
+        // We can allow adding no-space when we need it.
+        this.editor.insertText(globalCaret, ' ');
 
         const newValue = Utils.prepareMarkdown(this.editor.getContents().ops);
         this.setState({
@@ -267,21 +267,17 @@ export default class QuillEditor extends React.Component {
         });
     }
 
+    // TODO: implement
     recalculateSize = () => {
-        // TODO: implement
-        //if (!this.refs.reference || !this.refs.textarea) {
-        //    return;
-        //}
-        //
-        //const height = this.refs.reference.scrollHeight;
-        //const textarea = this.refs.textarea;
+        //const height = this.quillEl.scrollHeight;
+        //const quillElement = this.quillEl;
         //
         //if (height > 0 && height !== this.height) {
-        //    const style = getComputedStyle(textarea);
+        //    const style = getComputedStyle(quillElement);
         //    const borderWidth = parseInt(style.borderTopWidth, 10) + parseInt(style.borderBottomWidth, 10);
         //
         //    // Directly change the height to avoid circular rerenders
-        //    textarea.style.height = String(height + borderWidth) + 'px';
+        //    quillElement.style.height = String(height + borderWidth) + 'px';
         //
         //    this.height = height;
         //

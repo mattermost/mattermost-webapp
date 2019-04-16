@@ -6,6 +6,9 @@ import Quill from 'quill';
 const Embed = Quill.import('blots/embed');
 
 export default class EmojiBlot extends Embed {
+    static blotName = 'emoji';
+    static tagName = 'span';
+
     static create(value) {
         const node = super.create(value);
         const name = value.name;
@@ -27,6 +30,3 @@ export default class EmojiBlot extends Embed {
         };
     }
 }
-
-EmojiBlot.blotName = 'emoji';
-EmojiBlot.tagName = 'span';

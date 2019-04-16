@@ -336,7 +336,7 @@ export default class SuggestionBoxQL extends React.Component {
     }
 
     addEmojiAtCaret = (term, matchedPretext, tabOrEnter) => {
-        const newValue = this.getEditor().addEmojiAtCaret(term, matchedPretext, tabOrEnter, true);
+        const newValue = this.getEditor().addEmojiAtCaret(term, matchedPretext, tabOrEnter);
 
         if (this.props.onChange) {
             // fake an input event to send back to parent components
@@ -346,7 +346,7 @@ export default class SuggestionBoxQL extends React.Component {
     }
 
     addTextAtCaret = (mention, matchedPretext, tabOrEnter) => {
-        const newValue = this.getEditor().addTextAtCaret(mention, matchedPretext, tabOrEnter, true);
+        const newValue = this.getEditor().addTextAtCaret(mention, matchedPretext, tabOrEnter);
 
         if (this.props.onChange) {
             // fake an input event to send back to parent components
