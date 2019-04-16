@@ -53,7 +53,6 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
 
     test('should match snapshot', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
-
         const wrapper = shallow(
             <InstalledOutgoingWebhooks
                 key={1}
@@ -93,6 +92,8 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 enableOutgoingWebhooks={true}
             />
         );
+        expect(shallow(<div>{wrapper.instance().outgoingWebhooks('town')}</div>)).toMatchSnapshot();
+        expect(shallow(<div>{wrapper.instance().outgoingWebhooks('ZZZ')}</div>)).toMatchSnapshot();
         expect(wrapper).toMatchSnapshot();
     });
 

@@ -11,11 +11,12 @@ import SearchIcon from 'components/icon/search_icon';
 
 export default class BackstageList extends React.Component {
     static propTypes = {
-        children: PropTypes.node,
+        children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
         header: PropTypes.node.isRequired,
         addLink: PropTypes.string,
         addText: PropTypes.node,
         emptyText: PropTypes.node,
+        emptyTextSearch: PropTypes.node,
         helpText: PropTypes.node,
         loading: PropTypes.bool.isRequired,
         searchPlaceholder: PropTypes.string,
@@ -48,16 +49,30 @@ export default class BackstageList extends React.Component {
         if (this.props.loading) {
             children = <LoadingScreen/>;
         } else {
-            children = React.Children.map(this.props.children, (child) => {
+            children = this.props.children;
+            let hasChildren = true;
+            if (typeof children === 'function') {
+                [children, hasChildren] = children(filter);
+            }
+            children = React.Children.map(children, (child) => {
                 return React.cloneElement(child, {filter});
             });
-
-            if (children.length === 0 && this.props.emptyText) {
-                children = (
-                    <span className='backstage-list__item backstage-list__empty'>
-                        {this.props.emptyText}
-                    </span>
-                );
+            if (children.length === 0 || !hasChildren) {
+                if (!filter) {
+                    if (this.props.emptyText) {
+                        children = (
+                            <span className='backstage-list__item backstage-list__empty'>
+                                {this.props.emptyText}
+                            </span>
+                        );
+                    }
+                } else if (this.props.emptyTextSearch) {
+                    children = (
+                        <span className='backstage-list__item backstage-list__empty'>
+                            {React.cloneElement(this.props.emptyTextSearch, {values: {searchTerm: filter}})}
+                        </span>
+                    );
+                }
             }
         }
 
