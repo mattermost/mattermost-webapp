@@ -229,6 +229,7 @@ export default class SelectTeam extends React.Component {
                 <div className='signup-header'>
                     <a
                         href='#'
+                        id='logout'
                         onClick={this.handleLogoutClick}
                     >
                         <LogoutIcon/>

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {TeamTypes} from 'mattermost-redux/action_types';
+import {SearchTypes, TeamTypes} from 'mattermost-redux/action_types';
 
 import rhsReducer from 'reducers/views/rhs';
 import {ActionTypes, RHSStates} from 'utils/constants.jsx';
@@ -71,7 +71,7 @@ describe('Reducers.RHS', () => {
         const nextState = rhsReducer(
             {},
             {
-                type: ActionTypes.SEARCH_FLAGGED_POSTS_REQUEST,
+                type: SearchTypes.SEARCH_FLAGGED_POSTS_REQUEST,
             }
         );
 
@@ -85,7 +85,7 @@ describe('Reducers.RHS', () => {
         const nextState = rhsReducer(
             {},
             {
-                type: ActionTypes.SEARCH_FLAGGED_POSTS_SUCCESS,
+                type: SearchTypes.SEARCH_FLAGGED_POSTS_SUCCESS,
             }
         );
 

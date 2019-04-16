@@ -10,8 +10,12 @@ describe('components/AdminConsole', () => {
     const baseProps = {
         config: {
             TestField: true,
+            ExperimentalSettings: {
+                RestrictSystemAdmin: false,
+            },
         },
         license: {},
+        buildEnterpriseReady: true,
         match: {
             url: '',
         },
