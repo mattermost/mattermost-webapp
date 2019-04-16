@@ -304,6 +304,7 @@ export default class TextboxQL extends React.Component {
             <div
                 ref='wrapper'
                 className='textarea-wrapper'
+                onClick={this.focus}
             >
                 <SuggestionBoxQL
                     id={this.props.id}
