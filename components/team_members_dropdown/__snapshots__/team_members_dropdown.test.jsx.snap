@@ -24,6 +24,7 @@ exports[`components/team_members_dropdown should match snapshot for team_members
     <Menu
       ariaLabel="Team member role change"
       openLeft={true}
+      openUp={false}
     >
       <MenuItemAction
         id="removeFromTeam"
@@ -70,6 +71,7 @@ exports[`components/team_members_dropdown should match snapshot with group-const
     <Menu
       ariaLabel="Team member role change"
       openLeft={true}
+      openUp={false}
     >
       <MenuItemAction
         id="removeFromTeam"

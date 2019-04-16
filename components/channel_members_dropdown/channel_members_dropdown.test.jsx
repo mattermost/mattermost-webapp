@@ -39,6 +39,8 @@ describe('components/channel_members_dropdown', () => {
         isLicensed: true,
         canChangeMemberRoles: false,
         canRemoveMember: true,
+        index: 0,
+        totalUsers: 10,
         actions: {
             removeChannelMember: jest.fn().mockImplementation(() => {
                 const error = {

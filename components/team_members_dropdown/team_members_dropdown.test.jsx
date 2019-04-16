@@ -43,6 +43,8 @@ describe('components/team_members_dropdown', () => {
         },
         teamUrl: '',
         currentTeam: team,
+        index: 0,
+        totalUsers: 10,
         actions: {
             getMyTeamMembers: jest.fn(),
             getMyTeamUnreads: jest.fn(),
