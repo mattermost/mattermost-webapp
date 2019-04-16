@@ -109,7 +109,7 @@ describe('channel view actions', () => {
     describe('leaveChannel', () => {
         test('leave a channel successfully', async () => {
             await store.dispatch(Actions.leaveChannel('channelid'));
-            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/channels/town-square`);
+            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}`);
             expect(leaveChannel).toHaveBeenCalledWith('channelid');
         });
     });
