@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/QuillEditor should call constructor functions and match snapshot 1`] = `
+<div
+  className="custom-textarea"
+  onCompositionEnd={[MockFunction]}
+  onCompositionStart={[MockFunction]}
+  onCompositionUpdate={[Function]}
+  onKeyDown={[MockFunction]}
+/>
+`;
