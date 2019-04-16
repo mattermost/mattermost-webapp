@@ -607,8 +607,6 @@ export default class FileUpload extends PureComponent {
             const pluginFileUploadMethods = this.props.pluginFileUploadMethods.map((item) => {
                 return (
                     <li
-                        className='MenuItem'
-                        role='MenuItem'
                         key={item.pluginId + '_fileuploadpluginmenuitem'}
                         onClick={() => {
                             if (item.action) {
@@ -617,10 +615,10 @@ export default class FileUpload extends PureComponent {
                             this.setState({menuOpen: false});
                         }}
                     >
-                        <button className='style--none'>
+                        <a>
                             {item.icon}
                             {item.text}
-                        </button>
+                        </a>
                     </li>
                 );
             });
@@ -653,20 +651,14 @@ export default class FileUpload extends PureComponent {
                             openUp={true}
                             ariaLabel={formatMessage({id: 'file_upload.menuAriaLabel', defaultMessage: 'Upload type selector'})}
                         >
-                            <li
-                                className='MenuItem'
-                                role='MenuItem'
-                            >
-                                <button
-                                    className='style--none'
-                                    onClick={this.simulateInputClick}
-                                >
+                            <li>
+                                <a onClick={this.simulateInputClick}>
                                     <i className='fa fa-laptop'/>
                                     <FormattedMessage
                                         id='yourcomputer'
                                         defaultMessage='Your computer'
                                     />
-                                </button>
+                                </a>
                             </li>
                             {pluginFileUploadMethods}
                         </Menu>
