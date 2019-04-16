@@ -61,6 +61,17 @@ describe('components/channel_members_dropdown', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot opening dropdown upwards', () => {
+        const wrapper = shallow(
+            <ChannelMembersDropdown
+                {...baseProps}
+                index={4}
+                totalUsers={5}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('If a removal is in progress do not execute another removal', () => {
         const wrapper = shallow(
             <ChannelMembersDropdown {...baseProps}/>

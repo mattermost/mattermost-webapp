@@ -64,6 +64,17 @@ describe('components/team_members_dropdown', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot opening dropdown upwards', () => {
+        const wrapper = shallow(
+            <TeamMembersDropdown
+                {...baseProps}
+                index={4}
+                totalUsers={5}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot with group-constrained team', () => {
         baseProps.currentTeam.group_constrained = true;
         const wrapper = shallow(
