@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
@@ -144,9 +144,12 @@ export function notifyMe(title, body, channel, teamId, silent) {
                 browserHistory.push(getTeamRelativeUrl(team) + '/channels/' + channel.name);
             } else if (teamId) {
                 const team = getTeam(state, teamId);
-                browserHistory.push(getTeamRelativeUrl(team) + `/channels/${Constants.DEFAULT_CHANNEL}`);
+                const redirectChannel = getRedirectChannelNameForTeam(state, teamId);
+                browserHistory.push(getTeamRelativeUrl(team) + `/channels/${redirectChannel}`);
             } else {
-                browserHistory.push(getCurrentRelativeTeamUrl(state) + `/channels/${Constants.DEFAULT_CHANNEL}`);
+                const currentTeamId = getCurrentTeamId(state);
+                const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
+                browserHistory.push(getCurrentRelativeTeamUrl(state) + `/channels/${redirectChannel}`);
             }
         },
     }).catch(() => {

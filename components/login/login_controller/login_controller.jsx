@@ -58,6 +58,7 @@ class LoginController extends React.Component {
         samlLoginButtonText: PropTypes.string,
         siteName: PropTypes.string,
         initializing: PropTypes.bool,
+        defaultChannel: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             login: PropTypes.func.isRequired,
             addUserToTeamFromInvite: PropTypes.func.isRequired,
@@ -331,7 +332,7 @@ class LoginController extends React.Component {
         } else if (team) {
             browserHistory.push(`/${team.name}`);
         } else if (experimentalPrimaryTeam) {
-            browserHistory.push(`/${experimentalPrimaryTeam}/channels/${Constants.DEFAULT_CHANNEL}`);
+            browserHistory.push(`/${experimentalPrimaryTeam}/channels/${this.props.defaultChannel}`);
         } else {
             GlobalActions.redirectUserToDefaultTeam();
         }

@@ -49,7 +49,7 @@ describe('channel view actions', () => {
         entities: {
             users: {
                 currentUserId: 'userid1',
-                profiles: {userid1: {id: 'userid1', username: 'username1'}, userid2: {id: 'userid2', username: 'username2'}},
+                profiles: {userid1: {id: 'userid1', username: 'username1', roles: 'system_user'}, userid2: {id: 'userid2', username: 'username2', roles: 'system_user'}},
                 profilesInChannel: {},
             },
             teams: {
@@ -63,6 +63,12 @@ describe('channel view actions', () => {
             },
             general: {
                 config: {},
+                serverVersion: '5.12.0',
+            },
+            roles: {
+                roles: {
+                    system_user: {permissions: ['join_public_channels']},
+                },
             },
             preferences: {
                 myPreferences: {},
@@ -103,7 +109,7 @@ describe('channel view actions', () => {
     describe('leaveChannel', () => {
         test('leave a channel successfully', async () => {
             await store.dispatch(Actions.leaveChannel('channelid'));
-            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/channels/town-square`);
+            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}`);
             expect(leaveChannel).toHaveBeenCalledWith('channelid');
         });
     });

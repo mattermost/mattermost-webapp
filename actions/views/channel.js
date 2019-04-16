@@ -6,7 +6,7 @@ import {batchActions} from 'redux-batched-actions';
 import {leaveChannel as leaveChannelRedux, joinChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {Posts} from 'mattermost-redux/constants';
-import {getChannel, getChannelByName, getCurrentChannel, getDefaultChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getChannelByName, getCurrentChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
@@ -36,7 +36,7 @@ export function goToLastViewedChannel() {
         let channelToSwitchTo = getChannelByName(state, getLastViewedChannelName(state));
 
         if (currentChannel.id === channelToSwitchTo.id) {
-            channelToSwitchTo = getDefaultChannel(state);
+            channelToSwitchTo = getChannelByName(state, getRedirectChannelNameForTeam(state, getCurrentTeamId(state)));
         }
 
         return dispatch(switchToChannel(channelToSwitchTo));
@@ -99,7 +99,7 @@ export function leaveChannel(channelId) {
         }
 
         const teamUrl = getCurrentRelativeTeamUrl(state);
-        browserHistory.push(teamUrl + '/channels/' + Constants.DEFAULT_CHANNEL);
+        browserHistory.push(teamUrl);
 
         const {error} = await dispatch(leaveChannelRedux(channelId));
         if (error) {

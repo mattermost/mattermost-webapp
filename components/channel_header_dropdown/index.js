@@ -7,6 +7,7 @@ import {
     getCurrentUser,
     getUserStatuses,
 } from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentChannel,
     isCurrentChannelDefault,
@@ -14,6 +15,7 @@ import {
     isCurrentChannelMuted,
     isCurrentChannelArchived,
     isCurrentChannelReadOnly,
+    getRedirectChannelNameForTeam,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import {getPenultimateViewedChannelName} from 'selectors/local_storage';
@@ -56,7 +58,7 @@ const mapStateToProps = (state) => ({
     isMuted: isCurrentChannelMuted(state),
     isReadonly: isCurrentChannelReadOnly(state),
     isArchived: isCurrentChannelArchived(state),
-    penultimateViewedChannelName: getPenultimateViewedChannelName(state) || Constants.DEFAULT_CHANNEL,
+    penultimateViewedChannelName: getPenultimateViewedChannelName(state) || getRedirectChannelNameForTeam(state, getCurrentTeamId(state)),
 });
 
 const mobileMapStateToProps = (state) => ({
