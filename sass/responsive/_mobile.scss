@@ -1787,6 +1787,15 @@
         }
     }
 
+    .emoji-picker {
+        &.emoji-picker--single {
+            .emoji-picker__inner {
+                margin-top: 59px;
+                height: calc(100vh - 60px);
+            }
+        }
+    }
+
     .sidebar--right {
         .post {
             &.post--compact {
