@@ -167,12 +167,8 @@
             }
 
             .post-body__actions {
-                .MenuWrapper {
-                    .Menu {
-                        &.dropdown-menu {
-                            max-height: 80vh;
-                        }
-                    }
+                .Menu.dropdown-menu {
+                    max-height: 80vh;
                 }
             }
         }
