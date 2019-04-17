@@ -62,6 +62,14 @@
     .textbox-preview-link {
         margin-right: 8px;
     }
+
+    span.emoticon {
+        vertical-align: top;
+    }
+
+    span.emoticon--unicode {
+        vertical-align: top;
+    }
 }
 
 .help__format-text {
@@ -278,6 +286,7 @@
         height: 100%;
         width: 100%;
         position: absolute;
+
         &.active {
             display: inline;
         }
@@ -698,10 +707,12 @@
             }
         }
     }
+
     .loading-screen {
         position: relative;
         height: 40px;
         padding: 0px;
+
         .loading__content {
             height: 40px;
         }
@@ -1674,7 +1685,7 @@
         &:before {
             content: '\f065';
             font-size: 14px;
-}
+        }
 
         &[data-expanded='true']:before {
             content: '\f066';
@@ -1989,16 +2000,18 @@
 
 .post-message--collapsed {
     .post-message__text-container {
-        // If this max-height is changed, the MAX_POST_HEIGHT constant in
+        // if this max-height is changed, the max_post_height constant in
         // components/post/post_message_view/post_message_view.jsx must
         // be changed to match it
         max-height: 600px;
+
         .all-emoji {
             .emoticon {
                 min-height: 32px;
                 min-width: 32px;
                 vertical-align: top;
             }
+
             .emoticon--unicode {
                 font-size: 32px;
                 line-height: 1.1;

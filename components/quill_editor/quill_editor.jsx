@@ -127,6 +127,10 @@ export default class QuillEditor extends React.Component {
         this.editor.focus();
     }
 
+    hasFocus = () => {
+        return this.editor.hasFocus();
+    }
+
     blur = () => {
         this.editor.blur();
     }
@@ -141,8 +145,8 @@ export default class QuillEditor extends React.Component {
         const newValue = Utils.prepareMarkdown(contents);
 
         // SuggestionBox.handleChange needs to know the caret and pretext
-        const [leaf, localCaret] = this.editor.getLeaf(this.editor.getSelection(true).index);
-        const leafText = leaf.text || '';
+        let [leafText, localCaret] = this.editor.getLeaf(this.editor.getSelection(true).index);
+        leafText = leafText.text || '';
 
         // Create emojis as they are typed. Text must be at least 3 characters long, to include one letter emoji like :a:
         // TODO: render conditionally based on config settings.
@@ -154,6 +158,10 @@ export default class QuillEditor extends React.Component {
             const matched = Utils.detectEmojiOnColon(leafText, localCaret, minNumOfChars, this.props.emojiMap);
             if (matched) {
                 this.insertEmojiReplacingLength(matched.name, matched.text.length);
+
+                // these have now changed:
+                [leafText, localCaret] = this.editor.getLeaf(this.editor.getSelection(true).index);
+                leafText = leafText.text || '';
             }
         }
 
@@ -166,6 +174,10 @@ export default class QuillEditor extends React.Component {
             const matched = Utils.detectLiteralEmojiOnSpace(leafText, localCaret, literalMinNumOfChars, this.props.emojiMap);
             if (matched) {
                 this.insertEmojiReplacingLength(matched.name, matched.text.length);
+
+                // these have now changed:
+                [leafText, localCaret] = this.editor.getLeaf(this.editor.getSelection(true).index);
+                leafText = leafText.text || '';
             }
         }
 

@@ -131,13 +131,20 @@ export default class TextboxQL extends React.Component {
         //this.checkMessageLength(editor.value);
     }
 
+    focusWithoutMovingCaret = () => {
+        const hasFocus = this.editorRef.current.getWrappedInstance().hasFocus();
+        if (!hasFocus) {
+            this.editorRef.current.getWrappedInstance().focus();
+        }
+    }
+
     blur = () => {
         this.editorRef.current.getWrappedInstance().blur();
     };
 
-     recalculateSize = () => {
-         this.editorRef.current.getWrappedInstance().recalculateSize();
-     };
+    recalculateSize = () => {
+        this.editorRef.current.getWrappedInstance().recalculateSize();
+    };
 
     addEmojiAtCaret = (text) => {
         // From create_post -- pass through to the SuggestionBox
@@ -304,7 +311,7 @@ export default class TextboxQL extends React.Component {
             <div
                 ref='wrapper'
                 className='textarea-wrapper'
-                onClick={this.focus}
+                onClick={this.focusWithoutMovingCaret}
             >
                 <SuggestionBoxQL
                     id={this.props.id}
