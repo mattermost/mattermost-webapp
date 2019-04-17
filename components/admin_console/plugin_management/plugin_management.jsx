@@ -399,6 +399,7 @@ export default class PluginManagement extends AdminSettings {
         actions: PropTypes.shape({
             uploadPlugin: PropTypes.func.isRequired,
             removePlugin: PropTypes.func.isRequired,
+            getPlugins: PropTypes.func.isRequired,
             getPluginStatuses: PropTypes.func.isRequired,
             enablePlugin: PropTypes.func.isRequired,
             disablePlugin: PropTypes.func.isRequired,
@@ -479,6 +480,9 @@ export default class PluginManagement extends AdminSettings {
             return;
         }
 
+        this.setState({loading: true});
+        await this.props.actions.getPlugins();
+
         let msg = `Successfully uploaded plugin from ${file.name}`;
         if (this.state.overwriting) {
             msg = `Successfully updated plugin from ${file.name}`;
@@ -491,6 +495,7 @@ export default class PluginManagement extends AdminSettings {
             lastMessage: msg,
             overwriting: false,
             uploading: false,
+            loading: false,
         });
     }
 
