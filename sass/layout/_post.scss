@@ -405,7 +405,7 @@
 .post-list__dyanmic {
     > div {
         > div {
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
     }
 }
@@ -1225,7 +1225,7 @@
     .post__content {
         display: table;
         margin: 0 auto;
-        padding: 0 5px;
+        padding: 0 8px 0 5px;
         position: relative;
         table-layout: fixed;
         width: 100%;
