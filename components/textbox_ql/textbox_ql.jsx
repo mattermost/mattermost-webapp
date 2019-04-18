@@ -39,9 +39,19 @@ export default class TextboxQL extends React.Component {
         characterLimit: PropTypes.number.isRequired,
 
         /**
-         * Max length is optional. If it exists, the input will not allow any more characters typed past the maxLength.
+         * maxLength is optional. If it exists, the input will not allow any more characters typed past the maxLength.
          */
         maxLength: PropTypes.number,
+
+        /**
+         * textAreaHeightClass is optional. If it exists, the input will have a min-height set (through css).
+         */
+        textAreaHeightClass: PropTypes.string,
+
+        /**
+         * If true, do not show the help link at the footer of the editor.
+         */
+        hideHelpText: PropTypes.bool,
         disabled: PropTypes.bool,
         badConnection: PropTypes.bool,
         listenForMentionKeyClick: PropTypes.bool,
@@ -289,6 +299,9 @@ export default class TextboxQL extends React.Component {
         let preview = null;
 
         let textboxClassName = 'form-control custom-textarea';
+        if (this.props.textAreaHeightClass) {
+            textboxClassName += ' ' + this.props.textAreaHeightClass;
+        }
         if (this.props.emojiEnabled) {
             textboxClassName += ' custom-textarea--emoji-picker';
         }
@@ -310,6 +323,25 @@ export default class TextboxQL extends React.Component {
                 </div>
             );
         }
+
+        const helpTextComponent = (this.props.hideHelpText) ? null : (
+            <div className={'help__text ' + helpTextClass}>
+                {helpText}
+                {previewLink}
+                <Link
+                    id='helpTextLink'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    to='/help/messaging'
+                    className='textbox-help-link'
+                >
+                    <FormattedMessage
+                        id='textbox.help'
+                        defaultMessage='Help'
+                    />
+                </Link>
+            </div>
+        );
 
         return (
             <div
@@ -344,22 +376,7 @@ export default class TextboxQL extends React.Component {
                     maxLength={this.props.maxLength}
                 />
                 {preview}
-                <div className={'help__text ' + helpTextClass}>
-                    {helpText}
-                    {previewLink}
-                    <Link
-                        id='helpTextLink'
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        to='/help/messaging'
-                        className='textbox-help-link'
-                    >
-                        <FormattedMessage
-                            id='textbox.help'
-                            defaultMessage='Help'
-                        />
-                    </Link>
-                </div>
+                {helpTextComponent}
             </div>
         );
     }

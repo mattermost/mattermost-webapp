@@ -206,8 +206,8 @@ export default class EditChannelPurposeModal extends React.PureComponent {
                     <TextboxQL
                         value={this.state.purpose}
                         ref={this.textboxRef}
-                        className='form-control no-resize'
-                        rows={6}
+                        hideHelpText={true}
+                        textAreaHeightClass={'purpose-modal'}
                         maxLength={250}
                         characterLimit={250}
                         onKeyDown={this.handleKeyDown}

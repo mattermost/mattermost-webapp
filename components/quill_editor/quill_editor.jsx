@@ -41,7 +41,7 @@ export default class QuillEditor extends React.Component {
         onHeightChange: PropTypes.func,
 
         /**
-         * Max length is optional. If it exists, the input will not allow any more characters typed past the maxLength.
+         * maxLength is optional. If it exists, the input will not allow any more characters typed past the maxLength.
          */
         maxLength: PropTypes.number,
 

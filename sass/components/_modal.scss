@@ -147,6 +147,10 @@
             border-color: $light-gray;
             box-shadow: none;
         }
+
+        &.purpose-modal {
+            min-height: 8em;
+        }
     }
 
     .btn {

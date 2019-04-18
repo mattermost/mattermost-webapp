@@ -59,11 +59,11 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
     </p>
     <Connect(TextboxQL)
       characterLimit={250}
-      className="form-control no-resize"
+      hideHelpText={true}
       maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
-      rows={6}
+      textAreaHeightClass="purpose-modal"
       value="purpose"
     />
   </ModalBody>
@@ -157,11 +157,11 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
     </p>
     <Connect(TextboxQL)
       characterLimit={250}
-      className="form-control no-resize"
+      hideHelpText={true}
       maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
-      rows={6}
+      textAreaHeightClass="purpose-modal"
       value="purpose"
     />
     <div
@@ -265,11 +265,11 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
     </p>
     <Connect(TextboxQL)
       characterLimit={250}
-      className="form-control no-resize"
+      hideHelpText={true}
       maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
-      rows={6}
+      textAreaHeightClass="purpose-modal"
       value="purpose"
     />
     <div
@@ -373,11 +373,11 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
     </p>
     <Connect(TextboxQL)
       characterLimit={250}
-      className="form-control no-resize"
+      hideHelpText={true}
       maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
-      rows={6}
+      textAreaHeightClass="purpose-modal"
       value="purpose"
     />
   </ModalBody>
@@ -471,11 +471,11 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
     </p>
     <Connect(TextboxQL)
       characterLimit={250}
-      className="form-control no-resize"
+      hideHelpText={true}
       maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
-      rows={6}
+      textAreaHeightClass="purpose-modal"
       value="purpose"
     />
   </ModalBody>
@@ -569,11 +569,11 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
     </p>
     <Connect(TextboxQL)
       characterLimit={250}
-      className="form-control no-resize"
+      hideHelpText={true}
       maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
-      rows={6}
+      textAreaHeightClass="purpose-modal"
       value="purpose"
     />
   </ModalBody>
@@ -672,11 +672,11 @@ exports[`comoponents/EditChannelPurposeModal should match with display name 1`] 
     </p>
     <Connect(TextboxQL)
       characterLimit={250}
-      className="form-control no-resize"
+      hideHelpText={true}
       maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
-      rows={6}
+      textAreaHeightClass="purpose-modal"
       value="purpose"
     />
   </ModalBody>

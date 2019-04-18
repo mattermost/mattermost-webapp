@@ -130,7 +130,7 @@ export default class SuggestionBoxQL extends React.Component {
         listenForMentionKeyClick: PropTypes.bool,
 
         /**
-         * Max length is optional. If it exists, the input will not allow any more characters typed past the maxLength.
+         * maxLength is optional. If it exists, the input will not allow any more characters typed past the maxLength.
          */
         maxLength: PropTypes.number,
 
