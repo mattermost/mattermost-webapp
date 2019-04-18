@@ -39,7 +39,7 @@ export default class ActionMenu extends React.PureComponent {
 
         if (action.default_option && action.options) {
             selected = action.options.find((option) => option.value === action.default_option);
-            value = selected.text;
+            value = selected ? selected.text : '';
         }
 
         this.state = {
