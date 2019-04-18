@@ -538,6 +538,12 @@
     }
 }
 
+.bot-profile__section {
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    padding-top: 1em;
+    margin-bottom: 1em;
+}
+
 .bot-list__disabled {
     .item-details {
         color: rgba($black, .6);
