@@ -402,6 +402,14 @@
     padding: 15px;
 }
 
+.post-list__dyanmic {
+    > div {
+        > div {
+            margin-bottom: 8px;
+        }
+    }
+}
+
 .post-create__container {
     @include flex(0 0 auto);
     width: 100%;
@@ -683,7 +691,6 @@
     @include clearfix;
     display: table;
     height: 100%;
-    padding-bottom: .5em;
     table-layout: fixed;
     width: 100%;
 
