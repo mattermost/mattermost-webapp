@@ -130,6 +130,11 @@ export default class SuggestionBoxQL extends React.Component {
         listenForMentionKeyClick: PropTypes.bool,
 
         /**
+         * Max length is optional. If it exists, the input will not allow any more characters typed past the maxLength.
+         */
+        maxLength: PropTypes.number,
+
+        /**
          * The reference created in Textbox and passed through to be bound to the QuillEditor.
          */
         editorRef: PropTypes.oneOfType([
@@ -635,6 +640,7 @@ export default class SuggestionBoxQL extends React.Component {
                     style={props.style}
                     value={props.value}
                     disabled={props.disabled}
+                    maxLength={props.maxLength}
                     onChange={this.handleChange}
                     onCompositionStart={this.handleCompositionStart}
                     onCompositionUpdate={this.handleCompositionUpdate}

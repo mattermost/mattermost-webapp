@@ -208,6 +208,7 @@ export default class EditChannelPurposeModal extends React.PureComponent {
                         ref={this.textboxRef}
                         className='form-control no-resize'
                         rows={6}
+                        maxLength={250}
                         characterLimit={250}
                         onKeyDown={this.handleKeyDown}
                         onChange={this.handleChange}

@@ -40,6 +40,11 @@ export default class QuillEditor extends React.Component {
         onCompositionEnd: PropTypes.func.isRequired,
         onHeightChange: PropTypes.func,
 
+        /**
+         * Max length is optional. If it exists, the input will not allow any more characters typed past the maxLength.
+         */
+        maxLength: PropTypes.number,
+
         // TODO: need to implement conditional rendering.
         config: PropTypes.object.isRequired,
         emojiMap: PropTypes.object.isRequired,
@@ -140,9 +145,18 @@ export default class QuillEditor extends React.Component {
     }
 
     // unused params: oldContents, source
-    handleChange = (delta) => {
+    handleChange = (delta, oldContents) => {
         const contents = this.editor.getContents().ops;
         const newValue = Utils.prepareMarkdown(contents);
+
+        if (this.props.maxLength && newValue.length > this.props.maxLength) {
+            // The length is calculated based on the markdown representation of the text, not the rendered length.
+            // So instead of trying to find where the cursor would be in the rendered version of the text and then
+            // deleting, just don't allow inserts after the limit is reached.
+            const undoChange = new Delta(delta).invert(oldContents);
+            this.editor.updateContents(undoChange);
+            return;
+        }
 
         // SuggestionBox.handleChange needs to know the caret and pretext
         let [leafText, localCaret] = this.editor.getLeaf(this.editor.getSelection(true).index);
@@ -237,15 +251,21 @@ export default class QuillEditor extends React.Component {
     addEmojiAtCaret = (term, matchedPretext, tabOrEnter) => {
         this.editor.focus();
         const globalCaret = this.editor.getSelection().index;
+        let moveCursorExtraSpaces = true;
 
         // remove the \t or \n that quill adds, if any.
         if (tabOrEnter) {
             const removeChar = new Delta().retain(globalCaret - 1).delete(1);
             this.editor.updateContents(removeChar);
+            moveCursorExtraSpaces = false;
         }
 
         const emojiName = term.slice(1, -1);
         this.insertEmojiReplacingLength(emojiName, matchedPretext.length);
+
+        if (moveCursorExtraSpaces) {
+            this.editor.setSelection(this.editor.getSelection().index + 2);
+        }
 
         const newValue = Utils.prepareMarkdown(this.editor.getContents().ops);
         this.setState({
@@ -256,18 +276,18 @@ export default class QuillEditor extends React.Component {
     }
 
     insertEmojiReplacingLength = (name, length) => {
-        let globalCaret = this.editor.getSelection().index;
+        const globalCaret = this.editor.getSelection().index;
 
         // get the emoji Url
         const imageUrl = Utils.getEmojiUrl(name, this.props.emojiMap);
 
-        const delta = new Delta().retain(globalCaret - length).delete(length);
+        const delta = new Delta().retain(globalCaret - length).delete(length).insert({
+            emoji: {
+                name,
+                imageUrl,
+            },
+        }).insert(' ');
         this.editor.updateContents(delta);
-        globalCaret -= length;
-
-        this.editor.insertEmbed(globalCaret, 'emoji', {name, imageUrl});
-        this.editor.setSelection(globalCaret + 1);
-        this.editor.insertText(globalCaret + 1, ' ');
     };
 
     replaceText = (text) => {

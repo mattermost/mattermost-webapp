@@ -164,16 +164,16 @@ describe('components/QuillEditor', () => {
         insertTextAndCheck(instance, ':ab', ':');
 
         expect(instance.editor.updateContents).toBeCalledTimes(1);
-        expect(instance.editor.updateContents).toBeCalledWith({ops: [{delete: 4}]});
-        expect(instance.editor.insertEmbed).toBeCalledTimes(1);
-        expect(instance.editor.insertEmbed).toBeCalledWith(0, 'emoji', {
-            name: 'ab',
-            imageUrl: '/static/emoji/1f18e.png',
+        expect(instance.editor.updateContents).toBeCalledWith({
+            ops: [{
+                insert: {
+                    emoji: {
+                        imageUrl: '/static/emoji/1f18e.png',
+                        name: 'ab',
+                    },
+                },
+            }, {insert: ' '}, {delete: 4}],
         });
-        expect(instance.editor.setSelection).toBeCalledTimes(1);
-        expect(instance.editor.setSelection).toBeCalledWith(1);
-        expect(instance.editor.insertText).toBeCalledTimes(1);
-        expect(instance.editor.insertText).toBeCalledWith(1, ' ');
     });
 
     test('after typing : should fail to find an invalid emoji', () => {
@@ -219,16 +219,16 @@ describe('components/QuillEditor', () => {
         insertTextAndCheck(instance, ':ab', ':', {emoji: {name: 'smile'}}, 1, ':smile: ');
 
         expect(instance.editor.updateContents).toBeCalledTimes(1);
-        expect(instance.editor.updateContents).toBeCalledWith({ops: [{retain: 1}, {delete: 4}]});
-        expect(instance.editor.insertEmbed).toBeCalledTimes(1);
-        expect(instance.editor.insertEmbed).toBeCalledWith(1, 'emoji', {
-            name: 'ab',
-            imageUrl: '/static/emoji/1f18e.png',
+        expect(instance.editor.updateContents).toBeCalledWith({
+            ops: [{retain: 1}, {
+                insert: {
+                    emoji: {
+                        imageUrl: '/static/emoji/1f18e.png',
+                        name: 'ab',
+                    },
+                },
+            }, {insert: ' '}, {delete: 4}],
         });
-        expect(instance.editor.setSelection).toBeCalledTimes(1);
-        expect(instance.editor.setSelection).toBeCalledWith(2);
-        expect(instance.editor.insertText).toBeCalledTimes(1);
-        expect(instance.editor.insertText).toBeCalledWith(2, ' ');
     });
 
     test('after typing : should insert an emoji immediately before an existing emoji', () => {
@@ -244,16 +244,16 @@ describe('components/QuillEditor', () => {
         expect(instance.props.onChange).toBeCalledWith(':ab: :smile:', ':ab:', 4);
 
         expect(instance.editor.updateContents).toBeCalledTimes(1);
-        expect(instance.editor.updateContents).toBeCalledWith({ops: [{delete: 4}]});
-        expect(instance.editor.insertEmbed).toBeCalledTimes(1);
-        expect(instance.editor.insertEmbed).toBeCalledWith(0, 'emoji', {
-            name: 'ab',
-            imageUrl: '/static/emoji/1f18e.png',
+        expect(instance.editor.updateContents).toBeCalledWith({
+            ops: [{
+                insert: {
+                    emoji: {
+                        imageUrl: '/static/emoji/1f18e.png',
+                        name: 'ab',
+                    },
+                },
+            }, {insert: ' '}, {delete: 4}],
         });
-        expect(instance.editor.setSelection).toBeCalledTimes(1);
-        expect(instance.editor.setSelection).toBeCalledWith(1);
-        expect(instance.editor.insertText).toBeCalledTimes(1);
-        expect(instance.editor.insertText).toBeCalledWith(1, ' ');
     });
 
     test('after typing space should find and insert a valid literal emoji', () => {
@@ -267,16 +267,16 @@ describe('components/QuillEditor', () => {
         insertTextAndCheck(instance, ':)', ' ');
 
         expect(instance.editor.updateContents).toBeCalledTimes(1);
-        expect(instance.editor.updateContents).toBeCalledWith({ops: [{delete: 3}]});
-        expect(instance.editor.insertEmbed).toBeCalledTimes(1);
-        expect(instance.editor.insertEmbed).toBeCalledWith(0, 'emoji', {
-            name: 'slightly_smiling_face',
-            imageUrl: '/static/emoji/1f642.png',
+        expect(instance.editor.updateContents).toBeCalledWith({
+            ops: [{
+                insert: {
+                    emoji: {
+                        imageUrl: '/static/emoji/1f642.png',
+                        name: 'slightly_smiling_face',
+                    },
+                },
+            }, {insert: ' '}, {delete: 3}],
         });
-        expect(instance.editor.setSelection).toBeCalledTimes(1);
-        expect(instance.editor.setSelection).toBeCalledWith(1);
-        expect(instance.editor.insertText).toBeCalledTimes(1);
-        expect(instance.editor.insertText).toBeCalledWith(1, ' ');
     });
 
     test('after typing space should fail to find an invalid literal emoji', () => {
@@ -349,16 +349,16 @@ describe('components/QuillEditor', () => {
         expect(instance.editor.focus).toBeCalledTimes(1);
         expect(instance.editor.updateContents).toBeCalledTimes(2);
         expect(instance.editor.updateContents).toHaveBeenNthCalledWith(1, {ops: [{retain: 3}, {delete: 1}]});
-        expect(instance.editor.updateContents).toHaveBeenLastCalledWith({ops: [{delete: 3}]});
-        expect(instance.editor.insertEmbed).toBeCalledTimes(1);
-        expect(instance.editor.insertEmbed).toBeCalledWith(0, 'emoji', {
-            name: 'smile',
-            imageUrl: '/static/emoji/1f604.png',
+        expect(instance.editor.updateContents).toHaveBeenLastCalledWith({
+            ops: [{
+                insert: {
+                    emoji: {
+                        imageUrl: '/static/emoji/1f604.png',
+                        name: 'smile',
+                    },
+                },
+            }, {insert: ' '}, {delete: 3}],
         });
-        expect(instance.editor.setSelection).toBeCalledTimes(1);
-        expect(instance.editor.setSelection).toBeCalledWith(1);
-        expect(instance.editor.insertText).toBeCalledTimes(1);
-        expect(instance.editor.insertText).toBeCalledWith(1, ' ');
         expect(newValue).toBe(':smile: ');
     });
 
@@ -377,16 +377,17 @@ describe('components/QuillEditor', () => {
         expect(instance.editor.focus).toBeCalledTimes(1);
         expect(instance.editor.updateContents).toBeCalledTimes(2);
         expect(instance.editor.updateContents).toHaveBeenNthCalledWith(1, {ops: [{retain: 4}, {delete: 1}]});
-        expect(instance.editor.updateContents).toHaveBeenLastCalledWith({ops: [{retain: 1}, {delete: 3}]});
-        expect(instance.editor.insertEmbed).toBeCalledTimes(1);
-        expect(instance.editor.insertEmbed).toBeCalledWith(1, 'emoji', {
-            name: 'smile',
-            imageUrl: '/static/emoji/1f604.png',
+        expect(instance.editor.updateContents).toHaveBeenLastCalledWith({
+            ops: [{retain: 1},
+                {
+                    insert: {
+                        emoji: {
+                            imageUrl: '/static/emoji/1f604.png',
+                            name: 'smile',
+                        },
+                    },
+                }, {insert: ' '}, {delete: 3}],
         });
-        expect(instance.editor.setSelection).toBeCalledTimes(1);
-        expect(instance.editor.setSelection).toBeCalledWith(2);
-        expect(instance.editor.insertText).toBeCalledTimes(1);
-        expect(instance.editor.insertText).toBeCalledWith(2, ' ');
         expect(newValue).toBe('\t:smile: ');
     });
 
@@ -405,16 +406,18 @@ describe('components/QuillEditor', () => {
         expect(instance.editor.focus).toBeCalledTimes(1);
         expect(instance.editor.updateContents).toBeCalledTimes(2);
         expect(instance.editor.updateContents).toHaveBeenNthCalledWith(1, {ops: [{retain: 4}, {delete: 1}]});
-        expect(instance.editor.updateContents).toHaveBeenLastCalledWith({ops: [{retain: 1}, {delete: 3}]});
-        expect(instance.editor.insertEmbed).toBeCalledTimes(1);
-        expect(instance.editor.insertEmbed).toBeCalledWith(1, 'emoji', {
-            name: 'smile',
-            imageUrl: '/static/emoji/1f604.png',
+        expect(instance.editor.updateContents).toHaveBeenLastCalledWith({
+            ops: [{retain: 1},
+                {
+                    insert: {
+                        emoji: {
+                            imageUrl: '/static/emoji/1f604.png',
+                            name: 'smile',
+                        },
+                    },
+
+                }, {insert: ' '}, {delete: 3}],
         });
-        expect(instance.editor.setSelection).toBeCalledTimes(1);
-        expect(instance.editor.setSelection).toBeCalledWith(2);
-        expect(instance.editor.insertText).toBeCalledTimes(1);
-        expect(instance.editor.insertText).toBeCalledWith(2, ' ');
         expect(newValue).toBe('\n:smile: ');
     });
 
@@ -432,16 +435,16 @@ describe('components/QuillEditor', () => {
 
         expect(instance.editor.focus).toBeCalledTimes(1);
         expect(instance.editor.updateContents).toBeCalledTimes(1);
-        expect(instance.editor.updateContents).toBeCalledWith({ops: [{delete: 3}]});
-        expect(instance.editor.insertEmbed).toBeCalledTimes(1);
-        expect(instance.editor.insertEmbed).toBeCalledWith(0, 'emoji', {
-            name: 'smile',
-            imageUrl: '/static/emoji/1f604.png',
+        expect(instance.editor.updateContents).toBeCalledWith({
+            ops: [{
+                insert: {
+                    emoji: {
+                        imageUrl: '/static/emoji/1f604.png',
+                        name: 'smile',
+                    },
+                },
+            }, {insert: ' '}, {delete: 3}],
         });
-        expect(instance.editor.setSelection).toBeCalledTimes(1);
-        expect(instance.editor.setSelection).toBeCalledWith(1);
-        expect(instance.editor.insertText).toBeCalledTimes(1);
-        expect(instance.editor.insertText).toBeCalledWith(1, ' ');
         expect(newValue).toBe(':smile: ');
     });
 

@@ -60,6 +60,7 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
     <Connect(TextboxQL)
       characterLimit={250}
       className="form-control no-resize"
+      maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
       rows={6}
@@ -157,6 +158,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
     <Connect(TextboxQL)
       characterLimit={250}
       className="form-control no-resize"
+      maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
       rows={6}
@@ -264,6 +266,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
     <Connect(TextboxQL)
       characterLimit={250}
       className="form-control no-resize"
+      maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
       rows={6}
@@ -371,6 +374,7 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
     <Connect(TextboxQL)
       characterLimit={250}
       className="form-control no-resize"
+      maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
       rows={6}
@@ -468,6 +472,7 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
     <Connect(TextboxQL)
       characterLimit={250}
       className="form-control no-resize"
+      maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
       rows={6}
@@ -565,6 +570,7 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
     <Connect(TextboxQL)
       characterLimit={250}
       className="form-control no-resize"
+      maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
       rows={6}
@@ -667,6 +673,7 @@ exports[`comoponents/EditChannelPurposeModal should match with display name 1`] 
     <Connect(TextboxQL)
       characterLimit={250}
       className="form-control no-resize"
+      maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
       rows={6}

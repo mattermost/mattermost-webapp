@@ -37,6 +37,11 @@ export default class TextboxQL extends React.Component {
         emojiEnabled: PropTypes.bool,
         isRHS: PropTypes.bool,
         characterLimit: PropTypes.number.isRequired,
+
+        /**
+         * Max length is optional. If it exists, the input will not allow any more characters typed past the maxLength.
+         */
+        maxLength: PropTypes.number,
         disabled: PropTypes.bool,
         badConnection: PropTypes.bool,
         listenForMentionKeyClick: PropTypes.bool,
@@ -126,9 +131,8 @@ export default class TextboxQL extends React.Component {
 
         this.editorRef.current.getWrappedInstance().setCaretToEnd();
 
-        // TODO: implement
         // reset character count warning
-        //this.checkMessageLength(editor.value);
+        this.checkMessageLength(this.props.value);
     }
 
     focusWithoutMovingCaret = () => {
@@ -337,6 +341,7 @@ export default class TextboxQL extends React.Component {
                     disabled={this.props.disabled}
                     contextId={this.props.channelId}
                     listenForMentionKeyClick={this.props.listenForMentionKeyClick}
+                    maxLength={this.props.maxLength}
                 />
                 {preview}
                 <div className={'help__text ' + helpTextClass}>
