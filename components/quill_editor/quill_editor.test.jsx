@@ -426,7 +426,7 @@ describe('components/QuillEditor', () => {
         const instance = wrapper.instance();
 
         // after typing :sm and then clicking
-        instance.editor.getSelection.mockReturnValueOnce({index: 3}).mockReturnValueOnce({index: 3});
+        instance.editor.getSelection.mockReturnValueOnce({index: 3}).mockReturnValueOnce({index: 3}).mockReturnValueOnce({index: 1});
 
         // contents are received /after/ the enter has been removed and the pretext replaced by the full text
         instance.editor.getContents.mockReturnValue({ops: [{insert: ':smile: \n'}]});
