@@ -82,7 +82,7 @@ describe('Channel', () => {
         channelNameTest('PUBLIC CHANNELS', 'Town Square');
     });
 
-    it('Should not create new channel with existing private channel name', () => {
+    it('M14635 Should not create new channel with existing private channel name', () => {
         // * Verify new public or private channel cannot be created with existing private channel name:
         channelNameTest('PRIVATE CHANNELS', 'commodi');
     });

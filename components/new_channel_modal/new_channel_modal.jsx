@@ -184,11 +184,16 @@ export default class NewChannelModal extends React.PureComponent {
 
         if (this.props.serverError) {
             serverError = (
-                <div
-                    id='createChannelError'
-                    className='form-group has-error'
-                >
-                    <div className='col-sm-12'><p className='input__help error'>{this.props.serverError}</p></div></div>
+                <div className='form-group has-error'>
+                    <div className='col-sm-12'>
+                        <p
+                            id='createChannelError'
+                            className='input__help error'
+                        >
+                            {this.props.serverError}
+                        </p>
+                    </div>
+                </div>
             );
         }
 

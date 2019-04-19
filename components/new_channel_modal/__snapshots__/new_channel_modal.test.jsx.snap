@@ -1926,13 +1926,13 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
             </p>
             <div
               className="form-group has-error"
-              id="createChannelError"
             >
               <div
                 className="col-sm-12"
               >
                 <p
                   className="input__help error"
+                  id="createChannelError"
                 >
                   server error
                 </p>
