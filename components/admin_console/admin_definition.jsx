@@ -326,6 +326,17 @@ export default {
                 component: PermissionSystemSchemeSettings,
             },
         },
+        teamSchemeDetail: {
+            url: 'user_management/team_override_scheme/:scheme_id',
+            isHidden: it.either(
+                it.isnt(it.licensed),
+                it.isnt(it.licensedForFeature('CustomPermissionsSchemes'))
+            ),
+            schema: {
+                id: 'PermissionSystemScheme',
+                component: PermissionTeamSchemeSettings,
+            },
+        },
         teamScheme: {
             url: 'user_management/team_override_scheme',
             isHidden: it.either(
