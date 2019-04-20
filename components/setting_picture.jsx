@@ -265,6 +265,7 @@ export default class SettingPicture extends Component {
                                 />
                             </div>
                             <a
+                                id="saveSettingPicture"
                                 className={confirmButtonClass}
                                 onClick={this.props.loadingPicture ? () => true : this.handleSave}
                             >
@@ -279,6 +280,7 @@ export default class SettingPicture extends Component {
                                 </LoadingWrapper>
                             </a>
                             <a
+                                id="cancelSettingPicture"
                                 className='btn btn-link btn-sm theme'
                                 href='#'
                                 onClick={this.handleCancel}

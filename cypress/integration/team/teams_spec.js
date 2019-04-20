@@ -133,4 +133,5 @@ describe('Teams Suite', () => {
         // * Ensure user is logged out
         cy.url().should('include', 'login');
     });
+
 });
