@@ -160,14 +160,14 @@ describe('Post Header', () => {
         cy.get('#rhsContainer').should('not.be.visible');
     });
 
-    it('should add then remove pinned badge in both center channel and RHS flagged posts list', () => {
+    it('M14577 Un-pinning and pinning a post removes and adds badge', () => {
         // 2. Go to a known team and channel
         cy.visit('/ad-1/channels/town-square');
 
         // 3. Post a message
-        cy.postMessage('test for pinning/unpinning a post{enter}');
+        cy.postMessage('test for pinning/unpinning a post');
 
-        cy.getLastPostId().then((postId) => {
+        cy.getLastPostIdWithRetry().then((postId) => {
             // * Check that the center flag icon of the post is not visible
             cy.get(`#CENTER_flagIcon_${postId}`).should('not.be.visible');
 
@@ -182,7 +182,7 @@ describe('Post Header', () => {
             cy.clickPostFlagIcon(postId);
 
             // 6. click RHS list
-            cy.get('#channelHeaderFlagButton').click({force: true});
+            cy.get('#channelHeaderFlagButton').click();
 
             // * Check that message exists in RHS flagged posts list
             cy.get(`#postMessageText_${postId}`).contains('test for pinning/unpinning a post');
@@ -205,7 +205,7 @@ describe('Post Header', () => {
 
             // 8. Pin the post again.
             cy.clickPostDotMenu(postId);
-            cy.get(`#pin_post_${postId} button`).should('be.visible').click({force: true});
+            cy.get(`#pin_post_${postId}`).should('be.visible').click();
 
             // * Check that post is be pinned in center
             // * Check that post is be pinned in RHS
