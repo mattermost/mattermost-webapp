@@ -445,6 +445,7 @@ export default class PostList extends React.PureComponent {
                                         ref={this.listRef}
                                         height={height}
                                         width={width}
+                                        className='post-list__dynamic'
                                         itemCount={this.state.postListIds.length}
                                         itemData={this.state.postListIds}
                                         itemKey={this.itemKey}
