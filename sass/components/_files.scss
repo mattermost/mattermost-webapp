@@ -160,8 +160,8 @@
         }
 
         .image-container {
+            @include legacy-pie-clearfix;
             position: relative;
-            overflow: hidden;
             max-width: 1024px;
             width: 100%;
             height: 100%;
