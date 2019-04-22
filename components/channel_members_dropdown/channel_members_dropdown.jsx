@@ -13,6 +13,8 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
 
+const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
+
 export default class ChannelMembersDropdown extends React.Component {
     static propTypes = {
         channel: PropTypes.object.isRequired,
@@ -22,6 +24,8 @@ export default class ChannelMembersDropdown extends React.Component {
         isLicensed: PropTypes.bool.isRequired,
         canChangeMemberRoles: PropTypes.bool.isRequired,
         canRemoveMember: PropTypes.bool.isRequired,
+        index: PropTypes.number.isRequired,
+        totalUsers: PropTypes.number.isRequired,
         actions: PropTypes.shape({
             getChannelStats: PropTypes.func.isRequired,
             updateChannelMemberSchemeRoles: PropTypes.func.isRequired,
@@ -120,6 +124,12 @@ export default class ChannelMembersDropdown extends React.Component {
             const canMakeChannelAdmin = supportsChannelAdmin && !isChannelAdmin;
 
             if ((canMakeChannelMember || canMakeChannelAdmin)) {
+                const {index, totalUsers} = this.props;
+                let openUp = false;
+                if (totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP) {
+                    openUp = true;
+                }
+
                 return (
                     <MenuWrapper>
                         <button
@@ -131,6 +141,7 @@ export default class ChannelMembersDropdown extends React.Component {
                         </button>
                         <Menu
                             openLeft={true}
+                            openUp={openUp}
                             ariaLabel={Utils.localizeMessage('channel_members_dropdown.menuAriaLabel', 'Channel member role change')}
                         >
                             <MenuItemAction
