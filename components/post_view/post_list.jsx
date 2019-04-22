@@ -25,6 +25,12 @@ const OVERSCAN_COUNT_BACKWARD = window.OVERSCAN_COUNT_BACKWARD || 50; // Exposin
 const OVERSCAN_COUNT_FORWARD = window.OVERSCAN_COUNT_FORWARD || 100; // Exposing the value for PM to test will be removed soon
 const HEIGHT_TRIGGER_FOR_MORE_POSTS = window.HEIGHT_TRIGGER_FOR_MORE_POSTS || 1000; // Exposing the value for PM to test will be removed soon
 
+const virtListStyles = {
+    position: 'absolute',
+    bottom: '0',
+    maxHeight: '100%',
+};
+
 export default class PostList extends React.PureComponent {
     static propTypes = {
 
@@ -94,13 +100,10 @@ export default class PostList extends React.PureComponent {
             atBottom: true,
             postListIds: [channelIntroMessage],
             topPostId: '',
-            postMenuOpened: false,
-            dynamicListStyle: {
-                willChange: 'transform',
-            },
         };
 
         this.listRef = React.createRef();
+        this.postlistRef = React.createRef();
         if (isMobile) {
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
@@ -116,9 +119,33 @@ export default class PostList extends React.PureComponent {
         window.addEventListener('resize', this.handleWindowResize);
     }
 
-    componentDidUpdate(prevProps) {
+    getSnapshotBeforeUpdate() {
+        if (this.postlistRef && this.postlistRef.current) {
+            const previousScrollTop = this.postlistRef.current.scrollTop;
+            const previousScrollHeight = this.postlistRef.current.scrollHeight;
+
+            return {
+                previousScrollTop,
+                previousScrollHeight,
+            };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.channelLoading && !this.props.channelLoading) {
             this.loadPosts(this.props.channel.id, this.props.focusedPostId);
+        }
+
+        if (!this.postlistRef.current || !snapshot) {
+            return;
+        }
+
+        const postlistScrollHeight = this.postlistRef.current.scrollHeight;
+
+        if (this.props.postListIds.length !== prevProps.postListIds.length && this.props.postListIds[0] === prevProps.postListIds[0]) {
+            const scrollValue = snapshot.previousScrollTop + (postlistScrollHeight - snapshot.previousScrollHeight);
+            this.listRef.current.scrollTo(scrollValue, scrollValue - snapshot.previousScrollTop);
         }
     }
 
@@ -150,18 +177,8 @@ export default class PostList extends React.PureComponent {
         this.props.actions.checkAndSetMobileView();
         const isMobile = Utils.isMobile();
         if (isMobile !== this.state.isMobile) {
-            const dynamicListStyle = this.state.dynamicListStyle;
-            if (this.state.postMenuOpened) {
-                if (!isMobile && dynamicListStyle.willChange === 'unset') {
-                    dynamicListStyle.willChange = 'transform';
-                } else if (isMobile && dynamicListStyle.willChange === 'transform') {
-                    dynamicListStyle.willChange = 'unset';
-                }
-            }
-
             this.setState({
                 isMobile,
-                dynamicListStyle,
             });
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
@@ -220,18 +237,6 @@ export default class PostList extends React.PureComponent {
         return getLastPostId(this.state.postListIds);
     }
 
-    togglePostMenu = (opened) => {
-        const dynamicListStyle = this.state.dynamicListStyle;
-        if (this.state.isMobile) {
-            dynamicListStyle.willChange = opened ? 'unset' : 'transform';
-        }
-
-        this.setState({
-            postMenuOpened: opened,
-            dynamicListStyle,
-        });
-    };
-
     renderRow = ({data, itemId, style}) => {
         const index = data.indexOf(itemId);
         const previousItemId = (index !== -1 && index < data.length - 1) ? data[index + 1] : '';
@@ -244,7 +249,6 @@ export default class PostList extends React.PureComponent {
                     channel={this.props.channel}
                     shouldHighlight={itemId === this.props.focusedPostId}
                     loadMorePosts={this.loadMorePosts}
-                    togglePostMenu={this.togglePostMenu}
                 />
             </div>
         );
@@ -255,11 +259,11 @@ export default class PostList extends React.PureComponent {
         return postListIds[index] ? postListIds[index] : index;
     }
 
-    onScroll = ({scrollDirection, scrollOffset, scrollUpdateWasRequested}) => {
+    onScroll = ({scrollDirection, scrollOffset, scrollUpdateWasRequested, scrollCorrectionInProgress}) => {
         const isNotLoadingPosts = !this.state.loadingFirstSetOfPosts && !this.loadingMorePosts;
         const didUserScrollBackwards = scrollDirection === 'backward' && !scrollUpdateWasRequested;
         const isOffsetWithInRange = scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
-        if (isNotLoadingPosts && didUserScrollBackwards && isOffsetWithInRange && !this.state.atEnd) {
+        if (isNotLoadingPosts && didUserScrollBackwards && isOffsetWithInRange && !this.state.atEnd && !scrollCorrectionInProgress) {
             this.loadMorePosts();
         }
 
@@ -317,8 +321,8 @@ export default class PostList extends React.PureComponent {
         visibleStartIndex,
         visibleStopIndex,
     }) => {
-        this.updateFloatingTimestamp(visibleStopIndex);
-        this.checkBottom(visibleStartIndex);
+        this.updateFloatingTimestamp(visibleStartIndex);
+        this.checkBottom(visibleStopIndex);
     }
 
     initScrollToIndex = () => {
@@ -399,8 +403,6 @@ export default class PostList extends React.PureComponent {
             );
         }
 
-        const {dynamicListStyle} = this.state;
-
         let newMessagesBelow = null;
         if (!this.props.focusedPostId) {
             newMessagesBelow = (
@@ -454,10 +456,10 @@ export default class PostList extends React.PureComponent {
                                         onScroll={this.onScroll}
                                         onItemsRendered={this.onItemsRendered}
                                         initScrollToIndex={this.initScrollToIndex}
-                                        onNewItemsMounted={this.onNewItemsMounted}
                                         canLoadMorePosts={this.canLoadMorePosts}
                                         skipResizeClass='col__reply'
-                                        style={dynamicListStyle}
+                                        innerRef={this.postlistRef}
+                                        style={virtListStyles}
                                     >
                                         {this.renderRow}
                                     </DynamicSizeList>

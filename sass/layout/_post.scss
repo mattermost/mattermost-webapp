@@ -273,7 +273,6 @@
     }
 
     .post-list-holder-by-time {
-        -webkit-overflow-scrolling: touch;
         height: 100%;
         width: 100%;
         position: absolute;
@@ -689,13 +688,13 @@
 
 .post-list__table {
     @include clearfix;
-    display: table;
     height: 100%;
-    table-layout: fixed;
+    padding-bottom: .5em;
     width: 100%;
 
     .post-list__content {
-        display: table-cell;
+        height: 100%;
+        overflow: hidden;
 
         .dropdown-menu {
             &.bottom {
