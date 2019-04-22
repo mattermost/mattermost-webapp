@@ -20,8 +20,7 @@ const MAX_SELECTABLE_VALUES = 20;
 
 export default class AddUsersToTeam extends React.Component {
     static propTypes = {
-        currentTeamName: PropTypes.string.isRequired,
-        currentTeamId: PropTypes.string.isRequired,
+        currentTeam: PropTypes.object,
         searchTerm: PropTypes.string.isRequired,
         users: PropTypes.array.isRequired,
         onHide: PropTypes.func,
@@ -50,7 +49,7 @@ export default class AddUsersToTeam extends React.Component {
     }
 
     componentDidMount() {
-        this.props.actions.getProfilesNotInTeam(this.props.currentTeamId, 0, USERS_PER_PAGE * 2).then(() => {
+        this.props.actions.getProfilesNotInTeam(this.props.currentTeam.id, this.props.currentTeam.group_constrained, 0, USERS_PER_PAGE * 2).then(() => {
             this.setUsersLoadingState(false);
         });
     }
@@ -67,7 +66,7 @@ export default class AddUsersToTeam extends React.Component {
             this.searchTimeoutId = setTimeout(
                 async () => {
                     this.setUsersLoadingState(true);
-                    const {data} = await this.props.actions.searchProfiles(searchTerm, {not_in_team_id: this.props.currentTeamId});
+                    const {data} = await this.props.actions.searchProfiles(searchTerm, {not_in_team_id: this.props.currentTeam.id, group_constrained: this.props.currentTeam.group_constrained});
                     if (data) {
                         this.props.actions.loadStatusesForProfilesList(data);
                     }
@@ -113,7 +112,7 @@ export default class AddUsersToTeam extends React.Component {
 
         this.setState({saving: true});
 
-        const {error} = await this.props.actions.addUsersToTeam(this.props.currentTeamId, userIds);
+        const {error} = await this.props.actions.addUsersToTeam(this.props.currentTeam.id, userIds);
         this.handleResponse(error);
         if (!error) {
             this.handleHide();
@@ -139,7 +138,7 @@ export default class AddUsersToTeam extends React.Component {
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
             this.setUsersLoadingState(true);
-            this.props.actions.getProfilesNotInTeam(this.props.currentTeamId, page + 1, USERS_PER_PAGE).then(() => {
+            this.props.actions.getProfilesNotInTeam(this.props.currentTeam.id, page + 1, USERS_PER_PAGE).then(() => {
                 this.setUsersLoadingState(false);
             });
         }
@@ -249,7 +248,7 @@ export default class AddUsersToTeam extends React.Component {
                             defaultMessage='Add New Members To {teamName} Team'
                             values={{
                                 teamName: (
-                                    <strong>{this.props.currentTeamName}</strong>
+                                    <strong>{this.props.currentTeam.name}</strong>
                                 ),
                             }}
                         />
