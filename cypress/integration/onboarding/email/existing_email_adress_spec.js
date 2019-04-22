@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-function signup(email, name, pw) {
+function signupWithEmail(email, name, pw) {
     // 2. Go to /login
     cy.visit('/login');
 
@@ -30,12 +30,19 @@ function signup(email, name, pw) {
 describe('Email Address', () => {
     before(() => {
         // 1. Go to / and logout
-        cy.visit('/');
+        cy.apiLogin('sysadmin');
+        cy.apiEnableOpenServer(true);
         cy.apiLogout();
     });
 
-    it('M16363 Should not create account with an existing email address', () => {
-        signup('unique.email@sample.mattermost.com', 'unique-1', 'unique1pw');
+    after(() => {
+        // Revert Enable Open Server in Team Settings config to false after test
+        cy.apiLogin('sysadmin');
+        cy.apiEnableOpenServer(false);
+    });
+
+    it('M14634 Should not create account with an existing email address', () => {
+        signupWithEmail('unique.email@sample.mattermost.com', 'unique-1', 'unique1pw');
 
         // * Verify there is Logout Button
         cy.contains('Logout').should('be.visible');
@@ -50,7 +57,7 @@ describe('Email Address', () => {
         // 8. cy.apiLogout()
         cy.apiLogout();
 
-        signup('unique.email@sample.mattermost.com', 'unique-2', 'unique2pw');
+        signupWithEmail('unique.email@sample.mattermost.com', 'unique-2', 'unique2pw');
 
         // * Error message displays below the Create Account button that says "An account with that email already exists"
         cy.get('#existingEmailErrorContainer').should('contain', 'An account with that email already exists');
