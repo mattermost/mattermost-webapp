@@ -92,6 +92,10 @@ export default class SearchResultsItem extends React.PureComponent {
         }).isRequired,
     };
 
+    static defaultProps = {
+        isBot: false,
+    };
+
     constructor(props) {
         super(props);
 

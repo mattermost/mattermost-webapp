@@ -4,7 +4,12 @@
 import {createSelector} from 'reselect';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {makeGetMessageInHistoryItem, makeGetCommentCountForPost, getPost} from 'mattermost-redux/selectors/entities/posts';
+import {
+    makeGetMessageInHistoryItem,
+    makeGetCommentCountForPost,
+    getPost,
+    getPostIdsInChannel,
+} from 'mattermost-redux/selectors/entities/posts';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {
     removeReaction,
@@ -153,7 +158,7 @@ export function makeOnSubmit(channelId, rootId, latestPostId) {
 function makeGetCurrentUsersLatestPost(channelId, rootId) {
     return createSelector(
         getCurrentUserId,
-        (state) => state.entities.posts.postsInChannel[channelId],
+        (state) => getPostIdsInChannel(state, channelId),
         (state) => (id) => getPost(state, id),
         (userId, postIds, getPostById) => {
             let lastPost = null;

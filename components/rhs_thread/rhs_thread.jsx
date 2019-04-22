@@ -14,7 +14,7 @@ import * as Utils from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import CreateComment from 'components/create_comment';
 import DateSeparator from 'components/post_view/date_separator';
-import FloatingTimestamp from 'components/post_view/floating_timestamp.jsx';
+import FloatingTimestamp from 'components/post_view/floating_timestamp';
 import RhsComment from 'components/rhs_comment';
 import RhsHeaderPost from 'components/rhs_header_post';
 import RhsRootPost from 'components/rhs_root_post';
@@ -69,7 +69,7 @@ export default class RhsThread extends React.Component {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
             isScrolling: false,
-            topRhsPostCreateAt: 0,
+            topRhsPostId: 0,
             openTime,
         };
     }
@@ -131,7 +131,7 @@ export default class RhsThread extends React.Component {
             return true;
         }
 
-        if (nextState.topRhsPostCreateAt !== this.state.topRhsPostCreateAt) {
+        if (nextState.topRhsPostId !== this.state.topRhsPostId) {
             return true;
         }
 
@@ -185,20 +185,20 @@ export default class RhsThread extends React.Component {
         if (this.props.posts) {
             const childNodes = this.refs.rhspostlist.childNodes;
             const viewPort = this.refs.rhspostlist.getBoundingClientRect();
-            let topRhsPostCreateAt = 0;
+            let topRhsPostId = '';
             const offset = 100;
 
             // determine the top rhs comment assuming that childNodes and postsArray are of same length
             for (let i = 0; i < childNodes.length; i++) {
                 if ((childNodes[i].offsetTop + viewPort.top) - offset > 0) {
-                    topRhsPostCreateAt = this.props.posts[i].create_at;
+                    topRhsPostId = this.props.posts[i].id;
                     break;
                 }
             }
 
-            if (topRhsPostCreateAt !== this.state.topRhsPostCreateAt) {
+            if (topRhsPostId !== this.state.topRhsPostId) {
                 this.setState({
-                    topRhsPostCreateAt,
+                    topRhsPostId,
                 });
             }
         }
@@ -330,7 +330,7 @@ export default class RhsThread extends React.Component {
                 <FloatingTimestamp
                     isScrolling={this.state.isScrolling}
                     isMobile={Utils.isMobile()}
-                    createAt={this.state.topRhsPostCreateAt}
+                    postId={this.state.topRhsPostId}
                     isRhsPost={true}
                 />
                 <RhsHeaderPost

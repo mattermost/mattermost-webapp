@@ -45,7 +45,11 @@ export default class LinkTooltip extends React.PureComponent {
 
                 tooltipContainer.show();
                 tooltipContainer.children().on('mouseover', () => clearTimeout(this.hideTimeout));
-                tooltipContainer.children().on('mouseleave', this.hideTooltip);
+                tooltipContainer.children().on('mouseleave', (event) => {
+                    if (event.toElement !== null) {
+                        this.hideTooltip();
+                    }
+                });
 
                 this.popper = new Popper(target, tooltipContainer, {
                     placement: 'bottom',

@@ -24,6 +24,54 @@ exports[`components/team_members_dropdown should match snapshot for team_members
     <Menu
       ariaLabel="Team member role change"
       openLeft={true}
+      openUp={false}
+    >
+      <MenuItemAction
+        id="removeFromTeam"
+        onClick={[Function]}
+        show={true}
+        text="Remove From Team"
+      />
+      <MenuItemAction
+        onClick={[Function]}
+        show={false}
+        text="Make Team Admin"
+      />
+      <MenuItemAction
+        onClick={[Function]}
+        show={true}
+        text="Make Member"
+      />
+    </Menu>
+  </div>
+</MenuWrapper>
+`;
+
+exports[`components/team_members_dropdown should match snapshot opening dropdown upwards 1`] = `
+<MenuWrapper
+  animationComponent={[Function]}
+  className=""
+>
+  <button
+    aria-expanded="true"
+    className="dropdown-toggle theme color--link style--none"
+    type="button"
+  >
+    <span>
+      <FormattedMessage
+        defaultMessage="Team Admin"
+        id="team_members_dropdown.teamAdmin"
+        values={Object {}}
+      />
+       
+    </span>
+    <DropdownIcon />
+  </button>
+  <div>
+    <Menu
+      ariaLabel="Team member role change"
+      openLeft={true}
+      openUp={true}
     >
       <MenuItemAction
         id="removeFromTeam"
@@ -70,6 +118,7 @@ exports[`components/team_members_dropdown should match snapshot with group-const
     <Menu
       ariaLabel="Team member role change"
       openLeft={true}
+      openUp={false}
     >
       <MenuItemAction
         id="removeFromTeam"

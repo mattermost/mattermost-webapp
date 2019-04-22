@@ -25,6 +25,8 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         onError: jest.fn(),
         currentUser: user,
         teamUrl: 'teamUrl',
+        index: 0,
+        totalUsers: 10,
         actions: {
             updateUserActive: jest.fn(() => Promise.resolve({})),
             revokeAllSessions: jest.fn().mockResolvedValue({data: true}),

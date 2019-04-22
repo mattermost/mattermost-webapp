@@ -63,4 +63,32 @@ describe('HelpText', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should open most links in the current window like FormattedMarkdownMessage', () => {
+        const props = {
+            ...baseProps,
+            isMarkdown: true,
+            text: 'This is [a link](https://example.com)',
+        };
+
+        const wrapper = shallow(<HelpText {...props}/>);
+
+        expect(wrapper.find('span').prop('dangerouslySetInnerHTML')).toEqual({
+            __html: 'This is <a href="https://example.com">a link</a>',
+        });
+    });
+
+    test('should support explicit external links like FormattedMarkdownMessage', () => {
+        const props = {
+            ...baseProps,
+            isMarkdown: true,
+            text: 'This is [a link](!https://example.com)',
+        };
+
+        const wrapper = shallow(<HelpText {...props}/>);
+
+        expect(wrapper.find('span').prop('dangerouslySetInnerHTML')).toEqual({
+            __html: 'This is <a href="https://example.com" rel="noreferrer" target="_blank">a link</a>',
+        });
+    });
 });
