@@ -9,6 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import ProfilePicture from 'components/profile_picture';
 import MessageIcon from 'components/svg/message_icon';
+import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 import {UserStatuses} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
@@ -51,14 +52,19 @@ export default class PopoverListMembersItem extends React.PureComponent {
         const botClass = this.props.user.is_bot ? ' more-modal__row--bot' : '';
 
         const status = this.props.user.is_bot ? null : this.props.status;
-        const botTag = this.props.user.is_bot ? (
-            <div className='bot-indicator bot-indicator__popoverlist'>
-                <FormattedMessage
-                    id='post_info.bot'
-                    defaultMessage='BOT'
-                />
-            </div>
-        ) : null;
+        let tag = null;
+        if (this.props.user.is_bot) {
+            tag = (
+                <div className='bot-indicator bot-indicator__popoverlist'>
+                    <FormattedMessage
+                        id='post_info.bot'
+                        defaultMessage='BOT'
+                    />
+                </div>
+            );
+        } else if (Utils.isGuest(this.props.user)) {
+            tag = (<GuestBadge className='popoverlist'/>);
+        }
 
         return (
             <div
@@ -76,7 +82,7 @@ export default class PopoverListMembersItem extends React.PureComponent {
                         {name}
                     </div>
                     <div>
-                        {botTag}
+                        {tag}
                     </div>
                 </div>
                 <div className='more-modal__actions'>

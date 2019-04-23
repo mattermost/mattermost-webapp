@@ -8,11 +8,12 @@ import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
 import Constants from 'utils/constants.jsx';
-import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
+import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
 
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import AddIcon from 'components/icon/add_icon';
+import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 20;
@@ -170,6 +171,10 @@ export default class AddUsersToTeam extends React.Component {
                 </div>
             );
             email = null;
+        }
+
+        if (isGuest(option)) {
+            tag = (<GuestBadge className='popoverlist'/>);
         }
 
         return (

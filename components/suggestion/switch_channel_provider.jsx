@@ -46,6 +46,8 @@ import store from 'stores/redux_store.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
+import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
+
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
 
@@ -130,7 +132,7 @@ class SwitchChannelSuggestion extends Suggestion {
 
         let tag = null;
         if (channel.type === Constants.DM_CHANNEL) {
-            var teammate = Utils.getDirectTeammate(channel.id);
+            var teammate = Utils.getUserById(channel.userId);
             if (teammate && teammate.is_bot) {
                 tag = (
                     <div className='bot-indicator bot-indicator__autocomplete'>
@@ -140,6 +142,8 @@ class SwitchChannelSuggestion extends Suggestion {
                         />
                     </div>
                 );
+            } else if (teammate && Utils.isGuest(teammate)) {
+                tag = <GuestBadge className='autocomplete'/>;
             }
         }
 

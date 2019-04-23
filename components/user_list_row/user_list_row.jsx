@@ -9,6 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
+import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -81,6 +82,10 @@ export default class UserListRow extends React.Component {
                     />
                 </div>
             );
+        }
+
+        if (Utils.isGuest(this.props.user)) {
+            tag = <GuestBadge className='popoverlist'/>;
         }
 
         let userCountID = null;
