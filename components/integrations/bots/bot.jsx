@@ -276,37 +276,40 @@ export default class Bot extends React.PureComponent {
             );
         });
 
-        let options = (
-            <div className='item-actions'>
-                <button
-                    id='createToken'
-                    className='style--none color--link'
-                    onClick={this.openCreateToken}
-                >
-                    <FormattedMessage
-                        id='bot.manage.create_token'
-                        defaultMessage='Create New Token'
-                    />
-                </button>
-                {' - '}
-                <Link to={`/${this.props.team.name}/integrations/bots/edit?id=${this.props.bot.user_id}`}>
-                    <FormattedMessage
-                        id='bots.manage.edit'
-                        defaultMessage='Edit'
-                    />
-                </Link>
-                {' - '}
-                <button
-                    className='style--none color--link'
-                    onClick={this.disableBot}
-                >
-                    <FormattedMessage
-                        id='bot.manage.disable'
-                        defaultMessage='Disable'
-                    />
-                </button>
-            </div>
-        );
+        let options;
+        if (ownerUsername !== 'plugin') {
+            options = (
+                <div className='item-actions'>
+                    <button
+                        id='createToken'
+                        className='style--none color--link'
+                        onClick={this.openCreateToken}
+                    >
+                        <FormattedMessage
+                            id='bot.manage.create_token'
+                            defaultMessage='Create New Token'
+                        />
+                    </button>
+                    {' - '}
+                    <Link to={`/${this.props.team.name}/integrations/bots/edit?id=${this.props.bot.user_id}`}>
+                        <FormattedMessage
+                            id='bots.manage.edit'
+                            defaultMessage='Edit'
+                        />
+                    </Link>
+                    {' - '}
+                    <button
+                        className='style--none color--link'
+                        onClick={this.disableBot}
+                    >
+                        <FormattedMessage
+                            id='bot.manage.disable'
+                            defaultMessage='Disable'
+                        />
+                    </button>
+                </div>
+            );
+        }
         if (this.props.bot.delete_at !== 0) {
             options = (
                 <div className='item-actions'>
