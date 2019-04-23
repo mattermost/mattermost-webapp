@@ -26,6 +26,7 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {openDirectChannelToUserId, openGroupChannelToUserIds} from 'actions/channel_actions';
 import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
+import {loadProfilesForMatchingGMs} from 'actions/user_actions.jsx';
 import {setModalSearchTerm} from 'actions/views/search';
 
 import MoreDirectChannels from './more_direct_channels.jsx';
@@ -89,6 +90,7 @@ function mapDispatchToProps(dispatch) {
             getStatusesByIds,
             getTotalUsersStats,
             loadStatusesForProfilesList,
+            loadProfilesForMatchingGMs,
             openDirectChannelToUserId,
             openGroupChannelToUserIds,
             searchProfiles,

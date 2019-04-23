@@ -11,6 +11,7 @@ import {Preferences as PreferencesRedux} from 'mattermost-redux/constants';
 import {
     getChannel,
     getCurrentChannelId,
+    getGroupChannels,
     getMyChannels,
     getMyChannelMember,
     getChannelMembersInChannels,
@@ -182,6 +183,23 @@ export async function loadNewGMIfNeeded(channelId) {
 export function loadProfilesForSidebar() {
     loadProfilesForDM();
     loadProfilesForGM();
+}
+
+export function loadProfilesForMatchingGMs(searchTerm) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        const groupChannels = getGroupChannels(state);
+        const userIdsInChannels = Selectors.getUserIdsInChannels(state);
+
+        for (const {id, display_name} of groupChannels) { //eslint-disable-line camelcase
+            const userIdsInGroupChannel = (userIdsInChannels[id] || new Set());
+            const matchesSearchTerm = display_name.split(', ').some((username) => username.startsWith(searchTerm));
+
+            if (matchesSearchTerm && userIdsInGroupChannel.size === 0) {
+                doDispatch(UserActions.getProfilesInChannel(id, 0, Constants.MAX_USERS_IN_GM));
+            }
+        }
+    };
 }
 
 export async function loadProfilesForGM() {

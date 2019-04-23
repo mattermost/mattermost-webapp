@@ -54,6 +54,7 @@ export default class MoreDirectChannels extends React.Component {
             getStatusesByIds: PropTypes.func.isRequired,
             getTotalUsersStats: PropTypes.func.isRequired,
             loadStatusesForProfilesList: PropTypes.func.isRequired,
+            loadProfilesForMatchingGMs: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
             openGroupChannelToUserIds: PropTypes.func.isRequired,
             searchProfiles: PropTypes.func.isRequired,
@@ -109,6 +110,9 @@ export default class MoreDirectChannels extends React.Component {
                     async () => {
                         this.setUsersLoadingState(true);
                         const {data} = await this.props.actions.searchProfiles(searchTerm, {team_id: teamId});
+
+                        this.props.actions.loadProfilesForMatchingGMs(searchTerm);
+
                         if (data) {
                             this.props.actions.loadStatusesForProfilesList(data);
                             this.resetPaging();
