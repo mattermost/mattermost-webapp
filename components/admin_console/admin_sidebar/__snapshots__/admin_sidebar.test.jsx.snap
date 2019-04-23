@@ -1770,19 +1770,6 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           />
           <AdminSidebarSection
             key="5"
-            name="compliance/settings"
-            parentLink=""
-            subsection={false}
-            title={
-              <FormattedMessage
-                defaultMessage="Compliance Settings"
-                id="admin.sidebar.compliance"
-                values={Object {}}
-              />
-            }
-          />
-          <AdminSidebarSection
-            key="6"
             name="compliance/monitoring"
             parentLink=""
             subsection={false}
@@ -1795,7 +1782,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="7"
+            key="6"
             name="compliance/custom_terms_of_service"
             parentLink=""
             subsection={false}
@@ -2399,7 +2386,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           }
         >
           <AdminSidebarSection
-            key="6"
+            key="5"
             name="compliance/monitoring"
             parentLink=""
             subsection={false}

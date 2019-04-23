@@ -3354,15 +3354,18 @@ export default {
                 component: MessageExportSettings,
             },
         },
-        compliance: {
-            url: 'compliance/settings',
-            title: t('admin.sidebar.compliance'),
-            title_default: 'Compliance Settings',
-            isHidden: it.isnt(it.licensedForFeature('Compliance')),
+        audits: {
+            url: 'compliance/monitoring',
+            title: t('admin.sidebar.complianceMonitoring'),
+            title_default: 'Compliance Monitoring',
+            isHidden: it.isnt(it.licensed),
+            searchableStrings: [
+                'admin.audits.title',
+                'admin.audits.reload',
+            ],
             schema: {
-                id: 'ComplianceSettings',
-                name: t('admin.compliance.complianceSettings'),
-                name_default: 'Compliance Settings',
+                id: 'Audits',
+                component: Audits,
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_BANNER,
@@ -3406,20 +3409,6 @@ export default {
                         isHidden: it.isnt(it.licensed),
                     },
                 ],
-            },
-        },
-        audits: {
-            url: 'compliance/monitoring',
-            title: t('admin.sidebar.complianceMonitoring'),
-            title_default: 'Compliance Monitoring',
-            isHidden: it.isnt(it.licensed),
-            searchableStrings: [
-                'admin.audits.title',
-                'admin.audits.reload',
-            ],
-            schema: {
-                id: 'Audits',
-                component: Audits,
             },
         },
         custom_terms_of_service: {
