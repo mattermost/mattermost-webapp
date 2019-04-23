@@ -39,7 +39,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
     subtitleId="admin.permissions.systemSchemeBannerText"
     titleDefault="System Scheme"
     titleId="admin.permissions.systemSchemeBannerTitle"
-    url="/admin_console/permissions/system-scheme"
+    url="/admin_console/user_management/system_scheme"
   />
   <AdminPanelWithLink
     className="permissions-block"
@@ -50,7 +50,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
     subtitleId="admin.permissions.teamOverrideSchemesBannerText"
     titleDefault="Team Override Schemes"
     titleId="admin.permissions.teamOverrideSchemesTitle"
-    url="/admin_console/permissions/team-override-scheme"
+    url="/admin_console/user_management/team_override_scheme"
   >
     <Connect(PermissionsSchemeSummary)
       key="id-1"
@@ -118,7 +118,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
     subtitleId="admin.permissions.systemSchemeBannerText"
     titleDefault="System Scheme"
     titleId="admin.permissions.systemSchemeBannerTitle"
-    url="/admin_console/permissions/system-scheme"
+    url="/admin_console/user_management/system_scheme"
   />
   <AdminPanelWithLink
     className="permissions-block"
@@ -129,7 +129,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
     subtitleId="admin.permissions.teamOverrideSchemesBannerText"
     titleDefault="Team Override Schemes"
     titleId="admin.permissions.teamOverrideSchemesTitle"
-    url="/admin_console/permissions/team-override-scheme"
+    url="/admin_console/user_management/team_override_scheme"
   >
     <div
       className="no-team-schemes"
@@ -176,7 +176,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
     subtitleId="admin.permissions.systemSchemeBannerText"
     titleDefault="System Scheme"
     titleId="admin.permissions.systemSchemeBannerTitle"
-    url="/admin_console/permissions/system-scheme"
+    url="/admin_console/user_management/system_scheme"
   />
   <AdminPanelWithLink
     className="permissions-block"
@@ -187,7 +187,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
     subtitleId="admin.permissions.teamOverrideSchemesBannerText"
     titleDefault="Team Override Schemes"
     titleId="admin.permissions.teamOverrideSchemesTitle"
-    url="/admin_console/permissions/team-override-scheme"
+    url="/admin_console/user_management/team_override_scheme"
   >
     <div
       className="team-override-unavailable"
@@ -282,7 +282,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
     subtitleId="admin.permissions.systemSchemeBannerText"
     titleDefault="System Scheme"
     titleId="admin.permissions.systemSchemeBannerTitle"
-    url="/admin_console/permissions/system-scheme"
+    url="/admin_console/user_management/system_scheme"
   />
   <AdminPanelWithLink
     className="permissions-block"
@@ -293,7 +293,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
     subtitleId="admin.permissions.teamOverrideSchemesBannerText"
     titleDefault="Team Override Schemes"
     titleId="admin.permissions.teamOverrideSchemesTitle"
-    url="/admin_console/permissions/team-override-scheme"
+    url="/admin_console/user_management/team_override_scheme"
   >
     <div
       className="team-override-unavailable"
@@ -388,7 +388,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
     subtitleId="admin.permissions.systemSchemeBannerText"
     titleDefault="System Scheme"
     titleId="admin.permissions.systemSchemeBannerTitle"
-    url="/admin_console/permissions/system-scheme"
+    url="/admin_console/user_management/system_scheme"
   />
   <AdminPanelWithLink
     className="permissions-block"
@@ -399,7 +399,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
     subtitleId="admin.permissions.teamOverrideSchemesBannerText"
     titleDefault="Team Override Schemes"
     titleId="admin.permissions.teamOverrideSchemesTitle"
-    url="/admin_console/permissions/team-override-scheme"
+    url="/admin_console/user_management/team_override_scheme"
   >
     <Connect(PermissionsSchemeSummary)
       key="id-1"

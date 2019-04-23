@@ -159,7 +159,7 @@ export default {
         sectionTitle: t('admin.sidebar.about'),
         sectionTitleDefault: 'About',
         license: {
-            url: 'license',
+            url: 'about/license',
             title: t('admin.sidebar.license'),
             title_default: 'Edition and License',
             isHidden: it.either(
@@ -187,7 +187,7 @@ export default {
         sectionTitle: t('admin.sidebar.reporting'),
         sectionTitleDefault: 'Reporting',
         system_analytics: {
-            url: 'system_analytics',
+            url: 'reporting/system_analytics',
             title: t('admin.sidebar.siteStatistics'),
             title_default: 'Site Statistics',
             searchableStrings: [
@@ -214,8 +214,8 @@ export default {
                 component: SystemAnalytics,
             },
         },
-        team_analytics: {
-            url: 'team_analytics',
+        team_statistics: {
+            url: 'reporting/team_statistics',
             title: t('admin.sidebar.teamStatistics'),
             title_default: 'Team Statistics',
             searchableStrings: [
@@ -235,7 +235,7 @@ export default {
             },
         },
         server_logs: {
-            url: 'logs',
+            url: 'reporting/server_logs',
             title: t('admin.sidebar.logs'),
             title_default: 'Server Logs',
             searchableStrings: [
@@ -253,7 +253,7 @@ export default {
         sectionTitle: t('admin.sidebar.userManagement'),
         sectionTitleDefault: 'User Management',
         system_users: {
-            url: 'users',
+            url: 'user_management/users',
             title: t('admin.sidebar.users'),
             title_default: 'Users',
             searchableStrings: [
@@ -265,7 +265,7 @@ export default {
             },
         },
         group_detail: {
-            url: 'groups/:group_id',
+            url: 'user_management/groups/:group_id',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
                 it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
@@ -276,7 +276,7 @@ export default {
             },
         },
         groups: {
-            url: 'groups',
+            url: 'user_management/groups',
             title: t('admin.sidebar.groups'),
             title_default: 'Groups',
             isHidden: it.either(
@@ -289,7 +289,7 @@ export default {
             },
         },
         permissions: {
-            url: 'permissions/schemes',
+            url: 'user_management/permissions',
             title: t('admin.sidebar.permissions'),
             title_default: 'Permissions',
             isHidden: it.either(
@@ -314,21 +314,35 @@ export default {
             },
         },
         systemScheme: {
-            url: 'permissions/system-scheme',
+            url: 'user_management/system_scheme',
             title: t('admin.sidebar.systemScheme'),
             title_default: 'System Scheme',
             isHidden: it.either(
                 it.isnt(it.licensed),
-                it.licensedForFeature('CustomPermissionsSchemes')
+                it.isnt(it.licensedForFeature('CustomPermissionsSchemes'))
             ),
             schema: {
                 id: 'PermissionSystemScheme',
                 component: PermissionSystemSchemeSettings,
             },
         },
+        teamSchemeDetail: {
+            url: 'user_management/team_override_scheme/:scheme_id',
+            isHidden: it.either(
+                it.isnt(it.licensed),
+                it.isnt(it.licensedForFeature('CustomPermissionsSchemes'))
+            ),
+            schema: {
+                id: 'PermissionSystemScheme',
+                component: PermissionTeamSchemeSettings,
+            },
+        },
         teamScheme: {
-            url: 'permissions/team-override-scheme',
-            isHidden: it.isnt(it.licensedForFeature('CustomPermissionsSchemes')),
+            url: 'user_management/team_override_scheme',
+            isHidden: it.either(
+                it.isnt(it.licensed),
+                it.isnt(it.licensedForFeature('CustomPermissionsSchemes'))
+            ),
             schema: {
                 id: 'PermissionSystemScheme',
                 component: PermissionTeamSchemeSettings,
@@ -340,7 +354,7 @@ export default {
         sectionTitle: t('admin.sidebar.environment'),
         sectionTitleDefault: 'Environment',
         web_server: {
-            url: 'web_server',
+            url: 'environment/web_server',
             title: t('admin.sidebar.webServer'),
             title_default: 'Web Server',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
@@ -512,11 +526,11 @@ export default {
                                 </b>
                             ),
                             recycleDatabaseConnections: (
-                                <a href='../advanced/database'>
+                                <a href='../environment/database'>
                                     <b>
                                         <FormattedMessage
                                             id='admin.reload.reloadDescription.recycleDatabaseConnections'
-                                            defaultMessage='Database > Recycle Database Connections'
+                                            defaultMessage='Environment > Database > Recycle Database Connections'
                                         />
                                     </b>
                                 </a>
@@ -540,7 +554,7 @@ export default {
             },
         },
         database: {
-            url: 'database',
+            url: 'environment/database',
             title: t('admin.sidebar.database'),
             title_default: 'Database',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
@@ -572,7 +586,7 @@ export default {
             },
         },
         elasticsearch: {
-            url: 'elasticsearch',
+            url: 'environment/elasticsearch',
             title: t('admin.sidebar.elasticsearch'),
             title_default: 'Elasticsearch',
             isHidden: it.either(
@@ -609,7 +623,7 @@ export default {
             },
         },
         storage: {
-            url: 'file_storage',
+            url: 'environment/file_storage',
             title: t('admin.sidebar.fileStorage'),
             title_default: 'File Storage',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
@@ -764,7 +778,7 @@ export default {
             },
         },
         image_proxy: {
-            url: 'image_proxy',
+            url: 'environment/image_proxy',
             title: t('admin.sidebar.imageProxy'),
             title_default: 'Image Proxy',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
@@ -831,7 +845,7 @@ export default {
             },
         },
         email_notifications: {
-            url: 'notifications_email',
+            url: 'environment/notifications_email',
             title: t('admin.sidebar.emailNotifications'),
             title_default: 'Email Notifications',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
@@ -873,7 +887,7 @@ export default {
             },
         },
         push_notifications: {
-            url: 'push',
+            url: 'environment/push',
             title: t('admin.sidebar.pushNotifications'),
             title_default: 'Push Notifications',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
@@ -891,9 +905,9 @@ export default {
                 component: PushNotificationsSettings,
             },
         },
-        cluster: {
-            url: 'cluster',
-            title: t('admin.sidebar.cluster'),
+        high_availability: {
+            url: 'environment/high_availability',
+            title: t('admin.sidebar.highAvailability'),
             title_default: 'High Availability',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('Cluster')),
@@ -922,8 +936,8 @@ export default {
                 component: ClusterSettings,
             },
         },
-        rate: {
-            url: 'rate',
+        rate_limiting: {
+            url: 'environment/rate_limiting',
             title: t('admin.sidebar.rateLimiting'),
             title_default: 'Rate Limiting',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
@@ -1015,7 +1029,7 @@ export default {
             },
         },
         logging: {
-            url: 'logging',
+            url: 'environment/logging',
             title: t('admin.sidebar.logging'),
             title_default: 'Logging',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
@@ -1126,7 +1140,7 @@ export default {
             },
         },
         session_lengths: {
-            url: 'session_lengths',
+            url: 'environment/session_lengths',
             title: t('admin.sidebar.sessionLengths'),
             title_default: 'Session Lengths',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
@@ -1197,7 +1211,7 @@ export default {
             },
         },
         metrics: {
-            url: 'metrics',
+            url: 'environment/performance_monitoring',
             title: t('admin.sidebar.metrics'),
             title_default: 'Performance Monitoring',
             isHidden: it.either(
@@ -1232,7 +1246,7 @@ export default {
             },
         },
         developer: {
-            url: 'developer',
+            url: 'environment/developer',
             title: t('admin.sidebar.developer'),
             title_default: 'Developer',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
@@ -1277,7 +1291,7 @@ export default {
         sectionTitle: t('admin.sidebar.site'),
         sectionTitleDefault: 'Site Configuration',
         customization: {
-            url: 'customization_new',
+            url: 'site_config/customization',
             title: t('admin.sidebar.customization'),
             title_default: 'Customization',
             schema: {
@@ -1398,7 +1412,7 @@ export default {
             },
         },
         localization: {
-            url: 'localization',
+            url: 'site_config/localization',
             title: t('admin.sidebar.localization'),
             title_default: 'Localization',
             schema: {
@@ -1440,7 +1454,7 @@ export default {
             },
         },
         users_and_teams: {
-            url: 'users_and_teams',
+            url: 'site_config/users_and_teams',
             title: t('admin.sidebar.usersAndTeams'),
             title_default: 'Users and Teams',
             schema: {
@@ -1578,8 +1592,8 @@ export default {
                 ],
             },
         },
-        announcement: {
-            url: 'announcement',
+        announcement_banner: {
+            url: 'site_config/announcement_banner',
             title: t('admin.sidebar.announcement'),
             title_default: 'Announcement Banner',
             isHidden: it.isnt(it.licensed),
@@ -1632,7 +1646,7 @@ export default {
             },
         },
         emoji: {
-            url: 'emoji',
+            url: 'site_config/emoji',
             title: t('admin.sidebar.emoji'),
             title_default: 'Emoji',
             schema: {
@@ -1660,7 +1674,7 @@ export default {
             },
         },
         posts: {
-            url: 'posts',
+            url: 'site_config/posts',
             title: t('admin.sidebar.posts'),
             title_default: 'Posts',
             schema: {
@@ -1697,7 +1711,7 @@ export default {
             },
         },
         file_sharing_downloads: {
-            url: 'file_sharing_and_downloads',
+            url: 'site_config/file_sharing_downloads',
             title: t('admin.sidebar.fileSharingDownloads'),
             title_default: 'File Sharing and Downloads',
             schema: {
@@ -1735,7 +1749,7 @@ export default {
             },
         },
         public_links: {
-            url: 'public_links',
+            url: 'site_config/public_links',
             title: t('admin.sidebar.publicLinks'),
             title_default: 'Public Links',
             schema: {
@@ -1768,7 +1782,7 @@ export default {
         sectionTitle: t('admin.sidebar.authentication'),
         sectionTitleDefault: 'Authentication',
         signup: {
-            url: 'signup',
+            url: 'authentication/signup',
             title: t('admin.sidebar.signup'),
             title_default: 'Signup',
             schema: {
@@ -1828,7 +1842,7 @@ export default {
             },
         },
         email: {
-            url: 'authentication_email',
+            url: 'authentication/email',
             title: t('admin.sidebar.email'),
             title_default: 'Email',
             schema: {
@@ -1875,7 +1889,7 @@ export default {
             },
         },
         password: {
-            url: 'password',
+            url: 'authentication/password',
             title: t('admin.sidebar.password'),
             title_default: 'Password',
             searchableStrings: [
@@ -1898,7 +1912,7 @@ export default {
             },
         },
         mfa: {
-            url: 'mfa',
+            url: 'authentication/mfa',
             title: t('admin.sidebar.mfa'),
             title_default: 'MFA',
             schema: {
@@ -2085,7 +2099,7 @@ export default {
                         label_default: 'Group Filter:',
                         help_text: t('admin.ldap.groupFilterFilterDesc'),
                         help_text_markdown: true,
-                        help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for group objects. Only the groups selected by the query will be available to Mattermost. From [Groups](/admin_console/access-control/groups), select which AD/LDAP groups should be linked and configured.',
+                        help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for group objects. Only the groups selected by the query will be available to Mattermost. From [User Management > Groups](/admin_console/user_management/groups), select which AD/LDAP groups should be linked and configured.',
                         placeholder: t('admin.ldap.groupFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=group)"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
@@ -2432,7 +2446,7 @@ export default {
             },
         },
         saml: {
-            url: 'saml',
+            url: 'authentication/saml',
             title: t('admin.sidebar.saml'),
             title_default: 'SAML 2.0',
             isHidden: it.isnt(it.licensedForFeature('SAML')),
@@ -2704,7 +2718,7 @@ export default {
             },
         },
         gitlab: {
-            url: 'gitlab',
+            url: 'authentication/gitlab',
             title: t('admin.sidebar.gitlab'),
             title_default: 'GitLab',
             isHidden: it.licensed,
@@ -2808,7 +2822,7 @@ export default {
             },
         },
         oauth: {
-            url: 'oauth',
+            url: 'authentication/oauth',
             title: t('admin.sidebar.oauth'),
             title_default: 'OAuth 2.0',
             isHidden: it.isnt(it.licensed),
@@ -3156,7 +3170,7 @@ export default {
                         label: t('admin.service.userAccessTokensTitle'),
                         label_default: 'Enable User Access Tokens: ',
                         help_text: t('admin.service.userAccessTokensDescription'),
-                        help_text_default: 'When true, users can create [user access tokens](!https://about.mattermost.com/default-user-access-tokens) for integrations in **Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **System Console > Users** page.',
+                        help_text_default: 'When true, users can create [user access tokens](!https://about.mattermost.com/default-user-access-tokens) for integrations in **Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
                         help_text_markdown: true,
                     },
                 ],
@@ -3277,7 +3291,7 @@ export default {
             },
         },
         custom: {
-            url: 'plugins/custom/:plugin_id',
+            url: 'integrations/plugin_:plugin_id',
             schema: {
                 id: 'CustomPluginSettings',
                 component: CustomPluginSettings,

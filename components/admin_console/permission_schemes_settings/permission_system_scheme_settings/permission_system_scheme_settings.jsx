@@ -227,7 +227,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                 <h3 className={'admin-console-header ' + (hasCustomSchemes ? 'with-back' : '')}>
                     {hasCustomSchemes &&
                         <BlockableLink
-                            to='/admin_console/permissions/schemes'
+                            to='/admin_console/user_management/permissions'
                             className='fa fa-angle-left back'
                         />}
                     <FormattedMessage
@@ -329,7 +329,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                     />
                     <BlockableLink
                         className='cancel-button'
-                        to='/admin_console/permissions/schemes'
+                        to='/admin_console/user_management/permissions'
                     >
                         <FormattedMessage
                             id='admin.permissions.permissionSchemes.cancel'
