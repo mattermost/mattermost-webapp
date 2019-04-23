@@ -58,6 +58,7 @@ import hljsTex from 'highlight.js/lib/languages/tex.js';
 import hljsVbnet from 'highlight.js/lib/languages/vbnet.js';
 import hljsVbscript from 'highlight.js/lib/languages/vbscript.js';
 import hljsVerilog from 'highlight.js/lib/languages/verilog.js';
+import hljsVhdl from 'highlight.js/lib/languages/vhdl.js';
 import hljsXml from 'highlight.js/lib/languages/xml.js';
 import hljsYaml from 'highlight.js/lib/languages/yaml.js';
 
@@ -120,6 +121,7 @@ hlJS.registerLanguage('tex', hljsTex);
 hlJS.registerLanguage('vbnet', hljsVbnet);
 hlJS.registerLanguage('vbscript', hljsVbscript);
 hlJS.registerLanguage('verilog', hljsVerilog);
+hlJS.registerLanguage('vhdl', hljsVhdl);
 hlJS.registerLanguage('xml', hljsXml);
 hlJS.registerLanguage('yaml', hljsYaml);
 

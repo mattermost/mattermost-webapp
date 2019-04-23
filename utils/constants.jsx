@@ -1150,6 +1150,7 @@ export const Constants = {
         vbnet: {name: 'VB.Net', extensions: ['vbnet', 'vb', 'bas'], aliases: ['vb', 'visualbasic']},
         vbscript: {name: 'VBScript', extensions: ['vbs']},
         verilog: {name: 'Verilog', extensions: ['v', 'veo']},
+        vhdl: {name: 'VHDL', extensions: ['vhd', 'vhdl']},
         xml: {name: 'HTML, XML', extensions: ['xml', 'html', 'xhtml', 'rss', 'atom', 'xsl', 'plist']},
         yaml: {name: 'YAML', extensions: ['yaml'], aliases: ['yml']},
     },
