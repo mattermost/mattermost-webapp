@@ -189,7 +189,8 @@ describe('components/AddUserToChannelModal', () => {
             wrapper.setState({selectedChannelId: 'someChannelId'});
             wrapper.instance().handleSubmit();
             expect(wrapper.state().saving).toBe(true);
-            expect(props.actions.addChannelMember).toBeCalled();
+            expect(props.actions.addChannelMember).toBeCalledTimes(1);
+            expect(props.actions.addChannelMember).toBeCalledWith('someChannelId', 'someUserId', '', false);
         });
 
         test('should match state when save is successful', async () => {

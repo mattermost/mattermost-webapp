@@ -157,7 +157,7 @@ export default class AddUserToChannelModal extends React.Component {
 
         this.setState({saving: true});
 
-        this.props.actions.addChannelMember(channelId, user.id).then(({error}) => {
+        this.props.actions.addChannelMember(channelId, user.id, '', false).then(({error}) => {
             if (error) {
                 this.handleSubmitError(error);
             } else {
