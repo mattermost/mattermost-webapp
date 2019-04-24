@@ -41,7 +41,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
                 <span
                   className="fa fa-angle-down header-dropdown__icon"
                   id="channelHeaderDropdownIcon"
-                  title="Dropdown Icon"
+                  aria-label="Dropdown Icon"
                 />
               </div>
               <ChannelHeaderDropdown />
@@ -203,7 +203,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                 <span
                   className="fa fa-angle-down header-dropdown__icon"
                   id="channelHeaderDropdownIcon"
-                  title="Dropdown Icon"
+                  aria-label="Dropdown Icon"
                 />
               </div>
               <ChannelHeaderDropdown />
@@ -427,7 +427,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                 <span
                   className="fa fa-angle-down header-dropdown__icon"
                   id="channelHeaderDropdownIcon"
-                  title="Dropdown Icon"
+                  aria-label="Dropdown Icon"
                 />
               </div>
               <ChannelHeaderDropdown />
@@ -580,7 +580,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
                 <span
                   className="fa fa-angle-down header-dropdown__icon"
                   id="channelHeaderDropdownIcon"
-                  title="Dropdown Icon"
+                  aria-label="Dropdown Icon"
                 />
               </div>
               <ChannelHeaderDropdown />
