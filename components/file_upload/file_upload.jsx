@@ -616,7 +616,7 @@ export default class FileUpload extends PureComponent {
                         }}
                     >
                         <a>
-                            {item.icon}&nbsp;
+                            <span className='margin-right'>{item.icon}</span>
                             {item.text}
                         </a>
                     </li>
@@ -660,7 +660,7 @@ export default class FileUpload extends PureComponent {
                         >
                             <li>
                                 <a onClick={this.simulateInputClick}>
-                                    <i className='fa fa-laptop'/>&nbsp;
+                                    <span className='margin-right'><i className='fa fa-laptop'/></span>
                                     <FormattedMessage
                                         id='yourcomputer'
                                         defaultMessage='Your computer'
