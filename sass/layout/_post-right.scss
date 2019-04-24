@@ -104,8 +104,15 @@
         }
 
         .custom-textarea {
-            max-height: calc(50vh - 80px);
             min-height: 100px;
+
+            &:not(.ql-container) {
+                max-height: calc(50vh - 80px);
+            }
+        }
+
+        .scrolling-container {
+            max-height: calc(50vh - 80px);
         }
 
         .msg-typing {

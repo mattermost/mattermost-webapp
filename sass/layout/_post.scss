@@ -433,13 +433,16 @@
 
     .custom-textarea {
         bottom: 0;
-        max-height: calc(50vh - 40px);
         overflow: hidden;
         padding: 12px 0 12px 15px;
         resize: none;
 
         &:not(.custom-textarea--emoji-picker) {
             padding-right: 40px;
+        }
+
+        &:not(.ql-container) {
+            max-height: calc(50vh - 40px);
         }
 
         &.custom-textarea--emoji-picker {

@@ -47,6 +47,11 @@ export default class SuggestionBoxQL extends React.Component {
         containerClass: PropTypes.string,
 
         /**
+         * CSS class for the scrolling container parent of the quill editor
+         */
+        scrollingContainerClassName: PropTypes.string.isRequired,
+
+        /**
          * Set to true to draw dividers between types of list items, defaults to false
          */
         renderDividers: PropTypes.bool,
@@ -206,6 +211,10 @@ export default class SuggestionBoxQL extends React.Component {
             //
             // this.handlePretextChanged(pretext);
         }
+    }
+
+    passScrollingContainerRef = (element) => {
+        this.props.editorRef.current.getWrappedInstance().receiveScrollingContainerRef(element);
     }
 
     handleMentionKeyClick = (mentionKey, isRHS) => {
@@ -628,24 +637,29 @@ export default class SuggestionBoxQL extends React.Component {
                 ref={this.setContainerRef}
                 className={this.props.containerClass}
             >
-                <QuillEditor
-                    ref={editorRef}
-                    id={props.id}
-                    key={props.id}
-                    className={props.className}
-                    spellCheck={props.spellCheck}
-                    placeholder={props.placeholder}
-                    onKeyPress={props.onKeyPress}
-                    onKeyDown={this.handleKeyDown}
-                    style={props.style}
-                    value={props.value}
-                    disabled={props.disabled}
-                    maxLength={props.maxLength}
-                    onChange={this.handleChange}
-                    onCompositionStart={this.handleCompositionStart}
-                    onCompositionUpdate={this.handleCompositionUpdate}
-                    onCompositionEnd={this.handleCompositionEnd}
-                />
+                <div
+                    ref={this.passScrollingContainerRef}
+                    className={this.props.scrollingContainerClassName}
+                >
+                    <QuillEditor
+                        ref={editorRef}
+                        id={props.id}
+                        key={props.id}
+                        className={props.className}
+                        spellCheck={props.spellCheck}
+                        placeholder={props.placeholder}
+                        onKeyPress={props.onKeyPress}
+                        onKeyDown={this.handleKeyDown}
+                        style={props.style}
+                        value={props.value}
+                        disabled={props.disabled}
+                        maxLength={props.maxLength}
+                        onChange={this.handleChange}
+                        onCompositionStart={this.handleCompositionStart}
+                        onCompositionUpdate={this.handleCompositionUpdate}
+                        onCompositionEnd={this.handleCompositionEnd}
+                    />
+                </div>
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
                 <SuggestionListComponent
                     ref='list'

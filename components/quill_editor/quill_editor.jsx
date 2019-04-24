@@ -59,20 +59,6 @@ export default class QuillEditor extends React.Component {
         };
     }
 
-    componentDidMount = () => {
-        // initialize quill
-        this.editor = new Quill(this.quillEl.current,
-            {
-                modules: {toolbar: false},
-                theme: null,
-                placeholder: this.props.placeholder,
-            });
-        this.editor.on('text-change', this.handleChange);
-
-        // TODO: convert the parent's source of truth to Quill's format
-        this.editor.setContents([{insert: this.props.value}]);
-    }
-
     componentWillUnmount = () => {
         // prevent memory leaks (wish it was this easy in real life)
         this.editor.off('text-change');
@@ -128,8 +114,25 @@ export default class QuillEditor extends React.Component {
     //     this.refs.textarea.selectionEnd = selectionEnd;
     // }
 
+    receiveScrollingContainerRef = (containerElement) => {
+        // now that the wrapper has finished setting up its div, we can create the Quill editor.
+        this.editor = new Quill(this.quillEl.current,
+            {
+                modules: {toolbar: false},
+                theme: null,
+                placeholder: this.props.placeholder,
+                scrollingContainer: containerElement,
+            });
+        this.editor.on('text-change', this.handleChange);
+
+        // TODO: convert the parent's source of truth to Quill's format
+        this.editor.setContents([{insert: this.props.value}]);
+    }
+
     focus = () => {
-        this.editor.focus();
+        if (this.editor) {
+            this.editor.focus();
+        }
     }
 
     hasFocus = () => {
@@ -137,7 +140,9 @@ export default class QuillEditor extends React.Component {
     }
 
     blur = () => {
-        this.editor.blur();
+        if (this.editor) {
+            this.editor.blur();
+        }
     }
 
     setCaretToEnd = () => {

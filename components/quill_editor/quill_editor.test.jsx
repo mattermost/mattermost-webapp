@@ -6,6 +6,7 @@ import {shallow} from 'enzyme';
 
 import QuillEditor from 'components/quill_editor/quill_editor.jsx';
 import EmojiMap from 'utils/emoji_map.js';
+import Quill from 'quill';
 
 const createQuillEditor = (props) => {
     const baseProps = {
@@ -20,12 +21,20 @@ const createQuillEditor = (props) => {
         emojiMap: new EmojiMap(new Map([['mattermost', 1447]])),
     };
 
-    return shallow(
+    const wrapper = shallow(
         <QuillEditor
             {...baseProps}
             {...props}
         />,
     );
+
+    wrapper.instance().editor = new Quill('test',
+        {
+            modules: {toolbar: false},
+            theme: null,
+        });
+
+    return wrapper;
 };
 
 const insertTextAndCheck = (instance, existingTextInLeaf, text, previousContents = null, lengthOfPreviousContents = null, previousMarkdown = null) => {
@@ -44,10 +53,6 @@ const insertTextAndCheck = (instance, existingTextInLeaf, text, previousContents
 describe('components/QuillEditor', () => {
     test('should call constructor functions and match snapshot', () => {
         const wrapper = createQuillEditor();
-        const instance = wrapper.instance();
-
-        expect(instance.editor.on).toBeCalledTimes(1);
-        expect(instance.editor.setContents).toBeCalledTimes(1);
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -56,31 +61,18 @@ describe('components/QuillEditor', () => {
         const wrapper = createQuillEditor();
         const instance = wrapper.instance();
 
-        expect(instance.editor.on).toBeCalledTimes(1);
-        expect(instance.editor.setContents).toBeCalledTimes(1);
-
         wrapper.unmount();
 
         expect(instance.editor.off).toBeCalledTimes(1);
-    });
-
-    test('should update editor when constructed with a value', () => {
-        const wrapper = createQuillEditor({value: 'starting text'});
-        const instance = wrapper.instance();
-
-        expect(instance.editor.setContents).toBeCalledWith([{insert: 'starting text'}]);
     });
 
     test('should update editor when parent passes new value', () => {
         const wrapper = createQuillEditor();
         const instance = wrapper.instance();
 
-        expect(instance.editor.on).toBeCalledTimes(1);
-        expect(instance.editor.setContents).toBeCalledTimes(1);
-
         wrapper.setProps({value: 'new text'});
 
-        expect(instance.editor.setContents).toBeCalledTimes(2);
+        expect(instance.editor.setContents).toBeCalledTimes(1);
         expect(instance.editor.setContents).toBeCalledWith([{insert: 'new text'}]);
     });
 
@@ -91,23 +83,23 @@ describe('components/QuillEditor', () => {
         // with new props
         let shouldUpdate = instance.shouldComponentUpdate({value: 'new text'}, {valueInMarkdown: ''});
         expect(shouldUpdate).toBe(false);
-        expect(instance.editor.setContents).toBeCalledTimes(2);
+        expect(instance.editor.setContents).toBeCalledTimes(1);
         expect(instance.editor.setContents).toHaveBeenLastCalledWith([{insert: 'new text'}]);
 
         // with repeated props
         shouldUpdate = instance.shouldComponentUpdate({value: 'new text'}, {valueInMarkdown: ''});
         expect(shouldUpdate).toBe(false);
-        expect(instance.editor.setContents).toBeCalledTimes(2);
+        expect(instance.editor.setContents).toBeCalledTimes(1);
 
         // with new state
         shouldUpdate = instance.shouldComponentUpdate({value: 'new text'}, {valueInMarkdown: 'random state'});
         expect(shouldUpdate).toBe(false);
-        expect(instance.editor.setContents).toBeCalledTimes(2);
+        expect(instance.editor.setContents).toBeCalledTimes(1);
 
         // with old state
         shouldUpdate = instance.shouldComponentUpdate({value: 'new text'}, {valueInMarkdown: 'random state'});
         expect(shouldUpdate).toBe(false);
-        expect(instance.editor.setContents).toBeCalledTimes(2);
+        expect(instance.editor.setContents).toBeCalledTimes(1);
     });
 
     test('should prevent a loop from create_comment -- create_comment updates with old props after a typing event', () => {
@@ -123,7 +115,7 @@ describe('components/QuillEditor', () => {
 
         expect(wrapper.state('prevValue')).toBe('prev value');
         expect(wrapper.state('valueInMarkdown')).toBe('new text');
-        expect(instance.editor.setContents).toBeCalledTimes(1);
+        expect(instance.editor.setContents).toBeCalledTimes(0);
 
         // now, if this is create comment, it will update with old props after a typing event
         const shouldUpdate = instance.shouldComponentUpdate({value: 'prev value'}, {valueInMarkdown: 'new text'});
@@ -131,14 +123,14 @@ describe('components/QuillEditor', () => {
 
         // nextProps.value is !== state.valueInMarkdown, but it should have returned false before calling setContents,
         // thereby preventing a loop:
-        expect(instance.editor.setContents).toBeCalledTimes(1);
+        expect(instance.editor.setContents).toBeCalledTimes(0);
     });
 
     test('entering text is sent to the props.onChange', () => {
         const wrapper = createQuillEditor();
         wrapper.setState({valueInMarkdown: 'prev value'});
         const instance = wrapper.instance();
-        expect(instance.editor.setContents).toBeCalledTimes(1);
+        expect(instance.editor.setContents).toBeCalledTimes(0);
 
         // insert new text:
         insertTextAndCheck(instance, 'new tex', 't');
@@ -452,8 +444,6 @@ describe('components/QuillEditor', () => {
         const wrapper = createQuillEditor();
         const instance = wrapper.instance();
 
-        expect(instance.editor.on).toBeCalledTimes(1);
-        expect(instance.editor.setContents).toBeCalledTimes(1);
         expect(instance.editor.focus).toBeCalledTimes(0);
         insertTextAndCheck(instance, 'old tex', 't');
 
@@ -461,7 +451,7 @@ describe('components/QuillEditor', () => {
         instance.replaceText(newText);
 
         expect(instance.editor.focus).toBeCalledTimes(1);
-        expect(instance.editor.setContents).toBeCalledTimes(2);
+        expect(instance.editor.setContents).toBeCalledTimes(1);
         expect(instance.editor.setContents).toHaveBeenLastCalledWith([{insert: newText}]);
         expect(wrapper.state('valueInMarkdown')).toBe(newText);
         expect(wrapper.state('prevValue')).toBe('old text');

@@ -22,6 +22,10 @@
         max-height: 60vh;
         min-height: 8em;
 
+        &.ql-container {
+            overflow-x: visible;
+        }
+
         &.custom-textarea--preview {
             display: none;
         }
@@ -146,10 +150,6 @@
         &:focus {
             border-color: $light-gray;
             box-shadow: none;
-        }
-
-        &.purpose-modal {
-            min-height: 8em;
         }
     }
 

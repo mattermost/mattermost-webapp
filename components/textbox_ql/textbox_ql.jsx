@@ -298,10 +298,12 @@ export default class TextboxQL extends React.Component {
 
         let preview = null;
 
-        let textboxClassName = 'form-control custom-textarea';
+        let scrollingContainerClassName = 'scrolling-container';
         if (this.props.textAreaHeightClass) {
-            textboxClassName += ' ' + this.props.textAreaHeightClass;
+            scrollingContainerClassName += ' ' + this.props.textAreaHeightClass;
         }
+
+        let textboxClassName = 'form-control custom-textarea';
         if (this.props.emojiEnabled) {
             textboxClassName += ' custom-textarea--emoji-picker';
         }
@@ -354,6 +356,7 @@ export default class TextboxQL extends React.Component {
                     editorRef={this.editorRef}
                     ref={this.suggestionBoxRef}
                     className={textboxClassName}
+                    scrollingContainerClassName={scrollingContainerClassName}
                     spellCheck='true'
                     placeholder={this.props.placeholder}
                     onChange={this.handleChange}
