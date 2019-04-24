@@ -65,6 +65,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         membersCount: 8,
         showUnreadForMsgs: true,
         shouldHideChannel: false,
+        redirectChannel: 'test-default-channel',
         actions: {
             savePreferences: jest.fn(),
             leaveChannel: jest.fn(),
@@ -382,7 +383,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         wrapper.instance().handleLeaveDirectChannel();
         expect(savePreferences).toBeCalledWith('user-id', [{user_id: 'user-id', category: Constants.Preferences.CATEGORY_GROUP_CHANNEL_SHOW, name: 'test-channel-id', value: 'false'}]);
         expect(trackEvent).toBeCalledWith('ui', 'ui_direct_channel_x_button_clicked');
-        expect(browserHistory.push).toBeCalledWith('/current-team/channels/town-square');
+        expect(browserHistory.push).toBeCalledWith('/current-team/channels/test-default-channel');
         expect(props.actions.openLhs).not.toBeCalled();
     });
 

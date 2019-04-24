@@ -362,12 +362,25 @@ export default class FileUpload extends PureComponent {
             files.push(file);
         });
 
+        const types = e.originalEvent.dataTransfer.types;
+        if (types) {
+            // For non-IE browsers
+            if (types.includes && !types.includes('Files')) {
+                return;
+            }
+
+            // For IE browsers
+            if (types.contains && !types.contains('Files')) {
+                return;
+            }
+        }
+
         if (files.length === 0) {
             this.props.onUploadError(localizeMessage('file_upload.drag_folder', 'Folders cannot be uploaded. Please drag all files separately.'));
             return;
         }
 
-        if (typeof files !== 'string' && files.length) {
+        if (files.length) {
             this.checkPluginHooksAndUploadFiles(files);
         }
 

@@ -16,6 +16,14 @@ import DeleteIntegration from '../delete_integration.jsx';
 
 const FAKE_SECRET = '***************';
 
+export function matchesFilter(oauthApp, filter) {
+    if (!filter) {
+        return true;
+    }
+
+    return oauthApp.name.toLowerCase().indexOf(filter) !== -1;
+}
+
 export default class InstalledOAuthApp extends React.PureComponent {
     static propTypes = {
 
@@ -91,14 +99,6 @@ export default class InstalledOAuthApp extends React.PureComponent {
         this.props.onDelete(this.props.oauthApp);
     }
 
-    matchesFilter = (oauthApp, filter) => {
-        if (!filter) {
-            return true;
-        }
-
-        return oauthApp.name.toLowerCase().indexOf(filter) !== -1;
-    }
-
     render() {
         const {oauthApp, creatorName} = this.props;
         let error;
@@ -111,7 +111,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
             );
         }
 
-        if (!this.matchesFilter(oauthApp, this.props.filter)) {
+        if (!matchesFilter(oauthApp, this.props.filter)) {
             return null;
         }
 

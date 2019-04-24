@@ -76,6 +76,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
       renderNoResults={false}
       replaceAllInputOnSelect={false}
       requiredCharacters={1}
+      spellCheck="false"
       value=""
     />
   </ModalBody>

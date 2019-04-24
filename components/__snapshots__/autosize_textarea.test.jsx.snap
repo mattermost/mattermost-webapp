@@ -7,10 +7,10 @@ exports[`components/AutosizeTextarea should match snapshot, init 1`] = `
       Object {
         "opacity": 0.5,
         "overflow": "hidden",
-        "pointer-events": "none",
+        "pointerEvents": "none",
         "position": "absolute",
         "textOverflow": "ellipsis",
-        "white-space": "nowrap",
+        "whiteSpace": "nowrap",
       }
     }
   />

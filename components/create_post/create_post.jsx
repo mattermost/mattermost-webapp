@@ -105,11 +105,6 @@ export default class CreatePost extends React.Component {
         }).isRequired,
 
         /**
-        *  Data used adding reaction on +/- to recent post
-        */
-        recentPostIdInChannel: PropTypes.string,
-
-        /**
         *  Data used dispatching handleViewAction
         */
         commentCountForPost: PropTypes.number,
@@ -350,7 +345,7 @@ export default class CreatePost extends React.Component {
 
         this.setState({orientation});
         if (prevOrientation && orientation !== prevOrientation && (document.activeElement || {}).id === 'post_textbox') {
-            this.refs.textbox.blur();
+            this.refs.textbox.getWrappedInstance().blur();
         }
     }
 

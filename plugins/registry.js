@@ -11,6 +11,10 @@ import {
     unregisterPluginReconnectHandler,
 } from 'actions/websocket_actions.jsx';
 
+import {
+    registerPluginTranslationsSource,
+} from 'actions/views/root';
+
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
 import {generateId} from 'utils/utils.jsx';
@@ -358,5 +362,9 @@ export default class PluginRegistry {
         });
 
         return id;
+    }
+
+    registerTranslations(getTranslationsForLocale) {
+        registerPluginTranslationsSource(this.id, getTranslationsForLocale);
     }
 }

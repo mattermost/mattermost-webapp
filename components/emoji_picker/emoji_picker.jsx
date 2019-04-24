@@ -13,7 +13,6 @@ import imgTrans from 'images/img_trans.gif';
 
 import LocalizedInput from 'components/localized_input/localized_input';
 
-import EmojiPickerHeader from './components/emoji_picker_header';
 import EmojiPickerCategory from './components/emoji_picker_category';
 import EmojiPickerItem from './components/emoji_picker_item';
 import EmojiPickerCategorySection from './emoji_picker_category_section';
@@ -252,10 +251,6 @@ export default class EmojiPicker extends React.PureComponent {
     emojiSearchInput = (input) => {
         this.searchInput = input;
     };
-
-    handleEmojiPickerClose = () => {
-        this.props.onEmojiClose();
-    }
 
     handleCategoryClick(categoryName) {
         this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
@@ -637,7 +632,6 @@ export default class EmojiPicker extends React.PureComponent {
     render() {
         return (
             <div className='emoji-picker__inner'>
-                <EmojiPickerHeader handleEmojiPickerClose={this.handleEmojiPickerClose}/>
                 {this.emojiSearch()}
                 {this.emojiCategories()}
                 {this.emojiCurrentResults()}

@@ -331,7 +331,7 @@ class LoginController extends React.Component {
         } else if (team) {
             browserHistory.push(`/${team.name}`);
         } else if (experimentalPrimaryTeam) {
-            browserHistory.push(`/${experimentalPrimaryTeam}/channels/${Constants.DEFAULT_CHANNEL}`);
+            browserHistory.push(`/${experimentalPrimaryTeam}`);
         } else {
             GlobalActions.redirectUserToDefaultTeam();
         }

@@ -6,18 +6,18 @@ import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'react-window';
 
-import Constants, {PostListRowListIds} from 'utils/constants.jsx';
-import DelayedAction from 'utils/delayed_action.jsx';
-import * as Utils from 'utils/utils.jsx';
-import {getClosestValidPostIndex} from 'utils/post_utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
-import NewMessageIndicator from './new_message_indicator.jsx';
-import FloatingTimestamp from './floating_timestamp.jsx';
-import PostListRow from './post_list_row';
-import ScrollToBottomArrows from './scroll_to_bottom_arrows.jsx';
+import Constants, {PostListRowListIds} from 'utils/constants.jsx';
+import DelayedAction from 'utils/delayed_action.jsx';
+import {getLastPostId} from 'utils/post_utils.jsx';
+import * as Utils from 'utils/utils.jsx';
 
-const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
+import FloatingTimestamp from './floating_timestamp';
+import NewMessagesBelow from './new_messages_below';
+import PostListRow from './post_list_row';
+import ScrollToBottomArrows from './scroll_to_bottom_arrows';
+
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
 
 const MAX_EXTRA_PAGES_LOADED = 10;
@@ -29,21 +29,10 @@ export default class PostList extends React.PureComponent {
     static propTypes = {
 
         /**
-         * Array of posts in the channel, ordered from oldest to newest
-         */
-        posts: PropTypes.array,
-
-        /**
          * Array of Ids in the channel including date separators, new message indicator, more messages loader,
          * manual load messages trigger and postId in the order of newest to oldest for populating virtual list rows
          */
         postListIds: PropTypes.array,
-
-        /**
-         * Object of posts with post.id as key. This is used for passing down post as we need extra metadata made in
-         * getPostsAroundPost and getPostsInChannel. The metadata includes `consecutivePostByUser`, `isFirstReply` etc
-         */
-        postsObjById: PropTypes.object,
 
         /**
          * The number of posts that should be rendered
@@ -61,11 +50,6 @@ export default class PostList extends React.PureComponent {
         lastViewedAt: PropTypes.number,
 
         /**
-         * The user id of the logged in user
-         */
-        currentUserId: PropTypes.string,
-
-        /**
          * Set to focus this post
          */
         focusedPostId: PropTypes.string,
@@ -78,25 +62,7 @@ export default class PostList extends React.PureComponent {
 
         actions: PropTypes.shape({
 
-            /**
-             * Function to get posts in the channel
-             */
-            getPosts: PropTypes.func.isRequired,
-
-            /**
-             * Function to get posts in the channel older than the focused post
-             */
-            getPostsBefore: PropTypes.func.isRequired,
-
-            /**
-             * Function to get posts in the channel newer than the focused post
-             */
-            getPostsAfter: PropTypes.func.isRequired,
-
-            /**
-             * Function to get the post thread for the focused post
-             */
-            getPostThread: PropTypes.func.isRequired,
+            loadInitialPosts: PropTypes.func.isRequired,
 
             /**
              * Function to increase the number of posts being rendered
@@ -120,16 +86,18 @@ export default class PostList extends React.PureComponent {
         const isMobile = Utils.isMobile();
         this.state = {
             atEnd: false,
-            loadingFirstSetOfPosts: !props.posts || props.channelLoading,
+            loadingFirstSetOfPosts: Boolean(!props.postListIds || props.channelLoading),
             isScrolling: false,
             lastViewed: props.lastViewedAt,
             autoRetryEnable: true,
             isMobile,
             atBottom: true,
-            unViewedCount: 0,
             postListIds: [channelIntroMessage],
-            postsObjById: {channelIntroMessage},
-            floatingTimestampDate: 0,
+            topPostId: '',
+            postMenuOpened: false,
+            dynamicListStyle: {
+                willChange: 'transform',
+            },
         };
 
         this.listRef = React.createRef();
@@ -149,22 +117,6 @@ export default class PostList extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const prevPosts = prevProps.posts;
-        const {posts} = this.props;
-        if (prevPosts && posts && prevPosts.length && posts.length) {
-            const presentLastPost = posts[0];
-            const previousLastPost = prevPosts[0];
-            const isNewPostByCurrentUser = previousLastPost.id !== presentLastPost.id && presentLastPost.id === presentLastPost.pending_post_id;
-            const isNewPostNotReply = !presentLastPost.parent_id;
-            if (isNewPostByCurrentUser && isNewPostNotReply) {
-                this.scrollToBottom();
-            }
-            const hasNewPosts = prevPosts.length > 0 && posts.length > 0 && previousLastPost.id !== presentLastPost.id;
-            if (!this.state.atBottom && hasNewPosts) {
-                this.setUnreadsBelow(posts, this.props.currentUserId);
-            }
-        }
-
         if (prevProps.channelLoading && !this.props.channelLoading) {
             this.loadPosts(this.props.channel.id, this.props.focusedPostId);
         }
@@ -176,49 +128,42 @@ export default class PostList extends React.PureComponent {
     }
 
     static getDerivedStateFromProps(props, state) {
-        const {postListIds} = props;
-        if (postListIds) {
-            let newPostListIds;
-            if (state.atEnd) {
-                return {
-                    postListIds: [...props.postListIds, PostListRowListIds.CHANNEL_INTRO_MESSAGE],
-                };
-            }
-            if (props.postVisibility >= Constants.MAX_POST_VISIBILITY) {
-                newPostListIds = [...postListIds, PostListRowListIds.MAX_MESSAGES_LOADED];
-            } else if (state.autoRetryEnable) {
-                newPostListIds = [...postListIds, PostListRowListIds.MORE_MESSAGES_LOADER];
-            } else {
-                newPostListIds = [...postListIds, PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES];
-            }
-            return {
-                postListIds: newPostListIds,
-            };
+        const postListIds = props.postListIds || [];
+        let newPostListIds;
+
+        if (state.atEnd) {
+            newPostListIds = [...postListIds, PostListRowListIds.CHANNEL_INTRO_MESSAGE];
+        } else if (props.postVisibility >= Constants.MAX_POST_VISIBILITY) {
+            newPostListIds = [...postListIds, PostListRowListIds.MAX_MESSAGES_LOADED];
+        } else if (state.autoRetryEnable) {
+            newPostListIds = [...postListIds, PostListRowListIds.MORE_MESSAGES_LOADER];
+        } else {
+            newPostListIds = [...postListIds, PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES];
         }
-        return null;
+
+        return {
+            postListIds: newPostListIds,
+        };
     }
 
     handleWindowResize = () => {
         this.props.actions.checkAndSetMobileView();
-        if (Utils.isMobile() !== this.state.isMobile) {
+        const isMobile = Utils.isMobile();
+        if (isMobile !== this.state.isMobile) {
+            const dynamicListStyle = this.state.dynamicListStyle;
+            if (this.state.postMenuOpened) {
+                if (!isMobile && dynamicListStyle.willChange === 'unset') {
+                    dynamicListStyle.willChange = 'transform';
+                } else if (isMobile && dynamicListStyle.willChange === 'transform') {
+                    dynamicListStyle.willChange = 'unset';
+                }
+            }
+
             this.setState({
-                isMobile: true,
+                isMobile,
+                dynamicListStyle,
             });
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
-        }
-    }
-
-    setUnreadsBelow = (posts, currentUserId) => {
-        const unViewedCount = posts.reduce((count, post) => {
-            if (post.create_at > this.state.lastViewed &&
-                post.user_id !== currentUserId &&
-                post.state !== Constants.POST_DELETED) {
-                return count + 1;
-            }
-            return count;
-        }, 0);
-        if (this.mounted) {
-            this.setState({unViewedCount});
         }
     }
 
@@ -227,35 +172,27 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        let posts;
-        if (focusedPostId) {
-            const getPostThreadAsync = this.props.actions.getPostThread(focusedPostId, false);
-            const getPostsBeforeAsync = this.props.actions.getPostsBefore(channelId, focusedPostId, 0, POSTS_PER_PAGE);
-            const getPostsAfterAsync = this.props.actions.getPostsAfter(channelId, focusedPostId, 0, POSTS_PER_PAGE);
-
-            const result = await getPostsBeforeAsync;
-            posts = result.data;
-            await getPostsAfterAsync;
-            await getPostThreadAsync;
-        } else {
-            const result = await this.props.actions.getPosts(channelId, 0, POSTS_PER_PAGE);
-            posts = result.data;
-        }
+        const {hasMoreBefore} = await this.props.actions.loadInitialPosts(channelId, focusedPostId);
 
         if (this.mounted) {
-            const atEnd = Boolean(posts && posts.order.length < POSTS_PER_PAGE);
-            const newState = {
+            this.setState({
                 loadingFirstSetOfPosts: false,
-                atEnd,
-            };
-
-            this.setState(newState);
+                atEnd: !hasMoreBefore,
+            });
         }
     }
 
     loadMorePosts = async () => {
+        const oldestPostId = this.getOldestVisiblePostId();
+
+        if (!oldestPostId) {
+            // loadMorePosts shouldn't be called if we don't already have posts
+            return;
+        }
+
         this.loadingMorePosts = true;
-        const {moreToLoad, error} = await this.props.actions.increasePostVisibility(this.props.channel.id, this.props.focusedPostId);
+
+        const {moreToLoad, error} = await this.props.actions.increasePostVisibility(this.props.channel.id, oldestPostId);
         if (error) {
             if (this.autoRetriesCount < MAX_NUMBER_OF_AUTO_RETRIES) {
                 this.autoRetriesCount++;
@@ -265,30 +202,49 @@ export default class PostList extends React.PureComponent {
             }
         } else {
             this.loadingMorePosts = false;
-            if (this.mounted && this.props.posts) {
-                const atEnd = !moreToLoad && this.props.posts.length < this.props.postVisibility;
-                const newState = {
-                    atEnd,
-                    autoRetryEnable: true,
-                };
 
-                this.setState(newState);
+            if (this.mounted && this.props.postListIds) {
+                this.setState({
+                    atEnd: !moreToLoad,
+                    autoRetryEnable: true,
+                });
             }
+
             if (!this.state.autoRetryEnable) {
                 this.autoRetriesCount = 0;
             }
         }
+    };
+
+    getOldestVisiblePostId = () => {
+        return getLastPostId(this.state.postListIds);
     }
 
-    renderRow = ({itemId, style}) => {
+    togglePostMenu = (opened) => {
+        const dynamicListStyle = this.state.dynamicListStyle;
+        if (this.state.isMobile) {
+            dynamicListStyle.willChange = opened ? 'unset' : 'transform';
+        }
+
+        this.setState({
+            postMenuOpened: opened,
+            dynamicListStyle,
+        });
+    };
+
+    renderRow = ({data, itemId, style}) => {
+        const index = data.indexOf(itemId);
+        const previousItemId = (index !== -1 && index < data.length - 1) ? data[index + 1] : '';
+
         return (
             <div style={style}>
                 <PostListRow
                     listId={itemId}
+                    previousListId={previousItemId}
                     channel={this.props.channel}
                     shouldHighlight={itemId === this.props.focusedPostId}
-                    post={this.props.postsObjById[itemId]}
                     loadMorePosts={this.loadMorePosts}
+                    togglePostMenu={this.togglePostMenu}
                 />
             </div>
         );
@@ -304,7 +260,6 @@ export default class PostList extends React.PureComponent {
         const didUserScrollBackwards = scrollDirection === 'backward' && !scrollUpdateWasRequested;
         const isOffsetWithInRange = scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
         if (isNotLoadingPosts && didUserScrollBackwards && isOffsetWithInRange && !this.state.atEnd) {
-            this.loadingMorePosts = true;
             this.loadMorePosts();
         }
 
@@ -314,6 +269,7 @@ export default class PostList extends React.PureComponent {
                     isScrolling: true,
                 });
             }
+
             if (this.scrollStopAction) {
                 this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
             }
@@ -332,17 +288,14 @@ export default class PostList extends React.PureComponent {
         if (!this.state.isMobile) {
             return;
         }
-        if (this.props.posts) {
-            const postIndex = getClosestValidPostIndex(this.state.postListIds, visibleTopItem);
-            const postId = this.state.postListIds[postIndex];
-            const topPostInView = this.props.posts.find((post) => post.id === postId);
-            const floatingTimestampDate = topPostInView ? Utils.getDateForUnixTicks(topPostInView.create_at) : 0;
-            if (floatingTimestampDate !== this.state.floatingTimestampDate) {
-                this.setState({
-                    floatingTimestampDate,
-                });
-            }
+
+        if (!this.props.postListIds) {
+            return;
         }
+
+        this.setState({
+            topPostId: getLastPostId(this.props.postListIds.slice(visibleTopItem)),
+        });
     }
 
     checkBottom = (visibleStartIndex) => {
@@ -351,7 +304,6 @@ export default class PostList extends React.PureComponent {
                 this.setState({
                     atBottom: true,
                     lastViewed: new Date().getTime(),
-                    unViewedCount: 0,
                 });
             }
         } else if (this.state.atBottom) {
@@ -382,7 +334,16 @@ export default class PostList extends React.PureComponent {
         const newMessagesSeparatorIndex = this.state.postListIds.findIndex(
             (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
         );
+
         if (newMessagesSeparatorIndex > 0) {
+            const topMostPostIndex = this.state.postListIds.indexOf(getLastPostId(this.state.postListIds));
+            if (newMessagesSeparatorIndex === topMostPostIndex + 1) {
+                this.loadMorePosts();
+                return {
+                    index: this.state.postListIds.length - 1,
+                    position: 'start',
+                };
+            }
             return {
                 index: newMessagesSeparatorIndex,
                 position: 'start',
@@ -427,7 +388,7 @@ export default class PostList extends React.PureComponent {
     render() {
         const channel = this.props.channel;
 
-        if (this.state.loadingFirstSetOfPosts || channel == null) {
+        if (this.state.loadingFirstSetOfPosts) {
             return (
                 <div id='post-list'>
                     <LoadingScreen
@@ -438,6 +399,20 @@ export default class PostList extends React.PureComponent {
             );
         }
 
+        const {dynamicListStyle} = this.state;
+
+        let newMessagesBelow = null;
+        if (!this.props.focusedPostId) {
+            newMessagesBelow = (
+                <NewMessagesBelow
+                    atBottom={this.state.atBottom}
+                    lastViewedBottom={this.state.lastViewed}
+                    postIds={this.state.postListIds}
+                    onClick={this.scrollToBottom}
+                />
+            );
+        }
+
         return (
             <div id='post-list'>
                 {this.state.isMobile && (
@@ -445,7 +420,7 @@ export default class PostList extends React.PureComponent {
                         <FloatingTimestamp
                             isScrolling={this.state.isScrolling}
                             isMobile={true}
-                            createAt={this.state.floatingTimestampDate}
+                            postId={this.state.topPostId}
                         />
                         <ScrollToBottomArrows
                             isScrolling={this.state.isScrolling}
@@ -454,10 +429,7 @@ export default class PostList extends React.PureComponent {
                         />
                     </React.Fragment>
                 )}
-                <NewMessageIndicator
-                    newMessages={this.state.unViewedCount}
-                    onClick={this.scrollToBottom}
-                />
+                {newMessagesBelow}
                 <div
                     className='post-list-holder-by-time'
                     key={'postlist-' + channel.id}
@@ -473,6 +445,7 @@ export default class PostList extends React.PureComponent {
                                         ref={this.listRef}
                                         height={height}
                                         width={width}
+                                        className='post-list__dynamic'
                                         itemCount={this.state.postListIds.length}
                                         itemData={this.state.postListIds}
                                         itemKey={this.itemKey}
@@ -484,6 +457,7 @@ export default class PostList extends React.PureComponent {
                                         onNewItemsMounted={this.onNewItemsMounted}
                                         canLoadMorePosts={this.canLoadMorePosts}
                                         skipResizeClass='col__reply'
+                                        style={dynamicListStyle}
                                     >
                                         {this.renderRow}
                                     </DynamicSizeList>

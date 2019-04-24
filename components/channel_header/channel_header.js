@@ -173,7 +173,7 @@ export default class ChannelHeader extends React.PureComponent {
         }
     };
 
-    getPinnedPosts = (e) => {
+    showPinnedPosts = (e) => {
         e.preventDefault();
         if (this.props.rhsState === RHSStates.PIN) {
             this.props.actions.closeRightHandSide();
@@ -546,11 +546,13 @@ export default class ChannelHeader extends React.PureComponent {
                             {channelTitle}
                         </span>
                     </strong>
-                    <div className='bot-indicator bot-indicator__popoverlist'>
-                        <FormattedMessage
-                            id='post_info.bot'
-                            defaultMessage='BOT'
-                        />
+                    <div>
+                        <div className='bot-indicator bot-indicator__popoverlist'>
+                            <FormattedMessage
+                                id='post_info.bot'
+                                defaultMessage='BOT'
+                            />
+                        </div>
                     </div>
                 </div>
             );
@@ -595,7 +597,7 @@ export default class ChannelHeader extends React.PureComponent {
                         }
                         buttonClass={'style--none ' + pinnedIconClass}
                         buttonId={'channelHeaderPinButton'}
-                        onClick={this.getPinnedPosts}
+                        onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
                     {this.state.showSearchBar ? (

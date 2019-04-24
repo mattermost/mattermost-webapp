@@ -5,15 +5,20 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
 
-import {getPosts, getPostsAfter, getPostsBefore, getPostThread} from 'mattermost-redux/actions/posts';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {makeGetPostsAroundPost, makeGetPostsInChannel} from 'mattermost-redux/selectors/entities/posts';
-import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {
+    getPostIdsInChannel,
+    makeGetPostIdsAroundPost,
+} from 'mattermost-redux/selectors/entities/posts';
+import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
+import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 
-import {increasePostVisibility} from 'actions/post_actions.jsx';
-import {checkAndSetMobileView} from 'actions/views/channel';
-import {makePreparePostIdsForPostList} from 'selectors/posts';
+import {
+    checkAndSetMobileView,
+    increasePostVisibility,
+    loadInitialPosts,
+} from 'actions/views/channel';
 import {Constants} from 'utils/constants.jsx';
 
 import PostList from './post_list.jsx';
@@ -44,18 +49,22 @@ const isChannelLoading = (params, channel, team, teammate) => {
 };
 
 function makeMapStateToProps() {
-    const getPostsInChannel = makeGetPostsInChannel();
-    const getPostsAroundPost = makeGetPostsAroundPost();
+    const getPostIdsAroundPost = makeGetPostIdsAroundPost();
     const preparePostIdsForPostList = makePreparePostIdsForPostList();
 
     return function mapStateToProps(state, ownProps) {
         const postVisibility = state.views.channel.postVisibility[ownProps.channelId];
+        const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
 
-        let posts;
+        let postIds;
         if (ownProps.focusedPostId) {
-            posts = getPostsAroundPost(state, ownProps.focusedPostId, ownProps.channelId);
+            postIds = getPostIdsAroundPost(state, ownProps.focusedPostId, ownProps.channelId);
         } else {
-            posts = getPostsInChannel(state, ownProps.channelId, postVisibility);
+            postIds = getPostIdsInChannel(state, ownProps.channelId);
+        }
+
+        if (postIds) {
+            postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true});
         }
 
         const channel = getChannel(state, ownProps.channelId);
@@ -66,19 +75,12 @@ function makeMapStateToProps() {
         }
 
         const channelLoading = isChannelLoading(ownProps.match.params, channel, team, teammate);
-        const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
-        const {postIds, postsObjById} = preparePostIdsForPostList(state, {posts, lastViewedAt, indicateNewMessages: true});
 
         return {
             channel,
             lastViewedAt,
-            posts,
-            postsObjById,
             postVisibility,
             postListIds: postIds,
-            loadingPosts: state.views.channel.loadingPosts[ownProps.channelId],
-            focusedPostId: ownProps.focusedPostId,
-            currentUserId: getCurrentUserId(state),
             channelLoading,
         };
     };
@@ -87,10 +89,7 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getPosts,
-            getPostsBefore,
-            getPostsAfter,
-            getPostThread,
+            loadInitialPosts,
             increasePostVisibility,
             checkAndSetMobileView,
         }, dispatch),

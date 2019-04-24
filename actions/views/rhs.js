@@ -4,9 +4,12 @@
 import {batchActions} from 'redux-batched-actions';
 
 import {SearchTypes} from 'mattermost-redux/action_types';
-import {searchPostsWithParams, getFlaggedPosts} from 'mattermost-redux/actions/search';
+import {
+    getFlaggedPosts,
+    getPinnedPosts,
+    searchPostsWithParams,
+} from 'mattermost-redux/actions/search';
 import * as PostActions from 'mattermost-redux/actions/posts';
-import {Client4} from 'mattermost-redux/client';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -93,54 +96,6 @@ export function showSearchResults() {
     };
 }
 
-function getSearchActions(result, teamId) {
-    return [
-        {
-            type: SearchTypes.RECEIVED_SEARCH_POSTS,
-            data: result,
-        },
-        {
-            type: SearchTypes.RECEIVED_SEARCH_TERM,
-            data: {
-                teamId,
-                terms: null,
-                isOrSearch: false,
-            },
-        },
-        {
-            type: SearchTypes.SEARCH_POSTS_SUCCESS,
-        },
-    ];
-}
-
-function getPreRHSSearchActions(searchPostRequest, terms, rhsState, channelId) {
-    const updateRHSState = {
-        type: ActionTypes.UPDATE_RHS_STATE,
-        state: rhsState,
-    };
-
-    if (channelId) {
-        updateRHSState.channelId = channelId;
-    }
-
-    return [
-        {
-            type: searchPostRequest,
-        },
-        {
-            type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-            terms,
-        },
-        updateRHSState,
-    ];
-}
-
-function getPostRHSSearchActions(searchPostSuccess, result, teamId) {
-    const searchActions = getSearchActions(result, teamId);
-
-    return [...searchActions, {type: searchPostSuccess}];
-}
-
 export function showFlaggedPosts() {
     return async (dispatch, getState) => {
         const state = getState();
@@ -151,28 +106,22 @@ export function showFlaggedPosts() {
             state: RHSStates.FLAG,
         });
 
-        const result = await dispatch(getFlaggedPosts());
+        const results = await dispatch(getFlaggedPosts());
 
-        const postRHSSearchActions = getSearchActions(
-            result.data,
-            teamId
-        );
-
-        dispatch(batchActions(postRHSSearchActions));
-    };
-}
-
-export function getPinnedPosts(channelId) {
-    return async (dispatch, getState) => {
-        const currentChannelId = getCurrentChannelId(getState());
-        const result = await Client4.getPinnedPosts(channelId || currentChannelId);
-
-        await PostActions.getProfilesAndStatusesForPosts(result.posts, dispatch, getState);
-
-        const teamId = getCurrentTeamId(getState());
-        const searchActions = getSearchActions(result, teamId);
-
-        dispatch(batchActions(searchActions));
+        dispatch(batchActions([
+            {
+                type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                data: results.data,
+            },
+            {
+                type: SearchTypes.RECEIVED_SEARCH_TERM,
+                data: {
+                    teamId,
+                    terms: null,
+                    isOrSearch: false,
+                },
+            },
+        ]));
     };
 }
 
@@ -180,34 +129,36 @@ export function showPinnedPosts(channelId) {
     return async (dispatch, getState) => {
         const state = getState();
         const currentChannelId = getCurrentChannelId(state);
-
-        const preRHSSearchActions = getPreRHSSearchActions(
-            ActionTypes.SEARCH_PINNED_POSTS_REQUEST,
-            '',
-            RHSStates.PIN,
-            currentChannelId
-        );
-
-        dispatch(batchActions(preRHSSearchActions));
-
-        let result;
-        try {
-            result = await Client4.getPinnedPosts(channelId || currentChannelId);
-        } catch (error) {
-            dispatch({type: ActionTypes.SEARCH_PINNED_POSTS_FAILURE, error});
-        }
-
-        await PostActions.getProfilesAndStatusesForPosts(result.posts, dispatch, getState);
-
         const teamId = getCurrentTeamId(state);
 
-        const postRHSSearchActions = getPostRHSSearchActions(
-            ActionTypes.SEARCH_PINNED_POSTS_SUCCESS,
-            result,
-            teamId
-        );
+        dispatch(batchActions([
+            {
+                type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
+                terms: '',
+            },
+            {
+                type: ActionTypes.UPDATE_RHS_STATE,
+                channelId: channelId || currentChannelId,
+                state: RHSStates.PIN,
+            },
+        ]));
 
-        dispatch(batchActions(postRHSSearchActions));
+        const results = await dispatch(getPinnedPosts(channelId || currentChannelId));
+
+        dispatch(batchActions([
+            {
+                type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                data: results.data,
+            },
+            {
+                type: SearchTypes.RECEIVED_SEARCH_TERM,
+                data: {
+                    teamId,
+                    terms: null,
+                    isOrSearch: false,
+                },
+            },
+        ]));
     };
 }
 
