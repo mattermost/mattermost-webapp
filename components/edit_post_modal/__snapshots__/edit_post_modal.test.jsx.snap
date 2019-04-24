@@ -9,6 +9,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="editPostModal"
   keyboard={false}
   manager={
     ModalManager {
@@ -139,6 +140,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="editPostModal"
   keyboard={false}
   manager={
     ModalManager {
@@ -269,6 +271,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="editPostModal"
   keyboard={false}
   manager={
     ModalManager {
@@ -399,6 +402,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="editPostModal"
   keyboard={false}
   manager={
     ModalManager {
@@ -508,6 +512,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="editPostModal"
   keyboard={false}
   manager={
     ModalManager {
@@ -638,6 +643,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="editPostModal"
   keyboard={false}
   manager={
     ModalManager {
@@ -768,6 +774,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="editPostModal"
   keyboard={false}
   manager={
     ModalManager {
@@ -898,6 +905,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="editPostModal"
   keyboard={false}
   manager={
     ModalManager {
@@ -1028,6 +1036,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="editPostModal"
   keyboard={false}
   manager={
     ModalManager {

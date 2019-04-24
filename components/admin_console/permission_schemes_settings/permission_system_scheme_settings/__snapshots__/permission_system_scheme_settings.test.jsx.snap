@@ -9,7 +9,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
   >
     <Connect(BlockableLink)
       className="fa fa-angle-left back"
-      to="/admin_console/permissions/schemes"
+      to="/admin_console/user_management/permissions"
     />
     <FormattedMessage
       defaultMessage="System Scheme"
@@ -161,7 +161,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     />
     <Connect(BlockableLink)
       className="cancel-button"
-      to="/admin_console/permissions/schemes"
+      to="/admin_console/user_management/permissions"
     >
       <FormattedMessage
         defaultMessage="Cancel"
@@ -434,7 +434,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     />
     <Connect(BlockableLink)
       className="cancel-button"
-      to="/admin_console/permissions/schemes"
+      to="/admin_console/user_management/permissions"
     >
       <FormattedMessage
         defaultMessage="Cancel"
@@ -501,7 +501,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
   >
     <Connect(BlockableLink)
       className="fa fa-angle-left back"
-      to="/admin_console/permissions/schemes"
+      to="/admin_console/user_management/permissions"
     />
     <FormattedMessage
       defaultMessage="System Scheme"
@@ -635,7 +635,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     />
     <Connect(BlockableLink)
       className="cancel-button"
-      to="/admin_console/permissions/schemes"
+      to="/admin_console/user_management/permissions"
     >
       <FormattedMessage
         defaultMessage="Cancel"

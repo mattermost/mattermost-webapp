@@ -80,6 +80,7 @@ export default class DotMenu extends Component {
         isReadOnly: false,
         pluginMenuItems: [],
         location: Locations.CENTER,
+        enableEmojiPicker: false,
     }
 
     constructor(props) {

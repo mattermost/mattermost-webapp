@@ -4,9 +4,10 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import Quill from 'quill';
+
 import QuillEditor from 'components/quill_editor/quill_editor.jsx';
 import EmojiMap from 'utils/emoji_map.js';
-import Quill from 'quill';
 
 const createQuillEditor = (props) => {
     const baseProps = {

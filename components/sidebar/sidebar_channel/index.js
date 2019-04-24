@@ -11,8 +11,10 @@ import {
     getChannelsNameMapInCurrentTeam,
     makeGetChannel,
     shouldHideDefaultChannel,
+    getRedirectChannelNameForTeam,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getInt, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -122,6 +124,7 @@ function makeMapStateToProps() {
             membersCount,
             shouldHideChannel,
             channelIsArchived: channel.delete_at !== 0,
+            redirectChannel: getRedirectChannelNameForTeam(state, getCurrentTeamId(state)),
         };
     };
 }
