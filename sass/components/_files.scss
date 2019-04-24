@@ -194,6 +194,7 @@
             max-width: 100%;
 
             img {
+                @include border-radius(4px);
                 @include single-transition(all, .1s, linear);
                 align-self: center;
                 cursor: pointer;
