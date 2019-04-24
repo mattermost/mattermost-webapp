@@ -20,11 +20,12 @@ import {getBool, makeGetCategory} from 'mattermost-redux/selectors/entities/pref
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
 
+import {filterGroupChannelsMatchingTerm} from 'mattermost-redux/utils/channel_utils';
+
 import {browserHistory} from 'utils/browser_history';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {groupChannelMatchesTerm} from 'mattermost-redux/utils/channel_utils';
 import {Constants, Preferences, UserStatuses} from 'utils/constants.jsx';
 
 const dispatch = store.dispatch;
@@ -189,14 +190,14 @@ export function loadProfilesForSidebar() {
 export function loadProfilesForMatchingGMs(searchTerm) {
     return (doDispatch, doGetState) => {
         const state = doGetState();
-        const groupChannels = getGroupChannels(state);
+        const matchingGroupChannels = filterGroupChannelsMatchingTerm(getGroupChannels(state), searchTerm);
         const userIdsInChannels = Selectors.getUserIdsInChannels(state);
 
-        for (const groupChannel of groupChannels) { //eslint-disable-line camelcase
-            const userIdsInGroupChannel = (userIdsInChannels[groupChannel.id] || new Set());
+        for (const {id} of matchingGroupChannels) {
+            const userIdsInGroupChannel = (userIdsInChannels[id] || new Set());
 
-            if (groupChannelMatchesTerm(groupChannel, searchTerm) && userIdsInGroupChannel.size === 0) {
-                doDispatch(UserActions.getProfilesInChannel(groupChannel.id, 0, Constants.MAX_USERS_IN_GM));
+            if (userIdsInGroupChannel.size === 0) {
+                doDispatch(UserActions.getProfilesInChannel(id, 0, Constants.MAX_USERS_IN_GM));
             }
         }
     };
