@@ -1,0 +1,94 @@
+version: 2.1
+executors:
+  default:
+    working_directory: ~/mattermost-webapp
+    docker:
+      - image: mattermost/mattermost-build-webapp:oct-2-2018
+
+jobs:
+  install:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "package-lock.json" }}
+      - run: |
+          npm ci
+          cd node_modules/mattermost-redux && npm i && npm run build
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies-{{ checksum "package-lock.json" }}
+
+  lint:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "package-lock.json" }}
+      - run: |
+          ls -la node_modules/mattermost-redux
+          make check-style
+
+  i18n-check:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "package-lock.json" }}
+      - run: |
+          cp i18n/en.json /tmp/en.json
+          mkdir -p /tmp/fake-mobile-dir/assets/base/i18n/
+          echo '{}' > /tmp/fake-mobile-dir/assets/base/i18n/en.json
+          npm run mmjstool -- i18n extract-webapp --webapp-dir . --mobile-dir /tmp/fake-mobile-dir
+          diff /tmp/en.json i18n/en.json
+
+  test:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "package-lock.json" }}
+      - run: make test
+      - store_test_results:
+          path: build/
+
+  build:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "package-lock.json" }}
+      - run: make package
+      - persist_to_workspace:
+          root: .
+          paths: ./dist/*.tar.gz
+
+
+workflows:
+  version: 2
+  untagged-build:
+    jobs:
+      - install
+      - lint:
+          requires:
+            - install
+      - i18n-check:
+          requires:
+            - lint
+      - test:
+          requires:
+            - i18n-check
+      - build:
+          requires:
+            - test
