@@ -24,6 +24,7 @@ import {browserHistory} from 'utils/browser_history';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {groupChannelMatchesTerm} from 'mattermost-redux/utils/channel_utils';
 import {Constants, Preferences, UserStatuses} from 'utils/constants.jsx';
 
 const dispatch = store.dispatch;
@@ -191,12 +192,11 @@ export function loadProfilesForMatchingGMs(searchTerm) {
         const groupChannels = getGroupChannels(state);
         const userIdsInChannels = Selectors.getUserIdsInChannels(state);
 
-        for (const {id, display_name} of groupChannels) { //eslint-disable-line camelcase
-            const userIdsInGroupChannel = (userIdsInChannels[id] || new Set());
-            const matchesSearchTerm = display_name.split(', ').some((username) => username.startsWith(searchTerm));
+        for (const groupChannel of groupChannels) { //eslint-disable-line camelcase
+            const userIdsInGroupChannel = (userIdsInChannels[groupChannel.id] || new Set());
 
-            if (matchesSearchTerm && userIdsInGroupChannel.size === 0) {
-                doDispatch(UserActions.getProfilesInChannel(id, 0, Constants.MAX_USERS_IN_GM));
+            if (groupChannelMatchesTerm(groupChannel, searchTerm) && userIdsInGroupChannel.size === 0) {
+                doDispatch(UserActions.getProfilesInChannel(groupChannel.id, 0, Constants.MAX_USERS_IN_GM));
             }
         }
     };
