@@ -6,6 +6,8 @@ import React from 'react';
 import {tween, styler} from 'popmotion';
 import {CSSTransition} from 'react-transition-group';
 
+import {isMobile} from 'utils/utils.jsx';
+
 const ANIMATION_DURATION = 80;
 
 export default class MenuWrapperAnimation extends React.PureComponent {
@@ -33,8 +35,8 @@ export default class MenuWrapperAnimation extends React.PureComponent {
                 exit={true}
                 mountOnEnter={true}
                 unmountOnExit={true}
-                onEntering={this.onEntering}
-                onExiting={this.onExiting}
+                onEntering={!isMobile() && this.onEntering}
+                onExiting={!isMobile() && this.onExiting}
                 timeout={{
                     enter: ANIMATION_DURATION,
                     exit: ANIMATION_DURATION,
