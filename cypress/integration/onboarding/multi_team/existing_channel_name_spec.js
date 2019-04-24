@@ -9,15 +9,10 @@
 
 /*eslint max-nested-callbacks: ["error", 3]*/
 
-/*
-function: verifyExistingChannelError
-arg - channelTypeID:        ID of public or private channel to create
-arg - newChannelName:       New channel name to assign
-
-This function clicks on #createPublicChannel or #createPrivateChannel.
-Types `newChannelName` provided in the #newChannelName input.
-Clicks the 'Create New Channel' button.
-Then verifies that an error message 'A channel with that name already exists on the same team' is shown.
+/**
+* Creates a channel with existing name and verify that error is shown
+* @param {String} channelTypeID - ID of public or private channel to create
+* @param {String} newChannelName - New channel name to assign
 */
 function verifyExistingChannelError(channelTypeID, newChannelName) {
     // Click on '+' button for Public or Private Channel
@@ -33,19 +28,11 @@ function verifyExistingChannelError(channelTypeID, newChannelName) {
     cy.get('#createChannelError').contains('A channel with that name already exists on the same team');
 }
 
-/*
-function: channelNameTest
-arg - channelTypeHeading:   PUBLIC CHANNELS or PRIVATE CHANNELS
-arg - channelName:          Existing channel name that is also being tested for error
-
-var - origChannelLength:    The original number of channels in PUBLIC CHANNELS or PRIVATE CHANNELS
-
-This function stores the number of channels in public or private channels as origChannelLength.
-Verifies that the channel name picked exists.
-Attempts creating a public channel with the existing `channelName`, which should return error as implemented in `verifyExistingChannelError`.
-Then atempts createing a private channel with the existing `channelName`, which should return error as implemented in `verifyExistingChannelError`.
-Verifies that the number of channels under PUBLIC and PRIVATE CHANNELS are still the same.
-Closes out of the New Channel Modal.
+/**
+* Attempts to create public and private channels with existing `channelName` and verifies error
+* @param {String} channelTypeHeading - PUBLIC CHANNELS or PRIVATE CHANNELS
+* @param {String} channelName - Existing channel name that is also being tested for error
+* var - origChannelLength:    The original number of channels in PUBLIC CHANNELS or PRIVATE CHANNELS
 */
 function channelNameTest(channelTypeHeading, channelName) {
     // 1. Find how many public channels there are and store as origChannelLength
