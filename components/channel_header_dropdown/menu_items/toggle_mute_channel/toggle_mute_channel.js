@@ -29,6 +29,11 @@ export default class MenuItemToggleMuteChannel extends React.PureComponent {
         isMuted: PropTypes.bool.isRequired,
 
         /**
+         * Use for test selector
+         */
+        id: PropTypes.string,
+
+        /**
          * Object with action creators
          */
         actions: PropTypes.shape({
@@ -52,8 +57,14 @@ export default class MenuItemToggleMuteChannel extends React.PureComponent {
     }
 
     render() {
+        const {
+            channel,
+            id,
+            isMuted,
+        } = this.props;
+
         let text;
-        if (this.props.isMuted) {
+        if (isMuted) {
             text = localizeMessage('channel_header.unmute', 'Unmute Channel');
         } else {
             text = localizeMessage('channel_header.mute', 'Mute Channel');
@@ -61,7 +72,8 @@ export default class MenuItemToggleMuteChannel extends React.PureComponent {
 
         return (
             <MenuItemAction
-                show={this.props.channel.type !== Constants.DM_CHANNEL}
+                id={id}
+                show={channel.type !== Constants.DM_CHANNEL}
                 onClick={this.handleClick}
                 text={text}
             />

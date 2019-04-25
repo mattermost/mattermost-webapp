@@ -43,6 +43,8 @@ describe('components/team_members_dropdown', () => {
         },
         teamUrl: '',
         currentTeam: team,
+        index: 0,
+        totalUsers: 10,
         actions: {
             getMyTeamMembers: jest.fn(),
             getMyTeamUnreads: jest.fn(),
@@ -58,6 +60,17 @@ describe('components/team_members_dropdown', () => {
     test('should match snapshot for team_members_dropdown', () => {
         const wrapper = shallow(
             <TeamMembersDropdown {...baseProps}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot opening dropdown upwards', () => {
+        const wrapper = shallow(
+            <TeamMembersDropdown
+                {...baseProps}
+                index={4}
+                totalUsers={5}
+            />
         );
         expect(wrapper).toMatchSnapshot();
     });

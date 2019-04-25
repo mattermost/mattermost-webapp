@@ -81,11 +81,11 @@ export default class DatabaseSettings extends AdminSettings {
                                     </b>
                                 ),
                                 reloadConfiguration: (
-                                    <a href='../general/configuration'>
+                                    <a href='../environment/web_server'>
                                         <b>
                                             <FormattedMessage
                                                 id='admin.recycle.recycleDescription.reloadConfiguration'
-                                                defaultMessage='Configuration > Reload Configuration from Disk'
+                                                defaultMessage='Environment > Web Server > Reload Configuration from Disk'
                                             />
                                         </b>
                                     </a>
