@@ -110,7 +110,7 @@ class UserSettingsModal extends React.Component {
         document.removeEventListener('keydown', this.handleKeyDown);
     }
 
-    componentDidUpdate(_prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState) {
         if (!Utils.isMobile()) {
             $('.settings-content .minimize-settings').perfectScrollbar('update');
         }
