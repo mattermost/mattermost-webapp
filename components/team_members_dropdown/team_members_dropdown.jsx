@@ -14,6 +14,8 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
 
+const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
+
 export default class TeamMembersDropdown extends React.Component {
     static propTypes = {
         user: PropTypes.object.isRequired,
@@ -21,6 +23,8 @@ export default class TeamMembersDropdown extends React.Component {
         teamMember: PropTypes.object.isRequired,
         teamUrl: PropTypes.string.isRequired,
         currentTeam: PropTypes.object.isRequired,
+        index: PropTypes.number.isRequired,
+        totalUsers: PropTypes.number.isRequired,
         actions: PropTypes.shape({
             getMyTeamMembers: PropTypes.func.isRequired,
             getMyTeamUnreads: PropTypes.func.isRequired,
@@ -218,6 +222,12 @@ export default class TeamMembersDropdown extends React.Component {
             return <div>{currentRoles}</div>;
         }
 
+        const {index, totalUsers} = this.props;
+        let openUp = false;
+        if (totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP) {
+            openUp = true;
+        }
+
         return (
             <MenuWrapper>
                 <button
@@ -231,6 +241,7 @@ export default class TeamMembersDropdown extends React.Component {
                 <div>
                     <Menu
                         openLeft={true}
+                        openUp={openUp}
                         ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
                     >
                         <MenuItemAction

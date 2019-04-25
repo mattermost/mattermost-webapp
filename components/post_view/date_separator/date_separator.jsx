@@ -7,7 +7,10 @@ import {FormattedDate} from 'react-intl';
 
 export default class DateSeparator extends React.PureComponent {
     static propTypes = {
-        date: PropTypes.instanceOf(Date),
+        date: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.instanceOf(Date),
+        ]).isRequired,
         timeZone: PropTypes.string,
         enableTimezone: PropTypes.bool,
     }

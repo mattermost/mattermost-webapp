@@ -20,6 +20,8 @@ export default class UserListRow extends React.Component {
         actions: PropTypes.arrayOf(PropTypes.func),
         actionProps: PropTypes.object,
         actionUserProps: PropTypes.object,
+        index: PropTypes.number,
+        totalUsers: PropTypes.number,
         userCount: PropTypes.number,
     };
 
@@ -38,6 +40,8 @@ export default class UserListRow extends React.Component {
                     <Action
                         key={index.toString()}
                         user={this.props.user}
+                        index={this.props.index}
+                        totalUsers={this.props.totalUsers}
                         {...this.props.actionProps}
                         {...this.props.actionUserProps}
                     />
