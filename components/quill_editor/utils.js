@@ -139,3 +139,8 @@ export const prepareMarkdown = (contents) => {
 
     return newValue;
 };
+
+export const stripStylesKeepBackgroundImg = (styles) => {
+    const arr = styles.split(';').map((item) => item.trim());
+    return arr.find((item) => item.startsWith('background-image'));
+};

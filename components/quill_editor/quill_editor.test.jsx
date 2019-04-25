@@ -161,8 +161,8 @@ describe('components/QuillEditor', () => {
             ops: [{
                 insert: {
                     emoji: {
-                        imageUrl: '/static/emoji/1f18e.png',
-                        name: 'ab',
+                        style: 'background-image: url(\'/static/emoji/1f18e.png\');',
+                        title: ':ab:',
                     },
                 },
             }, {insert: ' '}, {delete: 4}],
@@ -216,8 +216,8 @@ describe('components/QuillEditor', () => {
             ops: [{retain: 1}, {
                 insert: {
                     emoji: {
-                        imageUrl: '/static/emoji/1f18e.png',
-                        name: 'ab',
+                        style: 'background-image: url(\'/static/emoji/1f18e.png\');',
+                        title: ':ab:',
                     },
                 },
             }, {insert: ' '}, {delete: 4}],
@@ -241,8 +241,8 @@ describe('components/QuillEditor', () => {
             ops: [{
                 insert: {
                     emoji: {
-                        imageUrl: '/static/emoji/1f18e.png',
-                        name: 'ab',
+                        style: 'background-image: url(\'/static/emoji/1f18e.png\');',
+                        title: ':ab:',
                     },
                 },
             }, {insert: ' '}, {delete: 4}],
@@ -264,8 +264,8 @@ describe('components/QuillEditor', () => {
             ops: [{
                 insert: {
                     emoji: {
-                        imageUrl: '/static/emoji/1f642.png',
-                        name: 'slightly_smiling_face',
+                        style: 'background-image: url(\'/static/emoji/1f642.png\');',
+                        title: ':slightly_smiling_face:',
                     },
                 },
             }, {insert: ' '}, {delete: 3}],
@@ -346,8 +346,8 @@ describe('components/QuillEditor', () => {
             ops: [{
                 insert: {
                     emoji: {
-                        imageUrl: '/static/emoji/1f604.png',
-                        name: 'smile',
+                        style: 'background-image: url(\'/static/emoji/1f604.png\');',
+                        title: ':smile:',
                     },
                 },
             }, {insert: ' '}, {delete: 3}],
@@ -375,8 +375,8 @@ describe('components/QuillEditor', () => {
                 {
                     insert: {
                         emoji: {
-                            imageUrl: '/static/emoji/1f604.png',
-                            name: 'smile',
+                            style: 'background-image: url(\'/static/emoji/1f604.png\');',
+                            title: ':smile:',
                         },
                     },
                 }, {insert: ' '}, {delete: 3}],
@@ -404,8 +404,8 @@ describe('components/QuillEditor', () => {
                 {
                     insert: {
                         emoji: {
-                            imageUrl: '/static/emoji/1f604.png',
-                            name: 'smile',
+                            style: 'background-image: url(\'/static/emoji/1f604.png\');',
+                            title: ':smile:',
                         },
                     },
 
@@ -432,8 +432,8 @@ describe('components/QuillEditor', () => {
             ops: [{
                 insert: {
                     emoji: {
-                        imageUrl: '/static/emoji/1f604.png',
-                        name: 'smile',
+                        style: 'background-image: url(\'/static/emoji/1f604.png\');',
+                        title: ':smile:',
                     },
                 },
             }, {insert: ' '}, {delete: 3}],

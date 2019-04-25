@@ -8,6 +8,7 @@ import Quill from 'quill';
 import Delta from 'quill-delta';
 
 import {initializeBlots} from './blots';
+import {initializeMatchers} from './matchers';
 import * as Utils from './utils';
 
 initializeBlots();
@@ -124,6 +125,8 @@ export default class QuillEditor extends React.Component {
                 scrollingContainer: containerElement,
             });
         this.editor.on('text-change', this.handleChange);
+
+        initializeMatchers(this.editor);
 
         // TODO: convert the parent's source of truth to Quill's format
         this.editor.setContents([{insert: this.props.value}]);
@@ -285,11 +288,12 @@ export default class QuillEditor extends React.Component {
 
         // get the emoji Url
         const imageUrl = Utils.getEmojiUrl(name, this.props.emojiMap);
+        const style = `background-image: url('${imageUrl}');`;
 
         const delta = new Delta().retain(globalCaret - length).delete(length).insert({
             emoji: {
-                name,
-                imageUrl,
+                title: `:${name}:`,
+                style,
             },
         }).insert(' ');
         this.editor.updateContents(delta);
