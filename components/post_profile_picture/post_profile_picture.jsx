@@ -70,7 +70,7 @@ export default class PostProfilePicture extends React.PureComponent {
         } = this.props;
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromWebhook = PostUtils.isFromWebhook(post);
-        if (isSystemMessage && !compactDisplay && !fromWebhook) {
+        if (isSystemMessage && !compactDisplay && !fromWebhook && !user.is_bot) {
             return <MattermostLogo className='icon'/>;
         }
 
