@@ -167,7 +167,7 @@ describe('Post Header', () => {
         // 3. Post a message
         cy.postMessage('test for pinning/unpinning a post');
 
-        cy.getLastPostId().then((postId) => {
+        cy.getLastPostIdWithRetry().then((postId) => {
             // * Check that the center flag icon of the post is not visible
             cy.get(`#CENTER_flagIcon_${postId}`).should('not.be.visible');
 
