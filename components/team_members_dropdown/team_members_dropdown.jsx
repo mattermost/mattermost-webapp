@@ -224,7 +224,7 @@ export default class TeamMembersDropdown extends React.Component {
 
         const {index, totalUsers} = this.props;
         let openUp = false;
-        if (totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP) {
+        if (totalUsers > ROWS_FROM_BOTTOM_TO_OPEN_UP && totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP) {
             openUp = true;
         }
 
