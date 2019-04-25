@@ -9,6 +9,7 @@
     position: fixed;
     width: 220px;
     z-index: 10;
+    background: var(--sidebar-bg);
 
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
@@ -92,7 +93,7 @@
         }
 
         .sidebar__divider__text {
-            background: $primary-color;
+            background: var(--sidebar-bg);
             float: right;
             padding: 0 10px;
             position: relative;
@@ -106,6 +107,7 @@
         display: block;
         padding-bottom: 0;
         width: 100%;
+        background: var(--sidebar-bg);
 
         button {
             background: transparent;

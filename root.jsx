@@ -9,6 +9,7 @@ import {Provider} from 'react-redux';
 import {Router, Route} from 'react-router-dom';
 import {logError} from 'mattermost-redux/actions/errors';
 import PDFJS from 'pdfjs-dist';
+import cssVars from 'css-vars-ponyfill';
 
 // Import our styles
 import 'bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css';
@@ -20,6 +21,8 @@ import {isDevMode, setCSRFFromCookie} from 'utils/utils';
 import {makeAsyncComponent} from 'components/async_load';
 import store from 'stores/redux_store.jsx';
 import loadRoot from 'bundle-loader?lazy!components/root';
+
+cssVars();
 
 const Root = makeAsyncComponent(loadRoot);
 
