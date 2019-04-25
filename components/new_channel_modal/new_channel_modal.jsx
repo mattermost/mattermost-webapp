@@ -183,17 +183,18 @@ export default class NewChannelModal extends React.PureComponent {
         }
 
         if (this.props.serverError) {
-            serverError = <div className='form-group has-error'><div className='col-sm-12'><p className='input__help error'>{this.props.serverError}</p></div></div>;
-        }
-
-        let inputPrefixId = '';
-        switch (this.props.channelType) {
-        case 'P':
-            inputPrefixId = 'newPrivateChannel';
-            break;
-        case 'O':
-            inputPrefixId = 'newPublicChannel';
-            break;
+            serverError = (
+                <div className='form-group has-error'>
+                    <div className='col-sm-12'>
+                        <p
+                            id='createChannelError'
+                            className='input__help error'
+                        >
+                            {this.props.serverError}
+                        </p>
+                    </div>
+                </div>
+            );
         }
 
         const publicChannelDesc = (
@@ -323,7 +324,7 @@ export default class NewChannelModal extends React.PureComponent {
                                 </label>
                                 <div className='col-sm-9'>
                                     <LocalizedInput
-                                        id={inputPrefixId + 'Name'}
+                                        id='newChannelName'
                                         onChange={this.handleChange}
                                         type='text'
                                         ref='display_name'
@@ -369,7 +370,7 @@ export default class NewChannelModal extends React.PureComponent {
                                 </div>
                                 <div className='col-sm-9'>
                                     <textarea
-                                        id={inputPrefixId + 'Purpose'}
+                                        id='newChannelPurpose'
                                         className='form-control no-resize'
                                         ref='channel_purpose'
                                         rows='4'
@@ -404,7 +405,7 @@ export default class NewChannelModal extends React.PureComponent {
                                 </div>
                                 <div className='col-sm-9'>
                                     <textarea
-                                        id={inputPrefixId + 'Header'}
+                                        id='newChannelHeader'
                                         className='form-control no-resize'
                                         ref='channel_header'
                                         rows='4'
@@ -426,11 +427,12 @@ export default class NewChannelModal extends React.PureComponent {
                         </Modal.Body>
                         <Modal.Footer>
                             <button
+                                id='cancelNewChannel'
                                 type='button'
                                 className='btn btn-link'
                                 onClick={this.props.onModalDismissed}
                                 tabIndex='8'
-                                onBlur={() => document.getElementById(`${inputPrefixId}Name`).focus()}
+                                onBlur={() => document.getElementById('newChannelName').focus()}
                             >
                                 <FormattedMessage
                                     id='channel_modal.cancel'
@@ -438,6 +440,7 @@ export default class NewChannelModal extends React.PureComponent {
                                 />
                             </button>
                             <button
+                                id='submitNewChannel'
                                 onClick={this.handleSubmit}
                                 type='submit'
                                 className='btn btn-primary'
