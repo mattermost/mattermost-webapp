@@ -32,6 +32,7 @@ describe('components/post_view/PostAddChannelMember', () => {
             removePost: jest.fn(),
             addChannelMember: jest.fn(),
         },
+        noGroupsUsernames: [],
     };
 
     test('should match snapshot, empty postId', () => {
@@ -101,5 +102,14 @@ describe('components/post_view/PostAddChannelMember', () => {
 
         wrapper.find('a').simulate('click');
         expect(actions.addChannelMember).toHaveBeenCalledTimes(4);
+    });
+
+    test('should match snapshot, with no-groups usernames', () => {
+        const props = {
+            ...requiredProps,
+            noGroupsUsernames: ['user_id_2'],
+        };
+        const wrapper = shallow(<PostAddChannelMember {...props}/>);
+        expect(wrapper).toMatchSnapshot();
     });
 });

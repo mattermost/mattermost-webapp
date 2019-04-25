@@ -130,7 +130,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
             <LocalizedInput
               autoFocus={true}
               className="form-control"
-              id="newPublicChannelName"
+              id="newChannelName"
               maxLength={22}
               onChange={[Function]}
               onKeyDown={[Function]}
@@ -193,7 +193,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
           >
             <textarea
               className="form-control no-resize"
-              id="newPublicChannelPurpose"
+              id="newChannelPurpose"
               maxLength="250"
               onChange={[Function]}
               placeholder="E.g.: \\"A channel to file bugs and improvements\\""
@@ -242,7 +242,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
           >
             <textarea
               className="form-control no-resize"
-              id="newPublicChannelHeader"
+              id="newChannelHeader"
               maxLength="1024"
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
@@ -268,6 +268,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
       >
         <button
           className="btn btn-link"
+          id="cancelNewChannel"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -281,6 +282,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
         </button>
         <button
           className="btn btn-primary"
+          id="submitNewChannel"
           onClick={[Function]}
           tabIndex="4"
           type="submit"
@@ -427,7 +429,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
             <LocalizedInput
               autoFocus={true}
               className="form-control"
-              id="newPublicChannelName"
+              id="newChannelName"
               maxLength={22}
               onChange={[Function]}
               onKeyDown={[Function]}
@@ -490,7 +492,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
           >
             <textarea
               className="form-control no-resize"
-              id="newPublicChannelPurpose"
+              id="newChannelPurpose"
               maxLength="250"
               onChange={[Function]}
               placeholder="E.g.: \\"A channel to file bugs and improvements\\""
@@ -539,7 +541,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
           >
             <textarea
               className="form-control no-resize"
-              id="newPublicChannelHeader"
+              id="newChannelHeader"
               maxLength="1024"
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
@@ -565,6 +567,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
       >
         <button
           className="btn btn-link"
+          id="cancelNewChannel"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -578,6 +581,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
         </button>
         <button
           className="btn btn-primary"
+          id="submitNewChannel"
           onClick={[Function]}
           tabIndex="4"
           type="submit"
@@ -764,7 +768,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
             <LocalizedInput
               autoFocus={true}
               className="form-control"
-              id="newPublicChannelName"
+              id="newChannelName"
               maxLength={22}
               onChange={[Function]}
               onKeyDown={[Function]}
@@ -827,7 +831,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
           >
             <textarea
               className="form-control no-resize"
-              id="newPublicChannelPurpose"
+              id="newChannelPurpose"
               maxLength="250"
               onChange={[Function]}
               placeholder="E.g.: \\"A channel to file bugs and improvements\\""
@@ -876,7 +880,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
           >
             <textarea
               className="form-control no-resize"
-              id="newPublicChannelHeader"
+              id="newChannelHeader"
               maxLength="1024"
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
@@ -902,6 +906,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
       >
         <button
           className="btn btn-link"
+          id="cancelNewChannel"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -915,6 +920,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
         </button>
         <button
           className="btn btn-primary"
+          id="submitNewChannel"
           onClick={[Function]}
           tabIndex="4"
           type="submit"
@@ -1101,7 +1107,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
             <LocalizedInput
               autoFocus={true}
               className="form-control"
-              id="newPublicChannelName"
+              id="newChannelName"
               maxLength={22}
               onChange={[Function]}
               onKeyDown={[Function]}
@@ -1164,7 +1170,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
           >
             <textarea
               className="form-control no-resize"
-              id="newPublicChannelPurpose"
+              id="newChannelPurpose"
               maxLength="250"
               onChange={[Function]}
               placeholder="E.g.: \\"A channel to file bugs and improvements\\""
@@ -1213,7 +1219,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
           >
             <textarea
               className="form-control no-resize"
-              id="newPublicChannelHeader"
+              id="newChannelHeader"
               maxLength="1024"
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
@@ -1239,6 +1245,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
       >
         <button
           className="btn btn-link"
+          id="cancelNewChannel"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -1252,6 +1259,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
         </button>
         <button
           className="btn btn-primary"
+          id="submitNewChannel"
           onClick={[Function]}
           tabIndex="4"
           type="submit"
@@ -1438,7 +1446,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
             <LocalizedInput
               autoFocus={true}
               className="form-control"
-              id="newPublicChannelName"
+              id="newChannelName"
               maxLength={22}
               onChange={[Function]}
               onKeyDown={[Function]}
@@ -1511,7 +1519,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
           >
             <textarea
               className="form-control no-resize"
-              id="newPublicChannelPurpose"
+              id="newChannelPurpose"
               maxLength="250"
               onChange={[Function]}
               placeholder="E.g.: \\"A channel to file bugs and improvements\\""
@@ -1560,7 +1568,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
           >
             <textarea
               className="form-control no-resize"
-              id="newPublicChannelHeader"
+              id="newChannelHeader"
               maxLength="1024"
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
@@ -1586,6 +1594,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
       >
         <button
           className="btn btn-link"
+          id="cancelNewChannel"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -1599,6 +1608,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
         </button>
         <button
           className="btn btn-primary"
+          id="submitNewChannel"
           onClick={[Function]}
           tabIndex="4"
           type="submit"
@@ -1785,7 +1795,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
             <LocalizedInput
               autoFocus={true}
               className="form-control"
-              id="newPublicChannelName"
+              id="newChannelName"
               maxLength={22}
               onChange={[Function]}
               onKeyDown={[Function]}
@@ -1848,7 +1858,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
           >
             <textarea
               className="form-control no-resize"
-              id="newPublicChannelPurpose"
+              id="newChannelPurpose"
               maxLength="250"
               onChange={[Function]}
               placeholder="E.g.: \\"A channel to file bugs and improvements\\""
@@ -1897,7 +1907,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
           >
             <textarea
               className="form-control no-resize"
-              id="newPublicChannelHeader"
+              id="newChannelHeader"
               maxLength="1024"
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
@@ -1922,6 +1932,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
               >
                 <p
                   className="input__help error"
+                  id="createChannelError"
                 >
                   server error
                 </p>
@@ -1936,6 +1947,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
       >
         <button
           className="btn btn-link"
+          id="cancelNewChannel"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -1949,6 +1961,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
         </button>
         <button
           className="btn btn-primary"
+          id="submitNewChannel"
           onClick={[Function]}
           tabIndex="4"
           type="submit"
@@ -2135,7 +2148,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
             <LocalizedInput
               autoFocus={true}
               className="form-control"
-              id="newPrivateChannelName"
+              id="newChannelName"
               maxLength={22}
               onChange={[Function]}
               onKeyDown={[Function]}
@@ -2198,7 +2211,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
           >
             <textarea
               className="form-control no-resize"
-              id="newPrivateChannelPurpose"
+              id="newChannelPurpose"
               maxLength="250"
               onChange={[Function]}
               placeholder="E.g.: \\"A channel to file bugs and improvements\\""
@@ -2247,7 +2260,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
           >
             <textarea
               className="form-control no-resize"
-              id="newPrivateChannelHeader"
+              id="newChannelHeader"
               maxLength="1024"
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
@@ -2273,6 +2286,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
       >
         <button
           className="btn btn-link"
+          id="cancelNewChannel"
           onBlur={[Function]}
           onClick={[MockFunction]}
           tabIndex="8"
@@ -2286,6 +2300,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
         </button>
         <button
           className="btn btn-primary"
+          id="submitNewChannel"
           onClick={[Function]}
           tabIndex="4"
           type="submit"

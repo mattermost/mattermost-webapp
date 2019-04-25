@@ -112,6 +112,7 @@ class LeaveTeamModal extends React.PureComponent {
                         type='button'
                         className='btn btn-danger'
                         onClick={this.handleSubmit}
+                        id='leaveTeamYes'
                     >
                         <FormattedMessage
                             id='leave_team_modal.yes'

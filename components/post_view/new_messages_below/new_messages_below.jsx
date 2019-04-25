@@ -7,8 +7,9 @@ import {FormattedMessage} from 'react-intl';
 
 import UnreadBelowIcon from 'components/svg/unread_below_icon';
 
-export default class NewMessageIndicator extends React.PureComponent {
+export default class NewMessagesBelow extends React.PureComponent {
     static propTypes = {
+        atBottom: PropTypes.bool,
         onClick: PropTypes.func.isRequired,
         newMessages: PropTypes.number,
     };
@@ -26,7 +27,7 @@ export default class NewMessageIndicator extends React.PureComponent {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.newMessages > 0) {
+        if (nextProps.newMessages > 0 && !nextProps.atBottom) {
             this.setState({rendered: true}, () => {
                 this.setState({visible: true});
             });

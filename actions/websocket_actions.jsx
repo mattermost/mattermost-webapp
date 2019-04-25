@@ -22,16 +22,23 @@ import {
     markChannelAsRead,
 } from 'mattermost-redux/actions/channels';
 import {setServerVersion} from 'mattermost-redux/actions/general';
+import {
+    getCustomEmojiForReaction,
+    getPosts,
+    getProfilesAndStatusesForPosts,
+    postDeleted,
+    receivedPost,
+    receivedPostsInChannel,
+} from 'mattermost-redux/actions/posts';
 import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 
-import {getPosts, getProfilesAndStatusesForPosts, getCustomEmojiForReaction} from 'mattermost-redux/actions/posts';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getMe, getStatusesByIds, getProfilesByIds} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getChannel, getCurrentChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 
 import {getSelectedChannelId} from 'selectors/rhs';
 
@@ -413,12 +420,8 @@ export function debouncePostEvent(func, wait) {
                 if (!posts.hasOwnProperty(channelId)) {
                     continue;
                 }
-                dispatch({
-                    type: PostTypes.RECEIVED_POSTS,
-                    data: {posts: posts[channelId]},
-                    channelId,
-                    receivedNewPosts: true,
-                });
+
+                dispatch(receivedPostsInChannel(posts[channelId], channelId));
                 getProfilesAndStatusesForPosts(posts[channelId], dispatch, getState);
             }
         }
@@ -465,10 +468,7 @@ function handleNewPostEventWrapped(msg) {
 export function handlePostEditEvent(msg) {
     // Store post
     const post = JSON.parse(msg.data.post);
-    dispatch({
-        type: PostTypes.RECEIVED_POST,
-        data: post,
-    });
+    dispatch(receivedPost(post));
 
     getProfilesAndStatusesForPosts([post], dispatch, getState);
     const currentChannelId = getCurrentChannelId(getState());
@@ -483,7 +483,7 @@ export function handlePostEditEvent(msg) {
 
 function handlePostDeleteEvent(msg) {
     const post = JSON.parse(msg.data.post);
-    dispatch({type: PostTypes.POST_DELETED, data: post});
+    dispatch(postDeleted(post));
 }
 
 async function handleTeamAddedEvent(msg) {
@@ -569,7 +569,9 @@ function handleDeleteTeamEvent(msg) {
 
         if (newTeamId) {
             dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
-            browserHistory.push(`${getCurrentTeamUrl(getState())}/channels/${Constants.DEFAULT_CHANNEL}`);
+            const globalState = getState();
+            const redirectChannel = getRedirectChannelNameForTeam(globalState, newTeamId);
+            browserHistory.push(`${getCurrentTeamUrl(globalState)}/channels/${redirectChannel}`);
         } else {
             browserHistory.push('/');
         }
@@ -708,7 +710,9 @@ function handleChannelDeletedEvent(msg) {
     const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
     if (getCurrentChannelId(state) === msg.data.channel_id && !viewArchivedChannels) {
         const teamUrl = getCurrentRelativeTeamUrl(state);
-        browserHistory.push(teamUrl + '/channels/' + Constants.DEFAULT_CHANNEL);
+        const currentTeamId = getCurrentTeamId(state);
+        const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
+        browserHistory.push(teamUrl + '/channels/' + redirectChannel);
     }
 
     dispatch({type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, deleteAt: msg.data.delete_at, viewArchivedChannels}});

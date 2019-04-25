@@ -159,6 +159,7 @@ export default class AddUsersToTeam extends React.Component {
         }
 
         let tag = null;
+        let email = option.email;
         if (option.is_bot) {
             tag = (
                 <div className='bot-indicator bot-indicator__popoverlist'>
@@ -168,6 +169,7 @@ export default class AddUsersToTeam extends React.Component {
                     />
                 </div>
             );
+            email = null;
         }
 
         return (
@@ -190,7 +192,7 @@ export default class AddUsersToTeam extends React.Component {
                         {tag}
                     </div>
                     <div className='more-modal__description'>
-                        {option.email}
+                        {email}
                     </div>
                 </div>
                 <div className='more-modal__actions'>

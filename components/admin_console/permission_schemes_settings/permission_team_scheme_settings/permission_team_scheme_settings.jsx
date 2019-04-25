@@ -319,7 +319,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
 
         this.setState({serverError, saving: false, saveNeeded});
         this.props.actions.setNavigationBlocked(saveNeeded);
-        this.props.history.push('/admin_console/permissions/schemes');
+        this.props.history.push('/admin_console/user_management/permissions');
     }
 
     toggleRole = (roleId) => {
@@ -402,7 +402,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                 }
                 <h3 className='admin-console-header with-back'>
                     <BlockableLink
-                        to='/admin_console/permissions/schemes'
+                        to='/admin_console/user_management/permissions'
                         className='fa fa-angle-left back'
                     />
                     <FormattedMessage
@@ -562,7 +562,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                     />
                     <BlockableLink
                         className='cancel-button'
-                        to='/admin_console/permissions/schemes'
+                        to='/admin_console/user_management/permissions'
                     >
                         <FormattedMessage
                             id='admin.permissions.permissionSchemes.cancel'

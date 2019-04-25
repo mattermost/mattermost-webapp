@@ -131,6 +131,20 @@ Cypress.Commands.add('apiDeleteTeam', (teamId, permanent = false) => {
     });
 });
 
+/**
+ * Gets a list of the current user's teams
+ * This API assume that the user is logged
+ * no params required because we are using /me to refer to current user
+ */
+
+Cypress.Commands.add('apiGetTeams', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: 'api/v4/users/me/teams',
+        method: 'GET',
+    });
+});
+
 // *****************************************************************************
 // Preferences
 // https://api.mattermost.com/#tag/preferences

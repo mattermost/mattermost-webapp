@@ -1,9 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {batchActions} from 'redux-batched-actions';
-
-import {PostTypes, SearchTypes} from 'mattermost-redux/action_types';
+import {SearchTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
 import {getChannel, getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
@@ -129,60 +127,6 @@ export function addReaction(postId, emojiName) {
     };
 }
 
-const POST_INCREASE_AMOUNT = Constants.POST_CHUNK_SIZE / 2;
-
-// Returns true if there are more posts to load
-export function increasePostVisibility(channelId, focusedPostId) {
-    return async (dispatch, getState) => {
-        const state = getState();
-        if (state.views.channel.loadingPosts[channelId]) {
-            return true;
-        }
-
-        const currentPostVisibility = state.views.channel.postVisibility[channelId];
-
-        if (currentPostVisibility >= Constants.MAX_POST_VISIBILITY) {
-            return true;
-        }
-
-        dispatch({
-            type: ActionTypes.LOADING_POSTS,
-            data: true,
-            channelId,
-        });
-
-        const page = Math.floor(currentPostVisibility / POST_INCREASE_AMOUNT);
-
-        let result;
-        if (focusedPostId) {
-            result = await dispatch(PostActions.getPostsBefore(channelId, focusedPostId, page, POST_INCREASE_AMOUNT));
-        } else {
-            result = await dispatch(PostActions.getPosts(channelId, page, POST_INCREASE_AMOUNT));
-        }
-        const posts = result.data;
-
-        const actions = [{
-            type: ActionTypes.LOADING_POSTS,
-            data: false,
-            channelId,
-        }];
-
-        if (posts) {
-            actions.push({
-                type: ActionTypes.INCREASE_POST_VISIBILITY,
-                data: channelId,
-                amount: posts.order.length,
-            });
-        }
-
-        dispatch(batchActions(actions));
-        return {
-            moreToLoad: posts ? posts.order.length >= POST_INCREASE_AMOUNT : false,
-            error: result.error,
-        };
-    };
-}
-
 export function searchForTerm(term) {
     return (dispatch) => {
         dispatch(RhsActions.updateSearchTerms(term));
@@ -289,14 +233,7 @@ export function hideEditPostModal() {
 
 export function deleteAndRemovePost(post) {
     return async (dispatch, getState) => {
-        const {currentUserId} = getState().entities.users;
-
-        let hardDelete = false;
-        if (post.user_id === currentUserId) {
-            hardDelete = true;
-        }
-
-        const {error} = await dispatch(PostActions.deletePost(post, hardDelete));
+        const {error} = await dispatch(PostActions.deletePost(post));
         if (error) {
             return {error};
         }
@@ -309,10 +246,7 @@ export function deleteAndRemovePost(post) {
             });
         }
 
-        dispatch({
-            type: PostTypes.REMOVE_POST,
-            data: post,
-        });
+        dispatch(PostActions.removePost(post));
 
         return {data: true};
     };
