@@ -63,6 +63,13 @@ const holders = defineMessages({
 
 const OVERLAY_TIMEOUT = 500;
 
+const customStyles = {
+    left: 'inherit',
+    right: 0,
+    bottom: '100%',
+    top: 'auto',
+};
+
 export default class FileUpload extends PureComponent {
     static propTypes = {
 
@@ -622,12 +629,6 @@ export default class FileUpload extends PureComponent {
                     </li>
                 );
             });
-            const customStyles = {
-                left: 'inherit',
-                right: 0,
-                bottom: '100%',
-                top: 'auto',
-            };
             bodyAction = (
                 <React.Fragment>
                     <input
