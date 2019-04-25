@@ -71,7 +71,7 @@ describe('components/permissions_gates', () => {
 
             expect(wrapper).toMatchSnapshot();
         });
-        test('should match snapshot when user have at least on of the permissions', () => {
+        test('should match snapshot when user have at least one of the permissions', () => {
             const wrapper = mount(
                 <Provider store={store}>
                     <AnyTeamPermissionGate permissions={['test_team_permission', 'not_existing_permission']}>
@@ -124,7 +124,7 @@ describe('components/permissions_gates', () => {
 
             expect(wrapper).toMatchSnapshot();
         });
-        test('should match snapshot when user haven\'t permission', () => {
+        test('should match snapshot when user doesn\'t have permission', () => {
             const wrapper = mount(
                 <Provider store={store}>
                     <AnyTeamPermissionGate

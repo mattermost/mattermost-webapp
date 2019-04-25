@@ -1,6 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/permissions_gates TeamPermissionGate should match snapshot when user have at least on of the permissions 1`] = `
+exports[`components/permissions_gates TeamPermissionGate should match snapshot when user doesn't have permission 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(AnyTeamPermissionGate)
+    permissions={
+      Array [
+        "invalid_permission",
+      ]
+    }
+  >
+    <AnyTeamPermissionGate
+      dispatch={[Function]}
+      hasPermission={false}
+      invert={false}
+      permissions={
+        Array [
+          "invalid_permission",
+        ]
+      }
+    />
+  </Connect(AnyTeamPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates TeamPermissionGate should match snapshot when user have at least one of the permissions 1`] = `
 <Provider
   store={
     Object {
@@ -217,40 +251,6 @@ exports[`components/permissions_gates TeamPermissionGate should match snapshot w
       permissions={
         Array [
           "other_permission",
-        ]
-      }
-    />
-  </Connect(AnyTeamPermissionGate)>
-</Provider>
-`;
-
-exports[`components/permissions_gates TeamPermissionGate should match snapshot when user haven't permission 1`] = `
-<Provider
-  store={
-    Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  }
->
-  <Connect(AnyTeamPermissionGate)
-    permissions={
-      Array [
-        "invalid_permission",
-      ]
-    }
-  >
-    <AnyTeamPermissionGate
-      dispatch={[Function]}
-      hasPermission={false}
-      invert={false}
-      permissions={
-        Array [
-          "invalid_permission",
         ]
       }
     />
