@@ -1,0 +1,25 @@
+.FullScreenModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 1000;
+    display: none;
+
+    .show {
+        display: block;
+    }
+    .close-x {
+        position: absolute;
+        top: 58px;
+        right: 58px;
+        cursor: pointer;
+        svg {
+            width: 32px;
+            height: 32px;
+            opacity: .6;
+        }
+    }
+}
