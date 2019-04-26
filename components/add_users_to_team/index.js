@@ -30,7 +30,9 @@ function mapStateToProps(state) {
     const modalId = ModalIdentifiers.ADD_USER_TO_TEAM;
 
     return {
-        currentTeam: team,
+        currentTeamName: team.display_name,
+        currentTeamId: team.id,
+        currentTeamGroupConstrained: team.group_constrained,
         searchTerm,
         users,
         show: isModalOpen(state, modalId),
