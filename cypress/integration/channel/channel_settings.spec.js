@@ -10,7 +10,6 @@
 
 /* eslint-disable max-nested-callbacks */
 describe('Channel Settings', () => {
-
     before(() => {
         // 1. Go to Main Channel View with "user-1"
         cy.toMainChannelView('user-1');
