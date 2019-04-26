@@ -17,7 +17,7 @@ function mapStateToProps(state, ownProps) {
         hasImageProxy: config.HasImageProxy === 'true',
         status: getStatusForUserId(state, ownProps.userId),
         isBot: Boolean(user && user.is_bot),
-        user: user
+        user
     };
 }
 
