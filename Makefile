@@ -1,25 +1,19 @@
-.PHONY: build test run clean stop check-style run-unit emojis help test-ci
+.PHONY: build test run clean stop check-style run-unit emojis help package-ci
 
 BUILD_SERVER_DIR = ../mattermost-server
 BUILD_WEBAPP_DIR = ../mattermost-webapp
 MM_UTILITIES_DIR = ../mattermost-utilities
 EMOJI_TOOLS_DIR = ./build/emoji
 
-check-style: ## Checks JS file for ESLint confirmity
+check-style: node_modules ## Checks JS file for ESLint confirmity
 	@echo Checking for style guide compliance
 
 	npm run check
 
-test: ## Runs tests
+test: node_modules ## Runs tests
 	@echo Running jest unit/component testing
 
 	npm run test
-
-test-ci: ## Runs tests
-	@echo Running jest unit/component testing on CI
-
-	npm run test-ci
-
 
 i18n-extract: ## Extract strings for translation from the source code
 	npm run mmjstool -- i18n extract-webapp
@@ -38,7 +32,21 @@ package: build ## Packages app
 	mv tmp/client dist
 	rmdir tmp
 
-build: ## Builds the app
+package-ci:
+	@echo Building mattermost Webapp
+
+	rm -rf dist
+	npm run build
+
+	@echo Packaging webapp
+
+	mkdir tmp
+	mv dist tmp/client
+	tar -C tmp -czf mattermost-webapp.tar.gz client
+	mv tmp/client dist
+	rmdir tmp
+
+build: node_modules ## Builds the app
 	@echo Building mattermost Webapp
 
 	rm -rf dist

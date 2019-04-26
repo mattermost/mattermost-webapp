@@ -31,8 +31,7 @@ jobs:
           keys:
             - dependencies-{{ checksum "package-lock.json" }}
       - run: |
-          ls -la node_modules/mattermost-redux
-          make check-style
+          npm run check
 
   i18n-check:
     executor:
@@ -57,7 +56,7 @@ jobs:
       - restore_cache:
           keys:
             - dependencies-{{ checksum "package-lock.json" }}
-      - run: make test-ci
+      - run: npm run test-ci
       - store_test_results:
           path: build/
 
@@ -69,7 +68,7 @@ jobs:
       - restore_cache:
           keys:
             - dependencies-{{ checksum "package-lock.json" }}
-      - run: make package
+      - run: make package-ci
       - store_artifacts:
           path: ~/mattermost-webapp/mattermost-webapp.tar.gz
       - run:
