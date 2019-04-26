@@ -6,11 +6,11 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
+import {getSiteURL} from 'utils/url.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ErrorPageTypes} from 'utils/constants.jsx';
 import CopyText from 'components/copy_text.jsx';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
-import {getSiteURL} from 'utils/url.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class ConfirmIntegration extends React.Component {
@@ -23,6 +23,7 @@ export default class ConfirmIntegration extends React.Component {
             incomingHooks: PropTypes.object,
             outgoingHooks: PropTypes.object,
             bots: PropTypes.object,
+            siteURL: PropTypes.string,
         };
     }
 
@@ -58,6 +59,7 @@ export default class ConfirmIntegration extends React.Component {
         const outgoingHook = this.props.outgoingHooks[this.state.id];
         const oauthApp = this.props.oauthApps[this.state.id];
         const bot = this.props.bots[this.state.id];
+        const siteURL = this.props.siteURL || getSiteURL();
 
         if (this.state.type === Constants.Integrations.COMMAND && command) {
             const commandToken = command.token;
@@ -91,7 +93,7 @@ export default class ConfirmIntegration extends React.Component {
                 </p>
             );
         } else if (this.state.type === Constants.Integrations.INCOMING_WEBHOOK && incomingHook) {
-            const incomingHookToken = getSiteURL() + '/hooks/' + incomingHook.id;
+            const incomingHookToken = siteURL + '/hooks/' + incomingHook.id;
 
             headerText = (
                 <FormattedMessage
@@ -117,8 +119,8 @@ export default class ConfirmIntegration extends React.Component {
                         }}
                     />
                     <CopyText
-                        idMessage='integrations.copy_client_secret'
-                        defaultMessage='Copy Client Secret'
+                        idMessage='integrations.copy_webhook_url'
+                        defaultMessage='Copy webhook URL'
                         value={incomingHookToken}
                     />
                 </p>
