@@ -33,7 +33,6 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
         return true;
     }
 
-    let checkboxCount = 0;
     const processingInstructions = [
 
         // Workaround to fix MM-14931
@@ -42,8 +41,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
             shouldProcessNode: (node) => node.type === 'tag' && node.name === 'input' && node.attribs.type === 'checkbox',
             processNode: (node) => {
                 const attribs = node.attribs || {};
-                node.attribs.key = attribs.checked ? checkboxCount + '_checked' : checkboxCount + '_unchecked';
-                checkboxCount += 1;
+                node.attribs.checked = Boolean(attribs.checked);
 
                 return React.createElement('input', {...node.attribs});
             },
