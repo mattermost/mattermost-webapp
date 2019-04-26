@@ -32,7 +32,7 @@ package: build ## Packages app
 	mv tmp/client dist
 	rmdir tmp
 
-package-ci:
+package-ci: ## used in the CI to build the package and bypass the npm install
 	@echo Building mattermost Webapp
 
 	rm -rf dist

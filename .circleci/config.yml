@@ -5,31 +5,34 @@ executors:
     docker:
       - image: mattermost/mattermost-build-webapp:oct-2-2018
 
+aliases:
+  - &restore_cache
+    restore_cache:
+      key: dependencies-{{ checksum "package-lock.json" }}
+  - &save_cache
+    save_cache:
+      key: dependencies-{{ checksum "package-lock.json" }}
+      paths:
+        - node_modules
+
 jobs:
   install:
     executor:
       name: default
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - dependencies-{{ checksum "package-lock.json" }}
+      - *restore_cache
       - run: |
           npm ci
           cd node_modules/mattermost-redux && npm i && npm run build
-      - save_cache:
-          paths:
-            - node_modules
-          key: dependencies-{{ checksum "package-lock.json" }}
+      - *save_cache
 
   lint:
     executor:
       name: default
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - dependencies-{{ checksum "package-lock.json" }}
+      - *restore_cache
       - run: |
           npm run check
 
@@ -38,9 +41,7 @@ jobs:
       name: default
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - dependencies-{{ checksum "package-lock.json" }}
+      - *restore_cache
       - run: |
           cp i18n/en.json /tmp/en.json
           mkdir -p /tmp/fake-mobile-dir/assets/base/i18n/
@@ -53,9 +54,7 @@ jobs:
       name: default
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - dependencies-{{ checksum "package-lock.json" }}
+      - *restore_cache
       - run: npm run test-ci
       - store_test_results:
           path: build/
@@ -65,9 +64,7 @@ jobs:
       name: default
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - dependencies-{{ checksum "package-lock.json" }}
+      - *restore_cache
       - run: make package-ci
       - store_artifacts:
           path: ~/mattermost-webapp/mattermost-webapp.tar.gz
