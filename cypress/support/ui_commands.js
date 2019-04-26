@@ -344,13 +344,14 @@ Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
 });
 
 Cypress.Commands.add('removeTeamMember', (teamURL, username) => {
-    cy.logout();
+    cy.apiLogout();
     cy.apiLogin('sysadmin');
     cy.visit(`/${teamURL}`);
     cy.get('#sidebarHeaderDropdownButton').click();
     cy.get('#manageMembers').click();
     cy.focused().type(username, {force: true});
-    cy.get('#removeFromTeam').click({force: true});
+    cy.get(`#teamMembersDropdown_${username}`).click();
+    cy.get('#removeFromTeam').click();
     cy.get('.modal-header .close').click();
 });
 
