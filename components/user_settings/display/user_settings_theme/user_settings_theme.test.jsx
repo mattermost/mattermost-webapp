@@ -19,6 +19,7 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
         setEnforceFocus: jest.fn(),
         actions: {
             saveTheme: jest.fn(() => Promise.resolve()),
+            deleteTeamSpecificThemes: jest.fn(() => Promise.resolve()),
         },
         focused: false,
     };
@@ -43,5 +44,26 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
 
         expect(requiredProps.updateSection).toHaveBeenCalledTimes(1);
         expect(requiredProps.updateSection).toHaveBeenCalledWith('');
+
+        expect(requiredProps.actions.saveTheme).toHaveBeenCalled();
+    });
+
+    it('should deleteTeamSpecificThemes if applyToAllTeams is enabled', async () => {
+        const props = {
+            ...requiredProps,
+            actions: {
+                saveTheme: jest.fn(() => Promise.resolve()),
+                deleteTeamSpecificThemes: jest.fn(() => Promise.resolve()),
+            },
+        };
+
+        const wrapper = shallowWithIntl(
+            <UserSettingsTheme {...props}/>
+        );
+
+        wrapper.instance().setState({applyToAllTeams: true});
+        await wrapper.instance().submitTheme();
+
+        expect(props.actions.deleteTeamSpecificThemes).toHaveBeenCalled();
     });
 });
