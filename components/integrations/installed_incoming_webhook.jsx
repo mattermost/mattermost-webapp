@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {getSiteURL} from 'utils/url.jsx';
 import {t} from 'utils/i18n';
 
 import CopyText from 'components/copy_text.jsx';
@@ -69,6 +68,11 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
         *  Data used for filtering of webhook based on filter prop
         */
         channel: PropTypes.object,
+
+        /**
+        *  External site URL
+        */
+        siteURL: PropTypes.string,
     }
 
     constructor(props) {
@@ -85,6 +89,7 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
         const incomingWebhook = this.props.incomingWebhook;
         const channel = this.props.channel;
         const filter = this.props.filter ? this.props.filter.toLowerCase() : '';
+        const siteURL = this.props.siteURL;
 
         if (!matchesFilter(incomingWebhook, channel, filter)) {
             return null;
@@ -134,7 +139,7 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
             );
         }
 
-        const incomingWebhookId = getSiteURL() + '/hooks/' + incomingWebhook.id;
+        const incomingWebhookId = siteURL + '/hooks/' + incomingWebhook.id;
 
         return (
             <div className='backstage-list__item'>

@@ -12,6 +12,8 @@ import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {getSiteURL} from 'utils/url.jsx';
+
 import {loadIncomingHooksAndProfilesForTeam} from 'actions/integration_actions';
 
 import InstalledIncomingWebhooks from './installed_incoming_webhooks.jsx';
@@ -26,6 +28,14 @@ function mapStateToProps(state) {
         filter((incomingWebhook) => incomingWebhook.team_id === teamId);
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
 
+    // If we have a configured SiteURL, that is not a loopback, use it
+    let siteURL = getSiteURL();
+
+    if (config.SiteURL &&
+        !config.SiteURL.match(/localhost|127(?:\.[0-9]+){0,2}\.[0-9]+|(?:0*:)*?:?0*1/g)) {
+        siteURL = config.SiteURL;
+    }
+
     return {
         incomingWebhooks,
         channels: getAllChannels(state),
@@ -33,6 +43,7 @@ function mapStateToProps(state) {
         teamId,
         canManageOthersWebhooks,
         enableIncomingWebhooks,
+        siteURL,
     };
 }
 

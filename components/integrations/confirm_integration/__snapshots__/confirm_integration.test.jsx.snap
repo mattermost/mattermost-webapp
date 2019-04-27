@@ -123,14 +123,14 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
         id="add_incoming_webhook.url"
         values={
           Object {
-            "url": "http://localhost:8065/hooks/r5tpgt4iepf45jt768jz84djic",
+            "url": "https://some.url/path/hooks/r5tpgt4iepf45jt768jz84djic",
           }
         }
       />
       <CopyText
         defaultMessage="Copy webhook URL"
         idMessage="integrations.copy_webhook_url"
-        value="http://localhost:8065/hooks/r5tpgt4iepf45jt768jz84djic"
+        value="https://some.url/path/hooks/r5tpgt4iepf45jt768jz84djic"
       />
     </p>
     <div

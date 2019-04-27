@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {getSiteURL} from 'utils/url.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ErrorPageTypes} from 'utils/constants.jsx';
 import CopyText from 'components/copy_text.jsx';
@@ -59,7 +58,7 @@ export default class ConfirmIntegration extends React.Component {
         const outgoingHook = this.props.outgoingHooks[this.state.id];
         const oauthApp = this.props.oauthApps[this.state.id];
         const bot = this.props.bots[this.state.id];
-        const siteURL = this.props.siteURL || getSiteURL();
+        const siteURL = this.props.siteURL;
 
         if (this.state.type === Constants.Integrations.COMMAND && command) {
             const commandToken = command.token;

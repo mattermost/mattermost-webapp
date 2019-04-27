@@ -6,10 +6,19 @@ import {getCommands, getOAuthApps, getIncomingHooks, getOutgoingHooks} from 'mat
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
 
+import {getSiteURL} from 'utils/url.jsx';
+
 import ConfirmIntegration from './confirm_integration.jsx';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
+
+    // If we have a configured SiteURL, that is not a loopback, use it
+    let siteURL = getSiteURL();
+    if (config.SiteURL &&
+        !config.SiteURL.match(/localhost|127(?:\.[0-9]+){0,2}\.[0-9]+|(?:0*:)*?:?0*1/g)) {
+        siteURL = config.SiteURL;
+    }
 
     return {
         commands: getCommands(state),
@@ -17,7 +26,7 @@ function mapStateToProps(state) {
         incomingHooks: getIncomingHooks(state),
         outgoingHooks: getOutgoingHooks(state),
         bots: getBotAccounts(state),
-        siteURL: config.SiteURL,
+        siteURL,
     };
 }
 

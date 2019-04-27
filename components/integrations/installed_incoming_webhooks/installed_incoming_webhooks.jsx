@@ -66,6 +66,11 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
         * Whether or not incoming webhooks are enabled.
         */
         enableIncomingWebhooks: PropTypes.bool,
+
+        /**
+        * External site URL
+        */
+        siteURL: PropTypes.string,
     }
 
     constructor(props) {
@@ -114,6 +119,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
         map((incomingWebhook) => {
             const canChange = this.props.canManageOthersWebhooks || this.props.user.id === incomingWebhook.user_id;
             const channel = this.props.channels[incomingWebhook.channel_id];
+            const siteURL = this.props.siteURL;
             return (
                 <InstalledIncomingWebhook
                     key={incomingWebhook.id}
@@ -123,6 +129,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
                     canChange={canChange}
                     team={this.props.team}
                     channel={channel}
+                    siteURL={siteURL}
                 />
             );
         });

@@ -36,7 +36,7 @@ exports[`components/integrations/InstalledIncomingWebhook should match snapshot 
           id="installed_integrations.url"
           values={
             Object {
-              "url": "http://localhost:8065/hooks/9w96t4nhbfdiij64wfqors4i1r",
+              "url": "https://some.url/path/hooks/9w96t4nhbfdiij64wfqors4i1r",
             }
           }
         />
@@ -44,7 +44,7 @@ exports[`components/integrations/InstalledIncomingWebhook should match snapshot 
           <CopyText
             defaultMessage="Copy"
             idMessage="integrations.copy"
-            value="http://localhost:8065/hooks/9w96t4nhbfdiij64wfqors4i1r"
+            value="https://some.url/path/hooks/9w96t4nhbfdiij64wfqors4i1r"
           />
         </span>
       </span>

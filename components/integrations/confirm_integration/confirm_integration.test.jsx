@@ -32,6 +32,7 @@ describe('components/integrations/ConfirmIntegration', () => {
     const incomingHooks = {[id]: {id}};
     const outgoingHooks = {[id]: {id, token}};
     const bots = {[userId]: bot};
+    const siteURL = 'https://some.url/path';
 
     const props = {
         team,
@@ -41,6 +42,7 @@ describe('components/integrations/ConfirmIntegration', () => {
         incomingHooks,
         outgoingHooks,
         bots,
+        siteURL,
     };
 
     test('should match snapshot, oauthApps case', () => {

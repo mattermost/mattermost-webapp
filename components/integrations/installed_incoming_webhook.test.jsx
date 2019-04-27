@@ -43,6 +43,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
                     name: 'town-square',
                 }}
+                siteURL='https://some.url/path'
             />
         );
         expect(wrapper).toMatchSnapshot();
