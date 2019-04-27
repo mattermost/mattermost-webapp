@@ -68,6 +68,11 @@ export default class Post extends React.PureComponent {
          */
         replyCount: PropTypes.number,
 
+        /**
+         * If is a bot post
+         */
+        isBot: PropTypes.bool,
+
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
         }).isRequired,
@@ -116,6 +121,8 @@ export default class Post extends React.PureComponent {
         const post = props.post;
 
         if (props.isFirstReply) {
+            return false;
+        } else if (props.isBot) {
             return false;
         } else if (!post.root_id && !props.previousPostIsComment && props.consecutivePostByUser) {
             return true;
