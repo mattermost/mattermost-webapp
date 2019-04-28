@@ -53,6 +53,7 @@ export default class SearchResults extends React.PureComponent {
         isSearchingFlaggedPost: PropTypes.bool,
         isSearchingPinnedPost: PropTypes.bool,
         isSearchGettingMore: PropTypes.bool,
+        isSearchAtEnd: PropTypes.bool,
         compactDisplay: PropTypes.bool,
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
@@ -195,9 +196,9 @@ export default class SearchResults extends React.PureComponent {
             }, this);
         }
 
-        let loadingScreen = null;
-        if (this.props.isSearchGettingMore) {
-            loadingScreen = (
+        let loadingMorePostsComponent = null;
+        if (!this.props.isSearchAtEnd) {
+            loadingMorePostsComponent = (
                 <div className='loading-screen'>
                     <div className='loading__content'>
                         <div className='round round-1'/>
@@ -232,9 +233,9 @@ export default class SearchResults extends React.PureComponent {
                         className='search-items-container'
                     >
                         {ctls}
+                        {loadingMorePostsComponent}
                     </div>
                 </Scrollbars>
-                {loadingScreen}
             </div>
         );
     }

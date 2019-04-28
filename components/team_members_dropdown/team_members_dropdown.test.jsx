@@ -9,11 +9,13 @@ import TeamMembersDropdown from 'components/team_members_dropdown/team_members_d
 describe('components/team_members_dropdown', () => {
     const user = {
         id: 'user-1',
+        username: 'username1',
         roles: 'team_admin',
     };
 
     const user2 = {
         id: 'user-2',
+        username: 'username2',
         roles: 'team_admin',
     };
 
