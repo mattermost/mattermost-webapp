@@ -38,6 +38,10 @@ export default class Audits extends React.PureComponent {
         };
     }
 
+    auditTableStyle = () => {
+        return ({margin: 10});
+    }
+
     componentDidMount() {
         this.props.actions.getAudits().then(
             () => this.setState({loadingAudits: false})
@@ -48,6 +52,21 @@ export default class Audits extends React.PureComponent {
         this.setState({loadingAudits: true});
         this.props.actions.getAudits().then(
             () => this.setState({loadingAudits: false})
+        );
+    }
+
+    activityLogHeader = () => {
+        const style = {
+            display: 'inline-block',
+            margin: 0,
+        };
+        return (
+            <h4 style={style}>
+                <FormattedMessage
+                    id='admin.complianceMonitoring.userActivityLogsTitle'
+                    defaultMessage='User Activity Logs'
+                />
+            </h4>
         );
     }
 
@@ -62,7 +81,7 @@ export default class Audits extends React.PureComponent {
             content = <LoadingScreen/>;
         } else {
             content = (
-                <div style={style.auditTable}>
+                <div style={this.auditTableStyle()}>
                     <AuditTable
                         audits={this.props.audits}
                         showUserId={true}
@@ -80,9 +99,12 @@ export default class Audits extends React.PureComponent {
                 <div className='panel audit-panel'>
                     <AdminHeader>
                         <FormattedMessage
-                            id='admin.audits.title'
-                            defaultMessage='User Activity Logs'
+                            id='admin.complianceMonitoring.title'
+                            defaultMessage='Compliance Monitoring'
                         />
+                    </AdminHeader>
+                    <div>
+                        {this.activityLogHeader()}
                         <button
                             type='submit'
                             className='btn btn-link pull-right'
@@ -94,7 +116,8 @@ export default class Audits extends React.PureComponent {
                                 defaultMessage='Reload User Activity Logs'
                             />
                         </button>
-                    </AdminHeader>
+                        <div className='clearfix'/>
+                    </div>
                     <div className='audit-panel__table'>
                         {content}
                     </div>
@@ -103,7 +126,3 @@ export default class Audits extends React.PureComponent {
         );
     }
 }
-
-const style = {
-    auditTable: {margin: 10},
-};

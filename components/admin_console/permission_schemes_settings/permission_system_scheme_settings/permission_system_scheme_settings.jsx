@@ -218,7 +218,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
     }
 
     render = () => {
-        const hasCustomSchemes = this.props.license.CustomPermissionsSchemes === 'true';
+        const hasCustomSchemes = 'true';
         if (!this.state.loaded) {
             return <LoadingScreen/>;
         }

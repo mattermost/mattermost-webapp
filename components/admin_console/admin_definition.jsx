@@ -288,14 +288,41 @@ export default {
                 component: GroupSettings,
             },
         },
-        permissions: {
-            url: 'user_management/permissions',
-            title: t('admin.sidebar.permissions'),
-            title_default: 'Permissions',
+        systemScheme: {
+            url: 'user_management/permissions/system_scheme',
+            isHidden: it.either(it.isnt(it.licensed)),
+            schema: {
+                id: 'PermissionSystemScheme',
+                component: PermissionSystemSchemeSettings,
+            },
+        },
+        teamSchemeDetail: {
+            url: 'user_management/permissions/team_override_scheme/:scheme_id',
             isHidden: it.either(
                 it.isnt(it.licensed),
                 it.isnt(it.licensedForFeature('CustomPermissionsSchemes'))
             ),
+            schema: {
+                id: 'PermissionSystemScheme',
+                component: PermissionTeamSchemeSettings,
+            },
+        },
+        teamScheme: {
+            url: 'user_management/permissions/team_override_scheme',
+            isHidden: it.either(
+                it.isnt(it.licensed),
+                it.isnt(it.licensedForFeature('CustomPermissionsSchemes'))
+            ),
+            schema: {
+                id: 'PermissionSystemScheme',
+                component: PermissionTeamSchemeSettings,
+            },
+        },
+        permissions: {
+            url: 'user_management/permissions/',
+            title: t('admin.sidebar.permissions'),
+            title_default: 'Permissions',
+            isHidden: it.isnt(it.licensed),
             searchableStrings: [
                 'admin.permissions.documentationLinkText',
                 'admin.permissions.teamOverrideSchemesNoSchemes',
@@ -311,41 +338,6 @@ export default {
             schema: {
                 id: 'PermissionSchemes',
                 component: PermissionSchemesSettings,
-            },
-        },
-        systemScheme: {
-            url: 'user_management/system_scheme',
-            title: t('admin.sidebar.systemScheme'),
-            title_default: 'System Scheme',
-            isHidden: it.either(
-                it.isnt(it.licensed),
-                it.isnt(it.licensedForFeature('CustomPermissionsSchemes'))
-            ),
-            schema: {
-                id: 'PermissionSystemScheme',
-                component: PermissionSystemSchemeSettings,
-            },
-        },
-        teamSchemeDetail: {
-            url: 'user_management/team_override_scheme/:scheme_id',
-            isHidden: it.either(
-                it.isnt(it.licensed),
-                it.isnt(it.licensedForFeature('CustomPermissionsSchemes'))
-            ),
-            schema: {
-                id: 'PermissionSystemScheme',
-                component: PermissionTeamSchemeSettings,
-            },
-        },
-        teamScheme: {
-            url: 'user_management/team_override_scheme',
-            isHidden: it.either(
-                it.isnt(it.licensed),
-                it.isnt(it.licensedForFeature('CustomPermissionsSchemes'))
-            ),
-            schema: {
-                id: 'PermissionSystemScheme',
-                component: PermissionTeamSchemeSettings,
             },
         },
     },
