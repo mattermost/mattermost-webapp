@@ -1231,27 +1231,14 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="6"
-            name="user_management/permissions"
+            key="9"
+            name="user_management/permissions/"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
                 defaultMessage="Permissions"
                 id="admin.sidebar.permissions"
-                values={Object {}}
-              />
-            }
-          />
-          <AdminSidebarSection
-            key="7"
-            name="user_management/system_scheme"
-            parentLink=""
-            subsection={false}
-            title={
-              <FormattedMessage
-                defaultMessage="System Scheme"
-                id="admin.sidebar.systemScheme"
                 values={Object {}}
               />
             }
@@ -1960,6 +1947,19 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               <FormattedMessage
                 defaultMessage="Users"
                 id="admin.sidebar.users"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="9"
+            name="user_management/permissions/"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Permissions"
+                id="admin.sidebar.permissions"
                 values={Object {}}
               />
             }

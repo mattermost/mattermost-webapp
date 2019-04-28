@@ -26,7 +26,9 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         schemes: PropTypes.object.isRequired,
         jobsAreEnabled: PropTypes.bool,
         clusterIsEnabled: PropTypes.bool,
-        license: PropTypes.object,
+        license: PropTypes.shape({
+            CustomPermissionsSchemes: PropTypes.bool,
+        }),
         actions: PropTypes.shape({
             loadSchemes: PropTypes.func.isRequired,
             loadSchemeTeams: PropTypes.func.isRequired,
