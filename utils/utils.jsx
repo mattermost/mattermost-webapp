@@ -501,7 +501,6 @@ export function isHexColor(value) {
 
 export function applyTheme(theme) {
     if (theme.sidebarBg) {
-        document.documentElement.style.setProperty('--sidebar-bg', theme.sidebarBg);
         changeCss('@media(max-width: 768px){.app__body .modal .settings-modal:not(.settings-modal--tabless):not(.display--content) .modal-content', 'background:' + theme.sidebarBg);
     }
 
@@ -980,7 +979,7 @@ export function applyTheme(theme) {
     updateCodeTheme(theme.codeTheme);
     cssVars({
         variables: {
-            '--sidebar-bg': theme.sidebarBg,
+            'sidebar-bg': theme.sidebarBg,
         },
     });
 }
