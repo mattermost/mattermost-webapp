@@ -8,7 +8,7 @@ import localForage from 'localforage';
 import {extendPrototype} from 'localforage-observable';
 import {createTransform, persistStore} from 'redux-persist';
 import {General, RequestStatus} from 'mattermost-redux/constants';
-import configureServiceStore from 'mattermost-redux/store';
+import configureServiceStore from 'mattermost-redux/store/configureStore.prod.js';
 import reduxInitialState from 'mattermost-redux/store/initial_state';
 
 import {storageRehydrate} from 'actions/storage';

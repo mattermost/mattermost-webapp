@@ -17,6 +17,7 @@ import {
 } from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
+import cssVars from 'css-vars-ponyfill';
 
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
@@ -977,6 +978,11 @@ export function applyTheme(theme) {
         theme.codeTheme = Constants.DEFAULT_CODE_THEME;
     }
     updateCodeTheme(theme.codeTheme);
+    cssVars({
+        variables: {
+            '--sidebar-bg': theme.sidebarBg,
+        },
+    });
 }
 
 export function resetTheme() {

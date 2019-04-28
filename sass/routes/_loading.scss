@@ -37,15 +37,5 @@
                 @include animation-delay(.2s*$i);
             }
         }
-
-        @include keyframes(move) {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: .1;
-            }
-        }
     }
 }
