@@ -22,7 +22,9 @@ import {makeAsyncComponent} from 'components/async_load';
 import store from 'stores/redux_store.jsx';
 import loadRoot from 'bundle-loader?lazy!components/root';
 
-cssVars();
+cssVars({
+    watch: true,
+});
 
 const Root = makeAsyncComponent(loadRoot);
 
