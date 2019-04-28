@@ -31,6 +31,7 @@ describe('components/admin_console/system_users', () => {
             setSystemUsersSearch: jest.fn().mockImplementation(() => Promise.resolve()),
             loadProfilesWithoutTeam: jest.fn().mockResolvedValue(),
             getProfiles: jest.fn().mockResolvedValue(),
+            searchProfiles: jest.fn().mockImplementation(() => Promise.resolve()),
         },
     };
 

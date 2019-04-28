@@ -30,6 +30,7 @@
     "key-mirror": "1.0.1",
     "localforage": "1.7.3",
     "localforage-observable": "1.4.0",
+    "lodash": "^4.17.11",
     "mark.js": "8.11.1",
     "marked": "github:mattermost/marked#e57e07f419f85178354a3bbbd60de5302483c436",
     "mattermost-redux": "github:mattermost/mattermost-redux#6bddbe0f9331b011e71e9e0aaff47702e4a0ece4",
