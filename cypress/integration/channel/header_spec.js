@@ -59,5 +59,7 @@ describe('Header', () => {
 
         // * Check that no elippsis is present
         cy.get('#header-popover > div.popover-content').should('have.html', `<blockquote>\n<p>${header}</p>\n</blockquote>`);
+
+        cy.apiSaveMessageDisplayPreference();
     });
 });
