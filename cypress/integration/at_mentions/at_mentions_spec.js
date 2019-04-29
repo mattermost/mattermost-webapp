@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-/*eslint max-nested-callbacks: ["error", 3]*/
+/*eslint max-nested-callbacks: ["error", 4]*/
 /*eslint-disable func-names*/
 
 function setNotificationSettings(desiredSettings = {first: true, username: true, shouts: true, custom: true, customText: '@'}) {
@@ -176,5 +176,46 @@ describe('at-mention', () => {
         cy.get('@postMessageText').
             find(`[data-mention=${this.receiver.username}]`).
             should('not.exist');
+    });
+
+    it('N14572 does not trigger notifications with "channel-wide mentions" unchecked', function() {
+        // 1. Set Notification settings
+        setNotificationSettings({first: false, username: false, shouts: false, custom: true});
+
+        const channelMentions = ['@here', '@all', '@channel'];
+
+        channelMentions.forEach((mention) => {
+            const message = `Hey ${mention} I'm message you all! ${Date.now()}`;
+
+            // 2. Use another account to post a message @-mentioning our receiver
+            cy.task('postMessageAs', {sender: this.sender, message, channelId: this.channelId});
+
+            // * Verify stub was not called
+            cy.get('@notifyStub').should('be.not.called');
+
+            // * Verify unread mentions badge does not exist
+            cy.get('#sidebarItem_town-square').
+                scrollIntoView().
+                find('#unreadMentions').
+                should('be.not.visible');
+
+            // 3. Go to the channel where you were messaged
+            cy.get('#sidebarItem_town-square').click();
+
+            // 4. Get last post message text
+            cy.getLastPostIdWithRetry().then((postId) => {
+                cy.get(`#postMessageText_${postId}`).as('postMessageText');
+            });
+
+            // * Verify message contents
+            cy.get('@postMessageText').
+                should('be.visible').
+                and('have.text', message);
+
+            // * Verify it's not highlighted
+            cy.get('@postMessageText').
+                find(`[data-mention=${this.receiver.username}]`).
+                should('not.exist');
+        });
     });
 });

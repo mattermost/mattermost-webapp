@@ -92,7 +92,7 @@ describe('Teams Suite', () => {
         cy.getLastPost().should('contain', 'System').and('contain', `${user.username} added to the channel by you.`);
 
         // 7. Logout
-        cy.logout();
+        cy.apiLogout();
 
         // 8. Login as user added to Team
         cy.apiLogin(user.username);
@@ -107,7 +107,7 @@ describe('Teams Suite', () => {
         cy.getLastPost().should('contain', 'System').and('contain', 'You were added to the channel by @sysadmin.');
 
         // 9. Remove user from team
-        cy.removeTeamMember(teamURL, user.firstName);
+        cy.removeTeamMember(teamURL, user.username);
     });
 
     it('TS14633 Leave all teams', () => {

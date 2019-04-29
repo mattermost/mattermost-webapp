@@ -5,6 +5,7 @@ import {getRandomInt} from '../utils';
 
 import users from '../fixtures/users.json';
 import theme from '../fixtures/theme.json';
+import config from '../fixtures/config.json';
 
 // *****************************************************************************
 // Read more:
@@ -215,5 +216,20 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
         };
 
         return cy.apiSaveUserPreference([preference]);
+    });
+});
+
+/**
+ * Saves Enable Open Server settings config details of a user directly via API
+ * This API assume that the sysadmin user is logged in for the changes
+ @param {Boolean} enable - flag for EnableOpenServer in config. Passes true for default if none is provided.
+ */
+Cypress.Commands.add('apiEnableOpenServer', (enable = true) => {
+    config.TeamSettings.EnableOpenServer = enable;
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/config',
+        method: 'PUT',
+        body: config,
     });
 });
