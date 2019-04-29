@@ -1069,7 +1069,7 @@
   "admin.rate.queriesTitle": "Maximum Queries per Second:",
   "admin.rate.remoteDescription": "When true, rate limit API access by IP address.",
   "admin.rate.remoteTitle": "Vary rate limit by remote address: ",
-  "admin.rate.title": "Rate Limit Settings",
+  "admin.rate.title": "Rate Limiting",
   "admin.rate.varyByUser": "Vary rate limit by user: ",
   "admin.rate.varyByUserDescription": "When true, rate limit API access by user authentication token.",
   "admin.recycle.button": "Recycle Database Connections",
