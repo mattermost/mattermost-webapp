@@ -18,7 +18,7 @@ const sysadmin = users.sysadmin;
 describe('System Console', () => {
     it('SC14734 Demoted user cannot continue to view System Console', () => {
         // 1. Login and navigate to the app as user
-        cy.login(user.username);
+        cy.apiLogin(user.username);
 
         // 2. Get MMUSERID cookie to use userId later
         cy.getCookie('MMUSERID').as('userId');
@@ -31,9 +31,9 @@ describe('System Console', () => {
         });
 
         // 4. Visit a page on the system console
-        cy.visit('/admin_console/general/configuration');
+        cy.visit('/admin_console/about/license');
         cy.get('#adminConsoleWrapper').should('be.visible');
-        cy.url().should('include', '/admin_console/general');
+        cy.url().should('include', '/admin_console/about/license');
 
         // 5. Change the role of the user back to user
         cy.get('@userId').then((userId) => {

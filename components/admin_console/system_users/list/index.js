@@ -7,11 +7,12 @@ import {bindActionCreators} from 'redux';
 import {getUser} from 'mattermost-redux/actions/users';
 
 import SystemUsersList from './system_users_list.jsx';
-import {getUsers} from './selectors.jsx';
+import {getNonBotUsers} from './selectors.jsx';
 
 function mapStateToProps(state, ownProps) {
+    const users = getNonBotUsers(state, ownProps.loading, ownProps.teamId, ownProps.term, ownProps.filter);
     return {
-        users: getUsers(state, ownProps.loading, ownProps.teamId, ownProps.term, ownProps.filter),
+        users,
     };
 }
 

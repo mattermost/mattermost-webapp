@@ -171,7 +171,10 @@ export default class SelectTeam extends React.Component {
             }
 
             openContent = (
-                <div className='signup__content'>
+                <div
+                    id='teamsYouCanJoinContent'
+                    className='signup__content'
+                >
                     <h4>
                         <FormattedMessage
                             id='signup_team.join_open'
@@ -189,6 +192,7 @@ export default class SelectTeam extends React.Component {
             <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
                 <div className='margin--extra'>
                     <Link
+                        id='createNewTeamLink'
                         to='/create_team'
                         className='signup-team-login'
                     >
