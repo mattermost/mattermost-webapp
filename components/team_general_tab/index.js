@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {patchTeam, removeTeamIcon, setTeamIcon} from 'mattermost-redux/actions/teams';
+import {patchTeam, removeTeamIcon, setTeamIcon, regenerateTeamInviteId} from 'mattermost-redux/actions/teams';
 import {Permissions} from 'mattermost-redux/constants';
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 
@@ -27,6 +27,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             patchTeam,
+            regenerateTeamInviteId,
             removeTeamIcon,
             setTeamIcon,
         }, dispatch),

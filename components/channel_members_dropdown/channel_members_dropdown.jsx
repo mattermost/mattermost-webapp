@@ -126,7 +126,7 @@ export default class ChannelMembersDropdown extends React.Component {
             if ((canMakeChannelMember || canMakeChannelAdmin)) {
                 const {index, totalUsers} = this.props;
                 let openUp = false;
-                if (totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP) {
+                if (totalUsers > ROWS_FROM_BOTTOM_TO_OPEN_UP && totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP) {
                     openUp = true;
                 }
 
