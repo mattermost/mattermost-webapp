@@ -105,11 +105,6 @@ export default class CreatePost extends React.Component {
         }).isRequired,
 
         /**
-        *  Data used adding reaction on +/- to recent post
-        */
-        recentPostIdInChannel: PropTypes.string,
-
-        /**
         *  Data used dispatching handleViewAction
         */
         commentCountForPost: PropTypes.number,
@@ -350,7 +345,7 @@ export default class CreatePost extends React.Component {
 
         this.setState({orientation});
         if (prevOrientation && orientation !== prevOrientation && (document.activeElement || {}).id === 'post_textbox') {
-            this.refs.textbox.blur();
+            this.refs.textbox.getWrappedInstance().blur();
         }
     }
 
@@ -614,7 +609,7 @@ export default class CreatePost extends React.Component {
 
     focusTextbox = (keepFocus = false) => {
         if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
-            this.refs.textbox.focus();
+            this.refs.textbox.getWrappedInstance().focus();
         }
     }
 
@@ -632,7 +627,7 @@ export default class CreatePost extends React.Component {
         if (allowSending) {
             e.persist();
             if (this.refs.textbox) {
-                this.refs.textbox.blur();
+                this.refs.textbox.getWrappedInstance().blur();
             }
 
             if (withClosedCodeBlock && message) {
@@ -788,8 +783,8 @@ export default class CreatePost extends React.Component {
                     uploadsInProgress,
                 };
 
-                if (this.refs.fileUpload && this.refs.fileUpload) {
-                    this.refs.fileUpload.cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
+                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
                 }
             }
         } else {
@@ -846,7 +841,7 @@ export default class CreatePost extends React.Component {
 
     getFileUploadTarget = () => {
         if (this.refs.textbox) {
-            return this.refs.textbox;
+            return this.refs.textbox.getWrappedInstance();
         }
 
         return null;
@@ -902,7 +897,7 @@ export default class CreatePost extends React.Component {
             type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         }
         if (this.refs.textbox) {
-            this.refs.textbox.blur();
+            this.refs.textbox.getWrappedInstance().blur();
         }
         this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, 'post_textbox', type);
     }

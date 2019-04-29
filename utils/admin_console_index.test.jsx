@@ -15,25 +15,25 @@ describe('AdminConsoleIndex.generateIndex', () => {
 
         const idx = generateIndex(intl);
         expect(idx.search('ldap')).toEqual([
+            'environment/session_lengths',
+            'authentication/mfa',
             'authentication/ldap',
             'authentication/saml',
-            'authentication/mfa',
-            'security/sessions',
-            'advanced/experimental',
-            'authentication/authentication_email',
+            'experimental/features',
+            'authentication/email',
         ]);
         expect(idx.search('saml')).toEqual([
             'authentication/saml',
-            'authentication/authentication_email',
-            'security/sessions',
-            'advanced/experimental',
+            'environment/session_lengths',
+            'authentication/email',
+            'experimental/features',
         ]);
         expect(idx.search('nginx')).toEqual([
-            'advanced/rate',
+            'environment/rate_limiting',
         ]);
         expect(idx.search('characters')).toEqual([
-            'security/password',
-            'customization/custom_brand',
+            'authentication/password',
+            'site_config/customization',
         ]);
         expect(idx.search('caracteres')).toEqual([]);
         expect(idx.search('notexistingword')).toEqual([]);
@@ -45,25 +45,25 @@ describe('AdminConsoleIndex.generateIndex', () => {
 
         const idx = generateIndex(intl);
         expect(idx.search('ldap')).toEqual([
+            'environment/session_lengths',
+            'authentication/mfa',
             'authentication/ldap',
             'authentication/saml',
-            'authentication/mfa',
-            'security/sessions',
-            'advanced/experimental',
-            'authentication/authentication_email',
+            'experimental/features',
+            'authentication/email',
         ]);
         expect(idx.search('saml')).toEqual([
             'authentication/saml',
-            'authentication/authentication_email',
-            'security/sessions',
-            'advanced/experimental',
+            'environment/session_lengths',
+            'authentication/email',
+            'experimental/features',
         ]);
         expect(idx.search('nginx')).toEqual([
-            'advanced/rate',
+            'environment/rate_limiting',
         ]);
         expect(idx.search('caracteres')).toEqual([
-            'security/password',
-            'customization/custom_brand',
+            'site_config/customization',
+            'authentication/password',
         ]);
         expect(idx.search('characters')).toEqual([]);
         expect(idx.search('notexistingword')).toEqual([]);

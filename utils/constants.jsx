@@ -25,6 +25,7 @@ import windows10ThemeImage from 'images/themes/windows_dark.png';
 import logoWebhook from 'images/webhook_icon.jpg';
 
 import Permissions from 'mattermost-redux/constants/permissions';
+import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import {t} from 'utils/i18n';
 
@@ -107,14 +108,6 @@ export const ActionTypes = keyMirror({
     TOGGLE_RHS_EXPANDED: null,
 
     UPDATE_MOBILE_VIEW: null,
-
-    SEARCH_FLAGGED_POSTS_REQUEST: null,
-    SEARCH_FLAGGED_POSTS_SUCCESS: null,
-    SEARCH_FLAGGED_POSTS_FAILURE: null,
-
-    SEARCH_PINNED_POSTS_REQUEST: null,
-    SEARCH_PINNED_POSTS_SUCCESS: null,
-    SEARCH_PINNED_POSTS_FAILURE: null,
 
     SET_NAVIGATION_BLOCKED: null,
     DEFER_NAVIGATION: null,
@@ -480,6 +473,10 @@ export const PermissionsScope = {
     [Permissions.CREATE_GROUP_CHANNEL]: 'system_scope',
     [Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]: 'channel_scope',
     [Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES]: 'channel_scope',
+    [Permissions.LIST_PUBLIC_TEAMS]: 'system_scope',
+    [Permissions.JOIN_PUBLIC_TEAMS]: 'system_scope',
+    [Permissions.LIST_PRIVATE_TEAMS]: 'system_scope',
+    [Permissions.JOIN_PRIVATE_TEAMS]: 'system_scope',
     [Permissions.LIST_TEAM_CHANNELS]: 'team_scope',
     [Permissions.JOIN_PUBLIC_CHANNELS]: 'team_scope',
     [Permissions.DELETE_PUBLIC_CHANNEL]: 'channel_scope',
@@ -551,6 +548,8 @@ export const DefaultRolePermissions = {
         Permissions.EDIT_POST,
         Permissions.MANAGE_CREATE_EMOJIS,
         Permissions.MANAGE_DELETE_EMOJIS,
+        Permissions.LIST_PUBLIC_TEAMS,
+        Permissions.JOIN_PUBLIC_TEAMS,
     ],
     channel_admin: [
         Permissions.MANAGE_CHANNEL_ROLES,
@@ -579,8 +578,8 @@ export const Locations = {
 };
 
 export const PostListRowListIds = {
-    DATE_LINE: 'date-',
-    START_OF_NEW_MESSAGES: 'START_OF_NEW_MESSAGES',
+    DATE_LINE: PostListUtils.DATE_LINE,
+    START_OF_NEW_MESSAGES: PostListUtils.START_OF_NEW_MESSAGES,
     CHANNEL_INTRO_MESSAGE: 'CHANNEL_INTRO_MESSAGE',
     MORE_MESSAGES_LOADER: 'MORE_MESSAGES_LOADER',
     MAX_MESSAGES_LOADED: 'MAX_MESSAGES_LOADED',

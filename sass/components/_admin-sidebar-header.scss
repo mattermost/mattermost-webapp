@@ -37,6 +37,7 @@
         .menu-icon {
             @include opacity(.8);
             fill: $white;
+            margin-right: 10px;
         }
 
         &:hover {

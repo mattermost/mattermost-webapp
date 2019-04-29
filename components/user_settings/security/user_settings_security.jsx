@@ -296,7 +296,7 @@ export default class SecurityTab extends React.Component {
                         key='oauthEmailInfo'
                         className='form-group'
                     >
-                        <div className='setting-list__hint col-sm-12'>
+                        <div className='padding-bottom x2'>
                             <FormattedMessage
                                 id='user.settings.security.passwordGitlabCantUpdate'
                                 defaultMessage='Login occurs through GitLab. Password cannot be updated.'
@@ -310,7 +310,7 @@ export default class SecurityTab extends React.Component {
                         key='oauthEmailInfo'
                         className='form-group'
                     >
-                        <div className='setting-list__hint col-sm-12'>
+                        <div className='padding-bottom x2'>
                             <FormattedMessage
                                 id='user.settings.security.passwordLdapCantUpdate'
                                 defaultMessage='Login occurs through AD/LDAP. Password cannot be updated.'
@@ -324,7 +324,7 @@ export default class SecurityTab extends React.Component {
                         key='oauthEmailInfo'
                         className='form-group'
                     >
-                        <div className='setting-list__hint col-sm-12'>
+                        <div className='padding-bottom x2'>
                             <FormattedMessage
                                 id='user.settings.security.passwordSamlCantUpdate'
                                 defaultMessage='This field is handled through your login provider. If you want to change it, you need to do so through your login provider.'
@@ -338,7 +338,7 @@ export default class SecurityTab extends React.Component {
                         key='oauthEmailInfo'
                         className='form-group'
                     >
-                        <div className='setting-list__hint col-sm-12'>
+                        <div className='padding-bottom x2'>
                             <FormattedMessage
                                 id='user.settings.security.passwordGoogleCantUpdate'
                                 defaultMessage='Login occurs through Google Apps. Password cannot be updated.'
@@ -352,7 +352,7 @@ export default class SecurityTab extends React.Component {
                         key='oauthEmailInfo'
                         className='form-group'
                     >
-                        <div className='setting-list__hint col-sm-12'>
+                        <div className='padding-bottom x2'>
                             <FormattedMessage
                                 id='user.settings.security.passwordOffice365CantUpdate'
                                 defaultMessage='Login occurs through Office 365. Password cannot be updated.'

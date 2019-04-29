@@ -138,6 +138,14 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             text={localizeMessage('navbar.addMembers', 'Add Members')}
                         />
                     </ChannelPermissionGate>
+                    <MenuItemToggleModalRedux
+                        id='channelViewMembers'
+                        show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && (isArchived || isDefault)}
+                        modalId={ModalIdentifiers.CHANNEL_MEMBERS}
+                        dialogType={ChannelMembersModal}
+                        dialogProps={{channel}}
+                        text={localizeMessage('channel_header.viewMembers', 'View Members')}
+                    />
                     <ChannelPermissionGate
                         channelId={channel.id}
                         teamId={channel.team_id}
@@ -156,7 +164,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         channelId={channel.id}
                         teamId={channel.team_id}
                         permissions={[channelMembersPermission]}
-                        invert={!isDefault}
+                        invert={true}
                     >
                         <MenuItemToggleModalRedux
                             id='channelViewMembers'

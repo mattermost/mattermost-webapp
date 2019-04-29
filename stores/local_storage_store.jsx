@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {Constants} from 'utils/constants.jsx';
+import {getRedirectChannelNameForTeam} from 'utils/channel_utils.jsx';
 
 const getPreviousTeamIdKey = (userId) => ['user_prev_team', userId].join(':');
 const getPreviousChannelNameKey = (userId, teamId) => ['user_team_prev_channel', userId, teamId].join(':');
@@ -14,7 +14,7 @@ const getRecentEmojisKey = (userId) => ['recent_emojis', userId].join(':');
 // of the Redux store so as to allow them to be used on re-login.
 class LocalStorageStoreClass {
     getPreviousChannelName(userId, teamId) {
-        return localStorage.getItem(getPreviousChannelNameKey(userId, teamId)) || Constants.DEFAULT_CHANNEL;
+        return localStorage.getItem(getPreviousChannelNameKey(userId, teamId)) || getRedirectChannelNameForTeam(teamId);
     }
 
     setPreviousChannelName(userId, teamId, channelName) {
@@ -22,7 +22,7 @@ class LocalStorageStoreClass {
     }
 
     getPenultimateChannelName(userId, teamId) {
-        return localStorage.getItem(getPenultimateChannelNameKey(userId, teamId)) || Constants.DEFAULT_CHANNEL;
+        return localStorage.getItem(getPenultimateChannelNameKey(userId, teamId)) || getRedirectChannelNameForTeam(teamId);
     }
 
     setPenultimateChannelName(userId, teamId, channelName) {

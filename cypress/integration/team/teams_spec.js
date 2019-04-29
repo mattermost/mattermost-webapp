@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+/*eslint max-nested-callbacks: ["error", 5]*/
+
 import {getRandomInt} from '../../utils';
 import users from '../../fixtures/users.json';
 
@@ -90,7 +92,7 @@ describe('Teams Suite', () => {
         cy.getLastPost().should('contain', 'System').and('contain', `${user.username} added to the channel by you.`);
 
         // 7. Logout
-        cy.logout();
+        cy.apiLogout();
 
         // 8. Login as user added to Team
         cy.apiLogin(user.username);
@@ -105,6 +107,30 @@ describe('Teams Suite', () => {
         cy.getLastPost().should('contain', 'System').and('contain', 'You were added to the channel by @sysadmin.');
 
         // 9. Remove user from team
-        cy.removeTeamMember(teamURL, user.firstName);
+        cy.removeTeamMember(teamURL, user.username);
+    });
+
+    it('TS14633 Leave all teams', () => {
+        // 1. Login and go to /
+        cy.apiLogin('user-2');
+        cy.apiCreateTeam('test-team', 'Test Team').then(() => {
+            cy.visit('/');
+        });
+
+        function leaveAllTeams() {
+            cy.apiGetTeams().then((response) => {
+                if (response.body.length > 0) {
+                    cy.leaveTeam().then(() => leaveAllTeams());
+                }
+            });
+        }
+        leaveAllTeams();
+
+        cy.get('a.signup-team-login').should('contain', 'Create a new team');
+
+        cy.logout();
+
+        // * Ensure user is logged out
+        cy.url().should('include', 'login');
     });
 });

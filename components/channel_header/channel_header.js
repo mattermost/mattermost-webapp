@@ -173,7 +173,7 @@ export default class ChannelHeader extends React.PureComponent {
         }
     };
 
-    getPinnedPosts = (e) => {
+    showPinnedPosts = (e) => {
         e.preventDefault();
         if (this.props.rhsState === RHSStates.PIN) {
             this.props.actions.closeRightHandSide();
@@ -524,7 +524,7 @@ export default class ChannelHeader extends React.PureComponent {
                     <span
                         id='channelHeaderDropdownIcon'
                         className='fa fa-angle-down header-dropdown__icon'
-                        title={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'})}
+                        aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'})}
                     />
                 </div>
                 <ChannelHeaderDropdown/>
@@ -597,7 +597,7 @@ export default class ChannelHeader extends React.PureComponent {
                         }
                         buttonClass={'style--none ' + pinnedIconClass}
                         buttonId={'channelHeaderPinButton'}
-                        onClick={this.getPinnedPosts}
+                        onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
                     {this.state.showSearchBar ? (

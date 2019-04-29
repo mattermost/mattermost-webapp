@@ -17,6 +17,39 @@ Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPasswo
     cy.get('#post_textbox').should('be.visible');
 });
 
+Cypress.Commands.add('selectOption', (select, pos) => {
+    cy.get(`${select} option +option`).
+        eq(pos).
+        then((e) => {
+            cy.get(select).
+                select(e.val());
+        });
+});
+
+// Enable Integrations in System Console
+Cypress.Commands.add('enableIntegrations', () => {
+    cy.get('#channel_view').should('be.visible');
+    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+    cy.get('#systemConsole').should('be.visible').click();
+    cy.get('#custom > .sidebar-section > span').click();
+    cy.get('#ServiceSettings\\.EnableIncomingWebhookstrue').click();
+    cy.get('#ServiceSettings\\.EnableOutgoingWebhookstrue').click();
+    cy.get('#ServiceSettings\\.EnableCommandstrue').click();
+    cy.get('#ServiceSettings\\.EnableOAuthServiceProvidertrue').click();
+    cy.get('#saveSetting').then((btn) => {
+        if (btn.is(':disabled')) {
+            btn.click();
+        }
+    });
+});
+
+// Go to Integration Settings
+Cypress.Commands.add('toIntegrationSettings', () => {
+    cy.get('#channel_view').should('be.visible');
+    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+    cy.get('#integrations').should('be.visible').click();
+});
+
 // ***********************************************************
 // Account Settings Modal
 // ***********************************************************
@@ -311,18 +344,33 @@ Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
 });
 
 Cypress.Commands.add('removeTeamMember', (teamURL, username) => {
-    cy.logout();
+    cy.apiLogout();
     cy.apiLogin('sysadmin');
     cy.visit(`/${teamURL}`);
     cy.get('#sidebarHeaderDropdownButton').click();
     cy.get('#manageMembers').click();
     cy.focused().type(username, {force: true});
-    cy.get('#removeFromTeam').click({force: true});
+    cy.get(`#teamMembersDropdown_${username}`).click();
+    cy.get('#removeFromTeam').click();
     cy.get('.modal-header .close').click();
 });
 
 Cypress.Commands.add('getCurrentTeamId', () => {
     return cy.get('#headerTeamName').invoke('attr', 'data-teamid');
+});
+
+Cypress.Commands.add('leaveTeam', () => {
+    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+    cy.get('#sidebarDropdownMenu #leaveTeam').should('be.visible').click();
+
+    // * Check that the "leave team modal" opened up
+    cy.get('#leaveTeamModal').should('be.visible');
+
+    // 4. click on yes
+    cy.get('#leaveTeamYes').click();
+
+    // * Check that the "leave team modal" closed
+    cy.get('#leaveTeamModal').should('not.be.visible');
 });
 
 // ***********************************************************

@@ -7,11 +7,12 @@ import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles'
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Permissions} from 'mattermost-redux/constants';
+import * as PostListUtils from 'mattermost-redux/utils/post_list';
 import {canEditPost as canEditPostRedux} from 'mattermost-redux/utils/post_utils';
 
 import store from 'stores/redux_store.jsx';
 
-import Constants from 'utils/constants.jsx';
+import Constants, {PostListRowListIds} from 'utils/constants.jsx';
 import {formatWithRenderer} from 'utils/markdown';
 import MentionableRenderer from 'utils/markdown/mentionable_renderer';
 import * as Utils from 'utils/utils.jsx';
@@ -224,17 +225,32 @@ export function isErrorInvalidSlashCommand(error) {
     return false;
 }
 
-export function getClosestValidPostIndex(postIds, index) {
-    let postIndex = index;
-    while (postIndex >= 0) {
-        const postId = postIds[postIndex];
-        if (postId && postId.indexOf(Constants.PostListRowListIds.DATE_LINE) < 0 &&
-            postId.indexOf(Constants.PostListRowListIds.START_OF_NEW_MESSAGES) < 0 &&
-            postId !== 'CHANNEL_INTRO_MESSAGE' &&
-            postId !== 'MORE_MESSAGES_LOADER') {
-            break;
+// getLastPostId returns the most recent post ID in the given list of post IDs. This function is copied from
+// mattermost-redux, except it also includes additional special IDs that are only used in the web app.
+export function getLastPostId(postIds) {
+    for (let i = postIds.length - 1; i >= 0; i--) {
+        const item = postIds[i];
+
+        if (
+            PostListUtils.isStartOfNewMessages(item) ||
+            PostListUtils.isDateLine(item) ||
+            item === PostListRowListIds.CHANNEL_INTRO_MESSAGE ||
+            item === PostListRowListIds.MORE_MESSAGES_LOADER
+        ) {
+            // This is not a post at all
+            continue;
         }
-        postIndex--;
+
+        if (PostListUtils.isCombinedUserActivityPost(item)) {
+            // This is a combined post, so find the first post ID from it
+            const combinedIds = PostListUtils.getPostIdsForCombinedUserActivityPost(item);
+
+            return combinedIds[combinedIds.length - 1];
+        }
+
+        // This is a post ID
+        return item;
     }
-    return postIndex;
+
+    return '';
 }

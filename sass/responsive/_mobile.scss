@@ -1512,7 +1512,7 @@
             display: none;
 
             &.move--right {
-                display: block;
+                display: flex;
                 @include translate3d(0, 0, 0);
             }
         }
@@ -1787,6 +1787,15 @@
             a {
                 font-size: .9em;
                 padding: 6px 11px;
+            }
+        }
+    }
+
+    .emoji-picker {
+        &.emoji-picker--single {
+            .emoji-picker__inner {
+                margin-top: 59px;
+                height: calc(100vh - 60px);
             }
         }
     }

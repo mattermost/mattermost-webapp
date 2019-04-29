@@ -27,6 +27,7 @@
     position: relative;
 
     .textbox-preview-area {
+        white-space: normal;
         box-shadow: none;
         left: 0;
         position: absolute;
@@ -35,6 +36,16 @@
 
         p {
             margin: 0;
+        }
+
+        ul + p,
+        ol + p {
+            margin-top: .6em;
+        }
+
+        p + ul,
+        p + ol {
+            margin-top: .6em;
         }
     }
 
@@ -402,10 +413,18 @@
     padding: 15px;
 }
 
+.post-list__dynamic {
+    > div {
+        > div {
+            margin-bottom: 8px;
+        }
+    }
+}
+
 .post-create__container {
     @include flex(0 0 auto);
     width: 100%;
-    z-index: 7;
+    z-index: 10;
 
     label {
         font-weight: normal;
@@ -683,8 +702,6 @@
     @include clearfix;
     display: table;
     height: 100%;
-    min-height: 350px;
-    padding-bottom: .5em;
     table-layout: fixed;
     width: 100%;
 
@@ -1221,7 +1238,7 @@
     .post__content {
         display: table;
         margin: 0 auto;
-        padding: 0 5px;
+        padding: 0 8px 0 5px;
         position: relative;
         table-layout: fixed;
         width: 100%;

@@ -80,6 +80,7 @@ export default class DotMenu extends Component {
         isReadOnly: false,
         pluginMenuItems: [],
         location: Locations.CENTER,
+        enableEmojiPicker: false,
     }
 
     constructor(props) {
@@ -290,11 +291,13 @@ export default class DotMenu extends Component {
                         onClick={this.handlePermalinkMenuItemActivated}
                     />
                     <MenuItemAction
+                        id={`unpin_post_${this.props.post.id}`}
                         show={!isSystemMessage && !this.props.isReadOnly && this.props.post.is_pinned}
                         text={Utils.localizeMessage('post_info.unpin', 'Unpin')}
                         onClick={this.handlePinMenuItemActivated}
                     />
                     <MenuItemAction
+                        id={`pin_post_${this.props.post.id}`}
                         show={!isSystemMessage && !this.props.isReadOnly && !this.props.post.is_pinned}
                         text={Utils.localizeMessage('post_info.pin', 'Pin')}
                         onClick={this.handlePinMenuItemActivated}
