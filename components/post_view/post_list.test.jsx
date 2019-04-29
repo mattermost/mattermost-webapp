@@ -155,31 +155,11 @@ describe('PostList', () => {
     });
 
     describe('onItemsRendered', () => {
-        test('should set state atBottom when not visibleStopIndex is not 0', async () => {
+        test('should set state atBottom false when visibleStopIndex is not 0', async () => {
             const wrapper = shallow(<PostList {...baseProps}/>);
             wrapper.setState({atBottom: true});
             wrapper.instance().onItemsRendered({visibleStartIndex: 4, visibleStopIndex: 1});
             expect(wrapper.state('atBottom')).toEqual(false);
-        });
-    });
-
-    describe('store snapshot values on change of props for correcting scroll', () => {
-        test('Should call scrollTo when posts are added at the top', async () => {
-            const wrapper = shallow(<PostList {...baseProps}/>);
-            wrapper.instance().postlistRef = {
-                current: {
-                    scrollTop: 1000,
-                    scrollHeight: 4000,
-                },
-            };
-            wrapper.setProps({postListIds: [
-                'post1',
-                'post2',
-                'post3',
-                'post4',
-                DATE_LINE + 1551711600000,
-            ]});
-            wrapper.update();
         });
     });
 });
