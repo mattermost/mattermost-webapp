@@ -39,7 +39,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
   className="wrapper--fixed"
 >
   <div
-    className="wrapper--fixed"
+    className="wrapper--fixed "
   >
     <FormattedAdminHeader
       defaultMessage="Configuration"

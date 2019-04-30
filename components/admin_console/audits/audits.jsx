@@ -15,6 +15,7 @@ import ReloadIcon from 'components/icon/reload_icon';
 export default class Audits extends React.PureComponent {
     static propTypes = {
         isLicensed: PropTypes.bool.isRequired,
+        customWrapperClass: PropTypes.string,
 
         /*
          * Array of audits to render
@@ -36,6 +37,8 @@ export default class Audits extends React.PureComponent {
         this.state = {
             loadingAudits: true,
         };
+
+        this.props.customWrapperClass('compliance-not-licensed');
     }
 
     auditTableStyle = () => {
@@ -70,12 +73,17 @@ export default class Audits extends React.PureComponent {
         );
     }
 
-    render() {
-        let content = null;
-
+    renderComplianceReports = () => {
         if (!this.props.isLicensed) {
             return <div/>;
         }
+        return (
+            <ComplianceReports/>
+        );
+    }
+
+    render() {
+        let content = null;
 
         if (this.state.loadingAudits) {
             content = <LoadingScreen/>;
@@ -94,8 +102,7 @@ export default class Audits extends React.PureComponent {
 
         return (
             <div className='wrapper--admin'>
-                <ComplianceReports/>
-
+                {this.renderComplianceReports()}
                 <div className='panel audit-panel'>
                     <AdminHeader>
                         <FormattedMessage

@@ -74,6 +74,7 @@ export default class SchemaAdminSettings extends React.Component {
             saving: false,
             serverError: null,
             errorTooltip: false,
+            customComponentWrapperClass: '',
         };
     }
 
@@ -859,9 +860,13 @@ export default class SchemaAdminSettings extends React.Component {
         return Boolean(SchemaAdminSettings.getConfigValue(this.props.environmentConfig, path));
     };
 
+    customComponentWrapperClass = (className) => {
+        this.setState({customComponentWrapperClass: className});
+    }
+
     renderSettingsWrapper = () => {
         return (
-            <div className='wrapper--fixed'>
+            <div className={'wrapper--fixed ' + this.state.customComponentWrapperClass}>
                 {this.renderTitle()}
                 <form
                     className='form-horizontal'
@@ -908,7 +913,10 @@ export default class SchemaAdminSettings extends React.Component {
             return (
                 <React.Fragment>
                     {this.renderSettingsWrapper()}
-                    <CustomComponent {...this.props}/>
+                    <CustomComponent
+                        {...this.props}
+                        customWrapperClass={this.customComponentWrapperClass}
+                    />
                 </React.Fragment>
             );
         }

@@ -5,7 +5,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
   className="wrapper--fixed"
 >
   <div
-    className="wrapper--fixed"
+    className="wrapper--fixed "
   >
     <AdminHeader>
       testplugin
@@ -228,7 +228,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
   className="wrapper--fixed"
 >
   <div
-    className="wrapper--fixed"
+    className="wrapper--fixed "
   >
     <AdminHeader>
       testplugin
@@ -286,7 +286,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
   className="wrapper--fixed"
 >
   <div
-    className="wrapper--fixed"
+    className="wrapper--fixed "
   >
     <AdminHeader>
       testplugin

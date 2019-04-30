@@ -3358,6 +3358,7 @@ export default {
             schema: {
                 id: 'Audits',
                 component: Audits,
+                isHidden: it.isnt(it.licensedForFeature('Compliance')),
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_BANNER,
@@ -3365,7 +3366,7 @@ export default {
                         label_markdown: true,
                         label_default: 'This feature is replaced by a new [Compliance Export]({siteURL}/admin_console/compliance/export) feature, and will be removed in a future release. We recommend migrating to the new system.',
                         label_values: {siteURL: getSiteURL()},
-                        isHidden: it.isnt(it.licensed),
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
                         banner_type: 'info',
                     },
                     {
@@ -3376,7 +3377,7 @@ export default {
                         help_text: t('admin.compliance.enableDesc'),
                         help_text_default: 'When true, Mattermost allows compliance reporting from the **Compliance and Auditing** tab. See [documentation](!https://docs.mattermost.com/administration/compliance.html) to learn more.',
                         help_text_markdown: true,
-                        isHidden: it.isnt(it.licensed),
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3388,7 +3389,7 @@ export default {
                         placeholder: t('admin.compliance.directoryExample'),
                         placeholder_default: 'E.g.: "./data/"',
                         isDisabled: it.stateIsFalse('ComplianceSettings.Enable'),
-                        isHidden: it.isnt(it.licensed),
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3398,7 +3399,7 @@ export default {
                         help_text: t('admin.compliance.enableDailyDesc'),
                         help_text_default: 'When true, Mattermost will generate a daily compliance report.',
                         isDisabled: it.stateIsFalse('ComplianceSettings.Enable'),
-                        isHidden: it.isnt(it.licensed),
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
                     },
                 ],
             },
