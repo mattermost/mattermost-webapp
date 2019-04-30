@@ -13,6 +13,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MailIcon from 'components/svg/mail_icon';
 import MailPlusIcon from 'components/svg/mail_plus_icon';
 
+import {t} from 'utils/i18n.jsx';
+
 import './emails_input.scss';
 
 export default class EmailsInput extends React.Component {
@@ -20,6 +22,10 @@ export default class EmailsInput extends React.Component {
         placeholder: PropTypes.string,
         onChange: PropTypes.func,
         value: PropTypes.arrayOf(PropTypes.string),
+        noOptionsMessageId: PropTypes.string,
+        noOptionsMessageDefault: PropTypes.string,
+        validAddressMessageId: PropTypes.string,
+        validAddressMessageDefault: PropTypes.string,
     }
 
     getCreateLabel = (value) => (
@@ -27,25 +33,23 @@ export default class EmailsInput extends React.Component {
             <MailPlusIcon className='mail-plus-icon'/>
             <FormattedMarkdownMessage
                 key='widgets.emails_input.valid_email'
-                id='widgets.emails_input.valid_email'
-                defaultMessage='Invite **{email}** as a channel guest'
+                id={this.props.validAddressMessageId || t('widgets.emails_input.valid_email')}
+                defaultMessage={this.props.validAddressMessageDefault || 'Add **{email}** email address'}
                 values={{email: value}}
             />
         </React.Fragment>
     );
 
-    NoOptionsMessage = (props) => (
-        <FormattedMessage
-            id='widgets.emails_input.invalid_email'
-            defaultMessage='Type a valid email address to invite new people'
-        >
-            {(message) => (
-                <components.NoOptionsMessage {...props}>
-                    {message}
-                </components.NoOptionsMessage>
-            )}
-        </FormattedMessage>
-    );
+    NoOptionsMessage = (props) => {
+        return (
+            <components.NoOptionsMessage {...props}>
+                <FormattedMessage
+                    id={this.props.noOptionsMessageId || t('widgets.emails_input.invalid_email')}
+                    defaultMessage={this.props.noOptionsMessageDefault || 'Type a valid email address'}
+                />
+            </components.NoOptionsMessage>
+        );
+    }
 
     MultiValueLabel = (props) => (
         <React.Fragment>
