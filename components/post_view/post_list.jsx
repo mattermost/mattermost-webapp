@@ -241,9 +241,7 @@ export default class PostList extends React.PureComponent {
         if (error) {
             if (this.autoRetriesCount < MAX_NUMBER_OF_AUTO_RETRIES) {
                 this.autoRetriesCount++;
-                debounce(() => {
-                    this.loadMorePosts();
-                });
+                debounce(this.loadMorePosts());
             } else if (this.mounted) {
                 this.setState({autoRetryEnable: false});
             }
