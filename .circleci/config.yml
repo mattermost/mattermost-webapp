@@ -36,19 +36,6 @@ jobs:
       - run: |
           npm run check
 
-  i18n-check:
-    executor:
-      name: default
-    steps:
-      - checkout
-      - *restore_cache
-      - run: |
-          cp i18n/en.json /tmp/en.json
-          mkdir -p /tmp/fake-mobile-dir/assets/base/i18n/
-          echo '{}' > /tmp/fake-mobile-dir/assets/base/i18n/en.json
-          npm run mmjstool -- i18n extract-webapp --webapp-dir . --mobile-dir /tmp/fake-mobile-dir
-          diff /tmp/en.json i18n/en.json
-
   test:
     executor:
       name: default
@@ -96,12 +83,9 @@ workflows:
       - lint:
           requires:
             - install
-      - i18n-check:
-          requires:
-            - lint
       - test:
           requires:
-            - i18n-check
+            - lint
       - build:
           requires:
             - test
