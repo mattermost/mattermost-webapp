@@ -284,7 +284,6 @@
     }
 
     .post-list-holder-by-time {
-        -webkit-overflow-scrolling: touch;
         height: 100%;
         width: 100%;
         position: absolute;
@@ -411,14 +410,6 @@
 
 .post-create-message {
     padding: 15px;
-}
-
-.post-list__dynamic {
-    > div {
-        > div {
-            margin-bottom: 8px;
-        }
-    }
 }
 
 .post-create__container {
@@ -700,13 +691,12 @@
 
 .post-list__table {
     @include clearfix;
-    display: table;
     height: 100%;
-    table-layout: fixed;
     width: 100%;
 
     .post-list__content {
-        display: table-cell;
+        height: 100%;
+        overflow: hidden;
 
         .dropdown-menu {
             &.bottom {
