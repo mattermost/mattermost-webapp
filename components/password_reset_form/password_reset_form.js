@@ -6,20 +6,27 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import {resetPassword} from 'actions/user_actions.jsx';
+import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import {t} from 'utils/i18n.jsx';
 
-class PasswordResetForm extends React.Component {
+export default class PasswordResetForm extends React.PureComponent {
+    static propTypes = {
+        location: PropTypes.object.isRequired,
+        siteName: PropTypes.string,
+        actions: PropTypes.shape({
+            resetUserPassword: PropTypes.func.isRequired,
+        }).isRequired,
+    };
+
     constructor(props) {
         super(props);
-
-        this.state = {};
+        this.state = {error: null};
     }
 
-    handlePasswordReset = (e) => {
+    handlePasswordReset = async (e) => {
         e.preventDefault();
 
         const password = ReactDOM.findDOMNode(this.refs.password).value;
@@ -38,24 +45,20 @@ class PasswordResetForm extends React.Component {
             return;
         }
 
-        this.setState({
-            error: null,
-        });
+        this.setState({error: null});
 
-        resetPassword(
-            (new URLSearchParams(this.props.location.search)).get('token'),
-            password,
-            () => {
-                this.setState({error: null});
-            },
-            (err) => {
-                this.setState({error: err.message});
-            }
-        );
+        const token = (new URLSearchParams(this.props.location.search)).get('token');
+        const {data, error} = await this.props.actions.resetUserPassword(token, password);
+        if (data) {
+            browserHistory.push('/login?extra=' + Constants.PASSWORD_CHANGE);
+            this.setState({error: null});
+        } else if (error) {
+            this.setState({error: error.message});
+        }
     }
 
     render() {
-        var error = null;
+        let error = null;
         if (this.state.error) {
             error = (
                 <div className='form-group has-error'>
@@ -66,7 +69,7 @@ class PasswordResetForm extends React.Component {
             );
         }
 
-        var formClass = 'form-group';
+        let formClass = 'form-group';
         if (error) {
             formClass += ' has-error';
         }
@@ -119,10 +122,3 @@ class PasswordResetForm extends React.Component {
         );
     }
 }
-
-PasswordResetForm.propTypes = {
-    location: PropTypes.object.isRequired,
-    siteName: PropTypes.string,
-};
-
-export default PasswordResetForm;
