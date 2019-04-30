@@ -187,6 +187,7 @@ export const ModalIdentifiers = {
     REMOVED_FROM_CHANNEL: 'removed_from_channel',
     EMAIL_INVITE: 'email_invite',
     INTERACTIVE_DIALOG: 'interactive_dialog',
+    ADD_TEAMS_TO_SCHEME: 'add_teams_to_scheme',
 };
 
 export const UserStatuses = {
