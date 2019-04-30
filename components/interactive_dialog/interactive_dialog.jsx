@@ -17,7 +17,7 @@ export default class InteractiveDialog extends React.Component {
     static propTypes = {
         url: PropTypes.string.isRequired,
         callbackId: PropTypes.string,
-        elements: PropTypes.arrayOf(PropTypes.object).isRequired,
+        elements: PropTypes.arrayOf(PropTypes.object),
         title: PropTypes.string.isRequired,
         iconUrl: PropTypes.string,
         submitLabel: PropTypes.string,
