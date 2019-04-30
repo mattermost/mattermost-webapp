@@ -5,7 +5,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import {PermissionsScope} from 'utils/constants.jsx';
+import {PermissionsScope, ModalIdentifiers} from 'utils/constants.jsx';
+
 import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
@@ -360,6 +361,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
             <div className='wrapper--fixed'>
                 {this.state.addTeamOpen &&
                     <TeamSelectorModal
+                        modalID={ModalIdentifiers.ADD_TEAMS_TO_SCHEME}
                         onModalDismissed={this.closeAddTeam}
                         onTeamsSelected={this.addTeams}
                         currentSchemeId={this.props.schemeId}
