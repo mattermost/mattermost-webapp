@@ -41,6 +41,9 @@ export default class ShowMore extends React.PureComponent {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
+        if (this.overflowRef) {
+            window.cancelAnimationFrame(this.overflowRef);
+        }
     }
 
     toggleCollapse = (e) => {
@@ -53,18 +56,23 @@ export default class ShowMore extends React.PureComponent {
     };
 
     checkTextOverflow = () => {
-        const textContainer = this.refs.textContainer;
-        let isOverflow = false;
-
-        if (textContainer && textContainer.scrollHeight > this.props.maxHeight) {
-            isOverflow = true;
+        if (this.overflowRef) {
+            window.cancelAnimationFrame(this.overflowRef);
         }
+        this.overflowRef = window.requestAnimationFrame(() => {
+            const textContainer = this.refs.textContainer;
+            let isOverflow = false;
 
-        if (isOverflow !== this.state.isOverflow) {
-            this.setState({
-                isOverflow,
-            });
-        }
+            if (textContainer && textContainer.scrollHeight > this.props.maxHeight) {
+                isOverflow = true;
+            }
+
+            if (isOverflow !== this.state.isOverflow) {
+                this.setState({
+                    isOverflow,
+                });
+            }
+        });
     };
 
     handleResize = () => {

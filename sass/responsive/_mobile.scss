@@ -165,6 +165,12 @@
                     border-right: none;
                 }
             }
+
+            .post-body__actions {
+                .Menu.dropdown-menu {
+                    max-height: 80vh;
+                }
+            }
         }
 
         .msg-typing {

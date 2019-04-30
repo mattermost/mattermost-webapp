@@ -197,7 +197,7 @@ export default class SearchResults extends React.PureComponent {
         }
 
         let loadingMorePostsComponent = null;
-        if (!this.props.isSearchAtEnd) {
+        if (!this.props.isSearchAtEnd && !this.props.isFlaggedPosts && !this.props.isPinnedPosts) {
             loadingMorePostsComponent = (
                 <div className='loading-screen'>
                     <div className='loading__content'>
