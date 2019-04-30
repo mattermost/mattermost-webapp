@@ -193,6 +193,7 @@ export default class UsersEmailsInput extends React.Component {
                 getOptionValue={this.getOptionValue}
                 formatOptionLabel={this.formatOptionLabel}
                 defaultOptions={true}
+                loadingMessage={this.loadingMessage}
                 value={values}
             />
         );
