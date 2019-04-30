@@ -73,8 +73,8 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const wrapper = shallow(<AdvancedSettingsDisplay {...requiredProps}/>);
 
         wrapper.instance().handleDeactivateAccountSubmit();
-        expect(requiredProps.actions.revokeAllSessions).toHaveBeenCalled();
-        expect(requiredProps.actions.revokeAllSessions).toHaveBeenCalledWith(requiredProps.currentUser.id);
+        expect(requiredProps.actions.revokeAllSessionsForUser).toHaveBeenCalled();
+        expect(requiredProps.actions.revokeAllSessionsForUser).toHaveBeenCalledWith(requiredProps.currentUser.id);
     });
 
     test('handleDeactivateAccountSubmit() should have updated state.serverError', async () => {
