@@ -122,6 +122,13 @@ export default class PostHeader extends React.PureComponent {
                     />
                 </div>
             );
+        } else if (isSystemMessage && this.props.isBot) {
+            userProfile = (
+                <UserProfile
+                    userId={post.user_id}
+                    hideStatus={true}
+                />
+            );
         } else if (isSystemMessage) {
             userProfile = (
                 <UserProfile
