@@ -6,11 +6,7 @@
     height: 100%;
     background: white;
     z-index: 1000;
-    display: none;
 
-    .show {
-        display: block;
-    }
     .close-x {
         position: absolute;
         top: 58px;
@@ -21,5 +17,21 @@
             height: 32px;
             opacity: .6;
         }
+    }
+
+    // Animation
+    &-enter, &-appear {
+        opacity: 0;
+    }
+    &-enter-active, &-appear-active {
+        opacity: 1;
+        transition: opacity 100ms;
+    }
+    &-exit {
+        opacity: 1;
+    }
+    &-exit-active {
+        opacity: 0;
+        transition: opacity 100ms;
     }
 }

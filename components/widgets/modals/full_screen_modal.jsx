@@ -3,10 +3,14 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {CSSTransition} from 'react-transition-group';
 
 import CloseIcon from 'components/svg/close_icon';
 
 import './full_screen_modal.scss';
+
+// This must be on sync with the animation time in ./full_screen_modal.scss
+const ANIMATION_DURATION = 100;
 
 export default class FullScreenModal extends React.Component {
     static propTypes = {
@@ -35,14 +39,22 @@ export default class FullScreenModal extends React.Component {
 
     render() {
         return (
-            <div className={'FullScreenModal' + (this.props.show ? ' show' : '')}>
-                {this.props.show &&
+            <CSSTransition
+                in={this.props.show}
+                classNames='FullScreenModal'
+                mountOnEnter={true}
+                unmountOnExit={true}
+                timeout={ANIMATION_DURATION}
+                appear={true}
+            >
+                <div className='FullScreenModal'>
                     <CloseIcon
                         className='close-x'
                         onClick={this.close}
-                    />}
-                {this.props.show && this.props.children}
-            </div>
+                    />
+                    {this.props.children}
+                </div>
+            </CSSTransition>
         );
     }
 }
