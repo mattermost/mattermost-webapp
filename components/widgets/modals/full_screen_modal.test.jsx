@@ -19,15 +19,24 @@ describe('components/widgets/modals/FullScreenModal', () => {
             </FullScreenModal>
         );
         expect(wrapper).toMatchInlineSnapshot(`
-<div
-  className="FullScreenModal show"
+<CSSTransition
+  appear={true}
+  classNames="FullScreenModal"
+  in={true}
+  mountOnEnter={true}
+  timeout={100}
+  unmountOnExit={true}
 >
-  <CloseIcon
-    className="close-x"
-    onClick={[Function]}
-  />
-  test
-</div>
+  <div
+    className="FullScreenModal"
+  >
+    <CloseIcon
+      className="close-x"
+      onClick={[Function]}
+    />
+    test
+  </div>
+</CSSTransition>
 `);
     });
     test('not showing content', () => {
@@ -40,9 +49,24 @@ describe('components/widgets/modals/FullScreenModal', () => {
             </FullScreenModal>
         );
         expect(wrapper).toMatchInlineSnapshot(`
-<div
-  className="FullScreenModal"
-/>
+<CSSTransition
+  appear={true}
+  classNames="FullScreenModal"
+  in={false}
+  mountOnEnter={true}
+  timeout={100}
+  unmountOnExit={true}
+>
+  <div
+    className="FullScreenModal"
+  >
+    <CloseIcon
+      className="close-x"
+      onClick={[Function]}
+    />
+    test
+  </div>
+</CSSTransition>
 `);
     });
     test('close on close icon click', () => {
