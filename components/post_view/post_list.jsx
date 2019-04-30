@@ -28,14 +28,14 @@ const HEIGHT_TRIGGER_FOR_MORE_POSTS = window.HEIGHT_TRIGGER_FOR_MORE_POSTS || 10
 
 const postListHeightChangeForPadding = 21;
 
+const postListStyle = {
+    padding: '14px 0px 7px', //21px of height difference from autosized list compared to DynamicSizeList. If this is changed change the above variable postListHeightChangeForPadding accordingly
+};
+
 const virtListStyles = {
     position: 'absolute',
     bottom: '0',
     maxHeight: '100%',
-};
-
-const postListStyle = {
-    padding: '14px 0px 7px', //21px of height difference from autosized list below at DynamicSizeList height change postListHeightChangeForPadding accordingly
 };
 
 export default class PostList extends React.PureComponent {
