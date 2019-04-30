@@ -29,7 +29,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         totalUsers: 10,
         actions: {
             updateUserActive: jest.fn(() => Promise.resolve({})),
-            revokeAllSessions: jest.fn().mockResolvedValue({data: true}),
+            revokeAllSessionsForUser: jest.fn().mockResolvedValue({data: true}),
         },
     };
 
@@ -86,14 +86,14 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
 
         await wrapper.instance().handleRevokeSessions();
 
-        expect(requiredProps.actions.revokeAllSessions).toHaveBeenCalled();
-        expect(requiredProps.actions.revokeAllSessions).toHaveBeenCalledWith(requiredProps.user.id);
+        expect(requiredProps.actions.revokeAllSessionsForUser).toHaveBeenCalled();
+        expect(requiredProps.actions.revokeAllSessionsForUser).toHaveBeenCalledWith(requiredProps.user.id);
     });
 
     test('handleRevokeSessions() should have called onError', async () => {
-        const revokeAllSessions = jest.fn().mockResolvedValue({error: {}});
+        const revokeAllSessionsForUser = jest.fn().mockResolvedValue({error: {}});
         const onError = jest.fn();
-        const props = {...requiredProps, onError, actions: {...requiredProps.actions, revokeAllSessions}};
+        const props = {...requiredProps, onError, actions: {...requiredProps.actions, revokeAllSessionsForUser}};
         const wrapper = shallow(<SystemUsersDropdown {...props}/>);
 
         await wrapper.instance().handleRevokeSessions();
