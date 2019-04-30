@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'react-window';
+
 import {debounce} from 'mattermost-redux/actions/helpers';
+import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 
@@ -128,6 +130,8 @@ export default class PostList extends React.PureComponent {
         this.props.actions.checkAndSetMobileView();
 
         window.addEventListener('resize', this.handleWindowResize);
+
+        EventEmitter.addListener('scroll_post_list_to_bottom', this.scrollToBottom);
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState) {
@@ -170,6 +174,8 @@ export default class PostList extends React.PureComponent {
     componentWillUnmount() {
         this.mounted = false;
         window.removeEventListener('resize', this.handleWindowResize);
+
+        EventEmitter.removeListener('scroll_post_list_to_bottom', this.scrollToBottom);
     }
 
     static getDerivedStateFromProps(props, state) {
