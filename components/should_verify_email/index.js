@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {sendVerificationEmail} from 'mattermost-redux/actions/users';
 
-import ShouldVerifyEmail from './should_verify_email.jsx';
+import ShouldVerifyEmail from './should_verify_email';
 
 const mapStateToProps = (state) => {
     const {SiteName: siteName} = getConfig(state);
