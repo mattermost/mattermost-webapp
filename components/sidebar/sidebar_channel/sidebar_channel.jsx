@@ -76,6 +76,11 @@ export default class SidebarChannel extends React.PureComponent {
         channelTeammateDeletedAt: PropTypes.number,
 
         /**
+         * Teammate is_bot (for direct messages)
+         */
+        channelTeammateIsBot: PropTypes.bool,
+
+        /**
          * Whether the channel contains a draft in the center channel
          */
         hasDraft: PropTypes.bool.isRequired,
@@ -137,6 +142,8 @@ export default class SidebarChannel extends React.PureComponent {
 
         channelIsArchived: PropTypes.bool.isRequired,
 
+        redirectChannel: PropTypes.string.isRequired,
+
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
             leaveChannel: PropTypes.func.isRequired,
@@ -181,7 +188,7 @@ export default class SidebarChannel extends React.PureComponent {
         }
 
         if (this.props.active) {
-            browserHistory.push(`/${this.props.currentTeamName}/channels/${Constants.DEFAULT_CHANNEL}`);
+            browserHistory.push(`/${this.props.currentTeamName}/channels/${this.props.redirectChannel}`);
         }
     }
 
@@ -296,6 +303,7 @@ export default class SidebarChannel extends React.PureComponent {
                     membersCount={this.props.membersCount}
                     teammateId={this.props.channelTeammateId}
                     teammateDeletedAt={this.props.channelTeammateDeletedAt}
+                    teammateIsBot={this.props.channelTeammateIsBot}
                     channelIsArchived={this.props.channelIsArchived}
                 />
                 {tutorialTip}

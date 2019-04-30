@@ -63,6 +63,13 @@ const holders = defineMessages({
 
 const OVERLAY_TIMEOUT = 500;
 
+const customStyles = {
+    left: 'inherit',
+    right: 0,
+    bottom: '100%',
+    top: 'auto',
+};
+
 export default class FileUpload extends PureComponent {
     static propTypes = {
 
@@ -362,12 +369,25 @@ export default class FileUpload extends PureComponent {
             files.push(file);
         });
 
+        const types = e.originalEvent.dataTransfer.types;
+        if (types) {
+            // For non-IE browsers
+            if (types.includes && !types.includes('Files')) {
+                return;
+            }
+
+            // For IE browsers
+            if (types.contains && !types.contains('Files')) {
+                return;
+            }
+        }
+
         if (files.length === 0) {
             this.props.onUploadError(localizeMessage('file_upload.drag_folder', 'Folders cannot be uploaded. Please drag all files separately.'));
             return;
         }
 
-        if (typeof files !== 'string' && files.length) {
+        if (files.length) {
             this.checkPluginHooksAndUploadFiles(files);
         }
 
@@ -603,7 +623,7 @@ export default class FileUpload extends PureComponent {
                         }}
                     >
                         <a>
-                            {item.icon}
+                            <span className='margin-right'>{item.icon}</span>
                             {item.text}
                         </a>
                     </li>
@@ -637,10 +657,11 @@ export default class FileUpload extends PureComponent {
                             openLeft={true}
                             openUp={true}
                             ariaLabel={formatMessage({id: 'file_upload.menuAriaLabel', defaultMessage: 'Upload type selector'})}
+                            customStyles={customStyles}
                         >
                             <li>
                                 <a onClick={this.simulateInputClick}>
-                                    <i className='fa fa-laptop'/>
+                                    <span className='margin-right'><i className='fa fa-laptop'/></span>
                                     <FormattedMessage
                                         id='yourcomputer'
                                         defaultMessage='Your computer'

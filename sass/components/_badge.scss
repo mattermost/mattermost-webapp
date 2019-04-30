@@ -2,13 +2,14 @@
     .badge {
         @include border-radius(100px);
         font-size: 11px;
-        height: 17px;
+        height: 18px;
         min-width: 18px;
         padding: 0 5px;
         position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
+        line-height: 18px;
     }
 
     .team-sidebar {

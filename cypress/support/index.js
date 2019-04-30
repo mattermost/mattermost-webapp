@@ -5,7 +5,8 @@
 // Read more at: https://on.cypress.io/configuration
 // ***********************************************************
 
-import './commands';
+import './ui_commands';
+import './api_commands';
 import './validators';
 
 // Add login cookies to whitelist to preserve it

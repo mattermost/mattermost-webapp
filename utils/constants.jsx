@@ -25,6 +25,7 @@ import windows10ThemeImage from 'images/themes/windows_dark.png';
 import logoWebhook from 'images/webhook_icon.jpg';
 
 import Permissions from 'mattermost-redux/constants/permissions';
+import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import {t} from 'utils/i18n';
 
@@ -107,14 +108,6 @@ export const ActionTypes = keyMirror({
 
     UPDATE_MOBILE_VIEW: null,
 
-    SEARCH_FLAGGED_POSTS_REQUEST: null,
-    SEARCH_FLAGGED_POSTS_SUCCESS: null,
-    SEARCH_FLAGGED_POSTS_FAILURE: null,
-
-    SEARCH_PINNED_POSTS_REQUEST: null,
-    SEARCH_PINNED_POSTS_SUCCESS: null,
-    SEARCH_PINNED_POSTS_FAILURE: null,
-
     SET_NAVIGATION_BLOCKED: null,
     DEFER_NAVIGATION: null,
     CANCEL_NAVIGATION: null,
@@ -194,6 +187,7 @@ export const ModalIdentifiers = {
     REMOVED_FROM_CHANNEL: 'removed_from_channel',
     EMAIL_INVITE: 'email_invite',
     INTERACTIVE_DIALOG: 'interactive_dialog',
+    ADD_TEAMS_TO_SCHEME: 'add_teams_to_scheme',
 };
 
 export const UserStatuses = {
@@ -383,7 +377,6 @@ export const AnnouncementBarMessages = {
     LICENSE_EXPIRING: t('announcement_bar.error.license_expiring'),
     LICENSE_PAST_GRACE: t('announcement_bar.error.past_grace'),
     PREVIEW_MODE: t('announcement_bar.error.preview_mode'),
-    SITE_URL: t('announcement_bar.error.site_url'),
     WEBSOCKET_PORT_ERROR: t('channel_loader.socketError'),
 };
 
@@ -478,6 +471,10 @@ export const PermissionsScope = {
     [Permissions.CREATE_GROUP_CHANNEL]: 'system_scope',
     [Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]: 'channel_scope',
     [Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES]: 'channel_scope',
+    [Permissions.LIST_PUBLIC_TEAMS]: 'system_scope',
+    [Permissions.JOIN_PUBLIC_TEAMS]: 'system_scope',
+    [Permissions.LIST_PRIVATE_TEAMS]: 'system_scope',
+    [Permissions.JOIN_PRIVATE_TEAMS]: 'system_scope',
     [Permissions.LIST_TEAM_CHANNELS]: 'team_scope',
     [Permissions.JOIN_PUBLIC_CHANNELS]: 'team_scope',
     [Permissions.DELETE_PUBLIC_CHANNEL]: 'channel_scope',
@@ -549,6 +546,8 @@ export const DefaultRolePermissions = {
         Permissions.EDIT_POST,
         Permissions.MANAGE_CREATE_EMOJIS,
         Permissions.MANAGE_DELETE_EMOJIS,
+        Permissions.LIST_PUBLIC_TEAMS,
+        Permissions.JOIN_PUBLIC_TEAMS,
     ],
     channel_admin: [
         Permissions.MANAGE_CHANNEL_ROLES,
@@ -576,6 +575,15 @@ export const Locations = {
     SEARCH: 'SEARCH',
 };
 
+export const PostListRowListIds = {
+    DATE_LINE: PostListUtils.DATE_LINE,
+    START_OF_NEW_MESSAGES: PostListUtils.START_OF_NEW_MESSAGES,
+    CHANNEL_INTRO_MESSAGE: 'CHANNEL_INTRO_MESSAGE',
+    MORE_MESSAGES_LOADER: 'MORE_MESSAGES_LOADER',
+    MAX_MESSAGES_LOADED: 'MAX_MESSAGES_LOADED',
+    MANUAL_TRIGGER_LOAD_MESSAGES: 'MANUAL_TRIGGER_LOAD_MESSAGES',
+};
+
 export const Constants = {
     SettingsTypes,
     JobTypes,
@@ -591,7 +599,7 @@ export const Constants = {
     AnnouncementBarMessages,
     FileTypes,
     Locations,
-
+    PostListRowListIds,
     MAX_POST_VISIBILITY: 1000000,
 
     IGNORE_POST_TYPES: [PostTypes.JOIN_LEAVE, PostTypes.JOIN_TEAM, PostTypes.LEAVE_TEAM, PostTypes.JOIN_CHANNEL, PostTypes.LEAVE_CHANNEL, PostTypes.REMOVE_FROM_CHANNEL, PostTypes.ADD_REMOVE],
@@ -1161,6 +1169,7 @@ export const Constants = {
         INCOMING_WEBHOOK: 'incoming_webhooks',
         OUTGOING_WEBHOOK: 'outgoing_webhooks',
         OAUTH_APP: 'oauth2-apps',
+        BOT: 'bots',
     },
     FeatureTogglePrefix: 'feature_enabled_',
     PRE_RELEASE_FEATURES: {
@@ -1220,6 +1229,7 @@ export const Constants = {
     DEFAULT_NOTIFICATION_DURATION: 5000,
     STATUS_INTERVAL: 60000,
     AUTOCOMPLETE_TIMEOUT: 100,
+    AUTOCOMPLETE_SPLIT_CHARACTERS: ['.', '-', '_'],
     ANIMATION_TIMEOUT: 1000,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
     DIAGNOSTICS_SEGMENT_KEY: 'placeholder_segment_key',
@@ -1233,6 +1243,8 @@ export const Constants = {
     TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
     TRIPLE_BACK_TICKS: /```/g,
 };
+
+export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
 
 t('suggestion.mention.channels');
 t('suggestion.mention.morechannels');

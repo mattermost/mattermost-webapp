@@ -569,3 +569,139 @@ describe('Utils.localizeMessage', () => {
         });
     });
 });
+
+describe('Utils.isDevMode', () => {
+    const originalGetState = store.getState;
+
+    afterAll(() => {
+        store.getState = originalGetState;
+    });
+
+    describe('dev mode off', () => {
+        beforeAll(() => {
+            store.getState = () => ({
+                entities: {
+                    general: {
+                        config: {},
+                    },
+                },
+            });
+        });
+
+        test('with missing EnableDeveloper field', () => {
+            expect(Utils.isDevMode()).toEqual(false);
+        });
+
+        test('with EnableDeveloper field set to false', () => {
+            store.getState = () => ({
+                entities: {
+                    general: {
+                        config: {
+                            EnableDeveloper: 'false',
+                        },
+                    },
+                },
+            });
+            expect(Utils.isDevMode()).toEqual(false);
+        });
+
+        test('with EnableDeveloper field set to false bool', () => {
+            store.getState = () => ({
+                entities: {
+                    general: {
+                        config: {
+                            EnableDeveloper: false,
+                        },
+                    },
+                },
+            });
+            expect(Utils.isDevMode()).toEqual(false);
+        });
+
+        test('with EnableDeveloper field set to true bool', () => {
+            store.getState = () => ({
+                entities: {
+                    general: {
+                        config: {
+                            EnableDeveloper: true,
+                        },
+                    },
+                },
+            });
+            expect(Utils.isDevMode()).toEqual(false);
+        });
+
+        test('with EnableDeveloper field set to null', () => {
+            store.getState = () => ({
+                entities: {
+                    general: {
+                        config: {
+                            EnableDeveloper: null,
+                        },
+                    },
+                },
+            });
+            expect(Utils.isDevMode()).toEqual(false);
+        });
+    });
+
+    describe('dev mode on', () => {
+        beforeAll(() => {
+            store.getState = () => ({
+                entities: {
+                    general: {
+                        config: {},
+                    },
+                },
+            });
+        });
+
+        test('with EnableDeveloper field set to true text', () => {
+            store.getState = () => ({
+                entities: {
+                    general: {
+                        config: {
+                            EnableDeveloper: 'true',
+                        },
+                    },
+                },
+            });
+            expect(Utils.isDevMode()).toEqual(true);
+        });
+    });
+});
+
+describe('Utils.enableDevModeFeatures', () => {
+    const cleanUp = () => {
+        delete Map.prototype.length;
+        delete Set.prototype.length;
+    };
+
+    beforeEach(cleanUp);
+    afterEach(cleanUp);
+
+    describe('with DevModeFeatures', () => {
+        beforeEach(cleanUp);
+        afterEach(cleanUp);
+
+        test('invoke Map.Length', () => {
+            Utils.enableDevModeFeatures();
+            expect(() => new Map().length).toThrow(Error);
+        });
+
+        test('invoke Set.Length', () => {
+            Utils.enableDevModeFeatures();
+            expect(() => new Set().length).toThrow(Error);
+        });
+    });
+
+    describe('without DevModeFeatures', () => {
+        test('invoke Map.Length', () => {
+            expect(new Map().length).toEqual(undefined);
+        });
+
+        test('invoke Set.Length', () => {
+            expect(new Set().length).toEqual(undefined);
+        });
+    });
+});

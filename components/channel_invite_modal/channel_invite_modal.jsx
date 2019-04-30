@@ -142,6 +142,17 @@ export default class ChannelInviteModal extends React.Component {
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
         }
+        let tag = null;
+        if (option.is_bot) {
+            tag = (
+                <div className='bot-indicator bot-indicator__popoverlist'>
+                    <FormattedMessage
+                        id='post_info.bot'
+                        defaultMessage='BOT'
+                    />
+                </div>
+            );
+        }
 
         return (
             <div
@@ -158,6 +169,7 @@ export default class ChannelInviteModal extends React.Component {
                 <div className='more-modal__details'>
                     <div className='more-modal__name'>
                         {displayEntireNameForUser(option)}
+                        {tag}
                     </div>
                 </div>
                 <div className='more-modal__actions'>
@@ -190,6 +202,7 @@ export default class ChannelInviteModal extends React.Component {
         );
 
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
+        const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
         let users = filterProfilesMatchingTerm(this.props.profilesNotInCurrentChannel, this.state.term);
         users = users.filter((user) => user.delete_at === 0);
@@ -210,6 +223,7 @@ export default class ChannelInviteModal extends React.Component {
                 maxValues={MAX_SELECTABLE_VALUES}
                 numRemainingText={numRemainingText}
                 buttonSubmitText={buttonSubmitText}
+                buttonSubmitLoadingText={buttonSubmitLoadingText}
                 saving={this.state.saving}
                 loading={this.state.loadingUsers}
             />

@@ -2,9 +2,8 @@
 // See LICENSE.txt for license information.
 
 import {Client4} from 'mattermost-redux/client';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import store from 'stores/redux_store.jsx';
+import {isDevMode} from 'utils/utils';
 
 const SUPPORTS_CLEAR_MARKS = isSupported([performance.clearMarks]);
 const SUPPORTS_MARK = isSupported([performance.mark]);
@@ -102,10 +101,4 @@ function isSupported(checks) {
         }
     }
     return true;
-}
-
-function isDevMode() {
-    const config = getConfig(store.getState());
-
-    return config.EnableDeveloper === 'true';
 }

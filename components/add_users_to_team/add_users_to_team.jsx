@@ -158,6 +158,20 @@ export default class AddUsersToTeam extends React.Component {
             rowSelected = 'more-modal__row--selected';
         }
 
+        let tag = null;
+        let email = option.email;
+        if (option.is_bot) {
+            tag = (
+                <div className='bot-indicator bot-indicator__popoverlist'>
+                    <FormattedMessage
+                        id='post_info.bot'
+                        defaultMessage='BOT'
+                    />
+                </div>
+            );
+            email = null;
+        }
+
         return (
             <div
                 key={option.id}
@@ -175,9 +189,10 @@ export default class AddUsersToTeam extends React.Component {
                 >
                     <div className='more-modal__name'>
                         {displayEntireNameForUser(option)}
+                        {tag}
                     </div>
                     <div className='more-modal__description'>
-                        {option.email}
+                        {email}
                     </div>
                 </div>
                 <div className='more-modal__actions'>
@@ -207,6 +222,7 @@ export default class AddUsersToTeam extends React.Component {
         );
 
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
+        const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
         let users = [];
         if (this.props.users) {
@@ -256,6 +272,7 @@ export default class AddUsersToTeam extends React.Component {
                         maxValues={MAX_SELECTABLE_VALUES}
                         numRemainingText={numRemainingText}
                         buttonSubmitText={buttonSubmitText}
+                        buttonSubmitLoadingText={buttonSubmitLoadingText}
                         saving={this.state.saving}
                         loading={this.state.loadingUsers}
                     />

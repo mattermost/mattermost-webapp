@@ -55,6 +55,7 @@ export default class EmailSettings extends AdminSettings {
             enablePreviewModeBanner: config.EmailSettings.EnablePreviewModeBanner,
             feedbackName: config.EmailSettings.FeedbackName,
             feedbackEmail: config.EmailSettings.FeedbackEmail,
+            replyToAddress: config.EmailSettings.ReplyToAddress,
             feedbackOrganization: config.EmailSettings.FeedbackOrganization,
             enableSMTPAuth: config.EmailSettings.EnableSMTPAuth,
             smtpUsername: config.EmailSettings.SMTPUsername,
@@ -72,8 +73,8 @@ export default class EmailSettings extends AdminSettings {
     renderTitle() {
         return (
             <FormattedMessage
-                id='admin.notifications.email'
-                defaultMessage='Email'
+                id='admin.environment.emailNotifications'
+                defaultMessage='Email Notifications'
             />
         );
     }

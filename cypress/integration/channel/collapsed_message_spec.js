@@ -28,7 +28,7 @@ function verifyExpandedPost() {
 describe('Long message', () => {
     it('M14321 will show more/less content correctly', () => {
         // 1. Login as "user-1" and go to /
-        cy.login('user-1');
+        cy.apiLogin('user-1');
         cy.visit('/');
 
         // 2. Post message with kitchen sink markdown text

@@ -32,6 +32,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         unreadMentions: PropTypes.number,
         teammateId: PropTypes.string,
         teammateDeletedAt: PropTypes.number,
+        teammateIsBot: PropTypes.bool,
         channelIsArchived: PropTypes.bool.isRequired,
     }
 
@@ -68,6 +69,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                     membersCount={this.props.membersCount}
                     teammateId={this.props.teammateId}
                     teammateDeletedAt={this.props.teammateDeletedAt}
+                    teammateIsBot={this.props.teammateIsBot}
                 />
                 <span className='sidebar-item__name'>
                     <span>{this.props.displayName}</span>

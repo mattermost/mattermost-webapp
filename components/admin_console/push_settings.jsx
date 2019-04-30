@@ -112,8 +112,8 @@ export default class PushSettings extends AdminSettings {
     renderTitle() {
         return (
             <FormattedMessage
-                id='admin.notifications.push'
-                defaultMessage='Mobile Push'
+                id='admin.environment.pushNotifications'
+                defaultMessage='Push Notifications'
             />
         );
     }

@@ -5,7 +5,6 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
   className="test-class"
   id="sidebarItem_test-channel-name"
   onClick={[Function]}
-  replace={false}
   to="test-link"
 >
   <SidebarChannelButtonOrLinkIcon
@@ -39,7 +38,6 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
   className="test-class"
   id="sidebarItem_test-channel-name"
   onClick={[Function]}
-  replace={false}
   to="test-link"
 >
   <SidebarChannelButtonOrLinkIcon
@@ -79,7 +77,6 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
   className="test-class"
   id="sidebarItem_test-channel-name"
   onClick={[Function]}
-  replace={false}
   to="test-link"
 >
   <SidebarChannelButtonOrLinkIcon
@@ -112,7 +109,6 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
   className="test-class"
   id="sidebarItem_test-channel-name"
   onClick={[Function]}
-  replace={false}
   to="test-link"
 >
   <SidebarChannelButtonOrLinkIcon
@@ -152,7 +148,6 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
   className="test-class"
   id="sidebarItem_test-channel-name"
   onClick={[Function]}
-  replace={false}
   to="test-link"
 >
   <SidebarChannelButtonOrLinkIcon

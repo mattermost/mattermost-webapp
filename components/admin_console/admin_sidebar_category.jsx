@@ -24,12 +24,6 @@ export default class AdminSidebarCategory extends React.Component {
         };
     }
 
-    static get contextTypes() {
-        return {
-            router: PropTypes.object.isRequired,
-        };
-    }
-
     render() {
         let link = this.props.parentLink;
         let title = (

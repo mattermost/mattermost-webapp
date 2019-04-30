@@ -12,7 +12,7 @@
 describe('Message', () => {
     it('M13326 Text in bullet points is the same size as text above and below it', () => {
         // 1. Login and navigate to the app
-        cy.login('user-1');
+        cy.apiLogin('user-1');
         cy.visit('/');
 
         // 2. Enter in text
@@ -27,7 +27,7 @@ This is more normal text.`;
         cy.postMessage(messageText);
 
         // 3. Get last postId
-        cy.getLastPostId().then((postId) => {
+        cy.getLastPostIdWithRetry().then((postId) => {
             const postMessageTextId = `#postMessageText_${postId}`;
 
             //  * Verify text sizes

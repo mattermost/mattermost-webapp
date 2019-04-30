@@ -1,4 +1,4 @@
-.PHONY: build test run clean stop check-style run-unit emojis help
+.PHONY: build test run clean stop check-style run-unit emojis help package-ci
 
 BUILD_SERVER_DIR = ../mattermost-server
 BUILD_WEBAPP_DIR = ../mattermost-webapp
@@ -16,8 +16,7 @@ test: node_modules ## Runs tests
 	npm run test
 
 i18n-extract: ## Extract strings for translation from the source code
-	@[[ -d $(MM_UTILITIES_DIR) ]] || echo "You must clone github.com/mattermost/mattermost-utilities repo in .. to use this command"
-	@[[ -d $(MM_UTILITIES_DIR) ]] && cd $(MM_UTILITIES_DIR) && npm install && npm run babel && node mmjstool/build/index.js i18n extract-webapp
+	npm run mmjstool -- i18n extract-webapp
 
 node_modules: package.json package-lock.json
 	@echo Getting dependencies using npm
@@ -25,6 +24,20 @@ node_modules: package.json package-lock.json
 	npm install
 
 package: build ## Packages app
+	@echo Packaging webapp
+
+	mkdir tmp
+	mv dist tmp/client
+	tar -C tmp -czf mattermost-webapp.tar.gz client
+	mv tmp/client dist
+	rmdir tmp
+
+package-ci: ## used in the CI to build the package and bypass the npm install
+	@echo Building mattermost Webapp
+
+	rm -rf dist
+	npm run build
+
 	@echo Packaging webapp
 
 	mkdir tmp

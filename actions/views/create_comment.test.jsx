@@ -23,6 +23,7 @@ import {
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import * as PostActions from 'actions/post_actions.jsx';
 import {executeCommand} from 'actions/command';
+import * as HookActions from 'actions/hooks';
 import {StoragePrefixes} from 'utils/constants';
 
 /* eslint-disable global-require */
@@ -47,6 +48,10 @@ jest.mock('actions/command', () => ({
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitUserCommentedEvent: jest.fn(),
+}));
+
+jest.mock('actions/hooks', () => ({
+    runMessageWillBePostedHooks: jest.fn((post) => () => ({data: post})),
 }));
 
 jest.mock('actions/post_actions.jsx', () => ({
@@ -87,7 +92,9 @@ describe('rhs view actions', () => {
                     },
                 },
                 postsInChannel: {
-                    [channelId]: [latestPostId],
+                    [channelId]: [
+                        {order: [latestPostId], recent: true},
+                    ],
                 },
                 postsInThread: {},
                 messagesHistory: {
@@ -97,8 +104,14 @@ describe('rhs view actions', () => {
                     messages: ['test message'],
                 },
             },
+            preferences: {
+                myPreferences: {},
+            },
             users: {
                 currentUserId,
+                profiles: {
+                    [currentUserId]: {id: currentUserId},
+                },
             },
             teams: {
                 currentTeamId: teamId,
@@ -213,9 +226,10 @@ describe('rhs view actions', () => {
             user_id: currentUserId,
         };
 
-        test('it call PostActions.createPost with post', () => {
-            store.dispatch(submitPost(channelId, rootId, draft));
+        test('it call PostActions.createPost with post', async () => {
+            await store.dispatch(submitPost(channelId, rootId, draft));
 
+            expect(HookActions.runMessageWillBePostedHooks).toHaveBeenCalled();
             expect(PostActions.createPost).toHaveBeenCalled();
 
             expect(lastCall(PostActions.createPost.mock.calls)[0]).toEqual(
@@ -223,6 +237,15 @@ describe('rhs view actions', () => {
             );
 
             expect(lastCall(PostActions.createPost.mock.calls)[1]).toBe(draft.fileInfos);
+        });
+
+        test('it does not call PostActions.createPost when hooks fail', async () => {
+            HookActions.runMessageWillBePostedHooks.mockImplementation(() => () => ({error: {message: 'An error occurred'}}));
+
+            await store.dispatch(submitPost(channelId, rootId, draft));
+
+            expect(HookActions.runMessageWillBePostedHooks).toHaveBeenCalled();
+            expect(PostActions.createPost).not.toHaveBeenCalled();
         });
     });
 
@@ -255,8 +278,8 @@ describe('rhs view actions', () => {
 
         const draft = {message: 'test msg'};
 
-        test('it calls executeCommand', () => {
-            store.dispatch(submitCommand(channelId, rootId, draft));
+        test('it calls executeCommand', async () => {
+            await store.dispatch(submitCommand(channelId, rootId, draft));
 
             expect(executeCommand).toHaveBeenCalled();
 
@@ -267,7 +290,7 @@ describe('rhs view actions', () => {
             expect(lastCall(executeCommand.mock.calls)[1]).toEqual(args);
         });
 
-        test('it calls submitPost on error.sendMessage', () => {
+        test('it calls submitPost on error.sendMessage', async () => {
             jest.mock('actions/channel_actions.jsx', () => ({
                 executeCommand: jest.fn((message, _args, resolve, reject) => reject({sendMessage: 'test'})),
             }));
@@ -276,7 +299,7 @@ describe('rhs view actions', () => {
 
             const {submitCommand: remockedSubmitCommand} = require('actions/views/create_comment');
 
-            store.dispatch(remockedSubmitCommand(channelId, rootId, draft));
+            await store.dispatch(remockedSubmitCommand(channelId, rootId, draft));
 
             const expectedActions = [{args: ['test msg', {channel_id: '4j5j4k3k34j4', parent_id: 'fc234c34c23', root_id: 'fc234c34c23', team_id: '4j5nmn4j3'}], type: 'MOCK_ACTIONS_COMMAND_EXECUTE'}];
             expect(store.getActions()).toEqual(expectedActions);
@@ -427,16 +450,15 @@ describe('rhs view actions', () => {
         test('it dispatches the correct actions', () => {
             store.dispatch(onEditLatestPost());
 
-            const testStore = mockStore(initialState);
-            testStore.dispatch(PostActions.setEditingPost(
-                latestPostId,
-                0,
-                'reply_textbox',
-                'Comment',
-                true
-            ));
-
-            expect(store.getActions()).toEqual(testStore.getActions());
+            expect(store.getActions()).toEqual([
+                PostActions.setEditingPost(
+                    latestPostId,
+                    0,
+                    'reply_textbox',
+                    'Comment',
+                    true
+                ),
+            ]);
         });
     });
 });

@@ -23,7 +23,7 @@ function postVisibility(state = {}, action) {
         nextState[action.channelId] = Constants.POST_CHUNK_SIZE / 2;
         return nextState;
     }
-    case PostTypes.RECEIVED_POST: {
+    case PostTypes.RECEIVED_NEW_POST: {
         if (action.data && state[action.data.channel_id]) {
             const nextState = {...state};
             nextState[action.data.channel_id] += 1;

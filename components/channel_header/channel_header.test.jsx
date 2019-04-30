@@ -22,6 +22,7 @@ describe('components/ChannelHeader', () => {
             getCustomEmojisInText: jest.fn(),
             updateChannelNotifyProps: jest.fn(),
             goToLastViewedChannel: jest.fn(),
+            loadBot: jest.fn(),
         },
         teamUrl: 'team_url',
         teamId: 'team_id',

@@ -220,15 +220,16 @@
     }
 
     .heading {
-        display: inline-block;
         font-size: 14px;
         font-weight: 600;
-        margin: 0 7px 0 0;
-        max-width: calc(100% - 40px);
+        margin: 0 8px 0 0;
+        flex: 1 1 0;
         overflow: hidden;
         text-overflow: ellipsis;
-        vertical-align: top;
-        white-space: nowrap;
+    }
+
+    .bot-indicator {
+        margin-left: 0;
     }
 
     .caret {
@@ -266,6 +267,10 @@
     top: 0;
 }
 
+.channel-header__top {
+    display: flex;
+}
+
 .channel-header__info {
     margin-top: 13px;
     white-space: nowrap;
@@ -278,6 +283,7 @@
     }
 
     .header-dropdown__icon {
+        flex: 0 0 auto;
         color: $dark-gray;
     }
 
@@ -285,7 +291,7 @@
         display: flex;
 
         .channel-header__favorites {
-            flex: 0 auto;
+            flex: 0 0 auto;
         }
 
         .channel-header-archived-icon {
@@ -329,8 +335,10 @@
         height: 20px;
 
         span[data-emoticon] {
-            position: relative;
-            top: -1px;
+            .emoticon {
+                position: relative;
+                top: -1px;
+            }
         }
 
         blockquote {
@@ -535,7 +543,7 @@
 
         .dropdown-menu {
             margin: 4px 0 0 10px;
-            min-width: 199px;
+            min-width: 220px;
         }
 
         .sidebar-header-dropdown,
@@ -629,7 +637,7 @@
             display: block;
             font-size: 14px;
             font-weight: 600;
-            max-width: 100%;
+            max-width: 120px;
             overflow: hidden;
             text-decoration: none;
             text-overflow: ellipsis;

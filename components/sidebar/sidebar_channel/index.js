@@ -11,8 +11,10 @@ import {
     getChannelsNameMapInCurrentTeam,
     makeGetChannel,
     shouldHideDefaultChannel,
+    getRedirectChannelNameForTeam,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getInt, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -74,6 +76,7 @@ function makeMapStateToProps() {
         let channelTeammateId = '';
         let channelTeammateDeletedAt = 0;
         let channelTeammateUsername = '';
+        let channelTeammateIsBot = false;
         let channelDisplayName = channel.display_name;
         if (channel.type === Constants.DM_CHANNEL) {
             teammate = getUser(state, channel.teammate_id);
@@ -81,6 +84,7 @@ function makeMapStateToProps() {
                 channelTeammateId = teammate.id;
                 channelTeammateDeletedAt = teammate.delete_at;
                 channelTeammateUsername = teammate.username;
+                channelTeammateIsBot = teammate.is_bot;
             }
 
             channelDisplayName = displayUsername(teammate, teammateNameDisplay, false);
@@ -109,6 +113,7 @@ function makeMapStateToProps() {
             channelTeammateId,
             channelTeammateUsername,
             channelTeammateDeletedAt,
+            channelTeammateIsBot,
             hasDraft: draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length) && currentChannelId !== channel.id,
             showTutorialTip: enableTutorial && tutorialStep === Constants.TutorialSteps.CHANNEL_POPOVER,
             townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL] && channelsByName[Constants.DEFAULT_CHANNEL].display_name,
@@ -119,6 +124,7 @@ function makeMapStateToProps() {
             membersCount,
             shouldHideChannel,
             channelIsArchived: channel.delete_at !== 0,
+            redirectChannel: getRedirectChannelNameForTeam(state, getCurrentTeamId(state)),
         };
     };
 }

@@ -8,7 +8,7 @@ import {defineMessages, FormattedDate, FormattedMessage, injectIntl, intlShape} 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import {AcceptedProfileImageTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
@@ -93,8 +93,6 @@ const prevSections = {
     email: 'position',
     picture: 'email',
 };
-
-const ACCEPTED_PROFILE_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/bmp'];
 
 class UserSettingsGeneralTab extends React.Component {
     static propTypes = {
@@ -328,7 +326,7 @@ class UserSettingsGeneralTab extends React.Component {
         const {formatMessage} = this.props.intl;
         const file = this.state.pictureFile;
 
-        if (!ACCEPTED_PROFILE_IMAGE_TYPES.includes(file.type)) {
+        if (!AcceptedProfileImageTypes.includes(file.type)) {
             this.setState({clientError: formatMessage(holders.validImage), serverError: ''});
             return;
         } else if (file.size > this.props.maxFileSize) {
@@ -562,7 +560,7 @@ class UserSettingsGeneralTab extends React.Component {
                         key='oauthEmailInfo'
                         className='form-group'
                     >
-                        <div className='setting-list__hint col-sm-12'>
+                        <div className='setting-list__hint padding-bottom x2'>
                             <FormattedMessage
                                 id='user.settings.general.emailGitlabCantUpdate'
                                 defaultMessage='Login occurs through GitLab. Email cannot be updated. Email address used for notifications is {email}.'
@@ -580,7 +578,7 @@ class UserSettingsGeneralTab extends React.Component {
                         key='oauthEmailInfo'
                         className='form-group'
                     >
-                        <div className='setting-list__hint col-sm-12'>
+                        <div className='setting-list__hint padding-bottom x2'>
                             <FormattedMessage
                                 id='user.settings.general.emailGoogleCantUpdate'
                                 defaultMessage='Login occurs through Google Apps. Email cannot be updated. Email address used for notifications is {email}.'
@@ -598,7 +596,7 @@ class UserSettingsGeneralTab extends React.Component {
                         key='oauthEmailInfo'
                         className='form-group'
                     >
-                        <div className='setting-list__hint col-sm-12'>
+                        <div className='setting-list__hint padding-bottom x2'>
                             <FormattedMessage
                                 id='user.settings.general.emailOffice365CantUpdate'
                                 defaultMessage='Login occurs through Office 365. Email cannot be updated. Email address used for notifications is {email}.'
@@ -616,7 +614,7 @@ class UserSettingsGeneralTab extends React.Component {
                         key='oauthEmailInfo'
                         className='padding-bottom'
                     >
-                        <div className='setting-list__hint col-sm-12'>
+                        <div className='setting-list__hint padding-bottom x2'>
                             <FormattedMessage
                                 id='user.settings.general.emailLdapCantUpdate'
                                 defaultMessage='Login occurs through AD/LDAP. Email cannot be updated. Email address used for notifications is {email}.'
@@ -633,7 +631,7 @@ class UserSettingsGeneralTab extends React.Component {
                         key='oauthEmailInfo'
                         className='padding-bottom'
                     >
-                        <div className='setting-list__hint col-sm-12'>
+                        <div className='setting-list__hint padding-bottom x2'>
                             <FormattedMessage
                                 id='user.settings.general.emailSamlCantUpdate'
                                 defaultMessage='Login occurs through SAML. Email cannot be updated. Email address used for notifications is {email}.'

@@ -19,6 +19,8 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
 
+const ROWS_FROM_BOTTOM_TO_OPEN_UP = 5;
+
 export default class SystemUsersDropdown extends React.Component {
     static propTypes = {
 
@@ -72,6 +74,8 @@ export default class SystemUsersDropdown extends React.Component {
          */
         onError: PropTypes.func.isRequired,
         currentUser: PropTypes.object.isRequired,
+        index: PropTypes.number.isRequired,
+        totalUsers: PropTypes.number.isRequired,
         actions: PropTypes.shape({
             updateUserActive: PropTypes.func.isRequired,
             revokeAllSessions: PropTypes.func.isRequired,
@@ -317,6 +321,7 @@ export default class SystemUsersDropdown extends React.Component {
         if (!user) {
             return <div/>;
         }
+
         let currentRoles = (
             <FormattedMessage
                 id='admin.user_item.member'
@@ -337,7 +342,7 @@ export default class SystemUsersDropdown extends React.Component {
         let showMakeNotActive = !Utils.isSystemAdmin(user.roles);
         let showManageTeams = true;
         let showRevokeSessions = true;
-        const showMfaReset = this.props.mfaEnabled && user.mfa_active;
+        const showMfaReset = this.props.mfaEnabled && Boolean(user.mfa_active);
 
         if (user.delete_at > 0) {
             currentRoles = (
@@ -360,21 +365,30 @@ export default class SystemUsersDropdown extends React.Component {
         const deactivateMemberModal = this.renderDeactivateMemberModal();
         const revokeSessionsModal = this.renderRevokeSessionsModal();
 
+        const {index, totalUsers} = this.props;
+        let openUp = false;
+        if (totalUsers > ROWS_FROM_BOTTOM_TO_OPEN_UP && totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP) {
+            openUp = true;
+        }
+
         return (
             <React.Fragment>
                 {deactivateMemberModal}
                 {revokeSessionsModal}
                 <MenuWrapper>
-                    <a>
-                        <span>{currentRoles} </span>
-                        <span className='caret'/>
-                    </a>
+                    <div className='text-right'>
+                        <a>
+                            <span>{currentRoles} </span>
+                            <span className='caret'/>
+                        </a>
+                        {this.renderAccessToken()}
+                    </div>
                     <div>
                         <Menu
                             openLeft={true}
+                            openUp={openUp}
                             ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
                         >
-                            {this.renderAccessToken()}
                             <MenuItemAction
                                 show={showMakeActive}
                                 onClick={this.handleMakeActive}
@@ -407,7 +421,7 @@ export default class SystemUsersDropdown extends React.Component {
                                 text={Utils.localizeMessage('admin.user_item.resetMfa', 'Remove MFA')}
                             />
                             <MenuItemAction
-                                show={user.auth_service && this.props.experimentalEnableAuthenticationTransfer}
+                                show={Boolean(user.auth_service) && this.props.experimentalEnableAuthenticationTransfer}
                                 onClick={this.handleResetPassword}
                                 text={Utils.localizeMessage('admin.user_item.switchToEmail', 'Switch to Email/Password')}
                             />

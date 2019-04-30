@@ -3,8 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {tween, styler, composite, delay, chain} from 'popmotion';
+import {tween, styler} from 'popmotion';
 import {CSSTransition} from 'react-transition-group';
+
+import {isMobile} from 'utils/utils.jsx';
 
 const ANIMATION_DURATION = 80;
 
@@ -15,47 +17,13 @@ export default class MenuWrapperAnimation extends React.PureComponent {
     };
 
     onEntering = (node) => {
-        const maxHeight = Math.min(node.scrollHeight + 10, ((window.innerHeight - 70) * 80) / 100);
         const nodeStyler = styler(node);
-
-        composite({
-            maxHeight: tween({from: 0, to: maxHeight, duration: ANIMATION_DURATION}),
-            opacity: tween({from: 0, to: 1, duration: ANIMATION_DURATION / 2}),
-        }).start({
-            update: (v) => nodeStyler.set({
-                ...v,
-                overflowY: 'hidden',
-            }),
-            complete: () => {
-                nodeStyler.set({
-                    overflowY: null,
-                    maxHeight: null,
-                    opacity: null,
-                });
-            },
-        });
+        tween({from: {opacity: 0}, to: {opacity: 1}, duration: ANIMATION_DURATION}).start(nodeStyler.set);
     }
 
     onExiting = (node) => {
-        node.style.overflowY = 'hidden';
-        const maxHeight = Math.min(node.scrollHeight + 10, ((window.innerHeight - 70) * 80) / 100);
         const nodeStyler = styler(node);
-        composite({
-            maxHeight: tween({from: maxHeight, to: 0, duration: ANIMATION_DURATION}),
-            opacity: chain(delay(ANIMATION_DURATION / 2), tween({from: 1, to: 0, duration: ANIMATION_DURATION / 2})),
-        }).start({
-            update: (v) => nodeStyler.set({
-                ...v,
-                overflowY: 'hidden',
-            }),
-            complete: () => {
-                nodeStyler.set({
-                    overflowY: null,
-                    maxHeight: null,
-                    opacity: null,
-                });
-            },
-        });
+        tween({from: {opacity: 1}, to: {opacity: 0}, duration: ANIMATION_DURATION}).start(nodeStyler.set);
     }
 
     render() {
@@ -67,8 +35,8 @@ export default class MenuWrapperAnimation extends React.PureComponent {
                 exit={true}
                 mountOnEnter={true}
                 unmountOnExit={true}
-                onEntering={this.onEntering}
-                onExiting={this.onExiting}
+                onEntering={!isMobile() && this.onEntering}
+                onExiting={!isMobile() && this.onExiting}
                 timeout={{
                     enter: ANIMATION_DURATION,
                     exit: ANIMATION_DURATION,

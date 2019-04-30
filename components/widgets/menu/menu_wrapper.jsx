@@ -31,20 +31,23 @@ export default class MenuWrapper extends React.PureComponent {
     }
 
     componentDidMount() {
-        document.addEventListener('click', this.close, false);
+        document.addEventListener('click', this.close, true);
     }
 
     componentWillUnmount() {
-        document.removeEventListener('click', this.close, false);
+        document.removeEventListener('click', this.close, true);
     }
 
     close = (e) => {
         if (this.node.current.contains(e.target)) {
             return;
         }
-        this.setState({open: false});
-        if (this.props.onToggle) {
-            this.props.onToggle(false);
+
+        if (this.state.open) {
+            this.setState({open: false});
+            if (this.props.onToggle) {
+                this.props.onToggle(false);
+            }
         }
     }
 

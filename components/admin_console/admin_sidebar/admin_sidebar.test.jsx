@@ -21,6 +21,9 @@ describe('components/AdminSidebar', () => {
     const defaultProps = {
         license: {},
         config: {
+            ExperimentalSettings: {
+                RestrictSystemAdmin: false,
+            },
             PluginSettings: {
                 Enable: true,
                 EnableUploads: true,
@@ -61,6 +64,9 @@ describe('components/AdminSidebar', () => {
         const props = {
             license: {},
             config: {
+                ExperimentalSettings: {
+                    RestrictSystemAdmin: false,
+                },
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
@@ -101,6 +107,9 @@ describe('components/AdminSidebar', () => {
                 IsLicensed: 'true',
             },
             config: {
+                ExperimentalSettings: {
+                    RestrictSystemAdmin: false,
+                },
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
@@ -152,12 +161,15 @@ describe('components/AdminSidebar', () => {
                 CustomPermissionsSchemes: 'true',
             },
             config: {
+                ServiceSettings: {
+                    ExperimentalLdapGroupSync: true,
+                },
+                ExperimentalSettings: {
+                    RestrictSystemAdmin: false,
+                },
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
-                },
-                ServiceSettings: {
-                    ExperimentalLdapGroupSync: true,
                 },
             },
             buildEnterpriseReady: true,

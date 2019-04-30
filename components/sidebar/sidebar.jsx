@@ -11,8 +11,8 @@ import classNames from 'classnames';
 import Scrollbars from 'react-custom-scrollbars';
 import {SpringSystem, MathUtil} from 'rebound';
 
-import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -192,14 +192,15 @@ export default class Sidebar extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        // if the active channel disappeared (which can happen when dm channels autoclose), go to town square
+        // if the active channel disappeared (which can happen when dm channels
+        // autoclose), go to user default channel in team
         if (this.props.currentTeam === prevProps.currentTeam &&
             this.props.currentChannel.id === prevProps.currentChannel.id &&
             !this.channelIdIsDisplayedForProps(this.props.orderedChannelIds, this.props.currentChannel.id) &&
             this.channelIdIsDisplayedForProps(prevProps.orderedChannelIds, this.props.currentChannel.id)
         ) {
             this.closedDirectChannel = true;
-            browserHistory.push(`/${this.props.currentTeam.name}/channels/${Constants.DEFAULT_CHANNEL}`);
+            redirectUserToDefaultTeam();
             return;
         }
 

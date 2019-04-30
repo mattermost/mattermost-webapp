@@ -1,45 +1,53 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import users from '../fixtures/users.json';
-import theme from '../fixtures/theme.json';
-
 // ***********************************************************
 // Read more: https://on.cypress.io/custom-commands
 // ***********************************************************
-
-Cypress.Commands.add('login', (username, {otherUsername, otherPassword, otherURL} = {}) => {
-    const user = users[username];
-    const usernameParam = user && user.username ? user.username : otherUsername;
-    const passwordParam = user && user.password ? user.password : otherPassword;
-    const urlParam = otherURL ? `${otherURL}/api/v4/users/login` : '/api/v4/users/login';
-
-    cy.request({
-        url: urlParam,
-        method: 'POST',
-        body: {login_id: usernameParam, password: passwordParam},
-    });
-});
 
 Cypress.Commands.add('logout', () => {
     cy.get('#logout').click({force: true});
     cy.visit('/');
 });
 
-Cypress.Commands.add('logoutByAPI', ({otherURL} = {}) => {
-    const urlParam = otherURL ? `${otherURL}/api/v4/users/logout` : '/api/v4/users/logout';
-
-    cy.request({
-        url: urlParam,
-        method: 'POST',
-    });
-});
-
 Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPassword, otherURL} = {}) => {
-    cy.login('user-1', {otherUsername, otherPassword, otherURL});
+    cy.apiLogin('user-1', {otherUsername, otherPassword, otherURL});
     cy.visit('/');
 
     cy.get('#post_textbox').should('be.visible');
+});
+
+Cypress.Commands.add('selectOption', (select, pos) => {
+    cy.get(`${select} option +option`).
+        eq(pos).
+        then((e) => {
+            cy.get(select).
+                select(e.val());
+        });
+});
+
+// Enable Integrations in System Console
+Cypress.Commands.add('enableIntegrations', () => {
+    cy.get('#channel_view').should('be.visible');
+    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+    cy.get('#systemConsole').should('be.visible').click();
+    cy.get('#custom > .sidebar-section > span').click();
+    cy.get('#ServiceSettings\\.EnableIncomingWebhookstrue').click();
+    cy.get('#ServiceSettings\\.EnableOutgoingWebhookstrue').click();
+    cy.get('#ServiceSettings\\.EnableCommandstrue').click();
+    cy.get('#ServiceSettings\\.EnableOAuthServiceProvidertrue').click();
+    cy.get('#saveSetting').then((btn) => {
+        if (btn.is(':disabled')) {
+            btn.click();
+        }
+    });
+});
+
+// Go to Integration Settings
+Cypress.Commands.add('toIntegrationSettings', () => {
+    cy.get('#channel_view').should('be.visible');
+    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+    cy.get('#integrations').should('be.visible').click();
 });
 
 Cypress.Commands.add('getSubpath', () => {
@@ -63,7 +71,7 @@ Cypress.Commands.add('getSubpath', () => {
 // Go to Account Settings modal
 Cypress.Commands.add('toAccountSettingsModal', (username = 'user-1', isLoggedInAlready = false, {otherUsername, otherPassword, otherURL} = {}) => {
     if (!isLoggedInAlready) {
-        cy.login(username, {otherUsername, otherPassword, otherURL});
+        cy.apiLogin(username, {otherUsername, otherPassword, otherURL});
         cy.visit('/');
     }
 
@@ -117,6 +125,32 @@ Cypress.Commands.add('changeMessageDisplaySetting', (setting = 'STANDARD', usern
     cy.get('.section-max').scrollIntoView();
 
     cy.get(SETTINGS[setting]).check().should('be.checked');
+
+    cy.get('#saveSetting').click();
+    cy.get('#accountSettingsHeader > .close').click();
+});
+
+/**
+ * Update teammate display mode preference of a user
+ * @param {String} username - current user
+ * @param {String} value - Either "username" (default) or "nickname_full_name" or "full_name"
+ */
+Cypress.Commands.add('updateTeammateDisplayModePreference', (username, value = 'username') => {
+    const conf = {
+        username: '#name_formatFormatA',
+        nickname_full_name: '#name_formatFormatB',
+        full_name: '#name_formatFormatC',
+    };
+    cy.toAccountSettingsModal(username);
+    cy.get('#displayButton').click();
+
+    cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
+
+    cy.get('#name_formatTitle').scrollIntoView();
+    cy.get('#name_formatTitle').click();
+    cy.get('.section-max').scrollIntoView();
+
+    cy.get(conf[value]).check().should('be.checked');
 
     cy.get('#saveSetting').click();
     cy.get('#accountSettingsHeader > .close').click();
@@ -179,9 +213,6 @@ function isMac() {
 
 Cypress.Commands.add('postMessage', (message) => {
     cy.get('#post_textbox').type(message).type('{enter}');
-
-    // add wait time to ensure that a post gets posted and not on pending state
-    cy.wait(500); // eslint-disable-line
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
@@ -190,11 +221,11 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
 });
 
 Cypress.Commands.add('getLastPost', () => {
-    return cy.get('#postListContent').children().last();
+    return cy.get('#postListContent [id^=post]:first');
 });
 
 Cypress.Commands.add('getLastPostId', () => {
-    return cy.get('#postListContent').children().last().invoke('attr', 'id').then((divPostId) => {
+    return cy.get('#postListContent [id^=post]:first').invoke('attr', 'id').then((divPostId) => {
         return divPostId.replace('post_', '');
     });
 });
@@ -252,21 +283,25 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file) => {
 // Post header
 // ***********************************************************
 
+function clickPostHeaderItem(postId, location, item) {
+    if (postId) {
+        cy.get(`#post_${postId}`).trigger('mouseover');
+        cy.get(`#${location}_${item}_${postId}`).scrollIntoView().click({force: true});
+    } else {
+        cy.getLastPostIdWithRetry().then((lastPostId) => {
+            cy.get(`#post_${lastPostId}`).trigger('mouseover');
+            cy.get(`#${location}_${item}_${lastPostId}`).scrollIntoView().click({force: true});
+        });
+    }
+}
+
 /**
  * Click post time
  * @param {String} postId - Post ID
  * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
  */
 Cypress.Commands.add('clickPostTime', (postId, location = 'CENTER') => {
-    if (postId) {
-        cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#${location}_time_${postId}`).click({force: true});
-    } else {
-        cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#${location}_time_${lastPostId}`).click({force: true});
-        });
-    }
+    clickPostHeaderItem(postId, location, 'time');
 });
 
 /**
@@ -275,15 +310,7 @@ Cypress.Commands.add('clickPostTime', (postId, location = 'CENTER') => {
  * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
  */
 Cypress.Commands.add('clickPostFlagIcon', (postId, location = 'CENTER') => {
-    if (postId) {
-        cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#${location}_flagIcon_${postId}`).click({force: true});
-    } else {
-        cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#${location}_flagIcon_${lastPostId}`).click({force: true});
-        });
-    }
+    clickPostHeaderItem(postId, location, 'flagIcon');
 });
 
 /**
@@ -292,15 +319,7 @@ Cypress.Commands.add('clickPostFlagIcon', (postId, location = 'CENTER') => {
  * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
  */
 Cypress.Commands.add('clickPostDotMenu', (postId, location = 'CENTER') => {
-    if (postId) {
-        cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#${location}_button_${postId}`).click({force: true});
-    } else {
-        cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#${location}_button_${lastPostId}`).click({force: true});
-        });
-    }
+    clickPostHeaderItem(postId, location, 'button');
 });
 
 /**
@@ -309,15 +328,7 @@ Cypress.Commands.add('clickPostDotMenu', (postId, location = 'CENTER') => {
  * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT'
  */
 Cypress.Commands.add('clickPostReactionIcon', (postId, location = 'CENTER') => {
-    if (postId) {
-        cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#${location}_reaction_${postId}`).click({force: true});
-    } else {
-        cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#${location}_reaction_${lastPostId}`).click({force: true});
-        });
-    }
+    clickPostHeaderItem(postId, location, 'reaction');
 });
 
 /**
@@ -327,15 +338,7 @@ Cypress.Commands.add('clickPostReactionIcon', (postId, location = 'CENTER') => {
  * @param {String} location - as 'CENTER', 'SEARCH'
  */
 Cypress.Commands.add('clickPostCommentIcon', (postId, location = 'CENTER') => {
-    if (postId) {
-        cy.get(`#post_${postId}`).trigger('mouseover');
-        cy.get(`#${location}_commentIcon_${postId}`).click({force: true});
-    } else {
-        cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#post_${lastPostId}`).trigger('mouseover');
-            cy.get(`#${location}_commentIcon_${lastPostId}`).click({force: true});
-        });
-    }
+    clickPostHeaderItem(postId, location, 'commentIcon');
 });
 
 // Close RHS by clicking close button
@@ -355,14 +358,33 @@ Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
 });
 
 Cypress.Commands.add('removeTeamMember', (teamURL, username) => {
-    cy.logout();
-    cy.login('sysadmin');
+    cy.apiLogout();
+    cy.apiLogin('sysadmin');
     cy.visit(`/${teamURL}`);
     cy.get('#sidebarHeaderDropdownButton').click();
     cy.get('#manageMembers').click();
     cy.focused().type(username, {force: true});
-    cy.get('#removeFromTeam').click({force: true});
+    cy.get(`#teamMembersDropdown_${username}`).click();
+    cy.get('#removeFromTeam').click();
     cy.get('.modal-header .close').click();
+});
+
+Cypress.Commands.add('getCurrentTeamId', () => {
+    return cy.get('#headerTeamName').invoke('attr', 'data-teamid');
+});
+
+Cypress.Commands.add('leaveTeam', () => {
+    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+    cy.get('#sidebarDropdownMenu #leaveTeam').should('be.visible').click();
+
+    // * Check that the "leave team modal" opened up
+    cy.get('#leaveTeamModal').should('be.visible');
+
+    // 4. click on yes
+    cy.get('#leaveTeamYes').click();
+
+    // * Check that the "leave team modal" closed
+    cy.get('#leaveTeamModal').should('not.be.visible');
 });
 
 // ***********************************************************
@@ -449,74 +471,21 @@ Cypress.Commands.add('getCurrentChannelId', () => {
     return cy.get('#channel-header').invoke('attr', 'data-channelid');
 });
 
-// ***********************************************************
-// API - Preference
-// ************************************************************
-
 /**
- * Update user's preference directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {Array} preference - a list of user's preferences
+ * Update channel header
+ * @param {String} text - Text to set the header to
  */
-Cypress.Commands.add('updateUserPreference', (preferences = []) => {
-    cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/users/me/preferences',
-        method: 'PUT',
-        body: preferences,
-    });
-});
-
-/**
- * Update channel display mode preference of a user directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} value - Either "full" (default) or "centered"
- */
-Cypress.Commands.add('updateChannelDisplayModePreference', (value = 'full') => {
-    cy.getCookie('MMUSERID').then((cookie) => {
-        const preference = {
-            user_id: cookie.value,
-            category: 'display_settings',
-            name: 'channel_display_mode',
-            value,
-        };
-
-        cy.updateUserPreference([preference]);
-    });
-});
-
-/**
- * Update message display preference of a user directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} value - Either "clean" (default) or "compact"
- */
-Cypress.Commands.add('updateMessageDisplayPreference', (value = 'clean') => {
-    cy.getCookie('MMUSERID').then((cookie) => {
-        const preference = {
-            user_id: cookie.value,
-            category: 'display_settings',
-            name: 'message_display',
-            value,
-        };
-
-        cy.updateUserPreference([preference]);
-    });
-});
-
-/**
- * Update theme preference of a user directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {Object} value - theme object.  Will pass default value if none is provided.
- */
-Cypress.Commands.add('updateThemePreference', (value = JSON.stringify(theme.default)) => {
-    cy.getCookie('MMUSERID').then((cookie) => {
-        const preference = {
-            user_id: cookie.value,
-            category: 'theme',
-            name: '',
-            value,
-        };
-
-        cy.updateUserPreference([preference]);
-    });
+Cypress.Commands.add('updateChannelHeader', (text) => {
+    cy.get('#channelHeaderDropdownButton').
+        should('be.visible').
+        click();
+    cy.get('#channelHeaderDropdownMenu').
+        should('be.visible').
+        find('#channelEditHeader').
+        click();
+    cy.get('#edit_textbox').
+        clear().
+        type(text).
+        type('{enter}').
+        wait(500);
 });

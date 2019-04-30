@@ -306,7 +306,11 @@
             height: 50px;
             margin: 1px 0;
             overflow: hidden;
-            padding-left: 20px;
+            padding: 0 20px;
+
+            .more-modal__actions {
+                padding-left: 12px;
+            }
 
             &:hover {
                 border-left: 3px solid transparent;
@@ -350,7 +354,7 @@
 
         .more-modal__details {
             line-height: 39px;
-            padding-left: 30px;
+            padding-left: 16px;
         }
 
         .more-modal__actions {

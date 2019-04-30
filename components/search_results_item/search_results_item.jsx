@@ -78,6 +78,11 @@ export default class SearchResultsItem extends React.PureComponent {
         enablePostUsernameOverride: PropTypes.bool.isRequired,
 
         /**
+         * Is the search results item from a bot.
+         */
+        isBot: PropTypes.bool.isRequired,
+
+        /**
         *  Function used for closing LHS
         */
         actions: PropTypes.shape({
@@ -85,6 +90,10 @@ export default class SearchResultsItem extends React.PureComponent {
             selectPost: PropTypes.func.isRequired,
             setRhsExpanded: PropTypes.func.isRequired,
         }).isRequired,
+    };
+
+    static defaultProps = {
+        isBot: false,
     };
 
     constructor(props) {
@@ -177,7 +186,7 @@ export default class SearchResultsItem extends React.PureComponent {
         }
 
         let botIndicator;
-        if (post.props && post.props.from_webhook) {
+        if (post.props && post.props.from_webhook && !this.props.isBot) {
             botIndicator = (
                 <div className='bot-indicator'>
                     <FormattedMessage

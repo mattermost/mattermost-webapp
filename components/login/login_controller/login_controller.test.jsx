@@ -31,6 +31,7 @@ describe('components/login/LoginController', () => {
         ldapLoginFieldName: '',
         samlLoginButtonText: '',
         siteName: '',
+        defaultChannel: 'default-channel',
         actions: {
             login: jest.fn(),
             addUserToTeamFromInvite: jest.fn(),

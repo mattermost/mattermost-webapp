@@ -11,6 +11,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 
 import * as UserAgent from 'utils/user_agent.jsx';
+import Constants from 'utils/constants.jsx';
 
 import logoImage from 'images/logo.png';
 
@@ -72,7 +73,7 @@ export default class SelectTeam extends React.Component {
 
         const {data, error} = await this.props.actions.addUserToTeam(team.id, this.props.currentUserId);
         if (data) {
-            this.props.history.push(`/${team.name}/channels/town-square`);
+            this.props.history.push(`/${team.name}/channels/${Constants.DEFAULT_CHANNEL}`);
         } else if (error) {
             this.setState({
                 error,
@@ -170,7 +171,10 @@ export default class SelectTeam extends React.Component {
             }
 
             openContent = (
-                <div className='signup__content'>
+                <div
+                    id='teamsYouCanJoinContent'
+                    className='signup__content'
+                >
                     <h4>
                         <FormattedMessage
                             id='signup_team.join_open'
@@ -188,6 +192,7 @@ export default class SelectTeam extends React.Component {
             <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
                 <div className='margin--extra'>
                     <Link
+                        id='createNewTeamLink'
                         to='/create_team'
                         className='signup-team-login'
                     >
@@ -229,6 +234,7 @@ export default class SelectTeam extends React.Component {
                 <div className='signup-header'>
                     <a
                         href='#'
+                        id='logout'
                         onClick={this.handleLogoutClick}
                     >
                         <LogoutIcon/>

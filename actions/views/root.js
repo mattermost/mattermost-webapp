@@ -6,6 +6,7 @@ import * as UserActions from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 
 import {ActionTypes} from 'utils/constants';
+import en from 'i18n/en.json';
 
 export function loadMeAndConfig() {
     return async (dispatch) => {
@@ -25,9 +26,37 @@ export function loadMeAndConfig() {
     };
 }
 
+const pluginTranslationSources = {};
+
+export function registerPluginTranslationsSource(pluginId, sourceFunction) {
+    pluginTranslationSources[pluginId] = sourceFunction;
+}
+
+export function unregisterPluginTranslationsSource(pluginId) {
+    Reflect.deleteProperty(pluginTranslationSources, pluginId);
+}
+
 export function loadTranslations(locale, url) {
     return (dispatch) => {
-        Client4.getTranslations(url).then((translations) => {
+        const translations = {};
+        Object.values(pluginTranslationSources).forEach((pluginFunc) => {
+            Object.assign(translations, pluginFunc(locale));
+        });
+
+        // No need to go to the server for EN
+        if (locale === 'en') {
+            Object.assign(translations, en);
+            dispatch({
+                type: ActionTypes.RECEIVED_TRANSLATIONS,
+                data: {
+                    locale,
+                    translations,
+                },
+            });
+            return;
+        }
+        Client4.getTranslations(url).then((serverTranslations) => {
+            Object.assign(translations, serverTranslations);
             dispatch({
                 type: ActionTypes.RECEIVED_TRANSLATIONS,
                 data: {

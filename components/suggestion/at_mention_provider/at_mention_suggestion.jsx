@@ -103,6 +103,18 @@ export default class AtMentionSuggestion extends Suggestion {
             className += ' suggestion--selected';
         }
 
+        let tag = null;
+        if (user.is_bot) {
+            tag = (
+                <div className='bot-indicator bot-indicator__autocomplete'>
+                    <FormattedMessage
+                        id='post_info.bot'
+                        defaultMessage='BOT'
+                    />
+                </div>
+            );
+        }
+
         return (
             <div
                 className={className}
@@ -113,6 +125,7 @@ export default class AtMentionSuggestion extends Suggestion {
                 <span className='mention--align'>
                     {'@' + username}
                 </span>
+                {tag}
                 <span className='mention__fullname'>
                     {' '}
                     {description}

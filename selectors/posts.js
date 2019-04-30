@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import {createSelector} from 'reselect';
-
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -35,4 +34,8 @@ export function isEmbedVisible(state, postId) {
     );
 
     return getGlobalItem(state, StoragePrefixes.EMBED_VISIBLE + postId, !previewCollapsed);
+}
+
+export function shouldShowJoinLeaveMessages(state) {
+    return getBoolPreference(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.ADVANCED_FILTER_JOIN_LEAVE, true);
 }
