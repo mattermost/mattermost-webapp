@@ -282,7 +282,11 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
         <div
           className="subhead"
         >
-          Members managed by linked groups.
+          <FormattedMessage
+            defaultMessage="Members managed by linked groups."
+            id="channel_header.groupConstrained"
+            values={Object {}}
+          />
         </div>
       </div>
       <div
