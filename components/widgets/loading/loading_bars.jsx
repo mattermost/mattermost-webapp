@@ -21,6 +21,7 @@ export default class LoadingBars extends React.PureComponent {
         return (
             <span className={'LoadingBars' + (text ? ' with-text' : '')}>
                 <img
+                    alt={'Spinner'}
                     className='spinner'
                     src={loadingGif}
                 />

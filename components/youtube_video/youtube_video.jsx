@@ -213,6 +213,7 @@ export default class YoutubeVideo extends React.PureComponent {
                 <div className='embed-responsive embed-responsive-4by3 video-div__placeholder'>
                     <div className='video-thumbnail__container'>
                         <img
+                            alt='Video thumbnail'
                             className='video-thumbnail'
                             src={this.state.thumb}
                         />

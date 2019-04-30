@@ -69,6 +69,7 @@ export default class MFAController extends React.Component {
                                     />
                                 </h3>
                                 <img
+                                    alt={'Signup taeam logo'}
                                     className='signup-team-logo'
                                     src={logoImage}
                                 />

@@ -42,6 +42,7 @@ export default class ClaimController extends React.PureComponent {
                 <div className='col-sm-12'>
                     <div className='signup-team__container'>
                         <img
+                            alt={'Signup logo'}
                             className='signup-team-logo'
                             src={logoImage}
                         />

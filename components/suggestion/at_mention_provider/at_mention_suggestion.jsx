@@ -93,6 +93,7 @@ export default class AtMentionSuggestion extends Suggestion {
 
             icon = (
                 <img
+                    alt='Mention image'
                     className='mention__image'
                     src={Utils.imageURLForUser(user)}
                 />
