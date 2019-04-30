@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import AsyncSelect from 'react-select/lib/AsyncCreatable';
 import {components} from 'react-select';
+import {intlShape} from 'react-intl';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
@@ -12,6 +13,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MailIcon from 'components/svg/mail_icon';
 import MailPlusIcon from 'components/svg/mail_plus_icon';
 import {imageURLForUser} from 'utils/utils.jsx';
+
+import {t} from 'utils/i18n.jsx';
 
 import './users_emails_input.scss';
 
@@ -21,6 +24,29 @@ export default class UsersEmailsInput extends React.Component {
         usersLoader: PropTypes.func,
         onChange: PropTypes.func,
         value: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object, PropTypes.string])),
+        noOptionsMessageId: PropTypes.string,
+        noOptionsMessageDefault: PropTypes.string,
+        noMatchMessageId: PropTypes.string,
+        noMatchMessageDefault: PropTypes.string,
+        validAddressMessageId: PropTypes.string,
+        validAddressMessageDefault: PropTypes.string,
+        loadingMessageId: PropTypes.string,
+        loadingMessageDefault: PropTypes.string,
+    }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
+
+    loadingMessage = () => {
+        if (!this.context.intl) {
+            return 'Loading';
+        }
+
+        return this.context.intl.formatMessage({
+            id: this.props.loadingMessageId || t('widgets.users_emails_input.loading'),
+            defaultMessage: this.props.loadingMessageDefault || 'Loading',
+        });
     }
 
     getOptionValue = (user) => {
@@ -96,9 +122,9 @@ export default class UsersEmailsInput extends React.Component {
         <React.Fragment>
             <MailPlusIcon className='mail-plus-icon'/>
             <FormattedMarkdownMessage
-                key='widgets.emails_input.valid_email'
-                id='widgets.emails_input.valid_email'
-                defaultMessage='Invite **{email}** as a channel guest'
+                key='widgets.users_emails_input.valid_email'
+                id={this.props.validAddressMessageId || t('widgets.users_emails_input.valid_email')}
+                defaultMessage={this.props.validAddressMessageDefault || 'Add **{email}** email address'}
                 values={{email: value}}
             />
         </React.Fragment>
@@ -110,8 +136,8 @@ export default class UsersEmailsInput extends React.Component {
             return (
                 <div className='users-emails-input__option'>
                     <FormattedMarkdownMessage
-                        id='widgets.emails_input.no_user_found_matching'
-                        defaultMessage='No one found matching **{text}**, type email to invite'
+                        id={this.props.noMatchMessageId || t('widgets.users_emails_input.no_user_found_matching')}
+                        defaultMessage={this.props.noMatchMessageDefault || 'No one found matching **{text}**, type another string or an email address'}
                         values={{text: inputValue}}
                     >
                         {(message) => (
@@ -126,8 +152,8 @@ export default class UsersEmailsInput extends React.Component {
         return (
             <div className='users-emails-input__option'>
                 <FormattedMarkdownMessage
-                    id='widgets.emails_input.no_user_found_empty'
-                    defaultMessage='No one found outside this team, type email to invite'
+                    id={this.props.noOptionsMessageId || t('widgets.users_emails_input.empty')}
+                    defaultMessage={this.props.noOptionsMessageDefault || 'Type a text to find a user or type an email'}
                     values={{text: inputValue}}
                 >
                     {(message) => (

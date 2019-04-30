@@ -2014,6 +2014,7 @@
   "general_tab.title": "General Settings",
   "general_tab.yes": "Yes",
   "generic_icons.add": "Add Icon",
+  "generic_icons.add-mail": "Add Mail Icon",
   "generic_icons.archive": "Archive Icon",
   "generic_icons.arrow.down": "Down Arrow Icon",
   "generic_icons.attach": "Attachment Icon",
@@ -2034,6 +2035,7 @@
   "generic_icons.info": "Info Icon",
   "generic_icons.loading": "Loading Icon",
   "generic_icons.logout": "Logout Icon",
+  "generic_icons.mail": "Mail Icon",
   "generic_icons.mattermost": "Mattermost Logo",
   "generic_icons.member": "Member Icon",
   "generic_icons.mention": "Mention Icon",
@@ -3248,6 +3250,10 @@
   "web.header.back": "Back",
   "web.header.logout": "Logout",
   "web.root.signup_info": "All team communication in one place, searchable and accessible anywhere",
+  "widgets.users_emails_input.empty": "Type a text to find a user or type an email",
+  "widgets.users_emails_input.loading": "Loading",
+  "widgets.users_emails_input.no_user_found_matching": "No one found matching **{text}**, type another string or an email address",
+  "widgets.users_emails_input.valid_email": "Add **{email}** email address",
   "yourcomputer": "Your computer",
   "youtube_video.notFound": "Video not found"
 }
