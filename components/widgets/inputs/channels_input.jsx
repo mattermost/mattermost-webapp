@@ -4,11 +4,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import AsyncSelect from 'react-select/lib/Async';
+import {intlShape} from 'react-intl';
 
 import {Constants} from 'utils/constants';
 
 import PublicChannelIcon from 'components/svg/globe_icon.jsx';
 import PrivateChannelIcon from 'components/svg/lock_icon.jsx';
+
+import {t} from 'utils/i18n.jsx';
 
 import './channels_input.scss';
 
@@ -18,13 +21,44 @@ export default class ChannelsInput extends React.Component {
         channelsLoader: PropTypes.func,
         onChange: PropTypes.func,
         value: PropTypes.arrayOf(PropTypes.object),
+        loadingMessageId: PropTypes.string,
+        loadingMessageDefault: PropTypes.string,
+        noOptionsMessageId: PropTypes.string,
+        noOptionsMessageDefault: PropTypes.string,
     }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
 
     components = {
         IndicatorsContainer: () => null,
     };
 
     getOptionValue = (channel) => channel.id
+
+    loadingMessage = () => {
+        if (!this.context.intl) {
+            return 'Loading';
+        }
+
+        return this.context.intl.formatMessage({
+            id: this.props.loadingMessageId || t('widgets.channels_input.loading'),
+            defaultMessage: this.props.loadingMessageDefault || 'Loading',
+        });
+    }
+
+    noOptionsMessage = () => {
+        if (!this.context.intl) {
+            return 'No channels found';
+        }
+
+        return this.context.intl.formatMessage({
+            id: this.props.noOptionsMessageId || t('widgets.channels_input.empty'),
+            defaultMessage: this.props.noOptionsMessageDefault || 'No channels found',
+        });
+    }
+
     formatOptionLabel = (channel) => {
         let icon = <PublicChannelIcon className='public-channel-icon'/>;
         if (channel.type === Constants.PRIVATE_CHANNEL) {
@@ -58,6 +92,8 @@ export default class ChannelsInput extends React.Component {
                 components={this.components}
                 getOptionValue={this.getOptionValue}
                 formatOptionLabel={this.formatOptionLabel}
+                noOptionsMessage={this.noOptionsMessage}
+                loadingMessage={this.loadingMessage}
                 defaultOptions={true}
                 value={this.props.value}
             />

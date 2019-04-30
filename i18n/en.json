@@ -3248,6 +3248,8 @@
   "web.header.back": "Back",
   "web.header.logout": "Logout",
   "web.root.signup_info": "All team communication in one place, searchable and accessible anywhere",
+  "widgets.channels_input.empty": "No channels found",
+  "widgets.channels_input.loading": "Loading",
   "yourcomputer": "Your computer",
   "youtube_video.notFound": "Video not found"
 }
