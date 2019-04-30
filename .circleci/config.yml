@@ -1,0 +1,107 @@
+version: 2.1
+executors:
+  default:
+    working_directory: ~/mattermost-webapp
+    docker:
+      - image: mattermost/mattermost-build-webapp:oct-2-2018
+
+aliases:
+  - &restore_cache
+    restore_cache:
+      key: dependencies-{{ checksum "package-lock.json" }}
+  - &save_cache
+    save_cache:
+      key: dependencies-{{ checksum "package-lock.json" }}
+      paths:
+        - node_modules
+
+jobs:
+  install:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: |
+          npm ci
+          cd node_modules/mattermost-redux && npm i && npm run build
+      - *save_cache
+
+  lint:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: |
+          npm run check
+
+  i18n-check:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: |
+          cp i18n/en.json /tmp/en.json
+          mkdir -p /tmp/fake-mobile-dir/assets/base/i18n/
+          echo '{}' > /tmp/fake-mobile-dir/assets/base/i18n/en.json
+          npm run mmjstool -- i18n extract-webapp --webapp-dir . --mobile-dir /tmp/fake-mobile-dir
+          diff /tmp/en.json i18n/en.json
+
+  test:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: npm run test-ci
+      - store_test_results:
+          path: build/
+
+  build:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: make package-ci
+      - store_artifacts:
+          path: ~/mattermost-webapp/mattermost-webapp.tar.gz
+      - run:
+          name: Upload to S3
+          command: |
+            if [[ -z "${CIRCLE_PULL_REQUEST:-}" ]]; then
+              echo "Not a PR using the branch name ${CIRCLE_BRANCH}..."
+              export FOLDER_NAME=${CIRCLE_BRANCH}
+              echo "${FOLDER_NAME}"
+            else
+              echo "This is a PR ${CIRCLE_BRANCH}..."
+              export FOLDER_NAME=$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')
+              echo "${FOLDER_NAME}"
+            fi
+            curl --request POST \
+            --url "https://lambdas.devops.mattermost.com/circleci/uploader?token=${UPLOADER_TOKEN}&vcs-type=github&username=${CIRCLE_PROJECT_USERNAME}&project=${CIRCLE_PROJECT_REPONAME}&build_num=${CIRCLE_BUILD_NUM}&bucket=releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/${FOLDER_NAME}/"
+      - run:
+          name: Upload to S3 - SHA1
+          command: |
+            curl --request POST \
+            --url "https://lambdas.devops.mattermost.com/circleci/uploader?token=${UPLOADER_TOKEN}&vcs-type=github&username=${CIRCLE_PROJECT_USERNAME}&project=${CIRCLE_PROJECT_REPONAME}&build_num=${CIRCLE_BUILD_NUM}&bucket=releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/"
+
+workflows:
+  version: 2
+  untagged-build:
+    jobs:
+      - install
+      - lint:
+          requires:
+            - install
+      - i18n-check:
+          requires:
+            - lint
+      - test:
+          requires:
+            - i18n-check
+      - build:
+          requires:
+            - test
