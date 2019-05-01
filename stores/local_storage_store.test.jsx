@@ -88,7 +88,7 @@ describe('stores/LocalStorageStore', () => {
             // Value with different basename remains unchanged.
             window.basename = '/subpath';
             assert.equal(LocalStorageStore.getWasLoggedIn(), true);
-        })
+        });
 
         test('recentEmojis', () => {
             delete window.basename;
@@ -117,6 +117,6 @@ describe('stores/LocalStorageStore', () => {
             // Back to old value with original basename
             window.basename = '/';
             assert.deepEqual(LocalStorageStore.getRecentEmojis(userId), recentEmojis1);
-        })
+        });
     });
 });

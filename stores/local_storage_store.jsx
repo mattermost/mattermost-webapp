@@ -12,11 +12,11 @@ const getWasLoggedInKey = () => 'was_logged_in';
 
 const getPathScopedKey = (path, key) => {
     if (path === '' || path === '/') {
-        return key
+        return key;
     }
 
     return [path, key].join(':');
-}
+};
 
 // LocalStorageStore exposes an interface for accessing entries in the localStorage.
 //
