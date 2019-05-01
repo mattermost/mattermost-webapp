@@ -27,7 +27,7 @@ export default class AnnouncementBar extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.setBodyClass(!this.props.showCloseButton);
+        document.body.classList.add('announcement-bar--fixed');
     }
 
     componentWillUnmount() {
@@ -38,10 +38,6 @@ export default class AnnouncementBar extends React.PureComponent {
         if (this.props.showCloseButton !== prevProps.showCloseButton) {
             this.setBodyClass(!this.props.showCloseButton);
         }
-    }
-
-    setBodyClass = () => {
-        document.body.classList.add('announcement-bar--fixed');
     }
 
     handleClose = (e) => {
