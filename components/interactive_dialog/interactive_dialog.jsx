@@ -53,19 +53,21 @@ export default class InteractiveDialog extends React.Component {
         const {elements} = this.props;
         const values = this.state.values;
         const errors = {};
-        elements.forEach((elem) => {
-            const error = checkDialogElementForError(elem, values[elem.name]);
-            if (error) {
-                errors[elem.name] = (
-                    <FormattedMessage
-                        id={error.id}
-                        defaultMessage={error.defaultMessage}
-                        values={error.values}
-                    />
-                );
-            }
-        });
-
+        if (elements != null) {
+            elements.forEach((elem) => {
+                const error = checkDialogElementForError(elem, values[elem.name]);
+                if (error) {
+                    errors[elem.name] = (
+                        <FormattedMessage
+                            id={error.id}
+                            defaultMessage={error.defaultMessage}
+                            values={error.values}
+                        />
+                    );
+                }
+            });    
+        }
+        
         this.setState({errors});
 
         if (Object.keys(errors).length !== 0) {
@@ -164,8 +166,8 @@ export default class InteractiveDialog extends React.Component {
                         {icon}{title}
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    {elements && elements.map((e) => {
+                {elements && <Modal.Body>
+                    {elements.map((e) => {
                         return (
                             <DialogElement
                                 key={'dialogelement' + e.name}
@@ -186,7 +188,8 @@ export default class InteractiveDialog extends React.Component {
                             />
                         );
                     })}
-                </Modal.Body>
+                </Modal.Body>}
+                
                 <Modal.Footer>
                     <button
                         type='button'
