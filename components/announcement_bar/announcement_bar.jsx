@@ -8,7 +8,6 @@ import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 import {Constants, AnnouncementBarTypes} from 'utils/constants.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-
 export default class AnnouncementBar extends React.PureComponent {
     static propTypes = {
         showCloseButton: PropTypes.bool,
