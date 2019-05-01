@@ -236,7 +236,7 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
     // If the logout was intentional, discard knowledge about having previously been logged in.
     // This bit is otherwise used to detect session expirations on the login page.
     if (userAction) {
-        LocalStorageStore.setWasLoggedIn(window.basename, false);
+        LocalStorageStore.setWasLoggedIn(false);
     }
 
     dispatch(logout()).then(() => {

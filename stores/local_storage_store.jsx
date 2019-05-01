@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import {getRedirectChannelNameForTeam} from 'utils/channel_utils.jsx';
+import store from 'stores/redux_store.jsx';
+import {getBasePath} from 'selectors/general';
 
 const getPreviousTeamIdKey = (userId) => ['user_prev_team', userId].join(':');
 const getPreviousChannelNameKey = (userId, teamId) => ['user_team_prev_channel', userId, teamId].join(':');
@@ -53,16 +55,22 @@ class LocalStorageStoreClass {
         }
     }
 
-    setWasLoggedIn(subpath, wasLoggedIn) {
+    setWasLoggedIn(wasLoggedIn) {
+        const state = store.getState();
+        const basePath = getBasePath(state);
+
         if (wasLoggedIn) {
-            localStorage.setItem(getWasLoggedInKey(subpath), 'true');
+            localStorage.setItem(getWasLoggedInKey(basePath), 'true');
         } else {
-            localStorage.setItem(getWasLoggedInKey(subpath), 'false');
+            localStorage.setItem(getWasLoggedInKey(basePath), 'false');
         }
     }
 
-    getWasLoggedIn(subpath) {
-        return localStorage.getItem(getWasLoggedInKey(subpath)) === 'true';
+    getWasLoggedIn() {
+        const state = store.getState();
+        const basePath = getBasePath(state);
+
+        return localStorage.getItem(getWasLoggedInKey(basePath)) === 'true';
     }
 }
 
