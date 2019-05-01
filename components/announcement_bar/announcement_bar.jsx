@@ -3,9 +3,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 
-import {AnnouncementBarTypes} from 'utils/constants.jsx';
+import {Constants, AnnouncementBarTypes} from 'utils/constants.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+
 
 export default class AnnouncementBar extends React.PureComponent {
     static propTypes = {
@@ -38,12 +40,8 @@ export default class AnnouncementBar extends React.PureComponent {
         }
     }
 
-    setBodyClass = (fixed) => {
-        if (fixed) {
-            document.body.classList.add('announcement-bar--fixed');
-        } else {
-            document.body.classList.remove('announcement-bar--fixed');
-        }
+    setBodyClass = () => {
+        document.body.classList.add('announcement-bar--fixed');
     }
 
     handleClose = (e) => {
@@ -59,7 +57,6 @@ export default class AnnouncementBar extends React.PureComponent {
         }
 
         let barClass = 'announcement-bar';
-        let dismissClass = ' announcement-bar--fixed';
         const barStyle = {};
         const linkStyle = {};
         if (this.props.color && this.props.textColor) {
@@ -76,7 +73,6 @@ export default class AnnouncementBar extends React.PureComponent {
 
         let closeButton;
         if (this.props.showCloseButton) {
-            dismissClass = '';
             closeButton = (
                 <a
                     href='#'
@@ -96,14 +92,27 @@ export default class AnnouncementBar extends React.PureComponent {
             );
         }
 
+        const announcementTooltip = (
+            <Tooltip id='announcement-bar__tooltip'>
+                {message}
+            </Tooltip>
+        );
+
         return (
             <div
-                className={barClass + dismissClass}
+                className={barClass}
                 style={barStyle}
             >
-                <span>
-                    {message}
-                </span>
+                <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='bottom'
+                    overlay={announcementTooltip}
+                >
+                    <span>
+                        {message}
+                    </span>
+                </OverlayTrigger>
                 {closeButton}
             </div>
         );
