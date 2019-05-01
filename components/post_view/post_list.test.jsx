@@ -116,6 +116,7 @@ describe('PostList', () => {
 
     describe('initScrollToIndex', () => {
         test('should return index of start of new messages and call increasePostVisibility when all posts are unread', () => {
+            baseProps.actions.increasePostVisibility.mockResolvedValue({moreToLoad: false});
             const postListIds = [];
             for (let i = 0; i < 30; i++) {
                 postListIds.push(`post${i}`);
@@ -150,6 +151,45 @@ describe('PostList', () => {
             wrapper.update();
 
             expect(wrapper.state('atEnd')).toEqual(true);
+        });
+    });
+
+    describe('onItemsRendered', () => {
+        test('should set state atBottom false when visibleStopIndex is not 0', () => {
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            wrapper.setState({atBottom: true});
+            wrapper.instance().onItemsRendered({visibleStartIndex: 4, visibleStopIndex: 1});
+            expect(wrapper.state('atBottom')).toEqual(false);
+        });
+    });
+    describe('Scroll correction logic on mount of posts at the top', () => {
+        test('should return previous scroll position from getSnapshotBeforeUpdate', () => {
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            const instance = wrapper.instance();
+            instance.componentDidUpdate = jest.fn();
+
+            instance.postlistRef = {current: {scrollTop: 10, scrollHeight: 100}};
+            wrapper.setState({atEnd: true});
+            expect(instance.componentDidUpdate).toHaveBeenCalledTimes(1);
+            expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollTop: 10, previousScrollHeight: 100});
+
+            instance.postlistRef = {current: {scrollTop: 30, scrollHeight: 200}};
+            wrapper.setState({atEnd: false});
+            expect(instance.componentDidUpdate).toHaveBeenCalledTimes(2);
+            expect(instance.componentDidUpdate.mock.calls[1][2]).toEqual({previousScrollTop: 30, previousScrollHeight: 200});
+
+            instance.postlistRef = {current: {scrollTop: 40, scrollHeight: 400}};
+            wrapper.setProps({postListIds: [
+                'post1',
+                'post2',
+                'post3',
+                'post4',
+                'post5',
+                DATE_LINE + 1551711600000,
+            ]});
+
+            expect(instance.componentDidUpdate).toHaveBeenCalledTimes(3);
+            expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual({previousScrollTop: 40, previousScrollHeight: 400});
         });
     });
 });
