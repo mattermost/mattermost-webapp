@@ -33,7 +33,21 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
         return true;
     }
 
-    const processingInstructions = [];
+    const processingInstructions = [
+
+        // Workaround to fix MM-14931
+        {
+            replaceChildren: false,
+            shouldProcessNode: (node) => node.type === 'tag' && node.name === 'input' && node.attribs.type === 'checkbox',
+            processNode: (node) => {
+                const attribs = node.attribs || {};
+                node.attribs.checked = Boolean(attribs.checked);
+
+                return React.createElement('input', {...node.attribs});
+            },
+        },
+    ];
+
     if (options.hasPluginTooltips) {
         const hrefAttrib = 'href';
         processingInstructions.push({

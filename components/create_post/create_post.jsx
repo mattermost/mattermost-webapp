@@ -231,6 +231,8 @@ export default class CreatePost extends React.Component {
              * Function to get the users timezones in the channel
              */
             getChannelTimezones: PropTypes.func.isRequired,
+
+            scrollPostListToBottom: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -583,6 +585,7 @@ export default class CreatePost extends React.Component {
         post = hookResult.data;
 
         actions.onSubmitPost(post, draft.fileInfos);
+        actions.scrollPostListToBottom();
 
         this.setState({
             submitting: false,
