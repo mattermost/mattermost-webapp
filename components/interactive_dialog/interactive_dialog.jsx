@@ -65,9 +65,9 @@ export default class InteractiveDialog extends React.Component {
                         />
                     );
                 }
-            });    
+            });
         }
-        
+
         this.setState({errors});
 
         if (Object.keys(errors).length !== 0) {
@@ -189,7 +189,6 @@ export default class InteractiveDialog extends React.Component {
                         );
                     })}
                 </Modal.Body>}
-                
                 <Modal.Footer>
                     <button
                         type='button'
