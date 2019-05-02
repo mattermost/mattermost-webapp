@@ -21,6 +21,10 @@ jest.mock('utils/browser_history', () => ({
     },
 }));
 
+jest.mock('utils/channel_utils.jsx', () => ({
+    getRedirectChannelNameForTeam: () => 'town-square',
+}));
+
 jest.mock('actions/channel_actions.jsx', () => ({
     openDirectChannelToUserId: jest.fn(() => {
         return {type: ''};
@@ -108,9 +112,9 @@ describe('channel view actions', () => {
 
     describe('leaveChannel', () => {
         test('leave a channel successfully', async () => {
-            await store.dispatch(Actions.leaveChannel('channelid'));
+            await store.dispatch(Actions.leaveChannel('channelid1'));
             expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}`);
-            expect(leaveChannel).toHaveBeenCalledWith('channelid');
+            expect(leaveChannel).toHaveBeenCalledWith('channelid1');
         });
     });
 
