@@ -34,7 +34,7 @@ export default class EmailsInput extends React.Component {
             <FormattedMarkdownMessage
                 key='widgets.emails_input.valid_email'
                 id={this.props.validAddressMessageId || t('widgets.emails_input.valid_email')}
-                defaultMessage={this.props.validAddressMessageDefault || 'Add **{email}** email address'}
+                defaultMessage={this.props.validAddressMessageDefault || 'Add **{email}**'}
                 values={{email: value}}
             />
         </React.Fragment>
@@ -45,7 +45,7 @@ export default class EmailsInput extends React.Component {
             <components.NoOptionsMessage {...props}>
                 <FormattedMessage
                     id={this.props.noOptionsMessageId || t('widgets.emails_input.invalid_email')}
-                    defaultMessage={this.props.noOptionsMessageDefault || 'Type a valid email address'}
+                    defaultMessage={this.props.noOptionsMessageDefault || 'Type email address'}
                 />
             </components.NoOptionsMessage>
         );
