@@ -3851,7 +3851,7 @@ export default {
                         label: t('admin.experimental.experimentalTownSquareIsReadOnly.title'),
                         label_default: 'Town Square is Read-Only:',
                         help_text: t('admin.experimental.experimentalTownSquareIsReadOnly.desc'),
-                        help_text_default: 'When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are able to change the channel name, header or purpose. When false, anyone can post in Town Square.',
+                        help_text_default: 'When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are they able to change the channel name, header or purpose. When false, anyone can post in Town Square.',
                         help_text_markdown: true,
                         isHidden: it.isnt(it.licensed), // E10 and higher
                     },

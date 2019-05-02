@@ -480,7 +480,7 @@
   "admin.experimental.experimentalPrimaryTeam.title": "Primary Team:",
   "admin.experimental.experimentalTimezone.desc": "Select the timezone used for timestamps in the user interface and email notifications. When true, the Timezone setting is visible in the Account Settings and a time zone is automatically assigned in the next active session. When false, the Timezone setting is hidden in the Account Settings.",
   "admin.experimental.experimentalTimezone.title": "Timezone:",
-  "admin.experimental.experimentalTownSquareIsReadOnly.desc": "When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are able to change the channel name, header or purpose. When false, anyone can post in Town Square.",
+  "admin.experimental.experimentalTownSquareIsReadOnly.desc": "When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are they able to change the channel name, header or purpose. When false, anyone can post in Town Square.",
   "admin.experimental.experimentalTownSquareIsReadOnly.title": "Town Square is Read-Only:",
   "admin.experimental.ldapSettingsLoginButtonBorderColor.desc": "Specify the color of the AD/LDAP login button border for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.",
   "admin.experimental.ldapSettingsLoginButtonBorderColor.title": "AD/LDAP Login Button Border Color:",
