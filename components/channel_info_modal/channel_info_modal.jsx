@@ -139,9 +139,11 @@ export default class ChannelInfoModal extends React.PureComponent {
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
+                role='dialog'
+                aria-labelledby='channelInfoModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='channelInfoModalLabel'>
                         <FormattedMessage
                             id='channel_info.about'
                             defaultMessage='About'

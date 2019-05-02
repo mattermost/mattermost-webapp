@@ -163,9 +163,11 @@ export default class ManageTokensModal extends React.PureComponent {
                 show={this.props.show}
                 onHide={this.props.onModalDismissed}
                 dialogClassName='manage-teams'
+                role='dialog'
+                aria-labelledby='manageTokensModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='manageTokensModalLabel'>
                         <FormattedMessage
                             id='admin.manage_tokens.manageTokensTitle'
                             defaultMessage='Manage Personal Access Tokens'
