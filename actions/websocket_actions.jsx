@@ -27,8 +27,8 @@ import {
     getPosts,
     getProfilesAndStatusesForPosts,
     postDeleted,
+    receivedNewPost,
     receivedPost,
-    receivedPostsInChannel,
 } from 'mattermost-redux/actions/posts';
 import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 
@@ -214,7 +214,7 @@ function handleEvent(msg) {
     switch (msg.event) {
     case SocketEvents.POSTED:
     case SocketEvents.EPHEMERAL_MESSAGE:
-        handleNewPostEvent(msg);
+        handleNewPostEventDebounced(msg);
         break;
 
     case SocketEvents.POST_EDITED:
@@ -399,7 +399,7 @@ function handleChannelMemberUpdatedEvent(msg) {
     dispatch({type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER, data: channelMember});
 }
 
-export function debouncePostEvent(func, wait) {
+function debouncePostEvent(wait) {
     let timeout;
     let queue = [];
     let count = 0;
@@ -407,24 +407,11 @@ export function debouncePostEvent(func, wait) {
     // Called when timeout triggered
     const triggered = () => {
         timeout = null;
-        if (queue.length > 0) {
-            const posts = {};
-            for (const queuedMsg of queue) {
-                const post = JSON.parse(queuedMsg.data.post);
-                if (!posts[post.channel_id]) {
-                    posts[post.channel_id] = {};
-                }
-                posts[post.channel_id][post.id] = post;
-            }
-            for (const channelId in posts) {
-                if (!posts.hasOwnProperty(channelId)) {
-                    continue;
-                }
 
-                dispatch(receivedPostsInChannel(posts[channelId], channelId));
-                getProfilesAndStatusesForPosts(posts[channelId], dispatch, getState);
-            }
+        if (queue.length > 0) {
+            dispatch(handleNewPostEvents(queue));
         }
+
         queue = [];
         count = 0;
     };
@@ -442,27 +429,42 @@ export function debouncePostEvent(func, wait) {
         } else {
             // Apply immediately for events up until count reaches limit
             count += 1;
-            func(msg);
+            dispatch(handleNewPostEvent(msg));
             clearTimeout(timeout);
             timeout = setTimeout(triggered, wait);
         }
     };
 }
 
-const handleNewPostEvent = debouncePostEvent(handleNewPostEventWrapped, 100);
+const handleNewPostEventDebounced = debouncePostEvent(100);
 
-function handleNewPostEventWrapped(msg) {
-    const post = JSON.parse(msg.data.post);
-    dispatch(handleNewPost(post, msg));
+export function handleNewPostEvent(msg) {
+    return (myDispatch, myGetState) => {
+        const post = JSON.parse(msg.data.post);
+        myDispatch(handleNewPost(post, msg));
 
-    getProfilesAndStatusesForPosts([post], dispatch, getState);
+        getProfilesAndStatusesForPosts([post], myDispatch, myGetState);
 
-    if (post.user_id !== getCurrentUserId(getState()) && !fromAutoResponder(post)) {
-        dispatch({
-            type: UserTypes.RECEIVED_STATUSES,
-            data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
-        });
-    }
+        if (post.user_id !== getCurrentUserId(myGetState()) && !fromAutoResponder(post)) {
+            myDispatch({
+                type: UserTypes.RECEIVED_STATUSES,
+                data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
+            });
+        }
+    };
+}
+
+export function handleNewPostEvents(queue) {
+    return (myDispatch, myGetState) => {
+        const posts = queue.map((msg) => JSON.parse(msg.data.post));
+
+        // Receive the posts as one continuous block since they were received within a short period
+        const actions = posts.map(receivedNewPost);
+        myDispatch(batchActions(actions));
+
+        // And any other data needed for them
+        getProfilesAndStatusesForPosts(posts, myDispatch, myGetState);
+    };
 }
 
 export function handlePostEditEvent(msg) {
