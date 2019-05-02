@@ -22,6 +22,7 @@ function mapStateToProps(state) {
 
     return {
         config: Selectors.getConfig(state),
+        environmentConfig: Selectors.getEnvironmentConfig(state),
         license: getLicense(state),
         buildEnterpriseReady,
         navigationBlocked: getNavigationBlocked(state),

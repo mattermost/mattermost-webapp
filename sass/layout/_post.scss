@@ -27,6 +27,7 @@
     position: relative;
 
     .textbox-preview-area {
+        white-space: normal;
         box-shadow: none;
         left: 0;
         position: absolute;
@@ -35,6 +36,16 @@
 
         p {
             margin: 0;
+        }
+
+        ul + p,
+        ol + p {
+            margin-top: .6em;
+        }
+
+        p + ul,
+        p + ol {
+            margin-top: .6em;
         }
     }
 
@@ -273,7 +284,6 @@
     }
 
     .post-list-holder-by-time {
-        -webkit-overflow-scrolling: touch;
         height: 100%;
         width: 100%;
         position: absolute;
@@ -402,18 +412,10 @@
     padding: 15px;
 }
 
-.post-list__dynamic {
-    > div {
-        > div {
-            margin-bottom: 8px;
-        }
-    }
-}
-
 .post-create__container {
     @include flex(0 0 auto);
     width: 100%;
-    z-index: 7;
+    z-index: 10;
 
     label {
         font-weight: normal;
@@ -689,13 +691,12 @@
 
 .post-list__table {
     @include clearfix;
-    display: table;
     height: 100%;
-    table-layout: fixed;
     width: 100%;
 
     .post-list__content {
-        display: table-cell;
+        height: 100%;
+        overflow: hidden;
 
         .dropdown-menu {
             &.bottom {

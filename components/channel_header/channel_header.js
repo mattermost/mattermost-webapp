@@ -524,7 +524,7 @@ export default class ChannelHeader extends React.PureComponent {
                     <span
                         id='channelHeaderDropdownIcon'
                         className='fa fa-angle-down header-dropdown__icon'
-                        title={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'})}
+                        aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'})}
                     />
                 </div>
                 <ChannelHeaderDropdown/>

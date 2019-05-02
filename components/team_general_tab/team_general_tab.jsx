@@ -26,6 +26,7 @@ export default class GeneralTab extends React.Component {
         maxFileSize: PropTypes.number.isRequired,
         actions: PropTypes.shape({
             patchTeam: PropTypes.func.isRequired,
+            regenerateTeamInviteId: PropTypes.func.isRequired,
             removeTeamIcon: PropTypes.func.isRequired,
             setTeamIcon: PropTypes.func.isRequired,
         }).isRequired,
@@ -48,9 +49,7 @@ export default class GeneralTab extends React.Component {
         this.updateDescription = this.updateDescription.bind(this);
         this.updateTeamIcon = this.updateTeamIcon.bind(this);
         this.updateAllowedDomains = this.updateAllowedDomains.bind(this);
-        this.updateInviteId = this.updateInviteId.bind(this);
         this.handleOpenInviteRadio = this.handleOpenInviteRadio.bind(this);
-        this.handleGenerateInviteId = this.handleGenerateInviteId.bind(this);
 
         this.state = this.setupInitialState(props);
     }
@@ -88,17 +87,6 @@ export default class GeneralTab extends React.Component {
             invite_id: nextProps.team.invite_id,
             allow_open_invite: nextProps.team.allow_open_invite,
         });
-    }
-
-    handleGenerateInviteId(e) {
-        e.preventDefault();
-
-        var newId = '';
-        for (var i = 0; i < 32; i++) {
-            newId += Math.floor(Math.random() * 16).toString(16);
-        }
-
-        this.setState({invite_id: newId});
     }
 
     handleOpenInviteRadio(openInvite) {
@@ -183,27 +171,10 @@ export default class GeneralTab extends React.Component {
     }
 
     handleInviteIdSubmit = async () => {
-        var state = {serverError: '', clientError: ''};
-        let valid = true;
-
-        const inviteId = this.state.invite_id.trim();
-        if (inviteId) {
-            state.clientError = '';
-        } else {
-            state.clientError = Utils.localizeMessage('general_tab.required', 'This field is required');
-            valid = false;
-        }
-
+        const state = {serverError: '', clientError: ''};
         this.setState(state);
 
-        if (!valid) {
-            return;
-        }
-
-        var data = {...this.props.team};
-        data.invite_id = this.state.invite_id;
-
-        const {error} = await this.props.actions.patchTeam(data);
+        const {error} = await this.props.actions.regenerateTeamInviteId(this.props.team.id);
 
         if (error) {
             state.serverError = error.message;
@@ -353,10 +324,6 @@ export default class GeneralTab extends React.Component {
         this.setState({allowed_domains: e.target.value});
     }
 
-    updateInviteId(e) {
-        this.setState({invite_id: e.target.value});
-    }
-
     render() {
         const team = this.props.team;
 
@@ -458,23 +425,11 @@ export default class GeneralTab extends React.Component {
                                 autoFocus={true}
                                 className='form-control'
                                 type='text'
-                                onChange={this.updateInviteId}
                                 value={this.state.invite_id}
                                 maxLength='32'
                                 onFocus={Utils.moveCursorToEnd}
+                                readOnly={true}
                             />
-                            <div className='padding-top x2'>
-                                <button
-                                    id='teamInviteIdRegenerate'
-                                    className='color--link style--none'
-                                    onClick={this.handleGenerateInviteId}
-                                >
-                                    <FormattedMessage
-                                        id='general_tab.regenerate'
-                                        defaultMessage='Regenerate'
-                                    />
-                                </button>
-                            </div>
                         </div>
                     </div>
                     <div className='setting-list__hint'>
@@ -504,6 +459,7 @@ export default class GeneralTab extends React.Component {
                     serverError={serverError}
                     clientError={clientError}
                     updateSection={this.handleUpdateSection}
+                    saveButtonText={Utils.localizeMessage('general_tab.regenerate', 'Regenerate')}
                 />
             );
         } else if (this.props.canInviteTeamMembers) {
