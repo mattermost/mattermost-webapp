@@ -41,7 +41,7 @@
     "react": "16.8.6",
     "react-addons-pure-render-mixin": "15.6.2",
     "react-bootstrap": "github:mattermost/react-bootstrap#dcbd68da4d32c1c4b86e8f2942bc69bc2ebed550",
-    "react-overlays": "^0.8.0",
+    "react-overlays": "0.8.0",
     "react-color": "2.17.0",
     "react-contextmenu": "2.11.0",
     "react-custom-scrollbars": "4.2.1",
