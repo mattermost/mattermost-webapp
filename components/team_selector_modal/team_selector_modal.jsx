@@ -6,7 +6,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import Constants, {ModalIdentifiers} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import MultiSelect from 'components/multiselect/multiselect.jsx';
@@ -25,6 +25,7 @@ export default class TeamSelectorModal extends React.Component {
         teams: PropTypes.array.isRequired,
         onModalDismissed: PropTypes.func,
         onTeamsSelected: PropTypes.func,
+        modalID: PropTypes.string,
         actions: PropTypes.shape({
             loadTeams: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
@@ -98,7 +99,7 @@ export default class TeamSelectorModal extends React.Component {
     }
 
     addValue = (value, confirmed = false) => {
-        if (value.scheme_id !== null && value.scheme_id !== '' && !confirmed) {
+        if (this.props.modalID === ModalIdentifiers.ADD_TEAMS_TO_SCHEME && value.scheme_id !== null && value.scheme_id !== '' && !confirmed) {
             this.setState({confirmAddModal: true, confirmAddTeam: value});
             return;
         }

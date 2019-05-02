@@ -80,11 +80,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       text="Permalink"
     />
     <MenuItemAction
+      id="unpin_post_post_id_1"
       onClick={[Function]}
       show={false}
       text="Unpin"
     />
     <MenuItemAction
+      id="pin_post_post_id_1"
       onClick={[Function]}
       show={true}
       text="Pin"
@@ -189,11 +191,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       text="Permalink"
     />
     <MenuItemAction
+      id="unpin_post_post_id_1"
       onClick={[Function]}
       show={false}
       text="Unpin"
     />
     <MenuItemAction
+      id="pin_post_post_id_1"
       onClick={[Function]}
       show={true}
       text="Pin"

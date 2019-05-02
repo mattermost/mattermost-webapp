@@ -18,138 +18,138 @@ exports[`components/AdminConsole should generate the routes 1`] = `
     >
       <Switch>
         <Route
-          key="license"
-          path="/license"
+          key="about/license"
+          path="/about/license"
           render={[Function]}
         />
         <Route
-          key="system_analytics"
-          path="/system_analytics"
+          key="reporting/system_analytics"
+          path="/reporting/system_analytics"
           render={[Function]}
         />
         <Route
-          key="team_analytics"
-          path="/team_analytics"
+          key="reporting/team_statistics"
+          path="/reporting/team_statistics"
           render={[Function]}
         />
         <Route
-          key="logs"
-          path="/logs"
+          key="reporting/server_logs"
+          path="/reporting/server_logs"
           render={[Function]}
         />
         <Route
-          key="users"
-          path="/users"
+          key="user_management/users"
+          path="/user_management/users"
           render={[Function]}
         />
         <Route
-          key="web_server"
-          path="/web_server"
+          key="environment/web_server"
+          path="/environment/web_server"
           render={[Function]}
         />
         <Route
-          key="database"
-          path="/database"
+          key="environment/database"
+          path="/environment/database"
           render={[Function]}
         />
         <Route
-          key="file_storage"
-          path="/file_storage"
+          key="environment/file_storage"
+          path="/environment/file_storage"
           render={[Function]}
         />
         <Route
-          key="image_proxy"
-          path="/image_proxy"
+          key="environment/image_proxy"
+          path="/environment/image_proxy"
           render={[Function]}
         />
         <Route
-          key="notifications_email"
-          path="/notifications_email"
+          key="environment/notifications_email"
+          path="/environment/notifications_email"
           render={[Function]}
         />
         <Route
-          key="push"
-          path="/push"
+          key="environment/push"
+          path="/environment/push"
           render={[Function]}
         />
         <Route
-          key="rate"
-          path="/rate"
+          key="environment/rate_limiting"
+          path="/environment/rate_limiting"
           render={[Function]}
         />
         <Route
-          key="logging"
-          path="/logging"
+          key="environment/logging"
+          path="/environment/logging"
           render={[Function]}
         />
         <Route
-          key="session_lengths"
-          path="/session_lengths"
+          key="environment/session_lengths"
+          path="/environment/session_lengths"
           render={[Function]}
         />
         <Route
-          key="developer"
-          path="/developer"
+          key="environment/developer"
+          path="/environment/developer"
           render={[Function]}
         />
         <Route
-          key="customization_new"
-          path="/customization_new"
+          key="site_config/customization"
+          path="/site_config/customization"
           render={[Function]}
         />
         <Route
-          key="localization"
-          path="/localization"
+          key="site_config/localization"
+          path="/site_config/localization"
           render={[Function]}
         />
         <Route
-          key="users_and_teams"
-          path="/users_and_teams"
+          key="site_config/users_and_teams"
+          path="/site_config/users_and_teams"
           render={[Function]}
         />
         <Route
-          key="emoji"
-          path="/emoji"
+          key="site_config/emoji"
+          path="/site_config/emoji"
           render={[Function]}
         />
         <Route
-          key="posts"
-          path="/posts"
+          key="site_config/posts"
+          path="/site_config/posts"
           render={[Function]}
         />
         <Route
-          key="file_sharing_and_downloads"
-          path="/file_sharing_and_downloads"
+          key="site_config/file_sharing_downloads"
+          path="/site_config/file_sharing_downloads"
           render={[Function]}
         />
         <Route
-          key="public_links"
-          path="/public_links"
+          key="site_config/public_links"
+          path="/site_config/public_links"
           render={[Function]}
         />
         <Route
-          key="signup"
-          path="/signup"
+          key="authentication/signup"
+          path="/authentication/signup"
           render={[Function]}
         />
         <Route
-          key="authentication_email"
-          path="/authentication_email"
+          key="authentication/email"
+          path="/authentication/email"
           render={[Function]}
         />
         <Route
-          key="password"
-          path="/password"
+          key="authentication/password"
+          path="/authentication/password"
           render={[Function]}
         />
         <Route
-          key="mfa"
-          path="/mfa"
+          key="authentication/mfa"
+          path="/authentication/mfa"
           render={[Function]}
         />
         <Route
-          key="gitlab"
-          path="/gitlab"
+          key="authentication/gitlab"
+          path="/authentication/gitlab"
           render={[Function]}
         />
         <Route
@@ -173,8 +173,8 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           render={[Function]}
         />
         <Route
-          key="plugins/custom/:plugin_id"
-          path="/plugins/custom/:plugin_id"
+          key="integrations/plugin_:plugin_id"
+          path="/integrations/plugin_:plugin_id"
           render={[Function]}
         />
         <Route
@@ -183,7 +183,7 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           render={[Function]}
         />
         <Redirect
-          to="/license"
+          to="/about/license"
         />
       </Switch>
     </Highlight>

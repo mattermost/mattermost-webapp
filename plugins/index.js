@@ -102,7 +102,7 @@ function initializePlugin(manifest) {
     // Initialize the plugin
     const plugin = window.plugins[manifest.id];
     const registry = new PluginRegistry(manifest.id);
-    if (plugin.initialize) {
+    if (plugin && plugin.initialize) {
         plugin.initialize(registry, store);
     }
 }

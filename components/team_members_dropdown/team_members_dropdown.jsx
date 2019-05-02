@@ -169,10 +169,10 @@ export default class TeamMembersDropdown extends React.Component {
             showMakeAdmin = false;
         }
 
-        const canRemoveFromTeam = this.props.user.id !== me.id && !currentTeam.group_constrained;
+        const canRemoveFromTeam = user.id !== me.id && !currentTeam.group_constrained;
 
         let makeDemoteModal = null;
-        if (this.props.user.id === me.id) {
+        if (user.id === me.id) {
             const title = (
                 <FormattedMessage
                     id='team_members_dropdown.confirmDemoteRoleTitle'
@@ -224,13 +224,14 @@ export default class TeamMembersDropdown extends React.Component {
 
         const {index, totalUsers} = this.props;
         let openUp = false;
-        if (totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP) {
+        if (totalUsers > ROWS_FROM_BOTTOM_TO_OPEN_UP && totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP) {
             openUp = true;
         }
 
         return (
             <MenuWrapper>
                 <button
+                    id={`teamMembersDropdown_${user.username}`}
                     className='dropdown-toggle theme color--link style--none'
                     type='button'
                     aria-expanded='true'

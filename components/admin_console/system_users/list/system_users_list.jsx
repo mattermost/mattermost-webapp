@@ -183,10 +183,6 @@ export default class SystemUsersList extends React.Component {
     getInfoForUser(user) {
         const info = [];
 
-        if (user.is_bot) {
-            return null;
-        }
-
         if (user.auth_service) {
             let service;
             if (user.auth_service === Constants.LDAP_SERVICE || user.auth_service === Constants.SAML_SERVICE) {
