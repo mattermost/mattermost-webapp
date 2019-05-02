@@ -124,7 +124,7 @@ export default class UsersEmailsInput extends React.Component {
             <FormattedMarkdownMessage
                 key='widgets.users_emails_input.valid_email'
                 id={this.props.validAddressMessageId || t('widgets.users_emails_input.valid_email')}
-                defaultMessage={this.props.validAddressMessageDefault || 'Add **{email}** email address'}
+                defaultMessage={this.props.validAddressMessageDefault || 'Add **{email}**'}
                 values={{email: value}}
             />
         </React.Fragment>
@@ -137,7 +137,7 @@ export default class UsersEmailsInput extends React.Component {
                 <div className='users-emails-input__option'>
                     <FormattedMarkdownMessage
                         id={this.props.noMatchMessageId || t('widgets.users_emails_input.no_user_found_matching')}
-                        defaultMessage={this.props.noMatchMessageDefault || 'No one found matching **{text}**, type another string or an email address'}
+                        defaultMessage={this.props.noMatchMessageDefault || 'No one found matching **{text}**, type email address'}
                         values={{text: inputValue}}
                     >
                         {(message) => (
@@ -153,7 +153,7 @@ export default class UsersEmailsInput extends React.Component {
             <div className='users-emails-input__option'>
                 <FormattedMarkdownMessage
                     id={this.props.noOptionsMessageId || t('widgets.users_emails_input.empty')}
-                    defaultMessage={this.props.noOptionsMessageDefault || 'Type a text to find a user or type an email'}
+                    defaultMessage={this.props.noOptionsMessageDefault || 'Add users or email addresses'}
                     values={{text: inputValue}}
                 >
                     {(message) => (

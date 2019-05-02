@@ -3250,10 +3250,10 @@
   "web.header.back": "Back",
   "web.header.logout": "Logout",
   "web.root.signup_info": "All team communication in one place, searchable and accessible anywhere",
-  "widgets.users_emails_input.empty": "Type a text to find a user or type an email",
+  "widgets.users_emails_input.empty": "Add users or email addresses",
   "widgets.users_emails_input.loading": "Loading",
-  "widgets.users_emails_input.no_user_found_matching": "No one found matching **{text}**, type another string or an email address",
-  "widgets.users_emails_input.valid_email": "Add **{email}** email address",
+  "widgets.users_emails_input.no_user_found_matching": "No one found matching **{text}**, type email address",
+  "widgets.users_emails_input.valid_email": "Add **{email}**",
   "yourcomputer": "Your computer",
   "youtube_video.notFound": "Video not found"
 }
