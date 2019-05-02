@@ -2111,7 +2111,7 @@ export default {
                         label: t('admin.ldap.groupDisplayNameAttributeTitle'),
                         label_default: 'Group Display Name Attribute:',
                         help_text: t('admin.ldap.groupDisplayNameAttributeDesc'),
-                        help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the Group Name. Defaults to "Common name" when blank.',
+                        help_text_default: 'The attribute in the AD/LDAP server used to populate the group display names.',
                         placeholder: t('admin.ldap.groupDisplayNameAttributeEx'),
                         placeholder_default: 'E.g.: "cn"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),

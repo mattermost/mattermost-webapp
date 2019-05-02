@@ -693,7 +693,7 @@
   "admin.ldap.firstnameAttrDesc": "(Optional) The attribute in the AD/LDAP server used to populate the first name of users in Mattermost. When set, users cannot edit their first name, since it is synchronized with the LDAP server. When left blank, users can set their first name in Account Settings.",
   "admin.ldap.firstnameAttrEx": "E.g.: \"givenName\"",
   "admin.ldap.firstnameAttrTitle": "First Name Attribute:",
-  "admin.ldap.groupDisplayNameAttributeDesc": "(Optional) The attribute in the AD/LDAP server used to populate the Group Name. Defaults to ‘Common name’ when blank.",
+  "admin.ldap.groupDisplayNameAttributeDesc": "The attribute in the AD/LDAP server used to populate the group display names.",
   "admin.ldap.groupDisplayNameAttributeEx": "E.g.: \"cn\"",
   "admin.ldap.groupDisplayNameAttributeTitle": "Group Display Name Attribute:",
   "admin.ldap.groupFilterEx": "E.g.: \"(objectClass=group)\"",
