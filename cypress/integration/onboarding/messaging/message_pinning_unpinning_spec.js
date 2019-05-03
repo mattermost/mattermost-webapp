@@ -38,7 +38,7 @@ describe('Messaging', () => {
     });
 
     it('M15010 Pinning or un-pinning older post does not cause it to display at bottom of channel', () => {
-        cy.get('#sidebarItem_saepe-5').click();
+        cy.get('#sidebarItem_saepe-5').click({force: true});
 
         // 1. Ensure there are a couple of pinned posts in the channel already:
         // 1a. Pin 10th and 15th newest posts
