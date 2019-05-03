@@ -325,21 +325,22 @@ export default class PostList extends React.PureComponent {
     }
 
     checkBottom = (scrollOffset) => {
+        this.updateAtBottom(this.isAtBottom(scrollOffset));
+    }
+
+    isAtBottom = (scrollOffset) => {
         // Calculate how far the post list is from being scrolled to the bottom
         const postList = this.postListRef.current;
-        window.plr = postList;
         const offsetFromBottom = (postList.scrollHeight - postList.parentElement.clientHeight) - scrollOffset;
 
-        if (offsetFromBottom === 0) {
-            if (!this.state.atBottom) {
-                this.setState({
-                    atBottom: true,
-                    lastViewedBottom: Date.now(),
-                });
-            }
-        } else if (this.state.atBottom) {
+        return offsetFromBottom === 0;
+    }
+
+    updateAtBottom = (atBottom) => {
+        if (atBottom !== this.state.atBottom) {
+            // Update lastViewedBottom when the list reaches or leaves the bottom
             this.setState({
-                atBottom: false,
+                atBottom,
                 lastViewedBottom: Date.now(),
             });
         }
