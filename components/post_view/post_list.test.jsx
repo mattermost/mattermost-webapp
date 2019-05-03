@@ -17,7 +17,6 @@ describe('PostList', () => {
     const baseProps = {
         channel: {id: 'channel'},
         focusedPostId: '',
-        lastViewedAt: 0,
         postListIds: [
             'post1',
             'post2',
