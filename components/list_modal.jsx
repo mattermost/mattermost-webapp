@@ -117,17 +117,19 @@ export default class ListModal extends React.PureComponent {
     }
 
     onNext = async () => {
-        this.setState({loading: true});
         const nextPage = this.state.page + 1;
-        const items = await this.props.loadItems(nextPage, this.state.searchTerm);
-        this.setState({page: nextPage, items, loading: false});
+        this.onPageChange(nextPage);
     }
 
     onPrev = async () => {
-        this.setState({loading: true});
         const prevPage = this.state.page - 1;
-        const items = await this.props.loadItems(prevPage, this.state.searchTerm);
-        this.setState({page: prevPage, items, loading: false});
+        this.onPageChange(prevPage);
+    }
+
+    onPageChange = async (page) => {
+        this.setState({loading: true});
+        const items = await this.props.loadItems(page, this.state.searchTerm);
+        this.setState({page, items, loading: false});
     }
 
     onSearchInput = async (event) => {
