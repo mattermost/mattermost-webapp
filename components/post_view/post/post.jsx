@@ -68,11 +68,6 @@ export default class Post extends React.PureComponent {
          */
         replyCount: PropTypes.number,
 
-        /**
-         * If is a bot post
-         */
-        isBot: PropTypes.bool,
-
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
         }).isRequired,
@@ -122,8 +117,6 @@ export default class Post extends React.PureComponent {
 
         if (props.isFirstReply) {
             return false;
-        } else if (props.isBot) {
-            return false;
         } else if (!post.root_id && !props.previousPostIsComment && props.consecutivePostByUser) {
             return true;
         } else if (post.root_id) {
@@ -133,7 +126,7 @@ export default class Post extends React.PureComponent {
         return false;
     }
 
-    getClassName = (post, isSystemMessage, fromWebhook, fromAutoResponder) => {
+    getClassName = (post, isSystemMessage, fromWebhook, fromAutoResponder, fromBot) => {
         let className = 'post';
 
         if (post.failed || post.state === Posts.POST_DELETED) {
@@ -145,7 +138,7 @@ export default class Post extends React.PureComponent {
         }
 
         let rootUser = '';
-        if (this.state.sameRoot) {
+        if (this.state.sameRoot && !fromBot) {
             rootUser = 'same--root';
         } else {
             rootUser = 'other--root';
@@ -218,9 +211,10 @@ export default class Post extends React.PureComponent {
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
         const fromWebhook = post && post.props && post.props.from_webhook === 'true';
+        const fromBot = post && post.props && post.props.from_bot === 'true';
 
         let profilePic;
-        const hideProfilePicture = this.state.sameRoot && this.props.consecutivePostByUser && (!post.root_id && this.props.replyCount === 0);
+        const hideProfilePicture = this.state.sameRoot && this.props.consecutivePostByUser && (!post.root_id && this.props.replyCount === 0) && !fromBot;
         if (!hideProfilePicture) {
             profilePic = (
                 <PostProfilePicture
@@ -248,7 +242,7 @@ export default class Post extends React.PureComponent {
             <div
                 ref={this.getRef}
                 id={'post_' + post.id}
-                className={this.getClassName(post, isSystemMessage, fromWebhook, fromAutoResponder)}
+                className={this.getClassName(post, isSystemMessage, fromWebhook, fromAutoResponder, fromBot)}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
                 onTouchStart={this.setHover}

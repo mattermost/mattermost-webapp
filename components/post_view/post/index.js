@@ -8,7 +8,7 @@ import {createSelector} from 'reselect';
 import {Posts} from 'mattermost-redux/constants';
 import {getPost, makeIsPostCommentMention} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
-import {getUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {isPostEphemeral, isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
 import {selectPost} from 'actions/views/rhs';
@@ -37,7 +37,6 @@ function makeMapStateToProps() {
 
     return (state, ownProps) => {
         const post = ownProps.post || getPost(state, ownProps.postId);
-        const user = getUser(state, post.user_id);
 
         let previousPost = null;
         if (ownProps.previousPostId) {
@@ -61,7 +60,6 @@ function makeMapStateToProps() {
 
         return {
             post,
-            isBot: (user && user.is_bot),
             currentUserId: getCurrentUserId(state),
             isFirstReply,
             consecutivePostByUser,
