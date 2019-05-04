@@ -1649,6 +1649,7 @@
   "channel_header.delete": "Archive Channel",
   "channel_header.directchannel.you": "{displayname} (you) ",
   "channel_header.flagged": "Flagged Posts",
+  "channel_header.groupConstrained": "Members managed by linked groups.",
   "channel_header.leave": "Leave Channel",
   "channel_header.manageMembers": "Manage Members",
   "channel_header.menuAriaLabel": "Channel Menu",

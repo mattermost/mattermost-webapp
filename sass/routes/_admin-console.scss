@@ -588,6 +588,7 @@
     .sidebar-category {
         margin-top: 0px;
         .category-title {
+            background: alpha-color($white, .15);
             color: $white;
             line-height: 15.4px;
             padding: 10px;
@@ -614,7 +615,7 @@
         }
 
         .sections {
-            padding: 3px 0;
+            padding: 5px 0;
         }
     }
 
@@ -646,11 +647,11 @@
     }
 
     .sidebar-section-title {
-        padding: 6px 35px 6px 17px;
+        padding: 6px 35px 6px 15px;
     }
 
     .sidebar-subsection-title {
-        padding: 6px 35px 6px 35px;
+        padding: 6px 35px 6px 30px;
     }
 
     .sidebar-section-title,

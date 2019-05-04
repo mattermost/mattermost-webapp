@@ -50,6 +50,20 @@ Cypress.Commands.add('toIntegrationSettings', () => {
     cy.get('#integrations').should('be.visible').click();
 });
 
+Cypress.Commands.add('getSubpath', () => {
+    cy.visit('/');
+    cy.url().then((url) => {
+        cy.location().its('origin').then((origin) => {
+            if (url === origin) {
+                return '';
+            }
+
+            // Remove trailing slash
+            return url.replace(origin, '').substring(0, url.length - origin.length - 1);
+        });
+    });
+});
+
 // ***********************************************************
 // Account Settings Modal
 // ***********************************************************
