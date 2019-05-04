@@ -39,7 +39,7 @@ export default class FileInfoPreview extends React.PureComponent {
                 >
                     <span className='file-details__preview-helper'/>
                     <img
-                        alt={'File preview'}
+                        alt={'file preview'}
                         src={Utils.getFileIconPath(fileInfo)}
                     />
                 </a>
@@ -49,7 +49,7 @@ export default class FileInfoPreview extends React.PureComponent {
                 <span className='file-details__preview'>
                     <span className='file-details__preview-helper'/>
                     <img
-                        alt={'File preview'}
+                        alt={'file preview'}
                         src={Utils.getFileIconPath(fileInfo)}
                     />
                 </span>

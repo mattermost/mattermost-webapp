@@ -14,7 +14,7 @@ exports[`components/login/LoginController should match snapshot 1`] = `
         className="signup__markdown"
       />
       <img
-        alt="Signup taeam logo"
+        alt="signup team logo"
         className="signup-team-logo"
         src={null}
       />
@@ -59,7 +59,7 @@ exports[`components/login/LoginController should match snapshot when expired 1`]
         className="signup__markdown"
       />
       <img
-        alt="Signup taeam logo"
+        alt="signup team logo"
         className="signup-team-logo"
         src={null}
       />
@@ -134,7 +134,7 @@ exports[`components/login/LoginController should show session expiry notificatio
         className="signup__markdown"
       />
       <img
-        alt="Signup taeam logo"
+        alt="signup team logo"
         className="signup-team-logo"
         src={null}
       />
@@ -202,7 +202,7 @@ exports[`components/login/LoginController should suppress session expiry notific
         className="signup__markdown"
       />
       <img
-        alt="Signup taeam logo"
+        alt="signup team logo"
         className="signup-team-logo"
         src={null}
       />

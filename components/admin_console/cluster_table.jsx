@@ -19,7 +19,7 @@ export default class ClusterTable extends React.Component {
     render() {
         var versionMismatch = (
             <img
-                alt='Cluster status'
+                alt='version mismatch'
                 className='cluster-status'
                 src={statusGreen}
             />
@@ -27,7 +27,7 @@ export default class ClusterTable extends React.Component {
 
         var configMismatch = (
             <img
-                alt='Cluster status'
+                alt='config mismatch'
                 className='cluster-status'
                 src={statusGreen}
             />
@@ -47,7 +47,7 @@ export default class ClusterTable extends React.Component {
             if (clusterInfo.version !== version) {
                 versionMismatch = (
                     <img
-                        alt='Cluster status'
+                        alt='version mismatch'
                         className='cluster-status'
                         src={statusYellow}
                     />
@@ -57,7 +57,7 @@ export default class ClusterTable extends React.Component {
             if (clusterInfo.config_hash !== configHash) {
                 configMismatch = (
                     <img
-                        alt='Cluster status'
+                        alt='config mismatch'
                         className='cluster-status'
                         src={statusYellow}
                     />

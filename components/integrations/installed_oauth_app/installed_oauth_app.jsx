@@ -234,7 +234,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
             icon = (
                 <div className='integration__icon integration-list__icon'>
                     <img
-                        alt={'Get app screenshot'}
+                        alt={'get app screenshot'}
                         src={oauthApp.icon_url}
                     />
                 </div>

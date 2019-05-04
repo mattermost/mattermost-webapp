@@ -29,7 +29,7 @@ describe('components/widgets/loading/LoadingBars', () => {
   className="LoadingBars"
 >
   <img
-    alt="Spinner"
+    alt="spinner icon"
     className="spinner"
     src={null}
   />

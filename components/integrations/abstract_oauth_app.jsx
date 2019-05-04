@@ -223,7 +223,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
             icon = (
                 <div className='integration__icon'>
                     <img
-                        alt={'Integration icon'}
+                        alt={'integration icon'}
                         src={this.state.icon_url}
                     />
                 </div>

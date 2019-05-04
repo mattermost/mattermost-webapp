@@ -24,7 +24,7 @@ export default class IntegrationOption extends React.Component {
                 className='integration-option'
             >
                 <img
-                    alt={'Integration image'}
+                    alt={'integration image'}
                     className='integration-option__image'
                     src={image}
                 />

@@ -36,12 +36,12 @@ export default function GetIosApp({iosAppDownloadLink, history, location}) {
                 rel='noopener noreferrer'
             >
                 <img
-                    alt={'App store button'}
+                    alt={'app store button'}
                     src={AppStoreButton}
                 />
             </a>
             <img
-                alt={'Get app screenshot'}
+                alt={'get app screenshot'}
                 className='get-app__screenshot'
                 src={IPhone6Mockup}
             />

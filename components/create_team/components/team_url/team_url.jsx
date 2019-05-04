@@ -185,7 +185,7 @@ export default class TeamUrl extends React.PureComponent {
             <div>
                 <form>
                     <img
-                        alt={'Signup team logo'}
+                        alt={'signup team logo'}
                         className='signup-team-logo'
                         src={logoImage}
                     />

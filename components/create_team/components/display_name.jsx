@@ -86,7 +86,7 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
             <div>
                 <form>
                     <img
-                        alt={'Signup logo'}
+                        alt={'signup logo'}
                         className='signup-team-logo'
                         src={logoImage}
                     />

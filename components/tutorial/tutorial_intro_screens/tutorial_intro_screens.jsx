@@ -176,7 +176,7 @@ export default class TutorialIntroScreens extends React.Component {
                     rel='noopener noreferrer'
                 >
                     <img
-                        alt={'Tutorial icons'}
+                        alt={'tutorial icons'}
                         className='tutorial__app-icons'
                         src={AppIcons}
                     />

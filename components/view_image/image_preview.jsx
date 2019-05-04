@@ -22,7 +22,7 @@ export default function ImagePreview({fileInfo, canDownloadFiles}) {
             download={true}
         >
             <img
-                alt={'Preview url image'}
+                alt={'preview url image'}
                 src={previewUrl}
             />
         </a>

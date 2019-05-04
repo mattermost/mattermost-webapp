@@ -469,7 +469,7 @@ export default class SignupEmail extends React.Component {
                 >
                     <div className='signup-team__container padding--less'>
                         <img
-                            alt={'Signup team logo'}
+                            alt={'signup team logo'}
                             className='signup-team-logo'
                             src={logoImage}
                         />

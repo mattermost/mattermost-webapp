@@ -161,7 +161,7 @@ export default class TutorialTip extends React.Component {
                 onClick={this.show}
             >
                 <img
-                    alt={'Tutorial tip'}
+                    alt={'tutorial tip'}
                     className='tip-button'
                     src={tutorialGifImage}
                     width='35'

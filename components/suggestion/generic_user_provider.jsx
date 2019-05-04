@@ -39,7 +39,7 @@ class UserSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 <img
-                    alt={'User Profile image'}
+                    alt={'user profile image'}
                     className='admin-setting-user__image'
                     src={Client4.getUsersRoute() + '/' + item.id + '/image?_=' + (item.last_picture_update || 0)}
                 />
