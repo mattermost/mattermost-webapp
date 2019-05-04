@@ -5,8 +5,6 @@ import {getChannelAndMyMember, getChannelMembersByIds} from 'mattermost-redux/ac
 import {savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
 import {getTeamMembersByIds} from 'mattermost-redux/actions/teams';
 import * as UserActions from 'mattermost-redux/actions/users';
-import {Client4} from 'mattermost-redux/client';
-import {bindClientFunc} from 'mattermost-redux/actions/helpers';
 import {Preferences as PreferencesRedux} from 'mattermost-redux/constants';
 import {
     getChannel,
@@ -283,25 +281,6 @@ export async function autocompleteUsers(username, success) {
     if (success) {
         success(data);
     }
-}
-
-export function getAuthorizedApps() {
-    return (doDispatch, doGetState) => {
-        const currentUserId = Selectors.getCurrentUserId(doGetState());
-        const getAuthAppsAction = bindClientFunc({
-            clientFunc: Client4.getAuthorizedOAuthApps,
-            params: [currentUserId],
-        });
-
-        return doDispatch(getAuthAppsAction);
-    };
-}
-
-export function deauthorizeOAuthApp(appId) {
-    return bindClientFunc({
-        clientFunc: Client4.deauthorizeOAuthApp,
-        params: [appId],
-    });
 }
 
 export function autoResetStatus() {
