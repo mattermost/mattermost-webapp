@@ -11,6 +11,8 @@ import Constants from 'utils/constants.jsx';
 import Reaction from 'components/post_view/reaction';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
+import {scrollPostList} from 'actions/views/channel';
+import {disableVirtList} from 'utils/utils.jsx';
 
 const DEFAULT_EMOJI_PICKER_RIGHT_OFFSET = 15;
 const EMOJI_PICKER_WIDTH_OFFSET = 260;
@@ -63,6 +65,12 @@ export default class ReactionList extends React.PureComponent {
     componentDidMount() {
         if (this.props.post.has_reactions && !this.props.post.metadata) {
             this.props.actions.getReactionsForPost(this.props.post.id);
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.reactions !== prevProps.reactions && disableVirtList()) {
+            scrollPostList();
         }
     }
 
