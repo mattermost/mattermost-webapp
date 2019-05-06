@@ -78,7 +78,6 @@ function makeMapStateToProps() {
 
         return {
             channel,
-            lastViewedAt,
             postVisibility,
             postListIds: postIds,
             channelLoading,

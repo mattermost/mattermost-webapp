@@ -17,7 +17,6 @@ describe('PostList', () => {
     const baseProps = {
         channel: {id: 'channel'},
         focusedPostId: '',
-        lastViewedAt: 0,
         postListIds: [
             'post1',
             'post2',
@@ -154,31 +153,98 @@ describe('PostList', () => {
         });
     });
 
-    describe('onItemsRendered', () => {
-        test('should set state atBottom false when visibleStopIndex is not 0', () => {
+    describe('onScroll', () => {
+        test('should call checkBottom', () => {
             const wrapper = shallow(<PostList {...baseProps}/>);
-            wrapper.setState({atBottom: true});
-            wrapper.instance().onItemsRendered({visibleStartIndex: 4, visibleStopIndex: 1});
-            expect(wrapper.state('atBottom')).toEqual(false);
+            wrapper.instance().checkBottom = jest.fn();
+
+            const scrollOffset = 1234;
+
+            wrapper.instance().onScroll({
+                scrollDirection: 'forward',
+                scrollOffset,
+                scrollUpdateWasRequested: false,
+            });
+
+            expect(wrapper.instance().checkBottom).toHaveBeenCalledWith(scrollOffset);
         });
     });
+
+    describe('isAtBottom', () => {
+        const scrollHeight = 1000;
+        const parentClientHeight = 500;
+
+        for (const testCase of [
+            {
+                name: 'when viewing the top of the post list',
+                scrollOffset: 0,
+                expected: false,
+            },
+            {
+                name: 'when 1 pixel from the bottom',
+                scrollOffset: 499,
+                expected: false,
+            },
+            {
+                name: 'when at the bottom',
+                scrollOffset: 500,
+                expected: true,
+            },
+        ]) {
+            test(testCase.name, () => {
+                const wrapper = shallow(<PostList {...baseProps}/>);
+                wrapper.instance().postListRef = {
+                    current: {
+                        scrollHeight,
+                        parentElement: {
+                            clientHeight: parentClientHeight,
+                        },
+                    },
+                };
+
+                expect(wrapper.instance().isAtBottom(testCase.scrollOffset)).toBe(testCase.expected);
+            });
+        }
+    });
+
+    describe('updateAtBottom', () => {
+        test('should update atBottom and lastViewedBottom when atBottom changes', () => {
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            wrapper.setState({lastViewedBottom: 1234});
+
+            wrapper.instance().updateAtBottom(false);
+
+            expect(wrapper.state('atBottom')).toBe(false);
+            expect(wrapper.state('lastViewedBottom')).not.toBe(1234);
+        });
+
+        test('should not update lastViewedBottom when atBottom does not change', () => {
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            wrapper.setState({lastViewedBottom: 1234});
+
+            wrapper.instance().updateAtBottom(true);
+
+            expect(wrapper.state('lastViewedBottom')).toBe(1234);
+        });
+    });
+
     describe('Scroll correction logic on mount of posts at the top', () => {
         test('should return previous scroll position from getSnapshotBeforeUpdate', () => {
             const wrapper = shallow(<PostList {...baseProps}/>);
             const instance = wrapper.instance();
             instance.componentDidUpdate = jest.fn();
 
-            instance.postlistRef = {current: {scrollTop: 10, scrollHeight: 100}};
+            instance.postListRef = {current: {scrollTop: 10, scrollHeight: 100}};
             wrapper.setState({atEnd: true});
             expect(instance.componentDidUpdate).toHaveBeenCalledTimes(1);
             expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollTop: 10, previousScrollHeight: 100});
 
-            instance.postlistRef = {current: {scrollTop: 30, scrollHeight: 200}};
+            instance.postListRef = {current: {scrollTop: 30, scrollHeight: 200}};
             wrapper.setState({atEnd: false});
             expect(instance.componentDidUpdate).toHaveBeenCalledTimes(2);
             expect(instance.componentDidUpdate.mock.calls[1][2]).toEqual({previousScrollTop: 30, previousScrollHeight: 200});
 
-            instance.postlistRef = {current: {scrollTop: 40, scrollHeight: 400}};
+            instance.postListRef = {current: {scrollTop: 40, scrollHeight: 400}};
             wrapper.setProps({postListIds: [
                 'post1',
                 'post2',
