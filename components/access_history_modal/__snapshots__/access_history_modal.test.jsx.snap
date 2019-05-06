@@ -3,6 +3,7 @@
 exports[`components/AccessHistoryModal should match snapshot when audits exist 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="accessHistoryModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -27,6 +28,7 @@ exports[`components/AccessHistoryModal should match snapshot when audits exist 1
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -37,6 +39,7 @@ exports[`components/AccessHistoryModal should match snapshot when audits exist 1
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="accessHistoryModalLabel"
     >
       <FormattedMessage
         defaultMessage="Access History"
@@ -66,6 +69,7 @@ exports[`components/AccessHistoryModal should match snapshot when audits exist 1
 exports[`components/AccessHistoryModal should match snapshot when no audits exist 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="accessHistoryModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -90,6 +94,7 @@ exports[`components/AccessHistoryModal should match snapshot when no audits exis
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -100,6 +105,7 @@ exports[`components/AccessHistoryModal should match snapshot when no audits exis
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="accessHistoryModalLabel"
     >
       <FormattedMessage
         defaultMessage="Access History"
