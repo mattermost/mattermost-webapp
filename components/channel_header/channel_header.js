@@ -25,6 +25,7 @@ import QuickSwitchModal from 'components/quick_switch_modal';
 import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
 import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import {
     Constants,
@@ -311,7 +312,10 @@ export default class ChannelHeader extends React.PureComponent {
             channelTitle = (
                 <React.Fragment>
                     {channelTitle}
-                    {Utils.isGuest(dmUser) && <GuestBadge className='popoverlist'/>}
+                    <GuestBadge
+                        show={Utils.isGuest(dmUser)}
+                        className='popoverlist'
+                    />
                 </React.Fragment>
             );
         }
@@ -324,7 +328,10 @@ export default class ChannelHeader extends React.PureComponent {
                 nodes.push((
                     <React.Fragment key={username}>
                         {username + ' '}
-                        {Utils.isGuest(user) && <GuestBadge className='popoverlist'/>}
+                        <GuestBadge
+                            show={Utils.isGuest(user)}
+                            className='popoverlist'
+                        />
                     </React.Fragment>
                 ));
             }
@@ -569,12 +576,7 @@ export default class ChannelHeader extends React.PureComponent {
                         </span>
                     </strong>
                     <div>
-                        <div className='bot-indicator bot-indicator__popoverlist'>
-                            <FormattedMessage
-                                id='post_info.bot'
-                                defaultMessage='BOT'
-                            />
-                        </div>
+                        <BotBadge className='badge-popoverlist'/>
                     </div>
                 </div>
             );

@@ -35,7 +35,7 @@ import {
     isUnreadChannel,
 } from 'mattermost-redux/utils/channel_utils';
 
-import {FormattedMessage} from 'react-intl';
+import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import DraftIcon from 'components/svg/draft_icon';
 import GlobeIcon from 'components/svg/globe_icon';
@@ -132,19 +132,19 @@ class SwitchChannelSuggestion extends Suggestion {
 
         let tag = null;
         if (channel.type === Constants.DM_CHANNEL) {
-            var teammate = Utils.getUserById(channel.userId);
-            if (teammate && teammate.is_bot) {
-                tag = (
-                    <div className='bot-indicator bot-indicator__autocomplete'>
-                        <FormattedMessage
-                            id='post_info.bot'
-                            defaultMessage='BOT'
-                        />
-                    </div>
-                );
-            } else if (teammate && Utils.isGuest(teammate)) {
-                tag = <GuestBadge className='autocomplete'/>;
-            }
+            var teammate = Utils.getDirectTeammate(channel.id);
+            tag = (
+                <React.Fragment>
+                    <BotBadge
+                        show={Boolean(teammate && teammate.is_bot)}
+                        className='badge-autocomplete'
+                    />
+                    <GuestBadge
+                        show={Boolean(teammate && Utils.isGuest(teammate))}
+                        className='badge-autocomplete'
+                    />
+                </React.Fragment>
+            );
         }
 
         return (

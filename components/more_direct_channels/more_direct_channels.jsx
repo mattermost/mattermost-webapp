@@ -14,6 +14,7 @@ import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import AddIcon from 'components/icon/add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import GroupMessageOption from './group_message_option';
 
@@ -305,20 +306,6 @@ export default class MoreDirectChannels extends React.Component {
 
         const status = option.delete_at || option.is_bot ? null : this.props.statuses[option.id];
 
-        let tag = null;
-        if (option.is_bot) {
-            tag = (
-                <div className='bot-indicator bot-indicator__popoverlist'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
-        } else if (isGuest(option)) {
-            tag = <GuestBadge className='popoverlist'/>;
-        }
-
         return (
             <div
                 key={option.id}
@@ -337,7 +324,14 @@ export default class MoreDirectChannels extends React.Component {
                 >
                     <div className='more-modal__name'>
                         {modalName}
-                        {tag}
+                        <BotBadge
+                            show={Boolean(option.is_bot)}
+                            className='badge-popoverlist'
+                        />
+                        <GuestBadge
+                            show={isGuest(option)}
+                            className='badge-popoverlist'
+                        />
                     </div>
                     <div className='more-modal__description'>
                         {option.email}

@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {Client4} from 'mattermost-redux/client';
-import {FormattedMessage} from 'react-intl';
 
 import ProfilePicture from 'components/profile_picture';
 import MessageIcon from 'components/svg/message_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 import {UserStatuses} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 export default class PopoverListMembersItem extends React.PureComponent {
     static propTypes = {
@@ -52,19 +52,6 @@ export default class PopoverListMembersItem extends React.PureComponent {
         const botClass = this.props.user.is_bot ? ' more-modal__row--bot' : '';
 
         const status = this.props.user.is_bot ? null : this.props.status;
-        let tag = null;
-        if (this.props.user.is_bot) {
-            tag = (
-                <div className='bot-indicator bot-indicator__popoverlist'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
-        } else if (Utils.isGuest(this.props.user)) {
-            tag = (<GuestBadge className='popoverlist'/>);
-        }
 
         return (
             <div
@@ -82,7 +69,14 @@ export default class PopoverListMembersItem extends React.PureComponent {
                         {name}
                     </div>
                     <div>
-                        {tag}
+                        <BotBadge
+                            show={Boolean(this.props.user.is_bot)}
+                            className='badge-popoverlist'
+                        />
+                        <GuestBadge
+                            show={Utils.isGuest(this.props.user)}
+                            className='badge-popoverlist'
+                        />
                     </div>
                 </div>
                 <div className='more-modal__actions'>

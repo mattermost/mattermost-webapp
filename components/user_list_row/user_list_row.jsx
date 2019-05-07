@@ -5,11 +5,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 
-import {FormattedMessage} from 'react-intl';
-
 import * as Utils from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -71,21 +70,8 @@ export default class UserListRow extends React.Component {
             status = this.props.status;
         }
 
-        let tag = null;
         if (this.props.user.is_bot) {
             status = null;
-            tag = (
-                <div className='bot-indicator bot-indicator__popoverlist'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
-        }
-
-        if (Utils.isGuest(this.props.user)) {
-            tag = <GuestBadge className='popoverlist'/>;
         }
 
         let userCountID = null;
@@ -114,7 +100,14 @@ export default class UserListRow extends React.Component {
                         className='more-modal__name'
                     >
                         {Utils.displayEntireNameForUser(this.props.user)}
-                        {tag}
+                        <BotBadge
+                            className='badge-popoverlist'
+                            show={this.props.user.is_bot}
+                        />
+                        <GuestBadge
+                            className='badge-popoverlist'
+                            show={Utils.isGuest(this.props.user)}
+                        />
                     </div>
                     <div
                         id={userCountEmail}

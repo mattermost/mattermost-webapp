@@ -14,6 +14,7 @@ import ProfilePicture from 'components/profile_picture.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import AddIcon from 'components/icon/add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import {searchUsers} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
@@ -143,19 +144,6 @@ export default class ChannelInviteModal extends React.Component {
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
         }
-        let tag = null;
-        if (option.is_bot) {
-            tag = (
-                <div className='bot-indicator bot-indicator__popoverlist'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
-        } else if (isGuest(option)) {
-            tag = <GuestBadge className='popoverlist'/>;
-        }
 
         return (
             <div
@@ -172,7 +160,14 @@ export default class ChannelInviteModal extends React.Component {
                 <div className='more-modal__details'>
                     <div className='more-modal__name'>
                         {displayEntireNameForUser(option)}
-                        {tag}
+                        <BotBadge
+                            show={Boolean(option.is_bot)}
+                            className='badge-popoverlist'
+                        />
+                        <GuestBadge
+                            show={isGuest(option)}
+                            className='popoverlist'
+                        />
                     </div>
                 </div>
                 <div className='more-modal__actions'>
