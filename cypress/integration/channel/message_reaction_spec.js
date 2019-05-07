@@ -9,6 +9,7 @@
 
 /*eslint max-nested-callbacks: ["error", 3]*/
 
+
 describe("Click another user's emoji reaction to add it", () => {
     it("M15113 - Click another user's emoji reaction to add it", () => {
         // 1. Login as "user-1" and go to /
@@ -36,7 +37,7 @@ describe("Click another user's emoji reaction to add it", () => {
             cy.get('#emoji-1f641').click();
 
             // * The number shown on the reaction is incremented by 1
-            cy.get(`#${postId}-slightly_frowning_face-emoji_count`).should('contain', '1');
+            cy.get(`#postReaction-${postId}-slightly_frowning_face > .post-reaction__count`).should('contain', '1');
 
             // 8. Logout
             cy.apiLogout();
@@ -46,17 +47,17 @@ describe("Click another user's emoji reaction to add it", () => {
             cy.visit('/');
 
             // 10. Click on the "slightly_frowning_face" emoji of the last post
-            cy.get(`#post-reaction-${postId}-slightly_frowning_face`).click().
+            cy.get(`#postReaction-${postId}-slightly_frowning_face`).click().
 
             // *  The background color changed
                 should('have.css', 'background-color').
                 and('eq', 'rgba(35, 137, 215, 0.1)');
 
             // * The number shown on the "slightly_frowning_face" reaction is incremented by 1
-            cy.get(`#${postId}-slightly_frowning_face-emoji_count`).should('contain', '2');
+            cy.get(`#postReaction-${postId}-slightly_frowning_face > .post-reaction__count`).should('contain', '2');
 
             // 11. Click on the + icon
-            cy.get(`#${postId}-reaction__add`).click({force: true});
+            cy.get(`#addReaction-${postId}`).click({force: true});
 
             // * The reaction emoji picker is open
             cy.get('#emojiPicker').should('be.visible');
@@ -68,19 +69,19 @@ describe("Click another user's emoji reaction to add it", () => {
             cy.get('#emojiPicker').should('be.not.visible');
 
             // * The "scream" emoji is added to the post
-            cy.get(`#post-reaction-${postId}-scream`).should('be.visible');
+            cy.get(`#postReaction-${postId}-scream`).should('be.visible');
 
             // 13. Click on the "slightly_frowning_face" emoji
-            cy.get(`#${postId}-slightly_frowning_face-emoji`).click();
+            cy.get(`#postReaction-${postId}-slightly_frowning_face > .post-reaction__emoji`).click();
 
             // * The number shown on the "slightly_frowning_face" reaction  is decremented by 1
-            cy.get(`#${postId}-slightly_frowning_face-emoji_count`).should('contain', '1');
+            cy.get(`#postReaction-${postId}-slightly_frowning_face > .post-reaction__count`).should('contain', '1');
 
             // 14. Click on the "scream" emoji
-            cy.get(`#${postId}-scream-emoji`).click();
+            cy.get(`#postReaction-${postId}-scream > .post-reaction__emoji`).click();
 
             // * The "scream" emoji is removed
-            cy.get(`#post-reaction-${postId}-scream`).should('be.not.visible');
+            cy.get(`#postReaction-${postId}-scream`).should('be.not.visible');
         });
     });
 });
