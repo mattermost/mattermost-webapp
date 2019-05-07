@@ -3166,7 +3166,7 @@ export default {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.EnableBotCreation',
+                        key: 'ServiceSettings.CreateBotAccounts',
                         label: t('admin.service.createBotTitle'),
                         label_default: 'Enable Bot Accounts',
                         help_text: t('admin.service.enableBotAccounts'),
