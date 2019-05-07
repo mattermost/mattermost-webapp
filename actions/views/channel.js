@@ -104,10 +104,6 @@ export function leaveChannel(channelId) {
 
         const teamUrl = getCurrentRelativeTeamUrl(state);
         LocalStorageStore.removePreviousChannelName(currentUserId, currentTeamId);
-        const channel = getChannel(state, channelId);
-        if (LocalStorageStore.getPreviousChannelName(currentUserId, currentTeamId) === channel.name) {
-            LocalStorageStore.removePreviousChannelName(currentUserId, currentTeamId);
-        }
         browserHistory.push(teamUrl);
 
         const {error} = await dispatch(leaveChannelRedux(channelId));
