@@ -169,9 +169,11 @@ export default class ConfirmModal extends React.Component {
                 onHide={this.props.onCancel}
                 onExited={this.props.onExited}
                 id='confirmModal'
+                role='dialog'
+                aria-labelledby='confirmModalLabel'
             >
                 <Modal.Header closeButton={false}>
-                    <Modal.Title>{this.props.title}</Modal.Title>
+                    <Modal.Title id='confirmModalLabel'>{this.props.title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {this.props.message}

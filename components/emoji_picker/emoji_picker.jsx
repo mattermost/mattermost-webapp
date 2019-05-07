@@ -308,7 +308,9 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     handleScroll() {
-        this.setState({divTopOffset: this.emojiPickerContainer.scrollTop});
+        if (this.emojiPickerContainer) {
+            this.setState({divTopOffset: this.emojiPickerContainer.scrollTop});
+        }
     }
 
     selectNextEmoji(offset = 1) {

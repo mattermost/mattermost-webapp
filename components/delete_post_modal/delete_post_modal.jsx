@@ -107,9 +107,11 @@ export default class DeletePostModal extends React.PureComponent {
                 onExited={this.props.onHide}
                 enforceFocus={false}
                 id='deletePostModal'
+                role='dialog'
+                aria-labelledby='deletePostModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='deletePostModalLabel'>
                         <FormattedMessage
                             id='delete_post.confirm'
                             defaultMessage='Confirm {term} Delete'

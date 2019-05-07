@@ -3,6 +3,7 @@
 exports[`components/AddUsersToTeam should match snapshot 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="addTeamModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -27,6 +28,7 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -37,6 +39,7 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="addTeamModalLabel"
     >
       <FormattedMessage
         defaultMessage="Add New Members To {teamName} Team"
