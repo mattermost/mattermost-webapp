@@ -3,6 +3,7 @@
 exports[`components/ChannelInfoModal should match snapshot 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="channelInfoModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -26,6 +27,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -36,6 +38,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="channelInfoModalLabel"
     >
       <FormattedMessage
         defaultMessage="About"
@@ -89,6 +92,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
 exports[`components/ChannelInfoModal should match snapshot with channel props 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="channelInfoModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -112,6 +116,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -122,6 +127,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="channelInfoModalLabel"
     >
       <FormattedMessage
         defaultMessage="About"

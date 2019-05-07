@@ -443,9 +443,11 @@ export default class MoreDirectChannels extends React.Component {
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
+                role='dialog'
+                aria-labelledby='moreDmModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='moreDmModalLabel'>
                         <FormattedMessage
                             id='more_direct_channels.title'
                             defaultMessage='Direct Messages'

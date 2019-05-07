@@ -62,9 +62,13 @@ export default class ConvertChannelModal extends React.PureComponent {
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={onHide}
+                role='dialog'
+                aria-labelledby='convertChannelModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <h4 className='modal-title'>
+                    <Modal.Title
+                        id='convertChannelModalLabel'
+                    >
                         <FormattedMessage
                             id='convert_channel.title'
                             defaultMessage='Convert {display_name} to a private channel?'
@@ -72,7 +76,7 @@ export default class ConvertChannelModal extends React.PureComponent {
                                 display_name: channelDisplayName,
                             }}
                         />
-                    </h4>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <p>
