@@ -1,0 +1,90 @@
+@import 'utils/variables';
+
+.ChannelsInput {
+    .channels-input__control {
+        min-height: 48px;
+        border-color: $gray;
+        &:hover {
+            border-color: $gray;
+        }
+    }
+    input {
+        height: inherit;
+    }
+    .channels-input__menu {
+        margin-top: 0px;
+    }
+    .channels-input__menu-list{
+        padding: 0px;
+    }
+    .channels-input__menu-notice{
+        height: 60px;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px 4px 0 0;
+    }
+    .channels-input__option {
+        height: 60px;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        border-radius: 4px 4px 0 0;
+        .public-channel-icon, .private-channel-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
+            padding: 3px;
+            margin-right: 8px;
+            display: inline-block;
+            svg {
+                width: 24px;
+                height: 24px;
+                fill: $gray;
+                margin: 3px;
+            }
+        }
+    }
+    .show {
+        display: block;
+    }
+    .channels-input__multi-value {
+        align-items: center;
+        background: $bg--gray;
+        padding: 4px;
+        border-radius: 16px;
+    }
+
+    .channels-input__multi-value__label {
+        display: flex;
+        align-items: center;
+        padding-left: 0px;
+        .public-channel-icon, .private-channel-icon {
+            display: flex;
+            width: 24px;
+            height: 24px;
+            border-radius: 16px;
+            background: $gray;
+            padding: 4px;
+            margin-right: 3px;
+            svg {
+                width: 16px;
+                height: 16px;
+                fill: $white;
+            }
+        }
+    }
+    .channels-input__multi-value__remove {
+        width: 16px;
+        height: 16px;
+        border-radius: 16px;
+        background: $gray;
+        padding: 1px;
+        cursor: pointer;
+        svg {
+            fill: $white;
+            opacity: .6;
+        }
+    }
+}
