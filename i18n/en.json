@@ -3249,6 +3249,8 @@
   "web.header.back": "Back",
   "web.header.logout": "Logout",
   "web.root.signup_info": "All team communication in one place, searchable and accessible anywhere",
+  "widgets.channels_input.empty": "No channels found",
+  "widgets.channels_input.loading": "Loading",
   "widgets.emails_input.invalid_email": "Type email address",
   "widgets.emails_input.valid_email": "Add **{email}**",
   "yourcomputer": "Your computer",
