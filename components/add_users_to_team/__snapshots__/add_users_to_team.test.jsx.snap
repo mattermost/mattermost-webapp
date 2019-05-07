@@ -114,6 +114,10 @@ exports[`components/AddUsersToTeam should match when renderOption is called 1`] 
       className="more-modal__name"
     >
       @undefined
+      <BotBadge
+        className="badge-popoverlist"
+        show={false}
+      />
     </div>
     <div
       className="more-modal__description"
@@ -152,6 +156,10 @@ exports[`components/AddUsersToTeam should match when renderOption is called 2`] 
       className="more-modal__name"
     >
       @undefined
+      <BotBadge
+        className="badge-popoverlist"
+        show={false}
+      />
     </div>
     <div
       className="more-modal__description"
@@ -190,15 +198,10 @@ exports[`components/AddUsersToTeam should match when renderOption is called 3`] 
       className="more-modal__name"
     >
       @undefined
-      <div
-        className="bot-indicator bot-indicator__popoverlist"
-      >
-        <FormattedMessage
-          defaultMessage="BOT"
-          id="post_info.bot"
-          values={Object {}}
-        />
-      </div>
+      <BotBadge
+        className="badge-popoverlist"
+        show={true}
+      />
     </div>
     <div
       className="more-modal__description"
