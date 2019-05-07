@@ -177,7 +177,20 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           />
           <AdminSidebarSection
             key="8"
-            name="environment/notifications_email"
+            name="environment/smtp"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="SMTP"
+                id="admin.sidebar.smtp"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="9"
+            name="environment/email_notifications"
             parentLink=""
             subsection={false}
             title={
@@ -189,8 +202,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           />
           <AdminSidebarSection
-            key="9"
-            name="environment/push"
+            key="10"
+            name="environment/push_notifications"
             parentLink=""
             subsection={false}
             title={
@@ -202,7 +215,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           />
           <AdminSidebarSection
-            key="11"
+            key="12"
             name="environment/rate_limiting"
             parentLink=""
             subsection={false}
@@ -215,7 +228,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           />
           <AdminSidebarSection
-            key="12"
+            key="13"
             name="environment/logging"
             parentLink=""
             subsection={false}
@@ -228,7 +241,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           />
           <AdminSidebarSection
-            key="13"
+            key="14"
             name="environment/session_lengths"
             parentLink=""
             subsection={false}
@@ -241,7 +254,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           />
           <AdminSidebarSection
-            key="15"
+            key="16"
             name="environment/developer"
             parentLink=""
             subsection={false}
@@ -721,7 +734,20 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
           />
           <AdminSidebarSection
             key="8"
-            name="environment/notifications_email"
+            name="environment/smtp"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="SMTP"
+                id="admin.sidebar.smtp"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="9"
+            name="environment/email_notifications"
             parentLink=""
             subsection={false}
             title={
@@ -733,8 +759,8 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             }
           />
           <AdminSidebarSection
-            key="9"
-            name="environment/push"
+            key="10"
+            name="environment/push_notifications"
             parentLink=""
             subsection={false}
             title={
@@ -746,7 +772,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             }
           />
           <AdminSidebarSection
-            key="11"
+            key="12"
             name="environment/rate_limiting"
             parentLink=""
             subsection={false}
@@ -759,7 +785,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             }
           />
           <AdminSidebarSection
-            key="12"
+            key="13"
             name="environment/logging"
             parentLink=""
             subsection={false}
@@ -772,7 +798,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             }
           />
           <AdminSidebarSection
-            key="13"
+            key="14"
             name="environment/session_lengths"
             parentLink=""
             subsection={false}
@@ -785,7 +811,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             }
           />
           <AdminSidebarSection
-            key="15"
+            key="16"
             name="environment/developer"
             parentLink=""
             subsection={false}
@@ -1258,7 +1284,20 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
           />
           <AdminSidebarSection
             key="8"
-            name="environment/notifications_email"
+            name="environment/smtp"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="SMTP"
+                id="admin.sidebar.smtp"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="9"
+            name="environment/email_notifications"
             parentLink=""
             subsection={false}
             title={
@@ -1270,8 +1309,8 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
             }
           />
           <AdminSidebarSection
-            key="9"
-            name="environment/push"
+            key="10"
+            name="environment/push_notifications"
             parentLink=""
             subsection={false}
             title={
@@ -1283,7 +1322,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
             }
           />
           <AdminSidebarSection
-            key="11"
+            key="12"
             name="environment/rate_limiting"
             parentLink=""
             subsection={false}
@@ -1296,7 +1335,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
             }
           />
           <AdminSidebarSection
-            key="12"
+            key="13"
             name="environment/logging"
             parentLink=""
             subsection={false}
@@ -1309,7 +1348,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
             }
           />
           <AdminSidebarSection
-            key="13"
+            key="14"
             name="environment/session_lengths"
             parentLink=""
             subsection={false}
@@ -1322,7 +1361,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
             }
           />
           <AdminSidebarSection
-            key="15"
+            key="16"
             name="environment/developer"
             parentLink=""
             subsection={false}
@@ -1874,7 +1913,20 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           />
           <AdminSidebarSection
             key="8"
-            name="environment/notifications_email"
+            name="environment/smtp"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="SMTP"
+                id="admin.sidebar.smtp"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="9"
+            name="environment/email_notifications"
             parentLink=""
             subsection={false}
             title={
@@ -1886,8 +1938,8 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="9"
-            name="environment/push"
+            key="10"
+            name="environment/push_notifications"
             parentLink=""
             subsection={false}
             title={
@@ -1899,7 +1951,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="10"
+            key="11"
             name="environment/high_availability"
             parentLink=""
             subsection={false}
@@ -1912,7 +1964,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="11"
+            key="12"
             name="environment/rate_limiting"
             parentLink=""
             subsection={false}
@@ -1925,7 +1977,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="12"
+            key="13"
             name="environment/logging"
             parentLink=""
             subsection={false}
@@ -1938,7 +1990,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="13"
+            key="14"
             name="environment/session_lengths"
             parentLink=""
             subsection={false}
@@ -1951,7 +2003,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="14"
+            key="15"
             name="environment/performance_monitoring"
             parentLink=""
             subsection={false}
@@ -1964,7 +2016,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="15"
+            key="16"
             name="environment/developer"
             parentLink=""
             subsection={false}

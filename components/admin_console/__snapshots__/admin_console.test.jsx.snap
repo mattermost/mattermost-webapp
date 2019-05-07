@@ -63,13 +63,18 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           render={[Function]}
         />
         <Route
-          key="environment/notifications_email"
-          path="/environment/notifications_email"
+          key="environment/smtp"
+          path="/environment/smtp"
           render={[Function]}
         />
         <Route
-          key="environment/push"
-          path="/environment/push"
+          key="environment/email_notifications"
+          path="/environment/email_notifications"
+          render={[Function]}
+        />
+        <Route
+          key="environment/push_notifications"
+          path="/environment/push_notifications"
           render={[Function]}
         />
         <Route
