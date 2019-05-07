@@ -82,12 +82,19 @@ export default class ChannelMembersDropdown extends React.Component {
         }
     };
 
-    renderRole(isChannelAdmin) {
+    renderRole(isChannelAdmin, isGuest) {
         if (isChannelAdmin) {
             return (
                 <FormattedMessage
                     id='channel_members_dropdown.channel_admin'
                     defaultMessage='Channel Admin'
+                />
+            );
+        } else if (isGuest) {
+            return (
+                <FormattedMessage
+                    id='channel_members_dropdown.channel_guest'
+                    defaultMessage='Channel Guest'
                 />
             );
         }
@@ -102,6 +109,7 @@ export default class ChannelMembersDropdown extends React.Component {
     render() {
         const supportsChannelAdmin = this.props.isLicensed;
         const isChannelAdmin = supportsChannelAdmin && (Utils.isChannelAdmin(this.props.isLicensed, this.props.channelMember.roles) || this.props.channelMember.scheme_admin);
+        const isGuest = Utils.isGuest(this.props.user);
 
         let serverError = null;
         if (this.state.serverError) {
@@ -117,11 +125,11 @@ export default class ChannelMembersDropdown extends React.Component {
         }
 
         if (this.props.canChangeMemberRoles) {
-            const role = this.renderRole(isChannelAdmin);
+            const role = this.renderRole(isChannelAdmin, isGuest);
 
             const canRemoveFromChannel = this.props.canRemoveMember && this.props.channel.name !== Constants.DEFAULT_CHANNEL && !this.props.channel.group_constrained;
-            const canMakeChannelMember = isChannelAdmin;
-            const canMakeChannelAdmin = supportsChannelAdmin && !isChannelAdmin;
+            const canMakeChannelMember = isChannelAdmin && !isGuest;
+            const canMakeChannelAdmin = supportsChannelAdmin && !isChannelAdmin && !isGuest;
 
             if ((canMakeChannelMember || canMakeChannelAdmin)) {
                 const {index, totalUsers} = this.props;

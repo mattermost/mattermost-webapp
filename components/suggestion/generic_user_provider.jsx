@@ -9,6 +9,8 @@ import {FormattedMessage} from 'react-intl';
 import {autocompleteUsers} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 
+import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
+
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
 
@@ -42,6 +44,8 @@ class UserSuggestion extends Suggestion {
                     />
                 </div>
             );
+        } else if (Utils.isGuest(item)) {
+            tag = <GuestBadge/>;
         }
 
         return (

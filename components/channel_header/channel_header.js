@@ -24,6 +24,7 @@ import ChannelPermissionGate from 'components/permissions_gates/channel_permissi
 import QuickSwitchModal from 'components/quick_switch_modal';
 import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
+import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 
 import {
     Constants,
@@ -307,6 +308,27 @@ export default class ChannelHeader extends React.PureComponent {
             } else {
                 channelTitle = Utils.getDisplayNameByUserId(teammateId) + ' ';
             }
+            channelTitle = (
+                <React.Fragment>
+                    {channelTitle}
+                    {Utils.isGuest(dmUser) && <GuestBadge className='popoverlist'/>}
+                </React.Fragment>
+            );
+        }
+
+        if (isGroup) {
+            const usernames = channel.display_name.split(',');
+            const nodes = [];
+            for (const username of usernames) {
+                const user = Utils.getUserByUsername(username);
+                nodes.push((
+                    <React.Fragment key={username}>
+                        {username + ' '}
+                        {Utils.isGuest(user) && <GuestBadge className='popoverlist'/>}
+                    </React.Fragment>
+                ));
+            }
+            channelTitle = nodes;
         }
 
         let popoverListMembers;

@@ -6,6 +6,8 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 
+import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
+
 import Suggestion from '../suggestion.jsx';
 
 export default class AtMentionSuggestion extends Suggestion {
@@ -113,6 +115,8 @@ export default class AtMentionSuggestion extends Suggestion {
                     />
                 </div>
             );
+        } else if (Utils.isGuest(user)) {
+            tag = <GuestBadge className='autocomplete'/>;
         }
 
         return (

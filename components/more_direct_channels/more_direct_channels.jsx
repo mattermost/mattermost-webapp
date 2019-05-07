@@ -9,10 +9,11 @@ import {Client4} from 'mattermost-redux/client';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
-import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
+import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import AddIcon from 'components/icon/add_icon';
+import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 
 import GroupMessageOption from './group_message_option';
 
@@ -314,6 +315,8 @@ export default class MoreDirectChannels extends React.Component {
                     />
                 </div>
             );
+        } else if (isGuest(option)) {
+            tag = <GuestBadge className='popoverlist'/>;
         }
 
         return (

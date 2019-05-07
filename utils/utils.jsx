@@ -10,7 +10,7 @@ import {Posts} from 'mattermost-redux/constants';
 import {getChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting, getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getUser, getUserByUsername as getUserByUsernameRedux} from 'mattermost-redux/selectors/entities/users';
 import {
     blendColors,
     changeOpacity,
@@ -115,6 +115,14 @@ export function isAdmin(roles) {
 
 export function isSystemAdmin(roles) {
     if (isInRole(roles, 'system_admin')) {
+        return true;
+    }
+
+    return false;
+}
+
+export function isGuest(user) {
+    if (user && user.roles && isInRole(user.roles, 'system_guest')) {
         return true;
     }
 
@@ -755,6 +763,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .more-modal__row.more-modal__row--selected, .app__body .date-separator.hovered--before:after, .app__body .date-separator.hovered--after:before, .app__body .new-separator.hovered--after:before, .app__body .new-separator.hovered--before:after', 'background:' + changeOpacity(theme.centerChannelColor, 0.07));
         changeCss('@media(min-width: 768px){.app__body .suggestion-list__content .command:hover, .app__body .mentions__name:hover, .app__body .dropdown-menu>li>a:focus, .app__body .dropdown-menu>li>a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.15));
         changeCss('.app__body .suggestion--selected, .app__body .emoticon-suggestion:hover, .app__body .bot-indicator', 'background:' + changeOpacity(theme.centerChannelColor, 0.15));
+        changeCss('.app__body .suggestion--selected, .app__body .emoticon-suggestion:hover, .app__body .GuestBadge', 'background:' + changeOpacity(theme.centerChannelColor, 0.15));
         changeCss('code, .app__body .form-control[disabled], .app__body .form-control[readonly], .app__body fieldset[disabled] .form-control', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .sidebar--right', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .search-help-popover .search-autocomplete__item:hover, .app__body .modal .settings-modal .settings-table .settings-content .appearance-section .theme-elements__body', 'background:' + changeOpacity(theme.centerChannelColor, 0.05));
@@ -1118,6 +1127,16 @@ export function isValidUsername(name) {
 
 export function isMobile() {
     return window.innerWidth <= Constants.MOBILE_SCREEN_WIDTH;
+}
+
+export function getUserById(userId) {
+    const state = store.getState();
+    return getUser(state, userId);
+}
+
+export function getUserByUsername(username) {
+    const state = store.getState();
+    return getUserByUsernameRedux(state, username);
 }
 
 export function getDirectTeammate(channelId) {
