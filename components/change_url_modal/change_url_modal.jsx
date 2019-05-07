@@ -180,9 +180,11 @@ export default class ChangeURLModal extends React.PureComponent {
                 show={this.props.show}
                 onHide={this.onCancel}
                 onExited={this.props.onModalExited}
+                role='dialog'
+                aria-labelledby='changeUrlModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>{this.props.title}</Modal.Title>
+                    <Modal.Title id='changeUrlModalLabel'>{this.props.title}</Modal.Title>
                 </Modal.Header>
                 <form
                     role='form'

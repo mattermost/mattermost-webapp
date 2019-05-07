@@ -459,9 +459,11 @@ class InviteMemberModal extends React.PureComponent {
                         onExited={this.props.onHide}
                         enforceFocus={!this.state.showConfirmModal}
                         backdrop={this.state.isSendingEmails ? 'static' : true}
+                        role='dialog'
+                        aria-labelledby='inviteMemberModalLabel'
                     >
                         <Modal.Header closeButton={!this.state.isSendingEmails}>
-                            <Modal.Title>
+                            <Modal.Title id='inviteMemberModalLabel'>
                                 <FormattedMessage
                                     id='invite_member.newMember'
                                     defaultMessage='Send Email Invite'

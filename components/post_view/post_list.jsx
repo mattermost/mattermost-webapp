@@ -60,11 +60,6 @@ export default class PostList extends React.PureComponent {
         channel: PropTypes.object.isRequired,
 
         /**
-         * The last time the channel was viewed, sets the new message separator
-         */
-        lastViewedAt: PropTypes.number,
-
-        /**
          * Set to focus this post
          */
         focusedPostId: PropTypes.string,
@@ -103,10 +98,10 @@ export default class PostList extends React.PureComponent {
             atEnd: false,
             loadingFirstSetOfPosts: Boolean(!props.postListIds || props.channelLoading),
             isScrolling: false,
-            lastViewed: props.lastViewedAt,
             autoRetryEnable: true,
             isMobile,
             atBottom: true,
+            lastViewedBottom: Date.now(),
             postListIds: [channelIntroMessage],
             topPostId: '',
             postMenuOpened: false,
@@ -116,7 +111,7 @@ export default class PostList extends React.PureComponent {
         };
 
         this.listRef = React.createRef();
-        this.postlistRef = React.createRef();
+        this.postListRef = React.createRef();
         if (isMobile) {
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
@@ -135,12 +130,12 @@ export default class PostList extends React.PureComponent {
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState) {
-        if (this.postlistRef && this.postlistRef.current) {
+        if (this.postListRef && this.postListRef.current) {
             const postsAddedAtTop = this.state.postListIds.length !== prevState.postListIds.length && this.state.postListIds[0] === prevState.postListIds[0];
             const channelHeaderAdded = this.state.atEnd !== prevState.atEnd && this.state.postListIds.length === prevState.postListIds.length;
             if (postsAddedAtTop || channelHeaderAdded) {
-                const previousScrollTop = this.postlistRef.current.scrollTop;
-                const previousScrollHeight = this.postlistRef.current.scrollHeight;
+                const previousScrollTop = this.postListRef.current.scrollTop;
+                const previousScrollHeight = this.postListRef.current.scrollHeight;
 
                 return {
                     previousScrollTop,
@@ -156,11 +151,11 @@ export default class PostList extends React.PureComponent {
             this.loadPosts(this.props.channel.id, this.props.focusedPostId);
         }
 
-        if (!this.postlistRef.current || !snapshot) {
+        if (!this.postListRef.current || !snapshot) {
             return;
         }
 
-        const postlistScrollHeight = this.postlistRef.current.scrollHeight;
+        const postlistScrollHeight = this.postListRef.current.scrollHeight;
         const postsAddedAtTop = this.state.postListIds.length !== prevState.postListIds.length && this.state.postListIds[0] === prevState.postListIds[0];
         const channelHeaderAdded = this.state.atEnd !== prevState.atEnd && this.state.postListIds.length === prevState.postListIds.length;
         if (postsAddedAtTop || channelHeaderAdded) {
@@ -325,6 +320,30 @@ export default class PostList extends React.PureComponent {
                 this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
             }
         }
+
+        this.checkBottom(scrollOffset);
+    }
+
+    checkBottom = (scrollOffset) => {
+        this.updateAtBottom(this.isAtBottom(scrollOffset));
+    }
+
+    isAtBottom = (scrollOffset) => {
+        // Calculate how far the post list is from being scrolled to the bottom
+        const postList = this.postListRef.current;
+        const offsetFromBottom = (postList.scrollHeight - postList.parentElement.clientHeight) - scrollOffset;
+
+        return offsetFromBottom === 0;
+    }
+
+    updateAtBottom = (atBottom) => {
+        if (atBottom !== this.state.atBottom) {
+            // Update lastViewedBottom when the list reaches or leaves the bottom
+            this.setState({
+                atBottom,
+                lastViewedBottom: Date.now(),
+            });
+        }
     }
 
     handleScrollStop = () => {
@@ -349,27 +368,8 @@ export default class PostList extends React.PureComponent {
         });
     }
 
-    checkBottom = (visibleStartIndex) => {
-        if (visibleStartIndex === 0) {
-            if (!this.state.atBottom) {
-                this.setState({
-                    atBottom: true,
-                    lastViewed: new Date().getTime(),
-                });
-            }
-        } else if (this.state.atBottom) {
-            this.setState({
-                atBottom: false,
-            });
-        }
-    }
-
-    onItemsRendered = ({
-        visibleStartIndex,
-        visibleStopIndex,
-    }) => {
+    onItemsRendered = ({visibleStartIndex}) => {
         this.updateFloatingTimestamp(visibleStartIndex);
-        this.checkBottom(visibleStopIndex);
     }
 
     initScrollToIndex = () => {
@@ -457,7 +457,7 @@ export default class PostList extends React.PureComponent {
             newMessagesBelow = (
                 <NewMessagesBelow
                     atBottom={this.state.atBottom}
-                    lastViewedBottom={this.state.lastViewed}
+                    lastViewedBottom={this.state.lastViewedBottom}
                     postIds={this.state.postListIds}
                     onClick={this.scrollToBottom}
                 />
@@ -507,7 +507,7 @@ export default class PostList extends React.PureComponent {
                                         initScrollToIndex={this.initScrollToIndex}
                                         canLoadMorePosts={this.canLoadMorePosts}
                                         skipResizeClass='col__reply'
-                                        innerRef={this.postlistRef}
+                                        innerRef={this.postListRef}
                                         style={{...virtListStyles, ...dynamicListStyle}}
                                         innerListStyle={postListStyle}
                                     >

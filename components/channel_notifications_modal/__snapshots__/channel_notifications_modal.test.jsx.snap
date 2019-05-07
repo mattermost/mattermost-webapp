@@ -3,6 +3,7 @@
 exports[`components/channel_notifications_modal/ChannelNotificationsModal should match snapshot 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="channelNotificationModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -26,6 +27,7 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -36,6 +38,7 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="channelNotificationModalLabel"
     >
       <FormattedMessage
         defaultMessage="Notification Preferences for "

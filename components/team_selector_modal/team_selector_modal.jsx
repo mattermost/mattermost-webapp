@@ -232,9 +232,11 @@ export default class TeamSelectorModal extends React.Component {
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
+                role='dialog'
+                aria-labelledby='teamSelectorModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='teamSelectorModalLabel'>
                         <FormattedMarkdownMessage
                             id='add_teams_to_scheme.title'
                             defaultMessage='Add Teams To **Team Selection** List'
