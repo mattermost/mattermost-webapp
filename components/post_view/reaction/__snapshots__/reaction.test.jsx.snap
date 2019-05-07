@@ -53,11 +53,10 @@ exports[`components/post_view/Reaction should disable add reaction when you do n
 >
   <div
     className="post-reaction post-reaction--read-only"
-    id="post-reaction-post_id_1-smile"
+    id="postReaction-post_id_1-smile"
   >
     <span
       className="post-reaction__emoji emoticon"
-      id="post_id_1-smile-emoji"
       style={
         Object {
           "backgroundImage": "url(emoji_image_url)",
@@ -66,7 +65,6 @@ exports[`components/post_view/Reaction should disable add reaction when you do n
     />
     <span
       className="post-reaction__count"
-      id="post_id_1-smile-emoji_count"
     >
       2
     </span>
@@ -127,11 +125,10 @@ exports[`components/post_view/Reaction should disable remove reaction when you d
 >
   <div
     className="post-reaction post-reaction--read-only post-reaction--current-user"
-    id="post-reaction-post_id_1-smile"
+    id="postReaction-post_id_1-smile"
   >
     <span
       className="post-reaction__emoji emoticon"
-      id="post_id_1-smile-emoji"
       style={
         Object {
           "backgroundImage": "url(emoji_image_url)",
@@ -140,7 +137,6 @@ exports[`components/post_view/Reaction should disable remove reaction when you d
     />
     <span
       className="post-reaction__count"
-      id="post_id_1-smile-emoji_count"
     >
       2
     </span>
@@ -206,12 +202,11 @@ exports[`components/post_view/Reaction should match snapshot 1`] = `
 >
   <div
     className="post-reaction"
-    id="post-reaction-post_id_1-smile"
+    id="postReaction-post_id_1-smile"
     onClick={[Function]}
   >
     <span
       className="post-reaction__emoji emoticon"
-      id="post_id_1-smile-emoji"
       style={
         Object {
           "backgroundImage": "url(emoji_image_url)",
@@ -220,7 +215,6 @@ exports[`components/post_view/Reaction should match snapshot 1`] = `
     />
     <span
       className="post-reaction__count"
-      id="post_id_1-smile-emoji_count"
     >
       2
     </span>
@@ -286,12 +280,11 @@ exports[`components/post_view/Reaction should match snapshot when a current user
 >
   <div
     className="post-reaction post-reaction--current-user"
-    id="post-reaction-post_id_1-smile"
+    id="postReaction-post_id_1-smile"
     onClick={[Function]}
   >
     <span
       className="post-reaction__emoji emoticon"
-      id="post_id_1-smile-emoji"
       style={
         Object {
           "backgroundImage": "url(emoji_image_url)",
@@ -300,7 +293,6 @@ exports[`components/post_view/Reaction should match snapshot when a current user
     />
     <span
       className="post-reaction__count"
-      id="post_id_1-smile-emoji_count"
     >
       2
     </span>

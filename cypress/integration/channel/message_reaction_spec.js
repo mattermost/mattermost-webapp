@@ -9,7 +9,6 @@
 
 /*eslint max-nested-callbacks: ["error", 3]*/
 
-
 describe("Click another user's emoji reaction to add it", () => {
     it("M15113 - Click another user's emoji reaction to add it", () => {
         // 1. Login as "user-1" and go to /
