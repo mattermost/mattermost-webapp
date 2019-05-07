@@ -340,9 +340,11 @@ export default class ManageRolesModal extends React.PureComponent {
                 show={this.props.show}
                 onHide={this.props.onModalDismissed}
                 dialogClassName='manage-teams'
+                role='dialog'
+                aria-labelledby='manageRolesModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='manageRolesModalLabel'>
                         <FormattedMessage
                             id='admin.manage_roles.manageRolesTitle'
                             defaultMessage='Manage Roles'

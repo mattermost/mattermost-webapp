@@ -3,6 +3,7 @@
 exports[`components/channel_invite_modal should match snapshot for channel_invite_modal 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="channelInviteModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -26,6 +27,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -36,6 +38,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="channelInviteModalLabel"
     >
       <FormattedMessage
         defaultMessage="Add New Members to "
