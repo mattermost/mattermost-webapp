@@ -260,8 +260,13 @@ export default class QuickSwitchModal extends React.PureComponent {
                 onHide={this.onHide}
                 enforceFocus={false}
                 restoreFocus={false}
+                role='dialog'
+                aria-labelledby='quickSwitchModalLabel'
             >
-                <Modal.Header closeButton={true}/>
+                <Modal.Header
+                    id='quickSwitchModalLabel'
+                    closeButton={true}
+                />
                 <Modal.Body>
                     {header}
                     <div

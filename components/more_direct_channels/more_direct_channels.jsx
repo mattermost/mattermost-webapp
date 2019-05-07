@@ -13,6 +13,7 @@ import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import AddIcon from 'components/icon/add_icon';
+import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import GroupMessageOption from './group_message_option';
 
@@ -304,18 +305,6 @@ export default class MoreDirectChannels extends React.Component {
 
         const status = option.delete_at || option.is_bot ? null : this.props.statuses[option.id];
 
-        let tag = null;
-        if (option.is_bot) {
-            tag = (
-                <div className='bot-indicator bot-indicator__popoverlist'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
-        }
-
         return (
             <div
                 key={option.id}
@@ -334,7 +323,10 @@ export default class MoreDirectChannels extends React.Component {
                 >
                     <div className='more-modal__name'>
                         {modalName}
-                        {tag}
+                        <BotBadge
+                            show={Boolean(option.is_bot)}
+                            className='badge-popoverlist'
+                        />
                     </div>
                     <div className='more-modal__description'>
                         {option.email}
@@ -443,9 +435,11 @@ export default class MoreDirectChannels extends React.Component {
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
+                role='dialog'
+                aria-labelledby='moreDmModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='moreDmModalLabel'>
                         <FormattedMessage
                             id='more_direct_channels.title'
                             defaultMessage='Direct Messages'

@@ -3,6 +3,7 @@
 exports[`ManageTeamsModal should match snapshot init 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="manageTeamsModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -25,6 +26,7 @@ exports[`ManageTeamsModal should match snapshot init 1`] = `
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -35,6 +37,7 @@ exports[`ManageTeamsModal should match snapshot init 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="manageTeamsModalLabel"
     >
       <FormattedMessage
         defaultMessage="Manage Teams"
@@ -86,6 +89,7 @@ exports[`ManageTeamsModal should match snapshot init 1`] = `
 exports[`ManageTeamsModal should save data in state from api calls 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="manageTeamsModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -108,6 +112,7 @@ exports[`ManageTeamsModal should save data in state from api calls 1`] = `
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -118,6 +123,7 @@ exports[`ManageTeamsModal should save data in state from api calls 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="manageTeamsModalLabel"
     >
       <FormattedMessage
         defaultMessage="Manage Teams"

@@ -13,8 +13,8 @@ import {t} from 'utils/i18n';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import AnnouncementBar from './announcement_bar.jsx';
-import TextDismissableBar from './text_dismissable_bar';
+import AnnouncementBar from '../announcement_bar.jsx';
+import TextDismissableBar from '../text_dismissable_bar';
 
 const RENEWAL_LINK = 'https://licensing.mattermost.com/renew';
 
@@ -25,11 +25,19 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
         user: PropTypes.object,
         canViewSystemErrors: PropTypes.bool.isRequired,
         totalUsers: PropTypes.number,
+        dismissedExpiringLicense: PropTypes.bool,
+        actions: PropTypes.shape({
+            dismissNotice: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     static contextTypes = {
         intl: intlShape,
     };
+
+    dismissExpiringLicense = () => {
+        this.props.actions.dismissNotice(AnnouncementBarMessages.LICENSE_EXPIRING);
+    }
 
     render() {
         // System administrators
@@ -69,10 +77,12 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
                 );
             }
 
-            if (isLicenseExpiring()) {
+            if (isLicenseExpiring() && !this.props.dismissedExpiringLicense) {
                 return (
                     <AnnouncementBar
-                        type={AnnouncementBarTypes.CRITICAL}
+                        showCloseButton={true}
+                        handleClose={this.dismissExpiringLicense}
+                        type={AnnouncementBarTypes.ANNOUNCEMENT}
                         message={
                             <FormattedMarkdownMessage
                                 id={AnnouncementBarMessages.LICENSE_EXPIRING}

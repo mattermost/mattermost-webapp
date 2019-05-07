@@ -284,7 +284,6 @@
     }
 
     .post-list-holder-by-time {
-        -webkit-overflow-scrolling: touch;
         height: 100%;
         width: 100%;
         position: absolute;
@@ -411,14 +410,6 @@
 
 .post-create-message {
     padding: 15px;
-}
-
-.post-list__dynamic {
-    > div {
-        > div {
-            margin-bottom: 8px;
-        }
-    }
 }
 
 .post-create__container {
@@ -700,13 +691,12 @@
 
 .post-list__table {
     @include clearfix;
-    display: table;
     height: 100%;
-    table-layout: fixed;
     width: 100%;
 
     .post-list__content {
-        display: table-cell;
+        height: 100%;
+        overflow: hidden;
 
         .dropdown-menu {
             &.bottom {
@@ -1891,7 +1881,6 @@
     }
 }
 
-.bot-indicator,
 .post__pinned-badge {
     border-radius: 2px;
     font-family: inherit;
@@ -1900,25 +1889,21 @@
     padding: 1px 4px;
 }
 
-.bot-indicator {
-    margin: 2px 10px 0 -4px;
-}
-
-.bot-indicator__autocomplete {
-    margin: 0px 4px;
-    padding: 0px 5px;
-    display: inline;
-}
-
-.bot-indicator__popoverlist {
-    margin: 0px 4px;
-    display: inline;
-}
-
-.bot-indicator__admin {
-    margin: 0px 4px;
-    background: rgba(61, 60, 64, 0.15);
-    display: inline;
+.Badge {
+    &.badge-autocomplete {
+        margin: 0px 4px;
+        padding: 0px 5px;
+        display: inline;
+    }
+    &.badge-popoverlist {
+        margin: 0px 4px;
+        display: inline;
+    }
+    &.badge-admin {
+        margin: 0px 4px;
+        background: rgba(61, 60, 64, 0.15);
+        display: inline;
+    }
 }
 
 .post__pinned-badge {

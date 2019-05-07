@@ -3,6 +3,7 @@
 exports[`components/AddUsersToTeam should match snapshot 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="addTeamModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -27,6 +28,7 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -37,6 +39,7 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="addTeamModalLabel"
     >
       <FormattedMessage
         defaultMessage="Add New Members To {teamName} Team"
@@ -111,6 +114,10 @@ exports[`components/AddUsersToTeam should match when renderOption is called 1`] 
       className="more-modal__name"
     >
       @undefined
+      <BotBadge
+        className="badge-popoverlist"
+        show={false}
+      />
     </div>
     <div
       className="more-modal__description"
@@ -149,6 +156,10 @@ exports[`components/AddUsersToTeam should match when renderOption is called 2`] 
       className="more-modal__name"
     >
       @undefined
+      <BotBadge
+        className="badge-popoverlist"
+        show={false}
+      />
     </div>
     <div
       className="more-modal__description"
@@ -187,15 +198,10 @@ exports[`components/AddUsersToTeam should match when renderOption is called 3`] 
       className="more-modal__name"
     >
       @undefined
-      <div
-        className="bot-indicator bot-indicator__popoverlist"
-      >
-        <FormattedMessage
-          defaultMessage="BOT"
-          id="post_info.bot"
-          values={Object {}}
-        />
-      </div>
+      <BotBadge
+        className="badge-popoverlist"
+        show={true}
+      />
     </div>
     <div
       className="more-modal__description"

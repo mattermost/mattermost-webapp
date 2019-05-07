@@ -13,6 +13,7 @@ import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import AddIcon from 'components/icon/add_icon';
+import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import {searchUsers} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
@@ -142,17 +143,6 @@ export default class ChannelInviteModal extends React.Component {
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
         }
-        let tag = null;
-        if (option.is_bot) {
-            tag = (
-                <div className='bot-indicator bot-indicator__popoverlist'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
-        }
 
         return (
             <div
@@ -169,7 +159,10 @@ export default class ChannelInviteModal extends React.Component {
                 <div className='more-modal__details'>
                     <div className='more-modal__name'>
                         {displayEntireNameForUser(option)}
-                        {tag}
+                        <BotBadge
+                            show={Boolean(option.is_bot)}
+                            className='badge-popoverlist'
+                        />
                     </div>
                 </div>
                 <div className='more-modal__actions'>
@@ -235,9 +228,11 @@ export default class ChannelInviteModal extends React.Component {
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
+                role='dialog'
+                aria-labelledby='channelInviteModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='channelInviteModalLabel'>
                         <FormattedMessage
                             id='channel_invite.addNewMembers'
                             defaultMessage='Add New Members to '
