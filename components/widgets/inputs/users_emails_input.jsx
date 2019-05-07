@@ -143,28 +143,17 @@ export default class UsersEmailsInput extends React.Component {
 
     NoOptionsMessage = (props) => {
         const inputValue = props.selectProps.inputValue;
+        let messageId = this.props.noOptionsMessageId;
+        let messageDefault = this.props.noOptionsMessageDefault;
         if (inputValue) {
-            return (
-                <div className='users-emails-input__option'>
-                    <FormattedMarkdownMessage
-                        id={this.props.noMatchMessageId}
-                        defaultMessage={this.props.noMatchMessageDefault}
-                        values={{text: inputValue}}
-                    >
-                        {(message) => (
-                            <components.NoOptionsMessage {...props}>
-                                {message}
-                            </components.NoOptionsMessage>
-                        )}
-                    </FormattedMarkdownMessage>
-                </div>
-            );
+            messageId = this.props.noMatchMessageId;
+            messageDefault = this.props.noMatchMessageDefault;
         }
         return (
             <div className='users-emails-input__option'>
                 <FormattedMarkdownMessage
-                    id={this.props.noOptionsMessageId}
-                    defaultMessage={this.props.noOptionsMessageDefault}
+                    id={messageId}
+                    defaultMessage={messageDefault}
                     values={{text: inputValue}}
                 >
                     {(message) => (
