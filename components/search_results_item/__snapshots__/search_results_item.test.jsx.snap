@@ -80,6 +80,10 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               />
             </strong>
           </div>
+          <BotBadge
+            className=""
+            show={false}
+          />
           <div
             className="col"
           >
@@ -293,6 +297,10 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
               />
             </strong>
           </div>
+          <BotBadge
+            className=""
+            show={false}
+          />
           <div
             className="col"
           >
@@ -497,6 +505,10 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               />
             </strong>
           </div>
+          <BotBadge
+            className=""
+            show={false}
+          />
           <div
             className="col"
           >
@@ -710,15 +722,10 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
               />
             </strong>
           </div>
-          <div
-            className="bot-indicator"
-          >
-            <FormattedMessage
-              defaultMessage="BOT"
-              id="post_info.bot"
-              values={Object {}}
-            />
-          </div>
+          <BotBadge
+            className=""
+            show={true}
+          />
           <div
             className="col"
           >

@@ -2,10 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
 
 import {autocompleteUsersInTeam} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 import SelectIcon from 'components/icon/select_icon';
 
 import Provider from './provider.jsx';
@@ -31,18 +31,6 @@ class SearchUserSuggestion extends Suggestion {
             description = `- ${Utils.getFullName(item)}`;
         }
 
-        let tag = null;
-        if (item.is_bot) {
-            tag = (
-                <div className='bot-indicator bot-indicator__autocomplete'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
-        }
-
         return (
             <div
                 className={className}
@@ -58,7 +46,10 @@ class SearchUserSuggestion extends Suggestion {
                     <span>
                         {username}
                     </span>
-                    {tag}
+                    <BotBadge
+                        show={Boolean(item.is_bot)}
+                        className='badge-autocomplete'
+                    />
                     <span className='mention__fullname'>
                         {' '}
                         {description}
