@@ -264,12 +264,14 @@ class UserSettingsModal extends React.Component {
                 onHide={this.handleHide}
                 onExited={this.handleHidden}
                 enforceFocus={this.state.enforceFocus}
+                role='dialog'
+                aria-labelledby='accountSettingsModalLabel'
             >
                 <Modal.Header
                     id='accountSettingsHeader'
                     closeButton={true}
                 >
-                    <Modal.Title id='accountSettingsTitle'>
+                    <Modal.Title id='accountSettingsModalLabel'>
                         <FormattedMessage
                             id='user.settings.modal.title'
                             defaultMessage='Account Settings'

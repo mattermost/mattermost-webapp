@@ -3,6 +3,7 @@
 exports[`components/ChangeURLModal should match snapshot, modal not showing 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="changeUrlModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -24,6 +25,7 @@ exports[`components/ChangeURLModal should match snapshot, modal not showing 1`] 
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={false}
 >
   <ModalHeader
@@ -34,6 +36,7 @@ exports[`components/ChangeURLModal should match snapshot, modal not showing 1`] 
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="changeUrlModalLabel"
     >
       Change URL
     </ModalTitle>
@@ -143,6 +146,7 @@ exports[`components/ChangeURLModal should match snapshot, modal not showing 1`] 
 exports[`components/ChangeURLModal should match snapshot, modal showing 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="changeUrlModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -164,6 +168,7 @@ exports[`components/ChangeURLModal should match snapshot, modal showing 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -174,6 +179,7 @@ exports[`components/ChangeURLModal should match snapshot, modal showing 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="changeUrlModalLabel"
     >
       Change URL
     </ModalTitle>
@@ -283,6 +289,7 @@ exports[`components/ChangeURLModal should match snapshot, modal showing 1`] = `
 exports[`components/ChangeURLModal should match snapshot, on currentURL 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="changeUrlModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -304,6 +311,7 @@ exports[`components/ChangeURLModal should match snapshot, on currentURL 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -314,6 +322,7 @@ exports[`components/ChangeURLModal should match snapshot, on currentURL 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="changeUrlModalLabel"
     >
       Change URL
     </ModalTitle>
@@ -432,6 +441,7 @@ exports[`components/ChangeURLModal should match snapshot, on currentURL 1`] = `
 exports[`components/ChangeURLModal should match snapshot, on urlError 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="changeUrlModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -453,6 +463,7 @@ exports[`components/ChangeURLModal should match snapshot, on urlError 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -463,6 +474,7 @@ exports[`components/ChangeURLModal should match snapshot, on urlError 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="changeUrlModalLabel"
     >
       Change URL
     </ModalTitle>
@@ -581,6 +593,7 @@ exports[`components/ChangeURLModal should match snapshot, on urlError 1`] = `
 exports[`components/ChangeURLModal should match snapshot, with a input 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="changeUrlModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -602,6 +615,7 @@ exports[`components/ChangeURLModal should match snapshot, with a input 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -612,6 +626,7 @@ exports[`components/ChangeURLModal should match snapshot, with a input 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="changeUrlModalLabel"
     >
       Change URL
     </ModalTitle>

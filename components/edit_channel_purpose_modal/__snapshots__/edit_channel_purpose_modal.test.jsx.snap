@@ -3,6 +3,7 @@
 exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="editChannelPurposeModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -26,6 +27,7 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -36,6 +38,7 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="editChannelPurposeModalLabel"
     >
       <span>
         <FormattedMessage
@@ -100,6 +103,7 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
 exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="editChannelPurposeModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -123,6 +127,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -133,6 +138,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="editChannelPurposeModalLabel"
     >
       <span>
         <FormattedMessage
@@ -207,6 +213,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
 exports[`comoponents/EditChannelPurposeModal match with modal error with fake id 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="editChannelPurposeModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -230,6 +237,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -240,6 +248,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="editChannelPurposeModalLabel"
     >
       <span>
         <FormattedMessage
@@ -314,6 +323,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
 exports[`comoponents/EditChannelPurposeModal should match for private channel 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="editChannelPurposeModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -337,6 +347,7 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -347,6 +358,7 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="editChannelPurposeModalLabel"
     >
       <span>
         <FormattedMessage
@@ -411,6 +423,7 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
 exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="editChannelPurposeModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -434,6 +447,7 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -444,6 +458,7 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="editChannelPurposeModalLabel"
     >
       <span>
         <FormattedMessage
@@ -508,6 +523,7 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
 exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="editChannelPurposeModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -531,6 +547,7 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -541,6 +558,7 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="editChannelPurposeModalLabel"
     >
       <span>
         <FormattedMessage
@@ -605,6 +623,7 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
 exports[`comoponents/EditChannelPurposeModal should match with display name 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="editChannelPurposeModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -628,6 +647,7 @@ exports[`comoponents/EditChannelPurposeModal should match with display name 1`] 
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -638,6 +658,7 @@ exports[`comoponents/EditChannelPurposeModal should match with display name 1`] 
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="editChannelPurposeModalLabel"
     >
       <span>
         <FormattedMessage

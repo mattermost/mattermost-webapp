@@ -3,6 +3,7 @@
 exports[`components/ActivityLogModal should match snapshot 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="activityLogModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -27,6 +28,7 @@ exports[`components/ActivityLogModal should match snapshot 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -37,6 +39,7 @@ exports[`components/ActivityLogModal should match snapshot 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="activityLogModalLabel"
     >
       <FormattedMessage
         defaultMessage="Active Sessions"
@@ -68,6 +71,7 @@ exports[`components/ActivityLogModal should match snapshot 1`] = `
 exports[`components/ActivityLogModal should match snapshot 2`] = `
 <Modal
   animation={true}
+  aria-labelledby="activityLogModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -92,6 +96,7 @@ exports[`components/ActivityLogModal should match snapshot 2`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -102,6 +107,7 @@ exports[`components/ActivityLogModal should match snapshot 2`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="activityLogModalLabel"
     >
       <FormattedMessage
         defaultMessage="Active Sessions"
@@ -134,6 +140,7 @@ exports[`components/ActivityLogModal should match snapshot 2`] = `
 exports[`components/ActivityLogModal should match snapshot when submitRevoke is called 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="activityLogModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -158,6 +165,7 @@ exports[`components/ActivityLogModal should match snapshot when submitRevoke is 
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -168,6 +176,7 @@ exports[`components/ActivityLogModal should match snapshot when submitRevoke is 
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="activityLogModalLabel"
     >
       <FormattedMessage
         defaultMessage="Active Sessions"

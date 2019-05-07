@@ -3,6 +3,7 @@
 exports[`components/TeamMembersModal should match snapshot 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="teamMemberModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -26,6 +27,7 @@ exports[`components/TeamMembersModal should match snapshot 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -36,6 +38,7 @@ exports[`components/TeamMembersModal should match snapshot 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="teamMemberModalLabel"
     >
       <FormattedMessage
         defaultMessage="{team} Members"
