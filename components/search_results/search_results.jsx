@@ -127,6 +127,7 @@ export default class SearchResults extends React.PureComponent {
         const searchTerms = this.props.searchTerms;
 
         let ctls = null;
+        let loadingMorePostsComponent = null;
 
         if (
             this.props.isSearchingTerm ||
@@ -194,19 +195,18 @@ export default class SearchResults extends React.PureComponent {
                     />
                 );
             }, this);
-        }
 
-        let loadingMorePostsComponent = null;
-        if (!this.props.isSearchAtEnd && !this.props.isFlaggedPosts && !this.props.isPinnedPosts) {
-            loadingMorePostsComponent = (
-                <div className='loading-screen'>
-                    <div className='loading__content'>
-                        <div className='round round-1'/>
-                        <div className='round round-2'/>
-                        <div className='round round-3'/>
+            if (!this.props.isSearchAtEnd && !this.props.isFlaggedPosts && !this.props.isPinnedPosts) {
+                loadingMorePostsComponent = (
+                    <div className='loading-screen'>
+                        <div className='loading__content'>
+                            <div className='round round-1'/>
+                            <div className='round round-2'/>
+                            <div className='round round-3'/>
+                        </div>
                     </div>
-                </div>
-            );
+                );
+            }
         }
 
         return (

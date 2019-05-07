@@ -241,9 +241,11 @@ export default class AddUsersToTeam extends React.Component {
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
+                role='dialog'
+                aria-labelledby='addTeamModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='addTeamModalLabel'>
                         <FormattedMessage
                             id='add_users_to_team.title'
                             defaultMessage='Add New Members To {teamName} Team'

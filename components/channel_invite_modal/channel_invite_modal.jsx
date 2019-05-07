@@ -235,9 +235,11 @@ export default class ChannelInviteModal extends React.Component {
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
+                role='dialog'
+                aria-labelledby='channelInviteModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='channelInviteModalLabel'>
                         <FormattedMessage
                             id='channel_invite.addNewMembers'
                             defaultMessage='Add New Members to '

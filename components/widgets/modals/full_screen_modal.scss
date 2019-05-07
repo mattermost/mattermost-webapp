@@ -1,0 +1,37 @@
+.FullScreenModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 1000;
+
+    .close-x {
+        position: absolute;
+        top: 58px;
+        right: 58px;
+        cursor: pointer;
+        svg {
+            width: 32px;
+            height: 32px;
+            opacity: .6;
+        }
+    }
+
+    // Animation
+    &-enter, &-appear {
+        opacity: 0;
+    }
+    &-enter-active, &-appear-active {
+        opacity: 1;
+        transition: opacity 100ms;
+    }
+    &-exit {
+        opacity: 1;
+    }
+    &-exit-active {
+        opacity: 0;
+        transition: opacity 100ms;
+    }
+}

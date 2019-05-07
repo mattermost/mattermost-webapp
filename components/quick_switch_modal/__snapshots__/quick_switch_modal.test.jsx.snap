@@ -3,6 +3,7 @@
 exports[`components/QuickSwitchModal should match snapshot 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="quickSwitchModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -25,12 +26,14 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={false}
+  role="dialog"
   show={true}
 >
   <ModalHeader
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
+    id="quickSwitchModalLabel"
   />
   <ModalBody
     bsClass="modal-body"

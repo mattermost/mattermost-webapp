@@ -162,9 +162,11 @@ export default class ResetPasswordModal extends React.Component {
             <Modal
                 show={this.props.show}
                 onHide={this.doCancel}
+                role='dialog'
+                aria-labelledby='resetPasswordModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='resetPasswordModalLabel'>
                         {title}
                     </Modal.Title>
                 </Modal.Header>
