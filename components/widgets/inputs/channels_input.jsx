@@ -27,6 +27,13 @@ export default class ChannelsInput extends React.Component {
         noOptionsMessageDefault: PropTypes.string,
     }
 
+    static defaultProps = {
+        loadingMessageId: t('widgets.channels_input.loading'),
+        loadingMessageDefault: 'Loading',
+        noOptionsMessageId: t('widgets.channels_input.empty'),
+        noOptionsMessageDefault: 'No channels found',
+    };
+
     static contextTypes = {
         intl: intlShape.isRequired,
     };
@@ -43,8 +50,8 @@ export default class ChannelsInput extends React.Component {
         }
 
         return this.context.intl.formatMessage({
-            id: this.props.loadingMessageId || t('widgets.channels_input.loading'),
-            defaultMessage: this.props.loadingMessageDefault || 'Loading',
+            id: this.props.loadingMessageId,
+            defaultMessage: this.props.loadingMessageDefault,
         });
     }
 
@@ -54,8 +61,8 @@ export default class ChannelsInput extends React.Component {
         }
 
         return this.context.intl.formatMessage({
-            id: this.props.noOptionsMessageId || t('widgets.channels_input.empty'),
-            defaultMessage: this.props.noOptionsMessageDefault || 'No channels found',
+            id: this.props.noOptionsMessageId,
+            defaultMessage: this.props.noOptionsMessageDefault,
         });
     }
 
