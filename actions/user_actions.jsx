@@ -176,6 +176,21 @@ export async function loadNewGMIfNeeded(channelId) {
     checkPreference();
 }
 
+export function loadProfilesForGroupChannels(groupChannels) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        const userIdsInChannels = Selectors.getUserIdsInChannels(state);
+
+        for (const {id} of groupChannels) {
+            const userIdsInGroupChannel = (userIdsInChannels[id] || new Set());
+
+            if (userIdsInGroupChannel.size === 0) {
+                doDispatch(UserActions.getProfilesInChannel(id, 0, Constants.MAX_USERS_IN_GM));
+            }
+        }
+    };
+}
+
 export function loadProfilesForSidebar() {
     loadProfilesForDM();
     loadProfilesForGM();
@@ -267,6 +282,13 @@ export async function loadProfilesForDM() {
     if (profilesToLoad.length > 0) {
         await UserActions.getProfilesByIds(profilesToLoad)(dispatch, getState);
     }
+}
+
+export function searchGroupChannels(term) {
+    return bindClientFunc({
+        clientFunc: Client4.searchGroupChannels,
+        params: [term],
+    });
 }
 
 export async function autocompleteUsersInTeam(username, success) {
