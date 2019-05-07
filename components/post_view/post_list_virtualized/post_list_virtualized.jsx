@@ -192,12 +192,6 @@ export default class PostList extends React.PureComponent {
         };
     }
 
-    scrollChange = (toBottom) => {
-        if (toBottom) {
-            this.scrollToBottom();
-        }
-    }
-
     handleWindowResize = () => {
         this.props.actions.checkAndSetMobileView();
         const isMobile = Utils.isMobile();
