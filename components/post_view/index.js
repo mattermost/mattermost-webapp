@@ -17,12 +17,12 @@ import {
 import {Constants} from 'utils/constants.jsx';
 import {disableVirtList} from 'utils/utils.jsx';
 
-import NormalPostList from './post_list_normal';
+import IePostList from './post_list_ie';
 import VirtPostList from './post_list_virtualized';
 
 let PostList = VirtPostList;
 if (disableVirtList()) {
-    PostList = NormalPostList;
+    PostList = IePostList;
 }
 
 // This function is added as a fail safe for the channel sync issue we have.

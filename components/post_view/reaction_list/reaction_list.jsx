@@ -73,10 +73,8 @@ export default class ReactionList extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.reactions !== prevProps.reactions) {
-            if (disableVirtList()) {
-                this.props.actions.scrollPostList();
-            }
+        if (this.props.reactions !== prevProps.reactions && disableVirtList()) {
+            this.props.actions.scrollPostList();
         }
     }
 

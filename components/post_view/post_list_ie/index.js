@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {makeGetPostsAroundPost, makeGetPostsInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import PostList from './post_list_normal.jsx';
+import PostList from './post_list_ie.jsx';
 
 function makeMapStateToProps() {
     const getPostsInChannel = makeGetPostsInChannel();

@@ -126,7 +126,7 @@ export default class PostList extends React.PureComponent {
 
         window.addEventListener('resize', this.handleWindowResize);
 
-        EventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.scrollToBottom);
+        EventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.scrollChange);
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState) {
@@ -170,7 +170,7 @@ export default class PostList extends React.PureComponent {
         this.mounted = false;
         window.removeEventListener('resize', this.handleWindowResize);
 
-        EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.scrollToBottom);
+        EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.scrollChange);
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -190,6 +190,12 @@ export default class PostList extends React.PureComponent {
         return {
             postListIds: newPostListIds,
         };
+    }
+
+    scrollChange = (toBottom) => {
+        if (toBottom) {
+            this.scrollToBottom();
+        }
     }
 
     handleWindowResize = () => {
