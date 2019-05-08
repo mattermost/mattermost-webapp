@@ -101,6 +101,43 @@ describe('components/AdminSidebar', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, not prevent the console from loading when empty settings_schema provided', () => {
+        const props = {
+            license: {},
+            config: {
+                ExperimentalSettings: {
+                    RestrictSystemAdmin: false,
+                },
+                PluginSettings: {
+                    Enable: true,
+                    EnableUploads: true,
+                },
+            },
+            buildEnterpriseReady: false,
+            siteName: 'test snap',
+            navigationBlocked: false,
+            plugins: {
+                plugin_0: {
+                    active: false,
+                    description: 'The plugin 0.',
+                    id: 'plugin_0',
+                    name: 'Plugin 0',
+                    version: '0.1.0',
+                    settings_schema: {},
+                    webapp: {},
+                },
+            },
+            onFilterChange: jest.fn(),
+            actions: {
+                getPlugins: jest.fn(),
+            },
+        };
+
+        const context = {router: {}, intl};
+        const wrapper = shallow(<AdminSidebar {...props}/>, {context});
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, with license (without any explicit feature)', () => {
         const props = {
             license: {

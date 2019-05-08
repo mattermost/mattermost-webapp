@@ -6,7 +6,6 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
-
 import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 
 import Suggestion from '../suggestion.jsx';

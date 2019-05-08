@@ -164,6 +164,7 @@ export default class ReactionList extends React.PureComponent {
                                 onClick={this.toggleEmojiPicker}
                             >
                                 <span
+                                    id={`addReaction-${this.props.post.id}`}
                                     className='post-reaction__add'
                                     ref='addReactionButton'
                                 >

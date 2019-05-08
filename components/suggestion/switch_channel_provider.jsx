@@ -36,6 +36,7 @@ import {
 } from 'mattermost-redux/utils/channel_utils';
 
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 
 import DraftIcon from 'components/svg/draft_icon';
 import GlobeIcon from 'components/svg/globe_icon';
@@ -45,8 +46,6 @@ import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
-import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
