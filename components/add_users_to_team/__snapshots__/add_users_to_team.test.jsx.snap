@@ -118,6 +118,10 @@ exports[`components/AddUsersToTeam should match when renderOption is called 1`] 
         className="badge-popoverlist"
         show={false}
       />
+      <GuestBadge
+        className="badge-popoverlist"
+        show={false}
+      />
     </div>
     <div
       className="more-modal__description"
@@ -157,6 +161,10 @@ exports[`components/AddUsersToTeam should match when renderOption is called 2`] 
     >
       @undefined
       <BotBadge
+        className="badge-popoverlist"
+        show={false}
+      />
+      <GuestBadge
         className="badge-popoverlist"
         show={false}
       />
@@ -201,6 +209,10 @@ exports[`components/AddUsersToTeam should match when renderOption is called 3`] 
       <BotBadge
         className="badge-popoverlist"
         show={true}
+      />
+      <GuestBadge
+        className="badge-popoverlist"
+        show={false}
       />
     </div>
     <div
