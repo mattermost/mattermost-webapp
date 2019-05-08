@@ -26,7 +26,7 @@ export default class ChannelMore extends React.PureComponent {
             return (
                 <li
                     key='public-channel-more'
-                    id='moreButton'
+                    id='morePublicButton'
                 >
                     <button
                         id='sidebarChannelsMore'
@@ -44,7 +44,7 @@ export default class ChannelMore extends React.PureComponent {
             return (
                 <li
                     key='dm-more'
-                    id='moreButton'
+                    id='moreDMButton'
                 >
                     <button
                         id='moreDirectMessage'
@@ -63,7 +63,7 @@ export default class ChannelMore extends React.PureComponent {
             return (
                 <li
                     key='public-dm-more'
-                    id='moreButton'
+                    id='moreRecentAlphaButton'
                 >
                     <button
                         id='morePublicDirectChannels'
