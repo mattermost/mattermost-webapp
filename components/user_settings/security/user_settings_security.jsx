@@ -73,6 +73,11 @@ export default class SecurityTab extends React.PureComponent {
         }).isRequired,
     }
 
+    static defaultProps = {
+        user: {},
+        activeSection: '',
+    };
+
     constructor(props) {
         super(props);
 
@@ -938,8 +943,3 @@ export default class SecurityTab extends React.PureComponent {
         );
     }
 }
-
-SecurityTab.defaultProps = {
-    user: {},
-    activeSection: '',
-};
