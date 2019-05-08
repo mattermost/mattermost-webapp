@@ -184,9 +184,11 @@ export default class EditChannelPurposeModal extends React.PureComponent {
                 onHide={this.onHide}
                 onEntering={this.handleEntering}
                 onExited={this.props.onHide}
+                role='dialog'
+                aria-labelledby='editChannelPurposeModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='editChannelPurposeModalLabel'>
                         {title}
                     </Modal.Title>
                 </Modal.Header>

@@ -21,5 +21,5 @@ export function getBasePath(state) {
         return new URL(config.SiteURL).pathname;
     }
 
-    return window.basename || window.location.origin;
+    return window.basename || '/';
 }

@@ -50,6 +50,20 @@ Cypress.Commands.add('toIntegrationSettings', () => {
     cy.get('#integrations').should('be.visible').click();
 });
 
+Cypress.Commands.add('getSubpath', () => {
+    cy.visit('/');
+    cy.url().then((url) => {
+        cy.location().its('origin').then((origin) => {
+            if (url === origin) {
+                return '';
+            }
+
+            // Remove trailing slash
+            return url.replace(origin, '').substring(0, url.length - origin.length - 1);
+        });
+    });
+});
+
 // ***********************************************************
 // Account Settings Modal
 // ***********************************************************
@@ -344,13 +358,14 @@ Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
 });
 
 Cypress.Commands.add('removeTeamMember', (teamURL, username) => {
-    cy.logout();
+    cy.apiLogout();
     cy.apiLogin('sysadmin');
     cy.visit(`/${teamURL}`);
     cy.get('#sidebarHeaderDropdownButton').click();
     cy.get('#manageMembers').click();
     cy.focused().type(username, {force: true});
-    cy.get('#removeFromTeam').click({force: true});
+    cy.get(`#teamMembersDropdown_${username}`).click();
+    cy.get('#removeFromTeam').click();
     cy.get('.modal-header .close').click();
 });
 

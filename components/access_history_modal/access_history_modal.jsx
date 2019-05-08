@@ -81,9 +81,11 @@ export default class AccessHistoryModal extends React.PureComponent {
                 onHide={this.onHide}
                 onExited={this.props.onHide}
                 bsSize='large'
+                role='dialog'
+                aria-labelledby='accessHistoryModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='accessHistoryModalLabel'>
                         <FormattedMessage
                             id='access_history.title'
                             defaultMessage='Access History'

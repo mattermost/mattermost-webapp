@@ -22,6 +22,8 @@ import PostTime from 'components/post_view/post_time';
 import PostReaction from 'components/post_view/post_reaction';
 import ReactionList from 'components/post_view/reaction_list';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
+import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import Badge from 'components/widgets/badges/badge.jsx';
 
 import UserProfile from 'components/user_profile';
 
@@ -238,14 +240,7 @@ export default class RhsComment extends React.Component {
                     );
                 }
 
-                botIndicator = (
-                    <div className='col col__name bot-indicator'>
-                        <FormattedMessage
-                            id='post_info.bot'
-                            defaultMessage='BOT'
-                        />
-                    </div>
-                );
+                botIndicator = (<BotBadge className='col col__name'/>);
             } else if (fromAutoResponder) {
                 userProfile = (
                     <span className='auto-responder'>
@@ -259,12 +254,12 @@ export default class RhsComment extends React.Component {
                     </span>
                 );
                 botIndicator = (
-                    <div className='col col__name bot-indicator'>
+                    <Badge className='col col__name'>
                         <FormattedMessage
                             id='post_info.auto_responder'
                             defaultMessage='AUTOMATIC REPLY'
                         />
-                    </div>
+                    </Badge>
                 );
             } else if (isSystemMessage) {
                 userProfile = (

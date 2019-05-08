@@ -20,6 +20,10 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
       className="more-modal__name"
     >
       @undefined
+      <BotBadge
+        className="badge-popoverlist"
+        show={false}
+      />
     </div>
     <div
       className="more-modal__description"
@@ -40,6 +44,7 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
 exports[`components/MoreDirectChannels should match snapshot 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="moreDmModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -63,6 +68,7 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -73,6 +79,7 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="moreDmModalLabel"
     >
       <FormattedMessage
         defaultMessage="Direct Messages"

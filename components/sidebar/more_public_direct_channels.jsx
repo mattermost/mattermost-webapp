@@ -43,9 +43,11 @@ export default class MorePublicDirectChannels extends React.PureComponent {
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
+                role='dialog'
+                aria-labelledby='morePublicModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='morePublicModalLabel'>
                         <FormattedMessage
                             id='more_public_direct_channels.title'
                             defaultMessage='Channels and Direct Messages'

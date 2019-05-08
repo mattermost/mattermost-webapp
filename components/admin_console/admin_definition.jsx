@@ -2111,7 +2111,7 @@ export default {
                         label: t('admin.ldap.groupDisplayNameAttributeTitle'),
                         label_default: 'Group Display Name Attribute:',
                         help_text: t('admin.ldap.groupDisplayNameAttributeDesc'),
-                        help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the Group Name. Defaults to "Common name" when blank.',
+                        help_text_default: 'The attribute in the AD/LDAP server used to populate the group display names.',
                         placeholder: t('admin.ldap.groupDisplayNameAttributeEx'),
                         placeholder_default: 'E.g.: "cn"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3851,7 +3851,7 @@ export default {
                         label: t('admin.experimental.experimentalTownSquareIsReadOnly.title'),
                         label_default: 'Town Square is Read-Only:',
                         help_text: t('admin.experimental.experimentalTownSquareIsReadOnly.desc'),
-                        help_text_default: 'When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are able to change the channel name, header or purpose. When false, anyone can post in Town Square.',
+                        help_text_default: 'When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are they able to change the channel name, header or purpose. When false, anyone can post in Town Square.',
                         help_text_markdown: true,
                         isHidden: it.isnt(it.licensed), // E10 and higher
                     },

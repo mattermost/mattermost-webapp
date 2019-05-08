@@ -24,6 +24,7 @@ import ChannelPermissionGate from 'components/permissions_gates/channel_permissi
 import QuickSwitchModal from 'components/quick_switch_modal';
 import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import {
     Constants,
@@ -524,7 +525,7 @@ export default class ChannelHeader extends React.PureComponent {
                     <span
                         id='channelHeaderDropdownIcon'
                         className='fa fa-angle-down header-dropdown__icon'
-                        title={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'})}
+                        aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'})}
                     />
                 </div>
                 <ChannelHeaderDropdown/>
@@ -547,12 +548,7 @@ export default class ChannelHeader extends React.PureComponent {
                         </span>
                     </strong>
                     <div>
-                        <div className='bot-indicator bot-indicator__popoverlist'>
-                            <FormattedMessage
-                                id='post_info.bot'
-                                defaultMessage='BOT'
-                            />
-                        </div>
+                        <BotBadge className='badge-popoverlist'/>
                     </div>
                 </div>
             );

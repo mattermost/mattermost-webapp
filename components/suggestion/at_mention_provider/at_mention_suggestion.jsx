@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import Suggestion from '../suggestion.jsx';
 
@@ -103,18 +104,6 @@ export default class AtMentionSuggestion extends Suggestion {
             className += ' suggestion--selected';
         }
 
-        let tag = null;
-        if (user.is_bot) {
-            tag = (
-                <div className='bot-indicator bot-indicator__autocomplete'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
-        }
-
         return (
             <div
                 className={className}
@@ -125,7 +114,10 @@ export default class AtMentionSuggestion extends Suggestion {
                 <span className='mention--align'>
                     {'@' + username}
                 </span>
-                {tag}
+                <BotBadge
+                    show={Boolean(user.is_bot)}
+                    className='badge-autocomplete'
+                />
                 <span className='mention__fullname'>
                     {' '}
                     {description}

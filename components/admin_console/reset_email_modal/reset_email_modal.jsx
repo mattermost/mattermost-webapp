@@ -94,9 +94,11 @@ export default class ResetEmailModal extends React.Component {
             <Modal
                 show={this.props.show}
                 onHide={this.doCancel}
+                role='dialog'
+                aria-labelledby='resetEmailModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='resetEmailModalLabel'>
                         {title}
                     </Modal.Title>
                 </Modal.Header>
