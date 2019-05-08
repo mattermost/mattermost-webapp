@@ -2634,7 +2634,20 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           />
           <AdminSidebarSection
             key="8"
-            name="environment/notifications_email"
+            name="environment/smtp"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="SMTP"
+                id="admin.sidebar.smtp"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="9"
+            name="environment/email_notifications"
             parentLink=""
             subsection={false}
             title={
@@ -2646,8 +2659,8 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           />
           <AdminSidebarSection
-            key="9"
-            name="environment/push"
+            key="10"
+            name="environment/push_notifications"
             parentLink=""
             subsection={false}
             title={
@@ -2659,7 +2672,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           />
           <AdminSidebarSection
-            key="11"
+            key="12"
             name="environment/rate_limiting"
             parentLink=""
             subsection={false}
@@ -2672,7 +2685,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           />
           <AdminSidebarSection
-            key="12"
+            key="13"
             name="environment/logging"
             parentLink=""
             subsection={false}
@@ -2685,7 +2698,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           />
           <AdminSidebarSection
-            key="13"
+            key="14"
             name="environment/session_lengths"
             parentLink=""
             subsection={false}
@@ -2698,7 +2711,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           />
           <AdminSidebarSection
-            key="15"
+            key="16"
             name="environment/developer"
             parentLink=""
             subsection={false}
