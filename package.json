@@ -52,7 +52,7 @@
     "react-select": "2.4.2",
     "react-transition-group": "2.7.1",
     "react-virtualized-auto-sizer": "^1.0.2",
-    "react-window": "github:mattermost/react-window#37f2e6551d776b62be4d22922969250259886236",
+    "react-window": "github:mattermost/react-window#7c90ad5774a6bd4c7f4d0ccb6a7037eef8f120c4",
     "rebound": "0.1.0",
     "redux": "4.0.1",
     "redux-batched-actions": "0.4.1",
