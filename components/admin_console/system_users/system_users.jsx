@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import debounce from 'lodash/debounce';
+import {debounce} from 'mattermost-redux/actions/helpers';
 
 import {getStandardAnalytics} from 'actions/admin_actions.jsx';
 import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
@@ -183,10 +183,7 @@ export default class SystemUsers extends React.Component {
         }
 
         this.setState({loading: false});
-    }, Constants.SEARCH_TIMEOUT_MILLISECONDS, {
-        leading: false,
-        trailing: true,
-    });
+    }, Constants.SEARCH_TIMEOUT_MILLISECONDS, true);
 
     getFilterOptions = (filter) => {
         const options = {};
