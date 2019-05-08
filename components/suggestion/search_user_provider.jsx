@@ -39,7 +39,7 @@ class SearchUserSuggestion extends Suggestion {
             >
                 <SelectIcon/>
                 <img
-                    alt={'user profile image'}
+                    alt={''}
                     className='profile-img rounded'
                     src={Utils.imageURLForUser(item)}
                 />

@@ -103,7 +103,7 @@ class SwitchChannelSuggestion extends Suggestion {
             icon = (
                 <div className='pull-left'>
                     <img
-                        alt={'user profile image'}
+                        alt={''}
                         className='mention__image'
                         src={Utils.imageURLForUser(channel.userId)}
                     />

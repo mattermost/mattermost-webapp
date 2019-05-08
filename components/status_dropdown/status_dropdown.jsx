@@ -81,7 +81,7 @@ export default class StatusDropdown extends React.Component {
         }
         return (
             <img
-                alt={'user profile image'}
+                alt={''}
                 className='user__picture'
                 src={this.props.profilePicture}
             />
