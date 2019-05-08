@@ -54,6 +54,11 @@ class LocalStorageStoreClass {
         this.setItem(getPenultimateChannelNameKey(userId, teamId), channelName);
     }
 
+    removePreviousChannelName(userId, teamId) {
+        localStorage.setItem(getPreviousChannelNameKey(userId, teamId), this.getPenultimateChannelName(userId, teamId));
+        localStorage.removeItem(getPenultimateChannelNameKey(userId, teamId));
+    }
+
     getPreviousTeamId(userId) {
         return this.getItem(getPreviousTeamIdKey(userId));
     }

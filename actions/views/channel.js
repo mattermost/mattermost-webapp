@@ -20,6 +20,7 @@ import {getLastViewedChannelName} from 'selectors/local_storage';
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ActionTypes} from 'utils/constants.jsx';
 import {isMobile} from 'utils/utils.jsx';
+import LocalStorageStore from 'stores/local_storage_store.jsx';
 
 export function checkAndSetMobileView() {
     return (dispatch) => {
@@ -94,12 +95,15 @@ export function leaveChannel(channelId) {
     return async (dispatch, getState) => {
         const state = getState();
         const myPreferences = getMyPreferences(state);
+        const currentUserId = getCurrentUserId(state);
+        const currentTeamId = getCurrentTeamId(state);
 
         if (isFavoriteChannel(myPreferences, channelId)) {
             dispatch(unfavoriteChannel(channelId));
         }
 
         const teamUrl = getCurrentRelativeTeamUrl(state);
+        LocalStorageStore.removePreviousChannelName(currentUserId, currentTeamId);
         browserHistory.push(teamUrl);
 
         const {error} = await dispatch(leaveChannelRedux(channelId));
