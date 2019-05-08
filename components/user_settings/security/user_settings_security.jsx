@@ -141,7 +141,7 @@ export default class SecurityTab extends React.PureComponent {
             this.props.actions.getMe();
             this.setState(this.getDefaultState());
         } else if (err) {
-            var state = this.getDefaultState();
+            const state = this.getDefaultState();
             if (err.message) {
                 state.serverError = err.message;
             } else {
