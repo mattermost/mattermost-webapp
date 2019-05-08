@@ -147,13 +147,13 @@ export default class NeedsTeam extends React.Component {
         }
     }
 
-    handleFocus = async () => {
+    handleFocus = () => {
         this.props.actions.markChannelAsRead(this.props.currentChannelId);
         window.isActive = true;
 
         if (Date.now() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS) {
-            await this.props.actions.fetchMyChannelsAndMembers(this.props.currentTeamId);
-            await this.props.actions.loadProfilesForDirect();
+            this.props.actions.fetchMyChannelsAndMembers(this.props.currentTeamId);
+            this.props.actions.loadProfilesForDirect();
         }
     }
 
