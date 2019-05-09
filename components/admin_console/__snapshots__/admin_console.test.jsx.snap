@@ -68,13 +68,8 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           render={[Function]}
         />
         <Route
-          key="environment/email_notifications"
-          path="/environment/email_notifications"
-          render={[Function]}
-        />
-        <Route
-          key="environment/push_notifications"
-          path="/environment/push_notifications"
+          key="environment/push_notification_server"
+          path="/environment/push_notification_server"
           render={[Function]}
         />
         <Route
@@ -110,6 +105,11 @@ exports[`components/AdminConsole should generate the routes 1`] = `
         <Route
           key="site_config/users_and_teams"
           path="/site_config/users_and_teams"
+          render={[Function]}
+        />
+        <Route
+          key="environment/notifications"
+          path="/environment/notifications"
           render={[Function]}
         />
         <Route
