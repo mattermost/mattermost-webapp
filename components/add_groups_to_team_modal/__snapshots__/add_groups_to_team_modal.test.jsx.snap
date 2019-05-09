@@ -9,7 +9,7 @@ exports[`components/AddGroupsToTeamModal should match snapshot 1`] = `
   dialogClassName="more-modal more-direct-channels"
   dialogComponentClass={[Function]}
   enforceFocus={true}
-  id="addUsersToTeamModal"
+  id="addGroupsToTeamModal"
   keyboard={true}
   manager={
     ModalManager {

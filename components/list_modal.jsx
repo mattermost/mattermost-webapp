@@ -116,12 +116,12 @@ export default class ListModal extends React.PureComponent {
         ));
     }
 
-    onNext = async () => {
+    onNext = () => {
         const nextPage = this.state.page + 1;
         this.onPageChange(nextPage);
     }
 
-    onPrev = async () => {
+    onPrev = () => {
         const prevPage = this.state.page - 1;
         this.onPageChange(prevPage);
     }
