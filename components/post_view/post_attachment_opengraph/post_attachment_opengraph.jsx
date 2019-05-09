@@ -44,6 +44,16 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
          */
         hasImageProxy: PropTypes.bool.isRequired,
 
+        /**
+         * Whether or not the server has link previews enabled.
+         */
+        enableLinkPreviews: PropTypes.bool.isRequired,
+
+        /**
+         * Whether or not the user has link previews enabled.
+         */
+        previewEnabled: PropTypes.bool.isRequired,
+
         isEmbedVisible: PropTypes.bool,
         toggleEmbedVisibility: PropTypes.func.isRequired,
 
@@ -212,6 +222,10 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
     }
 
     render() {
+        if (!this.props.previewEnabled || !this.props.enableLinkPreviews) {
+            return null;
+        }
+
         if (!this.props.post || isSystemMessage(this.props.post)) {
             return null;
         }
