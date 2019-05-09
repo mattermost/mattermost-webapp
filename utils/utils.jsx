@@ -1249,6 +1249,14 @@ const UserStatusesWeight = {
  */
 export function sortUsersByStatusAndDisplayName(users, statusesByUserId) {
     function compareUsers(a, b) {
+        if (a.is_bot) {
+            return 1;
+        }
+
+        if (b.is_bot) {
+            return -1;
+        }
+
         const aStatus = statusesByUserId[a.id] || UserStatuses.OFFLINE;
         const bStatus = statusesByUserId[b.id] || UserStatuses.OFFLINE;
 
