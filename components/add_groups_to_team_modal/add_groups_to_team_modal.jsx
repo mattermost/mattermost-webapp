@@ -230,7 +230,7 @@ export default class AddGroupsToTeamModal extends React.Component {
 
         return (
             <Modal
-                id='addUsersToTeamModal'
+                id='addGroupsToTeamModal'
                 dialogClassName={'more-modal more-direct-channels'}
                 show={this.state.show}
                 onHide={this.handleHide}
