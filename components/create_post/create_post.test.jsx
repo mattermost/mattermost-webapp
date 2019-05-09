@@ -27,7 +27,7 @@ jest.mock('react-dom', () => ({
     }),
 }));
 
-jest.mock('actions/post_actions.jsx', (process) => ({
+jest.mock('actions/post_actions.jsx', () => ({
     createPost: jest.fn(() => {
         return new Promise((resolve) => {
             process.nextTick(() => resolve());
