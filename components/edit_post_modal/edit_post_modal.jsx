@@ -238,7 +238,9 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     setEditboxRef = (ref) => {
-        this.editbox = ref;
+        if (ref && ref.getWrappedInstance) {
+            this.editbox = ref.getWrappedInstance();
+        }
 
         if (this.editbox) {
             this.editbox.focus();
@@ -291,6 +293,7 @@ export default class EditPostModal extends React.PureComponent {
 
         return (
             <Modal
+                id='editPostModal'
                 dialogClassName='edit-modal'
                 show={this.props.editingPost.show}
                 onKeyDown={this.handleKeyDown}
@@ -299,9 +302,11 @@ export default class EditPostModal extends React.PureComponent {
                 onExit={this.handleExit}
                 onExited={this.handleExited}
                 keyboard={false}
+                role='dialog'
+                aria-labelledby='editPostModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='editPostModalLabel'>
                         <FormattedMessage
                             id='edit_post.edit'
                             defaultMessage='Edit {title}'

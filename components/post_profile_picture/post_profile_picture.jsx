@@ -21,6 +21,7 @@ export default class PostProfilePicture extends React.PureComponent {
         post: PropTypes.object.isRequired,
         status: PropTypes.string,
         user: PropTypes.object,
+        isBot: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -67,10 +68,11 @@ export default class PostProfilePicture extends React.PureComponent {
             isRHS,
             post,
             user,
+            isBot,
         } = this.props;
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromWebhook = PostUtils.isFromWebhook(post);
-        if (isSystemMessage && !compactDisplay && !fromWebhook) {
+        if (isSystemMessage && !compactDisplay && !fromWebhook && !isBot) {
             return <MattermostLogo className='icon'/>;
         }
 

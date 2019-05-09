@@ -80,6 +80,7 @@ exports[`components/ReactionList Should match snapshot for reactions 1`] = `
           >
             <span
               className="post-reaction__add"
+              id="addReaction-post_id"
             >
               +
             </span>

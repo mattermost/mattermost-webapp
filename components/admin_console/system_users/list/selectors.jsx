@@ -41,3 +41,9 @@ export function getUsers(state, loading, teamId, term, filter) {
 
     return getProfilesInTeam(state, teamId, filters);
 }
+
+export function getNonBotUsers(state, loading, teamId, term, filter) {
+    return getUsers(state, loading, teamId, term, filter).filter((user) => {
+        return !user.is_bot;
+    });
+}

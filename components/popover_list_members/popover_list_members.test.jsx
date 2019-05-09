@@ -134,4 +134,14 @@ describe('components/PopoverListMembers', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot with group-constrained channel', () => {
+        const props = {...baseProps, channel: {...channel, group_constrained: true}};
+
+        const wrapper = shallow(
+            <PopoverListMembers {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });

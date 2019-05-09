@@ -44,19 +44,32 @@ function extractTextsFromSection(section, intl) {
 
 export function adminDefinitionsToUrlsAndTexts(adminDefinition, intl) {
     const entries = {};
+    for (const item of Object.values(adminDefinition.about)) {
+        entries[item.url] = extractTextsFromSection(item, intl);
+    }
     for (const item of Object.values(adminDefinition.reporting)) {
         entries[item.url] = extractTextsFromSection(item, intl);
     }
-    for (const item of Object.values(adminDefinition.other)) {
+    for (const item of Object.values(adminDefinition.user_management)) {
         entries[item.url] = extractTextsFromSection(item, intl);
     }
-    for (const item of Object.values(adminDefinition.settings)) {
-        for (const key of Object.keys(item)) {
-            const subitem = item[key];
-            if (typeof subitem === 'object' && 'schema' in subitem) {
-                entries[item.url + '/' + subitem.url] = extractTextsFromSection(subitem, intl);
-            }
-        }
+    for (const item of Object.values(adminDefinition.environment)) {
+        entries[item.url] = extractTextsFromSection(item, intl);
+    }
+    for (const item of Object.values(adminDefinition.site)) {
+        entries[item.url] = extractTextsFromSection(item, intl);
+    }
+    for (const item of Object.values(adminDefinition.authentication)) {
+        entries[item.url] = extractTextsFromSection(item, intl);
+    }
+    for (const item of Object.values(adminDefinition.integrations)) {
+        entries[item.url] = extractTextsFromSection(item, intl);
+    }
+    for (const item of Object.values(adminDefinition.compliance)) {
+        entries[item.url] = extractTextsFromSection(item, intl);
+    }
+    for (const item of Object.values(adminDefinition.experimental)) {
+        entries[item.url] = extractTextsFromSection(item, intl);
     }
     return entries;
 }

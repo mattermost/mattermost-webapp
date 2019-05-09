@@ -60,7 +60,7 @@ export default class GroupRow extends React.Component {
         }
         if (this.props.has_syncables) {
             return (
-                <Link to={'/admin_console/access-control/groups/' + this.props.mattermost_group_id}>
+                <Link to={'/admin_console/user_management/groups/' + this.props.mattermost_group_id}>
                     <FormattedMessage
                         id='admin.group_settings.group_row.edit'
                         defaultMessage='Edit'
@@ -69,7 +69,7 @@ export default class GroupRow extends React.Component {
             );
         }
         return (
-            <Link to={'/admin_console/access-control/groups/' + this.props.mattermost_group_id}>
+            <Link to={'/admin_console/user_management/groups/' + this.props.mattermost_group_id}>
                 <FormattedMessage
                     id='admin.group_settings.group_row.configure'
                     defaultMessage='Configure'

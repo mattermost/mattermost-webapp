@@ -61,26 +61,26 @@ const currentUsersLatestPostProp = {id: 'b', root_id: 'a', channel_id: currentCh
 
 const commentCountForPostProp = 10;
 
-function emptyFunction() {} //eslint-disable-line no-empty-function
 const actionsProp = {
-    addMessageIntoHistory: emptyFunction,
-    moveHistoryIndexBack: emptyFunction,
-    moveHistoryIndexForward: emptyFunction,
-    addReaction: emptyFunction,
-    removeReaction: emptyFunction,
-    clearDraftUploads: emptyFunction,
-    onSubmitPost: emptyFunction,
-    selectPostFromRightHandSideSearchByPostId: emptyFunction,
-    setDraft: emptyFunction,
-    setEditingPost: emptyFunction,
-    openModal: emptyFunction,
+    addMessageIntoHistory: jest.fn(),
+    moveHistoryIndexBack: jest.fn(),
+    moveHistoryIndexForward: jest.fn(),
+    addReaction: jest.fn(),
+    removeReaction: jest.fn(),
+    clearDraftUploads: jest.fn(),
+    onSubmitPost: jest.fn(),
+    selectPostFromRightHandSideSearchByPostId: jest.fn(),
+    setDraft: jest.fn(),
+    setEditingPost: jest.fn(),
+    openModal: jest.fn(),
     executeCommand: async () => {
         return {data: true};
     },
-    getChannelTimezones: emptyFunction,
+    getChannelTimezones: jest.fn(),
     runMessageWillBePostedHooks: async (post) => {
         return {data: post};
     },
+    scrollPostListToBottom: jest.fn(),
 };
 
 function createPost({
@@ -237,7 +237,7 @@ describe('components/create_post', () => {
 
     it('onKeyPress textbox should call emitLocalUserTypingEvent', () => {
         const wrapper = shallowWithIntl(createPost());
-        wrapper.instance().refs = {textbox: {blur: jest.fn()}};
+        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
 
         const postTextbox = wrapper.find('#post_textbox');
         postTextbox.simulate('KeyPress', {key: KeyCodes.ENTER[0], preventDefault: jest.fn(), persist: jest.fn()});
@@ -618,7 +618,7 @@ describe('components/create_post', () => {
         }));
 
         const instance = wrapper.instance();
-        instance.refs = {textbox: {blur: jest.fn()}};
+        instance.refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
 
         instance.handleKeyDown({ctrlKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn(), persist: jest.fn()});
         setTimeout(() => {

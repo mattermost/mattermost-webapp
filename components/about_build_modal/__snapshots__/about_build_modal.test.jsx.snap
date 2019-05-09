@@ -3,6 +3,7 @@
 exports[`components/AboutBuildModal should match snapshot for enterprise edition 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="aboutModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -25,6 +26,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -35,6 +37,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="aboutModalLabel"
     >
       <FormattedMessage
         defaultMessage="About Mattermost"
@@ -244,6 +247,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
 exports[`components/AboutBuildModal should match snapshot for team edition 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="aboutModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -266,6 +270,7 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -276,6 +281,7 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="aboutModalLabel"
     >
       <FormattedMessage
         defaultMessage="About Mattermost"
@@ -473,6 +479,7 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
 exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="aboutModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -495,6 +502,7 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -505,6 +513,7 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="aboutModalLabel"
     >
       <FormattedMessage
         defaultMessage="About Mattermost"
@@ -714,6 +723,7 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
 exports[`components/AboutBuildModal should show dev if this is a dev build 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="aboutModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -736,6 +746,7 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -746,6 +757,7 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="aboutModalLabel"
     >
       <FormattedMessage
         defaultMessage="About Mattermost"

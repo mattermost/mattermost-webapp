@@ -2,7 +2,11 @@
 // See LICENSE.txt for license information.
 
 import {combineReducers} from 'redux';
-import {PostTypes, TeamTypes} from 'mattermost-redux/action_types';
+import {
+    PostTypes,
+    TeamTypes,
+    SearchTypes,
+} from 'mattermost-redux/action_types';
 
 import {ActionTypes, RHSStates} from 'utils/constants.jsx';
 
@@ -10,7 +14,7 @@ function selectedPostId(state = '', action) {
     switch (action.type) {
     case ActionTypes.SELECT_POST:
         return action.postId;
-    case PostTypes.REMOVE_POST:
+    case PostTypes.POST_REMOVED:
         if (action.data && action.data.id === state) {
             return '';
         }
@@ -79,10 +83,10 @@ function searchResultsTerms(state = '', action) {
 
 function isSearchingFlaggedPost(state = false, action) {
     switch (action.type) {
-    case ActionTypes.SEARCH_FLAGGED_POSTS_REQUEST:
+    case SearchTypes.SEARCH_FLAGGED_POSTS_REQUEST:
         return true;
-    case ActionTypes.SEARCH_FLAGGED_POSTS_FAILURE:
-    case ActionTypes.SEARCH_FLAGGED_POSTS_SUCCESS:
+    case SearchTypes.SEARCH_FLAGGED_POSTS_FAILURE:
+    case SearchTypes.SEARCH_FLAGGED_POSTS_SUCCESS:
         return false;
     default:
         return state;
@@ -91,10 +95,10 @@ function isSearchingFlaggedPost(state = false, action) {
 
 function isSearchingPinnedPost(state = false, action) {
     switch (action.type) {
-    case ActionTypes.SEARCH_PINNED_POSTS_REQUEST:
+    case SearchTypes.SEARCH_PINNED_POSTS_REQUEST:
         return true;
-    case ActionTypes.SEARCH_PINNED_POSTS_FAILURE:
-    case ActionTypes.SEARCH_PINNED_POSTS_SUCCESS:
+    case SearchTypes.SEARCH_PINNED_POSTS_FAILURE:
+    case SearchTypes.SEARCH_PINNED_POSTS_SUCCESS:
         return false;
     default:
         return state;

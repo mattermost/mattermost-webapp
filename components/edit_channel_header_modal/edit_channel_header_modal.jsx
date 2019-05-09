@@ -108,13 +108,13 @@ class EditChannelHeaderModal extends React.PureComponent {
 
     focusTextbox = () => {
         if (this.refs.editChannelHeaderTextbox) {
-            this.refs.editChannelHeaderTextbox.focus();
+            this.refs.editChannelHeaderTextbox.getWrappedInstance().focus();
         }
     }
 
     blurTextbox = () => {
         if (this.refs.editChannelHeaderTextbox) {
-            this.refs.editChannelHeaderTextbox.blur();
+            this.refs.editChannelHeaderTextbox.getWrappedInstance().blur();
         }
     }
 
@@ -186,9 +186,11 @@ class EditChannelHeaderModal extends React.PureComponent {
                 onHide={this.onHide}
                 onEntering={this.handleEntering}
                 onExited={this.props.onHide}
+                role='dialog'
+                aria-labelledby='editChannelHeaderModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='editChannelHeaderModalLabel'>
                         {headerTitle}
                     </Modal.Title>
                 </Modal.Header>

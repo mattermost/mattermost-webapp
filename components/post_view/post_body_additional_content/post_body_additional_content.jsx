@@ -72,10 +72,12 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         const {embeds} = props.post.metadata;
         const embedMetadata = embeds && embeds[0];
         const link = embedMetadata && embedMetadata.url ? embedMetadata.url : Utils.extractFirstLink(props.post.message);
+        const isMetadataImage = embedMetadata && embedMetadata.url ? embedMetadata.type === 'image' : false;
         this.state = {
             link,
             linkLoadError: false,
             linkLoaded: false,
+            isMetadataImage,
         };
     }
 
@@ -162,6 +164,10 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
             return false;
         }
 
+        if (this.state.isMetadataImage) {
+            return true;
+        }
+
         if (YoutubeVideo.isYoutubeLink(link)) {
             return true;
         }
@@ -205,7 +211,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
 
         if (this.isLinkImage(link)) {
-            const dimensions = this.props.post.metadata.images && this.props.post.metadata.images[link];
+            const dimensions = this.props.post.metadata && this.props.post.metadata.images && this.props.post.metadata.images[link];
             return (
                 <PostImage
                     channelId={this.props.post.channel_id}

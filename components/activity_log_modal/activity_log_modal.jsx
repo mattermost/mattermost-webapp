@@ -117,9 +117,11 @@ export default class ActivityLogModal extends React.PureComponent {
                 onHide={this.onHide}
                 onExited={this.props.onHide}
                 bsSize='large'
+                role='dialog'
+                aria-labelledby='activityLogModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='activityLogModalLabel'>
                         <FormattedMessage
                             id='activity_log.activeSessions'
                             defaultMessage='Active Sessions'

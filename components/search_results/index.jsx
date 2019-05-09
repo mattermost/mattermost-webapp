@@ -10,6 +10,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getSearchMatches, getSearchResults} from 'mattermost-redux/selectors/entities/posts';
 import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentSearchForCurrentTeam} from 'mattermost-redux/selectors/entities/search';
 
 import {
     getSearchResultsTerms,
@@ -54,6 +55,8 @@ function makeMapStateToProps() {
             });
         }
 
+        const currentSearch = getCurrentSearchForCurrentTeam(state) || {};
+
         return {
             results: posts,
             matches: getSearchMatches(state),
@@ -63,6 +66,7 @@ function makeMapStateToProps() {
             isSearchingFlaggedPost: getIsSearchingFlaggedPost(state),
             isSearchingPinnedPost: getIsSearchingPinnedPost(state),
             isSearchGettingMore: getIsSearchGettingMore(state),
+            isSearchAtEnd: currentSearch.isEnd,
             compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
             dataRetentionEnableMessageDeletion,
             dataRetentionMessageRetentionDays,

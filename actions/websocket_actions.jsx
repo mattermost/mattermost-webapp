@@ -22,16 +22,23 @@ import {
     markChannelAsRead,
 } from 'mattermost-redux/actions/channels';
 import {setServerVersion} from 'mattermost-redux/actions/general';
+import {
+    getCustomEmojiForReaction,
+    getPosts,
+    getProfilesAndStatusesForPosts,
+    postDeleted,
+    receivedNewPost,
+    receivedPost,
+} from 'mattermost-redux/actions/posts';
 import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 
-import {getPosts, getProfilesAndStatusesForPosts, getCustomEmojiForReaction} from 'mattermost-redux/actions/posts';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getMe, getStatusesByIds, getProfilesByIds} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getChannel, getCurrentChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 
 import {getSelectedChannelId} from 'selectors/rhs';
 
@@ -207,7 +214,7 @@ function handleEvent(msg) {
     switch (msg.event) {
     case SocketEvents.POSTED:
     case SocketEvents.EPHEMERAL_MESSAGE:
-        handleNewPostEvent(msg);
+        handleNewPostEventDebounced(msg);
         break;
 
     case SocketEvents.POST_EDITED:
@@ -392,7 +399,7 @@ function handleChannelMemberUpdatedEvent(msg) {
     dispatch({type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER, data: channelMember});
 }
 
-export function debouncePostEvent(func, wait) {
+function debouncePostEvent(wait) {
     let timeout;
     let queue = [];
     let count = 0;
@@ -400,28 +407,11 @@ export function debouncePostEvent(func, wait) {
     // Called when timeout triggered
     const triggered = () => {
         timeout = null;
+
         if (queue.length > 0) {
-            const posts = {};
-            for (const queuedMsg of queue) {
-                const post = JSON.parse(queuedMsg.data.post);
-                if (!posts[post.channel_id]) {
-                    posts[post.channel_id] = {};
-                }
-                posts[post.channel_id][post.id] = post;
-            }
-            for (const channelId in posts) {
-                if (!posts.hasOwnProperty(channelId)) {
-                    continue;
-                }
-                dispatch({
-                    type: PostTypes.RECEIVED_POSTS,
-                    data: {posts: posts[channelId]},
-                    channelId,
-                    receivedNewPosts: true,
-                });
-                getProfilesAndStatusesForPosts(posts[channelId], dispatch, getState);
-            }
+            dispatch(handleNewPostEvents(queue));
         }
+
         queue = [];
         count = 0;
     };
@@ -439,36 +429,48 @@ export function debouncePostEvent(func, wait) {
         } else {
             // Apply immediately for events up until count reaches limit
             count += 1;
-            func(msg);
+            dispatch(handleNewPostEvent(msg));
             clearTimeout(timeout);
             timeout = setTimeout(triggered, wait);
         }
     };
 }
 
-const handleNewPostEvent = debouncePostEvent(handleNewPostEventWrapped, 100);
+const handleNewPostEventDebounced = debouncePostEvent(100);
 
-function handleNewPostEventWrapped(msg) {
-    const post = JSON.parse(msg.data.post);
-    dispatch(handleNewPost(post, msg));
+export function handleNewPostEvent(msg) {
+    return (myDispatch, myGetState) => {
+        const post = JSON.parse(msg.data.post);
+        myDispatch(handleNewPost(post, msg));
 
-    getProfilesAndStatusesForPosts([post], dispatch, getState);
+        getProfilesAndStatusesForPosts([post], myDispatch, myGetState);
 
-    if (post.user_id !== getCurrentUserId(getState()) && !fromAutoResponder(post)) {
-        dispatch({
-            type: UserTypes.RECEIVED_STATUSES,
-            data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
-        });
-    }
+        if (post.user_id !== getCurrentUserId(myGetState()) && !fromAutoResponder(post)) {
+            myDispatch({
+                type: UserTypes.RECEIVED_STATUSES,
+                data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
+            });
+        }
+    };
+}
+
+export function handleNewPostEvents(queue) {
+    return (myDispatch, myGetState) => {
+        const posts = queue.map((msg) => JSON.parse(msg.data.post));
+
+        // Receive the posts as one continuous block since they were received within a short period
+        const actions = posts.map(receivedNewPost);
+        myDispatch(batchActions(actions));
+
+        // And any other data needed for them
+        getProfilesAndStatusesForPosts(posts, myDispatch, myGetState);
+    };
 }
 
 export function handlePostEditEvent(msg) {
     // Store post
     const post = JSON.parse(msg.data.post);
-    dispatch({
-        type: PostTypes.RECEIVED_POST,
-        data: post,
-    });
+    dispatch(receivedPost(post));
 
     getProfilesAndStatusesForPosts([post], dispatch, getState);
     const currentChannelId = getCurrentChannelId(getState());
@@ -483,7 +485,7 @@ export function handlePostEditEvent(msg) {
 
 function handlePostDeleteEvent(msg) {
     const post = JSON.parse(msg.data.post);
-    dispatch({type: PostTypes.POST_DELETED, data: post});
+    dispatch(postDeleted(post));
 }
 
 async function handleTeamAddedEvent(msg) {
@@ -569,7 +571,9 @@ function handleDeleteTeamEvent(msg) {
 
         if (newTeamId) {
             dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
-            browserHistory.push(`${getCurrentTeamUrl(getState())}/channels/${Constants.DEFAULT_CHANNEL}`);
+            const globalState = getState();
+            const redirectChannel = getRedirectChannelNameForTeam(globalState, newTeamId);
+            browserHistory.push(`${getCurrentTeamUrl(globalState)}/channels/${redirectChannel}`);
         } else {
             browserHistory.push('/');
         }
@@ -708,7 +712,9 @@ function handleChannelDeletedEvent(msg) {
     const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
     if (getCurrentChannelId(state) === msg.data.channel_id && !viewArchivedChannels) {
         const teamUrl = getCurrentRelativeTeamUrl(state);
-        browserHistory.push(teamUrl + '/channels/' + Constants.DEFAULT_CHANNEL);
+        const currentTeamId = getCurrentTeamId(state);
+        const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
+        browserHistory.push(teamUrl + '/channels/' + redirectChannel);
     }
 
     dispatch({type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, deleteAt: msg.data.delete_at, viewArchivedChannels}});

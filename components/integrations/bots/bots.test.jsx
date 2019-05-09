@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import {shallow} from 'enzyme';
 
 import TestHelper from 'tests/helpers/client-test-helper';
@@ -32,8 +33,7 @@ describe('components/integrations/bots/Bots', () => {
             [bot2.user_id]: bot2,
             [bot3.user_id]: bot3,
         };
-
-        const wrapper = shallow(
+        const wrapperFull = shallow(
             <Bots
                 bots={bots}
                 team={team}
@@ -42,6 +42,8 @@ describe('components/integrations/bots/Bots', () => {
                 actions={actions}
             />
         );
+        wrapperFull.instance().setState({loading: false});
+        const wrapper = shallow(<div>{wrapperFull.instance().bots()[0]}</div>);
 
         expect(wrapper.find('EnabledSection').shallow().contains(
             <Bot
@@ -97,7 +99,7 @@ describe('components/integrations/bots/Bots', () => {
             [bot1.user_id]: passedTokens,
         };
 
-        const wrapper = shallow(
+        const wrapperFull = shallow(
             <Bots
                 bots={bots}
                 team={team}
@@ -106,6 +108,8 @@ describe('components/integrations/bots/Bots', () => {
                 actions={actions}
             />
         );
+        wrapperFull.instance().setState({loading: false});
+        const wrapper = shallow(<div>{wrapperFull.instance().bots()[0]}</div>);
 
         expect(wrapper.find('EnabledSection').shallow().contains(
             <Bot

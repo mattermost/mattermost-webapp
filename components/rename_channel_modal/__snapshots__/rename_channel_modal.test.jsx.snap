@@ -3,6 +3,7 @@
 exports[`components/RenameChannelModal should match snapshot 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="renameChannelModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -26,6 +27,7 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -36,6 +38,7 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="renameChannelModalLabel"
     >
       <FormattedMessage
         defaultMessage="Rename Channel"
