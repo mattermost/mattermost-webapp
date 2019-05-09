@@ -63,10 +63,8 @@ describe('components/ListModal', () => {
 
     it('should match snapshot with title bar button', () => {
         const props = {...baseProps};
-        props.titleBarButton = {
-            text: 'Add Foo',
-            onClick: () => { },
-        };
+        props.titleBarButtonText = 'Add Foo';
+        props.titleBarButtonTextOnClick = () => { };
         const wrapper = shallow(
             <ListModal {...baseProps}/>
         );

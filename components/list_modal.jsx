@@ -56,12 +56,14 @@ export default class ListModal extends React.PureComponent {
         searchPlaceholderText: PropTypes.string,
 
         /**
-         * titleBarButton (optional) an object representing a title button.
+         * titleBarButtonText (optional) a string representing a title bar button text.
          */
-        titleBarButton: PropTypes.shape({
-            text: PropTypes.string.isRequired,
-            onClick: PropTypes.func.isRequired,
-        }),
+        titleBarButtonText: PropTypes.string,
+
+        /**
+         * titleBarButtonOnClick (optional) a func to handle title button bar clicks.
+         */
+        titleBarButtonOnClick: PropTypes.func,
 
         /**
          * numPerPage (optional) a number setting how many items per page should be displayed. Defaults to
@@ -164,13 +166,13 @@ export default class ListModal extends React.PureComponent {
                         <Modal.Title>
                             <span className='name'>{this.props.titleText}</span>
                         </Modal.Title>
-                        {this.props.titleBarButton &&
+                        {this.props.titleBarButtonText && this.props.titleBarButtonOnClick &&
                             <a
                                 className='btn btn-md btn-primary'
                                 href='#'
-                                onClick={this.props.titleBarButton.onClick}
+                                onClick={this.props.titleBarButtonOnClick}
                             >
-                                {this.props.titleBarButton.text}
+                                {this.props.titleBarButtonText}
                             </a>}
                     </Modal.Header>
                     <Modal.Body>
