@@ -261,7 +261,7 @@ export default class TeamSelectorModal extends React.Component {
                         buttonSubmitText={buttonSubmitText}
                         saving={false}
                         loading={this.state.loadingTeams}
-                        placeholderText={localizeMessage('multiselect.placeholder', 'Search and add members')}
+                        placeholderText={localizeMessage('multiselect.addTeamsPlaceholder', 'Search and add teams')}
                     />
                 </Modal.Body>
             </Modal>

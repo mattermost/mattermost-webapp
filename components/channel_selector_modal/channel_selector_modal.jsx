@@ -222,7 +222,7 @@ export default class ChannelSelectorModal extends React.Component {
                         buttonSubmitText={buttonSubmitText}
                         saving={false}
                         loading={this.state.loadingChannels}
-                        placeholderText={localizeMessage('multiselect.placeholder', 'Search and add members')}
+                        placeholderText={localizeMessage('multiselect.addChannelsPlaceholder', 'Search and add channels')}
                     />
                 </Modal.Body>
             </Modal>
