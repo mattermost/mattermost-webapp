@@ -20,7 +20,7 @@ describe('Channel Settings', () => {
             cy.wrap($el).find('a').find('span.btn-close').should('have.length', 0);
         });
 
-        cy.get('#privateChannel').parent().parent().children('li:not(:first-child)').not('#moreRecentAlphaButton').each(($el) => {
+        cy.get('#privateChannel').parent().parent().children('li:not(:first-child)').each(($el) => {
             cy.wrap($el).find('a').find('span.btn-close').should('have.length', 0);
         });
 
