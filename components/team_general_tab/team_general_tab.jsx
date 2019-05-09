@@ -434,7 +434,7 @@ export default class GeneralTab extends React.Component {
                         <div className='disabledMessage'>
                             <FormattedMarkdownMessage
                                 id='general_tab.membersManagedByGroups'
-                                defaultMessage='Members of this team are added and removed by linked groups. [Learn More]()'
+                                defaultMessage='Members of this team are added and removed by linked groups.'
                             />
                         </div>
                     </li>

@@ -375,7 +375,7 @@ exports[`components/TeamSettings should match snapshot when team is group constr
           className="disabledMessage"
         >
           <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Members of this team are added and removed by linked groups. [Learn More]()"
+            defaultMessage="Members of this team are added and removed by linked groups."
             id="general_tab.membersManagedByGroups"
           />
         </div>
