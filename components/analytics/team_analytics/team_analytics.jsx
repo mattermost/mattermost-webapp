@@ -17,8 +17,6 @@ import StatisticCount from 'components/analytics/statistic_count.jsx';
 import TableChart from 'components/analytics/table_chart.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
-import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
-
 import {getMonthLong} from 'utils/i18n';
 
 import {formatPostsPerDayData, formatUsersWithPostsPerDayData} from '../format.jsx';

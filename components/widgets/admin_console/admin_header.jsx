@@ -23,6 +23,6 @@ export default class SettingsGroup extends React.Component {
             <div className={'admin-console__header ' + headerClass}>
                 {this.props.children}
             </div>
-        )
+        );
     }
 }
