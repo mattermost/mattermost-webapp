@@ -867,14 +867,16 @@ export default class SchemaAdminSettings extends React.Component {
         return (
             <div className={'wrapper--fixed ' + this.state.customComponentWrapperClass}>
                 {this.renderTitle()}
-                <div className='admin-console__content'>
-                    <form
-                        className='form-horizontal'
-                        role='form'
-                        onSubmit={this.handleSubmit}
-                    >
-                        {this.renderSettings()}
-                    </form>
+                <div className='admin-console__wrapper'>
+                    <div className='admin-console__content'>
+                        <form
+                            className='form-horizontal'
+                            role='form'
+                            onSubmit={this.handleSubmit}
+                        >
+                            {this.renderSettings()}
+                        </form>
+                    </div>
                 </div>
                 <div className='admin-console-save'>
                     <SaveButton

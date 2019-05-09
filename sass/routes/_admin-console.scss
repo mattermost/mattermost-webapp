@@ -16,12 +16,16 @@
         height: 100vh;
     }
 
-    .admin-console__content {
+    .admin-console__wrapper {
         -webkit-flex: 1 1 auto;
         flex: 1 1 auto;
         height: 100%;
         overflow: auto;
         padding: 20px;
+    }
+
+    .admin-console__content {
+        max-width: 920px;
     }
 
     mark {

@@ -21,6 +21,7 @@ export default class SettingsGroup extends React.Component {
     }
 
     render() {
+        let wrapperClass = '';
         let contentClass = '';
 
         if (!this.props.show) {
@@ -28,6 +29,7 @@ export default class SettingsGroup extends React.Component {
         }
 
         if (this.props.container) {
+            wrapperClass = 'admin-console__wrapper';
             contentClass = 'admin-console__content';
         }
 
@@ -41,9 +43,11 @@ export default class SettingsGroup extends React.Component {
         }
 
         return (
-            <div className={contentClass}>
-                {header}
-                {this.props.children}
+            <div className={wrapperClass}>
+                <div className={contentClass}>
+                    {header}
+                    {this.props.children}
+                </div>
             </div>
         );
     }

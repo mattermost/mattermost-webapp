@@ -255,62 +255,64 @@ export default class TeamAnalytics extends React.Component {
                     </div>
                 </div>
 
-                <div className='admin-console__content'>
-                    {banner}
-                    <div className='row'>
-                        <StatisticCount
-                            title={
-                                <FormattedMessage
-                                    id='analytics.team.totalUsers'
-                                    defaultMessage='Total Active Users'
-                                />
-                            }
-                            icon='fa-users'
-                            count={stats[StatTypes.TOTAL_USERS]}
-                        />
-                        <StatisticCount
-                            title={
-                                <FormattedMessage
-                                    id='analytics.team.publicChannels'
-                                    defaultMessage='Public Channels'
-                                />
-                            }
-                            icon='fa-globe'
-                            count={stats[StatTypes.TOTAL_PUBLIC_CHANNELS]}
-                        />
-                        <StatisticCount
-                            title={
-                                <FormattedMessage
-                                    id='analytics.team.privateGroups'
-                                    defaultMessage='Private Channels'
-                                />
-                            }
-                            icon='fa-lock'
-                            count={stats[StatTypes.TOTAL_PRIVATE_GROUPS]}
-                        />
-                        {totalPostsCount}
-                    </div>
-                    {postTotalGraph}
-                    {userActiveGraph}
-                    <div className='row'>
-                        <TableChart
-                            title={
-                                <FormattedMessage
-                                    id='analytics.team.recentUsers'
-                                    defaultMessage='Recent Active Users'
-                                />
-                            }
-                            data={recentActiveUsers}
-                        />
-                        <TableChart
-                            title={
-                                <FormattedMessage
-                                    id='analytics.team.newlyCreated'
-                                    defaultMessage='Newly Created Users'
-                                />
-                            }
-                            data={newlyCreatedUsers}
-                        />
+                <div className='admin-console__wrapper'>
+                    <div className='admin-console__content'>
+                        {banner}
+                        <div className='row'>
+                            <StatisticCount
+                                title={
+                                    <FormattedMessage
+                                        id='analytics.team.totalUsers'
+                                        defaultMessage='Total Active Users'
+                                    />
+                                }
+                                icon='fa-users'
+                                count={stats[StatTypes.TOTAL_USERS]}
+                            />
+                            <StatisticCount
+                                title={
+                                    <FormattedMessage
+                                        id='analytics.team.publicChannels'
+                                        defaultMessage='Public Channels'
+                                    />
+                                }
+                                icon='fa-globe'
+                                count={stats[StatTypes.TOTAL_PUBLIC_CHANNELS]}
+                            />
+                            <StatisticCount
+                                title={
+                                    <FormattedMessage
+                                        id='analytics.team.privateGroups'
+                                        defaultMessage='Private Channels'
+                                    />
+                                }
+                                icon='fa-lock'
+                                count={stats[StatTypes.TOTAL_PRIVATE_GROUPS]}
+                            />
+                            {totalPostsCount}
+                        </div>
+                        {postTotalGraph}
+                        {userActiveGraph}
+                        <div className='row'>
+                            <TableChart
+                                title={
+                                    <FormattedMessage
+                                        id='analytics.team.recentUsers'
+                                        defaultMessage='Recent Active Users'
+                                    />
+                                }
+                                data={recentActiveUsers}
+                            />
+                            <TableChart
+                                title={
+                                    <FormattedMessage
+                                        id='analytics.team.newlyCreated'
+                                        defaultMessage='Newly Created Users'
+                                    />
+                                }
+                                data={newlyCreatedUsers}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

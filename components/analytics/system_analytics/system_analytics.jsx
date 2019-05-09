@@ -368,17 +368,19 @@ export default class SystemAnalytics extends React.PureComponent {
                     id='analytics.system.title'
                     defaultMessage='System Statistics'
                 />
-                <div className='admin-console__content'>
-                    {banner}
-                    <div className='row'>
-                        {firstRow}
-                        {secondRow}
-                        {thirdRow}
-                        {advancedStats}
+                <div className='admin-console__wrapper'>
+                    <div className='admin-console__content'>
+                        {banner}
+                        <div className='row'>
+                            {firstRow}
+                            {secondRow}
+                            {thirdRow}
+                            {advancedStats}
+                        </div>
+                        {advancedGraphs}
+                        {postTotalGraph}
+                        {activeUserGraph}
                     </div>
-                    {advancedGraphs}
-                    {postTotalGraph}
-                    {activeUserGraph}
                 </div>
             </div>
         );
