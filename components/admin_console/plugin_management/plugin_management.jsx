@@ -754,7 +754,7 @@ export default class PluginManagement extends AdminSettings {
         const overwritePluginModal = this.state.confirmModal && this.renderOverwritePluginModal();
 
         return (
-            <div className='wrapper--fixed'>
+            <div className='admin-console__content'>
                 <SettingsGroup id={'PluginSettings'}>
                     <BooleanSetting
                         id='enable'

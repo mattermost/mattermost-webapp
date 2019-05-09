@@ -1,23 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/PluginManagement should match snapshot 1`] = `
-<div
-  className="wrapper--fixed"
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
 >
-  <AdminHeader>
-    <FormattedMessage
-      defaultMessage="Management"
-      id="admin.plugin.management.title"
-      values={Object {}}
-    />
-  </AdminHeader>
-  <form
-    className="form-horizontal"
-    onSubmit={[Function]}
-    role="form"
+  <div
+    className="wrapper--fixed"
   >
+    <SettingsGroup>
+      <FormattedMessage
+        defaultMessage="Management"
+        id="admin.plugin.management.title"
+        values={Object {}}
+      />
+    </SettingsGroup>
     <div
-      className="wrapper--fixed"
+      className="admin-console__content"
     >
       <SettingsGroup
         id="PluginSettings"
@@ -180,28 +180,28 @@ exports[`components/PluginManagement should match snapshot 1`] = `
         />
       </Overlay>
     </div>
-  </form>
-</div>
+  </div>
+</form>
 `;
 
 exports[`components/PluginManagement should match snapshot, No installed plugins 1`] = `
-<div
-  className="wrapper--fixed"
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
 >
-  <AdminHeader>
-    <FormattedMessage
-      defaultMessage="Management"
-      id="admin.plugin.management.title"
-      values={Object {}}
-    />
-  </AdminHeader>
-  <form
-    className="form-horizontal"
-    onSubmit={[Function]}
-    role="form"
+  <div
+    className="wrapper--fixed"
   >
+    <SettingsGroup>
+      <FormattedMessage
+        defaultMessage="Management"
+        id="admin.plugin.management.title"
+        values={Object {}}
+      />
+    </SettingsGroup>
     <div
-      className="wrapper--fixed"
+      className="admin-console__content"
     >
       <SettingsGroup
         id="PluginSettings"
@@ -369,28 +369,28 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
         />
       </Overlay>
     </div>
-  </form>
-</div>
+  </div>
+</form>
 `;
 
 exports[`components/PluginManagement should match snapshot, disabled 1`] = `
-<div
-  className="wrapper--fixed"
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
 >
-  <AdminHeader>
-    <FormattedMessage
-      defaultMessage="Management"
-      id="admin.plugin.management.title"
-      values={Object {}}
-    />
-  </AdminHeader>
-  <form
-    className="form-horizontal"
-    onSubmit={[Function]}
-    role="form"
+  <div
+    className="wrapper--fixed"
   >
+    <SettingsGroup>
+      <FormattedMessage
+        defaultMessage="Management"
+        id="admin.plugin.management.title"
+        values={Object {}}
+      />
+    </SettingsGroup>
     <div
-      className="wrapper--fixed"
+      className="admin-console__content"
     >
       <SettingsGroup
         id="PluginSettings"
@@ -526,28 +526,28 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
         />
       </Overlay>
     </div>
-  </form>
-</div>
+  </div>
+</form>
 `;
 
 exports[`components/PluginManagement should match snapshot, upload disabled 1`] = `
-<div
-  className="wrapper--fixed"
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
 >
-  <AdminHeader>
-    <FormattedMessage
-      defaultMessage="Management"
-      id="admin.plugin.management.title"
-      values={Object {}}
-    />
-  </AdminHeader>
-  <form
-    className="form-horizontal"
-    onSubmit={[Function]}
-    role="form"
+  <div
+    className="wrapper--fixed"
   >
+    <SettingsGroup>
+      <FormattedMessage
+        defaultMessage="Management"
+        id="admin.plugin.management.title"
+        values={Object {}}
+      />
+    </SettingsGroup>
     <div
-      className="wrapper--fixed"
+      className="admin-console__content"
     >
       <SettingsGroup
         id="PluginSettings"
@@ -710,28 +710,28 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
         />
       </Overlay>
     </div>
-  </form>
-</div>
+  </div>
+</form>
 `;
 
 exports[`components/PluginManagement should match snapshot, with installed plugins 1`] = `
-<div
-  className="wrapper--fixed"
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
 >
-  <AdminHeader>
-    <FormattedMessage
-      defaultMessage="Management"
-      id="admin.plugin.management.title"
-      values={Object {}}
-    />
-  </AdminHeader>
-  <form
-    className="form-horizontal"
-    onSubmit={[Function]}
-    role="form"
+  <div
+    className="wrapper--fixed"
   >
+    <SettingsGroup>
+      <FormattedMessage
+        defaultMessage="Management"
+        id="admin.plugin.management.title"
+        values={Object {}}
+      />
+    </SettingsGroup>
     <div
-      className="wrapper--fixed"
+      className="admin-console__content"
     >
       <SettingsGroup
         id="PluginSettings"
@@ -957,28 +957,28 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         />
       </Overlay>
     </div>
-  </form>
-</div>
+  </div>
+</form>
 `;
 
 exports[`components/PluginManagement should match snapshot, with installed plugins and just footer should set hasSettings to true 1`] = `
-<div
-  className="wrapper--fixed"
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
 >
-  <AdminHeader>
-    <FormattedMessage
-      defaultMessage="Management"
-      id="admin.plugin.management.title"
-      values={Object {}}
-    />
-  </AdminHeader>
-  <form
-    className="form-horizontal"
-    onSubmit={[Function]}
-    role="form"
+  <div
+    className="wrapper--fixed"
   >
+    <SettingsGroup>
+      <FormattedMessage
+        defaultMessage="Management"
+        id="admin.plugin.management.title"
+        values={Object {}}
+      />
+    </SettingsGroup>
     <div
-      className="wrapper--fixed"
+      className="admin-console__content"
     >
       <SettingsGroup
         id="PluginSettings"
@@ -1172,28 +1172,28 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         />
       </Overlay>
     </div>
-  </form>
-</div>
+  </div>
+</form>
 `;
 
 exports[`components/PluginManagement should match snapshot, with installed plugins and just header should set hasSettings to true 1`] = `
-<div
-  className="wrapper--fixed"
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
 >
-  <AdminHeader>
-    <FormattedMessage
-      defaultMessage="Management"
-      id="admin.plugin.management.title"
-      values={Object {}}
-    />
-  </AdminHeader>
-  <form
-    className="form-horizontal"
-    onSubmit={[Function]}
-    role="form"
+  <div
+    className="wrapper--fixed"
   >
+    <SettingsGroup>
+      <FormattedMessage
+        defaultMessage="Management"
+        id="admin.plugin.management.title"
+        values={Object {}}
+      />
+    </SettingsGroup>
     <div
-      className="wrapper--fixed"
+      className="admin-console__content"
     >
       <SettingsGroup
         id="PluginSettings"
@@ -1387,28 +1387,28 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         />
       </Overlay>
     </div>
-  </form>
-</div>
+  </div>
+</form>
 `;
 
 exports[`components/PluginManagement should match snapshot, with installed plugins and just settings should set hasSettings to true 1`] = `
-<div
-  className="wrapper--fixed"
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
 >
-  <AdminHeader>
-    <FormattedMessage
-      defaultMessage="Management"
-      id="admin.plugin.management.title"
-      values={Object {}}
-    />
-  </AdminHeader>
-  <form
-    className="form-horizontal"
-    onSubmit={[Function]}
-    role="form"
+  <div
+    className="wrapper--fixed"
   >
+    <SettingsGroup>
+      <FormattedMessage
+        defaultMessage="Management"
+        id="admin.plugin.management.title"
+        values={Object {}}
+      />
+    </SettingsGroup>
     <div
-      className="wrapper--fixed"
+      className="admin-console__content"
     >
       <SettingsGroup
         id="PluginSettings"
@@ -1602,28 +1602,28 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         />
       </Overlay>
     </div>
-  </form>
-</div>
+  </div>
+</form>
 `;
 
 exports[`components/PluginManagement should match snapshot, with installed plugins and not settings link should set hasSettings to false 1`] = `
-<div
-  className="wrapper--fixed"
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
 >
-  <AdminHeader>
-    <FormattedMessage
-      defaultMessage="Management"
-      id="admin.plugin.management.title"
-      values={Object {}}
-    />
-  </AdminHeader>
-  <form
-    className="form-horizontal"
-    onSubmit={[Function]}
-    role="form"
+  <div
+    className="wrapper--fixed"
   >
+    <SettingsGroup>
+      <FormattedMessage
+        defaultMessage="Management"
+        id="admin.plugin.management.title"
+        values={Object {}}
+      />
+    </SettingsGroup>
     <div
-      className="wrapper--fixed"
+      className="admin-console__content"
     >
       <SettingsGroup
         id="PluginSettings"
@@ -1849,6 +1849,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         />
       </Overlay>
     </div>
-  </form>
-</div>
+  </div>
+</form>
 `;

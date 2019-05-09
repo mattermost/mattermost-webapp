@@ -117,7 +117,7 @@ export default class ClusterSettings extends AdminSettings {
         }
 
         return (
-            <SettingsGroup>
+            <SettingsGroup container={true}>
                 {configLoadedFromCluster}
                 {clusterTableContainer}
                 <div className='banner'>

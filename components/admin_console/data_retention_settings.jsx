@@ -221,7 +221,7 @@ export default class DataRetentionSettings extends AdminSettings {
         const confirmModal = this.renderConfirmModal();
 
         return (
-            <SettingsGroup>
+            <SettingsGroup container={true}>
                 {confirmModal}
                 <div className='banner'>
                     <div className='banner__content'>

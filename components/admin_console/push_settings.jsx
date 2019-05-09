@@ -183,7 +183,7 @@ export default class PushSettings extends AdminSettings {
         }
 
         return (
-            <SettingsGroup>
+            <SettingsGroup container={true}>
                 <DropdownSetting
                     id='pushNotificationServerType'
                     values={pushNotificationServerTypes}

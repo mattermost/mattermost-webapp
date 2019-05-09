@@ -238,48 +238,51 @@ export default class LicenseSettings extends React.Component {
                     id='admin.license.title'
                     defaultMessage='Edition and License'
                 />
-                <form
-                    className='form-horizontal'
-                    role='form'
-                >
-                    <div className='form-group'>
-                        <label
-                            className='control-label col-sm-4'
-                        >
-                            <FormattedMessage
-                                id='admin.license.edition'
-                                defaultMessage='Edition: '
-                            />
-                        </label>
-                        <div className='col-sm-8'>
-                            {edition}
+
+                <div className='admin-console__content'>
+                    <form
+                        className='form-horizontal'
+                        role='form'
+                    >
+                        <div className='form-group'>
+                            <label
+                                className='control-label col-sm-4'
+                            >
+                                <FormattedMessage
+                                    id='admin.license.edition'
+                                    defaultMessage='Edition: '
+                                />
+                            </label>
+                            <div className='col-sm-8'>
+                                {edition}
+                            </div>
                         </div>
-                    </div>
-                    <div className='form-group'>
-                        <label
-                            className='control-label col-sm-4'
-                        >
-                            <FormattedMessage
-                                id='admin.license.type'
-                                defaultMessage='License: '
-                            />
-                        </label>
-                        <div className='col-sm-8'>
-                            {licenseType}
+                        <div className='form-group'>
+                            <label
+                                className='control-label col-sm-4'
+                            >
+                                <FormattedMessage
+                                    id='admin.license.type'
+                                    defaultMessage='License: '
+                                />
+                            </label>
+                            <div className='col-sm-8'>
+                                {licenseType}
+                            </div>
                         </div>
-                    </div>
-                    <div className='form-group'>
-                        <label
-                            className='control-label col-sm-4'
-                        >
-                            <FormattedMessage
-                                id='admin.license.key'
-                                defaultMessage='License Key: '
-                            />
-                        </label>
-                        {licenseKey}
-                    </div>
-                </form>
+                        <div className='form-group'>
+                            <label
+                                className='control-label col-sm-4'
+                            >
+                                <FormattedMessage
+                                    id='admin.license.key'
+                                    defaultMessage='License Key: '
+                                />
+                            </label>
+                            {licenseKey}
+                        </div>
+                    </form>
+                </div>
             </div>
         );
     }

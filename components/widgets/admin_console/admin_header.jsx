@@ -4,14 +4,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const AdminHeader = (props) => (
-    <h3 className='admin-console-header'>
-        {props.children}
-    </h3>
-);
+export default class SettingsGroup extends React.Component {
+    static get propTypes() {
+        return {
+            children: PropTypes.node.isRequired,
+            button: PropTypes.bool,
+        };
+    }
 
-AdminHeader.propTypes = {
-    children: PropTypes.node.isRequired,
-};
+    render() {
+        let headerClass = '';
 
-export default AdminHeader;
+        if (this.props.button) {
+            headerClass = 'justify-content-between';
+        }
+
+        return (
+            <div className={'admin-console__header ' + headerClass}>
+                {this.props.children}
+            </div>
+        )
+    }
+}

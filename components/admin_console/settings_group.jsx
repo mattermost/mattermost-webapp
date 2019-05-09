@@ -10,6 +10,7 @@ export default class SettingsGroup extends React.Component {
             show: PropTypes.bool.isRequired,
             header: PropTypes.node,
             children: PropTypes.node,
+            container: PropTypes.bool,
         };
     }
 
@@ -20,8 +21,14 @@ export default class SettingsGroup extends React.Component {
     }
 
     render() {
+        let contentClass = '';
+
         if (!this.props.show) {
             return null;
+        }
+
+        if (this.props.container) {
+            contentClass = 'admin-console__content';
         }
 
         let header = null;
@@ -34,7 +41,7 @@ export default class SettingsGroup extends React.Component {
         }
 
         return (
-            <div className='admin-settings__group'>
+            <div className={contentClass}>
                 {header}
                 {this.props.children}
             </div>

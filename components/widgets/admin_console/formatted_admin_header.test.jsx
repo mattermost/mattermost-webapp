@@ -15,13 +15,13 @@ describe('components/widgets/admin_console/FormattedAdminHeader', () => {
             />
         );
         expect(wrapper).toMatchInlineSnapshot(`
-<AdminHeader>
+<SettingsGroup>
   <InjectIntl(FormattedMarkdownMessage)
     defaultMessage="default message"
     id="string.id"
     values={Object {}}
   />
-</AdminHeader>
+</SettingsGroup>
 `
         );
     });
@@ -37,7 +37,7 @@ describe('components/widgets/admin_console/FormattedAdminHeader', () => {
             />
         );
         expect(wrapper).toMatchInlineSnapshot(`
-<AdminHeader>
+<SettingsGroup>
   <InjectIntl(FormattedMarkdownMessage)
     defaultMessage="default message"
     id="string.id"
@@ -47,7 +47,7 @@ describe('components/widgets/admin_console/FormattedAdminHeader', () => {
       }
     }
   />
-</AdminHeader>
+</SettingsGroup>
 `
         );
     });
