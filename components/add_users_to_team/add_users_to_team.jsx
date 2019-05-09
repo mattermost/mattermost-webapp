@@ -13,6 +13,7 @@ import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import AddIcon from 'components/icon/add_icon';
+import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 20;
@@ -158,17 +159,8 @@ export default class AddUsersToTeam extends React.Component {
             rowSelected = 'more-modal__row--selected';
         }
 
-        let tag = null;
         let email = option.email;
         if (option.is_bot) {
-            tag = (
-                <div className='bot-indicator bot-indicator__popoverlist'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
             email = null;
         }
 
@@ -189,7 +181,10 @@ export default class AddUsersToTeam extends React.Component {
                 >
                     <div className='more-modal__name'>
                         {displayEntireNameForUser(option)}
-                        {tag}
+                        <BotBadge
+                            show={Boolean(option.is_bot)}
+                            className='badge-popoverlist'
+                        />
                     </div>
                     <div className='more-modal__description'>
                         {email}

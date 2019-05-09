@@ -237,9 +237,17 @@ export default class AdminSidebar extends React.Component {
 
                 return a.id.localeCompare(b.id);
             }).forEach((p) => {
-                const hasSettings = p.settings_schema && (p.settings_schema.header || p.settings_schema.footer || p.settings_schema.settings.length > 0);
+                const hasSettings = p.settings_schema && (p.settings_schema.header || p.settings_schema.footer || p.settings_schema.settings);
                 if (!hasSettings) {
                     return;
+                }
+
+                if (p.settings_schema.settings && (!p.settings_schema.header && !p.settings_schema.footer)) {
+                    if (p.settings_schema.settings.hasOwnProperty('length')) {
+                        if (p.settings_schema.settings.length === 0) {
+                            return;
+                        }
+                    }
                 }
 
                 customPlugins.push(
