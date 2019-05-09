@@ -10,9 +10,13 @@
 /* eslint max-nested-callbacks: ["error", 5] */
 
 describe('Edit Message', () => {
-    it('M13909 Escape should not close modal when an autocomplete drop down is in use', () => {
-        // 1. Login as "user-1" and go to /
+    beforeEach(() => {
+        // 1. Login as "user-1"
         cy.apiLogin('user-1');
+    });
+
+    it('M13909 Escape should not close modal when an autocomplete drop down is in use', () => {
+        // and go to /
         cy.visit('/');
 
         // 2. Post message "Hello"
@@ -65,14 +69,13 @@ describe('Edit Message', () => {
     });
 
     it('M13482 Display correct timestamp for edited message', () => {
-        // 1. Login as "user-1" and go to /
-        cy.apiLogin('user-1');
+        // and go to /
         cy.visit('/');
 
         // 2. Post a message
         cy.postMessage('Checking timestamp {enter}');
 
-        cy.getLastPostIdWithRetry().then((postId) => {
+        cy.getLastPostId().then((postId) => {
             // 3. Mouseover post to display the timestamp
             cy.get(`#post_${postId}`).trigger('mouseover');
 
@@ -96,7 +99,8 @@ describe('Edit Message', () => {
                 cy.get(`#post_${postId}`).trigger('mouseover');
 
                 // * Current post timestamp should have not been changed by edition
-                cy.get(`#CENTER_time_${postId}`).find('#localDateTime').invoke('attr', 'title').should('be', originalTimeStamp);
+                // cy.get(`#CENTER_time_${postId}`).find('#localDateTime').invoke('attr', 'title').should('be', originalTimeStamp);
+                cy.get(`#CENTER_time_${postId}`).find('#localDateTime').should('have.attr', 'title').and('equal', originalTimeStamp);
 
                 // 8. Open RHS by clicking the post comment icon
                 cy.clickPostCommentIcon(postId);
@@ -109,44 +113,67 @@ describe('Edit Message', () => {
             });
         });
     });
-    it('M13542 Open edit modal immediately after making a post', () => {
-        // 1. Login as "user-1" and go to /
-        cy.apiLogin('user-1');
+
+    it('M13542 Open edit modal immediately after making a post when post is pending', () => {
+        // and go to /. We set fetch to null here so that we can intercept XHR network requests
+        cy.visit('/', {
+            onBeforeLoad: (win) => {
+                win.fetch = null;
+            },
+        });
+
+        // Enter first message
+        cy.get('#post_textbox').clear().type('Hello{enter}');
+
+        // Start a server, and stub out the response to ensure we have a pending post
+        // Note that this fails the creation of the second post. But we only need it
+        // to be pending
+        cy.server();
+        cy.route({response: {}, method: 'POST', url: 'api/v4/posts', delay: 5000});
+
+        // Enter second message, submit, and then uparrow to show edit post modal
+        cy.get('#post_textbox').type('world!{enter}{uparrow}');
+
+        // Edit post modal should appear, and edit the post
+        cy.get('#editPostModal').should('be.visible');
+        cy.get('#edit_textbox').should('have.text', 'Hello').type(' New message{enter}');
+        cy.get('#editPostModal').should('be.not.visible');
+
+        // Verify last post is pending
+        cy.getLastPostId({force: true}).should('contain', ':');
+    });
+
+    it('CREATE_JIRA Open edit modal immediately after making a post when post is pending', () => {
+    // and go to /. We set fetch to null here so that we can intercept XHR network requests
         cy.visit('/');
 
-        // 2. Post message "Hello"
-        cy.get('#post_textbox').type('Hello').type('{enter}');
+        // Enter first message
+        cy.get('#post_textbox').type('Hello{enter}');
 
-        // 3. Post a second message "World!"
-        // 4. Hit 'enter' key and then immediately (as FAST as you can) hit 'arrow-up' to open the edit box
-        cy.get('#post_textbox').type('World!{enter}{uparrow}');
-        cy.get('#edit_textbox').invoke('val').then((val) => { // eslint-disable-line
-            const editText = val;
-            if (editText === 'Hello') {
-                // 5. If pressed while the new post was still pending, observe the edit box opens for the first post
-                cy.get('#editPostModal').should('be.visible');
-                cy.get('#edit_textbox').type(' New message{enter}');
-                cy.get('#editPostModal').should('be.not.visible');
+        // Verify first message is sent and not pending
+        cy.getLastPostId().then((postId) => {
+            const postText = `#postMessageText_${postId}`;
+            cy.get(postText).should('have.text', 'Hello');
+        });
 
-                // Check the first post and verify that it contains new edited message.
-                cy.get('.post-message__text').eq(1).should('contain', 'Hello New message');
+        // Enter second message
+        cy.get('#post_textbox').type('World!{enter}');
 
-                // Check that the second post remains unchanged with the original message.
-                cy.get('.post-message__text').eq(0).should('contain', 'World!');
-            } else if (editText === 'World!') {
-                // 6. If the edit box open up for the second post, Enter edit text and hit enter, observe the second
-                // message is changed and the first message is unchanged
-                cy.get('#editPostModal').should('be.visible');
+        // Verify second message is sent and not pending
+        cy.getLastPostId().then((postId) => {
+            const postText = `#postMessageText_${postId}`;
+            cy.get(postText).should('have.text', 'World!');
 
-                cy.get('#edit_textbox').type(' New message{enter}');
+            // Edit the last post
+            cy.get('#post_textbox').type('{uparrow}');
 
-                cy.get('#editPostModal').should('be.not.visible');
+            // Edit post modal should appear, and edit the post
+            cy.get('#editPostModal').should('be.visible');
+            cy.get('#edit_textbox').should('have.text', 'World!').type(' Another new message{enter}');
+            cy.get('#editPostModal').should('be.not.visible');
 
-                cy.get('.post-message__text').eq(1).should('contain', 'Hello');
-
-                // Check the second post and verify that it contains new edited message.
-                cy.get('.post-message__text').eq(0).should('contain', 'World! New message');
-            }
+            cy.get(postText).should('have.text', 'World! Another new message');
         });
     });
 });
+

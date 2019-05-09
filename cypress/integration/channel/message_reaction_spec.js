@@ -28,7 +28,7 @@ describe("Click another user's emoji reaction to add it", () => {
         // 5. Mouseover the last post
         cy.getLastPost().trigger('mouseover');
 
-        cy.getLastPostIdWithRetry().then((postId) => {
+        cy.getLastPostId().then((postId) => {
             // 6. Click the add reaction icon
             cy.clickPostReactionIcon(postId);
 

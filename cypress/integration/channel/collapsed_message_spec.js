@@ -35,7 +35,7 @@ describe('Long message', () => {
         cy.postMessageFromFile('long_text_post.txt');
 
         // 3. Get last post
-        cy.getLastPostIdWithRetry().then((postId) => {
+        cy.getLastPostId().then((postId) => {
             const postMessageId = `#${postId}_message`;
 
             cy.get(postMessageId).within(() => {

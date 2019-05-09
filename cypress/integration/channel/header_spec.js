@@ -7,6 +7,15 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+Cypress.Commands.add('ellipsis', {prevSubject: true}, (subject, shouldBe) => {
+    if (shouldBe) {
+        expect(subject.outerWidth()).lt(subject[0].scrollWidth);
+    } else {
+        expect(subject.outerWidth()).to.be.closeTo(subject[0].scrollWidth, 0.1);
+    }
+    return subject;
+});
+
 describe('Header', () => {
     before(() => {
         // 1. Login and go to /

@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+/* eslint max-nested-callbacks: ["error", 4] */
+
 // helper function to count the lines in a block of text by wrapping each word in a span and finding where the text breaks the line
 function getLines(e) {
     const $cont = Cypress.$(e);
@@ -51,7 +53,17 @@ describe('System Message', () => {
         // 1. Login and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
-        cy.updateTeammateDisplayModePreference();
+
+        cy.getCookie('MMUSERID').then((cookie) => {
+            const preference = {
+                user_id: cookie.value,
+                category: 'display_settings',
+                name: 'name_format',
+                value: 'username',
+            };
+
+            cy.apiSaveUserPreference([preference]);
+        });
     });
 
     it('MM-14636 - Validate that system message is wrapping properly', () => {

@@ -19,10 +19,18 @@ describe('Account Settings > Sidebar > General', () => {
         cy.get('#generalButton').click();
 
         // * Check if element is present before nickname is set and contains expected text values
-        cy.get('#generalSettingsTitle').should('be.visible').should('contain', 'General Settings');
-        cy.get('#nicknameTitle').should('be.visible').should('contain', 'Nickname');
-        cy.get('#nicknameDesc').should('be.visible').should('contain', "Click 'Edit' to add a nickname");
-        cy.get('#nicknameEdit').should('be.visible').should('contain', 'Edit');
+        cy.get('#generalSettingsTitle').
+            should('be.visible').
+            should('contain', 'General Settings');
+        cy.get('#nicknameTitle').
+            should('be.visible').
+            should('contain', 'Nickname');
+        cy.get('#nicknameDesc').
+            should('be.visible').
+            should('contain', "Click 'Edit' to add a nickname");
+        cy.get('#nicknameEdit').
+            should('be.visible').
+            should('contain', 'Edit');
         cy.get('#accountSettingsHeader > .close').should('be.visible');
     });
 
@@ -31,11 +39,19 @@ describe('Account Settings > Sidebar > General', () => {
         cy.get('#nicknameEdit').click();
 
         // * Check elements after clicking 'Edit'
-        cy.get('#generalSettingsTitle').should('be.visible').should('contain', 'General Settings');
-        cy.get('#settingTitle').should('be.visible').should('contain', 'Nickname');
+        cy.get('#generalSettingsTitle').
+            should('be.visible').
+            should('contain', 'General Settings');
+        cy.get('#settingTitle').
+            should('be.visible').
+            should('contain', 'Nickname');
         cy.get('#nickname').should('be.visible');
-        cy.get('#saveSetting').should('be.visible').should('contain', 'Save');
-        cy.get('#cancelSetting').should('be.visible').should('contain', 'Cancel');
+        cy.get('#saveSetting').
+            should('be.visible').
+            should('contain', 'Save');
+        cy.get('#cancelSetting').
+            should('be.visible').
+            should('contain', 'Cancel');
         cy.get('#accountSettingsHeader > .close').should('be.visible');
     });
 
@@ -44,7 +60,9 @@ describe('Account Settings > Sidebar > General', () => {
         cy.get('#nickname').clear();
         cy.get('#saveSetting').click();
 
-        cy.get('#nicknameDesc').should('be.visible').should('contain', "Click 'Edit' to add a nickname");
+        cy.get('#nicknameDesc').
+            should('be.visible').
+            should('contain', "Click 'Edit' to add a nickname");
 
         // 5. Open manage/view members
         cy.toAccountSettingsModal('user-1');
@@ -56,8 +74,12 @@ describe('Account Settings > Sidebar > General', () => {
 
         // 6. Search for username and check that no nickname is present
         cy.get('.modal-title').should('be.visible');
-        cy.get('#searchUsersInput').should('be.visible').type('Victor Welch');
-        cy.get('.more-modal__details > .more-modal__name').should('be.visible').should('contain', '@user-1 - Victor Welch');
+        cy.get('#searchUsersInput').
+            should('be.visible').
+            type('Victor Welch');
+        cy.get('.more-modal__details > .more-modal__name').
+            should('be.visible').
+            should('contain', '@user-1 - Victor Welch');
     });
 
     it('AS13279 Account Settings > Add Nickname', () => {
@@ -75,7 +97,9 @@ describe('Account Settings > Sidebar > General', () => {
         cy.get('#saveSetting').click();
 
         // * Check if element is present and contains expected text values
-        cy.get('#nicknameDesc').should('be.visible').should('contain', 'victor_nick');
+        cy.get('#nicknameDesc').
+            should('be.visible').
+            should('contain', 'victor_nick');
 
         // 4. Open manage memebers
         cy.toAccountSettingsModal('user-1');
@@ -87,8 +111,12 @@ describe('Account Settings > Sidebar > General', () => {
 
         // 5. Search for username and check that expected nickname is present
         cy.get('.modal-title').should('be.visible');
-        cy.get('#searchUsersInput').should('be.visible').type('Victor Welch');
-        cy.get('.more-modal__details > .more-modal__name').should('be.visible').should('contain', '@user-1 - Victor Welch (victor_nick)');
+        cy.get('#searchUsersInput').
+            should('be.visible').
+            type('Victor Welch');
+        cy.get('.more-modal__details > .more-modal__name').
+            should('be.visible').
+            should('contain', '@user-1 - Victor Welch (victor_nick)');
     });
 
     it('Clear the nickname', () => {
@@ -102,6 +130,8 @@ describe('Account Settings > Sidebar > General', () => {
         cy.get('#nickname').clear();
         cy.get('#saveSetting').click();
 
-        cy.get('#nicknameDesc').should('be.visible').should('contain', "Click 'Edit' to add a nickname");
+        cy.get('#nicknameDesc').
+            should('be.visible').
+            should('contain', "Click 'Edit' to add a nickname");
     });
 });
