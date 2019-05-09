@@ -204,6 +204,10 @@ export const UserSearchOptions = {
     ROLE: 'role',
 };
 
+export const EventTypes = keyMirror({
+    POST_LIST_SCROLL_CHANGE: null,
+});
+
 export const SocketEvents = {
     POSTED: 'posted',
     POST_EDITED: 'post_edited',
