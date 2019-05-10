@@ -101,10 +101,8 @@ export default class ChannelGroupsManageModal extends React.PureComponent {
                 renderRow={this.renderRow}
                 loadItems={this.loadItems}
                 onHide={this.onHide}
-                titleBarButton={{
-                    text: formatMessage({id: 'group_list_modal.addGroupButton', defaultMessage: 'Add Group'}),
-                    onClick: this.titleButtonOnClick,
-                }}
+                titleBarButtonText={formatMessage({id: 'group_list_modal.addGroupButton', defaultMessage: 'Add Group'})}
+                titleBarButtonOnClick={this.titleButtonOnClick}
             />
         );
     }
