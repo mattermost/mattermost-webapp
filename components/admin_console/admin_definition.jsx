@@ -3168,7 +3168,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.CreateBotAccounts',
                         label: t('admin.service.createBotTitle'),
-                        label_default: 'Enable Bot Accounts',
+                        label_default: 'Enable Bot Account Creation',
                         help_text: t('admin.service.enableBotAccounts'),
                         help_text_default: 'When true, bot accounts can be used for integrations in Integrations > Bot Accounts. Bot accounts are similar to user accounts except they cannot be used to log in. See documentation to learn more.',
                         help_text_markdown: true,
