@@ -11,19 +11,19 @@
 
 describe('MM-13697 Edit Post with attachment', () => {
     before(() => {
-        // 1. Login and go to /
+        // # Login and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
     });
 
     it('Pasted text should be pasted where the cursor is', () => {
-        // 2. Got to a test channel on the side bar
+        // # Got to a test channel on the side bar
         cy.get('#sidebarItem_town-square').scrollIntoView();
 
         // * Validate if the channel has been opened
         cy.url().should('include', '/ad-1/channels/town-square');
 
-        // 3. Attach image
+        // # Attach image
         cy.fixture('mattermost-icon.png').then((fileContent) => {
             cy.get('#fileUploadButton input').upload(
                 {fileContent, fileName: 'mattermost-icon.png', mimeType: 'image/png'},
@@ -31,24 +31,24 @@ describe('MM-13697 Edit Post with attachment', () => {
             );
         });
 
-        // 4. Type 'This is sample text' and submit
+        // # Type 'This is sample text' and submit
         cy.get('#post_textbox').type('This is sample text{enter}');
 
-        // 6. Get last post ID
+        // # Get last post ID
         cy.getLastPostId().then((postID) => {
-            // 7. click  dot menu button
+            // # click  dot menu button
             cy.clickPostDotMenu();
 
-            // 8. click edit post
+            // # click edit post
             cy.get(`#edit_post_${postID}`).click();
 
             // * Check if focus is set to "edit_textbox"
             cy.focused().should('have.attr', 'id', 'edit_textbox');
 
-            // 9. Edit message to 'This is sample add text'
+            // # Edit message to 'This is sample add text'
             cy.get('#edit_textbox').should('be.visible').type('{leftarrow}{leftarrow}{leftarrow}{leftarrow}add ');
 
-            // 10. Click button Edit
+            // # Click button Edit
             cy.get('#editButton').click();
 
             cy.get(`#${postID}_message`).within(() => {

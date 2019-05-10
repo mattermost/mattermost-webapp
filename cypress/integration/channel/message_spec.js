@@ -37,11 +37,11 @@ function shouldHavePostProfileImageVisible(isVisible = true) {
 
 describe('Message', () => {
     beforeEach(() => {
-        // Login as "user-1" and go to /
+        // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
 
-        // Change settings to allow @channel messages
+        // # Change settings to allow @channel messages
         cy.getCookie('MMUSERID').then((cookie) => {
             cy.request({
                 headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -53,75 +53,75 @@ describe('Message', () => {
     });
 
     it('M13701 Consecutive message does not repeat profile info', () => {
-        // Post a message to force next user message to display a message
+        // # Post a message to force next user message to display a message
         cy.getCurrentChannelId().then((channelId) => {
             cy.task('postMessageAs', {sender: sysadmin, message: 'Hello', channelId});
         });
 
-        // Post message "One"
+        // # Post message "One"
         cy.postMessage('One');
 
-        // Check profile image is visible
+        // * Check profile image is visible
         shouldHavePostProfileImageVisible(true);
 
-        // Post message "Two"
+        // # Post message "Two"
         cy.postMessage('Two');
 
-        // Check profile image is not visible
+        // * Check profile image is not visible
         shouldHavePostProfileImageVisible(false);
 
-        // Post message "Three"
+        // # Post message "Three"
         cy.postMessage('Three');
 
-        // Check profile image is not visible
+        // * Check profile image is not visible
         shouldHavePostProfileImageVisible(false);
     });
 
     it('M14012 Focus move to main input box when a character key is selected', () => {
-        // Post message
+        // # Post message
         cy.postMessage('Message');
 
         cy.getLastPostId().then((postId) => {
             const divPostId = `#post_${postId}`;
 
-            // Left click on post to move the focus out of the main input box
+            // # Left click on post to move the focus out of the main input box
             cy.get(divPostId).click();
 
-            // Push a character key such as "A"
+            // # Push a character key such as "A"
             cy.get('#post_textbox').type('A');
 
-            // Open the "..." menu on a post in the main to move the focus out of the main input box
+            // # Open the "..." menu on a post in the main to move the focus out of the main input box
             cy.clickPostDotMenu(postId);
 
-            // Push a character key such as "A"
+            // # Push a character key such as "A"
             cy.get('#post_textbox').type('A');
 
-            // Focus is moved back to the main input and the keystroke is captured
+            // * Focus is moved back to the main input and the keystroke is captured
             cy.focused().should('have.id', 'post_textbox');
             cy.focused().should('contain', 'AA');
         });
     });
 
     it('M14320 @here., @all. and @channel. (ending in a period) still highlight', () => {
-        // Post message
+        // # Post message
         cy.postMessage('@here. @all. @channel.');
 
-        // Check that confirm modal is displayed
+        // * Check that confirm modal is displayed
         cy.get('#confirmModal').should('be.visible');
 
-        // Confirm multiple mentions
+        // # Confirm multiple mentions
         cy.get('#confirmModalButton').click();
 
-        // Check that confirm modal is closed
+        // * Check that confirm modal is closed
         cy.get('#confirmModal').should('not.be.visible');
 
         cy.getLastPostId().then((postId) => {
             const divPostId = `#postMessageText_${postId}`;
 
-            // Check that the message contains the whole content sent ie. mentions with dots.
+            // * Check that the message contains the whole content sent ie. mentions with dots.
             cy.get(divPostId).find('p').should('have.text', '@here. @all. @channel.');
 
-            // Check that only the at-mention are inside span.mention--highlight
+            // * Check that only the at-mention are inside span.mention--highlight
             cy.get(divPostId).find('.mention--highlight').
                 first().should('have.text', '@here').should('not.have.text', '.').
                 next().should('have.text', '@all').should('not.have.text', '.').
