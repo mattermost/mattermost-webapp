@@ -7,7 +7,6 @@
 
 import './ui_commands';
 import './api_commands';
-import './validators';
 import 'cypress-file-upload';
 
 // Add login cookies to whitelist to preserve it

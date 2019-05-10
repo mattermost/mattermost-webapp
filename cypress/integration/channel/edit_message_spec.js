@@ -11,7 +11,7 @@
 
 describe('Edit Message', () => {
     beforeEach(() => {
-        // 1. Login as "user-1"
+        // Login as "user-1"
         cy.apiLogin('user-1');
     });
 
@@ -19,52 +19,52 @@ describe('Edit Message', () => {
         // and go to /
         cy.visit('/');
 
-        // 2. Post message "Hello"
+        // Post message "Hello"
         cy.get('#post_textbox').type('Hello World!').type('{enter}');
 
-        // 3. Hit the up arrow to open the "edit modal"
+        // Hit the up arrow to open the "edit modal"
         cy.get('#post_textbox').type('{uparrow}');
 
-        // 4. In the modal type @
+        // In the modal type @
         cy.get('#edit_textbox').type(' @');
 
-        // * Assert user autocomplete is visible
+        // Assert user autocomplete is visible
         cy.get('#suggestionList').should('be.visible');
 
-        // 5. Press the escape key
+        // Press the escape key
         cy.get('#edit_textbox').focus().type('{esc}');
 
-        // * Check if the textbox contains expected text
+        // Check if the textbox contains expected text
         cy.get('#edit_textbox').should('contain', 'Hello World! @');
 
-        // * Assert user autocomplete is not visible
+        // Assert user autocomplete is not visible
         cy.get('#suggestionList').should('not.exist');
 
-        // 6. In the modal type ~
+        // In the modal type ~
         cy.get('#edit_textbox').type(' ~');
 
-        // * Assert channel autocomplete is visible
+        // Assert channel autocomplete is visible
         cy.get('#suggestionList').should('be.visible');
 
-        // 6. Press the escape key
+        // Press the escape key
         cy.get('#edit_textbox').type('{esc}');
 
-        // * Check if the textbox contains expected text
+        // Check if the textbox contains expected text
         cy.get('#edit_textbox').should('contain', 'Hello World! @ ~');
 
-        // * Assert channel autocomplete is not visible
+        // Assert channel autocomplete is not visible
         cy.get('#suggestionList').should('not.exist');
 
-        // 7. In the modal click the emoji picker icon
+        // In the modal click the emoji picker icon
         cy.get('#editPostEmoji').click();
 
-        // * Assert emoji picker is visible
+        // Assert emoji picker is visible
         cy.get('#emojiPicker').should('be.visible');
 
-        // 8. Press the escape key
+        // Press the escape key
         cy.get('#edit_textbox').type('{esc}');
 
-        // * Assert emoji picker is not visible
+        // Assert emoji picker is not visible
         cy.get('#emojiPicker').should('not.exist');
     });
 
@@ -72,43 +72,42 @@ describe('Edit Message', () => {
         // and go to /
         cy.visit('/');
 
-        // 2. Post a message
+        // Post a message
         cy.postMessage('Checking timestamp {enter}');
 
         cy.getLastPostId().then((postId) => {
-            // 3. Mouseover post to display the timestamp
+            // Mouseover post to display the timestamp
             cy.get(`#post_${postId}`).trigger('mouseover');
 
             cy.get(`#CENTER_time_${postId}`).find('#localDateTime').invoke('attr', 'title').then((originalTimeStamp) => {
-                // 4. Click dot menu
+                // Click dot menu
                 cy.clickPostDotMenu(postId);
 
-                // 5. Click the edit button
+                // Click the edit button
                 cy.get(`#edit_post_${postId}`).click();
 
-                // * Edit modal should appear
+                // Edit modal should appear
                 cy.get('.edit-modal').should('be.visible');
 
-                // 6. Edit the post
+                // Edit the post
                 cy.get('#edit_textbox').type('Some text {enter}');
 
-                // * Edit modal should disappear
+                // Edit modal should disappear
                 cy.get('.edit-modal').should('not.be.visible');
 
-                // 7. Mouseover the post again
+                // Mouseover the post again
                 cy.get(`#post_${postId}`).trigger('mouseover');
 
-                // * Current post timestamp should have not been changed by edition
-                // cy.get(`#CENTER_time_${postId}`).find('#localDateTime').invoke('attr', 'title').should('be', originalTimeStamp);
+                // Current post timestamp should have not been changed by edition
                 cy.get(`#CENTER_time_${postId}`).find('#localDateTime').should('have.attr', 'title').and('equal', originalTimeStamp);
 
-                // 8. Open RHS by clicking the post comment icon
+                // Open RHS by clicking the post comment icon
                 cy.clickPostCommentIcon(postId);
 
-                // * Check that the RHS is open
+                // Check that the RHS is open
                 cy.get('#rhsContainer').should('be.visible');
 
-                // * Check that the RHS timeStamp equals the original post timeStamp
+                // Check that the RHS timeStamp equals the original post timeStamp
                 cy.get(`#CENTER_time_${postId}`).find('#localDateTime').invoke('attr', 'title').should('be', originalTimeStamp);
             });
         });
@@ -143,8 +142,8 @@ describe('Edit Message', () => {
         cy.getLastPostId({force: true}).should('contain', ':');
     });
 
-    it('CREATE_JIRA Open edit modal immediately after making a post when post is pending', () => {
-    // and go to /. We set fetch to null here so that we can intercept XHR network requests
+    it('M15519 Open edit modal immediately after making a post when post is pending', () => {
+        // and go to /. We set fetch to null here so that we can intercept XHR network requests
         cy.visit('/');
 
         // Enter first message
@@ -172,6 +171,7 @@ describe('Edit Message', () => {
             cy.get('#edit_textbox').should('have.text', 'World!').type(' Another new message{enter}');
             cy.get('#editPostModal').should('be.not.visible');
 
+            // Check the second post and verify that it contains new edited message.
             cy.get(postText).should('have.text', 'World! Another new message');
         });
     });

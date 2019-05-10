@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
-// - [*] indicates an assertion (e.g. * Check the title)
-// - Use element ID when selecting an element. Create one if none.
+// [number] indicates a test step (e.g. 1. Go to a page)
+// [*] indicates an assertion (e.g. * Check the title)
+// Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
 /*eslint max-nested-callbacks: ["error", 3]*/
@@ -37,7 +37,7 @@ function shouldHavePostProfileImageVisible(isVisible = true) {
 
 describe('Message', () => {
     beforeEach(() => {
-        // 1. Login as "user-1" and go to /
+        // Login as "user-1" and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
 
@@ -58,73 +58,70 @@ describe('Message', () => {
             cy.task('postMessageAs', {sender: sysadmin, message: 'Hello', channelId});
         });
 
-        // 4. Post message "One"
+        // Post message "One"
         cy.postMessage('One');
 
-        // * Check profile image is visible
+        // Check profile image is visible
         shouldHavePostProfileImageVisible(true);
 
-        // 5. Post message "Two"
+        // Post message "Two"
         cy.postMessage('Two');
 
-        // * Check profile image is not visible
+        // Check profile image is not visible
         shouldHavePostProfileImageVisible(false);
 
-        // 6. Post message "Three"
+        // Post message "Three"
         cy.postMessage('Three');
 
-        // * Check profile image is not visible
+        // Check profile image is not visible
         shouldHavePostProfileImageVisible(false);
     });
 
     it('M14012 Focus move to main input box when a character key is selected', () => {
-        // 2. Post message
+        // Post message
         cy.postMessage('Message');
 
         cy.getLastPostId().then((postId) => {
             const divPostId = `#post_${postId}`;
 
-            // 3. Left click on post to move the focus out of the main input box
+            // Left click on post to move the focus out of the main input box
             cy.get(divPostId).click();
 
-            // 4. Push a character key such as "A"
+            // Push a character key such as "A"
             cy.get('#post_textbox').type('A');
 
-            // 5. Open the "..." menu on a post in the main to move the focus out of the main input box
+            // Open the "..." menu on a post in the main to move the focus out of the main input box
             cy.clickPostDotMenu(postId);
 
-            // 6. Push a character key such as "A"
+            // Push a character key such as "A"
             cy.get('#post_textbox').type('A');
 
-            // *  Focus is moved back to the main input and the keystroke is captured
+            // Focus is moved back to the main input and the keystroke is captured
             cy.focused().should('have.id', 'post_textbox');
             cy.focused().should('contain', 'AA');
         });
     });
 
     it('M14320 @here., @all. and @channel. (ending in a period) still highlight', () => {
-        // 2. Post message
+        // Post message
         cy.postMessage('@here. @all. @channel.');
 
-        // * Check that confirm modal is displayed
+        // Check that confirm modal is displayed
         cy.get('#confirmModal').should('be.visible');
 
-        // 3. Confirm multiple mentions
+        // Confirm multiple mentions
         cy.get('#confirmModalButton').click();
 
-        // * Check that confirm modal is closed
+        // Check that confirm modal is closed
         cy.get('#confirmModal').should('not.be.visible');
-
-        // 4 Waiting create post is done
-        // cy.wait(500); // eslint-disable-line
 
         cy.getLastPostId().then((postId) => {
             const divPostId = `#postMessageText_${postId}`;
 
-            // * Check that the message contains the whole content sent ie. mentions with dots.
+            // Check that the message contains the whole content sent ie. mentions with dots.
             cy.get(divPostId).find('p').should('have.text', '@here. @all. @channel.');
 
-            // * Check that only the at-mention are inside span.mention--highlight
+            // Check that only the at-mention are inside span.mention--highlight
             cy.get(divPostId).find('.mention--highlight').
                 first().should('have.text', '@here').should('not.have.text', '.').
                 next().should('have.text', '@all').should('not.have.text', '.').

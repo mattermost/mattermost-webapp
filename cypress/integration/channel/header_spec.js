@@ -7,15 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-Cypress.Commands.add('ellipsis', {prevSubject: true}, (subject, shouldBe) => {
-    if (shouldBe) {
-        expect(subject.outerWidth()).lt(subject[0].scrollWidth);
-    } else {
-        expect(subject.outerWidth()).to.be.closeTo(subject[0].scrollWidth, 0.1);
-    }
-    return subject;
-});
-
 describe('Header', () => {
     before(() => {
         // 1. Login and go to /
@@ -28,13 +19,17 @@ describe('Header', () => {
         cy.updateChannelHeader('> newheader');
 
         // * Check if channel header description has no ellipsis
-        cy.get('#channelHeaderDescription').ellipsis(false);
+        cy.get('#channelHeaderDescription').then(($header) => {
+            expect($header.outerWidth()).to.be.closeTo($header[0].scrollWidth, 0.1);
+        });
 
         // 3. Update channel header text to a long string
         cy.updateChannelHeader('>' + ' newheader'.repeat(20));
 
         // * Check if channel header description has ellipsis
-        cy.get('#channelHeaderDescription').ellipsis(true);
+        cy.get('#channelHeaderDescription').then(($header) => {
+            expect($header.outerWidth()).lt($header[0].scrollWidth);
+        });
     });
 
     it('CS14730 - Channel Header: Markdown quote', () => {
@@ -61,7 +56,9 @@ describe('Header', () => {
         cy.updateChannelHeader('>' + header);
 
         // * Check if channel header description has ellipsis
-        cy.get('#channelHeaderDescription').ellipsis(true);
+        cy.get('#channelHeaderDescription').then(($header) => {
+            expect($header.outerWidth()).lt($header[0].scrollWidth);
+        });
 
         // 6. Click the header to see the whole text
         cy.get('#channelHeaderDescription').click();
