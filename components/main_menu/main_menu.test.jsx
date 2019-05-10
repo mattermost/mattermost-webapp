@@ -37,6 +37,7 @@ describe('components/Menu', () => {
             closeRightHandSide: jest.fn(),
             closeRhsMenu: jest.fn(),
         },
+        teamIsGroupConstrained: false,
     };
 
     test('should match snapshot with id', () => {

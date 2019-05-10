@@ -5,32 +5,31 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {Client4} from 'mattermost-redux/client';
+
+import {Groups} from 'mattermost-redux/constants';
 
 import Constants from 'utils/constants.jsx';
-import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 import MultiSelect from 'components/multiselect/multiselect.jsx';
-import ProfilePicture from 'components/profile_picture.jsx';
+import groupsAvatar from 'images/groups-avatar.png';
 import AddIcon from 'components/icon/add_icon';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
-const USERS_PER_PAGE = 50;
-const MAX_SELECTABLE_VALUES = 20;
+const GROUPS_PER_PAGE = 50;
+const MAX_SELECTABLE_VALUES = 10;
 
-export default class AddUsersToTeam extends React.Component {
+export default class AddGroupsToTeamModal extends React.Component {
     static propTypes = {
         currentTeamName: PropTypes.string.isRequired,
         currentTeamId: PropTypes.string.isRequired,
         searchTerm: PropTypes.string.isRequired,
-        users: PropTypes.array.isRequired,
+        groups: PropTypes.array.isRequired,
         onHide: PropTypes.func,
         actions: PropTypes.shape({
-            getProfilesNotInTeam: PropTypes.func.isRequired,
+            getGroupsNotAssociatedToTeam: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
-            searchProfiles: PropTypes.func.isRequired,
-            addUsersToTeam: PropTypes.func.isRequired,
-            loadStatusesForProfilesList: PropTypes.func.isRequired,
+            linkGroupSyncable: PropTypes.func.isRequired,
+            getAllGroupsAssociatedToTeam: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -45,13 +44,16 @@ export default class AddUsersToTeam extends React.Component {
             search: false,
             saving: false,
             addError: null,
-            loadingUsers: true,
+            loadingGroups: true,
         };
     }
 
     componentDidMount() {
-        this.props.actions.getProfilesNotInTeam(this.props.currentTeamId, 0, USERS_PER_PAGE * 2).then(() => {
-            this.setUsersLoadingState(false);
+        Promise.all([
+            this.props.actions.getGroupsNotAssociatedToTeam(this.props.currentTeamId, '', 0, GROUPS_PER_PAGE * 2),
+            this.props.actions.getAllGroupsAssociatedToTeam(this.props.currentTeamId),
+        ]).then(() => {
+            this.setGroupsLoadingState(false);
         });
     }
 
@@ -66,12 +68,9 @@ export default class AddUsersToTeam extends React.Component {
 
             this.searchTimeoutId = setTimeout(
                 async () => {
-                    this.setUsersLoadingState(true);
-                    const {data} = await this.props.actions.searchProfiles(searchTerm, {not_in_team_id: this.props.currentTeamId});
-                    if (data) {
-                        this.props.actions.loadStatusesForProfilesList(data);
-                    }
-                    this.setUsersLoadingState(false);
+                    this.setGroupsLoadingState(true);
+                    await this.props.actions.getGroupsNotAssociatedToTeam(this.props.currentTeamId, searchTerm);
+                    this.setGroupsLoadingState(false);
                 },
                 Constants.SEARCH_TIMEOUT_MILLISECONDS
             );
@@ -106,18 +105,20 @@ export default class AddUsersToTeam extends React.Component {
             e.preventDefault();
         }
 
-        const userIds = this.state.values.map((v) => v.id);
-        if (userIds.length === 0) {
+        const groupIDs = this.state.values.map((v) => v.id);
+        if (groupIDs.length === 0) {
             return;
         }
 
         this.setState({saving: true});
 
-        const {error} = await this.props.actions.addUsersToTeam(this.props.currentTeamId, userIds);
-        this.handleResponse(error);
-        if (!error) {
-            this.handleHide();
-        }
+        groupIDs.forEach(async (groupID) => {
+            const {error} = await this.props.actions.linkGroupSyncable(groupID, this.props.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true});
+            this.handleResponse(error);
+            if (!error) {
+                this.handleHide();
+            }
+        });
     }
 
     addValue = (value) => {
@@ -130,17 +131,17 @@ export default class AddUsersToTeam extends React.Component {
         this.setState({values});
     }
 
-    setUsersLoadingState = (loadingState) => {
+    setGroupsLoadingState = (loadingState) => {
         this.setState({
-            loadingUsers: loadingState,
+            loadingGroups: loadingState,
         });
     }
 
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
-            this.setUsersLoadingState(true);
-            this.props.actions.getProfilesNotInTeam(this.props.currentTeamId, page + 1, USERS_PER_PAGE).then(() => {
-                this.setUsersLoadingState(false);
+            this.setGroupsLoadingState(true);
+            this.props.actions.getGroupsNotAssociatedToTeam(this.props.currentTeamId, this.props.searchTerm, page + 1, GROUPS_PER_PAGE).then(() => {
+                this.setGroupsLoadingState(false);
             });
         }
     }
@@ -159,11 +160,6 @@ export default class AddUsersToTeam extends React.Component {
             rowSelected = 'more-modal__row--selected';
         }
 
-        let email = option.email;
-        if (option.is_bot) {
-            email = null;
-        }
-
         return (
             <div
                 key={option.id}
@@ -171,8 +167,10 @@ export default class AddUsersToTeam extends React.Component {
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
             >
-                <ProfilePicture
-                    src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
+                <img
+                    className='more-modal__image'
+                    src={groupsAvatar}
+                    alt='group picture'
                     width='32'
                     height='32'
                 />
@@ -180,14 +178,15 @@ export default class AddUsersToTeam extends React.Component {
                     className='more-modal__details'
                 >
                     <div className='more-modal__name'>
-                        {displayEntireNameForUser(option)}
-                        <BotBadge
-                            show={Boolean(option.is_bot)}
-                            className='badge-popoverlist'
-                        />
-                    </div>
-                    <div className='more-modal__description'>
-                        {email}
+                        {option.display_name} {'-'} <span>
+                            <FormattedMessage
+                                id='numMembers'
+                                defaultMessage='{num, number} {num, plural, one {member} other {members}}'
+                                values={{
+                                    num: option.member_count,
+                                }}
+                            />
+                        </span>
                     </div>
                 </div>
                 <div className='more-modal__actions'>
@@ -200,15 +199,15 @@ export default class AddUsersToTeam extends React.Component {
     }
 
     renderValue(props) {
-        return props.data.username;
+        return props.data.display_name;
     }
 
     render() {
         const numRemainingText = (
-            <div id='numPeopleRemaining'>
+            <div id='numGroupsRemaining'>
                 <FormattedMessage
-                    id='multiselect.numPeopleRemaining'
-                    defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. '
+                    id='multiselect.numGroupsRemaining'
+                    defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {group} other {groups}}. '
                     values={{
                         num: MAX_SELECTABLE_VALUES - this.state.values.length,
                     }}
@@ -219,9 +218,9 @@ export default class AddUsersToTeam extends React.Component {
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
-        let users = [];
-        if (this.props.users) {
-            users = this.props.users.filter((user) => user.delete_at === 0);
+        let groups = [];
+        if (this.props.groups) {
+            groups = this.props.groups.filter((user) => user.delete_at === 0);
         }
 
         let addError = null;
@@ -231,19 +230,17 @@ export default class AddUsersToTeam extends React.Component {
 
         return (
             <Modal
-                id='addUsersToTeamModal'
+                id='addGroupsToTeamModal'
                 dialogClassName={'more-modal more-direct-channels'}
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
-                role='dialog'
-                aria-labelledby='addTeamModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='addTeamModalLabel'>
+                    <Modal.Title>
                         <FormattedMessage
-                            id='add_users_to_team.title'
-                            defaultMessage='Add New Members To {teamName} Team'
+                            id='add_groups_to_team.title'
+                            defaultMessage='Add New Groups To {teamName} Team'
                             values={{
                                 teamName: (
                                     <strong>{this.props.currentTeamName}</strong>
@@ -255,12 +252,12 @@ export default class AddUsersToTeam extends React.Component {
                 <Modal.Body>
                     {addError}
                     <MultiSelect
-                        key='addUsersToTeamKey'
-                        options={users}
+                        key='addGroupsToTeamKey'
+                        options={groups}
                         optionRenderer={this.renderOption}
                         values={this.state.values}
                         valueRenderer={this.renderValue}
-                        perPage={USERS_PER_PAGE}
+                        perPage={GROUPS_PER_PAGE}
                         handlePageChange={this.handlePageChange}
                         handleInput={this.search}
                         handleDelete={this.handleDelete}
@@ -271,8 +268,8 @@ export default class AddUsersToTeam extends React.Component {
                         buttonSubmitText={buttonSubmitText}
                         buttonSubmitLoadingText={buttonSubmitLoadingText}
                         saving={this.state.saving}
-                        loading={this.state.loadingUsers}
-                        placeholderText={localizeMessage('multiselect.placeholder', 'Search and add members')}
+                        loading={this.state.loadingGroups}
+                        placeholderText={localizeMessage('multiselect.addGroupsPlaceholder', 'Search and add groups')}
                     />
                 </Modal.Body>
             </Modal>
