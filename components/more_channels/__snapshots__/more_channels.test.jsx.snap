@@ -3,6 +3,7 @@
 exports[`components/MoreChannels should match snapshot and state 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="moreChannelsModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -26,6 +27,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -36,6 +38,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
+      id="moreChannelsModalLabel"
     >
       <FormattedMessage
         defaultMessage="More Channels"

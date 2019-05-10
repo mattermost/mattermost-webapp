@@ -22,6 +22,10 @@ exports[`components/UserProfile should match snapshot 1`] = `
     className="user-popover"
   >
     nickname
+    <BotBadge
+      className="badge-popoverlist"
+      show={false}
+    />
   </div>
 </OverlayTrigger>
 `;

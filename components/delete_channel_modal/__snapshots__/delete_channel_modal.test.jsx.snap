@@ -3,6 +3,7 @@
 exports[`components/delete_channel_modal should match snapshot for delete_channel_modal 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="deleteChannelModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -25,6 +26,7 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -32,15 +34,17 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
     closeButton={true}
     closeLabel="Close"
   >
-    <h4
-      className="modal-title"
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h4"
+      id="deleteChannelModalLabel"
     >
       <FormattedMessage
         defaultMessage="Confirm ARCHIVE Channel"
         id="delete_channel.confirm"
         values={Object {}}
       />
-    </h4>
+    </ModalTitle>
   </ModalHeader>
   <ModalBody
     bsClass="modal-body"
