@@ -164,11 +164,11 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
 });
 
 Cypress.Commands.add('getLastPost', () => {
-    return cy.get('#postListContent #postContent').last();
+    return cy.get('#postListContent #postContent', {timeout: 30000}).last();
 });
 
 Cypress.Commands.add('getLastPostId', (opts = {force: false}) => {
-    cy.get('#postListContent #postContent').last().parent().as('_lastPost');
+    cy.get('#postListContent #postContent', {timeout: 30000}).last().parent().as('_lastPost');
 
     if (!opts.force) {
         cy.get('@_lastPost').should('have.attr', 'id').and('not.include', ':');
