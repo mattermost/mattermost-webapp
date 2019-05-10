@@ -4,10 +4,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {browserHistory} from 'utils/browser_history';
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import {isDesktopApp} from 'utils/user_agent.jsx';
+import Constants from 'utils/constants.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 
 import SidebarChannelButtonOrLinkIcon from './sidebar_channel_button_or_link_icon.jsx';
@@ -35,6 +37,8 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         teammateIsBot: PropTypes.bool,
         channelIsArchived: PropTypes.bool.isRequired,
     }
+
+    overlayTriggerAttr = ['hover', 'focus']
 
     trackChannelSelectedEvent = () => {
         mark('SidebarChannelLink#click');
@@ -113,6 +117,33 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
             );
         }
 
+        if (this.props.channelType === Constants.GM_CHANNEL) {
+            const displayNameToolTip = (
+                <Tooltip
+                    id='channel-displayname__tooltip'
+                    style={style.channelTooltip}
+                >
+                    {this.props.displayName}
+                </Tooltip>
+            );
+            element = (
+                <OverlayTrigger
+                    trigger={this.overlayTriggerAttr}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={displayNameToolTip}
+                >
+                    {element}
+                </OverlayTrigger>
+            );
+        }
+
         return element;
     }
 }
+
+const style = {
+    channelTooltip: {
+        paddingLeft: '8px',
+        maxWidth: '228px'},
+};
