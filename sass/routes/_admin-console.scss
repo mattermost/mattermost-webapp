@@ -139,6 +139,11 @@
 
     .wrapper--fixed {
         max-width: 920px;
+        margin-bottom: 110px;
+
+        &.team_statistics {
+            margin-bottom: 20px;
+        }
     }
 
     .form-horizontal {
