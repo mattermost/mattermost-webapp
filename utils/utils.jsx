@@ -1242,7 +1242,7 @@ const UserStatusesWeight = {
     dnd: 2,
     offline: 3,
     ooo: 3,
-    bot: 4
+    bot: 4,
 };
 
 /**
