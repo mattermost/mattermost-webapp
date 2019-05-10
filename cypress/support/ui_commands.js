@@ -225,8 +225,8 @@ Cypress.Commands.add('getLastPost', () => {
 });
 
 Cypress.Commands.add('getLastPostId', () => {
-    return cy.get('#postListContent [id^=post]:first').invoke('attr', 'id').then((divPostId) => {
-        return divPostId.replace('post_', '');
+    return cy.get('#postListContent [id^=post]:last').invoke('attr', 'id').then((divPostId) => {
+        return divPostId.replace('postMessageText_', '');
     });
 });
 
