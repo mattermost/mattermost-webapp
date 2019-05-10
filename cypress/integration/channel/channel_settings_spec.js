@@ -16,12 +16,12 @@ describe('Channel Settings', () => {
     });
 
     it('C15052 All channel types have appropriate close button', () => {
-        cy.get('#publicChannel').parent().parent().children('li:not(:first-child)').not('#morePublicButton').each(($el) => {
-            cy.wrap($el).find('a').find('span.btn-close').should('have.length', 0);
+        cy.get('#publicChannelList').find('a.sidebar-item').each(($el) => {
+            cy.wrap($el).find('span.btn-close').should('not.exist');
         });
 
-        cy.get('#privateChannel').parent().parent().children('li:not(:first-child)').each(($el) => {
-            cy.wrap($el).find('a').find('span.btn-close').should('have.length', 0);
+        cy.get('#privateChannelList').find('a.sidebar-item').each(($el) => {
+            cy.wrap($el).find('span.btn-close').should('not.exist');
         });
 
         // add a direct message incase there is not one
@@ -30,19 +30,13 @@ describe('Channel Settings', () => {
         cy.get('#saveItems').click();
 
         // click on all the messages to make sure there are none left unread
-        cy.get('#directChannel').parent().parent().children('li:not(:first-child)').not('#moreDMButton').each(($el) => {
+        cy.get('#directChannelList').children('li:not(:first-child)').each(($el) => {
             cy.wrap($el).click();
         });
 
         // check for the close button
-        cy.get('#directChannel').parent().parent().children('li:not(:first-child)').not('#moreDMButton').each(($el) => {
-            cy.wrap($el).find('a').find('span.btn-close').should('have.length', 1);
+        cy.get('#directChannelList').find('a.sidebar-item').each(($el) => {
+            cy.wrap($el).find('span.btn-close').should('exist');
         });
-    });
-
-    after(() => {
-        // cleanup one direct message that was created above
-        cy.get('#directChannel').parent().parent().children('li:not(:first-child)').not('#moreDMButton').
-            first().find('span.btn-close').click({force: true});
     });
 });
