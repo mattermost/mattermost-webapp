@@ -290,7 +290,7 @@ export default {
         },
         systemScheme: {
             url: 'user_management/permissions/system_scheme',
-            isHidden: it.either(it.isnt(it.licensed)),
+            isHidden: it.isnt(it.licensed),
             schema: {
                 id: 'PermissionSystemScheme',
                 component: PermissionSystemSchemeSettings,
