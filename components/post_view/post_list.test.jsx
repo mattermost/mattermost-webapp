@@ -9,10 +9,9 @@ import {DATE_LINE} from 'mattermost-redux/utils/post_list';
 import LoadingScreen from 'components/loading_screen';
 import {PostListRowListIds} from 'utils/constants';
 
-import NewMessagesBelow from 'components/post_view/new_messages_below';
-import PostListRow from 'components/post_view/post_list_row';
-
-import PostList from './post_list_virtualized';
+import NewMessagesBelow from './new_messages_below';
+import PostList from './post_list';
+import PostListRow from './post_list_row';
 
 describe('PostList', () => {
     const baseProps = {

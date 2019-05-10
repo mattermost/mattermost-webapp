@@ -26,7 +26,6 @@ describe('components/ReactionList', () => {
     const actions = {
         getReactionsForPost: jest.fn(),
         addReaction: jest.fn(),
-        scrollPostList: jest.fn(),
     };
 
     const baseProps = {
