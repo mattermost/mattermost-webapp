@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint max-nested-callbacks: ["error", 5] */
+
 // ***********************************************************
 // Read more: https://on.cypress.io/custom-commands
 // ***********************************************************
