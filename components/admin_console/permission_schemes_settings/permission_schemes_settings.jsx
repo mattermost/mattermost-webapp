@@ -199,7 +199,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                     id='admin.permissions.permissionSchemes'
                     defaultMessage='Permission Schemes'
                 />
-                <div className={'banner info'}>
+                <div className='banner info'>
                     <div className='banner__content'>
                         <span>
                             <FormattedMarkdownMessage

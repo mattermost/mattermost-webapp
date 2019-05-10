@@ -41,10 +41,6 @@ export default class Audits extends React.PureComponent {
         this.props.customWrapperClass('compliance-not-licensed');
     }
 
-    auditTableStyle = () => {
-        return ({margin: 10});
-    }
-
     componentDidMount() {
         this.props.actions.getAudits().then(
             () => this.setState({loadingAudits: false})
@@ -89,7 +85,7 @@ export default class Audits extends React.PureComponent {
             content = <LoadingScreen/>;
         } else {
             content = (
-                <div style={this.auditTableStyle()}>
+                <div>
                     <AuditTable
                         audits={this.props.audits}
                         showUserId={true}
