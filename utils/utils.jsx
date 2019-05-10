@@ -1242,6 +1242,7 @@ const UserStatusesWeight = {
     dnd: 2,
     offline: 3,
     ooo: 3,
+    bot: 4
 };
 
 /**
@@ -1249,16 +1250,8 @@ const UserStatusesWeight = {
  */
 export function sortUsersByStatusAndDisplayName(users, statusesByUserId) {
     function compareUsers(a, b) {
-        if (a.is_bot) {
-            return 1;
-        }
-
-        if (b.is_bot) {
-            return -1;
-        }
-
-        const aStatus = statusesByUserId[a.id] || UserStatuses.OFFLINE;
-        const bStatus = statusesByUserId[b.id] || UserStatuses.OFFLINE;
+        const aStatus = a.is_bot ? 'bot' : statusesByUserId[a.id] || UserStatuses.OFFLINE;
+        const bStatus = b.is_bot ? 'bot' : statusesByUserId[b.id] || UserStatuses.OFFLINE;
 
         if (UserStatusesWeight[aStatus] !== UserStatusesWeight[bStatus]) {
             return UserStatusesWeight[aStatus] - UserStatusesWeight[bStatus];
