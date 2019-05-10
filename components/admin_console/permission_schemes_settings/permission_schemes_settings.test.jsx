@@ -20,7 +20,7 @@ describe('components/admin_console/permission_schemes_settings/permission_scheme
             loadSchemeTeams: jest.fn(),
         },
         license: {
-            CustomPermissionsSchemes: true,
+            CustomPermissionsSchemes: 'true',
         },
     };
     test('should match snapshot loading', () => {

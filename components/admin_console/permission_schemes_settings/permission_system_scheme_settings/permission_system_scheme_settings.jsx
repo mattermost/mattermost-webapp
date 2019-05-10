@@ -223,7 +223,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
         }
         return (
             <div className='wrapper--fixed'>
-                <h3 className={'admin-console-header ' + (hasCustomSchemes ? 'with-back' : '')}>
+                <h3 className='admin-console-header with-back'>
                     <BlockableLink
                         to='/admin_console/user_management/permissions'
                         className='fa fa-angle-left back'
