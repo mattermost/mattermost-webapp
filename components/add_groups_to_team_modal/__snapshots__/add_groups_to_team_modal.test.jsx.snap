@@ -1,16 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/AddUsersToTeam should match snapshot 1`] = `
+exports[`components/AddGroupsToTeamModal should match snapshot 1`] = `
 <Modal
   animation={true}
-  aria-labelledby="addTeamModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   dialogClassName="more-modal more-direct-channels"
   dialogComponentClass={[Function]}
   enforceFocus={true}
-  id="addUsersToTeamModal"
+  id="addGroupsToTeamModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -28,7 +27,6 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
-  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -39,15 +37,14 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h4"
-      id="addTeamModalLabel"
     >
       <FormattedMessage
-        defaultMessage="Add New Members To {teamName} Team"
-        id="add_users_to_team.title"
+        defaultMessage="Add New Groups To {teamName} Team"
+        id="add_groups_to_team.title"
         values={
           Object {
             "teamName": <strong>
-              display_name
+              foo
             </strong>,
           }
         }
@@ -66,19 +63,19 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
       handleInput={[Function]}
       handlePageChange={[Function]}
       handleSubmit={[Function]}
-      key="addUsersToTeamKey"
+      key="addGroupsToTeamKey"
       loading={true}
-      maxValues={20}
+      maxValues={10}
       numRemainingText={
         <div
-          id="numPeopleRemaining"
+          id="numGroupsRemaining"
         >
           <FormattedMessage
-            defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. "
-            id="multiselect.numPeopleRemaining"
+            defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {group} other {groups}}. "
+            id="multiselect.numGroupsRemaining"
             values={
               Object {
-                "num": 20,
+                "num": 10,
               }
             }
           />
@@ -87,7 +84,7 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
       optionRenderer={[Function]}
       options={Array []}
       perPage={50}
-      placeholderText="Search and add members"
+      placeholderText="Search and add groups"
       saving={false}
       valueRenderer={[Function]}
       values={Array []}
@@ -96,16 +93,16 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
 </Modal>
 `;
 
-exports[`components/AddUsersToTeam should match when renderOption is called 1`] = `
+exports[`components/AddGroupsToTeamModal should match when renderOption is called 1`] = `
 <div
   className="more-modal__row clickable "
   onClick={[Function]}
 >
-  <ProfilePicture
-    hasMention={false}
+  <img
+    alt="group picture"
+    className="more-modal__image"
     height="32"
-    isRHS={false}
-    src="/api/v4/users/id/image?_=12345"
+    src={null}
     width="32"
   />
   <div
@@ -114,16 +111,20 @@ exports[`components/AddUsersToTeam should match when renderOption is called 1`] 
     <div
       className="more-modal__name"
     >
-      @undefined
-      <BotBadge
-        className="badge-popoverlist"
-        show={false}
-      />
-    </div>
-    <div
-      className="more-modal__description"
-    >
-      test@test.com
+       
+      -
+       
+      <span>
+        <FormattedMessage
+          defaultMessage="{num, number} {num, plural, one {member} other {members}}"
+          id="numMembers"
+          values={
+            Object {
+              "num": undefined,
+            }
+          }
+        />
+      </span>
     </div>
   </div>
   <div
@@ -138,16 +139,16 @@ exports[`components/AddUsersToTeam should match when renderOption is called 1`] 
 </div>
 `;
 
-exports[`components/AddUsersToTeam should match when renderOption is called 2`] = `
+exports[`components/AddGroupsToTeamModal should match when renderOption is called 2`] = `
 <div
   className="more-modal__row clickable more-modal__row--selected"
   onClick={[Function]}
 >
-  <ProfilePicture
-    hasMention={false}
+  <img
+    alt="group picture"
+    className="more-modal__image"
     height="32"
-    isRHS={false}
-    src="/api/v4/users/id/image?_=12345"
+    src={null}
     width="32"
   />
   <div
@@ -156,16 +157,20 @@ exports[`components/AddUsersToTeam should match when renderOption is called 2`] 
     <div
       className="more-modal__name"
     >
-      @undefined
-      <BotBadge
-        className="badge-popoverlist"
-        show={false}
-      />
-    </div>
-    <div
-      className="more-modal__description"
-    >
-      test@test.com
+       
+      -
+       
+      <span>
+        <FormattedMessage
+          defaultMessage="{num, number} {num, plural, one {member} other {members}}"
+          id="numMembers"
+          values={
+            Object {
+              "num": undefined,
+            }
+          }
+        />
+      </span>
     </div>
   </div>
   <div
@@ -180,16 +185,16 @@ exports[`components/AddUsersToTeam should match when renderOption is called 2`] 
 </div>
 `;
 
-exports[`components/AddUsersToTeam should match when renderOption is called 3`] = `
+exports[`components/AddGroupsToTeamModal should match when renderOption is called 3`] = `
 <div
   className="more-modal__row clickable more-modal__row--selected"
   onClick={[Function]}
 >
-  <ProfilePicture
-    hasMention={false}
+  <img
+    alt="group picture"
+    className="more-modal__image"
     height="32"
-    isRHS={false}
-    src="/api/v4/users/id/image?_=12345"
+    src={null}
     width="32"
   />
   <div
@@ -198,15 +203,21 @@ exports[`components/AddUsersToTeam should match when renderOption is called 3`] 
     <div
       className="more-modal__name"
     >
-      @undefined
-      <BotBadge
-        className="badge-popoverlist"
-        show={true}
-      />
+       
+      -
+       
+      <span>
+        <FormattedMessage
+          defaultMessage="{num, number} {num, plural, one {member} other {members}}"
+          id="numMembers"
+          values={
+            Object {
+              "num": undefined,
+            }
+          }
+        />
+      </span>
     </div>
-    <div
-      className="more-modal__description"
-    />
   </div>
   <div
     className="more-modal__actions"

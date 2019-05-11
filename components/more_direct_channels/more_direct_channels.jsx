@@ -422,6 +422,7 @@ export default class MoreDirectChannels extends React.Component {
                 loading={this.state.loadingUsers}
                 users={this.props.users}
                 totalCount={this.props.totalCount}
+                placeholderText={localizeMessage('multiselect.placeholder', 'Search and add members')}
             />
         );
 
