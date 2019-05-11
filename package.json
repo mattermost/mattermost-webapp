@@ -107,7 +107,7 @@
     "jest-junit": "6.3.0",
     "jquery-deferred": "0.3.1",
     "mini-css-extract-plugin": "0.5.0",
-    "mmjstool": "github:mattermost/mattermost-utilities",
+    "mmjstool": "github:mattermost/mattermost-utilities#89543752e9c3b7fe4ad41d3af3821d3923198c20",
     "mocha-junit-reporter": "1.18.0",
     "node-sass": "4.11.0",
     "react-router-enzyme-context": "^1.2.0",
