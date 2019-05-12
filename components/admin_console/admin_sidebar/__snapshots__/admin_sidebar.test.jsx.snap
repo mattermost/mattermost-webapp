@@ -177,26 +177,26 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           />
           <AdminSidebarSection
             key="8"
-            name="environment/notifications_email"
+            name="environment/smtp"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Email Notifications"
-                id="admin.sidebar.emailNotifications"
+                defaultMessage="SMTP"
+                id="admin.sidebar.smtp"
                 values={Object {}}
               />
             }
           />
           <AdminSidebarSection
             key="9"
-            name="environment/push"
+            name="environment/push_notification_server"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Push Notifications"
-                id="admin.sidebar.pushNotifications"
+                defaultMessage="Push Notification Server"
+                id="admin.sidebar.pushNotificationServer"
                 values={Object {}}
               />
             }
@@ -307,7 +307,20 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           />
           <AdminSidebarSection
-            key="7"
+            key="6"
+            name="environment/notifications"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Notifications"
+                id="admin.sidebar.notifications"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="8"
             name="site_config/emoji"
             parentLink=""
             subsection={false}
@@ -320,7 +333,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           />
           <AdminSidebarSection
-            key="8"
+            key="9"
             name="site_config/posts"
             parentLink=""
             subsection={false}
@@ -333,7 +346,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           />
           <AdminSidebarSection
-            key="9"
+            key="10"
             name="site_config/file_sharing_downloads"
             parentLink=""
             subsection={false}
@@ -346,7 +359,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           />
           <AdminSidebarSection
-            key="10"
+            key="11"
             name="site_config/public_links"
             parentLink=""
             subsection={false}
@@ -721,26 +734,26 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
           />
           <AdminSidebarSection
             key="8"
-            name="environment/notifications_email"
+            name="environment/smtp"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Email Notifications"
-                id="admin.sidebar.emailNotifications"
+                defaultMessage="SMTP"
+                id="admin.sidebar.smtp"
                 values={Object {}}
               />
             }
           />
           <AdminSidebarSection
             key="9"
-            name="environment/push"
+            name="environment/push_notification_server"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Push Notifications"
-                id="admin.sidebar.pushNotifications"
+                defaultMessage="Push Notification Server"
+                id="admin.sidebar.pushNotificationServer"
                 values={Object {}}
               />
             }
@@ -851,7 +864,20 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             }
           />
           <AdminSidebarSection
-            key="7"
+            key="6"
+            name="environment/notifications"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Notifications"
+                id="admin.sidebar.notifications"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="8"
             name="site_config/emoji"
             parentLink=""
             subsection={false}
@@ -864,7 +890,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             }
           />
           <AdminSidebarSection
-            key="8"
+            key="9"
             name="site_config/posts"
             parentLink=""
             subsection={false}
@@ -877,7 +903,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             }
           />
           <AdminSidebarSection
-            key="9"
+            key="10"
             name="site_config/file_sharing_downloads"
             parentLink=""
             subsection={false}
@@ -890,7 +916,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             }
           />
           <AdminSidebarSection
-            key="10"
+            key="11"
             name="site_config/public_links"
             parentLink=""
             subsection={false}
@@ -1258,26 +1284,26 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
           />
           <AdminSidebarSection
             key="8"
-            name="environment/notifications_email"
+            name="environment/smtp"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Email Notifications"
-                id="admin.sidebar.emailNotifications"
+                defaultMessage="SMTP"
+                id="admin.sidebar.smtp"
                 values={Object {}}
               />
             }
           />
           <AdminSidebarSection
             key="9"
-            name="environment/push"
+            name="environment/push_notification_server"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Push Notifications"
-                id="admin.sidebar.pushNotifications"
+                defaultMessage="Push Notification Server"
+                id="admin.sidebar.pushNotificationServer"
                 values={Object {}}
               />
             }
@@ -1388,7 +1414,20 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
             }
           />
           <AdminSidebarSection
-            key="7"
+            key="6"
+            name="environment/notifications"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Notifications"
+                id="admin.sidebar.notifications"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="8"
             name="site_config/emoji"
             parentLink=""
             subsection={false}
@@ -1401,7 +1440,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
             }
           />
           <AdminSidebarSection
-            key="8"
+            key="9"
             name="site_config/posts"
             parentLink=""
             subsection={false}
@@ -1414,7 +1453,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
             }
           />
           <AdminSidebarSection
-            key="9"
+            key="10"
             name="site_config/file_sharing_downloads"
             parentLink=""
             subsection={false}
@@ -1427,7 +1466,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
             }
           />
           <AdminSidebarSection
-            key="10"
+            key="11"
             name="site_config/public_links"
             parentLink=""
             subsection={false}
@@ -1874,26 +1913,26 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           />
           <AdminSidebarSection
             key="8"
-            name="environment/notifications_email"
+            name="environment/smtp"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Email Notifications"
-                id="admin.sidebar.emailNotifications"
+                defaultMessage="SMTP"
+                id="admin.sidebar.smtp"
                 values={Object {}}
               />
             }
           />
           <AdminSidebarSection
             key="9"
-            name="environment/push"
+            name="environment/push_notification_server"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Push Notifications"
-                id="admin.sidebar.pushNotifications"
+                defaultMessage="Push Notification Server"
+                id="admin.sidebar.pushNotificationServer"
                 values={Object {}}
               />
             }
@@ -2031,6 +2070,19 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           />
           <AdminSidebarSection
             key="6"
+            name="environment/notifications"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Notifications"
+                id="admin.sidebar.notifications"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="7"
             name="site_config/announcement_banner"
             parentLink=""
             subsection={false}
@@ -2043,7 +2095,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="7"
+            key="8"
             name="site_config/emoji"
             parentLink=""
             subsection={false}
@@ -2056,7 +2108,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="8"
+            key="9"
             name="site_config/posts"
             parentLink=""
             subsection={false}
@@ -2069,7 +2121,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="9"
+            key="10"
             name="site_config/file_sharing_downloads"
             parentLink=""
             subsection={false}
@@ -2082,7 +2134,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="10"
+            key="11"
             name="site_config/public_links"
             parentLink=""
             subsection={false}
@@ -2582,26 +2634,26 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           />
           <AdminSidebarSection
             key="8"
-            name="environment/notifications_email"
+            name="environment/smtp"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Email Notifications"
-                id="admin.sidebar.emailNotifications"
+                defaultMessage="SMTP"
+                id="admin.sidebar.smtp"
                 values={Object {}}
               />
             }
           />
           <AdminSidebarSection
             key="9"
-            name="environment/push"
+            name="environment/push_notification_server"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Push Notifications"
-                id="admin.sidebar.pushNotifications"
+                defaultMessage="Push Notification Server"
+                id="admin.sidebar.pushNotificationServer"
                 values={Object {}}
               />
             }
@@ -2713,6 +2765,19 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           />
           <AdminSidebarSection
             key="6"
+            name="environment/notifications"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Notifications"
+                id="admin.sidebar.notifications"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="7"
             name="site_config/announcement_banner"
             parentLink=""
             subsection={false}
@@ -2725,7 +2790,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           />
           <AdminSidebarSection
-            key="7"
+            key="8"
             name="site_config/emoji"
             parentLink=""
             subsection={false}
@@ -2738,7 +2803,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           />
           <AdminSidebarSection
-            key="8"
+            key="9"
             name="site_config/posts"
             parentLink=""
             subsection={false}
@@ -2751,7 +2816,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           />
           <AdminSidebarSection
-            key="9"
+            key="10"
             name="site_config/file_sharing_downloads"
             parentLink=""
             subsection={false}
@@ -2764,7 +2829,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           />
           <AdminSidebarSection
-            key="10"
+            key="11"
             name="site_config/public_links"
             parentLink=""
             subsection={false}
