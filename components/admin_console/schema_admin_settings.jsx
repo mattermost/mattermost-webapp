@@ -672,10 +672,9 @@ export default class SchemaAdminSettings extends React.Component {
             );
         }
         const uploadFile = (id, file, callback) => {
-            const successCallback = () => {
-                const fileName = file.name;
-                this.handleChange(id, fileName);
-                this.setState({[setting.key]: fileName, [`${setting.key}Error`]: null});
+            const successCallback = (filename) => {
+                this.handleChange(id, filename);
+                this.setState({[setting.key]: filename, [`${setting.key}Error`]: null});
                 if (callback && typeof callback === 'function') {
                     callback();
                 }
