@@ -13,10 +13,10 @@ import {getRandomInt} from '../../utils';
 
 describe('Integrations page', () => {
     before(() => {
-        // 1. Login
+        // # Login
         cy.apiLogin('sysadmin');
 
-        // 2. Get current settings
+        // # Get current settings
         cy.request('/api/v4/config').then((response) => {
             const settings = response.body;
 
@@ -102,26 +102,26 @@ describe('Integrations page', () => {
     });
 
     it('should should display correct message when slash command not found', () => {
-        // 3. Open slash command page
+        // # Open slash command page
         cy.get('#slashCommands').click();
 
-        // 4. Add new command
+        // # Add new command
         cy.get('#addSlashCommand').click();
 
-        // 5. Pick a dummy trigger and callback
+        // # Pick a dummy trigger and callback
         cy.get('#trigger').type(`test-trigger${getRandomInt(10000)}`);
         cy.get('#url').type('https://dummy');
 
-        // 6. Save
+        // # Save
         cy.get('#saveCommand').click();
 
         // * Validate that save succeeded
         cy.get('#formTitle').should('have.text', 'Setup Successful');
 
-        // 7. Close the Add dialog
+        // # Close the Add dialog
         cy.get('#doneButton').click();
 
-        // 8. Type random stuff into the search box
+        // # Type random stuff into the search box
         const searchString = `some random stuff ${Date.now()}`;
         cy.get('#searchInput').type(`${searchString}{enter}`);
 
@@ -130,7 +130,7 @@ describe('Integrations page', () => {
     });
 
     it('should should display correct message when OAuth app not found', () => {
-        // # Open slash command page
+        // # Open OAuth apps page
         cy.get('#oauthApps').click();
 
         // # Add new command
