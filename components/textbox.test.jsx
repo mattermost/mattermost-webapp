@@ -19,6 +19,7 @@ describe('components/TextBox', () => {
         ],
         actions: {
             autocompleteUsersInChannel: jest.fn(),
+            scrollPostList: jest.fn(),
         },
     };
 

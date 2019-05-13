@@ -568,7 +568,7 @@ class LoginController extends React.Component {
                                 name='password'
                                 value={this.state.password}
                                 onChange={this.handlePasswordChange}
-                                placeholder={{id: 'login.password', defaultMessage: 'Password'}}
+                                placeholder={{id: t('login.password'), defaultMessage: 'Password'}}
                                 spellCheck='false'
                             />
                         </div>
