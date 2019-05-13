@@ -92,17 +92,19 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         let element;
         if (isDesktopApp()) {
             element = (
-                <CopyUrlContextMenu
-                    link={this.props.link}
-                    menuId={this.props.channelId}
-                >
-                    <button
-                        className={'btn btn-link ' + this.props.rowClass}
-                        onClick={this.handleClick}
+                <div>
+                    <CopyUrlContextMenu
+                        link={this.props.link}
+                        menuId={this.props.channelId}
                     >
-                        {content}
-                    </button>
-                </CopyUrlContextMenu>
+                        <button
+                            className={'btn btn-link ' + this.props.rowClass}
+                            onClick={this.handleClick}
+                        >
+                            {content}
+                        </button>
+                    </CopyUrlContextMenu>
+                </div>
             );
         } else {
             element = (
@@ -137,7 +139,6 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                 </OverlayTrigger>
             );
         }
-
         return element;
     }
 }
