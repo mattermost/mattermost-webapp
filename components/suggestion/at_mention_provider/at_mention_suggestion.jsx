@@ -23,7 +23,7 @@ export default class AtMentionSuggestion extends Suggestion {
             description = (
                 <FormattedMessage
                     id='suggestion.mention.all'
-                    defaultMessage='CAUTION: This mentions everyone in channel'
+                    defaultMessage='Notifies everyone in this channel'
                 />
             );
             icon = (
@@ -44,7 +44,7 @@ export default class AtMentionSuggestion extends Suggestion {
             description = (
                 <FormattedMessage
                     id='suggestion.mention.channel'
-                    defaultMessage='Notifies everyone in the channel'
+                    defaultMessage='Notifies everyone in this channel'
                 />
             );
             icon = (
@@ -65,7 +65,7 @@ export default class AtMentionSuggestion extends Suggestion {
             description = (
                 <FormattedMessage
                     id='suggestion.mention.here'
-                    defaultMessage='Notifies everyone in the channel and online'
+                    defaultMessage='Notifies everyone online in this channel'
                 />
             );
             icon = (
