@@ -9,6 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import {emailToOAuth} from 'actions/admin_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n.jsx';
 import LoginMfa from 'components/login/login_mfa.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
@@ -127,7 +128,7 @@ export default class EmailToOAuth extends React.PureComponent {
                             className='form-control'
                             name='password'
                             ref='password'
-                            placeholder={{id: 'claim.email_to_oauth.pwd', defaultMessage: 'Password'}}
+                            placeholder={{id: t('claim.email_to_oauth.pwd'), defaultMessage: 'Password'}}
                             spellCheck='false'
                         />
                     </div>
