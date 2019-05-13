@@ -756,7 +756,10 @@ export default class PluginManagement extends AdminSettings {
         return (
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
-                    <SettingsGroup id={'PluginSettings'}>
+                    <SettingsGroup
+                        id={'PluginSettings'}
+                        container={false}
+                    >
                         <BooleanSetting
                             id='enable'
                             label={

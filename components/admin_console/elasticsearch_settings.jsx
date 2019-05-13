@@ -146,7 +146,7 @@ export default class ElasticsearchSettings extends AdminSettings {
 
     renderSettings() {
         return (
-            <SettingsGroup container={true}>
+            <SettingsGroup>
                 <BooleanSetting
                     id='enableIndexing'
                     label={

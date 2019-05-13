@@ -11,7 +11,7 @@ describe('components/widgets/admin_console/AdminHeader', () => {
         const wrapper = shallow(<AdminHeader>{'Test'}</AdminHeader>);
         expect(wrapper).toMatchInlineSnapshot(`
 <div
-  className="admin-console__header "
+  className="admin-console__header"
 >
   Test
 </div>
@@ -26,7 +26,7 @@ describe('components/widgets/admin_console/AdminHeader', () => {
         shallow(<AdminHeader/>);
 
         expect(console.error).toBeCalledTimes(1);
-        expect(console.error).toBeCalledWith('Warning: Failed prop type: The prop `children` is marked as required in `SettingsGroup`, but its value is `undefined`.\n    in SettingsGroup');
+        expect(console.error).toBeCalledWith('Warning: Failed prop type: The prop `children` is marked as required in `AdminHeader`, but its value is `undefined`.\n    in AdminHeader');
 
         console.error = console.originalError;
     });

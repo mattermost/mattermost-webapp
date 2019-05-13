@@ -9,13 +9,13 @@ exports[`components/PluginManagement should match snapshot 1`] = `
   <div
     className="wrapper--fixed"
   >
-    <SettingsGroup>
+    <AdminHeader>
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
         values={Object {}}
       />
-    </SettingsGroup>
+    </AdminHeader>
     <div
       className="admin-console__wrapper"
     >
@@ -23,6 +23,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
         className="admin-console__content"
       >
         <SettingsGroup
+          container={false}
           id="PluginSettings"
           show={true}
         >
@@ -197,13 +198,13 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
   <div
     className="wrapper--fixed"
   >
-    <SettingsGroup>
+    <AdminHeader>
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
         values={Object {}}
       />
-    </SettingsGroup>
+    </AdminHeader>
     <div
       className="admin-console__wrapper"
     >
@@ -211,6 +212,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
         className="admin-console__content"
       >
         <SettingsGroup
+          container={false}
           id="PluginSettings"
           show={true}
         >
@@ -390,13 +392,13 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
   <div
     className="wrapper--fixed"
   >
-    <SettingsGroup>
+    <AdminHeader>
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
         values={Object {}}
       />
-    </SettingsGroup>
+    </AdminHeader>
     <div
       className="admin-console__wrapper"
     >
@@ -404,6 +406,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
         className="admin-console__content"
       >
         <SettingsGroup
+          container={false}
           id="PluginSettings"
           show={true}
         >
@@ -551,13 +554,13 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
   <div
     className="wrapper--fixed"
   >
-    <SettingsGroup>
+    <AdminHeader>
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
         values={Object {}}
       />
-    </SettingsGroup>
+    </AdminHeader>
     <div
       className="admin-console__wrapper"
     >
@@ -565,6 +568,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
         className="admin-console__content"
       >
         <SettingsGroup
+          container={false}
           id="PluginSettings"
           show={true}
         >
@@ -739,13 +743,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
   <div
     className="wrapper--fixed"
   >
-    <SettingsGroup>
+    <AdminHeader>
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
         values={Object {}}
       />
-    </SettingsGroup>
+    </AdminHeader>
     <div
       className="admin-console__wrapper"
     >
@@ -753,6 +757,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         className="admin-console__content"
       >
         <SettingsGroup
+          container={false}
           id="PluginSettings"
           show={true}
         >
@@ -990,13 +995,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
   <div
     className="wrapper--fixed"
   >
-    <SettingsGroup>
+    <AdminHeader>
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
         values={Object {}}
       />
-    </SettingsGroup>
+    </AdminHeader>
     <div
       className="admin-console__wrapper"
     >
@@ -1004,6 +1009,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         className="admin-console__content"
       >
         <SettingsGroup
+          container={false}
           id="PluginSettings"
           show={true}
         >
@@ -1209,13 +1215,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
   <div
     className="wrapper--fixed"
   >
-    <SettingsGroup>
+    <AdminHeader>
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
         values={Object {}}
       />
-    </SettingsGroup>
+    </AdminHeader>
     <div
       className="admin-console__wrapper"
     >
@@ -1223,6 +1229,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         className="admin-console__content"
       >
         <SettingsGroup
+          container={false}
           id="PluginSettings"
           show={true}
         >
@@ -1428,13 +1435,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
   <div
     className="wrapper--fixed"
   >
-    <SettingsGroup>
+    <AdminHeader>
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
         values={Object {}}
       />
-    </SettingsGroup>
+    </AdminHeader>
     <div
       className="admin-console__wrapper"
     >
@@ -1442,6 +1449,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         className="admin-console__content"
       >
         <SettingsGroup
+          container={false}
           id="PluginSettings"
           show={true}
         >
@@ -1647,13 +1655,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
   <div
     className="wrapper--fixed"
   >
-    <SettingsGroup>
+    <AdminHeader>
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
         values={Object {}}
       />
-    </SettingsGroup>
+    </AdminHeader>
     <div
       className="admin-console__wrapper"
     >
@@ -1661,6 +1669,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         className="admin-console__content"
       >
         <SettingsGroup
+          container={false}
           id="PluginSettings"
           show={true}
         >

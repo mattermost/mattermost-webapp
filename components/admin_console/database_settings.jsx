@@ -110,7 +110,7 @@ export default class DatabaseSettings extends AdminSettings {
         }
 
         return (
-            <SettingsGroup container={true}>
+            <SettingsGroup>
                 <div className='banner'>
                     <FormattedMessage
                         id='admin.sql.noteDescription'

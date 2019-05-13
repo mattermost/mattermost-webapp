@@ -9,13 +9,13 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
   <div
     className="wrapper--fixed"
   >
-    <SettingsGroup>
+    <AdminHeader>
       <FormattedMessage
         defaultMessage="Custom Terms of Service (Beta)"
         id="admin.support.termsOfServiceTitle"
         values={Object {}}
       />
-    </SettingsGroup>
+    </AdminHeader>
     <LoadingScreen
       position="relative"
       style={Object {}}
@@ -68,13 +68,13 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
   <div
     className="wrapper--fixed"
   >
-    <SettingsGroup>
+    <AdminHeader>
       <FormattedMessage
         defaultMessage="Custom Terms of Service (Beta)"
         id="admin.support.termsOfServiceTitle"
         values={Object {}}
       />
-    </SettingsGroup>
+    </AdminHeader>
     <LoadingScreen
       position="relative"
       style={Object {}}
@@ -127,13 +127,13 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
   <div
     className="wrapper--fixed"
   >
-    <SettingsGroup>
+    <AdminHeader>
       <FormattedMessage
         defaultMessage="Custom Terms of Service (Beta)"
         id="admin.support.termsOfServiceTitle"
         values={Object {}}
       />
-    </SettingsGroup>
+    </AdminHeader>
     <LoadingScreen
       position="relative"
       style={Object {}}
@@ -186,13 +186,13 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
   <div
     className="wrapper--fixed"
   >
-    <SettingsGroup>
+    <AdminHeader>
       <FormattedMessage
         defaultMessage="Custom Terms of Service (Beta)"
         id="admin.support.termsOfServiceTitle"
         values={Object {}}
       />
-    </SettingsGroup>
+    </AdminHeader>
     <LoadingScreen
       position="relative"
       style={Object {}}

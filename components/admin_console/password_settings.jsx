@@ -155,7 +155,7 @@ export default class PasswordSettings extends AdminSettings {
 
     renderSettings() {
         return (
-            <SettingsGroup container={true}>
+            <SettingsGroup>
                 <div>
                     <TextSetting
                         id='passwordMinimumLength'

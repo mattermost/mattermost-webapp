@@ -759,7 +759,7 @@ export default class SchemaAdminSettings extends React.Component {
         }
 
         return (
-            <SettingsGroup>
+            <SettingsGroup container={false}>
                 {header}
                 {settingsList}
                 {footer}

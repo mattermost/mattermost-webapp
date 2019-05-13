@@ -211,7 +211,7 @@ export default class MessageExportSettings extends AdminSettings {
         );
 
         return (
-            <SettingsGroup container={true}>
+            <SettingsGroup>
                 <BooleanSetting
                     id='enableComplianceExport'
                     label={

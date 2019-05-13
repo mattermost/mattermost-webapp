@@ -17,6 +17,7 @@ export default class SettingsGroup extends React.Component {
     static get defaultProps() {
         return {
             show: true,
+            container: true,
         };
     }
 
