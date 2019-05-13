@@ -1260,6 +1260,7 @@ const UserStatusesWeight = {
     dnd: 2,
     offline: 3,
     ooo: 3,
+    bot: 4,
 };
 
 /**
@@ -1267,8 +1268,8 @@ const UserStatusesWeight = {
  */
 export function sortUsersByStatusAndDisplayName(users, statusesByUserId) {
     function compareUsers(a, b) {
-        const aStatus = statusesByUserId[a.id] || UserStatuses.OFFLINE;
-        const bStatus = statusesByUserId[b.id] || UserStatuses.OFFLINE;
+        const aStatus = a.is_bot ? 'bot' : statusesByUserId[a.id] || UserStatuses.OFFLINE;
+        const bStatus = b.is_bot ? 'bot' : statusesByUserId[b.id] || UserStatuses.OFFLINE;
 
         if (UserStatusesWeight[aStatus] !== UserStatusesWeight[bStatus]) {
             return UserStatusesWeight[aStatus] - UserStatusesWeight[bStatus];
@@ -1697,4 +1698,8 @@ export function enableDevModeFeatures() {
             throw new Error('Map.length is not supported. Use Map.size instead.');
         },
     });
+}
+
+export function disableVirtList() {
+    return UserAgent.isInternetExplorer();
 }

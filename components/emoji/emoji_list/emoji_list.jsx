@@ -15,6 +15,8 @@ import PreviousIcon from 'components/icon/previous_icon';
 import SearchIcon from 'components/icon/search_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
 
+import {t} from 'utils/i18n.jsx';
+
 const EMOJI_PER_PAGE = 50;
 const EMOJI_SEARCH_DELAY_MILLISECONDS = 200;
 
@@ -240,7 +242,7 @@ export default class EmojiList extends React.Component {
                         <LocalizedInput
                             type='search'
                             className='form-control'
-                            placeholder={{id: 'emoji_list.search', defaultMessage: 'Search Custom Emoji'}}
+                            placeholder={{id: t('emoji_list.search'), defaultMessage: 'Search Custom Emoji'}}
                             onChange={this.onSearchChange}
                             style={style.search}
                         />
