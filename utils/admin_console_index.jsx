@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import FlexSearch from 'flexsearch';
+import FlexSearch from 'flexsearch/dist/flexsearch.es5';
 
 import AdminDefinition from 'components/admin_console/admin_definition.jsx';
 

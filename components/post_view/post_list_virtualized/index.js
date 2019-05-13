@@ -17,7 +17,7 @@ function makeMapStateToProps() {
 
     return function mapStateToProps(state, ownProps) {
         let postIds;
-
+        const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
         if (ownProps.focusedPostId) {
             postIds = getPostIdsAroundPost(state, ownProps.focusedPostId, ownProps.channelId);
         } else {
@@ -25,7 +25,7 @@ function makeMapStateToProps() {
         }
 
         if (postIds) {
-            postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt: ownProps.lastViewedAt, indicateNewMessages: true});
+            postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true});
         }
 
         return {
