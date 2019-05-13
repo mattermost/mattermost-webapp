@@ -68,15 +68,9 @@ function createGMIntroMessage(channel, centeredIntro, profiles, currentUserId) {
     const channelIntroId = 'channelIntro';
 
     if (profiles.length > 0) {
-        const pictures = [];
-        for (let i = 0; i < profiles.length; i++) {
-            const profile = profiles[i];
-
-            if (profile.id === currentUserId) {
-                continue;
-            }
-
-            pictures.push(
+        const pictures = profiles.
+            filter((profile) => profile.id !== currentUserId).
+            map((profile) => (
                 <ProfilePicture
                     key={'introprofilepicture' + profile.id}
                     src={Utils.imageURLForUser(profile)}
@@ -85,8 +79,7 @@ function createGMIntroMessage(channel, centeredIntro, profiles, currentUserId) {
                     userId={profile.id}
                     username={profile.username}
                 />
-            );
-        }
+            ));
 
         return (
             <div
