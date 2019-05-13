@@ -18,6 +18,7 @@ import ReactionList from 'components/post_view/reaction_list';
 import PostTime from 'components/post_view/post_time';
 import PostReaction from 'components/post_view/post_reaction';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
+import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import UserProfile from 'components/user_profile';
 
@@ -244,7 +245,7 @@ export default class RhsRootPost extends React.Component {
                 );
             }
 
-            botIndicator = <div className='col col__name bot-indicator'>{'BOT'}</div>;
+            botIndicator = <BotBadge className='col col__name'/>;
         } else {
             userProfile = (
                 <UserProfile

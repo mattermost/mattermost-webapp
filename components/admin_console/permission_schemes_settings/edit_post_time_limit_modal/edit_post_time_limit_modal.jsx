@@ -80,16 +80,18 @@ export default class EditPostTimeLimitModal extends React.Component {
             <Modal
                 dialogClassName='admin-modal edit-post-time-limit-modal'
                 show={this.props.show}
+                role='dialog'
+                aria-labelledby='editPostTimeModalLabel'
             >
                 <Modal.Header
                     closeButton={true}
                 >
-                    <h4 className='modal-title'>
+                    <Modal.Title id='editPostTimeModalLabel'>
                         <FormattedMessage
                             id='edit_post.time_limit_modal.title'
                             defaultMessage='Configure Global Edit Post Time Limit'
                         />
-                    </h4>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <FormattedHTMLMessage

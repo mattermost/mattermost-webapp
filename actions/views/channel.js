@@ -5,20 +5,22 @@ import {batchActions} from 'redux-batched-actions';
 
 import {leaveChannel as leaveChannelRedux, joinChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
+import {autocompleteUsers} from 'mattermost-redux/actions/users';
 import {Posts} from 'mattermost-redux/constants';
 import {getChannel, getChannelByName, getCurrentChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
-import {autocompleteUsers} from 'mattermost-redux/actions/users';
+import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {getLastViewedChannelName} from 'selectors/local_storage';
 
 import {browserHistory} from 'utils/browser_history';
-import {Constants, ActionTypes} from 'utils/constants.jsx';
+import {Constants, ActionTypes, EventTypes} from 'utils/constants.jsx';
 import {isMobile} from 'utils/utils.jsx';
+import LocalStorageStore from 'stores/local_storage_store.jsx';
 
 export function checkAndSetMobileView() {
     return (dispatch) => {
@@ -93,12 +95,15 @@ export function leaveChannel(channelId) {
     return async (dispatch, getState) => {
         const state = getState();
         const myPreferences = getMyPreferences(state);
+        const currentUserId = getCurrentUserId(state);
+        const currentTeamId = getCurrentTeamId(state);
 
         if (isFavoriteChannel(myPreferences, channelId)) {
             dispatch(unfavoriteChannel(channelId));
         }
 
         const teamUrl = getCurrentRelativeTeamUrl(state);
+        LocalStorageStore.removePreviousChannelName(currentUserId, currentTeamId);
         browserHistory.push(teamUrl);
 
         const {error} = await dispatch(leaveChannelRedux(channelId));
@@ -200,5 +205,17 @@ export function increasePostVisibility(channelId, beforePostId) {
             moreToLoad: posts ? posts.order.length >= Posts.POST_CHUNK_SIZE / 2 : false,
             error: result.error,
         };
+    };
+}
+
+export function scrollPostListToBottom() {
+    return () => {
+        EventEmitter.emit(EventTypes.POST_LIST_SCROLL_CHANGE, true);
+    };
+}
+
+export function scrollPostList() {
+    return () => {
+        EventEmitter.emit(EventTypes.POST_LIST_SCROLL_CHANGE, false);
     };
 }

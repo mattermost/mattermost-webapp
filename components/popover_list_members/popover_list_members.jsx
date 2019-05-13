@@ -259,6 +259,12 @@ export default class PopoverListMembers extends React.Component {
                     >
                         <div className='more-modal__header'>
                             {title}
+                            {this.props.channel.group_constrained && <div className='subhead'>
+                                <FormattedMessage
+                                    id='channel_header.groupConstrained'
+                                    defaultMessage='Members managed by linked groups.'
+                                />
+                            </div>}
                         </div>
                         <div className='more-modal__body'>
                             <div className='more-modal__list'>

@@ -14,7 +14,6 @@ describe('components/YoutubeVideo', () => {
             link: 'https://www.youtube.com/watch?v=xqCoNej8Zxo',
             show: true,
             googleDeveloperKey: 'googledevkey',
-            onLinkLoaded: jest.fn(),
         };
 
         return shallow(<YoutubeVideo {...allProps}/>);

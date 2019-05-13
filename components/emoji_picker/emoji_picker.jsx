@@ -308,7 +308,9 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     handleScroll() {
-        this.setState({divTopOffset: this.emojiPickerContainer.scrollTop});
+        if (this.emojiPickerContainer) {
+            this.setState({divTopOffset: this.emojiPickerContainer.scrollTop});
+        }
     }
 
     selectNextEmoji(offset = 1) {
@@ -528,7 +530,7 @@ export default class EmojiPicker extends React.PureComponent {
                             type='text'
                             onChange={this.handleFilterChange}
                             onKeyDown={this.handleKeyDown}
-                            placeholder={{id: 'emoji_picker.search', defaultMessage: 'Search Emoji'}}
+                            placeholder={{id: t('emoji_picker.search'), defaultMessage: 'Search Emoji'}}
                         />
                     )}
                 </FormattedMessage>

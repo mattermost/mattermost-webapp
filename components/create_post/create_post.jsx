@@ -231,6 +231,8 @@ export default class CreatePost extends React.Component {
              * Function to get the users timezones in the channel
              */
             getChannelTimezones: PropTypes.func.isRequired,
+
+            scrollPostListToBottom: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -568,7 +570,7 @@ export default class CreatePost extends React.Component {
         post.user_id = userId;
         post.create_at = time;
         post.parent_id = this.state.parentId;
-
+        post.metadata = {};
         const hookResult = await actions.runMessageWillBePostedHooks(post);
 
         if (hookResult.error) {
@@ -583,6 +585,7 @@ export default class CreatePost extends React.Component {
         post = hookResult.data;
 
         actions.onSubmitPost(post, draft.fileInfos);
+        actions.scrollPostListToBottom();
 
         this.setState({
             submitting: false,

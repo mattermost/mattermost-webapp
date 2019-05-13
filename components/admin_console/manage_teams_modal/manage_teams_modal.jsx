@@ -212,9 +212,11 @@ export default class ManageTeamsModal extends React.Component {
                 show={this.props.show}
                 onHide={this.props.onModalDismissed}
                 dialogClassName='manage-teams modal--overflow-visible'
+                role='dialog'
+                aria-labelledby='manageTeamsModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='manageTeamsModalLabel'>
                         <FormattedMessage
                             id='admin.user_item.manageTeams'
                             defaultMessage='Manage Teams'

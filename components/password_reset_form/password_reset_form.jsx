@@ -10,6 +10,8 @@ import {resetPassword} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
+import {t} from 'utils/i18n.jsx';
+
 class PasswordResetForm extends React.Component {
     constructor(props) {
         super(props);
@@ -94,7 +96,7 @@ class PasswordResetForm extends React.Component {
                                 className='form-control'
                                 name='password'
                                 ref='password'
-                                placeholder={{id: 'password_form.pwd', defaultMessage: 'Password'}}
+                                placeholder={{id: t('password_form.pwd'), defaultMessage: 'Password'}}
                                 spellCheck='false'
                             />
                         </div>

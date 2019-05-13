@@ -68,32 +68,4 @@ describe('components/FileAttachmentList', () => {
 
         expect(wrapper.state('showPreviewModal')).toEqual(false);
     });
-
-    test('should call for getMissingFilesForPost when metadata does not exist', () => {
-        const newPost = {...post, file_ids: ['file_id_1']};
-        shallow(
-            <FileAttachmentList
-                {...baseProps}
-                post={newPost}
-                fileInfos={[{id: 'file_id_1', name: 'image_1.png', extension: 'png', create_at: 1}]}
-                fileCount={1}
-            />
-        );
-
-        expect(baseProps.actions.getMissingFilesForPost).toHaveBeenCalledWith(post.id);
-    });
-
-    test('should not call for getMissingFilesForPost when metadata exists', () => {
-        const newPost = {...post, file_ids: ['file_id_1'], metadata: {}};
-        shallow(
-            <FileAttachmentList
-                {...baseProps}
-                post={newPost}
-                fileInfos={[{id: 'file_id_1', name: 'image_1.png', extension: 'png', create_at: 1}]}
-                fileCount={1}
-            />
-        );
-
-        expect(baseProps.actions.getMissingFilesForPost).not.toHaveBeenCalled();
-    });
 });

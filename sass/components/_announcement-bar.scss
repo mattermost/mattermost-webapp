@@ -10,13 +10,16 @@
     top: 0;
     width: 100%;
     z-index: 9999;
+    overflow: hidden;
+    padding: 1px 30px;
+    max-height: $announcement-bar-height;
 
-    &.announcement-bar--fixed {
+    > span {
+        max-width: 100%;
+        display: block;
         overflow: hidden;
-        padding: 1px 30px;
         text-overflow: ellipsis;
         white-space: nowrap;
-        max-height: $announcement-bar-height;
     }
 
     a {

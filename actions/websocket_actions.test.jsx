@@ -1,11 +1,37 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import store from 'stores/redux_store.jsx';
+import {
+    getProfilesAndStatusesForPosts,
+    receivedNewPost,
+} from 'mattermost-redux/actions/posts';
+import {UserTypes} from 'mattermost-redux/action_types';
 
+import {handleNewPost} from 'actions/post_actions';
 import {closeRightHandSide} from 'actions/views/rhs';
 
-import {handlePostEditEvent, handleUserRemovedEvent} from './websocket_actions';
+import store from 'stores/redux_store.jsx';
+
+import configureStore from 'tests/test_store';
+
+import Constants, {UserStatuses} from 'utils/constants';
+
+import {
+    handleNewPostEvent,
+    handleNewPostEvents,
+    handlePostEditEvent,
+    handleUserRemovedEvent,
+} from './websocket_actions';
+
+jest.mock('mattermost-redux/actions/posts', () => ({
+    ...jest.requireActual('mattermost-redux/actions/posts'),
+    getProfilesAndStatusesForPosts: jest.fn(),
+}));
+
+jest.mock('actions/post_actions', () => ({
+    ...jest.requireActual('actions/post_actions'),
+    handleNewPost: jest.fn(() => ({type: 'HANDLE_NEW_POST'})),
+}));
 
 jest.mock('stores/redux_store', () => {
     return {
@@ -80,5 +106,85 @@ describe('handleUserRemovedEvent', () => {
 
         handleUserRemovedEvent(msg);
         expect(closeRightHandSide).toHaveBeenCalled();
+    });
+});
+
+describe('handleNewPostEvent', () => {
+    const initialState = {
+        entities: {
+            users: {
+                currentUserId: 'user1',
+            },
+        },
+    };
+
+    test('should receive post correctly', () => {
+        const testStore = configureStore(initialState);
+
+        const post = {id: 'post1', channel_id: 'channel1', user_id: 'user1'};
+        const msg = {data: {post: JSON.stringify(post)}};
+
+        testStore.dispatch(handleNewPostEvent(msg));
+        expect(getProfilesAndStatusesForPosts).toHaveBeenCalledWith([post], expect.anything(), expect.anything());
+        expect(handleNewPost).toHaveBeenCalledWith(post, msg);
+    });
+
+    test('should set other user to online', () => {
+        const testStore = configureStore(initialState);
+
+        const post = {id: 'post1', channel_id: 'channel1', user_id: 'user2'};
+        const msg = {data: {post: JSON.stringify(post)}};
+
+        testStore.dispatch(handleNewPostEvent(msg));
+
+        expect(testStore.getActions()).toContainEqual({
+            type: UserTypes.RECEIVED_STATUSES,
+            data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
+        });
+    });
+
+    test('should not set other user to online if post was from autoresponder', () => {
+        const testStore = configureStore(initialState);
+
+        const post = {id: 'post1', channel_id: 'channel1', user_id: 'user2', type: Constants.AUTO_RESPONDER};
+        const msg = {data: {post: JSON.stringify(post)}};
+
+        testStore.dispatch(handleNewPostEvent(msg));
+
+        expect(testStore.getActions()).not.toContainEqual({
+            type: UserTypes.RECEIVED_STATUSES,
+            data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
+        });
+    });
+});
+
+describe('handleNewPostEvents', () => {
+    test('should receive multiple posts correctly', () => {
+        const testStore = configureStore();
+
+        const posts = [
+            {id: 'post1', channel_id: 'channel1'},
+            {id: 'post2', channel_id: 'channel1'},
+            {id: 'post3', channel_id: 'channel2'},
+            {id: 'post4', channel_id: 'channel2'},
+            {id: 'post5', channel_id: 'channel1'},
+        ];
+
+        const queue = posts.map((post) => {
+            return {
+                data: {post: JSON.stringify(post)},
+            };
+        });
+
+        testStore.dispatch(handleNewPostEvents(queue));
+
+        expect(testStore.getActions()).toEqual([
+            {
+                meta: {batch: true},
+                payload: posts.map(receivedNewPost),
+                type: 'BATCHING_REDUCER.BATCH',
+            },
+        ]);
+        expect(getProfilesAndStatusesForPosts).toHaveBeenCalledWith(posts, expect.anything(), expect.anything());
     });
 });

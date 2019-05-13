@@ -66,7 +66,6 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
             },
           ]
         }
-        placeholder="Search and add members"
         styles={
           Object {
             "container": [Function],
@@ -225,7 +224,6 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
             },
           ]
         }
-        placeholder="Search and add members"
         styles={
           Object {
             "container": [Function],

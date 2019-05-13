@@ -29,6 +29,7 @@ import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants
 import {connectionErrorCount} from 'selectors/views/system';
 
 import {addReaction, createPost, setEditingPost} from 'actions/post_actions.jsx';
+import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks} from 'actions/hooks';
@@ -117,6 +118,7 @@ function mapDispatchToProps(dispatch) {
             executeCommand,
             getChannelTimezones,
             runMessageWillBePostedHooks,
+            scrollPostListToBottom,
         }, dispatch),
     };
 }

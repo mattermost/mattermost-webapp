@@ -156,9 +156,11 @@ export default class InteractiveDialog extends React.Component {
                 onHide={this.onHide}
                 onExited={this.props.onHide}
                 backdrop='static'
+                role='dialog'
+                aria-labelledby='interactiveDialogModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title id='interactiveDialogModalLabel'>
                         {icon}{title}
                     </Modal.Title>
                 </Modal.Header>
