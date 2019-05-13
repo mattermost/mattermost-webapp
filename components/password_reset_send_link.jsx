@@ -13,6 +13,8 @@ import {sendPasswordResetEmail} from 'actions/user_actions.jsx';
 import BackButton from 'components/common/back_button.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
+import {t} from 'utils/i18n.jsx';
+
 class PasswordResetSendLink extends React.Component {
     constructor(props) {
         super(props);
@@ -116,7 +118,7 @@ class PasswordResetSendLink extends React.Component {
                                     className='form-control'
                                     name='email'
                                     ref='email'
-                                    placeholder={{id: 'password_send.email', defaultMessage: 'Email'}}
+                                    placeholder={{id: t('password_send.email'), defaultMessage: 'Email'}}
                                     spellCheck='false'
                                 />
                             </div>

@@ -86,6 +86,7 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
         ]
       }
       perPage={50}
+      placeholderText="Search and add channels"
       saving={false}
       valueRenderer={[Function]}
       values={Array []}

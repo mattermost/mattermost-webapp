@@ -87,6 +87,7 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
       optionRenderer={[Function]}
       options={Array []}
       perPage={50}
+      placeholderText="Search and add members"
       saving={false}
       valueRenderer={[Function]}
       values={Array []}

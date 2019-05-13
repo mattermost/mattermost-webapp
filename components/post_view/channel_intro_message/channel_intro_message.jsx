@@ -24,6 +24,7 @@ import * as Utils from 'utils/utils.jsx';
 
 export default class ChannelIntroMessage extends React.PureComponent {
     static propTypes = {
+        currentUserId: PropTypes.string.isRequired,
         channel: PropTypes.object.isRequired,
         fullWidth: PropTypes.bool.isRequired,
         locale: PropTypes.string.isRequired,
@@ -34,6 +35,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
 
     render() {
         const {
+            currentUserId,
             channel,
             fullWidth,
             locale,
@@ -50,7 +52,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
         if (channel.type === Constants.DM_CHANNEL) {
             return createDMIntroMessage(channel, centeredIntro);
         } else if (channel.type === Constants.GM_CHANNEL) {
-            return createGMIntroMessage(channel, centeredIntro, channelProfiles);
+            return createGMIntroMessage(channel, centeredIntro, channelProfiles, currentUserId);
         } else if (channel.name === Constants.DEFAULT_CHANNEL) {
             return createDefaultIntroMessage(channel, centeredIntro, enableUserCreation, isReadOnly);
         } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
@@ -62,16 +64,13 @@ export default class ChannelIntroMessage extends React.PureComponent {
     }
 }
 
-function createGMIntroMessage(channel, centeredIntro, profiles) {
+function createGMIntroMessage(channel, centeredIntro, profiles, currentUserId) {
     const channelIntroId = 'channelIntro';
 
     if (profiles.length > 0) {
-        const pictures = [];
-        let names = '';
-        for (let i = 0; i < profiles.length; i++) {
-            const profile = profiles[i];
-
-            pictures.push(
+        const pictures = profiles.
+            filter((profile) => profile.id !== currentUserId).
+            map((profile) => (
                 <ProfilePicture
                     key={'introprofilepicture' + profile.id}
                     src={Utils.imageURLForUser(profile)}
@@ -80,16 +79,7 @@ function createGMIntroMessage(channel, centeredIntro, profiles) {
                     userId={profile.id}
                     username={profile.username}
                 />
-            );
-
-            if (i === profiles.length - 1) {
-                names += Utils.getDisplayNameByUser(profile);
-            } else if (i === profiles.length - 2) {
-                names += Utils.getDisplayNameByUser(profile) + ' and ';
-            } else {
-                names += Utils.getDisplayNameByUser(profile) + ', ';
-            }
-        }
+            ));
 
         return (
             <div
@@ -104,7 +94,7 @@ function createGMIntroMessage(channel, centeredIntro, profiles) {
                         id='intro_messages.GM'
                         defaultMessage='This is the start of your group message history with {names}.\nMessages and files shared here are not shown to people outside this area.'
                         values={{
-                            names,
+                            names: channel.display_name,
                         }}
                     />
                 </p>

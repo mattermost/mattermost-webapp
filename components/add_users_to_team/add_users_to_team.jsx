@@ -272,6 +272,7 @@ export default class AddUsersToTeam extends React.Component {
                         buttonSubmitLoadingText={buttonSubmitLoadingText}
                         saving={this.state.saving}
                         loading={this.state.loadingUsers}
+                        placeholderText={localizeMessage('multiselect.placeholder', 'Search and add members')}
                     />
                 </Modal.Body>
             </Modal>
