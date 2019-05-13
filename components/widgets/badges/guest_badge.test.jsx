@@ -12,15 +12,16 @@ describe('components/widgets/badges/GuestBadge', () => {
             <GuestBadge className={'test'}/>
         );
         expect(wrapper).toMatchInlineSnapshot(`
-<div
+<Badge
   className="GuestBadge test"
+  show={true}
 >
   <FormattedMessage
     defaultMessage="GUEST"
     id="post_info.guest"
     values={Object {}}
   />
-</div>
+</Badge>
 `);
     });
 });

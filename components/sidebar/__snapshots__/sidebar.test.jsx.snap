@@ -117,6 +117,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
@@ -162,6 +163,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
@@ -207,6 +209,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"
@@ -359,6 +362,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
@@ -404,6 +408,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
@@ -449,6 +454,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"
@@ -601,6 +607,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
@@ -646,6 +653,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
@@ -691,6 +699,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"
@@ -843,6 +852,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
@@ -888,6 +898,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
@@ -933,6 +944,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"
@@ -1093,6 +1105,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
@@ -1138,6 +1151,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
@@ -1183,6 +1197,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"
@@ -1335,6 +1350,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
@@ -1380,6 +1396,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
@@ -1425,6 +1442,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"
@@ -1581,6 +1599,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
@@ -1626,6 +1645,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
@@ -1671,6 +1691,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"
@@ -1823,6 +1844,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
@@ -1868,6 +1890,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
@@ -1913,6 +1936,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"
@@ -2065,6 +2089,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
@@ -2110,6 +2135,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
@@ -2155,6 +2181,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"
@@ -2307,6 +2334,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
@@ -2352,6 +2380,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
@@ -2397,6 +2426,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"

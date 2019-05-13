@@ -255,31 +255,13 @@ export default class MainMenu extends React.PureComponent {
                             icon={this.props.mobile && <i className='fa fa-user-plus'/>}
                         />
                     </TeamPermissionGate>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.MANAGE_TEAM_MEMBERS]}
-                    >
-                        <MenuItemToggleModalRedux
-                            id='manageMembers'
-                            modalId={ModalIdentifiers.TEAM_MEMBERS}
-                            dialogType={TeamMembersModal}
-                            text={localizeMessage('navbar_dropdown.manageMembers', 'Manage Members')}
-                            icon={this.props.mobile && <i className='fa fa-users'/>}
-                        />
-                    </TeamPermissionGate>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.MANAGE_TEAM_MEMBERS]}
-                        invert={true}
-                    >
-                        <MenuItemToggleModalRedux
-                            id='manageMembers'
-                            modalId={ModalIdentifiers.TEAM_MEMBERS}
-                            dialogType={TeamMembersModal}
-                            text={localizeMessage('navbar_dropdown.viewMembers', 'View Members')}
-                            icon={this.props.mobile && <i className='fa fa-users'/>}
-                        />
-                    </TeamPermissionGate>
+                    <MenuItemToggleModalRedux
+                        id='manageMembers'
+                        modalId={ModalIdentifiers.TEAM_MEMBERS}
+                        dialogType={TeamMembersModal}
+                        text={localizeMessage('navbar_dropdown.manageMembers', 'Manage Members')}
+                        icon={this.props.mobile && <i className='fa fa-users'/>}
+                    />
                 </MenuGroup>
                 <MenuGroup>
                     <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
