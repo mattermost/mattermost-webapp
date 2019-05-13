@@ -290,6 +290,19 @@
         &.active {
             display: inline;
         }
+        &.normal_post_list {
+            overflow-y: scroll;
+            padding: 1em 0 0;
+            .post-list__table {
+                display: table;
+            }
+            .post-list__content {
+                vertical-align: bottom;
+                height: unset;
+                padding: 14px 0px 7px;
+                display: table-cell;
+            }
+        }
     }
 
     .more-messages-text {
@@ -690,7 +703,6 @@
 }
 
 .post-list__table {
-    @include clearfix;
     height: 100%;
     width: 100%;
 

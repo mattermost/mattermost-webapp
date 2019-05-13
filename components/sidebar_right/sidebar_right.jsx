@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+
 import FileUploadOverlay from 'components/file_upload_overlay.jsx';
 import RhsThread from 'components/rhs_thread';
 import SearchBar from 'components/search_bar';
@@ -28,6 +29,7 @@ export default class SidebarRight extends React.PureComponent {
         actions: PropTypes.shape({
             setRhsExpanded: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
+            scrollPostList: PropTypes.func.isRequired,
         }),
     };
 
@@ -37,6 +39,9 @@ export default class SidebarRight extends React.PureComponent {
 
         if (!wasOpen && isOpen) {
             trackEvent('ui', 'ui_rhs_opened');
+            if (Utils.disableVirtList()) {
+                setTimeout(this.props.actions.scrollPostList, 0);
+            }
         }
 
         const {actions, isPinnedPosts, channel} = this.props;
