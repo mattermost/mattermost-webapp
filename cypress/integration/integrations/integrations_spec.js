@@ -18,8 +18,6 @@ describe('Integrations page', () => {
 
         // 2. Get current settings
         cy.request('/api/v4/config').then((response) => {
-            cy.log('RESPONSE', response);
-
             const settings = response.body;
 
             // # Modify the settings we need to change
