@@ -57,8 +57,6 @@ exports[`components/post_view/PostAttachmentOpenGraph Match snapshot for large i
 </div>
 `;
 
-exports[`components/post_view/PostAttachmentOpenGraph Match snapshot for no openGraphData 1`] = `""`;
-
 exports[`components/post_view/PostAttachmentOpenGraph Match snapshot for small image openGraphData 1`] = `
 <div
   className="attachment attachment--opengraph"

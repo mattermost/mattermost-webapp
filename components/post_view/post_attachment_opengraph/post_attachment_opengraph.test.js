@@ -50,7 +50,7 @@ describe('components/post_view/PostAttachmentOpenGraph', () => {
         },
     };
 
-    test('Match snapshot for no openGraphData', () => {
+    test('should render nothing without any data', () => {
         const props = {
             ...baseProps,
             openGraphData: null,
@@ -60,7 +60,33 @@ describe('components/post_view/PostAttachmentOpenGraph', () => {
             <PostAttachmentOpenGraph {...props}/>
         );
 
-        expect(wrapper).toMatchSnapshot();
+        expect(wrapper).toEqual({});
+    });
+
+    test('should render nothing when link previews are disabled on the server', () => {
+        const props = {
+            ...baseProps,
+            enableLinkPreviews: false,
+        };
+
+        const wrapper = shallow(
+            <PostAttachmentOpenGraph {...props}/>
+        );
+
+        expect(wrapper).toEqual({});
+    });
+
+    test('should render nothing when link previews are disabled by the user', () => {
+        const props = {
+            ...baseProps,
+            previewEnabled: false,
+        };
+
+        const wrapper = shallow(
+            <PostAttachmentOpenGraph {...props}/>
+        );
+
+        expect(wrapper).toEqual({});
     });
 
     test('Match snapshot for small image openGraphData', () => {
