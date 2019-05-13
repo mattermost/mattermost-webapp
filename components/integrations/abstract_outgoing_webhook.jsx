@@ -568,6 +568,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 spinning={this.state.saving}
                                 spinningText={localizeMessage(this.props.loading.id, this.props.loading.defaultMessage)}
                                 onClick={this.handleSubmit}
+                                id='saveWebhook'
                             >
                                 <FormattedMessage
                                     id={footerToRender.id}

@@ -7,154 +7,181 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+/* eslint max-nested-callbacks: ["error", 5] */
+
 import {getRandomInt} from '../../utils';
 
 describe('Integrations page', () => {
     before(() => {
         // 1. Login
         cy.apiLogin('sysadmin');
-        cy.visit('/');
 
-        // 2. Enable integrations in system console
-        cy.enableIntegrations();
-        cy.visit('/');
+        // 2. Get current settings
+        cy.request('/api/v4/config').then((response) => {
+            cy.log('RESPONSE', response);
 
-        // 3. Go to integrations
-        cy.toIntegrationSettings();
+            const settings = response.body;
+
+            // # Modify the settings we need to change
+            settings.ServiceSettings.EnableOAuthServiceProvider = true;
+            settings.ServiceSettings.EnableIncomingWebhooks = true;
+            settings.ServiceSettings.EnableOutgoingWebhooks = true;
+            settings.ServiceSettings.EnableCommands = true;
+
+            // # Set the modified settings
+            cy.request({
+                url: '/api/v4/config',
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                method: 'PUT',
+                body: settings,
+            });
+        });
+
+        // # Go to integrations
+        cy.visit('/ad-1/integrations');
 
         // * Validate that all sections are enabled
-        cy.get('.section').should('have.length', 5);
+        cy.get('#incomingWebhooks').should('be.visible');
+        cy.get('#outgoingWebhooks').should('be.visible');
+        cy.get('#slashCommands').should('be.visible');
+        cy.get('#botAccounts').should('be.visible');
+        cy.get('#oauthApps').should('be.visible');
     });
 
     it('should should display correct message when incoming webhook not found', () => {
-        // 3. Open incoming web hooks page
-        cy.get(':nth-child(1) > .section-title > .section-title__text > span').click();
+        // # Open incoming web hooks page
+        cy.get('#incomingWebhooks').click();
 
-        // 4. Add web 'include', '/newPage'hook
-        cy.get('.btn').click();
+        // # Add web 'include', '/newPage'hook
+        cy.get('#addIncomingWebhook').click();
 
-        // 5. Pick the channel
-        cy.selectOption('select', 1);
+        // # Pick the channel
+        cy.get('#channelSelect').select('Town Square');
 
-        // 6. Save
-        cy.get('.btn-primary').click();
+        // # Save
+        cy.get('#saveWebhook').click();
 
         // * Validate that save succeeded
-        cy.get('.backstage-form__title > span').contains('Setup Successful');
+        cy.get('#formTitle').should('have.text', 'Setup Successful');
 
-        // 7. Close the Add dialog
-        cy.get('.btn').click();
+        // # Close the Add dialog
+        cy.get('#doneButton').click();
 
-        // 8. Type random stuff into the search box
-        cy.get('.form-control').type('some random stuff{enter}');
+        // # Type random stuff into the search box
+        const searchString = `some random stuff ${Date.now()}`;
+        cy.get('#searchInput').type(`${searchString}{enter}`);
 
         // * Validate that the correct empty message is shown
-        cy.get('.backstage-list__empty').should('be.visible').contains('No incoming webhooks match some random stuff');
+        cy.get('#emptySearchResultsMessage').should('be.visible').and('have.text', `No incoming webhooks match ${searchString}`);
     });
 
     it('should should display correct message when outgoing webhook not found', () => {
-        // 3. Open outgoing web hooks page
-        cy.get(':nth-child(2) > .section-title > .section-title__text > span').click();
+        // # Open outgoing web hooks page
+        cy.get('#outgoingWebhooks').click();
 
-        // 4. Add web hook
-        cy.get('.btn').click();
+        // # Add web hook
+        cy.get('#addOutgoingWebhook').click();
 
-        // 5. Pick the channel and dummy callback
-        cy.selectOption('div.backstage-body > div.backstage-content > div.backstage-form > form > div:nth-child(4) > div > select', 1);
+        // # Pick the channel and dummy callback
+        cy.get('#channelSelect').select('Town Square');
         cy.get('#callbackUrls').type('https://dummy');
 
-        // 6. Save
-        cy.get('.btn-primary').click();
+        // # Save
+        cy.get('#saveWebhook').click();
 
         // * Validate that save succeeded
-        cy.get('.backstage-form__title > span').contains('Setup Successful');
+        cy.get('#formTitle').should('have.text', 'Setup Successful');
 
-        // 7. Close the Add dialog
-        cy.get('.btn').click();
+        // # Close the Add dialog
+        cy.get('#doneButton').click();
 
-        // 8. Type random stuff into the search box
-        cy.get('.form-control').type('some random stuff{enter}');
+        // # Type random stuff into the search box
+        const searchString = `some random stuff ${Date.now()}`;
+        cy.get('#searchInput').type(`${searchString}{enter}`);
 
         // * Validate that the correct empty message is shown
-        cy.get('.backstage-list__empty').should('be.visible').contains('No outgoing webhooks match some random stuff');
+        cy.get('#emptySearchResultsMessage').should('be.visible').and('have.text', `No outgoing webhooks match ${searchString}`);
     });
 
     it('should should display correct message when slash command not found', () => {
         // 3. Open slash command page
-        cy.get(':nth-child(3) > .section-title > .section-title__text > span').click();
+        cy.get('#slashCommands').click();
 
         // 4. Add new command
-        cy.get('.btn').click();
+        cy.get('#addSlashCommand').click();
 
         // 5. Pick a dummy trigger and callback
         cy.get('#trigger').type(`test-trigger${getRandomInt(10000)}`);
         cy.get('#url').type('https://dummy');
 
         // 6. Save
-        cy.get('.btn-primary').click();
+        cy.get('#saveCommand').click();
 
         // * Validate that save succeeded
-        cy.get('.backstage-form__title > span').contains('Setup Successful');
+        cy.get('#formTitle').should('have.text', 'Setup Successful');
 
         // 7. Close the Add dialog
-        cy.get('.btn').click();
+        cy.get('#doneButton').click();
 
         // 8. Type random stuff into the search box
-        cy.get('.form-control').type('some random stuff{enter}');
+        const searchString = `some random stuff ${Date.now()}`;
+        cy.get('#searchInput').type(`${searchString}{enter}`);
 
         // * Validate that the correct empty message is shown
-        cy.get('.backstage-list__empty').should('be.visible').contains('No commands match some random stuff');
+        cy.get('#emptySearchResultsMessage').should('be.visible').and('have.text', `No commands match ${searchString}`);
     });
 
-    it('should should display correct message when slash command not found', () => {
-        // 3. Open slash command page
-        cy.get(':nth-child(4) > .section-title > .section-title__text > span').click();
+    it('should should display correct message when OAuth app not found', () => {
+        // # Open slash command page
+        cy.get('#oauthApps').click();
 
-        // 4. Add new command
-        cy.get('.btn').click();
+        // # Add new command
+        cy.get('#addOauthApp').click();
 
-        // 5. Fill in dummy details
+        // # Fill in dummy details
         cy.get('#name').type(`test-name${getRandomInt(10000)}`);
         cy.get('#description').type(`test-descr${getRandomInt(10000)}`);
         cy.get('#homepage').type(`https://dummy${getRandomInt(10000)}`);
         cy.get('#callbackUrls').type('https://dummy');
 
-        // 6. Save
-        cy.get('.btn-primary').click();
+        // # Save
+        cy.get('#saveOauthApp').click();
 
         // * Validate that save succeeded
-        cy.get('.backstage-form__title > span').contains('Setup Successful');
+        cy.get('#formTitle').should('have.text', 'Setup Successful');
 
-        // 7. Close the Add dialog
-        cy.get('.btn').click();
+        // # Close the Add dialog
+        cy.get('#doneButton').click();
 
-        // 8. Type random stuff into the search box
-        cy.get('.form-control').type('some random stuff{enter}');
+        // # Type random stuff into the search box
+        const searchString = `some random stuff ${Date.now()}`;
+        cy.get('#searchInput').type(`${searchString}{enter}`);
 
         // * Validate that the correct empty message is shown
-        cy.get('.backstage-list__empty').should('be.visible').contains('No OAuth 2.0 Applications match some random stuff');
+        cy.get('#emptySearchResultsMessage').should('be.visible').and('have.text', `No OAuth 2.0 Applications match ${searchString}`);
     });
 
     it('should should display correct message when bot account not found', () => {
-        // 3. Open  bot account page
-        cy.get(':nth-child(5) > .section-title > .section-title__text > span').click();
+        // # Open  bot account page
+        cy.get('#botAccounts').click();
 
-        // 4. Add new bot
-        cy.get('.btn').click();
+        // # Add new bot
+        cy.get('#addBotAccount').click();
 
-        // 5. Fill in dummy details
+        // # Fill in dummy details
         cy.get('#username').type(`test-bot${getRandomInt(10000)}`);
 
-        // 6. Save
-        cy.get('.backstage-form__footer > .btn-primary').click();
+        // # Save
+        cy.get('#saveBot').click();
 
         // * Make sure we are done saving
-        cy.location('pathname', {timeout: 60000}).should('match', new RegExp('bots$'));
+        cy.url().should('contain', '/integrations/bots');
 
-        // 7. Type random stuff into the search box
-        cy.get('.form-control').type('some random stuff{enter}');
+        // # Type random stuff into the search box
+        const searchString = `some random stuff ${Date.now()}`;
+        cy.get('#searchInput').type(`${searchString}{enter}`);
 
         // * Validate that the correct empty message is shown
-        cy.get('.backstage-list__empty').should('be.visible').contains('No bot accounts match some random stuff');
+        cy.get('#emptySearchResultsMessage').should('be.visible').and('have.text', `No bot accounts match ${searchString}`);
     });
 });
