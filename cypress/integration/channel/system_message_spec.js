@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+/* eslint max-nested-callbacks: ["error", 4] */
+
 // helper function to count the lines in a block of text by wrapping each word in a span and finding where the text breaks the line
 function getLines(e) {
     const $cont = Cypress.$(e);
@@ -48,14 +50,24 @@ function getLines(e) {
 
 describe('System Message', () => {
     before(() => {
-        // 1. Login and go to /
+        // # Login and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
-        cy.updateTeammateDisplayModePreference();
+
+        cy.getCookie('MMUSERID').then((cookie) => {
+            const preference = {
+                user_id: cookie.value,
+                category: 'display_settings',
+                name: 'name_format',
+                value: 'username',
+            };
+
+            cy.apiSaveUserPreference([preference]);
+        });
     });
 
     it('MM-14636 - Validate that system message is wrapping properly', () => {
-        // 2. Update channel header textbox
+        // # Update channel header textbox
         cy.updateChannelHeader('> newheader');
 
         // * Check the status update
@@ -63,13 +75,15 @@ describe('System Message', () => {
             should('contain', 'System').
             and('contain', '@user-1 updated the channel header from:').
             and('contain', 'newheader');
+
         const validateSingle = (desc) => {
             const lines = getLines(desc.find('p').last());
             assert(lines === 1, 'second line of the message should be a short one');
         };
+
         cy.getLastPost().then(validateSingle);
 
-        // 3. Update the status to a long string
+        // # Update the status to a long string
         cy.updateChannelHeader('>' + ' newheader'.repeat(20));
 
         // * Check that the status is updated and is spread on more than one line
@@ -82,6 +96,7 @@ describe('System Message', () => {
             const lines = getLines(desc.find('p').last());
             assert(lines > 1, 'second line of the message should be a long one');
         };
+
         cy.getLastPost().then(validateMulti);
     });
 });
