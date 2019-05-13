@@ -103,14 +103,16 @@ export default class GroupDetails extends React.PureComponent {
         return (
             <div className='wrapper--fixed'>
                 <div className='admin-console__header with-back'>
-                    <BlockableLink
-                        to='/admin_console/access-control/groups'
-                        className='fa fa-angle-left back'
-                    />
-                    <FormattedMessage
-                        id='admin.group_settings.group_detail.group_configuration'
-                        defaultMessage='Group Configuration'
-                    />
+                    <div>
+                        <BlockableLink
+                            to='/admin_console/access-control/groups'
+                            className='fa fa-angle-left back'
+                        />
+                        <FormattedMessage
+                            id='admin.group_settings.group_detail.group_configuration'
+                            defaultMessage='Group Configuration'
+                        />
+                    </div>
                 </div>
 
                 <div className='admin-console__wrapper'>
