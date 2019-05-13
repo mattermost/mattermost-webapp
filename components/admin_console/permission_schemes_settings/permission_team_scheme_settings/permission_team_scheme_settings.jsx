@@ -425,14 +425,6 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                                     />
                                 </span>
                             </div>
-                            <LocalizedInput
-                                id='scheme-name'
-                                className='form-control'
-                                type='text'
-                                value={schemeName}
-                                placeholder={{id: t('admin.permissions.teamScheme.schemeNamePlaceholder'), defaultMessage: 'Scheme Name'}}
-                                onChange={this.handleNameChange}
-                            />
                         </div>
 
                         <AdminPanel
