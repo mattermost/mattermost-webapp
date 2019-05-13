@@ -154,6 +154,9 @@ export default class SuggestionBox extends React.Component {
         // Used for debouncing pretext changes
         this.timeoutId = '';
 
+        // Used for preventing suggestion list to close when scrollbar is clicked
+        this.preventSuggestionListCloseFlag = false;
+
         // pretext: the text before the cursor
         // matchedPretext: a list of the text before the cursor that will be replaced if the corresponding autocomplete term is selected
         // terms: a list of strings which the previously typed text may be replaced by
@@ -171,6 +174,8 @@ export default class SuggestionBox extends React.Component {
             allowDividers: true,
             presentationType: 'text',
         };
+
+        this.preventSuggestionListClose = this.preventSuggestionListClose.bind(this);
     }
 
     componentDidMount() {
@@ -237,7 +242,16 @@ export default class SuggestionBox extends React.Component {
         }, delay);
     }
 
+    preventSuggestionListClose() {
+        this.preventSuggestionListCloseFlag = true;
+    }
+
     handleFocusOut = (e) => {
+        if (this.preventSuggestionListCloseFlag) {
+            this.preventSuggestionListCloseFlag = false;
+            return;
+        }
+
         // Focus is switching TO e.relatedTarget, so only treat this as a blur event if we're not switching
         // between children (like from the textbox to the suggestion list)
         if (this.container.contains(e.relatedTarget)) {
@@ -261,8 +275,10 @@ export default class SuggestionBox extends React.Component {
 
     handleFocusIn = (e) => {
         // Focus is switching FROM e.relatedTarget, so only treat this as a focus event if we're not switching
-        // between children (like from the textbox to the suggestion list)
-        if (this.container.contains(e.relatedTarget)) {
+        // between children (like from the textbox to the suggestion list). PreventSuggestionListCloseFlag is
+        // checked because if true, it means that the focusIn comes from a click in the suggestion box, an
+        // option choice, so we don't want the focus event to be triggered
+        if (this.container.contains(e.relatedTarget) || this.preventSuggestionListCloseFlag) {
             return;
         }
 
@@ -655,6 +671,7 @@ export default class SuggestionBox extends React.Component {
                         renderDividers={renderDividers}
                         renderNoResults={renderNoResults}
                         onCompleteWord={this.handleCompleteWord}
+                        preventClose={this.preventSuggestionListClose}
                         cleared={this.state.cleared}
                         matchedPretext={this.state.matchedPretext}
                         items={this.state.items}
