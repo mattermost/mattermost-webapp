@@ -49,11 +49,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
         actions: PropTypes.shape({
             editPost: PropTypes.func.isRequired,
-
-            /**
-             * The function to get open graph data for a link
-             */
-            getOpenGraphMetadata: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -62,8 +57,8 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
         const removePreview = this.isRemovePreview(props.post, props.currentUser);
         const imageUrl = PostAttachmentOpenGraph.getBestImageUrl(props.openGraphData, props.hasImageProxy);
-        const {metadata} = props.post;
-        const hasLargeImage = metadata && metadata.images && metadata.images[imageUrl] && imageUrl ? this.hasLargeImage(metadata.images[imageUrl]) : false;
+        const {images} = props.post.metadata;
+        const hasLargeImage = images && images[imageUrl] && imageUrl ? this.hasLargeImage(images[imageUrl]) : false;
 
         this.state = {
             hasLargeImage,
@@ -74,9 +69,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
     componentDidMount() {
         this.mounted = true;
-        if (!this.props.post.metadata) {
-            this.fetchData(this.props.link);
-        }
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -89,28 +81,18 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
         if (!Utils.areObjectsEqual(nextProps.openGraphData, this.props.openGraphData)) {
             const imageUrl = PostAttachmentOpenGraph.getBestImageUrl(nextProps.openGraphData, nextProps.hasImageProxy);
-            const {metadata} = nextProps.post;
-            const hasLargeImage = metadata && metadata.images && metadata.images[imageUrl] && imageUrl ? this.hasLargeImage(metadata.images[imageUrl]) : false;
+            const {images} = nextProps.post.metadata;
+            const hasLargeImage = images && images[imageUrl] && imageUrl ? this.hasLargeImage(images[imageUrl]) : false;
 
             this.setState({
                 hasLargeImage,
                 imageUrl,
             });
         }
-
-        if (nextProps.link !== this.props.link && !nextProps.post.metadata) {
-            this.fetchData(nextProps.link);
-        }
     }
 
     componentWillUnmount() {
         this.mounted = false;
-    }
-
-    fetchData = (url) => {
-        if (!this.props.openGraphData) {
-            this.props.actions.getOpenGraphMetadata(url);
-        }
     }
 
     hasLargeImage({height, width}) {
@@ -156,10 +138,10 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
     loadLargeImage(imageUrl) {
         if (imageUrl && this.props.isEmbedVisible && this.state.hasLargeImage) {
-            const {metadata} = this.props.post;
+            const {images} = this.props.post.metadata;
             let imagesDimensions = null;
-            if (metadata && metadata.images && metadata.images[imageUrl]) {
-                imagesDimensions = metadata.images[imageUrl];
+            if (images && images[imageUrl]) {
+                imagesDimensions = images[imageUrl];
             }
             return (
                 <SizeAwareImage
@@ -175,10 +157,10 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
     loadSmallImage(imageUrl) {
         if (imageUrl && !this.state.hasLargeImage) {
-            const {metadata} = this.props.post;
+            const {images} = this.props.post.metadata;
             let imagesDimensions = null;
-            if (metadata && metadata.images && metadata.images[imageUrl]) {
-                imagesDimensions = metadata.images[imageUrl];
+            if (images && images[imageUrl]) {
+                imagesDimensions = images[imageUrl];
             }
             return (
                 <div className='attachment__image__container--opengraph'>

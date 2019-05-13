@@ -7,21 +7,16 @@ import {shallow} from 'enzyme';
 import CommentedOnFilesMessage from './commented_on_files_message.jsx';
 
 describe('components/CommentedOnFilesMessage', () => {
-    const parentPostId = 'parentPostId';
-    const actions = {getFilesForPost: jest.fn()};
-
     const baseProps = {
-        parentPostId,
-        actions,
+        parentPostId: 'parentPostId',
     };
 
-    test('Should call snapshot when no files and call getFilesForPost', () => {
+    test('Snapshot when no files', () => {
         const wrapper = shallow(
             <CommentedOnFilesMessage {...baseProps}/>
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(actions.getFilesForPost).toHaveBeenCalledTimes(1);
     });
 
     test('should match snapshot for single file', () => {

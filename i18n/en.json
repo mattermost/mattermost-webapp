@@ -452,8 +452,6 @@
   "admin.experimental.closeUnusedDirectMessages.title": "Autoclose Direct Messages in Sidebar:",
   "admin.experimental.defaultTheme.desc": "Set a default theme that applies to all new users on the system.",
   "admin.experimental.defaultTheme.title": "Default Theme:",
-  "admin.experimental.disablePostMetadata.desc": "Load channels with more accurate scroll positioning by loading post metadata. Enabling this setting may increase channel and post load times.",
-  "admin.experimental.disablePostMetadata.title": "Disable Post Metadata:",
   "admin.experimental.emailBatchingBufferSize.desc": "Specify the maximum number of notifications batched into a single email.",
   "admin.experimental.emailBatchingBufferSize.example": "E.g.: \"256\"",
   "admin.experimental.emailBatchingBufferSize.title": "Email Batching Buffer Size:",
