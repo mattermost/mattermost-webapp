@@ -9,7 +9,7 @@
 }
 
 .modal-body {
-    max-height: calc(90vh - 62px);
+    max-height: calc(90vh - 80px);
     overflow: auto;
     padding: 20px 15px;
 }
@@ -126,6 +126,14 @@
 
     textarea {
         overflow-x: hidden;
+    }
+
+    .modal-footer {
+        &.modal-footer--invisible {
+            height: 0;
+            padding: 0;
+            overflow: hidden;
+        }
     }
 
     &.modal-image {
