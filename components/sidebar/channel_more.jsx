@@ -5,8 +5,11 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {PropTypes} from 'prop-types';
 
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+
 export default class ChannelMore extends React.PureComponent {
     static propTypes = {
+        currentTeamId: PropTypes.string.isRequired,
         sectionType: PropTypes.string.isRequired,
         moreChannels: PropTypes.func.isRequired,
         moreDirectMessages: PropTypes.func.isRequired,
@@ -24,18 +27,23 @@ export default class ChannelMore extends React.PureComponent {
         switch (sectionType) {
         case 'public':
             return (
-                <li key='public-channel-more'>
-                    <button
-                        id='sidebarChannelsMore'
-                        className='nav-more cursor--pointer style--none btn--block'
-                        onClick={moreChannels}
-                    >
-                        <FormattedMessage
-                            id='sidebar.moreElips'
-                            defaultMessage='More...'
-                        />
-                    </button>
-                </li>
+                <TeamPermissionGate
+                    teamId={this.props.currentTeamId}
+                    permissions={[Permissions.JOIN_PUBLIC_CHANNELS]}
+                >
+                    <li key='public-channel-more'>
+                        <button
+                            id='sidebarChannelsMore'
+                            className='nav-more cursor--pointer style--none btn--block'
+                            onClick={moreChannels}
+                        >
+                            <FormattedMessage
+                                id='sidebar.moreElips'
+                                defaultMessage='More...'
+                            />
+                        </button>
+                    </li>
+                </TeamPermissionGate>
             );
         case 'direct':
             return (

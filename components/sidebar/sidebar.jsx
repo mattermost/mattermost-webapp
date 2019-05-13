@@ -25,6 +25,7 @@ import QuickSwitchModal from 'components/quick_switch_modal';
 import NewChannelFlow from 'components/new_channel_flow';
 import UnreadChannelIndicator from 'components/unread_channel_indicator.jsx';
 import Pluggable from 'plugins/pluggable';
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 import SidebarHeader from './header';
 import SidebarChannel from './sidebar_channel';
@@ -605,6 +606,7 @@ export default class Sidebar extends React.PureComponent {
                                 </li>
                                 {section.items}
                                 <ChannelMore
+                                    currentTeamId={this.props.currentTeam.id}
                                     sectionType={section.type}
                                     moreChannels={this.showMoreChannelsModal}
                                     moreDirectMessages={this.handleOpenMoreDirectChannelsModal}
