@@ -1680,7 +1680,3 @@ export function enableDevModeFeatures() {
         },
     });
 }
-
-export function disableVirtList() {
-    return UserAgent.isInternetExplorer();
-}
