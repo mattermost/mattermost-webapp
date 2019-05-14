@@ -898,7 +898,7 @@
   "admin.permissions.permission.create_public_channel.description": "Create new public channels.",
   "admin.permissions.permission.create_public_channel.name": "Create Channels",
   "admin.permissions.permission.create_team.description": "Create new teams.",
-  "admin.permissions.permission.create_team.name": "Create teams",
+  "admin.permissions.permission.create_team.name": "Create Teams",
   "admin.permissions.permission.create_user_access_token.description": "Create user access token",
   "admin.permissions.permission.create_user_access_token.name": "Create user access token",
   "admin.permissions.permission.delete_emojis.description": "Allow users to delete custom emoji that they created.",

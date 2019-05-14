@@ -205,7 +205,10 @@ export default class AboutBuildModal extends React.PureComponent {
                 aria-labelledby='aboutModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='aboutModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='aboutModalLabel'
+                    >
                         <FormattedMessage
                             id='about.title'
                             defaultMessage='About Mattermost'

@@ -306,7 +306,10 @@ export default class EditPostModal extends React.PureComponent {
                 aria-labelledby='editPostModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='editPostModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='editPostModalLabel'
+                    >
                         <FormattedMessage
                             id='edit_post.edit'
                             defaultMessage='Edit {title}'

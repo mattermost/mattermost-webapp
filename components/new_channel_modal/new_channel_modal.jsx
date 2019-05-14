@@ -295,7 +295,10 @@ export default class NewChannelModal extends React.PureComponent {
                             <span aria-hidden='true'>{'×'}</span>
                             <span className='sr-only'>{'Close'}</span>
                         </button>
-                        <Modal.Title id='newChannelModalLabel'>
+                        <Modal.Title
+                            componentClass='h1'
+                            id='newChannelModalLabel'
+                        >
                             <FormattedMessage
                                 id='channel_modal.modalTitle'
                                 defaultMessage='New Channel'

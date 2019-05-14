@@ -143,7 +143,10 @@ export default class ChannelInfoModal extends React.PureComponent {
                 aria-labelledby='channelInfoModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='channelInfoModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='channelInfoModalLabel'
+                    >
                         <FormattedMessage
                             id='channel_info.about'
                             defaultMessage='About'

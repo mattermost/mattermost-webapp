@@ -35,7 +35,7 @@ exports[`components/ChannelInfoModal should match snapshot when modal is not sho
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="postDeletedModalLabel"
     >
       <FormattedMessage
@@ -112,7 +112,7 @@ exports[`components/ChannelInfoModal should match snapshot when modal is showing
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="postDeletedModalLabel"
     >
       <FormattedMessage

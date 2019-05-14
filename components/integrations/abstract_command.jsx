@@ -614,6 +614,7 @@ export default class AbstractCommand extends React.PureComponent {
                                 spinning={this.state.saving}
                                 spinningText={Utils.localizeMessage(this.props.loading.id, this.props.loading.defaultMessage)}
                                 onClick={this.handleSubmit}
+                                id='saveCommand'
                             >
                                 <FormattedMessage
                                     id={this.props.footer.id}
