@@ -16,7 +16,7 @@ const THEMES = [{name: 'github', backgroundColor: 'rgb(248, 248, 248)', color: '
 ];
 
 function verifyLastPostStyle(codeTheme) {
-    cy.getLastPostIdWithRetry().then((postId) => {
+    cy.getLastPostId().then((postId) => {
         const postCodeBlock = `#postMessageText_${postId} code`;
 
         // * Verify that the code block background color and color match the desired theme

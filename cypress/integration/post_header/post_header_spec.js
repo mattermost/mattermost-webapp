@@ -26,7 +26,7 @@ describe('Post Header', () => {
         // * Check initial state that "the jump to recent messages" is not visible
         cy.get('#archive-link-home').should('not.be.visible');
 
-        cy.getLastPostIdWithRetry().then((postId) => {
+        cy.getLastPostId().then((postId) => {
             const divPostId = `#post_${postId}`;
 
             // * Check initial state that the first message posted is not highlighted
@@ -64,7 +64,7 @@ describe('Post Header', () => {
         // 3. Post a message
         cy.postMessage('test for flagged post{enter}');
 
-        cy.getLastPostIdWithRetry().then((postId) => {
+        cy.getLastPostId().then((postId) => {
             // * Check that the center flag icon of a post is not visible
             cy.get(`#CENTER_flagIcon_${postId}`).should('not.be.visible');
 
@@ -89,7 +89,7 @@ describe('Post Header', () => {
         // 3. Post a message
         cy.postMessage('test for dropdown menu{enter}');
 
-        cy.getLastPostIdWithRetry().then((postId) => {
+        cy.getLastPostId().then((postId) => {
             // * Check that the center dot menu' button and dropdown are hidden
             cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
             cy.get(`#CENTER_dropdown_${postId}`).should('not.be.visible');
@@ -117,7 +117,7 @@ describe('Post Header', () => {
         // 3. Post a message
         cy.postMessage('test for reaction and emoji picker{enter}');
 
-        cy.getLastPostIdWithRetry().then((postId) => {
+        cy.getLastPostId().then((postId) => {
             // * Check that the center post reaction icon and emoji picker are not visible
             cy.get(`#CENTER_reaction_${postId}`).should('not.be.visible');
             cy.get('#emojiPicker').should('not.be.visible');
@@ -167,7 +167,7 @@ describe('Post Header', () => {
         // 3. Post a message
         cy.postMessage('test for pinning/unpinning a post');
 
-        cy.getLastPostIdWithRetry().then((postId) => {
+        cy.getLastPostId().then((postId) => {
             // * Check that the center flag icon of the post is not visible
             cy.get(`#CENTER_flagIcon_${postId}`).should('not.be.visible');
 

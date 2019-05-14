@@ -23,7 +23,7 @@ describe('Delete Parent Message', () => {
         cy.get('#post_textbox').click({force: true});
         cy.postMessage('Parent Message');
 
-        cy.getLastPostIdWithRetry().then((postId) => {
+        cy.getLastPostId().then((postId) => {
             cy.clickPostCommentIcon(postId);
 
             // * Check that the RHS is open
@@ -38,7 +38,7 @@ describe('Delete Parent Message', () => {
                 cy.wait(500); // eslint-disable-line
             }
 
-            cy.getLastPostIdWithRetry().then((replyPostId) => {
+            cy.getLastPostId().then((replyPostId) => {
                 // * No delete modal should be visible yet
                 cy.get('#deletePostModal').should('not.be.visible');
 

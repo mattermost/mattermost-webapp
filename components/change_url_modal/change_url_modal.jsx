@@ -184,7 +184,12 @@ export default class ChangeURLModal extends React.PureComponent {
                 aria-labelledby='changeUrlModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='changeUrlModalLabel'>{this.props.title}</Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='changeUrlModalLabel'
+                    >
+                        {this.props.title}
+                    </Modal.Title>
                 </Modal.Header>
                 <form
                     role='form'

@@ -101,7 +101,7 @@ export default class UserListRow extends React.Component {
                         {Utils.displayEntireNameForUser(this.props.user)}
                         <BotBadge
                             className='badge-popoverlist'
-                            show={this.props.user.is_bot}
+                            show={Boolean(this.props.user.is_bot)}
                         />
                     </div>
                     <div

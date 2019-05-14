@@ -271,7 +271,10 @@ class UserSettingsModal extends React.Component {
                     id='accountSettingsHeader'
                     closeButton={true}
                 >
-                    <Modal.Title id='accountSettingsModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='accountSettingsModalLabel'
+                    >
                         <FormattedMessage
                             id='user.settings.modal.title'
                             defaultMessage='Account Settings'

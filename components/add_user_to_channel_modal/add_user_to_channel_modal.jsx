@@ -263,7 +263,10 @@ export default class AddUserToChannelModal extends React.Component {
                 aria-labelledby='addChannelModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='addChannelModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='addChannelModalLabel'
+                    >
                         <FormattedMessage
                             id='add_user_to_channel_modal.title'
                             defaultMessage='Add {name} to a channel'

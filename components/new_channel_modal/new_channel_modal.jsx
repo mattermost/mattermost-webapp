@@ -15,6 +15,7 @@ import Constants from 'utils/constants.jsx';
 import {getShortenedURL} from 'utils/url.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n.jsx';
 
 export default class NewChannelModal extends React.PureComponent {
     static propTypes = {
@@ -294,7 +295,10 @@ export default class NewChannelModal extends React.PureComponent {
                             <span aria-hidden='true'>{'×'}</span>
                             <span className='sr-only'>{'Close'}</span>
                         </button>
-                        <Modal.Title id='newChannelModalLabel'>
+                        <Modal.Title
+                            componentClass='h1'
+                            id='newChannelModalLabel'
+                        >
                             <FormattedMessage
                                 id='channel_modal.modalTitle'
                                 defaultMessage='New Channel'
@@ -331,7 +335,7 @@ export default class NewChannelModal extends React.PureComponent {
                                         type='text'
                                         ref='display_name'
                                         className='form-control'
-                                        placeholder={{id: 'channel_modal.nameEx', defaultMessage: 'E.g.: "Bugs", "Marketing", "客户支持"'}}
+                                        placeholder={{id: t('channel_modal.nameEx'), defaultMessage: 'E.g.: "Bugs", "Marketing", "客户支持"'}}
                                         maxLength={Constants.MAX_CHANNELNAME_LENGTH}
                                         value={this.props.channelData.displayName}
                                         autoFocus={true}

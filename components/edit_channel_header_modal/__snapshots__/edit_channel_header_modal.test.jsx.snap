@@ -37,7 +37,7 @@ exports[`components/EditChannelHeaderModal edit dirrect message channel 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="editChannelHeaderModalLabel"
     >
       <FormattedMessage
@@ -142,7 +142,7 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="editChannelHeaderModalLabel"
     >
       <FormattedMessage
@@ -261,7 +261,7 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="editChannelHeaderModalLabel"
     >
       <FormattedMessage
@@ -380,7 +380,7 @@ exports[`components/EditChannelHeaderModal hide error message on new request 1`]
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="editChannelHeaderModalLabel"
     >
       <FormattedMessage
@@ -489,7 +489,7 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="editChannelHeaderModalLabel"
     >
       <FormattedMessage
@@ -598,7 +598,7 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="editChannelHeaderModalLabel"
     >
       <FormattedMessage
