@@ -41,9 +41,9 @@ class EditChannelHeaderModal extends React.PureComponent {
         channel: PropTypes.object.isRequired,
 
         /*
-         * boolean should be `ctrl` button pressed to send
+         * variable determines  if `ctrl` button has to be pressed to send
          */
-        ctrlSend: PropTypes.bool.isRequired,
+        ctrlSend: PropTypes.any.isRequired,
 
         /*
          * object with info about server error

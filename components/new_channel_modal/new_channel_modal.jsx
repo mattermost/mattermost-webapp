@@ -42,7 +42,7 @@ export default class NewChannelModal extends React.PureComponent {
         /**
          * Set to force form submission on CTRL/CMD + ENTER instead of ENTER
          */
-        ctrlSend: PropTypes.bool,
+        ctrlSend: PropTypes.any,
 
         /**
          * Server error from failed channel creation

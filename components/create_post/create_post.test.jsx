@@ -626,6 +626,21 @@ describe('components/create_post', () => {
         }, 0);
     });
 
+    it('Should just return as ctrlSend is "onForCode" and its ctrl+enter', () => {
+        const wrapper = shallowWithIntl(createPost({
+            ctrlSend: true,
+            message: '``` testing code',
+        }));
+
+        const instance = wrapper.instance();
+        instance.refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
+
+        instance.handleKeyDown({ctrlKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn(), persist: jest.fn()});
+        setTimeout(() => {
+            expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
+        }, 0);
+    });
+
     it('Should call edit action as comment for arrow up', () => {
         const setEditingPost = jest.fn();
         const wrapper = shallowWithIntl(createPost({

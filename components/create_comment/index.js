@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
@@ -54,8 +54,7 @@ function makeMapStateToProps() {
             messageInHistory,
             enableAddButton,
             channelMembersCount,
-            codeBlockOnCtrlEnter: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
-            ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
+            ctrlSend: getPreference(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
             createPostErrorId: err.server_error_id,
             readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL,
             enableConfirmNotificationsToChannel,

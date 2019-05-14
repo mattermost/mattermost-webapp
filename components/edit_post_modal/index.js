@@ -10,7 +10,7 @@ import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles'
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
 
 import {openModal} from 'actions/views/modals';
 import {hideEditPostModal} from 'actions/post_actions';
@@ -37,7 +37,7 @@ function mapStateToProps(state) {
     return {
         canEditPost,
         canDeletePost,
-        ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
+        ctrlSend: getPreference(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
         config,
         editingPost,
         maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,

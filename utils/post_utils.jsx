@@ -179,7 +179,7 @@ function sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, isSendMessageOnCtrlEnter
     return {allowSending: false};
 }
 
-export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, sendCodeBlockOnCtrlEnter, now = 0, lastChannelSwitchAt = 0) {
+export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, now = 0, lastChannelSwitchAt = 0) {
     if (!event) {
         return {allowSending: false};
     }
@@ -201,17 +201,17 @@ export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, se
 
     if (
         message.trim() === '' ||
-        !(sendMessageOnCtrlEnter || sendCodeBlockOnCtrlEnter)
+        !(sendMessageOnCtrlEnter || sendMessageOnCtrlEnter === 'trueOnCode')
     ) {
         return {allowSending: true};
     }
 
     const ctrlOrMetaKeyPressed = event.ctrlKey || event.metaKey;
 
-    if (sendMessageOnCtrlEnter) {
-        return sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, true);
-    } else if (sendCodeBlockOnCtrlEnter) {
+    if (sendMessageOnCtrlEnter === 'trueForCode') {
         return sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, false);
+    } else if (sendMessageOnCtrlEnter) {
+        return sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, true);
     }
 
     return {allowSending: false};

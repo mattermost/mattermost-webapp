@@ -9,7 +9,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannel, getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannelTimezones} from 'mattermost-redux/actions/channels';
-import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {get as getPreference, getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {
     getCurrentUsersLatestPost,
     getLatestReplyablePostId,
@@ -24,7 +24,7 @@ import {
     moveHistoryIndexForward,
     removeReaction,
 } from 'mattermost-redux/actions/posts';
-import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants';
+import {Posts} from 'mattermost-redux/constants';
 
 import {connectionErrorCount} from 'selectors/views/system';
 
@@ -70,9 +70,8 @@ function makeMapStateToProps() {
             currentChannel,
             currentChannelMembersCount,
             currentUserId,
-            codeBlockOnCtrlEnter: getBool(state, PreferencesRedux.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
-            ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
-            fullWidthTextBox: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
+            ctrlSend: getPreference(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
+            fullWidthTextBox: getPreference(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
             showTutorialTip: enableTutorial && tutorialStep === TutorialSteps.POST_POPOVER,
             messageInHistoryItem: getMessageInHistoryItem(state),
             draft,

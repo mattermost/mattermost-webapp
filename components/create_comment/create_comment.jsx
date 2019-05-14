@@ -70,14 +70,9 @@ export default class CreateComment extends React.PureComponent {
         enableAddButton: PropTypes.bool.isRequired,
 
         /**
-         * Force message submission on CTRL/CMD + ENTER
-         */
-        codeBlockOnCtrlEnter: PropTypes.bool,
-
-        /**
          * Set to force form submission on CTRL/CMD + ENTER instead of ENTER
          */
-        ctrlSend: PropTypes.bool,
+        ctrlSend: PropTypes.any,
 
         /**
          * The id of the latest post in this channel
@@ -475,10 +470,9 @@ export default class CreateComment extends React.PureComponent {
     commentMsgKeyPress = (e) => {
         const {
             ctrlSend,
-            codeBlockOnCtrlEnter,
         } = this.props;
 
-        const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.draft.message, ctrlSend, codeBlockOnCtrlEnter);
+        const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.draft.message, ctrlSend);
 
         if (allowSending) {
             e.persist();
@@ -531,7 +525,7 @@ export default class CreateComment extends React.PureComponent {
 
     handleKeyDown = (e) => {
         if (
-            (this.props.ctrlSend || this.props.codeBlockOnCtrlEnter) &&
+            this.props.ctrlSend &&
             Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) &&
             (e.ctrlKey || e.metaKey)
         ) {

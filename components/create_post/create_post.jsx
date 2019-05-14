@@ -71,14 +71,9 @@ export default class CreatePost extends React.Component {
         currentUserId: PropTypes.string,
 
         /**
-         * Force message submission on CTRL/CMD + ENTER
-         */
-        codeBlockOnCtrlEnter: PropTypes.bool,
-
-        /**
-        *  Flag used for handling submit
+        *  Variable used for handling submit
         */
-        ctrlSend: PropTypes.bool,
+        ctrlSend: PropTypes.any,
 
         /**
         *  Flag used for adding a class center to Postbox based on user pref
@@ -617,9 +612,8 @@ export default class CreatePost extends React.Component {
     }
 
     postMsgKeyPress = (e) => {
-        const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
-
-        const {allowSending, withClosedCodeBlock, ignoreKeyPress, message} = postMessageOnKeyPress(e, this.state.message, ctrlSend, codeBlockOnCtrlEnter, Date.now(), this.lastChannelSwitchAt);
+        const {ctrlSend} = this.props;
+        const {allowSending, withClosedCodeBlock, ignoreKeyPress, message} = postMessageOnKeyPress(e, this.state.message, ctrlSend, Date.now(), this.lastChannelSwitchAt);
 
         if (ignoreKeyPress) {
             e.preventDefault();
@@ -867,7 +861,7 @@ export default class CreatePost extends React.Component {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
-        const ctrlEnterKeyCombo = (this.props.ctrlSend || this.props.codeBlockOnCtrlEnter) && Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
+        const ctrlEnterKeyCombo = this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;

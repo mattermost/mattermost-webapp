@@ -26,7 +26,7 @@ export default class EditChannelPurposeModal extends React.PureComponent {
         /*
          * Check should we send purpose on CTRL + ENTER
          */
-        ctrlSend: PropTypes.bool.isRequired,
+        ctrlSend: PropTypes.any.isRequired,
 
         /*
          * Info about patch serverError

@@ -20,7 +20,7 @@ export default class EditPostModal extends React.PureComponent {
     static propTypes = {
         canEditPost: PropTypes.bool,
         canDeletePost: PropTypes.bool,
-        ctrlSend: PropTypes.bool,
+        ctrlSend: PropTypes.any,
         config: PropTypes.object.isRequired,
         maxPostSize: PropTypes.number.isRequired,
         editingPost: PropTypes.shape({
