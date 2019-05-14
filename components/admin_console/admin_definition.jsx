@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {cloneDeep} from 'lodash';
 
 import {Constants} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
@@ -152,7 +153,7 @@ export const it = {
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
 };
 
-export default {
+const AdminDefinition = {
     about: {
         icon: 'fa-info',
         sectionTitle: t('admin.sidebar.about'),
@@ -4124,3 +4125,30 @@ t('admin.field_names.postEditTimeLimit');
 t('admin.field_names.restrictCreationToDomains');
 t('admin.field_names.restrictDirectMessage');
 t('admin.field_names.teammateNameDisplay');
+
+let cache = null;
+const adminDefinitionsPlugins = {};
+
+export function registerAdminConsolePlugin(pluginId, func) {
+    adminDefinitionsPlugins[pluginId] = func;
+    cache = null;
+}
+
+export function unregisterAdminConsolePlugin(pluginId) {
+    if (adminDefinitionsPlugins[pluginId]) {
+        delete adminDefinitionsPlugins[pluginId];
+        cache = null;
+    }
+}
+
+export default function getAdminDefinition() {
+    if (cache === null) {
+        let result = cloneDeep(AdminDefinition);
+        for (const pluginFunc of Object.values(adminDefinitionsPlugins)) {
+            result = pluginFunc(result);
+        }
+        cache = result;
+        return result;
+    }
+    return cache;
+}

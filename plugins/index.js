@@ -8,6 +8,7 @@ import {ActionTypes} from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import PluginRegistry from 'plugins/registry';
 import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} from 'actions/websocket_actions.jsx';
+import {unregisterAdminConsolePlugin} from 'components/admin_console/admin_definition.jsx';
 
 // plugins records all active web app plugins by id.
 window.plugins = {};
@@ -125,6 +126,7 @@ export function removePlugin(manifest) {
     }
     unregisterAllPluginWebSocketEvents(manifest.id);
     unregisterPluginReconnectHandler(manifest.id);
+    unregisterAdminConsolePlugin(manifest.id);
     const script = document.getElementById('plugin_' + manifest.id);
     if (!script) {
         return;

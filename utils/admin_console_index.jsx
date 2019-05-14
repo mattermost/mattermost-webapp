@@ -3,7 +3,7 @@
 
 import FlexSearch from 'flexsearch/dist/flexsearch.es5';
 
-import AdminDefinition from 'components/admin_console/admin_definition.jsx';
+import getAdminDefinition from 'components/admin_console/admin_definition.jsx';
 
 function extractTextsFromSection(section, intl) {
     const texts = [];
@@ -76,7 +76,7 @@ export function adminDefinitionsToUrlsAndTexts(adminDefinition, intl) {
 
 export function generateIndex(intl) {
     const idx = new FlexSearch();
-    const mappingSectionsToTexts = adminDefinitionsToUrlsAndTexts(AdminDefinition, intl);
+    const mappingSectionsToTexts = adminDefinitionsToUrlsAndTexts(getAdminDefinition(), intl);
     for (const key of Object.keys(mappingSectionsToTexts)) {
         let text = '';
         for (const str of mappingSectionsToTexts[key]) {
