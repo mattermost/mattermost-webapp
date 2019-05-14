@@ -30,7 +30,7 @@ describe('Post Header', () => {
             const divPostId = `#post_${postId}`;
 
             // * Check initial state that the first message posted is not highlighted
-            cy.get(divPostId).should('be.visible').should('have.attr', 'class', 'post same--user same--root  current--user');
+            cy.get(divPostId).should('be.visible').should('not.have.class', 'post--highlight');
 
             // 4. Click timestamp of a post
             cy.clickPostTime(postId);
@@ -39,7 +39,7 @@ describe('Post Header', () => {
             cy.url().should('include', `/ad-1/pl/${postId}`);
 
             // * Check that the post is highlighted on permalink view
-            cy.get(divPostId).should('be.visible').should('have.attr', 'class', 'post post--highlight same--user same--root  current--user');
+            cy.get(divPostId).should('be.visible').should('have.class', 'post--highlight');
 
             // * Check that the "jump to recent messages" is visible
             cy.get('#archive-link-home').
@@ -53,7 +53,7 @@ describe('Post Header', () => {
             cy.url().should('include', '/ad-1/channels/town-square');
 
             // * Check the said post not highlighted
-            cy.get(divPostId).should('be.visible').should('have.attr', 'class', 'post same--user same--root  current--user');
+            cy.get(divPostId).should('be.visible').should('not.have.class', 'post--highlight');
         });
     });
 
