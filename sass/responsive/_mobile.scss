@@ -363,7 +363,7 @@
 
     .post {
         &:not(.post--compact) {
-            .bot-indicator {
+            .Badge {
                 left: 6px;
                 top: 31px;
             }

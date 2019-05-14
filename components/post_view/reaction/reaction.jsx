@@ -247,6 +247,7 @@ export default class Reaction extends React.PureComponent {
                 onEnter={this.loadMissingProfiles}
             >
                 <div
+                    id={`postReaction-${this.props.post.id}-${this.props.emojiName}`}
                     className={className}
                     onClick={handleClick}
                 >
@@ -254,7 +255,9 @@ export default class Reaction extends React.PureComponent {
                         className='post-reaction__emoji emoticon'
                         style={{backgroundImage: 'url(' + this.props.emojiImageUrl + ')'}}
                     />
-                    <span className='post-reaction__count'>
+                    <span
+                        className='post-reaction__count'
+                    >
                         {this.props.reactionCount}
                     </span>
                 </div>
