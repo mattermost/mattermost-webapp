@@ -22,7 +22,6 @@ export default class LocalizedInput extends React.Component {
     constructor(props) {
         super(props);
 
-        // FIXME: Use React.forwardRef() instead.
         this.input = React.createRef();
     }
 
