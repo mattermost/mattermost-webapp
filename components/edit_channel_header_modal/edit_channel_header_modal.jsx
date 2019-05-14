@@ -190,7 +190,10 @@ class EditChannelHeaderModal extends React.PureComponent {
                 aria-labelledby='editChannelHeaderModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='editChannelHeaderModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='editChannelHeaderModalLabel'
+                    >
                         {headerTitle}
                     </Modal.Title>
                 </Modal.Header>

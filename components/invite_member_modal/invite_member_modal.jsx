@@ -463,7 +463,10 @@ class InviteMemberModal extends React.PureComponent {
                         aria-labelledby='inviteMemberModalLabel'
                     >
                         <Modal.Header closeButton={!this.state.isSendingEmails}>
-                            <Modal.Title id='inviteMemberModalLabel'>
+                            <Modal.Title
+                                componentClass='h1'
+                                id='inviteMemberModalLabel'
+                            >
                                 <FormattedMessage
                                     id='invite_member.newMember'
                                     defaultMessage='Send Email Invite'

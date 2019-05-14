@@ -240,7 +240,10 @@ export default class AddUsersToTeam extends React.Component {
                 aria-labelledby='addTeamModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='addTeamModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='addTeamModalLabel'
+                    >
                         <FormattedMessage
                             id='add_users_to_team.title'
                             defaultMessage='Add New Members To {teamName} Team'

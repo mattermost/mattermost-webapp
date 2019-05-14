@@ -111,7 +111,10 @@ export default class DeletePostModal extends React.PureComponent {
                 aria-labelledby='deletePostModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='deletePostModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='deletePostModalLabel'
+                    >
                         <FormattedMessage
                             id='delete_post.confirm'
                             defaultMessage='Confirm {term} Delete'
