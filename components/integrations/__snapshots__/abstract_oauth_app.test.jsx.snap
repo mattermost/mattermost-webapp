@@ -301,6 +301,7 @@ https://test.com/callback2"
         </Link>
         <SpinnerButton
           className="btn btn-primary"
+          id="saveOauthApp"
           onClick={[Function]}
           spinning={false}
           spinningText="Loading"
@@ -623,6 +624,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
         </Link>
         <SpinnerButton
           className="btn btn-primary"
+          id="saveOauthApp"
           onClick={[Function]}
           spinning={false}
           spinningText="Loading"

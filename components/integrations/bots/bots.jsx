@@ -188,6 +188,7 @@ export default class Bots extends React.PureComponent {
                     />
                 }
                 addLink={'/' + this.props.team.name + '/integrations/bots/add'}
+                addButtonId='addBotAccount'
                 emptyText={
                     <FormattedMessage
                         id='bots.manage.empty'
