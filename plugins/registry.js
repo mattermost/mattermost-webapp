@@ -255,6 +255,16 @@ export default class PluginRegistry {
         });
     }
 
+    // Unregister a component that provided a custom body for posts with a specific type.
+    // Accepts a string id.
+    // Returns undefined in all cases.
+    unregisterPostTypeComponent(componentId) {
+        store.dispatch({
+            type: ActionTypes.REMOVED_PLUGIN_POST_COMPONENT,
+            id: componentId,
+        });
+    }
+
     // Register a reducer against the Redux store. It will be accessible in redux state
     // under "state['plugins-<yourpluginid>']"
     // Accepts a reducer. Returns undefined.
