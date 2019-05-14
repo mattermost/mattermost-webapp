@@ -222,7 +222,10 @@ export default class MoreChannels extends React.Component {
                 aria-labelledby='moreChannelsModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='moreChannelsModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='moreChannelsModalLabel'
+                    >
                         <FormattedMessage
                             id='more_channels.title'
                             defaultMessage='More Channels'

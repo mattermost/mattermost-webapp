@@ -188,7 +188,10 @@ export default class EditChannelPurposeModal extends React.PureComponent {
                 aria-labelledby='editChannelPurposeModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='editChannelPurposeModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='editChannelPurposeModalLabel'
+                    >
                         {title}
                     </Modal.Title>
                 </Modal.Header>

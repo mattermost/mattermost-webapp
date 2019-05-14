@@ -36,7 +36,7 @@ exports[`components/AddGroupsToTeamModal should match snapshot 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
     >
       <FormattedMessage
         defaultMessage="Add New Groups To {teamName} Team"

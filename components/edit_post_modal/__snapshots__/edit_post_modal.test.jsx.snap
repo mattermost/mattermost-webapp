@@ -41,7 +41,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="editPostModalLabel"
     >
       <FormattedMessage
@@ -175,7 +175,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="editPostModalLabel"
     >
       <FormattedMessage
@@ -309,7 +309,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="editPostModalLabel"
     >
       <FormattedMessage
@@ -443,7 +443,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="editPostModalLabel"
     >
       <FormattedMessage
@@ -556,7 +556,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="editPostModalLabel"
     >
       <FormattedMessage
@@ -690,7 +690,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="editPostModalLabel"
     >
       <FormattedMessage
@@ -824,7 +824,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="editPostModalLabel"
     >
       <FormattedMessage
@@ -958,7 +958,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="editPostModalLabel"
     >
       <FormattedMessage
@@ -1092,7 +1092,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="editPostModalLabel"
     >
       <FormattedMessage

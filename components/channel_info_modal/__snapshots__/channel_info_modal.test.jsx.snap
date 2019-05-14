@@ -37,7 +37,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="channelInfoModalLabel"
     >
       <FormattedMessage
@@ -126,7 +126,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="channelInfoModalLabel"
     >
       <FormattedMessage

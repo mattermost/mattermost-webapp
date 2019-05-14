@@ -166,7 +166,10 @@ export default class ResetPasswordModal extends React.Component {
                 aria-labelledby='resetPasswordModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='resetPasswordModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='resetPasswordModalLabel'
+                    >
                         {title}
                     </Modal.Title>
                 </Modal.Header>

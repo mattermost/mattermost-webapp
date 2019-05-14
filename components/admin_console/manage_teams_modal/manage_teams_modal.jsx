@@ -216,7 +216,10 @@ export default class ManageTeamsModal extends React.Component {
                 aria-labelledby='manageTeamsModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='manageTeamsModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='manageTeamsModalLabel'
+                    >
                         <FormattedMessage
                             id='admin.user_item.manageTeams'
                             defaultMessage='Manage Teams'
