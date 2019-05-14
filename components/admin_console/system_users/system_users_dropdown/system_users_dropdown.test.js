@@ -28,7 +28,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         index: 0,
         totalUsers: 10,
         actions: {
-            updateUserActive: jest.fn(() => Promise.resolve({})),
+            updateUserActive: jest.fn().mockResolvedValue({data: true}),
             revokeAllSessionsForUser: jest.fn().mockResolvedValue({data: true}),
         },
     };
@@ -45,9 +45,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
 
     test('handleMakeActive() should have called onError', async () => {
         const retVal = {error: {server_error_id: 'id', message: 'error'}};
-        const updateUserActive = jest.fn(() => {
-            return Promise.resolve(retVal);
-        });
+        const updateUserActive = jest.fn().mockResolvedValue(retVal);
         const props = {...requiredProps, actions: {...requiredProps.actions, updateUserActive}};
         const wrapper = shallow(<SystemUsersDropdown {...props}/>);
 
@@ -69,9 +67,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
 
     test('handleDeactivateMember() should have called onError', async () => {
         const retVal = {error: {server_error_id: 'id', message: 'error'}};
-        const updateUserActive = jest.fn(() => {
-            return Promise.resolve(retVal);
-        });
+        const updateUserActive = jest.fn().mockResolvedValue(retVal);
         const props = {...requiredProps, actions: {...requiredProps.actions, updateUserActive}};
         const wrapper = shallow(<SystemUsersDropdown {...props}/>);
 

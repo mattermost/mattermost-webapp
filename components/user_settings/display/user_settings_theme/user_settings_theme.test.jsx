@@ -18,8 +18,8 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
         setRequireConfirm: jest.fn(),
         setEnforceFocus: jest.fn(),
         actions: {
-            saveTheme: jest.fn(() => Promise.resolve()),
-            deleteTeamSpecificThemes: jest.fn(() => Promise.resolve()),
+            saveTheme: jest.fn().mockResolvedValue({data: true}),
+            deleteTeamSpecificThemes: jest.fn().mockResolvedValue({data: true}),
         },
         focused: false,
     };
@@ -52,8 +52,8 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
         const props = {
             ...requiredProps,
             actions: {
-                saveTheme: jest.fn(() => Promise.resolve()),
-                deleteTeamSpecificThemes: jest.fn(() => Promise.resolve()),
+                saveTheme: jest.fn().mockResolvedValue({data: true}),
+                deleteTeamSpecificThemes: jest.fn().mockResolvedValue({data: true}),
             },
         };
 
