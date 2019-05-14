@@ -1,0 +1,192 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PostBodyAdditionalContent with a YouTube video should render correctly 1`] = `
+<div>
+  <a
+    aria-label="Toggle Embed Visibility"
+    className="post__embed-visibility pull-left"
+    data-expanded={true}
+    key="toggle"
+    onClick={[Function]}
+  />
+  <span>
+    some children
+  </span>
+  <Connect(YoutubeVideo)
+    channelId="channel_id"
+    link="https://www.youtube.com/watch?v=d-YO3v-wJts"
+    show={true}
+  />
+</div>
+`;
+
+exports[`PostBodyAdditionalContent with a YouTube video should render the toggle after a message containing more than just a link 1`] = `
+<div>
+  <span>
+    some children
+  </span>
+  <a
+    aria-label="Toggle Embed Visibility"
+    className="post__embed-visibility "
+    data-expanded={true}
+    key="toggle"
+    onClick={[Function]}
+  />
+  <Connect(YoutubeVideo)
+    channelId="channel_id"
+    link="https://www.youtube.com/watch?v=d-YO3v-wJts"
+    show={true}
+  />
+</div>
+`;
+
+exports[`PostBodyAdditionalContent with a message attachment should render correctly 1`] = `
+<div>
+  <span>
+    some children
+  </span>
+  <MessageAttachmentList
+    attachments={Array []}
+    imagesMetadata={Object {}}
+    postId="post_id_1"
+  />
+</div>
+`;
+
+exports[`PostBodyAdditionalContent with an image preview should render correctly 1`] = `
+<div>
+  <a
+    aria-label="Toggle Embed Visibility"
+    className="post__embed-visibility pull-left"
+    data-expanded={true}
+    key="toggle"
+    onClick={[Function]}
+  />
+  <span>
+    some children
+  </span>
+  <Connect(PostImage)
+    imageMetadata={Object {}}
+    link="https://example.com/image.png"
+    post={
+      Object {
+        "channel_id": "channel_id",
+        "create_at": 1,
+        "id": "post_id_1",
+        "message": "https://example.com/image.png",
+        "metadata": Object {
+          "embeds": Array [
+            Object {
+              "type": "image",
+              "url": "https://example.com/image.png",
+            },
+          ],
+          "images": Object {
+            "https://example.com/image.png": Object {},
+          },
+        },
+        "root_id": "root_id",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`PostBodyAdditionalContent with an image preview should render the toggle after a message containing more than just a link 1`] = `
+<div>
+  <span>
+    some children
+  </span>
+  <a
+    aria-label="Toggle Embed Visibility"
+    className="post__embed-visibility "
+    data-expanded={true}
+    key="toggle"
+    onClick={[Function]}
+  />
+  <Connect(PostImage)
+    imageMetadata={Object {}}
+    link="https://example.com/image.png"
+    post={
+      Object {
+        "channel_id": "channel_id",
+        "create_at": 1,
+        "id": "post_id_1",
+        "message": "This is an image: https://example.com/image.png",
+        "metadata": Object {
+          "embeds": Array [
+            Object {
+              "type": "image",
+              "url": "https://example.com/image.png",
+            },
+          ],
+          "images": Object {
+            "https://example.com/image.png": Object {},
+          },
+        },
+        "root_id": "root_id",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`PostBodyAdditionalContent with an opengraph preview should render correctly 1`] = `
+<div>
+  <span>
+    some children
+  </span>
+  <Connect(PostAttachmentOpenGraph)
+    isEmbedVisible={true}
+    link="https://example.com/image.png"
+    post={
+      Object {
+        "channel_id": "channel_id",
+        "create_at": 1,
+        "id": "post_id_1",
+        "message": "https://example.com/image.png",
+        "metadata": Object {
+          "embeds": Array [
+            Object {
+              "type": "opengraph",
+              "url": "https://example.com/image.png",
+            },
+          ],
+        },
+        "root_id": "root_id",
+      }
+    }
+    toggleEmbedVisibility={[Function]}
+  />
+</div>
+`;
+
+exports[`PostBodyAdditionalContent with an opengraph preview should render the toggle after a message containing more than just a link 1`] = `
+<div>
+  <span>
+    some children
+  </span>
+  <Connect(PostAttachmentOpenGraph)
+    isEmbedVisible={true}
+    link="https://example.com/image.png"
+    post={
+      Object {
+        "channel_id": "channel_id",
+        "create_at": 1,
+        "id": "post_id_1",
+        "message": "This is a link: https://example.com/image.png",
+        "metadata": Object {
+          "embeds": Array [
+            Object {
+              "type": "opengraph",
+              "url": "https://example.com/image.png",
+            },
+          ],
+        },
+        "root_id": "root_id",
+      }
+    }
+    toggleEmbedVisibility={[Function]}
+  />
+</div>
+`;

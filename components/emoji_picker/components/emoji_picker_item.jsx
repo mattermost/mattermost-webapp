@@ -78,6 +78,7 @@ export default class EmojiPickerItem extends React.Component {
                     src={imgTrans}
                     className={spriteClassName}
                     onClick={this.handleClick}
+                    id={'emoji-' + emoji.filename}
                 />
             );
         } else {

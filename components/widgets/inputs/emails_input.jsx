@@ -28,13 +28,20 @@ export default class EmailsInput extends React.Component {
         validAddressMessageDefault: PropTypes.string,
     }
 
+    static defaultProps = {
+        noOptionsMessageId: t('widgets.emails_input.invalid_email'),
+        noOptionsMessageDefault: 'Type email address',
+        validAddressMessageId: t('widgets.emails_input.valid_email'),
+        validAddressMessageDefault: 'Add **{email}**',
+    };
+
     getCreateLabel = (value) => (
         <React.Fragment>
             <MailPlusIcon className='mail-plus-icon'/>
             <FormattedMarkdownMessage
                 key='widgets.emails_input.valid_email'
-                id={this.props.validAddressMessageId || t('widgets.emails_input.valid_email')}
-                defaultMessage={this.props.validAddressMessageDefault || 'Add **{email}**'}
+                id={this.props.validAddressMessageId}
+                defaultMessage={this.props.validAddressMessageDefault}
                 values={{email: value}}
             />
         </React.Fragment>
@@ -44,8 +51,8 @@ export default class EmailsInput extends React.Component {
         return (
             <components.NoOptionsMessage {...props}>
                 <FormattedMessage
-                    id={this.props.noOptionsMessageId || t('widgets.emails_input.invalid_email')}
-                    defaultMessage={this.props.noOptionsMessageDefault || 'Type email address'}
+                    id={this.props.noOptionsMessageId}
+                    defaultMessage={this.props.noOptionsMessageDefault}
                 />
             </components.NoOptionsMessage>
         );

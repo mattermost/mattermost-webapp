@@ -125,7 +125,7 @@ describe('at-mention', () => {
         cy.get('#sidebarItem_town-square').click();
 
         // 4. Get last post message text
-        cy.getLastPostIdWithRetry().then((postId) => {
+        cy.getLastPostId().then((postId) => {
             cy.get(`#postMessageText_${postId}`).as('postMessageText');
         });
 
@@ -163,7 +163,7 @@ describe('at-mention', () => {
         cy.get('#sidebarItem_town-square').click();
 
         // 4. Get last post message text
-        cy.getLastPostIdWithRetry().then((postId) => {
+        cy.getLastPostId().then((postId) => {
             cy.get(`#postMessageText_${postId}`).as('postMessageText');
         });
 
@@ -203,7 +203,7 @@ describe('at-mention', () => {
             cy.get('#sidebarItem_town-square').click();
 
             // 4. Get last post message text
-            cy.getLastPostIdWithRetry().then((postId) => {
+            cy.getLastPostId().then((postId) => {
                 cy.get(`#postMessageText_${postId}`).as('postMessageText');
             });
 

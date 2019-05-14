@@ -10,6 +10,7 @@ import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
 import {searchUsers} from 'actions/user_actions.jsx';
 import {Constants, UserSearchOptions, SearchUserTeamFilter, SearchUserOptionsFilter} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n.jsx';
 
 import LocalizedInput from 'components/localized_input/localized_input';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
@@ -285,7 +286,7 @@ export default class SystemUsers extends React.Component {
                         id='searchUsers'
                         ref='filter'
                         className='form-control filter-textbox'
-                        placeholder={{id: 'filtered_user_list.search', defaultMessage: 'Search users'}}
+                        placeholder={{id: t('filtered_user_list.search'), defaultMessage: 'Search users'}}
                         onInput={doSearch}
                     />
                 </div>
