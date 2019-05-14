@@ -5,23 +5,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import './guest_badge.scss';
+import Badge from './badge.jsx';
 
 export default function GuestBadge(props) {
     return (
-        <div className={'GuestBadge ' + props.className}>
+        <Badge
+            className={'GuestBadge ' + props.className}
+            show={props.show}
+        >
             <FormattedMessage
                 id='post_info.guest'
                 defaultMessage='GUEST'
             />
-        </div>
+        </Badge>
     );
 }
 
 GuestBadge.propTypes = {
     className: PropTypes.string,
+    show: PropTypes.bool,
 };
 
 GuestBadge.defaultProps = {
+    show: true,
     className: '',
 };
