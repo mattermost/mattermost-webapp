@@ -239,29 +239,6 @@ export function loopReplacePattern(text, pattern, replacement) {
     return result;
 }
 
-// extracts the first link from the text
-export function extractFirstLink(text) {
-    const pattern = /(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[-A-Z0-9+\u0026\u2019@#/%?=()~_|!:,.;]*[-A-Z0-9+\u0026@#/%=~()_|])/i;
-    let inText = text;
-
-    // strip out code blocks
-    inText = inText.replace(/`[^`]*`/g, '');
-
-    // strip out inline markdown images
-    inText = inText.replace(/!\[[^\]]*]\([^)]*\)/g, '');
-
-    // remove markdown *, ~~ and _ characters
-    inText = loopReplacePattern(inText, /(\*|~~)(.*?)\1/, '$2');
-    inText = loopReplacePattern(inText, /([\s\n]|^)_(.*?)_([\s\n]|$)/, '$1$2$3');
-
-    const match = pattern.exec(inText);
-    if (match) {
-        return match[0].trim();
-    }
-
-    return '';
-}
-
 // Taken from http://stackoverflow.com/questions/1068834/object-comparison-in-javascript and modified slightly
 export function areObjectsEqual(x, y) {
     let p;
@@ -1242,6 +1219,7 @@ const UserStatusesWeight = {
     dnd: 2,
     offline: 3,
     ooo: 3,
+    bot: 4,
 };
 
 /**
@@ -1249,8 +1227,8 @@ const UserStatusesWeight = {
  */
 export function sortUsersByStatusAndDisplayName(users, statusesByUserId) {
     function compareUsers(a, b) {
-        const aStatus = statusesByUserId[a.id] || UserStatuses.OFFLINE;
-        const bStatus = statusesByUserId[b.id] || UserStatuses.OFFLINE;
+        const aStatus = a.is_bot ? 'bot' : statusesByUserId[a.id] || UserStatuses.OFFLINE;
+        const bStatus = b.is_bot ? 'bot' : statusesByUserId[b.id] || UserStatuses.OFFLINE;
 
         if (UserStatusesWeight[aStatus] !== UserStatusesWeight[bStatus]) {
             return UserStatusesWeight[aStatus] - UserStatusesWeight[bStatus];
@@ -1679,4 +1657,8 @@ export function enableDevModeFeatures() {
             throw new Error('Map.length is not supported. Use Map.size instead.');
         },
     });
+}
+
+export function disableVirtList() {
+    return UserAgent.isInternetExplorer();
 }

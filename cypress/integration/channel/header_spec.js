@@ -7,29 +7,35 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+/* eslint max-nested-callbacks: ["error", 3] */
+
 describe('Header', () => {
     before(() => {
-        // 1. Login and go to /
+        // # Login and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
     });
 
     it('M13564 Ellipsis indicates the channel header is too long', () => {
-        // 2. Update channel header text
+        // # Update channel header text
         cy.updateChannelHeader('> newheader');
 
         // * Check if channel header description has no ellipsis
-        cy.get('#channelHeaderDescription').ellipsis(false);
+        cy.get('#channelHeaderDescription').then(($header) => {
+            expect($header.outerWidth()).to.be.closeTo($header[0].scrollWidth, 0.1);
+        });
 
-        // 3. Update channel header text to a long string
+        // # Update channel header text to a long string
         cy.updateChannelHeader('>' + ' newheader'.repeat(20));
 
         // * Check if channel header description has ellipsis
-        cy.get('#channelHeaderDescription').ellipsis(true);
+        cy.get('#channelHeaderDescription').then(($header) => {
+            expect($header.outerWidth()).lt($header[0].scrollWidth);
+        });
     });
 
     it('CS14730 - Channel Header: Markdown quote', () => {
-        // 2. Update channel header text
+        // # Update channel header text
         const header = 'This is a quote in the header';
         cy.updateChannelHeader('>' + header);
 
@@ -39,22 +45,24 @@ describe('Header', () => {
     });
 
     it('M14784 - An ellipsis indicates the channel header is too long - DM', () => {
-        // 3. Open Account Setting and enable Compact View on the Display tab
+        // # Open Account Setting and enable Compact View on the Display tab
         cy.changeMessageDisplaySetting('COMPACT');
 
-        // 4. Open a DM with user named 'user-2'
+        // # Open a DM with user named 'user-2'
         cy.get('#directChannel > .add-channel-btn').click().wait(100);
         cy.focused().type('user-2', {force: true}).type('{enter}', {force: true}).wait(500);
         cy.get('#saveItems').click();
 
-        // 5. Update DM channel header
+        // # Update DM channel header
         const header = 'quote newheader newheader newheader newheader newheader newheader newheader newheader newheader newheader';
         cy.updateChannelHeader('>' + header);
 
         // * Check if channel header description has ellipsis
-        cy.get('#channelHeaderDescription').ellipsis(true);
+        cy.get('#channelHeaderDescription').then(($header) => {
+            expect($header.outerWidth()).lt($header[0].scrollWidth);
+        });
 
-        // 6. Click the header to see the whole text
+        // # Click the header to see the whole text
         cy.get('#channelHeaderDescription').click();
 
         // * Check that no elippsis is present

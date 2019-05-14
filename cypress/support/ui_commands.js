@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint max-nested-callbacks: ["error", 5] */
+
 // ***********************************************************
 // Read more: https://on.cypress.io/custom-commands
 // ***********************************************************
@@ -130,32 +132,6 @@ Cypress.Commands.add('changeMessageDisplaySetting', (setting = 'STANDARD', usern
     cy.get('#accountSettingsHeader > .close').click();
 });
 
-/**
- * Update teammate display mode preference of a user
- * @param {String} username - current user
- * @param {String} value - Either "username" (default) or "nickname_full_name" or "full_name"
- */
-Cypress.Commands.add('updateTeammateDisplayModePreference', (username, value = 'username') => {
-    const conf = {
-        username: '#name_formatFormatA',
-        nickname_full_name: '#name_formatFormatB',
-        full_name: '#name_formatFormatC',
-    };
-    cy.toAccountSettingsModal(username);
-    cy.get('#displayButton').click();
-
-    cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
-
-    cy.get('#name_formatTitle').scrollIntoView();
-    cy.get('#name_formatTitle').click();
-    cy.get('.section-max').scrollIntoView();
-
-    cy.get(conf[value]).check().should('be.checked');
-
-    cy.get('#saveSetting').click();
-    cy.get('#accountSettingsHeader > .close').click();
-});
-
 // ***********************************************************
 // Key Press
 // ***********************************************************
@@ -172,37 +148,6 @@ Cypress.Commands.add('typeCmdOrCtrl', () => {
     cy.get('#post_textbox').type(cmdOrCtrl, {release: false});
 });
 
-/**
- * Uploads a file to an input
- * @memberOf Cypress.Chainable#
- * @name upload_file
- * @function
- * @param {String} selector - element to target
- * @param {String} fileUrl - The file url to upload
- * @param {String} type - content type of the uploaded file
- */
-
-/* eslint max-nested-callbacks: ["error", 4] */
-Cypress.Commands.add('uploadFile', (selector, fileUrl, type = '') => {
-    return cy.get(selector).then((subject) => {
-        return cy.
-            fixture(fileUrl, 'base64').
-            then(Cypress.Blob.base64StringToBlob).
-            then((blob) => {
-                return cy.window().then((win) => {
-                    const el = subject[0];
-                    const nameSegments = fileUrl.split('/');
-                    const name = nameSegments[nameSegments.length - 1];
-                    const testFile = new win.File([blob], name, {type});
-                    const dataTransfer = new DataTransfer();
-                    dataTransfer.items.add(testFile);
-                    el.files = dataTransfer.files;
-                    return subject;
-                });
-            });
-    });
-});
-
 function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
 }
@@ -212,39 +157,28 @@ function isMac() {
 // ***********************************************************
 
 Cypress.Commands.add('postMessage', (message) => {
-    cy.get('#post_textbox').type(message).type('{enter}');
+    cy.get('#post_textbox').clear().type(message).type('{enter}');
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
-    cy.get('#reply_textbox').type(message).type('{enter}');
+    cy.get('#reply_textbox').clear().type(message).type('{enter}');
     cy.wait(500); // eslint-disable-line
 });
 
 Cypress.Commands.add('getLastPost', () => {
-    return cy.get('#postListContent [id^=post]:first');
+    return cy.get('#postListContent #postContent', {timeout: 30000}).last();
 });
 
-Cypress.Commands.add('getLastPostId', () => {
-    return cy.get('#postListContent [id^=post]:last').invoke('attr', 'id').then((divPostId) => {
-        return divPostId.replace('postMessageText_', '');
+Cypress.Commands.add('getLastPostId', (opts = {force: false}) => {
+    cy.get('#postListContent #postContent', {timeout: 30000}).last().parent().as('_lastPost');
+
+    if (!opts.force) {
+        cy.get('@_lastPost').should('have.attr', 'id').and('not.include', ':');
+    }
+
+    return cy.get('@_lastPost').invoke('attr', 'id').then((divPostId) => {
+        return divPostId.replace('post_', '');
     });
-});
-
-function getLastPostIdWithRetry() {
-    cy.getLastPostId().then((postId) => {
-        if (!postId.includes(':')) {
-            return postId;
-        }
-
-        return Cypress.Promise.delay(1000).then(getLastPostIdWithRetry);
-    });
-}
-
-/**
- * Only return valid post ID and do retry if last post is still on pending state
- */
-Cypress.Commands.add('getLastPostIdWithRetry', () => {
-    return getLastPostIdWithRetry();
 });
 
 /**
@@ -255,9 +189,7 @@ Cypress.Commands.add('getLastPostIdWithRetry', () => {
  */
 Cypress.Commands.add('postMessageFromFile', (file, target = '#post_textbox') => {
     cy.fixture(file, 'utf-8').then((text) => {
-        cy.get(target).then((textbox) => {
-            textbox.val(text);
-        }).type(' {backspace}{enter}');
+        cy.get(target).invoke('val', text).wait(500).type(' {backspace}{enter}').should('have.text', '');
     });
 });
 
@@ -268,7 +200,7 @@ Cypress.Commands.add('postMessageFromFile', (file, target = '#post_textbox') => 
  */
 Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file) => {
     // * Verify that HTML Content is correct
-    cy.getLastPostIdWithRetry().then((postId) => {
+    cy.getLastPostId().then((postId) => {
         const postMessageTextId = `#postMessageText_${postId}`;
 
         cy.fixture(file, 'utf-8').then((expectedHtml) => {
@@ -288,7 +220,7 @@ function clickPostHeaderItem(postId, location, item) {
         cy.get(`#post_${postId}`).trigger('mouseover');
         cy.get(`#${location}_${item}_${postId}`).scrollIntoView().click({force: true});
     } else {
-        cy.getLastPostIdWithRetry().then((lastPostId) => {
+        cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover');
             cy.get(`#${location}_${item}_${lastPostId}`).scrollIntoView().click({force: true});
         });

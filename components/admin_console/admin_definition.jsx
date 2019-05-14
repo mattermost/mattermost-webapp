@@ -3706,15 +3706,6 @@ export default {
                         help_text_markdown: false,
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ExperimentalSettings.DisablePostMetadata',
-                        label: t('admin.experimental.disablePostMetadata.title'),
-                        label_default: 'Disable Post Metadata:',
-                        help_text: t('admin.experimental.disablePostMetadata.desc'),
-                        help_text_default: 'Load channels with more accurate scroll positioning by loading post metadata. Enabling this setting may increase channel and post load times.',
-                        help_text_markdown: false,
-                    },
-                    {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
                         key: 'ExperimentalSettings.LinkMetadataTimeoutMilliseconds',
                         label: t('admin.experimental.linkMetadataTimeoutMilliseconds.title'),
@@ -3724,7 +3715,6 @@ export default {
                         help_text_markdown: false,
                         placeholder: t('admin.experimental.linkMetadataTimeoutMilliseconds.example'),
                         placeholder_default: 'E.g.: "5000"',
-                        isDisabled: it.stateIsFalse('ExperimentalSettings.DisablePostMetadata'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,

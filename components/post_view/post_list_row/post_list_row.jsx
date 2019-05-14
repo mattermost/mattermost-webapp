@@ -49,7 +49,6 @@ export default class PostListRow extends React.PureComponent {
             return (
                 <ChannelIntroMessage
                     channel={this.props.channel}
-                    fullWidth={this.props.fullWidth}
                 />
             );
         }

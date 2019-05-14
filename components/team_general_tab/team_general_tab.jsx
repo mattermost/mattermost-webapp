@@ -14,6 +14,8 @@ import SettingPicture from 'components/setting_picture.jsx';
 import BackIcon from 'components/icon/back_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
 
+import {t} from 'utils/i18n.jsx';
+
 const ACCEPTED_TEAM_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/bmp'];
 
 export default class GeneralTab extends React.Component {
@@ -682,7 +684,7 @@ export default class GeneralTab extends React.Component {
                             onChange={this.updateAllowedDomains}
                             value={this.state.allowed_domains}
                             onFocus={Utils.moveCursorToEnd}
-                            placeholder={{id: 'general_tab.AllowedDomainsExample', defaultMessage: 'corp.mattermost.com, mattermost.org'}}
+                            placeholder={{id: t('general_tab.AllowedDomainsExample'), defaultMessage: 'corp.mattermost.com, mattermost.org'}}
                         />
                     </div>
                 </div>
