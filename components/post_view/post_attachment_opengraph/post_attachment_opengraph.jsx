@@ -28,7 +28,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         /**
          * The ID of the current user
          */
-        currentUserId: PropTypes.object,
+        currentUserId: PropTypes.string,
 
         /**
          * The post where this link is included
