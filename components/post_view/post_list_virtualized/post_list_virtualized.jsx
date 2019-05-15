@@ -11,21 +11,21 @@ import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 
-import Constants, {PostListRowListIds} from 'utils/constants.jsx';
+import Constants, {PostListRowListIds, EventTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import {getLastPostId} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import FloatingTimestamp from './floating_timestamp';
-import NewMessagesBelow from './new_messages_below';
-import PostListRow from './post_list_row';
-import ScrollToBottomArrows from './scroll_to_bottom_arrows';
+import FloatingTimestamp from 'components/post_view/floating_timestamp';
+import NewMessagesBelow from 'components/post_view/new_messages_below';
+import PostListRow from 'components/post_view/post_list_row';
+import ScrollToBottomArrows from 'components/post_view/scroll_to_bottom_arrows';
 
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
 
 const MAX_EXTRA_PAGES_LOADED = 10;
-const OVERSCAN_COUNT_BACKWARD = window.OVERSCAN_COUNT_BACKWARD || 50; // Exposing the value for PM to test will be removed soon
-const OVERSCAN_COUNT_FORWARD = window.OVERSCAN_COUNT_FORWARD || 100; // Exposing the value for PM to test will be removed soon
+const OVERSCAN_COUNT_BACKWARD = window.OVERSCAN_COUNT_BACKWARD || 80; // Exposing the value for PM to test will be removed soon
+const OVERSCAN_COUNT_FORWARD = window.OVERSCAN_COUNT_FORWARD || 80; // Exposing the value for PM to test will be removed soon
 const HEIGHT_TRIGGER_FOR_MORE_POSTS = window.HEIGHT_TRIGGER_FOR_MORE_POSTS || 1000; // Exposing the value for PM to test will be removed soon
 
 const postListHeightChangeForPadding = 21;
@@ -126,7 +126,7 @@ export default class PostList extends React.PureComponent {
 
         window.addEventListener('resize', this.handleWindowResize);
 
-        EventEmitter.addListener('scroll_post_list_to_bottom', this.scrollToBottom);
+        EventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.scrollChange);
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState) {
@@ -170,7 +170,7 @@ export default class PostList extends React.PureComponent {
         this.mounted = false;
         window.removeEventListener('resize', this.handleWindowResize);
 
-        EventEmitter.removeListener('scroll_post_list_to_bottom', this.scrollToBottom);
+        EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.scrollChange);
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -190,6 +190,12 @@ export default class PostList extends React.PureComponent {
         return {
             postListIds: newPostListIds,
         };
+    }
+
+    scrollChange = (toBottom) => {
+        if (toBottom) {
+            this.scrollToBottom();
+        }
     }
 
     handleWindowResize = () => {
@@ -438,6 +444,7 @@ export default class PostList extends React.PureComponent {
 
     render() {
         const channel = this.props.channel;
+        const {dynamicListStyle} = this.state;
 
         if (this.state.loadingFirstSetOfPosts) {
             return (
@@ -450,8 +457,6 @@ export default class PostList extends React.PureComponent {
             );
         }
 
-        const {dynamicListStyle} = this.state;
-
         let newMessagesBelow = null;
         if (!this.props.focusedPostId) {
             newMessagesBelow = (
@@ -460,6 +465,7 @@ export default class PostList extends React.PureComponent {
                     lastViewedBottom={this.state.lastViewedBottom}
                     postIds={this.state.postListIds}
                     onClick={this.scrollToBottom}
+                    channelId={this.props.channel.id}
                 />
             );
         }

@@ -55,7 +55,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
       </button>
       <ModalTitle
         bsClass="modal-title"
-        componentClass="h4"
+        componentClass="h1"
         id="newChannelModalLabel"
       >
         <FormattedMessage
@@ -357,7 +357,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
       </button>
       <ModalTitle
         bsClass="modal-title"
-        componentClass="h4"
+        componentClass="h1"
         id="newChannelModalLabel"
       >
         <FormattedMessage
@@ -659,7 +659,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
       </button>
       <ModalTitle
         bsClass="modal-title"
-        componentClass="h4"
+        componentClass="h1"
         id="newChannelModalLabel"
       >
         <FormattedMessage
@@ -1001,7 +1001,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
       </button>
       <ModalTitle
         bsClass="modal-title"
-        componentClass="h4"
+        componentClass="h1"
         id="newChannelModalLabel"
       >
         <FormattedMessage
@@ -1343,7 +1343,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
       </button>
       <ModalTitle
         bsClass="modal-title"
-        componentClass="h4"
+        componentClass="h1"
         id="newChannelModalLabel"
       >
         <FormattedMessage
@@ -1695,7 +1695,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
       </button>
       <ModalTitle
         bsClass="modal-title"
-        componentClass="h4"
+        componentClass="h1"
         id="newChannelModalLabel"
       >
         <FormattedMessage
@@ -2051,7 +2051,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
       </button>
       <ModalTitle
         bsClass="modal-title"
-        componentClass="h4"
+        componentClass="h1"
         id="newChannelModalLabel"
       >
         <FormattedMessage

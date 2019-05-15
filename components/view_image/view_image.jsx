@@ -334,6 +334,7 @@ export default class ViewImageModal extends React.PureComponent {
                             onClick={(e) => e.stopPropagation()}
                         >
                             <Modal.Title
+                                componentClass='h1'
                                 id='viewImageModalLabel'
                                 className='hide'
                             >

@@ -97,7 +97,7 @@ export default class TeamSettingsModal extends React.Component {
                     id='teamSettingsModalLabel'
                     closeButton={true}
                 >
-                    <Modal.Title>
+                    <Modal.Title componentClass='h1'>
                         <FormattedMessage
                             id='team_settings_modal.title'
                             defaultMessage='Team Settings'

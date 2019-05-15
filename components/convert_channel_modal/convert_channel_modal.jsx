@@ -67,6 +67,7 @@ export default class ConvertChannelModal extends React.PureComponent {
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title
+                        componentClass='h1'
                         id='convertChannelModalLabel'
                     >
                         <FormattedMessage

@@ -85,7 +85,10 @@ export default class AccessHistoryModal extends React.PureComponent {
                 aria-labelledby='accessHistoryModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='accessHistoryModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='accessHistoryModalLabel'
+                    >
                         <FormattedMessage
                             id='access_history.title'
                             defaultMessage='Access History'

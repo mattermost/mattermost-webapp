@@ -104,7 +104,7 @@ const languages = {
     },
     pl: {
         value: 'pl',
-        name: 'Polski (Beta)',
+        name: 'Polski',
         order: 6,
         url: pl,
     },
