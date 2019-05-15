@@ -10,7 +10,6 @@ import {createUserAccessToken, revokeUserAccessToken, enableUserAccessToken, dis
 import * as UserSelectors from 'mattermost-redux/selectors/entities/users';
 
 import Bots from './bots.jsx';
-import { create } from 'domain';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
