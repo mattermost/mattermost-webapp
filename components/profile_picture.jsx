@@ -53,7 +53,7 @@ export default class ProfilePicture extends React.PureComponent {
                 >
                     <span className='status-wrapper'>
                         <img
-                            className='more-modal__image'
+                            className='more-modal__image rounded'
                             alt={`${this.props.username || 'user'} profile image`}
                             width={this.props.width}
                             height={this.props.width}
@@ -67,7 +67,7 @@ export default class ProfilePicture extends React.PureComponent {
         return (
             <span className='status-wrapper'>
                 <img
-                    className='more-modal__image'
+                    className='more-modal__image rounded'
                     alt={'user profile image'}
                     width={this.props.width}
                     height={this.props.width}

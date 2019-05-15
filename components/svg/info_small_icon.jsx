@@ -14,6 +14,7 @@ export default class InfoSmallIcon extends React.PureComponent {
                 >
                     {(ariaLabel) => (
                         <svg
+                            className='svg-text-color'
                             aria-label={ariaLabel}
                             width='24px'
                             height='24px'

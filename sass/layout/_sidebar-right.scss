@@ -169,12 +169,14 @@
             position: relative;
             height: 40px;
             padding: 0px;
+
             .loading__content {
                 height: 40px;
             }
         }
-        .card {
-            padding: 14px;
+
+        .info-card {
+            padding: 5px 15px 60px 15px;
         }
     }
 

@@ -115,7 +115,7 @@ export default class RhsCard extends React.Component {
 
         if (!content) {
             content = (
-                <div className='card'>
+                <div className='info-card'>
                     <Markdown message={selected.props && selected.props.card}/>
                 </div>
             );
