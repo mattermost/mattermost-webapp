@@ -92,14 +92,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
         const imageRatio = width / height;
 
-        let hasLargeImage;
-        if (width >= largeImageMinWidth && imageRatio >= largeImageMinRatio) {
-            hasLargeImage = true;
-        } else {
-            hasLargeImage = false;
-        }
-
-        return hasLargeImage;
+        return width >= largeImageMinWidth && imageRatio >= largeImageMinRatio;
     }
 
     renderImageToggle() {
