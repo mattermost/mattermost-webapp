@@ -15,6 +15,7 @@ import DotMenu from 'components/dot_menu';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostReaction from 'components/post_view/post_reaction';
 import PostTime from 'components/post_view/post_time';
+import InfoSmallIcon from 'components/svg/info_small_icon';
 
 export default class PostInfo extends React.PureComponent {
     static propTypes = {
@@ -234,7 +235,10 @@ export default class PostInfo extends React.PureComponent {
                         this.props.handleCardClick(this.props.post);
                     }}
                 >
-                    <i className='fa fa-info-circle'/>
+                    <InfoSmallIcon
+                        className='icon icon__info'
+                        aria-hidden='true'
+                    />
                 </button>
             );
         }

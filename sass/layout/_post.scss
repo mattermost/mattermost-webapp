@@ -1830,12 +1830,21 @@
     }
 
     .card-icon__container {
-        display: inline-block;
-        height: 15px;
+        @extend %btn-transition;
+        @include opacity(.24);
         margin-left: 7px;
-        position: relative;
         vertical-align: top;
-        color: $gray;
+        top: 2px;
+        position: relative;
+
+        &:hover {
+            @include opacity(.4);
+        }
+
+        svg {
+            height: 14px;
+            width: 14px;
+        }
     }
 
     .flag-icon__container {
