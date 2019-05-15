@@ -2655,6 +2655,19 @@ export default {
                 id: 'SamlSettings',
                 name: t('admin.authentication.saml'),
                 name_default: 'SAML 2.0',
+                onConfigSave: (config, oldConfig) => {
+                    const newConfig = {...config};
+                    const certificatesKeys = Object.keys(Constants.SAML_CERTIFICATES_CONFIG_DEFAULTS);
+                    for (const key of certificatesKeys) {
+                        // The names of the certificate files are being renamed in the backend, so if the new config
+                        // value is not empty (certificate being removed) and it's different (so the certificate has
+                        // just been uploaded), we default to the same value that the server is enforcing
+                        if (newConfig.SamlSettings[key] !== '' && oldConfig.SamlSettings[key] !== newConfig.SamlSettings[key]) {
+                            newConfig.SamlSettings[key] = Constants.SAML_CERTIFICATES_CONFIG_DEFAULTS[key];
+                        }
+                    }
+                    return newConfig;
+                },
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,

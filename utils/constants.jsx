@@ -1249,6 +1249,11 @@ export const Constants = {
     CHANNEL_ID_LENGTH: 26,
     TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
     TRIPLE_BACK_TICKS: /```/g,
+    SAML_CERTIFICATES_CONFIG_DEFAULTS: {
+        PrivateKeyFile: 'saml-private.key',
+        PublicCertificateFile: 'saml-public.crt',
+        IdpCertificateFile: 'saml-idp.crt',
+    },
 };
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];

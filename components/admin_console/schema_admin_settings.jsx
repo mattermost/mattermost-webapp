@@ -643,11 +643,11 @@ export default class SchemaAdminSettings extends React.Component {
             const removeFile = (id, callback) => {
                 const successCallback = () => {
                     this.handleChange(setting.key, '');
-                    this.setState({[setting.key]: null, [`${setting.key}Error`]: null});
+                    this.setState({[setting.key]: '', [`${setting.key}Error`]: null});
                 };
                 const errorCallback = (error) => {
                     callback();
-                    this.setState({[setting.key]: null, [`${setting.key}Error`]: error.message});
+                    this.setState({[setting.key]: '', [`${setting.key}Error`]: error.message});
                 };
                 setting.remove_action(successCallback, errorCallback);
             };
