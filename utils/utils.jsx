@@ -1135,7 +1135,14 @@ export function loadImage(url, onLoad, onProgress) {
     request.onload = onLoad;
     request.onprogress = (e) => {
         if (onProgress) {
-            const completedPercentage = Math.round((e.loaded / e.total) * 100);
+            let total = 0;
+            if (e.lengthComputable) {
+                total = e.total;
+            } else {
+                total = parseInt(e.target.getResponseHeader('X-Uncompressed-Content-Length'), 10);
+            }
+
+            const completedPercentage = Math.round((e.loaded / total) * 100);
 
             onProgress(completedPercentage);
         }
