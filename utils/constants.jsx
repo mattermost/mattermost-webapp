@@ -1260,5 +1260,6 @@ t('suggestion.mention.members');
 t('suggestion.mention.moremembers');
 t('suggestion.mention.nonmembers');
 t('suggestion.mention.special');
+t('suggestion.archive');
 
 export default Constants;
