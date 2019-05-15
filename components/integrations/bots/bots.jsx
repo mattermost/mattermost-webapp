@@ -183,7 +183,7 @@ export default class Bots extends React.PureComponent {
                         defaultMessage='Bot Accounts'
                     />
                 }
-                addText={ this.props.createBots &&
+                addText={this.props.createBots &&
                     <FormattedMessage
                         id='bots.manage.add'
                         defaultMessage='Add Bot Account'
