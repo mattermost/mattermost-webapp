@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import PostMessageContainer from 'components/post_view/post_message_view';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -20,6 +21,7 @@ import ArchiveIcon from 'components/svg/archive_icon';
 import PostTime from 'components/post_view/post_time';
 import {browserHistory} from 'utils/browser_history';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import InfoSmallIcon from 'components/svg/info_small_icon';
 
 import Constants, {Locations} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -244,15 +246,32 @@ export default class SearchResultsItem extends React.PureComponent {
 
             if (post.props && post.props.card) {
                 postInfoIcon = (
-                    <button
-                        className='card-icon__container icon--show style--none'
-                        onClick={(e) => {
-                            e.preventDefault();
-                            this.handleCardClick(this.props.post);
-                        }}
+                    <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={
+                            <Tooltip>
+                                <FormattedMessage
+                                    id='post_info.info.view_additional_info'
+                                    defaultMessage='View additional info'
+                                />
+                            </Tooltip>
+                        }
                     >
-                        <i className='fa fa-info-circle'/>
-                    </button>
+                        <button
+                            className='card-icon__container icon--show style--none'
+                            onClick={(e) => {
+                                e.preventDefault();
+                                this.handleCardClick(this.props.post);
+                            }}
+                        >
+                            <InfoSmallIcon
+                                className='icon icon__info'
+                                aria-hidden='true'
+                            />
+                        </button>
+                    </OverlayTrigger>
                 );
             }
 

@@ -4,12 +4,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
+import Constants from 'utils/constants.jsx';
 import CommentIcon from 'components/common/comment_icon.jsx';
 import DotMenu from 'components/dot_menu';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
@@ -228,18 +230,32 @@ export default class PostInfo extends React.PureComponent {
         let postInfoIcon;
         if (post.props && post.props.card) {
             postInfoIcon = (
-                <button
-                    className='card-icon__container icon--show style--none'
-                    onClick={(e) => {
-                        e.preventDefault();
-                        this.props.handleCardClick(this.props.post);
-                    }}
+                <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={
+                        <Tooltip>
+                            <FormattedMessage
+                                id='post_info.info.view_additional_info'
+                                defaultMessage='View additional info'
+                            />
+                        </Tooltip>
+                    }
                 >
-                    <InfoSmallIcon
-                        className='icon icon__info'
-                        aria-hidden='true'
-                    />
-                </button>
+                    <button
+                        className='card-icon__container icon--show style--none'
+                        onClick={(e) => {
+                            e.preventDefault();
+                            this.props.handleCardClick(this.props.post);
+                        }}
+                    >
+                        <InfoSmallIcon
+                            className='icon icon__info'
+                            aria-hidden='true'
+                        />
+                    </button>
+                </OverlayTrigger>
             );
         }
 
