@@ -43,7 +43,7 @@ describe('PostBodyAdditionalContent', () => {
                         url: imageUrl,
                     }],
                     images: {
-                        [imageUrl]: {},
+                        [imageUrl]: imageMetadata,
                     },
                 },
             },
@@ -53,7 +53,7 @@ describe('PostBodyAdditionalContent', () => {
             const wrapper = shallow(<PostBodyAdditionalContent {...imageBaseProps}/>);
 
             expect(wrapper).toMatchSnapshot();
-            expect(wrapper.find(PostImage)).toExist();
+            expect(wrapper.find(PostImage).exists()).toBe(true);
             expect(wrapper.find(PostImage).prop('imageMetadata')).toBe(imageMetadata);
         });
 
@@ -79,7 +79,7 @@ describe('PostBodyAdditionalContent', () => {
 
             const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
 
-            expect(wrapper.find(PostImage)).not.toExist();
+            expect(wrapper.find(PostImage).exists()).toBe(false);
         });
     });
 
@@ -105,7 +105,7 @@ describe('PostBodyAdditionalContent', () => {
             const wrapper = shallow(<PostBodyAdditionalContent {...messageAttachmentBaseProps}/>);
 
             expect(wrapper).toMatchSnapshot();
-            expect(wrapper.find(MessageAttachmentList)).toExist();
+            expect(wrapper.find(MessageAttachmentList).exists()).toBe(true);
             expect(wrapper.find(MessageAttachmentList).prop('attachments')).toBe(attachments);
         });
 
@@ -117,7 +117,7 @@ describe('PostBodyAdditionalContent', () => {
 
             const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
 
-            expect(wrapper.find(MessageAttachmentList)).toExist();
+            expect(wrapper.find(MessageAttachmentList).exists()).toBe(true);
         });
     });
 
@@ -141,7 +141,7 @@ describe('PostBodyAdditionalContent', () => {
         test('should render correctly', () => {
             const wrapper = shallow(<PostBodyAdditionalContent {...ogBaseProps}/>);
 
-            expect(wrapper.find(PostAttachmentOpenGraph)).toExist();
+            expect(wrapper.find(PostAttachmentOpenGraph).exists()).toBe(true);
             expect(wrapper).toMatchSnapshot();
         });
 
@@ -167,7 +167,7 @@ describe('PostBodyAdditionalContent', () => {
 
             const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
 
-            expect(wrapper.find(PostAttachmentOpenGraph)).toExist();
+            expect(wrapper.find(PostAttachmentOpenGraph).exists()).toBe(true);
         });
     });
 
@@ -191,7 +191,7 @@ describe('PostBodyAdditionalContent', () => {
         test('should render correctly', () => {
             const wrapper = shallow(<PostBodyAdditionalContent {...youtubeBaseProps}/>);
 
-            expect(wrapper.find(YoutubeVideo)).toExist();
+            expect(wrapper.find(YoutubeVideo).exists()).toBe(true);
             expect(wrapper).toMatchSnapshot();
         });
 
@@ -217,7 +217,7 @@ describe('PostBodyAdditionalContent', () => {
 
             const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
 
-            expect(wrapper.find(YoutubeVideo)).not.toExist();
+            expect(wrapper.find(YoutubeVideo).exists()).toBe(false);
             expect(wrapper).toMatchSnapshot();
         });
     });
