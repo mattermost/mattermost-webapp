@@ -625,7 +625,6 @@
             text-align: center;
             border: none;
             border-bottom: 2px $light-gray solid;
-            border-bottom-color: var(--sidebar-bg);
 
             &.active {
                 border-bottom: 2px $primary-color solid;
