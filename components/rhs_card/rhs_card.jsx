@@ -4,14 +4,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
+import {FormattedMessage} from 'react-intl';
+import {Link} from 'react-router-dom';
 
 import DelayedAction from 'utils/delayed_action.jsx';
 import Constants, {RHSStates} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import RhsCardHeader from 'components/rhs_card_header';
 import Markdown from 'components/markdown';
-import Post from 'components/post_view/post';
-import DateSeparator from 'components/post_view/date_separator';
+import UserProfile from 'components/user_profile';
+import PostProfilePicture from 'components/post_profile_picture';
+import * as GlobalActions from 'actions/global_actions.jsx';
 
 export function renderView(props) {
     return (
@@ -40,9 +43,10 @@ export function renderThumbVertical(props) {
 export default class RhsCard extends React.Component {
     static propTypes = {
         selected: PropTypes.object,
-        channel: PropTypes.object,
         pluginPostCardTypes: PropTypes.object,
         previousRhsState: PropTypes.oneOf(Object.values(RHSStates)),
+        enablePostUsernameOverride: PropTypes.bool,
+        teamUrl: PropTypes.string,
     }
 
     static defaultProps = {
@@ -90,12 +94,18 @@ export default class RhsCard extends React.Component {
         return this.refs.sidebarbody;
     }
 
+    handleClick = () => {
+        if (Utils.isMobile()) {
+            GlobalActions.emitCloseRightHandSide();
+        }
+    };
+
     render() {
         if (this.props.selected == null) {
             return (<div/>);
         }
 
-        const {channel, selected, pluginPostCardTypes} = this.props;
+        const {selected, pluginPostCardTypes, teamUrl} = this.props;
         const postType = selected.type;
         let content = null;
         if (pluginPostCardTypes.hasOwnProperty(postType)) {
@@ -111,7 +121,30 @@ export default class RhsCard extends React.Component {
             );
         }
 
-        const postDate = Utils.getDateForUnixTicks(selected.create_at);
+        let user = (
+            <UserProfile
+                userId={selected.user_id}
+                hideStatus={true}
+                disablePopover={true}
+            />
+        );
+        if (selected.props.override_username && this.props.enablePostUsernameOverride) {
+            user = (
+                <UserProfile
+                    userId={selected.user_id}
+                    hideStatus={true}
+                    disablePopover={true}
+                    overwriteName={selected.props.override_username}
+                />
+            );
+        }
+        const avatar = (
+            <PostProfilePicture
+                compactDisplay={false}
+                post={selected}
+                userId={selected.user_id}
+            />
+        );
 
         return (
             <div
@@ -129,16 +162,28 @@ export default class RhsCard extends React.Component {
                     onScroll={this.handleScroll}
                 >
                     <div className='post-right__scroll'>
-                        <DateSeparator date={postDate}/>
-                        <div className='card-info-channel__name'>{channel.display_name}</div>
-                        <Post
-                            ref={selected.id}
-                            key={'post ' + (selected.id || selected.pending_post_id)}
-                            post={selected}
-                            maxHeight={150}
-                        />
-
                         {content}
+                        <div className='post-card--info'>
+                            <div className='post-card--post-by'>
+                                <FormattedMessage
+                                    id='rhs_card.post_by'
+                                    defaultMessage='Post by {avatar} {user}'
+                                    values={{user, avatar}}
+                                />
+                            </div>
+                            <div className='post-card--view-post'>
+                                <Link
+                                    to={`${teamUrl}/pl/${selected.id}`}
+                                    className='post__permalink'
+                                    onClick={this.handleClick}
+                                >
+                                    <FormattedMessage
+                                        id='rhs_card.view_post'
+                                        defaultMessage='View post'
+                                    />
+                                </Link>
+                            </div>
+                        </div>
                     </div>
                 </Scrollbars>
             </div>

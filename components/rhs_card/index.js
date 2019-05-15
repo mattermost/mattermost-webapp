@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {getSelectedPostCard} from 'selectors/rhs.jsx';
 
@@ -10,15 +11,14 @@ import RhsCard from './rhs_card.jsx';
 
 function mapStateToProps(state) {
     const selected = getSelectedPostCard(state);
-    let channel = null;
-    if (selected) {
-        channel = getChannel(state, selected.channel_id);
-    }
+    const config = getConfig(state);
+    const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
 
     return {
+        enablePostUsernameOverride,
         selected,
-        channel,
         pluginPostCardTypes: state.plugins.postCardTypes,
+        teamUrl: getCurrentRelativeTeamUrl(state),
     };
 }
 
