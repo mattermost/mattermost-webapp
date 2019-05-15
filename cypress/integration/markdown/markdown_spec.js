@@ -32,14 +32,39 @@ const testCases = [
 
 describe('Markdown message', () => {
     before(() => {
-        // 1. Login as "user-1" and go to /
+        // # Enable local image proxy so our expected URLs match
+        // # Login as sysadmin to change settings
+        cy.apiLogin('sysadmin');
+
+        // # Get current settings
+        cy.request('/api/v4/config').then((response) => {
+            const settings = response.body;
+
+            // # Modify the settings we need to change
+            settings.ImageProxySettings = {
+                Enable: true,
+                ImageProxyType: 'local',
+                RemoteImageProxyURL: '',
+                RemoteImageProxyOptions: '',
+            };
+
+            // # Set the modified settings
+            cy.request({
+                url: '/api/v4/config',
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                method: 'PUT',
+                body: settings,
+            });
+        });
+
+        // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
     });
 
     testCases.forEach((testCase) => {
         it(testCase.name, () => {
-            // 2.  Post markdown message
+            // #  Post markdown message
             cy.postMessageFromFile(`markdown/${testCase.fileKey}.md`);
 
             // * Verify that HTML Content is correct
