@@ -30,7 +30,7 @@ export default class Bots extends React.PureComponent {
         */
         owners: PropTypes.object.isRequired,
 
-        createBots: PropTypes.bool.isRequired,
+        createBots: PropTypes.bool,
 
         actions: PropTypes.shape({
 
