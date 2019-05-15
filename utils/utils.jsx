@@ -478,7 +478,10 @@ export function isHexColor(value) {
 
 export function applyTheme(theme) {
     if (theme.sidebarBg) {
+        changeCss('.app__body .sidebar--left .sidebar__switcher, .sidebar--left, .sidebar--left .sidebar__divider .sidebar__divider__text, .app__body .modal .settings-modal .settings-table .settings-links, .app__body .sidebar--menu', 'background:' + theme.sidebarBg);
+        changeCss('body.app__body', 'scrollbar-face-color:' + theme.sidebarBg);
         changeCss('@media(max-width: 768px){.app__body .modal .settings-modal:not(.settings-modal--tabless):not(.display--content) .modal-content', 'background:' + theme.sidebarBg);
+        changeCss('.app__body .modal-tabs .nav-tabs > li.active', `border-bottom-color:${theme.sidebarBg}`);
     }
 
     if (theme.sidebarText) {
@@ -957,6 +960,27 @@ export function applyTheme(theme) {
     cssVars({
         variables: {
             'sidebar-bg': theme.sidebarBg,
+            'sidebar-text': theme.sidebarText,
+            'sidebar-unread-text': theme.sidebarUnreadText,
+            'sidebar-text-hover-bg': theme.sidebarTextHoverBg,
+            'sidebar-text-active-border': theme.sidebarTextActiveBorder,
+            'sidebar-text-active-color': theme.sidebarTextActiveColor,
+            'sidebar-header-bg': theme.sidebarHeaderBg,
+            'sidebar-header-text-color': theme.sidebarHeaderTextColor,
+            'online-indicator': theme.onlineIndicator,
+            'away-indicator': theme.awayIndicator,
+            'dnd-indicator': theme.dndIndicator,
+            'mention-bg': theme.mentionBg,
+            'mention-color': theme.mentionColor,
+            'center-channel-bg': theme.centerChannelBg,
+            'center-channel-color': theme.centerChannelColor,
+            'new-message-separator': theme.newMessageSeparator,
+            'link-color': theme.linkColor,
+            'button-bg': theme.buttonBg,
+            'button-color': theme.buttonColor,
+            'error-text-color': theme.errorTextColor,
+            'mention-highlight-bg': theme.mentionHighlightBg,
+            'mention-highlight-link': theme.mentionHighlightLink,
         },
     });
 }
