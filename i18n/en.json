@@ -2020,6 +2020,7 @@
   "general_tab.codeTitle": "Invite Code",
   "general_tab.emptyDescription": "Click 'Edit' to add a team description.",
   "general_tab.getTeamInviteLink": "Get Team Invite Link",
+  "general_tab.membersManagedByGroups": "Members of this team are added and removed by linked groups.",
   "general_tab.no": "No",
   "general_tab.openInviteDesc": "When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team.",
   "general_tab.openInviteTitle": "Allow any user with an account on this server to join this team",
