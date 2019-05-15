@@ -276,7 +276,10 @@ export class RenameChannelModal extends React.PureComponent {
                 aria-labelledby='renameChannelModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='renameChannelModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='renameChannelModalLabel'
+                    >
                         <FormattedMessage
                             id='rename_channel.title'
                             defaultMessage='Rename Channel'

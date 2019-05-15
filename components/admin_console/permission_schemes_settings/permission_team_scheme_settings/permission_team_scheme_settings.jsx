@@ -445,7 +445,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                                 className='form-control'
                                 type='text'
                                 value={schemeName}
-                                placeholder={{id: 'admin.permissions.teamScheme.schemeNamePlaceholder', defaultMessage: 'Scheme Name'}}
+                                placeholder={{id: t('admin.permissions.teamScheme.schemeNamePlaceholder'), defaultMessage: 'Scheme Name'}}
                                 onChange={this.handleNameChange}
                             />
                         </div>

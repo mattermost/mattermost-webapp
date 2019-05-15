@@ -38,7 +38,7 @@ exports[`components/AccessHistoryModal should match snapshot when audits exist 1
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="accessHistoryModalLabel"
     >
       <FormattedMessage
@@ -104,7 +104,7 @@ exports[`components/AccessHistoryModal should match snapshot when no audits exis
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="accessHistoryModalLabel"
     >
       <FormattedMessage

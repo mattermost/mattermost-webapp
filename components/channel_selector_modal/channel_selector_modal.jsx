@@ -198,7 +198,10 @@ export default class ChannelSelectorModal extends React.Component {
                 aria-labelledby='channelSelectorModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='channelSelectorModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='channelSelectorModalLabel'
+                    >
                         <FormattedMarkdownMessage
                             id='add_channels_to_scheme.title'
                             defaultMessage='Add Channels To **Channel Selection** List'

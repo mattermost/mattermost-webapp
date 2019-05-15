@@ -233,7 +233,10 @@ export default class ChannelInviteModal extends React.Component {
                 aria-labelledby='channelInviteModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='channelInviteModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='channelInviteModalLabel'
+                    >
                         <FormattedMessage
                             id='channel_invite.addNewMembers'
                             defaultMessage='Add New Members to '

@@ -57,11 +57,6 @@ export default class PostBody extends React.PureComponent {
          */
         isFirstReply: PropTypes.bool,
 
-        /**
-         * User's preference to link previews
-         */
-        previewEnabled: PropTypes.bool,
-
         /*
          * Post type components from plugins
          */
@@ -182,7 +177,6 @@ export default class PostBody extends React.PureComponent {
             messageWithAdditionalContent = (
                 <PostBodyAdditionalContent
                     post={this.props.post}
-                    previewEnabled={this.props.previewEnabled}
                     isEmbedVisible={this.props.isEmbedVisible}
                 >
                     {messageWrapper}

@@ -76,7 +76,10 @@ export default class DeleteChannelModal extends React.PureComponent {
                 aria-labelledby='deleteChannelModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='deleteChannelModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='deleteChannelModalLabel'
+                    >
                         <FormattedMessage
                             id='delete_channel.confirm'
                             defaultMessage='Confirm ARCHIVE Channel'

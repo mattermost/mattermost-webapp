@@ -239,7 +239,10 @@ export default class ChannelNotificationsModal extends React.PureComponent {
                 aria-labelledby='channelNotificationModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='channelNotificationModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='channelNotificationModalLabel'
+                    >
                         <FormattedMessage
                             id='channel_notifications.preferences'
                             defaultMessage='Notification Preferences for '

@@ -163,7 +163,7 @@ export default class ListModal extends React.PureComponent {
                     onExited={this.handleExit}
                 >
                     <Modal.Header closeButton={true}>
-                        <Modal.Title>
+                        <Modal.Title componentClass='h1'>
                             <span className='name'>{this.props.titleText}</span>
                         </Modal.Title>
                         {this.props.titleBarButtonText && this.props.titleBarButtonOnClick &&

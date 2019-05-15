@@ -38,7 +38,7 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="deletePostModalLabel"
     >
       <FormattedMessage
@@ -146,7 +146,7 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="deletePostModalLabel"
     >
       <FormattedMessage
@@ -263,7 +263,7 @@ exports[`components/delete_post_modal should match snapshot for post with 1 comm
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="deletePostModalLabel"
     >
       <FormattedMessage

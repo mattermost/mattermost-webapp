@@ -236,7 +236,10 @@ export default class TeamSelectorModal extends React.Component {
                 aria-labelledby='teamSelectorModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='teamSelectorModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='teamSelectorModalLabel'
+                    >
                         <FormattedMarkdownMessage
                             id='add_teams_to_scheme.title'
                             defaultMessage='Add Teams To **Team Selection** List'
