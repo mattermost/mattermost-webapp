@@ -274,6 +274,7 @@ export default class Textbox extends React.Component {
         let preview = null;
 
         let textboxClassName = 'form-control custom-textarea';
+        let textWrapperClass = 'textarea-wrapper';
         if (this.props.emojiEnabled) {
             textboxClassName += ' custom-textarea--emoji-picker';
         }
@@ -282,6 +283,7 @@ export default class Textbox extends React.Component {
         }
         if (this.state.preview) {
             textboxClassName += ' custom-textarea--preview';
+            textWrapperClass += ' textarea-wrapper--preview';
 
             preview = (
                 <div
@@ -299,7 +301,7 @@ export default class Textbox extends React.Component {
         return (
             <div
                 ref='wrapper'
-                className='textarea-wrapper'
+                className={textWrapperClass}
             >
                 <SuggestionBox
                     id={this.props.id}
