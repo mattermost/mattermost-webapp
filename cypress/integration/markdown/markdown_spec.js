@@ -32,6 +32,11 @@ const testCases = [
 
 describe('Markdown message', () => {
     before(() => {
+        // # Disable fetch so requests fall back to XHR so we can listen to routes
+        cy.on('window:before:load', (win) => {
+            win.fetch = null;
+        });
+
         // # Enable local image proxy so our expected URLs match
         // # Login as sysadmin to change settings
         cy.apiLogin('sysadmin');
@@ -57,9 +62,16 @@ describe('Markdown message', () => {
             });
         });
 
-        // # Login as "user-1" and go to /
+        // # Login as "user-1"
         cy.apiLogin('user-1');
+
+        // # Start cypress server, and listen for request to get posts
+        cy.server();
+        cy.route('GET', 'api/v4/channels/**/posts*').as('getPosts');
+
+        // # Navigate to app and wait for posts request to finish
         cy.visit('/');
+        cy.wait('@getPosts', {timeout: 20000}).should('have.property', 'status', 200);
     });
 
     testCases.forEach((testCase) => {
