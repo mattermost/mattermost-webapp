@@ -115,7 +115,7 @@ export default class ChannelSelectorModal extends React.Component {
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
             this.setChannelsLoadingState(true);
-            this.props.actions.loadChannels(page + 1, CHANNELS_PER_PAGE).then(() => {
+            this.props.actions.loadChannels(page, CHANNELS_PER_PAGE).then(() => {
                 this.setChannelsLoadingState(false);
             });
         }

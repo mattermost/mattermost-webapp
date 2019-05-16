@@ -121,7 +121,7 @@ export default class TeamSelectorModal extends React.Component {
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
             this.setTeamsLoadingState(true);
-            this.props.actions.loadTeams(page + 1, TEAMS_PER_PAGE).then(() => {
+            this.props.actions.loadTeams(page, TEAMS_PER_PAGE).then(() => {
                 this.setTeamsLoadingState(false);
             });
         }
