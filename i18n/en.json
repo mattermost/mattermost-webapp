@@ -2896,6 +2896,7 @@
   "user.settings.advance.markdown_preview": "Show markdown preview option in message input box",
   "user.settings.advance.off": "Off",
   "user.settings.advance.on": "On",
+  "user.settings.advance.onForCode":"On for code-formatted messages (starting with ```)",
   "user.settings.advance.preReleaseDesc": "Check any pre-released features you'd like to preview.  You may also need to refresh the page before the setting will take effect.",
   "user.settings.advance.preReleaseTitle": "Preview pre-release features",
   "user.settings.advance.sendDesc": "If enabled ENTER inserts a new line and CTRL+ENTER submits the message.",
