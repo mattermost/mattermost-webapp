@@ -1204,6 +1204,8 @@
   "admin.service.corsExposedHeadersTitle": "CORS Exposed Headers:",
   "admin.service.corsHeadersEx": "X-My-Header",
   "admin.service.corsTitle": "Enable cross-origin requests from:",
+  "admin.service.createBotAccounts": "When true, users can create bot accounts for integrations in **Integrations > Bot Accounts**. Bot accounts are similar to user accounts except they cannot be used to log in. See [documentation](https://mattermost.com/pl/default-bot-accounts) to learn more.",
+  "admin.service.createBotTitle": "Enable Bot Account Creation: ",
   "admin.service.developerDesc": "When true, JavaScript errors are shown in a purple bar at the top of the user interface. Not recommended for use in production. ",
   "admin.service.developerTitle": "Enable Developer Mode: ",
   "admin.service.enforceMfaDesc": "When true, [multi-factor authentication](!https://docs.mattermost.com/deployment/auth.html) is required for login. New users will be required to configure MFA on signup. Logged in users without MFA configured are redirected to the MFA setup page until configuration is complete.\n \nIf your system has users with login methods other than AD/LDAP and email, MFA must be enforced with the authentication provider outside of Mattermost.",
