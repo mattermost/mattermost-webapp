@@ -152,7 +152,10 @@ export default class ImportThemeModal extends React.Component {
                     aria-labelledby='importThemeModalLabel'
                 >
                     <Modal.Header closeButton={true}>
-                        <Modal.Title id='importThemeModalLabel'>
+                        <Modal.Title
+                            componentClass='h1'
+                            id='importThemeModalLabel'
+                        >
                             <FormattedMessage
                                 id='user.settings.import_theme.importHeader'
                                 defaultMessage='Import Slack Theme'

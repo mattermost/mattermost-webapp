@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
-import {getProfilesInCurrentChannel} from 'mattermost-redux/selectors/entities/users';
+import {getProfilesInCurrentChannel, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {Preferences} from 'utils/constants.jsx';
@@ -19,6 +19,7 @@ function mapStateToProps(state) {
     const isReadOnly = isCurrentChannelReadOnly(state);
 
     return {
+        currentUserId: getCurrentUserId(state),
         locale: getCurrentLocale(state),
         channelProfiles: getProfilesInCurrentChannel(state),
         enableUserCreation,

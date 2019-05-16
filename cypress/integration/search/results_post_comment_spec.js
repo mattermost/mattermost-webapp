@@ -25,7 +25,7 @@ describe('Search', () => {
         cy.get('#searchBox').type(message).type('{enter}');
 
         // 4. Get last postId
-        cy.getLastPostIdWithRetry().then((postId) => {
+        cy.getLastPostId().then((postId) => {
             const postMessageText = `#postMessageText_${postId}`;
 
             // * Search results should have our original message
@@ -45,7 +45,7 @@ describe('Search', () => {
         });
 
         // 7. Get the comment id
-        cy.getLastPostIdWithRetry().then((commentId) => {
+        cy.getLastPostId().then((commentId) => {
             const commentText = `#postMessageText_${commentId}`;
 
             // * Verify comment in RHS

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import * as Utils from 'utils/utils';
+import {t} from 'utils/i18n.jsx';
 
 import LocalizedInput from 'components/localized_input/localized_input';
 
@@ -65,7 +66,7 @@ export default class CustomUrlSchemesSetting extends React.Component {
                     id={this.props.id}
                     className='form-control'
                     type='text'
-                    placeholder={{id: 'admin.customization.customUrlSchemesPlaceholder', defaultMessage: 'E.g.: "git,smtp"'}}
+                    placeholder={{id: t('admin.customization.customUrlSchemesPlaceholder'), defaultMessage: 'E.g.: "git,smtp"'}}
                     value={this.state.value}
                     onChange={this.handleChange}
                     disabled={this.props.disabled || this.props.setByEnv}

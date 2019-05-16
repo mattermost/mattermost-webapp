@@ -32,6 +32,7 @@ function mapStateToProps(state) {
     return {
         currentTeamName: team.display_name,
         currentTeamId: team.id,
+        currentTeamGroupConstrained: team.group_constrained,
         searchTerm,
         users,
         show: isModalOpen(state, modalId),

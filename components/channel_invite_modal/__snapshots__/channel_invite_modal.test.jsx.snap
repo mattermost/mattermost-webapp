@@ -37,7 +37,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="channelInviteModalLabel"
     >
       <FormattedMessage
@@ -81,6 +81,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
       optionRenderer={[Function]}
       options={Array []}
       perPage={50}
+      placeholderText="Search and add members"
       saving={false}
       valueRenderer={[Function]}
       values={Array []}

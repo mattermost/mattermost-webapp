@@ -28,6 +28,7 @@ describe('plugins/MainMenuActions', () => {
             pluginMenuItems: [{id: 'someplugin', text: 'some plugin text', action: pluginAction}],
             canCreateOrDeleteCustomEmoji: true,
             moreTeamsToJoin: true,
+            teamIsGroupConstrained: true,
             actions: {
                 openModal: jest.fn(),
                 showMentions: jest.fn(),

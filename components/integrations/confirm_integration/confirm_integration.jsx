@@ -275,7 +275,10 @@ export default class ConfirmIntegration extends React.Component {
                     />
                 </BackstageHeader>
                 <div className='backstage-form backstage-form__confirmation'>
-                    <h4 className='backstage-form__title'>
+                    <h4
+                        className='backstage-form__title'
+                        id='formTitle'
+                    >
                         <FormattedMessage
                             id='integrations.successful'
                             defaultMessage='Setup Successful'
@@ -288,6 +291,7 @@ export default class ConfirmIntegration extends React.Component {
                             className='btn btn-primary'
                             type='submit'
                             to={'/' + this.props.team.name + '/integrations/' + this.state.type}
+                            id='doneButton'
                         >
                             <FormattedMessage
                                 id='integrations.done'

@@ -121,7 +121,10 @@ export default class ActivityLogModal extends React.PureComponent {
                 aria-labelledby='activityLogModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='activityLogModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='activityLogModalLabel'
+                    >
                         <FormattedMessage
                             id='activity_log.activeSessions'
                             defaultMessage='Active Sessions'

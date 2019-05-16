@@ -98,7 +98,10 @@ export default class ResetEmailModal extends React.Component {
                 aria-labelledby='resetEmailModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='resetEmailModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='resetEmailModalLabel'
+                    >
                         {title}
                     </Modal.Title>
                 </Modal.Header>

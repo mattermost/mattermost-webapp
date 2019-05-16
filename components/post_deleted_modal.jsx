@@ -33,7 +33,10 @@ export default class PostDeletedModal extends React.Component {
                 aria-labelledby='postDeletedModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='postDeletedModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='postDeletedModalLabel'
+                    >
                         <FormattedMessage
                             id='post_delete.notPosted'
                             defaultMessage='Comment could not be posted'

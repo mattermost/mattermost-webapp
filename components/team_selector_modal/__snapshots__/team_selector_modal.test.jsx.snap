@@ -37,7 +37,7 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="teamSelectorModalLabel"
     >
       <InjectIntl(FormattedMarkdownMessage)
@@ -112,6 +112,7 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
         ]
       }
       perPage={50}
+      placeholderText="Search and add teams"
       saving={false}
       valueRenderer={[Function]}
       values={Array []}

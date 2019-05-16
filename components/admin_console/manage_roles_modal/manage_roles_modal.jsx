@@ -339,7 +339,10 @@ export default class ManageRolesModal extends React.PureComponent {
                 aria-labelledby='manageRolesModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='manageRolesModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='manageRolesModalLabel'
+                    >
                         <FormattedMessage
                             id='admin.manage_roles.manageRolesTitle'
                             defaultMessage='Manage Roles'

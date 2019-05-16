@@ -17,7 +17,6 @@ export default class YoutubeVideo extends React.PureComponent {
         link: PropTypes.string.isRequired,
         show: PropTypes.bool.isRequired,
         googleDeveloperKey: PropTypes.string,
-        onLinkLoaded: PropTypes.func,
     }
 
     constructor(props) {
@@ -106,7 +105,6 @@ export default class YoutubeVideo extends React.PureComponent {
         } else {
             this.loadWithoutKey();
         }
-        this.props.onLinkLoaded();
     }
 
     loadWithoutKey() {

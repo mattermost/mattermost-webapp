@@ -1,159 +1,233 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
 import {shallow} from 'enzyme';
+import React from 'react';
 
-import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content/post_body_additional_content.jsx';
-import ViewImageModal from 'components/view_image';
+import MessageAttachmentList from 'components/post_view/message_attachments/message_attachment_list';
+import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
+import PostImage from 'components/post_view/post_image';
+import YoutubeVideo from 'components/youtube_video';
 
-import * as PostUtils from 'utils/post_utils';
+import PostBodyAdditionalContent from './post_body_additional_content';
 
-describe('components/post_view/PostBodyAdditionalContent', () => {
-    const post = {
-        id: 'post_id_1',
-        root_id: 'root_id',
-        channel_id: 'channel_id',
-        create_at: 1,
-        message: '',
-    };
+describe('PostBodyAdditionalContent', () => {
     const baseProps = {
-        post,
-        previewCollapsed: '',
-        previewEnabled: false,
+        children: <span>{'some children'}</span>,
+        post: {
+            id: 'post_id_1',
+            root_id: 'root_id',
+            channel_id: 'channel_id',
+            create_at: 1,
+            message: '',
+            metadata: {},
+        },
         isEmbedVisible: true,
-        enableLinkPreviews: true,
-        hasImageProxy: true,
         actions: {
-            getRedirectLocation: jest.fn().mockResolvedValue({data: true}),
             toggleEmbedVisibility: jest.fn(),
         },
     };
 
-    test('isLinkImage, should return true for valid image URLs', () => {
-        const testCases = [
-            {link: 'http://localhost/some_image1234.jpg', result: true},
-            {link: 'http://localhost/some_image1234.JPG', result: true},
-            {link: 'http://localhost/some_image1234.png?someURLParam=someValue', result: true},
-            {link: 'http://localhost/some_image1234.PNG?someURLParam=someValue', result: true},
-            {link: 'http://localhost/not_image', result: false},
-            {link: 'http://localhost/not_jpg', result: false},
-            {link: 'http://localhost/not_JPG', result: false},
-        ];
-        const wrapper = shallow(
-            <PostBodyAdditionalContent {...baseProps}>
-                <div/>
-            </PostBodyAdditionalContent>
-        );
-        testCases.forEach((testCase) => {
-            expect(wrapper.instance().isLinkImage(testCase.link)).toEqual(testCase.result);
-        });
-    });
+    describe('with an image preview', () => {
+        const imageUrl = 'https://example.com/image.png';
+        const imageMetadata = {}; // This can be empty since we're checking equality with ===
 
-    test('should call toggleEmbedVisibility with post id', () => {
-        const props = {
+        const imageBaseProps = {
             ...baseProps,
-            actions: {
-                ...baseProps.actions,
-                toggleEmbedVisibility: jest.fn(),
-            },
-        };
-
-        const wrapper = shallow(
-            <PostBodyAdditionalContent {...props}>
-                <div/>
-            </PostBodyAdditionalContent>
-        );
-
-        wrapper.instance().toggleEmbedVisibility();
-        expect(props.actions.toggleEmbedVisibility).toHaveBeenCalledTimes(1);
-        expect(props.actions.toggleEmbedVisibility).toBeCalledWith('post_id_1');
-    });
-
-    test('image link should go through image proxy in preview modal', () => {
-        const link = 'http://example.com/image.png';
-
-        const props = {
-            ...baseProps,
-            hasImageProxy: true,
             post: {
-                ...post,
-                message: link,
-            },
-        };
-
-        const wrapper = shallow(
-            <PostBodyAdditionalContent {...props}>
-                <div/>
-            </PostBodyAdditionalContent>
-        );
-
-        const fileInfos = wrapper.find(ViewImageModal).prop('fileInfos');
-        expect(fileInfos.length).toBe(1);
-        expect(fileInfos[0].link).toBe(PostUtils.getImageSrc(link, true));
-    });
-
-    test('should call getRedirectLocation call as there is no metadata', () => {
-        const link = 'http://example.com/';
-
-        const props = {
-            ...baseProps,
-            hasImageProxy: true,
-            post: {
-                ...post,
-                message: link,
-            },
-        };
-
-        const wrapper = shallow(
-            <PostBodyAdditionalContent {...props}>
-                <div/>
-            </PostBodyAdditionalContent>
-        );
-
-        expect(baseProps.actions.getRedirectLocation).toHaveBeenCalledTimes(1);
-
-        wrapper.setProps({
-            post: {
-                ...props.post,
-                message: 'http://example.com/new',
-            },
-        });
-        expect(baseProps.actions.getRedirectLocation).toHaveBeenCalledTimes(2);
-    });
-
-    test('should not call getRedirectLocation call as there is metadata available', () => {
-        const link = 'http://example.com/';
-
-        const props = {
-            ...baseProps,
-            hasImageProxy: true,
-            post: {
-                ...post,
-                message: link,
+                ...baseProps.post,
+                message: imageUrl,
                 metadata: {
                     embeds: [{
-                        url: link,
+                        type: 'image',
+                        url: imageUrl,
+                    }],
+                    images: {
+                        [imageUrl]: imageMetadata,
+                    },
+                },
+            },
+        };
+
+        test('should render correctly', () => {
+            const wrapper = shallow(<PostBodyAdditionalContent {...imageBaseProps}/>);
+
+            expect(wrapper).toMatchSnapshot();
+            expect(wrapper.find(PostImage).exists()).toBe(true);
+            expect(wrapper.find(PostImage).prop('imageMetadata')).toBe(imageMetadata);
+        });
+
+        test('should render the toggle after a message containing more than just a link', () => {
+            const props = {
+                ...imageBaseProps,
+                post: {
+                    ...imageBaseProps.post,
+                    message: 'This is an image: ' + imageUrl,
+                },
+            };
+
+            const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should not render content when isEmbedVisible is false', () => {
+            const props = {
+                ...imageBaseProps,
+                isEmbedVisible: false,
+            };
+
+            const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
+
+            expect(wrapper.find(PostImage).exists()).toBe(false);
+        });
+    });
+
+    describe('with a message attachment', () => {
+        const attachments = []; // This can be empty since we're checking equality with ===
+
+        const messageAttachmentBaseProps = {
+            ...baseProps,
+            post: {
+                ...baseProps.post,
+                metadata: {
+                    embeds: [{
+                        type: 'message_attachment',
+                    }],
+                },
+                props: {
+                    attachments,
+                },
+            },
+        };
+
+        test('should render correctly', () => {
+            const wrapper = shallow(<PostBodyAdditionalContent {...messageAttachmentBaseProps}/>);
+
+            expect(wrapper).toMatchSnapshot();
+            expect(wrapper.find(MessageAttachmentList).exists()).toBe(true);
+            expect(wrapper.find(MessageAttachmentList).prop('attachments')).toBe(attachments);
+        });
+
+        test('should render content when isEmbedVisible is false', () => {
+            const props = {
+                ...messageAttachmentBaseProps,
+                isEmbedVisible: false,
+            };
+
+            const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
+
+            expect(wrapper.find(MessageAttachmentList).exists()).toBe(true);
+        });
+    });
+
+    describe('with an opengraph preview', () => {
+        const ogUrl = 'https://example.com/image.png';
+
+        const ogBaseProps = {
+            ...baseProps,
+            post: {
+                ...baseProps.post,
+                message: ogUrl,
+                metadata: {
+                    embeds: [{
                         type: 'opengraph',
+                        url: ogUrl,
                     }],
                 },
             },
         };
 
-        const wrapper = shallow(
-            <PostBodyAdditionalContent {...props}>
-                <div/>
-            </PostBodyAdditionalContent>
-        );
+        test('should render correctly', () => {
+            const wrapper = shallow(<PostBodyAdditionalContent {...ogBaseProps}/>);
 
-        expect(baseProps.actions.getRedirectLocation).not.toHaveBeenCalled();
-
-        wrapper.setProps({
-            post: {
-                ...props.post,
-                message: 'http://example.com/new',
-            },
+            expect(wrapper.find(PostAttachmentOpenGraph).exists()).toBe(true);
+            expect(wrapper).toMatchSnapshot();
         });
-        expect(baseProps.actions.getRedirectLocation).not.toHaveBeenCalled();
+
+        test('should render the toggle after a message containing more than just a link', () => {
+            const props = {
+                ...ogBaseProps,
+                post: {
+                    ...ogBaseProps.post,
+                    message: 'This is a link: ' + ogUrl,
+                },
+            };
+
+            const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should render content when isEmbedVisible is false', () => {
+            const props = {
+                ...ogBaseProps,
+                isEmbedVisible: false,
+            };
+
+            const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
+
+            expect(wrapper.find(PostAttachmentOpenGraph).exists()).toBe(true);
+        });
+    });
+
+    describe('with a YouTube video', () => {
+        const youtubeUrl = 'https://www.youtube.com/watch?v=d-YO3v-wJts';
+
+        const youtubeBaseProps = {
+            ...baseProps,
+            post: {
+                ...baseProps.post,
+                message: youtubeUrl,
+                metadata: {
+                    embeds: [{
+                        type: 'opengraph',
+                        url: youtubeUrl,
+                    }],
+                },
+            },
+        };
+
+        test('should render correctly', () => {
+            const wrapper = shallow(<PostBodyAdditionalContent {...youtubeBaseProps}/>);
+
+            expect(wrapper.find(YoutubeVideo).exists()).toBe(true);
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should render the toggle after a message containing more than just a link', () => {
+            const props = {
+                ...youtubeBaseProps,
+                post: {
+                    ...youtubeBaseProps.post,
+                    message: 'This is a video: ' + youtubeUrl,
+                },
+            };
+
+            const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should not render content when isEmbedVisible is false', () => {
+            const props = {
+                ...youtubeBaseProps,
+                isEmbedVisible: false,
+            };
+
+            const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
+
+            expect(wrapper.find(YoutubeVideo).exists()).toBe(false);
+            expect(wrapper).toMatchSnapshot();
+        });
+    });
+
+    test('should call toggleEmbedVisibility with post id', () => {
+        const wrapper = shallow(<PostBodyAdditionalContent {...baseProps}/>);
+
+        wrapper.instance().toggleEmbedVisibility();
+
+        expect(baseProps.actions.toggleEmbedVisibility).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.toggleEmbedVisibility).toBeCalledWith('post_id_1');
     });
 });
