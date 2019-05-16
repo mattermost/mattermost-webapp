@@ -33,7 +33,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
         channelProfiles: PropTypes.array.isRequired,
         enableUserCreation: PropTypes.bool,
         isReadOnly: PropTypes.bool,
-        team: PropTypes.object.isRequired,
+        teamIsGroupConstrained: PropTypes.bool.isRequired,
     };
 
     render() {
@@ -45,7 +45,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
             enableUserCreation,
             isReadOnly,
             channelProfiles,
-            team,
+            teamIsGroupConstrained,
         } = this.props;
 
         let centeredIntro = '';
@@ -58,7 +58,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
         } else if (channel.type === Constants.GM_CHANNEL) {
             return createGMIntroMessage(channel, centeredIntro, channelProfiles, currentUserId);
         } else if (channel.name === Constants.DEFAULT_CHANNEL) {
-            return createDefaultIntroMessage(channel, centeredIntro, enableUserCreation, isReadOnly, team.group_constrained);
+            return createDefaultIntroMessage(channel, centeredIntro, enableUserCreation, isReadOnly, teamIsGroupConstrained);
         } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
             return createOffTopicIntroMessage(channel, centeredIntro);
         } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {

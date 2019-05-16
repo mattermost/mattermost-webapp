@@ -27,7 +27,7 @@ function mapStateToProps(state) {
         enableUserCreation,
         isReadOnly,
         fullWidth: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
-        team,
+        teamIsGroupConstrained: team.group_constrained,
     };
 }
 
