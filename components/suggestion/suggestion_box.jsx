@@ -174,8 +174,6 @@ export default class SuggestionBox extends React.Component {
             allowDividers: true,
             presentationType: 'text',
         };
-
-        this.preventSuggestionListClose = this.preventSuggestionListClose.bind(this);
     }
 
     componentDidMount() {
@@ -242,7 +240,7 @@ export default class SuggestionBox extends React.Component {
         }, delay);
     }
 
-    preventSuggestionListClose() {
+    preventSuggestionListClose = () => {
         this.preventSuggestionListCloseFlag = true;
     }
 
