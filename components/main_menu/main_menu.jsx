@@ -40,6 +40,7 @@ export default class MainMenu extends React.PureComponent {
         teamId: PropTypes.string,
         teamType: PropTypes.string,
         teamName: PropTypes.string,
+        teamIsGroupConstrained: PropTypes.bool,
         currentUser: PropTypes.object,
         appDownloadLink: PropTypes.string,
         enableCommands: PropTypes.bool.isRequired,
@@ -281,6 +282,7 @@ export default class MainMenu extends React.PureComponent {
                     />
                     <MenuItemToggleModalRedux
                         id='leaveTeam'
+                        show={!teamIsGroupConstrained}
                         modalId={ModalIdentifiers.LEAVE_TEAM}
                         dialogType={LeaveTeamModal}
                         text={localizeMessage('navbar_dropdown.leave', 'Leave Team')}

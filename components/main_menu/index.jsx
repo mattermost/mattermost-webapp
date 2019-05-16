@@ -68,6 +68,7 @@ function mapStateToProps(state) {
         teamId: currentTeam.id,
         teamName: currentTeam.name,
         teamType: currentTeam.type,
+        teamIsGroupConstrained: currentTeam.group_constrained,
         currentUser,
         isMentionSearch: rhsState === RHSStates.MENTION,
         teamIsGroupConstrained: Boolean(currentTeam.group_constrained),
