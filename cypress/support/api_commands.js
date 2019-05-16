@@ -258,13 +258,13 @@ Cypress.Commands.add('loginAsNewUser', ({email = `newE2ETestUser${Date.now()}@ma
 
         // Get teams, select the first three, and add new user to that team
         cy.request('GET', '/api/v4/teams').then((teamsResponse) => {
-            // Verify we have at least 3 teams in the response to add the user to
-            expect(teamsResponse).to.have.property('body').to.have.length.greaterThan(2);
+            // Verify we have at least 2 teams in the response to add the user to
+            expect(teamsResponse).to.have.property('body').to.have.length.greaterThan(1);
 
-            const [team1, team2, team3] = teamsResponse.body;
+            const [team1, team2] = teamsResponse.body;
 
             // Add user to several teams
-            [team1, team2, team3].forEach((team) => {
+            [team1, team2].forEach((team) => {
                 cy.request({
                     method: 'POST',
                     url: `/api/v4/teams/${team.id}/members`,
