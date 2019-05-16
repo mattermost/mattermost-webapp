@@ -14,6 +14,7 @@ describe('components/widgets/loading/LoadingBars', () => {
   className="LoadingBars with-text"
 >
   <img
+    alt="spinner icon"
     className="spinner"
     src={null}
   />
@@ -28,6 +29,7 @@ describe('components/widgets/loading/LoadingBars', () => {
   className="LoadingBars"
 >
   <img
+    alt="spinner icon"
     className="spinner"
     src={null}
   />

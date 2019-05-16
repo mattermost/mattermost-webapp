@@ -41,6 +41,7 @@ export default class PremadeThemeChooser extends React.Component {
                         >
                             <label>
                                 <img
+                                    alt={'premade theme ' + k}
                                     className='img-responsive'
                                     src={premadeTheme.image}
                                 />

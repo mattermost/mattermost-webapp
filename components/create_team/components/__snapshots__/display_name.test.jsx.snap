@@ -4,6 +4,7 @@ exports[`/components/create_team/components/display_name should match snapshot 1
 <div>
   <form>
     <img
+      alt="signup logo"
       className="signup-team-logo"
       src="logo.png"
     />

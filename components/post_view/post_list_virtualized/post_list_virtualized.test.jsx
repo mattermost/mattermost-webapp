@@ -259,4 +259,39 @@ describe('PostList', () => {
             expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual({previousScrollTop: 40, previousScrollHeight: 400});
         });
     });
+
+    describe('initRangeToRender', () => {
+        test('should return 0 to 50 for channel with more than 50 messages', () => {
+            const postListIds = [];
+            for (let i = 0; i < 70; i++) {
+                postListIds.push(`post${i}`);
+            }
+
+            const props = {
+                ...baseProps,
+                postListIds,
+            };
+
+            const wrapper = shallow(<PostList {...props}/>);
+            const instance = wrapper.instance();
+            expect(instance.initRangeToRender).toEqual([0, 50]);
+        });
+
+        test('should return range if new messages are present', () => {
+            const postListIds = [];
+            for (let i = 0; i < 120; i++) {
+                postListIds.push(`post${i}`);
+            }
+            postListIds[65] = PostListRowListIds.START_OF_NEW_MESSAGES;
+
+            const props = {
+                ...baseProps,
+                postListIds,
+            };
+
+            const wrapper = shallow(<PostList {...props}/>);
+            const instance = wrapper.instance();
+            expect(instance.initRangeToRender).toEqual([35, 95]);
+        });
+    });
 });

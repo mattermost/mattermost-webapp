@@ -593,6 +593,7 @@ export default class EmojiPicker extends React.PureComponent {
                         ref={ref}
                     >
                         <img
+                            alt={'emoji image'}
                             src={imgTrans}
                             className='emojisprite'
                         />

@@ -124,6 +124,7 @@ export default class Setup extends React.Component {
                     <div className='form-group'>
                         <div className='col-sm-12'>
                             <img
+                                alt={'qr code image'}
                                 style={style.qrCode}
                                 src={'data:image/png;base64,' + this.state.qrCode}
                             />
