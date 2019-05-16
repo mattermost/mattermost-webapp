@@ -1,5 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`PostBodyAdditionalContent with a YouTube video should not render content when isEmbedVisible is false 1`] = `
+<div>
+  <a
+    aria-label="Toggle Embed Visibility"
+    className="post__embed-visibility pull-left"
+    data-expanded={false}
+    key="toggle"
+    onClick={[Function]}
+  />
+  <span>
+    some children
+  </span>
+</div>
+`;
+
 exports[`PostBodyAdditionalContent with a YouTube video should render correctly 1`] = `
 <div>
   <a

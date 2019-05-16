@@ -57,6 +57,10 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     renderEmbed = (embed) => {
         switch (embed.type) {
         case 'image':
+            if (!this.props.isEmbedVisible) {
+                return null;
+            }
+
             return (
                 <PostImage
                     imageMetadata={this.props.post.metadata.images[embed.url]}
@@ -83,6 +87,10 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
 
         case 'opengraph':
             if (YoutubeVideo.isYoutubeLink(embed.url)) {
+                if (!this.props.isEmbedVisible) {
+                    return null;
+                }
+
                 return (
                     <YoutubeVideo
                         channelId={this.props.post.channel_id}
@@ -130,7 +138,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                     {(toggleable && prependToggle) && this.renderToggle(true)}
                     {this.props.children}
                     {(toggleable && !prependToggle) && this.renderToggle(false)}
-                    {this.props.isEmbedVisible && this.renderEmbed(embed)}
+                    {this.renderEmbed(embed)}
                 </div>
             );
         }

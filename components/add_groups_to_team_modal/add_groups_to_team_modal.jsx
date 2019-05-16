@@ -237,7 +237,7 @@ export default class AddGroupsToTeamModal extends React.Component {
                 onExited={this.handleExit}
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title componentClass='h1'>
                         <FormattedMessage
                             id='add_groups_to_team.title'
                             defaultMessage='Add New Groups To {teamName} Team'

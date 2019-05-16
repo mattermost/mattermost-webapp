@@ -19,39 +19,6 @@ Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPasswo
     cy.get('#post_textbox').should('be.visible');
 });
 
-Cypress.Commands.add('selectOption', (select, pos) => {
-    cy.get(`${select} option +option`).
-        eq(pos).
-        then((e) => {
-            cy.get(select).
-                select(e.val());
-        });
-});
-
-// Enable Integrations in System Console
-Cypress.Commands.add('enableIntegrations', () => {
-    cy.get('#channel_view').should('be.visible');
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-    cy.get('#systemConsole').should('be.visible').click();
-    cy.get('#custom > .sidebar-section > span').click();
-    cy.get('#ServiceSettings\\.EnableIncomingWebhookstrue').click();
-    cy.get('#ServiceSettings\\.EnableOutgoingWebhookstrue').click();
-    cy.get('#ServiceSettings\\.EnableCommandstrue').click();
-    cy.get('#ServiceSettings\\.EnableOAuthServiceProvidertrue').click();
-    cy.get('#saveSetting').then((btn) => {
-        if (btn.is(':disabled')) {
-            btn.click();
-        }
-    });
-});
-
-// Go to Integration Settings
-Cypress.Commands.add('toIntegrationSettings', () => {
-    cy.get('#channel_view').should('be.visible');
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-    cy.get('#integrations').should('be.visible').click();
-});
-
 Cypress.Commands.add('getSubpath', () => {
     cy.visit('/');
     cy.url().then((url) => {
