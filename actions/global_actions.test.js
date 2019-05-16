@@ -16,6 +16,10 @@ jest.mock('actions/views/lhs', () => ({
     close: jest.fn(),
 }));
 
+jest.mock('mattermost-redux/actions/users', () => ({
+    loadMe: () => ({type: 'MOCK_RECEIVED_ME'}),
+}));
+
 describe('actions/global_actions', () => {
     test('redirectUserToDefaultTeam', async () => {
         browserHistory.push = jest.fn();
