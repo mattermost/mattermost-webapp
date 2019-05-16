@@ -81,9 +81,14 @@ class LeaveTeamModal extends React.PureComponent {
                 show={this.props.show}
                 onHide={this.props.onHide}
                 id='leaveTeamModal'
+                role='dialog'
+                aria-labelledby='leaveTeamModalLabel'
             >
                 <Modal.Header closeButton={false}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='leaveTeamModalLabel'
+                    >
                         <FormattedMessage
                             id='leave_team_modal.title'
                             defaultMessage='Leave the team?'

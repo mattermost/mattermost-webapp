@@ -188,6 +188,10 @@ export const ModalIdentifiers = {
     EMAIL_INVITE: 'email_invite',
     INTERACTIVE_DIALOG: 'interactive_dialog',
     ADD_TEAMS_TO_SCHEME: 'add_teams_to_scheme',
+    ADD_GROUPS_TO_TEAM: 'add_groups_to_team',
+    ADD_GROUPS_TO_CHANNEL: 'add_groups_to_channel',
+    MANAGE_TEAM_GROUPS: 'manage_team_groups',
+    MANAGE_CHANNEL_GROUPS: 'manage_channel_groups',
 };
 
 export const UserStatuses = {
@@ -203,6 +207,10 @@ export const UserSearchOptions = {
     WITHOUT_TEAM: 'without_team',
     ROLE: 'role',
 };
+
+export const EventTypes = keyMirror({
+    POST_LIST_SCROLL_CHANGE: null,
+});
 
 export const SocketEvents = {
     POSTED: 'posted',
@@ -1253,5 +1261,6 @@ t('suggestion.mention.members');
 t('suggestion.mention.moremembers');
 t('suggestion.mention.nonmembers');
 t('suggestion.mention.special');
+t('suggestion.archive');
 
 export default Constants;

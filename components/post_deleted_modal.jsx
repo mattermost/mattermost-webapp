@@ -29,9 +29,14 @@ export default class PostDeletedModal extends React.Component {
             <Modal
                 show={this.props.show}
                 onHide={this.props.onHide}
+                role='dialog'
+                aria-labelledby='postDeletedModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='postDeletedModalLabel'
+                    >
                         <FormattedMessage
                             id='post_delete.notPosted'
                             defaultMessage='Comment could not be posted'

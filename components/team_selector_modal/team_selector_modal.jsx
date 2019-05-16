@@ -232,9 +232,14 @@ export default class TeamSelectorModal extends React.Component {
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
+                role='dialog'
+                aria-labelledby='teamSelectorModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='teamSelectorModalLabel'
+                    >
                         <FormattedMarkdownMessage
                             id='add_teams_to_scheme.title'
                             defaultMessage='Add Teams To **Team Selection** List'
@@ -259,6 +264,7 @@ export default class TeamSelectorModal extends React.Component {
                         buttonSubmitText={buttonSubmitText}
                         saving={false}
                         loading={this.state.loadingTeams}
+                        placeholderText={localizeMessage('multiselect.addTeamsPlaceholder', 'Search and add teams')}
                     />
                 </Modal.Body>
             </Modal>

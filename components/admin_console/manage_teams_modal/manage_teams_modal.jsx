@@ -186,6 +186,7 @@ export default class ManageTeamsModal extends React.Component {
             <div>
                 <div className='manage-teams__user'>
                     <img
+                        alt={''}
                         className='manage-teams__profile-picture'
                         src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
                     />
@@ -212,9 +213,14 @@ export default class ManageTeamsModal extends React.Component {
                 show={this.props.show}
                 onHide={this.props.onModalDismissed}
                 dialogClassName='manage-teams modal--overflow-visible'
+                role='dialog'
+                aria-labelledby='manageTeamsModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='manageTeamsModalLabel'
+                    >
                         <FormattedMessage
                             id='admin.user_item.manageTeams'
                             defaultMessage='Manage Teams'

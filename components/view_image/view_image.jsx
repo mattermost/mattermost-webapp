@@ -320,6 +320,8 @@ export default class ViewImageModal extends React.PureComponent {
                 onHide={this.props.onModalDismissed}
                 className='modal-image'
                 dialogClassName='modal-image'
+                role='dialog'
+                aria-labelledby='viewImageModalLabel'
             >
                 <Modal.Body>
                     <div
@@ -331,6 +333,13 @@ export default class ViewImageModal extends React.PureComponent {
                             onMouseLeave={this.onMouseLeaveImage}
                             onClick={(e) => e.stopPropagation()}
                         >
+                            <Modal.Title
+                                componentClass='h1'
+                                id='viewImageModalLabel'
+                                className='hide'
+                            >
+                                {fileName}
+                            </Modal.Title>
                             <div
                                 className={closeButtonClass}
                                 onClick={this.props.onModalDismissed}

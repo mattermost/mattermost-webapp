@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as CommonUtils from 'utils/commons.jsx';
+import {getNearestPoint} from './get_nearest_point';
 
-describe('CommonUtils.getNearestPoint', () => {
+describe('getNearestPoint', () => {
     test('should return nearest point', () => {
         for (const data of [
             {
@@ -25,7 +25,7 @@ describe('CommonUtils.getNearestPoint', () => {
                 nearestPointLte: {x: 1, y: 1},
             },
         ]) {
-            const nearestPoint = CommonUtils.getNearestPoint(data.pivotPoint, data.points);
+            const nearestPoint = getNearestPoint(data.pivotPoint, data.points);
 
             expect(nearestPoint.x).toEqual(data.nearestPoint.x);
             expect(nearestPoint.y).toEqual(data.nearestPoint.y);

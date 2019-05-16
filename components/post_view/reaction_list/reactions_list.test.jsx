@@ -24,8 +24,8 @@ describe('components/ReactionList', () => {
     const teamId = 'teamId';
 
     const actions = {
-        getReactionsForPost: jest.fn(),
         addReaction: jest.fn(),
+        scrollPostList: jest.fn(),
     };
 
     const baseProps = {
@@ -36,28 +36,11 @@ describe('components/ReactionList', () => {
         actions,
     };
 
-    test('Should match snapshot for reactions and should call getReactionsForPost as there is no metadata', () => {
+    test('Should match snapshot for reactions', () => {
         const wrapper = shallow(
             <ReactionList {...baseProps}/>
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(actions.getReactionsForPost).toHaveBeenCalledTimes(1);
-    });
-
-    test('should not call getReactionsForPost as there is is metadata', () => {
-        const props = {
-            ...baseProps,
-            post: {
-                ...baseProps.post,
-                metadata: {},
-            },
-        };
-
-        shallow(
-            <ReactionList {...props}/>
-        );
-
-        expect(actions.getReactionsForPost).not.toHaveBeenCalled();
     });
 });

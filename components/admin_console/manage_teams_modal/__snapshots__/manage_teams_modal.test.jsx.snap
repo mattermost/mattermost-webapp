@@ -3,6 +3,7 @@
 exports[`ManageTeamsModal should match snapshot init 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="manageTeamsModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -25,6 +26,7 @@ exports[`ManageTeamsModal should match snapshot init 1`] = `
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -34,7 +36,8 @@ exports[`ManageTeamsModal should match snapshot init 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="manageTeamsModalLabel"
     >
       <FormattedMessage
         defaultMessage="Manage Teams"
@@ -52,6 +55,7 @@ exports[`ManageTeamsModal should match snapshot init 1`] = `
         className="manage-teams__user"
       >
         <img
+          alt=""
           className="manage-teams__profile-picture"
           src="/api/v4/users/currentUserId/image?_=1234"
         />
@@ -86,6 +90,7 @@ exports[`ManageTeamsModal should match snapshot init 1`] = `
 exports[`ManageTeamsModal should save data in state from api calls 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="manageTeamsModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -108,6 +113,7 @@ exports[`ManageTeamsModal should save data in state from api calls 1`] = `
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -117,7 +123,8 @@ exports[`ManageTeamsModal should save data in state from api calls 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="manageTeamsModalLabel"
     >
       <FormattedMessage
         defaultMessage="Manage Teams"
@@ -135,6 +142,7 @@ exports[`ManageTeamsModal should save data in state from api calls 1`] = `
         className="manage-teams__user"
       >
         <img
+          alt=""
           className="manage-teams__profile-picture"
           src="/api/v4/users/currentUserId/image?_=1234"
         />

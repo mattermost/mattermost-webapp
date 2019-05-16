@@ -281,6 +281,7 @@ export default class CustomThemeChooser extends React.Component {
                     >
                         <img
                             width='200'
+                            alt={'code theme image'}
                             src={codeThemeURL}
                         />
                     </Popover>
@@ -312,6 +313,7 @@ export default class CustomThemeChooser extends React.Component {
                             >
                                 <span className='input-group-addon'>
                                     <img
+                                        alt={'code theme image'}
                                         src={codeThemeURL}
                                     />
                                 </span>

@@ -272,9 +272,14 @@ export class RenameChannelModal extends React.PureComponent {
                 onHide={this.handleCancel}
                 onEntering={this.handleEntering}
                 onExited={this.props.onHide}
+                role='dialog'
+                aria-labelledby='renameChannelModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='renameChannelModalLabel'
+                    >
                         <FormattedMessage
                             id='rename_channel.title'
                             defaultMessage='Rename Channel'

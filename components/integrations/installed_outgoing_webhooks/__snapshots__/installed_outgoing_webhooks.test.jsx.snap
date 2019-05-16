@@ -109,6 +109,7 @@ exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot
 
 exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot 3`] = `
 <BackstageList
+  addButtonId="addOutgoingWebhook"
   addLink="/test/integrations/outgoing_webhooks/add"
   addText={
     <FormattedMessage

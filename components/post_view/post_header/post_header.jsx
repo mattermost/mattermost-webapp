@@ -9,6 +9,8 @@ import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import PostInfo from 'components/post_view/post_info';
 import UserProfile from 'components/user_profile';
+import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import Badge from 'components/widgets/badges/badge.jsx';
 
 export default class PostHeader extends React.PureComponent {
     static propTypes = {
@@ -97,14 +99,7 @@ export default class PostHeader extends React.PureComponent {
                 );
             }
 
-            indicator = (
-                <div className='bot-indicator'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
+            indicator = (<BotBadge/>);
         } else if (fromAutoResponder) {
             userProfile = (
                 <UserProfile
@@ -115,12 +110,12 @@ export default class PostHeader extends React.PureComponent {
             );
 
             indicator = (
-                <div className='bot-indicator'>
+                <Badge>
                     <FormattedMessage
                         id='post_info.auto_responder'
                         defaultMessage='AUTOMATIC REPLY'
                     />
-                </div>
+                </Badge>
             );
         } else if (isSystemMessage && this.props.isBot) {
             userProfile = (

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/ReactionList Should match snapshot for reactions and should call getReactionsForPost as there is no metadata 1`] = `
+exports[`components/ReactionList Should match snapshot for reactions 1`] = `
 <div
   className="post-reaction-list"
 >
@@ -80,6 +80,7 @@ exports[`components/ReactionList Should match snapshot for reactions and should 
           >
             <span
               className="post-reaction__add"
+              id="addReaction-post_id"
             >
               +
             </span>

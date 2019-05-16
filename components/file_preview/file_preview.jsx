@@ -41,6 +41,7 @@ export default class FilePreview extends React.PureComponent {
             if (type === FileTypes.SVG) {
                 previewImage = (
                     <img
+                        alt={'file preview'}
                         className='post-image normal'
                         src={getFileUrl(info.id)}
                     />

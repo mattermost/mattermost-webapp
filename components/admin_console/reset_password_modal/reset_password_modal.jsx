@@ -149,7 +149,6 @@ export default class ResetPasswordModal extends React.Component {
                             type='password'
                             ref='currentPassword'
                             className='form-control'
-                            maxLength='22'
                             autoFocus={true}
                             tabIndex='1'
                         />
@@ -162,9 +161,14 @@ export default class ResetPasswordModal extends React.Component {
             <Modal
                 show={this.props.show}
                 onHide={this.doCancel}
+                role='dialog'
+                aria-labelledby='resetPasswordModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='resetPasswordModalLabel'
+                    >
                         {title}
                     </Modal.Title>
                 </Modal.Header>
@@ -191,7 +195,6 @@ export default class ResetPasswordModal extends React.Component {
                                         type='password'
                                         ref='password'
                                         className='form-control'
-                                        maxLength='22'
                                         autoFocus={newPasswordFocus}
                                         tabIndex='1'
                                     />
