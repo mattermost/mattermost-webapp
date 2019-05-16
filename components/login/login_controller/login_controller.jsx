@@ -363,6 +363,7 @@ class LoginController extends React.Component {
             return (
                 <div>
                     <img
+                        alt={'brand image'}
                         src={brandImageUrl}
                         onError={this.handleBrandImageError}
                         style={brandImageStyle}
@@ -813,6 +814,7 @@ class LoginController extends React.Component {
                             {customContent}
                         </div>
                         <img
+                            alt={'signup team logo'}
                             className='signup-team-logo'
                             src={logoImage}
                         />
