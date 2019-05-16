@@ -4,9 +4,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {getYoutubeVideoInfo} from 'actions/integration_actions.jsx';
-import * as Utils from 'utils/utils.jsx';
+import {getYoutubeVideoInfo} from 'actions/integration_actions';
+
 import WarningIcon from 'components/icon/warning_icon';
+
+import * as PostUtils from 'utils/post_utils.jsx';
+import * as Utils from 'utils/utils';
 
 const ytRegex = /(?:http|https):\/\/(?:www\.|m\.)?(?:(?:youtube\.com\/(?:(?:v\/)|(?:(?:watch|embed\/watch)(?:\/|.*v=))|(?:embed\/)|(?:user\/[^/]+\/u\/[0-9]\/)))|(?:youtu\.be\/))([^#&?]*)/;
 
@@ -14,6 +17,7 @@ export default class YoutubeVideo extends React.PureComponent {
     static propTypes = {
         channelId: PropTypes.string.isRequired,
         currentChannelId: PropTypes.string.isRequired,
+        hasImageProxy: PropTypes.bool.isRequired,
         link: PropTypes.string.isRequired,
         show: PropTypes.bool.isRequired,
         googleDeveloperKey: PropTypes.string,
@@ -110,7 +114,7 @@ export default class YoutubeVideo extends React.PureComponent {
     loadWithoutKey() {
         this.setState({
             loaded: true,
-            thumb: 'https://i.ytimg.com/vi/' + this.state.videoId + '/hqdefault.jpg',
+            thumb: PostUtils.getImageSrc('https://i.ytimg.com/vi/' + this.state.videoId + '/hqdefault.jpg', this.props.hasImageProxy),
         });
     }
 
@@ -141,7 +145,7 @@ export default class YoutubeVideo extends React.PureComponent {
             loaded: true,
             receivedYoutubeData: true,
             title: metadata.title,
-            thumb,
+            thumb: PostUtils.getImageSrc(thumb, this.props.hasImageProxy),
         });
         return null;
     }
