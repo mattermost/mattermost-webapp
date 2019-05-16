@@ -310,7 +310,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
               },
               Object {
                 "order": 6,
-                "text": "Polski (Beta)",
+                "text": "Polski",
                 "value": "pl",
               },
               Object {
@@ -424,7 +424,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
               },
               Object {
                 "order": 6,
-                "text": "Polski (Beta)",
+                "text": "Polski",
                 "value": "pl",
               },
               Object {
