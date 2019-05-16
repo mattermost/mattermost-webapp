@@ -274,12 +274,12 @@ export default class ComplianceReports extends React.PureComponent {
 
         return (
             <div className='panel compliance-panel'>
-                <h3>
+                <h4>
                     <FormattedMessage
                         id='admin.compliance_reports.title'
                         defaultMessage='Compliance Reports'
                     />
-                </h3>
+                </h4>
                 <div className='row'>
                     <div className='col-sm-6 col-md-4 form-group'>
                         <label>

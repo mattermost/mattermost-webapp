@@ -300,8 +300,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
   className="wrapper--fixed"
 >
   <h3
-    className="admin-console-header "
+    className="admin-console-header with-back"
   >
+    <Connect(BlockableLink)
+      className="fa fa-angle-left back"
+      to="/admin_console/user_management/permissions"
+    />
     <FormattedMessage
       defaultMessage="System Scheme"
       id="admin.permissions.systemScheme"

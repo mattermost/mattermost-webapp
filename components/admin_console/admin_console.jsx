@@ -160,7 +160,6 @@ export default class AdminConsole extends React.Component {
             roles,
             editRole,
         };
-
         return (
             <div
                 className='admin-console__wrapper'
