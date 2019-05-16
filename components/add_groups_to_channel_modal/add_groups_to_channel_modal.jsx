@@ -218,11 +218,6 @@ export default class AddGroupsToChannelModal extends React.Component {
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
-        let groups = [];
-        if (this.props.groups) {
-            groups = this.props.groups.filter((user) => user.delete_at === 0);
-        }
-
         let addError = null;
         if (this.state.addError) {
             addError = (<div className='has-error col-sm-12'><label className='control-label font-weight--normal'>{this.state.addError}</label></div>);
@@ -253,7 +248,7 @@ export default class AddGroupsToChannelModal extends React.Component {
                     {addError}
                     <MultiSelect
                         key='addGroupsToChannelKey'
-                        options={groups}
+                        options={this.props.groups}
                         optionRenderer={this.renderOption}
                         values={this.state.values}
                         valueRenderer={this.renderValue}
