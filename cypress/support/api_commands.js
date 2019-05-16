@@ -245,7 +245,11 @@ Cypress.Commands.add('apiEnableOpenServer', (enable = true) => {
  @param {Object} user - Object of user email, username, and password that you can optionally set. Otherwise use default values
  @returns {Object} Returns object containing email, username, id and password if you need it further in the test
  */
-Cypress.Commands.add('loginAsNewUser', ({email = `newE2ETestUser${Date.now()}@mattermost.com`, username = `NewE2ETestUser${Date.now()}`, password = 'password123'} = {}) => {
+Cypress.Commands.add('loginAsNewUser', (user = {}) => {
+    const timestamp = Date.now();
+
+    const {email = `newE2ETestUser${timestamp}@mattermost.com`, username = `NewE2ETestUser${timestamp}`, password = 'password123'} = user;
+
     // # Login as sysadmin to make admin requests
     cy.apiLogin('sysadmin');
 
