@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'react-window';
+import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
@@ -308,9 +309,22 @@ export default class PostList extends React.PureComponent {
     renderRow = ({data, itemId, style}) => {
         const index = data.indexOf(itemId);
         const previousItemId = (index !== -1 && index < data.length - 1) ? data[index + 1] : '';
+        const nextItemId = (index !== 0 && index < data.length) ? data[index - 1] : '';
+        let className = '';
+
+        if (isDateLine(nextItemId) || isStartOfNewMessages(nextItemId)) {
+            className += 'post-row__padding bottom';
+        }
+
+        if (isDateLine(previousItemId) || isStartOfNewMessages(previousItemId)) {
+            className += ' post-row__padding top';
+        }
 
         return (
-            <div style={style}>
+            <div
+                style={style}
+                className={className}
+            >
                 <PostListRow
                     listId={itemId}
                     previousListId={previousItemId}
