@@ -283,7 +283,7 @@ export default class Textbox extends React.Component {
         }
         if (this.state.preview) {
             textboxClassName += ' custom-textarea--preview';
-            textWrapperClass += ' textarea-wrapper--preview'
+            textWrapperClass += ' textarea-wrapper--preview';
 
             preview = (
                 <div
