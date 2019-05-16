@@ -35,10 +35,8 @@ exports[`components/post_view/PostAttachmentOpenGraph Match snapshot for large i
           className="attachment__body attachment__body--opengraph"
         >
           <div>
-            <div>
-              description
-               
-            </div>
+            description
+             
           </div>
         </div>
       </div>
@@ -47,8 +45,6 @@ exports[`components/post_view/PostAttachmentOpenGraph Match snapshot for large i
       >
         <SizeAwareImage
           className="attachment__image attachment__image--opengraph"
-          dimensions={null}
-          onImageLoaded={[Function]}
           src="/api/v4/image?url=http%3A%2F%2Fmattermost.com%2FOpenGraphImage.jpg"
         />
       </div>
@@ -92,10 +88,8 @@ exports[`components/post_view/PostAttachmentOpenGraph Match snapshot for small i
           className="attachment__body attachment__body--opengraph"
         >
           <div>
-            <div>
-              description
-               
-            </div>
+            description
+             
           </div>
         </div>
       </div>
@@ -104,8 +98,6 @@ exports[`components/post_view/PostAttachmentOpenGraph Match snapshot for small i
       >
         <SizeAwareImage
           className="attachment__image attachment__image--opengraph"
-          dimensions={null}
-          onImageLoaded={[Function]}
           src="/api/v4/image?url=http%3A%2F%2Fmattermost.com%2FOpenGraphImage.jpg"
         />
       </div>
@@ -162,10 +154,8 @@ exports[`components/post_view/PostAttachmentOpenGraph Match snapshot for with re
           className="attachment__body attachment__body--opengraph"
         >
           <div>
-            <div>
-              description
-               
-            </div>
+            description
+             
           </div>
         </div>
       </div>
@@ -174,8 +164,6 @@ exports[`components/post_view/PostAttachmentOpenGraph Match snapshot for with re
       >
         <SizeAwareImage
           className="attachment__image attachment__image--opengraph"
-          dimensions={null}
-          onImageLoaded={[Function]}
           src="/api/v4/image?url=http%3A%2F%2Fmattermost.com%2FOpenGraphImage.jpg"
         />
       </div>
