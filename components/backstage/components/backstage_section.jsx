@@ -13,6 +13,7 @@ export default class BackstageSection extends React.Component {
             parentLink: PropTypes.string,
             subsection: PropTypes.bool,
             children: PropTypes.arrayOf(PropTypes.element),
+            id: PropTypes.string,
         };
     }
 
@@ -61,7 +62,10 @@ export default class BackstageSection extends React.Component {
         }
 
         return (
-            <li className={className}>
+            <li
+                className={className}
+                id={this.props.id}
+            >
                 <NavLink
                     className={`${className}-title`}
                     activeClassName={`${className}-title--active`}

@@ -46,6 +46,7 @@ export default class Textbox extends React.Component {
         profilesNotInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
         actions: PropTypes.shape({
             autocompleteUsersInChannel: PropTypes.func.isRequired,
+            scrollPostList: PropTypes.func.isRequired,
         }),
     };
 
@@ -116,6 +117,9 @@ export default class Textbox extends React.Component {
     handleHeightChange = (height, maxHeight) => {
         if (this.props.onHeightChange) {
             this.props.onHeightChange(height, maxHeight);
+        }
+        if (Utils.disableVirtList()) {
+            this.props.actions.scrollPostList();
         }
     }
 
@@ -270,6 +274,7 @@ export default class Textbox extends React.Component {
         let preview = null;
 
         let textboxClassName = 'form-control custom-textarea';
+        let textWrapperClass = 'textarea-wrapper';
         if (this.props.emojiEnabled) {
             textboxClassName += ' custom-textarea--emoji-picker';
         }
@@ -278,6 +283,7 @@ export default class Textbox extends React.Component {
         }
         if (this.state.preview) {
             textboxClassName += ' custom-textarea--preview';
+            textWrapperClass += ' textarea-wrapper--preview';
 
             preview = (
                 <div
@@ -295,7 +301,7 @@ export default class Textbox extends React.Component {
         return (
             <div
                 ref='wrapper'
-                className='textarea-wrapper'
+                className={textWrapperClass}
             >
                 <SuggestionBox
                     id={this.props.id}

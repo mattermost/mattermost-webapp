@@ -530,7 +530,7 @@ export default class EmojiPicker extends React.PureComponent {
                             type='text'
                             onChange={this.handleFilterChange}
                             onKeyDown={this.handleKeyDown}
-                            placeholder={{id: 'emoji_picker.search', defaultMessage: 'Search Emoji'}}
+                            placeholder={{id: t('emoji_picker.search'), defaultMessage: 'Search Emoji'}}
                         />
                     )}
                 </FormattedMessage>
@@ -593,6 +593,7 @@ export default class EmojiPicker extends React.PureComponent {
                         ref={ref}
                     >
                         <img
+                            alt={'emoji image'}
                             src={imgTrans}
                             className='emojisprite'
                         />

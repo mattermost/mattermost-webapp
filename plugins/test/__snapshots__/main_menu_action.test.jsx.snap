@@ -35,6 +35,25 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     <Connect(TeamPermissionGate)
       permissions={
         Array [
+          "manage_team",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="addGroupsToTeam"
+        modalId="add_groups_to_team"
+        show={true}
+        text="Add Groups to Team"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
           "add_user_to_team",
         ]
       }
@@ -78,7 +97,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         icon={false}
         id="addUsersToTeam"
         modalId="add_user_to_team"
-        show={true}
+        show={false}
         text="Add Members to Team"
       />
     </Connect(TeamPermissionGate)>
@@ -101,6 +120,28 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         text="Team Settings"
       />
     </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "teamID": "someteamid",
+          }
+        }
+        dialogType={[Function]}
+        icon={false}
+        id="manageGroups"
+        modalId="manage_team_groups"
+        show={true}
+        text="Manage Groups"
+      />
+    </Connect(TeamPermissionGate)>
     <MenuItemToggleModalRedux
       dialogType={[Function]}
       icon={false}
@@ -109,6 +150,8 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       show={true}
       text="Manage Members"
     />
+  </MenuGroup>
+  <MenuGroup>
     <Connect(SystemPermissionGate)
       permissions={
         Array [

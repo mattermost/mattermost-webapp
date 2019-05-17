@@ -11,24 +11,29 @@ import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 
-import Constants, {PostListRowListIds} from 'utils/constants.jsx';
+import Constants, {PostListRowListIds, EventTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import {getLastPostId} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import FloatingTimestamp from './floating_timestamp';
-import NewMessagesBelow from './new_messages_below';
-import PostListRow from './post_list_row';
-import ScrollToBottomArrows from './scroll_to_bottom_arrows';
+import FloatingTimestamp from 'components/post_view/floating_timestamp';
+import NewMessagesBelow from 'components/post_view/new_messages_below';
+import PostListRow from 'components/post_view/post_list_row';
+import ScrollToBottomArrows from 'components/post_view/scroll_to_bottom_arrows';
 
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
 
 const MAX_EXTRA_PAGES_LOADED = 10;
-const OVERSCAN_COUNT_BACKWARD = window.OVERSCAN_COUNT_BACKWARD || 50; // Exposing the value for PM to test will be removed soon
-const OVERSCAN_COUNT_FORWARD = window.OVERSCAN_COUNT_FORWARD || 100; // Exposing the value for PM to test will be removed soon
+const OVERSCAN_COUNT_BACKWARD = window.OVERSCAN_COUNT_BACKWARD || 80; // Exposing the value for PM to test will be removed soon
+const OVERSCAN_COUNT_FORWARD = window.OVERSCAN_COUNT_FORWARD || 80; // Exposing the value for PM to test will be removed soon
 const HEIGHT_TRIGGER_FOR_MORE_POSTS = window.HEIGHT_TRIGGER_FOR_MORE_POSTS || 1000; // Exposing the value for PM to test will be removed soon
 
 const postListHeightChangeForPadding = 21;
+
+const MAXIMUM_POSTS_FOR_SLICING = {
+    channel: 50,
+    permalink: 100,
+};
 
 const postListStyle = {
     padding: '14px 0px 7px', //21px of height difference from autosized list compared to DynamicSizeList. If this is changed change the above variable postListHeightChangeForPadding accordingly
@@ -115,6 +120,16 @@ export default class PostList extends React.PureComponent {
         if (isMobile) {
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
+
+        this.initRangeToRender = this.props.focusedPostId ? [0, MAXIMUM_POSTS_FOR_SLICING.permalink] : [0, MAXIMUM_POSTS_FOR_SLICING.channel];
+
+        if (!this.state.loadingFirstSetOfPosts) {
+            const newMessagesSeparatorIndex = this.getNewMessagesSeparatorIndex(props.postListIds);
+            this.initRangeToRender = [
+                Math.max(newMessagesSeparatorIndex - 30, 0),
+                Math.max(newMessagesSeparatorIndex + 30, Math.min(props.postListIds.length - 1, MAXIMUM_POSTS_FOR_SLICING.channel)),
+            ];
+        }
     }
 
     componentDidMount() {
@@ -126,7 +141,7 @@ export default class PostList extends React.PureComponent {
 
         window.addEventListener('resize', this.handleWindowResize);
 
-        EventEmitter.addListener('scroll_post_list_to_bottom', this.scrollToBottom);
+        EventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.scrollChange);
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState) {
@@ -170,7 +185,7 @@ export default class PostList extends React.PureComponent {
         this.mounted = false;
         window.removeEventListener('resize', this.handleWindowResize);
 
-        EventEmitter.removeListener('scroll_post_list_to_bottom', this.scrollToBottom);
+        EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.scrollChange);
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -190,6 +205,18 @@ export default class PostList extends React.PureComponent {
         return {
             postListIds: newPostListIds,
         };
+    }
+
+    getNewMessagesSeparatorIndex = (postListIds) => {
+        return postListIds.findIndex(
+            (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
+        );
+    }
+
+    scrollChange = (toBottom) => {
+        if (toBottom) {
+            this.scrollToBottom();
+        }
     }
 
     handleWindowResize = () => {
@@ -382,9 +409,7 @@ export default class PostList extends React.PureComponent {
                 position: 'center',
             };
         }
-        const newMessagesSeparatorIndex = this.state.postListIds.findIndex(
-            (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
-        );
+        const newMessagesSeparatorIndex = this.getNewMessagesSeparatorIndex(this.state.postListIds);
 
         if (newMessagesSeparatorIndex > 0) {
             const topMostPostIndex = this.state.postListIds.indexOf(getLastPostId(this.state.postListIds));
@@ -438,6 +463,7 @@ export default class PostList extends React.PureComponent {
 
     render() {
         const channel = this.props.channel;
+        const {dynamicListStyle} = this.state;
 
         if (this.state.loadingFirstSetOfPosts) {
             return (
@@ -450,8 +476,6 @@ export default class PostList extends React.PureComponent {
             );
         }
 
-        const {dynamicListStyle} = this.state;
-
         let newMessagesBelow = null;
         if (!this.props.focusedPostId) {
             newMessagesBelow = (
@@ -460,6 +484,7 @@ export default class PostList extends React.PureComponent {
                     lastViewedBottom={this.state.lastViewedBottom}
                     postIds={this.state.postListIds}
                     onClick={this.scrollToBottom}
+                    channelId={this.props.channel.id}
                 />
             );
         }
@@ -510,6 +535,8 @@ export default class PostList extends React.PureComponent {
                                         innerRef={this.postListRef}
                                         style={{...virtListStyles, ...dynamicListStyle}}
                                         innerListStyle={postListStyle}
+                                        initRangeToRender={this.initRangeToRender}
+                                        loaderId={PostListRowListIds.MORE_MESSAGES_LOADER}
                                     >
                                         {this.renderRow}
                                     </DynamicSizeList>

@@ -85,7 +85,10 @@ class LeaveTeamModal extends React.PureComponent {
                 aria-labelledby='leaveTeamModalLabel'
             >
                 <Modal.Header closeButton={false}>
-                    <Modal.Title id='leaveTeamModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='leaveTeamModalLabel'
+                    >
                         <FormattedMessage
                             id='leave_team_modal.title'
                             defaultMessage='Leave the team?'

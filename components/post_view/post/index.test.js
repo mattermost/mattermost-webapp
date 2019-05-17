@@ -11,7 +11,7 @@ describe('isFirstReply', () => {
             name: 'a post with nothing above it',
             post: {root_id: ''},
             previousPost: null,
-            expected: true,
+            expected: false,
         },
         {
             name: 'a comment with nothing above it',
@@ -23,13 +23,13 @@ describe('isFirstReply', () => {
             name: 'a post with a regular post above it',
             post: {root_id: ''},
             previousPost: {root_id: ''},
-            expected: true,
+            expected: false,
         },
         {
             name: 'a post with a comment above it',
             post: {root_id: ''},
             previousPost: {root_id: 'root'},
-            expected: true,
+            expected: false,
         },
         {
             name: 'a comment with a regular post above it',

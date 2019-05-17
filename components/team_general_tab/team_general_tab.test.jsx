@@ -170,4 +170,13 @@ describe('components/TeamSettings', () => {
         expect(actions.patchTeam).toHaveBeenCalledTimes(1);
         expect(actions.patchTeam).toHaveBeenCalledWith(props.team);
     });
+
+    test('should match snapshot when team is group constrained', () => {
+        const props = {...defaultProps};
+        props.team.group_constrained = true;
+
+        const wrapper = shallow(<GeneralTab {...props}/>);
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });

@@ -26,11 +26,19 @@
     min-height: 37px;
     position: relative;
 
+    &.textarea-wrapper--preview {
+        > div {
+            &:first-child {
+                display: none;
+            }
+        }
+    }
+
     .textbox-preview-area {
         white-space: normal;
         box-shadow: none;
         left: 0;
-        position: absolute;
+        position: relative;
         top: 0;
         z-index: 2;
 
@@ -289,6 +297,19 @@
         position: absolute;
         &.active {
             display: inline;
+        }
+        &.normal_post_list {
+            overflow-y: scroll;
+            padding: 1em 0 0;
+            .post-list__table {
+                display: table;
+            }
+            .post-list__content {
+                vertical-align: bottom;
+                height: unset;
+                padding: 14px 0px 7px;
+                display: table-cell;
+            }
         }
     }
 
@@ -690,7 +711,6 @@
 }
 
 .post-list__table {
-    @include clearfix;
     height: 100%;
     width: 100%;
 

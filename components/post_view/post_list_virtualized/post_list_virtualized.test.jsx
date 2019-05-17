@@ -9,9 +9,10 @@ import {DATE_LINE} from 'mattermost-redux/utils/post_list';
 import LoadingScreen from 'components/loading_screen';
 import {PostListRowListIds} from 'utils/constants';
 
-import NewMessagesBelow from './new_messages_below';
-import PostList from './post_list';
-import PostListRow from './post_list_row';
+import NewMessagesBelow from 'components/post_view/new_messages_below';
+import PostListRow from 'components/post_view/post_list_row';
+
+import PostList from './post_list_virtualized';
 
 describe('PostList', () => {
     const baseProps = {
@@ -256,6 +257,41 @@ describe('PostList', () => {
 
             expect(instance.componentDidUpdate).toHaveBeenCalledTimes(3);
             expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual({previousScrollTop: 40, previousScrollHeight: 400});
+        });
+    });
+
+    describe('initRangeToRender', () => {
+        test('should return 0 to 50 for channel with more than 50 messages', () => {
+            const postListIds = [];
+            for (let i = 0; i < 70; i++) {
+                postListIds.push(`post${i}`);
+            }
+
+            const props = {
+                ...baseProps,
+                postListIds,
+            };
+
+            const wrapper = shallow(<PostList {...props}/>);
+            const instance = wrapper.instance();
+            expect(instance.initRangeToRender).toEqual([0, 50]);
+        });
+
+        test('should return range if new messages are present', () => {
+            const postListIds = [];
+            for (let i = 0; i < 120; i++) {
+                postListIds.push(`post${i}`);
+            }
+            postListIds[65] = PostListRowListIds.START_OF_NEW_MESSAGES;
+
+            const props = {
+                ...baseProps,
+                postListIds,
+            };
+
+            const wrapper = shallow(<PostList {...props}/>);
+            const instance = wrapper.instance();
+            expect(instance.initRangeToRender).toEqual([35, 95]);
         });
     });
 });

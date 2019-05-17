@@ -343,6 +343,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
         </Link>
         <SpinnerButton
           className="btn btn-primary"
+          id="saveWebhook"
           onClick={[Function]}
           spinning={false}
           spinningText="loading"

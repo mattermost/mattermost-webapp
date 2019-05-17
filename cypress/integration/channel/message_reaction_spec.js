@@ -11,57 +11,53 @@
 
 describe("Click another user's emoji reaction to add it", () => {
     it("M15113 - Click another user's emoji reaction to add it", () => {
-        // 1. Login as "user-1" and go to /
+        // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
 
-        // 2. Post a message
-        cy.postMessage('test {enter}');
+        // # Post a message
+        cy.postMessage('test');
 
-        // 3. Logout
+        // # Logout
         cy.apiLogout();
 
-        // 4. Login as "user-2" and go to /
+        // # Login as "user-2" and go to /
         cy.apiLogin('user-2');
         cy.visit('/');
 
-        // 5. Mouseover the last post
+        // # Mouseover the last post
         cy.getLastPost().trigger('mouseover');
 
-        cy.getLastPostIdWithRetry().then((postId) => {
-            // 6. Click the add reaction icon
+        cy.getLastPostId().then((postId) => {
+            // # Click the add reaction icon
             cy.clickPostReactionIcon(postId);
 
-            // 7. Choose "slightly_frowning_face" emoji
+            // # Choose "slightly_frowning_face" emoji
             cy.get('#emoji-1f641').click();
 
             // * The number shown on the reaction is incremented by 1
             cy.get(`#postReaction-${postId}-slightly_frowning_face > .post-reaction__count`).should('contain', '1');
 
-            // 8. Logout
+            // # Logout
             cy.apiLogout();
 
-            // 9. Login as "user-1" and go to /
+            // # Login as "user-1" and go to /
             cy.apiLogin('user-1');
             cy.visit('/');
 
-            // 10. Click on the "slightly_frowning_face" emoji of the last post
-            cy.get(`#postReaction-${postId}-slightly_frowning_face`).click().
-
-            // *  The background color changed
-                should('have.css', 'background-color').
-                and('eq', 'rgba(35, 137, 215, 0.1)');
+            // # Click on the "slightly_frowning_face" emoji of the last post and the background color changes
+            cy.get(`#postReaction-${postId}-slightly_frowning_face`).click().should('have.css', 'background-color').and('eq', 'rgba(35, 137, 215, 0.1)');
 
             // * The number shown on the "slightly_frowning_face" reaction is incremented by 1
             cy.get(`#postReaction-${postId}-slightly_frowning_face > .post-reaction__count`).should('contain', '2');
 
-            // 11. Click on the + icon
+            // # Click on the + icon
             cy.get(`#addReaction-${postId}`).click({force: true});
 
             // * The reaction emoji picker is open
             cy.get('#emojiPicker').should('be.visible');
 
-            // 12. Select the "scream" emoji
+            // # Select the "scream" emoji
             cy.get('#emoji-1f631').click();
 
             // * The emoji picker is no longer open
@@ -70,13 +66,13 @@ describe("Click another user's emoji reaction to add it", () => {
             // * The "scream" emoji is added to the post
             cy.get(`#postReaction-${postId}-scream`).should('be.visible');
 
-            // 13. Click on the "slightly_frowning_face" emoji
+            // # Click on the "slightly_frowning_face" emoji
             cy.get(`#postReaction-${postId}-slightly_frowning_face > .post-reaction__emoji`).click();
 
             // * The number shown on the "slightly_frowning_face" reaction  is decremented by 1
             cy.get(`#postReaction-${postId}-slightly_frowning_face > .post-reaction__count`).should('contain', '1');
 
-            // 14. Click on the "scream" emoji
+            // # Click on the "scream" emoji
             cy.get(`#postReaction-${postId}-scream > .post-reaction__emoji`).click();
 
             // * The "scream" emoji is removed

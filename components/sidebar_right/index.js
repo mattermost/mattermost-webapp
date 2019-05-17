@@ -7,6 +7,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
+import {scrollPostList} from 'actions/views/channel';
 import {setRhsExpanded, showPinnedPosts} from 'actions/views/rhs';
 import {
     getIsRhsExpanded,
@@ -59,6 +60,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             setRhsExpanded,
             showPinnedPosts,
+            scrollPostList,
         }, dispatch),
     };
 }

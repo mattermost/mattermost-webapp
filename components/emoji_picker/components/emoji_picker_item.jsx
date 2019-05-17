@@ -74,6 +74,7 @@ export default class EmojiPickerItem extends React.Component {
         if (emoji.category && emoji.batch) {
             image = (
                 <img
+                    alt={'emoji image'}
                     onMouseOver={this.handleMouseOverThrottle}
                     src={imgTrans}
                     className={spriteClassName}
@@ -84,6 +85,7 @@ export default class EmojiPickerItem extends React.Component {
         } else {
             image = (
                 <img
+                    alt={'custom emoji image'}
                     onMouseOver={this.handleMouseOver}
                     src={getEmojiImageUrl(emoji)}
                     className={'emoji-category--custom'}

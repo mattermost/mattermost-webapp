@@ -11,29 +11,29 @@
 
 describe('Message deletion', () => {
     before(() => {
-        // 1. Go to Main Channel View with "user-1"
+        // # Go to Main Channel View with "user-1"
         cy.toMainChannelView('user-1');
     });
 
     it('M13336 Delete both parent post and reply when deleting parent post from center', () => {
-        // 1. Post message in center.
+        // # Post message in center.
         cy.postMessage('test message deletion {enter}');
 
-        cy.getLastPostIdWithRetry().then((parentMessageId) => {
-            // 2. Mouseover the post and click post comment icon.
+        cy.getLastPostId().then((parentMessageId) => {
+            // # Mouseover the post and click post comment icon.
             cy.clickPostCommentIcon();
 
             // * Check that the RHS is open
             cy.get('#rhsContainer').should('be.visible');
 
-            // 3. Post a reply in RHS.
+            // # Post a reply in RHS.
             cy.postMessageReplyInRHS('test message reply in RHS {enter}');
 
-            cy.getLastPostIdWithRetry().then((replyMessageId) => {
-                // 4. Click post dot menu in center.
+            cy.getLastPostId().then((replyMessageId) => {
+                // # Click post dot menu in center.
                 cy.clickPostDotMenu(parentMessageId);
 
-                // 5. Click delete button.
+                // # Click delete button.
                 cy.get(`#delete_post_${parentMessageId}`).click();
 
                 // * Check that confirmation dialog is open.
@@ -45,7 +45,7 @@ describe('Message deletion', () => {
                 // * Check that confirmation dialog shows that the post has one comment on it
                 cy.get('#deletePostModal').should('have', 'This post has 1 comment on it.');
 
-                // 6. Confirm deletion.
+                // # Confirm deletion.
                 cy.get('#deletePostModalButton').click();
 
                 // * Check that the modal is closed
@@ -61,7 +61,7 @@ describe('Message deletion', () => {
                 cy.get(`#post_${replyMessageId}`).should('not.be.visible');
             });
 
-            cy.getLastPostIdWithRetry().then((replyMessageId) => {
+            cy.getLastPostId().then((replyMessageId) => {
                 // * Check that last message do not contain (message deleted)
                 cy.get(`#post_${replyMessageId}`).should('not.have', '(message deleted)');
             });

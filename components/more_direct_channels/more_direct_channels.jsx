@@ -422,6 +422,7 @@ export default class MoreDirectChannels extends React.Component {
                 loading={this.state.loadingUsers}
                 users={this.props.users}
                 totalCount={this.props.totalCount}
+                placeholderText={localizeMessage('multiselect.placeholder', 'Search and add members')}
             />
         );
 
@@ -439,7 +440,10 @@ export default class MoreDirectChannels extends React.Component {
                 aria-labelledby='moreDmModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='moreDmModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='moreDmModalLabel'
+                    >
                         <FormattedMessage
                             id='more_direct_channels.title'
                             defaultMessage='Direct Messages'

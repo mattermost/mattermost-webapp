@@ -713,6 +713,9 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        & span {
+            @include opacity(.6);
+        }
     }
 
     .more-modal__description {

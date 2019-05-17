@@ -16,6 +16,7 @@ exports[`components/GetAndroidApp should match snapshot 1`] = `
   <hr />
   <div>
     <img
+      alt="android app icon"
       className="get-android-app__icon"
       src="mockup.png"
     />
@@ -53,6 +54,7 @@ exports[`components/GetAndroidApp should match snapshot 1`] = `
     />
   </a>
   <img
+    alt="get app screenshot"
     className="get-app__screenshot"
     src="mockup.png"
   />

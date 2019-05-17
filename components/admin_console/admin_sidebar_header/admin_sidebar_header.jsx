@@ -28,6 +28,7 @@ export default class SidebarHeader extends React.Component {
         if (me.last_picture_update) {
             profilePicture = (
                 <img
+                    alt={''}
                     className='user__picture'
                     src={Client4.getProfilePictureUrl(me.id, me.last_picture_update)}
                 />
