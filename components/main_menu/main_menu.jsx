@@ -40,7 +40,6 @@ export default class MainMenu extends React.PureComponent {
         teamId: PropTypes.string,
         teamType: PropTypes.string,
         teamName: PropTypes.string,
-        teamIsGroupConstrained: PropTypes.bool,
         currentUser: PropTypes.object,
         appDownloadLink: PropTypes.string,
         enableCommands: PropTypes.bool.isRequired,
