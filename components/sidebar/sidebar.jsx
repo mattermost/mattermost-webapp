@@ -584,6 +584,7 @@ export default class Sidebar extends React.PureComponent {
                             <ul
                                 key={section.type}
                                 className='nav nav-pills nav-stacked'
+                                id={sectionId + 'List'}
                             >
                                 <li>
                                     <h4 id={sectionId}>
