@@ -114,8 +114,8 @@ export default class PushSettings extends AdminSettings {
     renderTitle() {
         return (
             <FormattedMessage
-                id='admin.environment.pushNotifications'
-                defaultMessage='Push Notifications'
+                id='admin.environment.pushNotificationServer'
+                defaultMessage='Push Notification Server'
             />
         );
     }

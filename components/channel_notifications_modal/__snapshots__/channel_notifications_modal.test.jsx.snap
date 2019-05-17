@@ -37,7 +37,7 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="channelNotificationModalLabel"
     >
       <FormattedMessage

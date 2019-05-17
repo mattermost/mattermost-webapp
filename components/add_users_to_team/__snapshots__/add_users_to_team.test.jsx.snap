@@ -38,7 +38,7 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="addTeamModalLabel"
     >
       <FormattedMessage

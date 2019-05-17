@@ -42,7 +42,10 @@ export default class TeamMembersModal extends React.PureComponent {
                 aria-labelledby='teamMemberModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='teamMemberModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='teamMemberModalLabel'
+                    >
                         <FormattedMessage
                             id='team_member_modal.members'
                             defaultMessage='{team} Members'

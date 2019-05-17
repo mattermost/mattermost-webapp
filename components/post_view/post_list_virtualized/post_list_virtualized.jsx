@@ -30,6 +30,11 @@ const HEIGHT_TRIGGER_FOR_MORE_POSTS = window.HEIGHT_TRIGGER_FOR_MORE_POSTS || 10
 
 const postListHeightChangeForPadding = 21;
 
+const MAXIMUM_POSTS_FOR_SLICING = {
+    channel: 50,
+    permalink: 100,
+};
+
 const postListStyle = {
     padding: '14px 0px 7px', //21px of height difference from autosized list compared to DynamicSizeList. If this is changed change the above variable postListHeightChangeForPadding accordingly
 };
@@ -115,6 +120,16 @@ export default class PostList extends React.PureComponent {
         if (isMobile) {
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
+
+        this.initRangeToRender = this.props.focusedPostId ? [0, MAXIMUM_POSTS_FOR_SLICING.permalink] : [0, MAXIMUM_POSTS_FOR_SLICING.channel];
+
+        if (!this.state.loadingFirstSetOfPosts) {
+            const newMessagesSeparatorIndex = this.getNewMessagesSeparatorIndex(props.postListIds);
+            this.initRangeToRender = [
+                Math.max(newMessagesSeparatorIndex - 30, 0),
+                Math.max(newMessagesSeparatorIndex + 30, Math.min(props.postListIds.length - 1, MAXIMUM_POSTS_FOR_SLICING.channel)),
+            ];
+        }
     }
 
     componentDidMount() {
@@ -190,6 +205,12 @@ export default class PostList extends React.PureComponent {
         return {
             postListIds: newPostListIds,
         };
+    }
+
+    getNewMessagesSeparatorIndex = (postListIds) => {
+        return postListIds.findIndex(
+            (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
+        );
     }
 
     scrollChange = (toBottom) => {
@@ -388,9 +409,7 @@ export default class PostList extends React.PureComponent {
                 position: 'center',
             };
         }
-        const newMessagesSeparatorIndex = this.state.postListIds.findIndex(
-            (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
-        );
+        const newMessagesSeparatorIndex = this.getNewMessagesSeparatorIndex(this.state.postListIds);
 
         if (newMessagesSeparatorIndex > 0) {
             const topMostPostIndex = this.state.postListIds.indexOf(getLastPostId(this.state.postListIds));
@@ -516,6 +535,8 @@ export default class PostList extends React.PureComponent {
                                         innerRef={this.postListRef}
                                         style={{...virtListStyles, ...dynamicListStyle}}
                                         innerListStyle={postListStyle}
+                                        initRangeToRender={this.initRangeToRender}
+                                        loaderId={PostListRowListIds.MORE_MESSAGES_LOADER}
                                     >
                                         {this.renderRow}
                                     </DynamicSizeList>

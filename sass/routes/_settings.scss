@@ -499,6 +499,11 @@
                 }
             }
         }
+        .disabledMessage {
+            background-color: rgba(0,0,0,0.1);
+            padding: 15px;
+            margin-top: 10px;
+        }
     }
 
     .nav-pills {

@@ -81,6 +81,7 @@ export function submitPost(channelId, rootId, draft) {
             pending_post_id: `${userId}:${time}`,
             user_id: userId,
             create_at: time,
+            metadata: {},
         };
 
         const hookResult = await dispatch(runMessageWillBePostedHooks(post));

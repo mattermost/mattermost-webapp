@@ -650,6 +650,7 @@ export default class AddBot extends React.Component {
                                 spinning={this.state.adding}
                                 spinningText={buttonActiveText}
                                 onClick={this.handleSubmit}
+                                id='saveBot'
                             >
                                 {buttonText}
                             </SpinnerButton>

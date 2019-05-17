@@ -23,6 +23,7 @@ export default class AddUsersToTeam extends React.Component {
     static propTypes = {
         currentTeamName: PropTypes.string.isRequired,
         currentTeamId: PropTypes.string.isRequired,
+        currentTeamGroupConstrained: PropTypes.bool,
         searchTerm: PropTypes.string.isRequired,
         users: PropTypes.array.isRequired,
         onHide: PropTypes.func,
@@ -33,6 +34,10 @@ export default class AddUsersToTeam extends React.Component {
             addUsersToTeam: PropTypes.func.isRequired,
             loadStatusesForProfilesList: PropTypes.func.isRequired,
         }).isRequired,
+    }
+
+    static defaultProps = {
+        currentTeamGroupConstrained: false,
     }
 
     constructor(props) {
@@ -51,7 +56,7 @@ export default class AddUsersToTeam extends React.Component {
     }
 
     componentDidMount() {
-        this.props.actions.getProfilesNotInTeam(this.props.currentTeamId, 0, USERS_PER_PAGE * 2).then(() => {
+        this.props.actions.getProfilesNotInTeam(this.props.currentTeamId, this.props.currentTeamGroupConstrained, 0, USERS_PER_PAGE * 2).then(() => {
             this.setUsersLoadingState(false);
         });
     }
@@ -68,7 +73,7 @@ export default class AddUsersToTeam extends React.Component {
             this.searchTimeoutId = setTimeout(
                 async () => {
                     this.setUsersLoadingState(true);
-                    const {data} = await this.props.actions.searchProfiles(searchTerm, {not_in_team_id: this.props.currentTeamId});
+                    const {data} = await this.props.actions.searchProfiles(searchTerm, {not_in_team_id: this.props.currentTeamId, group_constrained: this.props.currentTeamGroupConstrained});
                     if (data) {
                         this.props.actions.loadStatusesForProfilesList(data);
                     }
@@ -245,7 +250,10 @@ export default class AddUsersToTeam extends React.Component {
                 aria-labelledby='addTeamModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='addTeamModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='addTeamModalLabel'
+                    >
                         <FormattedMessage
                             id='add_users_to_team.title'
                             defaultMessage='Add New Members To {teamName} Team'

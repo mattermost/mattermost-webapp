@@ -5,72 +5,58 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import SizeAwareImage from 'components/size_aware_image';
+import ViewImageModal from 'components/view_image';
+
 import * as PostUtils from 'utils/post_utils.jsx';
 
 export default class PostImage extends React.PureComponent {
     static propTypes = {
-
-        /**
-         * The link to load the image from
-         */
-        link: PropTypes.string.isRequired,
-
-        /**
-         * Function to call when image is loaded
-         */
-        onLinkLoaded: PropTypes.func,
-
-        /**
-         * The function to call if image is clicked
-         */
-        handleImageClick: PropTypes.func,
-
-        /**
-         * If an image proxy is enabled.
-         */
         hasImageProxy: PropTypes.bool.isRequired,
-
-        /**
-         * dimensions for empty space to prevent scroll popup.
-         */
-        dimensions: PropTypes.object,
+        imageMetadata: PropTypes.object.isRequired,
+        link: PropTypes.string.isRequired,
+        post: PropTypes.object.isRequired,
     }
 
-    componentDidMount() {
-        this.mounted = true;
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showModal: false,
+        };
     }
 
-    componentWillUnmount() {
-        this.mounted = false;
-    }
-
-    handleLoadComplete = () => {
-        if (!this.mounted) {
-            return;
-        }
-
-        if (this.props.onLinkLoaded) {
-            this.props.onLinkLoaded();
-        }
-    }
-
-    onImageClick = (e) => {
+    showModal = (e) => {
         e.preventDefault();
-        this.props.handleImageClick();
-    };
+
+        this.setState({showModal: true});
+    }
+
+    hideModal = () => {
+        this.setState({showModal: false});
+    }
 
     render() {
+        const link = PostUtils.getImageSrc(this.props.link, this.props.hasImageProxy);
+
         return (
-            <div
-                className='post__embed-container'
-            >
+            <div className='post__embed-container'>
                 <SizeAwareImage
                     className='img-div attachment__image cursor--pointer'
-                    src={PostUtils.getImageSrc(this.props.link, this.props.hasImageProxy)}
-                    dimensions={this.props.dimensions}
+                    src={link}
+                    dimensions={this.props.imageMetadata}
                     showLoader={true}
-                    onImageLoaded={this.handleLoadComplete}
-                    onClick={this.onImageClick}
+                    onClick={this.showModal}
+                />
+                <ViewImageModal
+                    show={this.state.showModal}
+                    onModalDismissed={this.hideModal}
+                    post={this.props.post}
+                    startIndex={0}
+                    fileInfos={[{
+                        has_preview_image: false,
+                        link,
+                        extension: this.props.imageMetadata.format,
+                    }]}
                 />
             </div>
         );

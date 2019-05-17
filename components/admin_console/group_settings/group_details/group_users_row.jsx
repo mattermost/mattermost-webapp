@@ -21,7 +21,7 @@ export default class GroupUsersRow extends React.PureComponent {
             <div className='group-users-row'>
                 <img
                     className='profile-picture'
-                    alt={'user profile image'}
+                    alt={''}
                     src={Client4.getProfilePictureUrl(this.props.userId, this.props.lastPictureUpdate)}
                 />
                 <div className='user-data'>

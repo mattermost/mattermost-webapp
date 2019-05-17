@@ -253,6 +253,7 @@ export default class SelectTeam extends React.Component {
                 <div className='col-sm-12'>
                     <div className={'signup-team__container'}>
                         <img
+                            alt={'signup team logo'}
                             className='signup-team-logo'
                             src={logoImage}
                         />

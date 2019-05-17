@@ -20,6 +20,7 @@ exports[`components/SignupController should match snapshot for addUserToTeamFrom
       className="signup-team__container"
     >
       <img
+        alt="signup team logo"
         className="signup-team-logo"
         src={null}
       />
@@ -99,6 +100,7 @@ exports[`components/SignupController should match snapshot for all signup option
       className="signup-team__container"
     >
       <img
+        alt="signup team logo"
         className="signup-team-logo"
         src={null}
       />
@@ -200,6 +202,7 @@ exports[`components/SignupController should match snapshot for all signup option
       className="signup-team__container"
     >
       <img
+        alt="signup team logo"
         className="signup-team-logo"
         src={null}
       />

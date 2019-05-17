@@ -30,6 +30,8 @@ export default class Bots extends React.PureComponent {
         */
         owners: PropTypes.object.isRequired,
 
+        createBots: PropTypes.bool,
+
         actions: PropTypes.shape({
 
             /**
@@ -181,13 +183,14 @@ export default class Bots extends React.PureComponent {
                         defaultMessage='Bot Accounts'
                     />
                 }
-                addText={
+                addText={this.props.createBots &&
                     <FormattedMessage
                         id='bots.manage.add'
                         defaultMessage='Add Bot Account'
                     />
                 }
                 addLink={'/' + this.props.team.name + '/integrations/bots/add'}
+                addButtonId='addBotAccount'
                 emptyText={
                     <FormattedMessage
                         id='bots.manage.empty'

@@ -9,13 +9,13 @@
 
 describe('Message Draft', () => {
     before(() => {
-        // 1. Login and go to /
+        // # Login and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
     });
 
     it('M13473 Message Draft - Pencil Icon', () => {
-        // 1. Got to a test channel on the side bar
+        // # Got to a test channel on the side bar
         cy.get('#sidebarItem_town-square').scrollIntoView();
         cy.get('#sidebarItem_town-square').should('be.visible').click();
 
@@ -26,17 +26,17 @@ describe('Message Draft', () => {
         cy.get('#sidebarItem_town-square').scrollIntoView();
         cy.get('#sidebarItem_town-square #draftIcon').should('be.not.visible');
 
-        //2. Type in some text into the text area of the opened channel
+        // # Type in some text into the text area of the opened channel
         cy.get('#post_textbox').type('comm');
 
-        //3. Go to another test channel without submitting the draft in the previous channel
+        // # Go to another test channel without submitting the draft in the previous channel
         cy.get('#sidebarItem_autem-2').scrollIntoView();
         cy.get('#sidebarItem_autem-2').should('be.visible').click();
 
-        //* Validate if the newly navigated channel is open
+        // * Validate if the newly navigated channel is open
         cy.url().should('include', '/ad-1/channels/autem-2');
 
-        //* Validate if the draft icon is visible on side bar on the previous channel with a draft
+        // * Validate if the draft icon is visible on side bar on the previous channel with a draft
         cy.get('#sidebarItem_town-square #draftIcon').should('be.visible');
     });
 });
