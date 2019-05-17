@@ -3,29 +3,22 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-
-import {getRedirectLocation} from 'mattermost-redux/actions/general';
 
 import {toggleEmbedVisibility} from 'actions/post_actions';
 
-import PostBodyAdditionalContent from './post_body_additional_content.jsx';
+import {isEmbedVisible} from 'selectors/posts';
 
-function mapStateToProps(state) {
-    const config = getConfig(state);
-    const enableLinkPreviews = config.EnableLinkPreviews === 'true';
-    const hasImageProxy = config.HasImageProxy === 'true';
+import PostBodyAdditionalContent from './post_body_additional_content';
 
+function mapStateToProps(state, ownProps) {
     return {
-        enableLinkPreviews,
-        hasImageProxy,
+        isEmbedVisible: isEmbedVisible(state, ownProps.post.id),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getRedirectLocation,
             toggleEmbedVisibility,
         }, dispatch),
     };

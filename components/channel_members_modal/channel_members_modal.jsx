@@ -76,7 +76,10 @@ export default class ChannelMembersModal extends React.PureComponent {
                     aria-labelledby='channelMembersModalLabel'
                 >
                     <Modal.Header closeButton={true}>
-                        <Modal.Title id='channelMembersModalLabel'>
+                        <Modal.Title
+                            componentClass='h1'
+                            id='channelMembersModalLabel'
+                        >
                             <span className='name'>{this.props.channel.display_name}</span>
                             <FormattedMessage
                                 id='channel_members_modal.members'

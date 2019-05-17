@@ -141,6 +141,7 @@ export default class InteractiveDialog extends React.Component {
         if (iconUrl) {
             icon = (
                 <img
+                    alt={'modal title icon'}
                     className='more-modal__image'
                     width='36'
                     height='36'
@@ -160,7 +161,10 @@ export default class InteractiveDialog extends React.Component {
                 aria-labelledby='interactiveDialogModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title id='interactiveDialogModalLabel'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='interactiveDialogModalLabel'
+                    >
                         {icon}{title}
                     </Modal.Title>
                 </Modal.Header>

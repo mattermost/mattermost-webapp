@@ -38,7 +38,7 @@ exports[`components/ActivityLogModal should match snapshot 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="activityLogModalLabel"
     >
       <FormattedMessage
@@ -106,7 +106,7 @@ exports[`components/ActivityLogModal should match snapshot 2`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="activityLogModalLabel"
     >
       <FormattedMessage
@@ -175,7 +175,7 @@ exports[`components/ActivityLogModal should match snapshot when submitRevoke is 
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="activityLogModalLabel"
     >
       <FormattedMessage

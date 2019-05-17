@@ -131,6 +131,7 @@ export default class SizeAwareImage extends React.PureComponent {
 
         return (
             <img
+                alt='image placeholder'
                 {...props}
                 src={src}
             />

@@ -13,6 +13,8 @@ import {ModalIdentifiers} from 'utils/constants.jsx';
 
 import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal.jsx';
 
+import groupsAvatar from 'images/groups-avatar.png';
+
 export default class TeamGroupsManageModal extends React.PureComponent {
     static propTypes = {
         team: PropTypes.object.isRequired,
@@ -59,7 +61,7 @@ export default class TeamGroupsManageModal extends React.PureComponent {
             >
                 <img
                     className='more-modal__image'
-                    src='/static/files/73209f482a967f9379602dc6253cf768.png'
+                    src={groupsAvatar}
                     alt='group picture'
                     width='32'
                     height='32'

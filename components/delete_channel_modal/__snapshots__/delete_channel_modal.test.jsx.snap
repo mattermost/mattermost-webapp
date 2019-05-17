@@ -36,7 +36,7 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
       id="deleteChannelModalLabel"
     >
       <FormattedMessage
