@@ -2325,6 +2325,8 @@
   "interactive_dialog.element.optional": "(optional)",
   "interactive_dialog.submit": "Submit",
   "interactive_dialog.submitting": "Submitting...",
+  "intro_messages.addGroups": "Add groups to this private channel",
+  "intro_messages.addGroupsToTeam": "Add other groups to this team",
   "intro_messages.anyMember": " Any member can join and read this channel.",
   "intro_messages.beginning": "Beginning of {name}",
   "intro_messages.creator": "This is the start of the {name} channel, created by {creator} on {date}.",
