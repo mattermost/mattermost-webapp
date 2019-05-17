@@ -287,14 +287,41 @@ export default {
                 component: GroupSettings,
             },
         },
-        permissions: {
-            url: 'user_management/permissions',
-            title: t('admin.sidebar.permissions'),
-            title_default: 'Permissions',
+        systemScheme: {
+            url: 'user_management/permissions/system_scheme',
+            isHidden: it.isnt(it.licensed),
+            schema: {
+                id: 'PermissionSystemScheme',
+                component: PermissionSystemSchemeSettings,
+            },
+        },
+        teamSchemeDetail: {
+            url: 'user_management/permissions/team_override_scheme/:scheme_id',
             isHidden: it.either(
                 it.isnt(it.licensed),
                 it.isnt(it.licensedForFeature('CustomPermissionsSchemes'))
             ),
+            schema: {
+                id: 'PermissionSystemScheme',
+                component: PermissionTeamSchemeSettings,
+            },
+        },
+        teamScheme: {
+            url: 'user_management/permissions/team_override_scheme',
+            isHidden: it.either(
+                it.isnt(it.licensed),
+                it.isnt(it.licensedForFeature('CustomPermissionsSchemes'))
+            ),
+            schema: {
+                id: 'PermissionSystemScheme',
+                component: PermissionTeamSchemeSettings,
+            },
+        },
+        permissions: {
+            url: 'user_management/permissions/',
+            title: t('admin.sidebar.permissions'),
+            title_default: 'Permissions',
+            isHidden: it.isnt(it.licensed),
             searchableStrings: [
                 'admin.permissions.documentationLinkText',
                 'admin.permissions.teamOverrideSchemesNoSchemes',
@@ -310,41 +337,6 @@ export default {
             schema: {
                 id: 'PermissionSchemes',
                 component: PermissionSchemesSettings,
-            },
-        },
-        systemScheme: {
-            url: 'user_management/system_scheme',
-            title: t('admin.sidebar.systemScheme'),
-            title_default: 'System Scheme',
-            isHidden: it.either(
-                it.isnt(it.licensed),
-                it.isnt(it.licensedForFeature('CustomPermissionsSchemes'))
-            ),
-            schema: {
-                id: 'PermissionSystemScheme',
-                component: PermissionSystemSchemeSettings,
-            },
-        },
-        teamSchemeDetail: {
-            url: 'user_management/team_override_scheme/:scheme_id',
-            isHidden: it.either(
-                it.isnt(it.licensed),
-                it.isnt(it.licensedForFeature('CustomPermissionsSchemes'))
-            ),
-            schema: {
-                id: 'PermissionSystemScheme',
-                component: PermissionTeamSchemeSettings,
-            },
-        },
-        teamScheme: {
-            url: 'user_management/team_override_scheme',
-            isHidden: it.either(
-                it.isnt(it.licensed),
-                it.isnt(it.licensedForFeature('CustomPermissionsSchemes'))
-            ),
-            schema: {
-                id: 'PermissionSystemScheme',
-                component: PermissionTeamSchemeSettings,
             },
         },
     },
@@ -953,18 +945,14 @@ export default {
             title_default: 'Push Notification Server',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             searchableStrings: [
-                'admin.notifications.push',
+                'admin.environment.pushNotificationServer',
                 'admin.email.pushTitle',
                 'admin.email.pushServerTitle',
                 'admin.email.pushContentTitle',
                 'admin.email.pushContentDesc',
-                'admin.team.maxNotificationsPerChannelTitle',
-                'admin.team.maxNotificationsPerChannelDescription',
             ],
             schema: {
                 id: 'PushNotificationsSettings',
-                name: t('admin.environment.pushNotifications'),
-                name_default: 'Push Notifications',
                 component: PushNotificationsSettings,
             },
         },
@@ -1554,16 +1542,6 @@ export default {
                         help_text_default: 'Maximum total number of channels per team, including both active and archived channels.',
                         placeholder: t('admin.team.maxChannelsExample'),
                         placeholder_default: 'E.g.: "100"',
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_NUMBER,
-                        key: 'TeamSettings.MaxNotificationsPerChannel',
-                        label: t('admin.team.maxNotificationsPerChannelTitle'),
-                        label_default: 'Max Notifications Per Channel:',
-                        help_text: t('admin.team.maxNotificationsPerChannelDescription'),
-                        help_text_default: 'Maximum total number of users in a channel before users typing messages, @all, @here, and @channel no longer send notifications because of performance.',
-                        placeholder: t('admin.team.maxNotificationsPerChannelExample'),
-                        placeholder_default: 'E.g.: "1000"',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -3564,60 +3542,6 @@ export default {
                 component: MessageExportSettings,
             },
         },
-        compliance: {
-            url: 'compliance/settings',
-            title: t('admin.sidebar.compliance'),
-            title_default: 'Compliance Settings',
-            isHidden: it.isnt(it.licensedForFeature('Compliance')),
-            schema: {
-                id: 'ComplianceSettings',
-                name: t('admin.compliance.complianceSettings'),
-                name_default: 'Compliance Settings',
-                settings: [
-                    {
-                        type: Constants.SettingsTypes.TYPE_BANNER,
-                        label: t('admin.compliance.newComplianceExportBanner'),
-                        label_markdown: true,
-                        label_default: 'This feature is replaced by a new [Compliance Export]({siteURL}/admin_console/compliance/export) feature, and will be removed in a future release. We recommend migrating to the new system.',
-                        label_values: {siteURL: getSiteURL()},
-                        isHidden: it.isnt(it.licensed),
-                        banner_type: 'info',
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ComplianceSettings.Enable',
-                        label: t('admin.compliance.enableTitle'),
-                        label_default: 'Enable Compliance Reporting:',
-                        help_text: t('admin.compliance.enableDesc'),
-                        help_text_default: 'When true, Mattermost allows compliance reporting from the **Compliance and Auditing** tab. See [documentation](!https://docs.mattermost.com/administration/compliance.html) to learn more.',
-                        help_text_markdown: true,
-                        isHidden: it.isnt(it.licensed),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'ComplianceSettings.Directory',
-                        label: t('admin.compliance.directoryTitle'),
-                        label_default: 'Compliance Report Directory:',
-                        help_text: t('admin.compliance.directoryDescription'),
-                        help_text_default: 'Directory to which compliance reports are written. If blank, will be set to ./data/.',
-                        placeholder: t('admin.compliance.directoryExample'),
-                        placeholder_default: 'E.g.: "./data/"',
-                        isDisabled: it.stateIsFalse('ComplianceSettings.Enable'),
-                        isHidden: it.isnt(it.licensed),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ComplianceSettings.EnableDaily',
-                        label: t('admin.compliance.enableDailyTitle'),
-                        label_default: 'Enable Daily Report:',
-                        help_text: t('admin.compliance.enableDailyDesc'),
-                        help_text_default: 'When true, Mattermost will generate a daily compliance report.',
-                        isDisabled: it.stateIsFalse('ComplianceSettings.Enable'),
-                        isHidden: it.isnt(it.licensed),
-                    },
-                ],
-            },
-        },
         audits: {
             url: 'compliance/monitoring',
             title: t('admin.sidebar.complianceMonitoring'),
@@ -3630,6 +3554,50 @@ export default {
             schema: {
                 id: 'Audits',
                 component: Audits,
+                isHidden: it.isnt(it.licensedForFeature('Compliance')),
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_BANNER,
+                        label: t('admin.compliance.newComplianceExportBanner'),
+                        label_markdown: true,
+                        label_default: 'This feature is replaced by a new [Compliance Export]({siteURL}/admin_console/compliance/export) feature, and will be removed in a future release. We recommend migrating to the new system.',
+                        label_values: {siteURL: getSiteURL()},
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
+                        banner_type: 'info',
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ComplianceSettings.Enable',
+                        label: t('admin.compliance.enableTitle'),
+                        label_default: 'Enable Compliance Reporting:',
+                        help_text: t('admin.compliance.enableDesc'),
+                        help_text_default: 'When true, Mattermost allows compliance reporting from the **Compliance and Auditing** tab. See [documentation](!https://docs.mattermost.com/administration/compliance.html) to learn more.',
+                        help_text_markdown: true,
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'ComplianceSettings.Directory',
+                        label: t('admin.compliance.directoryTitle'),
+                        label_default: 'Compliance Report Directory:',
+                        help_text: t('admin.compliance.directoryDescription'),
+                        help_text_default: 'Directory to which compliance reports are written. If blank, will be set to ./data/.',
+                        placeholder: t('admin.compliance.directoryExample'),
+                        placeholder_default: 'E.g.: "./data/"',
+                        isDisabled: it.stateIsFalse('ComplianceSettings.Enable'),
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ComplianceSettings.EnableDaily',
+                        label: t('admin.compliance.enableDailyTitle'),
+                        label_default: 'Enable Daily Report:',
+                        help_text: t('admin.compliance.enableDailyDesc'),
+                        help_text_default: 'When true, Mattermost will generate a daily compliance report.',
+                        isDisabled: it.stateIsFalse('ComplianceSettings.Enable'),
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
+                    },
+                ],
             },
         },
         custom_terms_of_service: {

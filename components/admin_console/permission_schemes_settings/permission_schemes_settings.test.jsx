@@ -19,6 +19,9 @@ describe('components/admin_console/permission_schemes_settings/permission_scheme
             loadSchemes: jest.fn(() => Promise.resolve([])),
             loadSchemeTeams: jest.fn(),
         },
+        license: {
+            CustomPermissionsSchemes: 'true',
+        },
     };
     test('should match snapshot loading', () => {
         const wrapper = shallow(

@@ -28,6 +28,7 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
         target="_blank"
       >
         <img
+          alt="attachment author icon"
           className="attachment__author-icon"
           height="14"
           key="attachment__author-icon"
@@ -159,6 +160,7 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
         target="_blank"
       >
         <img
+          alt="attachment author icon"
           className="attachment__author-icon"
           height="14"
           key="attachment__author-icon"

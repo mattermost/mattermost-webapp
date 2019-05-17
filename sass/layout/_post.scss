@@ -26,11 +26,19 @@
     min-height: 37px;
     position: relative;
 
+    &.textarea-wrapper--preview {
+        > div {
+            &:first-child {
+                display: none;
+            }
+        }
+    }
+
     .textbox-preview-area {
         white-space: normal;
         box-shadow: none;
         left: 0;
-        position: absolute;
+        position: relative;
         top: 0;
         z-index: 2;
 

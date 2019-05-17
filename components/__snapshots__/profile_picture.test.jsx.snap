@@ -5,7 +5,7 @@ exports[`components/ProfilePicture should match snapshot, no user specified, def
   className="status-wrapper"
 >
   <img
-    alt="user profile image"
+    alt=""
     className="more-modal__image"
     height="36"
     src="http://example.com/image.png"
@@ -23,7 +23,7 @@ exports[`components/ProfilePicture should match snapshot, no user specified, ove
   className="status-wrapper"
 >
   <img
-    alt="user profile image"
+    alt=""
     className="more-modal__image"
     height="48"
     src="http://example.com/image.png"
@@ -41,7 +41,7 @@ exports[`components/ProfilePicture should match snapshot, user specified 1`] = `
   className="status-wrapper"
 >
   <img
-    alt="user profile image"
+    alt=""
     className="more-modal__image"
     height="36"
     src="http://example.com/image.png"
@@ -59,7 +59,7 @@ exports[`components/ProfilePicture should match snapshot, user specified, overri
   className="status-wrapper"
 >
   <img
-    alt="user profile image"
+    alt=""
     className="more-modal__image"
     height="48"
     src="http://example.com/image.png"

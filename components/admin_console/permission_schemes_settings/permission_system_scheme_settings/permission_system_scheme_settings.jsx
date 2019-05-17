@@ -218,18 +218,16 @@ export default class PermissionSystemSchemeSettings extends React.Component {
     }
 
     render = () => {
-        const hasCustomSchemes = this.props.license.CustomPermissionsSchemes === 'true';
         if (!this.state.loaded) {
             return <LoadingScreen/>;
         }
         return (
             <div className='wrapper--fixed'>
-                <h3 className={'admin-console-header ' + (hasCustomSchemes ? 'with-back' : '')}>
-                    {hasCustomSchemes &&
-                        <BlockableLink
-                            to='/admin_console/user_management/permissions'
-                            className='fa fa-angle-left back'
-                        />}
+                <h3 className='admin-console-header with-back'>
+                    <BlockableLink
+                        to='/admin_console/user_management/permissions'
+                        className='fa fa-angle-left back'
+                    />
                     <FormattedMessage
                         id='admin.permissions.systemScheme'
                         defaultMessage='System Scheme'
