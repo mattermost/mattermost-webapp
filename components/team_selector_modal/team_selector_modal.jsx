@@ -49,7 +49,7 @@ export default class TeamSelectorModal extends React.Component {
     }
 
     componentDidMount() {
-        this.props.actions.loadTeams(0, TEAMS_PER_PAGE * 2).then(() => {
+        this.props.actions.loadTeams(0, TEAMS_PER_PAGE + 1).then(() => {
             this.setTeamsLoadingState(false);
         });
     }
@@ -121,7 +121,7 @@ export default class TeamSelectorModal extends React.Component {
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
             this.setTeamsLoadingState(true);
-            this.props.actions.loadTeams(page, TEAMS_PER_PAGE).then(() => {
+            this.props.actions.loadTeams(page, TEAMS_PER_PAGE + 1).then(() => {
                 this.setTeamsLoadingState(false);
             });
         }
