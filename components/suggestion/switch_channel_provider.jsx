@@ -59,8 +59,6 @@ class SwitchChannelSuggestion extends Suggestion {
         };
     }
 
-    displayNameStyle = {width: 0}
-
     render() {
         const {item, isSelection} = this.props;
         const channel = item.channel;
@@ -130,7 +128,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 {icon}
-                <span style={this.displayNameStyle}>{displayName}</span>
+                <span>{displayName}</span>
                 {tag}
                 {badge}
             </div>
