@@ -112,7 +112,7 @@ describe('Teams Suite', () => {
 
     it('TS14633 Leave all teams', () => {
         // 1. Login and go to /
-        cy.apiLogin('user-2');
+        cy.apiLogin('user-3');
         cy.apiCreateTeam('test-team', 'Test Team').then(() => {
             cy.visit('/');
         });

@@ -132,6 +132,7 @@ export default class ManageTokensModal extends React.PureComponent {
             <div>
                 <div className='manage-teams__user'>
                     <img
+                        alt={''}
                         className='manage-teams__profile-picture'
                         src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
                     />
@@ -163,9 +164,14 @@ export default class ManageTokensModal extends React.PureComponent {
                 show={this.props.show}
                 onHide={this.props.onModalDismissed}
                 dialogClassName='manage-teams'
+                role='dialog'
+                aria-labelledby='manageTokensModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='manageTokensModalLabel'
+                    >
                         <FormattedMessage
                             id='admin.manage_tokens.manageTokensTitle'
                             defaultMessage='Manage Personal Access Tokens'

@@ -1,27 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
 import {shallow} from 'enzyme';
+import React from 'react';
 
-import YoutubeVideo from 'components/youtube_video/youtube_video.jsx';
+import {getYoutubeVideoInfo} from 'actions/integration_actions';
 
-describe('components/YoutubeVideo', () => {
-    function shallowYoutubeVideo() {
-        const allProps = {
-            channelId: 'channelid',
-            currentChannelId: 'currentchannelid',
-            link: 'https://www.youtube.com/watch?v=xqCoNej8Zxo',
-            show: true,
-            googleDeveloperKey: 'googledevkey',
-            onLinkLoaded: jest.fn(),
-        };
+import YoutubeVideo from './youtube_video';
 
-        return shallow(<YoutubeVideo {...allProps}/>);
-    }
+jest.mock('actions/integration_actions');
+
+describe('YoutubeVideo', () => {
+    const baseProps = {
+        channelId: 'channelid',
+        currentChannelId: 'currentchannelid',
+        googleDeveloperKey: 'googledevkey',
+        hasImageProxy: false,
+        link: 'https://www.youtube.com/watch?v=xqCoNej8Zxo',
+        show: true,
+    };
 
     test('should correctly parse youtube start time formats', () => {
-        const wrapper = shallowYoutubeVideo();
         for (const youtube of [
             {
                 link: 'https://www.youtube.com/watch?time_continue=490&v=xqCoNej8Zxo',
@@ -36,7 +35,86 @@ describe('components/YoutubeVideo', () => {
                 time: '&start=490',
             },
         ]) {
+            const wrapper = shallow(<YoutubeVideo {...baseProps}/>);
+
             expect(wrapper.instance().handleYoutubeTime(youtube.link)).toEqual(youtube.time);
         }
+    });
+
+    describe('thumbnail image', () => {
+        test('should load thumbnail without image proxy', () => {
+            const props = {
+                ...baseProps,
+                hasImageProxy: false,
+            };
+
+            getYoutubeVideoInfo.mockImplementation((key, videoId, success) => {
+                success({
+                    items: [{
+                        snippet: {},
+                    }],
+                });
+            });
+
+            const wrapper = shallow(<YoutubeVideo {...props}/>);
+
+            expect(wrapper.find('img').prop('src')).not.toContain('/api/v4/image');
+            expect(wrapper.find('img').prop('src')).toContain('hqdefault.jpg');
+        });
+
+        test('should load thumbnail through image proxy', () => {
+            const props = {
+                ...baseProps,
+                hasImageProxy: true,
+            };
+
+            getYoutubeVideoInfo.mockImplementation((key, videoId, success) => {
+                success({
+                    items: [{
+                        snippet: {},
+                    }],
+                });
+            });
+
+            const wrapper = shallow(<YoutubeVideo {...props}/>);
+
+            expect(wrapper.find('img').prop('src')).toContain('/api/v4/image');
+            expect(wrapper.find('img').prop('src')).toContain('hqdefault.jpg');
+        });
+
+        test('should load thumbnail through image proxy without a developer key', () => {
+            const props = {
+                ...baseProps,
+                googleDeveloperKey: '',
+                hasImageProxy: true,
+            };
+
+            const wrapper = shallow(<YoutubeVideo {...props}/>);
+
+            expect(wrapper.find('img').prop('src')).toContain('/api/v4/image');
+            expect(wrapper.find('img').prop('src')).toContain('hqdefault.jpg');
+        });
+
+        test('should load thumbnail through image proxy with a live stream', () => {
+            const props = {
+                ...baseProps,
+                hasImageProxy: true,
+            };
+
+            getYoutubeVideoInfo.mockImplementation((key, videoId, success) => {
+                success({
+                    items: [{
+                        snippet: {
+                            liveBroadcastContent: 'live',
+                        },
+                    }],
+                });
+            });
+
+            const wrapper = shallow(<YoutubeVideo {...props}/>);
+
+            expect(wrapper.find('img').prop('src')).toContain('/api/v4/image');
+            expect(wrapper.find('img').prop('src')).toContain('hqdefault_live.jpg');
+        });
     });
 });

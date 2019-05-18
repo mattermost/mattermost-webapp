@@ -235,9 +235,14 @@ export default class ChannelNotificationsModal extends React.PureComponent {
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
+                role='dialog'
+                aria-labelledby='channelNotificationModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='channelNotificationModalLabel'
+                    >
                         <FormattedMessage
                             id='channel_notifications.preferences'
                             defaultMessage='Notification Preferences for '

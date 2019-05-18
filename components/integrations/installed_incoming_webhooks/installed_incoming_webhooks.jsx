@@ -143,6 +143,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
                     />
                 }
                 addLink={'/' + this.props.team.name + '/integrations/incoming_webhooks/add'}
+                addButtonId='addIncomingWebhook'
                 emptyText={
                     <FormattedMessage
                         id='installed_incoming_webhooks.empty'

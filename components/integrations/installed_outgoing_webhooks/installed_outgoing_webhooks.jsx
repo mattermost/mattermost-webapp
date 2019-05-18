@@ -162,6 +162,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
                     />
                 }
                 addLink={'/' + this.props.team.name + '/integrations/outgoing_webhooks/add'}
+                addButtonId='addOutgoingWebhook'
                 emptyText={
                     <FormattedMessage
                         id='installed_outgoing_webhooks.empty'

@@ -233,7 +233,10 @@ export default class InstalledOAuthApp extends React.PureComponent {
         if (oauthApp.icon_url) {
             icon = (
                 <div className='integration__icon integration-list__icon'>
-                    <img src={oauthApp.icon_url}/>
+                    <img
+                        alt={'get app screenshot'}
+                        src={oauthApp.icon_url}
+                    />
                 </div>
             );
         }

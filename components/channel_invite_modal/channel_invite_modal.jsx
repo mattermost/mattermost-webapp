@@ -13,6 +13,7 @@ import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import AddIcon from 'components/icon/add_icon';
+import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import {searchUsers} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
@@ -56,7 +57,7 @@ export default class ChannelInviteModal extends React.Component {
     };
 
     componentDidMount() {
-        this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, 0).then(() => {
+        this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, this.props.channel.group_constrained, 0).then(() => {
             this.setUsersLoadingState(false);
         });
         this.props.actions.getTeamStats(this.props.channel.team_id);
@@ -88,7 +89,7 @@ export default class ChannelInviteModal extends React.Component {
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
             this.setUsersLoadingState(true);
-            this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, page + 1, USERS_PER_PAGE).then(() => {
+            this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, this.props.channel.group_constrained, page + 1, USERS_PER_PAGE).then(() => {
                 this.setUsersLoadingState(false);
             });
         }
@@ -129,7 +130,7 @@ export default class ChannelInviteModal extends React.Component {
         this.searchTimeoutId = setTimeout(
             () => {
                 this.setUsersLoadingState(true);
-                searchUsers(term, this.props.channel.team_id, {not_in_channel_id: this.props.channel.id}).then(() => {
+                searchUsers(term, this.props.channel.team_id, {not_in_channel_id: this.props.channel.id, group_constrained: this.props.channel.group_constrained}).then(() => {
                     this.setUsersLoadingState(false);
                 });
             },
@@ -141,17 +142,6 @@ export default class ChannelInviteModal extends React.Component {
         var rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
-        }
-        let tag = null;
-        if (option.is_bot) {
-            tag = (
-                <div className='bot-indicator bot-indicator__popoverlist'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
         }
 
         return (
@@ -169,7 +159,10 @@ export default class ChannelInviteModal extends React.Component {
                 <div className='more-modal__details'>
                     <div className='more-modal__name'>
                         {displayEntireNameForUser(option)}
-                        {tag}
+                        <BotBadge
+                            show={Boolean(option.is_bot)}
+                            className='badge-popoverlist'
+                        />
                     </div>
                 </div>
                 <div className='more-modal__actions'>
@@ -226,6 +219,7 @@ export default class ChannelInviteModal extends React.Component {
                 buttonSubmitLoadingText={buttonSubmitLoadingText}
                 saving={this.state.saving}
                 loading={this.state.loadingUsers}
+                placeholderText={localizeMessage('multiselect.placeholder', 'Search and add members')}
             />
         );
 
@@ -235,9 +229,14 @@ export default class ChannelInviteModal extends React.Component {
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
+                role='dialog'
+                aria-labelledby='channelInviteModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='channelInviteModalLabel'
+                    >
                         <FormattedMessage
                             id='channel_invite.addNewMembers'
                             defaultMessage='Add New Members to '

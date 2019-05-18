@@ -3,6 +3,7 @@
 exports[`components/TeamSelectorModal should match snapshot 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="teamSelectorModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -26,6 +27,7 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -35,7 +37,8 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="teamSelectorModalLabel"
     >
       <InjectIntl(FormattedMarkdownMessage)
         defaultMessage="Add Teams To **Team Selection** List"
@@ -109,6 +112,7 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
         ]
       }
       perPage={50}
+      placeholderText="Search and add teams"
       saving={false}
       valueRenderer={[Function]}
       values={Array []}

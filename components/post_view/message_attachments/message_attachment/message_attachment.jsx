@@ -258,6 +258,7 @@ export default class MessageAttachment extends React.PureComponent {
             if (attachment.author_icon) {
                 author.push(
                     <img
+                        alt={'attachment author icon'}
                         className='attachment__author-icon'
                         src={getImageSrc(attachment.author_icon, this.props.hasImageProxy)}
                         key={'attachment__author-icon'}

@@ -3,6 +3,7 @@
 exports[`components/ChannelSelectorModal should match snapshot 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="channelSelectorModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
@@ -26,6 +27,7 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -35,7 +37,8 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="channelSelectorModalLabel"
     >
       <InjectIntl(FormattedMarkdownMessage)
         defaultMessage="Add Channels To **Channel Selection** List"
@@ -83,6 +86,7 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
         ]
       }
       perPage={50}
+      placeholderText="Search and add channels"
       saving={false}
       valueRenderer={[Function]}
       values={Array []}

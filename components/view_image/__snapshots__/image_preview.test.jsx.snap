@@ -8,6 +8,7 @@ exports[`components/view_image/ImagePreview should match snapshot, with preview 
   target="_blank"
 >
   <img
+    alt="preview url image"
     src="/api/v4/files/file_id_1/preview"
   />
 </a>
@@ -27,6 +28,7 @@ exports[`components/view_image/ImagePreview should match snapshot, without previ
   target="_blank"
 >
   <img
+    alt="preview url image"
     src="/api/v4/files/file_id?download=1"
   />
 </a>

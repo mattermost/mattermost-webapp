@@ -74,6 +74,7 @@ export default class SchemaAdminSettings extends React.Component {
             saving: false,
             serverError: null,
             errorTooltip: false,
+            customComponentWrapperClass: '',
         };
     }
 
@@ -672,10 +673,9 @@ export default class SchemaAdminSettings extends React.Component {
             );
         }
         const uploadFile = (id, file, callback) => {
-            const successCallback = () => {
-                const fileName = file.name;
-                this.handleChange(id, fileName);
-                this.setState({[setting.key]: fileName, [`${setting.key}Error`]: null});
+            const successCallback = (filename) => {
+                this.handleChange(id, filename);
+                this.setState({[setting.key]: filename, [`${setting.key}Error`]: null});
                 if (callback && typeof callback === 'function') {
                     callback();
                 }
@@ -859,15 +859,13 @@ export default class SchemaAdminSettings extends React.Component {
         return Boolean(SchemaAdminSettings.getConfigValue(this.props.environmentConfig, path));
     };
 
-    render = () => {
-        const schema = this.props.schema;
+    customComponentWrapperClass = (className) => {
+        this.setState({customComponentWrapperClass: className});
+    }
 
-        if (schema && schema.component) {
-            const CustomComponent = schema.component;
-            return (<CustomComponent {...this.props}/>);
-        }
+    renderSettingsWrapper = () => {
         return (
-            <div className='wrapper--fixed'>
+            <div className={'wrapper--fixed ' + this.state.customComponentWrapperClass}>
                 {this.renderTitle()}
                 <form
                     className='form-horizontal'
@@ -902,6 +900,34 @@ export default class SchemaAdminSettings extends React.Component {
                         </Overlay>
                     </div>
                 </form>
+            </div>
+        );
+    }
+
+    render = () => {
+        const schema = this.props.schema;
+
+        if (schema && schema.component && schema.settings) {
+            const CustomComponent = schema.component;
+            return (
+                <React.Fragment>
+                    {this.renderSettingsWrapper()}
+                    <CustomComponent
+                        {...this.props}
+                        customWrapperClass={this.customComponentWrapperClass}
+                    />
+                </React.Fragment>
+            );
+        }
+        if (schema && schema.component) {
+            const CustomComponent = schema.component;
+            return (
+                <CustomComponent {...this.props}/>
+            );
+        }
+        return (
+            <div className='wrapper--fixed'>
+                {this.renderSettingsWrapper()}
             </div>
         );
     }
