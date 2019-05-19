@@ -1,0 +1,40 @@
+@import 'utils/variables';
+
+.InvitationModalConfirmStepRow {
+    display: flex;
+    .username-or-icon {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        .name {
+            margin: 0 8px;
+        }
+        .mail-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
+            background: $primary-color;
+            display: inline-flex;
+            align-items: center;
+            margin: 12px;
+            svg {
+                width: 36px;
+                height: 36px;
+                fill: $white;
+                margin: 6px;
+            }
+        }
+        .avatar {
+            border-radius: 16px;
+            width: 24px;
+            height: 24px;
+            margin-right: 3px;
+            margin: 12px;
+        }
+    }
+    .reason {
+        display: flex;
+        align-items: center;
+        width: 50%;
+    }
+}

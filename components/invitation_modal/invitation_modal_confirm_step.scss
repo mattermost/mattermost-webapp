@@ -1,0 +1,46 @@
+@import 'utils/variables';
+
+.InvitationModal .InvitationModalConfirmStep h1 {
+    margin-bottom: 10px;
+}
+
+.InvitationModalConfirmStep {
+    .subtitle {
+        margin-bottom: 40px;
+        margin-top: 0px;
+        font-size: 16px;
+        text-align: center;
+    }
+    .invitation-modal-confirm-not-sent {
+        h2 {
+            margin-top: 32px;
+            margin-bottom: 0;
+            font-size: 20px;
+        }
+        .InvitationModalConfirmStepTable {
+            .table-header {
+                border-bottom: 1px solid orange;
+            }
+        }
+    }
+    .invitation-modal-confirm-sent {
+        h2 {
+            font-size: 20px;
+            margin-bottom: 0;
+        }
+        .InvitationModalConfirmStepTable {
+            .table-header {
+                border-bottom: 1px solid green;
+            }
+        }
+    }
+    .confirm-done {
+        margin-top: 32px;
+        text-align: right;
+        button {
+            height: 48px;
+            padding: 13px 26px;
+            font-size: 16px;
+        }
+    }
+}

@@ -1,0 +1,14 @@
+@import 'utils/variables';
+
+.InvitationModalConfirmStepTable {
+    width: 720px;
+    .table-header {
+        display: flex;
+        border-bottom: 1px solid green;
+        .people-header, .details-header {
+            margin: 12px;
+            width: 50%;
+            font-weight: bold;
+        }
+    }
+}
