@@ -10,7 +10,7 @@ import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
 import {getChannelTimezones} from 'mattermost-redux/actions/channels';
-import {Preferences, Posts} from 'mattermost-redux/constants';
+import {Posts} from 'mattermost-redux/constants';
 
 import {connectionErrorCount} from 'selectors/views/system';
 

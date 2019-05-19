@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {addMessageIntoHistory} from 'mattermost-redux/actions/posts';
-import {Preferences, Permissions} from 'mattermost-redux/constants';
+import {Permissions} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
