@@ -164,7 +164,10 @@ export default class InteractiveDialog extends React.Component {
                 role='dialog'
                 aria-labelledby='interactiveDialogModalLabel'
             >
-                <Modal.Header closeButton={true} style={elements == null && {borderBottom: '0px'}}>
+                <Modal.Header
+                    closeButton={true}
+                    style={{borderBottom: elements == null && '0px'}}
+                >
                     <Modal.Title
                         componentClass='h1'
                         id='interactiveDialogModalLabel'
