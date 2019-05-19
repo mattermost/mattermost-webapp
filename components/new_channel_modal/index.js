@@ -2,15 +2,14 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {Preferences} from 'mattermost-redux/constants';
-import {get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
+import {getSendOnCtrlEnterPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import NewChannelModal from './new_channel_modal.jsx';
 
 function mapStateToProps(state) {
     return {
-        ctrlSend: getPreference(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
+        ctrlSend: getSendOnCtrlEnterPreferences(state),
         currentTeamId: getCurrentTeamId(state),
     };
 }

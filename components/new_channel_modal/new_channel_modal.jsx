@@ -119,9 +119,9 @@ export default class NewChannelModal extends React.PureComponent {
         const {ctrlSend} = this.props;
 
         // Enter pressed alone without required cmd or ctrl key
-        if (ctrlSend && enterPressed && !e.ctrlKey) {
+        if (ctrlSend === true && enterPressed && !e.ctrlKey) {
             e.preventDefault();
-        } else if ((ctrlSend && enterPressed && e.ctrlKey) || (!ctrlSend && enterPressed && !e.shiftKey && !e.altKey)) {
+        } else if ((ctrlSend && enterPressed && e.ctrlKey) || (ctrlSend !== true && enterPressed && !e.shiftKey && !e.altKey)) {
             this.handleSubmit(e);
         }
     }

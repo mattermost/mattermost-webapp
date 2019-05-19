@@ -207,25 +207,25 @@ export default class AdvancedSettingsDisplay extends React.Component {
     }
 
     renderCtrlEnterLabel(enabled) {
-        if (enabled === false) {
+        if (enabled === 'false') {
             return (
                 <FormattedMessage
                     id='user.settings.advance.off'
                     defaultMessage='Off'
                 />
             );
-        } else if (enabled === true) {
+        } else if (enabled === 'true') {
             return (
                 <FormattedMessage
-                    id='user.settings.advance.on'
-                    defaultMessage='On'
+                    id='user.settings.advance.onForAllMessages'
+                    defaultMessage='On for all messages'
                 />
             );
         }
         return (
             <FormattedMessage
                 id='user.settings.advance.onForCode'
-                defaultMessage='On for code-formatted messages'
+                defaultMessage='On only for code blocks starting with ```'
             />
         );
     }
@@ -328,9 +328,9 @@ export default class AdvancedSettingsDisplay extends React.Component {
 
         if (this.props.activeSection === 'advancedCtrlSend') {
             const ctrlSendActive = [
-                this.state.settings.send_on_ctrl_enter === true,
+                this.state.settings.send_on_ctrl_enter === 'true',
                 this.state.settings.send_on_ctrl_enter === 'trueForCode',
-                this.state.settings.send_on_ctrl_enter === false,
+                this.state.settings.send_on_ctrl_enter === 'false',
             ];
 
             const inputs = [
@@ -342,11 +342,11 @@ export default class AdvancedSettingsDisplay extends React.Component {
                                 type='radio'
                                 name='sendOnCtrlEnter'
                                 checked={ctrlSendActive[0]}
-                                onChange={this.updateSetting.bind(this, 'send_on_ctrl_enter', true)}
+                                onChange={this.updateSetting.bind(this, 'send_on_ctrl_enter', 'true')}
                             />
                             <FormattedMessage
-                                id='user.settings.advance.on'
-                                defaultMessage='On'
+                                id='user.settings.advance.onForAllMessages'
+                                defaultMessage='On for all messages'
                             />
                         </label>
                         <br/>
@@ -362,7 +362,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                             />
                             <FormattedMessage
                                 id='user.settings.advance.onForCode'
-                                defaultMessage='On for code-formatted messages (starting with ```)'
+                                defaultMessage='On only for code blocks starting with ```'
                             />
                         </label>
                         <br/>
@@ -373,8 +373,8 @@ export default class AdvancedSettingsDisplay extends React.Component {
                                 id='ctrlSendOff'
                                 type='radio'
                                 name='sendOnCtrlEnter'
-                                checked={ctrlSendActive[2]}
-                                onChange={this.updateSetting.bind(this, 'send_on_ctrl_enter', false)}
+                                checked={ctrlSendActive[2] || !this.state.settings.send_on_ctrl_enter}
+                                onChange={this.updateSetting.bind(this, 'send_on_ctrl_enter', 'false')}
                             />
                             <FormattedMessage
                                 id='user.settings.advance.off'
@@ -387,7 +387,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                         <br/>
                         <FormattedMessage
                             id='user.settings.advance.sendDesc'
-                            defaultMessage='If enabled ENTER inserts a new line and CTRL+ENTER submits the message.'
+                            defaultMessage='When enabled, CTRL + ENTER will send the message and ENTER inserts a new line.'
                         />
                     </div>
                 </div>,

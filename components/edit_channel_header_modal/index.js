@@ -3,15 +3,13 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
-import {get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
+import {getSendOnCtrlEnterPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {patchChannel} from 'mattermost-redux/actions/channels';
-
-import Constants from 'utils/constants.jsx';
 
 import EditChannelHeaderModal from './edit_channel_header_modal.jsx';
 
 const mapStateToProps = createSelector(
-    (state) => getPreference(state, Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
+    (state) => getSendOnCtrlEnterPreferences(state),
     ({requests}) => {
         const {channels: {updateChannel}} = requests;
         return {
