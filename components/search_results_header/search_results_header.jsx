@@ -137,6 +137,7 @@ export default class SearchResultsHeader extends React.Component {
                         </OverlayTrigger>
                     </button>
                     <button
+                        id='searchResultsCloseButton'
                         type='button'
                         className='sidebar--right__close'
                         aria-label='Close'

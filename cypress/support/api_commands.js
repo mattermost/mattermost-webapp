@@ -222,7 +222,7 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
 /**
  * Saves Enable Open Server settings config details of a user directly via API
  * This API assume that the sysadmin user is logged in for the changes
- @param {Boolean} enable - flag for EnableOpenServer in config. Passes true for default if none is provided.
+ * @param {Boolean} enable - flag for EnableOpenServer in config. Passes true for default if none is provided.
  */
 Cypress.Commands.add('apiEnableOpenServer', (enable = true) => {
     config.TeamSettings.EnableOpenServer = enable;
@@ -231,5 +231,22 @@ Cypress.Commands.add('apiEnableOpenServer', (enable = true) => {
         url: '/api/v4/config',
         method: 'PUT',
         body: config,
+    });
+});
+
+// *****************************************************************************
+// Pinned Posts
+// *****************************************************************************
+
+/**
+* Unpins pinned posts of given postID directly via API
+* This API assume that the user is logged in and has cookie to access
+* @param {Object} postId - Post ID of the pinned post to unpin
+*/
+Cypress.Commands.add('apiUnpinPosts', (postId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/posts/' + postId + '/unpin',
+        method: 'POST',
     });
 });
