@@ -17,13 +17,13 @@ describe('Post search display', () => {
         const searchWord = 'Hello';
 
         // # post message
-        cy.postMessage('Hello');
+        cy.postMessage(searchWord);
 
         // # search word in searchbox
         cy.get('#searchBox').type(searchWord).type('{enter}');
 
-        // # searchbox should have attribute 'value'
-        cy.get('#searchBox').should('have.attr', 'value', searchWord);
+        // # searchbox should value as searchWord
+        cy.get('#searchBox').should('have.value', searchWord);
 
         // # click on "x" displayed on searchbox
         cy.get('#searchClearButton').click();
@@ -31,17 +31,17 @@ describe('Post search display', () => {
         // # RHS should be visible with search results
         cy.get('.sidebar-right__body').should('be.visible');
 
+        // # focused element searchbox should be visible
+        cy.get('#searchBox').should('be.visible');
+
         // # click on searchbox
         cy.get('#searchBox').click();
-
-        // # focused element should be searchbox
-        cy.focused().should('have.attr', 'id', 'searchBox');
 
         // # search options menu is visible
         cy.get('#searchbar-help-popup').should('have.class', 'visible');
 
         // # check the contents in search options
-        cy.get('#searchbar-help-popup').contains('Search Options');
-        cy.get('#searchbar-help-popup').contains('Use "quotation marks" to search for phrases');
+        cy.get('#searchbar-help-popup').should('contain', 'Search Options');
+        cy.get('#searchbar-help-popup').should('contain', 'Use "quotation marks" to search for phrases');
     });
 });
