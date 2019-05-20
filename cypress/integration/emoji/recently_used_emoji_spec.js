@@ -9,6 +9,8 @@
 
 /* eslint max-nested-callbacks: ["error", 3] */
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Recent Emoji', () => {
     before(() => {
         // 1. Login and go to /
@@ -33,7 +35,7 @@ describe('Recent Emoji', () => {
         cy.get('#create_post').submit();
 
         // 7. Wait 500 millisecond
-        cy.wait(500); // eslint-disable-line
+        cy.wait(TIMEOUTS.TINY);
 
         // 8. Post reaction to post
         cy.clickPostReactionIcon();

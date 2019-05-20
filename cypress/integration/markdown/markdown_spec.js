@@ -7,7 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-/* eslint max-nested-callbacks: ["error", 3] */
+/* eslint max-nested-callbacks: ["error", 4] */
+
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 const testCases = [
     {name: 'Markdown - basic', fileKey: 'markdown_basic'},
@@ -18,11 +20,6 @@ const testCases = [
     {name: 'Markdown - should not auto-link or generate previews', fileKey: 'markdown_not_autolink'},
     {name: 'Markdown - should appear as a carriage return separating two lines of text', fileKey: 'markdown_carriage_return_two_lines'},
     {name: 'Markdown - in-line code', fileKey: 'markdown_inline_code'},
-    {name: 'Markdown - in-line images 1', fileKey: 'markdown_inline_images_1'},
-    {name: 'Markdown - in-line images 2', fileKey: 'markdown_inline_images_2'},
-    {name: 'Markdown - in-line images 3', fileKey: 'markdown_inline_images_3'},
-    {name: 'Markdown - in-line images 4', fileKey: 'markdown_inline_images_4'},
-    {name: 'Markdown - in-line images 5', fileKey: 'markdown_inline_images_5'},
     {name: 'Markdown - lines', fileKey: 'markdown_lines'},
     {name: 'Markdown - block quotes 1', fileKey: 'markdown_block_quotes_1'},
     {name: 'Markdown - block quotes 2', fileKey: 'markdown_block_quotes_2'},
@@ -71,7 +68,7 @@ describe('Markdown message', () => {
 
         // # Navigate to app and wait for posts request to finish
         cy.visit('/');
-        cy.wait('@getPosts', {timeout: 45000}).should('have.property', 'status', 200);
+        cy.wait('@getPosts', {timeout: TIMEOUTS.HUGE}).should('have.property', 'status', 200);
     });
 
     testCases.forEach((testCase) => {
@@ -81,6 +78,27 @@ describe('Markdown message', () => {
 
             // * Verify that HTML Content is correct
             cy.compareLastPostHTMLContentFromFile(`markdown/${testCase.fileKey}.html`);
+        });
+    });
+
+    describe('with images', () => {
+        const tests = [
+            {name: 'Markdown - in-line images 1', fileKey: 'markdown_inline_images_1'},
+            {name: 'Markdown - in-line images 2', fileKey: 'markdown_inline_images_2'},
+            {name: 'Markdown - in-line images 3', fileKey: 'markdown_inline_images_3'},
+            {name: 'Markdown - in-line images 4', fileKey: 'markdown_inline_images_4'},
+            {name: 'Markdown - in-line images 5', fileKey: 'markdown_inline_images_5'},
+        ];
+
+        tests.forEach((test) => {
+            it(test.name, () => {
+                // #  Post markdown message
+                cy.postMessageFromFile(`markdown/${test.fileKey}.md`);
+
+                // * Verify that HTML Content is correct.
+                // Note we use the Gigantic timeout to ensure that the large images will load
+                cy.compareLastPostHTMLContentFromFile(`markdown/${test.fileKey}.html`, TIMEOUTS.GIGANTIC);
+            });
         });
     });
 });
