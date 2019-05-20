@@ -235,7 +235,8 @@ export function getLastPostId(postIds) {
             PostListUtils.isStartOfNewMessages(item) ||
             PostListUtils.isDateLine(item) ||
             item === PostListRowListIds.CHANNEL_INTRO_MESSAGE ||
-            item === PostListRowListIds.MORE_MESSAGES_LOADER
+            item === PostListRowListIds.MORE_MESSAGES_LOADER ||
+            item === PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES
         ) {
             // This is not a post at all
             continue;

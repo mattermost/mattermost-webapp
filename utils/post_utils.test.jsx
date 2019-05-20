@@ -4,6 +4,7 @@
 import assert from 'assert';
 
 import * as PostUtils from 'utils/post_utils.jsx';
+import {PostListRowListIds} from 'utils/constants.jsx';
 
 describe('PostUtils.containsAtChannel', () => {
     test('should return correct @all (same for @channel)', () => {
@@ -523,4 +524,31 @@ describe('PostUtils.postMessageOnKeyPress', () => {
             expect(output).toEqual(testCase.expected);
         });
     }
+});
+
+describe('PostUtils.getLastPostId', () => {
+    test('Should not return MANUAL_TRIGGER_LOAD_MESSAGES', () => {
+        const postId = PostUtils.getLastPostId(['postId1', 'postId2', PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES]);
+        assert.equal(postId, 'postId2');
+    });
+
+    test('Should not return MORE_MESSAGES_LOADER', () => {
+        const postId = PostUtils.getLastPostId(['postId1', 'postId2', PostListRowListIds.MORE_MESSAGES_LOADER]);
+        assert.equal(postId, 'postId2');
+    });
+
+    test('Should not return CHANNEL_INTRO_MESSAGE', () => {
+        const postId = PostUtils.getLastPostId(['postId1', 'postId2', PostListRowListIds.CHANNEL_INTRO_MESSAGE]);
+        assert.equal(postId, 'postId2');
+    });
+
+    test('Should not return dateline', () => {
+        const postId = PostUtils.getLastPostId(['postId1', 'postId2', 'date-1558290600000']);
+        assert.equal(postId, 'postId2');
+    });
+
+    test('Should not return START_OF_NEW_MESSAGES', () => {
+        const postId = PostUtils.getLastPostId(['postId1', 'postId2', PostListRowListIds.START_OF_NEW_MESSAGES]);
+        assert.equal(postId, 'postId2');
+    });
 });
