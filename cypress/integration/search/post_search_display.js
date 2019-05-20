@@ -35,7 +35,7 @@ describe('Post search display', () => {
         cy.get('#searchBox').click();
 
         // # search options menu is visible
-        cy.get('#searchbar-help-popup').should('have.class', 'visible');
+        cy.get('#searchbar-help-popup').should('be.visible');
 
         // # check the contents in search options
         cy.get('#searchbar-help-popup').should('contain', 'Search Options');
