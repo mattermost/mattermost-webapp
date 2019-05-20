@@ -12,9 +12,11 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MailIcon from 'components/svg/mail_icon';
 import MailPlusIcon from 'components/svg/mail_plus_icon';
+import GuestBadge from 'components/widgets/badges/guest_badge';
 import {imageURLForUser} from 'utils/utils.jsx';
 
 import {t} from 'utils/i18n.jsx';
+import {isGuest} from 'utils/utils';
 
 import './users_emails_input.scss';
 
@@ -89,6 +91,11 @@ export default class UsersEmailsInput extends React.Component {
             />
         );
 
+        let guestBadge = null;
+        if (!isEmail(user.value) && isGuest(user)) {
+            guestBadge = <GuestBadge/>;
+        }
+
         if (options.context === 'menu') {
             if (user.value && isEmail(user.value)) {
                 return this.getCreateLabel(user.value);
@@ -97,6 +104,7 @@ export default class UsersEmailsInput extends React.Component {
                 <React.Fragment>
                     {avatar}
                     {this.formatUserName(user)}
+                    {guestBadge}
                 </React.Fragment>
             );
         }
@@ -114,6 +122,7 @@ export default class UsersEmailsInput extends React.Component {
             <React.Fragment>
                 {avatar}
                 {this.formatShortUserName(user)}
+                {guestBadge}
             </React.Fragment>
         );
     }
