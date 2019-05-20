@@ -10,28 +10,38 @@
 /*eslint max-nested-callbacks: ["error", 3]*/
 
 describe('Post search display', () => {
-    it('M14252 After clearing search query, search options display', () => {
-        // 1. Login and navigate to the app
+    it('S14252 After clearing search query, search options display', () => {
+        // # Login and navigate to the app
         cy.apiLogin('user-1');
         cy.visit('/');
-        const searchWord = 'ok';
+        const searchWord = 'Hello';
 
-        // 2.search word in searchbox
+        // # post message
+        cy.postMessage('Hello');
+
+        // # search word in searchbox
         cy.get('#searchBox').type(searchWord).type('{enter}');
 
-        // 3.searchbox should have attribute 'value'
+        // # searchbox should have attribute 'value'
         cy.get('#searchBox').should('have.attr', 'value', searchWord);
 
-        // 4.click on "x" displayed on searchbox
+        // # click on "x" displayed on searchbox
         cy.get('#searchClearButton').click();
 
-        // 5.click on searchbox
+        // # RHS should be visible with search results
+        cy.get('.sidebar-right__body').should('be.visible');
+
+        // # click on searchbox
         cy.get('#searchBox').click();
 
-        // 6.focused element should be searchbox
+        // # focused element should be searchbox
         cy.focused().should('have.attr', 'id', 'searchBox');
 
-        // 7. search options are visible
+        // # search options menu is visible
         cy.get('#searchbar-help-popup').should('have.class', 'visible');
+
+        // # check the contents in search options
+        cy.get('#searchbar-help-popup').contains('Search Options');
+        cy.get('#searchbar-help-popup').contains('Use "quotation marks" to search for phrases');
     });
 });
