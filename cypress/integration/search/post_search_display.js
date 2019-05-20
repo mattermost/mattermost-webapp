@@ -19,11 +19,8 @@ describe('Post search display', () => {
         // # post message
         cy.postMessage(searchWord);
 
-        // # search word in searchbox
-        cy.get('#searchBox').type(searchWord).type('{enter}');
-
-        // # searchbox should value as searchWord
-        cy.get('#searchBox').should('have.value', searchWord);
+        // # search word in searchBox and validate searchWord
+        cy.get('#searchBox').type(searchWord).type('{enter}').should('have.value', searchWord);
 
         // # click on "x" displayed on searchbox
         cy.get('#searchClearButton').click();
