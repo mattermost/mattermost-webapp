@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getOpenGraphMetadataForUrl} from 'mattermost-redux/selectors/entities/posts';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {editPost} from 'actions/views/posts';
 
@@ -18,7 +18,7 @@ function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
 
     return {
-        currentUser: getCurrentUser(state),
+        currentUserId: getCurrentUserId(state),
         enableLinkPreviews: config.EnableLinkPreviews === 'true',
         hasImageProxy: config.HasImageProxy === 'true',
         openGraphData: getOpenGraphMetadataForUrl(state, ownProps.link),

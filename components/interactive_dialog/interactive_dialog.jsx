@@ -141,6 +141,7 @@ export default class InteractiveDialog extends React.Component {
         if (iconUrl) {
             icon = (
                 <img
+                    alt={'modal title icon'}
                     className='more-modal__image'
                     width='36'
                     height='36'

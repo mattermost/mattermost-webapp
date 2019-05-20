@@ -13,6 +13,7 @@ import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
 import BackIcon from 'components/icon/back_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {t} from 'utils/i18n.jsx';
 
@@ -412,6 +413,35 @@ export default class GeneralTab extends React.Component {
             );
         }
 
+        if (team.group_constrained) {
+            openInviteSection = (
+                <ul className='section-min'>
+                    <li
+                        id='open_inviteTitle'
+                        className='col-xs-12 col-sm-9 section-title'
+                    >
+                        {Utils.localizeMessage('general_tab.openInviteTitle', 'Allow any user with an account on this server to join this team')}
+                    </li>
+                    <li
+                        id='open_inviteDesc'
+                        className='col-xs-12 section-describe'
+                    >
+                        {Utils.localizeMessage('general_tab.no', 'No')}
+                    </li>
+                    <li
+                        className='col-xs-12'
+                    >
+                        <div className='disabledMessage'>
+                            <FormattedMarkdownMessage
+                                id='general_tab.membersManagedByGroups'
+                                defaultMessage='Members of this team are added and removed by linked groups.'
+                            />
+                        </div>
+                    </li>
+                </ul>
+            );
+        }
+
         let inviteSection;
 
         if (this.props.activeSection === 'invite_id' && this.props.canInviteTeamMembers) {
@@ -769,12 +799,20 @@ export default class GeneralTab extends React.Component {
                     {descriptionSection}
                     <div className='divider-light'/>
                     {teamIconSection}
-                    <div className='divider-light'/>
-                    {allowedDomainsSection}
+                    {!team.group_constrained &&
+                        <>
+                            <div className='divider-light'/>
+                            {allowedDomainsSection}
+                        </>
+                    }
                     <div className='divider-light'/>
                     {openInviteSection}
-                    <div className='divider-light'/>
-                    {inviteSection}
+                    {!team.group_constrained &&
+                        <>
+                            <div className='divider-light'/>
+                            {inviteSection}
+                        </>
+                    }
                     <div className='divider-dark'/>
                 </div>
             </div>

@@ -179,7 +179,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       icon={false}
       id="leaveTeam"
       modalId="leave_team"
-      show={true}
+      show={false}
       text="Leave Team"
     />
   </MenuGroup>

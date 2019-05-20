@@ -57,7 +57,7 @@ export default class ChannelInviteModal extends React.Component {
     };
 
     componentDidMount() {
-        this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, 0).then(() => {
+        this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, this.props.channel.group_constrained, 0).then(() => {
             this.setUsersLoadingState(false);
         });
         this.props.actions.getTeamStats(this.props.channel.team_id);
@@ -89,7 +89,7 @@ export default class ChannelInviteModal extends React.Component {
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
             this.setUsersLoadingState(true);
-            this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, page + 1, USERS_PER_PAGE).then(() => {
+            this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, this.props.channel.group_constrained, page + 1, USERS_PER_PAGE).then(() => {
                 this.setUsersLoadingState(false);
             });
         }
@@ -130,7 +130,7 @@ export default class ChannelInviteModal extends React.Component {
         this.searchTimeoutId = setTimeout(
             () => {
                 this.setUsersLoadingState(true);
-                searchUsers(term, this.props.channel.team_id, {not_in_channel_id: this.props.channel.id}).then(() => {
+                searchUsers(term, this.props.channel.team_id, {not_in_channel_id: this.props.channel.id, group_constrained: this.props.channel.group_constrained}).then(() => {
                     this.setUsersLoadingState(false);
                 });
             },

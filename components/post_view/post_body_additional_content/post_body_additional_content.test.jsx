@@ -5,7 +5,9 @@ import {shallow} from 'enzyme';
 import React from 'react';
 
 import MessageAttachmentList from 'components/post_view/message_attachments/message_attachment_list';
+import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
 import PostImage from 'components/post_view/post_image';
+import YoutubeVideo from 'components/youtube_video';
 
 import PostBodyAdditionalContent from './post_body_additional_content';
 
@@ -28,6 +30,7 @@ describe('PostBodyAdditionalContent', () => {
 
     describe('with an image preview', () => {
         const imageUrl = 'https://example.com/image.png';
+        const imageMetadata = {}; // This can be empty since we're checking equality with ===
 
         const imageBaseProps = {
             ...baseProps,
@@ -40,7 +43,7 @@ describe('PostBodyAdditionalContent', () => {
                         url: imageUrl,
                     }],
                     images: {
-                        [imageUrl]: {},
+                        [imageUrl]: imageMetadata,
                     },
                 },
             },
@@ -50,7 +53,8 @@ describe('PostBodyAdditionalContent', () => {
             const wrapper = shallow(<PostBodyAdditionalContent {...imageBaseProps}/>);
 
             expect(wrapper).toMatchSnapshot();
-            expect(wrapper.find(PostImage).prop('imageMetadata')).toBe(imageBaseProps.post.metadata.images[imageUrl]);
+            expect(wrapper.find(PostImage).exists()).toBe(true);
+            expect(wrapper.find(PostImage).prop('imageMetadata')).toBe(imageMetadata);
         });
 
         test('should render the toggle after a message containing more than just a link', () => {
@@ -66,29 +70,54 @@ describe('PostBodyAdditionalContent', () => {
 
             expect(wrapper).toMatchSnapshot();
         });
-    });
 
-    describe('with a message attachment', () => {
-        test('should render correctly', () => {
+        test('should not render content when isEmbedVisible is false', () => {
             const props = {
-                ...baseProps,
-                post: {
-                    ...baseProps.post,
-                    metadata: {
-                        embeds: [{
-                            type: 'message_attachment',
-                        }],
-                    },
-                    props: {
-                        attachments: [],
-                    },
-                },
+                ...imageBaseProps,
+                isEmbedVisible: false,
             };
 
             const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
 
+            expect(wrapper.find(PostImage).exists()).toBe(false);
+        });
+    });
+
+    describe('with a message attachment', () => {
+        const attachments = []; // This can be empty since we're checking equality with ===
+
+        const messageAttachmentBaseProps = {
+            ...baseProps,
+            post: {
+                ...baseProps.post,
+                metadata: {
+                    embeds: [{
+                        type: 'message_attachment',
+                    }],
+                },
+                props: {
+                    attachments,
+                },
+            },
+        };
+
+        test('should render correctly', () => {
+            const wrapper = shallow(<PostBodyAdditionalContent {...messageAttachmentBaseProps}/>);
+
             expect(wrapper).toMatchSnapshot();
-            expect(wrapper.find(MessageAttachmentList).prop('attachments')).toBe(props.post.props.attachments);
+            expect(wrapper.find(MessageAttachmentList).exists()).toBe(true);
+            expect(wrapper.find(MessageAttachmentList).prop('attachments')).toBe(attachments);
+        });
+
+        test('should render content when isEmbedVisible is false', () => {
+            const props = {
+                ...messageAttachmentBaseProps,
+                isEmbedVisible: false,
+            };
+
+            const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
+
+            expect(wrapper.find(MessageAttachmentList).exists()).toBe(true);
         });
     });
 
@@ -112,6 +141,7 @@ describe('PostBodyAdditionalContent', () => {
         test('should render correctly', () => {
             const wrapper = shallow(<PostBodyAdditionalContent {...ogBaseProps}/>);
 
+            expect(wrapper.find(PostAttachmentOpenGraph).exists()).toBe(true);
             expect(wrapper).toMatchSnapshot();
         });
 
@@ -128,12 +158,23 @@ describe('PostBodyAdditionalContent', () => {
 
             expect(wrapper).toMatchSnapshot();
         });
+
+        test('should render content when isEmbedVisible is false', () => {
+            const props = {
+                ...ogBaseProps,
+                isEmbedVisible: false,
+            };
+
+            const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
+
+            expect(wrapper.find(PostAttachmentOpenGraph).exists()).toBe(true);
+        });
     });
 
     describe('with a YouTube video', () => {
         const youtubeUrl = 'https://www.youtube.com/watch?v=d-YO3v-wJts';
 
-        const imageBaseProps = {
+        const youtubeBaseProps = {
             ...baseProps,
             post: {
                 ...baseProps.post,
@@ -148,22 +189,35 @@ describe('PostBodyAdditionalContent', () => {
         };
 
         test('should render correctly', () => {
-            const wrapper = shallow(<PostBodyAdditionalContent {...imageBaseProps}/>);
+            const wrapper = shallow(<PostBodyAdditionalContent {...youtubeBaseProps}/>);
 
+            expect(wrapper.find(YoutubeVideo).exists()).toBe(true);
             expect(wrapper).toMatchSnapshot();
         });
 
         test('should render the toggle after a message containing more than just a link', () => {
             const props = {
-                ...imageBaseProps,
+                ...youtubeBaseProps,
                 post: {
-                    ...imageBaseProps.post,
+                    ...youtubeBaseProps.post,
                     message: 'This is a video: ' + youtubeUrl,
                 },
             };
 
             const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
 
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should not render content when isEmbedVisible is false', () => {
+            const props = {
+                ...youtubeBaseProps,
+                isEmbedVisible: false,
+            };
+
+            const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
+
+            expect(wrapper.find(YoutubeVideo).exists()).toBe(false);
             expect(wrapper).toMatchSnapshot();
         });
     });
