@@ -67,7 +67,10 @@ export default class UsersEmailsInput extends React.Component {
     }
 
     formatUserName = (user) => {
-        let displayName = '@' + user.username + ' - ' + user.first_name + ' ' + user.last_name;
+        let displayName = '@' + user.username;
+        if (user.first_name || user.last_name) {
+            displayName = displayName + ' - ' + user.first_name + ' ' + user.last_name;
+        }
         if (user.nickname) {
             displayName = displayName + ' (' + user.nickname + ')';
         }
