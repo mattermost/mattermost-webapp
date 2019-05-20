@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import EmailIcon from 'components/svg/mail_icon';
+import GuestBadge from 'components/widgets/badges/guest_badge';
 
-import {imageURLForUser} from 'utils/utils.jsx';
+import {imageURLForUser, isGuest} from 'utils/utils.jsx';
 
 import './invitation_modal_confirm_step_row.scss';
 
@@ -27,6 +28,7 @@ export default class InvitationModalConfirmStepRow extends React.Component {
         const invitation = this.props.invitation;
         let icon;
         let username;
+        let guestBadge;
         if (invitation.user) {
             const profileImg = imageURLForUser(invitation.user);
             icon = (
@@ -37,6 +39,9 @@ export default class InvitationModalConfirmStepRow extends React.Component {
                 />
             );
             username = this.formatUserName(invitation.user);
+            if (isGuest(invitation.user)) {
+                guestBadge = <GuestBadge/>;
+            }
         } else {
             icon = <EmailIcon className='mail-icon'/>;
             username = invitation.email;
@@ -46,6 +51,7 @@ export default class InvitationModalConfirmStepRow extends React.Component {
                 <div className='username-or-icon'>
                     {icon}
                     <span className='name'>{username}</span>
+                    {guestBadge}
                 </div>
                 <div className='reason'>
                     {invitation.reason}

@@ -59,7 +59,7 @@ export default class InvitationModalGuestsStep extends React.Component {
         if (isEmail(term)) {
             return [];
         }
-        const {data} = await this.props.searchProfiles(term, {role: 'system_guest'});
+        const {data} = await this.props.searchProfiles(term);
         return data;
     }
     debouncedUsersLoader = debouncePromise(this.usersLoader, 150);

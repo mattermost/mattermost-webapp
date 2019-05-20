@@ -2397,6 +2397,7 @@
   "invite.members.invite-sent": "An invitation email has been sent",
   "invite.members.unable-to-add-the-user-to-the-team": "Unable to add the user to the team",
   "invite.members.user-is-guest": "Contact your admin to make this guest a full member.",
+  "invite.members.user-is-not-guest": "You can't invite a regular user as a guest.",
   "katex.error": "Couldn't compile your Latex code. Please review the syntax and try again.",
   "last_users_message.added_to_channel.type": "were **added to the channel** by {actor}.",
   "last_users_message.added_to_team.type": "were **added to the team** by {actor}.",

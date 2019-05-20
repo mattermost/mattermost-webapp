@@ -73,6 +73,10 @@ export function sendGuestsInvites(teamId, channels, users, emails, message) {
         const notSent = [];
         const members = getChannelMembersInChannels(state);
         for (const user of users) {
+            if (!isGuest(user)) {
+                notSent.push({user, reason: localizeMessage('invite.members.user-is-not-guest', 'You can\'t invite a regular user as a guest.')});
+                continue;
+            }
             let memberOfAll = true;
             let memberOfAny = false;
             for (const channel of channels) {
