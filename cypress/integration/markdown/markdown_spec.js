@@ -71,7 +71,7 @@ describe('Markdown message', () => {
 
         // # Navigate to app and wait for posts request to finish
         cy.visit('/');
-        cy.wait('@getPosts', {timeout: 20000}).should('have.property', 'status', 200);
+        cy.wait('@getPosts', {timeout: 45000}).should('have.property', 'status', 200);
     });
 
     testCases.forEach((testCase) => {

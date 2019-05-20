@@ -137,15 +137,16 @@ Cypress.Commands.add('getLastPost', () => {
 });
 
 Cypress.Commands.add('getLastPostId', (opts = {force: false}) => {
-    cy.get('#postListContent #postContent', {timeout: 30000}).last().parent().as('_lastPost');
+    cy.get('#postListContent #postContent', {timeout: 30000}).
+        last().
+        parent().as('parent');
 
-    if (!opts.force) {
-        cy.get('@_lastPost').should('have.attr', 'id').and('not.include', ':');
+    if (opts.force) {
+        cy.get('@parent').should('have.attr', 'id').invoke('replace', 'post_', '');
+    } else {
+        cy.get('@parent').should('have.attr', 'id').and('not.include', ':').
+            invoke('replace', 'post_', '');
     }
-
-    return cy.get('@_lastPost').invoke('attr', 'id').then((divPostId) => {
-        return divPostId.replace('post_', '');
-    });
 });
 
 /**
@@ -182,9 +183,7 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file) => {
         const postMessageTextId = `#postMessageText_${postId}`;
 
         cy.fixture(file, 'utf-8').then((expectedHtml) => {
-            cy.get(postMessageTextId).then((content) => {
-                assert.equal(content[0].innerHTML, expectedHtml.replace(/\n$/, ''));
-            });
+            cy.get(postMessageTextId, {timeout: 150000}).should('have.html', expectedHtml.replace(/\n$/, ''));
         });
     });
 });
