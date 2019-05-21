@@ -23,6 +23,7 @@ export default class ChannelSelectorModal extends React.Component {
         searchTerm: PropTypes.string.isRequired,
         onModalDismissed: PropTypes.func,
         onChannelsSelected: PropTypes.func,
+        groupID: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             loadChannels: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
@@ -45,7 +46,7 @@ export default class ChannelSelectorModal extends React.Component {
     }
 
     componentDidMount() {
-        this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1).then((response) => {
+        this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, true).then((response) => {
             this.setState({channels: response.data});
             this.setChannelsLoadingState(false);
         });
@@ -57,7 +58,7 @@ export default class ChannelSelectorModal extends React.Component {
 
             const searchTerm = this.props.searchTerm;
             if (searchTerm === '') {
-                this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1).then((response) => {
+                this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, true).then((response) => {
                     this.setState({channels: response.data});
                     this.setChannelsLoadingState(false);
                 });
@@ -117,7 +118,7 @@ export default class ChannelSelectorModal extends React.Component {
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
             this.setChannelsLoadingState(true);
-            this.props.actions.loadChannels(page, CHANNELS_PER_PAGE + 1, true).then((response) => {
+            this.props.actions.loadChannels(page, CHANNELS_PER_PAGE + 1, this.props.groupID, true).then((response) => {
                 this.setState({channels: [...this.state.channels, ...response.data]});
                 this.setChannelsLoadingState(false);
             });
