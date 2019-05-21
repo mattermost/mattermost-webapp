@@ -375,6 +375,11 @@
         &.with-back {
             padding: 0;
 
+            > div {
+                display: flex;
+                align-items: center;
+            }
+
             .back {
                 display: flex;
                 font-size: 3.2rem;
@@ -390,9 +395,6 @@
                     top: 1px;
                     position: relative;
                 }
-            }
-
-            span {
             }
          }
     }
