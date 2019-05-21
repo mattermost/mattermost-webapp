@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -11,7 +11,7 @@
 
 describe('Cookie with Subpath', () => {
     before(() => {
-        // 1. Remove whitelisted cookies
+        // # Remove whitelisted cookies
         cy.clearCookie('MMAUTHTOKEN');
         cy.clearCookie('MMUSERID');
         cy.clearCookie('MMCSRF');
@@ -22,7 +22,7 @@ describe('Cookie with Subpath', () => {
             // * Check login page is loaded
             cy.get('#login_section').should('be.visible');
 
-            // 2. Login as user-1
+            // # Login as user-1
             cy.get('#loginId').should('be.visible').type('user-1');
             cy.get('#loginPassword').should('be.visible').type('user-1');
             cy.get('#loginButton').should('be.visible').click();

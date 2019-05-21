@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -40,7 +40,7 @@ describe('Messaging', () => {
     it('M15010 Pinning or un-pinning older post does not cause it to display at bottom of channel', () => {
         cy.get('#sidebarItem_saepe-5').click({force: true});
 
-        // 1. Ensure there are a couple of pinned posts in the channel already:
+        // # Ensure there are a couple of pinned posts in the channel already:
         // 1a. Pin 10th and 15th newest posts
         pinPost(10);
         pinPost(15);
@@ -54,26 +54,26 @@ describe('Messaging', () => {
         // 1d. Close out of the Pinned Post side bar
         cy.get('#searchResultsCloseButton').click();
 
-        // 2. Get postId for the 20th (from the last) post
+        // # Get postId for the 20th (from the last) post
         const olderPost = 20;
         cy.getNthPostId(olderPost).then((postId) => {
-            // 3. Scroll up to the 20th last post
+            // # Scroll up to the 20th last post
             cy.get(`#post_${postId}`).scrollIntoView();
 
-            // 4. Click [...] > Pin to channel
+            // # Click [...] > Pin to channel
             pinPost(olderPost);
 
-            // 5. Store the post message of the 20th post as pinnedPostText
+            // # Store the post message of the 20th post as pinnedPostText
             cy.get(`#postMessageText_${postId}`).invoke('text').then((pinnedPostText) => {
-                // 6. Store the last post ID as lastPostId
+                // # Store the last post ID as lastPostId
                 cy.getLastPostId().then((lastPostId) => {
-                    // 7. Scroll down to the last post
+                    // # Scroll down to the last post
                     cy.get(`#post_${lastPostId}`).scrollIntoView();
 
                     // * Verify that message just pinned does not display at bottom in center channel as newest in channel
                     cy.get(`#postMessageText_${lastPostId}`).should('not.contain', pinnedPostText);
 
-                    // 8. Click pin icon to view pinned posts in right-hand-side
+                    // # Click pin icon to view pinned posts in right-hand-side
                     cy.get('#channelHeaderPinButton').click();
 
                     // * Verify that there are now 3 pinned messages in the right-hand-side
@@ -83,11 +83,11 @@ describe('Messaging', () => {
                     cy.get('#search-items-container').children().eq(0).get(`#postMessageText_${lastPostId}`);
                     cy.get('#search-items-container').children().eq(2).get(`#postMessageText_${postId}`).and('contain', pinnedPostText);
 
-                    // 9. Scroll back up to the post pinned in step 4.
+                    // # Scroll back up to the post pinned in step 4.
                     cy.get(`#post_${postId}`).scrollIntoView();
 
                     // * When un-pinned in center, post disappears from pinned posts list in right-hand-side:
-                    // 10. Click [...] > Un-pin from channel
+                    // # Click [...] > Un-pin from channel
                     cy.clickPostDotMenu(postId);
                     cy.get(`#unpin_post_${postId}`).click();
 

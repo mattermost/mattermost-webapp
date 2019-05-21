@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -11,7 +11,7 @@ describe('Login page', () => {
     before(() => {
         cy.apiLogout();
 
-        // 1. Go to login page
+        // # Go to login page
         cy.visit('/login');
     });
 
@@ -54,13 +54,13 @@ describe('Login page', () => {
     });
 
     it('should login then logout by user-1', () => {
-        // 2. Enter "user-1" on Email or Username input box
+        // # Enter "user-1" on Email or Username input box
         cy.get('#loginId').should('be.visible').type('user-1');
 
-        // 3. Enter "user-1" on "Password" input box
+        // # Enter "user-1" on "Password" input box
         cy.get('#loginPassword').should('be.visible').type('user-1');
 
-        // 4. Click "Sign in" button
+        // # Click "Sign in" button
         cy.get('#loginButton').should('be.visible').click();
 
         // * Check that the Signin button change with rotating icon and "Signing in..." text
@@ -70,7 +70,7 @@ describe('Login page', () => {
         // * Check that it login successfully and it redirects into the main channel page
         cy.get('#channel_view').should('be.visible');
 
-        // 5. Click hamburger main menu button
+        // # Click hamburger main menu button
         cy.get('#sidebarHeaderDropdownButton').click();
         cy.get('#logout').should('be.visible').click();
 
