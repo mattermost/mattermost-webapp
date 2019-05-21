@@ -64,6 +64,9 @@ describe('channel view actions', () => {
                 currentChannelId: 'channelid1',
                 channels: {channelid1: channel1, channelid2: townsquare, gmchannelid: gmChannel},
                 myMembers: {gmchannelid: {channel_id: 'gmchannelid', user_id: 'userid1'}},
+                channelsInTeam: {
+                    [team1.id]: [channel1.id, townsquare.id],
+                },
             },
             general: {
                 config: {},

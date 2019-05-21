@@ -7,6 +7,7 @@ exports[`components/tutorial/tutorial_tip/tutorial_tip.jsx should match snapshot
   onClick={[Function]}
 >
   <img
+    alt="tutorial tip"
     className="tip-button"
     onClick={[Function]}
     src={null}

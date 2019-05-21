@@ -168,7 +168,8 @@ export default class PostBody extends React.PureComponent {
             </React.Fragment>
         );
 
-        const hasPlugin = post.type && this.props.pluginPostTypes.hasOwnProperty(post.type);
+        const hasPlugin = (post.type && this.props.pluginPostTypes.hasOwnProperty(post.type)) ||
+            (post.props && post.props.type && this.props.pluginPostTypes.hasOwnProperty(post.props.type));
 
         let messageWithAdditionalContent;
         if (this.props.post.state === Posts.POST_DELETED || hasPlugin) {

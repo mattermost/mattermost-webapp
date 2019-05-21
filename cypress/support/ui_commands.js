@@ -149,6 +149,17 @@ Cypress.Commands.add('getLastPostId', (opts = {force: false}) => {
 });
 
 /**
+* Get post ID for nth newest post
+* .eq() is 0-based index, hence nthPost-2 to get the nth post
+@param {Integer} nthPost - nth newest post
+*/
+Cypress.Commands.add('getNthPostId', (nthPost) => {
+    return cy.get('#postListContent [id^=post]:first').parent().parent().siblings().eq(nthPost - 2).find('[id^=post]:first').invoke('attr', 'id').then((nthPostId) => {
+        return nthPostId.replace('post_', '');
+    });
+});
+
+/**
  * Post message from a file instantly post a message in a textbox
  * instead of typing into it which takes longer period of time.
  * @param {String} file - includes path and filename relative to cypress/fixtures

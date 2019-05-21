@@ -32,6 +32,7 @@ exports[`components/file_attachment/FileThumbnail should match snapshot, small s
 
 exports[`components/file_attachment/FileThumbnail should match snapshot, svg 1`] = `
 <img
+  alt="file thumbnail image"
   className="post-image normal"
   src="/api/v4/files/thumbnail_id"
 />

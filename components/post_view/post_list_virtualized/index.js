@@ -19,7 +19,7 @@ function makeMapStateToProps() {
         let postIds;
         const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
         if (ownProps.focusedPostId) {
-            postIds = getPostIdsAroundPost(state, ownProps.focusedPostId, ownProps.channelId);
+            postIds = getPostIdsAroundPost(state, ownProps.focusedPostId, ownProps.channelId, {postsBeforeCount: -1});
         } else {
             postIds = getPostIdsInChannel(state, ownProps.channelId);
         }
