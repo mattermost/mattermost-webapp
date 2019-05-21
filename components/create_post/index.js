@@ -32,7 +32,7 @@ import {addReaction, createPost, setEditingPost} from 'actions/post_actions.jsx'
 import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {executeCommand} from 'actions/command';
-import {runMessageWillBePostedHooks} from 'actions/hooks';
+import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
 import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap} from 'selectors/emojis';
@@ -118,6 +118,7 @@ function mapDispatchToProps(dispatch) {
             executeCommand,
             getChannelTimezones,
             runMessageWillBePostedHooks,
+            runSlashCommandWillBePostedHooks,
             scrollPostListToBottom,
         }, dispatch),
     };
