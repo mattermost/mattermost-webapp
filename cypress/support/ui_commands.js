@@ -5,6 +5,19 @@
 
 import * as TIMEOUTS from '../fixtures/timeouts';
 
+Cypress.Commands.overwrite('get', (originalFn, selector, options) => {
+    function isCssSelector(string) {
+        const regex = /[a-z]*?(@|#|\.).+/;
+        return regex.test(string);
+    }
+
+    if (isCssSelector(selector)) {
+        return originalFn(selector, options);
+    }
+
+    return originalFn(`[data-mm-test=${selector}]`, options);
+});
+
 // ***********************************************************
 // Read more: https://on.cypress.io/custom-commands
 // ***********************************************************
