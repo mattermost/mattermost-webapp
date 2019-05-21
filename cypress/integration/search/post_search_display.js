@@ -26,7 +26,7 @@ describe('Post search display', () => {
         cy.get('#searchClearButton').click();
 
         // # RHS should be visible with search results
-        cy.get('.sidebar-right__body').should('be.visible');
+        cy.get('#searchResultsContainer').should('be.visible');
 
         // # focused element searchbox should be visible
         cy.get('#searchBox').should('be.visible');
@@ -38,7 +38,13 @@ describe('Post search display', () => {
         cy.get('#searchbar-help-popup').should('be.visible');
 
         // # check the contents in search options
-        cy.get('#searchbar-help-popup').should('contain', 'Search Options');
-        cy.get('#searchbar-help-popup').should('contain', 'Use "quotation marks" to search for phrases');
+        cy.get('#searchbar-help-popup').within(() => {
+            cy.get('h4 span').first().should('have.text', 'Search Options');
+            cy.get('span ul li').first().should('have.text', 'Use "quotation marks" to search for phrases');
+            cy.get('span ul li').eq(1).should('have.text', 'Use from: to find posts from specific users and in: to find posts in specific channels');
+            cy.get('span ul li').eq(2).should('have.text', 'Use on: to find posts on a specific date');
+            cy.get('span ul li').eq(3).should('have.text', 'Use before: to find posts before a specific date');
+            cy.get('span ul li').last().should('have.text', 'Use after: to find posts after a specific date');
+        });
     });
 });
