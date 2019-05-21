@@ -1267,6 +1267,11 @@
         }
     }
 
+    .test {
+        display:'flex';
+        flex-direction:'row';
+    }
+
     .post__header {
         display: flex;
         margin-bottom: 2px;

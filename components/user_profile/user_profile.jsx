@@ -64,6 +64,11 @@ export default class UserProfile extends PureComponent {
             profileImg = imageURLForUser(user);
         }
 
+        const test = {
+            display: 'flex',
+            flexDirection: 'row',
+        }
+
         return (
             <OverlayTrigger
                 ref='overlay'
@@ -82,13 +87,15 @@ export default class UserProfile extends PureComponent {
                     />
                 }
             >
+            <div style={test}>
                 <div className='user-popover'>
                     {name}
+                    </div>
                     <BotBadge
                         show={Boolean(user && user.is_bot)}
                         className='badge-popoverlist'
                     />
-                </div>
+            </div>
             </OverlayTrigger>
         );
     }
