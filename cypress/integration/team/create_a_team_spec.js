@@ -26,7 +26,7 @@ describe('Teams Suite', () => {
         cy.get('#sidebarDropdownMenu').should('be.visible');
 
         // 3. Click "Create a New Team"
-        cy.get('#sidebarDropdownMenu li #createTeam').click();
+        cy.get('#createTeam').click();
 
         // 4. Input team name as Team Test
         cy.get('#teamNameInput').should('be.visible').type('Team Test');
