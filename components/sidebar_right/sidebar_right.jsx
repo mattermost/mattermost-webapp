@@ -122,12 +122,7 @@ export default class SidebarRight extends React.PureComponent {
             content = (
                 <div className='post-right__container'>
                     <div className='search-bar__container channel-header alt'>{searchForm}</div>
-                    <RhsPlugin
-                        previousRhsState={previousRhsState}
-                        currentUserId={currentUserId}
-                        toggleSize={this.toggleSize}
-                        shrink={this.onShrink}
-                    />
+                    <RhsPlugin/>
                 </div>
             );
         }
