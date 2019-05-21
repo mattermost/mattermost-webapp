@@ -97,6 +97,7 @@ export default class MultiSelectList extends React.Component {
 
         e.preventDefault();
         this.setState({selected});
+        this.setSelected(selected);
         this.props.onSelect(options[selected]);
     }
 
