@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 
+import {FormattedMessage} from 'react-intl';
+
 import {debounce} from 'mattermost-redux/actions/helpers';
 
 import * as Utils from 'utils/utils.jsx';
@@ -209,15 +211,46 @@ export default class SearchResults extends React.PureComponent {
             }
         }
 
+        var formattedTitle = (
+            <FormattedMessage
+                id='search_header.results'
+                defaultMessage='Search Results'
+            />
+        );
+
+        if (this.props.isMentionSearch) {
+            formattedTitle = (
+                <FormattedMessage
+                    id='search_header.title2'
+                    defaultMessage='Recent Mentions'
+                />
+            );
+        } else if (this.props.isFlaggedPosts) {
+            formattedTitle = (
+                <FormattedMessage
+                    id='search_header.title3'
+                    defaultMessage='Flagged Posts'
+                />
+            );
+        } else if (this.props.isPinnedPosts) {
+            formattedTitle = (
+                <FormattedMessage
+                    id='search_header.title4'
+                    defaultMessage='Pinned posts in {channelDisplayName}'
+                    values={{
+                        channelDisplayName: this.props.channelDisplayName,
+                    }}
+                />
+            );
+        }
+
         return (
             <div className='sidebar-right__body'>
                 <SearchResultsHeader
-                    isMentionSearch={this.props.isMentionSearch}
-                    isFlaggedPosts={this.props.isFlaggedPosts}
-                    isPinnedPosts={this.props.isPinnedPosts}
-                    channelDisplayName={this.props.channelDisplayName}
                     isLoading={this.props.isSearchingTerm}
-                />
+                >
+                    {formattedTitle}
+                </SearchResultsHeader>
                 <Scrollbars
                     ref='scrollbars'
                     autoHide={true}

@@ -377,4 +377,21 @@ export default class PluginRegistry {
     registerTranslations(getTranslationsForLocale) {
         registerPluginTranslationsSource(this.id, getTranslationsForLocale);
     }
+
+    registerRightHandSidebarComponent(component, title) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'RightHandSidebarComponent',
+            data: {
+                id,
+                pluginId: this.id,
+                component,
+                title,
+            },
+        });
+
+        return id;
+    }
 }

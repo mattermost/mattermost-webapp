@@ -96,6 +96,18 @@ export function showSearchResults() {
     };
 }
 
+export function showPluginRHS(pluginId) {
+    return (dispatch) => {
+        const action = {
+            type: ActionTypes.UPDATE_RHS_STATE,
+            state: RHSStates.PLUGIN,
+            pluginId,
+        };
+
+        dispatch(action);
+    };
+}
+
 export function showFlaggedPosts() {
     return async (dispatch, getState) => {
         const state = getState();
