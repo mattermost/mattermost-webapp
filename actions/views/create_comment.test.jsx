@@ -52,7 +52,7 @@ jest.mock('actions/global_actions.jsx', () => ({
 
 jest.mock('actions/hooks', () => ({
     runMessageWillBePostedHooks: jest.fn((post) => () => ({data: post})),
-    runSlashCommandWillBePostedHooks: jest.fn((command, args) => () => ({data: {command, args}})),
+    runSlashCommandWillBePostedHooks: jest.fn((message, args) => () => ({data: {message, args}})),
 }));
 
 jest.mock('actions/post_actions.jsx', () => ({
