@@ -2,6 +2,16 @@
 
 @import "compass/css3/animation";
 
+@include keyframes(move) {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: .1;
+    }
+}
+
 .loading-screen {
     display: table;
     height: 100%;
@@ -35,16 +45,6 @@
         @for $i from 1 through 3 {
             .round-#{$i} {
                 @include animation-delay(.2s*$i);
-            }
-        }
-
-        @include keyframes(move) {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: .1;
             }
         }
     }

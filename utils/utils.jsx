@@ -17,6 +17,7 @@ import {
 } from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
+import cssVars from 'css-vars-ponyfill';
 
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
@@ -956,6 +957,32 @@ export function applyTheme(theme) {
         theme.codeTheme = Constants.DEFAULT_CODE_THEME;
     }
     updateCodeTheme(theme.codeTheme);
+    cssVars({
+        variables: {
+            'sidebar-bg': theme.sidebarBg,
+            'sidebar-text': theme.sidebarText,
+            'sidebar-unread-text': theme.sidebarUnreadText,
+            'sidebar-text-hover-bg': theme.sidebarTextHoverBg,
+            'sidebar-text-active-border': theme.sidebarTextActiveBorder,
+            'sidebar-text-active-color': theme.sidebarTextActiveColor,
+            'sidebar-header-bg': theme.sidebarHeaderBg,
+            'sidebar-header-text-color': theme.sidebarHeaderTextColor,
+            'online-indicator': theme.onlineIndicator,
+            'away-indicator': theme.awayIndicator,
+            'dnd-indicator': theme.dndIndicator,
+            'mention-bg': theme.mentionBg,
+            'mention-color': theme.mentionColor,
+            'center-channel-bg': theme.centerChannelBg,
+            'center-channel-color': theme.centerChannelColor,
+            'new-message-separator': theme.newMessageSeparator,
+            'link-color': theme.linkColor,
+            'button-bg': theme.buttonBg,
+            'button-color': theme.buttonColor,
+            'error-text-color': theme.errorTextColor,
+            'mention-highlight-bg': theme.mentionHighlightBg,
+            'mention-highlight-link': theme.mentionHighlightLink,
+        },
+    });
 }
 
 export function resetTheme() {
