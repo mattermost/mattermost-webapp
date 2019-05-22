@@ -191,15 +191,15 @@ export default class AdminSettings extends React.Component {
 
     render() {
         return (
-            <div className='wrapper--fixed'>
-                <AdminHeader>
-                    {this.renderTitle()}
-                </AdminHeader>
-                <form
-                    className='form-horizontal'
-                    role='form'
-                    onSubmit={this.handleSubmit}
-                >
+            <form
+                className='form-horizontal'
+                role='form'
+                onSubmit={this.handleSubmit}
+            >
+                <div className='wrapper--fixed'>
+                    <AdminHeader>
+                        {this.renderTitle()}
+                    </AdminHeader>
                     {this.renderSettings()}
                     <div className='admin-console-save'>
                         <SaveButton
@@ -227,8 +227,8 @@ export default class AdminSettings extends React.Component {
                             </Tooltip>
                         </Overlay>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         );
     }
 }
