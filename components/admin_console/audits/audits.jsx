@@ -105,8 +105,6 @@ export default class Audits extends React.PureComponent {
                             id='admin.complianceMonitoring.title'
                             defaultMessage='Compliance Monitoring'
                         />
-                    </AdminHeader>
-                    <div>
                         {this.activityLogHeader()}
                         <button
                             type='submit'
@@ -119,10 +117,13 @@ export default class Audits extends React.PureComponent {
                                 defaultMessage='Reload User Activity Logs'
                             />
                         </button>
-                        <div className='clearfix'/>
-                    </div>
-                    <div className='audit-panel__table'>
-                        {content}
+                    </AdminHeader>
+                    <div className='admin-console__wrapper'>
+                        <div className='admin-console__content'>
+                            <div className='audit-panel__table'>
+                                {content}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
