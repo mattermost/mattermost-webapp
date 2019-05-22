@@ -225,18 +225,23 @@ export function isErrorInvalidSlashCommand(error) {
     return false;
 }
 
+function isIdNotPost(postId) {
+    return (
+        PostListUtils.isStartOfNewMessages(postId) ||
+        PostListUtils.isDateLine(postId) ||
+        postId === PostListRowListIds.CHANNEL_INTRO_MESSAGE ||
+        postId === PostListRowListIds.MORE_MESSAGES_LOADER ||
+        postId === PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES
+    );
+}
+
 // getLastPostId returns the most recent post ID in the given list of post IDs. This function is copied from
 // mattermost-redux, except it also includes additional special IDs that are only used in the web app.
 export function getLastPostId(postIds) {
     for (let i = postIds.length - 1; i >= 0; i--) {
         const item = postIds[i];
 
-        if (
-            PostListUtils.isStartOfNewMessages(item) ||
-            PostListUtils.isDateLine(item) ||
-            item === PostListRowListIds.CHANNEL_INTRO_MESSAGE ||
-            item === PostListRowListIds.MORE_MESSAGES_LOADER
-        ) {
+        if (isIdNotPost(item)) {
             // This is not a post at all
             continue;
         }
