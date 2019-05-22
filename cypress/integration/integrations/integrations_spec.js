@@ -27,6 +27,26 @@ describe('Integrations page', () => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
+        // # Get current settings
+        cy.request('/api/v4/config').then((response) => {
+            const settings = response.body;
+
+            // # Modify the settings we need to change
+            settings.ServiceSettings.EnableOAuthServiceProvider = true;
+            settings.ServiceSettings.EnableIncomingWebhooks = true;
+            settings.ServiceSettings.EnableOutgoingWebhooks = true;
+            settings.ServiceSettings.EnableCommands = true;
+            settings.ServiceSettings.EnableBotAccountCreation = true;
+
+            // # Set the modified settings
+            cy.request({
+                url: '/api/v4/config',
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                method: 'PUT',
+                body: settings,
+            });
+        });
+
         // # Go to integrations
         cy.visit('/ad-1/integrations');
 
@@ -101,7 +121,7 @@ describe('Integrations page', () => {
         cy.get('#addSlashCommand').click();
 
         // # Pick a dummy trigger and callback
-        cy.get('#trigger').type(`test-trigger${getRandomInt(10000)}`);
+        cy.get('#trigger').type(`test-trigger${Date.now()}`);
         cy.get('#url').type('https://dummy');
 
         // # Save
@@ -164,7 +184,7 @@ describe('Integrations page', () => {
         // # Save
         cy.get('#saveBot').click();
 
-        // # Close the Add dialog
+        // # Click done button
         cy.get('#doneButton').click();
 
         // * Make sure we are done saving
