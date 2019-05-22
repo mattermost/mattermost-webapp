@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {getRandomInt} from '../../../utils';
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 // ***************************************************************
 // - [number] indicates a test step (e.g. 1. Go to a page)
@@ -131,7 +132,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
 
         // 4. Type channel display name} on Channel switcher input
         cy.get('#quickSwitchInput').type(channelDisplayName);
-        cy.wait(500);  // eslint-disable-line
+        cy.wait(TIMEOUTS.TINY);
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('be.visible');
@@ -160,7 +161,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
 
         // 4. Type channel display name on Channel switcher input
         cy.get('#quickSwitchInput').type(channelDisplayName);
-        cy.wait(500);  // eslint-disable-line
+        cy.wait(TIMEOUTS.TINY);
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('be.visible');
@@ -188,7 +189,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
 
         // 3. Type channel display name on Channel switcher input
         cy.get('#quickSwitchInput').type(channelDisplayName);
-        cy.wait(500);  // eslint-disable-line
+        cy.wait(TIMEOUTS.TINY);
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('be.visible');
