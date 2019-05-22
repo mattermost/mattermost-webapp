@@ -552,3 +552,20 @@ describe('PostUtils.getLastPostId', () => {
         assert.equal(postId, 'postId2');
     });
 });
+
+describe('PostUtils.getPreviousPostId', () => {
+    test('Should skip dateline', () => {
+        const postId = PostUtils.getPreviousPostId(['postId1', 'postId2', 'date-1558290600000', 'postId3'], 1);
+        assert.equal(postId, 'postId3');
+    });
+
+    test('Should skip START_OF_NEW_MESSAGES', () => {
+        const postId = PostUtils.getPreviousPostId(['postId1', 'postId2', PostListRowListIds.START_OF_NEW_MESSAGES, 'postId3'], 1);
+        assert.equal(postId, 'postId3');
+    });
+
+    test('Should return first postId from combined system messages', () => {
+        const postId = PostUtils.getPreviousPostId(['postId1', 'postId2', 'user-activity-post1_post2_post3', 'postId3'], 1);
+        assert.equal(postId, 'post1');
+    });
+});
