@@ -875,11 +875,5 @@ function handleOpenDialogEvent(msg) {
 
     store.dispatch({type: IntegrationTypes.RECEIVED_DIALOG, data: dialog});
 
-    const currentTriggerId = getState().entities.integrations.dialogTriggerId;
-
-    if (dialog.trigger_id !== currentTriggerId) {
-        return;
-    }
-
     store.dispatch(openModal({modalId: ModalIdentifiers.INTERACTIVE_DIALOG, dialogType: InteractiveDialog}));
 }
