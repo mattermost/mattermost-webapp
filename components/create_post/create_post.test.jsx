@@ -80,6 +80,9 @@ const actionsProp = {
     runMessageWillBePostedHooks: async (post) => {
         return {data: post};
     },
+    runSlashCommandWillBePostedHooks: async (message, args) => {
+        return {data: {message, args}};
+    },
     scrollPostListToBottom: jest.fn(),
 };
 
