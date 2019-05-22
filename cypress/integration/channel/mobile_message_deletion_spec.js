@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {getRandomInt} from '../../utils';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 // ***************************************************************
 // - [number] indicates a test step (e.g. 1. Go to a page)
@@ -35,7 +36,7 @@ describe('Delete Parent Message', () => {
                 cy.get('#reply_textbox').type('Reply').type('{enter}');
 
                 // add wait time to ensure that a post gets posted and not on pending state
-                cy.wait(500); // eslint-disable-line
+                cy.wait(TIMEOUTS.TINY);
             }
 
             cy.getLastPostId().then((replyPostId) => {

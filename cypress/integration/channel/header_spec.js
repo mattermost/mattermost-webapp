@@ -9,6 +9,8 @@
 
 /* eslint max-nested-callbacks: ["error", 3] */
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Header', () => {
     before(() => {
         // # Login and go to /
@@ -49,8 +51,8 @@ describe('Header', () => {
         cy.changeMessageDisplaySetting('COMPACT');
 
         // # Open a DM with user named 'user-2'
-        cy.get('#directChannel > .add-channel-btn').click().wait(100);
-        cy.focused().type('user-2', {force: true}).type('{enter}', {force: true}).wait(500);
+        cy.get('#directChannel > .add-channel-btn').click().wait(TIMEOUTS.TINY);
+        cy.focused().type('user-2', {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.TINY);
         cy.get('#saveItems').click();
 
         // # Update DM channel header

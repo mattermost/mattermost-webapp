@@ -759,7 +759,7 @@ export default class SchemaAdminSettings extends React.Component {
         }
 
         return (
-            <SettingsGroup>
+            <SettingsGroup container={false}>
                 {header}
                 {settingsList}
                 {footer}
@@ -867,39 +867,43 @@ export default class SchemaAdminSettings extends React.Component {
         return (
             <div className={'wrapper--fixed ' + this.state.customComponentWrapperClass}>
                 {this.renderTitle()}
-                <form
-                    className='form-horizontal'
-                    role='form'
-                    onSubmit={this.handleSubmit}
-                >
-                    {this.renderSettings()}
-                    <div className='admin-console-save'>
-                        <SaveButton
-                            saving={this.state.saving}
-                            disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
-                            onClick={this.handleSubmit}
-                            savingMessage={Utils.localizeMessage('admin.saving', 'Saving Config...')}
-                        />
-                        <div
-                            className='error-message'
-                            ref='errorMessage'
-                            onMouseOver={this.openTooltip}
-                            onMouseOut={this.closeTooltip}
+                <div className='admin-console__wrapper'>
+                    <div className='admin-console__content'>
+                        <form
+                            className='form-horizontal'
+                            role='form'
+                            onSubmit={this.handleSubmit}
                         >
-                            <FormError error={this.state.serverError}/>
-                        </div>
-                        <Overlay
-                            show={this.state.errorTooltip}
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
-                            target={this.refs.errorMessage}
-                        >
-                            <Tooltip id='error-tooltip' >
-                                {this.state.serverError}
-                            </Tooltip>
-                        </Overlay>
+                            {this.renderSettings()}
+                        </form>
                     </div>
-                </form>
+                </div>
+                <div className='admin-console-save'>
+                    <SaveButton
+                        saving={this.state.saving}
+                        disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
+                        onClick={this.handleSubmit}
+                        savingMessage={Utils.localizeMessage('admin.saving', 'Saving Config...')}
+                    />
+                    <div
+                        className='error-message'
+                        ref='errorMessage'
+                        onMouseOver={this.openTooltip}
+                        onMouseOut={this.closeTooltip}
+                    >
+                        <FormError error={this.state.serverError}/>
+                    </div>
+                    <Overlay
+                        show={this.state.errorTooltip}
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        target={this.refs.errorMessage}
+                    >
+                        <Tooltip id='error-tooltip' >
+                            {this.state.serverError}
+                        </Tooltip>
+                    </Overlay>
+                </div>
             </div>
         );
     }

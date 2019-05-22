@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Message Draft and Switch Channels', () => {
     before(() => {
         // # Login and go to /
@@ -45,7 +47,7 @@ describe('Message Draft and Switch Channels', () => {
 
         // # Type the first few letters of the channel name you typed the message draft in
         cy.get('#quickSwitchInput').type('tow');
-        cy.wait(500);  // eslint-disable-line
+        cy.wait(TIMEOUTS.TINY);
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('be.visible');
