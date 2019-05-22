@@ -259,3 +259,26 @@ export function getLastPostId(postIds) {
 
     return '';
 }
+
+export function getPreviousPostId(postIds, startIndex) {
+    for (var i = startIndex + 1; i < postIds.length; i++) {
+        const itemId = postIds[i];
+
+        if (isIdNotPost(itemId)) {
+            // This is not a post at all
+            continue;
+        }
+
+        if (PostListUtils.isCombinedUserActivityPost(itemId)) {
+            // This is a combined post, so find the last post ID from it
+            const combinedIds = PostListUtils.getPostIdsForCombinedUserActivityPost(itemId);
+
+            return combinedIds[0];
+        }
+
+        // This is a post ID
+        return itemId;
+    }
+
+    return '';
+}
