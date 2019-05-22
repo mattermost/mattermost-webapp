@@ -10,11 +10,13 @@ import RHSPlugin from './rhs_plugin.jsx';
 
 function mapStateToProps(state) {
     const rhsPlugins = state.plugins.components.RightHandSidebarComponent;
+    const pluginId = getPluginId(state);
 
-    const pluginName = rhsPlugins.find((element) => element.pluginId === getPluginId(state)).title;
+    const pluginName = rhsPlugins.find((element) => element.pluginId === pluginId).title;
 
     return {
         title: pluginName,
+        pluggableId: pluginId,
     };
 }
 

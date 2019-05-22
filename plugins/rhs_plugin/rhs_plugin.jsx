@@ -11,6 +11,7 @@ import Pluggable from 'plugins/pluggable';
 export default class RhsPlugin extends React.PureComponent {
     static propTypes = {
         title: PropTypes.object,
+        pluggableId: PropTypes.string.isRequired,
     }
 
     render() {
@@ -25,7 +26,7 @@ export default class RhsPlugin extends React.PureComponent {
                 </SearchResultsHeader>
                 <Pluggable
                     pluggableName='RightHandSidebarComponent'
-                    onHeightChange={this.handleHeightReceived}
+                    pluggableId={this.props.pluggableId}
                 />
             </div>
         );

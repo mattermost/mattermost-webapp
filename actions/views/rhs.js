@@ -96,7 +96,7 @@ export function showSearchResults() {
     };
 }
 
-export function showPluginRHS(pluginId) {
+export function showRHSPlug(pluginId) {
     return (dispatch) => {
         const action = {
             type: ActionTypes.UPDATE_RHS_STATE,
