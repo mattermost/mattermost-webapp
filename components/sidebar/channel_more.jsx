@@ -24,7 +24,10 @@ export default class ChannelMore extends React.PureComponent {
         switch (sectionType) {
         case 'public':
             return (
-                <li key='public-channel-more'>
+                <li
+                    key='public-channel-more'
+                    id='morePublicButton'
+                >
                     <button
                         id='sidebarChannelsMore'
                         className='nav-more cursor--pointer style--none btn--block'
@@ -39,7 +42,10 @@ export default class ChannelMore extends React.PureComponent {
             );
         case 'direct':
             return (
-                <li key='dm-more'>
+                <li
+                    key='dm-more'
+                    id='moreDMButton'
+                >
                     <button
                         id='moreDirectMessage'
                         className='nav-more cursor--pointer style--none btn--block'
@@ -55,7 +61,10 @@ export default class ChannelMore extends React.PureComponent {
         case 'recent':
         case 'alpha':
             return (
-                <li key='public-dm-more'>
+                <li
+                    key='public-dm-more'
+                    id='moreRecentAlphaButton'
+                >
                     <button
                         id='morePublicDirectChannels'
                         className='nav-more cursor--pointer style--none btn--block'
