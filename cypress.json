@@ -1,5 +1,6 @@
 {
     "baseUrl": "http://localhost:8065",
+    "localEmailUrl": "http://localhost:9000",
     "viewportWidth": 1300,
     "defaultCommandTimeout": 20000,
     "taskTimeout": 20000,
