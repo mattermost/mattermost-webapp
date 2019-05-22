@@ -9,8 +9,6 @@
 
 describe('Login page', () => {
     before(() => {
-        cy.apiLogout();
-
         // 1. Go to login page
         cy.visit('/login');
     });
