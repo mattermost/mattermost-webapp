@@ -11,6 +11,8 @@ import {
     unregisterPluginReconnectHandler,
 } from 'actions/websocket_actions.jsx';
 
+import {showRHSPlug} from 'actions/views/rhs';
+
 import {
     registerPluginTranslationsSource,
 } from 'actions/views/root';
@@ -392,6 +394,6 @@ export default class PluginRegistry {
             },
         });
 
-        return id;
+        return {id, showRHSPlug};
     }
 }

@@ -3,7 +3,6 @@
 
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import {formatText} from 'utils/text_formatting.jsx';
-import {showRHSPlug} from 'actions/views/rhs';
 
 // Common libraries exposed on window for plugins to use as Webpack externals.
 window.React = require('react');
@@ -14,4 +13,3 @@ window.ReactBootstrap = require('react-bootstrap');
 window.PostUtils = {formatText, messageHtmlToComponent};
 window.PropTypes = require('prop-types');
 window.PDFJS = require('pdfjs-dist');
-window.showRHSPlugAction = showRHSPlug;
