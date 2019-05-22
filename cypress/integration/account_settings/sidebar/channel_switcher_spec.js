@@ -17,6 +17,7 @@ const channelDisplayName = `Channel Switcher ${getRandomInt(9999).toString()}`;
 
 describe('Account Settings > Sidebar > Channel Switcher', () => {
     before(() => {
+        cy.apiLogin('user-1');
         cy.visit('/');
         cy.getCurrentTeamId().then((teamId) => {
             cy.apiCreateChannel(teamId, 'channel-switcher', channelDisplayName).then((response) => {
