@@ -9,7 +9,8 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannel, getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannelTimezones} from 'mattermost-redux/actions/channels';
-import {get as getPreference, getInt, getSendOnCtrlEnterPreferences} from 'mattermost-redux/selectors/entities/preferences';
+import {get as getPreference, getInt} from 'mattermost-redux/selectors/entities/preferences';
+
 import {
     getCurrentUsersLatestPost,
     getLatestReplyablePostId,
@@ -25,6 +26,8 @@ import {
     removeReaction,
 } from 'mattermost-redux/actions/posts';
 import {Posts} from 'mattermost-redux/constants';
+
+import {getSendOnCtrlEnterPreferences} from 'selectors/preferences';
 
 import {connectionErrorCount} from 'selectors/views/system';
 

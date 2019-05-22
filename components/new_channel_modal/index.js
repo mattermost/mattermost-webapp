@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {getSendOnCtrlEnterPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
+import {getSendOnCtrlEnterPreferences} from 'selectors/preferences';
 
 import NewChannelModal from './new_channel_modal.jsx';
 

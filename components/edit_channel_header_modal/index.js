@@ -3,8 +3,9 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
-import {getSendOnCtrlEnterPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {patchChannel} from 'mattermost-redux/actions/channels';
+
+import {getSendOnCtrlEnterPreferences} from 'selectors/preferences';
 
 import EditChannelHeaderModal from './edit_channel_header_modal.jsx';
 

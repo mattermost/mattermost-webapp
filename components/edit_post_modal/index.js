@@ -10,7 +10,8 @@ import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles'
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getSendOnCtrlEnterPreferences} from 'mattermost-redux/selectors/entities/preferences';
+
+import {getSendOnCtrlEnterPreferences} from 'selectors/preferences';
 
 import {openModal} from 'actions/views/modals';
 import {hideEditPostModal} from 'actions/post_actions';

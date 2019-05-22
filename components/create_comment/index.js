@@ -5,13 +5,14 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {getSendOnCtrlEnterPreferences} from 'mattermost-redux/selectors/entities/preferences';
+
 import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
 import {getChannelTimezones} from 'mattermost-redux/actions/channels';
 import {Posts} from 'mattermost-redux/constants';
 
+import {getSendOnCtrlEnterPreferences} from 'selectors/preferences';
 import {connectionErrorCount} from 'selectors/views/system';
 
 import {Constants, StoragePrefixes} from 'utils/constants.jsx';
