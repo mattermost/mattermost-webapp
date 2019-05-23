@@ -38,7 +38,6 @@ describe('Email Address', () => {
             TeamSettings: {EnableOpenServer: true},
         };
         cy.apiUpdateConfig(newSettings);
-        cy.clearWhiteListedCookies();
     });
 
     it('M14634 Should not create account with an existing email address', () => {
@@ -56,7 +55,6 @@ describe('Email Address', () => {
 
         // # Logout and signup another user with the same email but different username and password
         cy.apiLogout();
-        cy.clearWhiteListedCookies();
         signupWithEmail('unique-2', 'unique2pw');
 
         // * Error message displays below the Create Account button that says "An account with that email already exists"

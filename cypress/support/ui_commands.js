@@ -388,13 +388,3 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         type('{enter}').
         wait(TIMEOUTS.TINY);
 });
-
-// ************************************************************
-// Cookie
-// ************************************************************
-
-Cypress.Commands.add('clearWhiteListedCookies', () => {
-    cy.clearCookie('MMAUTHTOKEN');
-    cy.clearCookie('MMUSERID');
-    cy.clearCookie('MMCSRF');
-});

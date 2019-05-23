@@ -46,7 +46,6 @@ describe('Markdown message', () => {
         cy.apiUpdateConfig(newSettings);
 
         // # Login as "user-1"
-        cy.apiLogout();
         cy.apiLogin('user-1');
 
         // # Start cypress server, and listen for request to get posts
