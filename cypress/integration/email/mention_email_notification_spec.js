@@ -40,6 +40,8 @@ describe('Email notification', () => {
 
             const permalink = bodyText[9].match(reUrl)[0];
             const permalinkPostId = permalink.split('/')[5];
+
+            // # Visit permalink (e.g. click on email link)
             cy.visit(permalink);
 
             const postText = `#postMessageText_${permalinkPostId}`;
@@ -61,6 +63,7 @@ function verifyEmailNotification(response, teamDisplayName, channelDisplayName, 
     expect(status).to.equal(200);
 
     // * Verify that email is addressed to user-2
+    expect(data.to.length).to.equal(1);
     expect(data.to[0]).to.contain(mentionedUser.email);
 
     // * Verify that email is from default feedback email
@@ -73,15 +76,15 @@ function verifyEmailNotification(response, teamDisplayName, channelDisplayName, 
     expect(data.subject).to.contain(`[Mattermost] Notification in ${teamDisplayName}`);
 
     // * Verify that the email body is correct
-    const bodyText = data.body.text.split('\n');
+    const bodyText = data.body.text.split('\r\n');
     expect(bodyText.length).to.equal(16);
-    expect(bodyText[1]).to.contain('You have a new notification.');
-    expect(bodyText[4]).to.contain(`Channel: ${channelDisplayName}`);
-    expect(bodyText[5]).to.contain(`${byUser.username}`);
-    expect(bodyText[7]).to.contain(`${message}`);
+    expect(bodyText[1]).to.equal('You have a new notification.');
+    expect(bodyText[4]).to.equal(`Channel: ${channelDisplayName}`);
+    expect(bodyText[5]).to.contain(`@${byUser.username}`);
+    expect(bodyText[7]).to.equal(`${message}`);
     expect(bodyText[9]).to.contain('Go To Post');
-    expect(bodyText[11]).to.contain('Any questions at all, mail us any time: feedback@mattermost.com');
-    expect(bodyText[12]).to.contain('Best wishes,');
-    expect(bodyText[13]).to.contain('The Mattermost Team');
-    expect(bodyText[15]).to.contain('To change your notification preferences, log in to your team site and go to Account Settings > Notifications.');
+    expect(bodyText[11]).to.equal('Any questions at all, mail us any time: feedback@mattermost.com');
+    expect(bodyText[12]).to.equal('Best wishes,');
+    expect(bodyText[13]).to.equal('The Mattermost Team');
+    expect(bodyText[15]).to.equal('To change your notification preferences, log in to your team site and go to Account Settings > Notifications.');
 }
