@@ -51,7 +51,7 @@
     "react-intl": "2.8.0",
     "react-redux": "5.1.1",
     "react-router-dom": "5.0.0",
-    "react-select": "2.4.2",
+    "react-select": "github:mattermost/react-select#d87467d991d834099fc3700c2aa71129a6383825",
     "react-transition-group": "2.7.1",
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "github:mattermost/react-window#68c216cd54211cb235d82c007ef02d7c46fe9fb8",
