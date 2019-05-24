@@ -324,7 +324,7 @@ export default class RhsComment extends React.Component {
         }
 
         let options;
-        if (isEphemeral && (this.state.hover || this.state.dropdownOpened || this.state.showEmojiPicker)) {
+        if (isEphemeral) {
             options = (
                 <div className='col col__remove'>
                     {this.createRemovePostButton()}
