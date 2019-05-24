@@ -64,39 +64,36 @@ export default class UserProfile extends PureComponent {
             profileImg = imageURLForUser(user);
         }
 
-        const test = {
-            display: 'flex',
-            flexDirection: 'row',
-        }
-
         return (
-            <OverlayTrigger
-                ref='overlay'
-                trigger='click'
-                placement={placement}
-                rootClose={true}
-                overlay={
-                    <ProfilePopover
-                        userId={userId}
-                        src={profileImg}
-                        isBusy={isBusy}
-                        hide={this.hideProfilePopover}
-                        hideStatus={hideStatus}
-                        isRHS={isRHS}
-                        hasMention={hasMention}
-                    />
-                }
-            >
-            <div style={test}>
-                <div className='user-popover'>
-                    {name}
+            <React.Fragment>
+                <OverlayTrigger
+                    ref='overlay'
+                    trigger='click'
+                    placement={placement}
+                    rootClose={true}
+                    overlay={
+                        <ProfilePopover
+                            userId={userId}
+                            src={profileImg}
+                            isBusy={isBusy}
+                            hide={this.hideProfilePopover}
+                            hideStatus={hideStatus}
+                            isRHS={isRHS}
+                            hasMention={hasMention}
+                        />
+                    }
+                >
+                    <div className='user-popover'>
+                        {name}
                     </div>
+                </OverlayTrigger>
+                <div>
                     <BotBadge
                         show={Boolean(user && user.is_bot)}
                         className='badge-popoverlist'
                     />
-            </div>
-            </OverlayTrigger>
+                </div>
+            </React.Fragment>
         );
     }
 }
