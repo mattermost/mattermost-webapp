@@ -1,22 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/MessageExportSettings should match snapshot, disabled, actiance 1`] = `
-<div
-  className="wrapper--fixed"
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
 >
-  <AdminHeader>
-    <FormattedMessage
-      defaultMessage="Compliance Export (Beta)"
-      id="admin.complianceExport.title"
-      values={Object {}}
-    />
-  </AdminHeader>
-  <form
-    className="form-horizontal"
-    onSubmit={[Function]}
-    role="form"
+  <div
+    className="wrapper--fixed"
   >
+    <AdminHeader>
+      <FormattedMessage
+        defaultMessage="Compliance Export (Beta)"
+        id="admin.complianceExport.title"
+        values={Object {}}
+      />
+    </AdminHeader>
     <SettingsGroup
+      container={true}
       show={true}
     >
       <BooleanSetting
@@ -172,27 +173,28 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
         />
       </Overlay>
     </div>
-  </form>
-</div>
+  </div>
+</form>
 `;
 
 exports[`components/MessageExportSettings should match snapshot, disabled, globalrelay 1`] = `
-<div
-  className="wrapper--fixed"
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
 >
-  <AdminHeader>
-    <FormattedMessage
-      defaultMessage="Compliance Export (Beta)"
-      id="admin.complianceExport.title"
-      values={Object {}}
-    />
-  </AdminHeader>
-  <form
-    className="form-horizontal"
-    onSubmit={[Function]}
-    role="form"
+  <div
+    className="wrapper--fixed"
   >
+    <AdminHeader>
+      <FormattedMessage
+        defaultMessage="Compliance Export (Beta)"
+        id="admin.complianceExport.title"
+        values={Object {}}
+      />
+    </AdminHeader>
     <SettingsGroup
+      container={true}
       show={true}
     >
       <BooleanSetting
@@ -294,6 +296,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
         }
       />
       <SettingsGroup
+        container={true}
         id="globalRelaySettings"
         show={true}
       >
@@ -452,27 +455,28 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
         />
       </Overlay>
     </div>
-  </form>
-</div>
+  </div>
+</form>
 `;
 
 exports[`components/MessageExportSettings should match snapshot, enabled, actiance 1`] = `
-<div
-  className="wrapper--fixed"
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
 >
-  <AdminHeader>
-    <FormattedMessage
-      defaultMessage="Compliance Export (Beta)"
-      id="admin.complianceExport.title"
-      values={Object {}}
-    />
-  </AdminHeader>
-  <form
-    className="form-horizontal"
-    onSubmit={[Function]}
-    role="form"
+  <div
+    className="wrapper--fixed"
   >
+    <AdminHeader>
+      <FormattedMessage
+        defaultMessage="Compliance Export (Beta)"
+        id="admin.complianceExport.title"
+        values={Object {}}
+      />
+    </AdminHeader>
     <SettingsGroup
+      container={true}
       show={true}
     >
       <BooleanSetting
@@ -628,27 +632,28 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
         />
       </Overlay>
     </div>
-  </form>
-</div>
+  </div>
+</form>
 `;
 
 exports[`components/MessageExportSettings should match snapshot, enabled, globalrelay 1`] = `
-<div
-  className="wrapper--fixed"
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
 >
-  <AdminHeader>
-    <FormattedMessage
-      defaultMessage="Compliance Export (Beta)"
-      id="admin.complianceExport.title"
-      values={Object {}}
-    />
-  </AdminHeader>
-  <form
-    className="form-horizontal"
-    onSubmit={[Function]}
-    role="form"
+  <div
+    className="wrapper--fixed"
   >
+    <AdminHeader>
+      <FormattedMessage
+        defaultMessage="Compliance Export (Beta)"
+        id="admin.complianceExport.title"
+        values={Object {}}
+      />
+    </AdminHeader>
     <SettingsGroup
+      container={true}
       show={true}
     >
       <BooleanSetting
@@ -750,6 +755,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
         }
       />
       <SettingsGroup
+        container={true}
         id="globalRelaySettings"
         show={true}
       >
@@ -908,6 +914,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
         />
       </Overlay>
     </div>
-  </form>
-</div>
+  </div>
+</form>
 `;

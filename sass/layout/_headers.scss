@@ -112,6 +112,9 @@
     .channel-header__icon {
         @include border-radius(50%);
         border: 1px solid;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         cursor: pointer;
         height: 30px;
         line-height: 30px;

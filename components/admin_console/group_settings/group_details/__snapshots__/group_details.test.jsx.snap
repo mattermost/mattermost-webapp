@@ -4,166 +4,176 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header with-back"
-  >
-    <Connect(BlockableLink)
-      className="fa fa-angle-left back"
-      to="/admin_console/access-control/groups"
-    />
-    <FormattedMessage
-      defaultMessage="Group Configuration"
-      id="admin.group_settings.group_detail.group_configuration"
-      values={Object {}}
-    />
-  </h3>
   <div
-    className="banner info"
+    className="admin-console__header with-back"
   >
-    <div
-      className="banner__content"
-    >
+    <div>
+      <Connect(BlockableLink)
+        className="fa fa-angle-left back"
+        to="/admin_console/access-control/groups"
+      />
       <FormattedMessage
-        defaultMessage="Configure default teams and channels and view users belonging to this group."
-        id="admin.group_settings.group_detail.introBanner"
+        defaultMessage="Group Configuration"
+        id="admin.group_settings.group_detail.group_configuration"
         values={Object {}}
       />
     </div>
   </div>
-  <AdminPanel
-    className=""
-    id="group_profile"
-    subtitleDefault="The name for this group."
-    subtitleId="admin.group_settings.group_detail.groupProfileDescription"
-    titleDefault="Group Profile"
-    titleId="admin.group_settings.group_detail.groupProfileTitle"
+  <div
+    className="admin-console__wrapper"
   >
-    <GroupProfile
-      name="Group"
-    />
-  </AdminPanel>
-  <AdminPanel
-    button={
+    <div
+      className="admin-console__content"
+    >
       <div
-        className="group-profile-add-menu"
+        className="banner info"
       >
-        <MenuWrapper
-          animationComponent={[Function]}
-          className=""
+        <div
+          className="banner__content"
         >
-          <button
-            className="btn btn-primary"
-          >
-            <FormattedMessage
-              defaultMessage="Add Team or Channel"
-              id="admin.group_settings.group_details.add_team_or_channel"
-              values={Object {}}
-            />
-            <i
-              className="fa fa-caret-down"
-            />
-          </button>
-          <Menu
-            ariaLabel="Add Team or Channel Menu"
-          >
-            <MenuItemAction
-              onClick={[Function]}
-              show={true}
-              text="Add Team"
-            />
-            <MenuItemAction
-              onClick={[Function]}
-              show={true}
-              text="Add Channel"
-            />
-          </Menu>
-        </MenuWrapper>
+          <FormattedMessage
+            defaultMessage="Configure default teams and channels and view users belonging to this group."
+            id="admin.group_settings.group_detail.introBanner"
+            values={Object {}}
+          />
+        </div>
       </div>
-    }
-    className=""
-    id="group_teams_and_channels"
-    subtitleDefault="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below."
-    subtitleId="admin.group_settings.group_detail.groupTeamsAndChannelsDescription"
-    titleDefault="Team and Channel Membership"
-    titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
-  >
-    <GroupTeamsAndChannels
-      channels={
-        Array [
-          Object {
-            "channel_id": "44444444444444444444444444",
-          },
-          Object {
-            "channel_id": "55555555555555555555555555",
-          },
-          Object {
-            "channel_id": "66666666666666666666666666",
-          },
-        ]
-      }
-      getGroupSyncables={[MockFunction]}
-      id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
-      loading={true}
-      teams={
-        Array [
-          Object {
-            "team_id": "11111111111111111111111111",
-          },
-          Object {
-            "team_id": "22222222222222222222222222",
-          },
-          Object {
-            "team_id": "33333333333333333333333333",
-          },
-        ]
-      }
-      unlink={[MockFunction]}
-    />
-  </AdminPanel>
-  <Connect(ChannelSelectorModal)
-    alreadySelected={
-      Array [
-        "44444444444444444444444444",
-        "55555555555555555555555555",
-        "66666666666666666666666666",
-      ]
-    }
-    excludeNames={
-      Array [
-        "town-square",
-        "off-topic",
-      ]
-    }
-    onChannelsSelected={[Function]}
-    onModalDismissed={[Function]}
-  />
-  <AdminPanel
-    className=""
-    id="group_users"
-    subtitleDefault="Listing of users in Mattermost associated with this group."
-    subtitleId="admin.group_settings.group_detail.groupUsersDescription"
-    titleDefault="Users"
-    titleId="admin.group_settings.group_detail.groupUsersTitle"
-  >
-    <GroupUsers
-      getMembers={[MockFunction]}
-      groupID="xxxxxxxxxxxxxxxxxxxxxxxxxx"
-      members={
-        Array [
-          Object {
-            "id": "77777777777777777777777777",
-          },
-          Object {
-            "id": "88888888888888888888888888",
-          },
-          Object {
-            "id": "99999999999999999999999999",
-          },
-        ]
-      }
-      total={20}
-    />
-  </AdminPanel>
+      <AdminPanel
+        className=""
+        id="group_profile"
+        subtitleDefault="The name for this group."
+        subtitleId="admin.group_settings.group_detail.groupProfileDescription"
+        titleDefault="Group Profile"
+        titleId="admin.group_settings.group_detail.groupProfileTitle"
+      >
+        <GroupProfile
+          name="Group"
+        />
+      </AdminPanel>
+      <AdminPanel
+        button={
+          <div
+            className="group-profile-add-menu"
+          >
+            <MenuWrapper
+              animationComponent={[Function]}
+              className=""
+            >
+              <button
+                className="btn btn-primary"
+              >
+                <FormattedMessage
+                  defaultMessage="Add Team or Channel"
+                  id="admin.group_settings.group_details.add_team_or_channel"
+                  values={Object {}}
+                />
+                <i
+                  className="fa fa-caret-down"
+                />
+              </button>
+              <Menu
+                ariaLabel="Add Team or Channel Menu"
+              >
+                <MenuItemAction
+                  onClick={[Function]}
+                  show={true}
+                  text="Add Team"
+                />
+                <MenuItemAction
+                  onClick={[Function]}
+                  show={true}
+                  text="Add Channel"
+                />
+              </Menu>
+            </MenuWrapper>
+          </div>
+        }
+        className=""
+        id="group_teams_and_channels"
+        subtitleDefault="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below."
+        subtitleId="admin.group_settings.group_detail.groupTeamsAndChannelsDescription"
+        titleDefault="Team and Channel Membership"
+        titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
+      >
+        <GroupTeamsAndChannels
+          channels={
+            Array [
+              Object {
+                "channel_id": "44444444444444444444444444",
+              },
+              Object {
+                "channel_id": "55555555555555555555555555",
+              },
+              Object {
+                "channel_id": "66666666666666666666666666",
+              },
+            ]
+          }
+          getGroupSyncables={[MockFunction]}
+          id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
+          loading={true}
+          teams={
+            Array [
+              Object {
+                "team_id": "11111111111111111111111111",
+              },
+              Object {
+                "team_id": "22222222222222222222222222",
+              },
+              Object {
+                "team_id": "33333333333333333333333333",
+              },
+            ]
+          }
+          unlink={[MockFunction]}
+        />
+      </AdminPanel>
+      <Connect(ChannelSelectorModal)
+        alreadySelected={
+          Array [
+            "44444444444444444444444444",
+            "55555555555555555555555555",
+            "66666666666666666666666666",
+          ]
+        }
+        excludeNames={
+          Array [
+            "town-square",
+            "off-topic",
+          ]
+        }
+        onChannelsSelected={[Function]}
+        onModalDismissed={[Function]}
+      />
+      <AdminPanel
+        className=""
+        id="group_users"
+        subtitleDefault="Listing of users in Mattermost associated with this group."
+        subtitleId="admin.group_settings.group_detail.groupUsersDescription"
+        titleDefault="Users"
+        titleId="admin.group_settings.group_detail.groupUsersTitle"
+      >
+        <GroupUsers
+          getMembers={[MockFunction]}
+          groupID="xxxxxxxxxxxxxxxxxxxxxxxxxx"
+          members={
+            Array [
+              Object {
+                "id": "77777777777777777777777777",
+              },
+              Object {
+                "id": "88888888888888888888888888",
+              },
+              Object {
+                "id": "99999999999999999999999999",
+              },
+            ]
+          }
+          total={20}
+        />
+      </AdminPanel>
+    </div>
+  </div>
 </div>
 `;
 
@@ -171,160 +181,170 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header with-back"
-  >
-    <Connect(BlockableLink)
-      className="fa fa-angle-left back"
-      to="/admin_console/access-control/groups"
-    />
-    <FormattedMessage
-      defaultMessage="Group Configuration"
-      id="admin.group_settings.group_detail.group_configuration"
-      values={Object {}}
-    />
-  </h3>
   <div
-    className="banner info"
+    className="admin-console__header with-back"
   >
-    <div
-      className="banner__content"
-    >
+    <div>
+      <Connect(BlockableLink)
+        className="fa fa-angle-left back"
+        to="/admin_console/access-control/groups"
+      />
       <FormattedMessage
-        defaultMessage="Configure default teams and channels and view users belonging to this group."
-        id="admin.group_settings.group_detail.introBanner"
+        defaultMessage="Group Configuration"
+        id="admin.group_settings.group_detail.group_configuration"
         values={Object {}}
       />
     </div>
   </div>
-  <AdminPanel
-    className=""
-    id="group_profile"
-    subtitleDefault="The name for this group."
-    subtitleId="admin.group_settings.group_detail.groupProfileDescription"
-    titleDefault="Group Profile"
-    titleId="admin.group_settings.group_detail.groupProfileTitle"
+  <div
+    className="admin-console__wrapper"
   >
-    <GroupProfile
-      name="Group"
-    />
-  </AdminPanel>
-  <AdminPanel
-    button={
+    <div
+      className="admin-console__content"
+    >
       <div
-        className="group-profile-add-menu"
+        className="banner info"
       >
-        <MenuWrapper
-          animationComponent={[Function]}
-          className=""
+        <div
+          className="banner__content"
         >
-          <button
-            className="btn btn-primary"
-          >
-            <FormattedMessage
-              defaultMessage="Add Team or Channel"
-              id="admin.group_settings.group_details.add_team_or_channel"
-              values={Object {}}
-            />
-            <i
-              className="fa fa-caret-down"
-            />
-          </button>
-          <Menu
-            ariaLabel="Add Team or Channel Menu"
-          >
-            <MenuItemAction
-              onClick={[Function]}
-              show={true}
-              text="Add Team"
-            />
-            <MenuItemAction
-              onClick={[Function]}
-              show={true}
-              text="Add Channel"
-            />
-          </Menu>
-        </MenuWrapper>
+          <FormattedMessage
+            defaultMessage="Configure default teams and channels and view users belonging to this group."
+            id="admin.group_settings.group_detail.introBanner"
+            values={Object {}}
+          />
+        </div>
       </div>
-    }
-    className=""
-    id="group_teams_and_channels"
-    subtitleDefault="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below."
-    subtitleId="admin.group_settings.group_detail.groupTeamsAndChannelsDescription"
-    titleDefault="Team and Channel Membership"
-    titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
-  >
-    <GroupTeamsAndChannels
-      channels={
-        Array [
-          Object {
-            "channel_id": "44444444444444444444444444",
-          },
-          Object {
-            "channel_id": "55555555555555555555555555",
-          },
-          Object {
-            "channel_id": "66666666666666666666666666",
-          },
-        ]
-      }
-      getGroupSyncables={[MockFunction]}
-      id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
-      loading={true}
-      teams={
-        Array [
-          Object {
-            "team_id": "11111111111111111111111111",
-          },
-          Object {
-            "team_id": "22222222222222222222222222",
-          },
-          Object {
-            "team_id": "33333333333333333333333333",
-          },
-        ]
-      }
-      unlink={[MockFunction]}
-    />
-  </AdminPanel>
-  <Connect(TeamSelectorModal)
-    alreadySelected={
-      Array [
-        "11111111111111111111111111",
-        "22222222222222222222222222",
-        "33333333333333333333333333",
-      ]
-    }
-    onModalDismissed={[Function]}
-    onTeamsSelected={[Function]}
-  />
-  <AdminPanel
-    className=""
-    id="group_users"
-    subtitleDefault="Listing of users in Mattermost associated with this group."
-    subtitleId="admin.group_settings.group_detail.groupUsersDescription"
-    titleDefault="Users"
-    titleId="admin.group_settings.group_detail.groupUsersTitle"
-  >
-    <GroupUsers
-      getMembers={[MockFunction]}
-      groupID="xxxxxxxxxxxxxxxxxxxxxxxxxx"
-      members={
-        Array [
-          Object {
-            "id": "77777777777777777777777777",
-          },
-          Object {
-            "id": "88888888888888888888888888",
-          },
-          Object {
-            "id": "99999999999999999999999999",
-          },
-        ]
-      }
-      total={20}
-    />
-  </AdminPanel>
+      <AdminPanel
+        className=""
+        id="group_profile"
+        subtitleDefault="The name for this group."
+        subtitleId="admin.group_settings.group_detail.groupProfileDescription"
+        titleDefault="Group Profile"
+        titleId="admin.group_settings.group_detail.groupProfileTitle"
+      >
+        <GroupProfile
+          name="Group"
+        />
+      </AdminPanel>
+      <AdminPanel
+        button={
+          <div
+            className="group-profile-add-menu"
+          >
+            <MenuWrapper
+              animationComponent={[Function]}
+              className=""
+            >
+              <button
+                className="btn btn-primary"
+              >
+                <FormattedMessage
+                  defaultMessage="Add Team or Channel"
+                  id="admin.group_settings.group_details.add_team_or_channel"
+                  values={Object {}}
+                />
+                <i
+                  className="fa fa-caret-down"
+                />
+              </button>
+              <Menu
+                ariaLabel="Add Team or Channel Menu"
+              >
+                <MenuItemAction
+                  onClick={[Function]}
+                  show={true}
+                  text="Add Team"
+                />
+                <MenuItemAction
+                  onClick={[Function]}
+                  show={true}
+                  text="Add Channel"
+                />
+              </Menu>
+            </MenuWrapper>
+          </div>
+        }
+        className=""
+        id="group_teams_and_channels"
+        subtitleDefault="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below."
+        subtitleId="admin.group_settings.group_detail.groupTeamsAndChannelsDescription"
+        titleDefault="Team and Channel Membership"
+        titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
+      >
+        <GroupTeamsAndChannels
+          channels={
+            Array [
+              Object {
+                "channel_id": "44444444444444444444444444",
+              },
+              Object {
+                "channel_id": "55555555555555555555555555",
+              },
+              Object {
+                "channel_id": "66666666666666666666666666",
+              },
+            ]
+          }
+          getGroupSyncables={[MockFunction]}
+          id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
+          loading={true}
+          teams={
+            Array [
+              Object {
+                "team_id": "11111111111111111111111111",
+              },
+              Object {
+                "team_id": "22222222222222222222222222",
+              },
+              Object {
+                "team_id": "33333333333333333333333333",
+              },
+            ]
+          }
+          unlink={[MockFunction]}
+        />
+      </AdminPanel>
+      <Connect(TeamSelectorModal)
+        alreadySelected={
+          Array [
+            "11111111111111111111111111",
+            "22222222222222222222222222",
+            "33333333333333333333333333",
+          ]
+        }
+        onModalDismissed={[Function]}
+        onTeamsSelected={[Function]}
+      />
+      <AdminPanel
+        className=""
+        id="group_users"
+        subtitleDefault="Listing of users in Mattermost associated with this group."
+        subtitleId="admin.group_settings.group_detail.groupUsersDescription"
+        titleDefault="Users"
+        titleId="admin.group_settings.group_detail.groupUsersTitle"
+      >
+        <GroupUsers
+          getMembers={[MockFunction]}
+          groupID="xxxxxxxxxxxxxxxxxxxxxxxxxx"
+          members={
+            Array [
+              Object {
+                "id": "77777777777777777777777777",
+              },
+              Object {
+                "id": "88888888888888888888888888",
+              },
+              Object {
+                "id": "99999999999999999999999999",
+              },
+            ]
+          }
+          total={20}
+        />
+      </AdminPanel>
+    </div>
+  </div>
 </div>
 `;
 
@@ -332,149 +352,159 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header with-back"
-  >
-    <Connect(BlockableLink)
-      className="fa fa-angle-left back"
-      to="/admin_console/access-control/groups"
-    />
-    <FormattedMessage
-      defaultMessage="Group Configuration"
-      id="admin.group_settings.group_detail.group_configuration"
-      values={Object {}}
-    />
-  </h3>
   <div
-    className="banner info"
+    className="admin-console__header with-back"
   >
-    <div
-      className="banner__content"
-    >
+    <div>
+      <Connect(BlockableLink)
+        className="fa fa-angle-left back"
+        to="/admin_console/access-control/groups"
+      />
       <FormattedMessage
-        defaultMessage="Configure default teams and channels and view users belonging to this group."
-        id="admin.group_settings.group_detail.introBanner"
+        defaultMessage="Group Configuration"
+        id="admin.group_settings.group_detail.group_configuration"
         values={Object {}}
       />
     </div>
   </div>
-  <AdminPanel
-    className=""
-    id="group_profile"
-    subtitleDefault="The name for this group."
-    subtitleId="admin.group_settings.group_detail.groupProfileDescription"
-    titleDefault="Group Profile"
-    titleId="admin.group_settings.group_detail.groupProfileTitle"
+  <div
+    className="admin-console__wrapper"
   >
-    <GroupProfile
-      name="Group"
-    />
-  </AdminPanel>
-  <AdminPanel
-    button={
+    <div
+      className="admin-console__content"
+    >
       <div
-        className="group-profile-add-menu"
+        className="banner info"
       >
-        <MenuWrapper
-          animationComponent={[Function]}
-          className=""
+        <div
+          className="banner__content"
         >
-          <button
-            className="btn btn-primary"
-          >
-            <FormattedMessage
-              defaultMessage="Add Team or Channel"
-              id="admin.group_settings.group_details.add_team_or_channel"
-              values={Object {}}
-            />
-            <i
-              className="fa fa-caret-down"
-            />
-          </button>
-          <Menu
-            ariaLabel="Add Team or Channel Menu"
-          >
-            <MenuItemAction
-              onClick={[Function]}
-              show={true}
-              text="Add Team"
-            />
-            <MenuItemAction
-              onClick={[Function]}
-              show={true}
-              text="Add Channel"
-            />
-          </Menu>
-        </MenuWrapper>
+          <FormattedMessage
+            defaultMessage="Configure default teams and channels and view users belonging to this group."
+            id="admin.group_settings.group_detail.introBanner"
+            values={Object {}}
+          />
+        </div>
       </div>
-    }
-    className=""
-    id="group_teams_and_channels"
-    subtitleDefault="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below."
-    subtitleId="admin.group_settings.group_detail.groupTeamsAndChannelsDescription"
-    titleDefault="Team and Channel Membership"
-    titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
-  >
-    <GroupTeamsAndChannels
-      channels={
-        Array [
-          Object {
-            "channel_id": "44444444444444444444444444",
-          },
-          Object {
-            "channel_id": "55555555555555555555555555",
-          },
-          Object {
-            "channel_id": "66666666666666666666666666",
-          },
-        ]
-      }
-      getGroupSyncables={[MockFunction]}
-      id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
-      loading={true}
-      teams={
-        Array [
-          Object {
-            "team_id": "11111111111111111111111111",
-          },
-          Object {
-            "team_id": "22222222222222222222222222",
-          },
-          Object {
-            "team_id": "33333333333333333333333333",
-          },
-        ]
-      }
-      unlink={[MockFunction]}
-    />
-  </AdminPanel>
-  <AdminPanel
-    className=""
-    id="group_users"
-    subtitleDefault="Listing of users in Mattermost associated with this group."
-    subtitleId="admin.group_settings.group_detail.groupUsersDescription"
-    titleDefault="Users"
-    titleId="admin.group_settings.group_detail.groupUsersTitle"
-  >
-    <GroupUsers
-      getMembers={[MockFunction]}
-      groupID="xxxxxxxxxxxxxxxxxxxxxxxxxx"
-      members={
-        Array [
-          Object {
-            "id": "77777777777777777777777777",
-          },
-          Object {
-            "id": "88888888888888888888888888",
-          },
-          Object {
-            "id": "99999999999999999999999999",
-          },
-        ]
-      }
-      total={20}
-    />
-  </AdminPanel>
+      <AdminPanel
+        className=""
+        id="group_profile"
+        subtitleDefault="The name for this group."
+        subtitleId="admin.group_settings.group_detail.groupProfileDescription"
+        titleDefault="Group Profile"
+        titleId="admin.group_settings.group_detail.groupProfileTitle"
+      >
+        <GroupProfile
+          name="Group"
+        />
+      </AdminPanel>
+      <AdminPanel
+        button={
+          <div
+            className="group-profile-add-menu"
+          >
+            <MenuWrapper
+              animationComponent={[Function]}
+              className=""
+            >
+              <button
+                className="btn btn-primary"
+              >
+                <FormattedMessage
+                  defaultMessage="Add Team or Channel"
+                  id="admin.group_settings.group_details.add_team_or_channel"
+                  values={Object {}}
+                />
+                <i
+                  className="fa fa-caret-down"
+                />
+              </button>
+              <Menu
+                ariaLabel="Add Team or Channel Menu"
+              >
+                <MenuItemAction
+                  onClick={[Function]}
+                  show={true}
+                  text="Add Team"
+                />
+                <MenuItemAction
+                  onClick={[Function]}
+                  show={true}
+                  text="Add Channel"
+                />
+              </Menu>
+            </MenuWrapper>
+          </div>
+        }
+        className=""
+        id="group_teams_and_channels"
+        subtitleDefault="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below."
+        subtitleId="admin.group_settings.group_detail.groupTeamsAndChannelsDescription"
+        titleDefault="Team and Channel Membership"
+        titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
+      >
+        <GroupTeamsAndChannels
+          channels={
+            Array [
+              Object {
+                "channel_id": "44444444444444444444444444",
+              },
+              Object {
+                "channel_id": "55555555555555555555555555",
+              },
+              Object {
+                "channel_id": "66666666666666666666666666",
+              },
+            ]
+          }
+          getGroupSyncables={[MockFunction]}
+          id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
+          loading={true}
+          teams={
+            Array [
+              Object {
+                "team_id": "11111111111111111111111111",
+              },
+              Object {
+                "team_id": "22222222222222222222222222",
+              },
+              Object {
+                "team_id": "33333333333333333333333333",
+              },
+            ]
+          }
+          unlink={[MockFunction]}
+        />
+      </AdminPanel>
+      <AdminPanel
+        className=""
+        id="group_users"
+        subtitleDefault="Listing of users in Mattermost associated with this group."
+        subtitleId="admin.group_settings.group_detail.groupUsersDescription"
+        titleDefault="Users"
+        titleId="admin.group_settings.group_detail.groupUsersTitle"
+      >
+        <GroupUsers
+          getMembers={[MockFunction]}
+          groupID="xxxxxxxxxxxxxxxxxxxxxxxxxx"
+          members={
+            Array [
+              Object {
+                "id": "77777777777777777777777777",
+              },
+              Object {
+                "id": "88888888888888888888888888",
+              },
+              Object {
+                "id": "99999999999999999999999999",
+              },
+            ]
+          }
+          total={20}
+        />
+      </AdminPanel>
+    </div>
+  </div>
 </div>
 `;
 
@@ -482,148 +512,158 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header with-back"
-  >
-    <Connect(BlockableLink)
-      className="fa fa-angle-left back"
-      to="/admin_console/access-control/groups"
-    />
-    <FormattedMessage
-      defaultMessage="Group Configuration"
-      id="admin.group_settings.group_detail.group_configuration"
-      values={Object {}}
-    />
-  </h3>
   <div
-    className="banner info"
+    className="admin-console__header with-back"
   >
-    <div
-      className="banner__content"
-    >
+    <div>
+      <Connect(BlockableLink)
+        className="fa fa-angle-left back"
+        to="/admin_console/access-control/groups"
+      />
       <FormattedMessage
-        defaultMessage="Configure default teams and channels and view users belonging to this group."
-        id="admin.group_settings.group_detail.introBanner"
+        defaultMessage="Group Configuration"
+        id="admin.group_settings.group_detail.group_configuration"
         values={Object {}}
       />
     </div>
   </div>
-  <AdminPanel
-    className=""
-    id="group_profile"
-    subtitleDefault="The name for this group."
-    subtitleId="admin.group_settings.group_detail.groupProfileDescription"
-    titleDefault="Group Profile"
-    titleId="admin.group_settings.group_detail.groupProfileTitle"
+  <div
+    className="admin-console__wrapper"
   >
-    <GroupProfile
-      name="Group"
-    />
-  </AdminPanel>
-  <AdminPanel
-    button={
+    <div
+      className="admin-console__content"
+    >
       <div
-        className="group-profile-add-menu"
+        className="banner info"
       >
-        <MenuWrapper
-          animationComponent={[Function]}
-          className=""
+        <div
+          className="banner__content"
         >
-          <button
-            className="btn btn-primary"
-          >
-            <FormattedMessage
-              defaultMessage="Add Team or Channel"
-              id="admin.group_settings.group_details.add_team_or_channel"
-              values={Object {}}
-            />
-            <i
-              className="fa fa-caret-down"
-            />
-          </button>
-          <Menu
-            ariaLabel="Add Team or Channel Menu"
-          >
-            <MenuItemAction
-              onClick={[Function]}
-              show={true}
-              text="Add Team"
-            />
-            <MenuItemAction
-              onClick={[Function]}
-              show={true}
-              text="Add Channel"
-            />
-          </Menu>
-        </MenuWrapper>
+          <FormattedMessage
+            defaultMessage="Configure default teams and channels and view users belonging to this group."
+            id="admin.group_settings.group_detail.introBanner"
+            values={Object {}}
+          />
+        </div>
       </div>
-    }
-    className=""
-    id="group_teams_and_channels"
-    subtitleDefault="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below."
-    subtitleId="admin.group_settings.group_detail.groupTeamsAndChannelsDescription"
-    titleDefault="Team and Channel Membership"
-    titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
-  >
-    <GroupTeamsAndChannels
-      channels={
-        Array [
-          Object {
-            "channel_id": "44444444444444444444444444",
-          },
-          Object {
-            "channel_id": "55555555555555555555555555",
-          },
-          Object {
-            "channel_id": "66666666666666666666666666",
-          },
-        ]
-      }
-      getGroupSyncables={[MockFunction]}
-      id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
-      loading={false}
-      teams={
-        Array [
-          Object {
-            "team_id": "11111111111111111111111111",
-          },
-          Object {
-            "team_id": "22222222222222222222222222",
-          },
-          Object {
-            "team_id": "33333333333333333333333333",
-          },
-        ]
-      }
-      unlink={[MockFunction]}
-    />
-  </AdminPanel>
-  <AdminPanel
-    className=""
-    id="group_users"
-    subtitleDefault="Listing of users in Mattermost associated with this group."
-    subtitleId="admin.group_settings.group_detail.groupUsersDescription"
-    titleDefault="Users"
-    titleId="admin.group_settings.group_detail.groupUsersTitle"
-  >
-    <GroupUsers
-      getMembers={[MockFunction]}
-      groupID="xxxxxxxxxxxxxxxxxxxxxxxxxx"
-      members={
-        Array [
-          Object {
-            "id": "77777777777777777777777777",
-          },
-          Object {
-            "id": "88888888888888888888888888",
-          },
-          Object {
-            "id": "99999999999999999999999999",
-          },
-        ]
-      }
-      total={20}
-    />
-  </AdminPanel>
+      <AdminPanel
+        className=""
+        id="group_profile"
+        subtitleDefault="The name for this group."
+        subtitleId="admin.group_settings.group_detail.groupProfileDescription"
+        titleDefault="Group Profile"
+        titleId="admin.group_settings.group_detail.groupProfileTitle"
+      >
+        <GroupProfile
+          name="Group"
+        />
+      </AdminPanel>
+      <AdminPanel
+        button={
+          <div
+            className="group-profile-add-menu"
+          >
+            <MenuWrapper
+              animationComponent={[Function]}
+              className=""
+            >
+              <button
+                className="btn btn-primary"
+              >
+                <FormattedMessage
+                  defaultMessage="Add Team or Channel"
+                  id="admin.group_settings.group_details.add_team_or_channel"
+                  values={Object {}}
+                />
+                <i
+                  className="fa fa-caret-down"
+                />
+              </button>
+              <Menu
+                ariaLabel="Add Team or Channel Menu"
+              >
+                <MenuItemAction
+                  onClick={[Function]}
+                  show={true}
+                  text="Add Team"
+                />
+                <MenuItemAction
+                  onClick={[Function]}
+                  show={true}
+                  text="Add Channel"
+                />
+              </Menu>
+            </MenuWrapper>
+          </div>
+        }
+        className=""
+        id="group_teams_and_channels"
+        subtitleDefault="Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below."
+        subtitleId="admin.group_settings.group_detail.groupTeamsAndChannelsDescription"
+        titleDefault="Team and Channel Membership"
+        titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
+      >
+        <GroupTeamsAndChannels
+          channels={
+            Array [
+              Object {
+                "channel_id": "44444444444444444444444444",
+              },
+              Object {
+                "channel_id": "55555555555555555555555555",
+              },
+              Object {
+                "channel_id": "66666666666666666666666666",
+              },
+            ]
+          }
+          getGroupSyncables={[MockFunction]}
+          id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
+          loading={false}
+          teams={
+            Array [
+              Object {
+                "team_id": "11111111111111111111111111",
+              },
+              Object {
+                "team_id": "22222222222222222222222222",
+              },
+              Object {
+                "team_id": "33333333333333333333333333",
+              },
+            ]
+          }
+          unlink={[MockFunction]}
+        />
+      </AdminPanel>
+      <AdminPanel
+        className=""
+        id="group_users"
+        subtitleDefault="Listing of users in Mattermost associated with this group."
+        subtitleId="admin.group_settings.group_detail.groupUsersDescription"
+        titleDefault="Users"
+        titleId="admin.group_settings.group_detail.groupUsersTitle"
+      >
+        <GroupUsers
+          getMembers={[MockFunction]}
+          groupID="xxxxxxxxxxxxxxxxxxxxxxxxxx"
+          members={
+            Array [
+              Object {
+                "id": "77777777777777777777777777",
+              },
+              Object {
+                "id": "88888888888888888888888888",
+              },
+              Object {
+                "id": "99999999999999999999999999",
+              },
+            ]
+          }
+          total={20}
+        />
+      </AdminPanel>
+    </div>
+  </div>
 </div>
 `;
