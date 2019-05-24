@@ -8,10 +8,11 @@ import PropTypes from 'prop-types';
 import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import {Constants, ModalIdentifiers} from 'utils/constants';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import ProfilePicture from 'components/profile_picture.jsx';
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import UserProfile from 'components/user_profile';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
@@ -560,8 +561,9 @@ function createSetHeaderButton(channel) {
         return null;
     }
     return (
-        <ToggleModalButton
+        <ToggleModalButtonRedux
             className='intro-links color--link'
+            modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
             dialogType={EditChannelHeaderModal}
             dialogProps={{channel}}
         >
@@ -570,6 +572,6 @@ function createSetHeaderButton(channel) {
                 id='intro_messages.setHeader'
                 defaultMessage='Set a Header'
             />
-        </ToggleModalButton>
+        </ToggleModalButtonRedux>
     );
 }
