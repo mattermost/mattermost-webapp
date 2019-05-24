@@ -904,7 +904,7 @@ export default {
                         isHidden: it.isnt(it.licensedForFeature('EmailNotificationContents')),
                         options: [
                             {
-                                value: 'none',
+                                value: '',
                                 display_name: t('admin.environment.smtp.connectionSecurity.option.none'),
                                 display_name_default: 'None',
                             },
