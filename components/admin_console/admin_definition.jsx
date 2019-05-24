@@ -931,7 +931,7 @@ export default {
                         error_message: t('admin.environment.smtp.smtpFail'),
                         error_message_default: 'Connection unsuccessful: {error}',
                         success_message: t('admin.environment.smtp.smtpSuccess'),
-                        success_message_default: 'Connection was successful',
+                        success_message_default: 'No errors were reported while sending an email.  Please check your inbox to make sure.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
