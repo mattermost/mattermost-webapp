@@ -324,13 +324,13 @@ export default class RhsComment extends React.Component {
         }
 
         let options;
-        if (isEphemeral) {
+        if (isEphemeral && (this.state.hover || this.state.dropdownOpened || this.state.showEmojiPicker)) {
             options = (
                 <div className='col col__remove'>
                     {this.createRemovePostButton()}
                 </div>
             );
-        } else if (!isSystemMessage) {
+        } else if (!isSystemMessage && (this.state.hover || this.state.dropdownOpened || this.state.showEmojiPicker)) {
             const dotMenu = (
                 <DotMenu
                     post={this.props.post}
