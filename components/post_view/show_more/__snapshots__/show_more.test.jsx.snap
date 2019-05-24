@@ -6,7 +6,11 @@ exports[`components/post_view/ShowMore should match snapshot 1`] = `
 >
   <div
     className="post-message__text-container"
-    style={null}
+    style={
+      Object {
+        "maxHeight": 600,
+      }
+    }
   >
     <div>
       <p>
@@ -66,6 +70,11 @@ exports[`components/post_view/ShowMore should match snapshot, PostAttachment on 
 >
   <div
     className="post-message__text-container"
+    style={
+      Object {
+        "maxHeight": undefined,
+      }
+    }
   />
   <div
     className="post-collapse"
@@ -104,7 +113,11 @@ exports[`components/post_view/ShowMore should match snapshot, PostMessageView on
 >
   <div
     className="post-message__text-container"
-    style={null}
+    style={
+      Object {
+        "maxHeight": 578,
+      }
+    }
   />
   <div
     className="post-collapse"
@@ -143,6 +156,11 @@ exports[`components/post_view/ShowMore should match snapshot, PostMessageView on
 >
   <div
     className="post-message__text-container"
+    style={
+      Object {
+        "maxHeight": undefined,
+      }
+    }
   />
   <div
     className="post-collapse"

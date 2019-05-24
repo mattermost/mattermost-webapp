@@ -6,6 +6,10 @@ import React from 'react';
 
 import {localizeMessage} from 'utils/utils.jsx';
 
+const MAX_POST_HEIGHT = 600;
+const MAX_ATTACHMENT_TEXT_HEIGHT = 200;
+const MARGIN_CHANGE_FOR_COMPACT_POST = 22;
+
 export default class ShowMore extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node,
@@ -13,14 +17,16 @@ export default class ShowMore extends React.PureComponent {
         isAttachmentText: PropTypes.bool,
         isRHSExpanded: PropTypes.bool.isRequired,
         isRHSOpen: PropTypes.bool.isRequired,
-        maxHeight: PropTypes.number.isRequired,
         text: PropTypes.string,
     }
-
-    state = {
-        isCollapsed: true,
-        isOverflow: false,
-    };
+    constructor(props) {
+        super(props)
+        this.maxHeight = this.props.isAttachmentText ? MAX_ATTACHMENT_TEXT_HEIGHT : MAX_POST_HEIGHT,
+        this.state = {
+            isCollapsed: true,
+            isOverflow: false,
+        };
+    }
 
     componentDidMount() {
         this.checkTextOverflow();
@@ -63,7 +69,7 @@ export default class ShowMore extends React.PureComponent {
             const textContainer = this.refs.textContainer;
             let isOverflow = false;
 
-            if (textContainer && textContainer.scrollHeight > this.props.maxHeight) {
+            if (textContainer && textContainer.scrollHeight > this.maxHeight) {
                 isOverflow = true;
             }
 
@@ -88,13 +94,12 @@ export default class ShowMore extends React.PureComponent {
         const {
             children,
             isAttachmentText,
-            maxHeight,
         } = this.props;
 
         let className = 'post-message';
         let collapsedMaxHeightStyle;
         if (isCollapsed) {
-            collapsedMaxHeightStyle = isAttachmentText ? {maxHeight} : null;
+            collapsedMaxHeightStyle = this.maxHeight;
             className += ' post-message--collapsed';
         } else {
             className += ' post-message--expanded';
@@ -109,6 +114,10 @@ export default class ShowMore extends React.PureComponent {
 
         let attachmentTextOverflow = null;
         if (isOverflow) {
+            if (!isAttachmentText && isCollapsed) {
+                collapsedMaxHeightStyle = collapsedMaxHeightStyle - MARGIN_CHANGE_FOR_COMPACT_POST;
+            }
+
             let showIcon = 'fa fa-angle-up';
             let showText = localizeMessage('post_info.message.show_less', 'Show Less');
             if (isCollapsed) {
@@ -137,13 +146,14 @@ export default class ShowMore extends React.PureComponent {
                 </div>
             );
 
+
             className += ' post-message--overflow';
         }
 
         return (
             <div className={className}>
                 <div
-                    style={collapsedMaxHeightStyle}
+                    style={{maxHeight: collapsedMaxHeightStyle}}
                     className='post-message__text-container'
                     ref='textContainer'
                 >
