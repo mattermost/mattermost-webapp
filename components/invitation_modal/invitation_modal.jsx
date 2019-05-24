@@ -78,7 +78,7 @@ export default class InvitationModal extends React.Component {
         this.setState({hasChanges: true});
     }
 
-    close = async () => {
+    close = () => {
         if (this.state.hasChanges) {
             this.setState({confirmModal: true});
         } else {
