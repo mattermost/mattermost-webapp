@@ -62,7 +62,6 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
           <Connect(ShowMore)
             checkOverflow={0}
             isAttachmentText={true}
-            maxHeight={200}
             text="short text"
           >
             <Connect(Markdown)
@@ -194,7 +193,6 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
           <Connect(ShowMore)
             checkOverflow={0}
             isAttachmentText={true}
-            maxHeight={200}
             text="short text"
           >
             <Connect(Markdown)
