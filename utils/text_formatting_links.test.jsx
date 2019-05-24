@@ -29,11 +29,6 @@ describe('Markdown.Links', () => {
         );
 
         assert.equal(
-            Markdown.format('test.:test').trim(),
-            '<p><a class="theme markdown__link" href="test.:test" rel="noreferrer" target="_blank">test.:test</a></p>'
-        );
-
-        assert.equal(
             Markdown.format('`https://example.com`').trim(),
             '<p>' +
                 '<span class="codespan__pre-wrap">' +
@@ -51,6 +46,11 @@ describe('Markdown.Links', () => {
     });
 
     it('External links', () => {
+        assert.equal(
+            Markdown.format('test.:test').trim(),
+            '<p><a class="theme markdown__link" href="test.:test" rel="noreferrer" target="_blank">test.:test</a></p>'
+        );
+
         assert.equal(
             Markdown.format('http://example.com').trim(),
             '<p><a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">http://example.com</a></p>'
