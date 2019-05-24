@@ -82,7 +82,7 @@ export default class InvitationModalMembersStep extends React.Component {
                 </h1>
                 <div className='share-link'>
                     <h2>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='invitation_modal.members.share_link.title'
                             defaultMessage='Share This Link'
                         />
@@ -96,14 +96,14 @@ export default class InvitationModalMembersStep extends React.Component {
                         />
                         <button className='share-link-input-button'>
                             <span className='fa fa-link'/>
-                            <FormattedMarkdownMessage
+                            <FormattedMessage
                                 id='invitation_modal.members.share_link.copy_button'
                                 defaultMessage='Copy Link'
                             />
                         </button>
                     </div>
                     <div className='help-text'>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='invitation_modal.members.share_link.description'
                             defaultMessage='Share this link to grant member access to this team.'
                         />
@@ -112,7 +112,7 @@ export default class InvitationModalMembersStep extends React.Component {
                 <div className='invitation-modal-or'>
                     <hr/>
                     <div>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='invitation_modal.members.or'
                             defaultMessage='OR'
                         />
@@ -120,7 +120,7 @@ export default class InvitationModalMembersStep extends React.Component {
                 </div>
                 <div className='search-and-add'>
                     <h2>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='invitation_modal.members.search_and_add.title'
                             defaultMessage='Search and Add People'
                         />
@@ -147,7 +147,7 @@ export default class InvitationModalMembersStep extends React.Component {
                         </FormattedMessage>
                     </div>
                     <div className='help-text'>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='invitation_modal.members.search-and-add.description'
                             defaultMessage='Search and add existing users or email an invitation to new users.'
                         />

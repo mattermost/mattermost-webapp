@@ -169,7 +169,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                         </FormattedMessage>
                     </div>
                     <div className='help-text'>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='invitation_modal.guests.add-channels.description'
                             defaultMessage='Specify the channels the guests have access to.'
                         />
@@ -178,7 +178,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                 <div className='custom-message'>
                     {!this.state.customMessageOpen &&
                         <a onClick={this.openCustomMessage}>
-                            <FormattedMarkdownMessage
+                            <FormattedMessage
                                 id='invitation_modal.guests.custom-message.link'
                                 defaultMessage='Set a custom message'
                             />
@@ -187,7 +187,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                     {this.state.customMessageOpen &&
                         <React.Fragment>
                             <div>
-                                <FormattedMarkdownMessage
+                                <FormattedMessage
                                     id='invitation_modal.guests.custom-message.title'
                                     defaultMessage='Custom message'
                                 />
@@ -200,7 +200,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                         </React.Fragment>
                     }
                     <div className='help-text'>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='invitation_modal.guests.custom-message.description'
                             defaultMessage='Create a custom message to make your invite more personal.'
                         />
