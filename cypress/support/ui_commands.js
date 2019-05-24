@@ -388,3 +388,17 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         type('{enter}').
         wait(TIMEOUTS.TINY);
 });
+
+/**
+* create new DM channel
+* @param {String} text - DM channel name
+*/
+Cypress.Commands.add('createNewDMChannel', (channelname) => {
+    cy.get('h4#directChannel').scrollIntoView().find('button').should('contain', '+').click();
+
+    cy.get('#selectItems').within(() => {
+        cy.get('input[type="text"]').scrollIntoView().type(channelname, {force: true});
+    });
+    cy.get('div .clickable').children().contains(channelname).click({force: true});
+    cy.get('#saveItems').click();
+});
