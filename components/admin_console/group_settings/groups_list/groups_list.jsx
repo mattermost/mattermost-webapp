@@ -239,6 +239,7 @@ export default class GroupsList extends React.PureComponent {
         const {key} = e;
         const {searchString} = this.state;
         if (key === Constants.KeyCodes.ENTER[0]) {
+            this.setState({page: 0});
             this.searchGroups();
         }
         const newState = {};
@@ -342,7 +343,10 @@ export default class GroupsList extends React.PureComponent {
                     </span>
                 </div>
                 <a
-                    onClick={() => this.searchGroups(0)}
+                    onClick={() => {
+                        this.setState({page: 0});
+                        this.searchGroups(0);
+                    }}
                     className='btn btn-primary search-groups-btn'
                 >
                     <FormattedMessage
@@ -359,6 +363,7 @@ export default class GroupsList extends React.PureComponent {
             showFilters: false,
             searchString: '',
             loading: true,
+            page: 0,
         };
         Object.entries(FILTER_STATE_SEARCH_KEY_MAPPING).forEach(([key]) => {
             newState[key] = false;
