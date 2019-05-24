@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -13,7 +13,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Recent Emoji', () => {
     before(() => {
-        // 1. Login and go to /
+        // # Login and go to /
         cy.apiLogin();
         cy.visit('/');
     });
@@ -22,31 +22,31 @@ describe('Recent Emoji', () => {
         // 2 before test delete all recent emoji on local storage
         cy.clearLocalStorage(/recent_emojis/);
 
-        // 3. Get random emoji index
+        // # Get random emoji index
         const firstEmoji = 200;
 
-        // 4. Show emoji list
+        // # Show emoji list
         cy.get('#emojiPickerButton').should('be.visible').click();
 
-        // 5. Click emoji with random index
+        // # Click emoji with random index
         cy.get('.emoji-picker__item').eq(firstEmoji).click();
 
-        // 6. Submit post
+        // # Submit post
         cy.get('#create_post').submit();
 
-        // 7. Wait 500 millisecond
+        // # Wait 500 millisecond
         cy.wait(TIMEOUTS.TINY);
 
-        // 8. Post reaction to post
+        // # Post reaction to post
         cy.clickPostReactionIcon();
 
-        // 9. Get second emoji
+        // # Get second emoji
         const secondEmoji = 100;
 
-        // 10. Click chosen emoji
+        // # Click chosen emoji
         cy.get('.emoji-picker__item').eq(secondEmoji).click();
 
-        // 11. Show emoji list
+        // # Show emoji list
         cy.get('#emojiPickerButton').click();
 
         // * Assert first emoji should equal with second recent emoji

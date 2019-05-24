@@ -4,7 +4,7 @@
 import {getRandomInt} from '../../../utils';
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -12,22 +12,22 @@ import {getRandomInt} from '../../../utils';
 const uniqueUserId = getRandomInt(99999);
 
 function signupWithEmail(name, pw) {
-    // 1. Go to /login
+    // # Go to /login
     cy.visit('/login');
 
-    // 2. Click on sign up button
+    // # Click on sign up button
     cy.get('#signup').click();
 
-    // 3. Type email address (by adding the uniqueUserId in the email address)
+    // # Type email address (by adding the uniqueUserId in the email address)
     cy.get('#email').type('unique.' + uniqueUserId + '@sample.mattermost.com');
 
-    // 4. Type 'unique-1' for username
+    // # Type 'unique-1' for username
     cy.get('#name').type(name);
 
-    // 5. Type 'unique1pw' for password
+    // # Type 'unique1pw' for password
     cy.get('#password').type(pw);
 
-    // 6. Click on Create Account button
+    // # Click on Create Account button
     cy.get('#createAccountButton').click();
 }
 
@@ -46,7 +46,7 @@ describe('Email Address', () => {
     });
 
     it('M14634 Should not create account with an existing email address', () => {
-        // 7. Signup a new user with an email address and user generated in signupWithEmail
+        // # Signup a new user with an email address and user generated in signupWithEmail
         signupWithEmail('unique.' + uniqueUserId, 'unique1pw');
 
         // * Verify there is Logout Button
@@ -58,7 +58,7 @@ describe('Email Address', () => {
         // * Verify the link to create a new team is available
         cy.get('#createNewTeamLink').should('have.attr', 'href', '/create_team').and('be.visible', 'contain', 'Create a new team');
 
-        // 8. Logout and signup another user with the same email but different username and password
+        // # Logout and signup another user with the same email but different username and password
         cy.apiLogout();
         signupWithEmail('unique-2', 'unique2pw');
 
