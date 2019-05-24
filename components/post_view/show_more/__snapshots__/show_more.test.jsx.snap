@@ -115,7 +115,7 @@ exports[`components/post_view/ShowMore should match snapshot, PostMessageView on
     className="post-message__text-container"
     style={
       Object {
-        "maxHeight": 578,
+        "maxHeight": 600,
       }
     }
   />
@@ -151,6 +151,49 @@ exports[`components/post_view/ShowMore should match snapshot, PostMessageView on
 `;
 
 exports[`components/post_view/ShowMore should match snapshot, PostMessageView on expanded view 1`] = `
+<div
+  className="post-message post-message--expanded post-message--overflow"
+>
+  <div
+    className="post-message__text-container"
+    style={
+      Object {
+        "maxHeight": undefined,
+      }
+    }
+  />
+  <div
+    className="post-collapse"
+  >
+    <div
+      className="post-collapse__gradient"
+      id="collapseGradient"
+    />
+    <div
+      className="post-collapse__show-more"
+    >
+      <div
+        className="post-collapse__show-more-line"
+      />
+      <button
+        className="post-collapse__show-more-button"
+        id="showMoreButton"
+        onClick={[Function]}
+      >
+        <span
+          className="fa fa-angle-up"
+        />
+        Show Less
+      </button>
+      <div
+        className="post-collapse__show-more-line"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/ShowMore should match snapshot, PostMessageView on expanded view with compactDisplay 1`] = `
 <div
   className="post-message post-message--expanded post-message--overflow"
 >

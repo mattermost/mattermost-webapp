@@ -18,10 +18,11 @@ export default class ShowMore extends React.PureComponent {
         isRHSExpanded: PropTypes.bool.isRequired,
         isRHSOpen: PropTypes.bool.isRequired,
         text: PropTypes.string,
+        compactDisplay: PropTypes.bool.isRequired,
     }
     constructor(props) {
-        super(props)
-        this.maxHeight = this.props.isAttachmentText ? MAX_ATTACHMENT_TEXT_HEIGHT : MAX_POST_HEIGHT,
+        super(props);
+        this.maxHeight = this.props.isAttachmentText ? MAX_ATTACHMENT_TEXT_HEIGHT : MAX_POST_HEIGHT;
         this.state = {
             isCollapsed: true,
             isOverflow: false,
@@ -94,6 +95,7 @@ export default class ShowMore extends React.PureComponent {
         const {
             children,
             isAttachmentText,
+            compactDisplay,
         } = this.props;
 
         let className = 'post-message';
@@ -114,8 +116,8 @@ export default class ShowMore extends React.PureComponent {
 
         let attachmentTextOverflow = null;
         if (isOverflow) {
-            if (!isAttachmentText && isCollapsed) {
-                collapsedMaxHeightStyle = collapsedMaxHeightStyle - MARGIN_CHANGE_FOR_COMPACT_POST;
+            if (!isAttachmentText && isCollapsed && compactDisplay) {
+                collapsedMaxHeightStyle -= MARGIN_CHANGE_FOR_COMPACT_POST;
             }
 
             let showIcon = 'fa fa-angle-up';
@@ -145,7 +147,6 @@ export default class ShowMore extends React.PureComponent {
                     </div>
                 </div>
             );
-
 
             className += ' post-message--overflow';
         }
