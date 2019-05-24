@@ -67,24 +67,7 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
         />
       }
       optionRenderer={[Function]}
-      options={
-        Array [
-          Object {
-            "delete_at": 0,
-            "display_name": "Channel 3",
-            "id": "id3",
-            "scheme_id": "test",
-            "team_display_name": "Team 3",
-          },
-          Object {
-            "delete_at": 0,
-            "display_name": "Channel 4",
-            "id": "id4",
-            "scheme_id": "",
-            "team_display_name": "Team 4",
-          },
-        ]
-      }
+      options={Array []}
       perPage={50}
       placeholderText="Search and add channels"
       saving={false}

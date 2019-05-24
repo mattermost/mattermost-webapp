@@ -3,6 +3,8 @@
 
 /* eslint max-nested-callbacks: ["error", 5] */
 
+import * as TIMEOUTS from '../fixtures/timeouts';
+
 // ***********************************************************
 // Read more: https://on.cypress.io/custom-commands
 // ***********************************************************
@@ -129,22 +131,34 @@ Cypress.Commands.add('postMessage', (message) => {
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
     cy.get('#reply_textbox').clear().type(message).type('{enter}');
-    cy.wait(500); // eslint-disable-line
+    cy.wait(TIMEOUTS.TINY);
 });
 
 Cypress.Commands.add('getLastPost', () => {
-    return cy.get('#postListContent #postContent', {timeout: 30000}).last();
+    return cy.get('#postListContent #postContent', {timeout: TIMEOUTS.MEDIUM}).last();
 });
 
 Cypress.Commands.add('getLastPostId', (opts = {force: false}) => {
-    cy.get('#postListContent #postContent', {timeout: 30000}).last().parent().as('_lastPost');
+    cy.get('#postListContent #postContent', {timeout: TIMEOUTS.MEDIUM}).
+        last().
+        parent().as('parent');
 
-    if (!opts.force) {
-        cy.get('@_lastPost').should('have.attr', 'id').and('not.include', ':');
+    if (opts.force) {
+        cy.get('@parent').should('have.attr', 'id').invoke('replace', 'post_', '');
+    } else {
+        cy.get('@parent').should('have.attr', 'id').and('not.include', ':').
+            invoke('replace', 'post_', '');
     }
+});
 
-    return cy.get('@_lastPost').invoke('attr', 'id').then((divPostId) => {
-        return divPostId.replace('post_', '');
+/**
+* Get post ID for nth newest post
+* .eq() is 0-based index, hence nthPost-2 to get the nth post
+@param {Integer} nthPost - nth newest post
+*/
+Cypress.Commands.add('getNthPostId', (nthPost) => {
+    return cy.get('#postListContent [id^=post]:first').parent().parent().siblings().eq(nthPost - 2).find('[id^=post]:first').invoke('attr', 'id').then((nthPostId) => {
+        return nthPostId.replace('post_', '');
     });
 });
 
@@ -156,7 +170,7 @@ Cypress.Commands.add('getLastPostId', (opts = {force: false}) => {
  */
 Cypress.Commands.add('postMessageFromFile', (file, target = '#post_textbox') => {
     cy.fixture(file, 'utf-8').then((text) => {
-        cy.get(target).invoke('val', text).wait(500).type(' {backspace}{enter}').should('have.text', '');
+        cy.get(target).invoke('val', text).wait(TIMEOUTS.TINY).type(' {backspace}{enter}').should('have.text', '');
     });
 });
 
@@ -165,15 +179,13 @@ Cypress.Commands.add('postMessageFromFile', (file, target = '#post_textbox') => 
  * instead of typing into it which takes longer period of time.
  * @param {String} file - includes path and filename relative to cypress/fixtures
  */
-Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file) => {
+Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIMEOUTS.MEDIUM) => {
     // * Verify that HTML Content is correct
     cy.getLastPostId().then((postId) => {
         const postMessageTextId = `#postMessageText_${postId}`;
 
         cy.fixture(file, 'utf-8').then((expectedHtml) => {
-            cy.get(postMessageTextId).then((content) => {
-                assert.equal(content[0].innerHTML, expectedHtml.replace(/\n$/, ''));
-            });
+            cy.get(postMessageTextId, {timeout}).should('have.html', expectedHtml.replace(/\n$/, ''));
         });
     });
 });
@@ -256,18 +268,6 @@ Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
     cy.visit(`/${teamURL}`);
 });
 
-Cypress.Commands.add('removeTeamMember', (teamURL, username) => {
-    cy.apiLogout();
-    cy.apiLogin('sysadmin');
-    cy.visit(`/${teamURL}`);
-    cy.get('#sidebarHeaderDropdownButton').click();
-    cy.get('#manageMembers').click();
-    cy.focused().type(username, {force: true});
-    cy.get(`#teamMembersDropdown_${username}`).click();
-    cy.get('#removeFromTeam').click();
-    cy.get('.modal-header .close').click();
-});
-
 Cypress.Commands.add('getCurrentTeamId', () => {
     return cy.get('#headerTeamName').invoke('attr', 'data-teamid');
 });
@@ -279,7 +279,7 @@ Cypress.Commands.add('leaveTeam', () => {
     // * Check that the "leave team modal" opened up
     cy.get('#leaveTeamModal').should('be.visible');
 
-    // 4. click on yes
+    // # click on yes
     cy.get('#leaveTeamYes').click();
 
     // * Check that the "leave team modal" closed
@@ -386,5 +386,5 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         clear().
         type(text).
         type('{enter}').
-        wait(500);
+        wait(TIMEOUTS.TINY);
 });
