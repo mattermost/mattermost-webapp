@@ -522,6 +522,7 @@ export default class PostList extends React.PureComponent {
                     key={'post ' + (post.id || post.pending_post_id)}
                     post={post}
                     shouldHighlight={this.props.focusedPostId === post.id}
+                    previousPostId={posts[i + 1] ? posts[i + 1].id : ''}
                 />
             );
 
