@@ -35,29 +35,15 @@ describe('Markdown message', () => {
         });
 
         // # Enable local image proxy so our expected URLs match
-        // # Login as sysadmin to change settings
-        cy.apiLogin('sysadmin');
-
-        // # Get current settings
-        cy.request('/api/v4/config').then((response) => {
-            const settings = response.body;
-
-            // # Modify the settings we need to change
-            settings.ImageProxySettings = {
+        const newSettings = {
+            ImageProxySettings: {
                 Enable: true,
                 ImageProxyType: 'local',
                 RemoteImageProxyURL: '',
                 RemoteImageProxyOptions: '',
-            };
-
-            // # Set the modified settings
-            cy.request({
-                url: '/api/v4/config',
-                headers: {'X-Requested-With': 'XMLHttpRequest'},
-                method: 'PUT',
-                body: settings,
-            });
-        });
+            },
+        };
+        cy.apiUpdateConfig(newSettings);
 
         // # Login as "user-1"
         cy.apiLogin('user-1');

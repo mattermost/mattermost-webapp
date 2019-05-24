@@ -11,10 +11,8 @@
 
 describe('Cookie with Subpath', () => {
     before(() => {
-        // # Remove whitelisted cookies
-        cy.clearCookie('MMAUTHTOKEN');
-        cy.clearCookie('MMUSERID');
-        cy.clearCookie('MMCSRF');
+        // # Logout to remove whitelisted cookies
+        cy.apiLogout();
     });
 
     it('should generate cookie with subpath', () => {

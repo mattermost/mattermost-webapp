@@ -33,16 +33,11 @@ function signupWithEmail(name, pw) {
 
 describe('Email Address', () => {
     before(() => {
-        // Before test, login as sysadmin, set Enable Open Server to true then logout
-        cy.apiLogin('sysadmin');
-        cy.apiEnableOpenServer(true);
-        cy.apiLogout();
-    });
-
-    after(() => {
-        // Revert Enable Open Server in Team Settings config to false after test
-        cy.apiLogin('sysadmin');
-        cy.apiEnableOpenServer(false);
+        // Set EnableOpenServer to true
+        const newSettings = {
+            TeamSettings: {EnableOpenServer: true},
+        };
+        cy.apiUpdateConfig(newSettings);
     });
 
     it('M14634 Should not create account with an existing email address', () => {
