@@ -68,11 +68,6 @@ export default class Post extends React.PureComponent {
          */
         replyCount: PropTypes.number,
 
-        /**
-         * Max height before show "show more".
-         */
-        maxHeight: PropTypes.number,
-
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
             selectPostCard: PropTypes.func.isRequired,
@@ -81,7 +76,6 @@ export default class Post extends React.PureComponent {
 
     static defaultProps = {
         post: {},
-        maxHeight: 600,
     };
 
     constructor(props) {
@@ -287,7 +281,6 @@ export default class Post extends React.PureComponent {
                             compactDisplay={this.props.compactDisplay}
                             isCommentMention={this.props.isCommentMention}
                             isFirstReply={this.props.isFirstReply}
-                            maxHeight={this.props.maxHeight}
                         />
                     </div>
                 </div>
