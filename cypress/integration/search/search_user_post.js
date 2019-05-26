@@ -11,6 +11,22 @@
 
 import users from '../../fixtures/users.json';
 
+/**
+ * create new DM channel
+ * @param {String} text - DM channel name
+ */
+function createNewDMChannel(channelname) {
+    cy.get('#addDirectChannel').scrollIntoView().click();
+
+    cy.get('#selectItems').within(() => {
+        cy.get('input[type="text"]').scrollIntoView().type(channelname, {force: true});
+    });
+
+    // cy.get('div .clickable').children().contains(channelname).click({force: true});
+    cy.contains('.more-modal__description', channelname).click({force: true});
+    cy.get('#saveItems').click();
+}
+
 describe('Search in DMs', () => {
     it('S14672 Search "in:[username]" returns results in DMs', () => {
         // # Login and navigate to the app
@@ -19,10 +35,10 @@ describe('Search in DMs', () => {
         const message = 'Hello';
 
         // # Ensure Direct Message is visible in LHS sidebar
-        cy.get('#sidebarChannelContainer ul li #directChannel').scrollIntoView().should('be.visible');
+        cy.get('#directChannel').scrollIntoView().should('be.visible');
 
         // # Create new DM channel with user's email
-        cy.createNewDMChannel(users['user-2'].email);
+        createNewDMChannel(users['user-2'].email);
 
         // # Post message to user
         cy.postMessage(message + '{enter}');
@@ -31,9 +47,7 @@ describe('Search in DMs', () => {
         cy.get('#searchBox').type('in:');
 
         // # Select user from suggestion list
-        cy.get('#search-autocomplete__popover').within(() => {
-            cy.contains(users['user-2'].username).click();
-        });
+        cy.contains('.search-autocomplete__item', `@${users['user-2'].username}`).click();
 
         // # Validate searchbox contains the username
         cy.get('#searchBox').should('have.value', 'in:@' + users['user-2'].username + ' ');
@@ -42,8 +56,8 @@ describe('Search in DMs', () => {
         cy.get('#searchBox').type(message).type('{enter}');
 
         // # Search message in each filtered result
-        cy.get('#search-items-container').find('.search-item__container').each(($el) => {
-            cy.wrap($el).find('.search-highlight').should('have.text', message);
+        cy.get('#search-items-container').find('.search-highlight').each(($el) => {
+            cy.wrap($el).should('have.text', message);
         });
     });
 });
