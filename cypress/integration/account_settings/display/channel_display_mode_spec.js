@@ -25,8 +25,8 @@ describe('Account Settings > Display > Channel Display Mode', () => {
     });
 
     it('should render in min setting view', () => {
-        // # Go to Account Settings with "user-1"
-        cy.toAccountSettingsModal('user-1');
+        // 1. Go to Account Settings with "user-1"
+        cy.toAccountSettingsModal(null, true);
 
         // * Check that the Display tab is loaded
         cy.get('#displayButton').should('be.visible');

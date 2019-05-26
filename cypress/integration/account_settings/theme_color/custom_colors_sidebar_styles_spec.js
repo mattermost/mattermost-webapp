@@ -27,7 +27,8 @@ const testCases = [
 
 describe('AS14318 Theme Colors - Color Picker', () => {
     before(() => {
-        // # Set default theme preference
+        // 1. Set default theme preference
+        cy.apiLogin('user-1');
         cy.apiSaveThemePreference();
     });
 
