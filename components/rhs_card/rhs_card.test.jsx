@@ -11,6 +11,7 @@ describe('comoponents/rhs_card/RhsCard', () => {
         message: 'test',
         type: 'test',
         create_at: 1542994995740,
+        props: {},
     };
 
     const currentChannel = {

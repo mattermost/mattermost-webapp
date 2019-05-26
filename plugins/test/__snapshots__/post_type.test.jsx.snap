@@ -14,7 +14,6 @@ exports[`plugins/PostMessageView should match snapshot with extended post type 1
   }
   enableFormatting={true}
   isRHS={false}
-  maxHeight={600}
   options={Object {}}
   pluginPostTypes={
     Object {
