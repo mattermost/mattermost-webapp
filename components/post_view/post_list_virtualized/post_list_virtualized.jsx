@@ -13,7 +13,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 import Constants, {PostListRowListIds, EventTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
-import {getLastPostId} from 'utils/post_utils.jsx';
+import {getLastPostId, getPreviousPostId} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
@@ -307,7 +307,7 @@ export default class PostList extends React.PureComponent {
 
     renderRow = ({data, itemId, style}) => {
         const index = data.indexOf(itemId);
-        const previousItemId = (index !== -1 && index < data.length - 1) ? data[index + 1] : '';
+        const previousItemId = getPreviousPostId(data, index);
 
         return (
             <div style={style}>

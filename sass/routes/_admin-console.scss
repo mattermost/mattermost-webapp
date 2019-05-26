@@ -1,18 +1,32 @@
 @charset 'UTF-8';
 
 .admin-console__wrapper {
-    height: calc(100% - 55px);
     overflow: auto;
-    margin-top: 65px;
 }
 
 .admin-console {
     -webkit-overflow-scrolling: touch;
     color: #333;
     height: 100%;
-    margin-left: 220px;
-    overflow: auto;
-    padding: 10px 20px 0;
+    padding-left: 220px;
+
+    .wrapper--fixed {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    .admin-console__wrapper {
+        -webkit-flex: 1 1 auto;
+        flex: 1 1 auto;
+        height: 100%;
+        overflow: auto;
+        padding: 20px;
+    }
+
+    .admin-console__content {
+        max-width: 920px;
+    }
 
     mark {
         border-radius: 5%;
@@ -137,22 +151,7 @@
         padding: 0 40px 20px;
     }
 
-    .wrapper--fixed {
-        max-width: 920px;
-        margin-bottom: 110px;
-
-        &.team_statistics {
-            margin-bottom: 20px;
-        }
-    }
-
-    .wrapper--fixed.compliance-not-licensed .form-horizontal {
-        margin: 1em 0 0;
-    }
-
     .form-horizontal {
-        margin: 1em 0 7em;
-
         .control-label {
             font-weight: 600;
             padding-right: 0;
@@ -233,7 +232,7 @@
         background: $white;
         border: $border-gray;
         font-size: .95em;
-        margin: 1em 0 2em;
+        margin: 4px 0 2em;
         padding: .8em 1.5rem;
 
         &.banner--url {
@@ -358,17 +357,15 @@
         margin-top: 8px;
     }
 
-    .admin-console-header {
+    .admin-console__header {
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
         border-bottom: 1px solid alpha-color($black, .1);
         background: white;
-        position: absolute;
-        top: 0;
-        left: 0;
         height: 65px;
-        width: calc(100% - 220px);
-        margin: 0 0 0 220px;
+        -webkit-flex: 0 0 65px;
+        flex: 0 0 65px;
         padding: 10px 20px;
         font-size: 22px;
         font-weight: normal;
@@ -377,6 +374,11 @@
 
         &.with-back {
             padding: 0;
+
+            > div {
+                display: flex;
+                align-items: center;
+            }
 
             .back {
                 display: flex;
@@ -394,9 +396,6 @@
                     position: relative;
                 }
             }
-
-            span {
-            }
          }
     }
 
@@ -405,21 +404,19 @@
         align-items: center;
         border-top: 1px solid alpha-color($black, .1);
         background: white;
-        position: absolute;
-        bottom: 0;
-        left: 0;
         height: 60px;
-        width: calc(100% - 220px);
-        margin: 0 0 0 220px;
-        padding: 13px 0;
+        padding: 0 10px;
         z-index: 100;
+        -webkit-flex: 0 0 60px;
+        flex: 0 0 60px;
+        width: 100%;
 
         .save-button {
             @include opacity(1);
             background: $light-gray;
             min-width: 100px;
             height: 34px;
-            margin: 0 10px 0 13px;
+            margin: 0 10px;
             color: alpha-color($black, .5);
 
             &.btn-primary {
