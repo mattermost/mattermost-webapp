@@ -210,7 +210,10 @@ export default class SearchResults extends React.PureComponent {
         }
 
         return (
-            <div className='sidebar-right__body'>
+            <div
+                className='sidebar-right__body'
+                id='searchResultsContainer'
+            >
                 <SearchResultsHeader
                     isMentionSearch={this.props.isMentionSearch}
                     isFlaggedPosts={this.props.isFlaggedPosts}

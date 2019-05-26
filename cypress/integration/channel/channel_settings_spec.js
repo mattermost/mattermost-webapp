@@ -3,7 +3,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -11,7 +11,7 @@
 /* eslint-disable max-nested-callbacks */
 describe('Channel Settings', () => {
     before(() => {
-        // 1. Go to Main Channel View with "user-1"
+        // # Go to Main Channel View with "user-1"
         cy.toMainChannelView('user-1');
     });
 

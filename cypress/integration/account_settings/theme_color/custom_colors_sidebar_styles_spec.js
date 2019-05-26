@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // **************************************************************
@@ -27,7 +27,7 @@ const testCases = [
 
 describe('AS14318 Theme Colors - Color Picker', () => {
     before(() => {
-        // 1. Set default theme preference
+        // # Set default theme preference
         cy.apiSaveThemePreference();
     });
 
@@ -37,13 +37,13 @@ describe('AS14318 Theme Colors - Color Picker', () => {
     });
 
     it('Theme Display should render in min setting view', () => {
-        // 1. Go to Account Settings with "user-1"
+        // # Go to Account Settings with "user-1"
         cy.toAccountSettingsModal('user-1');
 
         // * Check that the Display tab is loaded
         cy.get('#displayButton').should('be.visible');
 
-        // 2. Click the Display tab
+        // # Click the Display tab
         cy.get('#displayButton').click();
 
         // * Check that it changed into the Display section
@@ -55,7 +55,7 @@ describe('AS14318 Theme Colors - Color Picker', () => {
 
     describe('Custom - Sidebar Styles input change', () => {
         before(() => {
-            // 1. Go to Theme > Custom > Sidebar Styles
+            // # Go to Theme > Custom > Sidebar Styles
             cy.customColors(0, 'Sidebar Styles');
         });
 
@@ -67,10 +67,10 @@ describe('AS14318 Theme Colors - Color Picker', () => {
 
         testCases.forEach((testCase) => {
             it(`should change ${testCase.name} custom color`, () => {
-                // 2. Click input color button
+                // # Click input color button
                 cy.get('.input-group-addon').eq(testCase.key).click();
 
-                // 3. Click on color bar to change color
+                // # Click on color bar to change color
                 cy.get(testCase.inputTarget).click();
 
                 // * Check that icon color change
@@ -113,25 +113,25 @@ describe('AS14318 Theme Colors - Color Picker', () => {
             // * Check Mention Jewel Text color
             cy.get('#unreadIndicatorBottom').should('have.css', 'color', 'rgb(65, 92, 129)');
 
-            // 1. Set user status to online
+            // # Set user status to online
             cy.userStatus(0);
 
             // * Check Online Indicator color
             cy.get('.online--icon').should('have.css', 'fill', 'rgb(65, 129, 113)');
 
-            // 2. Set user status to away
+            // # Set user status to away
             cy.userStatus(1);
 
             // * Check Away Indicator color
             cy.get('.away--icon').should('have.css', 'fill', 'rgb(129, 106, 65)');
 
-            // 3. Set user status to do not disturb
+            // # Set user status to do not disturb
             cy.userStatus(2);
 
             // * Check Do Not Disturb Indicator color
             cy.get('.dnd--icon').should('have.css', 'fill', 'rgb(129, 65, 65)');
 
-            // 4. Revert user status to online
+            // # Revert user status to online
             cy.userStatus(0);
         });
     });

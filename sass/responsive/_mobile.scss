@@ -1784,6 +1784,16 @@
         left: 50px !important;
     }
 
+    .post {
+        .attachment {
+            .attachment-actions {
+                button {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
     .nav-tabs {
         margin-top: 1em;
 

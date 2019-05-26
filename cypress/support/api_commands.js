@@ -1,11 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import merge from 'merge-deep';
+
 import {getRandomInt} from '../utils';
 
 import users from '../fixtures/users.json';
 import theme from '../fixtures/theme.json';
-import config from '../fixtures/config.json';
+
+/* eslint max-nested-callbacks: ["error", 5] */
+/* eslint-disable func-names */
 
 // *****************************************************************************
 // Read more:
@@ -36,10 +40,16 @@ Cypress.Commands.add('apiLogin', (username = 'user-1') => {
  * Logout a user directly via API
  */
 Cypress.Commands.add('apiLogout', () => {
-    return cy.request({
+    cy.request({
         url: '/api/v4/users/logout',
         method: 'POST',
     });
+
+    ['MMAUTHTOKEN', 'MMUSERID', 'MMCSRF'].forEach((cookie) => {
+        cy.clearCookie(cookie);
+    });
+
+    cy.getCookies().should('be.empty');
 });
 
 // *****************************************************************************
@@ -220,17 +230,64 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
 });
 
 /**
- * Saves Enable Open Server settings config details of a user directly via API
- * This API assume that the sysadmin user is logged in for the changes
- * @param {Boolean} enable - flag for EnableOpenServer in config. Passes true for default if none is provided.
+ * Creates a new user via the API, adds them to 3 teams, and sets preference to bypass tutorial.
+ * Then logs in as the user
+ @param {Object} user - Object of user email, username, and password that you can optionally set. Otherwise use default values
+ @returns {Object} Returns object containing email, username, id and password if you need it further in the test
  */
-Cypress.Commands.add('apiEnableOpenServer', (enable = true) => {
-    config.TeamSettings.EnableOpenServer = enable;
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/config',
-        method: 'PUT',
-        body: config,
+Cypress.Commands.add('loginAsNewUser', (user = {}) => {
+    const timestamp = Date.now();
+
+    const {email = `newE2ETestUser${timestamp}@mattermost.com`, username = `NewE2ETestUser${timestamp}`, password = 'password123'} = user;
+
+    // # Login as sysadmin to make admin requests
+    cy.apiLogin('sysadmin');
+
+    // # Create a new user
+    return cy.request({method: 'POST', url: '/api/v4/users', body: {email, username, password}}).then((userResponse) => {
+        // Safety assertions to make sure we have a valid response
+        expect(userResponse).to.have.property('body').to.have.property('id');
+
+        const userId = userResponse.body.id;
+
+        // Get teams, select the first three, and add new user to that team
+        cy.request('GET', '/api/v4/teams').then((teamsResponse) => {
+            // Verify we have at least 2 teams in the response to add the user to
+            expect(teamsResponse).to.have.property('body').to.have.length.greaterThan(1);
+
+            const [team1, team2] = teamsResponse.body;
+
+            // Add user to several teams
+            [team1, team2].forEach((team) => {
+                cy.request({
+                    method: 'POST',
+                    url: `/api/v4/teams/${team.id}/members`,
+                    headers: {'X-Requested-With': 'XMLHttpRequest'},
+                    body: {team_id: team.id, user_id: userId},
+                    qs: {team_id: team.id}});
+            });
+        });
+
+        // # Login as the new user
+        cy.request({
+            url: '/api/v4/users/login',
+            method: 'POST',
+            body: {login_id: username, password},
+        });
+
+        // # Update new user preferences to bypass tutorial
+        const preferences = [{
+            user_id: userId,
+            category: 'tutorial_step',
+            name: userId,
+            value: '999',
+        }];
+
+        cy.apiSaveUserPreference(preferences);
+        cy.visit('/');
+
+        // Wrap our user object so it gets returnd from our cypress command
+        cy.wrap({email, username, password, id: userId});
     });
 });
 
@@ -249,4 +306,29 @@ Cypress.Commands.add('apiUnpinPosts', (postId) => {
         url: '/api/v4/posts/' + postId + '/unpin',
         method: 'POST',
     });
+});
+
+// *****************************************************************************
+// System config
+// *****************************************************************************
+
+Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
+    cy.apiLogin('sysadmin');
+
+    // # Get current settings
+    cy.request('/api/v4/config').then((response) => {
+        const oldSettings = response.body;
+
+        const settings = merge(oldSettings, newSettings);
+
+        // # Set the modified settings
+        cy.request({
+            url: '/api/v4/config',
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            method: 'PUT',
+            body: settings,
+        });
+    });
+
+    cy.apiLogout();
 });

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -40,11 +40,11 @@ function navigateToThemeSettings() {
 
 describe('AS14319 Theme Colors - Code', () => {
     before(() => {
-        // 1. Login and navigate to the app
+        // # Login and navigate to the app
         cy.apiLogin('user-1');
         cy.visit('/');
 
-        // 2. Enter in code block for message
+        // # Enter in code block for message
         cy.get('#post_textbox').type('```\ncode\n```{enter}');
     });
 
@@ -52,42 +52,42 @@ describe('AS14319 Theme Colors - Code', () => {
     after(() => {
         navigateToThemeSettings();
 
-        // 1. Select the Theme Colors radio
+        // # Select the Theme Colors radio
         cy.get('#standardThemes').check().should('be.checked');
 
-        // 2. Select the Mattermost pre-made theme
+        // # Select the Mattermost pre-made theme
         cy.get('#premadeThemeMattermost').first().click();
 
-        // 3. Save and close settings modal
+        // # Save and close settings modal
         cy.get('#saveSetting').click();
         cy.get('#accountSettingsHeader > .close').click();
     });
 
     THEMES.forEach((THEME) => {
         it(`${THEME.name} theme renders correctly`, () => {
-            // 1. Navigate to the theme settings
+            // # Navigate to the theme settings
             navigateToThemeSettings();
 
-            // 2. Check Custom Themes
+            // # Check Custom Themes
             cy.get('#customThemes').check().should('be.checked');
 
-            // 3. Open Center Channel Styles section
+            // # Open Center Channel Styles section
             cy.get('#centerChannelStyles').click();
 
-            // 4. Select custom code theme
+            // # Select custom code theme
             cy.get('#codeThemeSelect').scrollIntoView().should('be.visible').select(THEME.name);
 
             // * Verify that the setting changes in the background?
             verifyLastPostStyle(THEME);
 
-            // 5. Save and close settings modal
+            // # Save and close settings modal
             cy.get('#saveSetting').click();
             cy.get('#accountSettingsHeader > .close').click();
 
             // * Verify that the styles remain after saving and closing modal
             verifyLastPostStyle(THEME);
 
-            // 6. Reload the browser
+            // # Reload the browser
             cy.reload();
 
             // * Verify the styles are still intact

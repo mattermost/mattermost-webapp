@@ -13,7 +13,7 @@ import Bots from './bots.jsx';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
-    const createBots = config.CreateBotAccounts === 'true';
+    const createBots = config.EnableBotAccountCreation === 'true';
     const bots = getBotAccounts(state);
     const owners = Object.values(bots).
         reduce((result, bot) => {

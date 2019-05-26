@@ -60,18 +60,12 @@ export default class PostMessageView extends React.PureComponent {
          * Post type components from plugins
          */
         pluginPostTypes: PropTypes.object,
-
-        /**
-         * Max height before show "show more".
-         */
-        maxHeight: PropTypes.number,
     };
 
     static defaultProps = {
         options: {},
         isRHS: false,
         pluginPostTypes: {},
-        maxHeight: 600,
     };
 
     constructor(props) {
@@ -171,7 +165,6 @@ export default class PostMessageView extends React.PureComponent {
         return (
             <ShowMore
                 checkOverflow={this.state.checkOverflow}
-                maxHeight={this.props.maxHeight}
                 text={message}
             >
                 <div
