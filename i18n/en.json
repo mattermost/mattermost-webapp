@@ -439,7 +439,7 @@
   "admin.environment.smtp.smtpServer.description": "Location of SMTP email server.",
   "admin.environment.smtp.smtpServer.placeholder": "Ex: \"smtp.yourcompany.com\", \"email-smtp.us-east-1.amazonaws.com\"",
   "admin.environment.smtp.smtpServer.title": "SMTP Server:",
-  "admin.environment.smtp.smtpSuccess": "No errors were reported while sending an email.  Please check your inbox to make sure.",
+  "admin.environment.smtp.smtpSuccess": "No errors were reported while sending an email. Please check your inbox to make sure.",
   "admin.environment.smtp.smtpUsername.description": "Obtain this credential from administrator setting up your email server.",
   "admin.environment.smtp.smtpUsername.placeholder": "Ex: \"admin@yourcompany.com\", \"AKIADTOVBGERKLCBV\"",
   "admin.environment.smtp.smtpUsername.title": "SMTP Server Username:",
