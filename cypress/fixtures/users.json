@@ -17,6 +17,7 @@
         "username": "samuel.tucker",
         "password": "user-2",
         "email": "user-2@sample.mattermost.com",
+        "emailname": "user-2",
         "firstName": "Samuel",
         "lastName": "Tucker"
     }

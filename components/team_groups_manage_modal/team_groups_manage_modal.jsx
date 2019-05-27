@@ -103,7 +103,7 @@ export default class TeamGroupsManageModal extends React.PureComponent {
                 renderRow={this.renderRow}
                 loadItems={this.loadItems}
                 onHide={this.onHide}
-                titleBarButtonText={formatMessage({id: 'group_list_modal.addGroupButton', defaultMessage: 'Add Group'})}
+                titleBarButtonText={formatMessage({id: 'group_list_modal.addGroupButton', defaultMessage: 'Add Groups'})}
                 titleBarButtonOnClick={this.titleButtonOnClick}
             />
         );

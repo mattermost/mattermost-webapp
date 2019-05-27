@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -35,7 +35,7 @@ function verifyExistingChannelError(channelTypeID, newChannelName) {
 * var - origChannelLength:    The original number of channels in PUBLIC CHANNELS or PRIVATE CHANNELS
 */
 function channelNameTest(channelTypeHeading, channelName) {
-    // 1. Find how many public channels there are and store as origChannelLength
+    // # Find how many public channels there are and store as origChannelLength
     cy.get('#sidebarChannelContainer').children().contains(channelTypeHeading).parent().parent().siblings().its('length').then((origChannelLength) => {
         // * Verify channel `channelName` exists
         cy.get('#sidebarChannelContainer').should('contain', channelName);
@@ -43,7 +43,7 @@ function channelNameTest(channelTypeHeading, channelName) {
         // * Verify new public channel cannot be created with existing public channel name; see verifyExistingChannelError function
         verifyExistingChannelError('#createPublicChannel', channelName);
 
-        // 2. Click on Cancel button to move out of New Channel Modal
+        // # Click on Cancel button to move out of New Channel Modal
         cy.get('#cancelNewChannel').contains('Cancel').click();
 
         // * Verify new private channel cannot be created with existing public channel name:
@@ -52,7 +52,7 @@ function channelNameTest(channelTypeHeading, channelName) {
         // * Verify the number of channels is still the same as before (by comparing it to origChannelLenth)
         cy.get('#sidebarChannelContainer').children().contains(channelTypeHeading).parent().parent().siblings().its('length').should('eq', origChannelLength);
 
-        // 3. Click on Cancel button to move out of New Channel Modal
+        // # Click on Cancel button to move out of New Channel Modal
         cy.get('#cancelNewChannel').contains('Cancel').click();
     });
 }
