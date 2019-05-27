@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import merge from 'merge-deep';
+
 import {getRandomInt} from '../utils';
 
 import users from '../fixtures/users.json';
 import theme from '../fixtures/theme.json';
-import config from '../fixtures/config.json';
 
 /* eslint max-nested-callbacks: ["error", 5] */
 /* eslint-disable func-names */
@@ -44,7 +45,11 @@ Cypress.Commands.add('apiLogout', () => {
         method: 'POST',
     });
 
-    cy.clearCookies();
+    ['MMAUTHTOKEN', 'MMUSERID', 'MMCSRF'].forEach((cookie) => {
+        cy.clearCookie(cookie);
+    });
+
+    cy.getCookies().should('be.empty');
 });
 
 // *****************************************************************************
@@ -225,21 +230,6 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
 });
 
 /**
- * Saves Enable Open Server settings config details of a user directly via API
- * This API assume that the sysadmin user is logged in for the changes
- * @param {Boolean} enable - flag for EnableOpenServer in config. Passes true for default if none is provided.
- */
-Cypress.Commands.add('apiEnableOpenServer', (enable = true) => {
-    config.TeamSettings.EnableOpenServer = enable;
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/config',
-        method: 'PUT',
-        body: config,
-    });
-});
-
-/**
  * Creates a new user via the API, adds them to 3 teams, and sets preference to bypass tutorial.
  * Then logs in as the user
  @param {Object} user - Object of user email, username, and password that you can optionally set. Otherwise use default values
@@ -316,4 +306,29 @@ Cypress.Commands.add('apiUnpinPosts', (postId) => {
         url: '/api/v4/posts/' + postId + '/unpin',
         method: 'POST',
     });
+});
+
+// *****************************************************************************
+// System config
+// *****************************************************************************
+
+Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
+    cy.apiLogin('sysadmin');
+
+    // # Get current settings
+    cy.request('/api/v4/config').then((response) => {
+        const oldSettings = response.body;
+
+        const settings = merge(oldSettings, newSettings);
+
+        // # Set the modified settings
+        cy.request({
+            url: '/api/v4/config',
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            method: 'PUT',
+            body: settings,
+        });
+    });
+
+    cy.apiLogout();
 });
