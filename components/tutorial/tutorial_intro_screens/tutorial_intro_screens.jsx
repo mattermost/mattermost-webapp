@@ -220,7 +220,6 @@ export default class TutorialIntroScreens extends React.Component {
                     className='intro-links color--link style--none'
                     modalId={ModalIdentifiers.INVITATION}
                     dialogType={InvitationModal}
-                    dialogProps={{}}
                 >
                     <FormattedMessage
                         id='tutorial_intro.invite'

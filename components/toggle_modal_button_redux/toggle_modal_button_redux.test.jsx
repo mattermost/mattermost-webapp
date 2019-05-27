@@ -30,7 +30,6 @@ describe('components/ToggleModalButtonRedux', () => {
                 role='menuitem'
                 modalId={ModalIdentifiers.DELETE_CHANNEL}
                 dialogType={TestModal}
-                dialogProps={{}}
                 actions={{openModal: () => true}}
             >
                 <FormattedMessage

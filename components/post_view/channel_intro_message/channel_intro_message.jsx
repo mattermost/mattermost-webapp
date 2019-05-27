@@ -252,7 +252,6 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
                         className='intro-links color--link cursor--pointer'
                         modalId={ModalIdentifiers.INVITATION}
                         dialogType={InvitationModal}
-                        dialogProps={{}}
                     >
                         <FormattedMessage
                             id='generic_icons.add'
