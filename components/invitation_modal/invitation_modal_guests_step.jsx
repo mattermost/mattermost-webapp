@@ -113,7 +113,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                 </h1>
                 <div className='add-people'>
                     <h2>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='invitation_modal.guests.add_people.title'
                             defaultMessage='Add People'
                         />
@@ -140,7 +140,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                         </FormattedMessage>
                     </div>
                     <div className='help-text'>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='invitation_modal.guests.add_people.description'
                             defaultMessage='Email an invitation to new users.'
                         />
@@ -148,7 +148,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                 </div>
                 <div className='add-channels'>
                     <h2>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='invitation_modal.guests.add_channels.title'
                             defaultMessage='Search and Add Channels'
                         />
