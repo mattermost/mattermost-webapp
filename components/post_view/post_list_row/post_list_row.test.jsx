@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import * as PostListUtils from 'mattermost-redux/utils/post_list';
+import {Posts} from 'mattermost-redux/constants';
 
 import CombinedUserActivityPost from 'components/post_view/combined_user_activity_post';
 import Post from 'components/post_view/post';
@@ -87,7 +87,7 @@ describe('components/post_view/post_list_row', () => {
     test('should render combined post', () => {
         const props = {
             shouldHighlight: false,
-            listId: `${PostListUtils.COMBINED_USER_ACTIVITY}-1234-5678`,
+            listId: `${Posts.COMBINED_USER_ACTIVITY_PREFIX}1234-5678`,
             previousListId: 'abcd',
         };
         const wrapper = shallowWithIntl(

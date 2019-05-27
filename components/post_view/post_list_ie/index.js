@@ -6,12 +6,14 @@ import {connect} from 'react-redux';
 import {makeGetPostsAroundPost, makeGetPostsInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
+import {makeCombineUserActivityFromPosts} from 'selectors/posts';
+
 import PostList from './post_list_ie.jsx';
 
 function makeMapStateToProps() {
     const getPostsInChannel = makeGetPostsInChannel();
     const getPostsAroundPost = makeGetPostsAroundPost();
-
+    const combineUserActivityPosts = makeCombineUserActivityFromPosts();
     return function mapStateToProps(state, ownProps) {
         let posts;
         if (ownProps.focusedPostId) {
@@ -21,7 +23,7 @@ function makeMapStateToProps() {
         }
 
         return {
-            posts,
+            posts: combineUserActivityPosts(posts || []),
             currentUserId: getCurrentUserId(state),
             lastViewedAt: state.views.channel.lastChannelViewTime[ownProps.channelId],
         };
