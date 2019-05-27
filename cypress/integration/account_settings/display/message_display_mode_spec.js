@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -11,7 +11,7 @@
 
 describe('Account Settings > Display > Message Display', () => {
     before(() => {
-        // 1. Change message display setting to compact
+        // # Change message display setting to compact
         cy.changeMessageDisplaySetting('COMPACT');
     });
 
@@ -21,29 +21,29 @@ describe('Account Settings > Display > Message Display', () => {
     });
 
     it('M14283 Compact view: Line breaks remain intact after editing', () => {
-        // 2. Enter in text
+        // # Enter in text
         cy.get('#post_textbox').
             type('First line').
             type('{shift}{enter}{enter}').
             type('Text after{enter}');
 
-        // 3. Get last postId
+        // # Get last postId
         cy.getLastPostId().then((postId) => {
             const postMessageTextId = `#postMessageText_${postId}`;
 
             // * Verify HTML still includes new line
             cy.get(postMessageTextId).should('have.html', '<p>First line</p>\n<p>Text after</p>');
 
-            // 4. click dot menu button
+            // # click dot menu button
             cy.clickPostDotMenu();
 
-            // 5. click edit post
+            // # click edit post
             cy.get(`#edit_post_${postId}`).click();
 
-            // 6. Add ",edited" to the text
+            // # Add ",edited" to the text
             cy.get('#edit_textbox').type(',edited');
 
-            // 7. Save
+            // # Save
             cy.get('#editButton').click();
 
             // * Verify HTML includes newline and the edit

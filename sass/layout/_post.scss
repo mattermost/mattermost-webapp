@@ -1020,7 +1020,7 @@
                 padding-left: 20px;
             }
 
-            div {
+            div:not(.image-loading__container) {
                 margin-bottom: 0;
             }
 

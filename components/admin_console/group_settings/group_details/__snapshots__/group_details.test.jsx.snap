@@ -136,12 +136,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
             "66666666666666666666666666",
           ]
         }
-        excludeNames={
-          Array [
-            "town-square",
-            "off-topic",
-          ]
-        }
+        groupID="xxxxxxxxxxxxxxxxxxxxxxxxxx"
         onChannelsSelected={[Function]}
         onModalDismissed={[Function]}
       />

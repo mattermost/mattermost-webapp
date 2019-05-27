@@ -50,7 +50,7 @@ export default class AddGroupsToChannelModal extends React.Component {
 
     componentDidMount() {
         Promise.all([
-            this.props.actions.getGroupsNotAssociatedToChannel(this.props.currentChannelId, '', 0, GROUPS_PER_PAGE * 2),
+            this.props.actions.getGroupsNotAssociatedToChannel(this.props.currentChannelId, '', 0, GROUPS_PER_PAGE + 1),
             this.props.actions.getAllGroupsAssociatedToChannel(this.props.currentChannelId),
         ]).then(() => {
             this.setGroupsLoadingState(false);
@@ -140,7 +140,7 @@ export default class AddGroupsToChannelModal extends React.Component {
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
             this.setGroupsLoadingState(true);
-            this.props.actions.getGroupsNotAssociatedToChannel(this.props.currentChannelId, this.props.searchTerm, page + 1, GROUPS_PER_PAGE).then(() => {
+            this.props.actions.getGroupsNotAssociatedToChannel(this.props.currentChannelId, this.props.searchTerm, page, GROUPS_PER_PAGE + 1).then(() => {
                 this.setGroupsLoadingState(false);
             });
         }
@@ -218,11 +218,6 @@ export default class AddGroupsToChannelModal extends React.Component {
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
-        let groups = [];
-        if (this.props.groups) {
-            groups = this.props.groups.filter((user) => user.delete_at === 0);
-        }
-
         let addError = null;
         if (this.state.addError) {
             addError = (<div className='has-error col-sm-12'><label className='control-label font-weight--normal'>{this.state.addError}</label></div>);
@@ -253,7 +248,7 @@ export default class AddGroupsToChannelModal extends React.Component {
                     {addError}
                     <MultiSelect
                         key='addGroupsToChannelKey'
-                        options={groups}
+                        options={this.props.groups}
                         optionRenderer={this.renderOption}
                         values={this.state.values}
                         valueRenderer={this.renderValue}
