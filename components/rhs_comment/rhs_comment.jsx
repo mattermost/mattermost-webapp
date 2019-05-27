@@ -200,16 +200,17 @@ export default class RhsComment extends React.Component {
         let profilePicture;
         let visibleMessage;
 
-        let userProfile = (
-            <UserProfile
-                userId={post.user_id}
-                isBusy={this.props.isBusy}
-                isRHS={true}
-                hasMention={true}
-            />
-        );
-
+        let userProfile = null;
         if (!isConsecutivePost) {
+            userProfile = (
+                <UserProfile
+                    userId={post.user_id}
+                    isBusy={this.props.isBusy}
+                    isRHS={true}
+                    hasMention={true}
+                />
+            );
+
             profilePicture = (
                 <PostProfilePicture
                     compactDisplay={this.props.compactDisplay}
@@ -366,14 +367,21 @@ export default class RhsComment extends React.Component {
             );
         }
 
-        const flagIcon = (
-            <PostFlagIcon
-                location={Locations.RHS_COMMENT}
-                postId={post.id}
-                isFlagged={this.props.isFlagged}
-                isEphemeral={isEphemeral}
-            />
-        );
+        let flagIcon = null;
+        if (this.state.hover || this.state.dropdownOpened || this.state.showEmojiPicker || this.props.isFlagged) {
+            flagIcon = (
+                <PostFlagIcon
+                    location={Locations.RHS_COMMENT}
+                    postId={post.id}
+                    isFlagged={this.props.isFlagged}
+                    isEphemeral={isEphemeral}
+                />
+            );
+        }
+        let postTime = null;
+        if (!isConsecutivePost || this.state.hover || this.state.dropdownOpened || this.state.showEmojiPicker) {
+            postTime = this.renderPostTime(isEphemeral);
+        }
 
         return (
             <div
@@ -393,7 +401,7 @@ export default class RhsComment extends React.Component {
                             </div>
                             {botIndicator}
                             <div className='col'>
-                                {this.renderPostTime(isEphemeral)}
+                                {postTime}
                                 {pinnedBadge}
                                 {flagIcon}
                                 {visibleMessage}
