@@ -9,6 +9,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteIcon from 'components/svg/invite_icon';
 import InvitationModalConfirmStepTable from 'components/invitation_modal/invitation_modal_confirm_step_table';
 
+import {InviteTypes} from 'utils/constants.jsx';
+
 import './invitation_modal_confirm_step.scss';
 
 export default class InvitationModalConfirmStep extends React.Component {
@@ -16,7 +18,7 @@ export default class InvitationModalConfirmStep extends React.Component {
         teamName: PropTypes.string.isRequired,
         goBack: PropTypes.func.isRequired,
         onDone: PropTypes.func.isRequired,
-        invitesType: PropTypes.oneOf(['guest', 'member']).isRequired,
+        invitesType: PropTypes.oneOf([InviteTypes.INVITE_MEMBER, InviteTypes.INVITE_GUEST]).isRequired,
         invitesSent: PropTypes.array.isRequired,
         invitesNotSent: PropTypes.array.isRequired,
     }
@@ -28,7 +30,7 @@ export default class InvitationModalConfirmStep extends React.Component {
                 <div className='modal-icon'>
                     <InviteIcon/>
                 </div>
-                {invitesType === 'member' &&
+                {invitesType === InviteTypes.INVITE_MEMBER &&
                     <h1>
                         <FormattedMarkdownMessage
                             id='invitation_modal.confirm.members_title'
@@ -36,7 +38,7 @@ export default class InvitationModalConfirmStep extends React.Component {
                             values={{teamName}}
                         />
                     </h1>}
-                {invitesType === 'guest' &&
+                {invitesType === InviteTypes.INVITE_GUEST &&
                     <h1>
                         <FormattedMarkdownMessage
                             id='invitation_modal.confirm.guests_title'

@@ -9,6 +9,8 @@ import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import RootPortal from 'components/root_portal';
 
+import {InviteTypes} from 'utils/constants.jsx';
+
 import InvitationModalInitialStep from './invitation_modal_initial_step.jsx';
 import InvitationModalMembersStep from './invitation_modal_members_step.jsx';
 import InvitationModalGuestsStep from './invitation_modal_guests_step.jsx';
@@ -55,7 +57,7 @@ export default class InvitationModal extends React.Component {
             step,
             confirmModal: false,
             hasChanges: false,
-            invitesType: 'member',
+            invitesType: InviteTypes.INVITE_MEMBER,
             invitesSent: [],
             invitesNotSent: [],
         };
@@ -66,11 +68,11 @@ export default class InvitationModal extends React.Component {
     }
 
     goToMembers = () => {
-        this.setState({step: STEPS_INVITE_MEMBERS, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: 'member'});
+        this.setState({step: STEPS_INVITE_MEMBERS, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_MEMBER});
     }
 
     goToGuests = () => {
-        this.setState({step: STEPS_INVITE_GUESTS, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: 'guest'});
+        this.setState({step: STEPS_INVITE_GUESTS, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_GUEST});
         this.setState({});
     }
 
@@ -97,7 +99,7 @@ export default class InvitationModal extends React.Component {
 
     onMembersSubmit = async (users, emails) => {
         const invites = await this.props.actions.sendMembersInvites(this.props.currentTeam.id, users, emails);
-        this.setState({step: STEPS_INVITE_CONFIRM, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: 'member', hasChanges: false});
+        this.setState({step: STEPS_INVITE_CONFIRM, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: InviteTypes.INVITE_MEMBER, hasChanges: false});
     }
 
     onGuestsSubmit = async (users, emails, channels, message) => {
@@ -108,7 +110,7 @@ export default class InvitationModal extends React.Component {
             emails,
             message,
         );
-        this.setState({step: STEPS_INVITE_CONFIRM, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: 'guest', hasChanges: false});
+        this.setState({step: STEPS_INVITE_CONFIRM, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: InviteTypes.INVITE_GUEST, hasChanges: false});
     }
 
     render() {

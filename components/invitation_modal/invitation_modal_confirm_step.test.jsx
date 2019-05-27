@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {InviteTypes} from 'utils/constants.jsx';
+
 import InvitationModalConfirmStep from './invitation_modal_confirm_step.jsx';
 
 describe('components/invitation_modal/InvitationModalConfirmStep', () => {
@@ -13,7 +15,7 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
                 teamName='test'
                 goBack={jest.fn()}
                 onDone={jest.fn()}
-                invitesType='guest'
+                invitesType={InviteTypes.INVITE_GUEST}
                 invitesSent={[{email: 'invite1@email'}, {email: 'invite2@email'}]}
                 invitesNotSent={[{email: 'invite3@email'}, {email: 'invite4@email'}]}
             />
@@ -27,7 +29,7 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
                 teamName='test'
                 goBack={jest.fn()}
                 onDone={jest.fn()}
-                invitesType='member'
+                invitesType={InviteTypes.INVITE_MEMBER}
                 invitesSent={[{email: 'invite1@email'}, {email: 'invite2@email'}]}
                 invitesNotSent={[{email: 'invite3@email'}, {email: 'invite4@email'}]}
             />
@@ -41,7 +43,7 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
                 teamName='test'
                 goBack={jest.fn()}
                 onDone={jest.fn()}
-                invitesType='member'
+                invitesType={InviteTypes.INVITE_MEMBER}
                 invitesSent={[]}
                 invitesNotSent={[{email: 'invite3@email'}, {email: 'invite4@email'}]}
             />
@@ -55,7 +57,7 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
                 teamName='test'
                 goBack={jest.fn()}
                 onDone={jest.fn()}
-                invitesType='member'
+                invitesType={InviteTypes.INVITE_MEMBER}
                 invitesSent={[{email: 'invite1@email'}, {email: 'invite2@email'}]}
                 invitesNotSent={[]}
             />

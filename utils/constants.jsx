@@ -58,6 +58,11 @@ export const SettingsTypes = {
     TYPE_CUSTOM: 'custom',
 };
 
+export const InviteTypes = {
+    INVITE_MEMBER: 'member',
+    INVITE_GUEST: 'guest',
+};
+
 export const Preferences = {
     CATEGORY_CHANNEL_OPEN_TIME: 'channel_open_time',
     CATEGORY_DIRECT_CHANNEL_SHOW: 'direct_channel_show',
