@@ -7,7 +7,7 @@ import React from 'react';
 import EmailIcon from 'components/svg/mail_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 
-import {imageURLForUser, isGuest} from 'utils/utils.jsx';
+import {imageURLForUser, isGuest, getLongDisplayName} from 'utils/utils.jsx';
 
 import './invitation_modal_confirm_step_row.scss';
 
@@ -16,19 +16,8 @@ export default class InvitationModalConfirmStepRow extends React.Component {
         invitation: PropTypes.object.isRequired,
     }
 
-    formatUserName = (user) => {
-        let displayName = '@' + user.username;
-        if (user.first_name || user.last_name) {
-            displayName = displayName + ' - ' + user.first_name + ' ' + user.last_name;
-        }
-        if (user.nickname) {
-            displayName = displayName + ' (' + user.nickname + ')';
-        }
-        return displayName;
-    }
-
     render() {
-        const invitation = this.props.invitation;
+        const {invitation} = this.props;
         let icon;
         let username;
         let guestBadge;
@@ -41,7 +30,7 @@ export default class InvitationModalConfirmStepRow extends React.Component {
                     src={profileImg}
                 />
             );
-            username = this.formatUserName(invitation.user);
+            username = getLongDisplayName(invitation.user);
             if (isGuest(invitation.user)) {
                 guestBadge = <GuestBadge/>;
             }
