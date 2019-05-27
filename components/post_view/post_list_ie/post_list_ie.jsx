@@ -406,21 +406,20 @@ export default class PostList extends React.PureComponent {
         }
     }
 
-    loadMorePosts = (e) => {
+    loadMorePosts = async (e) => {
         if (e) {
             e.preventDefault();
         }
 
-        const {posts, postVisibility, channel} = this.props;
+        const {posts, channel} = this.props;
         const postsLength = posts.length;
 
         if (!posts) {
             return;
         }
 
-        this.props.actions.increasePostVisibility(channel.id, posts[postsLength - 1].id).then((moreToLoad) => {
-            this.setState({atEnd: !moreToLoad && postsLength < postVisibility});
-        });
+        const {moreToLoad} = await this.props.actions.increasePostVisibility(channel.id, posts[postsLength - 1].id);
+        this.setState({atEnd: !moreToLoad});
     }
 
     handleScroll = () => {
