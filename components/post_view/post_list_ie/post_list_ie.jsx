@@ -499,6 +499,7 @@ export default class PostList extends React.PureComponent {
     createPosts = (posts) => {
         const postCtls = [];
         let previousPostDay = new Date(0);
+        let previousPostId = '';
         const currentUserId = this.props.currentUserId;
         const lastViewed = this.props.lastViewedAt || 0;
 
@@ -521,6 +522,7 @@ export default class PostList extends React.PureComponent {
                     key={'post ' + (post.id || post.pending_post_id)}
                     post={post}
                     shouldHighlight={this.props.focusedPostId === post.id}
+                    previousPostId={previousPostId}
                 />
             );
 
@@ -569,6 +571,7 @@ export default class PostList extends React.PureComponent {
 
             postCtls.push(postCtl);
             previousPostDay = currentPostDay;
+            previousPostId = post.id;
         }
 
         return postCtls;
