@@ -146,6 +146,7 @@ export default class ChannelInviteModal extends React.Component {
 
         return (
             <div
+                id={`modalUserRow-${option.id}`}
                 key={option.id}
                 ref={isSelected ? 'selected' : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
@@ -225,6 +226,7 @@ export default class ChannelInviteModal extends React.Component {
 
         return (
             <Modal
+                id='addUsersToChannelModal'
                 dialogClassName='more-modal'
                 show={this.state.show}
                 onHide={this.onHide}

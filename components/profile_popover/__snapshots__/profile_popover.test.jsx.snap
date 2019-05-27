@@ -6,7 +6,9 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
   id="user-profile-popover"
   placement="right"
   title={
-    <span>
+    <span
+      id="userPopoverUserName-some_username"
+    >
       <span
         className="user-popover__username"
       >

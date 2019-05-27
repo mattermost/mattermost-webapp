@@ -3,7 +3,7 @@
 
 // ***************************************************************
 // - [#] indicates a test step (e.g. 1. Go to a page)
-// - [*] indicates an assertion (e.g. * Check the title)
+// - [*] in dicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 

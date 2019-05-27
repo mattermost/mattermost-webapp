@@ -441,8 +441,10 @@ class ProfilePopover extends React.PureComponent {
         if (this.props.hasMention) {
             title = <a onClick={this.handleMentionKeyClick}>{title}</a>;
         }
+
+        const escapedUsername = this.props.user.username.replace('.', '-');
         title = (
-            <span>
+            <span id={`userPopoverUserName-${escapedUsername}`}>
                 <span className='user-popover__username'>
                     {title}
                 </span>
