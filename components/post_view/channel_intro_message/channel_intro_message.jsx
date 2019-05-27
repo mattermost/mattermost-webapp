@@ -19,7 +19,6 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import EditIcon from 'components/icon/edit_icon';
 import InvitationModal from 'components/invitation_modal';
-import ModalToggleButtonRedux from 'components/toggle_modal_button_redux';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
@@ -248,7 +247,7 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
                     permissions={[Permissions.ADD_USER_TO_TEAM]}
                 >
                     {!teamIsGroupConstrained &&
-                    <ModalToggleButtonRedux
+                    <ToggleModalButtonRedux
                         id='introTextInvite'
                         className='intro-links color--link cursor--pointer'
                         modalId={ModalIdentifiers.INVITATION}
@@ -269,7 +268,7 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
                             id='intro_messages.inviteOthers'
                             defaultMessage='Invite others to this team'
                         />
-                    </ModalToggleButtonRedux>
+                    </ToggleModalButtonRedux>
                     }
                     {teamIsGroupConstrained &&
                     <ToggleModalButton
