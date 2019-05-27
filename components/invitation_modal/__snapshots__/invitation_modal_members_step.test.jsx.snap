@@ -23,9 +23,10 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
     className="share-link"
   >
     <h2>
-      <InjectIntl(FormattedMarkdownMessage)
+      <FormattedMessage
         defaultMessage="Share This Link"
         id="invitation_modal.members.share_link.title"
+        values={Object {}}
       />
     </h2>
     <div
@@ -43,18 +44,20 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
         <span
           className="fa fa-link"
         />
-        <InjectIntl(FormattedMarkdownMessage)
+        <FormattedMessage
           defaultMessage="Copy Link"
           id="invitation_modal.members.share_link.copy_button"
+          values={Object {}}
         />
       </button>
     </div>
     <div
       className="help-text"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <FormattedMessage
         defaultMessage="Share this link to grant member access to this team."
         id="invitation_modal.members.share_link.description"
+        values={Object {}}
       />
     </div>
   </div>
@@ -63,9 +66,10 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
   >
     <hr />
     <div>
-      <InjectIntl(FormattedMarkdownMessage)
+      <FormattedMessage
         defaultMessage="OR"
         id="invitation_modal.members.or"
+        values={Object {}}
       />
     </div>
   </div>
@@ -73,9 +77,10 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
     className="search-and-add"
   >
     <h2>
-      <InjectIntl(FormattedMarkdownMessage)
+      <FormattedMessage
         defaultMessage="Search and Add People"
         id="invitation_modal.members.search_and_add.title"
+        values={Object {}}
       />
     </h2>
     <div>
@@ -90,9 +95,10 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
     <div
       className="help-text"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <FormattedMessage
         defaultMessage="Search and add existing users or email an invitation to new users."
         id="invitation_modal.members.search-and-add.description"
+        values={Object {}}
       />
     </div>
   </div>

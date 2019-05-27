@@ -23,9 +23,10 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
     className="add-people"
   >
     <h2>
-      <InjectIntl(FormattedMarkdownMessage)
+      <FormattedMessage
         defaultMessage="Add People"
         id="invitation_modal.guests.add_people.title"
+        values={Object {}}
       />
     </h2>
     <div>
@@ -40,9 +41,10 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
     <div
       className="help-text"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <FormattedMessage
         defaultMessage="Email an invitation to new users."
         id="invitation_modal.guests.add_people.description"
+        values={Object {}}
       />
     </div>
   </div>
@@ -50,9 +52,10 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
     className="add-channels"
   >
     <h2>
-      <InjectIntl(FormattedMarkdownMessage)
+      <FormattedMessage
         defaultMessage="Search and Add Channels"
         id="invitation_modal.guests.add_channels.title"
+        values={Object {}}
       />
     </h2>
     <div>
@@ -67,9 +70,10 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
     <div
       className="help-text"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <FormattedMessage
         defaultMessage="Specify the channels the guests have access to."
         id="invitation_modal.guests.add-channels.description"
+        values={Object {}}
       />
     </div>
   </div>
@@ -79,17 +83,19 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
     <a
       onClick={[Function]}
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <FormattedMessage
         defaultMessage="Set a custom message"
         id="invitation_modal.guests.custom-message.link"
+        values={Object {}}
       />
     </a>
     <div
       className="help-text"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <FormattedMessage
         defaultMessage="Create a custom message to make your invite more personal."
         id="invitation_modal.guests.custom-message.description"
+        values={Object {}}
       />
     </div>
   </div>
