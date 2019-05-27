@@ -12,7 +12,7 @@ import {
     removeIdpSamlCertificate, uploadIdpSamlCertificate,
     removePrivateSamlCertificate, uploadPrivateSamlCertificate,
     removePublicSamlCertificate, uploadPublicSamlCertificate,
-    invalidateAllEmailInvites,
+    invalidateAllEmailInvites, testSmtp,
 } from 'actions/admin_actions';
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
@@ -919,6 +919,19 @@ export default {
                                 display_name_default: 'STARTTLS',
                             },
                         ],
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BUTTON,
+                        action: testSmtp,
+                        key: 'TestSmtpConnection',
+                        label: t('admin.environment.smtp.connectionSmtpTest'),
+                        label_default: 'Test Connection',
+                        loading: t('admin.environment.smtp.testing'),
+                        loading_default: 'Testing...',
+                        error_message: t('admin.environment.smtp.smtpFail'),
+                        error_message_default: 'Connection unsuccessful: {error}',
+                        success_message: t('admin.environment.smtp.smtpSuccess'),
+                        success_message_default: 'No errors were reported while sending an email. Please check your inbox to make sure.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
