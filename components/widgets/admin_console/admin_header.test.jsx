@@ -10,11 +10,11 @@ describe('components/widgets/admin_console/AdminHeader', () => {
     test('render component with child', () => {
         const wrapper = shallow(<AdminHeader>{'Test'}</AdminHeader>);
         expect(wrapper).toMatchInlineSnapshot(`
-<h3
-  className="admin-console-header"
+<div
+  className="admin-console__header"
 >
   Test
-</h3>
+</div>
 `
         );
     });

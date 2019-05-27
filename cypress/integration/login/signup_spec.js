@@ -2,14 +2,14 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
 describe('Signup Email page', () => {
     before(() => {
-        // 1. Go to signup email page
+        // # Go to signup email page
         cy.visit('/signup_email');
     });
 

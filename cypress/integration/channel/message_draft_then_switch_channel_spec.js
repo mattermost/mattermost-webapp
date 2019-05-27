@@ -2,10 +2,12 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Message Draft and Switch Channels', () => {
     before(() => {
@@ -45,7 +47,7 @@ describe('Message Draft and Switch Channels', () => {
 
         // # Type the first few letters of the channel name you typed the message draft in
         cy.get('#quickSwitchInput').type('tow');
-        cy.wait(500);  // eslint-disable-line
+        cy.wait(TIMEOUTS.TINY);
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('be.visible');
