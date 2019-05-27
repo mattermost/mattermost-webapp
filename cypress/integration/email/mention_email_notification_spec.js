@@ -12,7 +12,7 @@
 import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-const reUrl = /(https?:\/\/[^ ]*)/;
+import {reUrl} from '../../utils';
 
 const user1 = users['user-1'];
 const user2 = users['user-2'];
