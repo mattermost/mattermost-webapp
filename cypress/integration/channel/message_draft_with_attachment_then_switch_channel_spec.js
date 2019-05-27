@@ -24,7 +24,6 @@ function createNewChannel(name, header, purpose, type) {
     if (cy.get('#createChannelError')) {
         cy.get('#cancelNewChannel').click();
     }
-
 }
 
 describe('Message Draft with attachment and Switch Channels', () => {
