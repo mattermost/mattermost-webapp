@@ -192,7 +192,7 @@ describe('PostList', () => {
                 expected: true,
             },
             {
-                name: 'when clientHeight is less than scrollHeight', // scrollHeight is a state calue in virt list and can be one cycle off when compared to actual value
+                name: 'when clientHeight is less than scrollHeight', // scrollHeight is a state value in virt list and can be one cycle off when compared to actual value
                 scrollOffset: 501,
                 expected: true,
             },
