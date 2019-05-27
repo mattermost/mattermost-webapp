@@ -39,8 +39,12 @@ export default class InvitationModalMembersStep extends React.Component {
         if (isEmail(term)) {
             return [];
         }
-        const {data} = await this.props.searchProfiles(term);
-        return data;
+        try {
+            const {data} = await this.props.searchProfiles(term);
+            return data;
+        } catch (error) {
+            return [];
+        }
     }
     debouncedUsersLoader = debouncePromise(this.usersLoader, 150);
 
