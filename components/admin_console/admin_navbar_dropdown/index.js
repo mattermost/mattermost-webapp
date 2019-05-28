@@ -16,6 +16,7 @@ function mapStateToProps(state) {
     return {
         locale: getCurrentLocale(state),
         teams: getMyTeams(state),
+        siteName: state.config.SiteName,
         navigationBlocked: getNavigationBlocked(state),
     };
 }
