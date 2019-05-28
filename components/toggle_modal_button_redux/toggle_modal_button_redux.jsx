@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {intlShape} from 'react-intl';
 
 export default class ModalToggleButtonRedux extends React.Component {
     static propTypes = {
@@ -15,6 +16,10 @@ export default class ModalToggleButtonRedux extends React.Component {
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequired,
         }).isRequired,
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     static defaultProps = {
@@ -56,11 +61,14 @@ export default class ModalToggleButtonRedux extends React.Component {
             };
         }
 
+
         return (
             <button
                 {...props}
                 className={'style--none ' + props.className}
+                data-toggle='modal toggle'
                 onClick={clickHandler}
+                aria-label={children + this.context.intl.formatMessage({id: 'accessibility.button.dialog', defaultMessage: ' Dialog'})}
             >
                 {children}
             </button>
