@@ -206,7 +206,8 @@ export default class AboutBuildModal extends React.PureComponent {
                     <Modal.Title>
                         <FormattedMessage
                             id='about.title'
-                            defaultMessage='About Mattermost'
+                            values={{appTitle: config.SiteName || 'Mattermost'}}
+                            defaultMessage='About {appTitle}'
                         />
                     </Modal.Title>
                 </Modal.Header>

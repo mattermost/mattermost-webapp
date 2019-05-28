@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape, injectIntl} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 
@@ -20,9 +20,11 @@ import MenuItemExternalLink from 'components/widgets/menu/menu_items/menu_item_e
 import MenuItemToggleModalRedux from 'components/widgets/menu/menu_items/menu_item_toggle_modal_redux';
 import MenuItemBlockableLink from 'components/widgets/menu/menu_items/menu_item_blockable_link';
 
-export default class AdminNavbarDropdown extends React.Component {
+class AdminNavbarDropdown extends React.Component {
     static propTypes = {
         locale: PropTypes.string.isRequired,
+        siteName: PropTypes.string,
+        intl: intlShape.isRequired,
         navigationBlocked: PropTypes.bool,
         teams: PropTypes.arrayOf(PropTypes.object).isRequired,
         actions: PropTypes.shape({
@@ -40,7 +42,7 @@ export default class AdminNavbarDropdown extends React.Component {
     };
 
     render() {
-        const {locale, teams} = this.props;
+        const {locale, teams, intl, siteName} = this.props;
         const teamToRender = []; // Array of team components
         let switchTeams;
 
@@ -100,7 +102,7 @@ export default class AdminNavbarDropdown extends React.Component {
                     <MenuItemToggleModalRedux
                         modalId={ModalIdentifiers.ABOUT}
                         dialogType={AboutBuildModal}
-                        text={Utils.localizeMessage('navbar_dropdown.about', 'About Mattermost')}
+                        text={intl.formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: siteName || 'Mattermost'})}
                     />
                 </MenuGroup>
                 <MenuGroup>
@@ -113,3 +115,5 @@ export default class AdminNavbarDropdown extends React.Component {
         );
     }
 }
+
+export default injectIntl(AdminNavbarDropdown);

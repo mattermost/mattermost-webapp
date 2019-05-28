@@ -37,9 +37,13 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
       componentClass="h4"
     >
       <FormattedMessage
-        defaultMessage="About Mattermost"
+        defaultMessage="About {appTitle}"
         id="about.title"
-        values={Object {}}
+        values={
+          Object {
+            "appTitle": "Mattermost",
+          }
+        }
       />
     </ModalTitle>
   </ModalHeader>
@@ -278,9 +282,13 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
       componentClass="h4"
     >
       <FormattedMessage
-        defaultMessage="About Mattermost"
+        defaultMessage="About {appTitle}"
         id="about.title"
-        values={Object {}}
+        values={
+          Object {
+            "appTitle": "Mattermost",
+          }
+        }
       />
     </ModalTitle>
   </ModalHeader>
@@ -507,9 +515,13 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
       componentClass="h4"
     >
       <FormattedMessage
-        defaultMessage="About Mattermost"
+        defaultMessage="About {appTitle}"
         id="about.title"
-        values={Object {}}
+        values={
+          Object {
+            "appTitle": "Mattermost",
+          }
+        }
       />
     </ModalTitle>
   </ModalHeader>
@@ -748,9 +760,13 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
       componentClass="h4"
     >
       <FormattedMessage
-        defaultMessage="About Mattermost"
+        defaultMessage="About {appTitle}"
         id="about.title"
-        values={Object {}}
+        values={
+          Object {
+            "appTitle": "Mattermost",
+          }
+        }
       />
     </ModalTitle>
   </ModalHeader>

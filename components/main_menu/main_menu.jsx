@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Permissions} from 'mattermost-redux/constants';
+import {intlShape, injectIntl} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
@@ -31,13 +32,15 @@ import MenuItemExternalLink from 'components/widgets/menu/menu_items/menu_item_e
 import MenuItemLink from 'components/widgets/menu/menu_items/menu_item_link.jsx';
 import MenuItemToggleModalRedux from 'components/widgets/menu/menu_items/menu_item_toggle_modal_redux.jsx';
 
-export default class MainMenu extends React.PureComponent {
+export class MainMenu extends React.PureComponent {
     static propTypes = {
         mobile: PropTypes.bool.isRequired,
         id: PropTypes.string,
         teamId: PropTypes.string,
         teamType: PropTypes.string,
         teamName: PropTypes.string,
+        siteName: PropTypes.string,
+        intl: intlShape.isRequired,
         currentUser: PropTypes.object,
         appDownloadLink: PropTypes.string,
         enableCommands: PropTypes.bool.isRequired,
@@ -315,7 +318,7 @@ export default class MainMenu extends React.PureComponent {
                         id='about'
                         modalId={ModalIdentifiers.ABOUT}
                         dialogType={AboutBuildModal}
-                        text={localizeMessage('navbar_dropdown.about', 'About Mattermost')}
+                        text={this.props.intl.formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName || 'Mattermost'})}
                         icon={this.props.mobile && <i className='fa fa-info'/>}
                     />
                 </MenuGroup>
@@ -331,3 +334,5 @@ export default class MainMenu extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(MainMenu);
