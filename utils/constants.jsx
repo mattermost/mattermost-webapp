@@ -430,7 +430,6 @@ export const NotificationSections = {
 
 export const AdvancedSections = {
     CONTROL_SEND: 'advancedCtrlSend',
-    CODE_BLOCK_ON_CTRL_ENTER: 'codeBlockOnCtrlEnter',
     FORMATTING: 'formatting',
     JOIN_LEAVE: 'joinLeave',
     PREVIEW_FEATURES: 'advancedPreviewFeatures',
