@@ -97,6 +97,7 @@
     "eslint-plugin-header": "3.0.0",
     "eslint-plugin-import": "2.16.0",
     "eslint-plugin-react": "7.12.4",
+    "eslint-plugin-react-perf": "^3.1.0",
     "exports-loader": "0.7.0",
     "file-loader": "3.0.1",
     "html-loader": "0.5.5",
@@ -180,7 +181,7 @@
     "output": "build/test-results.xml"
   },
   "scripts": {
-    "check": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx . --quiet",
+    "check": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx .",
     "fix": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx . --quiet --fix",
     "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose",
     "run": "webpack --progress --watch",
