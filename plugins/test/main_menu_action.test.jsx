@@ -2,10 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
-import {IntlProvider} from 'react-intl';
 
-import {MainMenu} from 'components/main_menu/main_menu.jsx';
+import MainMenu from 'components/main_menu/main_menu.jsx';
+import {shallowWithIntl} from "tests/helpers/intl-test-helper.jsx";
 
 describe('plugins/MainMenuActions', () => {
     test('should match snapshot and click plugin item for main menu', () => {
@@ -39,12 +38,9 @@ describe('plugins/MainMenuActions', () => {
             },
         };
 
-        const intlProvider = new IntlProvider({locale: 'en'});
-        const {intl} = intlProvider.getChildContext();
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <MainMenu
                 {...requiredProps}
-                intl={intl}
             />);
 
         expect(wrapper).toMatchSnapshot();
