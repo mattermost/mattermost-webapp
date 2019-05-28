@@ -70,7 +70,6 @@ describe('Message permalink', () => {
 
         // # get current team id
         cy.getCurrentTeamId().then((teamId) => {
-
             // # create public channel to post permalink
             cy.apiCreateChannel(teamId, channelName, channelName, 'O', 'Test channel').then((response) => {
                 testChannel = response.body;
