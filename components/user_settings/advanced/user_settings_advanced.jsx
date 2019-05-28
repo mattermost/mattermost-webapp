@@ -207,23 +207,6 @@ export default class AdvancedSettingsDisplay extends React.Component {
         );
     }
 
-    handleCtrlEnterSetting(option) {
-        switch (option) {
-        case 0:
-            this.updateSetting('send_on_ctrl_enter', 'true');
-            this.updateSetting('code_block_ctrl_enter', 'true');
-            break;
-        case 1:
-            this.updateSetting('send_on_ctrl_enter', 'false');
-            this.updateSetting('code_block_ctrl_enter', 'true');
-            break;
-        case 2:
-            this.updateSetting('send_on_ctrl_enter', 'false');
-            this.updateSetting('code_block_ctrl_enter', 'false');
-            break;
-        }
-    }
-
     renderCtrlEnterLabel() {
         const ctrlEnter = this.state.settings.send_on_ctrl_enter;
         const codeBlockCtrlEnter = this.state.settings.code_block_ctrl_enter;
@@ -362,7 +345,10 @@ export default class AdvancedSettingsDisplay extends React.Component {
                                 type='radio'
                                 name='sendOnCtrlEnter'
                                 checked={ctrlSendActive[0]}
-                                onChange={this.handleCtrlEnterSetting.bind(this, 0)}
+                                onChange={() => {
+                                    this.updateSetting('send_on_ctrl_enter', 'true');
+                                    this.updateSetting('code_block_ctrl_enter', 'true');
+                                }}
                             />
                             <FormattedMessage
                                 id='user.settings.advance.onForAllMessages'
@@ -378,7 +364,10 @@ export default class AdvancedSettingsDisplay extends React.Component {
                                 type='radio'
                                 name='sendOnCtrlEnter'
                                 checked={ctrlSendActive[1]}
-                                onChange={this.handleCtrlEnterSetting.bind(this, 1)}
+                                onChange={() => {
+                                    this.updateSetting('send_on_ctrl_enter', 'false');
+                                    this.updateSetting('code_block_ctrl_enter', 'true');
+                                }}
                             />
                             <FormattedMessage
                                 id='user.settings.advance.onForCode'
@@ -394,7 +383,10 @@ export default class AdvancedSettingsDisplay extends React.Component {
                                 type='radio'
                                 name='sendOnCtrlEnter'
                                 checked={ctrlSendActive[2]}
-                                onChange={this.handleCtrlEnterSetting.bind(this, 2)}
+                                onChange={() => {
+                                    this.updateSetting('send_on_ctrl_enter', 'false');
+                                    this.updateSetting('code_block_ctrl_enter', 'false');
+                                }}
                             />
                             <FormattedMessage
                                 id='user.settings.advance.off'
