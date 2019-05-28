@@ -308,16 +308,21 @@ export default class PostList extends React.PureComponent {
 
     renderRow = ({data, itemId, style}) => {
         const index = data.indexOf(itemId);
-        const previousItemId = getPreviousPostId(data, index);
-        const nextItemId = (index !== 0 && index < data.length) ? data[index - 1] : '';
         let className = '';
+        const basePaddingClass = 'post-row__padding';
+        const previousItemId = (index !== -1 && index < data.length - 1) ? data[index + 1] : '';
+        const nextItemId = (index > 0 && index < data.length) ? data[index - 1] : '';
 
         if (isDateLine(nextItemId) || isStartOfNewMessages(nextItemId)) {
-            className += 'post-row__padding bottom';
+            className += basePaddingClass + ' bottom';
         }
 
         if (isDateLine(previousItemId) || isStartOfNewMessages(previousItemId)) {
-            className += ' post-row__padding top';
+            if (className.includes(basePaddingClass)) {
+                className += ' top';
+            } else {
+                className += basePaddingClass + ' top';
+            }
         }
 
         return (
@@ -327,7 +332,7 @@ export default class PostList extends React.PureComponent {
             >
                 <PostListRow
                     listId={itemId}
-                    previousListId={previousItemId}
+                    previousListId={getPreviousPostId(data, index)}
                     channel={this.props.channel}
                     shouldHighlight={itemId === this.props.focusedPostId}
                     loadMorePosts={this.loadMorePosts}
