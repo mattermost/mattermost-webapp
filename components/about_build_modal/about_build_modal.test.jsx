@@ -3,8 +3,9 @@
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
+import {shallow} from 'enzyme';
 
-import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import AboutBuildModal from 'components/about_build_modal/about_build_modal.jsx';
 
 describe('components/AboutBuildModal', () => {
@@ -128,6 +129,6 @@ describe('components/AboutBuildModal', () => {
             ...props,
         };
 
-        return shallowWithIntl(<AboutBuildModal {...allProps}/>);
+        return shallow(<AboutBuildModal {...allProps}/>);
     }
 });
