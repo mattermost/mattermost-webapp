@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Permissions} from 'mattermost-redux/constants';
-import {intlShape, injectIntl} from 'react-intl';
+import {intlShape} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
@@ -34,7 +34,7 @@ import MenuItemLink from 'components/widgets/menu/menu_items/menu_item_link.jsx'
 import MenuItemToggleModalRedux from 'components/widgets/menu/menu_items/menu_item_toggle_modal_redux.jsx';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
-export class MainMenu extends React.PureComponent {
+export default class MainMenu extends React.PureComponent {
     static propTypes = {
         mobile: PropTypes.bool.isRequired,
         id: PropTypes.string,
@@ -42,7 +42,6 @@ export class MainMenu extends React.PureComponent {
         teamType: PropTypes.string,
         teamName: PropTypes.string,
         siteName: PropTypes.string,
-        intl: intlShape.isRequired,
         currentUser: PropTypes.object,
         appDownloadLink: PropTypes.string,
         enableCommands: PropTypes.bool.isRequired,
@@ -73,6 +72,10 @@ export class MainMenu extends React.PureComponent {
         teamType: '',
         mobile: false,
         pluginMenuItems: [],
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     toggleShortcutsModal = (e) => {
@@ -126,6 +129,8 @@ export class MainMenu extends React.PureComponent {
         if (!currentUser) {
             return null;
         }
+
+        const {formatMessage} = this.context.intl;
 
         const pluginItems = this.props.pluginMenuItems.map((item) => {
             return (
@@ -356,7 +361,7 @@ export class MainMenu extends React.PureComponent {
                         id='about'
                         modalId={ModalIdentifiers.ABOUT}
                         dialogType={AboutBuildModal}
-                        text={this.props.intl.formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName || 'Mattermost'})}
+                        text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName || 'Mattermost'})}
                         icon={this.props.mobile && <i className='fa fa-info'/>}
                     />
                 </MenuGroup>
@@ -372,5 +377,3 @@ export class MainMenu extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(MainMenu);

@@ -2,22 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
-import {IntlProvider} from 'react-intl';
 
 import {Constants} from 'utils/constants.jsx';
 
-import {MainMenu} from './main_menu.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
-function shallowWithIntl(Component, props) {
-    const intlProvider = new IntlProvider({locale: 'en'}, {});
-    const {intl} = intlProvider.getChildContext();
-    return shallow(
-        <Component
-            {...props}
-            intl={intl}
-        />);
-}
+import MainMenu from './main_menu.jsx';
 
 describe('components/Menu', () => {
     const defaultProps = {
@@ -53,18 +43,18 @@ describe('components/Menu', () => {
 
     test('should match snapshot with id', () => {
         const props = {...defaultProps, id: 'test-id'};
-        const wrapper = shallowWithIntl(MainMenu, props);
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with most of the thing disabled', () => {
-        const wrapper = shallowWithIntl(MainMenu, defaultProps);
+        const wrapper = shallowWithIntl(<MainMenu {...defaultProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with most of the thing disabled in mobile', () => {
         const props = {...defaultProps, mobile: true};
-        const wrapper = shallowWithIntl(MainMenu, props);
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -85,7 +75,7 @@ describe('components/Menu', () => {
             reportAProblemLink: 'test-report-link',
             moreTeamsToJoin: true,
         };
-        const wrapper = shallowWithIntl(MainMenu, props);
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -107,7 +97,7 @@ describe('components/Menu', () => {
             reportAProblemLink: 'test-report-link',
             moreTeamsToJoin: true,
         };
-        const wrapper = shallowWithIntl(MainMenu, props);
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -119,7 +109,7 @@ describe('components/Menu', () => {
                 {id: 'plugin-2', action: jest.fn(), text: 'plugin-2-text', mobileIcon: 'plugin-2-mobile-icon'},
             ],
         };
-        const wrapper = shallowWithIntl(MainMenu, props);
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -132,7 +122,7 @@ describe('components/Menu', () => {
                 {id: 'plugin-2', action: jest.fn(), text: 'plugin-2-text', mobileIcon: 'plugin-2-mobile-icon'},
             ],
         };
-        const wrapper = shallowWithIntl(MainMenu, props);
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 });
