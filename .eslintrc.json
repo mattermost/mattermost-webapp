@@ -6,8 +6,7 @@
   ],
   "plugins": [
     "import",
-    "cypress",
-    "react-perf"
+    "cypress"
   ],
   "env": {
     "jest": true,
@@ -52,10 +51,7 @@
     "multiline-ternary": 0,
     "react/no-find-dom-node": 0,
     "react/jsx-filename-extension": 0,
-    "no-warning-comments": 0,
-    "react-perf/jsx-no-new-object-as-prop": 1,
-    "react-perf/jsx-no-new-array-as-prop": 1,
-    "react-perf/jsx-no-jsx-as-prop": 0
+    "no-warning-comments": 0
   },
   "overrides": [
     {

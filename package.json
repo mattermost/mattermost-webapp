@@ -97,7 +97,6 @@
     "eslint-plugin-header": "3.0.0",
     "eslint-plugin-import": "2.16.0",
     "eslint-plugin-react": "7.12.4",
-    "eslint-plugin-react-perf": "^3.1.0",
     "exports-loader": "0.7.0",
     "file-loader": "3.0.1",
     "html-loader": "0.5.5",
