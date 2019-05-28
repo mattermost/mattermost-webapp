@@ -16,8 +16,6 @@ import ActionButton from '../action_button';
 import ActionMenu from '../action_menu';
 import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
 
-const MAX_ATTACHMENT_TEXT_HEIGHT = 200;
-
 export default class MessageAttachment extends React.PureComponent {
     static propTypes = {
 
@@ -327,7 +325,6 @@ export default class MessageAttachment extends React.PureComponent {
                 <ShowMore
                     checkOverflow={this.state.checkOverflow}
                     isAttachmentText={true}
-                    maxHeight={MAX_ATTACHMENT_TEXT_HEIGHT}
                     text={attachment.text}
                 >
                     <Markdown
