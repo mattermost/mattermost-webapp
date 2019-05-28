@@ -32,7 +32,7 @@ describe('Message permalink', () => {
     });
 
     it('M13675-Copy a permalink and paste into another channel', () => {
-        const message = 'Hello';
+        const message = 'Hello' + Date.now();
         const channelName = 'test-message-channel-1';
 
         // # Create new DM channel with user's email
@@ -40,7 +40,6 @@ describe('Message permalink', () => {
 
         // # Post message to user
         cy.postMessage(message + '{enter}');
-
         cy.getLastPostId().then((postId) => {
             // # check if ... button is visible in last post right side
             cy.get(`#CENTER_button_${postId}`).should('be.visible');
@@ -83,7 +82,6 @@ describe('Message permalink', () => {
 
                 // # Get last post id from that postlist area
                 cy.getLastPostId().then((postId) => {
-
                     // # Click on permalink
                     cy.get(`#postMessageText_${postId}`).click();
 
