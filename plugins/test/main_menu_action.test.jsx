@@ -39,9 +39,13 @@ describe('plugins/MainMenuActions', () => {
             },
         };
 
-        const intlProvider = new IntlProvider({ locale: 'en'});
+        const intlProvider = new IntlProvider({locale: 'en'});
         const {intl} = intlProvider.getChildContext();
-        const wrapper = shallow(<MainMenu {...requiredProps} intl={intl}/>);
+        const wrapper = shallow(
+            <MainMenu
+                {...requiredProps}
+                intl={intl}
+            />);
 
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.findWhere((node) => node.key() === 'someplugin_pluginmenuitem').props().text).toBe('some plugin text');

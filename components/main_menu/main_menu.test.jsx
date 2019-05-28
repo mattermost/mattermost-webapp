@@ -12,7 +12,11 @@ import {MainMenu} from './main_menu.jsx';
 function shallowWithIntl(Component, props) {
     const intlProvider = new IntlProvider({locale: 'en'}, {});
     const {intl} = intlProvider.getChildContext();
-    return shallow(<Component {...props} intl={intl}/>);
+    return shallow(
+        <Component
+            {...props}
+            intl={intl}
+        />);
 }
 
 describe('components/Menu', () => {
