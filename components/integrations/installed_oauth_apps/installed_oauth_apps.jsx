@@ -8,6 +8,8 @@ import {FormattedMessage} from 'react-intl';
 import {localizeMessage} from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import InstalledOAuthApp from '../installed_oauth_app';
+import {matchesFilter} from '../installed_oauth_app/installed_oauth_app';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class InstalledOAuthApps extends React.PureComponent {
     static propTypes = {
@@ -91,8 +93,10 @@ export default class InstalledOAuthApps extends React.PureComponent {
         return nameA.localeCompare(nameB);
     }
 
-    render() {
-        const oauthApps = Object.values(this.props.oauthApps).sort(this.oauthAppCompare).map((app) => {
+    oauthApps = (filter) => Object.values(this.props.oauthApps).
+        filter((app) => matchesFilter(app, filter)).
+        sort(this.oauthAppCompare).
+        map((app) => {
             return (
                 <InstalledOAuthApp
                     key={app.id}
@@ -105,12 +109,14 @@ export default class InstalledOAuthApps extends React.PureComponent {
             );
         });
 
+    render() {
         const integrationsEnabled = this.props.enableOAuthServiceProvider && this.props.canManageOauth;
         let props;
         if (integrationsEnabled) {
             props = {
                 addLink: '/' + this.props.team.name + '/integrations/oauth2-apps/add',
                 addText: localizeMessage('installed_oauth_apps.add', 'Add OAuth 2.0 Application'),
+                addButtonId: 'addOauthApp',
             };
         }
 
@@ -160,11 +166,20 @@ export default class InstalledOAuthApps extends React.PureComponent {
                         defaultMessage='No OAuth 2.0 Applications found'
                     />
                 }
+                emptyTextSearch={
+                    <FormattedMarkdownMessage
+                        id='installed_oauth_apps.emptySearch'
+                        defaultMessage='No OAuth 2.0 Applications match {searchTerm}'
+                    />
+                }
                 searchPlaceholder={localizeMessage('installed_oauth_apps.search', 'Search OAuth 2.0 Applications')}
                 loading={this.state.loading}
                 {...props}
             >
-                {oauthApps}
+                {(filter) => {
+                    const children = this.oauthApps(filter);
+                    return [children, children.length > 0];
+                }}
             </BackstageList>
         );
     }

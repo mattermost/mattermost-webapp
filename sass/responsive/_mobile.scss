@@ -26,9 +26,27 @@
         }
     }
 
+    .post__header {
+        .dropdown-menu {
+            >li {
+                >button {
+                    @include border-radius(0);
+                    border-top: 1px solid;
+                    padding: 15px 20px;
+                    height: auto;
+                }
+
+                &:first-child {
+                    button {
+                        border: none;
+                    }
+                }
+            }
+        }
+    }
+
     .app__body {
-        .post,
-        .post-create {
+        .post {
             .Menu {
                 @include border-radius(0);
                 border: 0px;
@@ -58,22 +76,8 @@
                 .MenuItem {
                     z-index: 9999;
                     background: $white;
-
                     &:last-child button {
                         border-bottom: 0px;
-                    }
-
-                    > button {
-                        @include border-radius(0);
-                        border-top: 1px solid;
-                        padding: 0 20px;
-                        height: 50px;
-                    }
-
-                    &:first-child {
-                        button {
-                            border: none;
-                        }
                     }
                 }
             }
@@ -159,6 +163,12 @@
                 .app-content & {
                     border-left: none;
                     border-right: none;
+                }
+            }
+
+            .post-body__actions {
+                .Menu.dropdown-menu {
+                    max-height: 80vh;
                 }
             }
         }
@@ -353,7 +363,7 @@
 
     .post {
         &:not(.post--compact) {
-            .bot-indicator {
+            .Badge {
                 left: 6px;
                 top: 31px;
             }
@@ -1315,7 +1325,7 @@
 
                     &:hover,
                     &:focus {
-                        background: transparent !important;
+                        background: transparent;
                     }
                 }
             }
@@ -1508,7 +1518,7 @@
             display: none;
 
             &.move--right {
-                display: block;
+                display: flex;
                 @include translate3d(0, 0, 0);
             }
         }
@@ -1774,6 +1784,16 @@
         left: 50px !important;
     }
 
+    .post {
+        .attachment {
+            .attachment-actions {
+                button {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
     .nav-tabs {
         margin-top: 1em;
 
@@ -1783,6 +1803,15 @@
             a {
                 font-size: .9em;
                 padding: 6px 11px;
+            }
+        }
+    }
+
+    .emoji-picker {
+        &.emoji-picker--single {
+            .emoji-picker__inner {
+                margin-top: 59px;
+                height: calc(100vh - 60px);
             }
         }
     }

@@ -53,6 +53,7 @@ export default class FileThumbnail extends React.PureComponent {
         } else if (fileInfo.extension === FileTypes.SVG) {
             thumbnail = (
                 <img
+                    alt={'file thumbnail image'}
                     className='post-image normal'
                     src={getFileUrl(fileInfo.id)}
                 />

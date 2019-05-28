@@ -88,6 +88,8 @@ class UserSettingsModal extends React.Component {
         // If set by a child, it will be called in place of showing the regular confirm
         // modal. It will be passed a function to call on modal confirm
         this.customConfirmAction = null;
+
+        this.modalBodyRef = React.createRef();
     }
 
     handleResend = (email) => {
@@ -110,9 +112,13 @@ class UserSettingsModal extends React.Component {
         document.removeEventListener('keydown', this.handleKeyDown);
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
         if (!Utils.isMobile()) {
             $('.settings-content .minimize-settings').perfectScrollbar('update');
+        }
+
+        if (this.state.active_tab !== prevState.active_tab) {
+            $(ReactDOM.findDOMNode(this.modalBodyRef.current)).scrollTop(0);
         }
     }
 
@@ -146,7 +152,7 @@ class UserSettingsModal extends React.Component {
 
     // Called to hide the settings pane when on mobile
     handleCollapse = () => {
-        $(ReactDOM.findDOMNode(this.refs.modalBody)).closest('.modal-dialog').removeClass('display--content');
+        $(ReactDOM.findDOMNode(this.modalBodyRef.current)).closest('.modal-dialog').removeClass('display--content');
 
         this.setState({
             active_tab: '',
@@ -258,19 +264,24 @@ class UserSettingsModal extends React.Component {
                 onHide={this.handleHide}
                 onExited={this.handleHidden}
                 enforceFocus={this.state.enforceFocus}
+                role='dialog'
+                aria-labelledby='accountSettingsModalLabel'
             >
                 <Modal.Header
                     id='accountSettingsHeader'
                     closeButton={true}
                 >
-                    <Modal.Title id='accountSettingsTitle'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='accountSettingsModalLabel'
+                    >
                         <FormattedMessage
                             id='user.settings.modal.title'
                             defaultMessage='Account Settings'
                         />
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body ref='modalBody'>
+                <Modal.Body ref={this.modalBodyRef}>
                     <div className='settings-table'>
                         <div className='settings-links'>
                             <AsyncComponent
@@ -283,7 +294,6 @@ class UserSettingsModal extends React.Component {
                         <div className='settings-content minimize-settings'>
                             <AsyncComponent
                                 doLoad={loadUserSettings}
-                                ref='userSettings'
                                 activeTab={this.state.active_tab}
                                 activeSection={this.state.active_section}
                                 prevActiveSection={this.state.prev_active_section}

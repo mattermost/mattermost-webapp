@@ -139,7 +139,7 @@ export default class TeamUrl extends React.PureComponent {
         const {data, error} = await createTeam(teamSignup.team);
 
         if (data) {
-            this.props.history.push('/' + data.name + '/channels/town-square');
+            this.props.history.push('/' + data.name + '/channels/' + Constants.DEFAULT_CHANNEL);
             trackEvent('signup', 'signup_team_03_complete');
         } else if (error) {
             this.setState({nameError: error.message});
@@ -185,6 +185,7 @@ export default class TeamUrl extends React.PureComponent {
             <div>
                 <form>
                     <img
+                        alt={'signup team logo'}
                         className='signup-team-logo'
                         src={logoImage}
                     />

@@ -21,6 +21,10 @@ jest.mock('utils/browser_history', () => ({
     },
 }));
 
+jest.mock('utils/channel_utils.jsx', () => ({
+    getRedirectChannelNameForTeam: () => 'town-square',
+}));
+
 jest.mock('actions/channel_actions.jsx', () => ({
     openDirectChannelToUserId: jest.fn(() => {
         return {type: ''};
@@ -49,7 +53,7 @@ describe('channel view actions', () => {
         entities: {
             users: {
                 currentUserId: 'userid1',
-                profiles: {userid1: {id: 'userid1', username: 'username1'}, userid2: {id: 'userid2', username: 'username2'}},
+                profiles: {userid1: {id: 'userid1', username: 'username1', roles: 'system_user'}, userid2: {id: 'userid2', username: 'username2', roles: 'system_user'}},
                 profilesInChannel: {},
             },
             teams: {
@@ -60,9 +64,18 @@ describe('channel view actions', () => {
                 currentChannelId: 'channelid1',
                 channels: {channelid1: channel1, channelid2: townsquare, gmchannelid: gmChannel},
                 myMembers: {gmchannelid: {channel_id: 'gmchannelid', user_id: 'userid1'}},
+                channelsInTeam: {
+                    [team1.id]: [channel1.id, townsquare.id],
+                },
             },
             general: {
                 config: {},
+                serverVersion: '5.12.0',
+            },
+            roles: {
+                roles: {
+                    system_user: {permissions: ['join_public_channels']},
+                },
             },
             preferences: {
                 myPreferences: {},
@@ -102,9 +115,9 @@ describe('channel view actions', () => {
 
     describe('leaveChannel', () => {
         test('leave a channel successfully', async () => {
-            await store.dispatch(Actions.leaveChannel('channelid'));
-            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/channels/town-square`);
-            expect(leaveChannel).toHaveBeenCalledWith('channelid');
+            await store.dispatch(Actions.leaveChannel('channelid1'));
+            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}`);
+            expect(leaveChannel).toHaveBeenCalledWith('channelid1');
         });
     });
 

@@ -26,6 +26,9 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         schemes: PropTypes.object.isRequired,
         jobsAreEnabled: PropTypes.bool,
         clusterIsEnabled: PropTypes.bool,
+        license: PropTypes.shape({
+            CustomPermissionsSchemes: PropTypes.string,
+        }),
         actions: PropTypes.shape({
             loadSchemes: PropTypes.func.isRequired,
             loadSchemeTeams: PropTypes.func.isRequired,
@@ -128,10 +131,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         );
     };
 
-    render = () => {
-        if (this.state.loading) {
-            return (<LoadingScreen/>);
-        }
+    renderTeamOverrideSchemes = () => {
         const schemes = Object.values(this.props.schemes).map((scheme) => (
             <PermissionsSchemeSummary
                 scheme={scheme}
@@ -139,44 +139,18 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                 key={scheme.id}
             />
         ));
-
+        const hasCustomSchemes = this.props.license.CustomPermissionsSchemes === 'true';
         const teamOverrideView = this.teamOverrideSchemesMigrationView();
 
-        return (
-            <div className='wrapper--fixed'>
-                <FormattedAdminHeader
-                    id='admin.permissions.permissionSchemes'
-                    defaultMessage='Permission Schemes'
-                />
-                <div className={'banner info'}>
-                    <div className='banner__content'>
-                        <span>
-                            <FormattedMarkdownMessage
-                                id='admin.permissions.introBanner'
-                                defaultMessage='Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions).'
-                            />
-                        </span>
-                    </div>
-                </div>
-
-                <AdminPanelWithLink
-                    titleId={t('admin.permissions.systemSchemeBannerTitle')}
-                    titleDefault='System Scheme'
-                    subtitleId={t('admin.permissions.systemSchemeBannerText')}
-                    subtitleDefault='Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied.'
-                    url='/admin_console/permissions/system-scheme'
-                    disabled={teamOverrideView !== null}
-                    linkTextId={t('admin.permissions.systemSchemeBannerButton')}
-                    linkTextDefault='Edit Scheme'
-                />
-
+        if (hasCustomSchemes) {
+            return (
                 <AdminPanelWithLink
                     className='permissions-block'
                     titleId={t('admin.permissions.teamOverrideSchemesTitle')}
                     titleDefault='Team Override Schemes'
                     subtitleId={t('admin.permissions.teamOverrideSchemesBannerText')}
                     subtitleDefault='Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme).'
-                    url='/admin_console/permissions/team-override-scheme'
+                    url='/admin_console/user_management/permissions/team_override_scheme'
                     disabled={teamOverrideView !== null}
                     linkTextId={t('admin.permissions.teamOverrideSchemesNewButton')}
                     linkTextDefault='New Team Override Scheme'
@@ -207,6 +181,52 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                             </LoadingWrapper>
                         </button>}
                 </AdminPanelWithLink>
+            );
+        }
+        return false;
+    }
+
+    render = () => {
+        if (this.state.loading) {
+            return (<LoadingScreen/>);
+        }
+
+        const teamOverrideView = this.teamOverrideSchemesMigrationView();
+
+        return (
+            <div className='wrapper--fixed'>
+                <FormattedAdminHeader
+                    id='admin.permissions.permissionSchemes'
+                    defaultMessage='Permission Schemes'
+                />
+
+                <div className='admin-console__wrapper'>
+                    <div className='admin-console__content'>
+                        <div className='banner info'>
+                            <div className='banner__content'>
+                                <span>
+                                    <FormattedMarkdownMessage
+                                        id='admin.permissions.introBanner'
+                                        defaultMessage='Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions).'
+                                    />
+                                </span>
+                            </div>
+                        </div>
+
+                        <AdminPanelWithLink
+                            titleId={t('admin.permissions.systemSchemeBannerTitle')}
+                            titleDefault='System Scheme'
+                            subtitleId={t('admin.permissions.systemSchemeBannerText')}
+                            subtitleDefault='Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied.'
+                            url='/admin_console/user_management/permissions/system_scheme'
+                            disabled={teamOverrideView !== null}
+                            linkTextId={t('admin.permissions.systemSchemeBannerButton')}
+                            linkTextDefault='Edit Scheme'
+                        />
+
+                        {this.renderTeamOverrideSchemes()}
+                    </div>
+                </div>
             </div>
         );
     };

@@ -10,6 +10,7 @@ import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
 import {searchUsers} from 'actions/user_actions.jsx';
 import {Constants, UserSearchOptions, SearchUserTeamFilter, SearchUserOptionsFilter} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n.jsx';
 
 import LocalizedInput from 'components/localized_input/localized_input';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
@@ -285,7 +286,7 @@ export default class SystemUsers extends React.Component {
                         id='searchUsers'
                         ref='filter'
                         className='form-control filter-textbox'
-                        placeholder={{id: 'filtered_user_list.search', defaultMessage: 'Search users'}}
+                        placeholder={{id: t('filtered_user_list.search'), defaultMessage: 'Search users'}}
                         onInput={doSearch}
                     />
                 </div>
@@ -337,23 +338,28 @@ export default class SystemUsers extends React.Component {
                         siteName: this.props.siteName,
                     }}
                 />
-                <div className='more-modal__list member-list-holder'>
-                    <SystemUsersList
-                        loading={this.state.loading}
-                        renderFilterRow={this.renderFilterRow}
-                        search={this.search}
-                        nextPage={this.nextPage}
-                        usersPerPage={USERS_PER_PAGE}
-                        total={this.props.totalUsers}
-                        teams={this.props.teams}
-                        teamId={this.props.teamId}
-                        filter={this.props.filter}
-                        term={this.props.searchTerm}
-                        onTermChange={this.handleTermChange}
-                        mfaEnabled={this.props.mfaEnabled}
-                        enableUserAccessTokens={this.props.enableUserAccessTokens}
-                        experimentalEnableAuthenticationTransfer={this.props.experimentalEnableAuthenticationTransfer}
-                    />
+
+                <div className='admin-console__wrapper'>
+                    <div className='admin-console__content'>
+                        <div className='more-modal__list member-list-holder'>
+                            <SystemUsersList
+                                loading={this.state.loading}
+                                renderFilterRow={this.renderFilterRow}
+                                search={this.search}
+                                nextPage={this.nextPage}
+                                usersPerPage={USERS_PER_PAGE}
+                                total={this.props.totalUsers}
+                                teams={this.props.teams}
+                                teamId={this.props.teamId}
+                                filter={this.props.filter}
+                                term={this.props.searchTerm}
+                                onTermChange={this.handleTermChange}
+                                mfaEnabled={this.props.mfaEnabled}
+                                enableUserAccessTokens={this.props.enableUserAccessTokens}
+                                experimentalEnableAuthenticationTransfer={this.props.experimentalEnableAuthenticationTransfer}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
         );

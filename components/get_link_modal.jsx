@@ -108,8 +108,13 @@ export default class GetLinkModal extends React.PureComponent {
             <Modal
                 show={this.props.show}
                 onHide={this.onHide}
+                role='dialog'
+                aria-labelledby='getLinkModalLabel'
             >
-                <Modal.Header closeButton={true}>
+                <Modal.Header
+                    id='getLinkModalLabel'
+                    closeButton={true}
+                >
                     <h4 className='modal-title'>{this.props.title}</h4>
                 </Modal.Header>
                 <Modal.Body>

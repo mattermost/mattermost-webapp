@@ -419,7 +419,10 @@ export default class SignupEmail extends React.Component {
         let serverError = null;
         if (this.state.serverError) {
             serverError = (
-                <div className={'form-group has-error'}>
+                <div
+                    id='existingEmailErrorContainer'
+                    className={'form-group has-error'}
+                >
                     <label className='control-label'>{this.state.serverError}</label>
                 </div>
             );
@@ -466,6 +469,7 @@ export default class SignupEmail extends React.Component {
                 >
                     <div className='signup-team__container padding--less'>
                         <img
+                            alt={'signup team logo'}
                             className='signup-team-logo'
                             src={logoImage}
                         />

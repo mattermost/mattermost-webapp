@@ -293,6 +293,7 @@ export default class EditPostModal extends React.PureComponent {
 
         return (
             <Modal
+                id='editPostModal'
                 dialogClassName='edit-modal'
                 show={this.props.editingPost.show}
                 onKeyDown={this.handleKeyDown}
@@ -301,9 +302,14 @@ export default class EditPostModal extends React.PureComponent {
                 onExit={this.handleExit}
                 onExited={this.handleExited}
                 keyboard={false}
+                role='dialog'
+                aria-labelledby='editPostModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='editPostModalLabel'
+                    >
                         <FormattedMessage
                             id='edit_post.edit'
                             defaultMessage='Edit {title}'

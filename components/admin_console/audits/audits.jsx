@@ -15,6 +15,7 @@ import ReloadIcon from 'components/icon/reload_icon';
 export default class Audits extends React.PureComponent {
     static propTypes = {
         isLicensed: PropTypes.bool.isRequired,
+        customWrapperClass: PropTypes.string,
 
         /*
          * Array of audits to render
@@ -36,6 +37,8 @@ export default class Audits extends React.PureComponent {
         this.state = {
             loadingAudits: true,
         };
+
+        this.props.customWrapperClass('compliance-not-licensed');
     }
 
     componentDidMount() {
@@ -51,18 +54,38 @@ export default class Audits extends React.PureComponent {
         );
     }
 
-    render() {
-        let content = null;
+    activityLogHeader = () => {
+        const style = {
+            display: 'inline-block',
+            margin: 0,
+        };
+        return (
+            <h4 style={style}>
+                <FormattedMessage
+                    id='admin.complianceMonitoring.userActivityLogsTitle'
+                    defaultMessage='User Activity Logs'
+                />
+            </h4>
+        );
+    }
 
+    renderComplianceReports = () => {
         if (!this.props.isLicensed) {
             return <div/>;
         }
+        return (
+            <ComplianceReports/>
+        );
+    }
+
+    render() {
+        let content = null;
 
         if (this.state.loadingAudits) {
             content = <LoadingScreen/>;
         } else {
             content = (
-                <div style={style.auditTable}>
+                <div>
                     <AuditTable
                         audits={this.props.audits}
                         showUserId={true}
@@ -75,14 +98,14 @@ export default class Audits extends React.PureComponent {
 
         return (
             <div className='wrapper--admin'>
-                <ComplianceReports/>
-
+                {this.renderComplianceReports()}
                 <div className='panel audit-panel'>
                     <AdminHeader>
                         <FormattedMessage
-                            id='admin.audits.title'
-                            defaultMessage='User Activity Logs'
+                            id='admin.complianceMonitoring.title'
+                            defaultMessage='Compliance Monitoring'
                         />
+                        {this.activityLogHeader()}
                         <button
                             type='submit'
                             className='btn btn-link pull-right'
@@ -95,15 +118,15 @@ export default class Audits extends React.PureComponent {
                             />
                         </button>
                     </AdminHeader>
-                    <div className='audit-panel__table'>
-                        {content}
+                    <div className='admin-console__wrapper'>
+                        <div className='admin-console__content'>
+                            <div className='audit-panel__table'>
+                                {content}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         );
     }
 }
-
-const style = {
-    auditTable: {margin: 10},
-};

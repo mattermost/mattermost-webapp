@@ -7,8 +7,6 @@ import React from 'react';
 import LoadingImagePreview from 'components/loading_image_preview';
 import {loadImage} from 'utils/image_utils';
 
-const WAIT_FOR_HEIGHT_TIMEOUT = 100;
-
 // SizeAwareImage is a component used for rendering images where the dimensions of the image are important for
 // ensuring that the page is laid out correctly.
 export default class SizeAwareImage extends React.PureComponent {
@@ -68,37 +66,11 @@ export default class SizeAwareImage extends React.PureComponent {
 
     componentWillUnmount() {
         this.mounted = false;
-        this.stopWaitingForHeight();
     }
 
     loadImage = () => {
         const image = loadImage(this.props.src, this.handleLoad);
-
         image.onerror = this.handleError;
-
-        if (!this.props.dimensions) {
-            this.waitForHeight(image);
-        }
-    }
-
-    waitForHeight = (image) => {
-        if (image && image.height) {
-            if (this.props.onImageLoaded) {
-                this.props.onImageLoaded({height: image.height, width: image.width});
-            }
-            this.heightTimeout = 0;
-        } else {
-            this.heightTimeout = setTimeout(() => this.waitForHeight(image), WAIT_FOR_HEIGHT_TIMEOUT);
-        }
-    }
-
-    stopWaitingForHeight = () => {
-        if (this.heightTimeout !== 0) {
-            clearTimeout(this.heightTimeout);
-            this.heightTimeout = 0;
-            return true;
-        }
-        return false;
     }
 
     handleLoad = (image) => {
@@ -115,7 +87,6 @@ export default class SizeAwareImage extends React.PureComponent {
 
     handleError = () => {
         if (this.mounted) {
-            this.stopWaitingForHeight();
             if (this.props.onImageLoadFail) {
                 this.props.onImageLoadFail();
             }
@@ -149,7 +120,7 @@ export default class SizeAwareImage extends React.PureComponent {
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
                         viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
-                        style={{verticalAlign: 'middle', maxHeight: `${dimensions.height}`, maxWidth: `${dimensions.width}`}}
+                        style={{verticalAlign: 'middle', maxHeight: dimensions.height, maxWidth: dimensions.width}}
                     />
                 </div>
             );
@@ -160,6 +131,7 @@ export default class SizeAwareImage extends React.PureComponent {
 
         return (
             <img
+                alt='image placeholder'
                 {...props}
                 src={src}
             />

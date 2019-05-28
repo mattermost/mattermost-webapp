@@ -34,7 +34,7 @@ describe('components/AddUsersToTeam', () => {
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(Modal).exists()).toBe(true);
         expect(actions.getProfilesNotInTeam).toHaveBeenCalledTimes(1);
-        expect(actions.getProfilesNotInTeam).toHaveBeenCalledWith('current_team_id', 0, 100);
+        expect(actions.getProfilesNotInTeam).toHaveBeenCalledWith('current_team_id', false, 0, 100);
     });
 
     test('should match state when onHide is called', () => {
@@ -189,6 +189,9 @@ describe('components/AddUsersToTeam', () => {
 
         isSelected = true;
         expect(wrapper.instance().renderOption(option, isSelected, onAdd)).toMatchSnapshot();
+
+        const optionBot = {id: 'id', is_bot: true, last_picture_update: '12345'};
+        expect(wrapper.instance().renderOption(optionBot, isSelected, onAdd)).toMatchSnapshot();
     });
 
     test('should match when renderValue is called', () => {

@@ -22,8 +22,8 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
     <svg
       style={
         Object {
-          "maxHeight": "200",
-          "maxWidth": "300",
+          "maxHeight": 200,
+          "maxWidth": 300,
           "verticalAlign": "middle",
         }
       }

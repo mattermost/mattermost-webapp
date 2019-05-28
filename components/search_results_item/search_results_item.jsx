@@ -19,6 +19,7 @@ import PostFlagIcon from 'components/post_view/post_flag_icon';
 import ArchiveIcon from 'components/svg/archive_icon';
 import PostTime from 'components/post_view/post_time';
 import {browserHistory} from 'utils/browser_history';
+import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import Constants, {Locations} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -90,6 +91,10 @@ export default class SearchResultsItem extends React.PureComponent {
             selectPost: PropTypes.func.isRequired,
             setRhsExpanded: PropTypes.func.isRequired,
         }).isRequired,
+    };
+
+    static defaultProps = {
+        isBot: false,
     };
 
     constructor(props) {
@@ -179,18 +184,6 @@ export default class SearchResultsItem extends React.PureComponent {
             this.props.enablePostUsernameOverride) {
             overrideUsername = post.props.override_username;
             disableProfilePopover = true;
-        }
-
-        let botIndicator;
-        if (post.props && post.props.from_webhook && !this.props.isBot) {
-            botIndicator = (
-                <div className='bot-indicator'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
         }
 
         const profilePic = (
@@ -331,7 +324,7 @@ export default class SearchResultsItem extends React.PureComponent {
                                         />
                                     </strong>
                                 </div>
-                                {botIndicator}
+                                <BotBadge show={Boolean(post.props && post.props.from_webhook && !this.props.isBot)}/>
                                 <div className='col'>
                                     {this.renderPostTime()}
                                     {pinnedBadge}

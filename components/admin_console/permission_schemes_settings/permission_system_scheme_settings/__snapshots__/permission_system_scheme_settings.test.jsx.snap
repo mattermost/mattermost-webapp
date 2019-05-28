@@ -4,150 +4,160 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header with-back"
-  >
-    <Connect(BlockableLink)
-      className="fa fa-angle-left back"
-      to="/admin_console/permissions/schemes"
-    />
-    <FormattedMessage
-      defaultMessage="System Scheme"
-      id="admin.permissions.systemScheme"
-      values={Object {}}
-    />
-  </h3>
   <div
-    className="banner info"
+    className="admin-console__header with-back"
   >
-    <div
-      className="banner__content"
-    >
-      <span>
-        <InjectIntl(FormattedMarkdownMessage)
-          defaultMessage="Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied in specific teams."
-          id="admin.permissions.systemScheme.introBanner"
-        />
-      </span>
+    <div>
+      <Connect(BlockableLink)
+        className="fa fa-angle-left back"
+        to="/admin_console/user_management/permissions"
+      />
+      <FormattedMessage
+        defaultMessage="System Scheme"
+        id="admin.permissions.systemScheme"
+        values={Object {}}
+      />
     </div>
   </div>
-  <AdminPanelTogglable
-    className="permissions-block"
-    id="all_users"
-    onToggle={[Function]}
-    open={true}
-    subtitleDefault="Permissions granted to all members, including administrators and newly created users."
-    subtitleId="admin.permissions.systemScheme.allMembersDescription"
-    titleDefault="All Members"
-    titleId="admin.permissions.systemScheme.allMembersTitle"
+  <div
+    className="admin-console__wrapper"
   >
-    <Connect(PermissionsTree)
-      onToggle={[Function]}
-      role={
-        Object {
-          "displayName": "All members",
-          "name": "all_users",
-          "permissions": Array [
-            "create_post",
-            "invite_user",
-            "add_reaction",
-          ],
-        }
-      }
-      scope="system_scope"
-      selectRow={[Function]}
-      selected={null}
-    />
-  </AdminPanelTogglable>
-  <AdminPanelTogglable
-    className="permissions-block"
-    onToggle={[Function]}
-    open={true}
-    subtitleDefault="Permissions granted to channel creators and any users promoted to Channel Administrator."
-    subtitleId="admin.permissions.systemScheme.channelAdminsDescription"
-    titleDefault="Channel Administrators"
-    titleId="admin.permissions.systemScheme.channelAdminsTitle"
-  >
-    <Connect(PermissionsTree)
-      onToggle={[Function]}
-      parentRole={
-        Object {
-          "displayName": "All members",
-          "name": "all_users",
-          "permissions": Array [
-            "create_post",
-            "invite_user",
-            "add_reaction",
-          ],
-        }
-      }
-      role={
-        Object {
-          "permissions": Array [
-            "delete_post",
-          ],
-        }
-      }
-      scope="channel_scope"
-      selectRow={[Function]}
-    />
-  </AdminPanelTogglable>
-  <AdminPanelTogglable
-    className="permissions-block"
-    onToggle={[Function]}
-    open={true}
-    subtitleDefault="Permissions granted to team creators and any users promoted to Team Administrator."
-    subtitleId="admin.permissions.systemScheme.teamAdminsDescription"
-    titleDefault="Team Administrators"
-    titleId="admin.permissions.systemScheme.teamAdminsTitle"
-  >
-    <Connect(PermissionsTree)
-      onToggle={[Function]}
-      parentRole={
-        Object {
-          "displayName": "All members",
-          "name": "all_users",
-          "permissions": Array [
-            "create_post",
-            "invite_user",
-            "add_reaction",
-          ],
-        }
-      }
-      role={
-        Object {
-          "permissions": Array [
-            "add_user_to_team",
-          ],
-        }
-      }
-      scope="team_scope"
-      selectRow={[Function]}
-    />
-  </AdminPanelTogglable>
-  <AdminPanelTogglable
-    className="permissions-block"
-    onToggle={[Function]}
-    open={true}
-    subtitleDefault="Full permissions granted to System Administrators."
-    subtitleId="admin.permissions.systemScheme.systemAdminsDescription"
-    titleDefault="System Administrators"
-    titleId="admin.permissions.systemScheme.systemAdminsTitle"
-  >
-    <Connect(PermissionsTree)
-      onToggle={[Function]}
-      readOnly={true}
-      role={
-        Object {
-          "permissions": Array [
-            "manage_system",
-          ],
-        }
-      }
-      scope="system_scope"
-      selectRow={[Function]}
-    />
-  </AdminPanelTogglable>
+    <div
+      className="admin-console__content"
+    >
+      <div
+        className="banner info"
+      >
+        <div
+          className="banner__content"
+        >
+          <span>
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied in specific teams."
+              id="admin.permissions.systemScheme.introBanner"
+            />
+          </span>
+        </div>
+      </div>
+      <AdminPanelTogglable
+        className="permissions-block"
+        id="all_users"
+        onToggle={[Function]}
+        open={true}
+        subtitleDefault="Permissions granted to all members, including administrators and newly created users."
+        subtitleId="admin.permissions.systemScheme.allMembersDescription"
+        titleDefault="All Members"
+        titleId="admin.permissions.systemScheme.allMembersTitle"
+      >
+        <Connect(PermissionsTree)
+          onToggle={[Function]}
+          role={
+            Object {
+              "displayName": "All members",
+              "name": "all_users",
+              "permissions": Array [
+                "create_post",
+                "invite_user",
+                "add_reaction",
+              ],
+            }
+          }
+          scope="system_scope"
+          selectRow={[Function]}
+          selected={null}
+        />
+      </AdminPanelTogglable>
+      <AdminPanelTogglable
+        className="permissions-block"
+        onToggle={[Function]}
+        open={true}
+        subtitleDefault="Permissions granted to channel creators and any users promoted to Channel Administrator."
+        subtitleId="admin.permissions.systemScheme.channelAdminsDescription"
+        titleDefault="Channel Administrators"
+        titleId="admin.permissions.systemScheme.channelAdminsTitle"
+      >
+        <Connect(PermissionsTree)
+          onToggle={[Function]}
+          parentRole={
+            Object {
+              "displayName": "All members",
+              "name": "all_users",
+              "permissions": Array [
+                "create_post",
+                "invite_user",
+                "add_reaction",
+              ],
+            }
+          }
+          role={
+            Object {
+              "permissions": Array [
+                "delete_post",
+              ],
+            }
+          }
+          scope="channel_scope"
+          selectRow={[Function]}
+        />
+      </AdminPanelTogglable>
+      <AdminPanelTogglable
+        className="permissions-block"
+        onToggle={[Function]}
+        open={true}
+        subtitleDefault="Permissions granted to team creators and any users promoted to Team Administrator."
+        subtitleId="admin.permissions.systemScheme.teamAdminsDescription"
+        titleDefault="Team Administrators"
+        titleId="admin.permissions.systemScheme.teamAdminsTitle"
+      >
+        <Connect(PermissionsTree)
+          onToggle={[Function]}
+          parentRole={
+            Object {
+              "displayName": "All members",
+              "name": "all_users",
+              "permissions": Array [
+                "create_post",
+                "invite_user",
+                "add_reaction",
+              ],
+            }
+          }
+          role={
+            Object {
+              "permissions": Array [
+                "add_user_to_team",
+              ],
+            }
+          }
+          scope="team_scope"
+          selectRow={[Function]}
+        />
+      </AdminPanelTogglable>
+      <AdminPanelTogglable
+        className="permissions-block"
+        onToggle={[Function]}
+        open={true}
+        subtitleDefault="Full permissions granted to System Administrators."
+        subtitleId="admin.permissions.systemScheme.systemAdminsDescription"
+        titleDefault="System Administrators"
+        titleId="admin.permissions.systemScheme.systemAdminsTitle"
+      >
+        <Connect(PermissionsTree)
+          onToggle={[Function]}
+          readOnly={true}
+          role={
+            Object {
+              "permissions": Array [
+                "manage_system",
+              ],
+            }
+          }
+          scope="system_scope"
+          selectRow={[Function]}
+        />
+      </AdminPanelTogglable>
+    </div>
+  </div>
   <div
     className="admin-console-save"
   >
@@ -161,7 +171,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     />
     <Connect(BlockableLink)
       className="cancel-button"
-      to="/admin_console/permissions/schemes"
+      to="/admin_console/user_management/permissions"
     >
       <FormattedMessage
         defaultMessage="Cancel"
@@ -299,128 +309,142 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header "
-  >
-    <FormattedMessage
-      defaultMessage="System Scheme"
-      id="admin.permissions.systemScheme"
-      values={Object {}}
-    />
-  </h3>
   <div
-    className="banner info"
+    className="admin-console__header with-back"
   >
-    <div
-      className="banner__content"
-    >
-      <span>
-        <InjectIntl(FormattedMarkdownMessage)
-          defaultMessage="Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied in specific teams."
-          id="admin.permissions.systemScheme.introBanner"
-        />
-      </span>
+    <div>
+      <Connect(BlockableLink)
+        className="fa fa-angle-left back"
+        to="/admin_console/user_management/permissions"
+      />
+      <FormattedMessage
+        defaultMessage="System Scheme"
+        id="admin.permissions.systemScheme"
+        values={Object {}}
+      />
     </div>
   </div>
-  <AdminPanelTogglable
-    className="permissions-block"
-    id="all_users"
-    onToggle={[Function]}
-    open={true}
-    subtitleDefault="Permissions granted to all members, including administrators and newly created users."
-    subtitleId="admin.permissions.systemScheme.allMembersDescription"
-    titleDefault="All Members"
-    titleId="admin.permissions.systemScheme.allMembersTitle"
+  <div
+    className="admin-console__wrapper"
   >
-    <Connect(PermissionsTree)
-      onToggle={[Function]}
-      role={
-        Object {
-          "displayName": "All members",
-          "name": "all_users",
-          "permissions": Array [],
-        }
-      }
-      scope="system_scope"
-      selectRow={[Function]}
-      selected={null}
-    />
-  </AdminPanelTogglable>
-  <AdminPanelTogglable
-    className="permissions-block"
-    onToggle={[Function]}
-    open={true}
-    subtitleDefault="Permissions granted to channel creators and any users promoted to Channel Administrator."
-    subtitleId="admin.permissions.systemScheme.channelAdminsDescription"
-    titleDefault="Channel Administrators"
-    titleId="admin.permissions.systemScheme.channelAdminsTitle"
-  >
-    <Connect(PermissionsTree)
-      onToggle={[Function]}
-      parentRole={
-        Object {
-          "displayName": "All members",
-          "name": "all_users",
-          "permissions": Array [],
-        }
-      }
-      role={
-        Object {
-          "permissions": Array [],
-        }
-      }
-      scope="channel_scope"
-      selectRow={[Function]}
-    />
-  </AdminPanelTogglable>
-  <AdminPanelTogglable
-    className="permissions-block"
-    onToggle={[Function]}
-    open={true}
-    subtitleDefault="Permissions granted to team creators and any users promoted to Team Administrator."
-    subtitleId="admin.permissions.systemScheme.teamAdminsDescription"
-    titleDefault="Team Administrators"
-    titleId="admin.permissions.systemScheme.teamAdminsTitle"
-  >
-    <Connect(PermissionsTree)
-      onToggle={[Function]}
-      parentRole={
-        Object {
-          "displayName": "All members",
-          "name": "all_users",
-          "permissions": Array [],
-        }
-      }
-      role={
-        Object {
-          "permissions": Array [],
-        }
-      }
-      scope="team_scope"
-      selectRow={[Function]}
-    />
-  </AdminPanelTogglable>
-  <AdminPanelTogglable
-    className="permissions-block"
-    onToggle={[Function]}
-    open={true}
-    subtitleDefault="Full permissions granted to System Administrators."
-    subtitleId="admin.permissions.systemScheme.systemAdminsDescription"
-    titleDefault="System Administrators"
-    titleId="admin.permissions.systemScheme.systemAdminsTitle"
-  >
-    <Connect(PermissionsTree)
-      onToggle={[Function]}
-      readOnly={true}
-      role={
-        Object {
-          "permissions": Array [],
-        }
-      }
-      scope="system_scope"
-      selectRow={[Function]}
-    />
-  </AdminPanelTogglable>
+    <div
+      className="admin-console__content"
+    >
+      <div
+        className="banner info"
+      >
+        <div
+          className="banner__content"
+        >
+          <span>
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied in specific teams."
+              id="admin.permissions.systemScheme.introBanner"
+            />
+          </span>
+        </div>
+      </div>
+      <AdminPanelTogglable
+        className="permissions-block"
+        id="all_users"
+        onToggle={[Function]}
+        open={true}
+        subtitleDefault="Permissions granted to all members, including administrators and newly created users."
+        subtitleId="admin.permissions.systemScheme.allMembersDescription"
+        titleDefault="All Members"
+        titleId="admin.permissions.systemScheme.allMembersTitle"
+      >
+        <Connect(PermissionsTree)
+          onToggle={[Function]}
+          role={
+            Object {
+              "displayName": "All members",
+              "name": "all_users",
+              "permissions": Array [],
+            }
+          }
+          scope="system_scope"
+          selectRow={[Function]}
+          selected={null}
+        />
+      </AdminPanelTogglable>
+      <AdminPanelTogglable
+        className="permissions-block"
+        onToggle={[Function]}
+        open={true}
+        subtitleDefault="Permissions granted to channel creators and any users promoted to Channel Administrator."
+        subtitleId="admin.permissions.systemScheme.channelAdminsDescription"
+        titleDefault="Channel Administrators"
+        titleId="admin.permissions.systemScheme.channelAdminsTitle"
+      >
+        <Connect(PermissionsTree)
+          onToggle={[Function]}
+          parentRole={
+            Object {
+              "displayName": "All members",
+              "name": "all_users",
+              "permissions": Array [],
+            }
+          }
+          role={
+            Object {
+              "permissions": Array [],
+            }
+          }
+          scope="channel_scope"
+          selectRow={[Function]}
+        />
+      </AdminPanelTogglable>
+      <AdminPanelTogglable
+        className="permissions-block"
+        onToggle={[Function]}
+        open={true}
+        subtitleDefault="Permissions granted to team creators and any users promoted to Team Administrator."
+        subtitleId="admin.permissions.systemScheme.teamAdminsDescription"
+        titleDefault="Team Administrators"
+        titleId="admin.permissions.systemScheme.teamAdminsTitle"
+      >
+        <Connect(PermissionsTree)
+          onToggle={[Function]}
+          parentRole={
+            Object {
+              "displayName": "All members",
+              "name": "all_users",
+              "permissions": Array [],
+            }
+          }
+          role={
+            Object {
+              "permissions": Array [],
+            }
+          }
+          scope="team_scope"
+          selectRow={[Function]}
+        />
+      </AdminPanelTogglable>
+      <AdminPanelTogglable
+        className="permissions-block"
+        onToggle={[Function]}
+        open={true}
+        subtitleDefault="Full permissions granted to System Administrators."
+        subtitleId="admin.permissions.systemScheme.systemAdminsDescription"
+        titleDefault="System Administrators"
+        titleId="admin.permissions.systemScheme.systemAdminsTitle"
+      >
+        <Connect(PermissionsTree)
+          onToggle={[Function]}
+          readOnly={true}
+          role={
+            Object {
+              "permissions": Array [],
+            }
+          }
+          scope="system_scope"
+          selectRow={[Function]}
+        />
+      </AdminPanelTogglable>
+    </div>
+  </div>
   <div
     className="admin-console-save"
   >
@@ -434,7 +458,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     />
     <Connect(BlockableLink)
       className="cancel-button"
-      to="/admin_console/permissions/schemes"
+      to="/admin_console/user_management/permissions"
     >
       <FormattedMessage
         defaultMessage="Cancel"
@@ -496,132 +520,142 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header with-back"
-  >
-    <Connect(BlockableLink)
-      className="fa fa-angle-left back"
-      to="/admin_console/permissions/schemes"
-    />
-    <FormattedMessage
-      defaultMessage="System Scheme"
-      id="admin.permissions.systemScheme"
-      values={Object {}}
-    />
-  </h3>
   <div
-    className="banner info"
+    className="admin-console__header with-back"
   >
-    <div
-      className="banner__content"
-    >
-      <span>
-        <InjectIntl(FormattedMarkdownMessage)
-          defaultMessage="Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied in specific teams."
-          id="admin.permissions.systemScheme.introBanner"
-        />
-      </span>
+    <div>
+      <Connect(BlockableLink)
+        className="fa fa-angle-left back"
+        to="/admin_console/user_management/permissions"
+      />
+      <FormattedMessage
+        defaultMessage="System Scheme"
+        id="admin.permissions.systemScheme"
+        values={Object {}}
+      />
     </div>
   </div>
-  <AdminPanelTogglable
-    className="permissions-block"
-    id="all_users"
-    onToggle={[Function]}
-    open={true}
-    subtitleDefault="Permissions granted to all members, including administrators and newly created users."
-    subtitleId="admin.permissions.systemScheme.allMembersDescription"
-    titleDefault="All Members"
-    titleId="admin.permissions.systemScheme.allMembersTitle"
+  <div
+    className="admin-console__wrapper"
   >
-    <Connect(PermissionsTree)
-      onToggle={[Function]}
-      role={
-        Object {
-          "displayName": "All members",
-          "name": "all_users",
-          "permissions": Array [],
-        }
-      }
-      scope="system_scope"
-      selectRow={[Function]}
-      selected={null}
-    />
-  </AdminPanelTogglable>
-  <AdminPanelTogglable
-    className="permissions-block"
-    onToggle={[Function]}
-    open={true}
-    subtitleDefault="Permissions granted to channel creators and any users promoted to Channel Administrator."
-    subtitleId="admin.permissions.systemScheme.channelAdminsDescription"
-    titleDefault="Channel Administrators"
-    titleId="admin.permissions.systemScheme.channelAdminsTitle"
-  >
-    <Connect(PermissionsTree)
-      onToggle={[Function]}
-      parentRole={
-        Object {
-          "displayName": "All members",
-          "name": "all_users",
-          "permissions": Array [],
-        }
-      }
-      role={
-        Object {
-          "permissions": Array [],
-        }
-      }
-      scope="channel_scope"
-      selectRow={[Function]}
-    />
-  </AdminPanelTogglable>
-  <AdminPanelTogglable
-    className="permissions-block"
-    onToggle={[Function]}
-    open={true}
-    subtitleDefault="Permissions granted to team creators and any users promoted to Team Administrator."
-    subtitleId="admin.permissions.systemScheme.teamAdminsDescription"
-    titleDefault="Team Administrators"
-    titleId="admin.permissions.systemScheme.teamAdminsTitle"
-  >
-    <Connect(PermissionsTree)
-      onToggle={[Function]}
-      parentRole={
-        Object {
-          "displayName": "All members",
-          "name": "all_users",
-          "permissions": Array [],
-        }
-      }
-      role={
-        Object {
-          "permissions": Array [],
-        }
-      }
-      scope="team_scope"
-      selectRow={[Function]}
-    />
-  </AdminPanelTogglable>
-  <AdminPanelTogglable
-    className="permissions-block"
-    onToggle={[Function]}
-    open={true}
-    subtitleDefault="Full permissions granted to System Administrators."
-    subtitleId="admin.permissions.systemScheme.systemAdminsDescription"
-    titleDefault="System Administrators"
-    titleId="admin.permissions.systemScheme.systemAdminsTitle"
-  >
-    <Connect(PermissionsTree)
-      onToggle={[Function]}
-      readOnly={true}
-      role={
-        Object {
-          "permissions": Array [],
-        }
-      }
-      scope="system_scope"
-      selectRow={[Function]}
-    />
-  </AdminPanelTogglable>
+    <div
+      className="admin-console__content"
+    >
+      <div
+        className="banner info"
+      >
+        <div
+          className="banner__content"
+        >
+          <span>
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied in specific teams."
+              id="admin.permissions.systemScheme.introBanner"
+            />
+          </span>
+        </div>
+      </div>
+      <AdminPanelTogglable
+        className="permissions-block"
+        id="all_users"
+        onToggle={[Function]}
+        open={true}
+        subtitleDefault="Permissions granted to all members, including administrators and newly created users."
+        subtitleId="admin.permissions.systemScheme.allMembersDescription"
+        titleDefault="All Members"
+        titleId="admin.permissions.systemScheme.allMembersTitle"
+      >
+        <Connect(PermissionsTree)
+          onToggle={[Function]}
+          role={
+            Object {
+              "displayName": "All members",
+              "name": "all_users",
+              "permissions": Array [],
+            }
+          }
+          scope="system_scope"
+          selectRow={[Function]}
+          selected={null}
+        />
+      </AdminPanelTogglable>
+      <AdminPanelTogglable
+        className="permissions-block"
+        onToggle={[Function]}
+        open={true}
+        subtitleDefault="Permissions granted to channel creators and any users promoted to Channel Administrator."
+        subtitleId="admin.permissions.systemScheme.channelAdminsDescription"
+        titleDefault="Channel Administrators"
+        titleId="admin.permissions.systemScheme.channelAdminsTitle"
+      >
+        <Connect(PermissionsTree)
+          onToggle={[Function]}
+          parentRole={
+            Object {
+              "displayName": "All members",
+              "name": "all_users",
+              "permissions": Array [],
+            }
+          }
+          role={
+            Object {
+              "permissions": Array [],
+            }
+          }
+          scope="channel_scope"
+          selectRow={[Function]}
+        />
+      </AdminPanelTogglable>
+      <AdminPanelTogglable
+        className="permissions-block"
+        onToggle={[Function]}
+        open={true}
+        subtitleDefault="Permissions granted to team creators and any users promoted to Team Administrator."
+        subtitleId="admin.permissions.systemScheme.teamAdminsDescription"
+        titleDefault="Team Administrators"
+        titleId="admin.permissions.systemScheme.teamAdminsTitle"
+      >
+        <Connect(PermissionsTree)
+          onToggle={[Function]}
+          parentRole={
+            Object {
+              "displayName": "All members",
+              "name": "all_users",
+              "permissions": Array [],
+            }
+          }
+          role={
+            Object {
+              "permissions": Array [],
+            }
+          }
+          scope="team_scope"
+          selectRow={[Function]}
+        />
+      </AdminPanelTogglable>
+      <AdminPanelTogglable
+        className="permissions-block"
+        onToggle={[Function]}
+        open={true}
+        subtitleDefault="Full permissions granted to System Administrators."
+        subtitleId="admin.permissions.systemScheme.systemAdminsDescription"
+        titleDefault="System Administrators"
+        titleId="admin.permissions.systemScheme.systemAdminsTitle"
+      >
+        <Connect(PermissionsTree)
+          onToggle={[Function]}
+          readOnly={true}
+          role={
+            Object {
+              "permissions": Array [],
+            }
+          }
+          scope="system_scope"
+          selectRow={[Function]}
+        />
+      </AdminPanelTogglable>
+    </div>
+  </div>
   <div
     className="admin-console-save"
   >
@@ -635,7 +669,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     />
     <Connect(BlockableLink)
       className="cancel-button"
-      to="/admin_console/permissions/schemes"
+      to="/admin_console/user_management/permissions"
     >
       <FormattedMessage
         defaultMessage="Cancel"

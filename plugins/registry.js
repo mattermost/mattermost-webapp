@@ -255,6 +255,16 @@ export default class PluginRegistry {
         });
     }
 
+    // Unregister a component that provided a custom body for posts with a specific type.
+    // Accepts a string id.
+    // Returns undefined in all cases.
+    unregisterPostTypeComponent(componentId) {
+        store.dispatch({
+            type: ActionTypes.REMOVED_PLUGIN_POST_COMPONENT,
+            id: componentId,
+        });
+    }
+
     // Register a reducer against the Redux store. It will be accessible in redux state
     // under "state['plugins-<yourpluginid>']"
     // Accepts a reducer. Returns undefined.
@@ -309,6 +319,43 @@ export default class PluginRegistry {
         store.dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
             name: 'MessageWillBePosted',
+            data: {
+                id,
+                pluginId: this.id,
+                hook,
+            },
+        });
+
+        return id;
+    }
+
+    // Register a hook that will be called when a slash command is posted by the user before it
+    // is sent to the server. Accepts a function that receives the message (string) and the args
+    // (object) as arguments.
+    // The args object is:
+    //        {
+    //            channel_id: channelId,
+    //            team_id: teamId,
+    //            root_id: rootId,
+    //            parent_id: rootId,
+    //        }
+    //
+    // To reject a command, return an object containing an error:
+    //     {error: {message: 'Rejected'}}
+    // To ignore a command, return an empty object (to prevent an error from being displayed):
+    //     {}
+    // To modify or allow the command without modification, return an object containing the new message
+    // and args. It is not likely that you will need to change the args, so return the object that was provided:
+    //     {message: {...}, args}
+    //
+    // If the hook function is asynchronous, the command will not be sent to the server
+    // until the hook returns.
+    registerSlashCommandWillBePostedHook(hook) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'SlashCommandWillBePosted',
             data: {
                 id,
                 pluginId: this.id,

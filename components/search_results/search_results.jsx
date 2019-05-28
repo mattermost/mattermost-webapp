@@ -53,6 +53,7 @@ export default class SearchResults extends React.PureComponent {
         isSearchingFlaggedPost: PropTypes.bool,
         isSearchingPinnedPost: PropTypes.bool,
         isSearchGettingMore: PropTypes.bool,
+        isSearchAtEnd: PropTypes.bool,
         compactDisplay: PropTypes.bool,
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
@@ -126,6 +127,7 @@ export default class SearchResults extends React.PureComponent {
         const searchTerms = this.props.searchTerms;
 
         let ctls = null;
+        let loadingMorePostsComponent = null;
 
         if (
             this.props.isSearchingTerm ||
@@ -193,23 +195,25 @@ export default class SearchResults extends React.PureComponent {
                     />
                 );
             }, this);
-        }
 
-        let loadingScreen = null;
-        if (this.props.isSearchGettingMore) {
-            loadingScreen = (
-                <div className='loading-screen'>
-                    <div className='loading__content'>
-                        <div className='round round-1'/>
-                        <div className='round round-2'/>
-                        <div className='round round-3'/>
+            if (!this.props.isSearchAtEnd && !this.props.isFlaggedPosts && !this.props.isPinnedPosts) {
+                loadingMorePostsComponent = (
+                    <div className='loading-screen'>
+                        <div className='loading__content'>
+                            <div className='round round-1'/>
+                            <div className='round round-2'/>
+                            <div className='round round-3'/>
+                        </div>
                     </div>
-                </div>
-            );
+                );
+            }
         }
 
         return (
-            <div className='sidebar-right__body'>
+            <div
+                className='sidebar-right__body'
+                id='searchResultsContainer'
+            >
                 <SearchResultsHeader
                     isMentionSearch={this.props.isMentionSearch}
                     isFlaggedPosts={this.props.isFlaggedPosts}
@@ -232,9 +236,9 @@ export default class SearchResults extends React.PureComponent {
                         className='search-items-container'
                     >
                         {ctls}
+                        {loadingMorePostsComponent}
                     </div>
                 </Scrollbars>
-                {loadingScreen}
             </div>
         );
     }

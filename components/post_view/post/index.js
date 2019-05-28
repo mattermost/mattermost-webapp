@@ -16,6 +16,22 @@ import {Preferences} from 'utils/constants.jsx';
 
 import Post from './post.jsx';
 
+// isFirstReply returns true when the given post a comment that isn't part of the same thread as the previous post.
+export function isFirstReply(post, previousPost) {
+    if (post.root_id) {
+        if (previousPost) {
+            // Returns true as long as the previous post is part of a different thread
+            return post.root_id !== previousPost.id && post.root_id !== previousPost.root_id;
+        }
+
+        // The previous post is not a real post
+        return true;
+    }
+
+    // This post is not a reply
+    return false;
+}
+
 export function makeGetReplyCount() {
     return createSelector(
         (state) => state.entities.posts.posts,
@@ -43,13 +59,10 @@ function makeMapStateToProps() {
             previousPost = getPost(state, ownProps.previousPostId);
         }
 
-        let isFirstReply = false;
         let consecutivePostByUser = false;
         let previousPostIsComment = false;
 
         if (previousPost) {
-            isFirstReply = post.root_id ? (post.root_id !== previousPost.id && post.root_id !== previousPost.root_id) : false;
-
             consecutivePostByUser = post.user_id === previousPost.user_id && // The post is by the same user
                 post.create_at - previousPost.create_at <= Posts.POST_COLLAPSE_TIMEOUT && // And was within a short time period
                 !(post.props && post.props.from_webhook) && !(previousPost.props && previousPost.props.from_webhook) && // And neither is from a webhook
@@ -61,7 +74,7 @@ function makeMapStateToProps() {
         return {
             post,
             currentUserId: getCurrentUserId(state),
-            isFirstReply,
+            isFirstReply: isFirstReply(post, previousPost),
             consecutivePostByUser,
             previousPostIsComment,
             replyCount: getReplyCount(state, post),

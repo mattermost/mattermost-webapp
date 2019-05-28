@@ -86,6 +86,7 @@ describe('components/PluginManagement', () => {
         actions: {
             uploadPlugin: jest.fn(),
             removePlugin: jest.fn(),
+            getPlugins: jest.fn().mockResolvedValue([]),
             getPluginStatuses: jest.fn().mockResolvedValue([]),
             enablePlugin: jest.fn(),
             disablePlugin: jest.fn(),
@@ -141,6 +142,7 @@ describe('components/PluginManagement', () => {
             actions: {
                 uploadPlugin: jest.fn(),
                 removePlugin: jest.fn(),
+                getPlugins: jest.fn().mockResolvedValue([]),
                 getPluginStatuses: jest.fn().mockResolvedValue([]),
                 enablePlugin: jest.fn(),
                 disablePlugin: jest.fn(),
@@ -227,6 +229,7 @@ describe('components/PluginManagement', () => {
             actions: {
                 uploadPlugin: jest.fn(),
                 removePlugin: jest.fn(),
+                getPlugins: jest.fn().mockResolvedValue([]),
                 getPluginStatuses: jest.fn().mockResolvedValue([]),
                 enablePlugin: jest.fn(),
                 disablePlugin: jest.fn(),
@@ -279,6 +282,7 @@ describe('components/PluginManagement', () => {
             actions: {
                 uploadPlugin: jest.fn(),
                 removePlugin: jest.fn(),
+                getPlugins: jest.fn().mockResolvedValue([]),
                 getPluginStatuses: jest.fn().mockResolvedValue([]),
                 enablePlugin: jest.fn(),
                 disablePlugin: jest.fn(),
@@ -331,6 +335,7 @@ describe('components/PluginManagement', () => {
             actions: {
                 uploadPlugin: jest.fn(),
                 removePlugin: jest.fn(),
+                getPlugins: jest.fn().mockResolvedValue([]),
                 getPluginStatuses: jest.fn().mockResolvedValue([]),
                 enablePlugin: jest.fn(),
                 disablePlugin: jest.fn(),
@@ -385,6 +390,7 @@ describe('components/PluginManagement', () => {
             actions: {
                 uploadPlugin: jest.fn(),
                 removePlugin: jest.fn(),
+                getPlugins: jest.fn().mockResolvedValue([]),
                 getPluginStatuses: jest.fn().mockResolvedValue([]),
                 enablePlugin: jest.fn(),
                 disablePlugin: jest.fn(),

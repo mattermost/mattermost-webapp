@@ -11,6 +11,41 @@ import CopyText from 'components/copy_text.jsx';
 
 import DeleteIntegration from './delete_integration.jsx';
 
+export function matchesFilter(outgoingWebhook, channel, filter) {
+    if (!filter) {
+        return true;
+    }
+
+    const {
+        display_name: displayName,
+        description,
+        trigger_words: triggerWords,
+    } = outgoingWebhook;
+
+    if (
+        (displayName && displayName.toLowerCase().indexOf(filter) !== -1) ||
+        (description && description.toLowerCase().indexOf(filter) !== -1)
+    ) {
+        return true;
+    }
+
+    if (triggerWords) {
+        for (const triggerWord of triggerWords) {
+            if (triggerWord.toLowerCase().indexOf(filter) !== -1) {
+                return true;
+            }
+        }
+    }
+
+    if (channel && channel.name) {
+        if (channel.name.toLowerCase().indexOf(filter) !== -1) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 export default class InstalledOutgoingWebhook extends React.PureComponent {
     static propTypes = {
 
@@ -86,41 +121,6 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
         );
     }
 
-    matchesFilter(outgoingWebhook, channel, filter) {
-        if (!filter) {
-            return true;
-        }
-
-        const {
-            display_name: displayName,
-            description,
-            trigger_words: triggerWords,
-        } = outgoingWebhook;
-
-        if (
-            (displayName && displayName.toLowerCase().indexOf(filter) !== -1) ||
-            (description && description.toLowerCase().indexOf(filter) !== -1)
-        ) {
-            return true;
-        }
-
-        if (triggerWords) {
-            for (const triggerWord of triggerWords) {
-                if (triggerWord.toLowerCase().indexOf(filter) !== -1) {
-                    return true;
-                }
-            }
-        }
-
-        if (channel && channel.name) {
-            if (channel.name.toLowerCase().indexOf(filter) !== -1) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     render() {
         const outgoingWebhook = this.props.outgoingWebhook;
         const channel = this.props.channel;
@@ -128,7 +128,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
         const triggerWordsFull = 0;
         const triggerWordsStartsWith = 1;
 
-        if (outgoingWebhook && !this.matchesFilter(outgoingWebhook, channel, filter)) {
+        if (outgoingWebhook && !matchesFilter(outgoingWebhook, channel, filter)) {
             return null;
         }
 

@@ -4,182 +4,195 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
 <div
   className="wrapper--fixed"
 >
-  <AdminHeader>
-    testplugin
-  </AdminHeader>
-  <form
-    className="form-horizontal"
-    onSubmit={[Function]}
-    role="form"
+  <div
+    className="wrapper--fixed "
   >
-    <SettingsGroup
-      show={true}
+    <AdminHeader>
+      testplugin
+    </AdminHeader>
+    <div
+      className="admin-console__wrapper"
     >
       <div
-        className="banner"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<h1 class=\\"markdown__heading\\">Header</h1><p><em>This</em> is the <strong>header</strong></p>",
-          }
-        }
-      />
-      <AdminTextSetting
-        disabled={false}
-        helpText={
-          <HelpText
-            isTranslated={false}
-            text="This is some help text for the text field."
-          />
-        }
-        id="settinga"
-        key="testplugin_text_settinga"
-        label="Setting One"
-        onChange={[Function]}
-        placeholder="e.g. some setting"
-        setByEnv={false}
-        type="input"
-        value="setting_default"
-      />
-      <BooleanSetting
-        disabled={false}
-        falseText={
-          <FormattedMessage
-            defaultMessage="false"
-            id="admin.false"
-            values={Object {}}
-          />
-        }
-        helpText={
-          <HelpText
-            isTranslated={false}
-            text="This is some help text for the bool field."
-          />
-        }
-        id="settingb"
-        key="testplugin_bool_settingb"
-        label="Setting Two"
-        onChange={[Function]}
-        setByEnv={false}
-        trueText={
-          <FormattedMessage
-            defaultMessage="true"
-            id="admin.true"
-            values={Object {}}
-          />
-        }
-        value={true}
-      />
-      <DropdownSetting
-        disabled={false}
-        helpText={
-          <HelpText
-            isTranslated={false}
-            text="This is some help text for the dropdown field."
-          />
-        }
-        id="settingc"
-        isDisabled={false}
-        key="testplugin_dropdown_settingc"
-        label="Setting Three"
-        onChange={[Function]}
-        setByEnv={false}
-        value="option1"
-        values={
-          Array [
-            Object {
-              "text": "Option 1",
-              "value": "option1",
-            },
-            Object {
-              "text": "Option 2",
-              "value": "option2",
-            },
-            Object {
-              "text": "Option 3",
-              "value": "option3",
-            },
-          ]
-        }
-      />
-      <RadioSetting
-        disabled={false}
-        helpText={
-          <HelpText
-            isTranslated={false}
-            text="This is some help text for the radio field."
-          />
-        }
-        id="settingd"
-        key="testplugin_radio_settingd"
-        label="Setting Four"
-        onChange={[Function]}
-        setByEnv={false}
-        value="option2"
-        values={
-          Array [
-            Object {
-              "text": "Option 1",
-              "value": "option1",
-            },
-            Object {
-              "text": "Option 2",
-              "value": "option2",
-            },
-            Object {
-              "text": "Option 3",
-              "value": "option3",
-            },
-          ]
-        }
-      />
-      <GeneratedSetting
-        disabled={false}
-        helpText={
-          <HelpText
-            isTranslated={false}
-            text="This is some help text for the generated field."
-          />
-        }
-        id="settinge"
-        key="testplugin_generated_settinge"
-        label="Setting Five"
-        onChange={[Function]}
-        placeholder="e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb"
-        regenerateHelpText="This is help text for the regenerate button."
-        regenerateText={
-          <FormattedMessage
-            defaultMessage="Regenerate"
-            id="admin.regenerate"
-            values={Object {}}
-          />
-        }
-        setByEnv={false}
-        value=""
-      />
-      <UserAutocompleteSetting
-        disabled={false}
-        helpText={
-          <HelpText
-            isTranslated={false}
-            text="This is some help text for the user autocomplete field."
-          />
-        }
-        id="settingf"
-        key="testplugin_userautocomplete_settingf"
-        label="Setting Six"
-        onChange={[Function]}
-        placeholder="Type a username here"
-        value=""
-      />
-      <div
-        className="banner"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<h1 class=\\"markdown__heading\\">Footer</h1><p><em>This</em> is the <strong>footer</strong></p>",
-          }
-        }
-      />
-    </SettingsGroup>
+        className="admin-console__content"
+      >
+        <form
+          className="form-horizontal"
+          onSubmit={[Function]}
+          role="form"
+        >
+          <SettingsGroup
+            container={false}
+            show={true}
+          >
+            <div
+              className="banner"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "<h1 class=\\"markdown__heading\\">Header</h1><p><em>This</em> is the <strong>header</strong></p>",
+                }
+              }
+            />
+            <AdminTextSetting
+              disabled={false}
+              helpText={
+                <HelpText
+                  isTranslated={false}
+                  text="This is some help text for the text field."
+                />
+              }
+              id="settinga"
+              key="testplugin_text_settinga"
+              label="Setting One"
+              onChange={[Function]}
+              placeholder="e.g. some setting"
+              setByEnv={false}
+              type="input"
+              value="setting_default"
+            />
+            <BooleanSetting
+              disabled={false}
+              falseText={
+                <FormattedMessage
+                  defaultMessage="false"
+                  id="admin.false"
+                  values={Object {}}
+                />
+              }
+              helpText={
+                <HelpText
+                  isTranslated={false}
+                  text="This is some help text for the bool field."
+                />
+              }
+              id="settingb"
+              key="testplugin_bool_settingb"
+              label="Setting Two"
+              onChange={[Function]}
+              setByEnv={false}
+              trueText={
+                <FormattedMessage
+                  defaultMessage="true"
+                  id="admin.true"
+                  values={Object {}}
+                />
+              }
+              value={true}
+            />
+            <DropdownSetting
+              disabled={false}
+              helpText={
+                <HelpText
+                  isTranslated={false}
+                  text="This is some help text for the dropdown field."
+                />
+              }
+              id="settingc"
+              isDisabled={false}
+              key="testplugin_dropdown_settingc"
+              label="Setting Three"
+              onChange={[Function]}
+              setByEnv={false}
+              value="option1"
+              values={
+                Array [
+                  Object {
+                    "text": "Option 1",
+                    "value": "option1",
+                  },
+                  Object {
+                    "text": "Option 2",
+                    "value": "option2",
+                  },
+                  Object {
+                    "text": "Option 3",
+                    "value": "option3",
+                  },
+                ]
+              }
+            />
+            <RadioSetting
+              disabled={false}
+              helpText={
+                <HelpText
+                  isTranslated={false}
+                  text="This is some help text for the radio field."
+                />
+              }
+              id="settingd"
+              key="testplugin_radio_settingd"
+              label="Setting Four"
+              onChange={[Function]}
+              setByEnv={false}
+              value="option2"
+              values={
+                Array [
+                  Object {
+                    "text": "Option 1",
+                    "value": "option1",
+                  },
+                  Object {
+                    "text": "Option 2",
+                    "value": "option2",
+                  },
+                  Object {
+                    "text": "Option 3",
+                    "value": "option3",
+                  },
+                ]
+              }
+            />
+            <GeneratedSetting
+              disabled={false}
+              helpText={
+                <HelpText
+                  isTranslated={false}
+                  text="This is some help text for the generated field."
+                />
+              }
+              id="settinge"
+              key="testplugin_generated_settinge"
+              label="Setting Five"
+              onChange={[Function]}
+              placeholder="e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb"
+              regenerateHelpText="This is help text for the regenerate button."
+              regenerateText={
+                <FormattedMessage
+                  defaultMessage="Regenerate"
+                  id="admin.regenerate"
+                  values={Object {}}
+                />
+              }
+              setByEnv={false}
+              value=""
+            />
+            <UserAutocompleteSetting
+              disabled={false}
+              helpText={
+                <HelpText
+                  isTranslated={false}
+                  text="This is some help text for the user autocomplete field."
+                />
+              }
+              id="settingf"
+              key="testplugin_userautocomplete_settingf"
+              label="Setting Six"
+              onChange={[Function]}
+              placeholder="Type a username here"
+              value=""
+            />
+            <div
+              className="banner"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "<h1 class=\\"markdown__heading\\">Footer</h1><p><em>This</em> is the <strong>footer</strong></p>",
+                }
+              }
+            />
+          </SettingsGroup>
+        </form>
+      </div>
+    </div>
     <div
       className="admin-console-save"
     >
@@ -215,7 +228,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         />
       </Overlay>
     </div>
-  </form>
+  </div>
 </div>
 `;
 
@@ -223,17 +236,30 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
 <div
   className="wrapper--fixed"
 >
-  <AdminHeader>
-    testplugin
-  </AdminHeader>
-  <form
-    className="form-horizontal"
-    onSubmit={[Function]}
-    role="form"
+  <div
+    className="wrapper--fixed "
   >
-    <SettingsGroup
-      show={true}
-    />
+    <AdminHeader>
+      testplugin
+    </AdminHeader>
+    <div
+      className="admin-console__wrapper"
+    >
+      <div
+        className="admin-console__content"
+      >
+        <form
+          className="form-horizontal"
+          onSubmit={[Function]}
+          role="form"
+        >
+          <SettingsGroup
+            container={false}
+            show={true}
+          />
+        </form>
+      </div>
+    </div>
     <div
       className="admin-console-save"
     >
@@ -269,7 +295,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         />
       </Overlay>
     </div>
-  </form>
+  </div>
 </div>
 `;
 
@@ -277,182 +303,195 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
 <div
   className="wrapper--fixed"
 >
-  <AdminHeader>
-    testplugin
-  </AdminHeader>
-  <form
-    className="form-horizontal"
-    onSubmit={[Function]}
-    role="form"
+  <div
+    className="wrapper--fixed "
   >
-    <SettingsGroup
-      show={true}
+    <AdminHeader>
+      testplugin
+    </AdminHeader>
+    <div
+      className="admin-console__wrapper"
     >
       <div
-        className="banner"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<h1 class=\\"markdown__heading\\">Header</h1><p><em>This</em> is the <strong>header</strong></p>",
-          }
-        }
-      />
-      <AdminTextSetting
-        disabled={false}
-        helpText={
-          <HelpText
-            isTranslated={false}
-            text="This is some help text for the text field."
-          />
-        }
-        id="settinga"
-        key="testplugin_text_settinga"
-        label="Setting One"
-        onChange={[Function]}
-        placeholder="e.g. some setting"
-        setByEnv={false}
-        type="input"
-        value="fsdsdg"
-      />
-      <BooleanSetting
-        disabled={false}
-        falseText={
-          <FormattedMessage
-            defaultMessage="false"
-            id="admin.false"
-            values={Object {}}
-          />
-        }
-        helpText={
-          <HelpText
-            isTranslated={false}
-            text="This is some help text for the bool field."
-          />
-        }
-        id="settingb"
-        key="testplugin_bool_settingb"
-        label="Setting Two"
-        onChange={[Function]}
-        setByEnv={false}
-        trueText={
-          <FormattedMessage
-            defaultMessage="true"
-            id="admin.true"
-            values={Object {}}
-          />
-        }
-        value={false}
-      />
-      <DropdownSetting
-        disabled={false}
-        helpText={
-          <HelpText
-            isTranslated={false}
-            text="This is some help text for the dropdown field."
-          />
-        }
-        id="settingc"
-        isDisabled={false}
-        key="testplugin_dropdown_settingc"
-        label="Setting Three"
-        onChange={[Function]}
-        setByEnv={false}
-        value="option3"
-        values={
-          Array [
-            Object {
-              "text": "Option 1",
-              "value": "option1",
-            },
-            Object {
-              "text": "Option 2",
-              "value": "option2",
-            },
-            Object {
-              "text": "Option 3",
-              "value": "option3",
-            },
-          ]
-        }
-      />
-      <RadioSetting
-        disabled={false}
-        helpText={
-          <HelpText
-            isTranslated={false}
-            text="This is some help text for the radio field."
-          />
-        }
-        id="settingd"
-        key="testplugin_radio_settingd"
-        label="Setting Four"
-        onChange={[Function]}
-        setByEnv={false}
-        value="option1"
-        values={
-          Array [
-            Object {
-              "text": "Option 1",
-              "value": "option1",
-            },
-            Object {
-              "text": "Option 2",
-              "value": "option2",
-            },
-            Object {
-              "text": "Option 3",
-              "value": "option3",
-            },
-          ]
-        }
-      />
-      <GeneratedSetting
-        disabled={false}
-        helpText={
-          <HelpText
-            isTranslated={false}
-            text="This is some help text for the generated field."
-          />
-        }
-        id="settinge"
-        key="testplugin_generated_settinge"
-        label="Setting Five"
-        onChange={[Function]}
-        placeholder="e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb"
-        regenerateHelpText="This is help text for the regenerate button."
-        regenerateText={
-          <FormattedMessage
-            defaultMessage="Regenerate"
-            id="admin.regenerate"
-            values={Object {}}
-          />
-        }
-        setByEnv={false}
-        value="Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23"
-      />
-      <UserAutocompleteSetting
-        disabled={false}
-        helpText={
-          <HelpText
-            isTranslated={false}
-            text="This is some help text for the user autocomplete field."
-          />
-        }
-        id="settingf"
-        key="testplugin_userautocomplete_settingf"
-        label="Setting Six"
-        onChange={[Function]}
-        placeholder="Type a username here"
-        value="3xz3r6n7dtbbmgref3yw4zg7sr"
-      />
-      <div
-        className="banner"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<h1 class=\\"markdown__heading\\">Footer</h1><p><em>This</em> is the <strong>footer</strong></p>",
-          }
-        }
-      />
-    </SettingsGroup>
+        className="admin-console__content"
+      >
+        <form
+          className="form-horizontal"
+          onSubmit={[Function]}
+          role="form"
+        >
+          <SettingsGroup
+            container={false}
+            show={true}
+          >
+            <div
+              className="banner"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "<h1 class=\\"markdown__heading\\">Header</h1><p><em>This</em> is the <strong>header</strong></p>",
+                }
+              }
+            />
+            <AdminTextSetting
+              disabled={false}
+              helpText={
+                <HelpText
+                  isTranslated={false}
+                  text="This is some help text for the text field."
+                />
+              }
+              id="settinga"
+              key="testplugin_text_settinga"
+              label="Setting One"
+              onChange={[Function]}
+              placeholder="e.g. some setting"
+              setByEnv={false}
+              type="input"
+              value="fsdsdg"
+            />
+            <BooleanSetting
+              disabled={false}
+              falseText={
+                <FormattedMessage
+                  defaultMessage="false"
+                  id="admin.false"
+                  values={Object {}}
+                />
+              }
+              helpText={
+                <HelpText
+                  isTranslated={false}
+                  text="This is some help text for the bool field."
+                />
+              }
+              id="settingb"
+              key="testplugin_bool_settingb"
+              label="Setting Two"
+              onChange={[Function]}
+              setByEnv={false}
+              trueText={
+                <FormattedMessage
+                  defaultMessage="true"
+                  id="admin.true"
+                  values={Object {}}
+                />
+              }
+              value={false}
+            />
+            <DropdownSetting
+              disabled={false}
+              helpText={
+                <HelpText
+                  isTranslated={false}
+                  text="This is some help text for the dropdown field."
+                />
+              }
+              id="settingc"
+              isDisabled={false}
+              key="testplugin_dropdown_settingc"
+              label="Setting Three"
+              onChange={[Function]}
+              setByEnv={false}
+              value="option3"
+              values={
+                Array [
+                  Object {
+                    "text": "Option 1",
+                    "value": "option1",
+                  },
+                  Object {
+                    "text": "Option 2",
+                    "value": "option2",
+                  },
+                  Object {
+                    "text": "Option 3",
+                    "value": "option3",
+                  },
+                ]
+              }
+            />
+            <RadioSetting
+              disabled={false}
+              helpText={
+                <HelpText
+                  isTranslated={false}
+                  text="This is some help text for the radio field."
+                />
+              }
+              id="settingd"
+              key="testplugin_radio_settingd"
+              label="Setting Four"
+              onChange={[Function]}
+              setByEnv={false}
+              value="option1"
+              values={
+                Array [
+                  Object {
+                    "text": "Option 1",
+                    "value": "option1",
+                  },
+                  Object {
+                    "text": "Option 2",
+                    "value": "option2",
+                  },
+                  Object {
+                    "text": "Option 3",
+                    "value": "option3",
+                  },
+                ]
+              }
+            />
+            <GeneratedSetting
+              disabled={false}
+              helpText={
+                <HelpText
+                  isTranslated={false}
+                  text="This is some help text for the generated field."
+                />
+              }
+              id="settinge"
+              key="testplugin_generated_settinge"
+              label="Setting Five"
+              onChange={[Function]}
+              placeholder="e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb"
+              regenerateHelpText="This is help text for the regenerate button."
+              regenerateText={
+                <FormattedMessage
+                  defaultMessage="Regenerate"
+                  id="admin.regenerate"
+                  values={Object {}}
+                />
+              }
+              setByEnv={false}
+              value="Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23"
+            />
+            <UserAutocompleteSetting
+              disabled={false}
+              helpText={
+                <HelpText
+                  isTranslated={false}
+                  text="This is some help text for the user autocomplete field."
+                />
+              }
+              id="settingf"
+              key="testplugin_userautocomplete_settingf"
+              label="Setting Six"
+              onChange={[Function]}
+              placeholder="Type a username here"
+              value="3xz3r6n7dtbbmgref3yw4zg7sr"
+            />
+            <div
+              className="banner"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "<h1 class=\\"markdown__heading\\">Footer</h1><p><em>This</em> is the <strong>footer</strong></p>",
+                }
+              }
+            />
+          </SettingsGroup>
+        </form>
+      </div>
+    </div>
     <div
       className="admin-console-save"
     >
@@ -488,6 +527,6 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         />
       </Overlay>
     </div>
-  </form>
+  </div>
 </div>
 `;

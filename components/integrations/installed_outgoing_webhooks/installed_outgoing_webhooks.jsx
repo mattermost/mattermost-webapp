@@ -8,7 +8,8 @@ import {FormattedMessage} from 'react-intl';
 import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
-import InstalledOutgoingWebhook from 'components/integrations/installed_outgoing_webhook.jsx';
+import InstalledOutgoingWebhook, {matchesFilter} from 'components/integrations/installed_outgoing_webhook.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class InstalledOutgoingWebhooks extends React.PureComponent {
     static propTypes = {
@@ -125,8 +126,10 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
         return displayNameA.localeCompare(displayNameB);
     }
 
-    render() {
-        const outgoingWebhooks = this.props.outgoingWebhooks.sort(this.outgoingWebhookCompare).map((outgoingWebhook) => {
+    outgoingWebhooks = (filter) => this.props.outgoingWebhooks.
+        sort(this.outgoingWebhookCompare).
+        filter((outgoingWebhook) => matchesFilter(outgoingWebhook, this.props.channels[outgoingWebhook.channel_id], filter)).
+        map((outgoingWebhook) => {
             const canChange = this.props.canManageOthersWebhooks || this.props.user.id === outgoingWebhook.creator_id;
             const channel = this.props.channels[outgoingWebhook.channel_id];
             return (
@@ -143,6 +146,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
             );
         });
 
+    render() {
         return (
             <BackstageList
                 header={
@@ -158,10 +162,17 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
                     />
                 }
                 addLink={'/' + this.props.team.name + '/integrations/outgoing_webhooks/add'}
+                addButtonId='addOutgoingWebhook'
                 emptyText={
                     <FormattedMessage
                         id='installed_outgoing_webhooks.empty'
                         defaultMessage='No outgoing webhooks found'
+                    />
+                }
+                emptyTextSearch={
+                    <FormattedMarkdownMessage
+                        id='installed_outgoing_webhooks.emptySearch'
+                        defaultMessage='No outgoing webhooks match {searchTerm}'
                     />
                 }
                 helpText={
@@ -199,7 +210,10 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
                 searchPlaceholder={Utils.localizeMessage('installed_outgoing_webhooks.search', 'Search Outgoing Webhooks')}
                 loading={this.state.loading}
             >
-                {outgoingWebhooks}
+                {(filter) => {
+                    const children = this.outgoingWebhooks(filter);
+                    return [children, children.length > 0];
+                }}
             </BackstageList>
         );
     }

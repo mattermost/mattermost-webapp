@@ -204,7 +204,7 @@ const PluginItem = ({
             <span>
                 {' - '}
                 <Link
-                    to={'/admin_console/plugins/custom/' + pluginStatus.id}
+                    to={'/admin_console/integrations/plugin_' + pluginStatus.id}
                 >
                     <FormattedMessage
                         id='admin.plugin.settingsButton'
@@ -399,6 +399,7 @@ export default class PluginManagement extends AdminSettings {
         actions: PropTypes.shape({
             uploadPlugin: PropTypes.func.isRequired,
             removePlugin: PropTypes.func.isRequired,
+            getPlugins: PropTypes.func.isRequired,
             getPluginStatuses: PropTypes.func.isRequired,
             enablePlugin: PropTypes.func.isRequired,
             disablePlugin: PropTypes.func.isRequired,
@@ -479,6 +480,9 @@ export default class PluginManagement extends AdminSettings {
             return;
         }
 
+        this.setState({loading: true});
+        await this.props.actions.getPlugins();
+
         let msg = `Successfully uploaded plugin from ${file.name}`;
         if (this.state.overwriting) {
             msg = `Successfully updated plugin from ${file.name}`;
@@ -491,6 +495,7 @@ export default class PluginManagement extends AdminSettings {
             lastMessage: msg,
             overwriting: false,
             uploading: false,
+            loading: false,
         });
     }
 
@@ -749,75 +754,80 @@ export default class PluginManagement extends AdminSettings {
         const overwritePluginModal = this.state.confirmModal && this.renderOverwritePluginModal();
 
         return (
-            <div className='wrapper--fixed'>
-                <SettingsGroup id={'PluginSettings'}>
-                    <BooleanSetting
-                        id='enable'
-                        label={
-                            <FormattedMessage
-                                id='admin.plugins.settings.enable'
-                                defaultMessage='Enable Plugins: '
-                            />
-                        }
-                        helpText={
-                            <FormattedMarkdownMessage
-                                id='admin.plugins.settings.enableDesc'
-                                defaultMessage='When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more.'
-                            />
-                        }
-                        value={this.state.enable}
-                        onChange={this.handleChange}
-                        setByEnv={this.isSetByEnv('PluginSettings.Enable')}
-                    />
-
-                    <div className='form-group'>
-                        <label
-                            className='control-label col-sm-4'
-                        >
-                            <FormattedMessage
-                                id='admin.plugin.uploadTitle'
-                                defaultMessage='Upload Plugin: '
-                            />
-                        </label>
-                        <div className='col-sm-8'>
-                            <div className='file__upload'>
-                                <button
-                                    className={uploadBtnClass}
-                                    disabled={!enableUploads || !enable}
-                                >
-                                    <FormattedMessage
-                                        id='admin.plugin.choose'
-                                        defaultMessage='Choose File'
-                                    />
-                                </button>
-                                <input
-                                    ref='fileInput'
-                                    type='file'
-                                    accept='.gz'
-                                    onChange={this.handleUpload}
-                                    disabled={!enableUploads || !enable}
+            <div className='admin-console__wrapper'>
+                <div className='admin-console__content'>
+                    <SettingsGroup
+                        id={'PluginSettings'}
+                        container={false}
+                    >
+                        <BooleanSetting
+                            id='enable'
+                            label={
+                                <FormattedMessage
+                                    id='admin.plugins.settings.enable'
+                                    defaultMessage='Enable Plugins: '
                                 />
-                            </div>
-                            <button
-                                className={btnClass}
-                                disabled={!this.state.fileSelected}
-                                onClick={this.handleSubmitUpload}
+                            }
+                            helpText={
+                                <FormattedMarkdownMessage
+                                    id='admin.plugins.settings.enableDesc'
+                                    defaultMessage='When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                                />
+                            }
+                            value={this.state.enable}
+                            onChange={this.handleChange}
+                            setByEnv={this.isSetByEnv('PluginSettings.Enable')}
+                        />
+
+                        <div className='form-group'>
+                            <label
+                                className='control-label col-sm-4'
                             >
-                                {uploadButtonText}
-                            </button>
-                            <div className='help-text no-margin'>
-                                {fileName}
+                                <FormattedMessage
+                                    id='admin.plugin.uploadTitle'
+                                    defaultMessage='Upload Plugin: '
+                                />
+                            </label>
+                            <div className='col-sm-8'>
+                                <div className='file__upload'>
+                                    <button
+                                        className={uploadBtnClass}
+                                        disabled={!enableUploads || !enable}
+                                    >
+                                        <FormattedMessage
+                                            id='admin.plugin.choose'
+                                            defaultMessage='Choose File'
+                                        />
+                                    </button>
+                                    <input
+                                        ref='fileInput'
+                                        type='file'
+                                        accept='.gz'
+                                        onChange={this.handleUpload}
+                                        disabled={!enableUploads || !enable}
+                                    />
+                                </div>
+                                <button
+                                    className={btnClass}
+                                    disabled={!this.state.fileSelected}
+                                    onClick={this.handleSubmitUpload}
+                                >
+                                    {uploadButtonText}
+                                </button>
+                                <div className='help-text no-margin'>
+                                    {fileName}
+                                </div>
+                                {serverError}
+                                {lastMessage}
+                                <p className='help-text'>
+                                    {uploadHelpText}
+                                </p>
                             </div>
-                            {serverError}
-                            {lastMessage}
-                            <p className='help-text'>
-                                {uploadHelpText}
-                            </p>
                         </div>
-                    </div>
-                    {pluginsContainer}
-                </SettingsGroup>
-                {overwritePluginModal}
+                        {pluginsContainer}
+                    </SettingsGroup>
+                    {overwritePluginModal}
+                </div>
             </div>
         );
     }

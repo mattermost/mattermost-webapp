@@ -12,7 +12,7 @@ import {
     removeIdpSamlCertificate, uploadIdpSamlCertificate,
     removePrivateSamlCertificate, uploadPrivateSamlCertificate,
     removePublicSamlCertificate, uploadPublicSamlCertificate,
-    invalidateAllEmailInvites,
+    invalidateAllEmailInvites, testSmtp,
 } from 'actions/admin_actions';
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
@@ -34,7 +34,6 @@ import GroupSettings from './group_settings/group_settings.jsx';
 import GroupDetails from './group_settings/group_details';
 
 import PasswordSettings from './password_settings.jsx';
-import EmailNotificationsSettings from './email_settings.jsx';
 import PushNotificationsSettings from './push_settings.jsx';
 import DataRetentionSettings from './data_retention_settings.jsx';
 import MessageExportSettings from './message_export_settings.jsx';
@@ -159,7 +158,7 @@ export default {
         sectionTitle: t('admin.sidebar.about'),
         sectionTitleDefault: 'About',
         license: {
-            url: 'license',
+            url: 'about/license',
             title: t('admin.sidebar.license'),
             title_default: 'Edition and License',
             isHidden: it.either(
@@ -187,7 +186,7 @@ export default {
         sectionTitle: t('admin.sidebar.reporting'),
         sectionTitleDefault: 'Reporting',
         system_analytics: {
-            url: 'system_analytics',
+            url: 'reporting/system_analytics',
             title: t('admin.sidebar.siteStatistics'),
             title_default: 'Site Statistics',
             searchableStrings: [
@@ -214,8 +213,8 @@ export default {
                 component: SystemAnalytics,
             },
         },
-        team_analytics: {
-            url: 'team_analytics',
+        team_statistics: {
+            url: 'reporting/team_statistics',
             title: t('admin.sidebar.teamStatistics'),
             title_default: 'Team Statistics',
             searchableStrings: [
@@ -235,7 +234,7 @@ export default {
             },
         },
         server_logs: {
-            url: 'logs',
+            url: 'reporting/server_logs',
             title: t('admin.sidebar.logs'),
             title_default: 'Server Logs',
             searchableStrings: [
@@ -253,7 +252,7 @@ export default {
         sectionTitle: t('admin.sidebar.userManagement'),
         sectionTitleDefault: 'User Management',
         system_users: {
-            url: 'users',
+            url: 'user_management/users',
             title: t('admin.sidebar.users'),
             title_default: 'Users',
             searchableStrings: [
@@ -265,7 +264,7 @@ export default {
             },
         },
         group_detail: {
-            url: 'groups/:group_id',
+            url: 'user_management/groups/:group_id',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
                 it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
@@ -276,7 +275,7 @@ export default {
             },
         },
         groups: {
-            url: 'groups',
+            url: 'user_management/groups',
             title: t('admin.sidebar.groups'),
             title_default: 'Groups',
             isHidden: it.either(
@@ -288,14 +287,41 @@ export default {
                 component: GroupSettings,
             },
         },
-        permissions: {
-            url: 'permissions/schemes',
-            title: t('admin.sidebar.permissions'),
-            title_default: 'Permissions',
+        systemScheme: {
+            url: 'user_management/permissions/system_scheme',
+            isHidden: it.isnt(it.licensed),
+            schema: {
+                id: 'PermissionSystemScheme',
+                component: PermissionSystemSchemeSettings,
+            },
+        },
+        teamSchemeDetail: {
+            url: 'user_management/permissions/team_override_scheme/:scheme_id',
             isHidden: it.either(
                 it.isnt(it.licensed),
                 it.isnt(it.licensedForFeature('CustomPermissionsSchemes'))
             ),
+            schema: {
+                id: 'PermissionSystemScheme',
+                component: PermissionTeamSchemeSettings,
+            },
+        },
+        teamScheme: {
+            url: 'user_management/permissions/team_override_scheme',
+            isHidden: it.either(
+                it.isnt(it.licensed),
+                it.isnt(it.licensedForFeature('CustomPermissionsSchemes'))
+            ),
+            schema: {
+                id: 'PermissionSystemScheme',
+                component: PermissionTeamSchemeSettings,
+            },
+        },
+        permissions: {
+            url: 'user_management/permissions/',
+            title: t('admin.sidebar.permissions'),
+            title_default: 'Permissions',
+            isHidden: it.isnt(it.licensed),
             searchableStrings: [
                 'admin.permissions.documentationLinkText',
                 'admin.permissions.teamOverrideSchemesNoSchemes',
@@ -313,34 +339,13 @@ export default {
                 component: PermissionSchemesSettings,
             },
         },
-        systemScheme: {
-            url: 'permissions/system-scheme',
-            title: t('admin.sidebar.systemScheme'),
-            title_default: 'System Scheme',
-            isHidden: it.either(
-                it.isnt(it.licensed),
-                it.licensedForFeature('CustomPermissionsSchemes')
-            ),
-            schema: {
-                id: 'PermissionSystemScheme',
-                component: PermissionSystemSchemeSettings,
-            },
-        },
-        teamScheme: {
-            url: 'permissions/team-override-scheme',
-            isHidden: it.isnt(it.licensedForFeature('CustomPermissionsSchemes')),
-            schema: {
-                id: 'PermissionSystemScheme',
-                component: PermissionTeamSchemeSettings,
-            },
-        },
     },
     environment: {
         icon: 'fa-server',
         sectionTitle: t('admin.sidebar.environment'),
         sectionTitleDefault: 'Environment',
         web_server: {
-            url: 'web_server',
+            url: 'environment/web_server',
             title: t('admin.sidebar.webServer'),
             title_default: 'Web Server',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
@@ -512,11 +517,11 @@ export default {
                                 </b>
                             ),
                             recycleDatabaseConnections: (
-                                <a href='../advanced/database'>
+                                <a href='../environment/database'>
                                     <b>
                                         <FormattedMessage
                                             id='admin.reload.reloadDescription.recycleDatabaseConnections'
-                                            defaultMessage='Database > Recycle Database Connections'
+                                            defaultMessage='Environment > Database > Recycle Database Connections'
                                         />
                                     </b>
                                 </a>
@@ -540,7 +545,7 @@ export default {
             },
         },
         database: {
-            url: 'database',
+            url: 'environment/database',
             title: t('admin.sidebar.database'),
             title_default: 'Database',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
@@ -572,7 +577,7 @@ export default {
             },
         },
         elasticsearch: {
-            url: 'elasticsearch',
+            url: 'environment/elasticsearch',
             title: t('admin.sidebar.elasticsearch'),
             title_default: 'Elasticsearch',
             isHidden: it.either(
@@ -609,7 +614,7 @@ export default {
             },
         },
         storage: {
-            url: 'file_storage',
+            url: 'environment/file_storage',
             title: t('admin.sidebar.fileStorage'),
             title_default: 'File Storage',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
@@ -764,7 +769,7 @@ export default {
             },
         },
         image_proxy: {
-            url: 'image_proxy',
+            url: 'environment/image_proxy',
             title: t('admin.sidebar.imageProxy'),
             title_default: 'Image Proxy',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
@@ -830,55 +835,130 @@ export default {
                 ],
             },
         },
-        email_notifications: {
-            url: 'notifications_email',
-            title: t('admin.sidebar.emailNotifications'),
-            title_default: 'Email Notifications',
+        smtp: {
+            url: 'environment/smtp',
+            title: t('admin.sidebar.smtp'),
+            title_default: 'SMTP',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-            searchableStrings: [
-                'admin.notifications.email',
-                'admin.email.notification.contents.title',
-                'admin.email.notificationsTitle',
-                'admin.email.notificationsDescription',
-                'admin.email.enablePreviewModeBannerTitle',
-                'admin.email.enablePreviewModeBannerDescription',
-                'admin.email.enableEmailBatchingTitle',
-                'admin.email.enableEmailBatchingDesc',
-                'admin.email.notificationDisplayTitle',
-                'admin.email.notificationDisplayDescription',
-                'admin.email.notificationEmailTitle',
-                'admin.email.notificationEmailDescription',
-                'admin.email.replyToAddressTitle',
-                'admin.email.replyToAddressDescription',
-                'admin.email.notificationOrganization',
-                'admin.email.notificationOrganizationDescription',
-                'admin.email.smtpServerTitle',
-                'admin.email.smtpServerDescription',
-                'admin.email.smtpPortTitle',
-                'admin.email.smtpPortDescription',
-                'admin.email.enableSMTPAuthTitle',
-                'admin.email.enableSMTPAuthDesc',
-                'admin.email.smtpUsernameTitle',
-                'admin.email.smtpUsernameDescription',
-                'admin.email.smtpPasswordTitle',
-                'admin.email.smtpPasswordDescription',
-                'admin.email.skipServerCertificateVerification.title',
-                'admin.email.skipServerCertificateVerification.description',
-                'admin.service.securityTitle',
-                'admin.service.securityDesc',
-            ],
             schema: {
-                id: 'EmailNotificationsSettings',
-                component: EmailNotificationsSettings,
+                id: 'SMTP',
+                name: t('admin.environment.smtp'),
+                name_default: 'SMTP',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'EmailSettings.SMTPServer',
+                        label: t('admin.environment.smtp.smtpServer.title'),
+                        label_default: 'SMTP Server:',
+                        placeholder: t('admin.environment.smtp.smtpServer.placeholder'),
+                        placeholder_default: 'Ex: "smtp.yourcompany.com", "email-smtp.us-east-1.amazonaws.com"',
+                        help_text: t('admin.environment.smtp.smtpServer.description'),
+                        help_text_default: 'Location of SMTP email server.',
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'EmailSettings.SMTPPort',
+                        label: t('admin.environment.smtp.smtpPort.title'),
+                        label_default: 'SMTP Server Port:',
+                        placeholder: t('admin.environment.smtp.smtpPort.placeholder'),
+                        placeholder_default: 'Ex: "25", "465", "587"',
+                        help_text: t('admin.environment.smtp.smtpPort.description'),
+                        help_text_default: 'Port of SMTP email server.',
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'EmailSettings.EnableSMTPAuth',
+                        label: t('admin.environment.smtp.smtpAuth.title'),
+                        label_default: 'Enable SMTP Authentication:',
+                        help_text: t('admin.environment.smtp.smtpAuth.description'),
+                        help_text_default: 'When true, SMTP Authentication is enabled.',
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'EmailSettings.SMTPUsername',
+                        label: t('admin.environment.smtp.smtpUsername.title'),
+                        label_default: 'SMTP Server Username:',
+                        placeholder: t('admin.environment.smtp.smtpUsername.placeholder'),
+                        placeholder_default: 'Ex: "admin@yourcompany.com", "AKIADTOVBGERKLCBV"',
+                        help_text: t('admin.environment.smtp.smtpUsername.description'),
+                        help_text_default: 'Obtain this credential from administrator setting up your email server.',
+                        isDisabled: it.stateIsFalse('EmailSettings.EnableSMTPAuth'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'EmailSettings.SMTPPassword',
+                        label: t('admin.environment.smtp.smtpPassword.title'),
+                        label_default: 'SMTP Server Password:',
+                        placeholder: t('admin.environment.smtp.smtpPassword.placeholder'),
+                        placeholder_default: 'Ex: "yourpassword", "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
+                        help_text: t('admin.environment.smtp.smtpPassword.description'),
+                        help_text_default: 'Obtain this credential from administrator setting up your email server.',
+                        isDisabled: it.stateIsFalse('EmailSettings.EnableSMTPAuth'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'EmailSettings.ConnectionSecurity',
+                        label: t('admin.environment.smtp.connectionSecurity.title'),
+                        label_default: 'Connection Security:',
+                        help_text: DefinitionConstants.CONNECTION_SECURITY_HELP_TEXT_EMAIL,
+                        isHidden: it.isnt(it.licensedForFeature('EmailNotificationContents')),
+                        options: [
+                            {
+                                value: '',
+                                display_name: t('admin.environment.smtp.connectionSecurity.option.none'),
+                                display_name_default: 'None',
+                            },
+                            {
+                                value: 'TLS',
+                                display_name: t('admin.environment.smtp.connectionSecurity.option.tls'),
+                                display_name_default: 'TLS (Recommended)',
+                            },
+                            {
+                                value: 'STARTTLS',
+                                display_name: t('admin.environment.smtp.connectionSecurity.option.starttls'),
+                                display_name_default: 'STARTTLS',
+                            },
+                        ],
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BUTTON,
+                        action: testSmtp,
+                        key: 'TestSmtpConnection',
+                        label: t('admin.environment.smtp.connectionSmtpTest'),
+                        label_default: 'Test Connection',
+                        loading: t('admin.environment.smtp.testing'),
+                        loading_default: 'Testing...',
+                        error_message: t('admin.environment.smtp.smtpFail'),
+                        error_message_default: 'Connection unsuccessful: {error}',
+                        success_message: t('admin.environment.smtp.smtpSuccess'),
+                        success_message_default: 'No errors were reported while sending an email. Please check your inbox to make sure.',
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'EmailSettings.SkipServerCertificateVerification',
+                        label: t('admin.environment.smtp.skipServerCertificateVerification.title'),
+                        label_default: 'Skip Server Certificate Verification:',
+                        help_text: t('admin.environment.smtp.skipServerCertificateVerification.description'),
+                        help_text_default: 'When true, Mattermost will not verify the email server certificate.',
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableSecurityFixAlert',
+                        label: t('admin.environment.smtp.enableSecurityFixAlert.title'),
+                        label_default: 'Enable Security Alerts:',
+                        help_text: t('admin.environment.smtp.enableSecurityFixAlert.description'),
+                        help_text_default: 'When true, System Administrators are notified by email if a relevant security fix alert has been announced in the last 12 hours. Requires email to be enabled.',
+                    },
+                ],
             },
         },
-        push_notifications: {
-            url: 'push',
-            title: t('admin.sidebar.pushNotifications'),
-            title_default: 'Push Notifications',
+        push_notification_server: {
+            url: 'environment/push_notification_server',
+            title: t('admin.sidebar.pushNotificationServer'),
+            title_default: 'Push Notification Server',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             searchableStrings: [
-                'admin.notifications.push',
+                'admin.environment.pushNotificationServer',
                 'admin.email.pushTitle',
                 'admin.email.pushServerTitle',
                 'admin.email.pushContentTitle',
@@ -886,14 +966,12 @@ export default {
             ],
             schema: {
                 id: 'PushNotificationsSettings',
-                name: t('admin.environment.pushNotifications'),
-                name_default: 'Push Notifications',
                 component: PushNotificationsSettings,
             },
         },
-        cluster: {
-            url: 'cluster',
-            title: t('admin.sidebar.cluster'),
+        high_availability: {
+            url: 'environment/high_availability',
+            title: t('admin.sidebar.highAvailability'),
             title_default: 'High Availability',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('Cluster')),
@@ -922,8 +1000,8 @@ export default {
                 component: ClusterSettings,
             },
         },
-        rate: {
-            url: 'rate',
+        rate_limiting: {
+            url: 'environment/rate_limiting',
             title: t('admin.sidebar.rateLimiting'),
             title_default: 'Rate Limiting',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
@@ -1015,7 +1093,7 @@ export default {
             },
         },
         logging: {
-            url: 'logging',
+            url: 'environment/logging',
             title: t('admin.sidebar.logging'),
             title_default: 'Logging',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
@@ -1126,7 +1204,7 @@ export default {
             },
         },
         session_lengths: {
-            url: 'session_lengths',
+            url: 'environment/session_lengths',
             title: t('admin.sidebar.sessionLengths'),
             title_default: 'Session Lengths',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
@@ -1197,7 +1275,7 @@ export default {
             },
         },
         metrics: {
-            url: 'metrics',
+            url: 'environment/performance_monitoring',
             title: t('admin.sidebar.metrics'),
             title_default: 'Performance Monitoring',
             isHidden: it.either(
@@ -1232,7 +1310,7 @@ export default {
             },
         },
         developer: {
-            url: 'developer',
+            url: 'environment/developer',
             title: t('admin.sidebar.developer'),
             title_default: 'Developer',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
@@ -1277,7 +1355,7 @@ export default {
         sectionTitle: t('admin.sidebar.site'),
         sectionTitleDefault: 'Site Configuration',
         customization: {
-            url: 'customization_new',
+            url: 'site_config/customization',
             title: t('admin.sidebar.customization'),
             title_default: 'Customization',
             schema: {
@@ -1334,7 +1412,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SupportSettings.HelpLink',
                         label: t('admin.support.helpTitle'),
-                        label_default: 'Help link:',
+                        label_default: 'Help Link:',
                         help_text: t('admin.support.helpDesc'),
                         help_text_default: 'The URL for the Help link on the Mattermost login page, sign-up pages, and Main Menu. If this field is empty, the Help link is hidden from users.',
                     },
@@ -1348,9 +1426,17 @@ export default {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SupportSettings.TermsOfServiceLink',
+                        label: t('admin.support.termsTitle'),
+                        label_default: 'Terms of Service Link:',
+                        help_text: t('admin.support.termsDesc'),
+                        help_text_default: 'Link to the terms under which users may use your online service. By default, this includes the "Mattermost Conditions of Use (End Users)" explaining the terms under which Mattermost software is provided to end users. If you change the default link to add your own terms for using the service you provide, your new terms must include a link to the default terms so end users are aware of the Mattermost Conditions of Use (End User) for Mattermost software.',
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SupportSettings.PrivacyPolicyLink',
                         label: t('admin.support.privacyTitle'),
-                        label_default: 'Privacy Policy link:',
+                        label_default: 'Privacy Policy Link:',
                         help_text: t('admin.support.privacyDesc'),
                         help_text_default: 'The URL for the Privacy link on the login and sign-up pages. If this field is empty, the Privacy link is hidden from users.',
                     },
@@ -1358,7 +1444,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SupportSettings.AboutLink',
                         label: t('admin.support.aboutTitle'),
-                        label_default: 'About link:',
+                        label_default: 'About Link:',
                         help_text: t('admin.support.aboutDesc'),
                         help_text_default: 'The URL for the About link on the Mattermost login and sign-up pages. If this field is empty, the About link is hidden from users.',
                     },
@@ -1366,7 +1452,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SupportSettings.ReportAProblemLink',
                         label: t('admin.support.problemTitle'),
-                        label_default: 'Report a Problem link:',
+                        label_default: 'Report a Problem Link:',
                         help_text: t('admin.support.problemDesc'),
                         help_text_default: 'The URL for the Report a Problem link in the Main Menu. If this field is empty, the link is removed from the Main Menu.',
                     },
@@ -1398,7 +1484,7 @@ export default {
             },
         },
         localization: {
-            url: 'localization',
+            url: 'site_config/localization',
             title: t('admin.sidebar.localization'),
             title_default: 'Localization',
             schema: {
@@ -1440,7 +1526,7 @@ export default {
             },
         },
         users_and_teams: {
-            url: 'users_and_teams',
+            url: 'site_config/users_and_teams',
             title: t('admin.sidebar.usersAndTeams'),
             title_default: 'Users and Teams',
             schema: {
@@ -1477,24 +1563,6 @@ export default {
                         help_text_default: 'Maximum total number of channels per team, including both active and archived channels.',
                         placeholder: t('admin.team.maxChannelsExample'),
                         placeholder_default: 'E.g.: "100"',
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_NUMBER,
-                        key: 'TeamSettings.MaxNotificationsPerChannel',
-                        label: t('admin.team.maxNotificationsPerChannelTitle'),
-                        label_default: 'Max Notifications Per Channel:',
-                        help_text: t('admin.team.maxNotificationsPerChannelDescription'),
-                        help_text_default: 'Maximum total number of users in a channel before users typing messages, @all, @here, and @channel no longer send notifications because of performance.',
-                        placeholder: t('admin.team.maxNotificationsPerChannelExample'),
-                        placeholder_default: 'E.g.: "1000"',
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'TeamSettings.EnableConfirmNotificationsToChannel',
-                        label: t('admin.team.enableConfirmNotificationsToChannelTitle'),
-                        label_default: 'Show @channel and @all confirmation dialog: ',
-                        help_text: t('admin.team.enableConfirmNotificationsToChannelDescription'),
-                        help_text_default: 'When true, users will be prompted to confirm when posting @channel and @all in channels with over five members. When false, no confirmation is required.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -1578,8 +1646,154 @@ export default {
                 ],
             },
         },
-        announcement: {
-            url: 'announcement',
+        notifications: {
+            url: 'environment/notifications',
+            title: t('admin.sidebar.notifications'),
+            title_default: 'Notifications',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            schema: {
+                id: 'notifications',
+                name: t('admin.environment.notifications'),
+                name_default: 'Notifications',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'TeamSettings.EnableConfirmNotificationsToChannel',
+                        label: t('admin.environment.notifications.enableConfirmNotificationsToChannel.label'),
+                        label_default: 'Show @channel and @all confirmation dialog:',
+                        help_text: t('admin.environment.notifications.enableConfirmNotificationsToChannel.help'),
+                        help_text_default: 'When true, users will be prompted to confirm when posting @channel and @all in channels with over five members. When false, no confirmation is required.',
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'EmailSettings.SendEmailNotifications',
+                        label: t('admin.environment.notifications.enable.label'),
+                        label_default: 'Enable Email Notifications:',
+                        help_text: t('admin.environment.notifications.enable.help'),
+                        help_text_default: 'Typically set to true in production. When true, Mattermost attempts to send email notifications. Developers may set this field to false to skip email setup for faster development.',
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'EmailSettings.EnablePreviewModeBanner',
+                        label: t('admin.environment.notifications.enablePreviewModeBanner.label'),
+                        label_default: 'Enable Preview Mode Banner:',
+                        help_text: t('admin.environment.notifications.enablePreviewModeBanner.help'),
+                        help_text_default: 'When true, the Preview Mode banner is displayed so users are aware that email notifications are disabled. When false, the Preview Mode banner is not displayed to users.',
+                        isDisabled: it.either(
+                            it.stateIsTrue('EmailSettings.SendEmailNotifications'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'EmailSettings.EnableEmailBatching',
+                        label: t('admin.environment.notifications.enableEmailBatching.label'),
+                        label_default: 'Enable Email Batching:',
+                        help_text: t('admin.environment.notifications.enableEmailBatching.help'),
+                        help_text_default: 'When true, users will have email notifications for multiple direct messages and mentions combined into a single email. Batching will occur at a default interval of 15 minutes, configurable in Account Settings > Notifications.',
+                        isDisabled: it.either(
+                            it.stateIsFalse('EmailSettings.SendEmailNotifications'),
+                            it.configIsTrue('ClusterSettings', 'Enable'),
+                            it.configIsFalse('ServiceSettings', 'SiteURL'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'EmailSettings.EmailNotificationContentsType',
+                        label: t('admin.environment.notifications.contents.label'),
+                        label_default: 'Email Notification Contents:',
+                        help_text: t('admin.environment.notifications.contents.help'),
+                        help_text_default: '**Send full message contents** - Sender name and channel are included in email notifications. Typically used for compliance reasons if Mattermost contains confidential information and policy dictates it cannot be stored in email.\n  **Send generic description with only sender name** - Only the name of the person who sent the message, with no information about channel name or message contents are included in email notifications. Typically used for compliance reasons if Mattermost contains confidential information and policy dictates it cannot be stored in email.',
+                        help_text_markdown: true,
+                        isHidden: it.isnt(it.licensedForFeature('EmailNotificationContents')),
+                        options: [
+                            {
+                                value: 'full',
+                                display_name: t('admin.environment.notifications.contents.full'),
+                                display_name_default: 'Send full message contents',
+                            },
+                            {
+                                value: 'generic',
+                                display_name: t('admin.environment.notifications.contents.generic'),
+                                display_name_default: 'Send generic description with only sender name',
+                            },
+                        ],
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'EmailSettings.FeedbackName',
+                        label: t('admin.environment.notifications.notificationDisplay.label'),
+                        label_default: 'Notification Display Name:',
+                        placeholder: t('admin.environment.notifications.notificationDisplay.placeholder'),
+                        placeholder_default: 'Ex: "Mattermost Notification", "System", "No-Reply"',
+                        help_text: t('admin.environment.notifications.notificationDisplay.help'),
+                        help_text_default: 'Display name on email account used when sending notification emails from Mattermost.',
+                        isDisabled: it.stateIsFalse('EmailSettings.SendEmailNotifications'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'EmailSettings.FeedbackEmail',
+                        label: t('admin.environment.notifications.feedbackEmail.label'),
+                        label_default: 'Notification From Address:',
+                        placeholder: t('admin.environment.notifications.feedbackEmail.placeholder'),
+                        placeholder_default: 'Ex: "mattermost@yourcompany.com", "admin@yourcompany.com"',
+                        help_text: t('admin.environment.notifications.feedbackEmail.help'),
+                        help_text_default: 'Email address displayed on email account used when sending notification emails from Mattermost.',
+                        isDisabled: it.stateIsFalse('EmailSettings.SendEmailNotifications'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'EmailSettings.ReplyToAddress',
+                        label: t('admin.environment.notifications.replyToAddress.label'),
+                        label_default: 'Notification Reply-To Address:',
+                        placeholder: t('admin.environment.notifications.replyToAddress.placeholder'),
+                        placeholder_default: 'Ex: "mattermost@yourcompany.com", "admin@yourcompany.com"',
+                        help_text: t('admin.environment.notifications.replyToAddress.help'),
+                        help_text_default: 'Email address used in the Reply-To header when sending notification emails from Mattermost.',
+                        isDisabled: it.stateIsFalse('EmailSettings.SendEmailNotifications'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'EmailSettings.FeedbackOrganization',
+                        label: t('admin.environment.notifications.feedbackOrganization.label'),
+                        label_default: 'Notification Footer Mailing Address:',
+                        placeholder: t('admin.environment.notifications.feedbackOrganization.placeholder'),
+                        placeholder_default: 'Ex: "© ABC Corporation, 565 Knight Way, Palo Alto, California, 94305, USA"',
+                        help_text: t('admin.environment.notifications.feedbackOrganization.help'),
+                        help_text_default: 'Organization name and address displayed on email notifications from Mattermost, such as "© ABC Corporation, 565 Knight Way, Palo Alto, California, 94305, USA". If the field is left empty, the organization name and address will not be displayed.',
+                        isDisabled: it.stateIsFalse('EmailSettings.SendEmailNotifications'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'EmailSettings.PushNotificationContents',
+                        label: t('admin.environment.notifications.pushContents.label'),
+                        label_default: 'Push Notification Contents:',
+                        help_text: t('admin.environment.notifications.pushContents.help'),
+                        help_text_default: '**Send generic description with only sender name** - Includes only the name of the person who sent the message in push notifications, with no information about channel name or message contents.\n **Send generic description with sender and channel names** - Includes the name of the person who sent the message and the channel it was sent in, but not the message text.\n **Send full message snippet** - Includes a message excerpt in push notifications, which may contain confidential information sent in messages. If your Push Notification Service is outside your firewall, it is *highly recommended* this option only be used with an "https" protocol to encrypt the connection.',
+                        help_text_markdown: true,
+                        isHidden: it.isnt(it.licensedForFeature('EmailNotificationContents')),
+                        options: [
+                            {
+                                value: 'generic_no_channel',
+                                display_name: t('admin.environment.notifications.pushContents.genericNoChannel'),
+                                display_name_default: 'Send generic description with only sender name',
+                            },
+                            {
+                                value: 'generic',
+                                display_name: t('admin.environment.notifications.pushContents.generic'),
+                                display_name_default: 'Send generic description with sender and channel names',
+                            },
+                            {
+                                value: 'full',
+                                display_name: t('admin.environment.notifications.pushContents.full'),
+                                display_name_default: 'Send full message snippet',
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+        announcement_banner: {
+            url: 'site_config/announcement_banner',
             title: t('admin.sidebar.announcement'),
             title_default: 'Announcement Banner',
             isHidden: it.isnt(it.licensed),
@@ -1632,7 +1846,7 @@ export default {
             },
         },
         emoji: {
-            url: 'emoji',
+            url: 'site_config/emoji',
             title: t('admin.sidebar.emoji'),
             title_default: 'Emoji',
             schema: {
@@ -1660,7 +1874,7 @@ export default {
             },
         },
         posts: {
-            url: 'posts',
+            url: 'site_config/posts',
             title: t('admin.sidebar.posts'),
             title_default: 'Posts',
             schema: {
@@ -1697,7 +1911,7 @@ export default {
             },
         },
         file_sharing_downloads: {
-            url: 'file_sharing_and_downloads',
+            url: 'site_config/file_sharing_downloads',
             title: t('admin.sidebar.fileSharingDownloads'),
             title_default: 'File Sharing and Downloads',
             schema: {
@@ -1735,7 +1949,7 @@ export default {
             },
         },
         public_links: {
-            url: 'public_links',
+            url: 'site_config/public_links',
             title: t('admin.sidebar.publicLinks'),
             title_default: 'Public Links',
             schema: {
@@ -1768,7 +1982,7 @@ export default {
         sectionTitle: t('admin.sidebar.authentication'),
         sectionTitleDefault: 'Authentication',
         signup: {
-            url: 'signup',
+            url: 'authentication/signup',
             title: t('admin.sidebar.signup'),
             title_default: 'Signup',
             schema: {
@@ -1828,7 +2042,7 @@ export default {
             },
         },
         email: {
-            url: 'authentication_email',
+            url: 'authentication/email',
             title: t('admin.sidebar.email'),
             title_default: 'Email',
             schema: {
@@ -1875,7 +2089,7 @@ export default {
             },
         },
         password: {
-            url: 'password',
+            url: 'authentication/password',
             title: t('admin.sidebar.password'),
             title_default: 'Password',
             searchableStrings: [
@@ -1898,7 +2112,7 @@ export default {
             },
         },
         mfa: {
-            url: 'mfa',
+            url: 'authentication/mfa',
             title: t('admin.sidebar.mfa'),
             title_default: 'MFA',
             schema: {
@@ -2085,7 +2299,7 @@ export default {
                         label_default: 'Group Filter:',
                         help_text: t('admin.ldap.groupFilterFilterDesc'),
                         help_text_markdown: true,
-                        help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for group objects. Only the groups selected by the query will be available to Mattermost. From [Groups](/admin_console/access-control/groups), select which AD/LDAP groups should be linked and configured.',
+                        help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for group objects. Only the groups selected by the query will be available to Mattermost. From [User Management > Groups](/admin_console/user_management/groups), select which AD/LDAP groups should be linked and configured.',
                         placeholder: t('admin.ldap.groupFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=group)"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
@@ -2097,7 +2311,7 @@ export default {
                         label: t('admin.ldap.groupDisplayNameAttributeTitle'),
                         label_default: 'Group Display Name Attribute:',
                         help_text: t('admin.ldap.groupDisplayNameAttributeDesc'),
-                        help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the Group Name. Defaults to "Common name" when blank.',
+                        help_text_default: 'The attribute in the AD/LDAP server used to populate the group display names.',
                         placeholder: t('admin.ldap.groupDisplayNameAttributeEx'),
                         placeholder_default: 'E.g.: "cn"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
@@ -2432,7 +2646,7 @@ export default {
             },
         },
         saml: {
-            url: 'saml',
+            url: 'authentication/saml',
             title: t('admin.sidebar.saml'),
             title_default: 'SAML 2.0',
             isHidden: it.isnt(it.licensedForFeature('SAML')),
@@ -2704,7 +2918,7 @@ export default {
             },
         },
         gitlab: {
-            url: 'gitlab',
+            url: 'authentication/gitlab',
             title: t('admin.sidebar.gitlab'),
             title_default: 'GitLab',
             isHidden: it.licensed,
@@ -2808,7 +3022,7 @@ export default {
             },
         },
         oauth: {
-            url: 'oauth',
+            url: 'authentication/oauth',
             title: t('admin.sidebar.oauth'),
             title_default: 'OAuth 2.0',
             isHidden: it.isnt(it.licensed),
@@ -3152,11 +3366,20 @@ export default {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableBotAccountCreation',
+                        label: t('admin.service.enableBotTitle'),
+                        label_default: 'Enable Bot Account Creation: ',
+                        help_text: t('admin.service.enableBotAccountCreation'),
+                        help_text_default: 'When true, users can create bot accounts for integrations in **Integrations > Bot Accounts**. Bot accounts are similar to user accounts except they cannot be used to log in. See [documentation](https://mattermost.com/pl/default-bot-accounts) to learn more.',
+                        help_text_markdown: true,
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableUserAccessTokens',
                         label: t('admin.service.userAccessTokensTitle'),
                         label_default: 'Enable User Access Tokens: ',
                         help_text: t('admin.service.userAccessTokensDescription'),
-                        help_text_default: 'When true, users can create [user access tokens](!https://about.mattermost.com/default-user-access-tokens) for integrations in **Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **System Console > Users** page.',
+                        help_text_default: 'When true, users can create [user access tokens](!https://about.mattermost.com/default-user-access-tokens) for integrations in **Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
                         help_text_markdown: true,
                     },
                 ],
@@ -3277,7 +3500,7 @@ export default {
             },
         },
         custom: {
-            url: 'plugins/custom/:plugin_id',
+            url: 'integrations/plugin_:plugin_id',
             schema: {
                 id: 'CustomPluginSettings',
                 component: CustomPluginSettings,
@@ -3340,60 +3563,6 @@ export default {
                 component: MessageExportSettings,
             },
         },
-        compliance: {
-            url: 'compliance/settings',
-            title: t('admin.sidebar.compliance'),
-            title_default: 'Compliance Settings',
-            isHidden: it.isnt(it.licensedForFeature('Compliance')),
-            schema: {
-                id: 'ComplianceSettings',
-                name: t('admin.compliance.complianceSettings'),
-                name_default: 'Compliance Settings',
-                settings: [
-                    {
-                        type: Constants.SettingsTypes.TYPE_BANNER,
-                        label: t('admin.compliance.newComplianceExportBanner'),
-                        label_markdown: true,
-                        label_default: 'This feature is replaced by a new [Compliance Export]({siteURL}/admin_console/compliance/export) feature, and will be removed in a future release. We recommend migrating to the new system.',
-                        label_values: {siteURL: getSiteURL()},
-                        isHidden: it.isnt(it.licensed),
-                        banner_type: 'info',
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ComplianceSettings.Enable',
-                        label: t('admin.compliance.enableTitle'),
-                        label_default: 'Enable Compliance Reporting:',
-                        help_text: t('admin.compliance.enableDesc'),
-                        help_text_default: 'When true, Mattermost allows compliance reporting from the **Compliance and Auditing** tab. See [documentation](!https://docs.mattermost.com/administration/compliance.html) to learn more.',
-                        help_text_markdown: true,
-                        isHidden: it.isnt(it.licensed),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'ComplianceSettings.Directory',
-                        label: t('admin.compliance.directoryTitle'),
-                        label_default: 'Compliance Report Directory:',
-                        help_text: t('admin.compliance.directoryDescription'),
-                        help_text_default: 'Directory to which compliance reports are written. If blank, will be set to ./data/.',
-                        placeholder: t('admin.compliance.directoryExample'),
-                        placeholder_default: 'E.g.: "./data/"',
-                        isDisabled: it.stateIsFalse('ComplianceSettings.Enable'),
-                        isHidden: it.isnt(it.licensed),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ComplianceSettings.EnableDaily',
-                        label: t('admin.compliance.enableDailyTitle'),
-                        label_default: 'Enable Daily Report:',
-                        help_text: t('admin.compliance.enableDailyDesc'),
-                        help_text_default: 'When true, Mattermost will generate a daily compliance report.',
-                        isDisabled: it.stateIsFalse('ComplianceSettings.Enable'),
-                        isHidden: it.isnt(it.licensed),
-                    },
-                ],
-            },
-        },
         audits: {
             url: 'compliance/monitoring',
             title: t('admin.sidebar.complianceMonitoring'),
@@ -3406,6 +3575,50 @@ export default {
             schema: {
                 id: 'Audits',
                 component: Audits,
+                isHidden: it.isnt(it.licensedForFeature('Compliance')),
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_BANNER,
+                        label: t('admin.compliance.newComplianceExportBanner'),
+                        label_markdown: true,
+                        label_default: 'This feature is replaced by a new [Compliance Export]({siteURL}/admin_console/compliance/export) feature, and will be removed in a future release. We recommend migrating to the new system.',
+                        label_values: {siteURL: getSiteURL()},
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
+                        banner_type: 'info',
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ComplianceSettings.Enable',
+                        label: t('admin.compliance.enableTitle'),
+                        label_default: 'Enable Compliance Reporting:',
+                        help_text: t('admin.compliance.enableDesc'),
+                        help_text_default: 'When true, Mattermost allows compliance reporting from the **Compliance and Auditing** tab. See [documentation](!https://docs.mattermost.com/administration/compliance.html) to learn more.',
+                        help_text_markdown: true,
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'ComplianceSettings.Directory',
+                        label: t('admin.compliance.directoryTitle'),
+                        label_default: 'Compliance Report Directory:',
+                        help_text: t('admin.compliance.directoryDescription'),
+                        help_text_default: 'Directory to which compliance reports are written. If blank, will be set to ./data/.',
+                        placeholder: t('admin.compliance.directoryExample'),
+                        placeholder_default: 'E.g.: "./data/"',
+                        isDisabled: it.stateIsFalse('ComplianceSettings.Enable'),
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ComplianceSettings.EnableDaily',
+                        label: t('admin.compliance.enableDailyTitle'),
+                        label_default: 'Enable Daily Report:',
+                        help_text: t('admin.compliance.enableDailyDesc'),
+                        help_text_default: 'When true, Mattermost will generate a daily compliance report.',
+                        isDisabled: it.stateIsFalse('ComplianceSettings.Enable'),
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
+                    },
+                ],
             },
         },
         custom_terms_of_service: {
@@ -3491,15 +3704,6 @@ export default {
                         help_text_markdown: false,
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ExperimentalSettings.DisablePostMetadata',
-                        label: t('admin.experimental.disablePostMetadata.title'),
-                        label_default: 'Disable Post Metadata:',
-                        help_text: t('admin.experimental.disablePostMetadata.desc'),
-                        help_text_default: 'Load channels with more accurate scroll positioning by loading post metadata. Enabling this setting may increase channel and post load times.',
-                        help_text_markdown: false,
-                    },
-                    {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
                         key: 'ExperimentalSettings.LinkMetadataTimeoutMilliseconds',
                         label: t('admin.experimental.linkMetadataTimeoutMilliseconds.title'),
@@ -3509,7 +3713,6 @@ export default {
                         help_text_markdown: false,
                         placeholder: t('admin.experimental.linkMetadataTimeoutMilliseconds.example'),
                         placeholder_default: 'E.g.: "5000"',
-                        isDisabled: it.stateIsFalse('ExperimentalSettings.DisablePostMetadata'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -3837,7 +4040,7 @@ export default {
                         label: t('admin.experimental.experimentalTownSquareIsReadOnly.title'),
                         label_default: 'Town Square is Read-Only:',
                         help_text: t('admin.experimental.experimentalTownSquareIsReadOnly.desc'),
-                        help_text_default: 'When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are able to change the channel name, header or purpose. When false, anyone can post in Town Square.',
+                        help_text_default: 'When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are they able to change the channel name, header or purpose. When false, anyone can post in Town Square.',
                         help_text_markdown: true,
                         isHidden: it.isnt(it.licensed), // E10 and higher
                     },

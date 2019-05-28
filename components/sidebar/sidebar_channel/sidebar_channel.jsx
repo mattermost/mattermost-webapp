@@ -142,6 +142,8 @@ export default class SidebarChannel extends React.PureComponent {
 
         channelIsArchived: PropTypes.bool.isRequired,
 
+        redirectChannel: PropTypes.string.isRequired,
+
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
             leaveChannel: PropTypes.func.isRequired,
@@ -186,7 +188,7 @@ export default class SidebarChannel extends React.PureComponent {
         }
 
         if (this.props.active) {
-            browserHistory.push(`/${this.props.currentTeamName}/channels/${Constants.DEFAULT_CHANNEL}`);
+            browserHistory.push(`/${this.props.currentTeamName}/channels/${this.props.redirectChannel}`);
         }
     }
 

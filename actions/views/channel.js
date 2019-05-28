@@ -5,20 +5,22 @@ import {batchActions} from 'redux-batched-actions';
 
 import {leaveChannel as leaveChannelRedux, joinChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
+import {autocompleteUsers} from 'mattermost-redux/actions/users';
 import {Posts} from 'mattermost-redux/constants';
-import {getChannel, getChannelByName, getCurrentChannel, getDefaultChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getChannelsNameMapInCurrentTeam, getCurrentChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
-import {isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
-import {autocompleteUsers} from 'mattermost-redux/actions/users';
+import {getChannelByName, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
+import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {getLastViewedChannelName} from 'selectors/local_storage';
 
 import {browserHistory} from 'utils/browser_history';
-import {Constants, ActionTypes} from 'utils/constants.jsx';
+import {Constants, ActionTypes, EventTypes} from 'utils/constants.jsx';
 import {isMobile} from 'utils/utils.jsx';
+import LocalStorageStore from 'stores/local_storage_store.jsx';
 
 export function checkAndSetMobileView() {
     return (dispatch) => {
@@ -33,10 +35,12 @@ export function goToLastViewedChannel() {
     return async (dispatch, getState) => {
         const state = getState();
         const currentChannel = getCurrentChannel(state);
-        let channelToSwitchTo = getChannelByName(state, getLastViewedChannelName(state));
+        const channelsInTeam = getChannelsNameMapInCurrentTeam(state);
+
+        let channelToSwitchTo = getChannelByName(channelsInTeam, getLastViewedChannelName(state));
 
         if (currentChannel.id === channelToSwitchTo.id) {
-            channelToSwitchTo = getDefaultChannel(state);
+            channelToSwitchTo = getChannelByName(channelsInTeam, getRedirectChannelNameForTeam(state, getCurrentTeamId(state)));
         }
 
         return dispatch(switchToChannel(channelToSwitchTo));
@@ -93,13 +97,16 @@ export function leaveChannel(channelId) {
     return async (dispatch, getState) => {
         const state = getState();
         const myPreferences = getMyPreferences(state);
+        const currentUserId = getCurrentUserId(state);
+        const currentTeamId = getCurrentTeamId(state);
 
         if (isFavoriteChannel(myPreferences, channelId)) {
             dispatch(unfavoriteChannel(channelId));
         }
 
         const teamUrl = getCurrentRelativeTeamUrl(state);
-        browserHistory.push(teamUrl + '/channels/' + Constants.DEFAULT_CHANNEL);
+        LocalStorageStore.removePreviousChannelName(currentUserId, currentTeamId);
+        browserHistory.push(teamUrl);
 
         const {error} = await dispatch(leaveChannelRedux(channelId));
         if (error) {
@@ -200,5 +207,17 @@ export function increasePostVisibility(channelId, beforePostId) {
             moreToLoad: posts ? posts.order.length >= Posts.POST_CHUNK_SIZE / 2 : false,
             error: result.error,
         };
+    };
+}
+
+export function scrollPostListToBottom() {
+    return () => {
+        EventEmitter.emit(EventTypes.POST_LIST_SCROLL_CHANGE, true);
+    };
+}
+
+export function scrollPostList() {
+    return () => {
+        EventEmitter.emit(EventTypes.POST_LIST_SCROLL_CHANGE, false);
     };
 }

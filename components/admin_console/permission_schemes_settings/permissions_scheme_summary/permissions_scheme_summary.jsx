@@ -114,7 +114,7 @@ export default class PermissionsSchemeSummary extends React.Component {
     }
 
     goToEdit = () => {
-        this.props.history.push('/admin_console/permissions/team-override-scheme/' + this.props.scheme.id);
+        this.props.history.push('/admin_console/user_management/permissions/team_override_scheme/' + this.props.scheme.id);
     }
 
     render = () => {
@@ -176,7 +176,7 @@ export default class PermissionsSchemeSummary extends React.Component {
                     <div className='actions'>
                         <Link
                             className='edit-button'
-                            to={'/admin_console/permissions/team-override-scheme/' + scheme.id}
+                            to={'/admin_console/user_management/permissions/team_override_scheme/' + scheme.id}
                         >
                             <FormattedMessage
                                 id='admin.permissions.permissionsSchemeSummary.edit'

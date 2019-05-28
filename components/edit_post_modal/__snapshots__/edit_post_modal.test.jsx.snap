@@ -3,12 +3,14 @@
 exports[`components/EditPostModal should disable the button on not canDeletePost and empty text in it 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="editPostModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="editPostModal"
   keyboard={false}
   manager={
     ModalManager {
@@ -29,6 +31,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
   onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -38,7 +41,8 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="editPostModalLabel"
     >
       <FormattedMessage
         defaultMessage="Edit {title}"
@@ -133,12 +137,14 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
 exports[`components/EditPostModal should disable the button on not canEditPost and text in it 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="editPostModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="editPostModal"
   keyboard={false}
   manager={
     ModalManager {
@@ -159,6 +165,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
   onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -168,7 +175,8 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="editPostModalLabel"
     >
       <FormattedMessage
         defaultMessage="Edit {title}"
@@ -263,12 +271,14 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
 exports[`components/EditPostModal should match with default config 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="editPostModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="editPostModal"
   keyboard={false}
   manager={
     ModalManager {
@@ -289,6 +299,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
   onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -298,7 +309,8 @@ exports[`components/EditPostModal should match with default config 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="editPostModalLabel"
     >
       <FormattedMessage
         defaultMessage="Edit {title}"
@@ -393,12 +405,14 @@ exports[`components/EditPostModal should match with default config 1`] = `
 exports[`components/EditPostModal should match without emoji picker 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="editPostModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="editPostModal"
   keyboard={false}
   manager={
     ModalManager {
@@ -419,6 +433,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
   onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -428,7 +443,8 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="editPostModalLabel"
     >
       <FormattedMessage
         defaultMessage="Edit {title}"
@@ -502,12 +518,14 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
 exports[`components/EditPostModal should not disable the button on not canDeletePost and text in it with canEditPost 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="editPostModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="editPostModal"
   keyboard={false}
   manager={
     ModalManager {
@@ -528,6 +546,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
   onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -537,7 +556,8 @@ exports[`components/EditPostModal should not disable the button on not canDelete
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="editPostModalLabel"
     >
       <FormattedMessage
         defaultMessage="Edit {title}"
@@ -632,12 +652,14 @@ exports[`components/EditPostModal should not disable the button on not canDelete
 exports[`components/EditPostModal should not disable the button on not canEditPost and no text in it with canDeletePost 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="editPostModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="editPostModal"
   keyboard={false}
   manager={
     ModalManager {
@@ -658,6 +680,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
   onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -667,7 +690,8 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="editPostModalLabel"
     >
       <FormattedMessage
         defaultMessage="Edit {title}"
@@ -762,12 +786,14 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
 exports[`components/EditPostModal should not disable the save button on not canDeletePost and no text when edited message has attachments 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="editPostModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="editPostModal"
   keyboard={false}
   manager={
     ModalManager {
@@ -788,6 +814,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
   onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -797,7 +824,8 @@ exports[`components/EditPostModal should not disable the save button on not canD
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="editPostModalLabel"
     >
       <FormattedMessage
         defaultMessage="Edit {title}"
@@ -892,12 +920,14 @@ exports[`components/EditPostModal should not disable the save button on not canD
 exports[`components/EditPostModal should show emojis on emojis click 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="editPostModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="editPostModal"
   keyboard={false}
   manager={
     ModalManager {
@@ -918,6 +948,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
   onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -927,7 +958,8 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="editPostModalLabel"
     >
       <FormattedMessage
         defaultMessage="Edit {title}"
@@ -1022,12 +1054,14 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
 exports[`components/EditPostModal should show errors when it is set in the state 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="editPostModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="editPostModal"
   keyboard={false}
   manager={
     ModalManager {
@@ -1048,6 +1082,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
   onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -1057,7 +1092,8 @@ exports[`components/EditPostModal should show errors when it is set in the state
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="editPostModalLabel"
     >
       <FormattedMessage
         defaultMessage="Edit {title}"

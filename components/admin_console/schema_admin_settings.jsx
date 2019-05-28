@@ -74,6 +74,7 @@ export default class SchemaAdminSettings extends React.Component {
             saving: false,
             serverError: null,
             errorTooltip: false,
+            customComponentWrapperClass: '',
         };
     }
 
@@ -672,10 +673,9 @@ export default class SchemaAdminSettings extends React.Component {
             );
         }
         const uploadFile = (id, file, callback) => {
-            const successCallback = () => {
-                const fileName = file.name;
-                this.handleChange(id, fileName);
-                this.setState({[setting.key]: fileName, [`${setting.key}Error`]: null});
+            const successCallback = (filename) => {
+                this.handleChange(id, filename);
+                this.setState({[setting.key]: filename, [`${setting.key}Error`]: null});
                 if (callback && typeof callback === 'function') {
                     callback();
                 }
@@ -759,7 +759,7 @@ export default class SchemaAdminSettings extends React.Component {
         }
 
         return (
-            <SettingsGroup>
+            <SettingsGroup container={false}>
                 {header}
                 {settingsList}
                 {footer}
@@ -859,49 +859,79 @@ export default class SchemaAdminSettings extends React.Component {
         return Boolean(SchemaAdminSettings.getConfigValue(this.props.environmentConfig, path));
     };
 
+    customComponentWrapperClass = (className) => {
+        this.setState({customComponentWrapperClass: className});
+    }
+
+    renderSettingsWrapper = () => {
+        return (
+            <div className={'wrapper--fixed ' + this.state.customComponentWrapperClass}>
+                {this.renderTitle()}
+                <div className='admin-console__wrapper'>
+                    <div className='admin-console__content'>
+                        <form
+                            className='form-horizontal'
+                            role='form'
+                            onSubmit={this.handleSubmit}
+                        >
+                            {this.renderSettings()}
+                        </form>
+                    </div>
+                </div>
+                <div className='admin-console-save'>
+                    <SaveButton
+                        saving={this.state.saving}
+                        disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
+                        onClick={this.handleSubmit}
+                        savingMessage={Utils.localizeMessage('admin.saving', 'Saving Config...')}
+                    />
+                    <div
+                        className='error-message'
+                        ref='errorMessage'
+                        onMouseOver={this.openTooltip}
+                        onMouseOut={this.closeTooltip}
+                    >
+                        <FormError error={this.state.serverError}/>
+                    </div>
+                    <Overlay
+                        show={this.state.errorTooltip}
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        target={this.refs.errorMessage}
+                    >
+                        <Tooltip id='error-tooltip' >
+                            {this.state.serverError}
+                        </Tooltip>
+                    </Overlay>
+                </div>
+            </div>
+        );
+    }
+
     render = () => {
         const schema = this.props.schema;
 
+        if (schema && schema.component && schema.settings) {
+            const CustomComponent = schema.component;
+            return (
+                <React.Fragment>
+                    {this.renderSettingsWrapper()}
+                    <CustomComponent
+                        {...this.props}
+                        customWrapperClass={this.customComponentWrapperClass}
+                    />
+                </React.Fragment>
+            );
+        }
         if (schema && schema.component) {
             const CustomComponent = schema.component;
-            return (<CustomComponent {...this.props}/>);
+            return (
+                <CustomComponent {...this.props}/>
+            );
         }
         return (
             <div className='wrapper--fixed'>
-                {this.renderTitle()}
-                <form
-                    className='form-horizontal'
-                    role='form'
-                    onSubmit={this.handleSubmit}
-                >
-                    {this.renderSettings()}
-                    <div className='admin-console-save'>
-                        <SaveButton
-                            saving={this.state.saving}
-                            disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
-                            onClick={this.handleSubmit}
-                            savingMessage={Utils.localizeMessage('admin.saving', 'Saving Config...')}
-                        />
-                        <div
-                            className='error-message'
-                            ref='errorMessage'
-                            onMouseOver={this.openTooltip}
-                            onMouseOut={this.closeTooltip}
-                        >
-                            <FormError error={this.state.serverError}/>
-                        </div>
-                        <Overlay
-                            show={this.state.errorTooltip}
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
-                            target={this.refs.errorMessage}
-                        >
-                            <Tooltip id='error-tooltip' >
-                                {this.state.serverError}
-                            </Tooltip>
-                        </Overlay>
-                    </div>
-                </form>
+                {this.renderSettingsWrapper()}
             </div>
         );
     }

@@ -15,6 +15,7 @@ import BotDefaultIcon from 'images/bot_default_icon.png';
 import {browserHistory} from 'utils/browser_history';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import SpinnerButton from 'components/spinner_button.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import FormError from 'components/form_error.jsx';
 import {AcceptedProfileImageTypes, OVERLAY_TIME_DELAY} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -569,6 +570,14 @@ export default class AddBot extends React.Component {
                                 </div>
                             </div>
                         </div>
+                        <div className='row bot-profile__section'>
+                            <div className='col-md-5 col-sm-8 col-sm-offset-4'>
+                                <FormattedMarkdownMessage
+                                    id='admin.manage_roles.additionalRoles'
+                                    defaultMessage='Select additional permissions for the account. [Read more about roles and permissions](!https://about.mattermost.com/default-permissions).'
+                                />
+                            </div>
+                        </div>
                         <div className='form-group'>
                             <label
                                 className='control-label col-sm-4'
@@ -641,6 +650,7 @@ export default class AddBot extends React.Component {
                                 spinning={this.state.adding}
                                 spinningText={buttonActiveText}
                                 onClick={this.handleSubmit}
+                                id='saveBot'
                             >
                                 {buttonText}
                             </SpinnerButton>

@@ -63,6 +63,7 @@ exports[`components/ShortcutsModal should match snapshot modal for Mac 1`] = `
   >
     <Modal
       animation={true}
+      aria-labelledby="shortcutsModalLabel"
       autoFocus={true}
       backdrop={true}
       bsClass="modal"
@@ -86,6 +87,7 @@ exports[`components/ShortcutsModal should match snapshot modal for Mac 1`] = `
       onHide={[Function]}
       renderBackdrop={[Function]}
       restoreFocus={true}
+      role="dialog"
       show={false}
     >
       <Modal
@@ -184,6 +186,7 @@ exports[`components/ShortcutsModal should match snapshot modal for non-Mac like 
   >
     <Modal
       animation={true}
+      aria-labelledby="shortcutsModalLabel"
       autoFocus={true}
       backdrop={true}
       bsClass="modal"
@@ -207,6 +210,7 @@ exports[`components/ShortcutsModal should match snapshot modal for non-Mac like 
       onHide={[Function]}
       renderBackdrop={[Function]}
       restoreFocus={true}
+      role="dialog"
       show={false}
     >
       <Modal

@@ -192,7 +192,8 @@ export default class Sidebar extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        // if the active channel disappeared (which can happen when dm channels autoclose), go to town square
+        // if the active channel disappeared (which can happen when dm channels
+        // autoclose), go to user default channel in team
         if (this.props.currentTeam === prevProps.currentTeam &&
             this.props.currentChannel.id === prevProps.currentChannel.id &&
             !this.channelIdIsDisplayedForProps(this.props.orderedChannelIds, this.props.currentChannel.id) &&
@@ -583,6 +584,7 @@ export default class Sidebar extends React.PureComponent {
                             <ul
                                 key={section.type}
                                 className='nav nav-pills nav-stacked'
+                                id={sectionId + 'List'}
                             >
                                 <li>
                                     <h4 id={sectionId}>
