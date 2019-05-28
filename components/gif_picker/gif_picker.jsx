@@ -26,7 +26,7 @@ export const appProps = {
     },
 };
 
-export default class GifPicker extends React.Component {
+export default class GifPicker extends React.PureComponent {
     static propTypes = {
         onGifClick: PropTypes.func.isRequired,
     }

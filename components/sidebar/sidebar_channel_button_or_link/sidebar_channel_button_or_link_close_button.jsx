@@ -11,9 +11,7 @@ import {Constants} from 'utils/constants.jsx';
 export default class SidebarChannelButtonOrLinkCloseButton extends React.PureComponent {
     static propTypes = {
         handleClose: PropTypes.func,
-        channelId: PropTypes.string.isRequired,
         channelType: PropTypes.string.isRequired,
-        teammateId: PropTypes.string,
         badge: PropTypes.bool,
     }
 

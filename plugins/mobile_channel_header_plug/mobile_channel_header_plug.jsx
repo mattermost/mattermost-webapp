@@ -19,11 +19,6 @@ export default class MobileChannelHeaderPlug extends React.PureComponent {
 
         channel: PropTypes.object.isRequired,
         channelMember: PropTypes.object.isRequired,
-
-        /*
-         * Logged in user's theme
-         */
-        theme: PropTypes.object.isRequired,
     }
 
     createButton(plug) {

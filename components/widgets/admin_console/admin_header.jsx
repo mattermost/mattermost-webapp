@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class AdminHeader extends React.Component {
+export default class AdminHeader extends React.PureComponent {
     static get propTypes() {
         return {
             children: PropTypes.node.isRequired,

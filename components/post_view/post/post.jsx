@@ -48,11 +48,6 @@ export default class Post extends React.PureComponent {
          */
         consecutivePostByUser: PropTypes.bool,
 
-        /**
-         * Set if the previous post is a comment
-         */
-        previousPostIsComment: PropTypes.bool,
-
         /*
          * Function called when the post options dropdown is opened
          */

@@ -31,7 +31,6 @@ export default class NeedsTeam extends React.Component {
         currentUser: PropTypes.object,
         currentChannelId: PropTypes.string,
         currentTeamId: PropTypes.string,
-        teamsList: PropTypes.array,
         actions: PropTypes.shape({
             fetchMyChannelsAndMembers: PropTypes.func.isRequired,
             getMyTeamUnreads: PropTypes.func.isRequired,

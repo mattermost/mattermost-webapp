@@ -22,7 +22,6 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
     static propTypes = {
         config: PropTypes.object,
         license: PropTypes.object,
-        user: PropTypes.object,
         canViewSystemErrors: PropTypes.bool.isRequired,
         totalUsers: PropTypes.number,
         dismissedExpiringLicense: PropTypes.bool,

@@ -16,7 +16,6 @@ export default class EmojiListItem extends React.Component {
         currentUserId: PropTypes.string.isRequired,
         creatorDisplayName: PropTypes.string.isRequired,
         creatorUsername: PropTypes.string,
-        currentTeam: PropTypes.object,
         onDelete: PropTypes.func,
         actions: PropTypes.shape({
             deleteCustomEmoji: PropTypes.func.isRequired,

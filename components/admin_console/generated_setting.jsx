@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import SetByEnv from './set_by_env';
 
-export default class GeneratedSetting extends React.Component {
+export default class GeneratedSetting extends React.PureComponent {
     static get propTypes() {
         return {
             id: PropTypes.string.isRequired,

@@ -12,7 +12,7 @@ import {isDesktopApp} from 'utils/user_agent.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 
-export default class TeamButton extends React.Component {
+export default class TeamButton extends React.PureComponent {
     constructor(props) {
         super(props);
 

@@ -4,27 +4,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class ChannelPermissionGate extends React.Component {
+export default class ChannelPermissionGate extends React.PureComponent {
     static defaultProps = {
         invert: false,
     }
 
     static propTypes = {
-
-        /**
-         * Channel to check the permission
-         */
-        channelId: PropTypes.string,
-
-        /**
-         * Team to check the permission
-         */
-        teamId: PropTypes.string,
-
-        /**
-         * Permissions enough to pass the gate (binary OR)
-         */
-        permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 
         /**
          * Has permission

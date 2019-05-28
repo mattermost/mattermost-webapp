@@ -117,8 +117,6 @@ const LOAD_MORE_AT_PIXELS_FROM_BOTTOM = 500;
 
 export default class EmojiPicker extends React.PureComponent {
     static propTypes = {
-        listHeight: PropTypes.number,
-        onEmojiClose: PropTypes.func.isRequired,
         onEmojiClick: PropTypes.func.isRequired,
         customEmojisEnabled: PropTypes.bool,
         emojiMap: PropTypes.object.isRequired,

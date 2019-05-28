@@ -88,11 +88,6 @@ export default class ChannelHeaderPlug extends React.PureComponent {
 
         channel: PropTypes.object.isRequired,
         channelMember: PropTypes.object.isRequired,
-
-        /*
-         * Logged in user's theme
-         */
-        theme: PropTypes.object.isRequired,
     }
 
     constructor(props) {

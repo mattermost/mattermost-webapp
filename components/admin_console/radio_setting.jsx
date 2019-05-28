@@ -6,7 +6,7 @@ import React from 'react';
 
 import Setting from './setting.jsx';
 
-export default class RadioSetting extends React.Component {
+export default class RadioSetting extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
         values: PropTypes.array.isRequired,

@@ -13,7 +13,7 @@ import Formatting from './components/formatting';
 import Attaching from './components/attaching';
 import Commands from './components/commands';
 
-export default class HelpController extends React.Component {
+export default class HelpController extends React.PureComponent {
     UNSAFE_componentWillUpdate() { // eslint-disable-line camelcase
         ReactDOM.findDOMNode(this).scrollIntoView();
     }

@@ -20,7 +20,6 @@ export default class SingleImageView extends React.PureComponent {
     static propTypes = {
         postId: PropTypes.string.isRequired,
         fileInfo: PropTypes.object.isRequired,
-        isRhsOpen: PropTypes.bool.isRequired,
         isEmbedVisible: PropTypes.bool,
         actions: PropTypes.shape({
             toggleEmbedVisibility: PropTypes.func.isRequired,

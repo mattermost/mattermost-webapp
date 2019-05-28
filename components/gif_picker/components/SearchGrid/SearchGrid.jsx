@@ -44,7 +44,6 @@ const getStyle = makeStyleFromTheme((theme) => {
 
 export class SearchGrid extends PureComponent {
     static propTypes = {
-        appProps: PropTypes.object,
         gifs: PropTypes.object,
         resultsByTerm: PropTypes.object,
         containerClassName: PropTypes.string,
@@ -52,7 +51,6 @@ export class SearchGrid extends PureComponent {
         handleItemClick: PropTypes.func,
         onCategories: PropTypes.func,
         loadMore: PropTypes.func,
-        numberOfColumns: PropTypes.number,
         scrollPosition: PropTypes.number,
         saveSearchScrollPosition: PropTypes.func,
         theme: PropTypes.object.isRequired,

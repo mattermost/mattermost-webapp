@@ -28,8 +28,6 @@ export default class ThemeSetting extends React.Component {
         setRequireConfirm: PropTypes.func.isRequired,
         setEnforceFocus: PropTypes.func.isRequired,
         allowCustomThemes: PropTypes.bool,
-        showAllTeamsCheckbox: PropTypes.bool,
-        applyToAllTeams: PropTypes.bool,
         focused: PropTypes.bool.isRequired,
     };
 

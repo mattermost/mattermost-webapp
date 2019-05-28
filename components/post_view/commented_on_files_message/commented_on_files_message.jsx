@@ -9,11 +9,6 @@ export default class CommentedOnFilesMessage extends React.PureComponent {
     static propTypes = {
 
         /*
-         * The id of the post that was commented on
-         */
-        parentPostId: PropTypes.string.isRequired,
-
-        /*
          * An array of file metadata for the parent post
          */
         fileInfos: PropTypes.arrayOf(PropTypes.object),

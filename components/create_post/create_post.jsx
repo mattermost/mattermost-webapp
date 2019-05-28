@@ -51,11 +51,6 @@ export default class CreatePost extends React.Component {
     static propTypes = {
 
         /**
-         *  ref passed from channelView for EmojiPickerOverlay
-         */
-        getChannelView: PropTypes.func,
-
-        /**
          *  Data used in notifying user for @all and @channel
          */
         currentChannelMembersCount: PropTypes.number,

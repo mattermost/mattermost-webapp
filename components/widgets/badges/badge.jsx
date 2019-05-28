@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import './badge.scss';
 
-export default class Badge extends React.Component {
+export default class Badge extends React.PureComponent {
     static propTypes = {
         show: PropTypes.bool.isRequired,
         children: PropTypes.node.isRequired,

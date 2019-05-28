@@ -14,7 +14,6 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 export default class LicenseSettings extends React.Component {
     static propTypes = {
         license: PropTypes.object.isRequired,
-        config: PropTypes.object,
     }
 
     constructor(props) {

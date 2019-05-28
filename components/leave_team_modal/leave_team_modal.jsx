@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import Constants from 'utils/constants.jsx';
@@ -33,8 +33,6 @@ class LeaveTeamModal extends React.PureComponent {
          */
 
         show: PropTypes.bool.isRequired,
-
-        intl: intlShape.isRequired,
 
         actions: PropTypes.shape({
 

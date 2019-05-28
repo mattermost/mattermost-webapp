@@ -16,7 +16,6 @@ export default class EmojiPickerItem extends React.Component {
         emoji: PropTypes.object.isRequired,
         onItemOver: PropTypes.func.isRequired,
         onItemClick: PropTypes.func.isRequired,
-        category: PropTypes.string.isRequired,
         isSelected: PropTypes.bool,
         categoryIndex: PropTypes.number.isRequired,
         emojiIndex: PropTypes.number.isRequired,

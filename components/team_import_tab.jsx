@@ -22,7 +22,7 @@ const holders = defineMessages({
     },
 });
 
-class TeamImportTab extends React.Component {
+class TeamImportTab extends React.PureComponent {
     constructor(props) {
         super(props);
 

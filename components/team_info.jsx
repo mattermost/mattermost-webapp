@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import {imageURLForTeam} from 'utils/utils.jsx';
 
-export default class TeamInList extends React.Component {
+export default class TeamInList extends React.PureComponent {
     static propTypes = {
         team: PropTypes.object.isRequired,
     }

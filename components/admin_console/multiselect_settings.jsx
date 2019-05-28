@@ -21,7 +21,6 @@ export default class MultiSelectSetting extends React.Component {
         setByEnv: PropTypes.bool.isRequired,
         helpText: PropTypes.node,
         noResultText: PropTypes.node,
-        errorText: PropTypes.node,
         notPresent: PropTypes.node,
     };
 

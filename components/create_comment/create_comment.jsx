@@ -82,13 +82,7 @@ export default class CreateComment extends React.PureComponent {
         /**
          * The id of the latest post in this channel
          */
-        latestPostId: PropTypes.string,
         locale: PropTypes.string.isRequired,
-
-        /**
-         * A function returning a ref to the sidebar
-         */
-        getSidebarBody: PropTypes.func,
 
         /**
          * Create post error id

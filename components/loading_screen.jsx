@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default class LoadingScreen extends React.Component {
+export default class LoadingScreen extends React.PureComponent {
     static propTypes = {
         position: PropTypes.oneOf(['absolute', 'fixed', 'relative', 'static', 'inherit']),
         style: PropTypes.object,

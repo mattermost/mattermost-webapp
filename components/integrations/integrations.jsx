@@ -24,7 +24,6 @@ export default class Integrations extends React.Component {
     static get propTypes() {
         return {
             team: PropTypes.object,
-            user: PropTypes.object,
             siteName: PropTypes.string,
             enableIncomingWebhooks: PropTypes.bool,
             enableOutgoingWebhooks: PropTypes.bool,

@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import $ from 'jquery';
-import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
@@ -139,11 +138,5 @@ class PasswordResetSendLink extends React.Component {
         );
     }
 }
-
-PasswordResetSendLink.defaultProps = {
-};
-PasswordResetSendLink.propTypes = {
-    params: PropTypes.object.isRequired,
-};
 
 export default PasswordResetSendLink;

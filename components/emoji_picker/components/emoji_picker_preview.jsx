@@ -8,7 +8,7 @@ import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
 import imgTrans from 'images/img_trans.gif';
 
-export default class EmojiPickerPreview extends React.Component {
+export default class EmojiPickerPreview extends React.PureComponent {
     static propTypes = {
         emoji: PropTypes.object,
     }

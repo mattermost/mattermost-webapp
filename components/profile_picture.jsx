@@ -20,7 +20,6 @@ export default class ProfilePicture extends React.PureComponent {
         src: PropTypes.string.isRequired,
         status: PropTypes.string,
         width: PropTypes.string,
-        height: PropTypes.string,
         userId: PropTypes.string,
         username: PropTypes.string,
         isBusy: PropTypes.bool,

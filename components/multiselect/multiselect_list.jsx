@@ -177,9 +177,6 @@ MultiSelectList.defaultProps = {
 MultiSelectList.propTypes = {
     options: PropTypes.arrayOf(PropTypes.object),
     optionRenderer: PropTypes.func,
-    page: PropTypes.number,
-    perPage: PropTypes.number,
-    onPageChange: PropTypes.func,
     onAdd: PropTypes.func,
     onSelect: PropTypes.func,
     loading: PropTypes.bool,

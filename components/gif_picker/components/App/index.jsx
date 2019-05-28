@@ -22,7 +22,6 @@ export class App extends PureComponent {
         onTrending: PropTypes.func,
         children: PropTypes.object,
         saveAppProps: PropTypes.func,
-        authenticateSdk: PropTypes.func,
     }
 
     constructor(props) {

@@ -34,7 +34,6 @@ const EXCLUDED_PERMISSIONS = [
 export default class PermissionSystemSchemeSettings extends React.Component {
     static propTypes = {
         roles: PropTypes.object.isRequired,
-        license: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             loadRolesIfNeeded: PropTypes.func.isRequired,
             editRole: PropTypes.func.isRequired,

@@ -16,7 +16,6 @@ export default class ResetEmailModal extends React.Component {
         show: PropTypes.bool.isRequired,
         onModalSubmit: PropTypes.func,
         onModalDismissed: PropTypes.func,
-        passwordConfig: PropTypes.object,
     };
 
     static defaultProps = {

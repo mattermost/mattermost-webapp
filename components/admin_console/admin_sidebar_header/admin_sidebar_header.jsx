@@ -12,7 +12,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import AdminNavbarDropdown from 'components/admin_console/admin_navbar_dropdown';
 
-export default class SidebarHeader extends React.Component {
+export default class SidebarHeader extends React.PureComponent {
     static propTypes = {
         currentUser: PropTypes.object,
     }

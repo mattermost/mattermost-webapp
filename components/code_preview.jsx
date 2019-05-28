@@ -11,7 +11,7 @@ import * as SyntaxHighlighting from 'utils/syntax_highlighting.jsx';
 import LoadingBars from 'components/widgets/loading/loading_bars.jsx';
 import FileInfoPreview from 'components/file_info_preview';
 
-export default class CodePreview extends React.Component {
+export default class CodePreview extends React.PureComponent {
     constructor(props) {
         super(props);
 

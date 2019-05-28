@@ -6,7 +6,7 @@ import React from 'react';
 
 import LoadingSpinner from './loading_spinner.jsx';
 
-export default class LoadingWrapper extends React.Component {
+export default class LoadingWrapper extends React.PureComponent {
     static propTypes = {
         loading: PropTypes.bool.isRequired,
         text: PropTypes.node,

@@ -4,17 +4,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class AnyTeamPermissionGate extends React.Component {
+export default class AnyTeamPermissionGate extends React.PureComponent {
     static defaultProps = {
         invert: false,
     }
 
     static propTypes = {
-
-        /**
-         * Permissions enough to pass the gate (binary OR)
-         */
-        permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 
         /**
          * Has permission
