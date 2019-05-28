@@ -33,11 +33,6 @@ export default class PostBody extends React.PureComponent {
         parentPost: PropTypes.object,
 
         /**
-         * The poster of the parent post, if exists
-         */
-        parentPostUser: PropTypes.object,
-
-        /**
          * The function called when the comment icon is clicked
          */
         handleCommentClick: PropTypes.func.isRequired,
@@ -66,11 +61,6 @@ export default class PostBody extends React.PureComponent {
          * Flag passed down to PostBodyAdditionalContent for determining if post embed is visible
          */
         isEmbedVisible: PropTypes.bool,
-
-        /**
-         * Whether or not the post username can be overridden.
-         */
-        enablePostUsernameOverride: PropTypes.bool.isRequired,
 
         /**
          * Set not to allow edits on post

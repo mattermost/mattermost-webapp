@@ -15,11 +15,8 @@ const ytRegex = /(?:http|https):\/\/(?:www\.|m\.)?(?:(?:youtube\.com\/(?:(?:v\/)
 
 export default class YoutubeVideo extends React.PureComponent {
     static propTypes = {
-        channelId: PropTypes.string.isRequired,
-        currentChannelId: PropTypes.string.isRequired,
         hasImageProxy: PropTypes.bool.isRequired,
         link: PropTypes.string.isRequired,
-        show: PropTypes.bool.isRequired,
         googleDeveloperKey: PropTypes.string,
     }
 

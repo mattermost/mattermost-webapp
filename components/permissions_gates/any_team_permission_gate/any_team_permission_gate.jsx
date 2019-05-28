@@ -12,11 +12,6 @@ export default class AnyTeamPermissionGate extends React.Component {
     static propTypes = {
 
         /**
-         * Permissions enough to pass the gate (binary OR)
-         */
-        permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
-
-        /**
          * Has permission
          */
         hasPermission: PropTypes.bool.isRequired,

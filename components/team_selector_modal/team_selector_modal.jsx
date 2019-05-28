@@ -19,7 +19,6 @@ const TEAMS_PER_PAGE = 50;
 
 export default class TeamSelectorModal extends React.Component {
     static propTypes = {
-        currentSchemeId: PropTypes.string,
         alreadySelected: PropTypes.array,
         searchTerm: PropTypes.string.isRequired,
         teams: PropTypes.array.isRequired,

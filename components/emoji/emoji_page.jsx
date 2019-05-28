@@ -15,9 +15,7 @@ import EmojiList from './emoji_list';
 
 export default class EmojiPage extends React.Component {
     static propTypes = {
-        teamId: PropTypes.string.isRequired,
         teamName: PropTypes.string.isRequired,
-        teamDisplayName: PropTypes.string.isRequired,
         siteName: PropTypes.string,
         scrollToTop: PropTypes.func.isRequired,
         actions: PropTypes.shape({

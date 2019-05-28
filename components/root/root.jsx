@@ -85,7 +85,6 @@ export default class Root extends React.Component {
         diagnosticsEnabled: PropTypes.bool,
         diagnosticId: PropTypes.string,
         noAccounts: PropTypes.bool,
-        showTermsOfService: PropTypes.bool,
         actions: PropTypes.shape({
             loadMeAndConfig: PropTypes.func.isRequired,
         }).isRequired,

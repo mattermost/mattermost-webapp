@@ -47,7 +47,6 @@ export default class SearchResults extends React.PureComponent {
     static propTypes = {
         results: PropTypes.array,
         matches: PropTypes.object,
-        currentUser: PropTypes.object,
         searchTerms: PropTypes.string,
         isSearchingTerm: PropTypes.bool,
         isSearchingFlaggedPost: PropTypes.bool,

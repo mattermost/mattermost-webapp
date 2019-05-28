@@ -17,7 +17,6 @@ export default class BackstageSidebar extends React.Component {
     static get propTypes() {
         return {
             team: PropTypes.object.isRequired,
-            user: PropTypes.object.isRequired,
             enableCustomEmoji: PropTypes.bool.isRequired,
             enableIncomingWebhooks: PropTypes.bool.isRequired,
             enableOutgoingWebhooks: PropTypes.bool.isRequired,

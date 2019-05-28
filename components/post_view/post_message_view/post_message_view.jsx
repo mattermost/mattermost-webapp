@@ -41,16 +41,6 @@ export default class PostMessageView extends React.PureComponent {
          */
         isRHS: PropTypes.bool,
 
-        /**
-         * Whether or not the RHS is visible
-         */
-        isRHSOpen: PropTypes.bool,
-
-        /**
-         * Whether or not the RHS is expanded
-         */
-        isRHSExpanded: PropTypes.bool,
-
         /*
          * Logged in user's theme
          */

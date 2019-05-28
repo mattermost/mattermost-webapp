@@ -65,7 +65,8 @@
           "component"
         ]
       }
-    ]
+    ],
+    "react/no-unused-prop-types": 2
   },
   "overrides": [
     {

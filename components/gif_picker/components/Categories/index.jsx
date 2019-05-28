@@ -46,16 +46,13 @@ const getStyle = makeStyleFromTheme((theme) => {
 
 export class Categories extends PureComponent {
     static propTypes = {
-        appProps: PropTypes.object,
         gifs: PropTypes.object,
         hasMore: PropTypes.bool,
         onSearch: PropTypes.func,
         onTrending: PropTypes.func,
         requestCategoriesList: PropTypes.func,
         requestCategoriesListIfNeeded: PropTypes.func,
-        saveSearchBarText: PropTypes.func,
         saveSearchScrollPosition: PropTypes.func,
-        searchTextUpdate: PropTypes.func,
         searchBarText: PropTypes.string,
         tagsList: PropTypes.array,
         hasImageProxy: PropTypes.string,
