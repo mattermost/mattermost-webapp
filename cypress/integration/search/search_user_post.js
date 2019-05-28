@@ -22,7 +22,6 @@ function createNewDMChannel(channelname) {
         cy.get('input[type="text"]').scrollIntoView().type(channelname, {force: true});
     });
 
-    // cy.get('div .clickable').children().contains(channelname).click({force: true});
     cy.contains('.more-modal__description', channelname).click({force: true});
     cy.get('#saveItems').click();
 }
@@ -32,7 +31,7 @@ describe('Search in DMs', () => {
         // # Login and navigate to the app
         cy.apiLogin('user-1');
         cy.visit('/');
-        const message = 'Hello';
+        const message = 'Hello' + Date.now();
 
         // # Ensure Direct Message is visible in LHS sidebar
         cy.get('#directChannel').scrollIntoView().should('be.visible');
