@@ -154,7 +154,7 @@ export const it = {
 
 export default {
     about: {
-        icon: 'fa-info',
+        icon: 'fa-info-circle',
         sectionTitle: t('admin.sidebar.about'),
         sectionTitleDefault: 'About',
         license: {
