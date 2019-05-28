@@ -14,7 +14,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 import Constants, {PostListRowListIds, EventTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
-import {getLastPostId} from 'utils/post_utils.jsx';
+import {getLastPostId, getPreviousPostId} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
@@ -148,8 +148,8 @@ export default class PostList extends React.PureComponent {
     getSnapshotBeforeUpdate(prevProps, prevState) {
         if (this.postListRef && this.postListRef.current) {
             const postsAddedAtTop = this.state.postListIds.length !== prevState.postListIds.length && this.state.postListIds[0] === prevState.postListIds[0];
-            const channelHeaderAdded = this.state.atEnd !== prevState.atEnd && this.state.postListIds.length === prevState.postListIds.length;
-            if (postsAddedAtTop || channelHeaderAdded) {
+            const channelHeaderAdded = this.state.atEnd !== prevState.atEnd;
+            if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom) {
                 const previousScrollTop = this.postListRef.current.scrollTop;
                 const previousScrollHeight = this.postListRef.current.scrollHeight;
 
@@ -173,8 +173,8 @@ export default class PostList extends React.PureComponent {
 
         const postlistScrollHeight = this.postListRef.current.scrollHeight;
         const postsAddedAtTop = this.state.postListIds.length !== prevState.postListIds.length && this.state.postListIds[0] === prevState.postListIds[0];
-        const channelHeaderAdded = this.state.atEnd !== prevState.atEnd && this.state.postListIds.length === prevState.postListIds.length;
-        if (postsAddedAtTop || channelHeaderAdded) {
+        const channelHeaderAdded = this.state.atEnd !== prevState.atEnd;
+        if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom) {
             const scrollValue = snapshot.previousScrollTop + (postlistScrollHeight - snapshot.previousScrollHeight);
             if (scrollValue !== 0 && (scrollValue - snapshot.previousScrollTop) !== 0) {
                 this.listRef.current.scrollTo(scrollValue, scrollValue - snapshot.previousScrollTop, !this.state.atEnd);
@@ -308,7 +308,7 @@ export default class PostList extends React.PureComponent {
 
     renderRow = ({data, itemId, style}) => {
         const index = data.indexOf(itemId);
-        const previousItemId = (index !== -1 && index < data.length - 1) ? data[index + 1] : '';
+        const previousItemId = getPreviousPostId(data, index);
         const nextItemId = (index !== 0 && index < data.length) ? data[index - 1] : '';
         let className = '';
 
@@ -374,7 +374,7 @@ export default class PostList extends React.PureComponent {
         const postList = this.postListRef.current;
         const offsetFromBottom = (postList.scrollHeight - postList.parentElement.clientHeight) - scrollOffset;
 
-        return offsetFromBottom === 0;
+        return offsetFromBottom <= 0;
     }
 
     updateAtBottom = (atBottom) => {

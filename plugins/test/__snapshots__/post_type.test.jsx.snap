@@ -67,7 +67,6 @@ exports[`plugins/PostMessageView should match snapshot with extended post type 1
 exports[`plugins/PostMessageView should match snapshot with no extended post type 1`] = `
 <Connect(ShowMore)
   checkOverflow={0}
-  maxHeight={600}
   text="this is some text"
 >
   <div

@@ -406,21 +406,20 @@ export default class PostList extends React.PureComponent {
         }
     }
 
-    loadMorePosts = (e) => {
+    loadMorePosts = async (e) => {
         if (e) {
             e.preventDefault();
         }
 
-        const {posts, postVisibility, channel} = this.props;
+        const {posts, channel} = this.props;
         const postsLength = posts.length;
 
         if (!posts) {
             return;
         }
 
-        this.props.actions.increasePostVisibility(channel.id, posts[postsLength - 1].id).then((moreToLoad) => {
-            this.setState({atEnd: !moreToLoad && postsLength < postVisibility});
-        });
+        const {moreToLoad} = await this.props.actions.increasePostVisibility(channel.id, posts[postsLength - 1].id);
+        this.setState({atEnd: !moreToLoad});
     }
 
     handleScroll = () => {
@@ -500,6 +499,7 @@ export default class PostList extends React.PureComponent {
     createPosts = (posts) => {
         const postCtls = [];
         let previousPostDay = new Date(0);
+        let previousPostId = '';
         const currentUserId = this.props.currentUserId;
         const lastViewed = this.props.lastViewedAt || 0;
 
@@ -522,6 +522,7 @@ export default class PostList extends React.PureComponent {
                     key={'post ' + (post.id || post.pending_post_id)}
                     post={post}
                     shouldHighlight={this.props.focusedPostId === post.id}
+                    previousPostId={previousPostId}
                 />
             );
 
@@ -570,6 +571,7 @@ export default class PostList extends React.PureComponent {
 
             postCtls.push(postCtl);
             previousPostDay = currentPostDay;
+            previousPostId = post.id;
         }
 
         return postCtls;

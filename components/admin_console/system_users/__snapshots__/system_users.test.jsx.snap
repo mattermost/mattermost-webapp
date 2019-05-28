@@ -14,24 +14,32 @@ exports[`components/admin_console/system_users should match default snapshot 1`]
     }
   />
   <div
-    className="more-modal__list member-list-holder"
+    className="admin-console__wrapper"
   >
-    <Connect(SystemUsersList)
-      enableUserAccessTokens={false}
-      experimentalEnableAuthenticationTransfer={false}
-      filter=""
-      loading={true}
-      mfaEnabled={false}
-      nextPage={[Function]}
-      onTermChange={[Function]}
-      renderFilterRow={[Function]}
-      search={[Function]}
-      teamId=""
-      teams={Array []}
-      term=""
-      total={0}
-      usersPerPage={50}
-    />
+    <div
+      className="admin-console__content"
+    >
+      <div
+        className="more-modal__list member-list-holder"
+      >
+        <Connect(SystemUsersList)
+          enableUserAccessTokens={false}
+          experimentalEnableAuthenticationTransfer={false}
+          filter=""
+          loading={true}
+          mfaEnabled={false}
+          nextPage={[Function]}
+          onTermChange={[Function]}
+          renderFilterRow={[Function]}
+          search={[Function]}
+          teamId=""
+          teams={Array []}
+          term=""
+          total={0}
+          usersPerPage={50}
+        />
+      </div>
+    </div>
   </div>
 </div>
 `;

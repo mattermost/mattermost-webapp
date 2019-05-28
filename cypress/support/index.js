@@ -9,7 +9,8 @@ import './ui_commands';
 import './api_commands';
 import 'cypress-file-upload';
 
-// Add login cookies to whitelist to preserve it
-Cypress.Cookies.defaults({
-    whitelist: ['MMAUTHTOKEN', 'MMUSERID', 'MMCSRF'],
+beforeEach(() => {
+    // Add login cookies to whitelist to preserve it
+    Cypress.Cookies.preserveOnce('MMAUTHTOKEN', 'MMUSERID', 'MMCSRF');
 });
+
