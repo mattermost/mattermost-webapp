@@ -453,6 +453,18 @@ export default class MoreDirectChannels extends React.Component {
                 <Modal.Body>
                     {body}
                 </Modal.Body>
+                <Modal.Footer className='modal-footer--invisible'>
+                    <button
+                        id='closeModalButton'
+                        type='button'
+                        className='btn btn-link'
+                    >
+                        <FormattedMessage
+                            id='general_button.close'
+                            defaultMessage='Close'
+                        />
+                    </button>
+                </Modal.Footer>
             </Modal>
         );
     }
