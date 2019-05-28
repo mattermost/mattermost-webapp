@@ -10,6 +10,7 @@ import {
     getTotalUsersStats,
     searchProfiles,
 } from 'mattermost-redux/actions/users';
+import {searchGroupChannels} from 'mattermost-redux/actions/channels';
 import {
     getCurrentUserId,
     getProfiles as selectProfiles,
@@ -26,7 +27,7 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {openDirectChannelToUserId, openGroupChannelToUserIds} from 'actions/channel_actions';
 import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
-import {searchGroupChannels, loadProfilesForGroupChannels} from 'actions/user_actions';
+import {loadProfilesForGroupChannels} from 'actions/user_actions';
 import {setModalSearchTerm} from 'actions/views/search';
 
 import MoreDirectChannels from './more_direct_channels.jsx';

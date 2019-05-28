@@ -6,8 +6,6 @@ import configureStore from 'redux-mock-store';
 
 import {Preferences} from 'mattermost-redux/constants';
 
-import {Constants} from 'utils/constants';
-
 import * as UserActions from 'actions/user_actions';
 
 const mockStore = configureStore([thunk]);
@@ -18,6 +16,7 @@ jest.mock('mattermost-redux/actions/users', () => {
         ...original,
         getProfilesInTeam: (...args) => ({type: 'MOCK_GET_PROFILES_IN_TEAM', args}),
         getProfilesInChannel: (...args) => ({type: 'MOCK_GET_PROFILES_IN_CHANNEL', args}),
+        getProfilesInGroupChannels: (...args) => ({type: 'MOCK_GET_PROFILES_IN_GROUP_CHANNELS', args}),
     };
 });
 
@@ -217,7 +216,7 @@ describe('Actions.User', () => {
         const mockedGroupChannels = [{id: 'group_channel_1'}, {id: 'group_channel_2'}];
 
         // as users in group_channel_2 are already loaded, it should only try to load group_channel_1
-        const expectedActions = [{args: ['group_channel_1', 0, Constants.MAX_USERS_IN_GM], type: 'MOCK_GET_PROFILES_IN_CHANNEL'}];
+        const expectedActions = [{args: [['group_channel_1']], type: 'MOCK_GET_PROFILES_IN_GROUP_CHANNELS'}];
         const testStore = await mockStore(initialState);
         await testStore.dispatch(UserActions.loadProfilesForGroupChannels(mockedGroupChannels));
         expect(testStore.getActions()).toEqual(expectedActions);
