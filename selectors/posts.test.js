@@ -66,4 +66,18 @@ describe('makeCombineUserActivityFromPosts', () => {
             {id: Posts.COMBINED_USER_ACTIVITY_PREFIX + 'post4_post5', type: Posts.POST_TYPES.ADD_TO_CHANNEL},
         ]);
     });
+
+    test('should not combine more than 100 posts', () => {
+        const combineUserActivityPosts = makeCombineUserActivityFromPosts();
+
+        const posts = [];
+        for (let i = 0; i < 110; i++) {
+            const postId = `post${i}`;
+            posts.push({id: postId, type: Posts.POST_TYPES.JOIN_CHANNEL});
+        }
+
+        const result = combineUserActivityPosts(posts);
+
+        expect(result).toHaveLength(2);
+    });
 });
