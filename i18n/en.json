@@ -2015,6 +2015,7 @@
   "filtered_user_list.userStatus": "User Status:",
   "flag_post.flag": "Flag for follow up",
   "flag_post.unflag": "Unflag",
+  "general_button.close": "Close",
   "general_tab.allowedDomains": "Allow only users with a specific email domain to join this team",
   "general_tab.allowedDomainsEdit": "Click 'Edit' to add an email domain whitelist.",
   "general_tab.AllowedDomainsExample": "corp.mattermost.com, mattermost.org",
