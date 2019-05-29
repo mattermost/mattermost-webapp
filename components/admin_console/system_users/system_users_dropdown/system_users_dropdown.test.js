@@ -36,6 +36,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         config: {
             ServiceSettings: {},
         },
+        bots: {},
     };
 
     test('handleMakeActive() should have called updateUserActive', async () => {
