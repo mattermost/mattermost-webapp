@@ -53,7 +53,7 @@ export default class InteractiveDialog extends React.Component {
         const {elements} = this.props;
         const values = this.state.values;
         const errors = {};
-        if (elements != null) {
+        if (elements) {
             elements.forEach((elem) => {
                 const error = checkDialogElementForError(elem, values[elem.name]);
                 if (error) {
