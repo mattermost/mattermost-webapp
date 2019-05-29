@@ -164,6 +164,9 @@ describe('Integrations page', () => {
         // # Save
         cy.get('#saveBot').click();
 
+        // # Close the Add dialog
+        cy.get('#doneButton').click();
+
         // * Make sure we are done saving
         cy.url().should('contain', '/integrations/bots');
 
