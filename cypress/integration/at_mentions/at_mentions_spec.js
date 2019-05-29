@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -69,36 +69,36 @@ describe('at-mention', () => {
             its('user-2').
             as('sender');
 
-        // 1. Login and navigate to the app
+        // # Login and navigate to the app
         cy.get('@receiver').then((receiver) => {
             cy.apiLogin(receiver.username);
         });
 
         cy.visit('/');
 
-        // 2. Navigate to the channel we were mention to
+        // # Navigate to the channel we were mention to
         // clear the notification gem and get the channelId
         cy.get('#sidebarItem_town-square').click({force: true});
 
-        // 3. Get the current channelId
+        // # Get the current channelId
         cy.getCurrentChannelId().as('channelId');
 
-        // 4. Navigate to a channel we are NOT going to post to
+        // # Navigate to a channel we are NOT going to post to
         cy.get('#sidebarItem_saepe-5').click({force: true});
 
-        // 7. Stub out Notification so we can spy on it
+        // # Stub out Notification so we can spy on it
         cy.window().then((win) => {
             cy.stub(win, 'Notification').as('notifyStub');
         });
     });
 
     it('N14571 still triggers notification if username is not listed in words that trigger mentions', function() {
-        // 1. Set Notification settings
+        // # Set Notification settings
         setNotificationSettings({first: false, username: false, shouts: true, custom: true});
 
         const message = `@${this.receiver.username} I'm messaging you! ${Date.now()}`;
 
-        // 2. Use another account to post a message @-mentioning our receiver
+        // # Use another account to post a message @-mentioning our receiver
         cy.task('postMessageAs', {sender: this.sender, message, channelId: this.channelId});
 
         // * Verify the stub
@@ -121,10 +121,10 @@ describe('at-mention', () => {
             should('be.visible').
             and('have.text', '1');
 
-        // 3. Go to the channel where you were messaged
+        // # Go to the channel where you were messaged
         cy.get('#sidebarItem_town-square').click();
 
-        // 4. Get last post message text
+        // # Get last post message text
         cy.getLastPostId().then((postId) => {
             cy.get(`#postMessageText_${postId}`).as('postMessageText');
         });
@@ -142,12 +142,12 @@ describe('at-mention', () => {
     });
 
     it('N14570 does not trigger notifications with "Your non-case sensitive username" unchecked', function() {
-        // 1. Set Notification settings
+        // # Set Notification settings
         setNotificationSettings({first: false, username: false, shouts: true, custom: true});
 
         const message = `Hey ${this.receiver.username}! I'm messaging you! ${Date.now()}`;
 
-        // 2. Use another account to post a message @-mentioning our receiver
+        // # Use another account to post a message @-mentioning our receiver
         cy.task('postMessageAs', {sender: this.sender, message, channelId: this.channelId});
 
         // * Verify stub was not called
@@ -159,10 +159,10 @@ describe('at-mention', () => {
             find('#unreadMentions').
             should('be.not.visible');
 
-        // 3. Go to the channel where you were messaged
+        // # Go to the channel where you were messaged
         cy.get('#sidebarItem_town-square').click();
 
-        // 4. Get last post message text
+        // # Get last post message text
         cy.getLastPostId().then((postId) => {
             cy.get(`#postMessageText_${postId}`).as('postMessageText');
         });
@@ -179,7 +179,7 @@ describe('at-mention', () => {
     });
 
     it('N14572 does not trigger notifications with "channel-wide mentions" unchecked', function() {
-        // 1. Set Notification settings
+        // # Set Notification settings
         setNotificationSettings({first: false, username: false, shouts: false, custom: true});
 
         const channelMentions = ['@here', '@all', '@channel'];
@@ -187,7 +187,7 @@ describe('at-mention', () => {
         channelMentions.forEach((mention) => {
             const message = `Hey ${mention} I'm message you all! ${Date.now()}`;
 
-            // 2. Use another account to post a message @-mentioning our receiver
+            // # Use another account to post a message @-mentioning our receiver
             cy.task('postMessageAs', {sender: this.sender, message, channelId: this.channelId});
 
             // * Verify stub was not called
@@ -199,10 +199,10 @@ describe('at-mention', () => {
                 find('#unreadMentions').
                 should('be.not.visible');
 
-            // 3. Go to the channel where you were messaged
+            // # Go to the channel where you were messaged
             cy.get('#sidebarItem_town-square').click();
 
-            // 4. Get last post message text
+            // # Get last post message text
             cy.getLastPostId().then((postId) => {
                 cy.get(`#postMessageText_${postId}`).as('postMessageText');
             });
