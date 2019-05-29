@@ -7,11 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import users from '../../fixtures/users.json';
+/*eslint max-nested-callbacks: ["error", 5]*/
 
 import {reUrl} from '../../utils';
-
-const user1 = users['user-1'];
 
 const feedbackEmail = 'test@example.com';
 
@@ -21,11 +19,11 @@ describe('Signin/Authentication', () => {
     });
 
     it('SA15008 - Sign In Forgot password - Email address has account on server', () => {
-        resetPasswordAndLogin(user1, feedbackEmail, false);
-    });
+        cy.loginAsNewUser().then((user) => {
+            cy.apiLogout();
 
-    it('Revert original password of user-1', () => {
-        resetPasswordAndLogin(user1, feedbackEmail, true);
+            resetPasswordAndLogin(user, feedbackEmail);
+        });
     });
 });
 
@@ -62,7 +60,7 @@ function verifyForgotPasswordEmail(response, toUser, fromEmail) {
     expect(bodyText[13]).to.equal('To change your notification preferences, log in to your team site and go to Account Settings > Notifications.');
 }
 
-function resetPasswordAndLogin(user, fromEmail, revertWithEnterKey) {
+function resetPasswordAndLogin(user, fromEmail) {
     const newPassword = 'newpasswd';
 
     // # Visit '/'
@@ -80,19 +78,17 @@ function resetPasswordAndLogin(user, fromEmail, revertWithEnterKey) {
 
     // * Verify that the focus is set to passwordResetEmailInput
     cy.focused().should('have.attr', 'id', 'passwordResetEmailInput');
-    if (revertWithEnterKey) {
-        // # Type user email into email input field and press enter
-        cy.get('#passwordResetEmailInput').type(`${user1.email}{enter}`);
-    } else {
-        // # Type user email into email input field and click reset button
-        cy.get('#passwordResetEmailInput').type(user.email);
-        cy.get('#passwordResetButton').click();
-    }
+
+    // # Type user email into email input field and click reset button
+    cy.get('#passwordResetEmailInput').type(user.email);
+    cy.get('#passwordResetButton').click();
 
     // * Should show that the  password reset email is sent
-    cy.get('#passwordResetEmailSent').
-        should('be.visible').
-        and('have.text', `If the account exists, a password reset email will be sent to:${user.email}Please check your inbox.`);
+    cy.get('#passwordResetEmailSent').should('be.visible').within(() => {
+        cy.get('span').first().should('have.text', 'If the account exists, a password reset email will be sent to:');
+        cy.get('div b').first().should('have.text', user.email);
+        cy.get('span').last().should('have.text', 'Please check your inbox.');
+    });
 
     cy.task('getRecentEmail', {username: user.username}).then((response) => {
         // * Verify contents password reset email
@@ -111,14 +107,10 @@ function resetPasswordAndLogin(user, fromEmail, revertWithEnterKey) {
 
         // * Verify that the focus is set to resetPasswordInput
         cy.focused().should('have.attr', 'id', 'resetPasswordInput');
-        if (revertWithEnterKey) {
-            // # Type default password and press enter
-            cy.get('#resetPasswordInput').type(`${user1.password}{enter}`);
-        } else {
-            // # Type new password and click reset button
-            cy.get('#resetPasswordInput').type(newPassword);
-            cy.get('#resetPasswordButton').click();
-        }
+
+        // # Type new password and click reset button
+        cy.get('#resetPasswordInput').type(newPassword);
+        cy.get('#resetPasswordButton').click();
 
         // * Verify that it redirects to /login?extra=password_change
         cy.url().should('contain', '/login?extra=password_change');
@@ -126,16 +118,10 @@ function resetPasswordAndLogin(user, fromEmail, revertWithEnterKey) {
         // * Should show that the password is updated successfully
         cy.get('#passwordUpdatedSuccess').should('be.visible').and('have.text', ' Password updated successfully');
 
-        if (revertWithEnterKey) {
-            // # Type email and password, then press enter
-            cy.get('#loginId').should('be.visible').type(user1.username);
-            cy.get('#loginPassword').should('be.visible').type(`${user1.password}{enter}`);
-        } else {
-            // # Type email and new password, then click login button
-            cy.get('#loginId').should('be.visible').type(user.username);
-            cy.get('#loginPassword').should('be.visible').type(newPassword);
-            cy.get('#loginButton').click();
-        }
+        // # Type email and new password, then click login button
+        cy.get('#loginId').should('be.visible').type(user.username);
+        cy.get('#loginPassword').should('be.visible').type(newPassword);
+        cy.get('#loginButton').click();
 
         // * Verify that it successfully logged in and redirects to /ad-1/channels/town-square
         cy.url().should('contain', '/ad-1/channels/town-square');
