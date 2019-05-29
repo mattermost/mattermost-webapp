@@ -65,31 +65,35 @@ export default class UserProfile extends PureComponent {
         }
 
         return (
-            <OverlayTrigger
-                ref='overlay'
-                trigger='click'
-                placement={placement}
-                rootClose={true}
-                overlay={
-                    <ProfilePopover
-                        userId={userId}
-                        src={profileImg}
-                        isBusy={isBusy}
-                        hide={this.hideProfilePopover}
-                        hideStatus={hideStatus}
-                        isRHS={isRHS}
-                        hasMention={hasMention}
-                    />
-                }
-            >
-                <div className='user-popover'>
-                    {name}
+            <React.Fragment>
+                <OverlayTrigger
+                    ref='overlay'
+                    trigger='click'
+                    placement={placement}
+                    rootClose={true}
+                    overlay={
+                        <ProfilePopover
+                            userId={userId}
+                            src={profileImg}
+                            isBusy={isBusy}
+                            hide={this.hideProfilePopover}
+                            hideStatus={hideStatus}
+                            isRHS={isRHS}
+                            hasMention={hasMention}
+                        />
+                    }
+                >
+                    <div className='user-popover'>
+                        {name}
+                    </div>
+                </OverlayTrigger>
+                <div>
                     <BotBadge
                         show={Boolean(user && user.is_bot)}
                         className='badge-popoverlist'
                     />
                 </div>
-            </OverlayTrigger>
+            </React.Fragment>
         );
     }
 }

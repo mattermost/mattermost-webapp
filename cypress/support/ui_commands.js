@@ -332,7 +332,7 @@ Cypress.Commands.add('customColors', (dropdownInt, dropdownName) => {
     cy.get('.theme-elements__header').should('be.visible', 'contain', 'Center Channel Styles');
     cy.get('.theme-elements__header').should('be.visible', 'contain', 'Link and BUtton Sytles');
     cy.get('.padding-top').should('be.visible', 'contain', 'Import theme Colors from Slack');
-    cy.get('#saveSetting').should('be.visible', 'contain', 'Save');
+    cy.get('#saveSetting').scrollIntoView().should('be.visible', 'contain', 'Save');
     cy.get('#cancelSetting').should('be.visible', 'contain', 'Cancel');
 
     cy.get('.theme-elements__header').eq(dropdownInt).should('contain', dropdownName).click();
