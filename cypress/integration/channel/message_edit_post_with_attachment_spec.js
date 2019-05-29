@@ -13,13 +13,10 @@ describe('MM-13697 Edit Post with attachment', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('Pasted text should be pasted where the cursor is', () => {
-        // # Got to a test channel on the side bar
-        cy.get('#sidebarItem_town-square').scrollIntoView();
-
         // * Validate if the channel has been opened
         cy.url().should('include', '/ad-1/channels/town-square');
 
