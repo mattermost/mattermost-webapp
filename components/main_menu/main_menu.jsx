@@ -289,7 +289,7 @@ export default class MainMenu extends React.PureComponent {
                     />
                     <MenuItemToggleModalRedux
                         id='leaveTeam'
-                        show={!teamIsGroupConstrained}
+                        show={!teamIsGroupConstrained && !this.props.experimentalPrimaryTeam}
                         modalId={ModalIdentifiers.LEAVE_TEAM}
                         dialogType={LeaveTeamModal}
                         text={localizeMessage('navbar_dropdown.leave', 'Leave Team')}
