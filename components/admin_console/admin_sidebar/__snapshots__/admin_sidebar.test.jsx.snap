@@ -1688,7 +1688,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           />
         </li>
         <AdminSidebarCategory
-          icon="fa-info"
+          icon="fa-info-circle"
           key="0"
           parentLink="/admin_console"
           sectionClass=""
@@ -2435,7 +2435,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           />
         </li>
         <AdminSidebarCategory
-          icon="fa-info"
+          icon="fa-info-circle"
           key="0"
           parentLink="/admin_console"
           sectionClass=""
