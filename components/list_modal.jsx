@@ -70,6 +70,11 @@ export default class ListModal extends React.PureComponent {
          * DEFAULT_NUM_PER_PAGE.
          */
         numPerPage: PropTypes.number,
+
+        /**
+         * show (optional) a boolean setting to hide the modal via props rather then unmounting it via the.
+         */
+        show: PropTypes.bool,
     }
 
     constructor(props) {
@@ -153,6 +158,9 @@ export default class ListModal extends React.PureComponent {
     }
 
     render() {
+        if (this.props.show === false) {
+            return null;
+        }
         const {endCount, startCount} = this.paginationRange();
         return (
             <div>
