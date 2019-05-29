@@ -140,7 +140,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
 
     handleShowDeactivateMemberModal = (e) => {
         e.preventDefault();
-        if (this.props.config.ServiceSettings.DisableBotsWhenOwnerIsDeactivated) {
+        if (this.shouldDisableBotsWhenOwnerIsDeactivated()) {
             this.props.actions.loadBots(
                 Constants.Integrations.START_PAGE_NUM,
                 Constants.Integrations.PAGE_SIZE
@@ -205,7 +205,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
                 }}
             />);
         let botAccountsDisclaimer;
-        if (this.props.config.ServiceSettings.DisableBotsWhenOwnerIsDeactivated) {
+        if (this.shouldDisableBotsWhenOwnerIsDeactivated()) {
             for (const bot of Object.values(this.props.bots)) {
                 if (bot.owner_id === user.id) {
                     botAccountsDisclaimer = (
@@ -251,6 +251,12 @@ export default class SystemUsersDropdown extends React.PureComponent {
                 onCancel={this.handleDeactivateCancel}
             />
         );
+    }
+
+    shouldDisableBotsWhenOwnerIsDeactivated() {
+        return this.props.config &&
+            this.props.config.ServiceSettings &&
+            this.props.config.ServiceSettings.DisableBotsWhenOwnerIsDeactivated;
     }
 
     handleShowRevokeSessionsModal = (e) => {
