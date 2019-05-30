@@ -2,15 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedDate, FormattedMessage, intlShape} from 'react-intl';
+import {FormattedDate, FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {Constants, ModalIdentifiers} from 'utils/constants';
+import {Constants} from 'utils/constants';
 import ChannelInviteModal from 'components/channel_invite_modal';
-import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import ProfilePicture from 'components/profile_picture.jsx';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
@@ -37,12 +36,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
         teamIsGroupConstrained: PropTypes.bool.isRequired,
     };
 
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
-
     render() {
-        const {formatMessage} = this.context.intl;
         const {
             currentUserId,
             channel,
@@ -60,21 +54,21 @@ export default class ChannelIntroMessage extends React.PureComponent {
         }
 
         if (channel.type === Constants.DM_CHANNEL) {
-            return createDMIntroMessage(channel, centeredIntro, formatMessage);
+            return createDMIntroMessage(channel, centeredIntro);
         } else if (channel.type === Constants.GM_CHANNEL) {
-            return createGMIntroMessage(channel, centeredIntro, channelProfiles, currentUserId, formatMessage);
+            return createGMIntroMessage(channel, centeredIntro, channelProfiles, currentUserId);
         } else if (channel.name === Constants.DEFAULT_CHANNEL) {
-            return createDefaultIntroMessage(channel, centeredIntro, enableUserCreation, isReadOnly, teamIsGroupConstrained, formatMessage);
+            return createDefaultIntroMessage(channel, centeredIntro, enableUserCreation, isReadOnly, teamIsGroupConstrained);
         } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
-            return createOffTopicIntroMessage(channel, centeredIntro, formatMessage);
+            return createOffTopicIntroMessage(channel, centeredIntro);
         } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
-            return createStandardIntroMessage(channel, centeredIntro, locale, formatMessage);
+            return createStandardIntroMessage(channel, centeredIntro, locale);
         }
         return null;
     }
 }
 
-function createGMIntroMessage(channel, centeredIntro, profiles, currentUserId, formatMessage) {
+function createGMIntroMessage(channel, centeredIntro, profiles, currentUserId) {
     const channelIntroId = 'channelIntro';
 
     if (profiles.length > 0) {
@@ -108,7 +102,7 @@ function createGMIntroMessage(channel, centeredIntro, profiles, currentUserId, f
                         }}
                     />
                 </p>
-                {createSetHeaderButton(channel, formatMessage)}
+                {createSetHeaderButton(channel)}
             </div>
         );
     }
@@ -128,7 +122,7 @@ function createGMIntroMessage(channel, centeredIntro, profiles, currentUserId, f
     );
 }
 
-function createDMIntroMessage(channel, centeredIntro, formatMessage) {
+function createDMIntroMessage(channel, centeredIntro) {
     var teammate = Utils.getDirectTeammate(channel.id);
     const channelIntroId = 'channelIntro';
 
@@ -171,7 +165,7 @@ function createDMIntroMessage(channel, centeredIntro, formatMessage) {
                         }}
                     />
                 </p>
-                {teammate.is_bot ? null : createSetHeaderButton(channel, formatMessage)}
+                {teammate.is_bot ? null : createSetHeaderButton(channel)}
             </div>
         );
     }
@@ -191,9 +185,9 @@ function createDMIntroMessage(channel, centeredIntro, formatMessage) {
     );
 }
 
-function createOffTopicIntroMessage(channel, centeredIntro, formatMessage) {
+function createOffTopicIntroMessage(channel, centeredIntro) {
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
-    const children = createSetHeaderButton(channel, formatMessage);
+    const children = createSetHeaderButton(channel);
     let setHeaderButton = null;
     if (children) {
         setHeaderButton = (
@@ -238,7 +232,7 @@ function createOffTopicIntroMessage(channel, centeredIntro, formatMessage) {
     );
 }
 
-export function createDefaultIntroMessage(channel, centeredIntro, enableUserCreation, isReadOnly, teamIsGroupConstrained, formatMessage) {
+export function createDefaultIntroMessage(channel, centeredIntro, enableUserCreation, isReadOnly, teamIsGroupConstrained) {
     let teamInviteLink = null;
 
     if (!isReadOnly && enableUserCreation) {
@@ -306,7 +300,7 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
 
     let setHeaderButton = null;
     if (!isReadOnly) {
-        const children = createSetHeaderButton(channel, formatMessage);
+        const children = createSetHeaderButton(channel);
         if (children) {
             setHeaderButton = (
                 <ChannelPermissionGate
@@ -361,7 +355,7 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
     );
 }
 
-function createStandardIntroMessage(channel, centeredIntro, locale, formatMessage) {
+function createStandardIntroMessage(channel, centeredIntro, locale) {
     var uiName = channel.display_name;
     var creatorName = Utils.getDisplayNameByUserId(channel.creator_id);
     var memberMessage;
@@ -470,7 +464,7 @@ function createStandardIntroMessage(channel, centeredIntro, locale, formatMessag
 
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     let setHeaderButton = null;
-    const children = createSetHeaderButton(channel, formatMessage);
+    const children = createSetHeaderButton(channel);
     if (children) {
         setHeaderButton = (
             <ChannelPermissionGate
@@ -560,27 +554,25 @@ function createInviteChannelButton(channel) {
     );
 }
 
-function createSetHeaderButton(channel, formatMessage) {
+function createSetHeaderButton(channel) {
     const channelIsArchived = channel.delete_at !== 0;
     if (channelIsArchived) {
         return null;
     }
 
-    const message = formatMessage({
-        id: 'intro_messages.setHeader',
-        defaultMessage: 'Set a Header',
-    });
-
     return (
-        <ToggleModalButtonRedux
-            accessibilityLabel={message}
-            className='intro-links color--link'
-            modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
-            dialogType={EditChannelHeaderModal}
-            dialogProps={{channel}}
+        <FormattedMessage
+            id='intro_messages.setHeader'
+            defaultMessage='Set a Header'
         >
-            <EditIcon/>
-            {message}
-        </ToggleModalButtonRedux>
+            {(message) => (
+                <ToggleModalButtonRedux
+                    accessibilityLabel={message}
+                >
+                    <EditIcon/>
+                    {message}
+                </ToggleModalButtonRedux>
+            )}
+        </FormattedMessage>
     );
 }
