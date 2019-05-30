@@ -596,6 +596,10 @@ export default class AddBot extends React.Component {
                                     onChange={this.updatePostAll}
                                     disabled={!this.props.editingUserHasManageSystem || this.state.role === roleOptionSystemAdmin}
                                 />
+                                <FormattedMessage
+                                    id='bot.add.post_all.enabled'
+                                    defaultMessage='Enabled'
+                                />
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='bot.add.post_all.help'
@@ -621,6 +625,10 @@ export default class AddBot extends React.Component {
                                     checked={this.state.postChannels || this.state.role === roleOptionSystemAdmin || this.state.postAll}
                                     onChange={this.updatePostChannels}
                                     disabled={!this.props.editingUserHasManageSystem || this.state.role === roleOptionSystemAdmin || this.state.postAll}
+                                />
+                                <FormattedMessage
+                                    id='bot.add.post_channels.enabled'
+                                    defaultMessage='Enabled'
                                 />
                                 <div className='form__help'>
                                     <FormattedMessage
