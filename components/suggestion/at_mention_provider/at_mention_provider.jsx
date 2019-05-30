@@ -3,7 +3,7 @@
 
 import XRegExp from 'xregexp';
 
-import {getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
+import {getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
 
 import {Constants} from 'utils/constants.jsx';
 
@@ -59,13 +59,16 @@ export default class AtMentionProvider extends Provider {
             profileSuggestions.push(...usernameSuggestions);
         }
         if (profile.first_name) {
-            profileSuggestions.push(profile.first_name.toLowerCase());
+            const firstNameSuggestions = getSuggestionsSplitBy(profile.first_name.toLowerCase(), ' ');
+            profileSuggestions.push(...firstNameSuggestions);
         }
         if (profile.last_name) {
-            profileSuggestions.push(profile.last_name.toLowerCase());
+            const lastNameSuggestions = getSuggestionsSplitBy(profile.last_name.toLowerCase(), ' ');
+            profileSuggestions.push(...lastNameSuggestions);
         }
         if (profile.nickname) {
-            profileSuggestions.push(profile.nickname.toLowerCase());
+            const nicknameSuggestions = getSuggestionsSplitBy(profile.nickname.toLowerCase(), ' ');
+            profileSuggestions.push(...nicknameSuggestions);
         }
 
         return profileSuggestions;
