@@ -10,6 +10,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
     const user = {
         id: 'user_id',
         roles: '',
+        username: 'some-user',
     };
 
     const requiredProps = {
@@ -30,7 +31,6 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         actions: {
             updateUserActive: jest.fn().mockResolvedValue({data: true}),
             revokeAllSessionsForUser: jest.fn().mockResolvedValue({data: true}),
-            revokeAllSessions: jest.fn().mockResolvedValue({data: true}),
             loadBots: jest.fn(() => Promise.resolve({})),
         },
         config: {

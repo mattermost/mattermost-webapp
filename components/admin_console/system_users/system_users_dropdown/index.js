@@ -27,7 +27,6 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             updateUserActive,
             revokeAllSessionsForUser,
-            revokeAllSessions,
             loadBots,
         }, dispatch),
     };

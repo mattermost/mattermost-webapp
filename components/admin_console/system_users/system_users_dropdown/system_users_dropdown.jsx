@@ -80,7 +80,6 @@ export default class SystemUsersDropdown extends React.PureComponent {
         actions: PropTypes.shape({
             updateUserActive: PropTypes.func.isRequired,
             revokeAllSessionsForUser: PropTypes.func.isRequired,
-            revokeAllSessions: PropTypes.func.isRequired,
             loadBots: PropTypes.func.isRequired,
         }).isRequired,
         config: PropTypes.object.isRequired,
@@ -182,6 +181,15 @@ export default class SystemUsersDropdown extends React.PureComponent {
             />
         );
 
+        const defaultMessage = (
+            <FormattedMarkdownMessage
+                id='deactivate_member_modal.desc'
+                defaultMessage='This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system.\n'
+                values={{
+                    username: user.username,
+                }}
+            />);
+
         let warning;
         if (user.auth_service !== '' && user.auth_service !== Constants.EMAIL_SERVICE) {
             warning = (
@@ -204,29 +212,26 @@ export default class SystemUsersDropdown extends React.PureComponent {
                     username: user.username,
                 }}
             />);
-        let botAccountsDisclaimer;
+        let messageForUsersWithBotAccounts;
         if (this.shouldDisableBotsWhenOwnerIsDeactivated()) {
             for (const bot of Object.values(this.props.bots)) {
                 if (bot.owner_id === user.id) {
-                    botAccountsDisclaimer = (
+                    messageForUsersWithBotAccounts = (
                         <FormattedMarkdownMessage
-                            id='deactivate_member_modal.desc.bot_accounts_disclaimer'
-                            defaultMessage='* Bot accounts they manage will be disabled along with their integrations. To enable them again, go to Integrations > Bot Accounts. [Learn more about bot accounts](!https://mattermost.com/pl/default-bot-accounts).\n \n \n'
+                            id='deactivate_member_modal.desc.for_users_with_bot_accounts'
+                            defaultMessage='This action deactivates {username}.\n \n * They will be logged out and not have access to any teams or channels on this system.\n * Bot accounts they manage will be disabled along with their integrations. To enable them again, go to Integrations > Bot Accounts. [Learn more about bot accounts](!https://mattermost.com/pl/default-bot-accounts).\n \n \n'
+                            values={{
+                                username: user.username,
+                            }}
                         />);
                     break;
                 }
             }
         }
+
         const message = (
             <div>
-                <FormattedMarkdownMessage
-                    id='deactivate_member_modal.desc'
-                    defaultMessage='This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system.\n'
-                    values={{
-                        username: user.username,
-                    }}
-                />
-                {botAccountsDisclaimer}
+                {messageForUsersWithBotAccounts || defaultMessage}
                 {confirmationMessage}
                 {warning}
             </div>
