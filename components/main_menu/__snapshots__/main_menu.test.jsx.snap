@@ -1082,7 +1082,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       icon={false}
       id="leaveTeam"
       modalId="leave_team"
-      show={true}
+      show={false}
       text="Leave Team"
     />
   </MenuGroup>
@@ -1408,7 +1408,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       icon={<LeaveTeamIcon />}
       id="leaveTeam"
       modalId="leave_team"
-      show={true}
+      show={false}
       text="Leave Team"
     />
   </MenuGroup>
