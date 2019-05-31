@@ -17,7 +17,7 @@ import {isModalOpen} from 'selectors/views/modals';
 import AddUsersToTeam from './add_users_to_team.jsx';
 
 function mapStateToProps(state) {
-    const searchTerm = state.views.search.modalSearch && state.views.search.modalSearch.trim();
+    const searchTerm = state.views.search.modalSearch;
 
     let users;
     if (searchTerm) {

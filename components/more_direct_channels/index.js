@@ -40,7 +40,7 @@ function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
     const restrictDirectMessage = config.RestrictDirectMessage;
 
-    const searchTerm = state.views.search.modalSearch && state.views.search.modalSearch.trim();
+    const searchTerm = state.views.search.modalSearch;
 
     let users;
     if (searchTerm) {
