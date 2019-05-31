@@ -160,7 +160,7 @@ export default class MultiSelectList extends React.Component {
             <div className='more-modal__list'>
                 <div
                     ref='list'
-                    id='userAddList'
+                    id='multiSelectList'
                 >
                     {optionControls}
                 </div>
