@@ -11,7 +11,6 @@
 
 import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
-let testChannel;
 let linkText;
 
 function createNewDMChannel(channelname) {
@@ -42,13 +41,13 @@ describe('Message permalink', () => {
         cy.postMessage(message + '{enter}');
         cy.getLastPostId().then((postId) => {
             // # check if ... button is visible in last post right side
-            cy.get(`#CENTER_button_${postId}`).should('be.visible');
+            cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
 
             // # click on ... button of last post
-            cy.clickPostDotMenu();
+            cy.clickPostDotMenu(postId);
 
             // # click on permalink option
-            cy.contains('Permalink').click();
+            cy.get(`#permalink_${postId}`).should('be.visible').click();
 
             // # copy permalink from button
             cy.get('#linkModalCopyLink').click();
@@ -71,7 +70,7 @@ describe('Message permalink', () => {
         cy.getCurrentTeamId().then((teamId) => {
             // # create public channel to post permalink
             cy.apiCreateChannel(teamId, channelName, channelName, 'O', 'Test channel').then((response) => {
-                testChannel = response.body;
+                const testChannel = response.body;
 
                 // # click on test public channel
                 cy.get('#sidebarItem_' + testChannel.name).click();
@@ -91,7 +90,7 @@ describe('Message permalink', () => {
                     // # Get last post id from open channel
                     cy.getLastPostId().then((clickedpostid) => {
                         // # Check the sent message
-                        cy.get(`#postMessageText_${clickedpostid}`, {force: true}).should('be.visible').as('postMessageText');
+                        cy.get(`#postMessageText_${clickedpostid}`).should('be.visible').as('postMessageText');
                         cy.get('@postMessageText').should('be.visible').and('have.text', message);
                     });
                 });
