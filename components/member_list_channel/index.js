@@ -51,7 +51,7 @@ const getUsersAndActionsToDisplay = createSelector(
 );
 
 function mapStateToProps(state) {
-    const searchTerm = state.views.search.modalSearch;
+    const searchTerm = state.views.search.modalSearch && state.views.search.modalSearch.trim();
 
     let users;
     if (searchTerm) {

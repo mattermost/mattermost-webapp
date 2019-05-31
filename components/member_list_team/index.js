@@ -20,7 +20,7 @@ import MemberListTeam from './member_list_team.jsx';
 function mapStateToProps(state, ownProps) {
     const canManageTeamMembers = haveITeamPermission(state, {team: ownProps.teamId, permission: Permissions.MANAGE_TEAM_ROLES});
 
-    const searchTerm = state.views.search.modalSearch;
+    const searchTerm = state.views.search.modalSearch && state.views.search.modalSearch.trim();
 
     let users;
     if (searchTerm) {
