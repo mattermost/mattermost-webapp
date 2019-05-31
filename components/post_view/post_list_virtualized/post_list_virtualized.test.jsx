@@ -191,6 +191,11 @@ describe('PostList', () => {
                 scrollOffset: 500,
                 expected: true,
             },
+            {
+                name: 'when clientHeight is less than scrollHeight', // scrollHeight is a state value in virt list and can be one cycle off when compared to actual value
+                scrollOffset: 501,
+                expected: true,
+            },
         ]) {
             test(testCase.name, () => {
                 const wrapper = shallow(<PostList {...baseProps}/>);
@@ -236,7 +241,7 @@ describe('PostList', () => {
             instance.componentDidUpdate = jest.fn();
 
             instance.postListRef = {current: {scrollTop: 10, scrollHeight: 100}};
-            wrapper.setState({atEnd: true});
+            wrapper.setState({atEnd: true, atBottom: false});
             expect(instance.componentDidUpdate).toHaveBeenCalledTimes(1);
             expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollTop: 10, previousScrollHeight: 100});
 
@@ -257,6 +262,28 @@ describe('PostList', () => {
 
             expect(instance.componentDidUpdate).toHaveBeenCalledTimes(3);
             expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual({previousScrollTop: 40, previousScrollHeight: 400});
+        });
+
+        test('should not return previous scroll position from getSnapshotBeforeUpdate as list is at bottom', () => {
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            const instance = wrapper.instance();
+            instance.componentDidUpdate = jest.fn();
+
+            instance.postListRef = {current: {scrollTop: 10, scrollHeight: 100}};
+            wrapper.setState({atEnd: true, atBottom: true});
+            expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual(null);
+            wrapper.setState({atEnd: false});
+            instance.postListRef = {current: {scrollTop: 40, scrollHeight: 400}};
+            wrapper.setProps({postListIds: [
+                'post1',
+                'post2',
+                'post3',
+                'post4',
+                'post5',
+                DATE_LINE + 1551711600000,
+            ]});
+
+            expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual(null);
         });
     });
 

@@ -51,6 +51,7 @@ describe('components/team_members_dropdown', () => {
             getMyTeamMembers: jest.fn(),
             getMyTeamUnreads: jest.fn(),
             getUser: jest.fn(),
+            getTeamMember: jest.fn(),
             getTeamStats: jest.fn(),
             getChannelStats: jest.fn(),
             updateTeamMemberSchemeRoles: jest.fn(),
