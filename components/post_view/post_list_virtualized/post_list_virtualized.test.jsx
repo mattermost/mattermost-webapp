@@ -32,6 +32,16 @@ describe('PostList', () => {
         },
     };
 
+    const postListIdsForClassNames = [
+        'post1',
+        'post2',
+        'post3',
+        DATE_LINE + 1551711600000,
+        'post4',
+        PostListRowListIds.START_OF_NEW_MESSAGES,
+        'post5',
+    ];
+
     test('should render loading screen while loading posts', () => {
         const props = {
             ...baseProps,
@@ -319,6 +329,78 @@ describe('PostList', () => {
             const wrapper = shallow(<PostList {...props}/>);
             const instance = wrapper.instance();
             expect(instance.initRangeToRender).toEqual([35, 95]);
+        });
+    });
+
+    describe('renderRow', () => {
+        test('should have appropriate classNames for rows with START_OF_NEW_MESSAGES and DATE_LINE', () => {
+            const props = {
+                ...baseProps,
+                postListIds: postListIdsForClassNames,
+            };
+
+            const wrapper = shallow(<PostList {...props}/>);
+            const instance = wrapper.instance();
+            const post3Row = shallow(instance.renderRow({
+                data: postListIdsForClassNames,
+                itemId: 'post3',
+            }));
+
+            const post5Row = shallow(instance.renderRow({
+                data: postListIdsForClassNames,
+                itemId: 'post5',
+            }));
+
+            expect(post3Row.prop('className')).toEqual('post-row__padding top');
+            expect(post5Row.prop('className')).toEqual('post-row__padding bottom');
+        });
+
+        test('should have both top and bottom classNames as post is in between DATE_LINE and START_OF_NEW_MESSAGES', () => {
+            const props = {
+                ...baseProps,
+                postListIds: [
+                    'post1',
+                    'post2',
+                    'post3',
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    'post5',
+                ],
+            };
+
+            const wrapper = shallow(<PostList {...props}/>);
+
+            const row = shallow(wrapper.instance().renderRow({
+                data: props.postListIds,
+                itemId: 'post4',
+            }));
+
+            expect(row.prop('className')).toEqual('post-row__padding bottom top');
+        });
+
+        test('should have empty string as className when both previousItemId and nextItemId are posts', () => {
+            const props = {
+                ...baseProps,
+                postListIds: [
+                    'post1',
+                    'post2',
+                    'post3',
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    'post5',
+                ],
+            };
+
+            const wrapper = shallow(<PostList {...props}/>);
+
+            const row = shallow(wrapper.instance().renderRow({
+                data: props.postListIds,
+                itemId: 'post2',
+            }));
+
+            expect(row.prop('className')).toEqual('');
         });
     });
 });
