@@ -1099,11 +1099,12 @@ export function setCaretPosition(input, pos) {
 }
 
 export function isValidUsername(name) {
+    const config = getConfig(store.getState());
     var error = '';
     if (!name) {
         error = 'This field is required';
-    } else if (name.length < Constants.MIN_USERNAME_LENGTH || name.length > Constants.MAX_USERNAME_LENGTH) {
-        error = 'Must be between ' + Constants.MIN_USERNAME_LENGTH + ' and ' + Constants.MAX_USERNAME_LENGTH + ' characters';
+    } else if (name.length < config.MinimumUsernameLength || name.length > Constants.MAX_USERNAME_LENGTH) {
+        error = 'Must be between ' + config.MinimumUsernameLength + ' and ' + Constants.MAX_USERNAME_LENGTH + ' characters';
     } else if (!(/^[a-z0-9.\-_]+$/).test(name)) {
         error = "Must contain only letters, numbers, and the symbols '.', '-', and '_'.";
     } else if (!(/[a-z]/).test(name.charAt(0))) { //eslint-disable-line no-negated-condition

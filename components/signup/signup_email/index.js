@@ -22,10 +22,12 @@ function mapStateToProps(state) {
     const termsOfServiceLink = config.TermsOfServiceLink;
     const privacyPolicyLink = config.PrivacyPolicyLink;
     const customDescriptionText = config.CustomDescriptionText;
+    const minimumUsernameLength = config.MinimumUsernameLength;
 
     return {
         enableSignUpWithEmail,
         siteName,
+        minimumUsernameLength,
         termsOfServiceLink,
         privacyPolicyLink,
         customDescriptionText,

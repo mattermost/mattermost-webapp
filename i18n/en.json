@@ -1420,6 +1420,7 @@
   "admin.team.showFullname": "Show first and last name",
   "admin.team.showNickname": "Show nickname if one exists, otherwise show first and last name",
   "admin.team.showUsername": "Show username (default)",
+  "admin.team.minimumUsernameLength":"Minimum Username Length",
   "admin.team.siteNameDescription": "Name of service shown in login screens and UI. When not specified, it defaults to \"Mattermost\".",
   "admin.team.siteNameExample": "E.g.: \"Mattermost\"",
   "admin.team.siteNameTitle": "Site Name:",

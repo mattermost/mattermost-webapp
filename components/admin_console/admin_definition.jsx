@@ -1610,6 +1610,16 @@ export default {
                         ],
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_NUMBER,
+                        key: 'ServiceSettings.MinimumUsernameLength',
+                        label: t('admin.team.MinimumUsernameLength'),
+                        label_default: 'Minimum Username Length:',
+                        help_text: t('admin.team.MinimumUsernameLengthDescription'),
+                        help_text_default: 'Minimum number of characters in a username. MySQL databases must be configured to support searching strings shorter than three characters, see documentation at https://docs.mattermost.com/install/requirements.html?highlight=ft_min_word_len#database-software and https://dev.mysql.com/doc/refman/8.0/en/fulltext-fine-tuning.html.',
+                        placeholder: t('admin.team.MinimumUsernameLengthExample'),
+                        placeholder_default: 'E.g.: "3"',
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_PERMISSION,
                         key: 'TeamSettings.EditOthersPosts',
                         label: t('admin.team.editOthersPostsTitle'),
@@ -4122,3 +4132,4 @@ t('admin.field_names.postEditTimeLimit');
 t('admin.field_names.restrictCreationToDomains');
 t('admin.field_names.restrictDirectMessage');
 t('admin.field_names.teammateNameDisplay');
+t('admin.field_names.minimumUsernameLength');

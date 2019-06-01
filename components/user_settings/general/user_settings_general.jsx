@@ -116,6 +116,7 @@ class UserSettingsGeneralTab extends React.Component {
         sendEmailNotifications: PropTypes.bool,
         requireEmailVerification: PropTypes.bool,
         maxFileSize: PropTypes.number,
+        minimumUsernameLength: PropTypes.number.isRequired,
         ldapFirstNameAttributeSet: PropTypes.bool,
         ldapLastNameAttributeSet: PropTypes.bool,
         samlFirstNameAttributeSet: PropTypes.bool,
@@ -180,7 +181,7 @@ class UserSettingsGeneralTab extends React.Component {
             this.setState({clientError: formatMessage(holders.usernameReserved), serverError: ''});
             return;
         } else if (usernameError) {
-            this.setState({clientError: formatMessage(holders.usernameRestrictions, {min: Constants.MIN_USERNAME_LENGTH, max: Constants.MAX_USERNAME_LENGTH}), serverError: ''});
+            this.setState({clientError: formatMessage(holders.usernameRestrictions, {min: this.props.minimumUsernameLength, max: Constants.MAX_USERNAME_LENGTH}), serverError: ''});
             return;
         }
 

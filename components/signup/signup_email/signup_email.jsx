@@ -26,6 +26,7 @@ export default class SignupEmail extends React.Component {
     static propTypes = {
         location: PropTypes.object,
         enableSignUpWithEmail: PropTypes.bool.isRequired,
+        minimumUsernameLength: PropTypes.number.isRequired,
         siteName: PropTypes.string,
         termsOfServiceLink: PropTypes.string,
         privacyPolicyLink: PropTypes.string,
@@ -177,7 +178,7 @@ export default class SignupEmail extends React.Component {
                     <FormattedMessage
                         id='signup_user_completed.usernameLength'
                         values={{
-                            min: Constants.MIN_USERNAME_LENGTH,
+                            min: this.props.minimumUsernameLength,
                             max: Constants.MAX_USERNAME_LENGTH,
                         }}
                     />
@@ -272,7 +273,7 @@ export default class SignupEmail extends React.Component {
                     id='signup_user_completed.userHelp'
                     defaultMessage="Username must begin with a letter, and contain between {min} to {max} lowercase characters made up of numbers, letters, and the symbols '.', '-' and '_'"
                     values={{
-                        min: Constants.MIN_USERNAME_LENGTH,
+                        min: this.props.minimumUsernameLength,
                         max: Constants.MAX_USERNAME_LENGTH,
                     }}
                 />
