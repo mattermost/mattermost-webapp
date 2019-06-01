@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import $ from 'jquery';
-import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
@@ -15,18 +14,17 @@ import LocalizedInput from 'components/localized_input/localized_input';
 
 import {t} from 'utils/i18n.jsx';
 
-class PasswordResetSendLink extends React.Component {
+export default class PasswordResetSendLink extends React.Component {
     constructor(props) {
         super(props);
-
-        this.handleSendLink = this.handleSendLink.bind(this);
 
         this.state = {
             error: '',
             updateText: '',
         };
     }
-    handleSendLink(e) {
+
+    handleSendLink = (e) => {
         e.preventDefault();
 
         var email = ReactDOM.findDOMNode(this.refs.email).value.trim().toLowerCase();
@@ -53,7 +51,10 @@ class PasswordResetSendLink extends React.Component {
                 this.setState({
                     error: null,
                     updateText: (
-                        <div className='reset-form alert alert-success'>
+                        <div
+                            id='passwordResetEmailSent'
+                            className='reset-form alert alert-success'
+                        >
                             <FormattedMessage
                                 id='password_send.link'
                                 defaultMessage='If the account exists, a password reset email will be sent to:'
@@ -79,6 +80,7 @@ class PasswordResetSendLink extends React.Component {
             }
         );
     }
+
     render() {
         var error = null;
         if (this.state.error) {
@@ -114,16 +116,19 @@ class PasswordResetSendLink extends React.Component {
                             </p>
                             <div className={formClass}>
                                 <LocalizedInput
+                                    id='passwordResetEmailInput'
                                     type='email'
                                     className='form-control'
                                     name='email'
                                     ref='email'
                                     placeholder={{id: t('password_send.email'), defaultMessage: 'Email'}}
                                     spellCheck='false'
+                                    autoFocus={true}
                                 />
                             </div>
                             {error}
                             <button
+                                id='passwordResetButton'
                                 type='submit'
                                 className='btn btn-primary'
                             >
@@ -139,11 +144,3 @@ class PasswordResetSendLink extends React.Component {
         );
     }
 }
-
-PasswordResetSendLink.defaultProps = {
-};
-PasswordResetSendLink.propTypes = {
-    params: PropTypes.object.isRequired,
-};
-
-export default PasswordResetSendLink;
