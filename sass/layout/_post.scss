@@ -2078,21 +2078,23 @@
 
     &.top .post {
         padding-top: 22px; // this is based off of 8px padding for post + 1em
+        &.same--root.same--user {
+            padding-top: 1em;
+        }
     }
 
     &.bottom .post {
         padding-bottom: 1em;
-    }
-
-    .post.same--root.same--user {
-        padding: 0 0.5em 1em 1.5em;
+        &.same--root.same--user {
+            padding-bottom: 1em;
+        }
     }
 }
 
 .post-list__dynamic {
     .date-separator, .new-separator {
         z-index: 1;
-        height: 0px;
+        height: 1px;
         margin-bottom: 1em;
         margin-top: -1em;
     }
