@@ -3292,7 +3292,7 @@ export default {
         sectionTitleDefault: 'Plugins',
         id: 'plugins',
         plugin_management: {
-            url: '/plugins/plugin_management',
+            url: 'plugins/plugin_management',
             title: t('admin.plugins.pluginManagement'),
             title_default: 'Plugin Management',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
