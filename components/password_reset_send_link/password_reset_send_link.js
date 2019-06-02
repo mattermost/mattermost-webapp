@@ -1,33 +1,36 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
+import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
-import {sendPasswordResetEmail} from 'actions/user_actions.jsx';
-import BackButton from 'components/common/back_button.jsx';
+import BackButton from 'components/common/back_button';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import {t} from 'utils/i18n.jsx';
 
-export default class PasswordResetSendLink extends React.Component {
-    constructor(props) {
-        super(props);
+export default class PasswordResetSendLink extends React.PureComponent {
+    static propTypes = {
+        actions: PropTypes.shape({
+            sendPasswordResetEmail: PropTypes.func.isRequired,
+        }).isRequired,
+    };
 
-        this.state = {
-            error: '',
-            updateText: '',
-        };
-    }
+    state = {
+        error: null,
+        updateText: null,
+    };
+    resetForm = React.createRef();
+    emailInput = React.createRef();
 
-    handleSendLink = (e) => {
+    handleSendLink = async (e) => {
         e.preventDefault();
 
-        var email = ReactDOM.findDOMNode(this.refs.email).value.trim().toLowerCase();
+        const input = this.emailInput.current && this.emailInput.current.input.current;
+        const email = input && input.value.trim().toLowerCase();
         if (!email || !isEmail(email)) {
             this.setState({
                 error: (
@@ -41,53 +44,54 @@ export default class PasswordResetSendLink extends React.Component {
         }
 
         // End of error checking clear error
-        this.setState({
-            error: '',
-        });
+        this.setState({error: null});
 
-        sendPasswordResetEmail(
-            email,
-            () => {
-                this.setState({
-                    error: null,
-                    updateText: (
-                        <div
-                            id='passwordResetEmailSent'
-                            className='reset-form alert alert-success'
-                        >
-                            <FormattedMessage
-                                id='password_send.link'
-                                defaultMessage='If the account exists, a password reset email will be sent to:'
-                            />
-                            <div>
-                                <b>{email}</b>
-                            </div>
-                            <br/>
-                            <FormattedMessage
-                                id='password_send.checkInbox'
-                                defaultMessage='Please check your inbox.'
-                            />
+        const {data, error} = await this.props.actions.sendPasswordResetEmail(email);
+        if (data) {
+            this.setState({
+                error: null,
+                updateText: (
+                    <div
+                        id='passwordResetEmailSent'
+                        className='reset-form alert alert-success'
+                    >
+                        <FormattedMessage
+                            id='password_send.link'
+                            defaultMessage='If the account exists, a password reset email will be sent to:'
+                        />
+                        <div>
+                            <b>{email}</b>
                         </div>
-                    ),
-                });
-                $(ReactDOM.findDOMNode(this.refs.reset_form)).hide();
-            },
-            (err) => {
-                this.setState({
-                    error: err.message,
-                    update_text: null,
-                });
+                        <br/>
+                        <FormattedMessage
+                            id='password_send.checkInbox'
+                            defaultMessage='Please check your inbox.'
+                        />
+                    </div>
+                ),
+            });
+            if (this.resetForm.current) {
+                this.resetForm.current.hidden = true;
             }
-        );
+        } else if (error) {
+            this.setState({
+                error: error.message,
+                update_text: null,
+            });
+        }
     }
 
     render() {
-        var error = null;
+        let error = null;
         if (this.state.error) {
-            error = <div className='form-group has-error'><label className='control-label'>{this.state.error}</label></div>;
+            error = (
+                <div className='form-group has-error'>
+                    <label className='control-label'>{this.state.error}</label>
+                </div>
+            );
         }
 
-        var formClass = 'form-group';
+        let formClass = 'form-group';
         if (error) {
             formClass += ' has-error';
         }
@@ -106,7 +110,7 @@ export default class PasswordResetSendLink extends React.Component {
                         {this.state.updateText}
                         <form
                             onSubmit={this.handleSendLink}
-                            ref='reset_form'
+                            ref={this.resetForm}
                         >
                             <p>
                                 <FormattedMessage
@@ -120,8 +124,8 @@ export default class PasswordResetSendLink extends React.Component {
                                     type='email'
                                     className='form-control'
                                     name='email'
-                                    ref='email'
                                     placeholder={{id: t('password_send.email'), defaultMessage: 'Email'}}
+                                    ref={this.emailInput}
                                     spellCheck='false'
                                     autoFocus={true}
                                 />
