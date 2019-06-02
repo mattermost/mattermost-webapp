@@ -12,8 +12,8 @@
 import users from '../../fixtures/users.json';
 
 /**
- * create new DM channel
- * @param {String} text - DM channel name
+ * create new group DM channel
+ * @param {String} {String} text - DM channel name1, DM channel name2
  */
 
 function createNewPrivateGroupChannel(channelname1, channelname2) {
