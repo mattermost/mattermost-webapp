@@ -3286,19 +3286,52 @@ export default {
             },
         },
     },
-    integrations: {
+    plugins: {
         icon: 'fa-plug',
+        sectionTitle: t('admin.sidebar.plugins'),
+        sectionTitleDefault: 'Plugins',
+        id: 'plugins',
+        plugin_management: {
+            url: 'plugins/plugin_management',
+            title: t('admin.plugins.pluginManagement'),
+            title_default: 'Plugin Management',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            searchableStrings: [
+                'admin.plugin.management.title',
+                'admin.plugins.settings.enable',
+                'admin.plugins.settings.enableDesc',
+                'admin.plugin.uploadTitle',
+                'admin.plugin.installedTitle',
+                'admin.plugin.installedDesc',
+                'admin.plugin.uploadDesc',
+                'admin.plugin.uploadDisabledDesc',
+            ],
+            schema: {
+                id: 'PluginManagementSettings',
+                component: PluginManagement,
+            },
+        },
+        custom: {
+            url: 'plugins/plugin_:plugin_id',
+            schema: {
+                id: 'CustomPluginSettings',
+                component: CustomPluginSettings,
+            },
+        },
+    },
+    integrations: {
+        icon: 'fa-sitemap',
         sectionTitle: t('admin.sidebar.integrations'),
         sectionTitleDefault: 'Integrations',
         id: 'integrations',
-        features: {
-            url: 'integrations/features',
-            title: t('admin.sidebar.integrationsFeatures'),
-            title_default: 'Features',
+        integration_management: {
+            url: 'integrations/integration_management',
+            title: t('admin.integrations.integrationManagement'),
+            title_default: 'Integration Management',
             schema: {
                 id: 'CustomIntegrationSettings',
-                name: t('admin.integrations.integrationsFeatures'),
-                name_default: 'Integrations Features',
+                name: t('admin.integrations.integrationManagement.title'),
+                name_default: 'Integration Management',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3477,33 +3510,6 @@ export default {
                         help_text_default: 'When true, any outgoing HTTPS requests will accept unverified, self-signed certificates. For example, outgoing webhooks to a server with a self-signed TLS certificate, using any domain, will be allowed. Note that this makes these connections susceptible to man-in-the-middle attacks.',
                     },
                 ],
-            },
-        },
-        plugins: {
-            url: 'integrations/plugins',
-            title: t('admin.integrations.plugins'),
-            title_default: 'Plugins (Beta)',
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-            searchableStrings: [
-                'admin.plugin.management.title',
-                'admin.plugins.settings.enable',
-                'admin.plugins.settings.enableDesc',
-                'admin.plugin.uploadTitle',
-                'admin.plugin.installedTitle',
-                'admin.plugin.installedDesc',
-                'admin.plugin.uploadDesc',
-                'admin.plugin.uploadDisabledDesc',
-            ],
-            schema: {
-                id: 'PluginManagementSettings',
-                component: PluginManagement,
-            },
-        },
-        custom: {
-            url: 'integrations/plugin_:plugin_id',
-            schema: {
-                id: 'CustomPluginSettings',
-                component: CustomPluginSettings,
             },
         },
     },

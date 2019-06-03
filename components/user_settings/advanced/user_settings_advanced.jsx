@@ -17,7 +17,7 @@ import JoinLeaveSection from './join_leave_section';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
-export default class AdvancedSettingsDisplay extends React.Component {
+export default class AdvancedSettingsDisplay extends React.PureComponent {
     static propTypes = {
         currentUser: PropTypes.object.isRequired,
         advancedSettingsCategory: PropTypes.array.isRequired,
@@ -35,7 +35,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
             updateUserActive: PropTypes.func.isRequired,
-            revokeAllSessions: PropTypes.func.isRequired,
+            revokeAllSessionsForUser: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -146,7 +146,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
         this.handleUpdateSection('');
     }
 
-    handleDeactivateAccountSubmit = () => {
+    handleDeactivateAccountSubmit = async () => {
         const userId = this.props.currentUser.id;
 
         this.setState({isSaving: true});
@@ -158,15 +158,12 @@ export default class AdvancedSettingsDisplay extends React.Component {
                 }
             });
 
-        this.props.actions.revokeAllSessions(userId).then(
-            ({data, error}) => {
-                if (data) {
-                    emitUserLoggedOutEvent();
-                } else if (error) {
-                    this.setState({serverError: error.message});
-                }
-            }
-        );
+        const {data, error} = await this.props.actions.revokeAllSessionsForUser(userId);
+        if (data) {
+            emitUserLoggedOutEvent();
+        } else if (error) {
+            this.setState({serverError: error.message});
+        }
     }
 
     handleShowDeactivateAccountModal = () => {
