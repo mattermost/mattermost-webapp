@@ -31,6 +31,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
             uploadProfileImage: jest.fn(),
         },
         maxFileSize: 1024,
+        minimumUsernameLength: 3,
     };
 
     test('submitUser() should have called updateMe', () => {

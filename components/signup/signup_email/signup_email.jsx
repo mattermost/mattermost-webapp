@@ -8,10 +8,13 @@ import {Link} from 'react-router-dom';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
+
 import * as Utils from 'utils/utils.jsx';
 
 import logoImage from 'images/logo.png';
@@ -163,7 +166,8 @@ export default class SignupEmail extends React.Component {
             return false;
         }
 
-        const usernameError = Utils.isValidUsername(providedUsername);
+        const config = getConfig(this.state);
+        const usernameError = Utils.isValidUsername(providedUsername, config);
         if (usernameError === 'Cannot use a reserved word as a username.') {
             this.setState({
                 nameError: (<FormattedMessage id='signup_user_completed.reserved'/>),

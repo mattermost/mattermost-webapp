@@ -1098,8 +1098,7 @@ export function setCaretPosition(input, pos) {
     setSelectionRange(input, pos, pos);
 }
 
-export function isValidUsername(name) {
-    const config = getConfig(store.getState());
+export function isValidUsername(name, config) {
     var error = '';
     if (!name) {
         error = 'This field is required';
