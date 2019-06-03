@@ -69,7 +69,7 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
         <LocalizedInput
           className="form-control"
           id="display_name"
-          maxLength={22}
+          maxLength={64}
           onChange={[Function]}
           placeholder={
             Object {
@@ -121,7 +121,7 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
           <LocalizedInput
             className="form-control"
             id="channel_name"
-            maxLength={22}
+            maxLength={64}
             onChange={[Function]}
             placeholder={
               Object {

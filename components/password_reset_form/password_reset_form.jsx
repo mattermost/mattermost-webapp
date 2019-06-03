@@ -92,16 +92,19 @@ class PasswordResetForm extends React.Component {
                         </p>
                         <div className={formClass}>
                             <LocalizedInput
+                                id='resetPasswordInput'
                                 type='password'
                                 className='form-control'
                                 name='password'
                                 ref='password'
                                 placeholder={{id: t('password_form.pwd'), defaultMessage: 'Password'}}
                                 spellCheck='false'
+                                autoFocus={true}
                             />
                         </div>
                         {error}
                         <button
+                            id='resetPasswordButton'
                             type='submit'
                             className='btn btn-primary'
                         >
