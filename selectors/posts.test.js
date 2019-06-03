@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Posts} from 'mattermost-redux/constants';
+import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import {makeCombineUserActivityFromPosts} from './posts';
 
@@ -42,7 +43,7 @@ describe('makeCombineUserActivityFromPosts', () => {
 
         expect(result).not.toBe(posts);
         expect(result).toEqual([
-            {id: Posts.COMBINED_USER_ACTIVITY_PREFIX + 'post1_post2_post3', type: Posts.POST_TYPES.JOIN_CHANNEL},
+            {id: PostListUtils.COMBINED_USER_ACTIVITY + 'post1_post2_post3', type: Posts.POST_TYPES.JOIN_CHANNEL},
         ]);
     });
 
@@ -61,9 +62,9 @@ describe('makeCombineUserActivityFromPosts', () => {
 
         expect(result).not.toBe(posts);
         expect(result).toEqual([
-            {id: Posts.COMBINED_USER_ACTIVITY_PREFIX + 'post1_post2', type: Posts.POST_TYPES.JOIN_CHANNEL},
+            {id: PostListUtils.COMBINED_USER_ACTIVITY + 'post1_post2', type: Posts.POST_TYPES.JOIN_CHANNEL},
             {id: 'post3'},
-            {id: Posts.COMBINED_USER_ACTIVITY_PREFIX + 'post4_post5', type: Posts.POST_TYPES.ADD_TO_CHANNEL},
+            {id: PostListUtils.COMBINED_USER_ACTIVITY + 'post4_post5', type: Posts.POST_TYPES.ADD_TO_CHANNEL},
         ]);
     });
 

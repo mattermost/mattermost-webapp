@@ -6,7 +6,7 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {isUserActivityPost} from 'mattermost-redux/utils/post_utils';
-import {Posts} from 'mattermost-redux/constants';
+import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import {getGlobalItem} from 'selectors/storage';
 import {Preferences, StoragePrefixes} from 'utils/constants';
@@ -55,7 +55,7 @@ export function makeCombineUserActivityFromPosts() {
             for (const post of posts) {
                 const postIsUserActivity = isUserActivityPost(post.type);
 
-                if (postIsUserActivity && lastPostIsUserActivity && combinedCount < Posts.MAX_COMBINED_SYSTEM_POSTS) {
+                if (postIsUserActivity && lastPostIsUserActivity && combinedCount < PostListUtils.MAX_COMBINED_SYSTEM_POSTS) {
                     // Add the ID to the previous combined post
                     out[out.length - 1].id += '_' + post.id;
 
@@ -66,7 +66,7 @@ export function makeCombineUserActivityFromPosts() {
                     // Start a new combined post, even if the "combined" post is only a single post
                     const formattedPost = {
                         ...post,
-                        id: Posts.COMBINED_USER_ACTIVITY_PREFIX + post.id,
+                        id: PostListUtils.COMBINED_USER_ACTIVITY + post.id,
                     };
 
                     out.push(formattedPost);
