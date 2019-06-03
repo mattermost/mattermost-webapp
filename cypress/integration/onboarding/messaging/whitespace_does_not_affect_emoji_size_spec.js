@@ -55,7 +55,7 @@ describe('Messaging', () => {
             and('have.css', 'minHeight', '32px').
             and('have.css', 'minWidth', '32px');
 
-        // # Post a message beginning with words and followed by emojis
+        // # Post a message beginning with three spaces and followed by emojis
         cy.postMessage('   :book: :key: :gem:');
 
         // # Get last post message text
