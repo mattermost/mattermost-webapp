@@ -29,6 +29,7 @@ export default class TeamMembersDropdown extends React.Component {
             getMyTeamMembers: PropTypes.func.isRequired,
             getMyTeamUnreads: PropTypes.func.isRequired,
             getUser: PropTypes.func.isRequired,
+            getTeamMember: PropTypes.func.isRequired,
             getTeamStats: PropTypes.func.isRequired,
             getChannelStats: PropTypes.func.isRequired,
             updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
@@ -58,6 +59,7 @@ export default class TeamMembersDropdown extends React.Component {
                 this.setState({serverError: error.message});
             } else {
                 this.props.actions.getUser(this.props.user.id);
+                this.props.actions.getTeamMember(this.props.teamMember.team_id, this.props.user.id);
                 if (this.props.user.id === me.id) {
                     await this.props.actions.getMyTeamMembers();
                     this.props.actions.getMyTeamUnreads();
@@ -83,6 +85,7 @@ export default class TeamMembersDropdown extends React.Component {
                 this.setState({serverError: error.message});
             } else {
                 this.props.actions.getUser(this.props.user.id);
+                this.props.actions.getTeamMember(this.props.teamMember.team_id, this.props.user.id);
             }
         }
     }

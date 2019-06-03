@@ -65,6 +65,23 @@ exports[`components/ActivityLogModal should match snapshot 1`] = `
       role="form"
     />
   </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    className="modal-footer--invisible"
+    componentClass="div"
+  >
+    <button
+      className="btn btn-link"
+      id="closeModalButton"
+      type="button"
+    >
+      <FormattedMessage
+        defaultMessage="Close"
+        id="general_button.close"
+        values={Object {}}
+      />
+    </button>
+  </ModalFooter>
 </Modal>
 `;
 
@@ -134,6 +151,23 @@ exports[`components/ActivityLogModal should match snapshot 2`] = `
       style={Object {}}
     />
   </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    className="modal-footer--invisible"
+    componentClass="div"
+  >
+    <button
+      className="btn btn-link"
+      id="closeModalButton"
+      type="button"
+    >
+      <FormattedMessage
+        defaultMessage="Close"
+        id="general_button.close"
+        values={Object {}}
+      />
+    </button>
+  </ModalFooter>
 </Modal>
 `;
 
@@ -202,5 +236,22 @@ exports[`components/ActivityLogModal should match snapshot when submitRevoke is 
       role="form"
     />
   </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    className="modal-footer--invisible"
+    componentClass="div"
+  >
+    <button
+      className="btn btn-link"
+      id="closeModalButton"
+      type="button"
+    >
+      <FormattedMessage
+        defaultMessage="Close"
+        id="general_button.close"
+        values={Object {}}
+      />
+    </button>
+  </ModalFooter>
 </Modal>
 `;

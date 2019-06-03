@@ -320,3 +320,12 @@ export async function invalidateAllEmailInvites(success, error) {
         error({id: err.server_error_id, ...err});
     }
 }
+
+export async function testSmtp(success, error) {
+    const {data, error: err} = await dispatch(AdminActions.testEmail());
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}

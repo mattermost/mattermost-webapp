@@ -7,34 +7,40 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+/*eslint max-nested-callbacks: ["error", 3]*/
+
+let testTeam;
+
 describe('Message Draft', () => {
     before(() => {
-        // # Login and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/');
+        // # Login as new user
+        cy.loginAsNewUser();
+
+        // # Create new team and visit its URL
+        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+            testTeam = response.body;
+            cy.visit(`/${testTeam.name}`);
+        });
     });
 
     it('M13473 Message Draft - Pencil Icon', () => {
         // # Got to a test channel on the side bar
-        cy.get('#sidebarItem_town-square').scrollIntoView();
         cy.get('#sidebarItem_town-square').should('be.visible').click();
 
         // * Validate if the channel has been opened
-        cy.url().should('include', '/ad-1/channels/town-square');
+        cy.url().should('include', `/${testTeam.name}/channels/town-square`);
 
         // * Validate if the draft icon is not visible on the sidebar before making a draft
-        cy.get('#sidebarItem_town-square').scrollIntoView();
         cy.get('#sidebarItem_town-square #draftIcon').should('be.not.visible');
 
         // # Type in some text into the text area of the opened channel
         cy.get('#post_textbox').type('comm');
 
         // # Go to another test channel without submitting the draft in the previous channel
-        cy.get('#sidebarItem_autem-2').scrollIntoView();
-        cy.get('#sidebarItem_autem-2').should('be.visible').click();
+        cy.get('#sidebarItem_off-topic').should('be.visible').click();
 
         // * Validate if the newly navigated channel is open
-        cy.url().should('include', '/ad-1/channels/autem-2');
+        cy.url().should('include', `/${testTeam.name}/channels/off-topic`);
 
         // * Validate if the draft icon is visible on side bar on the previous channel with a draft
         cy.get('#sidebarItem_town-square #draftIcon').should('be.visible');
