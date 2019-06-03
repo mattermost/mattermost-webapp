@@ -31,5 +31,16 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
       xmlns="http://www.w3.org/2000/svg"
     />
   </div>
+  <img
+    alt="image placeholder"
+    onError={[Function]}
+    onLoad={[Function]}
+    src="https://example.com/image.png"
+    style={
+      Object {
+        "display": "none",
+      }
+    }
+  />
 </Fragment>
 `;
