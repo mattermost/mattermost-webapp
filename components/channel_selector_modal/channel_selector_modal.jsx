@@ -120,8 +120,8 @@ export default class ChannelSelectorModal extends React.Component {
             this.setChannelsLoadingState(true);
             this.props.actions.loadChannels(page, CHANNELS_PER_PAGE + 1, this.props.groupID, true).then((response) => {
                 const newState = [...this.state.channels];
+                const stateChannelIDs = this.state.channels.map((stateChannel) => stateChannel.id);
                 response.data.forEach((serverChannel) => {
-                    const stateChannelIDs = this.state.channels.map((stateChannel) => stateChannel.id);
                     if (!stateChannelIDs.includes(serverChannel.id)) {
                         newState.push(serverChannel);
                     }
