@@ -158,8 +158,18 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           render={[Function]}
         />
         <Route
-          key="integrations/features"
-          path="/integrations/features"
+          key="plugins/plugin_management"
+          path="/plugins/plugin_management"
+          render={[Function]}
+        />
+        <Route
+          key="plugins/plugin_:plugin_id"
+          path="/plugins/plugin_:plugin_id"
+          render={[Function]}
+        />
+        <Route
+          key="integrations/integration_management"
+          path="/integrations/integration_management"
           render={[Function]}
         />
         <Route
@@ -170,16 +180,6 @@ exports[`components/AdminConsole should generate the routes 1`] = `
         <Route
           key="integrations/cors"
           path="/integrations/cors"
-          render={[Function]}
-        />
-        <Route
-          key="integrations/plugins"
-          path="/integrations/plugins"
-          render={[Function]}
-        />
-        <Route
-          key="integrations/plugin_:plugin_id"
-          path="/integrations/plugin_:plugin_id"
           render={[Function]}
         />
         <Route

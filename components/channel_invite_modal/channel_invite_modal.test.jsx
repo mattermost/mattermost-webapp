@@ -125,4 +125,13 @@ describe('components/channel_invite_modal', () => {
             done();
         });
     });
+
+    test('should trim the search term', () => {
+        const wrapper = shallow(
+            <ChannelInviteModal {...baseProps}/>
+        );
+
+        wrapper.instance().search(' something ');
+        expect(wrapper.state('term')).toEqual('something');
+    });
 });

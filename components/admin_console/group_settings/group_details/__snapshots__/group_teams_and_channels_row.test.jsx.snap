@@ -15,7 +15,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     }
     message={
       <FormattedMessage
-        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test private-channel' channel.  Please note this action will not remove the existing group users from the 'Test private-channel' channel."
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test private-channel' channel."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
           Object {
@@ -92,7 +92,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     }
     message={
       <FormattedMessage
-        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test private-team' team.  Please note this action will not remove the existing group users from the 'Test private-team' team."
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test private-team' team."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
           Object {
@@ -173,7 +173,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     }
     message={
       <FormattedMessage
-        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test public-channel' channel.  Please note this action will not remove the existing group users from the 'Test public-channel' channel."
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test public-channel' channel."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
           Object {
@@ -250,7 +250,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     }
     message={
       <FormattedMessage
-        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test public-team' team.  Please note this action will not remove the existing group users from the 'Test public-team' team."
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test public-team' team."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
           Object {
@@ -324,7 +324,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     }
     message={
       <FormattedMessage
-        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test team with children' team.  Please note this action will not remove the existing group users from the 'Test team with children' team."
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test team with children' team."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
           Object {
@@ -403,7 +403,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     }
     message={
       <FormattedMessage
-        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test team with children' team.  Please note this action will not remove the existing group users from the 'Test team with children' team."
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test team with children' team."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
           Object {

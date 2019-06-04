@@ -229,6 +229,11 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
     });
 });
 
+// *****************************************************************************
+// Users
+// https://api.mattermost.com/#tag/users
+// *****************************************************************************
+
 /**
  * Creates a new user via the API, adds them to 3 teams, and sets preference to bypass tutorial.
  * Then logs in as the user
@@ -238,7 +243,7 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
 Cypress.Commands.add('loginAsNewUser', (user = {}) => {
     const timestamp = Date.now();
 
-    const {email = `newE2ETestUser${timestamp}@mattermost.com`, username = `NewE2ETestUser${timestamp}`, password = 'password123'} = user;
+    const {email = `newe2etestuser${timestamp}@sample.mattermost.com`, username = `NewE2ETestUser${timestamp}`, password = 'password123'} = user;
 
     // # Login as sysadmin to make admin requests
     cy.apiLogin('sysadmin');
@@ -292,7 +297,8 @@ Cypress.Commands.add('loginAsNewUser', (user = {}) => {
 });
 
 // *****************************************************************************
-// Pinned Posts
+// Posts
+// https://api.mattermost.com/#tag/posts
 // *****************************************************************************
 
 /**
@@ -310,6 +316,7 @@ Cypress.Commands.add('apiUnpinPosts', (postId) => {
 
 // *****************************************************************************
 // System config
+// https://api.mattermost.com/#tag/system
 // *****************************************************************************
 
 Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
