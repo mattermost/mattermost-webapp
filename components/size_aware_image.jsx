@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import LoadingImagePreview from 'components/loading_image_preview';
-import {loadImage} from 'utils/image_utils';
 
 // SizeAwareImage is a component used for rendering images where the dimensions of the image are important for
 // ensuring that the page is laid out correctly.
@@ -55,28 +54,16 @@ export default class SizeAwareImage extends React.PureComponent {
 
     componentDidMount() {
         this.mounted = true;
-        this.loadImage();
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.src !== prevProps.src) {
-            this.loadImage();
-        }
     }
 
     componentWillUnmount() {
         this.mounted = false;
     }
 
-    loadImage = () => {
-        const image = loadImage(this.props.src, this.handleLoad);
-        image.onerror = this.handleError;
-    }
-
     handleLoad = (image) => {
         if (this.mounted) {
-            if (this.props.onImageLoaded && image.height) {
-                this.props.onImageLoaded({height: image.height, width: image.width});
+            if (this.props.onImageLoaded && image.naturalHeight) {
+                this.props.onImageLoaded({height: image.naturalHeight, width: image.naturalWidth});
             }
             this.setState({
                 loaded: true,
@@ -114,8 +101,11 @@ export default class SizeAwareImage extends React.PureComponent {
             ...props
         } = this.props;
 
+        let placeHolder;
+        const shouldShowImg = !dimensions || this.state.loaded;
+
         if (dimensions && dimensions.width && !this.state.loaded) {
-            return (
+            placeHolder = (
                 <div className={`image-loading__container ${this.props.className}`}>
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -130,11 +120,17 @@ export default class SizeAwareImage extends React.PureComponent {
         Reflect.deleteProperty(props, 'onImageLoadFail');
 
         return (
-            <img
-                alt='image placeholder'
-                {...props}
-                src={src}
-            />
+            <React.Fragment>
+                {placeHolder}
+                <img
+                    alt='image placeholder'
+                    {...props}
+                    src={src}
+                    onLoad={this.handleLoad}
+                    onError={this.handleError}
+                    style={{display: shouldShowImg ? 'initial' : 'none'}}
+                />
+            </React.Fragment>
         );
     }
 
