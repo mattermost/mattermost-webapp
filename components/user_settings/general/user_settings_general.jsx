@@ -7,8 +7,6 @@ import {defineMessages, FormattedDate, FormattedMessage, injectIntl, intlShape} 
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {AcceptedProfileImageTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -178,9 +176,7 @@ class UserSettingsGeneralTab extends React.Component {
         const username = this.state.username.trim().toLowerCase();
 
         const {formatMessage} = this.props.intl;
-        const config = getConfig(this.state);
-
-        const usernameError = Utils.isValidUsername(username, config);
+        const usernameError = Utils.isValidUsername(username, this.props.minimumUsernameLength);
         if (usernameError === 'Cannot use a reserved word as a username.') {
             this.setState({clientError: formatMessage(holders.usernameReserved), serverError: ''});
             return;

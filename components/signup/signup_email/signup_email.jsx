@@ -166,8 +166,7 @@ export default class SignupEmail extends React.Component {
             return false;
         }
 
-        const config = getConfig(this.state);
-        const usernameError = Utils.isValidUsername(providedUsername, config);
+        const usernameError = Utils.isValidUsername(providedUsername, this.props.minimumUsernameLength);
         if (usernameError === 'Cannot use a reserved word as a username.') {
             this.setState({
                 nameError: (<FormattedMessage id='signup_user_completed.reserved'/>),

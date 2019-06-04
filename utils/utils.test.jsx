@@ -216,20 +216,16 @@ describe('Utils.isValidUsername', () => {
         for (const data of [
             {
                 name: 'a',
-                config: {
-                    MinimumUsernameLength: 2,
-                },
+                minimumUsernameLength: 2,
                 valid: false,
             },
             {
                 name: 'ab',
-                config: {
-                    MinimumUsernameLength: 2,
-                },
+                minimumUsernameLength: 2,
                 valid: true,
             },
         ]) {
-            const error = Utils.isValidUsername(data.name, data.config);
+            const error = Utils.isValidUsername(data.name, data.minimumUsernameLength);
             if (data.valid) {
                 expect(error).toHaveLength(0);
             } else {

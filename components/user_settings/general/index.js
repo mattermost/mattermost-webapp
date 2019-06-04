@@ -28,7 +28,7 @@ function mapStateToProps(state) {
     const ldapNicknameAttributeSet = config.LdapNicknameAttributeSet === 'true';
     const samlNicknameAttributeSet = config.SamlNicknameAttributeSet === 'true';
     const positionAttributeSet = config.PositionAttributeSet === 'true';
-    const minimumUsernameLength = config.MinimumUsernameLength;
+    const minimumUsernameLength = parseInt(config.MinimumUsernameLength, 10);
 
     return {
         sendEmailNotifications,
