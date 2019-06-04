@@ -23,14 +23,15 @@ describe('components/admin_console/system_users', () => {
         totalUsers: 0,
         users: {},
         actions: {
-            getTeams: jest.fn().mockImplementation(() => Promise.resolve()),
-            getTeamStats: jest.fn().mockImplementation(() => Promise.resolve()),
-            getUser: jest.fn().mockImplementation(() => Promise.resolve()),
-            getUserAccessToken: jest.fn().mockImplementation(() => Promise.resolve()),
-            loadProfilesAndTeamMembers: jest.fn(),
-            setSystemUsersSearch: jest.fn().mockImplementation(() => Promise.resolve()),
-            loadProfilesWithoutTeam: jest.fn().mockResolvedValue(),
-            getProfiles: jest.fn().mockResolvedValue(),
+            getTeams: jest.fn().mockResolvedValue({data: []}),
+            getTeamStats: jest.fn().mockResolvedValue({data: []}),
+            getUser: jest.fn().mockResolvedValue({data: {}}),
+            getUserAccessToken: jest.fn().mockResolvedValue({data: ''}),
+            loadProfilesAndTeamMembers: jest.fn().mockResolvedValue({data: true}),
+            setSystemUsersSearch: jest.fn().mockResolvedValue({data: true}),
+            loadProfilesWithoutTeam: jest.fn().mockResolvedValue({data: true}),
+            getProfiles: jest.fn().mockResolvedValue({data: []}),
+            searchProfiles: jest.fn().mockResolvedValue({data: []}),
         },
     };
 
@@ -87,7 +88,7 @@ describe('components/admin_console/system_users', () => {
     });
 
     test('nextPage() should have called loadProfilesWithoutTeam', async () => {
-        const loadProfilesWithoutTeam = jest.fn().mockResolvedValue();
+        const loadProfilesWithoutTeam = jest.fn().mockResolvedValue({data: true});
         const props = {
             ...defaultProps,
             teamId: SearchUserTeamFilter.NO_TEAM,

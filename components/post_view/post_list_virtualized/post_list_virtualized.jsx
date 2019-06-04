@@ -29,15 +29,13 @@ const OVERSCAN_COUNT_BACKWARD = window.OVERSCAN_COUNT_BACKWARD || 80; // Exposin
 const OVERSCAN_COUNT_FORWARD = window.OVERSCAN_COUNT_FORWARD || 80; // Exposing the value for PM to test will be removed soon
 const HEIGHT_TRIGGER_FOR_MORE_POSTS = window.HEIGHT_TRIGGER_FOR_MORE_POSTS || 1000; // Exposing the value for PM to test will be removed soon
 
-const postListHeightChangeForPadding = 21;
-
 const MAXIMUM_POSTS_FOR_SLICING = {
     channel: 50,
     permalink: 100,
 };
 
 const postListStyle = {
-    padding: '14px 0px 7px', //21px of height difference from autosized list compared to DynamicSizeList. If this is changed change the above variable postListHeightChangeForPadding accordingly
+    padding: '14px 0px 7px',
 };
 
 const virtListStyles = {
@@ -538,7 +536,7 @@ export default class PostList extends React.PureComponent {
                                 {({height, width}) => (
                                     <DynamicSizeList
                                         ref={this.listRef}
-                                        height={height - postListHeightChangeForPadding}
+                                        height={height}
                                         width={width}
                                         className='post-list__dynamic'
                                         itemCount={this.state.postListIds.length}
