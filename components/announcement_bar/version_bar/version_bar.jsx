@@ -41,9 +41,10 @@ export default class VersionBar extends React.PureComponent {
                             <a onClick={this.reloadPage}>
                                 <FormattedMessage
                                     id='version_bar.refresh'
-                                    defaultMessage='Refresh the app now.'
+                                    defaultMessage='Refresh the app now'
                                 />
                             </a>
+                            {'.'}
                         </React.Fragment>
                     }
                 />

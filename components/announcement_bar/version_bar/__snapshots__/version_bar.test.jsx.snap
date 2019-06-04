@@ -18,11 +18,12 @@ exports[`components/VersionBar should match snapshot - bar rendered after server
         onClick={[Function]}
       >
         <FormattedMessage
-          defaultMessage="Refresh the app now."
+          defaultMessage="Refresh the app now"
           id="version_bar.refresh"
           values={Object {}}
         />
       </a>
+      .
     </React.Fragment>
   }
   showCloseButton={false}
