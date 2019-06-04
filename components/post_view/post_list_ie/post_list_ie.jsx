@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import {isUserActivityPost} from 'mattermost-redux/utils/post_utils';
+import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
@@ -21,6 +21,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 import DateSeparator from 'components/post_view/date_separator';
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
 import NewMessagesBelow from 'components/post_view/new_messages_below';
+import CombinedUserActivityPost from 'components/post_view/combined_user_activity_post';
 
 import Post from 'components/post_view/post';
 import ScrollToBottomArrows from 'components/post_view/scroll_to_bottom_arrows.jsx';
@@ -507,24 +508,32 @@ export default class PostList extends React.PureComponent {
 
         for (let i = posts.length - 1; i >= 0; i--) {
             const post = posts[i];
-
+            let postCtl;
             if (
                 post == null ||
-                post.type === PostTypes.EPHEMERAL_ADD_TO_CHANNEL ||
-                isUserActivityPost(post.type)
+                post.type === PostTypes.EPHEMERAL_ADD_TO_CHANNEL
             ) {
                 continue;
             }
 
-            const postCtl = (
-                <Post
-                    ref={post.id}
-                    key={'post ' + (post.id || post.pending_post_id)}
-                    post={post}
-                    shouldHighlight={this.props.focusedPostId === post.id}
-                    previousPostId={previousPostId}
-                />
-            );
+            if (isCombinedUserActivityPost(post.id)) {
+                postCtl = (
+                    <CombinedUserActivityPost
+                        combinedId={post.id}
+                        previousPostId={previousPostId}
+                    />
+                );
+            } else {
+                postCtl = (
+                    <Post
+                        ref={post.id}
+                        key={'post ' + (post.id || post.pending_post_id)}
+                        post={post}
+                        shouldHighlight={this.props.focusedPostId === post.id}
+                        previousPostId={previousPostId}
+                    />
+                );
+            }
 
             const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
             if (currentPostDay.toDateString() !== previousPostDay.toDateString()) {
