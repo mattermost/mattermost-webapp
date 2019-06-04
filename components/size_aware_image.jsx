@@ -60,8 +60,9 @@ export default class SizeAwareImage extends React.PureComponent {
         this.mounted = false;
     }
 
-    handleLoad = (image) => {
+    handleLoad = (event) => {
         if (this.mounted) {
+            const image = event.target;
             if (this.props.onImageLoaded && image.naturalHeight) {
                 this.props.onImageLoaded({height: image.naturalHeight, width: image.naturalWidth});
             }
