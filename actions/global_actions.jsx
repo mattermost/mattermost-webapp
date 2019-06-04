@@ -13,7 +13,6 @@ import {
     selectChannel,
 } from 'mattermost-redux/actions/channels';
 import {logout, loadMe} from 'mattermost-redux/actions/users';
-import {Client4} from 'mattermost-redux/client';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getTeam, getMyTeams, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -39,7 +38,6 @@ import WebSocketClient from 'client/web_websocket_client.jsx';
 import {ActionTypes, Constants, PostTypes, RHSStates} from 'utils/constants.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {equalServerVersions} from 'utils/server_version';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -72,7 +70,6 @@ export function emitChannelClickEvent(channel) {
             // Mark previous and next channel as read
             dispatch(markChannelAsRead(chan.id, oldChannelId));
             dispatch(markChannelAsViewed(chan.id, oldChannelId));
-            reloadIfServerVersionChanged();
         });
 
         if (chan.delete_at === 0) {
@@ -321,17 +318,4 @@ export async function redirectUserToDefaultTeam() {
     } else {
         browserHistory.push('/select_team');
     }
-}
-
-let serverVersion = '';
-
-export function reloadIfServerVersionChanged() {
-    const newServerVersion = Client4.getServerVersion();
-
-    if (serverVersion && !equalServerVersions(serverVersion, newServerVersion)) {
-        console.log(`Detected version update from ${serverVersion} to ${newServerVersion}; refreshing the page`); //eslint-disable-line no-console
-        window.location.reload(true);
-    }
-
-    serverVersion = newServerVersion;
 }
