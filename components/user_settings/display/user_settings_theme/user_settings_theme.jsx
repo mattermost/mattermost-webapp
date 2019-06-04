@@ -20,6 +20,7 @@ export default class ThemeSetting extends React.Component {
     static propTypes = {
         actions: PropTypes.shape({
             saveTheme: PropTypes.func.isRequired,
+            deleteTeamSpecificThemes: PropTypes.func.isRequired,
         }).isRequired,
         currentTeamId: PropTypes.string.isRequired,
         theme: PropTypes.object,
@@ -85,21 +86,22 @@ export default class ThemeSetting extends React.Component {
         $('.ps-container.modal-body').scrollTop(0);
     }
 
-    submitTheme = () => {
+    submitTheme = async () => {
         const teamId = this.state.applyToAllTeams ? '' : this.props.currentTeamId;
 
         this.setState({isSaving: true});
 
-        return this.props.actions.saveTheme(
-            teamId,
-            this.state.theme
-        ).then(() => {
-            this.props.setRequireConfirm(false);
-            this.originalTheme = Object.assign({}, this.state.theme);
-            this.scrollToTop();
-            this.props.updateSection('');
-            this.setState({isSaving: false});
-        });
+        await this.props.actions.saveTheme(teamId, this.state.theme);
+
+        if (this.state.applyToAllTeams) {
+            await this.props.actions.deleteTeamSpecificThemes();
+        }
+
+        this.props.setRequireConfirm(false);
+        this.originalTheme = Object.assign({}, this.state.theme);
+        this.scrollToTop();
+        this.props.updateSection('');
+        this.setState({isSaving: false});
     };
 
     updateTheme = (theme) => {

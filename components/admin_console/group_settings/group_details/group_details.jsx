@@ -104,7 +104,7 @@ export default class GroupDetails extends React.PureComponent {
                 <div className='admin-console__header with-back'>
                     <div>
                         <BlockableLink
-                            to='/admin_console/access-control/groups'
+                            to='/admin_console/user_management/groups'
                             className='fa fa-angle-left back'
                         />
                         <FormattedMessage
