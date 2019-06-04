@@ -3302,6 +3302,8 @@
   "user.settings.tokens.tokenId": "Token ID: ",
   "user.settings.tokens.tokenLoading": "Loading...",
   "user.settings.tokens.userAccessTokensNone": "No personal access tokens.",
+  "version_bar.new": "A new version of Mattermost is available.",
+  "version_bar.refresh": "Refresh the app now",
   "view_image_popover.download": "Download",
   "view_image_popover.file": "File {count, number} of {total, number}",
   "view_image_popover.open": "Open",
