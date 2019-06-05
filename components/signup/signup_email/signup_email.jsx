@@ -8,8 +8,6 @@ import {Link} from 'react-router-dom';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
