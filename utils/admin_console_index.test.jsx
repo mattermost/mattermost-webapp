@@ -34,6 +34,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
         expect(idx.search('characters')).toEqual([
             'authentication/password',
             'site_config/customization',
+            'site_config/users_and_teams',
         ]);
         expect(idx.search('caracteres')).toEqual([]);
         expect(idx.search('notexistingword')).toEqual([]);
@@ -64,6 +65,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
         expect(idx.search('caracteres')).toEqual([
             'site_config/customization',
             'authentication/password',
+            'site_config/users_and_teams',
         ]);
         expect(idx.search('characters')).toEqual([]);
         expect(idx.search('notexistingword')).toEqual([]);
