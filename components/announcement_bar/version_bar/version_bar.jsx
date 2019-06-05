@@ -19,7 +19,19 @@ export default class VersionBar extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.serverVersionAtConstruction = props.serverVersion;
+        this.state = {
+            serverVersionOnAppLoad: props.serverVersion,
+        };
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (!state.serverVersionOnAppLoad && props.serverVersion) {
+            return {
+                serverVersionOnAppLoad: props.serverVersion,
+            };
+        }
+
+        return null;
     }
 
     reloadPage = () => {
@@ -27,7 +39,14 @@ export default class VersionBar extends React.PureComponent {
     }
 
     render() {
-        if (!equalServerVersions(this.serverVersionAtConstruction, this.props.serverVersion)) {
+        const {serverVersionOnAppLoad} = this.state;
+        const {serverVersion} = this.props;
+
+        if (!serverVersionOnAppLoad) {
+            return null;
+        }
+
+        if (!equalServerVersions(serverVersionOnAppLoad, serverVersion)) {
             return (
                 <AnnouncementBar
                     type={AnnouncementBarTypes.ANNOUNCEMENT}
