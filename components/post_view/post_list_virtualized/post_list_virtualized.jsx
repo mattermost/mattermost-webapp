@@ -28,6 +28,7 @@ const MAX_EXTRA_PAGES_LOADED = 10;
 const OVERSCAN_COUNT_BACKWARD = window.OVERSCAN_COUNT_BACKWARD || 80; // Exposing the value for PM to test will be removed soon
 const OVERSCAN_COUNT_FORWARD = window.OVERSCAN_COUNT_FORWARD || 80; // Exposing the value for PM to test will be removed soon
 const HEIGHT_TRIGGER_FOR_MORE_POSTS = window.HEIGHT_TRIGGER_FOR_MORE_POSTS || 1000; // Exposing the value for PM to test will be removed soon
+const BUFFER_TO_BE_CONSIDERED_BOTTOM = 10;
 
 const MAXIMUM_POSTS_FOR_SLICING = {
     channel: 50,
@@ -345,7 +346,7 @@ export default class PostList extends React.PureComponent {
         return postListIds[index] ? postListIds[index] : index;
     }
 
-    onScroll = ({scrollDirection, scrollOffset, scrollUpdateWasRequested}) => {
+    onScroll = ({scrollDirection, scrollOffset, scrollUpdateWasRequested, clientHeight, scrollHeight}) => {
         const isNotLoadingPosts = !this.state.loadingFirstSetOfPosts && !this.loadingMorePosts;
         const didUserScrollBackwards = scrollDirection === 'backward' && !scrollUpdateWasRequested;
         const isOffsetWithInRange = scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
@@ -365,19 +366,17 @@ export default class PostList extends React.PureComponent {
             }
         }
 
-        this.checkBottom(scrollOffset);
+        this.checkBottom(scrollOffset, scrollHeight, clientHeight);
     }
 
-    checkBottom = (scrollOffset) => {
-        this.updateAtBottom(this.isAtBottom(scrollOffset));
+    checkBottom = (scrollOffset, scrollHeight, clientHeight) => {
+        this.updateAtBottom(this.isAtBottom(scrollOffset, scrollHeight, clientHeight));
     }
 
-    isAtBottom = (scrollOffset) => {
+    isAtBottom = (scrollOffset, scrollHeight, clientHeight) => {
         // Calculate how far the post list is from being scrolled to the bottom
-        const postList = this.postListRef.current;
-        const offsetFromBottom = (postList.scrollHeight - postList.parentElement.clientHeight) - scrollOffset;
-
-        return offsetFromBottom <= 0;
+        const offsetFromBottom = scrollHeight - clientHeight - scrollOffset;
+        return offsetFromBottom <= BUFFER_TO_BE_CONSIDERED_BOTTOM;
     }
 
     updateAtBottom = (atBottom) => {
