@@ -70,7 +70,7 @@ describe('components/SizeAwareImage', () => {
 
         const wrapper = shallow(<SizeAwareImage {...baseProps}/>);
 
-        wrapper.find('img').prop('onLoad')({naturalHeight: height, naturalWidth: width});
+        wrapper.find('img').prop('onLoad')({target: {naturalHeight: height, naturalWidth: width}});
         expect(wrapper.state('loaded')).toBe(true);
         expect(baseProps.onImageLoaded).toHaveBeenCalledWith({height, width});
     });
