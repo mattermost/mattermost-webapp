@@ -48,6 +48,7 @@ describe('components/channel_invite_modal', () => {
             }),
             getProfilesNotInChannel: jest.fn().mockImplementation(() => Promise.resolve()),
             getTeamStats: jest.fn(),
+            searchProfiles: jest.fn(),
         },
         onHide: jest.fn(),
     };
