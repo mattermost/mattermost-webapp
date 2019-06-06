@@ -60,7 +60,8 @@ h6 {
     div.markdown-inline-img {
         vertical-align: middle;
         display: inline-block;
-        width: inherit;
+        width: 100%;
+        width: fill-available;
     }
 }
 
