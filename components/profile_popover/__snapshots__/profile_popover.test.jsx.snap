@@ -65,6 +65,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       href="#"
     >
       <Connect(ModalToggleButtonRedux)
+        accessibilityLabel="Add to a Channel"
         dialogProps={
           Object {
             "user": Object {
@@ -81,11 +82,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
           className="fa fa-user-plus"
           title="Add User to Channel Icon"
         />
-        <FormattedMessage
-          defaultMessage="Add to a Channel"
-          id="user_profile.add_user_to_channel"
-          values={Object {}}
-        />
+        Add to a Channel
       </Connect(ModalToggleButtonRedux)>
     </a>
   </div>
