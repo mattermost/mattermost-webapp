@@ -7,6 +7,7 @@ import reducerRegistry from 'mattermost-redux/store/reducer_registry';
 import {
     IntegrationTypes,
 } from 'mattermost-redux/action_types';
+
 import {
     registerPluginWebSocketEvent,
     unregisterPluginWebSocketEvent,
@@ -53,11 +54,9 @@ export default class PluginRegistry {
     }
 
     openInteractiveDialog(dialog) {
-
         store.dispatch({type: IntegrationTypes.RECEIVED_DIALOG, data: dialog});
 
         store.dispatch(openModal({modalId: ModalIdentifiers.INTERACTIVE_DIALOG, dialogType: InteractiveDialog}));
-
     }
 
     // Register a component at the root of the channel view of the app.
