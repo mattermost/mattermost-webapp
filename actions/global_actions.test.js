@@ -33,7 +33,7 @@ jest.mock('stores/redux_store', () => {
 
 describe('actions/global_actions', () => {
     describe('redirectUserToDefaultTeam', () => {
-        it('should redirect to /select_team when no team is available', async() => {
+        it('should redirect to /select_team when no team is available', async () => {
             const mockStore = configureStore();
             const store = mockStore({
                 entities: {
@@ -64,11 +64,11 @@ describe('actions/global_actions', () => {
             expect(browserHistory.push).toHaveBeenCalledWith('/select_team');
         });
 
-        it('should redirect to last channel on first team when current team is no longer available', async() => {
+        it('should redirect to last channel on first team when current team is no longer available', async () => {
             const userId = 'user1';
-            LocalStorageStore.setPreviousTeamId('non-existent')
-            LocalStorageStore.setPreviousChannelName(userId, 'team1', 'channel-in-team-1')
-            LocalStorageStore.setPreviousChannelName(userId, 'team2', 'channel-in-team-2')
+            LocalStorageStore.setPreviousTeamId('non-existent');
+            LocalStorageStore.setPreviousChannelName(userId, 'team1', 'channel-in-team-1');
+            LocalStorageStore.setPreviousChannelName(userId, 'team2', 'channel-in-team-2');
 
             const mockStore = configureStore();
             const store = mockStore({
@@ -80,12 +80,12 @@ describe('actions/global_actions', () => {
                     },
                     teams: {
                         teams: {
-                            'team1': {id: 'team1', display_name: 'Team 1', name: 'team1'},
-                            'team2': {id: 'team2', display_name: 'Team 2', name: 'team2'},
+                            team1: {id: 'team1', display_name: 'Team 1', name: 'team1'},
+                            team2: {id: 'team2', display_name: 'Team 2', name: 'team2'},
                         },
                         myMembers: {
-                            'team1': {},
-                            'team2': {},
+                            team1: {},
+                            team2: {},
                         },
                     },
                     channels: {
