@@ -33,7 +33,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
         channelProfiles: PropTypes.array.isRequired,
         enableUserCreation: PropTypes.bool,
         isReadOnly: PropTypes.bool,
-        teamIsGroupConstrained: PropTypes.bool.isRequired,
+        teamIsGroupConstrained: PropTypes.bool,
     };
 
     render() {
