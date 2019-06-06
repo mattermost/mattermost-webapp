@@ -5,6 +5,9 @@ import React from 'react';
 import reducerRegistry from 'mattermost-redux/store/reducer_registry';
 
 import {
+    IntegrationTypes,
+} from 'mattermost-redux/action_types';
+import {
     registerPluginWebSocketEvent,
     unregisterPluginWebSocketEvent,
     registerPluginReconnectHandler,
@@ -14,10 +17,12 @@ import {
 import {
     registerPluginTranslationsSource,
 } from 'actions/views/root';
+import {openModal} from 'actions/views/modals';
 
 import store from 'stores/redux_store.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
+import {ActionTypes, ModalIdentifiers} from 'utils/constants.jsx';
 import {generateId} from 'utils/utils.jsx';
+import InteractiveDialog from 'components/interactive_dialog';
 
 function dispatchPluginComponentAction(name, pluginId, component, id = generateId()) {
     store.dispatch({
@@ -45,6 +50,14 @@ const resolveReactElement = (element) => {
 export default class PluginRegistry {
     constructor(id) {
         this.id = id;
+    }
+
+    openInteractiveDialog(dialog) {
+
+        store.dispatch({type: IntegrationTypes.RECEIVED_DIALOG, data: dialog});
+
+        store.dispatch(openModal({modalId: ModalIdentifiers.INTERACTIVE_DIALOG, dialogType: InteractiveDialog}));
+
     }
 
     // Register a component at the root of the channel view of the app.
