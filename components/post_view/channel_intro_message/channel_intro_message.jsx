@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import ProfilePicture from 'components/profile_picture.jsx';
@@ -558,6 +558,7 @@ function createSetHeaderButton(channel) {
     if (channelIsArchived) {
         return null;
     }
+
     return (
         <FormattedMessage
             className='intro-links color--link'

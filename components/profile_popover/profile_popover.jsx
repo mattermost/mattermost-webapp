@@ -377,6 +377,7 @@ class ProfilePopover extends React.PureComponent {
             );
 
             if (this.props.canManageAnyChannelMembersInCurrentTeam) {
+                const addToChannelMessage = formatMessage({id: 'user_profile.add_user_to_channel', defaultMessage: 'Add to a Channel'});
                 dataContent.push(
                     <div
                         data-toggle='tooltip'
@@ -388,6 +389,7 @@ class ProfilePopover extends React.PureComponent {
                             className='text-nowrap'
                         >
                             <ToggleModalButtonRedux
+                                accessibilityLabel={addToChannelMessage}
                                 ref='addUserToChannelModalButton'
                                 modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
                                 role='menuitem'
@@ -399,10 +401,7 @@ class ProfilePopover extends React.PureComponent {
                                     className='fa fa-user-plus'
                                     title={formatMessage({id: 'user_profile.add_user_to_channel.icon', defaultMessage: 'Add User to Channel Icon'})}
                                 />
-                                <FormattedMessage
-                                    id='user_profile.add_user_to_channel'
-                                    defaultMessage='Add to a Channel'
-                                />
+                                {addToChannelMessage}
                             </ToggleModalButtonRedux>
                         </a>
                     </div>
