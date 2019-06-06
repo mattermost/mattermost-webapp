@@ -57,6 +57,11 @@ h6 {
         margin: 5px 0;
         max-height: 500px;
     }
+    div.markdown-inline-img {
+        vertical-align: middle;
+        display: inline-block;
+        width: inherit;
+    }
 }
 
 .post-code {
