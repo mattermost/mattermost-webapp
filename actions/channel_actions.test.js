@@ -4,6 +4,8 @@
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
+import {autocompleteChannels} from 'mattermost-redux/actions/channels';
+
 import * as Actions from 'actions/channel_actions';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 
@@ -101,6 +103,7 @@ jest.mock('mattermost-redux/actions/channels', () => ({
             }],
         };
     },
+    autocompleteChannels: jest.fn(),
 }));
 
 jest.mock('actions/user_actions.jsx', () => ({
@@ -139,5 +142,10 @@ describe('Actions.Channel', () => {
 
         await testStore.dispatch(Actions.searchMoreChannels());
         expect(testStore.getActions()).toEqual(expectedActions);
+    });
+
+    test('autocompleteChannelsByTeamId_noTeamId', async () => {
+        await Actions.autocompleteChannelsByTeamId(null, 'someTerm', jest.fn(), jest.fn());
+        expect(autocompleteChannels).not.toHaveBeenCalled();
     });
 });

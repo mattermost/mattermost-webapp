@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/PostAddBotTeamsChannels should match snapshot 1`] = `
+<div>
+  <InjectIntl(FormattedMarkdownMessage)
+    defaultMessage="Please add me to teams and channels you want me to interact in. See [documentation](https://mattermost.com/pl/default-bot-accounts) to learn more."
+    id="api.bot.teams_channels.add_message"
+  />
+  <br />
+  <div
+    className="margin-top margin-bottom"
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="primary"
+      disabled={false}
+      id="api.bot.teams_channels.add_button"
+      onClick={[Function]}
+      type="submit"
+    >
+      <strong>
+        <FormattedMessage
+          defaultMessage="ADD BOT TO TEAMS AND CHANNELS"
+          id="api.bot.teams_channels.add_button"
+          values={Object {}}
+        />
+      </strong>
+    </Button>
+  </div>
+</div>
+`;

@@ -284,6 +284,7 @@ export const PostTypes = {
     EPHEMERAL: 'system_ephemeral',
     EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
     REMOVE_LINK_PREVIEW: 'remove_link_preview',
+    ADD_BOT_TEAMS_CHANNELS: 'add_bot_teams_channels',
 };
 
 export const StatTypes = keyMirror({

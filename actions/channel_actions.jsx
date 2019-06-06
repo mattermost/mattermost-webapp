@@ -128,6 +128,19 @@ export async function autocompleteChannels(term, success, error) {
     }
 }
 
+export async function autocompleteChannelsByTeamId(teamId, term, success, error) {
+    if (!teamId) {
+        return;
+    }
+
+    const {data, error: err} = await ChannelActions.autocompleteChannels(teamId, term)(doDispatch, doGetState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
 export async function autocompleteChannelsForSearch(term, success, error) {
     const state = doGetState();
     const teamId = getCurrentTeamId(state);

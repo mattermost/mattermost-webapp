@@ -12,6 +12,7 @@ import * as Utils from 'utils/utils.jsx';
 import Markdown from 'components/markdown';
 import CombinedSystemMessage from 'components/post_view/combined_system_message';
 import PostAddChannelMember from 'components/post_view/post_add_channel_member';
+import PostAddBotTeamsChannels from 'components/post_view/post_add_bot_teams_channels';
 
 function renderUsername(value) {
     const username = (value[0] === '@') ? value : `@${value}`;
@@ -285,6 +286,14 @@ function renderPurposeChangeMessage(post) {
     return null;
 }
 
+function renderAddBotToTeamsAndChannelsMessage(post) {
+    return (
+        <PostAddBotTeamsChannels
+            post={post}
+        />
+    );
+}
+
 function renderChannelDeletedMessage(post) {
     if (!post.props.username) {
         return null;
@@ -315,6 +324,7 @@ const systemMessageRenderers = {
     [Posts.POST_TYPES.CONVERT_CHANNEL]: renderConvertChannelToPrivateMessage,
     [Posts.POST_TYPES.PURPOSE_CHANGE]: renderPurposeChangeMessage,
     [Posts.POST_TYPES.CHANNEL_DELETED]: renderChannelDeletedMessage,
+    [Posts.POST_TYPES.ADD_BOT_TEAMS_CHANNELS]: renderAddBotToTeamsAndChannelsMessage,
 };
 
 export function renderSystemMessage(post, channel) {
@@ -338,7 +348,7 @@ export function renderSystemMessage(post, channel) {
         }
 
         return null;
-    } else if (systemMessageRenderers[post.type]) {
+    } else if (post.type && systemMessageRenderers[post.type]) {
         return systemMessageRenderers[post.type](post);
     } else if (post.type === Posts.POST_TYPES.EPHEMERAL_ADD_TO_CHANNEL) {
         return renderAddToChannelMessage(post);

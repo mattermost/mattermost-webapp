@@ -8,7 +8,7 @@ import {autocompleteChannels} from 'actions/channel_actions.jsx';
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
 
-class ChannelSuggestion extends Suggestion {
+export class ChannelSuggestion extends Suggestion {
     render() {
         const isSelection = this.props.isSelection;
         const item = this.props.item;
