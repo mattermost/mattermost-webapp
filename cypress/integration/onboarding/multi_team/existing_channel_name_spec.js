@@ -20,8 +20,13 @@ function verifyExistingChannelError(newChannelName, makePrivate = false) {
     // Click on '+' button for Public or Private Channel
     cy.get(channelTypeID).click();
 
-    // eslint-disable-next-line no-unused-expressions
-    makePrivate ? cy.get('#private').check({force: true}).should('be.checked') : cy.get('#public').should('be.checked');
+    if (makePrivate) {
+        cy.get('#private').check({force: true}).as('channelType');
+    } else {
+        cy.get('#public').should('be.checked').as('channelType');
+    }
+
+    cy.get('@channelType').should('be.checked');
 
     // Type `newChannelName` in the input field for new channel
     cy.get('#newChannelName').type(newChannelName);
