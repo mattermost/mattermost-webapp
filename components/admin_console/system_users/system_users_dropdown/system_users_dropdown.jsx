@@ -21,7 +21,7 @@ import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action'
 
 const ROWS_FROM_BOTTOM_TO_OPEN_UP = 5;
 
-export default class SystemUsersDropdown extends React.Component {
+export default class SystemUsersDropdown extends React.PureComponent {
     static propTypes = {
 
         /*
@@ -78,7 +78,7 @@ export default class SystemUsersDropdown extends React.Component {
         totalUsers: PropTypes.number.isRequired,
         actions: PropTypes.shape({
             updateUserActive: PropTypes.func.isRequired,
-            revokeAllSessions: PropTypes.func.isRequired,
+            revokeAllSessionsForUser: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -219,17 +219,15 @@ export default class SystemUsersDropdown extends React.Component {
         this.setState({showRevokeSessionsModal: true});
     }
 
-    handleRevokeSessions = () => {
+    handleRevokeSessions = async () => {
         const me = this.props.currentUser;
-        this.props.actions.revokeAllSessions(this.props.user.id).then(
-            ({data, error}) => {
-                if (data && this.props.user.id === me.id) {
-                    emitUserLoggedOutEvent();
-                } else if (error) {
-                    this.props.onError(error);
-                }
-            }
-        );
+
+        const {data, error} = await this.props.actions.revokeAllSessionsForUser(this.props.user.id);
+        if (data && this.props.user.id === me.id) {
+            emitUserLoggedOutEvent();
+        } else if (error) {
+            this.props.onError(error);
+        }
 
         this.setState({showRevokeSessionsModal: false});
     }

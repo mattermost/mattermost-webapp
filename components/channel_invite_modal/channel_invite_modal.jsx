@@ -121,7 +121,8 @@ export default class ChannelInviteModal extends React.Component {
         });
     };
 
-    search = (term) => {
+    search = (searchTerm) => {
+        const term = searchTerm.trim();
         clearTimeout(this.searchTimeoutId);
         this.setState({
             term,

@@ -86,6 +86,7 @@ const actionsProp = {
     scrollPostListToBottom: jest.fn(),
 };
 
+/* eslint-disable react/prop-types */
 function createPost({
     currentChannel = currentChannelProp,
     currentTeamId = currentTeamIdProp,
@@ -136,6 +137,7 @@ function createPost({
         />
     );
 }
+/* eslint-enable react/prop-types */
 
 describe('components/create_post', () => {
     it('should match snapshot, init', () => {

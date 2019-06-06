@@ -5,6 +5,14 @@
     &.margin-bottom--none {
         margin-bottom: 0;
     }
+
+    &.no-padding {
+        padding: 0;
+
+        label {
+            padding: 0;
+        }
+    }
 }
 
 .form-control {

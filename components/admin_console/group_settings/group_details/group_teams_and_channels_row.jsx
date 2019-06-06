@@ -112,7 +112,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                     message={
                         <FormattedMessage
                             id='admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body'
-                            defaultMessage={`Removing this membership will prevent future users in this group from being added to the '${this.props.name}' ${displayType}.  Please note this action will not remove the existing group users from the '${this.props.name}' ${displayType}.`}
+                            defaultMessage={`Removing this membership will prevent future users in this group from being added to the '${this.props.name}' ${displayType}.`}
                             values={{name: this.props.name, displayType}}
                         />
                     }

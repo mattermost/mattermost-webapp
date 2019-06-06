@@ -204,7 +204,7 @@ const PluginItem = ({
             <span>
                 {' - '}
                 <Link
-                    to={'/admin_console/integrations/plugin_' + pluginStatus.id}
+                    to={'/admin_console/plugins/plugin_' + pluginStatus.id}
                 >
                     <FormattedMessage
                         id='admin.plugin.settingsButton'

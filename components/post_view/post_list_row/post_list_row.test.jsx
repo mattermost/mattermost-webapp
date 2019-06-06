@@ -87,7 +87,7 @@ describe('components/post_view/post_list_row', () => {
     test('should render combined post', () => {
         const props = {
             shouldHighlight: false,
-            listId: `${PostListUtils.COMBINED_USER_ACTIVITY}-1234-5678`,
+            listId: `${PostListUtils.COMBINED_USER_ACTIVITY}1234-5678`,
             previousListId: 'abcd',
         };
         const wrapper = shallowWithIntl(

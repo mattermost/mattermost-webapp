@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'react-window';
+import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
@@ -27,8 +28,7 @@ const MAX_EXTRA_PAGES_LOADED = 10;
 const OVERSCAN_COUNT_BACKWARD = window.OVERSCAN_COUNT_BACKWARD || 80; // Exposing the value for PM to test will be removed soon
 const OVERSCAN_COUNT_FORWARD = window.OVERSCAN_COUNT_FORWARD || 80; // Exposing the value for PM to test will be removed soon
 const HEIGHT_TRIGGER_FOR_MORE_POSTS = window.HEIGHT_TRIGGER_FOR_MORE_POSTS || 1000; // Exposing the value for PM to test will be removed soon
-
-const postListHeightChangeForPadding = 21;
+const BUFFER_TO_BE_CONSIDERED_BOTTOM = 10;
 
 const MAXIMUM_POSTS_FOR_SLICING = {
     channel: 50,
@@ -36,7 +36,7 @@ const MAXIMUM_POSTS_FOR_SLICING = {
 };
 
 const postListStyle = {
-    padding: '14px 0px 7px', //21px of height difference from autosized list compared to DynamicSizeList. If this is changed change the above variable postListHeightChangeForPadding accordingly
+    padding: '14px 0px 7px',
 };
 
 const virtListStyles = {
@@ -307,13 +307,31 @@ export default class PostList extends React.PureComponent {
 
     renderRow = ({data, itemId, style}) => {
         const index = data.indexOf(itemId);
-        const previousItemId = getPreviousPostId(data, index);
+        let className = '';
+        const basePaddingClass = 'post-row__padding';
+        const previousItemId = (index !== -1 && index < data.length - 1) ? data[index + 1] : '';
+        const nextItemId = (index > 0 && index < data.length) ? data[index - 1] : '';
+
+        if (isDateLine(nextItemId) || isStartOfNewMessages(nextItemId)) {
+            className += basePaddingClass + ' bottom';
+        }
+
+        if (isDateLine(previousItemId) || isStartOfNewMessages(previousItemId)) {
+            if (className.includes(basePaddingClass)) {
+                className += ' top';
+            } else {
+                className += basePaddingClass + ' top';
+            }
+        }
 
         return (
-            <div style={style}>
+            <div
+                style={style}
+                className={className}
+            >
                 <PostListRow
                     listId={itemId}
-                    previousListId={previousItemId}
+                    previousListId={getPreviousPostId(data, index)}
                     channel={this.props.channel}
                     shouldHighlight={itemId === this.props.focusedPostId}
                     loadMorePosts={this.loadMorePosts}
@@ -328,7 +346,7 @@ export default class PostList extends React.PureComponent {
         return postListIds[index] ? postListIds[index] : index;
     }
 
-    onScroll = ({scrollDirection, scrollOffset, scrollUpdateWasRequested}) => {
+    onScroll = ({scrollDirection, scrollOffset, scrollUpdateWasRequested, clientHeight, scrollHeight}) => {
         const isNotLoadingPosts = !this.state.loadingFirstSetOfPosts && !this.loadingMorePosts;
         const didUserScrollBackwards = scrollDirection === 'backward' && !scrollUpdateWasRequested;
         const isOffsetWithInRange = scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
@@ -348,19 +366,17 @@ export default class PostList extends React.PureComponent {
             }
         }
 
-        this.checkBottom(scrollOffset);
+        this.checkBottom(scrollOffset, scrollHeight, clientHeight);
     }
 
-    checkBottom = (scrollOffset) => {
-        this.updateAtBottom(this.isAtBottom(scrollOffset));
+    checkBottom = (scrollOffset, scrollHeight, clientHeight) => {
+        this.updateAtBottom(this.isAtBottom(scrollOffset, scrollHeight, clientHeight));
     }
 
-    isAtBottom = (scrollOffset) => {
+    isAtBottom = (scrollOffset, scrollHeight, clientHeight) => {
         // Calculate how far the post list is from being scrolled to the bottom
-        const postList = this.postListRef.current;
-        const offsetFromBottom = (postList.scrollHeight - postList.parentElement.clientHeight) - scrollOffset;
-
-        return offsetFromBottom <= 0;
+        const offsetFromBottom = scrollHeight - clientHeight - scrollOffset;
+        return offsetFromBottom <= BUFFER_TO_BE_CONSIDERED_BOTTOM;
     }
 
     updateAtBottom = (atBottom) => {
@@ -519,7 +535,7 @@ export default class PostList extends React.PureComponent {
                                 {({height, width}) => (
                                     <DynamicSizeList
                                         ref={this.listRef}
-                                        height={height - postListHeightChangeForPadding}
+                                        height={height}
                                         width={width}
                                         className='post-list__dynamic'
                                         itemCount={this.state.postListIds.length}
