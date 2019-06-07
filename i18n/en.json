@@ -231,6 +231,7 @@
   "admin.compliance_table.timestamp": "Timestamp",
   "admin.compliance_table.type": "Type",
   "admin.compliance_table.userId": "Requested By",
+  "admin.compliance.complianceMonitoring": "Compliance Monitoring",
   "admin.compliance.directoryDescription": "Directory to which compliance reports are written. If blank, will be set to ./data/.",
   "admin.compliance.directoryExample": "E.g.: \"./data/\"",
   "admin.compliance.directoryTitle": "Compliance Report Directory:",
