@@ -509,13 +509,19 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
     });
 
     test('should display correct favicon', () => {
+        const link = document.createElement('link');
+        link.rel = 'icon';
+        link.sizes = '16x16';
+        document.head.appendChild(link);
+
         const wrapper = shallow(
             <Sidebar {...defaultProps}/>
         );
         const instance = wrapper.instance();
-        instance.setBadgesActiveAndFavicon = jest.fn();
         instance.updateFavicon = jest.fn();
-
+        
+        wrapper.setProps({unreads: {mentionCount: 0, messageCount: 0}});
+        instance.setBadgesActiveAndFavicon();
         wrapper.setProps({unreads: {mentionCount: 3, messageCount: 4}});
         instance.setBadgesActiveAndFavicon();
         expect(instance.updateFavicon).lastCalledWith(true);
