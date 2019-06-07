@@ -25,9 +25,27 @@ const testCases = [
     {key: 12, name: 'Mention Jewel Text', inputTarget: '.saturation-black', inputColor: ['background-color', 'rgb(65, 92, 129)'], content: '"mentionColor":"#415c81"'},
 ];
 
+// Selects Edit Theme, selects Custom Theme, checks display, selects custom drop-down for color options
+function customColors(dropdownInt, dropdownName) {
+    cy.get('#themeEdit').scrollIntoView().click();
+
+    cy.get('#customThemes').click();
+
+    // Checking Custom Theme Display
+    cy.get('#displaySettingsTitle').scrollIntoView();
+    cy.get('.theme-elements__header').should('be.visible', 'contain', 'Sidebar Styles');
+    cy.get('.theme-elements__header').should('be.visible', 'contain', 'Center Channel Styles');
+    cy.get('.theme-elements__header').should('be.visible', 'contain', 'Link and BUtton Sytles');
+    cy.get('.padding-top').should('be.visible', 'contain', 'Import theme Colors from Slack');
+    cy.get('#saveSetting').scrollIntoView().should('be.visible', 'contain', 'Save');
+    cy.get('#cancelSetting').should('be.visible', 'contain', 'Cancel');
+
+    cy.get('.theme-elements__header').eq(dropdownInt).should('contain', dropdownName).click();
+}
+
 describe('AS14318 Theme Colors - Color Picker', () => {
     before(() => {
-        // 1. Set default theme preference
+        // # Set default theme preference
         cy.apiLogin('user-1');
         cy.apiSaveThemePreference();
     });
@@ -39,7 +57,7 @@ describe('AS14318 Theme Colors - Color Picker', () => {
 
     it('Theme Display should render in min setting view', () => {
         // # Go to Account Settings with "user-1"
-        cy.toAccountSettingsModal('user-1');
+        cy.toAccountSettingsModal(null, true);
 
         // * Check that the Display tab is loaded
         cy.get('#displayButton').should('be.visible');
@@ -57,12 +75,12 @@ describe('AS14318 Theme Colors - Color Picker', () => {
     describe('Custom - Sidebar Styles input change', () => {
         before(() => {
             // # Go to Theme > Custom > Sidebar Styles
-            cy.customColors(0, 'Sidebar Styles');
+            customColors(0, 'Sidebar Styles');
         });
 
         after(() => {
             // Save Sidebar Text color change and close the Account settings modal
-            cy.get('#saveSetting').click();
+            cy.get('#saveSetting').click({force: true});
             cy.get('#accountSettingsHeader > .close').click();
         });
 

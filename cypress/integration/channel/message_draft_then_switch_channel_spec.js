@@ -28,19 +28,20 @@ describe('Message Draft and Switch Channels', () => {
     it('M14358 Message Draft Pencil Icon Visible in Channel Switcher', () => {
         // # In a test channel, type some text in the message input box
         // # Do not send the post
-        cy.get('#sidebarItem_town-square').should('be.visible').click();
+        cy.get('#sidebarItem_town-square').click({force: true});
 
         // * Validate if the channel has been opened
         cy.url().should('include', `/${testTeam.name}/channels/town-square`);
 
         // * Validate if the draft icon is not visible on the sidebar before making a draft
+        cy.get('#publicChannel').scrollIntoView();
         cy.get('#sidebarItem_town-square #draftIcon').should('be.not.visible');
 
         // Type in some text into the text area of the opened channel
         cy.get('#post_textbox').type('message draft test');
 
         // # Switch to another channel
-        cy.get('#sidebarItem_off-topic').should('be.visible').click();
+        cy.get('#sidebarItem_off-topic').click({force: true});
 
         // * Validate if the newly navigated channel is open
         cy.url().should('include', `/${testTeam.name}/channels/off-topic`);
@@ -59,6 +60,7 @@ describe('Message Draft and Switch Channels', () => {
         cy.get('#suggestionList').should('be.visible');
 
         // * Validate if the draft icon is visible to left of the channel name in the filtered list
+        cy.get('#publicChannel').scrollIntoView();
         cy.get('#switchChannel_town-square #draftIcon').should('be.visible');
 
         // * Escape channel switcher and reset post textbox for test channel

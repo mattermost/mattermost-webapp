@@ -170,20 +170,24 @@ describe('PostList', () => {
             wrapper.instance().checkBottom = jest.fn();
 
             const scrollOffset = 1234;
+            const scrollHeight = 1000;
+            const clientHeight = 500;
 
             wrapper.instance().onScroll({
                 scrollDirection: 'forward',
                 scrollOffset,
                 scrollUpdateWasRequested: false,
+                scrollHeight,
+                clientHeight,
             });
 
-            expect(wrapper.instance().checkBottom).toHaveBeenCalledWith(scrollOffset);
+            expect(wrapper.instance().checkBottom).toHaveBeenCalledWith(scrollOffset, scrollHeight, clientHeight);
         });
     });
 
     describe('isAtBottom', () => {
         const scrollHeight = 1000;
-        const parentClientHeight = 500;
+        const clientHeight = 500;
 
         for (const testCase of [
             {
@@ -192,13 +196,13 @@ describe('PostList', () => {
                 expected: false,
             },
             {
-                name: 'when 1 pixel from the bottom',
-                scrollOffset: 499,
+                name: 'when 11 pixel from the bottom',
+                scrollOffset: 489,
                 expected: false,
             },
             {
-                name: 'when at the bottom',
-                scrollOffset: 500,
+                name: 'when 9 pixel from the bottom also considered to be bottom',
+                scrollOffset: 490,
                 expected: true,
             },
             {
@@ -209,16 +213,7 @@ describe('PostList', () => {
         ]) {
             test(testCase.name, () => {
                 const wrapper = shallow(<PostList {...baseProps}/>);
-                wrapper.instance().postListRef = {
-                    current: {
-                        scrollHeight,
-                        parentElement: {
-                            clientHeight: parentClientHeight,
-                        },
-                    },
-                };
-
-                expect(wrapper.instance().isAtBottom(testCase.scrollOffset)).toBe(testCase.expected);
+                expect(wrapper.instance().isAtBottom(testCase.scrollOffset, scrollHeight, clientHeight)).toBe(testCase.expected);
             });
         }
     });
@@ -260,7 +255,7 @@ describe('PostList', () => {
             expect(instance.componentDidUpdate).toHaveBeenCalledTimes(2);
             expect(instance.componentDidUpdate.mock.calls[1][2]).toEqual({previousScrollTop: 30, previousScrollHeight: 200});
 
-            instance.postListRef = {current: {scrollTop: 40, scrollHeight: 400}};
+            /*instance.postListRef = {current: {scrollTop: 40, scrollHeight: 400}};
             wrapper.setProps({postListIds: [
                 'post1',
                 'post2',
@@ -271,7 +266,7 @@ describe('PostList', () => {
             ]});
 
             expect(instance.componentDidUpdate).toHaveBeenCalledTimes(3);
-            expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual({previousScrollTop: 40, previousScrollHeight: 400});
+            expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual({previousScrollTop: 40, previousScrollHeight: 400});*/
         });
 
         test('should not return previous scroll position from getSnapshotBeforeUpdate as list is at bottom', () => {
@@ -282,7 +277,8 @@ describe('PostList', () => {
             instance.postListRef = {current: {scrollTop: 10, scrollHeight: 100}};
             wrapper.setState({atEnd: true, atBottom: true});
             expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual(null);
-            wrapper.setState({atEnd: false});
+
+            /*wrapper.setState({atEnd: false});
             instance.postListRef = {current: {scrollTop: 40, scrollHeight: 400}};
             wrapper.setProps({postListIds: [
                 'post1',
@@ -293,7 +289,7 @@ describe('PostList', () => {
                 DATE_LINE + 1551711600000,
             ]});
 
-            expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual(null);
+            expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual(null);*/
         });
     });
 

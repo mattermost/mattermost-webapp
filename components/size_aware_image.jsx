@@ -60,8 +60,9 @@ export default class SizeAwareImage extends React.PureComponent {
         this.mounted = false;
     }
 
-    handleLoad = (image) => {
+    handleLoad = (event) => {
         if (this.mounted) {
+            const image = event.target;
             if (this.props.onImageLoaded && image.naturalHeight) {
                 this.props.onImageLoaded({height: image.naturalHeight, width: image.naturalWidth});
             }
@@ -102,7 +103,7 @@ export default class SizeAwareImage extends React.PureComponent {
         } = this.props;
 
         let placeHolder;
-        const shouldShowImg = !dimensions || this.state.loaded;
+        let imageStyleChangesOnLoad = {};
 
         if (dimensions && dimensions.width && !this.state.loaded) {
             placeHolder = (
@@ -119,6 +120,10 @@ export default class SizeAwareImage extends React.PureComponent {
         Reflect.deleteProperty(props, 'onImageLoaded');
         Reflect.deleteProperty(props, 'onImageLoadFail');
 
+        if (!this.state.loaded && dimensions) {
+            imageStyleChangesOnLoad = {position: 'absolute', top: 0, height: 1, width: 1, visibility: 'hidden'};
+        }
+
         return (
             <React.Fragment>
                 {placeHolder}
@@ -128,7 +133,7 @@ export default class SizeAwareImage extends React.PureComponent {
                     src={src}
                     onLoad={this.handleLoad}
                     onError={this.handleError}
-                    style={{display: shouldShowImg ? 'initial' : 'none'}}
+                    style={imageStyleChangesOnLoad}
                 />
             </React.Fragment>
         );

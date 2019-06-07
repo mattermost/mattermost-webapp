@@ -38,7 +38,11 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
     src="https://example.com/image.png"
     style={
       Object {
-        "display": "none",
+        "height": 1,
+        "position": "absolute",
+        "top": 0,
+        "visibility": "hidden",
+        "width": 1,
       }
     }
   />
