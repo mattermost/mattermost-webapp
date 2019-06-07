@@ -519,7 +519,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         );
         const instance = wrapper.instance();
         instance.updateFavicon = jest.fn();
-        
+
         wrapper.setProps({unreads: {mentionCount: 0, messageCount: 0}});
         instance.setBadgesActiveAndFavicon();
         wrapper.setProps({unreads: {mentionCount: 3, messageCount: 4}});
