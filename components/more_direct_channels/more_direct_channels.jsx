@@ -304,6 +304,7 @@ export default class MoreDirectChannels extends React.Component {
         }
 
         const status = option.delete_at || option.is_bot ? null : this.props.statuses[option.id];
+        const email = option.is_bot ? null : option.email;
 
         return (
             <div
@@ -329,7 +330,7 @@ export default class MoreDirectChannels extends React.Component {
                         />
                     </div>
                     <div className='more-modal__description'>
-                        {option.email}
+                        {email}
                     </div>
                 </div>
                 <div className='more-modal__actions'>

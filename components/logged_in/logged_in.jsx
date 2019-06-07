@@ -83,7 +83,7 @@ export default class LoggedIn extends React.PureComponent {
             GlobalActions.emitUserLoggedOutEvent('/login?redirect_to=' + encodeURIComponent(this.props.location.pathname), true, false);
         }
 
-        $('body').on('mouseenter mouseleave', '.post', function mouseOver(ev) {
+        $('body').on('mouseenter mouseleave', ':not(.post-list__dynamic) .post', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
                 $(this).prev('.date-separator, .new-separator').addClass('hovered--after');
                 $(this).next('.date-separator, .new-separator').addClass('hovered--before');
@@ -103,7 +103,7 @@ export default class LoggedIn extends React.PureComponent {
             }
         });
 
-        $('body').on('mouseenter mouseleave', '.post.post--comment.same--root', function mouseOver(ev) {
+        $('body').on('mouseenter mouseleave', ':not(.post-list__dynamic) .post.post--comment.same--root', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
                 $(this).prev('.date-separator, .new-separator').addClass('hovered--comment');
                 $(this).next('.date-separator, .new-separator').addClass('hovered--comment');

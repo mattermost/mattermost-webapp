@@ -129,7 +129,7 @@ describe('components/PermalinkView', () => {
             },
         };
 
-        describe('focusPost', async () => {
+        describe('focusPost', () => {
             test('should focus post in already loaded channel', async () => {
                 const testStore = await mockStore(initialState);
                 await testStore.dispatch(focusPost('postid1'));

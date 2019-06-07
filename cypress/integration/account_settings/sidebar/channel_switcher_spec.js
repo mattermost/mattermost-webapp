@@ -26,7 +26,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         });
 
         // # Go to Account Settings with "user-1"
-        cy.toAccountSettingsModal('user-1');
+        cy.toAccountSettingsModal(null, true);
     });
 
     after(() => {
