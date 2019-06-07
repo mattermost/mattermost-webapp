@@ -14,9 +14,19 @@
 * @param {String} channelTypeID - ID of public or private channel to create
 * @param {String} newChannelName - New channel name to assign
 */
-function verifyExistingChannelError(channelTypeID, newChannelName) {
+function verifyExistingChannelError(newChannelName, makePrivate = false) {
+    const channelTypeID = makePrivate ? '#createPrivateChannel' : '#createPublicChannel';
+
     // Click on '+' button for Public or Private Channel
     cy.get(channelTypeID).click();
+
+    if (makePrivate) {
+        cy.get('#private').check({force: true}).as('channelType');
+    } else {
+        cy.get('#public').should('be.checked').as('channelType');
+    }
+
+    cy.get('@channelType').should('be.checked');
 
     // Type `newChannelName` in the input field for new channel
     cy.get('#newChannelName').type(newChannelName);
@@ -34,43 +44,74 @@ function verifyExistingChannelError(channelTypeID, newChannelName) {
 * @param {String} channelName - Existing channel name that is also being tested for error
 * var - origChannelLength:    The original number of channels in PUBLIC CHANNELS or PRIVATE CHANNELS
 */
-function channelNameTest(channelTypeHeading, channelName) {
+function channelNameTest(channelTypeHeading, channel) {
+    const listSelector = channelTypeHeading === 'PUBLIC CHANNELS' ? '#publicChannelList' : '#privateChannelList';
+
     // # Find how many public channels there are and store as origChannelLength
-    cy.get('#sidebarChannelContainer').children().contains(channelTypeHeading).parent().parent().siblings().its('length').then((origChannelLength) => {
-        // * Verify channel `channelName` exists
-        cy.get('#sidebarChannelContainer').should('contain', channelName);
+    cy.get(`${listSelector} a.sidebar-item`).its('length').as('origChannelLength');
 
-        // * Verify new public channel cannot be created with existing public channel name; see verifyExistingChannelError function
-        verifyExistingChannelError('#createPublicChannel', channelName);
+    // * Verify channel `channelName` exists
+    cy.get('#sidebarChannelContainer').should('contain', channel.display_name);
 
-        // # Click on Cancel button to move out of New Channel Modal
-        cy.get('#cancelNewChannel').contains('Cancel').click();
+    // * Verify new public channel cannot be created with existing public channel name; see verifyExistingChannelError function
+    verifyExistingChannelError(channel.name);
 
-        // * Verify new private channel cannot be created with existing public channel name:
-        verifyExistingChannelError('#createPrivateChannel', channelName);
+    // # Click on Cancel button to move out of New Channel Modal
+    cy.get('#cancelNewChannel').contains('Cancel').click();
 
-        // * Verify the number of channels is still the same as before (by comparing it to origChannelLenth)
-        cy.get('#sidebarChannelContainer').children().contains(channelTypeHeading).parent().parent().siblings().its('length').should('eq', origChannelLength);
+    // * Verify new private channel cannot be created with existing public channel name:
+    verifyExistingChannelError(channel.name, true);
 
-        // # Click on Cancel button to move out of New Channel Modal
-        cy.get('#cancelNewChannel').contains('Cancel').click();
+    // # Click on Cancel button to move out of New Channel Modal
+    cy.get('#cancelNewChannel').contains('Cancel').click();
+
+    // * Verify the number of channels is still the same as before (by comparing it to origChannelLenth)
+    cy.get('@origChannelLength').then((origChannelLength) => {
+        cy.get(`${listSelector} a.sidebar-item`).its('length').should('equal', origChannelLength);
+    });
+}
+
+/**
+ * Create new channel via API
+ * @param {String} name Name of the channel. This will be used for both name and display_name
+ * @param {Boolean} isPrivate Should the channel be private
+ * @returns body of request
+ */
+function createNewChannel(name, isPrivate = false) {
+    const makePrivate = isPrivate ? 'P' : '0';
+
+    return cy.getCurrentTeamId().then((teamId) => {
+        return cy.apiCreateChannel(teamId, name, name, makePrivate, 'Let us chat here').
+            its('body');
     });
 }
 
 describe('Channel', () => {
-    before(() => {
+    beforeEach(() => {
         // Login and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
     });
 
     it('M14635 Should not create new channel with existing public channel name', () => {
-        // * Verify new public or private channel cannot be created with existing public channel name:
-        channelNameTest('PUBLIC CHANNELS', 'Town Square');
+        // # Create a new private channel
+        createNewChannel(`unique-public-${Date.now()}`, true).as('channel');
+        cy.reload();
+
+        cy.get('@channel').then((channel) => {
+            // * Verify new public or private channel cannot be created with existing private channel name:
+            channelNameTest('PUBLIC CHANNELS', channel);
+        });
     });
 
     it('M14635 Should not create new channel with existing private channel name', () => {
-        // * Verify new public or private channel cannot be created with existing private channel name:
-        channelNameTest('PRIVATE CHANNELS', 'commodi');
+        // # Create a new private channel
+        createNewChannel(`unique-private-${Date.now()}`, true).as('channel');
+        cy.reload();
+
+        cy.get('@channel').then((channel) => {
+            // * Verify new public or private channel cannot be created with existing private channel name:
+            channelNameTest('PRIVATE CHANNELS', channel);
+        });
     });
 });

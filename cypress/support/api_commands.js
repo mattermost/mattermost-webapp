@@ -27,6 +27,8 @@ import theme from '../fixtures/theme.json';
  * @param {String} username - e.g. "user-1" (default)
  */
 Cypress.Commands.add('apiLogin', (username = 'user-1') => {
+    cy.apiLogout();
+
     const user = users[username];
 
     return cy.request({
@@ -43,13 +45,14 @@ Cypress.Commands.add('apiLogout', () => {
     cy.request({
         url: '/api/v4/users/logout',
         method: 'POST',
+        log: false,
     });
 
     ['MMAUTHTOKEN', 'MMUSERID', 'MMCSRF'].forEach((cookie) => {
-        cy.clearCookie(cookie);
+        cy.clearCookie(cookie, {log: false});
     });
 
-    cy.getCookies().should('be.empty');
+    cy.getCookies({log: false}).should('be.empty');
 });
 
 // *****************************************************************************
@@ -338,4 +341,12 @@ Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
     });
 
     cy.apiLogout();
+});
+
+// *****************************************************************************
+// Post creation
+// *****************************************************************************
+
+Cypress.Commands.add('postMessageAs', (sender, message, channelId) => {
+    cy.task('postMessageAs', {sender, message, channelId}).its('message').should('equal', message);
 });
