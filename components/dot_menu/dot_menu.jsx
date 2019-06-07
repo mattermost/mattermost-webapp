@@ -129,9 +129,9 @@ export default class DotMenu extends Component {
         this.setState({canEdit: false});
     }
 
-    handleFlagMenuItemActivated = () => {
+    handleFlagMenuItemActivated = async () => {
         if (this.props.isFlagged) {
-            this.props.actions.unflagPost(this.props.post.id);
+            await this.props.actions.unflagPost(this.props.post.id);
         } else {
             this.props.actions.flagPost(this.props.post.id);
         }

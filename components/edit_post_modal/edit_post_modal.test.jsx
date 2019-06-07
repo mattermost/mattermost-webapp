@@ -36,10 +36,10 @@ function createEditPost({canEditPost, canDeletePost, ctrlSend, config, license, 
         title: 'test',
     };
     const actionsProp = actions || {
-        editPost: jest.fn(),
-        addMessageIntoHistory: jest.fn(),
-        hideEditPostModal: jest.fn(),
-        openModal: jest.fn(),
+        editPost: jest.fn((data) => new Promise((resolve) => resolve(data))),
+        addMessageIntoHistory: jest.fn(() => new Promise((resolve) => resolve())),
+        hideEditPostModal: jest.fn(() => new Promise((resolve) => resolve())),
+        openModal: jest.fn(() => new Promise((resolve) => resolve())),
     };
     return (
         <EditPostModal
@@ -70,12 +70,12 @@ describe('components/EditPostModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('should not call openModal on empty edited message but with attachment', () => {
+    it('should not call openModal on empty edited message but with attachment', async () => {
         const actions = {
-            editPost: jest.fn(),
-            addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
-            openModal: jest.fn(),
+            editPost: jest.fn((data) => new Promise((resolve) => resolve(data))),
+            addMessageIntoHistory: jest.fn(() => new Promise((resolve) => resolve())),
+            hideEditPostModal: jest.fn(() => new Promise((resolve) => resolve())),
+            openModal: jest.fn(() => new Promise((resolve) => resolve())),
         };
         const editingPost = {
             postId: '123',
@@ -90,11 +90,12 @@ describe('components/EditPostModal', () => {
             show: true,
             title: 'test',
         };
+        global.scrollTo = jest.fn();
 
         var wrapper = shallow(createEditPost({actions, editingPost}));
         var instance = wrapper.instance();
         wrapper.setState({editText: ''});
-        instance.handleEdit();
+        await instance.handleEdit();
 
         expect(actions.openModal).not.toHaveBeenCalled();
         expect(actions.addMessageIntoHistory).toBeCalled();
@@ -103,11 +104,12 @@ describe('components/EditPostModal', () => {
 
     it('should call editPost, addMessageIntoHistory and hideEditPostModal on save', async () => {
         const actions = {
-            editPost: jest.fn(),
-            addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
-            openModal: jest.fn(),
+            editPost: jest.fn((data) => new Promise((resolve) => resolve(data))),
+            addMessageIntoHistory: jest.fn(() => new Promise((resolve) => resolve())),
+            hideEditPostModal: jest.fn(() => new Promise((resolve) => resolve())),
+            openModal: jest.fn(() => new Promise((resolve) => resolve())),
         };
+        global.scrollTo = jest.fn();
         const wrapper = shallow(createEditPost({actions}));
 
         expect(actions.addMessageIntoHistory).not.toBeCalled();
@@ -218,19 +220,19 @@ describe('components/EditPostModal', () => {
         expect(ref.hidePreview).toBeCalled();
     });
 
-    it('should close without saving when post text is not changed', () => {
+    it('should close without saving when post text is not changed', async () => {
         const actions = {
-            editPost: jest.fn(),
-            addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
-            openModal: jest.fn(),
+            editPost: jest.fn((data) => new Promise((resolve) => resolve(data))),
+            addMessageIntoHistory: jest.fn(() => new Promise((resolve) => resolve())),
+            hideEditPostModal: jest.fn(() => new Promise((resolve) => resolve())),
+            openModal: jest.fn(() => new Promise((resolve) => resolve())),
         };
         const wrapper = shallow(createEditPost({actions}));
         const instance = wrapper.instance();
 
         expect(actions.hideEditPostModal).not.toBeCalled();
 
-        instance.handleEdit();
+        await instance.handleEdit();
 
         expect(actions.addMessageIntoHistory).not.toBeCalled();
         expect(actions.editPost).not.toBeCalled();
@@ -239,10 +241,10 @@ describe('components/EditPostModal', () => {
 
     it('should close and show delete confirmation modal when message is empty', async () => {
         const actions = {
-            editPost: jest.fn(),
-            addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
-            openModal: jest.fn(),
+            editPost: jest.fn((data) => new Promise((resolve) => resolve(data))),
+            addMessageIntoHistory: jest.fn(() => new Promise((resolve) => resolve())),
+            hideEditPostModal: jest.fn(() => new Promise((resolve) => resolve())),
+            openModal: jest.fn(() => new Promise((resolve) => resolve())),
         };
         var wrapper = shallow(createEditPost({actions}));
         var instance = wrapper.instance();
@@ -250,7 +252,7 @@ describe('components/EditPostModal', () => {
         expect(actions.hideEditPostModal).not.toBeCalled();
 
         wrapper.setState({editText: ''});
-        instance.handleEdit();
+        await instance.handleEdit();
 
         expect(actions.hideEditPostModal).toBeCalled();
         expect(actions.openModal).toHaveBeenCalledWith({
@@ -286,12 +288,10 @@ describe('components/EditPostModal', () => {
 
     it('should scroll page after successfully editing post', async () => {
         const actions = {
-            editPost: jest.fn((data) => {
-                return {data};
-            }),
-            addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
-            openModal: jest.fn(),
+            editPost: jest.fn((data) => new Promise((resolve) => resolve(data))),
+            addMessageIntoHistory: jest.fn(() => new Promise((resolve) => resolve())),
+            hideEditPostModal: jest.fn(() => new Promise((resolve) => resolve())),
+            openModal: jest.fn(() => new Promise((resolve) => resolve())),
         };
         global.scrollTo = jest.fn();
         const wrapper = shallow(createEditPost({actions}));
@@ -315,10 +315,10 @@ describe('components/EditPostModal', () => {
 
     it('should clear data on exit', () => {
         const actions = {
-            editPost: jest.fn((data) => data),
-            addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
-            openModal: jest.fn(),
+            editPost: jest.fn((data) => new Promise((resolve) => resolve(data))),
+            addMessageIntoHistory: jest.fn(() => new Promise((resolve) => resolve())),
+            hideEditPostModal: jest.fn(() => new Promise((resolve) => resolve())),
+            openModal: jest.fn(() => new Promise((resolve) => resolve())),
         };
         const wrapper = shallow(createEditPost({actions}));
         const instance = wrapper.instance();
@@ -331,10 +331,10 @@ describe('components/EditPostModal', () => {
 
     it('should focus element on exit based on refocusId', () => {
         const actions = {
-            editPost: jest.fn((data) => data),
-            addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
-            openModal: jest.fn(),
+            editPost: jest.fn((data) => new Promise((resolve) => resolve(data))),
+            addMessageIntoHistory: jest.fn(() => new Promise((resolve) => resolve())),
+            hideEditPostModal: jest.fn(() => new Promise((resolve) => resolve())),
+            openModal: jest.fn(() => new Promise((resolve) => resolve())),
         };
         const wrapper = shallow(createEditPost({actions}));
         const instance = wrapper.instance();
@@ -444,10 +444,10 @@ describe('components/EditPostModal', () => {
 
     it('should disable the button on not canEditPost and text in it', () => {
         const actions = {
-            editPost: jest.fn(),
-            addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
-            openModal: jest.fn(),
+            editPost: jest.fn((data) => new Promise((resolve) => resolve(data))),
+            addMessageIntoHistory: jest.fn(() => new Promise((resolve) => resolve())),
+            hideEditPostModal: jest.fn(() => new Promise((resolve) => resolve())),
+            openModal: jest.fn(() => new Promise((resolve) => resolve())),
         };
         const wrapper = shallow(createEditPost({actions, canEditPost: false}));
         wrapper.setState({editText: 'new message'});
@@ -469,10 +469,10 @@ describe('components/EditPostModal', () => {
 
     it('should disable the button on not canDeletePost and empty text in it', () => {
         const actions = {
-            editPost: jest.fn(),
-            addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
-            openModal: jest.fn(),
+            editPost: jest.fn((data) => new Promise((resolve) => resolve(data))),
+            addMessageIntoHistory: jest.fn(() => new Promise((resolve) => resolve())),
+            hideEditPostModal: jest.fn(() => new Promise((resolve) => resolve())),
+            openModal: jest.fn(() => new Promise((resolve) => resolve())),
         };
         const wrapper = shallow(createEditPost({actions, canDeletePost: false}));
         wrapper.setState({editText: ''});

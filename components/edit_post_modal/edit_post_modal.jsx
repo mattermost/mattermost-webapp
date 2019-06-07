@@ -145,13 +145,13 @@ export default class EditPostModal extends React.PureComponent {
 
         if (updatedPost.message === (editingPost.post.message_source || editingPost.post.message)) {
             // no changes so just close the modal
-            this.handleHide();
+            await this.handleHide();
             return;
         }
 
         const hasAttachment = editingPost.post.file_ids && editingPost.post.file_ids.length > 0;
         if (updatedPost.message.trim().length === 0 && !hasAttachment) {
-            this.handleHide(false);
+            await this.handleHide(false);
 
             const deletePostModalData = {
                 ModalId: ModalIdentifiers.DELETE_POST,
@@ -163,18 +163,18 @@ export default class EditPostModal extends React.PureComponent {
                 },
             };
 
-            this.props.actions.openModal(deletePostModalData);
+            await this.props.actions.openModal(deletePostModalData);
             return;
         }
 
-        actions.addMessageIntoHistory(updatedPost.message);
+        await actions.addMessageIntoHistory(updatedPost.message);
 
-        const data = await actions.editPost(updatedPost);
+        const data = actions.editPost(updatedPost);
         if (data) {
             window.scrollTo(0, 0);
         }
 
-        this.handleHide();
+        await this.handleHide();
     }
 
     handleChange = (e) => {
@@ -184,29 +184,29 @@ export default class EditPostModal extends React.PureComponent {
         });
     }
 
-    handleEditKeyPress = (e) => {
+    handleEditKeyPress = async (e) => {
         if (!UserAgent.isMobile() && !this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
             e.preventDefault();
             this.editbox.blur();
-            this.handleEdit();
+            await this.handleEdit();
         } else if (this.props.ctrlSend && e.ctrlKey && Utils.isKeyPressed(e, KeyCodes.ENTER)) {
             e.preventDefault();
             this.editbox.blur();
-            this.handleEdit();
+            await this.handleEdit();
         }
     }
 
-    handleKeyDown = (e) => {
+    handleKeyDown = async (e) => {
         if (this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && e.ctrlKey === true) {
-            this.handleEdit();
+            await this.handleEdit();
         } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE) && !this.state.showEmojiPicker) {
-            this.handleHide();
+            await this.handleHide();
         }
     }
 
-    handleHide = (doRefocus = true) => {
+    handleHide = async (doRefocus = true) => {
         this.refocusId = doRefocus ? this.props.editingPost.refocusId : null;
-        this.props.actions.hideEditPostModal();
+        await this.props.actions.hideEditPostModal();
     }
 
     handleEntered = () => {

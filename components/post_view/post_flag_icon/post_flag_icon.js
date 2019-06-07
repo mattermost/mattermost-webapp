@@ -28,7 +28,7 @@ export default class PostFlagIcon extends React.PureComponent {
         location: Locations.CENTER,
     };
 
-    handlePress = (e) => {
+    handlePress = async (e) => {
         e.preventDefault();
 
         const {
@@ -38,9 +38,9 @@ export default class PostFlagIcon extends React.PureComponent {
         } = this.props;
 
         if (isFlagged) {
-            actions.unflagPost(postId);
+            await actions.unflagPost(postId);
         } else {
-            actions.flagPost(postId);
+            await actions.flagPost(postId);
         }
     }
 

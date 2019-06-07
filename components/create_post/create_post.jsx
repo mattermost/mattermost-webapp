@@ -410,7 +410,7 @@ export default class CreatePost extends React.Component {
             return;
         }
 
-        this.props.actions.addMessageIntoHistory(this.state.message);
+        await this.props.actions.addMessageIntoHistory(this.state.message);
 
         this.setState({submitting: true, serverError: null});
 
@@ -454,7 +454,7 @@ export default class CreatePost extends React.Component {
                 }
             }
         } else if (isReaction && this.props.emojiMap.has(isReaction[2])) {
-            this.sendReaction(isReaction);
+            await this.sendReaction(isReaction);
 
             this.setState({message: ''});
         } else {
@@ -623,16 +623,16 @@ export default class CreatePost extends React.Component {
         return {data: true};
     }
 
-    sendReaction(isReaction) {
+    async sendReaction(isReaction) {
         const channelId = this.props.currentChannel.id;
         const action = isReaction[1];
         const emojiName = isReaction[2];
         const postId = this.props.latestReplyablePostId;
 
         if (postId && action === '+') {
-            this.props.actions.addReaction(postId, emojiName);
+            await this.props.actions.addReaction(postId, emojiName);
         } else if (postId && action === '-') {
-            this.props.actions.removeReaction(postId, emojiName);
+            await this.props.actions.removeReaction(postId, emojiName);
         }
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
@@ -894,7 +894,7 @@ export default class CreatePost extends React.Component {
         }
     }
 
-    handleKeyDown = (e) => {
+    handleKeyDown = async (e) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
@@ -910,9 +910,9 @@ export default class CreatePost extends React.Component {
         } else if (shiftUpKeyCombo && messageIsEmpty) {
             this.replyToLastPost(e);
         } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.UP)) {
-            this.loadPrevMessage(e);
+            await this.loadPrevMessage(e);
         } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.DOWN)) {
-            this.loadNextMessage(e);
+            await this.loadNextMessage(e);
         }
     }
 
@@ -948,14 +948,14 @@ export default class CreatePost extends React.Component {
         }
     }
 
-    loadPrevMessage = (e) => {
+    loadPrevMessage = async (e) => {
         e.preventDefault();
-        this.props.actions.moveHistoryIndexBack(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
+        await this.props.actions.moveHistoryIndexBack(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
     }
 
-    loadNextMessage = (e) => {
+    loadNextMessage = async (e) => {
         e.preventDefault();
-        this.props.actions.moveHistoryIndexForward(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
+        await this.props.actions.moveHistoryIndexForward(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
     }
 
     handleBlur = () => {
