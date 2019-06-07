@@ -507,4 +507,21 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         instance.componentWillUnmount();
         expect(document.removeEventListener).toHaveBeenCalledTimes(2);
     });
+
+    test('should display correct favicon', () => {
+        const wrapper = shallow(
+            <Sidebar {...defaultProps}/>
+        );
+        const instance = wrapper.instance();
+        instance.setBadgesActiveAndFavicon = jest.fn();
+        instance.updateFavicon = jest.fn();
+
+        wrapper.setProps({unreads: {mentionCount: 3, messageCount: 4}});
+        instance.setBadgesActiveAndFavicon();
+        expect(instance.updateFavicon).lastCalledWith(true);
+
+        wrapper.setProps({unreads: {mentionCount: 0, messageCount: 4}});
+        instance.setBadgesActiveAndFavicon();
+        expect(instance.updateFavicon).lastCalledWith(false);
+    });
 });
