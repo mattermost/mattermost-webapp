@@ -376,6 +376,7 @@ export default class PostList extends React.PureComponent {
     isAtBottom = (scrollOffset, scrollHeight, clientHeight) => {
         // Calculate how far the post list is from being scrolled to the bottom
         const offsetFromBottom = scrollHeight - clientHeight - scrollOffset;
+
         return offsetFromBottom <= BUFFER_TO_BE_CONSIDERED_BOTTOM;
     }
 
