@@ -3,6 +3,7 @@
 
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import {formatText} from 'utils/text_formatting.jsx';
+
 import {openInteractiveDialog} from './interactive_dialog';
 
 // Common libraries exposed on window for plugins to use as Webpack externals.
