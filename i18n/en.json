@@ -1316,7 +1316,7 @@
   "admin.sidebar.oauth": "OAuth 2.0",
   "admin.sidebar.password": "Password",
   "admin.sidebar.permissions": "Permissions",
-  "admin.sidebar.plugins": "Plugins",
+  "admin.sidebar.plugins": "Plugins (Beta)",
   "admin.sidebar.posts": "Posts",
   "admin.sidebar.publicLinks": "Public Links",
   "admin.sidebar.pushNotificationServer": "Push Notification Server",
