@@ -61,7 +61,8 @@ describe('components/needs_team', () => {
         addUserToTeam: jest.fn().mockResolvedValue({data: true}),
         selectTeam: jest.fn(),
         setPreviousTeamId: jest.fn(),
-        loadStatusesForChannelAndSidebar: jest.fn(),
+        loadStatusesForChannelAndSidebar: jest.fn().mockResolvedValue({data: true}),
+        loadProfilesForDirect: jest.fn().mockResolvedValue({data: true}),
     };
     const baseProps = {
         actions,

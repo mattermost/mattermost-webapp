@@ -45,7 +45,7 @@ describe('AS14319 Theme Colors - Code', () => {
         cy.visit('/');
 
         // # Enter in code block for message
-        cy.get('#post_textbox').type('```\ncode\n```{enter}');
+        cy.get('#post_textbox').clear().type('```\ncode\n```{enter}');
     });
 
     // reset settings to default mattermost theme
@@ -83,6 +83,7 @@ describe('AS14319 Theme Colors - Code', () => {
             // # Save and close settings modal
             cy.get('#saveSetting').click();
             cy.get('#accountSettingsHeader > .close').click();
+            cy.get('#accountSettingsHeader').should('be.hidden');
 
             // * Verify that the styles remain after saving and closing modal
             verifyLastPostStyle(THEME);

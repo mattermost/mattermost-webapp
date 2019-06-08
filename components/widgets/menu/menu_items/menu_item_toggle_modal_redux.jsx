@@ -10,6 +10,7 @@ import menuItem from './menu_item.jsx';
 
 export const MenuItemToggleModalReduxImpl = ({modalId, dialogType, dialogProps, text}) => (
     <ToggleModalButtonRedux
+        accessibilityLabel={text}
         modalId={modalId}
         dialogType={dialogType}
         dialogProps={dialogProps}

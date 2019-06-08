@@ -8,7 +8,7 @@ import {SearchTypes} from 'utils/constants';
 function modalSearch(state = '', action) {
     switch (action.type) {
     case SearchTypes.SET_MODAL_SEARCH: {
-        return action.data;
+        return action.data.trim();
     }
     default:
         return state;
