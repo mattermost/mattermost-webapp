@@ -1189,6 +1189,8 @@
   "admin.saml.usernameAttrTitle": "Username Attribute:",
   "admin.saml.verifyDescription": "When false, Mattermost will not verify that the signature sent from a SAML Response matches the Service Provider Login URL. Not recommended for production environments. For testing only.",
   "admin.saml.verifyTitle": "Verify Signature:",
+  "admin.saml.signRequestDescription": "When false, Mattermost will not sign the SAML request",
+  "admin.saml.signRequestTitle": "Sign Request:",
   "admin.saving": "Saving Config...",
   "admin.security.password": "Password",
   "admin.security.requireEmailVerification.disabled": "Email verification cannot be changed while sending emails is disabled.",
