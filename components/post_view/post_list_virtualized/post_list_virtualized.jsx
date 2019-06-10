@@ -75,7 +75,7 @@ export default class PostList extends React.PureComponent {
          */
         channelLoading: PropTypes.bool,
 
-        lastPostTimeStamp: PropTypes.number,
+        latestPostTimeStamp: PropTypes.number,
 
         actions: PropTypes.shape({
 
@@ -386,8 +386,8 @@ export default class PostList extends React.PureComponent {
         if (atBottom !== this.state.atBottom) {
             // Update lastViewedBottom when the list reaches or leaves the bottom
             let lastViewedBottom = Date.now();
-            if (this.props.lastPostTimeStamp > Date.now()) {
-                lastViewedBottom = this.props.lastPostTimeStamp;
+            if (this.props.latestPostTimeStamp > Date.now()) {
+                lastViewedBottom = this.props.latestPostTimeStamp;
             }
 
             this.setState({
