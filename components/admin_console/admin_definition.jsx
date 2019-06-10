@@ -3289,7 +3289,7 @@ export default {
     plugins: {
         icon: 'fa-plug',
         sectionTitle: t('admin.sidebar.plugins'),
-        sectionTitleDefault: 'Plugins',
+        sectionTitleDefault: 'Plugins (Beta)',
         id: 'plugins',
         plugin_management: {
             url: 'plugins/plugin_management',

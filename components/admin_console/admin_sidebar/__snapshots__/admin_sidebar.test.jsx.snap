@@ -458,7 +458,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           sectionClass=""
           title={
             <FormattedMessage
-              defaultMessage="Plugins"
+              defaultMessage="Plugins (Beta)"
               id="admin.sidebar.plugins"
               values={Object {}}
             />
@@ -1029,7 +1029,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
           sectionClass=""
           title={
             <FormattedMessage
-              defaultMessage="Plugins"
+              defaultMessage="Plugins (Beta)"
               id="admin.sidebar.plugins"
               values={Object {}}
             />
@@ -1593,7 +1593,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
           sectionClass=""
           title={
             <FormattedMessage
-              defaultMessage="Plugins"
+              defaultMessage="Plugins (Beta)"
               id="admin.sidebar.plugins"
               values={Object {}}
             />
@@ -2288,7 +2288,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           sectionClass=""
           title={
             <FormattedMessage
-              defaultMessage="Plugins"
+              defaultMessage="Plugins (Beta)"
               id="admin.sidebar.plugins"
               values={Object {}}
             />
@@ -2971,7 +2971,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           sectionClass=""
           title={
             <FormattedMessage
-              defaultMessage="Plugins"
+              defaultMessage="Plugins (Beta)"
               id="admin.sidebar.plugins"
               values={Object {}}
             />
