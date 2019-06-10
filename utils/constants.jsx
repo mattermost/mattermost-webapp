@@ -436,7 +436,6 @@ export const NotificationSections = {
 
 export const AdvancedSections = {
     CONTROL_SEND: 'advancedCtrlSend',
-    CODE_BLOCK_ON_CTRL_ENTER: 'codeBlockOnCtrlEnter',
     FORMATTING: 'formatting',
     JOIN_LEAVE: 'joinLeave',
     PREVIEW_FEATURES: 'advancedPreviewFeatures',
@@ -1202,7 +1201,7 @@ export const Constants = {
     MAX_TEAMNAME_LENGTH: 15,
     MAX_TEAMDESCRIPTION_LENGTH: 50,
     MIN_CHANNELNAME_LENGTH: 2,
-    MAX_CHANNELNAME_LENGTH: 22,
+    MAX_CHANNELNAME_LENGTH: 64,
     MIN_USERNAME_LENGTH: 3,
     MAX_USERNAME_LENGTH: 22,
     MAX_NICKNAME_LENGTH: 22,

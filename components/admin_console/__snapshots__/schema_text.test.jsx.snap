@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`HelpText should render markdown text correctly 1`] = `
+exports[`SchemaText should render markdown text correctly 1`] = `
 <span
   dangerouslySetInnerHTML={
     Object {
@@ -10,13 +10,13 @@ exports[`HelpText should render markdown text correctly 1`] = `
 />
 `;
 
-exports[`HelpText should render plain text correctly 1`] = `
+exports[`SchemaText should render plain text correctly 1`] = `
 <span>
   This is help text
 </span>
 `;
 
-exports[`HelpText should render translated markdown text correctly 1`] = `
+exports[`SchemaText should render translated markdown text correctly 1`] = `
 <InjectIntl(FormattedMarkdownMessage)
   defaultMessage="This is [{object}](https://example.com)"
   id="help.text.markdown"
@@ -28,7 +28,7 @@ exports[`HelpText should render translated markdown text correctly 1`] = `
 />
 `;
 
-exports[`HelpText should render translated text correctly 1`] = `
+exports[`SchemaText should render translated text correctly 1`] = `
 <FormattedMessage
   defaultMessage="This is {object}"
   id="help.text"

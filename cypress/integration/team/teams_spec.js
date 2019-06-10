@@ -11,6 +11,7 @@
 
 import {getRandomInt} from '../../utils';
 import users from '../../fixtures/users.json';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 function removeTeamMember(teamURL, username) {
     cy.apiLogout();
@@ -126,11 +127,6 @@ describe('Teams Suite', () => {
         // # Login as new user
         cy.loginAsNewUser();
 
-        // # Login and go to /
-        cy.apiCreateTeam('test-team', 'Test Team').then(() => {
-            cy.visit('/');
-        });
-
         // # Leave all teams
         function leaveAllTeams() {
             cy.apiGetTeams().then((response) => {
@@ -147,6 +143,6 @@ describe('Teams Suite', () => {
         cy.logout();
 
         // * Ensure user is logged out
-        cy.url().should('include', 'login');
+        cy.url({timeout: TIMEOUTS.LARGE}).should('include', 'login');
     });
 });

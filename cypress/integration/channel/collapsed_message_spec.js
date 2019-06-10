@@ -11,7 +11,7 @@
 
 function verifyCollapsedPost() {
     // * Verify show more button
-    cy.get('#showMoreButton').should('be.visible').and('have.text', 'Show More');
+    cy.get('#showMoreButton').scrollIntoView().should('be.visible').and('have.text', 'Show More');
 
     // * Verify gradient
     cy.get('#collapseGradient').should('be.visible');

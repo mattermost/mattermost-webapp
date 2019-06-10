@@ -5,11 +5,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {resendVerification} from 'actions/user_actions.jsx';
 import BackButton from 'components/common/back_button.jsx';
 import SuccessIcon from 'components/icon/success_icon';
 
-export default class ShouldVerifyEmail extends React.Component {
+export default class ShouldVerifyEmail extends React.PureComponent {
+    static propTypes = {
+        location: PropTypes.object.isRequired,
+        siteName: PropTypes.string.isRequired,
+        actions: PropTypes.shape({
+            sendVerificationEmail: PropTypes.func.isRequired,
+        }).isRequired,
+    };
+
     constructor(props) {
         super(props);
 
@@ -18,21 +25,19 @@ export default class ShouldVerifyEmail extends React.Component {
         };
     }
 
-    handleResend = () => {
+    handleResend = async () => {
         const email = (new URLSearchParams(this.props.location.search)).get('email');
 
         this.setState({resendStatus: 'sending'});
 
-        resendVerification(
-            email,
-            () => {
-                this.setState({resendStatus: 'success'});
-            },
-            () => {
-                this.setState({resendStatus: 'failure'});
-            }
-        );
+        const {data, error} = await this.props.actions.sendVerificationEmail(email);
+        if (data) {
+            this.setState({resendStatus: 'success'});
+        } else if (error) {
+            this.setState({resendStatus: 'failure'});
+        }
     }
+
     render() {
         let resendConfirm = '';
 
@@ -111,8 +116,3 @@ export default class ShouldVerifyEmail extends React.Component {
         );
     }
 }
-
-ShouldVerifyEmail.propTypes = {
-    location: PropTypes.object.isRequired,
-    siteName: PropTypes.string,
-};

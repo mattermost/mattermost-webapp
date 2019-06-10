@@ -12,7 +12,7 @@ import {
     removeIdpSamlCertificate, uploadIdpSamlCertificate,
     removePrivateSamlCertificate, uploadPrivateSamlCertificate,
     removePublicSamlCertificate, uploadPublicSamlCertificate,
-    invalidateAllEmailInvites,
+    invalidateAllEmailInvites, testSmtp,
 } from 'actions/admin_actions';
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
@@ -154,7 +154,7 @@ export const it = {
 
 export default {
     about: {
-        icon: 'fa-info',
+        icon: 'fa-info-circle',
         sectionTitle: t('admin.sidebar.about'),
         sectionTitleDefault: 'About',
         license: {
@@ -919,6 +919,19 @@ export default {
                                 display_name_default: 'STARTTLS',
                             },
                         ],
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BUTTON,
+                        action: testSmtp,
+                        key: 'TestSmtpConnection',
+                        label: t('admin.environment.smtp.connectionSmtpTest'),
+                        label_default: 'Test Connection',
+                        loading: t('admin.environment.smtp.testing'),
+                        loading_default: 'Testing...',
+                        error_message: t('admin.environment.smtp.smtpFail'),
+                        error_message_default: 'Connection unsuccessful: {error}',
+                        success_message: t('admin.environment.smtp.smtpSuccess'),
+                        success_message_default: 'No errors were reported while sending an email. Please check your inbox to make sure.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3273,19 +3286,52 @@ export default {
             },
         },
     },
-    integrations: {
+    plugins: {
         icon: 'fa-plug',
+        sectionTitle: t('admin.sidebar.plugins'),
+        sectionTitleDefault: 'Plugins',
+        id: 'plugins',
+        plugin_management: {
+            url: 'plugins/plugin_management',
+            title: t('admin.plugins.pluginManagement'),
+            title_default: 'Plugin Management',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            searchableStrings: [
+                'admin.plugin.management.title',
+                'admin.plugins.settings.enable',
+                'admin.plugins.settings.enableDesc',
+                'admin.plugin.uploadTitle',
+                'admin.plugin.installedTitle',
+                'admin.plugin.installedDesc',
+                'admin.plugin.uploadDesc',
+                'admin.plugin.uploadDisabledDesc',
+            ],
+            schema: {
+                id: 'PluginManagementSettings',
+                component: PluginManagement,
+            },
+        },
+        custom: {
+            url: 'plugins/plugin_:plugin_id',
+            schema: {
+                id: 'CustomPluginSettings',
+                component: CustomPluginSettings,
+            },
+        },
+    },
+    integrations: {
+        icon: 'fa-sitemap',
         sectionTitle: t('admin.sidebar.integrations'),
         sectionTitleDefault: 'Integrations',
         id: 'integrations',
-        features: {
-            url: 'integrations/features',
-            title: t('admin.sidebar.integrationsFeatures'),
-            title_default: 'Features',
+        integration_management: {
+            url: 'integrations/integration_management',
+            title: t('admin.integrations.integrationManagement'),
+            title_default: 'Integration Management',
             schema: {
                 id: 'CustomIntegrationSettings',
-                name: t('admin.integrations.integrationsFeatures'),
-                name_default: 'Integrations Features',
+                name: t('admin.integrations.integrationManagement.title'),
+                name_default: 'Integration Management',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3466,33 +3512,6 @@ export default {
                 ],
             },
         },
-        plugins: {
-            url: 'integrations/plugins',
-            title: t('admin.integrations.plugins'),
-            title_default: 'Plugins (Beta)',
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-            searchableStrings: [
-                'admin.plugin.management.title',
-                'admin.plugins.settings.enable',
-                'admin.plugins.settings.enableDesc',
-                'admin.plugin.uploadTitle',
-                'admin.plugin.installedTitle',
-                'admin.plugin.installedDesc',
-                'admin.plugin.uploadDesc',
-                'admin.plugin.uploadDisabledDesc',
-            ],
-            schema: {
-                id: 'PluginManagementSettings',
-                component: PluginManagement,
-            },
-        },
-        custom: {
-            url: 'integrations/plugin_:plugin_id',
-            schema: {
-                id: 'CustomPluginSettings',
-                component: CustomPluginSettings,
-            },
-        },
     },
     compliance: {
         icon: 'fa-list',
@@ -3561,6 +3580,8 @@ export default {
             ],
             schema: {
                 id: 'Audits',
+                name: t('admin.compliance.complianceMonitoring'),
+                name_default: 'Compliance Monitoring',
                 component: Audits,
                 isHidden: it.isnt(it.licensedForFeature('Compliance')),
                 settings: [
@@ -3834,7 +3855,7 @@ export default {
                         label: t('admin.experimental.experimentalLdapGroupSync.title'),
                         label_default: 'Enable AD/LDAP Group Sync:',
                         help_text: t('admin.experimental.experimentalLdapGroupSync.desc'),
-                        help_text_default: 'When true, enables **AD/LDAP Group Sync** configurable under **Access Controls > Groups**. See [documentation](!https://mattermost.com/pl/default-ldap-group-sync) to learn more.',
+                        help_text_default: 'When true, enables **AD/LDAP Group Sync** configurable under **User Management > Groups**. See [documentation](!https://mattermost.com/pl/default-ldap-group-sync) to learn more.',
                         help_text_markdown: true,
                     },
                     {

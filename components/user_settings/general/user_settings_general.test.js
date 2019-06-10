@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import UserSettingsGeneral from './user_settings_general.jsx';
 
@@ -86,5 +86,32 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
 
         expect(requiredProps.updateSection).toHaveBeenCalledTimes(1);
         expect(requiredProps.updateSection).toHaveBeenCalledWith('');
+    });
+
+    test('should not show position input field when LDAP or SAML position attribute is set', () => {
+        const props = {...requiredProps};
+        props.user = {...user};
+        props.user.auth_service = 'ldap';
+        props.activeSection = 'position';
+
+        props.ldapPositionAttributeSet = false;
+        props.samlPositionAttributeSet = false;
+
+        let wrapper = mountWithIntl(<UserSettingsGeneral {...props}/>);
+        expect(wrapper.find('#position').length).toBe(1);
+        expect(wrapper.find('#position').is('input')).toBeTruthy();
+
+        props.ldapPositionAttributeSet = true;
+        props.samlPositionAttributeSet = false;
+
+        wrapper = mountWithIntl(<UserSettingsGeneral {...props}/>);
+        expect(wrapper.find('#position').length).toBe(0);
+
+        props.user.auth_service = 'saml';
+        props.ldapPositionAttributeSet = false;
+        props.samlPositionAttributeSet = true;
+
+        wrapper = mountWithIntl(<UserSettingsGeneral {...props}/>);
+        expect(wrapper.find('#position').length).toBe(0);
     });
 });

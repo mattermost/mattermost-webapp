@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Permissions} from 'mattermost-redux/constants';
+import {intlShape} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
@@ -39,6 +40,7 @@ export default class MainMenu extends React.PureComponent {
         teamId: PropTypes.string,
         teamType: PropTypes.string,
         teamName: PropTypes.string,
+        siteName: PropTypes.string,
         currentUser: PropTypes.object,
         appDownloadLink: PropTypes.string,
         enableCommands: PropTypes.bool.isRequired,
@@ -69,6 +71,10 @@ export default class MainMenu extends React.PureComponent {
         teamType: '',
         mobile: false,
         pluginMenuItems: [],
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     toggleShortcutsModal = (e) => {
@@ -117,6 +123,8 @@ export default class MainMenu extends React.PureComponent {
         if (!currentUser) {
             return null;
         }
+
+        const {formatMessage} = this.context.intl;
 
         const pluginItems = this.props.pluginMenuItems.map((item) => {
             return (
@@ -176,6 +184,19 @@ export default class MainMenu extends React.PureComponent {
                             modalId={ModalIdentifiers.ADD_GROUPS_TO_TEAM}
                             dialogType={AddGroupsToTeamModal}
                             text={localizeMessage('navbar_dropdown.addGroupsToTeam', 'Add Groups to Team')}
+                            icon={this.props.mobile && <i className='fa fa-user-plus'/>}
+                        />
+                    </TeamPermissionGate>
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.ADD_USER_TO_TEAM]}
+                    >
+                        <MenuItemToggleModalRedux
+                            id='addUsersToTeam'
+                            show={teamIsGroupConstrained}
+                            modalId={ModalIdentifiers.ADD_USER_TO_TEAM}
+                            dialogType={AddUsersToTeam}
+                            text={localizeMessage('navbar_dropdown.addMemberToTeam', 'Add Members to Team')}
                             icon={this.props.mobile && <i className='fa fa-user-plus'/>}
                         />
                     </TeamPermissionGate>
@@ -249,7 +270,7 @@ export default class MainMenu extends React.PureComponent {
                     />
                     <MenuItemToggleModalRedux
                         id='leaveTeam'
-                        show={!teamIsGroupConstrained}
+                        show={!teamIsGroupConstrained && !this.props.experimentalPrimaryTeam}
                         modalId={ModalIdentifiers.LEAVE_TEAM}
                         dialogType={LeaveTeamModal}
                         text={localizeMessage('navbar_dropdown.leave', 'Leave Team')}
@@ -321,7 +342,7 @@ export default class MainMenu extends React.PureComponent {
                         id='about'
                         modalId={ModalIdentifiers.ABOUT}
                         dialogType={AboutBuildModal}
-                        text={localizeMessage('navbar_dropdown.about', 'About Mattermost')}
+                        text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName || 'Mattermost'})}
                         icon={this.props.mobile && <i className='fa fa-info'/>}
                     />
                 </MenuGroup>

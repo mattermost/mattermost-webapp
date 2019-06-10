@@ -72,6 +72,7 @@ export default class UserListRow extends React.Component {
 
         if (this.props.user.is_bot) {
             status = null;
+            email = null;
         }
 
         let userCountID = null;

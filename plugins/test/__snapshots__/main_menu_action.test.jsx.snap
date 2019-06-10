@@ -49,6 +49,23 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         text="Add Groups to Team"
       />
     </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="addUsersToTeam"
+        modalId="add_user_to_team"
+        show={true}
+        text="Add Members to Team"
+      />
+    </Connect(TeamPermissionGate)>
   </MenuGroup>
   <MenuGroup>
     <Connect(TeamPermissionGate)

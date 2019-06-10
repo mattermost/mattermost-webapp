@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {Constants, Preferences, ModalIdentifiers} from 'utils/constants.jsx';
@@ -26,6 +26,10 @@ export default class TutorialIntroScreens extends React.Component {
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
         }).isRequired,
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     constructor(props) {

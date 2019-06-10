@@ -9,7 +9,6 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import ChannelInviteModal from 'components/channel_invite_modal';
-import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import ProfilePicture from 'components/profile_picture.jsx';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
@@ -34,7 +33,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
         channelProfiles: PropTypes.array.isRequired,
         enableUserCreation: PropTypes.bool,
         isReadOnly: PropTypes.bool,
-        teamIsGroupConstrained: PropTypes.bool.isRequired,
+        teamIsGroupConstrained: PropTypes.bool,
     };
 
     render() {
@@ -561,18 +560,20 @@ function createSetHeaderButton(channel) {
     if (channelIsArchived) {
         return null;
     }
+
     return (
-        <ToggleModalButtonRedux
-            className='intro-links color--link'
-            modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
-            dialogType={EditChannelHeaderModal}
-            dialogProps={{channel}}
+        <FormattedMessage
+            id='intro_messages.setHeader'
+            defaultMessage='Set a Header'
         >
-            <EditIcon/>
-            <FormattedMessage
-                id='intro_messages.setHeader'
-                defaultMessage='Set a Header'
-            />
-        </ToggleModalButtonRedux>
+            {(message) => (
+                <ToggleModalButtonRedux
+                    accessibilityLabel={message}
+                >
+                    <EditIcon/>
+                    {message}
+                </ToggleModalButtonRedux>
+            )}
+        </FormattedMessage>
     );
 }
