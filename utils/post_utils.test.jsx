@@ -4,7 +4,29 @@
 import assert from 'assert';
 
 import * as PostUtils from 'utils/post_utils.jsx';
-import {PostListRowListIds} from 'utils/constants.jsx';
+import Constants, {PostListRowListIds} from 'utils/constants.jsx';
+
+describe('PostUtils.isMeMessage', () => {
+    test('should correctly identify messages generated from /me', () => {
+        for (const data of [
+            {
+                post: {type: 'hello'},
+                result: false,
+            },
+            {
+                post: {type: 'ME'},
+                result: false,
+            },
+            {
+                post: {type: Constants.PostTypes.ME},
+                result: true
+            }
+        ]) {
+            const isMeMessage = PostUtils.isMeMessage(data.post);
+            assert.equal(isMeMessage, data.result, data.post);
+        }
+    })
+})
 
 describe('PostUtils.containsAtChannel', () => {
     test('should return correct @all (same for @channel)', () => {

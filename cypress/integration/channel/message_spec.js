@@ -128,4 +128,15 @@ describe('Message', () => {
                 next().should('have.text', '@channel').should('not.have.text', '.');
         });
     });
+
+    it('MM-2954 /me message should be formatted like a system message', () => {
+        // Post /me message
+        cy.postMessage('/me hello there');
+
+        cy.getLastPostId().then(postId => {
+            const divPostId = `#post_${postId}`;
+
+            cy.get(divPostId).should('have.class', 'post--system');
+        });
+    });
 });

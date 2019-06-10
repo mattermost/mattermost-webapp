@@ -126,7 +126,7 @@ export default class Post extends React.PureComponent {
         return false;
     }
 
-    getClassName = (post, isSystemMessage, fromWebhook, fromAutoResponder, fromBot) => {
+    getClassName = (post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot) => {
         let className = 'post';
 
         if (post.failed || post.state === Posts.POST_DELETED) {
@@ -163,8 +163,11 @@ export default class Post extends React.PureComponent {
             rootUser = '';
         }
 
-        if (isSystemMessage) {
+        if (isSystemMessage || isMeMessage) {
             className += ' post--system';
+        }
+
+        if (isSystemMessage) {
             sameUserClass = '';
             currentUserCss = '';
             postType = '';
@@ -209,6 +212,7 @@ export default class Post extends React.PureComponent {
         }
 
         const isSystemMessage = PostUtils.isSystemMessage(post);
+        const isMeMessage = PostUtils.isMeMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
         const fromWebhook = post && post.props && post.props.from_webhook === 'true';
         const fromBot = post && post.props && post.props.from_bot === 'true';
@@ -242,7 +246,7 @@ export default class Post extends React.PureComponent {
             <div
                 ref={this.getRef}
                 id={'post_' + post.id}
-                className={this.getClassName(post, isSystemMessage, fromWebhook, fromAutoResponder, fromBot)}
+                className={this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
                 onTouchStart={this.setHover}
