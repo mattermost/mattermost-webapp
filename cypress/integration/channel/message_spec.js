@@ -133,7 +133,7 @@ describe('Message', () => {
         // Post /me message
         cy.postMessage('/me hello there');
 
-        cy.getLastPostId().then(postId => {
+        cy.getLastPostId().then((postId) => {
             const divPostId = `#post_${postId}`;
 
             cy.get(divPostId).should('have.class', 'post--system');

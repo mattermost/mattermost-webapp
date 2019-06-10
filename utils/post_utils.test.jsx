@@ -19,14 +19,14 @@ describe('PostUtils.isMeMessage', () => {
             },
             {
                 post: {type: Constants.PostTypes.ME},
-                result: true
-            }
+                result: true,
+            },
         ]) {
             const isMeMessage = PostUtils.isMeMessage(data.post);
             assert.equal(isMeMessage, data.result, data.post);
         }
-    })
-})
+    });
+});
 
 describe('PostUtils.containsAtChannel', () => {
     test('should return correct @all (same for @channel)', () => {
