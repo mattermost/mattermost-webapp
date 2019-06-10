@@ -14,7 +14,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 import Constants, {PostListRowListIds, EventTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
-import {getLastPostId, getPreviousPostId} from 'utils/post_utils.jsx';
+import {getOldestPostId, getPreviousPostId} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
@@ -292,7 +292,7 @@ export default class PostList extends React.PureComponent {
     };
 
     getOldestVisiblePostId = () => {
-        return getLastPostId(this.state.postListIds);
+        return getOldestPostId(this.state.postListIds);
     }
 
     togglePostMenu = (opened) => {
@@ -415,7 +415,7 @@ export default class PostList extends React.PureComponent {
         }
 
         this.setState({
-            topPostId: getLastPostId(this.props.postListIds.slice(visibleTopItem)),
+            topPostId: getOldestPostId(this.props.postListIds.slice(visibleTopItem)),
         });
     }
 
@@ -436,7 +436,7 @@ export default class PostList extends React.PureComponent {
         const newMessagesSeparatorIndex = this.getNewMessagesSeparatorIndex(this.state.postListIds);
 
         if (newMessagesSeparatorIndex > 0) {
-            const topMostPostIndex = this.state.postListIds.indexOf(getLastPostId(this.state.postListIds));
+            const topMostPostIndex = this.state.postListIds.indexOf(getOldestPostId(this.state.postListIds));
             if (newMessagesSeparatorIndex === topMostPostIndex + 1) {
                 this.loadMorePosts();
                 return {
