@@ -189,21 +189,6 @@ export default class MainMenu extends React.PureComponent {
                     </TeamPermissionGate>
                     <TeamPermissionGate
                         teamId={this.props.teamId}
-                        permissions={[Permissions.ADD_USER_TO_TEAM]}
-                    >
-                        <MenuItemToggleModalRedux
-                            id='addUsersToTeam'
-                            show={teamIsGroupConstrained}
-                            modalId={ModalIdentifiers.ADD_USER_TO_TEAM}
-                            dialogType={AddUsersToTeam}
-                            text={localizeMessage('navbar_dropdown.addMemberToTeam', 'Add Members to Team')}
-                            icon={this.props.mobile && <i className='fa fa-user-plus'/>}
-                        />
-                    </TeamPermissionGate>
-                </MenuGroup>
-                <MenuGroup>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
                         permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
                     >
                         <MenuItemToggleModalRedux
