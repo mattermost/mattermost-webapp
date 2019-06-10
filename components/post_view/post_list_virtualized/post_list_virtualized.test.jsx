@@ -24,6 +24,7 @@ describe('PostList', () => {
             'post3',
             DATE_LINE + 1551711600000,
         ],
+        latestPostTimeStamp: 12345,
         postVisibility: 10,
         actions: {
             checkAndSetMobileView: jest.fn(),
@@ -236,6 +237,28 @@ describe('PostList', () => {
             wrapper.instance().updateAtBottom(true);
 
             expect(wrapper.state('lastViewedBottom')).toBe(1234);
+        });
+
+        test('should update lastViewedBottom with latestPostTimeStamp as that is greater than Date.now()', () => {
+            Date.now = jest.fn().mockReturnValue(12344);
+
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            wrapper.setState({lastViewedBottom: 1234});
+
+            wrapper.instance().updateAtBottom(false);
+
+            expect(wrapper.state('lastViewedBottom')).toBe(12345);
+        });
+
+        test('should update lastViewedBottom with Date.now() as it is greater than latestPostTimeStamp', () => {
+            Date.now = jest.fn().mockReturnValue(12346);
+
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            wrapper.setState({lastViewedBottom: 1234});
+
+            wrapper.instance().updateAtBottom(false);
+
+            expect(wrapper.state('lastViewedBottom')).toBe(12346);
         });
     });
 
