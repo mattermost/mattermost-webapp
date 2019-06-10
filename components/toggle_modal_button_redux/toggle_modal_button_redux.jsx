@@ -3,9 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {intlShape} from 'react-intl';
 
 export default class ModalToggleButtonRedux extends React.Component {
     static propTypes = {
+        accessibilityLabel: PropTypes.string.isRequired,
         children: PropTypes.node.isRequired,
         modalId: PropTypes.string.isRequired,
         dialogType: PropTypes.func.isRequired,
@@ -20,6 +22,10 @@ export default class ModalToggleButtonRedux extends React.Component {
     static defaultProps = {
         dialogProps: {},
         className: '',
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     show(e) {
@@ -40,11 +46,14 @@ export default class ModalToggleButtonRedux extends React.Component {
 
     render() {
         const {children, onClick, ...props} = this.props;
+        const {formatMessage} = this.context.intl;
+        const ariaLabel = `${props.accessibilityLabel} ${formatMessage({id: 'accessibility.button.dialog', defaultMessage: 'Dialog'})}`;
 
         // removing these three props since they are not valid props on buttons
         delete props.modalId;
         delete props.dialogType;
         delete props.dialogProps;
+        delete props.accessibilityLabel;
 
         // allow callers to provide an onClick which will be called before the modal is shown
         let clickHandler = () => this.show();
@@ -60,6 +69,8 @@ export default class ModalToggleButtonRedux extends React.Component {
             <button
                 {...props}
                 className={'style--none ' + props.className}
+                data-toggle='modal toggle'
+                aria-label={ariaLabel}
                 onClick={clickHandler}
             >
                 {children}

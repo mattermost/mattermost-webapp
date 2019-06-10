@@ -32,6 +32,16 @@ describe('PostList', () => {
         },
     };
 
+    const postListIdsForClassNames = [
+        'post1',
+        'post2',
+        'post3',
+        DATE_LINE + 1551711600000,
+        'post4',
+        PostListRowListIds.START_OF_NEW_MESSAGES,
+        'post5',
+    ];
+
     test('should render loading screen while loading posts', () => {
         const props = {
             ...baseProps,
@@ -160,20 +170,24 @@ describe('PostList', () => {
             wrapper.instance().checkBottom = jest.fn();
 
             const scrollOffset = 1234;
+            const scrollHeight = 1000;
+            const clientHeight = 500;
 
             wrapper.instance().onScroll({
                 scrollDirection: 'forward',
                 scrollOffset,
                 scrollUpdateWasRequested: false,
+                scrollHeight,
+                clientHeight,
             });
 
-            expect(wrapper.instance().checkBottom).toHaveBeenCalledWith(scrollOffset);
+            expect(wrapper.instance().checkBottom).toHaveBeenCalledWith(scrollOffset, scrollHeight, clientHeight);
         });
     });
 
     describe('isAtBottom', () => {
         const scrollHeight = 1000;
-        const parentClientHeight = 500;
+        const clientHeight = 500;
 
         for (const testCase of [
             {
@@ -182,28 +196,24 @@ describe('PostList', () => {
                 expected: false,
             },
             {
-                name: 'when 1 pixel from the bottom',
-                scrollOffset: 499,
+                name: 'when 11 pixel from the bottom',
+                scrollOffset: 489,
                 expected: false,
             },
             {
-                name: 'when at the bottom',
-                scrollOffset: 500,
+                name: 'when 9 pixel from the bottom also considered to be bottom',
+                scrollOffset: 490,
+                expected: true,
+            },
+            {
+                name: 'when clientHeight is less than scrollHeight', // scrollHeight is a state value in virt list and can be one cycle off when compared to actual value
+                scrollOffset: 501,
                 expected: true,
             },
         ]) {
             test(testCase.name, () => {
                 const wrapper = shallow(<PostList {...baseProps}/>);
-                wrapper.instance().postListRef = {
-                    current: {
-                        scrollHeight,
-                        parentElement: {
-                            clientHeight: parentClientHeight,
-                        },
-                    },
-                };
-
-                expect(wrapper.instance().isAtBottom(testCase.scrollOffset)).toBe(testCase.expected);
+                expect(wrapper.instance().isAtBottom(testCase.scrollOffset, scrollHeight, clientHeight)).toBe(testCase.expected);
             });
         }
     });
@@ -236,7 +246,7 @@ describe('PostList', () => {
             instance.componentDidUpdate = jest.fn();
 
             instance.postListRef = {current: {scrollTop: 10, scrollHeight: 100}};
-            wrapper.setState({atEnd: true});
+            wrapper.setState({atEnd: true, atBottom: false});
             expect(instance.componentDidUpdate).toHaveBeenCalledTimes(1);
             expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollTop: 10, previousScrollHeight: 100});
 
@@ -245,7 +255,7 @@ describe('PostList', () => {
             expect(instance.componentDidUpdate).toHaveBeenCalledTimes(2);
             expect(instance.componentDidUpdate.mock.calls[1][2]).toEqual({previousScrollTop: 30, previousScrollHeight: 200});
 
-            instance.postListRef = {current: {scrollTop: 40, scrollHeight: 400}};
+            /*instance.postListRef = {current: {scrollTop: 40, scrollHeight: 400}};
             wrapper.setProps({postListIds: [
                 'post1',
                 'post2',
@@ -256,7 +266,30 @@ describe('PostList', () => {
             ]});
 
             expect(instance.componentDidUpdate).toHaveBeenCalledTimes(3);
-            expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual({previousScrollTop: 40, previousScrollHeight: 400});
+            expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual({previousScrollTop: 40, previousScrollHeight: 400});*/
+        });
+
+        test('should not return previous scroll position from getSnapshotBeforeUpdate as list is at bottom', () => {
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            const instance = wrapper.instance();
+            instance.componentDidUpdate = jest.fn();
+
+            instance.postListRef = {current: {scrollTop: 10, scrollHeight: 100}};
+            wrapper.setState({atEnd: true, atBottom: true});
+            expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual(null);
+
+            /*wrapper.setState({atEnd: false});
+            instance.postListRef = {current: {scrollTop: 40, scrollHeight: 400}};
+            wrapper.setProps({postListIds: [
+                'post1',
+                'post2',
+                'post3',
+                'post4',
+                'post5',
+                DATE_LINE + 1551711600000,
+            ]});
+
+            expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual(null);*/
         });
     });
 
@@ -292,6 +325,78 @@ describe('PostList', () => {
             const wrapper = shallow(<PostList {...props}/>);
             const instance = wrapper.instance();
             expect(instance.initRangeToRender).toEqual([35, 95]);
+        });
+    });
+
+    describe('renderRow', () => {
+        test('should have appropriate classNames for rows with START_OF_NEW_MESSAGES and DATE_LINE', () => {
+            const props = {
+                ...baseProps,
+                postListIds: postListIdsForClassNames,
+            };
+
+            const wrapper = shallow(<PostList {...props}/>);
+            const instance = wrapper.instance();
+            const post3Row = shallow(instance.renderRow({
+                data: postListIdsForClassNames,
+                itemId: 'post3',
+            }));
+
+            const post5Row = shallow(instance.renderRow({
+                data: postListIdsForClassNames,
+                itemId: 'post5',
+            }));
+
+            expect(post3Row.prop('className')).toEqual('post-row__padding top');
+            expect(post5Row.prop('className')).toEqual('post-row__padding bottom');
+        });
+
+        test('should have both top and bottom classNames as post is in between DATE_LINE and START_OF_NEW_MESSAGES', () => {
+            const props = {
+                ...baseProps,
+                postListIds: [
+                    'post1',
+                    'post2',
+                    'post3',
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    'post5',
+                ],
+            };
+
+            const wrapper = shallow(<PostList {...props}/>);
+
+            const row = shallow(wrapper.instance().renderRow({
+                data: props.postListIds,
+                itemId: 'post4',
+            }));
+
+            expect(row.prop('className')).toEqual('post-row__padding bottom top');
+        });
+
+        test('should have empty string as className when both previousItemId and nextItemId are posts', () => {
+            const props = {
+                ...baseProps,
+                postListIds: [
+                    'post1',
+                    'post2',
+                    'post3',
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    'post5',
+                ],
+            };
+
+            const wrapper = shallow(<PostList {...props}/>);
+
+            const row = shallow(wrapper.instance().renderRow({
+                data: props.postListIds,
+                itemId: 'post2',
+            }));
+
+            expect(row.prop('className')).toEqual('');
         });
     });
 });

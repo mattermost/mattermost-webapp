@@ -70,7 +70,16 @@ export default class ListModal extends React.PureComponent {
          * DEFAULT_NUM_PER_PAGE.
          */
         numPerPage: PropTypes.number,
-    }
+
+        /**
+         * show (optional) a boolean setting to hide the modal via props rather then unmounting it.
+         */
+        show: PropTypes.bool,
+    };
+
+    static defaultProps = {
+        show: true,
+    };
 
     constructor(props) {
         super(props);
@@ -130,8 +139,8 @@ export default class ListModal extends React.PureComponent {
 
     onPageChange = async (page) => {
         this.setState({loading: true});
-        const items = await this.props.loadItems(page, this.state.searchTerm);
-        this.setState({page, items, loading: false});
+        const result = await this.props.loadItems(page, this.state.searchTerm);
+        this.setState({page, items: result.items, loading: false});
     }
 
     onSearchInput = async (event) => {
@@ -153,6 +162,9 @@ export default class ListModal extends React.PureComponent {
     }
 
     render() {
+        if (!this.props.show) {
+            return null;
+        }
         const {endCount, startCount} = this.paginationRange();
         return (
             <div>

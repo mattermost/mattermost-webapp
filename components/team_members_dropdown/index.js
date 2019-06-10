@@ -9,6 +9,7 @@ import {
     getMyTeamMembers,
     getMyTeamUnreads,
     getTeamStats,
+    getTeamMember,
     updateTeamMemberSchemeRoles,
 } from 'mattermost-redux/actions/teams';
 import {getUser, updateUserActive} from 'mattermost-redux/actions/users';
@@ -35,6 +36,7 @@ function mapDispatchToProps(dispatch) {
             getMyTeamMembers,
             getMyTeamUnreads,
             getUser,
+            getTeamMember,
             getTeamStats,
             getChannelStats,
             updateUserActive,

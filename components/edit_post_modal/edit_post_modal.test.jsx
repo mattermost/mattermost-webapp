@@ -12,7 +12,7 @@ jest.mock('actions/global_actions.jsx', () => ({
     emitClearSuggestions: jest.fn(),
 }));
 
-function createEditPost({canEditPost, canDeletePost, ctrlSend, config, license, editingPost, actions} = {canEditPost: true, canDeletePost: true}) {
+function createEditPost({canEditPost, canDeletePost, ctrlSend, config, license, editingPost, actions} = {canEditPost: true, canDeletePost: true}) { //eslint-disable-line react/prop-types
     const canEditPostProp = canEditPost === undefined ? true : canEditPost;
     const canDeletePostProp = canDeletePost === undefined ? true : canDeletePost;
     const ctrlSendProp = ctrlSend || false;

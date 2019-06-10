@@ -12,7 +12,7 @@ import {
     removeIdpSamlCertificate, uploadIdpSamlCertificate,
     removePrivateSamlCertificate, uploadPrivateSamlCertificate,
     removePublicSamlCertificate, uploadPublicSamlCertificate,
-    invalidateAllEmailInvites,
+    invalidateAllEmailInvites, testSmtp,
 } from 'actions/admin_actions';
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
@@ -154,7 +154,7 @@ export const it = {
 
 export default {
     about: {
-        icon: 'fa-info',
+        icon: 'fa-info-circle',
         sectionTitle: t('admin.sidebar.about'),
         sectionTitleDefault: 'About',
         license: {
@@ -904,7 +904,7 @@ export default {
                         isHidden: it.isnt(it.licensedForFeature('EmailNotificationContents')),
                         options: [
                             {
-                                value: 'none',
+                                value: '',
                                 display_name: t('admin.environment.smtp.connectionSecurity.option.none'),
                                 display_name_default: 'None',
                             },
@@ -919,6 +919,19 @@ export default {
                                 display_name_default: 'STARTTLS',
                             },
                         ],
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BUTTON,
+                        action: testSmtp,
+                        key: 'TestSmtpConnection',
+                        label: t('admin.environment.smtp.connectionSmtpTest'),
+                        label_default: 'Test Connection',
+                        loading: t('admin.environment.smtp.testing'),
+                        loading_default: 'Testing...',
+                        error_message: t('admin.environment.smtp.smtpFail'),
+                        error_message_default: 'Connection unsuccessful: {error}',
+                        success_message: t('admin.environment.smtp.smtpSuccess'),
+                        success_message_default: 'No errors were reported while sending an email. Please check your inbox to make sure.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1399,7 +1412,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SupportSettings.HelpLink',
                         label: t('admin.support.helpTitle'),
-                        label_default: 'Help link:',
+                        label_default: 'Help Link:',
                         help_text: t('admin.support.helpDesc'),
                         help_text_default: 'The URL for the Help link on the Mattermost login page, sign-up pages, and Main Menu. If this field is empty, the Help link is hidden from users.',
                     },
@@ -1413,9 +1426,17 @@ export default {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SupportSettings.TermsOfServiceLink',
+                        label: t('admin.support.termsTitle'),
+                        label_default: 'Terms of Service Link:',
+                        help_text: t('admin.support.termsDesc'),
+                        help_text_default: 'Link to the terms under which users may use your online service. By default, this includes the "Mattermost Conditions of Use (End Users)" explaining the terms under which Mattermost software is provided to end users. If you change the default link to add your own terms for using the service you provide, your new terms must include a link to the default terms so end users are aware of the Mattermost Conditions of Use (End User) for Mattermost software.',
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SupportSettings.PrivacyPolicyLink',
                         label: t('admin.support.privacyTitle'),
-                        label_default: 'Privacy Policy link:',
+                        label_default: 'Privacy Policy Link:',
                         help_text: t('admin.support.privacyDesc'),
                         help_text_default: 'The URL for the Privacy link on the login and sign-up pages. If this field is empty, the Privacy link is hidden from users.',
                     },
@@ -1423,7 +1444,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SupportSettings.AboutLink',
                         label: t('admin.support.aboutTitle'),
-                        label_default: 'About link:',
+                        label_default: 'About Link:',
                         help_text: t('admin.support.aboutDesc'),
                         help_text_default: 'The URL for the About link on the Mattermost login and sign-up pages. If this field is empty, the About link is hidden from users.',
                     },
@@ -1431,7 +1452,7 @@ export default {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SupportSettings.ReportAProblemLink',
                         label: t('admin.support.problemTitle'),
-                        label_default: 'Report a Problem link:',
+                        label_default: 'Report a Problem Link:',
                         help_text: t('admin.support.problemDesc'),
                         help_text_default: 'The URL for the Report a Problem link in the Main Menu. If this field is empty, the link is removed from the Main Menu.',
                     },
@@ -3265,19 +3286,52 @@ export default {
             },
         },
     },
-    integrations: {
+    plugins: {
         icon: 'fa-plug',
+        sectionTitle: t('admin.sidebar.plugins'),
+        sectionTitleDefault: 'Plugins',
+        id: 'plugins',
+        plugin_management: {
+            url: 'plugins/plugin_management',
+            title: t('admin.plugins.pluginManagement'),
+            title_default: 'Plugin Management',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            searchableStrings: [
+                'admin.plugin.management.title',
+                'admin.plugins.settings.enable',
+                'admin.plugins.settings.enableDesc',
+                'admin.plugin.uploadTitle',
+                'admin.plugin.installedTitle',
+                'admin.plugin.installedDesc',
+                'admin.plugin.uploadDesc',
+                'admin.plugin.uploadDisabledDesc',
+            ],
+            schema: {
+                id: 'PluginManagementSettings',
+                component: PluginManagement,
+            },
+        },
+        custom: {
+            url: 'plugins/plugin_:plugin_id',
+            schema: {
+                id: 'CustomPluginSettings',
+                component: CustomPluginSettings,
+            },
+        },
+    },
+    integrations: {
+        icon: 'fa-sitemap',
         sectionTitle: t('admin.sidebar.integrations'),
         sectionTitleDefault: 'Integrations',
         id: 'integrations',
-        features: {
-            url: 'integrations/features',
-            title: t('admin.sidebar.integrationsFeatures'),
-            title_default: 'Features',
+        integration_management: {
+            url: 'integrations/integration_management',
+            title: t('admin.integrations.integrationManagement'),
+            title_default: 'Integration Management',
             schema: {
                 id: 'CustomIntegrationSettings',
-                name: t('admin.integrations.integrationsFeatures'),
-                name_default: 'Integrations Features',
+                name: t('admin.integrations.integrationManagement.title'),
+                name_default: 'Integration Management',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3345,10 +3399,10 @@ export default {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.CreateBotAccounts',
-                        label: t('admin.service.createBotTitle'),
+                        key: 'ServiceSettings.EnableBotAccountCreation',
+                        label: t('admin.service.enableBotTitle'),
                         label_default: 'Enable Bot Account Creation: ',
-                        help_text: t('admin.service.createBotAccounts'),
+                        help_text: t('admin.service.enableBotAccountCreation'),
                         help_text_default: 'When true, users can create bot accounts for integrations in **Integrations > Bot Accounts**. Bot accounts are similar to user accounts except they cannot be used to log in. See [documentation](https://mattermost.com/pl/default-bot-accounts) to learn more.',
                         help_text_markdown: true,
                     },
@@ -3458,33 +3512,6 @@ export default {
                 ],
             },
         },
-        plugins: {
-            url: 'integrations/plugins',
-            title: t('admin.integrations.plugins'),
-            title_default: 'Plugins (Beta)',
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-            searchableStrings: [
-                'admin.plugin.management.title',
-                'admin.plugins.settings.enable',
-                'admin.plugins.settings.enableDesc',
-                'admin.plugin.uploadTitle',
-                'admin.plugin.installedTitle',
-                'admin.plugin.installedDesc',
-                'admin.plugin.uploadDesc',
-                'admin.plugin.uploadDisabledDesc',
-            ],
-            schema: {
-                id: 'PluginManagementSettings',
-                component: PluginManagement,
-            },
-        },
-        custom: {
-            url: 'integrations/plugin_:plugin_id',
-            schema: {
-                id: 'CustomPluginSettings',
-                component: CustomPluginSettings,
-            },
-        },
     },
     compliance: {
         icon: 'fa-list',
@@ -3553,6 +3580,8 @@ export default {
             ],
             schema: {
                 id: 'Audits',
+                name: t('admin.compliance.complianceMonitoring'),
+                name_default: 'Compliance Monitoring',
                 component: Audits,
                 isHidden: it.isnt(it.licensedForFeature('Compliance')),
                 settings: [
@@ -3826,7 +3855,7 @@ export default {
                         label: t('admin.experimental.experimentalLdapGroupSync.title'),
                         label_default: 'Enable AD/LDAP Group Sync:',
                         help_text: t('admin.experimental.experimentalLdapGroupSync.desc'),
-                        help_text_default: 'When true, enables **AD/LDAP Group Sync** configurable under **Access Controls > Groups**. See [documentation](!https://mattermost.com/pl/default-ldap-group-sync) to learn more.',
+                        help_text_default: 'When true, enables **AD/LDAP Group Sync** configurable under **User Management > Groups**. See [documentation](!https://mattermost.com/pl/default-ldap-group-sync) to learn more.',
                         help_text_markdown: true,
                     },
                     {

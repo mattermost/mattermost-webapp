@@ -3,13 +3,14 @@
 
 /* eslint max-nested-callbacks: ["error", 5] */
 
+import * as TIMEOUTS from '../fixtures/timeouts';
+
 // ***********************************************************
 // Read more: https://on.cypress.io/custom-commands
 // ***********************************************************
 
 Cypress.Commands.add('logout', () => {
     cy.get('#logout').click({force: true});
-    cy.visit('/');
 });
 
 Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPassword, otherURL} = {}) => {
@@ -41,9 +42,9 @@ Cypress.Commands.add('getSubpath', () => {
 Cypress.Commands.add('toAccountSettingsModal', (username = 'user-1', isLoggedInAlready = false, {otherUsername, otherPassword, otherURL} = {}) => {
     if (!isLoggedInAlready) {
         cy.apiLogin(username, {otherUsername, otherPassword, otherURL});
-        cy.visit('/');
     }
 
+    cy.visit('/');
     cy.get('#channel_view').should('be.visible');
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#accountSettings').should('be.visible').click();
@@ -81,10 +82,10 @@ Cypress.Commands.add('toAccountSettingsModalChannelSwitcher', (username, setToOn
  * @param {String} setting - as 'STANDARD' or 'COMPACT'
  * @param {String} username - User to login as
  */
-Cypress.Commands.add('changeMessageDisplaySetting', (setting = 'STANDARD', username = 'user-1') => {
+Cypress.Commands.add('changeMessageDisplaySetting', (setting = 'STANDARD') => {
     const SETTINGS = {STANDARD: '#message_displayFormatA', COMPACT: '#message_displayFormatB'};
 
-    cy.toAccountSettingsModal(username);
+    cy.toAccountSettingsModal(null, true);
     cy.get('#displayButton').click();
 
     cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
@@ -124,28 +125,28 @@ function isMac() {
 // ***********************************************************
 
 Cypress.Commands.add('postMessage', (message) => {
-    cy.get('#post_textbox').clear().type(message).type('{enter}');
+    cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type(message).type('{enter}');
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
     cy.get('#reply_textbox').clear().type(message).type('{enter}');
-    cy.wait(500); // eslint-disable-line
+    cy.wait(TIMEOUTS.TINY);
 });
 
 Cypress.Commands.add('getLastPost', () => {
-    return cy.get('#postListContent #postContent', {timeout: 30000}).last();
+    cy.get('#post-list', {timeout: TIMEOUTS.HUGE}).should('be.visible');
+    return cy.get('#postListContent #postContent', {timeout: TIMEOUTS.HUGE}).last().scrollIntoView().should('be.visible');
 });
 
 Cypress.Commands.add('getLastPostId', (opts = {force: false}) => {
-    cy.get('#postListContent #postContent', {timeout: 30000}).last().parent().as('_lastPost');
+    cy.getLastPost().parent().as('parent');
 
-    if (!opts.force) {
-        cy.get('@_lastPost').should('have.attr', 'id').and('not.include', ':');
+    if (opts.force) {
+        cy.get('@parent').should('have.attr', 'id').invoke('replace', 'post_', '');
+    } else {
+        cy.get('@parent').should('have.attr', 'id').and('not.include', ':').
+            invoke('replace', 'post_', '');
     }
-
-    return cy.get('@_lastPost').invoke('attr', 'id').then((divPostId) => {
-        return divPostId.replace('post_', '');
-    });
 });
 
 /**
@@ -167,7 +168,7 @@ Cypress.Commands.add('getNthPostId', (nthPost) => {
  */
 Cypress.Commands.add('postMessageFromFile', (file, target = '#post_textbox') => {
     cy.fixture(file, 'utf-8').then((text) => {
-        cy.get(target).invoke('val', text).wait(500).type(' {backspace}{enter}').should('have.text', '');
+        cy.get(target).clear().invoke('val', text).wait(TIMEOUTS.TINY).type(' {backspace}{enter}').should('have.text', '');
     });
 });
 
@@ -176,15 +177,13 @@ Cypress.Commands.add('postMessageFromFile', (file, target = '#post_textbox') => 
  * instead of typing into it which takes longer period of time.
  * @param {String} file - includes path and filename relative to cypress/fixtures
  */
-Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file) => {
+Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIMEOUTS.MEDIUM) => {
     // * Verify that HTML Content is correct
     cy.getLastPostId().then((postId) => {
         const postMessageTextId = `#postMessageText_${postId}`;
 
         cy.fixture(file, 'utf-8').then((expectedHtml) => {
-            cy.get(postMessageTextId).then((content) => {
-                assert.equal(content[0].innerHTML, expectedHtml.replace(/\n$/, ''));
-            });
+            cy.get(postMessageTextId, {timeout}).should('have.html', expectedHtml.replace(/\n$/, ''));
         });
     });
 });
@@ -278,7 +277,7 @@ Cypress.Commands.add('leaveTeam', () => {
     // * Check that the "leave team modal" opened up
     cy.get('#leaveTeamModal').should('be.visible');
 
-    // 4. click on yes
+    // # click on yes
     cy.get('#leaveTeamYes').click();
 
     // * Check that the "leave team modal" closed
@@ -290,7 +289,7 @@ Cypress.Commands.add('leaveTeam', () => {
 // ***********************************************************
 
 Cypress.Commands.add('clearPostTextbox', (channelName = 'town-square') => {
-    cy.get(`#sidebarItem_${channelName}`).click();
+    cy.get(`#sidebarItem_${channelName}`).click({force: true});
     cy.get('#post_textbox').clear();
 });
 
@@ -317,24 +316,6 @@ Cypress.Commands.add('minDisplaySettings', () => {
 
     cy.get('#languagesTitle').scrollIntoView().should('be.visible', 'contain', 'Language');
     cy.get('#languagesEdit').should('be.visible', 'contain', 'Edit');
-});
-
-// Selects Edit Theme, selects Custom Theme, checks display, selects custom drop-down for color options
-Cypress.Commands.add('customColors', (dropdownInt, dropdownName) => {
-    cy.get('#themeEdit').scrollIntoView().click();
-
-    cy.get('#customThemes').click();
-
-    // Checking Custom Theme Display
-    cy.get('#displaySettingsTitle').scrollIntoView();
-    cy.get('.theme-elements__header').should('be.visible', 'contain', 'Sidebar Styles');
-    cy.get('.theme-elements__header').should('be.visible', 'contain', 'Center Channel Styles');
-    cy.get('.theme-elements__header').should('be.visible', 'contain', 'Link and BUtton Sytles');
-    cy.get('.padding-top').should('be.visible', 'contain', 'Import theme Colors from Slack');
-    cy.get('#saveSetting').should('be.visible', 'contain', 'Save');
-    cy.get('#cancelSetting').should('be.visible', 'contain', 'Cancel');
-
-    cy.get('.theme-elements__header').eq(dropdownInt).should('contain', dropdownName).click();
 });
 
 // Reverts theme color changes to the default Mattermost theme
@@ -385,5 +366,5 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         clear().
         type(text).
         type('{enter}').
-        wait(500);
+        wait(TIMEOUTS.TINY);
 });

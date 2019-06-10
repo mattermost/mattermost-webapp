@@ -3,7 +3,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -12,15 +12,15 @@
 
 describe('Post Header', () => {
     before(() => {
-        // 1. Go to Main Channel View with "user-1"
+        // # Go to Main Channel View with "user-1"
         cy.toMainChannelView('user-1');
     });
 
     it('should render permalink view on click of post timestamp at center view', () => {
-        // 2. Go to a known team and channel
+        // # Go to a known team and channel
         cy.visit('/ad-1/channels/town-square');
 
-        // 3. Post a message
+        // # Post a message
         cy.postMessage('test for permalink{enter}');
 
         // * Check initial state that "the jump to recent messages" is not visible
@@ -32,7 +32,7 @@ describe('Post Header', () => {
             // * Check initial state that the first message posted is not highlighted
             cy.get(divPostId).should('be.visible').should('not.have.class', 'post--highlight');
 
-            // 4. Click timestamp of a post
+            // # Click timestamp of a post
             cy.clickPostTime(postId);
 
             // * Check that it redirected to permalink URL
@@ -46,7 +46,7 @@ describe('Post Header', () => {
                 should('be.visible').
                 should('contain', 'Click here to jump to recent messages.');
 
-            // 5. Click "jump to recent messages" link
+            // # Click "jump to recent messages" link
             cy.get('#archive-link-home').click();
 
             // * Check that it redirects to channel URL
@@ -58,23 +58,23 @@ describe('Post Header', () => {
     });
 
     it('should flag a post on click to flag icon at center view', () => {
-        // 2. Go to a known team and channel
+        // # Go to a known team and channel
         cy.visit('/ad-1/channels/town-square');
 
-        // 3. Post a message
+        // # Post a message
         cy.postMessage('test for flagged post{enter}');
 
         cy.getLastPostId().then((postId) => {
             // * Check that the center flag icon of a post is not visible
             cy.get(`#CENTER_flagIcon_${postId}`).should('not.be.visible');
 
-            // 4. Click the center flag icon of a post
+            // # Click the center flag icon of a post
             cy.clickPostFlagIcon(postId);
 
             // * Check that the center flag icon of a post becomes visible
             cy.get(`#CENTER_flagIcon_${postId}`).should('be.visible').should('have.attr', 'class', 'style--none flag-icon__container visible');
 
-            // 5. Click again the center flag icon of a post
+            // # Click again the center flag icon of a post
             cy.clickPostFlagIcon(postId);
 
             // * Check that the center flag icon of a post is now hidden.
@@ -83,10 +83,10 @@ describe('Post Header', () => {
     });
 
     it('should open dropdown menu on click of dot menu icon', () => {
-        // 2. Go to a known team and channel
+        // # Go to a known team and channel
         cy.visit('/ad-1/channels/town-square');
 
-        // 3. Post a message
+        // # Post a message
         cy.postMessage('test for dropdown menu{enter}');
 
         cy.getLastPostId().then((postId) => {
@@ -94,14 +94,14 @@ describe('Post Header', () => {
             cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
             cy.get(`#CENTER_dropdown_${postId}`).should('not.be.visible');
 
-            // 4. Click dot menu of a post
+            // # Click dot menu of a post
             cy.clickPostDotMenu();
 
             // * Check that the center dot menu button and dropdown are visible
             cy.get(`#CENTER_button_${postId}`).should('be.visible');
             cy.get(`#CENTER_dropdown_${postId}`).should('be.visible');
 
-            // 5. Click to other location like post textbox
+            // # Click to other location like post textbox
             cy.get('#post_textbox').click();
 
             // * Chack that the center dot menu and dropdown are hidden
@@ -111,10 +111,10 @@ describe('Post Header', () => {
     });
 
     it('should open and close Emoji Picker on click of reaction icon', () => {
-        // 2. Go to a known team and channel
+        // # Go to a known team and channel
         cy.visit('/ad-1/channels/town-square');
 
-        // 3. Post a message
+        // # Post a message
         cy.postMessage('test for reaction and emoji picker{enter}');
 
         cy.getLastPostId().then((postId) => {
@@ -122,7 +122,7 @@ describe('Post Header', () => {
             cy.get(`#CENTER_reaction_${postId}`).should('not.be.visible');
             cy.get('#emojiPicker').should('not.be.visible');
 
-            // 4. Click the center post reaction icon of the post
+            // # Click the center post reaction icon of the post
             cy.clickPostReactionIcon(postId);
 
             // * Check that the center post reaction icon of the post becomes visible
@@ -131,7 +131,7 @@ describe('Post Header', () => {
             // * Check that the emoji picker becomes visible as well
             cy.get('#emojiPicker').should('be.visible');
 
-            // 5. Click again the center post reaction icon of the post
+            // # Click again the center post reaction icon of the post
             cy.clickPostReactionIcon(postId);
 
             // * Check that the center post reaction icon and emoji picker are not visible
@@ -141,19 +141,19 @@ describe('Post Header', () => {
     });
 
     it('should open RHS on click of comment icon and close on RHS\' close button', () => {
-        // 2. Go to a known team and channel
+        // # Go to a known team and channel
         cy.visit('/ad-1/channels/town-square');
 
-        // 3. Post a message
+        // # Post a message
         cy.postMessage('test for opening and closing RHS{enter}');
 
-        // 4. Open RHS on hover to a post and click to its comment icon
+        // # Open RHS on hover to a post and click to its comment icon
         cy.clickPostCommentIcon();
 
         // * Check that the RHS is open
         cy.get('#rhsContainer').should('be.visible');
 
-        // 5. Close RHS on click of close button
+        // # Close RHS on click of close button
         cy.closeRHS();
 
         // * Check that the RHS is close
@@ -161,10 +161,10 @@ describe('Post Header', () => {
     });
 
     it('M14577 Un-pinning and pinning a post removes and adds badge', () => {
-        // 2. Go to a known team and channel
+        // # Go to a known team and channel
         cy.visit('/ad-1/channels/town-square');
 
-        // 3. Post a message
+        // # Post a message
         cy.postMessage('test for pinning/unpinning a post');
 
         cy.getLastPostId().then((postId) => {
@@ -174,14 +174,14 @@ describe('Post Header', () => {
             // * Check that the pinned badge of the post is not visible
             cy.get(`#post_${postId}`).should('not.have.class', 'post--pinned');
 
-            // 4. Pin the post.
+            // # Pin the post.
             cy.clickPostDotMenu(postId);
             cy.get(`#pin_post_${postId}`).should('be.visible').click();
 
-            // 5. Click the center flag icon of a post
+            // # Click the center flag icon of a post
             cy.clickPostFlagIcon(postId);
 
-            // 6. click RHS list
+            // # click RHS list
             cy.get('#channelHeaderFlagButton').click();
 
             // * Check that message exists in RHS flagged posts list
@@ -192,7 +192,7 @@ describe('Post Header', () => {
             cy.get(`#post_${postId}`).should('have.class', 'post--pinned');
             cy.get(`#SEARCH_flagIcon_${postId}`).siblings('.post__pinned-badge').should('exist');
 
-            // 7. unpin the post
+            // # unpin the post
             cy.clickPostDotMenu(postId);
             cy.get(`#unpin_post_${postId}`).should('be.visible').click();
 
@@ -203,7 +203,7 @@ describe('Post Header', () => {
             cy.get(`#post_${postId}`).should('not.have.class', 'post--pinned');
             cy.get(`#SEARCH_flagIcon_${postId}`).siblings('.post__pinned-badge').should('not.exist');
 
-            // 8. Pin the post again.
+            // # Pin the post again.
             cy.clickPostDotMenu(postId);
             cy.get(`#pin_post_${postId}`).should('be.visible').click();
 

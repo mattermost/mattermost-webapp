@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -13,12 +13,12 @@ describe('MM-13697 Edit Post with attachment', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('Pasted text should be pasted where the cursor is', () => {
         // # Got to a test channel on the side bar
-        cy.get('#sidebarItem_town-square').scrollIntoView();
+        cy.get('#sidebarItem_town-square').click({force: true});
 
         // * Validate if the channel has been opened
         cy.url().should('include', '/ad-1/channels/town-square');

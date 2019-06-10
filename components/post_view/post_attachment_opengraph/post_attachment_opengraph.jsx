@@ -67,24 +67,24 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         }).isRequired,
     }
 
-    getBestImageUrl = () => {
-        return getBestImageUrl(this.props.openGraphData, this.props.post.metadata.images, this.props.hasImageProxy);
-    }
-
-    isLargeImage = (imageUrl) => {
+    getImageDimensions = (imageUrl) => {
         if (!imageUrl) {
-            return false;
+            return null;
         }
 
         const imagesMetadata = this.props.post.metadata.images;
         if (!imagesMetadata) {
-            return false;
+            return null;
         }
 
-        const dimensions = imagesMetadata[imageUrl];
+        return imagesMetadata[imageUrl];
+    }
+
+    isLargeImage = (dimensions) => {
         if (!dimensions) {
             return false;
         }
+
         const {height, width} = dimensions;
 
         const largeImageMinRatio = 16 / 9;
@@ -106,35 +106,31 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         );
     }
 
-    renderLargeImage(imageUrl) {
+    renderLargeImage(imageUrl, dimensions) {
         if (!this.props.isEmbedVisible) {
             return null;
         }
-
-        const {images} = this.props.post.metadata;
 
         return (
             <SizeAwareImage
                 className='attachment__image attachment__image--opengraph large_image'
-                src={imageUrl}
-                dimensions={images && images[imageUrl]}
+                src={getImageSrc(imageUrl, this.props.hasImageProxy)}
+                dimensions={dimensions}
             />
         );
     }
 
-    renderSmallImage(imageUrl) {
+    renderSmallImage(imageUrl, dimensions) {
         if (!this.props.isEmbedVisible) {
             return null;
         }
-
-        const {images} = this.props.post.metadata;
 
         return (
             <div className='attachment__image__container--opengraph'>
                 <SizeAwareImage
                     className='attachment__image attachment__image--opengraph'
-                    src={imageUrl}
-                    dimensions={images && images[imageUrl]}
+                    src={getImageSrc(imageUrl, this.props.hasImageProxy)}
+                    dimensions={dimensions}
                 />
             </div>
         );
@@ -190,8 +186,9 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             return null;
         }
 
-        const imageUrl = this.getBestImageUrl();
-        const hasLargeImage = this.isLargeImage(imageUrl);
+        const imageUrl = getBestImageUrl(data, this.props.post.metadata.images);
+        const imageDimensions = this.getImageDimensions(imageUrl);
+        const hasLargeImage = this.isLargeImage(imageDimensions);
 
         let removePreviewButton;
         if (this.props.currentUserId === this.props.post.user_id) {
@@ -217,7 +214,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                         {' '}
                         {imageUrl && hasLargeImage && this.renderImageToggle()}
                     </div>
-                    {(imageUrl && hasLargeImage) && this.renderLargeImage(imageUrl)}
+                    {(imageUrl && hasLargeImage) && this.renderLargeImage(imageUrl, imageDimensions)}
                 </div>
             );
         }
@@ -242,7 +239,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                             </h1>
                             {body}
                         </div>
-                        {(imageUrl && !hasLargeImage) && this.renderSmallImage(imageUrl)}
+                        {(imageUrl && !hasLargeImage) && this.renderSmallImage(imageUrl, imageDimensions)}
                     </div>
                 </div>
             </div>
@@ -250,7 +247,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
     }
 }
 
-export function getBestImageUrl(openGraphData, imagesMetadata, hasImageProxy) {
+export function getBestImageUrl(openGraphData, imagesMetadata) {
     if (!openGraphData || !openGraphData.images || openGraphData.images.length === 0) {
         return null;
     }
@@ -272,6 +269,5 @@ export function getBestImageUrl(openGraphData, imagesMetadata, hasImageProxy) {
     });
 
     const bestImage = getNearestPoint(DIMENSIONS_NEAREST_POINT_IMAGE, images, 'width', 'height');
-
-    return getImageSrc(bestImage.secure_url || bestImage.url, hasImageProxy);
+    return bestImage.secure_url || bestImage.url;
 }

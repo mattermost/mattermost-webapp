@@ -16,23 +16,12 @@ export default class PostEmoji extends React.PureComponent {
          * Emoji image URL.
          */
         imageUrl: PropTypes.string.isRequired,
-
-        /*
-         * Set to display the emoji text instead of the image.
-         */
-        displayTextOnly: PropTypes.bool.isRequired,
     };
-
-    static defaultProps = {
-        name: '',
-        imageUrl: '',
-        displayTextOnly: false,
-    }
 
     render() {
         const emojiText = ':' + this.props.name + ':';
 
-        if (this.props.displayTextOnly) {
+        if (!this.props.imageUrl) {
             return emojiText;
         }
 
