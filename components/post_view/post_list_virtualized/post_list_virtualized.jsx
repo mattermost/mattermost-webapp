@@ -14,7 +14,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 import Constants, {PostListRowListIds, EventTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
-import {getOldestPostId, getPreviousPostId} from 'utils/post_utils.jsx';
+import {getOldestPostId, getPreviousPostId, getLatestPostId} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
@@ -415,7 +415,7 @@ export default class PostList extends React.PureComponent {
         }
 
         this.setState({
-            topPostId: getOldestPostId(this.props.postListIds.slice(visibleTopItem)),
+            topPostId: getLatestPostId(this.props.postListIds.slice(visibleTopItem)),
         });
     }
 
