@@ -225,7 +225,6 @@
     .heading {
         font-size: 14px;
         font-weight: 600;
-        margin: 0 8px 0 0;
         flex: 1 1 0;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -265,7 +264,7 @@
 .header-dropdown__icon {
     color: inherit;
     font-size: 19px;
-    margin-left: 1px;
+    margin: 0 0 0 8px;
     position: relative;
     top: 0;
 }
@@ -288,6 +287,11 @@
     .header-dropdown__icon {
         flex: 0 0 auto;
         color: $dark-gray;
+    }
+
+    .bot-badge__container {
+        display: flex;
+        align-items: center;
     }
 
     .channel-header__title {
@@ -435,9 +439,15 @@
     }
 
     .channel-intro-profile {
-        margin-top: 5px;
+        margin: 0 0 4px;
+
+        .bot-badge__container {
+            align-items: center;
+            display: flex;
+        }
 
         .user-popover {
+            font-weight: 600;
             max-width: calc(100% - 100px);
             overflow: hidden;
             text-overflow: ellipsis;
