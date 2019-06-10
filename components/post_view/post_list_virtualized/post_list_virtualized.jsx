@@ -75,6 +75,8 @@ export default class PostList extends React.PureComponent {
          */
         channelLoading: PropTypes.bool,
 
+        lastPostTimeStamp: PropTypes.number,
+
         actions: PropTypes.shape({
 
             loadInitialPosts: PropTypes.func.isRequired,
@@ -376,15 +378,21 @@ export default class PostList extends React.PureComponent {
     isAtBottom = (scrollOffset, scrollHeight, clientHeight) => {
         // Calculate how far the post list is from being scrolled to the bottom
         const offsetFromBottom = scrollHeight - clientHeight - scrollOffset;
+
         return offsetFromBottom <= BUFFER_TO_BE_CONSIDERED_BOTTOM;
     }
 
     updateAtBottom = (atBottom) => {
         if (atBottom !== this.state.atBottom) {
             // Update lastViewedBottom when the list reaches or leaves the bottom
+            let lastViewedBottom = Date.now();
+            if (this.props.lastPostTimeStamp > Date.now()) {
+                lastViewedBottom = this.props.lastPostTimeStamp;
+            }
+
             this.setState({
                 atBottom,
-                lastViewedBottom: Date.now(),
+                lastViewedBottom,
             });
         }
     }

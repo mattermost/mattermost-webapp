@@ -569,3 +569,35 @@ describe('PostUtils.getPreviousPostId', () => {
         assert.equal(postId, 'post1');
     });
 });
+
+describe('PostUtils.getFirstPostId', () => {
+    test('Should not return MANUAL_TRIGGER_LOAD_MESSAGES', () => {
+        const postId = PostUtils.getFirstPostId([PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES, 'postId1', 'postId2']);
+        assert.equal(postId, 'postId1');
+    });
+
+    test('Should not return MORE_MESSAGES_LOADER', () => {
+        const postId = PostUtils.getFirstPostId([PostListRowListIds.MORE_MESSAGES_LOADER, 'postId1', 'postId2']);
+        assert.equal(postId, 'postId1');
+    });
+
+    test('Should not return CHANNEL_INTRO_MESSAGE', () => {
+        const postId = PostUtils.getFirstPostId([PostListRowListIds.CHANNEL_INTRO_MESSAGE, 'postId1', 'postId2']);
+        assert.equal(postId, 'postId1');
+    });
+
+    test('Should not return dateline', () => {
+        const postId = PostUtils.getFirstPostId(['date-1558290600000', 'postId1', 'postId2']);
+        assert.equal(postId, 'postId1');
+    });
+
+    test('Should not return START_OF_NEW_MESSAGES', () => {
+        const postId = PostUtils.getFirstPostId([PostListRowListIds.START_OF_NEW_MESSAGES, 'postId1', 'postId2']);
+        assert.equal(postId, 'postId1');
+    });
+
+    test('Should return first postId from combined system messages', () => {
+        const postId = PostUtils.getFirstPostId(['user-activity-post1_post2_post3', 'postId1', 'postId2']);
+        assert.equal(postId, 'post1');
+    });
+});

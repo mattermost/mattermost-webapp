@@ -235,7 +235,7 @@ function isIdNotPost(postId) {
     );
 }
 
-// getLastPostId returns the most recent post ID in the given list of post IDs. This function is copied from
+// getLastPostId returns the oldest valid post ID in the given list of post IDs. This function is copied from
 // mattermost-redux, except it also includes additional special IDs that are only used in the web app.
 export function getLastPostId(postIds) {
     for (let i = postIds.length - 1; i >= 0; i--) {
@@ -278,6 +278,31 @@ export function getPreviousPostId(postIds, startIndex) {
 
         // This is a post ID
         return itemId;
+    }
+
+    return '';
+}
+
+// getFirstPostId returns the most recent valid post ID in the given list of post IDs. This function is copied from
+// mattermost-redux, except it also includes additional special IDs that are only used in the web app.
+export function getFirstPostId(postIds) {
+    for (let i = 0; i < postIds.length; i++) {
+        const item = postIds[i];
+
+        if (isIdNotPost(item)) {
+            // This is not a post at all
+            continue;
+        }
+
+        if (PostListUtils.isCombinedUserActivityPost(item)) {
+            // This is a combined post, so find the lastest post ID from it
+            const combinedIds = PostListUtils.getPostIdsForCombinedUserActivityPost(item);
+
+            return combinedIds[0];
+        }
+
+        // This is a post ID
+        return item;
     }
 
     return '';
