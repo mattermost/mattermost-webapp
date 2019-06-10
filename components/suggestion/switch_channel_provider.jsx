@@ -132,7 +132,7 @@ class SwitchChannelSuggestion extends Suggestion {
             >
                 {icon}
                 <span>{displayName}</span>
-                {tag}
+                <div>{tag}</div>
                 {badge}
             </div>
         );
