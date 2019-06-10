@@ -386,7 +386,7 @@ export default class PostList extends React.PureComponent {
         if (atBottom !== this.state.atBottom) {
             // Update lastViewedBottom when the list reaches or leaves the bottom
             let lastViewedBottom = Date.now();
-            if (this.props.latestPostTimeStamp > Date.now()) {
+            if (this.props.latestPostTimeStamp > lastViewedBottom) {
                 lastViewedBottom = this.props.latestPostTimeStamp;
             }
 
