@@ -9,17 +9,15 @@ import Badge from './badge.jsx';
 
 export default function BotBadge(props) {
     return (
-        <div className='bot-badge__container'>
-            <Badge
-                className={'bot-badge ' + props.className}
-                show={props.show}
-            >
-                <FormattedMessage
-                    id='post_info.bot'
-                    defaultMessage='BOT'
-                />
-            </Badge>
-        </div>
+        <Badge
+            className={'BotBadge ' + props.className}
+            show={props.show}
+        >
+            <FormattedMessage
+                id='post_info.bot'
+                defaultMessage='BOT'
+            />
+        </Badge>
     );
 }
 

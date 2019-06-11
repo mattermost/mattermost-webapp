@@ -115,12 +115,10 @@ export default class AtMentionSuggestion extends Suggestion {
                 <span className='mention--align'>
                     {'@' + username}
                 </span>
-                <div>
-                    <BotBadge
-                        show={Boolean(user.is_bot)}
-                        className='badge-autocomplete'
-                    />
-                </div>
+                <BotBadge
+                    show={Boolean(user.is_bot)}
+                    className='badge-autocomplete'
+                />
                 <span className='mention__fullname'>
                     {' '}
                     {description}

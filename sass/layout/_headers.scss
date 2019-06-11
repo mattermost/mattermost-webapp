@@ -289,7 +289,7 @@
         color: $dark-gray;
     }
 
-    .bot-badge__container {
+    .BadgeContainer {
         display: flex;
         align-items: center;
     }
@@ -441,7 +441,7 @@
     .channel-intro-profile {
         margin: 0 0 4px;
 
-        .bot-badge__container {
+        .BadgeContainer {
             align-items: center;
             display: flex;
         }

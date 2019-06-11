@@ -23,8 +23,10 @@ export default class Badge extends React.Component {
             return null;
         }
         return (
-            <div className={'Badge ' + this.props.className}>
-                {this.props.children}
+            <div className='BadgeContainer'>
+                <div className={'Badge ' + this.props.className}>
+                    {this.props.children}
+                </div>
             </div>
         );
     }
