@@ -10,6 +10,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {Constants} from 'utils/constants';
 import ChannelInviteModal from 'components/channel_invite_modal';
+import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import ProfilePicture from 'components/profile_picture.jsx';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
@@ -147,14 +148,12 @@ function createDMIntroMessage(channel, centeredIntro) {
                         hasMention={true}
                     />
                 </div>
-                <div className='channel-intro-profile'>
-                    <strong>
-                        <UserProfile
-                            userId={teammate.id}
-                            disablePopover={false}
-                            hasMention={true}
-                        />
-                    </strong>
+                <div className='channel-intro-profile d-flex'>
+                    <UserProfile
+                        userId={teammate.id}
+                        disablePopover={false}
+                        hasMention={true}
+                    />
                 </div>
                 <p className='channel-intro-text'>
                     <FormattedMarkdownMessage
@@ -568,6 +567,9 @@ function createSetHeaderButton(channel) {
             {(message) => (
                 <ToggleModalButtonRedux
                     accessibilityLabel={message}
+                    className={'intro-links color--link'}
+                    dialogType={EditChannelHeaderModal}
+                    dialogProps={{channel}}
                 >
                     <EditIcon/>
                     {message}
