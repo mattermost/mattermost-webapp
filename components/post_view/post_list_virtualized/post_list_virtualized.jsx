@@ -178,7 +178,8 @@ export default class PostList extends React.PureComponent {
         if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom) {
             const scrollValue = snapshot.previousScrollTop + (postlistScrollHeight - snapshot.previousScrollHeight);
             if (scrollValue !== 0 && (scrollValue - snapshot.previousScrollTop) !== 0) {
-                this.listRef.current.scrollTo(scrollValue, scrollValue - snapshot.previousScrollTop, !this.state.atEnd);
+                //true as third param so chrome can use animationFrame when correcting scroll
+                this.listRef.current.scrollTo(scrollValue, scrollValue - snapshot.previousScrollTop, true);
             }
         }
     }

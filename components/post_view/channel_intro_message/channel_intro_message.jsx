@@ -10,6 +10,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {Constants} from 'utils/constants';
 import ChannelInviteModal from 'components/channel_invite_modal';
+import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import ProfilePicture from 'components/profile_picture.jsx';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
@@ -568,6 +569,9 @@ function createSetHeaderButton(channel) {
             {(message) => (
                 <ToggleModalButtonRedux
                     accessibilityLabel={message}
+                    className={'intro-links color--link'}
+                    dialogType={EditChannelHeaderModal}
+                    dialogProps={{channel}}
                 >
                     <EditIcon/>
                     {message}
