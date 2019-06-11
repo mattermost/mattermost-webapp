@@ -25,19 +25,20 @@ describe('Message Draft', () => {
 
     it('M13473 Message Draft - Pencil Icon', () => {
         // # Got to a test channel on the side bar
-        cy.get('#sidebarItem_town-square').should('be.visible').click();
+        cy.get('#sidebarItem_town-square').click({force: true});
 
         // * Validate if the channel has been opened
         cy.url().should('include', `/${testTeam.name}/channels/town-square`);
 
         // * Validate if the draft icon is not visible on the sidebar before making a draft
+        cy.get('#publicChannel').scrollIntoView();
         cy.get('#sidebarItem_town-square #draftIcon').should('be.not.visible');
 
         // # Type in some text into the text area of the opened channel
         cy.get('#post_textbox').type('comm');
 
         // # Go to another test channel without submitting the draft in the previous channel
-        cy.get('#sidebarItem_off-topic').should('be.visible').click();
+        cy.get('#sidebarItem_off-topic').click({force: true});
 
         // * Validate if the newly navigated channel is open
         cy.url().should('include', `/${testTeam.name}/channels/off-topic`);

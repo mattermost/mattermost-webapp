@@ -14,7 +14,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 import Constants, {PostListRowListIds, EventTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
-import {getLastPostId, getPreviousPostId} from 'utils/post_utils.jsx';
+import {getOldestPostId, getPreviousPostId, getLatestPostId} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
@@ -28,6 +28,7 @@ const MAX_EXTRA_PAGES_LOADED = 10;
 const OVERSCAN_COUNT_BACKWARD = window.OVERSCAN_COUNT_BACKWARD || 80; // Exposing the value for PM to test will be removed soon
 const OVERSCAN_COUNT_FORWARD = window.OVERSCAN_COUNT_FORWARD || 80; // Exposing the value for PM to test will be removed soon
 const HEIGHT_TRIGGER_FOR_MORE_POSTS = window.HEIGHT_TRIGGER_FOR_MORE_POSTS || 1000; // Exposing the value for PM to test will be removed soon
+const BUFFER_TO_BE_CONSIDERED_BOTTOM = 10;
 
 const MAXIMUM_POSTS_FOR_SLICING = {
     channel: 50,
@@ -73,6 +74,8 @@ export default class PostList extends React.PureComponent {
          * This flag is explicitly added for adding a loader in these cases to not mounting post list
          */
         channelLoading: PropTypes.bool,
+
+        latestPostTimeStamp: PropTypes.number,
 
         actions: PropTypes.shape({
 
@@ -175,7 +178,8 @@ export default class PostList extends React.PureComponent {
         if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom) {
             const scrollValue = snapshot.previousScrollTop + (postlistScrollHeight - snapshot.previousScrollHeight);
             if (scrollValue !== 0 && (scrollValue - snapshot.previousScrollTop) !== 0) {
-                this.listRef.current.scrollTo(scrollValue, scrollValue - snapshot.previousScrollTop, !this.state.atEnd);
+                //true as third param so chrome can use animationFrame when correcting scroll
+                this.listRef.current.scrollTo(scrollValue, scrollValue - snapshot.previousScrollTop, true);
             }
         }
     }
@@ -289,7 +293,7 @@ export default class PostList extends React.PureComponent {
     };
 
     getOldestVisiblePostId = () => {
-        return getLastPostId(this.state.postListIds);
+        return getOldestPostId(this.state.postListIds);
     }
 
     togglePostMenu = (opened) => {
@@ -345,7 +349,7 @@ export default class PostList extends React.PureComponent {
         return postListIds[index] ? postListIds[index] : index;
     }
 
-    onScroll = ({scrollDirection, scrollOffset, scrollUpdateWasRequested}) => {
+    onScroll = ({scrollDirection, scrollOffset, scrollUpdateWasRequested, clientHeight, scrollHeight}) => {
         const isNotLoadingPosts = !this.state.loadingFirstSetOfPosts && !this.loadingMorePosts;
         const didUserScrollBackwards = scrollDirection === 'backward' && !scrollUpdateWasRequested;
         const isOffsetWithInRange = scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
@@ -365,27 +369,31 @@ export default class PostList extends React.PureComponent {
             }
         }
 
-        this.checkBottom(scrollOffset);
+        this.checkBottom(scrollOffset, scrollHeight, clientHeight);
     }
 
-    checkBottom = (scrollOffset) => {
-        this.updateAtBottom(this.isAtBottom(scrollOffset));
+    checkBottom = (scrollOffset, scrollHeight, clientHeight) => {
+        this.updateAtBottom(this.isAtBottom(scrollOffset, scrollHeight, clientHeight));
     }
 
-    isAtBottom = (scrollOffset) => {
+    isAtBottom = (scrollOffset, scrollHeight, clientHeight) => {
         // Calculate how far the post list is from being scrolled to the bottom
-        const postList = this.postListRef.current;
-        const offsetFromBottom = (postList.scrollHeight - postList.parentElement.clientHeight) - scrollOffset;
+        const offsetFromBottom = scrollHeight - clientHeight - scrollOffset;
 
-        return offsetFromBottom <= 0;
+        return offsetFromBottom <= BUFFER_TO_BE_CONSIDERED_BOTTOM;
     }
 
     updateAtBottom = (atBottom) => {
         if (atBottom !== this.state.atBottom) {
             // Update lastViewedBottom when the list reaches or leaves the bottom
+            let lastViewedBottom = Date.now();
+            if (this.props.latestPostTimeStamp > lastViewedBottom) {
+                lastViewedBottom = this.props.latestPostTimeStamp;
+            }
+
             this.setState({
                 atBottom,
-                lastViewedBottom: Date.now(),
+                lastViewedBottom,
             });
         }
     }
@@ -408,7 +416,7 @@ export default class PostList extends React.PureComponent {
         }
 
         this.setState({
-            topPostId: getLastPostId(this.props.postListIds.slice(visibleTopItem)),
+            topPostId: getLatestPostId(this.props.postListIds.slice(visibleTopItem)),
         });
     }
 
@@ -429,7 +437,7 @@ export default class PostList extends React.PureComponent {
         const newMessagesSeparatorIndex = this.getNewMessagesSeparatorIndex(this.state.postListIds);
 
         if (newMessagesSeparatorIndex > 0) {
-            const topMostPostIndex = this.state.postListIds.indexOf(getLastPostId(this.state.postListIds));
+            const topMostPostIndex = this.state.postListIds.indexOf(getOldestPostId(this.state.postListIds));
             if (newMessagesSeparatorIndex === topMostPostIndex + 1) {
                 this.loadMorePosts();
                 return {

@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
 import {getStandardAnalytics} from 'actions/admin_actions.jsx';
-import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
 import {Constants, UserSearchOptions, SearchUserTeamFilter, SearchUserOptionsFilter} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
@@ -93,7 +92,7 @@ export default class SystemUsers extends React.Component {
 
     componentDidMount() {
         this.loadDataForTeam(this.props.teamId, this.props.filter);
-        this.props.actions.getTeams(0, 1000).then(reloadIfServerVersionChanged);
+        this.props.actions.getTeams(0, 1000);
     }
 
     componentWillUnmount() {

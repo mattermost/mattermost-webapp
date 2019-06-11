@@ -9,7 +9,6 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 
 import AnnouncementBar from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
-import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
 import ModalController from 'components/modal_controller';
 
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
@@ -54,7 +53,6 @@ export default class AdminConsole extends React.Component {
         this.props.actions.getConfig();
         this.props.actions.getEnvironmentConfig();
         this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin']);
-        reloadIfServerVersionChanged();
     }
 
     onFilterChange = (filter) => {

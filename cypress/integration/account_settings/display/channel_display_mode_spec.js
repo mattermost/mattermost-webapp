@@ -25,7 +25,7 @@ describe('Account Settings > Display > Channel Display Mode', () => {
     });
 
     it('should render in min setting view', () => {
-        // 1. Go to Account Settings with "user-1"
+        // # Go to Account Settings with "user-1"
         cy.toAccountSettingsModal(null, true);
 
         // * Check that the Display tab is loaded
@@ -78,10 +78,11 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         cy.get('#accountSettingsHeader > .close').click();
 
         // # Go to channel which has any posts
-        cy.get('#sidebarItem_town-square').click();
+        cy.get('#sidebarItem_town-square').click({force: true});
 
         // * Validate if the post content in center channel is full width
         // by checking the exact class name.
+        cy.get('#postListContent').should('be.visible');
         cy.get('#postContent').first().invoke('attr', 'class').should('contain', 'post__content').should('not.contain', 'center');
     });
 
@@ -115,10 +116,11 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         cy.get('#accountSettingsHeader > .close').click();
 
         // # Go to channel which has any posts
-        cy.get('#sidebarItem_town-square').click();
+        cy.get('#sidebarItem_town-square').click({force: true});
 
         // * Validate if the post content in center channel is fixed and centered
         // by checking the exact class name.
+        cy.get('#postListContent').should('be.visible');
         cy.get('#postContent').first().invoke('attr', 'class').should('contain', 'post__content center');
     });
 });

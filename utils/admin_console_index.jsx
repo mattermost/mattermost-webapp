@@ -62,6 +62,9 @@ export function adminDefinitionsToUrlsAndTexts(adminDefinition, intl) {
     for (const item of Object.values(adminDefinition.authentication)) {
         entries[item.url] = extractTextsFromSection(item, intl);
     }
+    for (const item of Object.values(adminDefinition.plugins)) {
+        entries[item.url] = extractTextsFromSection(item, intl);
+    }
     for (const item of Object.values(adminDefinition.integrations)) {
         entries[item.url] = extractTextsFromSection(item, intl);
     }

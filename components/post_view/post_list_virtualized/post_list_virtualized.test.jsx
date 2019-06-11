@@ -24,6 +24,7 @@ describe('PostList', () => {
             'post3',
             DATE_LINE + 1551711600000,
         ],
+        latestPostTimeStamp: 12345,
         postVisibility: 10,
         actions: {
             checkAndSetMobileView: jest.fn(),
@@ -170,20 +171,24 @@ describe('PostList', () => {
             wrapper.instance().checkBottom = jest.fn();
 
             const scrollOffset = 1234;
+            const scrollHeight = 1000;
+            const clientHeight = 500;
 
             wrapper.instance().onScroll({
                 scrollDirection: 'forward',
                 scrollOffset,
                 scrollUpdateWasRequested: false,
+                scrollHeight,
+                clientHeight,
             });
 
-            expect(wrapper.instance().checkBottom).toHaveBeenCalledWith(scrollOffset);
+            expect(wrapper.instance().checkBottom).toHaveBeenCalledWith(scrollOffset, scrollHeight, clientHeight);
         });
     });
 
     describe('isAtBottom', () => {
         const scrollHeight = 1000;
-        const parentClientHeight = 500;
+        const clientHeight = 500;
 
         for (const testCase of [
             {
@@ -192,13 +197,13 @@ describe('PostList', () => {
                 expected: false,
             },
             {
-                name: 'when 1 pixel from the bottom',
-                scrollOffset: 499,
+                name: 'when 11 pixel from the bottom',
+                scrollOffset: 489,
                 expected: false,
             },
             {
-                name: 'when at the bottom',
-                scrollOffset: 500,
+                name: 'when 9 pixel from the bottom also considered to be bottom',
+                scrollOffset: 490,
                 expected: true,
             },
             {
@@ -209,16 +214,7 @@ describe('PostList', () => {
         ]) {
             test(testCase.name, () => {
                 const wrapper = shallow(<PostList {...baseProps}/>);
-                wrapper.instance().postListRef = {
-                    current: {
-                        scrollHeight,
-                        parentElement: {
-                            clientHeight: parentClientHeight,
-                        },
-                    },
-                };
-
-                expect(wrapper.instance().isAtBottom(testCase.scrollOffset)).toBe(testCase.expected);
+                expect(wrapper.instance().isAtBottom(testCase.scrollOffset, scrollHeight, clientHeight)).toBe(testCase.expected);
             });
         }
     });
@@ -241,6 +237,28 @@ describe('PostList', () => {
             wrapper.instance().updateAtBottom(true);
 
             expect(wrapper.state('lastViewedBottom')).toBe(1234);
+        });
+
+        test('should update lastViewedBottom with latestPostTimeStamp as that is greater than Date.now()', () => {
+            Date.now = jest.fn().mockReturnValue(12344);
+
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            wrapper.setState({lastViewedBottom: 1234});
+
+            wrapper.instance().updateAtBottom(false);
+
+            expect(wrapper.state('lastViewedBottom')).toBe(12345);
+        });
+
+        test('should update lastViewedBottom with Date.now() as it is greater than latestPostTimeStamp', () => {
+            Date.now = jest.fn().mockReturnValue(12346);
+
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            wrapper.setState({lastViewedBottom: 1234});
+
+            wrapper.instance().updateAtBottom(false);
+
+            expect(wrapper.state('lastViewedBottom')).toBe(12346);
         });
     });
 
@@ -402,6 +420,27 @@ describe('PostList', () => {
             }));
 
             expect(row.prop('className')).toEqual('');
+        });
+    });
+
+    describe('updateFloatingTimestamp', () => {
+        test('should not update topPostId as is it not mobile view', () => {
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            const instance = wrapper.instance();
+            wrapper.setState({isMobile: false});
+            instance.onItemsRendered({visibleStartIndex: 0});
+            expect(wrapper.state('topPostId')).toBe('');
+        });
+
+        test('should update topPostId with latest visible postId', () => {
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            const instance = wrapper.instance();
+            wrapper.setState({isMobile: true});
+            instance.onItemsRendered({visibleStartIndex: 1});
+            expect(wrapper.state('topPostId')).toBe('post2');
+
+            instance.onItemsRendered({visibleStartIndex: 2});
+            expect(wrapper.state('topPostId')).toBe('post3');
         });
     });
 });
