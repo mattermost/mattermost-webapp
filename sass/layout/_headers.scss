@@ -230,10 +230,6 @@
         text-overflow: ellipsis;
     }
 
-    .Badge {
-        margin-left: 0;
-    }
-
     .caret {
         margin-top: 3px;
     }
@@ -287,11 +283,6 @@
     .header-dropdown__icon {
         flex: 0 0 auto;
         color: $dark-gray;
-    }
-
-    .BadgeContainer {
-        display: flex;
-        align-items: center;
     }
 
     .channel-header__title {
@@ -440,11 +431,6 @@
 
     .channel-intro-profile {
         margin: 0 0 4px;
-
-        .BadgeContainer {
-            align-items: center;
-            display: flex;
-        }
 
         .user-popover {
             font-weight: 600;
