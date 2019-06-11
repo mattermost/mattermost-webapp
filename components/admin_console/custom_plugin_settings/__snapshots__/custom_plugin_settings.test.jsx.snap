@@ -27,16 +27,18 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           >
             <div
               className="banner"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "<h1 class=\\"markdown__heading\\">Header</h1><p><em>This</em> is the <strong>header</strong></p>",
-                }
-              }
-            />
+            >
+              <SchemaText
+                isMarkdown={true}
+                isTranslated={true}
+                text="# Header
+*This* is the **header**"
+              />
+            </div>
             <AdminTextSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={false}
                   text="This is some help text for the text field."
                 />
@@ -60,7 +62,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
                 />
               }
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={false}
                   text="This is some help text for the bool field."
                 />
@@ -82,7 +84,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             <DropdownSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={false}
                   text="This is some help text for the dropdown field."
                 />
@@ -114,7 +116,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             <RadioSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={false}
                   text="This is some help text for the radio field."
                 />
@@ -145,7 +147,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             <GeneratedSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={false}
                   text="This is some help text for the generated field."
                 />
@@ -169,7 +171,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             <UserAutocompleteSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={false}
                   text="This is some help text for the user autocomplete field."
                 />
@@ -183,12 +185,14 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             />
             <div
               className="banner"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "<h1 class=\\"markdown__heading\\">Footer</h1><p><em>This</em> is the <strong>footer</strong></p>",
-                }
-              }
-            />
+            >
+              <SchemaText
+                isMarkdown={true}
+                isTranslated={true}
+                text="# Footer
+*This* is the **footer**"
+              />
+            </div>
           </SettingsGroup>
         </form>
       </div>
@@ -326,16 +330,18 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           >
             <div
               className="banner"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "<h1 class=\\"markdown__heading\\">Header</h1><p><em>This</em> is the <strong>header</strong></p>",
-                }
-              }
-            />
+            >
+              <SchemaText
+                isMarkdown={true}
+                isTranslated={true}
+                text="# Header
+*This* is the **header**"
+              />
+            </div>
             <AdminTextSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={false}
                   text="This is some help text for the text field."
                 />
@@ -359,7 +365,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
                 />
               }
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={false}
                   text="This is some help text for the bool field."
                 />
@@ -381,7 +387,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             <DropdownSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={false}
                   text="This is some help text for the dropdown field."
                 />
@@ -413,7 +419,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             <RadioSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={false}
                   text="This is some help text for the radio field."
                 />
@@ -444,7 +450,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             <GeneratedSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={false}
                   text="This is some help text for the generated field."
                 />
@@ -468,7 +474,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             <UserAutocompleteSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={false}
                   text="This is some help text for the user autocomplete field."
                 />
@@ -482,12 +488,14 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             />
             <div
               className="banner"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "<h1 class=\\"markdown__heading\\">Footer</h1><p><em>This</em> is the <strong>footer</strong></p>",
-                }
-              }
-            />
+            >
+              <SchemaText
+                isMarkdown={true}
+                isTranslated={true}
+                text="# Footer
+*This* is the **footer**"
+              />
+            </div>
           </SettingsGroup>
         </form>
       </div>

@@ -12,6 +12,7 @@
 describe('Account Settings > Display > Message Display', () => {
     before(() => {
         // # Change message display setting to compact
+        cy.apiLogin('user-1');
         cy.changeMessageDisplaySetting('COMPACT');
     });
 

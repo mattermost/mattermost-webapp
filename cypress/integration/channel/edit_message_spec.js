@@ -9,6 +9,8 @@
 
 /* eslint max-nested-callbacks: ["error", 5] */
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Edit Message', () => {
     beforeEach(() => {
         // # Login as "user-1"
@@ -32,10 +34,10 @@ describe('Edit Message', () => {
         cy.get('#suggestionList').should('be.visible');
 
         // # Press the escape key
-        cy.get('#edit_textbox').focus().type('{esc}');
+        cy.get('#edit_textbox').wait(TIMEOUTS.TINY).focus().type('{esc}');
 
         // * Check if the textbox contains expected text
-        cy.get('#edit_textbox').should('contain', 'Hello World! @');
+        cy.get('#edit_textbox').should('have.value', 'Hello World! @');
 
         // * Assert user autocomplete is not visible
         cy.get('#suggestionList').should('not.exist');
@@ -47,10 +49,10 @@ describe('Edit Message', () => {
         cy.get('#suggestionList').should('be.visible');
 
         // # Press the escape key
-        cy.get('#edit_textbox').type('{esc}');
+        cy.get('#edit_textbox').wait(TIMEOUTS.TINY).type('{esc}');
 
         // * Check if the textbox contains expected text
-        cy.get('#edit_textbox').should('contain', 'Hello World! @ ~');
+        cy.get('#edit_textbox').should('have.value', 'Hello World! @ ~');
 
         // * Assert channel autocomplete is not visible
         cy.get('#suggestionList').should('not.exist');
@@ -62,7 +64,7 @@ describe('Edit Message', () => {
         cy.get('#emojiPicker').should('be.visible');
 
         // * Press the escape key
-        cy.get('#edit_textbox').type('{esc}');
+        cy.get('#edit_textbox').wait(TIMEOUTS.TINY).type('{esc}');
 
         // * Assert emoji picker is not visible
         cy.get('#emojiPicker').should('not.exist');
