@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage, {CustomRenderer} from 'components/formatted_markdown_message';
 
-export default class HelpText extends React.PureComponent {
+export default class SchemaText extends React.PureComponent {
     static propTypes = {
         isMarkdown: PropTypes.bool,
         isTranslated: PropTypes.bool,

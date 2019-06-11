@@ -526,29 +526,29 @@ describe('PostUtils.postMessageOnKeyPress', () => {
     }
 });
 
-describe('PostUtils.getLastPostId', () => {
+describe('PostUtils.getOldestPostId', () => {
     test('Should not return MANUAL_TRIGGER_LOAD_MESSAGES', () => {
-        const postId = PostUtils.getLastPostId(['postId1', 'postId2', PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES]);
+        const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES]);
         assert.equal(postId, 'postId2');
     });
 
     test('Should not return MORE_MESSAGES_LOADER', () => {
-        const postId = PostUtils.getLastPostId(['postId1', 'postId2', PostListRowListIds.MORE_MESSAGES_LOADER]);
+        const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.MORE_MESSAGES_LOADER]);
         assert.equal(postId, 'postId2');
     });
 
     test('Should not return CHANNEL_INTRO_MESSAGE', () => {
-        const postId = PostUtils.getLastPostId(['postId1', 'postId2', PostListRowListIds.CHANNEL_INTRO_MESSAGE]);
+        const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.CHANNEL_INTRO_MESSAGE]);
         assert.equal(postId, 'postId2');
     });
 
     test('Should not return dateline', () => {
-        const postId = PostUtils.getLastPostId(['postId1', 'postId2', 'date-1558290600000']);
+        const postId = PostUtils.getOldestPostId(['postId1', 'postId2', 'date-1558290600000']);
         assert.equal(postId, 'postId2');
     });
 
     test('Should not return START_OF_NEW_MESSAGES', () => {
-        const postId = PostUtils.getLastPostId(['postId1', 'postId2', PostListRowListIds.START_OF_NEW_MESSAGES]);
+        const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.START_OF_NEW_MESSAGES]);
         assert.equal(postId, 'postId2');
     });
 });
@@ -566,6 +566,38 @@ describe('PostUtils.getPreviousPostId', () => {
 
     test('Should return first postId from combined system messages', () => {
         const postId = PostUtils.getPreviousPostId(['postId1', 'postId2', 'user-activity-post1_post2_post3', 'postId3'], 1);
+        assert.equal(postId, 'post1');
+    });
+});
+
+describe('PostUtils.getLatestPostId', () => {
+    test('Should not return MANUAL_TRIGGER_LOAD_MESSAGES', () => {
+        const postId = PostUtils.getLatestPostId([PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES, 'postId1', 'postId2']);
+        assert.equal(postId, 'postId1');
+    });
+
+    test('Should not return MORE_MESSAGES_LOADER', () => {
+        const postId = PostUtils.getLatestPostId([PostListRowListIds.MORE_MESSAGES_LOADER, 'postId1', 'postId2']);
+        assert.equal(postId, 'postId1');
+    });
+
+    test('Should not return CHANNEL_INTRO_MESSAGE', () => {
+        const postId = PostUtils.getLatestPostId([PostListRowListIds.CHANNEL_INTRO_MESSAGE, 'postId1', 'postId2']);
+        assert.equal(postId, 'postId1');
+    });
+
+    test('Should not return dateline', () => {
+        const postId = PostUtils.getLatestPostId(['date-1558290600000', 'postId1', 'postId2']);
+        assert.equal(postId, 'postId1');
+    });
+
+    test('Should not return START_OF_NEW_MESSAGES', () => {
+        const postId = PostUtils.getLatestPostId([PostListRowListIds.START_OF_NEW_MESSAGES, 'postId1', 'postId2']);
+        assert.equal(postId, 'postId1');
+    });
+
+    test('Should return first postId from combined system messages', () => {
+        const postId = PostUtils.getLatestPostId(['user-activity-post1_post2_post3', 'postId1', 'postId2']);
         assert.equal(postId, 'post1');
     });
 });
