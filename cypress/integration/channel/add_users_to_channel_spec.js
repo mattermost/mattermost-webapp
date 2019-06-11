@@ -38,7 +38,7 @@ function verifyMentionedUserAndProfilePopover(postId) {
 }
 
 describe('Add user to a channel', () => {
-    it('CS15445 Join/leave messages (including combined): Usernames are links, open profile popovers', () => {
+    it('Single User: Usernames are links, open profile popovers', () => {
         // # Login as 'user-1', go to / and create 'Channel test 1'
         cy.apiLogin('user-1');
         cy.visit('/');
@@ -63,7 +63,6 @@ describe('Add user to a channel', () => {
 
                 // * Assert that modal appears
                 cy.get('#addUsersToChannelModal').should('be.visible');
-                cy.wait(TIMEOUTS.TINY);
 
                 // # Click the first row clickable of the modal to select a user
                 cy.get('#multiSelectList').first().click();
@@ -85,7 +84,10 @@ describe('Add user to a channel', () => {
                 // * Delete the 'Channel test 1'
                 deleteCurrentChannel();
             });
-
+        });
+    });
+    it('Combined Users: Usernames are links, open profile popovers', () => {
+        cy.getCurrentTeamId().then((teamId) => {
             // # Create 'Channel test 2'
             cy.apiCreateChannel(teamId, 'channel-test-2', channelDisplayNameTest2).then((res) => {
                 channelTest2Id = res.body.name;
