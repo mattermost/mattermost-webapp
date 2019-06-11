@@ -426,6 +426,7 @@ export default class PluginManagement extends AdminSettings {
     getConfigFromState(config) {
         config.PluginSettings.Enable = this.state.enable;
         config.PluginSettings.EnableUploads = this.state.enableUploads;
+        config.PluginSettings.EnableHealthCheck = this.state.enableHealthCheck;
 
         return config;
     }
@@ -434,6 +435,7 @@ export default class PluginManagement extends AdminSettings {
         const state = {
             enable: config.PluginSettings.Enable,
             enableUploads: config.PluginSettings.EnableUploads,
+            enableHealthCheck: config.PluginSettings.EnableHealthCheck,
         };
 
         return state;
@@ -777,6 +779,26 @@ export default class PluginManagement extends AdminSettings {
                             value={this.state.enable}
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.Enable')}
+                        />
+
+                        <BooleanSetting
+                            id='enableHealthCheck'
+                            disabled={!enable}
+                            label={
+                                <FormattedMessage
+                                    id='admin.plugins.settings.enableHealthCheck'
+                                    defaultMessage='Enable Health Check: '
+                                />
+                            }
+                            helpText={
+                                <FormattedMessage
+                                    id='admin.plugins.settings.enableHealthCheckDesc'
+                                    defaultMessage='When true, enables health checks on all active server plugins. If a plugin has crashed or is deemed unhealthy, the server will restart the plugin. If a plugin has crashed three times in one hour, the server will deactivate the plugin.'
+                                />
+                            }
+                            value={this.state.enableHealthCheck}
+                            onChange={this.handleChange}
+                            setByEnv={this.isSetByEnv('PluginSettings.EnableHealthCheck')}
                         />
 
                         <div className='form-group'>

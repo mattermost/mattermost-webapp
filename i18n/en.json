@@ -1069,6 +1069,8 @@
   "admin.plugins.pluginManagement": "Plugin Management",
   "admin.plugins.settings.enable": "Enable Plugins: ",
   "admin.plugins.settings.enableDesc": "When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugins) to learn more.",
+  "admin.plugins.settings.enableHealthCheck": "Enable Health Check: ",
+  "admin.plugins.settings.enableHealthCheckDesc": "When true, enables health checks on all active server plugins. If a plugin has crashed or is deemed unhealthy, the server will restart the plugin. If a plugin has crashed three times in one hour, the server will deactivate the plugin.",
   "admin.privacy.showEmailDescription": "When false, hides the email address of members from everyone except System Administrators.",
   "admin.privacy.showEmailTitle": "Show Email Address: ",
   "admin.privacy.showFullNameDescription": "When false, hides the full name of members from everyone except System Administrators. Username is shown in place of full name.",

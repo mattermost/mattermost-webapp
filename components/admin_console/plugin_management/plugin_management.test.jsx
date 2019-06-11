@@ -13,6 +13,7 @@ describe('components/PluginManagement', () => {
         config: {
             PluginSettings: {
                 Enable: true,
+                EnableHealthCheck: true,
                 EnableUploads: true,
             },
         },
@@ -114,6 +115,21 @@ describe('components/PluginManagement', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, health check disabled', () => {
+        const props = {
+            ...defaultProps,
+            config: {
+                ...defaultProps.config,
+                PluginSettings: {
+                    ...defaultProps.config.PluginSettings,
+                    EnableHealthCheck: false,
+                },
+            },
+        };
+        const wrapper = shallow(<PluginManagement {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, upload disabled', () => {
         const props = {
             ...defaultProps,
@@ -134,6 +150,7 @@ describe('components/PluginManagement', () => {
             config: {
                 PluginSettings: {
                     Enable: true,
+                    EnableHealthCheck: true,
                     EnableUploads: true,
                 },
             },
@@ -164,6 +181,7 @@ describe('components/PluginManagement', () => {
             config: {
                 PluginSettings: {
                     Enable: true,
+                    EnableHealthCheck: true,
                     EnableUploads: true,
                 },
             },
@@ -245,6 +263,7 @@ describe('components/PluginManagement', () => {
             config: {
                 PluginSettings: {
                     Enable: true,
+                    EnableHealthCheck: true,
                     EnableUploads: true,
                 },
             },
@@ -298,6 +317,7 @@ describe('components/PluginManagement', () => {
             config: {
                 PluginSettings: {
                     Enable: true,
+                    EnableHealthCheck: true,
                     EnableUploads: true,
                 },
             },
@@ -351,6 +371,7 @@ describe('components/PluginManagement', () => {
             config: {
                 PluginSettings: {
                     Enable: true,
+                    EnableHealthCheck: true,
                     EnableUploads: true,
                 },
             },
