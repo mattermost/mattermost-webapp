@@ -6,8 +6,6 @@ import React from 'react';
 import {Button} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Client4} from 'mattermost-redux/client';
-
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import GenericTeamChannelProvider from 'components/suggestion/generic_team_channel_provider.jsx';
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
@@ -30,16 +28,9 @@ export default class PostAddBotTeamsChannels extends React.PureComponent {
         teams: PropTypes.arrayOf(PropTypes.object).isRequired,
 
         actions: PropTypes.shape({
-
-            /*
-            * Function to add members to channel
-            */
             addChannelMember: PropTypes.func.isRequired,
-
-            /*
-            * Function to add user to team
-            */
             addUserToTeam: PropTypes.func.isRequired,
+            editPost: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -56,38 +47,37 @@ export default class PostAddBotTeamsChannels extends React.PureComponent {
         this.setState({selectedTeamName: selected.text, team: selected});
     }
 
-    handleSelectedChannel = (selected) => {
+    handleSelectedChannel = async (selected) => {
         this.setState({selectedChannelName: selected.display_name, channel: selected});
 
-        return this.props.actions.addUserToTeam(this.state.team.value, this.props.post.user_id).then(
-            () => this.props.actions.addChannelMember(this.state.channel.id, this.props.post.user_id)).then(
-            () => {
-                // Check to see if we've already added the bot to the channel, it doesn't need to show up twice
-                var currentAddedChannels = this.props.post.props.addedChannels;
-                if (currentAddedChannels) {
-                    var channelAlreadyExists = currentAddedChannels.find((c) => c.id === this.state.channel.id);
-                    if (!channelAlreadyExists) {
-                        currentAddedChannels = currentAddedChannels.concat([{
-                            id: this.state.channel.id,
-                            name: this.state.selectedChannelName,
-                        }]);
-                    }
-                } else {
-                    currentAddedChannels = [{
-                        id: this.state.channel.id,
-                        name: this.state.selectedChannelName,
-                    }];
-                }
+        await this.props.actions.addUserToTeam(this.state.team.value, this.props.post.user_id);
+        await this.props.actions.addChannelMember(this.state.channel.id, this.props.post.user_id);
 
-                const post = {
-                    id: this.props.post.id,
-                    props: {
-                        addedChannels: currentAddedChannels,
-                    },
-                };
+        // Check to see if we've already added the bot to the channel, it doesn't need to show up twice
+        var currentAddedChannels = this.props.post.props.addedChannels;
+        if (currentAddedChannels) {
+            var channelAlreadyExists = currentAddedChannels.find((c) => c.id === this.state.channel.id);
+            if (!channelAlreadyExists) {
+                currentAddedChannels = currentAddedChannels.concat([{
+                    id: this.state.channel.id,
+                    name: this.state.selectedChannelName,
+                }]);
+            }
+        } else {
+            currentAddedChannels = [{
+                id: this.state.channel.id,
+                name: this.state.selectedChannelName,
+            }];
+        }
 
-                return Client4.updatePost(post);
-            });
+        const post = {
+            id: this.props.post.id,
+            props: {
+                addedChannels: currentAddedChannels,
+            },
+        };
+
+        await this.props.actions.editPost(post);
     }
 
     render() {

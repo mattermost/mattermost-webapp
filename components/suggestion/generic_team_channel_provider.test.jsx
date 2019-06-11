@@ -3,17 +3,18 @@
 
 import configureStore from 'redux-mock-store';
 
+import * as channels from 'mattermost-redux/actions/channels';
+
 import {getState} from 'stores/redux_store';
 
 import GenericTeamChannelProvider from 'components/suggestion/generic_team_channel_provider.jsx';
-import {autocompleteChannelsByTeamId} from 'actions/channel_actions.jsx';
 
 jest.mock('stores/redux_store', () => ({
     dispatch: jest.fn(),
     getState: jest.fn(),
 }));
 
-jest.mock('actions/channel_actions.jsx');
+jest.mock('mattermost-redux/actions/channels');
 
 describe('components/GenericTeamChannelProvider', () => {
     const defaultState = {
@@ -24,7 +25,7 @@ describe('components/GenericTeamChannelProvider', () => {
         },
     };
 
-    it('should show just channels in team when team id is specified', () => {
+    it('should show just channels in team when team id is specified', async () => {
         const mockStore = configureStore();
         const resultsCallback = jest.fn();
 
@@ -44,17 +45,17 @@ describe('components/GenericTeamChannelProvider', () => {
         }];
 
         getState.mockImplementation(store.getState);
-        autocompleteChannelsByTeamId.mockImplementation((teamId, term, success) => success(result));
+        channels.autocompleteChannels.mockImplementation(() => () => ({data: result}));
 
         const searchText = 'some';
-        channelProvider.handlePretextChanged(searchText, resultsCallback);
+        await channelProvider.handlePretextChanged(searchText, resultsCallback);
         expect(resultsCallback).toHaveBeenCalled();
         const args = resultsCallback.mock.calls[0][0];
         expect(args.items[0].id).toEqual('someChannelInTeam');
         expect(args.items.length).toEqual(1);
     });
 
-    it('should show no channels when no channels are returned', () => {
+    it('should show no channels when no channels are returned', async () => {
         const mockStore = configureStore();
         const resultsCallback = jest.fn();
 
@@ -68,10 +69,10 @@ describe('components/GenericTeamChannelProvider', () => {
         const result = [];
 
         getState.mockImplementation(store.getState);
-        autocompleteChannelsByTeamId.mockImplementation((teamId, term, success) => success(result));
+        channels.autocompleteChannels.mockImplementation(() => () => ({data: result}));
 
         const searchText = 'some';
-        channelProvider.handlePretextChanged(searchText, resultsCallback);
+        await channelProvider.handlePretextChanged(searchText, resultsCallback);
         expect(resultsCallback).toHaveBeenCalled();
         const args = resultsCallback.mock.calls[0][0];
         expect(args.items.length).toEqual(0);

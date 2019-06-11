@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {addChannelMember} from 'mattermost-redux/actions/channels';
+import {editPost} from 'mattermost-redux/actions/posts';
 import {getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 
 import {addUserToTeam} from 'actions/team_actions';
@@ -23,6 +24,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             addUserToTeam,
             addChannelMember,
+            editPost,
         }, dispatch),
     };
 }

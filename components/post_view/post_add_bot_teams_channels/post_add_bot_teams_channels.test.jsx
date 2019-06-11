@@ -4,8 +4,6 @@
 import React from 'react';
 import {Button} from 'react-bootstrap';
 
-import * as Client from 'mattermost-redux/client';
-
 import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import AutocompleteSelector from 'components/widgets/settings/autocomplete_selector';
@@ -33,6 +31,7 @@ describe('components/post_view/PostAddBotTeamsChannels', () => {
         actions: {
             addUserToTeam: jest.fn(() => Promise.resolve()),
             addChannelMember: jest.fn(() => Promise.resolve()),
+            editPost: jest.fn(() => Promise.resolve()),
         },
     };
 
@@ -70,23 +69,28 @@ describe('components/post_view/PostAddBotTeamsChannels', () => {
             <PostAddBotTeamsChannels {...requiredProps}/>
         );
 
-        Client.Client4 = {
-            updatePost: jest.fn((p) => {
+        const actions = {
+            addUserToTeam: requiredProps.actions.addUserToTeam,
+            addChannelMember: requiredProps.actions.addChannelMember,
+            editPost: jest.fn((p) => {
                 wrapper.setProps({post: p});
                 Promise.resolve();
             }),
         };
 
+        wrapper.setProps({actions});
+
         wrapper.find(Button).simulate('click');
         wrapper.instance().handleSelectedTeam({text: 'Team 1', value: 'team_1'});
-        await wrapper.instance().handleSelectedChannel({id: 'channel_1', display_name: 'Channel 1'}).then(() => {
-            expect(requiredProps.actions.addUserToTeam).toHaveBeenCalled();
-            expect(requiredProps.actions.addUserToTeam).toHaveBeenCalledWith('team_1', post.user_id);
-            expect(requiredProps.actions.addChannelMember).toHaveBeenCalled();
-            expect(requiredProps.actions.addChannelMember).toHaveBeenCalledWith('channel_1', post.user_id);
-        }).finally(() => {
-            expect(wrapper.find(PostEmoji).exists()).toBe(true);
-            done();
-        });
+        await wrapper.instance().handleSelectedChannel({id: 'channel_1', display_name: 'Channel 1'});
+
+        expect(requiredProps.actions.addUserToTeam).toHaveBeenCalled();
+        expect(requiredProps.actions.addUserToTeam).toHaveBeenCalledWith('team_1', post.user_id);
+        expect(requiredProps.actions.addChannelMember).toHaveBeenCalled();
+        expect(requiredProps.actions.addChannelMember).toHaveBeenCalledWith('channel_1', post.user_id);
+        expect(actions.editPost).toHaveBeenCalled();
+        expect(wrapper.find(PostEmoji).exists()).toBe(true);
+
+        done();
     });
 });

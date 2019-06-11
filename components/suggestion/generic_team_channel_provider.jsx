@@ -1,7 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {autocompleteChannelsByTeamId} from 'actions/channel_actions.jsx';
+import {autocompleteChannels} from 'mattermost-redux/actions/channels';
+
+import store from 'stores/redux_store.jsx';
 
 import {ChannelSuggestion} from './generic_channel_provider.jsx';
 
@@ -13,29 +15,28 @@ export default class TeamChannelProvider extends Provider {
         this.teamId = teamId;
     }
 
-    handlePretextChanged(pretext, resultsCallback) {
+    async handlePretextChanged(pretext, resultsCallback) {
         const normalizedPretext = pretext.toLowerCase();
         this.startNewRequest(normalizedPretext);
 
-        autocompleteChannelsByTeamId(
+        const {data, err} = await autocompleteChannels(
             this.teamId,
-            normalizedPretext,
-            (data) => {
-                if (this.shouldCancelDispatch(normalizedPretext)) {
-                    return;
-                }
+            normalizedPretext
+        )(store.dispatch, store.dispatch);
 
-                const channels = Object.assign([], data);
-
-                resultsCallback({
-                    matchedPretext: normalizedPretext,
-                    terms: channels.map((channel) => channel.display_name),
-                    items: channels,
-                    component: ChannelSuggestion,
-                });
+        if (!err) {
+            if (this.shouldCancelDispatch(normalizedPretext)) {
+                return;
             }
-        );
 
-        return true;
+            const channels = Object.assign([], data);
+
+            resultsCallback({
+                matchedPretext: normalizedPretext,
+                terms: channels.map((channel) => channel.display_name),
+                items: channels,
+                component: ChannelSuggestion,
+            });
+        }
     }
 }
