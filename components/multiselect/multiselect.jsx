@@ -132,7 +132,7 @@ export default class MultiSelect extends React.Component {
         }
         this.selected = null;
 
-        this.props.handleInput(input);
+        this.props.handleInput(input, this);
     }
 
     onInputKeyDown = (e) => {

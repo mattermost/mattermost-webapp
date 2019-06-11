@@ -25,10 +25,6 @@ import {
 } from 'mattermost-redux/selectors/entities/users';
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 
-import {loadBot} from 'mattermost-redux/actions/bots';
-
-import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
-
 import {goToLastViewedChannel} from 'actions/views/channel';
 import {openModal, closeModal} from 'actions/views/modals';
 import {
@@ -49,11 +45,9 @@ const mapStateToProps = (state) => {
     const user = getCurrentUser(state);
 
     let dmUser;
-    let dmBot;
     if (channel && channel.type === General.DM_CHANNEL) {
         const dmUserId = getUserIdFromChannelName(user.id, channel.name);
         dmUser = getUser(state, dmUserId);
-        dmBot = getBotAccounts(state)[dmUserId];
     }
 
     return {
@@ -62,7 +56,6 @@ const mapStateToProps = (state) => {
         channelMember: getMyCurrentChannelMembership(state),
         currentUser: user,
         dmUser,
-        dmBot,
         rhsState: getRhsState(state),
         isFavorite: isCurrentChannelFavorite(state),
         isReadOnly: isCurrentChannelReadOnly(state),
@@ -85,7 +78,6 @@ const mapDispatchToProps = (dispatch) => ({
         goToLastViewedChannel,
         openModal,
         closeModal,
-        loadBot,
     }, dispatch),
 });
 

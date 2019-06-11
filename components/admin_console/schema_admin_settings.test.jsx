@@ -4,7 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import SchemaAdminSettings from 'components/admin_console/schema_admin_settings.jsx';
+import SchemaText from 'components/admin_console/schema_text';
+
+import SchemaAdminSettings from './schema_admin_settings';
 
 describe('components/admin_console/SchemaAdminSettings', () => {
     let schema = null;
@@ -244,5 +246,47 @@ describe('components/admin_console/SchemaAdminSettings', () => {
             />
         );
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render header using a SchemaText', () => {
+        const headerText = 'This is [a link](!https://example.com) in the header';
+        const props = {
+            config,
+            environmentConfig,
+            schema: {
+                ...schema,
+                header: headerText,
+            },
+        };
+
+        const wrapper = shallow(<SchemaAdminSettings {...props}/>);
+
+        const header = wrapper.find(SchemaText);
+        expect(header.exists()).toBe(true);
+        expect(header.props()).toMatchObject({
+            text: headerText,
+            isMarkdown: true,
+        });
+    });
+
+    test('should render footer using a SchemaText', () => {
+        const footerText = 'This is [a link](https://example.com) in the footer';
+        const props = {
+            config,
+            environmentConfig,
+            schema: {
+                ...schema,
+                footer: footerText,
+            },
+        };
+
+        const wrapper = shallow(<SchemaAdminSettings {...props}/>);
+
+        const footer = wrapper.find(SchemaText);
+        expect(footer.exists()).toBe(true);
+        expect(footer.props()).toMatchObject({
+            text: footerText,
+            isMarkdown: true,
+        });
     });
 });

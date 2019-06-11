@@ -13,6 +13,9 @@ import {getRandomInt} from '../../utils';
 
 describe('Integrations page', () => {
     before(() => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
         // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
@@ -20,12 +23,10 @@ describe('Integrations page', () => {
                 EnableIncomingWebhooks: true,
                 EnableOutgoingWebhooks: true,
                 EnableCommands: true,
+                EnableBotAccountCreation: true,
             },
         };
         cy.apiUpdateConfig(newSettings);
-
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
 
         // # Go to integrations
         cy.visit('/ad-1/integrations');
@@ -101,7 +102,7 @@ describe('Integrations page', () => {
         cy.get('#addSlashCommand').click();
 
         // # Pick a dummy trigger and callback
-        cy.get('#trigger').type(`test-trigger${getRandomInt(10000)}`);
+        cy.get('#trigger').type(`test-trigger${Date.now()}`);
         cy.get('#url').type('https://dummy');
 
         // # Save
@@ -163,6 +164,9 @@ describe('Integrations page', () => {
 
         // # Save
         cy.get('#saveBot').click();
+
+        // # Click done button
+        cy.get('#doneButton').click();
 
         // * Make sure we are done saving
         cy.url().should('contain', '/integrations/bots');

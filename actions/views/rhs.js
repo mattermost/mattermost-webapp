@@ -42,11 +42,12 @@ export function updateRhsState(rhsState, channelId) {
 
 export function selectPostFromRightHandSideSearch(post) {
     return async (dispatch, getState) => {
-        await dispatch(PostActions.getPostThread(post.id));
+        const postRootId = Utils.getRootId(post);
+        await dispatch(PostActions.getPostThread(postRootId));
 
         dispatch({
             type: ActionTypes.SELECT_POST,
-            postId: Utils.getRootId(post),
+            postId: postRootId,
             channelId: post.channel_id,
             previousRhsState: getRhsState(getState()),
         });

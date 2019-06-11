@@ -1,10 +1,19 @@
 .Badge {
+    margin: 0 0 0 4px;
+    display: flex;
+    align-items: center;
+}
+
+.Badge__box {
     border-radius: 2px;
     font-family: inherit;
     font-size: 10px;
     font-weight: 600;
-    padding: 2px 4px 0;
-    margin: 2px 8px 0px 0px;
-    top: -1px;
-    position: relative;
+    padding: 1px 4px;
+    margin: 0 10px 0 0;
+    line-height: 14px;
+
+    &.BotBadge {
+        padding: 2px 4px;
+    }
 }
