@@ -341,9 +341,6 @@ export default class MultiSelect extends React.Component {
                     ref='list'
                     options={optionsToDisplay}
                     optionRenderer={this.props.optionRenderer}
-                    page={this.state.page}
-                    perPage={this.props.perPage}
-                    onPageChange={this.props.handlePageChange}
                     onAdd={this.onAdd}
                     onSelect={this.onSelect}
                     loading={this.props.loading}

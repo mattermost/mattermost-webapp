@@ -25,7 +25,6 @@ export default class EmojiPage extends React.Component {
 
     static defaultProps = {
         teamName: '',
-        teamDisplayName: '',
         siteName: '',
     }
 

@@ -131,7 +131,6 @@ export default class EmojiPicker extends React.PureComponent {
     };
 
     static defaultProps = {
-        listHeight: 245,
         customEmojiPage: 0,
         customEmojisEnabled: false,
     };

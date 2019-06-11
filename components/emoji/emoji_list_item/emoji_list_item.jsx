@@ -25,7 +25,6 @@ export default class EmojiListItem extends React.Component {
     static defaultProps = {
         emoji: {},
         currentUserId: '',
-        currentTeam: {},
         creatorDisplayName: '',
     }
 

@@ -67,7 +67,6 @@ export default class SearchResults extends React.PureComponent {
 
     static defaultProps = {
         matches: {},
-        currentUser: {},
     };
 
     constructor(props) {

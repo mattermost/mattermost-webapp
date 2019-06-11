@@ -15,7 +15,6 @@ function mapStateToProps(state) {
     return {
         teamId: team.id,
         teamName: team.name,
-        teamDisplayName: team.display_name,
         siteName: state.entities.general.config.SiteName,
     };
 }

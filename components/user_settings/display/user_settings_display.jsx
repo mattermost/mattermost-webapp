@@ -54,6 +54,12 @@ export default class UserSettingsDisplay extends React.Component {
         currentUserTimezone: PropTypes.string,
         enableTimezone: PropTypes.bool,
         shouldAutoUpdateTimezone: PropTypes.bool,
+        militaryTime: PropTypes.string,
+        teammateNameDisplay: PropTypes.string,
+        channelDisplayMode: PropTypes.string,
+        messageDisplay: PropTypes.string,
+        collapseDisplay: PropTypes.string,
+        linkPreviewDisplay: PropTypes.string,
         actions: PropTypes.shape({
             getSupportedTimezones: PropTypes.func.isRequired,
             autoUpdateTimezone: PropTypes.func.isRequired,

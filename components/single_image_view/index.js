@@ -6,16 +6,10 @@ import {bindActionCreators} from 'redux';
 
 import {toggleEmbedVisibility} from 'actions/post_actions';
 
-import {getIsRhsOpen} from 'selectors/rhs';
-
 import SingleImageView from 'components/single_image_view/single_image_view.jsx';
 
-function mapStateToProps(state) {
-    const isRhsOpen = getIsRhsOpen(state);
-
-    return {
-        isRhsOpen,
-    };
+function mapStateToProps() {
+    return {};
 }
 
 function mapDispatchToProps(dispatch) {

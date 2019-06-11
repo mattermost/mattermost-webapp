@@ -170,7 +170,6 @@ export default class MultiSelectList extends React.Component {
 
 MultiSelectList.defaultProps = {
     options: [],
-    perPage: 50,
     onAction: () => null,
 };
 
