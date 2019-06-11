@@ -265,7 +265,6 @@
   "admin.complianceExport.globalRelaySmtpUsername.title": "Global Relay SMTP Username:",
   "admin.complianceExport.messagesExportedCount": "{count} messages exported.",
   "admin.complianceExport.title": "Compliance Export (Beta)",
-  "admin.complianceMonitoring.title": "Compliance Monitoring",
   "admin.complianceMonitoring.userActivityLogsTitle": "User Activity Logs",
   "admin.connectionSecurityNone": "None",
   "admin.connectionSecurityNoneDescription": "Mattermost will connect over an insecure connection.",
