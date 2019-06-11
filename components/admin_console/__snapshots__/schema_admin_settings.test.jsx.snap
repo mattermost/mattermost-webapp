@@ -64,7 +64,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             <AdminTextSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={true}
                   text="help-text-a"
                   textDefault="This is some help text for the text field."
@@ -89,7 +89,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 />
               }
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={true}
                   text="help-text-b"
                   textDefault="This is some help text for the bool field."
@@ -112,7 +112,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             <DropdownSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={true}
                   text="help-text-c"
                   textDefault="This is some help text for the dropdown field."
@@ -145,7 +145,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             <RadioSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={true}
                   text="help-text-d"
                   textDefault="This is some help text for the radio field."
@@ -177,7 +177,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             <GeneratedSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={true}
                   text="help-text-e"
                   textDefault="This is some help text for the generated field."
@@ -202,7 +202,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             <UserAutocompleteSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={true}
                   text="help-text-f"
                   textDefault="This is some help text for the user autocomplete field."
@@ -218,7 +218,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             <AdminTextSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={true}
                   text="help-text-g"
                   textDefault="This is some help text for the number field."
@@ -236,7 +236,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             <AdminTextSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={true}
                   text="help-text-h"
                   textDefault="This is some help text for the number field."
@@ -270,7 +270,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             <DropdownSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={true}
                   text="help-text-i"
                   textDefault="This is some help text for the language field."
@@ -371,7 +371,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             <MultiSelectSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={true}
                   text="help-text-j"
                   textDefault="This is some help text for the multiple-language field."
@@ -496,7 +496,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 }
               }
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={true}
                   text="help-text-k"
                   textDefault="This is some help text for the button field."
@@ -524,7 +524,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 />
               }
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={true}
                   text="help-text-l"
                   textDefault="This is some help text for the second bool field."
@@ -547,7 +547,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             <ColorSetting
               disabled={false}
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={true}
                   text="help-text-m"
                   textDefault="This is some help text for the color field."
@@ -596,7 +596,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 />
               }
               helpText={
-                <HelpText
+                <SchemaText
                   isTranslated={true}
                   text="help-text-o"
                   textDefault="This is some help text for the permissions field."

@@ -41,11 +41,6 @@ class ProfilePopover extends React.PureComponent {
         user: PropTypes.object,
 
         /**
-         * The bot this profile picture is being opened for (if bot)
-         */
-        bot: PropTypes.object,
-
-        /**
          * Status for the user, either 'offline', 'away', 'dnd' or 'online'
          */
         status: PropTypes.string,
@@ -102,7 +97,6 @@ class ProfilePopover extends React.PureComponent {
             getMembershipForCurrentEntities: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
-            loadBot: PropTypes.func.isRequired,
         }).isRequired,
 
         /**
@@ -132,7 +126,6 @@ class ProfilePopover extends React.PureComponent {
 
     componentDidMount() {
         this.props.actions.getMembershipForCurrentEntities(this.props.userId);
-        this.props.actions.loadBot(this.props.userId);
     }
 
     handleShowDirectChannel(e) {
@@ -257,13 +250,13 @@ class ProfilePopover extends React.PureComponent {
             );
         }
 
-        if (this.props.user.is_bot && this.props.bot) {
+        if (this.props.user.is_bot) {
             dataContent.push(
                 <div
                     key='bot-description'
                     className='overflow--ellipsis text-nowrap'
                 >
-                    {this.props.bot.description}
+                    {this.props.user.bot_description}
                 </div>
             );
         }
@@ -384,6 +377,7 @@ class ProfilePopover extends React.PureComponent {
             );
 
             if (this.props.canManageAnyChannelMembersInCurrentTeam) {
+                const addToChannelMessage = formatMessage({id: 'user_profile.add_user_to_channel', defaultMessage: 'Add to a Channel'});
                 dataContent.push(
                     <div
                         data-toggle='tooltip'
@@ -395,6 +389,7 @@ class ProfilePopover extends React.PureComponent {
                             className='text-nowrap'
                         >
                             <ToggleModalButtonRedux
+                                accessibilityLabel={addToChannelMessage}
                                 ref='addUserToChannelModalButton'
                                 modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
                                 role='menuitem'
@@ -406,10 +401,7 @@ class ProfilePopover extends React.PureComponent {
                                     className='fa fa-user-plus'
                                     title={formatMessage({id: 'user_profile.add_user_to_channel.icon', defaultMessage: 'Add User to Channel Icon'})}
                                 />
-                                <FormattedMessage
-                                    id='user_profile.add_user_to_channel'
-                                    defaultMessage='Add to a Channel'
-                                />
+                                {addToChannelMessage}
                             </ToggleModalButtonRedux>
                         </a>
                     </div>

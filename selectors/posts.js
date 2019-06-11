@@ -4,6 +4,9 @@
 import {createSelector} from 'reselect';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/preferences';
+import {memoizeResult} from 'mattermost-redux/utils/helpers';
+import {isUserActivityPost} from 'mattermost-redux/utils/post_utils';
+import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import {getGlobalItem} from 'selectors/storage';
 import {Preferences, StoragePrefixes} from 'utils/constants';
@@ -38,4 +41,54 @@ export function isEmbedVisible(state, postId) {
 
 export function shouldShowJoinLeaveMessages(state) {
     return getBoolPreference(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.ADVANCED_FILTER_JOIN_LEAVE, true);
+}
+
+export function makeCombineUserActivityFromPosts() {
+    return memoizeResult(
+        (posts) => {
+            let lastPostIsUserActivity = false;
+            let combinedCount = 0;
+
+            const out = [];
+            let changed = false;
+
+            for (const post of posts) {
+                const postIsUserActivity = isUserActivityPost(post.type);
+
+                if (postIsUserActivity && lastPostIsUserActivity && combinedCount < PostListUtils.MAX_COMBINED_SYSTEM_POSTS) {
+                    // Add the ID to the previous combined post
+                    out[out.length - 1].id += '_' + post.id;
+
+                    combinedCount += 1;
+
+                    changed = true;
+                } else if (postIsUserActivity) {
+                    // Start a new combined post, even if the "combined" post is only a single post
+                    const formattedPost = {
+                        ...post,
+                        id: PostListUtils.COMBINED_USER_ACTIVITY + post.id,
+                    };
+
+                    out.push(formattedPost);
+
+                    combinedCount = 1;
+
+                    changed = true;
+                } else {
+                    out.push(post);
+
+                    combinedCount = 0;
+                }
+
+                lastPostIsUserActivity = postIsUserActivity;
+            }
+
+            if (!changed) {
+                // Nothing was combined, so return the original array
+                return posts;
+            }
+
+            return out;
+        },
+    );
 }

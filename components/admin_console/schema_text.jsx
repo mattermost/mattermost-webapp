@@ -8,11 +8,14 @@ import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage, {CustomRenderer} from 'components/formatted_markdown_message';
 
-export default class HelpText extends React.PureComponent {
+export default class SchemaText extends React.PureComponent {
     static propTypes = {
         isMarkdown: PropTypes.bool,
         isTranslated: PropTypes.bool,
-        text: PropTypes.string.isRequired,
+        text: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.object,
+        ]).isRequired,
         textDefault: PropTypes.string,
         textValues: PropTypes.object,
     };
@@ -22,21 +25,32 @@ export default class HelpText extends React.PureComponent {
     };
 
     renderTranslated = () => {
-        if (this.props.isMarkdown) {
+        const {
+            isMarkdown,
+            text,
+            textDefault,
+            textValues,
+        } = this.props;
+
+        if (typeof text === 'object') {
+            return text;
+        }
+
+        if (isMarkdown) {
             return (
                 <FormattedMarkdownMessage
-                    id={this.props.text}
-                    defaultMessage={this.props.textDefault}
-                    values={this.props.textValues}
+                    id={text}
+                    defaultMessage={textDefault}
+                    values={textValues}
                 />
             );
         }
 
         return (
             <FormattedMessage
-                id={this.props.text}
-                values={this.props.textValues}
-                defaultMessage={this.props.textDefault}
+                id={text}
+                values={textValues}
+                defaultMessage={textDefault}
             />
         );
     };

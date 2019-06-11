@@ -17,6 +17,9 @@ describe('MM-13697 Edit Post with attachment', () => {
     });
 
     it('Pasted text should be pasted where the cursor is', () => {
+        // # Got to a test channel on the side bar
+        cy.get('#sidebarItem_town-square').click({force: true});
+
         // * Validate if the channel has been opened
         cy.url().should('include', '/ad-1/channels/town-square');
 
