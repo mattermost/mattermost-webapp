@@ -305,7 +305,7 @@ export async function redirectUserToDefaultTeam() {
     }
 
     if (userId && team) {
-        let channelName = LocalStorageStore.getPreviousChannelName(userId, teamId);
+        let channelName = LocalStorageStore.getPreviousChannelName(userId, team.id);
         const channel = getChannelByName(state, channelName);
         if (channel && channel.team_id === team.id) {
             dispatch(selectChannel(channel.id));
