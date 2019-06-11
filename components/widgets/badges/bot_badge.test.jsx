@@ -12,16 +12,20 @@ describe('components/widgets/badges/BotBadge', () => {
             <BotBadge className={'test'}/>
         );
         expect(wrapper).toMatchInlineSnapshot(`
-<Badge
-  className="BotBadge test"
-  show={true}
+<div
+  className="bot-badge__container"
 >
-  <FormattedMessage
-    defaultMessage="BOT"
-    id="post_info.bot"
-    values={Object {}}
-  />
-</Badge>
+  <Badge
+    className="bot-badge test"
+    show={true}
+  >
+    <FormattedMessage
+      defaultMessage="BOT"
+      id="post_info.bot"
+      values={Object {}}
+    />
+  </Badge>
+</div>
 `);
     });
 });
