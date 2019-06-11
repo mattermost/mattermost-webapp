@@ -497,7 +497,10 @@ class LoginController extends React.Component {
             );
         } else if (extraParam === Constants.PASSWORD_CHANGE) {
             return (
-                <div className='alert alert-success'>
+                <div
+                    id='passwordUpdatedSuccess'
+                    className='alert alert-success'
+                >
                     <SuccessIcon/>
                     <FormattedMessage
                         id='login.passwordChanged'

@@ -6,7 +6,6 @@ import {latinise} from 'utils/latinise.jsx';
 export function cleanUpUrlable(input) {
     var cleaned = latinise(input);
     cleaned = cleaned.trim().replace(/-/g, ' ').replace(/[^\w\s]/gi, '').toLowerCase().replace(/\s/g, '-');
-    cleaned = cleaned.replace(/-{2,}/, '-');
     cleaned = cleaned.replace(/^-+/, '');
     cleaned = cleaned.replace(/-+$/, '');
     return cleaned;
