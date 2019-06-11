@@ -568,6 +568,7 @@ function createSetHeaderButton(channel) {
             {(message) => (
                 <ToggleModalButtonRedux
                     accessibilityLabel={message}
+                    className='intro-links color--link'
                 >
                     <EditIcon/>
                     {message}
