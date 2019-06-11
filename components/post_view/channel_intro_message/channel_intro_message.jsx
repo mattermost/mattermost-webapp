@@ -12,6 +12,7 @@ import Constants from 'utils/constants.jsx';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import ProfilePicture from 'components/profile_picture.jsx';
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import UserProfile from 'components/user_profile';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
@@ -558,16 +559,22 @@ function createSetHeaderButton(channel) {
         return null;
     }
     return (
-        <ToggleModalButton
+        <FormattedMessage
             className='intro-links color--link'
             dialogType={EditChannelHeaderModal}
             dialogProps={{channel}}
         >
-            <EditIcon/>
-            <FormattedMessage
-                id='intro_messages.setHeader'
-                defaultMessage='Set a Header'
-            />
-        </ToggleModalButton>
+            {(message) => (
+                <ToggleModalButtonRedux
+                    accessibilityLabel={message}
+                    className={'intro-links color--link'}
+                    dialogType={EditChannelHeaderModal}
+                    dialogProps={{channel}}
+                >
+                    <EditIcon/>
+                    {message}
+                </ToggleModalButtonRedux>
+            )}
+        </FormattedMessage>
     );
 }
