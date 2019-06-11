@@ -87,12 +87,10 @@ export default class UserProfile extends PureComponent {
                         {name}
                     </div>
                 </OverlayTrigger>
-                <div>
-                    <BotBadge
-                        show={Boolean(user && user.is_bot)}
-                        className='badge-popoverlist'
-                    />
-                </div>
+                <BotBadge
+                    show={Boolean(user && user.is_bot)}
+                    className='badge-popoverlist'
+                />
             </React.Fragment>
         );
     }

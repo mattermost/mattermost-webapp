@@ -535,9 +535,7 @@ export default class ChannelHeader extends React.PureComponent {
                             {channelTitle}
                         </span>
                     </strong>
-                    <div>
-                        <BotBadge className='badge-popoverlist'/>
-                    </div>
+                    <BotBadge className='badge-popoverlist'/>
                 </div>
             );
         }
