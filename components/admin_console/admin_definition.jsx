@@ -2821,7 +2821,7 @@ export default {
                         label: t('admin.saml.signRequestTitle'),
                         label_default: 'Sign Request:',
                         help_text: t('admin.saml.signRequestDescription'),
-                        help_text_default: 'When false, Mattermost will not sign the SAML request',
+                        help_text_default: 'When true, Mattermost will sign the SAML request using your private key. When false, Mattermost will not sign the SAML request.',
                         isDisabled: it.either(
                             it.stateIsFalse('SamlSettings.Encrypt'),
                             it.stateIsFalse('SamlSettings.PrivateKeyFile'),
