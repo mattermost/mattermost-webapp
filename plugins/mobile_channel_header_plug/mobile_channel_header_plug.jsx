@@ -26,7 +26,7 @@ export default class MobileChannelHeaderPlug extends React.PureComponent {
         theme: PropTypes.object.isRequired,
     }
 
-    createButton(plug) {
+    createButton = (plug) => {
         return (
             <li
                 key={'mobileChannelHeaderItem' + plug.id}
