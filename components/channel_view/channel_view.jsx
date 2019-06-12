@@ -45,11 +45,20 @@ export default class ChannelView extends React.PureComponent {
     }
 
     componentDidMount() {
+        const platform = window.navigator.platform;
+
         $('body').addClass('app__body');
 
         // IE Detection
         if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
             $('body').addClass('browser--ie');
+        }
+
+        // OS Detection
+        if (platform === 'Win32' || platform === 'Win64') {
+            $('body').addClass('os--windows');
+        } else if (platform === 'MacIntel' || platform === 'MacPPC') {
+            $('body').addClass('os--mac');
         }
     }
 

@@ -3,11 +3,6 @@
 html,
 body {
     height: 100%;
-
-    &.sticky {
-        height: auto;
-        overflow: auto;
-    }
 }
 
 body {
@@ -17,6 +12,13 @@ body {
 
     &.announcement-bar--fixed {
         padding-top: $announcement-bar-height;
+    }
+
+    &.sticky {
+        .container-fluid {
+            -webkit-overflow-scrolling: touch;
+            overflow: auto;
+        }
     }
 }
 
@@ -68,7 +70,6 @@ body {
     @include legacy-pie-clearfix;
     height: 100%;
     position: relative;
-    -webkit-overflow-scrolling: touch;
 }
 
 .channel-view {

@@ -330,7 +330,7 @@ export default class RhsComment extends React.Component {
                     {this.createRemovePostButton()}
                 </div>
             );
-        } else if (!isSystemMessage) {
+        } else if (!isSystemMessage && (this.state.hover || this.state.dropdownOpened || this.state.showEmojiPicker)) {
             const dotMenu = (
                 <DotMenu
                     post={this.props.post}

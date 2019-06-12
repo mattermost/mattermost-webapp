@@ -122,7 +122,8 @@ class UserSettingsGeneralTab extends React.Component {
         samlLastNameAttributeSet: PropTypes.bool,
         ldapNicknameAttributeSet: PropTypes.bool,
         samlNicknameAttributeSet: PropTypes.bool,
-        positionAttributeSet: PropTypes.bool,
+        ldapPositionAttributeSet: PropTypes.bool,
+        samlPositionAttributeSet: PropTypes.bool,
     }
 
     constructor(props) {
@@ -1087,7 +1088,7 @@ class UserSettingsGeneralTab extends React.Component {
         if (this.props.activeSection === 'position') {
             let extraInfo;
             let submit = null;
-            if ((this.props.user.auth_service === 'ldap' || this.props.user.auth_service === Constants.SAML_SERVICE) && this.props.positionAttributeSet) {
+            if ((this.props.user.auth_service === Constants.LDAP_SERVICE && this.props.ldapPositionAttributeSet) || (this.props.user.auth_service === Constants.SAML_SERVICE && this.props.samlPositionAttributeSet)) {
                 extraInfo = (
                     <span>
                         <FormattedMessage

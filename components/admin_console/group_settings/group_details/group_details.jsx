@@ -8,7 +8,6 @@ import {Groups} from 'mattermost-redux/constants';
 
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils.jsx';
-import {Constants} from 'utils/constants.jsx';
 import GroupProfile from 'components/admin_console/group_settings/group_details/group_profile';
 import GroupTeamsAndChannels from 'components/admin_console/group_settings/group_details/group_teams_and_channels';
 import GroupUsers from 'components/admin_console/group_settings/group_details/group_users';
@@ -105,7 +104,7 @@ export default class GroupDetails extends React.PureComponent {
                 <div className='admin-console__header with-back'>
                     <div>
                         <BlockableLink
-                            to='/admin_console/access-control/groups'
+                            to='/admin_console/user_management/groups'
                             className='fa fa-angle-left back'
                         />
                         <FormattedMessage
@@ -189,7 +188,7 @@ export default class GroupDetails extends React.PureComponent {
                                 onModalDismissed={this.closeAddChannel}
                                 onChannelsSelected={this.addChannels}
                                 alreadySelected={this.props.groupChannels.map((channel) => channel.channel_id)}
-                                excludeNames={[Constants.DEFAULT_CHANNEL, Constants.OFFTOPIC_CHANNEL]}
+                                groupID={this.props.groupID}
                             />
                         }
 

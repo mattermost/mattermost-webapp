@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import merge from 'merge-deep';
+
 import {getRandomInt} from '../utils';
 
 import users from '../fixtures/users.json';
 import theme from '../fixtures/theme.json';
-import config from '../fixtures/config.json';
 
 /* eslint max-nested-callbacks: ["error", 5] */
 /* eslint-disable func-names */
@@ -26,6 +27,8 @@ import config from '../fixtures/config.json';
  * @param {String} username - e.g. "user-1" (default)
  */
 Cypress.Commands.add('apiLogin', (username = 'user-1') => {
+    cy.apiLogout();
+
     const user = users[username];
 
     return cy.request({
@@ -42,9 +45,14 @@ Cypress.Commands.add('apiLogout', () => {
     cy.request({
         url: '/api/v4/users/logout',
         method: 'POST',
+        log: false,
     });
 
-    cy.clearCookies();
+    ['MMAUTHTOKEN', 'MMUSERID', 'MMCSRF'].forEach((cookie) => {
+        cy.clearCookie(cookie, {log: false});
+    });
+
+    cy.getCookies({log: false}).should('be.empty');
 });
 
 // *****************************************************************************
@@ -224,20 +232,10 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
     });
 });
 
-/**
- * Saves Enable Open Server settings config details of a user directly via API
- * This API assume that the sysadmin user is logged in for the changes
- * @param {Boolean} enable - flag for EnableOpenServer in config. Passes true for default if none is provided.
- */
-Cypress.Commands.add('apiEnableOpenServer', (enable = true) => {
-    config.TeamSettings.EnableOpenServer = enable;
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/config',
-        method: 'PUT',
-        body: config,
-    });
-});
+// *****************************************************************************
+// Users
+// https://api.mattermost.com/#tag/users
+// *****************************************************************************
 
 /**
  * Creates a new user via the API, adds them to 3 teams, and sets preference to bypass tutorial.
@@ -248,7 +246,7 @@ Cypress.Commands.add('apiEnableOpenServer', (enable = true) => {
 Cypress.Commands.add('loginAsNewUser', (user = {}) => {
     const timestamp = Date.now();
 
-    const {email = `newE2ETestUser${timestamp}@mattermost.com`, username = `NewE2ETestUser${timestamp}`, password = 'password123'} = user;
+    const {email = `newe2etestuser${timestamp}@sample.mattermost.com`, username = `NewE2ETestUser${timestamp}`, password = 'password123'} = user;
 
     // # Login as sysadmin to make admin requests
     cy.apiLogin('sysadmin');
@@ -302,7 +300,8 @@ Cypress.Commands.add('loginAsNewUser', (user = {}) => {
 });
 
 // *****************************************************************************
-// Pinned Posts
+// Posts
+// https://api.mattermost.com/#tag/posts
 // *****************************************************************************
 
 /**
@@ -316,4 +315,38 @@ Cypress.Commands.add('apiUnpinPosts', (postId) => {
         url: '/api/v4/posts/' + postId + '/unpin',
         method: 'POST',
     });
+});
+
+// *****************************************************************************
+// System config
+// https://api.mattermost.com/#tag/system
+// *****************************************************************************
+
+Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
+    cy.apiLogin('sysadmin');
+
+    // # Get current settings
+    cy.request('/api/v4/config').then((response) => {
+        const oldSettings = response.body;
+
+        const settings = merge(oldSettings, newSettings);
+
+        // # Set the modified settings
+        cy.request({
+            url: '/api/v4/config',
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            method: 'PUT',
+            body: settings,
+        });
+    });
+
+    cy.apiLogout();
+});
+
+// *****************************************************************************
+// Post creation
+// *****************************************************************************
+
+Cypress.Commands.add('postMessageAs', (sender, message, channelId) => {
+    cy.task('postMessageAs', {sender, message, channelId}).its('message').should('equal', message);
 });

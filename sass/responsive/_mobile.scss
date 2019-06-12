@@ -136,10 +136,6 @@
     .post-create__container {
         z-index: 2;
 
-        .custom-textarea.custom-textarea--emoji-picker {
-            padding-right: 135px;
-        }
-
         .post-create-footer {
             padding: 0 10px;
         }
@@ -156,7 +152,10 @@
             }
 
             .custom-textarea {
-                max-height: 162px;
+                &.custom-textarea--emoji-picker {
+                    max-height: 162px;
+                    padding-right: 135px;
+                }
             }
 
             textarea {
@@ -1782,6 +1781,16 @@
 @media screen and (max-width: 480px) {
     #user-profile-popover {
         left: 50px !important;
+    }
+
+    .post {
+        .attachment {
+            .attachment-actions {
+                button {
+                    width: 100%;
+                }
+            }
+        }
     }
 
     .nav-tabs {

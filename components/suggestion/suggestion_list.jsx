@@ -17,6 +17,7 @@ export default class SuggestionList extends React.PureComponent {
         renderDividers: PropTypes.bool,
         renderNoResults: PropTypes.bool,
         onCompleteWord: PropTypes.func.isRequired,
+        preventClose: PropTypes.func,
         pretext: PropTypes.string.isRequired,
         cleared: PropTypes.bool.isRequired,
         matchedPretext: PropTypes.array.isRequired,
@@ -167,6 +168,7 @@ export default class SuggestionList extends React.PureComponent {
                     id='suggestionList'
                     ref='content'
                     className={contentClass}
+                    onMouseDown={this.props.preventClose}
                 >
                     {items}
                 </div>

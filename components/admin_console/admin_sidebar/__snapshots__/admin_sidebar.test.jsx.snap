@@ -458,6 +458,40 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           sectionClass=""
           title={
             <FormattedMessage
+              defaultMessage="Plugins (Beta)"
+              id="admin.sidebar.plugins"
+              values={Object {}}
+            />
+          }
+        >
+          <AdminSidebarSection
+            key="4"
+            name="plugins/plugin_management"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Plugin Management"
+                id="admin.plugins.pluginManagement"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="custompluginplugin_0"
+            name="plugins/plugin_plugin_0"
+            parentLink=""
+            subsection={false}
+            title="Plugin 0"
+          />
+        </AdminSidebarCategory>
+        <AdminSidebarCategory
+          icon="fa-sitemap"
+          key="7"
+          parentLink="/admin_console"
+          sectionClass=""
+          title={
+            <FormattedMessage
               defaultMessage="Integrations"
               id="admin.sidebar.integrations"
               values={Object {}}
@@ -466,13 +500,13 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
         >
           <AdminSidebarSection
             key="4"
-            name="integrations/features"
+            name="integrations/integration_management"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Features"
-                id="admin.sidebar.integrationsFeatures"
+                defaultMessage="Integration Management"
+                id="admin.integrations.integrationManagement"
                 values={Object {}}
               />
             }
@@ -503,30 +537,10 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               />
             }
           />
-          <AdminSidebarSection
-            key="7"
-            name="integrations/plugins"
-            parentLink=""
-            subsection={false}
-            title={
-              <FormattedMessage
-                defaultMessage="Plugins (Beta)"
-                id="admin.integrations.plugins"
-                values={Object {}}
-              />
-            }
-          />
-          <AdminSidebarSection
-            key="custompluginplugin_0"
-            name="integrations/plugin_plugin_0"
-            parentLink=""
-            subsection={false}
-            title="Plugin 0"
-          />
         </AdminSidebarCategory>
         <AdminSidebarCategory
           icon="fa-flask"
-          key="8"
+          key="9"
           parentLink="/admin_console"
           sectionClass=""
           title={
@@ -1015,6 +1029,33 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
           sectionClass=""
           title={
             <FormattedMessage
+              defaultMessage="Plugins (Beta)"
+              id="admin.sidebar.plugins"
+              values={Object {}}
+            />
+          }
+        >
+          <AdminSidebarSection
+            key="4"
+            name="plugins/plugin_management"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Plugin Management"
+                id="admin.plugins.pluginManagement"
+                values={Object {}}
+              />
+            }
+          />
+        </AdminSidebarCategory>
+        <AdminSidebarCategory
+          icon="fa-sitemap"
+          key="7"
+          parentLink="/admin_console"
+          sectionClass=""
+          title={
+            <FormattedMessage
               defaultMessage="Integrations"
               id="admin.sidebar.integrations"
               values={Object {}}
@@ -1023,13 +1064,13 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
         >
           <AdminSidebarSection
             key="4"
-            name="integrations/features"
+            name="integrations/integration_management"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Features"
-                id="admin.sidebar.integrationsFeatures"
+                defaultMessage="Integration Management"
+                id="admin.integrations.integrationManagement"
                 values={Object {}}
               />
             }
@@ -1060,23 +1101,10 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               />
             }
           />
-          <AdminSidebarSection
-            key="7"
-            name="integrations/plugins"
-            parentLink=""
-            subsection={false}
-            title={
-              <FormattedMessage
-                defaultMessage="Plugins (Beta)"
-                id="admin.integrations.plugins"
-                values={Object {}}
-              />
-            }
-          />
         </AdminSidebarCategory>
         <AdminSidebarCategory
           icon="fa-flask"
-          key="8"
+          key="9"
           parentLink="/admin_console"
           sectionClass=""
           title={
@@ -1565,6 +1593,33 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
           sectionClass=""
           title={
             <FormattedMessage
+              defaultMessage="Plugins (Beta)"
+              id="admin.sidebar.plugins"
+              values={Object {}}
+            />
+          }
+        >
+          <AdminSidebarSection
+            key="4"
+            name="plugins/plugin_management"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Plugin Management"
+                id="admin.plugins.pluginManagement"
+                values={Object {}}
+              />
+            }
+          />
+        </AdminSidebarCategory>
+        <AdminSidebarCategory
+          icon="fa-sitemap"
+          key="7"
+          parentLink="/admin_console"
+          sectionClass=""
+          title={
+            <FormattedMessage
               defaultMessage="Integrations"
               id="admin.sidebar.integrations"
               values={Object {}}
@@ -1573,13 +1628,13 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
         >
           <AdminSidebarSection
             key="4"
-            name="integrations/features"
+            name="integrations/integration_management"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Features"
-                id="admin.sidebar.integrationsFeatures"
+                defaultMessage="Integration Management"
+                id="admin.integrations.integrationManagement"
                 values={Object {}}
               />
             }
@@ -1610,23 +1665,10 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
               />
             }
           />
-          <AdminSidebarSection
-            key="7"
-            name="integrations/plugins"
-            parentLink=""
-            subsection={false}
-            title={
-              <FormattedMessage
-                defaultMessage="Plugins (Beta)"
-                id="admin.integrations.plugins"
-                values={Object {}}
-              />
-            }
-          />
         </AdminSidebarCategory>
         <AdminSidebarCategory
           icon="fa-flask"
-          key="8"
+          key="9"
           parentLink="/admin_console"
           sectionClass=""
           title={
@@ -1688,7 +1730,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           />
         </li>
         <AdminSidebarCategory
-          icon="fa-info"
+          icon="fa-info-circle"
           key="0"
           parentLink="/admin_console"
           sectionClass=""
@@ -2246,6 +2288,33 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           sectionClass=""
           title={
             <FormattedMessage
+              defaultMessage="Plugins (Beta)"
+              id="admin.sidebar.plugins"
+              values={Object {}}
+            />
+          }
+        >
+          <AdminSidebarSection
+            key="4"
+            name="plugins/plugin_management"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Plugin Management"
+                id="admin.plugins.pluginManagement"
+                values={Object {}}
+              />
+            }
+          />
+        </AdminSidebarCategory>
+        <AdminSidebarCategory
+          icon="fa-sitemap"
+          key="7"
+          parentLink="/admin_console"
+          sectionClass=""
+          title={
+            <FormattedMessage
               defaultMessage="Integrations"
               id="admin.sidebar.integrations"
               values={Object {}}
@@ -2254,13 +2323,13 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
         >
           <AdminSidebarSection
             key="4"
-            name="integrations/features"
+            name="integrations/integration_management"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Features"
-                id="admin.sidebar.integrationsFeatures"
+                defaultMessage="Integration Management"
+                id="admin.integrations.integrationManagement"
                 values={Object {}}
               />
             }
@@ -2291,23 +2360,10 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               />
             }
           />
-          <AdminSidebarSection
-            key="7"
-            name="integrations/plugins"
-            parentLink=""
-            subsection={false}
-            title={
-              <FormattedMessage
-                defaultMessage="Plugins (Beta)"
-                id="admin.integrations.plugins"
-                values={Object {}}
-              />
-            }
-          />
         </AdminSidebarCategory>
         <AdminSidebarCategory
           icon="fa-list"
-          key="7"
+          key="8"
           parentLink="/admin_console"
           sectionClass=""
           title={
@@ -2373,7 +2429,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
         </AdminSidebarCategory>
         <AdminSidebarCategory
           icon="fa-flask"
-          key="8"
+          key="9"
           parentLink="/admin_console"
           sectionClass=""
           title={
@@ -2435,7 +2491,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           />
         </li>
         <AdminSidebarCategory
-          icon="fa-info"
+          icon="fa-info-circle"
           key="0"
           parentLink="/admin_console"
           sectionClass=""
@@ -2915,6 +2971,33 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           sectionClass=""
           title={
             <FormattedMessage
+              defaultMessage="Plugins (Beta)"
+              id="admin.sidebar.plugins"
+              values={Object {}}
+            />
+          }
+        >
+          <AdminSidebarSection
+            key="4"
+            name="plugins/plugin_management"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Plugin Management"
+                id="admin.plugins.pluginManagement"
+                values={Object {}}
+              />
+            }
+          />
+        </AdminSidebarCategory>
+        <AdminSidebarCategory
+          icon="fa-sitemap"
+          key="7"
+          parentLink="/admin_console"
+          sectionClass=""
+          title={
+            <FormattedMessage
               defaultMessage="Integrations"
               id="admin.sidebar.integrations"
               values={Object {}}
@@ -2923,13 +3006,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
         >
           <AdminSidebarSection
             key="4"
-            name="integrations/features"
+            name="integrations/integration_management"
             parentLink=""
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Features"
-                id="admin.sidebar.integrationsFeatures"
+                defaultMessage="Integration Management"
+                id="admin.integrations.integrationManagement"
                 values={Object {}}
               />
             }
@@ -2960,23 +3043,10 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               />
             }
           />
-          <AdminSidebarSection
-            key="7"
-            name="integrations/plugins"
-            parentLink=""
-            subsection={false}
-            title={
-              <FormattedMessage
-                defaultMessage="Plugins (Beta)"
-                id="admin.integrations.plugins"
-                values={Object {}}
-              />
-            }
-          />
         </AdminSidebarCategory>
         <AdminSidebarCategory
           icon="fa-list"
-          key="7"
+          key="8"
           parentLink="/admin_console"
           sectionClass=""
           title={
@@ -3003,7 +3073,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
         </AdminSidebarCategory>
         <AdminSidebarCategory
           icon="fa-flask"
-          key="8"
+          key="9"
           parentLink="/admin_console"
           sectionClass=""
           title={

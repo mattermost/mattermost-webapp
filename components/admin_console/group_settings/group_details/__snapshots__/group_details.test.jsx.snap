@@ -10,7 +10,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     <div>
       <Connect(BlockableLink)
         className="fa fa-angle-left back"
-        to="/admin_console/access-control/groups"
+        to="/admin_console/user_management/groups"
       />
       <FormattedMessage
         defaultMessage="Group Configuration"
@@ -136,12 +136,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
             "66666666666666666666666666",
           ]
         }
-        excludeNames={
-          Array [
-            "town-square",
-            "off-topic",
-          ]
-        }
+        groupID="xxxxxxxxxxxxxxxxxxxxxxxxxx"
         onChannelsSelected={[Function]}
         onModalDismissed={[Function]}
       />
@@ -187,7 +182,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     <div>
       <Connect(BlockableLink)
         className="fa fa-angle-left back"
-        to="/admin_console/access-control/groups"
+        to="/admin_console/user_management/groups"
       />
       <FormattedMessage
         defaultMessage="Group Configuration"
@@ -358,7 +353,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     <div>
       <Connect(BlockableLink)
         className="fa fa-angle-left back"
-        to="/admin_console/access-control/groups"
+        to="/admin_console/user_management/groups"
       />
       <FormattedMessage
         defaultMessage="Group Configuration"
@@ -518,7 +513,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     <div>
       <Connect(BlockableLink)
         className="fa fa-angle-left back"
-        to="/admin_console/access-control/groups"
+        to="/admin_console/user_management/groups"
       />
       <FormattedMessage
         defaultMessage="Group Configuration"

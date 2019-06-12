@@ -20,12 +20,10 @@ const CHANNELS_PER_PAGE = 50;
 
 export default class ChannelSelectorModal extends React.Component {
     static propTypes = {
-        alreadySelected: PropTypes.array,
         searchTerm: PropTypes.string.isRequired,
-        channels: PropTypes.array.isRequired,
         onModalDismissed: PropTypes.func,
         onChannelsSelected: PropTypes.func,
-        excludeNames: PropTypes.arrayOf(PropTypes.string),
+        groupID: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             loadChannels: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
@@ -43,12 +41,13 @@ export default class ChannelSelectorModal extends React.Component {
             show: true,
             search: false,
             loadingChannels: true,
-            excludeNames: [],
+            channels: [],
         };
     }
 
     componentDidMount() {
-        this.props.actions.loadChannels(0, CHANNELS_PER_PAGE * 2).then(() => {
+        this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, true).then((response) => {
+            this.setState({channels: response.data.sort(compareChannels)});
             this.setChannelsLoadingState(false);
         });
     }
@@ -59,17 +58,21 @@ export default class ChannelSelectorModal extends React.Component {
 
             const searchTerm = this.props.searchTerm;
             if (searchTerm === '') {
-                return;
-            }
-
-            this.searchTimeoutId = setTimeout(
-                async () => {
-                    this.setChannelsLoadingState(true);
-                    await this.props.actions.searchChannels(searchTerm);
+                this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, true).then((response) => {
+                    this.setState({channels: response.data.sort(compareChannels)});
                     this.setChannelsLoadingState(false);
-                },
-                Constants.SEARCH_TIMEOUT_MILLISECONDS
-            );
+                });
+            } else {
+                this.searchTimeoutId = setTimeout(
+                    async () => {
+                        this.setChannelsLoadingState(true);
+                        const response = await this.props.actions.searchChannels(searchTerm, this.props.groupID, true);
+                        this.setState({channels: response.data});
+                        this.setChannelsLoadingState(false);
+                    },
+                    Constants.SEARCH_TIMEOUT_MILLISECONDS
+                );
+            }
         }
     }
 
@@ -115,7 +118,15 @@ export default class ChannelSelectorModal extends React.Component {
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
             this.setChannelsLoadingState(true);
-            this.props.actions.loadChannels(page + 1, CHANNELS_PER_PAGE).then(() => {
+            this.props.actions.loadChannels(page, CHANNELS_PER_PAGE + 1, this.props.groupID, true).then((response) => {
+                const newState = [...this.state.channels];
+                const stateChannelIDs = this.state.channels.map((stateChannel) => stateChannel.id);
+                response.data.forEach((serverChannel) => {
+                    if (!stateChannelIDs.includes(serverChannel.id)) {
+                        newState.push(serverChannel);
+                    }
+                });
+                this.setState({channels: newState.sort(compareChannels)});
                 this.setChannelsLoadingState(false);
             });
         }
@@ -125,7 +136,10 @@ export default class ChannelSelectorModal extends React.Component {
         this.setState({values});
     }
 
-    search = (term) => {
+    search = (term, multiselectComponent) => {
+        if (multiselectComponent.state.page !== 0) {
+            multiselectComponent.setState({page: 0});
+        }
         this.props.actions.setModalSearchTerm(term);
     }
 
@@ -175,19 +189,6 @@ export default class ChannelSelectorModal extends React.Component {
 
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
 
-        let channels = [];
-        if (this.props.channels) {
-            channels = this.props.channels.filter((channel) => {
-                return (
-                    (channel.delete_at === 0) &&
-                    (channel.scheme_id !== this.currentSchemeId) &&
-                    (this.props.alreadySelected.indexOf(channel.id) === -1) &&
-                    (this.props.excludeNames.indexOf(channel.name) === -1)
-                );
-            });
-            channels.sort(compareChannels);
-        }
-
         return (
             <Modal
                 dialogClassName={'more-modal more-direct-channels channel-selector-modal'}
@@ -211,7 +212,7 @@ export default class ChannelSelectorModal extends React.Component {
                 <Modal.Body>
                     <MultiSelect
                         key='addChannelsToSchemeKey'
-                        options={channels}
+                        options={this.state.channels}
                         optionRenderer={this.renderOption}
                         values={this.state.values}
                         valueRenderer={this.renderValue}

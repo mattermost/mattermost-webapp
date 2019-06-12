@@ -739,7 +739,7 @@
 .post {
     @include legacy-pie-clearfix;
     max-width: 100%;
-    padding: 8px .5em 0 1.5em;
+    padding: 8px .5em 0 1.5em; // If this needs to be changed then .post-row__padding needs to be adjusted accordingly
     position: relative;
     word-wrap: break-word;
 
@@ -988,7 +988,7 @@
         }
 
         .post__header {
-            display: block;
+            display: flex;
             height: 22px;
             margin-bottom: 0;
             padding: 0;
@@ -1020,7 +1020,7 @@
                 padding-left: 20px;
             }
 
-            div {
+            div:not(.image-loading__container) {
                 margin-bottom: 0;
             }
 
@@ -1281,6 +1281,7 @@
         }
 
         .col__name {
+            display: flex;
             font-weight: 600;
             margin-right: 7px;
             overflow: hidden;
@@ -2065,4 +2066,36 @@
     right: 0;
     top: 0;
     width: 0;
+}
+
+.post-row__padding {
+    &.bottom > div:not(.post) {
+        padding-bottom: 1em;
+    }
+    &.top > div:not(.post) {
+        padding-top: 1em;
+    }
+
+    &.top .post {
+        padding-top: 22px; // this is based off of 8px padding for post + 1em
+        &.same--root.same--user {
+            padding-top: 1em;
+        }
+    }
+
+    &.bottom .post {
+        padding-bottom: 1em;
+        &.same--root.same--user {
+            padding-bottom: 1em;
+        }
+    }
+}
+
+.post-list__dynamic {
+    .date-separator, .new-separator {
+        z-index: 1;
+        height: 1px;
+        margin-bottom: 1em;
+        margin-top: -1em;
+    }
 }

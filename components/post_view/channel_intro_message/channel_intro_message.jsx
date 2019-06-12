@@ -8,10 +8,11 @@ import PropTypes from 'prop-types';
 import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import ProfilePicture from 'components/profile_picture.jsx';
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import UserProfile from 'components/user_profile';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
@@ -33,7 +34,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
         channelProfiles: PropTypes.array.isRequired,
         enableUserCreation: PropTypes.bool,
         isReadOnly: PropTypes.bool,
-        teamIsGroupConstrained: PropTypes.bool.isRequired,
+        teamIsGroupConstrained: PropTypes.bool,
     };
 
     render() {
@@ -147,14 +148,12 @@ function createDMIntroMessage(channel, centeredIntro) {
                         hasMention={true}
                     />
                 </div>
-                <div className='channel-intro-profile'>
-                    <strong>
-                        <UserProfile
-                            userId={teammate.id}
-                            disablePopover={false}
-                            hasMention={true}
-                        />
-                    </strong>
+                <div className='channel-intro-profile d-flex'>
+                    <UserProfile
+                        userId={teammate.id}
+                        disablePopover={false}
+                        hasMention={true}
+                    />
                 </div>
                 <p className='channel-intro-text'>
                     <FormattedMarkdownMessage
@@ -559,17 +558,23 @@ function createSetHeaderButton(channel) {
     if (channelIsArchived) {
         return null;
     }
+
     return (
-        <ToggleModalButton
-            className='intro-links color--link'
-            dialogType={EditChannelHeaderModal}
-            dialogProps={{channel}}
+        <FormattedMessage
+            id='intro_messages.setHeader'
+            defaultMessage='Set a Header'
         >
-            <EditIcon/>
-            <FormattedMessage
-                id='intro_messages.setHeader'
-                defaultMessage='Set a Header'
-            />
-        </ToggleModalButton>
+            {(message) => (
+                <ToggleModalButtonRedux
+                    accessibilityLabel={message}
+                    className={'intro-links color--link'}
+                    dialogType={EditChannelHeaderModal}
+                    dialogProps={{channel}}
+                >
+                    <EditIcon/>
+                    {message}
+                </ToggleModalButtonRedux>
+            )}
+        </FormattedMessage>
     );
 }
