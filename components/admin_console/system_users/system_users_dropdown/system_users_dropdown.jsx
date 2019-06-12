@@ -137,19 +137,16 @@ export default class SystemUsersDropdown extends React.PureComponent {
         adminResetMfa(this.props.user.id, null, this.props.onError);
     }
 
-    handleShowDeactivateMemberModal = (e) => {
+    handleShowDeactivateMemberModal = async (e) => {
         e.preventDefault();
         if (this.shouldDisableBotsWhenOwnerIsDeactivated()) {
-            this.props.actions.loadBots(
+            const {data} = await this.props.actions.loadBots(
                 Constants.Integrations.START_PAGE_NUM,
                 Constants.Integrations.PAGE_SIZE
-            ).then(
-                (result) => {
-                    if (result.data) {
-                        this.setState({loading: false, showDeactivateMemberModal: true});
-                    }
-                }
             );
+            if (data) {
+                this.setState({loading: false, showDeactivateMemberModal: true});
+            }
         }
     }
 
