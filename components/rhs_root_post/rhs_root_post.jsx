@@ -22,7 +22,7 @@ import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import UserProfile from 'components/user_profile';
 
-export default class RhsRootPost extends React.Component {
+export default class RhsRootPost extends React.PureComponent {
     static propTypes = {
         post: PropTypes.object.isRequired,
         teamId: PropTypes.string.isRequired,
@@ -55,50 +55,6 @@ export default class RhsRootPost extends React.Component {
             testStateObj: true,
             dropdownOpened: false,
         };
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.isBusy !== this.props.isBusy) {
-            return true;
-        }
-
-        if (nextProps.compactDisplay !== this.props.compactDisplay) {
-            return true;
-        }
-
-        if (nextProps.isFlagged !== this.props.isFlagged) {
-            return true;
-        }
-
-        if (nextProps.isEmbedVisible !== this.props.isEmbedVisible) {
-            return true;
-        }
-
-        if (nextProps.previewEnabled !== this.props.previewEnabled) {
-            return true;
-        }
-
-        if (!Utils.areObjectsEqual(nextProps.post, this.props.post)) {
-            return true;
-        }
-
-        if (this.state.showEmojiPicker !== nextState.showEmojiPicker) {
-            return true;
-        }
-
-        if (this.state.dropdownOpened !== nextState.dropdownOpened) {
-            return true;
-        }
-
-        if (this.props.previewCollapsed !== nextProps.previewCollapsed) {
-            return true;
-        }
-
-        if ((this.state.width !== nextState.width) || this.state.height !== nextState.height) {
-            return true;
-        }
-
-        return false;
     }
 
     renderPostTime = (isEphemeral) => {

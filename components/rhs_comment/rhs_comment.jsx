@@ -12,7 +12,6 @@ import {
 
 import Constants, {Locations} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
-import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import PostProfilePicture from 'components/post_profile_picture';
@@ -27,7 +26,7 @@ import Badge from 'components/widgets/badges/badge.jsx';
 
 import UserProfile from 'components/user_profile';
 
-export default class RhsComment extends React.Component {
+export default class RhsComment extends React.PureComponent {
     static propTypes = {
         post: PropTypes.object,
         teamId: PropTypes.string.isRequired,
@@ -54,50 +53,6 @@ export default class RhsComment extends React.Component {
             showEmojiPicker: false,
             dropdownOpened: false,
         };
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.isBusy !== this.props.isBusy) {
-            return true;
-        }
-
-        if (nextProps.compactDisplay !== this.props.compactDisplay) {
-            return true;
-        }
-
-        if (nextProps.isFlagged !== this.props.isFlagged) {
-            return true;
-        }
-
-        if (!Utils.areObjectsEqual(nextProps.post, this.props.post)) {
-            return true;
-        }
-
-        if (this.state.showEmojiPicker !== nextState.showEmojiPicker) {
-            return true;
-        }
-
-        if (this.state.dropdownOpened !== nextState.dropdownOpened) {
-            return true;
-        }
-
-        if (nextProps.isEmbedVisible !== this.props.isEmbedVisible) {
-            return true;
-        }
-
-        if (this.props.previewEnabled !== nextProps.previewEnabled) {
-            return true;
-        }
-
-        if ((this.state.width !== nextState.width) || this.state.height !== nextState.height) {
-            return true;
-        }
-
-        if (this.state.hover !== nextState.hover) {
-            return true;
-        }
-
-        return false;
     }
 
     removePost = () => {
