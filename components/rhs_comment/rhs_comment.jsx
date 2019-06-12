@@ -400,7 +400,10 @@ export default class RhsComment extends React.Component {
                             </div>
                             {options}
                         </div>
-                        <div className='post__body' >
+                        <div
+                            className='post__body'
+                            dir='auto'
+                        >
                             <div className={postClass}>
                                 {failedPostOptions}
                                 <MessageWithAdditionalContent

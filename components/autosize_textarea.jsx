@@ -147,6 +147,7 @@ export default class AutosizeTextarea extends React.Component {
                     onChange={this.handleChange}
                     onInput={onInput}
                     value={value}
+                    dir='auto'
                     defaultValue={defaultValue}
                 />
                 <div style={style.container}>

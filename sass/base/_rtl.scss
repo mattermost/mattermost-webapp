@@ -1,9 +1,338 @@
-body
+body.rtl
 {
   // direction: rtl;
   @include font-smoothing;
   font-family: 'IRANSans', sans-serif !important;
-}
-.font--open_sans {
-  font-family: 'IRANSans', sans-serif !important;
+  .font--open_sans {
+    font-family: 'IRANSans', sans-serif !important;
+  }
+  .post {
+    padding: 8px 1.5em 0 .5em;
+    &:hover {
+        .post__header {
+            padding: 0 0 0 55px;
+        }
+    }
+
+    .post__img
+    {
+      padding-left: 10px;
+      padding-right: 0px;
+    }
+    .col__name
+    {
+      margin-left: 7px;
+      margin-right: 0px;
+    }
+    .post__header {
+      padding: 0 0 0 40px;
+      .flag-icon__container
+      {
+        margin-right: 7px;
+        margin: 0px;
+      }
+    }
+  }
+  .sidebar--left {
+    .team__header .header__info .sidebar-header-dropdown__icon, .sidebar--menu .team__header .header__info .sidebar-header-dropdown__icon, .admin-sidebar .team__header .header__info .sidebar-header-dropdown__icon
+    {
+      left: -5px;
+      right: auto;
+      .user__name
+      {
+        direction: ltr;
+        text-align: right;
+      }
+      .team__name
+      {
+        text-align: right;
+      }
+    }
+    left: auto;
+    right: 65px;
+    
+    
+  }
+  .nav-pills__container
+  {
+    .nav
+    {
+      padding-right: 1em;
+      .sidebar-item__name
+      {
+        text-align: right;
+      }
+    }
+  }
+  .app__content
+  {
+    margin-left: 0px;
+    margin-right: 285px;
+  }
+  .nav-more
+  {
+    text-align: right;
+    padding: 5px 15px 5px 0px;
+  }
+  .team-sidebar
+  {
+    left: auto;
+    right: 0px;
+    .scrollbar--view
+    {
+      margin-left: -8px;
+      margin-right: 0px;
+      
+    }
+    .team-container.unread:before
+    {
+      left: auto;
+      right: 0px;
+    }
+    .team-container.active:before
+    {
+      left: auto;
+      right: 0px;
+    }
+  }
+  .sidebar--left
+  {
+    border-right-width: 0px;
+    border-left: 1px solid rgba(147, 161, 161, 0.2);
+    .scrollbar--view
+    {
+      margin-left: -8px;
+      margin-right: 0px;
+    }
+  }
+  .sidebar--right
+  {
+    -webkit-transform: translateX(-400px);
+    -moz-transform: translateX(-400px);
+    -ms-transform: translateX(-400px);
+    -o-transform: translateX(-400px);
+    transform: translateX(-400px);
+    .sidebar-right-container
+    {
+      .search-bar__container
+      {
+        padding-left: 0px;
+        padding-right: 8px;
+        .channel-header__icon
+        {
+          margin: 8px 0 0 16px;
+        }
+      }
+    }
+    .sidebar-right__body
+    {
+      border-left: 0px;
+      border-right: 1px solid #ddd;
+    }
+    .sidebar--right__header
+    {
+      .sidebar--right__title
+      {
+        padding-left: 0px;
+        padding-right: 15px;
+      }
+    }
+    .scrollbar--view
+    {
+      margin-left: -8px !important;
+      margin-right: 0px !important;
+      .post--thread
+      {
+        padding: 8px .5em 0 1.5em;
+        padding-right: 1.5em !important;
+      }
+    }
+  }
+  .emoji-picker__search-container .emoji-picker__search
+  {
+    padding: 2px 27px 2px 0px;
+  }
+  .emoji-picker__search-container .emoji-picker__search-icon
+  {
+    padding-left: 0px;
+    padding-right: 9px;
+  }
+  .channel-header__top
+  {
+    .channel-header__favorites
+    {
+      margin: 0 0 0 5px;
+    }
+    .header-dropdown__icon
+    {
+      margin: 0 8px 0 0;
+    }
+  }
+  .channel-intro .intro-links .fa
+  {
+    margin-left: 5px;
+    margin-right: 0px;
+  }
+  @media screen and (min-width: 768px)
+  {
+    .inner-wrap.move--left
+    {
+      margin-left: 400px;
+      margin-right: 0px;
+    }
+    .sidebar--right.move--left
+    {
+      -webkit-transform: translateX(0);
+      -moz-transform: translateX(0);
+      -ms-transform: translateX(0);
+      -o-transform: translateX(0);
+      transform: translateX(0);
+    }
+    .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
+      float: right;
+    }
+  }
+  .modal
+  {
+    .settings-modal
+    {
+      .settings-table .settings-content .section-title
+      {
+        padding-left: 50px !important;
+        padding-right: 15px !important;
+      }
+      .section-edit
+      {
+        text-align: left !important;
+      }
+    }
+    
+  }
+  .modal .nav-pills > li button
+  {
+    text-align: right !important;
+  }
+  .radio label, .checkbox label
+  {
+    padding-left: 0px;
+    padding-right: 20px;
+  }
+  .modal .nav-pills > li .icon
+  {
+    margin-left: 10px;
+    margin-right: 0px;
+  }
+  .modal .settings-modal .settings-table .settings-content .section-edit .fa
+  {
+    margin-right: 0px !important;
+    margin-left: 5px !important;
+  }
+  .Badge__box
+  {
+    margin: 0 0 0 10px;
+  }
+  @media screen and (max-width: 768px)
+  {
+    .multi-teams .app__content
+    {
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+    .sidebar--left
+    {
+      -webkit-transform: translate3d(360px, 0, 0);
+      -moz-transform: translate3d(360px, 0, 0);
+      -ms-transform: translate3d(360px, 0, 0);
+      -o-transform: translate3d(360px, 0, 0);
+      transform: translate3d(360px, 0, 0);
+    }
+    .sidebar--left .nav li .nav-more {
+      padding: 12px 17px 12px 0;
+    }
+    #navbar .navbar-default .navbar-toggle.menu-toggle
+    {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
+    .app__body .modal .modal-header .modal-title {
+      float: left;
+    }
+    .post .post__header
+    {
+      padding-left: 0 0 0 70px;
+    }
+    .post .post__header .col__reply
+    {
+      right: auto;
+      left: 0px;
+    }
+    .post.same--root.same--user
+    {
+      padding: 0 1.5em 0 .5em
+    }
+    .post.other--root
+    {
+      padding: 8px 1.5em 0 .5em;
+    }
+    .post .post__img
+    {
+      padding-left: 10px;
+      padding-right: 0px;
+    }
+    #navbar .navbar-default .status
+    {
+      margin: 0 0px 0 8px
+    }
+  }
+  @media screen and (max-width: 480px)
+  {
+    .sidebar--left
+    {
+      -webkit-transform: translate3d(330px, 0, 0);
+      -moz-transform: translate3d(330px, 0, 0);
+      -ms-transform: translate3d(330px, 0, 0);
+      -o-transform: translate3d(330px, 0, 0);
+      transform: translate3d(330px, 0, 0);
+    }
+  }
+  .more-modal
+  {
+    .more-modal__details
+    {
+      padding-right: 10px;
+      padding-left: 0px;
+    }
+    .more-modal__actions
+    {
+      padding-right: 10px;
+      padding-left: 0px;
+    }
+  }
+  .mobile-main-menu .Menu.dropdown-menu
+  {
+    text-align: right;
+  }
+  .sidebar--menu .icon
+  {
+    margin-left: 8px;
+    margin-right: 0px;
+  }
+  .inner-wrap.move--left-small
+  {
+    -webkit-transform: translate3d(290px, 0, 0);
+    -moz-transform: translate3d(290px, 0, 0);
+    -ms-transform: translate3d(290px, 0, 0);
+    -o-transform: translate3d(290px, 0, 0);
+    transform: translate3d(290px, 0, 0);
+  }
+  .sidebar--menu
+  {
+    -webkit-transform: translate3d(0, 0, 0) !important;
+    -moz-transform: translate3d(0, 0, 0) !important;
+    -ms-transform: translate3d(0, 0, 0) !important;
+    -o-transform: translate3d(0, 0, 0) !important;
+    transform: translate3d(0, 0, 0) !important;
+    left: 0px !important;
+    right: auto !important;
+  }
 }

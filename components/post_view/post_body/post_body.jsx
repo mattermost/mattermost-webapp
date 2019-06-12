@@ -200,6 +200,7 @@ export default class PostBody extends React.PureComponent {
                 {comment}
                 <div
                     id={`${post.id}_message`}
+                    dir='auto'
                     className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
                 >
                     {messageWithAdditionalContent}

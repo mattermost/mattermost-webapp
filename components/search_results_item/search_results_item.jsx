@@ -332,7 +332,10 @@ export default class SearchResultsItem extends React.PureComponent {
                                 </div>
                                 {rhsControls}
                             </div>
-                            <div className='search-item-snippet post__body'>
+                            <div
+                                className='search-item-snippet post__body'
+                                dir='auto'
+                            >
                                 <div className={postClass}>
                                     {message}
                                     {fileAttachment}
