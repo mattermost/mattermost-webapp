@@ -53,9 +53,12 @@ describe('Message', () => {
     });
 
     it('M13701 Consecutive message does not repeat profile info', () => {
+        // # Wait for posts to load
+        cy.get('#postListContent').should('be.visible');
+
         // # Post a message to force next user message to display a message
         cy.getCurrentChannelId().then((channelId) => {
-            cy.task('postMessageAs', {sender: sysadmin, message: 'Hello', channelId});
+            cy.postMessageAs(sysadmin, 'Hello', channelId);
         });
 
         // # Post message "One"

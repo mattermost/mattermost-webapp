@@ -37,16 +37,22 @@ describe("Click another user's emoji reaction to add it", () => {
 
             // * The number shown on the reaction is incremented by 1
             cy.get(`#postReaction-${postId}-slightly_frowning_face > .post-reaction__count`).should('contain', '1');
+        });
 
-            // # Logout
-            cy.apiLogout();
+        // # Logout
+        cy.apiLogout();
 
-            // # Login as "user-1" and go to /
-            cy.apiLogin('user-1');
-            cy.visit('/');
+        // # Login as "user-1" and go to /
+        cy.apiLogin('user-1');
+        cy.visit('/');
 
+        cy.getLastPostId().then((postId) => {
             // # Click on the "slightly_frowning_face" emoji of the last post and the background color changes
-            cy.get(`#postReaction-${postId}-slightly_frowning_face`).click().should('have.css', 'background-color').and('eq', 'rgba(35, 137, 215, 0.1)');
+            cy.get(`#postReaction-${postId}-slightly_frowning_face`).
+                should('be.visible').
+                click().
+                should('have.css', 'background-color').
+                and('eq', 'rgba(35, 137, 215, 0.1)');
 
             // * The number shown on the "slightly_frowning_face" reaction is incremented by 1
             cy.get(`#postReaction-${postId}-slightly_frowning_face > .post-reaction__count`).should('contain', '2');

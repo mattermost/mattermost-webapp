@@ -11,4 +11,12 @@ module.exports = (on) => {
         externalRequest,
         getRecentEmail,
     });
+
+    on('before:browser:launch', (browser = {}, args) => {
+        if (browser.name === 'chrome') {
+            args.push('--disable-notifications');
+        }
+
+        return args;
+    });
 };

@@ -3289,7 +3289,7 @@ export default {
     plugins: {
         icon: 'fa-plug',
         sectionTitle: t('admin.sidebar.plugins'),
-        sectionTitleDefault: 'Plugins',
+        sectionTitleDefault: 'Plugins (Beta)',
         id: 'plugins',
         plugin_management: {
             url: 'plugins/plugin_management',
@@ -3501,14 +3501,6 @@ export default {
                         help_text: t('admin.service.corsDebugDescription'),
                         help_text_default: 'When true, prints messages to the logs to help when developing an integration that uses CORS. These messages will include the structured key value pair "source":"cors".',
                     },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.EnableInsecureOutgoingConnections',
-                        label: t('admin.service.insecureTlsTitle'),
-                        label_default: 'Enable Insecure Outgoing Connections: ',
-                        help_text: t('admin.service.insecureTlsDesc'),
-                        help_text_default: 'When true, any outgoing HTTPS requests will accept unverified, self-signed certificates. For example, outgoing webhooks to a server with a self-signed TLS certificate, using any domain, will be allowed. Note that this makes these connections susceptible to man-in-the-middle attacks.',
-                    },
                 ],
             },
         },
@@ -3580,6 +3572,8 @@ export default {
             ],
             schema: {
                 id: 'Audits',
+                name: t('admin.compliance.complianceMonitoring'),
+                name_default: 'Compliance Monitoring',
                 component: Audits,
                 isHidden: it.isnt(it.licensedForFeature('Compliance')),
                 settings: [
@@ -3853,7 +3847,7 @@ export default {
                         label: t('admin.experimental.experimentalLdapGroupSync.title'),
                         label_default: 'Enable AD/LDAP Group Sync:',
                         help_text: t('admin.experimental.experimentalLdapGroupSync.desc'),
-                        help_text_default: 'When true, enables **AD/LDAP Group Sync** configurable under **Access Controls > Groups**. See [documentation](!https://mattermost.com/pl/default-ldap-group-sync) to learn more.',
+                        help_text_default: 'When true, enables **AD/LDAP Group Sync** configurable under **User Management > Groups**. See [documentation](!https://mattermost.com/pl/default-ldap-group-sync) to learn more.',
                         help_text_markdown: true,
                     },
                     {
