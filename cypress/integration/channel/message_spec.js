@@ -130,12 +130,13 @@ describe('Message', () => {
     });
 
     it('MM-2954 /me message should be formatted like a system message', () => {
-        // Post /me message
+        // # Post message
         cy.postMessage('/me hello there');
 
         cy.getLastPostId().then((postId) => {
             const divPostId = `#post_${postId}`;
 
+            // * Check that message has the css class needed for system message styling
             cy.get(divPostId).should('have.class', 'post--system');
         });
     });

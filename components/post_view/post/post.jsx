@@ -165,13 +165,11 @@ export default class Post extends React.PureComponent {
 
         if (isSystemMessage || isMeMessage) {
             className += ' post--system';
-        }
-
-        if (isSystemMessage) {
-            sameUserClass = '';
-            currentUserCss = '';
-            postType = '';
-            rootUser = '';
+            if (isSystemMessage) {
+                currentUserCss = '';
+                postType = '';
+                rootUser = '';
+            }
         }
 
         if (fromAutoResponder) {
