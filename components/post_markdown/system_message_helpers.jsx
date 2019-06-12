@@ -302,7 +302,7 @@ function renderChannelDeletedMessage(post) {
 }
 
 function renderMeMessage(post) {
-    return renderFormattedText(post.props.message ? post.props.message : post.message);
+    return renderFormattedText((post.props && post.props.message) ? post.props.message : post.message);
 }
 
 const systemMessageRenderers = {
