@@ -513,6 +513,19 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           />
           <AdminSidebarSection
             key="5"
+            name="integrations/bot_accounts"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Bot Accounts"
+                id="admin.integrations.botAccounts"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="6"
             name="integrations/gif"
             parentLink=""
             subsection={false}
@@ -525,7 +538,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           />
           <AdminSidebarSection
-            key="6"
+            key="7"
             name="integrations/cors"
             parentLink=""
             subsection={false}
@@ -1077,6 +1090,19 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
           />
           <AdminSidebarSection
             key="5"
+            name="integrations/bot_accounts"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Bot Accounts"
+                id="admin.integrations.botAccounts"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="6"
             name="integrations/gif"
             parentLink=""
             subsection={false}
@@ -1089,7 +1115,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             }
           />
           <AdminSidebarSection
-            key="6"
+            key="7"
             name="integrations/cors"
             parentLink=""
             subsection={false}
@@ -1641,6 +1667,19 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
           />
           <AdminSidebarSection
             key="5"
+            name="integrations/bot_accounts"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Bot Accounts"
+                id="admin.integrations.botAccounts"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="6"
             name="integrations/gif"
             parentLink=""
             subsection={false}
@@ -1653,7 +1692,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
             }
           />
           <AdminSidebarSection
-            key="6"
+            key="7"
             name="integrations/cors"
             parentLink=""
             subsection={false}
@@ -2336,6 +2375,19 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           />
           <AdminSidebarSection
             key="5"
+            name="integrations/bot_accounts"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Bot Accounts"
+                id="admin.integrations.botAccounts"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="6"
             name="integrations/gif"
             parentLink=""
             subsection={false}
@@ -2348,7 +2400,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="6"
+            key="7"
             name="integrations/cors"
             parentLink=""
             subsection={false}
@@ -3019,6 +3071,19 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           />
           <AdminSidebarSection
             key="5"
+            name="integrations/bot_accounts"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Bot Accounts"
+                id="admin.integrations.botAccounts"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="6"
             name="integrations/gif"
             parentLink=""
             subsection={false}
@@ -3031,7 +3096,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           />
           <AdminSidebarSection
-            key="6"
+            key="7"
             name="integrations/cors"
             parentLink=""
             subsection={false}

@@ -3399,15 +3399,6 @@ export default {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.EnableBotAccountCreation',
-                        label: t('admin.service.enableBotTitle'),
-                        label_default: 'Enable Bot Account Creation: ',
-                        help_text: t('admin.service.enableBotAccountCreation'),
-                        help_text_default: 'When true, users can create bot accounts for integrations in **Integrations > Bot Accounts**. Bot accounts are similar to user accounts except they cannot be used to log in. See [documentation](https://mattermost.com/pl/default-bot-accounts) to learn more.',
-                        help_text_markdown: true,
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableUserAccessTokens',
                         label: t('admin.service.userAccessTokensTitle'),
                         label_default: 'Enable User Access Tokens: ',
@@ -3417,6 +3408,37 @@ export default {
                     },
                 ],
             },
+        },
+		bot_accounts: {
+            url: 'integrations/bot_accounts',
+			title: t('admin.integrations.botAccounts'),
+			title_default: 'Bot Accounts',
+			schema: {
+				id: "BotAccountSettings",
+				name: t('admin.integrations.botAccount.title'),
+				name_default: "Bot Accounts",
+				settings: [
+					{
+						type: Constants.SettingsTypes.TYPE_BOOL,
+						key: 'ServiceSettings.EnableBotAccountCreation',
+						label: t('admin.service.enableBotTitle'),
+						label_default: 'Enable Bot Account Creation: ',
+						help_text: t('admin.service.enableBotAccountCreation'),
+						help_text_default: 'When true, users can create bot accounts for integrations in **Integrations > Bot Accounts**. Bot accounts are similar to user accounts except they cannot be used to log in. See [documentation](https://mattermost.com/pl/default-bot-accounts) to learn more.',
+						help_text_markdown: true,
+					},
+					{
+						type: Constants.SettingsTypes.TYPE_BOOL,
+						key: 'ServiceSettings.DisableBotsWhenOwnerIsDeactivated',
+						label: t('admin.service.disableBotOwnerDeactivatedTitle'),
+						label_default: 'Disable bot accounts when owner is deactivated',
+						help_text: t('admin.service.disableBotWhenOwnerIsDeactivated'),
+						help_text_default: 'When a user is deactivated, disables all bot accounts managed by the user. To re-enable bot accounts, go to **Integrations > Bot Accounts**',
+						isDisabled: it.stateEquals('ServiceSettings.EnableBotAccountCreation', false),
+						help_text_markdown: true,
+					}
+				]
+			}
         },
         gif: {
             url: 'integrations/gif',
