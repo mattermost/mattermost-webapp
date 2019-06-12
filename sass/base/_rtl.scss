@@ -2,8 +2,8 @@ body
 {
   // direction: rtl;
   @include font-smoothing;
-  font-family: 'IRANSans', sans-serif;
-  .font--open_sans {
-    font-family: 'IRANSans', sans-serif !important;
-  }
+  font-family: 'IRANSans', sans-serif !important;
+}
+.font--open_sans {
+  font-family: 'IRANSans', sans-serif !important;
 }
