@@ -680,6 +680,7 @@
   "admin.image.storeDescription": "Storage system where files and image attachments are saved.\n \nSelecting \"Amazon S3\" enables fields to enter your Amazon credentials and bucket details.\n \nSelecting \"Local File System\" enables the field to specify a local file directory.",
   "admin.image.storeLocal": "Local File System",
   "admin.image.storeTitle": "File Storage System:",
+  "admin.integrations.botAccount.title": "Bot Accounts",
   "admin.integrations.botAccounts": "Bot Accounts",
   "admin.integrations.cors": "CORS",
   "admin.integrations.gif": "GIF (Beta)",
