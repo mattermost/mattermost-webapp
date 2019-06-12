@@ -180,7 +180,7 @@ describe('TextFormatting.Hashtags with default setting', () => {
         };
         assert.equal(
             TextFormatting.formatText('#~test', options).trim(),
-            '<p>#~test</p>'
+            '<p>#<a class="mention-link" href="/abcd/channels/test" data-channel-mention="test">~Test Channel</a></p>'
         );
 
         assert.equal(
