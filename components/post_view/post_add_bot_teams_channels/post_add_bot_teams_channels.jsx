@@ -77,7 +77,7 @@ export default class PostAddBotTeamsChannels extends React.PureComponent {
             },
         };
 
-        await this.props.actions.editPost(post);
+        this.props.actions.editPost(post);
     }
 
     render() {
