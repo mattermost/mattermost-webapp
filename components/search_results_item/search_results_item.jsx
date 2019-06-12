@@ -296,7 +296,7 @@ export default class SearchResultsItem extends React.PureComponent {
 
         return (
             <div
-                data-mm-test='search-item-container'
+                data-testid='search-item-container'
                 className='search-item__container'
             >
                 <DateSeparator date={currentPostDay}/>

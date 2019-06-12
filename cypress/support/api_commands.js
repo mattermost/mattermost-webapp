@@ -269,8 +269,7 @@ Cypress.Commands.add('createNewUser', (user = {}, teams = null) => {
                 expect(teamsResponse).to.have.property('body').to.have.length.greaterThan(1);
 
                 // Pull out only the first 2 teams
-                const [team1, team2] = teamsResponse.body;
-                teamsToAdd = [team1, team2].map((t) => t.id);
+                teamsToAdd = teamsResponse.body.slice(0, 2).map((t) => t.id);
             });
         }
 

@@ -3,7 +3,7 @@
 exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
 <div
   className="search-item__container"
-  data-mm-test="search-item-container"
+  data-testid="search-item-container"
 >
   <Connect(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
@@ -230,7 +230,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
 exports[`components/SearchResultsItem should match snapshot for archived channel 1`] = `
 <div
   className="search-item__container"
-  data-mm-test="search-item-container"
+  data-testid="search-item-container"
 >
   <Connect(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
@@ -439,7 +439,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
 exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
 <div
   className="search-item__container"
-  data-mm-test="search-item-container"
+  data-testid="search-item-container"
 >
   <Connect(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
@@ -648,7 +648,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
 exports[`components/SearchResultsItem should match snapshot for deleted message with attachments by bot 1`] = `
 <div
   className="search-item__container"
-  data-mm-test="search-item-container"
+  data-testid="search-item-container"
 >
   <Connect(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
