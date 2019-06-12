@@ -1182,6 +1182,8 @@
   "admin.saml.remove.sp_certificate": "Remove Service Provider Certificate",
   "admin.saml.removing.certificate": "Removing Certificate...",
   "admin.saml.removing.privKey": "Removing Private Key...",
+  "admin.saml.signRequestDescription": "When true, Mattermost will sign the SAML request using your private key. When false, Mattermost will not sign the SAML request.",
+  "admin.saml.signRequestTitle": "Sign Request:",
   "admin.saml.uploading.certificate": "Uploading Certificate...",
   "admin.saml.uploading.privateKey": "Uploading Private Key...",
   "admin.saml.usernameAttrDesc": "The attribute in the SAML Assertion that will be used to populate the username field in Mattermost.",
