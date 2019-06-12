@@ -25,7 +25,7 @@ function searchAndValidate(query, expectedResults = []) {
             });
         } else {
             // * If we expect no results, verify results message
-            cy.get('#search-items-container').find('span').first().should('have.text', 'No results found. Try again?'); // update this selector!
+            cy.get('#noResultsMessage').should('be.visible').and('have.text', 'No results found. Try again?');
         }
     });
 }
@@ -189,6 +189,10 @@ describe('SF15699 Search Date Filter', () => {
         });
 
         describe('works without leading 0 in', () => {
+            before(() => {
+                cy.reload();
+            });
+
             // These must match the date of the firstMessage, only altering leading zeroes
             const tests = [
                 {name: 'day', date: '2018-06-5'},
@@ -198,7 +202,7 @@ describe('SF15699 Search Date Filter', () => {
 
             tests.forEach((test) => {
                 it(test.name, () => {
-                    searchAndValidate(`on:${test.date} ${firstMessage}`, [firstMessage]);
+                    searchAndValidate(`on:${test.date} "${firstMessage}"`, [firstMessage]);
                 });
             });
         });
