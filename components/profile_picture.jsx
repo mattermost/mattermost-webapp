@@ -26,6 +26,7 @@ export default class ProfilePicture extends React.PureComponent {
         isBusy: PropTypes.bool,
         isRHS: PropTypes.bool,
         hasMention: PropTypes.bool,
+        helperClass: PropTypes.string,
     };
 
     hideProfilePopover = () => {
@@ -51,7 +52,7 @@ export default class ProfilePicture extends React.PureComponent {
                         />
                     }
                 >
-                    <span className='status-wrapper'>
+                    <span className={`status-wrapper ${this.props.helperClass}`}>
                         <img
                             className='more-modal__image rounded'
                             alt={`${this.props.username || 'user'} profile image`}
