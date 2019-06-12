@@ -1401,6 +1401,7 @@
   "admin.system_users.noTeams": "No Teams",
   "admin.system_users.system_admin": "System Admin",
   "admin.system_users.title": "{siteName} Users",
+  "admin.systemUserDetail.title": "User Configuration",
   "admin.team.brandDesc": "Enable custom branding to show an image of your choice, uploaded below, and some help text, written below, on the login page.",
   "admin.team.brandDescriptionHelp": "Description of service shown in login screens and UI. When not specified, \"All team communication in one place, searchable and accessible anywhere\" is displayed.",
   "admin.team.brandDescriptionTitle": "Site Description: ",
