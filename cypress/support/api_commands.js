@@ -258,7 +258,11 @@ Cypress.Commands.add('createNewUser', (user = {}, teams = null) => {
 
         const userId = userResponse.body.id;
 
-        if (!teams) {
+        let teamsToAdd;
+
+        if (teams) {
+            teamsToAdd = teams;
+        } else {
             // Get teams, select the first three, and add new user to that team
             cy.request('GET', '/api/v4/teams').then((teamsResponse) => {
                 // Verify we have at least 2 teams in the response to add the user to
@@ -266,12 +270,12 @@ Cypress.Commands.add('createNewUser', (user = {}, teams = null) => {
 
                 // Pull out only the first 2 teams
                 const [team1, team2] = teamsResponse.body;
-                teams = [team1, team2].map((t) => t.id);
+                teamsToAdd = [team1, team2].map((t) => t.id);
             });
         }
 
         // Add user to several teams by default
-        teams.forEach((team) => {
+        teamsToAdd.forEach((team) => {
             cy.request({
                 method: 'POST',
                 url: `/api/v4/teams/${team}/members`,
