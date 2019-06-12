@@ -353,34 +353,13 @@ exports[`components/TeamSettings should match snapshot when team is group constr
     <div
       className="divider-light"
     />
-    <ul
-      className="section-min"
-    >
-      <li
-        className="col-xs-12 col-sm-9 section-title"
-        id="open_inviteTitle"
-      >
-        Allow any user with an account on this server to join this team
-      </li>
-      <li
-        className="col-xs-12 section-describe"
-        id="open_inviteDesc"
-      >
-        No
-      </li>
-      <li
-        className="col-xs-12"
-      >
-        <div
-          className="disabledMessage"
-        >
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Members of this team are added and removed by linked groups."
-            id="general_tab.membersManagedByGroups"
-          />
-        </div>
-      </li>
-    </ul>
+    <SettingItemMin
+      describe="No, members of this team are added and removed by linked groups."
+      focused={false}
+      section="open_invite"
+      title="Allow any user with an account on this server to join this team"
+      updateSection={[Function]}
+    />
     <div
       className="divider-dark"
     />

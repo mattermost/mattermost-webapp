@@ -342,49 +342,64 @@ export default class GeneralTab extends React.Component {
 
         let openInviteSection;
         if (this.props.activeSection === 'open_invite') {
-            const inputs = [
-                <div key='userOpenInviteOptions'>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='teamOpenInvite'
-                                name='userOpenInviteOptions'
-                                type='radio'
-                                defaultChecked={this.state.allow_open_invite}
-                                onChange={this.handleOpenInviteRadio.bind(this, true)}
+            let inputs;
+
+            if (team.group_constrained) {
+                inputs = [
+                    <div key='userOpenInviteOptions'>
+                        <div>
+                            <FormattedMarkdownMessage
+                                id='team_settings.openInviteDescription.groupConstrained'
+                                defaultMessage='No, members of this team are added and removed by linked groups. [Learn More](https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
                             />
+                        </div>
+                    </div>,
+                ];
+            } else {
+                inputs = [
+                    <div key='userOpenInviteOptions'>
+                        <div className='radio'>
+                            <label>
+                                <input
+                                    id='teamOpenInvite'
+                                    name='userOpenInviteOptions'
+                                    type='radio'
+                                    defaultChecked={this.state.allow_open_invite}
+                                    onChange={this.handleOpenInviteRadio.bind(this, true)}
+                                />
+                                <FormattedMessage
+                                    id='general_tab.yes'
+                                    defaultMessage='Yes'
+                                />
+                            </label>
+                            <br/>
+                        </div>
+                        <div className='radio'>
+                            <label>
+                                <input
+                                    id='teamOpenInviteNo'
+                                    name='userOpenInviteOptions'
+                                    type='radio'
+                                    defaultChecked={!this.state.allow_open_invite}
+                                    onChange={this.handleOpenInviteRadio.bind(this, false)}
+                                />
+                                <FormattedMessage
+                                    id='general_tab.no'
+                                    defaultMessage='No'
+                                />
+                            </label>
+                            <br/>
+                        </div>
+                        <div>
+                            <br/>
                             <FormattedMessage
-                                id='general_tab.yes'
-                                defaultMessage='Yes'
+                                id='general_tab.openInviteDesc'
+                                defaultMessage='When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team.'
                             />
-                        </label>
-                        <br/>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='teamOpenInviteNo'
-                                name='userOpenInviteOptions'
-                                type='radio'
-                                defaultChecked={!this.state.allow_open_invite}
-                                onChange={this.handleOpenInviteRadio.bind(this, false)}
-                            />
-                            <FormattedMessage
-                                id='general_tab.no'
-                                defaultMessage='No'
-                            />
-                        </label>
-                        <br/>
-                    </div>
-                    <div>
-                        <br/>
-                        <FormattedMessage
-                            id='general_tab.openInviteDesc'
-                            defaultMessage='When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team.'
-                        />
-                    </div>
-                </div>,
-            ];
+                        </div>
+                    </div>,
+                ];
+            }
 
             openInviteSection = (
                 <SettingItemMax
@@ -399,6 +414,8 @@ export default class GeneralTab extends React.Component {
             let describe = '';
             if (this.state.allow_open_invite === true) {
                 describe = Utils.localizeMessage('general_tab.yes', 'Yes');
+            } else if (team.group_constrained) {
+                describe = Utils.localizeMessage('team_settings.openInviteSetting.groupConstrained', 'No, members of this team are added and removed by linked groups.');
             } else {
                 describe = Utils.localizeMessage('general_tab.no', 'No');
             }
@@ -410,35 +427,6 @@ export default class GeneralTab extends React.Component {
                     updateSection={this.handleUpdateSection}
                     section={'open_invite'}
                 />
-            );
-        }
-
-        if (team.group_constrained) {
-            openInviteSection = (
-                <ul className='section-min'>
-                    <li
-                        id='open_inviteTitle'
-                        className='col-xs-12 col-sm-9 section-title'
-                    >
-                        {Utils.localizeMessage('general_tab.openInviteTitle', 'Allow any user with an account on this server to join this team')}
-                    </li>
-                    <li
-                        id='open_inviteDesc'
-                        className='col-xs-12 section-describe'
-                    >
-                        {Utils.localizeMessage('general_tab.no', 'No')}
-                    </li>
-                    <li
-                        className='col-xs-12'
-                    >
-                        <div className='disabledMessage'>
-                            <FormattedMarkdownMessage
-                                id='general_tab.membersManagedByGroups'
-                                defaultMessage='Members of this team are added and removed by linked groups.'
-                            />
-                        </div>
-                    </li>
-                </ul>
             );
         }
 
