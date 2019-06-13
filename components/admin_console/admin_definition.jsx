@@ -3434,7 +3434,6 @@ export default {
                         label_default: 'Disable bot accounts when owner is deactivated:',
                         help_text: t('admin.service.disableBotWhenOwnerIsDeactivated'),
                         help_text_default: 'When a user is deactivated, disables all bot accounts managed by the user. To re-enable bot accounts, go to **Integrations > Bot Accounts**.',
-                        isDisabled: it.stateEquals('ServiceSettings.EnableBotAccountCreation', false),
                         help_text_markdown: true,
                     },
                 ],
