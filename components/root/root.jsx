@@ -13,6 +13,7 @@ import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import * as UserAgent from 'utils/user_agent.jsx';
+import * as Utils from 'utils/utils';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import {trackLoadTime} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -142,6 +143,17 @@ export default class Root extends React.Component {
         };
     }
 
+    handleTabKey = (e) => {
+        if (Utils.isKeyPressed(e, Constants.KeyCodes.TAB)) {
+            const activeElement = e.target;
+            activeElement.classList.add('keyboard-focus');
+
+            activeElement.addEventListener('blur', () => {
+                activeElement.classList.remove('keyboard-focus');
+            }, {once: true});
+        }
+    };
+
     onConfigLoaded = () => {
         if (isDevMode()) {
             enableDevModeFeatures();
@@ -240,10 +252,12 @@ export default class Root extends React.Component {
             this.onConfigLoaded();
         });
         trackLoadTime();
+        document.addEventListener('keyup', this.handleTabKey);
     }
 
     componentWillUnmount() {
         $(window).unbind('storage');
+        document.removeEventListener('keyup', this.handleTabKey);
     }
 
     render() {

@@ -131,3 +131,8 @@
 .d-block {
     display: block;
 }
+
+.keyboard-focus {
+    border-radius: 4px;
+    box-shadow: 0 0 0 1px $primary-color, 0 0 0 5px alpha-color($primary-color, .3);
+}
