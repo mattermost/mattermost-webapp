@@ -38,8 +38,8 @@ exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defini
           className="post-card--post-by"
         >
           <FormattedMessage
-            defaultMessage="Post by {avatar} {user}"
-            id="rhs_card.post_by"
+            defaultMessage="Message by {avatar} {user}"
+            id="rhs_card.message_by"
             values={
               Object {
                 "avatar": <Connect(PostProfilePicture)
@@ -71,8 +71,8 @@ exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defini
             to="undefined/pl/123"
           >
             <FormattedMessage
-              defaultMessage="View post"
-              id="rhs_card.view_post"
+              defaultMessage="Jump"
+              id="rhs_card.jump"
               values={Object {}}
             />
           </Link>
@@ -121,8 +121,8 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
           className="post-card--post-by"
         >
           <FormattedMessage
-            defaultMessage="Post by {avatar} {user}"
-            id="rhs_card.post_by"
+            defaultMessage="Message by {avatar} {user}"
+            id="rhs_card.message_by"
             values={
               Object {
                 "avatar": <Connect(PostProfilePicture)
@@ -154,8 +154,8 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
             to="undefined/pl/123"
           >
             <FormattedMessage
-              defaultMessage="View post"
-              id="rhs_card.view_post"
+              defaultMessage="Jump"
+              id="rhs_card.jump"
               values={Object {}}
             />
           </Link>
@@ -210,8 +210,8 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
           className="post-card--post-by"
         >
           <FormattedMessage
-            defaultMessage="Post by {avatar} {user}"
-            id="rhs_card.post_by"
+            defaultMessage="Message by {avatar} {user}"
+            id="rhs_card.message_by"
             values={
               Object {
                 "avatar": <Connect(PostProfilePicture)
@@ -243,8 +243,8 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
             to="undefined/pl/123"
           >
             <FormattedMessage
-              defaultMessage="View post"
-              id="rhs_card.view_post"
+              defaultMessage="Jump"
+              id="rhs_card.jump"
               values={Object {}}
             />
           </Link>
