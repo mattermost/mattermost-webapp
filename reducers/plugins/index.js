@@ -136,7 +136,8 @@ function components(state = {}, action) {
     case ActionTypes.RECEIVED_PLUGIN_COMPONENT: {
         if (action.name && action.data) {
             const nextState = {...state};
-            const nextArray = nextState[action.name] || [];
+            const currentArray = nextState[action.name] || [];
+            const nextArray = [...currentArray];
             nextArray.sort(sortComponents);
             nextState[action.name] = [...nextArray, action.data];
             return nextState;
