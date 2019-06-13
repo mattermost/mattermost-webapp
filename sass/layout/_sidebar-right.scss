@@ -201,7 +201,6 @@
         height: 30px;
         line-height: 0;
         margin: 6px 0 0;
-        opacity: .5;
         outline: none;
         padding: 0;
         width: 30px;
@@ -211,10 +210,13 @@
 
         &:hover,
         &:active {
-            opacity: .8;
+            i {
+                opacity: .8;
+            }
         }
 
         i {
+            opacity: .5;
             position: relative;
             top: 1px;
         }
