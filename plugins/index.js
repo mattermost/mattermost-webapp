@@ -20,7 +20,6 @@ window.plugins = {};
 function registerPlugin(id, plugin) {
     window.plugins[id] = plugin;
 }
-
 window.registerPlugin = registerPlugin;
 
 // initializePlugins queries the server for all enabled plugins and loads each in turn.
@@ -120,7 +119,7 @@ export function removePlugin(manifest) {
     if (plugin && plugin.uninitialize) {
         plugin.uninitialize();
 
-        // Support the deprecated deinitialize callback from the plugins beta.
+    // Support the deprecated deinitialize callback from the plugins beta.
     } else if (plugin && plugin.deinitialize) {
         plugin.deinitialize();
     }
