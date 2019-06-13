@@ -892,6 +892,14 @@
             }
         }
 
+        .Badge {
+            margin: 0;
+        }
+
+        .card-icon__container {
+            margin: 0 7px 0 -4px;
+        }
+
         .post-message {
             overflow: inherit;
         }
@@ -1846,6 +1854,7 @@
         vertical-align: top;
         top: 2px;
         position: relative;
+        z-index: 1;
 
         &:hover {
             @include opacity(.4);
