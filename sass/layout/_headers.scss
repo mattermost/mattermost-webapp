@@ -370,6 +370,7 @@
         &.light {
             @include opacity(.8);
             color: inherit;
+            overflow: visible;
 
             button {
                 &:hover
