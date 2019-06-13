@@ -485,7 +485,7 @@ export function applyTheme(theme) {
     }
 
     if (theme.sidebarText) {
-        changeCss('.app__body .sidebar--left .keyboard-focus', 'box-shadow:' + '0 0 12px ' + theme.sidebarText, '0 0 0 5px ' + changeOpacity(theme.sidebarText, 0.3));
+        changeCss('.app__body .sidebar--left .keyboard-focus', 'box-shadow: 0 0 12px ' + theme.sidebarText, '0 0 0 5px ' + changeOpacity(theme.sidebarText, 0.3));
         changeCss('.app__body .ps-container > .ps-scrollbar-y-rail > .ps-scrollbar-y', 'background:' + theme.sidebarText);
         changeCss('.app__body .ps-container:hover .ps-scrollbar-y-rail:hover, .app__body .sidebar__switcher button:hover', 'background:' + changeOpacity(theme.sidebarText, 0.15));
         changeCss('.app__body .sidebar--left .nav-pills__container li > h4, .app__body .sidebar--left .nav-pills__container li .sidebar-item, .app__body .sidebar--left .nav-pills__container li > .nav-more, .app__body .sidebar--right, .app__body .modal .settings-modal .nav-pills>li button', 'color:' + changeOpacity(theme.sidebarText, 0.6));

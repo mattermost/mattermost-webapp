@@ -13,7 +13,6 @@ import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import * as UserAgent from 'utils/user_agent.jsx';
-import * as Utils from 'utils/utils';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import {trackLoadTime} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -48,7 +47,7 @@ import loadCreateTeam from 'bundle-loader?lazy!components/create_team';
 import loadMfa from 'bundle-loader?lazy!components/mfa/mfa_controller';
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url.jsx';
-import {enableDevModeFeatures, isDevMode} from 'utils/utils';
+import {enableDevModeFeatures, isDevMode, isKeyPressed} from 'utils/utils';
 
 const CreateTeam = makeAsyncComponent(loadCreateTeam);
 const ErrorPage = makeAsyncComponent(loadErrorPage);
@@ -144,7 +143,7 @@ export default class Root extends React.Component {
     }
 
     handleTabKey = (e) => {
-        if (Utils.isKeyPressed(e, Constants.KeyCodes.TAB)) {
+        if (isKeyPressed(e, Constants.KeyCodes.TAB)) {
             const activeElement = e.target;
             activeElement.classList.add('keyboard-focus');
 
