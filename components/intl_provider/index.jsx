@@ -12,7 +12,6 @@ import IntlProvider from './intl_provider';
 
 function mapStateToProps(state) {
     const locale = getCurrentLocale(state);
-
     return {
         locale,
         translations: getTranslations(state, locale),

@@ -28,7 +28,6 @@ export default class IntlProvider extends React.PureComponent {
 
         // Pass localization function back to mattermost-redux
         setLocalizeFunction(localizeMessage);
-
         this.handleLocaleChange(this.props.locale);
     }
 
@@ -39,8 +38,14 @@ export default class IntlProvider extends React.PureComponent {
     }
 
     handleLocaleChange = (locale) => {
+        // document.body.classList.add('rtl');
+        console.log(locale);
+        if (locale === 'fa' && !document.body.classList.contains('rtl')) {
+            document.body.classList.add('rtl');
+        } else if (locale !== 'fa' && document.body.classList.contains('rtl')) {
+            document.body.classList.remove('rtl');
+        }
         Client4.setAcceptLanguage(locale);
-
         this.loadTranslationsIfNecessary(locale);
     }
 

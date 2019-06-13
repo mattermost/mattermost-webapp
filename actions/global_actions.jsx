@@ -286,6 +286,8 @@ export async function redirectUserToDefaultTeam() {
     const locale = getCurrentLocale(state);
     const teamId = LocalStorageStore.getPreviousTeamId(userId);
 
+    
+
     let team = getTeam(state, teamId);
     const myMember = getMyTeamMember(state, teamId);
 

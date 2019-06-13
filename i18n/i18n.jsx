@@ -32,6 +32,8 @@ const zhTW = require('./zh-TW.json');
 
 const zhCN = require('./zh-CN.json');
 
+const fa = require('./fa.json');
+
 import {addLocaleData} from 'react-intl';
 import deLocaleData from 'react-intl/locale-data/de';
 import enLocaleData from 'react-intl/locale-data/en';
@@ -48,6 +50,7 @@ import ruLocaleData from 'react-intl/locale-data/ru';
 import trLocaleData from 'react-intl/locale-data/tr';
 import ukLocaleData from 'react-intl/locale-data/uk';
 import zhLocaleData from 'react-intl/locale-data/zh';
+import faLocaleData from 'react-intl/locale-data/fa';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import store from 'stores/redux_store.jsx';
@@ -150,6 +153,12 @@ const languages = {
         order: 13,
         url: zhCN,
     },
+    'fa': {
+        value: 'fa',
+        name: 'فارسی',
+        order: 15,
+        url: fa,
+    },
 };
 
 export function getAllLanguages() {
@@ -195,6 +204,7 @@ export function safariFix(callback) {
         'intl/locale-data/jsonp/tr.js',
         'intl/locale-data/jsonp/uk.js',
         'intl/locale-data/jsonp/zh.js',
+        'intl/locale-data/jsonp/fa.js',
     ], (require) => {
         require('intl');
         require('intl/locale-data/jsonp/de.js');
@@ -212,6 +222,7 @@ export function safariFix(callback) {
         require('intl/locale-data/jsonp/tr.js');
         require('intl/locale-data/jsonp/uk.js');
         require('intl/locale-data/jsonp/zh.js');
+        require('intl/locale-data/jsonp/fa.js');
         callback();
     });
 }
@@ -232,4 +243,5 @@ export function doAddLocaleData() {
     addLocaleData(trLocaleData);
     addLocaleData(ukLocaleData);
     addLocaleData(zhLocaleData);
+    addLocaleData(faLocaleData);
 }
