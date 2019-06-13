@@ -53,6 +53,11 @@ export default class PostInfo extends React.PureComponent {
         isFlagged: PropTypes.bool,
 
         /*
+         * Set to mark the post as open the extra info in the rhs
+         */
+        isCardOpen: PropTypes.bool,
+
+        /*
          * The number of replies in the same thread as this post
          */
         replyCount: PropTypes.number,
@@ -244,7 +249,7 @@ export default class PostInfo extends React.PureComponent {
                     }
                 >
                     <button
-                        className='card-icon__container icon--show style--none'
+                        className={'card-icon__container icon--show style--none ' + (this.props.isCardOpen ? 'active' : '')}
                         onClick={(e) => {
                             e.preventDefault();
                             this.props.handleCardClick(this.props.post);

@@ -166,8 +166,8 @@ export default class RhsCard extends React.Component {
                         <div className='post-card--info'>
                             <div className='post-card--post-by'>
                                 <FormattedMessage
-                                    id='rhs_card.post_by'
-                                    defaultMessage='Post by {avatar} {user}'
+                                    id='rhs_card.message_by'
+                                    defaultMessage='Message by {avatar} {user}'
                                     values={{user, avatar}}
                                 />
                             </div>
@@ -178,8 +178,8 @@ export default class RhsCard extends React.Component {
                                     onClick={this.handleClick}
                                 >
                                     <FormattedMessage
-                                        id='rhs_card.view_post'
-                                        defaultMessage='View post'
+                                        id='rhs_card.jump'
+                                        defaultMessage='Jump'
                                     />
                                 </Link>
                             </div>

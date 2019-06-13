@@ -1851,6 +1851,10 @@
             @include opacity(.4);
         }
 
+        &.active {
+            @include opacity(1);
+        }
+
         svg {
             height: 14px;
             width: 14px;
