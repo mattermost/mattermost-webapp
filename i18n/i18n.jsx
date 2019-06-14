@@ -153,12 +153,12 @@ const languages = {
         order: 13,
         url: zhCN,
     },
-    'fa': {
+    fa: {
         value: 'fa',
         name: 'فارسی',
         order: 15,
         url: fa,
-    }
+    },
 };
 
 export function getAllLanguages() {
