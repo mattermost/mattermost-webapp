@@ -198,21 +198,27 @@
         background: none;
         border: none;
         font-size: 20px;
-        height: 22px;
+        height: 30px;
         line-height: 0;
-        margin: 11px 0 0;
-        opacity: .5;
+        margin: 6px 0 0;
         outline: none;
         padding: 0;
         width: 30px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
 
         &:hover,
         &:active {
-            opacity: .8;
+            i {
+                opacity: .8;
+            }
         }
 
         i {
+            opacity: .5;
             position: relative;
+            top: 1px;
         }
     }
 
@@ -221,7 +227,7 @@
         font-size: 17px;
 
         i {
-            top: -2px;
+            top: 0;
         }
 
         .fa-compress {

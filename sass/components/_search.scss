@@ -70,6 +70,10 @@
         width: 180px;
     }
 
+    .keyboard-focus {
+        box-shadow: none !important;
+    }
+
     .sidebar--right & {
         width: 100%;
     }

@@ -357,11 +357,14 @@
         float: right;
         font-size: 1.9em;
         font-weight: 700;
-        line-height: 18px;
-        margin: -2px 0 0 0;
-        outline: none;
-        padding: 0 5px;
         text-decoration: none;
+        border-radius: 50%;
+        margin: -7px 0;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         &:hover {
             color: #666666;
