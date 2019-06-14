@@ -32,10 +32,10 @@ exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defini
         <Connect(Markdown) />
       </div>
       <div
-        className="post-card--info"
+        className="d-flex post-card--info"
       >
         <div
-          className="post-card--post-by"
+          className="post-card--post-by overflow--ellipsis"
         >
           <FormattedMessage
             defaultMessage="Message by {avatar} {user}"
@@ -115,10 +115,10 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
         <Connect(Markdown) />
       </div>
       <div
-        className="post-card--info"
+        className="d-flex post-card--info"
       >
         <div
-          className="post-card--post-by"
+          className="post-card--post-by overflow--ellipsis"
         >
           <FormattedMessage
             defaultMessage="Message by {avatar} {user}"
@@ -204,10 +204,10 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
         }
       />
       <div
-        className="post-card--info"
+        className="d-flex post-card--info"
       >
         <div
-          className="post-card--post-by"
+          className="post-card--post-by overflow--ellipsis"
         >
           <FormattedMessage
             defaultMessage="Message by {avatar} {user}"
