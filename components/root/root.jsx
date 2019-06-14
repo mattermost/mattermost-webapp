@@ -147,9 +147,13 @@ export default class Root extends React.Component {
             const activeElement = e.target;
             activeElement.classList.add('keyboard-focus');
 
-            activeElement.addEventListener('blur', () => {
+            function removeClass() {
                 activeElement.classList.remove('keyboard-focus');
-            }, {once: true});
+                activeElement.removeEventListener('blur', removeClass);
+            }
+
+            activeElement.removeEventListener('blur', removeClass);
+            activeElement.addEventListener('blur', removeClass, {once: true});
         }
     };
 
