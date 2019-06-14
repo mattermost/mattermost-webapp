@@ -2816,6 +2816,19 @@ export default {
                         remove_action: removePublicSamlCertificate,
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'SamlSettings.SignRequest',
+                        label: t('admin.saml.signRequestTitle'),
+                        label_default: 'Sign Request:',
+                        help_text: t('admin.saml.signRequestDescription'),
+                        help_text_default: 'When true, Mattermost will sign the SAML request using your private key. When false, Mattermost will not sign the SAML request.',
+                        isDisabled: it.either(
+                            it.stateIsFalse('SamlSettings.Encrypt'),
+                            it.stateIsFalse('SamlSettings.PrivateKeyFile'),
+                            it.stateIsFalse('SamlSettings.PublicCertificateFile')
+                        ),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SamlSettings.EmailAttribute',
                         label: t('admin.saml.emailAttrTitle'),
@@ -3289,7 +3302,7 @@ export default {
     plugins: {
         icon: 'fa-plug',
         sectionTitle: t('admin.sidebar.plugins'),
-        sectionTitleDefault: 'Plugins',
+        sectionTitleDefault: 'Plugins (Beta)',
         id: 'plugins',
         plugin_management: {
             url: 'plugins/plugin_management',
@@ -3500,14 +3513,6 @@ export default {
                         label_default: 'CORS Debug:',
                         help_text: t('admin.service.corsDebugDescription'),
                         help_text_default: 'When true, prints messages to the logs to help when developing an integration that uses CORS. These messages will include the structured key value pair "source":"cors".',
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.EnableInsecureOutgoingConnections',
-                        label: t('admin.service.insecureTlsTitle'),
-                        label_default: 'Enable Insecure Outgoing Connections: ',
-                        help_text: t('admin.service.insecureTlsDesc'),
-                        help_text_default: 'When true, any outgoing HTTPS requests will accept unverified, self-signed certificates. For example, outgoing webhooks to a server with a self-signed TLS certificate, using any domain, will be allowed. Note that this makes these connections susceptible to man-in-the-middle attacks.',
                     },
                 ],
             },

@@ -121,7 +121,7 @@ export default class SizeAwareImage extends React.PureComponent {
         Reflect.deleteProperty(props, 'onImageLoadFail');
 
         if (!this.state.loaded && dimensions) {
-            imageStyleChangesOnLoad = {position: 'absolute', top: 0, height: 1, width: 1, visibility: 'hidden'};
+            imageStyleChangesOnLoad = {position: 'absolute', top: 0, height: 1, width: 1, visibility: 'hidden', overflow: 'hidden'};
         }
 
         return (

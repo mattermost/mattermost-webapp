@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import PostMessageContainer from 'components/post_view/post_message_view';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -20,6 +21,7 @@ import ArchiveIcon from 'components/svg/archive_icon';
 import PostTime from 'components/post_view/post_time';
 import {browserHistory} from 'utils/browser_history';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import InfoSmallIcon from 'components/svg/info_small_icon';
 
 import Constants, {Locations} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -89,6 +91,7 @@ export default class SearchResultsItem extends React.PureComponent {
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func.isRequired,
             selectPost: PropTypes.func.isRequired,
+            selectPostCard: PropTypes.func.isRequired,
             setRhsExpanded: PropTypes.func.isRequired,
         }).isRequired,
     };
@@ -118,6 +121,14 @@ export default class SearchResultsItem extends React.PureComponent {
         this.props.actions.setRhsExpanded(false);
         browserHistory.push(`/${this.props.currentTeamName}/pl/${this.props.post.id}`);
     };
+
+    handleCardClick = (post) => {
+        if (!post) {
+            return;
+        }
+
+        this.props.actions.selectPostCard(post);
+    }
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
@@ -213,6 +224,7 @@ export default class SearchResultsItem extends React.PureComponent {
 
         let message;
         let flagContent;
+        let postInfoIcon;
         let rhsControls;
         if (post.state === Constants.POST_DELETED) {
             message = (
@@ -231,6 +243,37 @@ export default class SearchResultsItem extends React.PureComponent {
                     isFlagged={this.props.isFlagged}
                 />
             );
+
+            if (post.props && post.props.card) {
+                postInfoIcon = (
+                    <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={
+                            <Tooltip>
+                                <FormattedMessage
+                                    id='post_info.info.view_additional_info'
+                                    defaultMessage='View additional info'
+                                />
+                            </Tooltip>
+                        }
+                    >
+                        <button
+                            className='card-icon__container icon--show style--none'
+                            onClick={(e) => {
+                                e.preventDefault();
+                                this.handleCardClick(this.props.post);
+                            }}
+                        >
+                            <InfoSmallIcon
+                                className='icon icon__info'
+                                aria-hidden='true'
+                            />
+                        </button>
+                    </OverlayTrigger>
+                );
+            }
 
             rhsControls = (
                 <div className='col__controls col__reply'>
@@ -328,6 +371,7 @@ export default class SearchResultsItem extends React.PureComponent {
                                 <div className='col'>
                                     {this.renderPostTime()}
                                     {pinnedBadge}
+                                    {postInfoIcon}
                                     {flagContent}
                                 </div>
                                 {rhsControls}
