@@ -163,8 +163,8 @@ export default class RhsCard extends React.Component {
                 >
                     <div className='post-right__scroll'>
                         {content}
-                        <div className='post-card--info'>
-                            <div className='post-card--post-by'>
+                        <div className='d-flex post-card--info'>
+                            <div className='post-card--post-by overflow--ellipsis'>
                                 <FormattedMessage
                                     id='rhs_card.message_by'
                                     defaultMessage='Message by {avatar} {user}'
