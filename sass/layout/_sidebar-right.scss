@@ -61,6 +61,10 @@
 
     .post {
         &.post--compact {
+            .card-icon__container {
+                margin: 0px 0 0 6px;
+            }
+
             .post__pinned-badge {
                 margin: 0 0 0 5px;
             }
