@@ -158,7 +158,7 @@ const languages = {
         name: 'فارسی',
         order: 15,
         url: fa,
-    },
+    }
 };
 
 export function getAllLanguages() {

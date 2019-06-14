@@ -1,4 +1,4 @@
-body
+body.farsi
 {
   @include font-smoothing;
   font-family: 'vazir', sans-serif !important;
@@ -13,6 +13,20 @@ body.rtl
   font-family: 'vazir', sans-serif !important;
   .font--open_sans {
     font-family: 'vazir', sans-serif !important;
+  }
+  .tootip
+  {
+    .tooltip-inner
+    {
+      span
+      {
+        font-family: 'vazir', sans-serif !important;
+      }
+    }
+  }
+  .post-list__dynamic
+  {
+    overflow-x: hidden;
   }
   .post {
     padding: 8px 1.5em 0 .5em;
@@ -40,11 +54,37 @@ body.rtl
         margin: 0px;
       }
     }
-    .post.same--root.same--user.current--user
+  }
+  .post.same--root.same--user.current--user
+  {
+    padding: 0px 1.5em 0 .5em !important;
+  }
+  .post.same--user.same--root.current--user
+  {
+    padding: 0px 1.5em 0 .5em !important;
+  }
+  .post.same--root.current--user
+  {
+    padding: 0px 1.5em 0 .5em !important;
+  }
+  .sidebar__search-clear
+  {
+    text-align: left !important;
+  }
+  .search-form__container
+  {
+    #channelHeaderMentionButton
     {
-      padding: 0px 1.5em 0 .5em !important;
+      margin-left: 8px;
+      margin-right: 16px;
+    }
+    #channelHeaderFlagButton
+    {
+      margin-left: 16px;
+      margin-right: 8px;
     }
   }
+  
   .sidebar--left {
     .team__header .header__info .sidebar-header-dropdown__icon, .sidebar--menu .team__header .header__info .sidebar-header-dropdown__icon, .admin-sidebar .team__header .header__info .sidebar-header-dropdown__icon
     {
@@ -131,10 +171,6 @@ body.rtl
       {
         padding-left: 0px;
         padding-right: 8px;
-        .channel-header__icon
-        {
-          margin: 8px 0 0 16px;
-        }
       }
     }
     .sidebar-right__body

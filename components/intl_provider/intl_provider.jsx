@@ -39,7 +39,6 @@ export default class IntlProvider extends React.PureComponent {
 
     handleLocaleChange = (locale) => {
         // document.body.classList.add('rtl');
-        console.log(locale);
         if (locale === 'fa' && !document.body.classList.contains('rtl')) {
             document.body.classList.add('rtl');
         } else if (locale !== 'fa' && document.body.classList.contains('rtl')) {
