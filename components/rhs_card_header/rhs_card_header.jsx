@@ -6,28 +6,79 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import Constants, {RHSStates} from 'utils/constants.jsx';
 
-export default class SearchResultsHeader extends React.Component {
+export default class RhsCardHeader extends React.Component {
     static propTypes = {
-        isMentionSearch: PropTypes.bool,
-        isFlaggedPosts: PropTypes.bool,
-        isPinnedPosts: PropTypes.bool,
-        isCard: PropTypes.bool,
-        channelDisplayName: PropTypes.string.isRequired,
+        previousRhsState: PropTypes.oneOf(Object.values(RHSStates)),
         actions: PropTypes.shape({
+            showMentions: PropTypes.func,
+            showSearchResults: PropTypes.func,
+            showFlaggedPosts: PropTypes.func,
+            showPinnedPosts: PropTypes.func,
             closeRightHandSide: PropTypes.func,
             toggleRhsExpanded: PropTypes.func.isRequired,
         }),
     };
 
+    handleBack = (e) => {
+        e.preventDefault();
+
+        switch (this.props.previousRhsState) {
+        case RHSStates.SEARCH:
+            this.props.actions.showSearchResults();
+            break;
+        case RHSStates.MENTION:
+            this.props.actions.showMentions();
+            break;
+        case RHSStates.FLAG:
+            this.props.actions.showFlaggedPosts();
+            break;
+        case RHSStates.PIN:
+            this.props.actions.showPinnedPosts();
+            break;
+        default:
+            break;
+        }
+    }
+
     render() {
-        var title = (
-            <FormattedMessage
-                id='search_header.results'
-                defaultMessage='Search Results'
-            />
-        );
+        let back;
+        let backToResultsTooltip;
+
+        switch (this.props.previousRhsState) {
+        case RHSStates.SEARCH:
+        case RHSStates.MENTION:
+            backToResultsTooltip = (
+                <Tooltip id='backToResultsTooltip'>
+                    <FormattedMessage
+                        id='rhs_header.backToResultsTooltip'
+                        defaultMessage='Back to Search Results'
+                    />
+                </Tooltip>
+            );
+            break;
+        case RHSStates.FLAG:
+            backToResultsTooltip = (
+                <Tooltip id='backToResultsTooltip'>
+                    <FormattedMessage
+                        id='rhs_header.backToFlaggedTooltip'
+                        defaultMessage='Back to Flagged Posts'
+                    />
+                </Tooltip>
+            );
+            break;
+        case RHSStates.PIN:
+            backToResultsTooltip = (
+                <Tooltip id='backToResultsTooltip'>
+                    <FormattedMessage
+                        id='rhs_header.backToPinnedTooltip'
+                        defaultMessage='Back to Pinned Posts'
+                    />
+                </Tooltip>
+            );
+            break;
+        }
 
         const closeSidebarTooltip = (
             <Tooltip id='closeSidebarTooltip'>
@@ -56,42 +107,44 @@ export default class SearchResultsHeader extends React.Component {
             </Tooltip>
         );
 
-        if (this.props.isMentionSearch) {
-            title = (
-                <FormattedMessage
-                    id='search_header.title2'
-                    defaultMessage='Recent Mentions'
-                />
-            );
-        } else if (this.props.isFlaggedPosts) {
-            title = (
-                <FormattedMessage
-                    id='search_header.title3'
-                    defaultMessage='Flagged Posts'
-                />
-            );
-        } else if (this.props.isPinnedPosts) {
-            title = (
-                <FormattedMessage
-                    id='search_header.title4'
-                    defaultMessage='Pinned posts in {channelDisplayName}'
-                    values={{
-                        channelDisplayName: this.props.channelDisplayName,
-                    }}
-                />
-            );
-        } else if (this.props.isCard) {
-            title = (
-                <FormattedMessage
-                    id='search_header.title5'
-                    defaultMessage='Extra information'
-                />
+        if (backToResultsTooltip) {
+            back = (
+                <a
+                    href='#'
+                    onClick={this.handleBack}
+                    className='sidebar--right__back'
+                >
+                    <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={backToResultsTooltip}
+                    >
+                        <FormattedMessage
+                            id='generic_icons.back'
+                            defaultMessage='Back Icon'
+                        >
+                            {(ariaLabel) => (
+                                <i
+                                    className='fa fa-angle-left'
+                                    aria-label={ariaLabel}
+                                />
+                            )}
+                        </FormattedMessage>
+                    </OverlayTrigger>
+                </a>
             );
         }
 
         return (
             <div className='sidebar--right__header'>
-                <span className='sidebar--right__title'>{title}</span>
+                <span className='sidebar--right__title'>
+                    {back}
+                    <FormattedMessage
+                        id='search_header.title5'
+                        defaultMessage='Extra information'
+                    />
+                </span>
                 <div className='pull-right'>
                     <button
                         type='button'
@@ -137,7 +190,6 @@ export default class SearchResultsHeader extends React.Component {
                         </OverlayTrigger>
                     </button>
                     <button
-                        id='searchResultsCloseButton'
                         type='button'
                         className='sidebar--right__close'
                         aria-label='Close'

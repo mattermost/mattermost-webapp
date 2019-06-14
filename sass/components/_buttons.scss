@@ -92,3 +92,7 @@ button {
         }
     }
 }
+
+%btn-transition {
+    @include single-transition(all, .15s, ease);
+}

@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants/index';
 import {
     isPostEphemeral,
@@ -23,6 +24,7 @@ import ReactionList from 'components/post_view/reaction_list';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 import Badge from 'components/widgets/badges/badge.jsx';
+import InfoSmallIcon from 'components/svg/info_small_icon';
 
 import UserProfile from 'components/user_profile';
 
@@ -44,6 +46,7 @@ export default class RhsComment extends React.PureComponent {
         pluginPostTypes: PropTypes.object,
         channelIsArchived: PropTypes.bool.isRequired,
         isConsecutivePost: PropTypes.bool,
+        handleCardClick: PropTypes.func,
     };
 
     constructor(props) {
@@ -338,6 +341,38 @@ export default class RhsComment extends React.PureComponent {
             postTime = this.renderPostTime(isEphemeral);
         }
 
+        let postInfoIcon;
+        if (post.props && post.props.card) {
+            postInfoIcon = (
+                <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={
+                        <Tooltip>
+                            <FormattedMessage
+                                id='post_info.info.view_additional_info'
+                                defaultMessage='View additional info'
+                            />
+                        </Tooltip>
+                    }
+                >
+                    <button
+                        className='card-icon__container icon--show style--none'
+                        onClick={(e) => {
+                            e.preventDefault();
+                            this.props.handleCardClick(this.props.post);
+                        }}
+                    >
+                        <InfoSmallIcon
+                            className='icon icon__info'
+                            aria-hidden='true'
+                        />
+                    </button>
+                </OverlayTrigger>
+            );
+        }
+
         return (
             <div
                 ref={'post_body_' + post.id}
@@ -358,6 +393,7 @@ export default class RhsComment extends React.PureComponent {
                             <div className='col'>
                                 {postTime}
                                 {pinnedBadge}
+                                {postInfoIcon}
                                 {flagIcon}
                                 {visibleMessage}
                             </div>

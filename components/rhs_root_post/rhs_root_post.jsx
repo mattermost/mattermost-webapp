@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
@@ -19,6 +20,7 @@ import PostTime from 'components/post_view/post_time';
 import PostReaction from 'components/post_view/post_reaction';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import InfoSmallIcon from 'components/svg/info_small_icon';
 
 import UserProfile from 'components/user_profile';
 
@@ -41,6 +43,7 @@ export default class RhsRootPost extends React.PureComponent {
         channelIsArchived: PropTypes.bool.isRequired,
         channelType: PropTypes.string,
         channelDisplayName: PropTypes.string,
+        handleCardClick: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -268,6 +271,38 @@ export default class RhsRootPost extends React.PureComponent {
             );
         }
 
+        let postInfoIcon;
+        if (this.props.post.props && this.props.post.props.card) {
+            postInfoIcon = (
+                <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={
+                        <Tooltip>
+                            <FormattedMessage
+                                id='post_info.info.view_additional_info'
+                                defaultMessage='View additional info'
+                            />
+                        </Tooltip>
+                    }
+                >
+                    <button
+                        className='card-icon__container icon--show style--none'
+                        onClick={(e) => {
+                            e.preventDefault();
+                            this.props.handleCardClick(this.props.post);
+                        }}
+                    >
+                        <InfoSmallIcon
+                            className='icon icon__info'
+                            aria-hidden='true'
+                        />
+                    </button>
+                </OverlayTrigger>
+            );
+        }
+
         return (
             <div
                 id='thread--root'
@@ -291,6 +326,7 @@ export default class RhsRootPost extends React.PureComponent {
                             <div className='col'>
                                 {this.renderPostTime(isEphemeral)}
                                 {pinnedBadge}
+                                {postInfoIcon}
                                 {postFlagIcon}
                             </div>
                             {dotMenuContainer}
