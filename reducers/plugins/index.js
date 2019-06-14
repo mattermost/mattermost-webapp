@@ -181,6 +181,33 @@ function postTypes(state = {}, action) {
     }
 }
 
+function postCardTypes(state = {}, action) {
+    switch (action.type) {
+    case ActionTypes.RECEIVED_PLUGIN_POST_CARD_COMPONENT: {
+        if (action.data) {
+            // Skip saving the component if one already exists and the new plugin id
+            // is lower alphabetically
+            const currentPost = state[action.data.type];
+            if (currentPost && action.data.pluginId > currentPost.pluginId) {
+                return state;
+            }
+
+            const nextState = {...state};
+            nextState[action.data.type] = action.data;
+            return nextState;
+        }
+        return state;
+    }
+    case ActionTypes.REMOVED_PLUGIN_POST_CARD_COMPONENT:
+        return removePostPluginComponent(state, action);
+    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
+    case ActionTypes.REMOVED_WEBAPP_PLUGIN:
+        return removePostPluginComponents(state, action);
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
 
     // object where every key is a plugin id and values are webapp plugin manifests
@@ -193,4 +220,8 @@ export default combineReducers({
     // object where every key is a post type and the values are components wrapped in an
     // an object that contains a plugin id
     postTypes,
+
+    // object where every key is a post type and the values are components wrapped in an
+    // an object that contains a plugin id
+    postCardTypes,
 });

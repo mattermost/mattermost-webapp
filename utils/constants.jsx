@@ -96,6 +96,7 @@ export const Preferences = {
 export const ActionTypes = keyMirror({
     RECEIVED_FOCUSED_POST: null,
     SELECT_POST: null,
+    SELECT_POST_CARD: null,
     INCREASE_POST_VISIBILITY: null,
     LOADING_POSTS: null,
 
@@ -131,7 +132,9 @@ export const ActionTypes = keyMirror({
     RECEIVED_PLUGIN_COMPONENT: null,
     REMOVED_PLUGIN_COMPONENT: null,
     RECEIVED_PLUGIN_POST_COMPONENT: null,
+    RECEIVED_PLUGIN_POST_CARD_COMPONENT: null,
     REMOVED_PLUGIN_POST_COMPONENT: null,
+    REMOVED_PLUGIN_POST_CARD_COMPONENT: null,
     RECEIVED_WEBAPP_PLUGINS: null,
     RECEIVED_WEBAPP_PLUGIN: null,
     REMOVED_WEBAPP_PLUGIN: null,

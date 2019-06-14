@@ -82,6 +82,7 @@ describe('components/SearchResultsItem', () => {
             actions: {
                 closeRightHandSide: mockFunc,
                 selectPost: mockFunc,
+                selectPostCard: mockFunc,
                 setRhsExpanded: mockFunc,
             },
         };
