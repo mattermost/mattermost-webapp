@@ -83,7 +83,7 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                         >
                             {'@' + this.props.currentUser.username}
                         </div>
-                        <MenuIcon className='sidebar-header-dropdown__icon'/>
+                        <MenuIcon className='style--none sidebar-header-dropdown__icon'/>
                     </div>
                 </OverlayTrigger>
             </div>
