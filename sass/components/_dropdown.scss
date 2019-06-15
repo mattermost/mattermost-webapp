@@ -16,6 +16,12 @@
             display: none;
         }
     }
+
+    li {
+        a, a:hover {
+            color: inherit;
+        }
+    }
 }
 
 .open {
