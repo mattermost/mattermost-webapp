@@ -7,6 +7,9 @@ import {bindActionCreators} from 'redux';
 import {getUser, getProfiles} from 'mattermost-redux/selectors/entities/users';
 import {updateUserActive} from 'mattermost-redux/actions/users';
 
+import {setNavigationBlocked, deferNavigation, cancelNavigation, confirmNavigation} from 'actions/admin_actions.jsx';
+import {getNavigationBlocked, showNavigationPrompt} from 'selectors/views/admin';
+
 import SystemUserDetail from './system_user_detail.jsx';
 
 function mapStateToProps(state, ownProps) {
@@ -15,6 +18,8 @@ function mapStateToProps(state, ownProps) {
     return {
         userId,
         user,
+        navigationBlocked: getNavigationBlocked(state),
+        showNavigationPrompt: showNavigationPrompt(state),
     };
 }
 
@@ -24,6 +29,10 @@ function mapDispatchToProps(dispatch) {
             getUser,
             getProfiles,
             updateUserActive,
+            setNavigationBlocked,
+            deferNavigation,
+            cancelNavigation,
+            confirmNavigation,
         }, dispatch),
     };
 }

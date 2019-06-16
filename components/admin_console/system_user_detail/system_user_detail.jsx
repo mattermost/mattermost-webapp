@@ -3,30 +3,39 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {Redirect} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
-import {Client4} from 'mattermost-redux/client';
+import {Overlay, Tooltip} from 'react-bootstrap';
 
+import {isEmail} from 'mattermost-redux/utils/helpers';
+
+import {adminResetMfa, adminResetEmail} from 'actions/admin_actions.jsx';
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import ProfilePicture from 'components/profile_picture.jsx';
 import BlockableLink from 'components/admin_console/blockable_link';
 import ResetPasswordModal from 'components/admin_console/reset_password_modal';
-import AdminButtonDefault from 'components/admin_console/admin_button_default';
-import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
+import AdminButtonOutline from 'components/admin_console/admin_button_outline/admin_button_outline';
+import AdminUserCard from 'components/admin_console/admin_user_card/admin_user_card';
 import ConfirmModal from 'components/confirm_modal.jsx';
+import SaveButton from 'components/save_button.jsx';
+import FormError from 'components/form_error.jsx';
 
-const divStyle = {
-    padding: '20px',
-};
+import './system_user_detail.scss';
 
 export default class SystemUserDetail extends React.Component {
     static propTypes = {
         user: PropTypes.object.isRequired,
-        userId: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             updateUserActive: PropTypes.func.isRequired,
+            setNavigationBlocked: PropTypes.func.isRequired,
         }).isRequired,
+    }
+
+    static defaultProps = {
+        user: {
+            email: null,
+        },
     }
 
     constructor(props) {
@@ -36,6 +45,14 @@ export default class SystemUserDetail extends React.Component {
             searching: false,
             showPasswordModal: false,
             showDeactivateMemberModal: false,
+            saveNeeded: false,
+            saving: false,
+            serverError: null,
+            errorTooltip: false,
+            customComponentWrapperClass: '',
+            user: {
+                email: this.props.user.email,
+            },
         };
     }
 
@@ -49,14 +66,12 @@ export default class SystemUserDetail extends React.Component {
     doPasswordResetDismiss = () => {
         this.setState({
             showPasswordModal: false,
-            user: null,
         });
     }
 
     doPasswordResetSubmit = () => {
         this.setState({
             showPasswordModal: false,
-            user: null,
         });
     }
 
@@ -85,6 +100,56 @@ export default class SystemUserDetail extends React.Component {
 
     handleDeactivateCancel = () => {
         this.setState({showDeactivateMemberModal: false});
+    }
+
+    // TODO: add error handler function
+    handleResetMfa = (e) => {
+        e.preventDefault();
+        adminResetMfa(this.props.user.id, null, null);
+    }
+
+    handleEmailChange = (e) => {
+        const emailChanged = e.target.value !== this.props.user.email;
+        this.setState({
+            user: {
+                email: e.target.value,
+            },
+            saveNeeded: emailChanged,
+        });
+        this.props.actions.setNavigationBlocked(emailChanged);
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        if (this.state.user.email !== this.props.user.email) {
+            if (!isEmail(this.state.user.email)) {
+                this.setState({serverError: 'Invalid Email address'});
+                return;
+            }
+            const user = Object.assign({}, this.props.user);
+            const email = this.state.user.email.trim().toLowerCase();
+            user.email = email;
+
+            this.setState({serverError: null});
+
+            adminResetEmail(
+                user,
+                () => {
+                    this.props.history.push('/admin_console/user_management/users');
+                },
+                (err) => {
+                    const serverError = err.message ? err.message : err;
+                    this.setState({serverError});
+                }
+            );
+
+            this.setState({
+                saving: false,
+                saveNeeded: false,
+                serverError: null,
+            });
+            this.props.actions.setNavigationBlocked(false);
+        }
     }
 
     renderDeactivateMemberModal = (user) => {
@@ -149,29 +214,40 @@ export default class SystemUserDetail extends React.Component {
     renderActivateDeactivate = () => {
         if (this.props.user.delete_at > 0) {
             return (
-                <AdminButtonDefault
+                <AdminButtonOutline
                     onClick={this.handleMakeActive}
                     className='admin-btn-default'
                 >
                     {Utils.localizeMessage('admin.user_item.makeActive', 'Activate')}
-                </AdminButtonDefault>
+                </AdminButtonOutline>
             );
         }
         return (
-            <AdminButtonDefault
+            <AdminButtonOutline
                 onClick={this.handleShowDeactivateMemberModal}
                 className='admin-btn-default'
             >
                 {Utils.localizeMessage('admin.user_item.makeInactive', 'Deactivate')}
-            </AdminButtonDefault>
+            </AdminButtonOutline>
         );
+    }
+
+    renderRemoveMFA = () => {
+        if (this.props.user.mfa_active) {
+            return (
+                <AdminButtonOutline
+                    onClick={this.handleResetMfa}
+                    className='admin-btn-default'
+                >
+                    {'Remove MFA'}
+                </AdminButtonOutline>
+            );
+        }
+        return null;
     }
 
     render() {
         const {user} = this.props;
-        let firstName;
-        let lastName;
-        let nickname;
         let deactivateMemberModal;
         let currentRoles = (
             <FormattedMessage
@@ -180,10 +256,15 @@ export default class SystemUserDetail extends React.Component {
             />
         );
 
-        if (user) {
-            firstName = user.first_name ? user.first_name : '(First name)';
-            lastName = user.last_name ? user.last_name : '(Last name)';
-            nickname = user.nickname ? user.nickname : '(Nickname)';
+        // TODO: get the user object if navigated to page directly
+        // for now, redirecting to parent page
+        if (!user.id) {
+            return (
+                <Redirect to={{pathname: '/admin_console/user_management/users'}}/>
+            );
+        }
+
+        if (user.id) {
             deactivateMemberModal = this.renderDeactivateMemberModal(user);
             if (user.delete_at > 0) {
                 currentRoles = (
@@ -193,24 +274,18 @@ export default class SystemUserDetail extends React.Component {
                     />
                 );
             }
-        }
-
-        if (!user) {
-            return (
-                <div>
-                    <h1>{'No user object'}</h1>
-                    <BlockableLink
-                        to='/admin_console/user_management/users'
-                        className='fa fa-angle-left back'
-                    >
-                        {'Back to Users'}
-                    </BlockableLink>
-                </div>
-            );
+            if (user.roles.length > 0 && Utils.isSystemAdmin(user.roles)) {
+                currentRoles = (
+                    <FormattedMessage
+                        id='team_members_dropdown.systemAdmin'
+                        defaultMessage='System Admin'
+                    />
+                );
+            }
         }
 
         return (
-            <div className='wrapper--fixed'>
+            <div className='SystemUserDetail wrapper--fixed'>
                 <div className='admin-console__header with-back'>
                     <div>
                         <BlockableLink
@@ -225,32 +300,66 @@ export default class SystemUserDetail extends React.Component {
                 </div>
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
-                        <AdminPanel
-                            titleId='(First Name) (Last Name) • (Nickname)'
-                            titleDefault={firstName + ' ' + lastName + ' | ' + nickname}
-                            subtitleId='(Position)'
-                            subtitleDefault={user.position ? user.position : ''}
-                        >
-                            <div style={divStyle}>
-                                <ProfilePicture
-                                    src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
-                                    width='32'
-                                    height='32'
-                                />
-                                <p>{user.email}</p>
-                                <p>{user.username}</p>
-                                <p>{user.mfa_active ? 'MFA' : ''}</p>
-                                <p>{currentRoles}</p>
-                                <AdminButtonDefault
-                                    onClick={this.doPasswordReset}
-                                    className='admin-btn-default'
-                                >
-                                    {'Reset Password'}
-                                </AdminButtonDefault>
-                                {this.renderActivateDeactivate()}
-                            </div>
-                        </AdminPanel>
+                        <AdminUserCard
+                            user={user}
+                            body={
+                                <React.Fragment>
+                                    <span className='SystemUserDetail__field-label'>{user.position}</span>
+                                    <span className='SystemUserDetail__field-label'>{Utils.localizeMessage('admin.userManagement.userDetail.email', 'Email')}</span>
+                                    <input
+                                        className='SystemUserDetail__input form-control'
+                                        type='text'
+                                        value={this.state.user.email}
+                                        onChange={this.handleEmailChange}
+                                    />
+                                    <span className='SystemUserDetail__field-label'>{Utils.localizeMessage('admin.userManagement.userDetail.username', 'Username')}</span>
+                                    <p>{user.username}</p>
+                                    <span className='SystemUserDetail__field-label'>{Utils.localizeMessage('admin.userManagement.userDetail.authenticationMethod', 'Authentication Method')}</span>
+                                    <p>{user.mfa_active ? 'MFA' : 'Email'}</p>
+                                    <span className='SystemUserDetail__field-label'>{Utils.localizeMessage('admin.userManagement.userDetail.role', 'Role')}</span>
+                                    <p>{currentRoles}</p>
+                                </React.Fragment>
+                            }
+                            footer={
+                                <React.Fragment>
+                                    <AdminButtonOutline
+                                        onClick={this.doPasswordReset}
+                                        className='admin-btn-default'
+                                    >
+                                        {'Reset Password'}
+                                    </AdminButtonOutline>
+                                    {this.renderActivateDeactivate()}
+                                    {this.renderRemoveMFA()}
+                                </React.Fragment>
+                            }
+                        />
                     </div>
+                </div>
+                <div className='admin-console-save'>
+                    <SaveButton
+                        saving={this.state.saving}
+                        disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
+                        onClick={this.handleSubmit}
+                        savingMessage={Utils.localizeMessage('admin.saving', 'Saving Config...')}
+                    />
+                    <div
+                        className='error-message'
+                        ref='errorMessage'
+                        onMouseOver={this.openTooltip}
+                        onMouseOut={this.closeTooltip}
+                    >
+                        <FormError error={this.state.serverError}/>
+                    </div>
+                    <Overlay
+                        show={this.state.errorTooltip}
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        target={this.refs.errorMessage}
+                    >
+                        <Tooltip id='error-tooltip' >
+                            {this.state.serverError}
+                        </Tooltip>
+                    </Overlay>
                 </div>
                 <ResetPasswordModal
                     user={user}
