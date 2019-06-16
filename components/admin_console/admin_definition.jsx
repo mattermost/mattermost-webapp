@@ -3415,7 +3415,7 @@ export default {
             title_default: 'Bot Accounts',
             schema: {
                 id: 'BotAccountSettings',
-                name: t('admin.integrations.botAccount.title'),
+                name: t('admin.integrations.botAccounts.title'),
                 name_default: 'Bot Accounts',
                 settings: [
                     {
