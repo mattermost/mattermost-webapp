@@ -8,6 +8,7 @@ import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
+import Markdown from 'components/markdown';
 import SaveButton from 'components/save_button.jsx';
 import WarningIcon from 'components/icon/warning_icon';
 import * as Utils from 'utils/utils.jsx';
@@ -462,7 +463,7 @@ export default class Bot extends React.PureComponent {
                         {options}
                     </div>
                     <div className='bot-details__description'>
-                        {description}
+                        <Markdown message={description}/>
                     </div>
                     <div className='light small'>
                         <FormattedMessage

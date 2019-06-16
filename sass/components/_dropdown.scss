@@ -17,10 +17,12 @@
         }
     }
 
-    li {
-        a, a:hover {
+    > li {
+        > a, a:hover {
             color: inherit;
         }
+    .keyboard-focus {
+        box-shadow: none !important;
     }
 }
 
