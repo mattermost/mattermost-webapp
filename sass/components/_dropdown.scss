@@ -18,8 +18,12 @@
     }
 
     > li {
-        > a, a:hover {
+        > a {
             color: inherit;
+
+            &:hover {
+                color: inherit;
+            }
         }
     }
 
