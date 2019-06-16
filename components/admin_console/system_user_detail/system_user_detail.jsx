@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
+import {adminResetMfa} from 'actions/admin_actions.jsx';
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -85,6 +86,12 @@ export default class SystemUserDetail extends React.Component {
 
     handleDeactivateCancel = () => {
         this.setState({showDeactivateMemberModal: false});
+    }
+
+    // TODO: add error handler function
+    handleResetMfa = (e) => {
+        e.preventDefault();
+        adminResetMfa(this.props.user.id, null, null);
     }
 
     renderDeactivateMemberModal = (user) => {
@@ -167,7 +174,22 @@ export default class SystemUserDetail extends React.Component {
         );
     }
 
+    renderRemoveMFA = () => {
+        if (this.props.user.mfa_active) {
+            return (
+                <AdminButtonDefault
+                    onClick={this.handleResetMfa}
+                    className='admin-btn-default'
+                >
+                    {'Remove MFA'}
+                </AdminButtonDefault>
+            );
+        }
+        return null;
+    }
+
     render() {
+        // TODO: Refactor logic, get user object if not available
         const {user} = this.props;
         let firstName;
         let lastName;
@@ -190,6 +212,14 @@ export default class SystemUserDetail extends React.Component {
                     <FormattedMessage
                         id='admin.user_item.inactive'
                         defaultMessage='Inactive'
+                    />
+                );
+            }
+            if (user.roles.length > 0 && Utils.isSystemAdmin(user.roles)) {
+                currentRoles = (
+                    <FormattedMessage
+                        id='team_members_dropdown.systemAdmin'
+                        defaultMessage='System Admin'
                     />
                 );
             }
@@ -237,10 +267,10 @@ export default class SystemUserDetail extends React.Component {
                                     width='32'
                                     height='32'
                                 />
-                                <p>{user.email}</p>
-                                <p>{user.username}</p>
-                                <p>{user.mfa_active ? 'MFA' : ''}</p>
-                                <p>{currentRoles}</p>
+                                <p><b>{'Email: '}</b>{user.email}</p>
+                                <p><b>{'Username: '}</b>{user.username}</p>
+                                <p><b>{'Authentication Method: '}</b>{user.mfa_active ? 'MFA' : 'Email'}</p>
+                                <p><b>{'Role: '}</b>{currentRoles}</p>
                                 <AdminButtonDefault
                                     onClick={this.doPasswordReset}
                                     className='admin-btn-default'
@@ -248,6 +278,7 @@ export default class SystemUserDetail extends React.Component {
                                     {'Reset Password'}
                                 </AdminButtonDefault>
                                 {this.renderActivateDeactivate()}
+                                {this.renderRemoveMFA()}
                             </div>
                         </AdminPanel>
                     </div>
