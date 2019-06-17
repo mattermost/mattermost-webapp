@@ -123,7 +123,7 @@ export default class StatusDropdown extends React.Component {
                     {profilePicture}
                     <button
                         className='status style--none'
-                        aria-label={localizeMessage('status_dropdown.menuAriaLabel', 'Change Status Menu')}
+                        aria-label={localizeMessage('status_dropdown.menuAriaLabel', 'Set Status')}
                     >
                         <StatusIcon
                             status={this.props.status}
@@ -134,7 +134,7 @@ export default class StatusDropdown extends React.Component {
                         {dropdownIcon}
                     </span>
                 </div>
-                <Menu ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Change Status Menu')}>
+                <Menu ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set Status')}>
                     <MenuGroup>
                         <MenuItemAction
                             show={this.isUserOutOfOffice()}

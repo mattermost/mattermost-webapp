@@ -1450,7 +1450,7 @@
   "admin.user_item.manageTeams": "Manage Teams",
   "admin.user_item.manageTokens": "Manage Tokens",
   "admin.user_item.member": "Member",
-  "admin.user_item.menuAriaLabel": "User Actions Menu",
+  "admin.user_item.menuAriaLabel": "Set Status",
   "admin.user_item.mfaNo": "**MFA**: No",
   "admin.user_item.mfaYes": "**MFA**: Yes",
   "admin.user_item.resetEmail": "Update Email",
