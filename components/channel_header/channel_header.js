@@ -420,6 +420,8 @@ export default class ChannelHeader extends React.PureComponent {
 
         let toggleFavoriteTooltip;
         let toggleFavorite = null;
+        let ariaLabel = '';
+
         if (!channelIsArchived) {
             if (isFavorite) {
                 toggleFavoriteTooltip = (
@@ -430,6 +432,7 @@ export default class ChannelHeader extends React.PureComponent {
                         />
                     </Tooltip>
                 );
+                ariaLabel = formatMessage({id: 'channelHeader.removeFromFavorites', defaultMessage: 'Remove from Favorites'}).toLowerCase();
             } else {
                 toggleFavoriteTooltip = (
                     <Tooltip id='favoriteTooltip'>
@@ -439,6 +442,7 @@ export default class ChannelHeader extends React.PureComponent {
                         />
                     </Tooltip>
                 );
+                ariaLabel = formatMessage({id: 'channelHeader.addToFavorites', defaultMessage: 'Add to Favorites'}).toLowerCase();
             }
 
             toggleFavorite = (
@@ -452,6 +456,7 @@ export default class ChannelHeader extends React.PureComponent {
                         id='toggleFavorite'
                         onClick={this.toggleFavorite}
                         className={'style--none color--link channel-header__favorites ' + (this.props.isFavorite ? 'active' : 'inactive')}
+                        aria-label={ariaLabel}
                     >
                         <i className={'icon fa ' + (this.props.isFavorite ? 'fa-star' : 'fa-star-o')}/>
                     </button>
