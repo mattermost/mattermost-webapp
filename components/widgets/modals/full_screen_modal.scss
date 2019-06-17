@@ -13,9 +13,13 @@
         right: 58px;
         cursor: pointer;
         svg {
+            fill: var(--center-channel-color-60);
             width: 32px;
             height: 32px;
-            opacity: .6;
+            border-radius: 5px;
+            &:hover {
+                background: var(--button-bg-10);
+            }
         }
     }
 
