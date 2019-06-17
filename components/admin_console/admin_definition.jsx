@@ -32,7 +32,8 @@ import ServerLogs from './server_logs';
 import BrandImageSetting from './brand_image_setting/brand_image_setting.jsx';
 import GroupSettings from './group_settings/group_settings.jsx';
 import GroupDetails from './group_settings/group_details';
-
+import TeamSettings from './team_settings/team_settings.jsx';
+import TeamDetails from './team_settings/team_details';
 import PasswordSettings from './password_settings.jsx';
 import PushNotificationsSettings from './push_settings.jsx';
 import DataRetentionSettings from './data_retention_settings.jsx';
@@ -285,6 +286,30 @@ export default {
             schema: {
                 id: 'Groups',
                 component: GroupSettings,
+            },
+        },
+        team_detail: {
+            url: 'user_management/teams/:team_id',
+            isHidden: it.either(
+                it.isnt(it.licensedForFeature('LDAPGroups')),
+                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
+            ),
+            schema: {
+                id: 'TeamDetail',
+                component: TeamDetails,
+            },
+        },
+        teams: {
+            url: 'user_management/teams',
+            title: t('admin.sidebar.teams'),
+            title_default: 'Teams',
+            isHidden: it.either(
+                it.isnt(it.licensedForFeature('LDAPGroups')),
+                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
+            ),
+            schema: {
+                id: 'Teams',
+                component: TeamSettings,
             },
         },
         systemScheme: {
