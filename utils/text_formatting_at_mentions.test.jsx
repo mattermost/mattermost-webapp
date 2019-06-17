@@ -69,6 +69,21 @@ describe('TextFormatting.AtMentions', () => {
             TextFormatting.autolinkAtMentions('user@email.com', new Map()),
             'user@email.com'
         );
+
+        assert.equal(
+            TextFormatting.autolinkAtMentions('@', new Map()),
+            '@'
+        );
+
+        assert.equal(
+            TextFormatting.autolinkAtMentions('@ ', new Map()),
+            '@ '
+        );
+
+        assert.equal(
+            TextFormatting.autolinkAtMentions(':@', new Map()),
+            ':@'
+        );
     });
 
     it('Highlighted at mentions', () => {

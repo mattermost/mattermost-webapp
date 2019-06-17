@@ -15,7 +15,6 @@ import MultiSelect from 'components/multiselect/multiselect.jsx';
 import AddIcon from 'components/icon/add_icon';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
-import {searchUsers} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
 
 const USERS_PER_PAGE = 50;
@@ -30,6 +29,7 @@ export default class ChannelInviteModal extends React.Component {
             addUsersToChannel: PropTypes.func.isRequired,
             getProfilesNotInChannel: PropTypes.func.isRequired,
             getTeamStats: PropTypes.func.isRequired,
+            searchProfiles: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -57,7 +57,7 @@ export default class ChannelInviteModal extends React.Component {
     };
 
     componentDidMount() {
-        this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, 0).then(() => {
+        this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, this.props.channel.group_constrained, 0).then(() => {
             this.setUsersLoadingState(false);
         });
         this.props.actions.getTeamStats(this.props.channel.team_id);
@@ -89,7 +89,7 @@ export default class ChannelInviteModal extends React.Component {
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
             this.setUsersLoadingState(true);
-            this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, page + 1, USERS_PER_PAGE).then(() => {
+            this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, this.props.channel.group_constrained, page + 1, USERS_PER_PAGE).then(() => {
                 this.setUsersLoadingState(false);
             });
         }
@@ -121,18 +121,23 @@ export default class ChannelInviteModal extends React.Component {
         });
     };
 
-    search = (term) => {
+    search = (searchTerm) => {
+        const term = searchTerm.trim();
         clearTimeout(this.searchTimeoutId);
         this.setState({
             term,
         });
 
         this.searchTimeoutId = setTimeout(
-            () => {
+            async () => {
                 this.setUsersLoadingState(true);
-                searchUsers(term, this.props.channel.team_id, {not_in_channel_id: this.props.channel.id}).then(() => {
-                    this.setUsersLoadingState(false);
-                });
+                const options = {
+                    team_id: this.props.channel.team_id,
+                    not_in_channel_id: this.props.channel.id,
+                    group_constrained: this.props.channel.group_constrained,
+                };
+                await this.props.actions.searchProfiles(term, options);
+                this.setUsersLoadingState(false);
             },
             Constants.SEARCH_TIMEOUT_MILLISECONDS
         );

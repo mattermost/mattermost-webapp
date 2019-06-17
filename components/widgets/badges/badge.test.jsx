@@ -13,9 +13,13 @@ describe('components/widgets/badges/Badge', () => {
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <div
-  className="Badge test"
+  className="Badge"
 >
-  Test text
+  <div
+    className="Badge__box test"
+  >
+    Test text
+  </div>
 </div>
 `);
     });

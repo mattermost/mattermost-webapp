@@ -11,19 +11,25 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {isPostEphemeral, isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
-import {selectPost} from 'actions/views/rhs';
+import {selectPost, selectPostCard} from 'actions/views/rhs';
 import {Preferences} from 'utils/constants.jsx';
 
 import Post from './post.jsx';
 
-// isFirstReply returns true when the given post is not part of the same thread as the previous post.
+// isFirstReply returns true when the given post a comment that isn't part of the same thread as the previous post.
 export function isFirstReply(post, previousPost) {
-    if (post.root_id && previousPost) {
-        // Returns true as long as the previous post is part of a different thread
-        return post.root_id !== previousPost.id && post.root_id !== previousPost.root_id;
+    if (post.root_id) {
+        if (previousPost) {
+            // Returns true as long as the previous post is part of a different thread
+            return post.root_id !== previousPost.id && post.root_id !== previousPost.root_id;
+        }
+
+        // The previous post is not a real post
+        return true;
     }
 
-    return true;
+    // This post is not a reply
+    return false;
 }
 
 export function makeGetReplyCount() {
@@ -83,6 +89,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             selectPost,
+            selectPostCard,
         }, dispatch),
     };
 }

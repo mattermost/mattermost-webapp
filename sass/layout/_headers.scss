@@ -16,7 +16,6 @@
 
 
     .channel-header__favorites {
-        @include opacity(.5);
         float: left;
         height: 20px;
         margin: 0 5px 0 0;
@@ -29,10 +28,13 @@
         }
 
         &.active {
-            @include opacity(1);
+            i {
+               @include opacity(1);
+            }
         }
 
         i {
+            @include opacity(.5);
             font-size: 16px;
             position: relative;
             top: -1px;
@@ -112,6 +114,9 @@
     .channel-header__icon {
         @include border-radius(50%);
         border: 1px solid;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         cursor: pointer;
         height: 30px;
         line-height: 30px;
@@ -222,14 +227,9 @@
     .heading {
         font-size: 14px;
         font-weight: 600;
-        margin: 0 8px 0 0;
         flex: 1 1 0;
         overflow: hidden;
         text-overflow: ellipsis;
-    }
-
-    .Badge {
-        margin-left: 0;
     }
 
     .caret {
@@ -262,7 +262,7 @@
 .header-dropdown__icon {
     color: inherit;
     font-size: 19px;
-    margin-left: 1px;
+    margin: 0 0 0 8px;
     position: relative;
     top: 0;
 }
@@ -372,6 +372,7 @@
         &.light {
             @include opacity(.8);
             color: inherit;
+            overflow: visible;
 
             button {
                 &:hover
@@ -432,9 +433,10 @@
     }
 
     .channel-intro-profile {
-        margin-top: 5px;
+        margin: 0 0 4px;
 
         .user-popover {
+            font-weight: 600;
             max-width: calc(100% - 100px);
             overflow: hidden;
             text-overflow: ellipsis;

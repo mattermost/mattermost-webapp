@@ -59,8 +59,6 @@ class SwitchChannelSuggestion extends Suggestion {
         };
     }
 
-    displayNameStyle = {width: 0}
-
     render() {
         const {item, isSelection} = this.props;
         const channel = item.channel;
@@ -103,6 +101,7 @@ class SwitchChannelSuggestion extends Suggestion {
             icon = (
                 <div className='pull-left'>
                     <img
+                        alt={''}
                         className='mention__image'
                         src={Utils.imageURLForUser(channel.userId)}
                     />
@@ -113,6 +112,9 @@ class SwitchChannelSuggestion extends Suggestion {
         let tag = null;
         if (channel.type === Constants.DM_CHANNEL) {
             var teammate = Utils.getDirectTeammate(channel.id);
+            if (Utils.isEmptyObject(teammate)) {
+                teammate = getUser(getState(), channel.userId);
+            }
             tag = (
                 <BotBadge
                     show={Boolean(teammate && teammate.is_bot)}
@@ -129,7 +131,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 {icon}
-                <span style={this.displayNameStyle}>{displayName}</span>
+                <span>{displayName}</span>
                 {tag}
                 {badge}
             </div>

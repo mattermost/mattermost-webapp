@@ -13,6 +13,7 @@ export default class SearchResultsHeader extends React.Component {
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
         isPinnedPosts: PropTypes.bool,
+        isCard: PropTypes.bool,
         channelDisplayName: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func,
@@ -79,6 +80,13 @@ export default class SearchResultsHeader extends React.Component {
                     }}
                 />
             );
+        } else if (this.props.isCard) {
+            title = (
+                <FormattedMessage
+                    id='search_header.title5'
+                    defaultMessage='Extra information'
+                />
+            );
         }
 
         return (
@@ -129,6 +137,7 @@ export default class SearchResultsHeader extends React.Component {
                         </OverlayTrigger>
                     </button>
                     <button
+                        id='searchResultsCloseButton'
                         type='button'
                         className='sidebar--right__close'
                         aria-label='Close'

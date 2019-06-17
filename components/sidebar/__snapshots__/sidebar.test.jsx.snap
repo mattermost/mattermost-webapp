@@ -79,6 +79,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
       >
         <ul
           className="nav nav-pills nav-stacked"
+          id="publicChannelList"
           key="public"
         >
           <li>
@@ -124,6 +125,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="privateChannelList"
           key="private"
         >
           <li>
@@ -169,6 +171,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="directChannelList"
           key="direct"
         >
           <li>
@@ -321,6 +324,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
       >
         <ul
           className="nav nav-pills nav-stacked"
+          id="publicChannelList"
           key="public"
         >
           <li>
@@ -366,6 +370,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="privateChannelList"
           key="private"
         >
           <li>
@@ -411,6 +416,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="directChannelList"
           key="direct"
         >
           <li>
@@ -563,6 +569,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
       >
         <ul
           className="nav nav-pills nav-stacked"
+          id="publicChannelList"
           key="public"
         >
           <li>
@@ -608,6 +615,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="privateChannelList"
           key="private"
         >
           <li>
@@ -653,6 +661,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="directChannelList"
           key="direct"
         >
           <li>
@@ -805,6 +814,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
       >
         <ul
           className="nav nav-pills nav-stacked"
+          id="publicChannelList"
           key="public"
         >
           <li>
@@ -850,6 +860,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="privateChannelList"
           key="private"
         >
           <li>
@@ -895,6 +906,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="directChannelList"
           key="direct"
         >
           <li>
@@ -1055,6 +1067,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
       >
         <ul
           className="nav nav-pills nav-stacked"
+          id="publicChannelList"
           key="public"
         >
           <li>
@@ -1100,6 +1113,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="privateChannelList"
           key="private"
         >
           <li>
@@ -1145,6 +1159,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="directChannelList"
           key="direct"
         >
           <li>
@@ -1297,6 +1312,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
       >
         <ul
           className="nav nav-pills nav-stacked"
+          id="publicChannelList"
           key="public"
         >
           <li>
@@ -1342,6 +1358,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="privateChannelList"
           key="private"
         >
           <li>
@@ -1387,6 +1404,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="directChannelList"
           key="direct"
         >
           <li>
@@ -1543,6 +1561,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
       >
         <ul
           className="nav nav-pills nav-stacked"
+          id="publicChannelList"
           key="public"
         >
           <li>
@@ -1588,6 +1607,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="privateChannelList"
           key="private"
         >
           <li>
@@ -1633,6 +1653,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="directChannelList"
           key="direct"
         >
           <li>
@@ -1785,6 +1806,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
       >
         <ul
           className="nav nav-pills nav-stacked"
+          id="publicChannelList"
           key="public"
         >
           <li>
@@ -1830,6 +1852,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="privateChannelList"
           key="private"
         >
           <li>
@@ -1875,6 +1898,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="directChannelList"
           key="direct"
         >
           <li>
@@ -2027,6 +2051,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
       >
         <ul
           className="nav nav-pills nav-stacked"
+          id="publicChannelList"
           key="public"
         >
           <li>
@@ -2072,6 +2097,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="privateChannelList"
           key="private"
         >
           <li>
@@ -2117,6 +2143,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="directChannelList"
           key="direct"
         >
           <li>
@@ -2269,6 +2296,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
       >
         <ul
           className="nav nav-pills nav-stacked"
+          id="publicChannelList"
           key="public"
         >
           <li>
@@ -2314,6 +2342,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="privateChannelList"
           key="private"
         >
           <li>
@@ -2359,6 +2388,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           className="nav nav-pills nav-stacked"
+          id="directChannelList"
           key="direct"
         >
           <li>

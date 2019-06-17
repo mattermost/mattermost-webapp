@@ -15,7 +15,7 @@ jest.mock('utils/utils.jsx', () => {
     };
 });
 
-function createComponent({fileInfo, handleImageClick, index, compactDisplay, canDownloadFiles = true} = {}) {
+function createComponent({fileInfo, handleImageClick, index, compactDisplay, canDownloadFiles = true} = {}) { //eslint-disable-line react/prop-types
     const fileInfoProp = fileInfo || {
         id: 1,
         extension: 'pdf',

@@ -70,8 +70,10 @@
         margin: 0 9px 0 -1px;
         text-align: center;
         width: 15px;
+        top: 0;
 
         .mentions__name & {
+            flex: 0 0 17px;
             height: 18px;
             left: 0;
             line-height: 18px;

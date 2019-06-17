@@ -26,16 +26,25 @@
     min-height: 37px;
     position: relative;
 
+    &.textarea-wrapper--preview {
+        > div {
+            &:first-child {
+                display: none;
+            }
+        }
+    }
+
     .textbox-preview-area {
         white-space: normal;
         box-shadow: none;
         left: 0;
-        position: absolute;
+        position: relative;
         top: 0;
         z-index: 2;
 
         p {
             margin: 0;
+            white-space: pre-wrap;
         }
 
         ul + p,
@@ -730,7 +739,7 @@
 .post {
     @include legacy-pie-clearfix;
     max-width: 100%;
-    padding: 8px .5em 0 1.5em;
+    padding: 8px .5em 0 1.5em; // If this needs to be changed then .post-row__padding needs to be adjusted accordingly
     position: relative;
     word-wrap: break-word;
 
@@ -765,6 +774,7 @@
     &:hover {
         .dropdown,
         .comment-icon__container,
+        .card-icon__container,
         .reacticon,
         .reacticon__container,
         .flag-icon__container,
@@ -790,6 +800,7 @@
     &.post--hovered {
         .dropdown,
         .comment-icon__container,
+        .card-icon__container,
         .post__reply,
         .post__remove,
         .post__dropdown,
@@ -845,7 +856,7 @@
 
                     }
 
-                    .flag-icon__container {
+                    .flag-icon__container, .card-icon__container {
                         left: 32px;
                         margin-left: 7px;
                         position: absolute;
@@ -879,6 +890,14 @@
                     height: 0;
                 }
             }
+        }
+
+        .Badge {
+            margin: 0;
+        }
+
+        .card-icon__container {
+            margin: 0 7px 0 -4px;
         }
 
         .post-message {
@@ -979,7 +998,7 @@
         }
 
         .post__header {
-            display: block;
+            display: flex;
             height: 22px;
             margin-bottom: 0;
             padding: 0;
@@ -1011,7 +1030,7 @@
                 padding-left: 20px;
             }
 
-            div {
+            div:not(.image-loading__container) {
                 margin-bottom: 0;
             }
 
@@ -1164,7 +1183,7 @@
                 }
             }
 
-            .flag-icon__container {
+            .flag-icon__container, .card-icon__container {
                 left: 32px;
                 margin-left: 7px;
                 position: absolute;
@@ -1272,6 +1291,7 @@
         }
 
         .col__name {
+            display: flex;
             font-weight: 600;
             margin-right: 7px;
             overflow: hidden;
@@ -1827,10 +1847,34 @@
         }
     }
 
+    .card-icon__container {
+        @extend %btn-transition;
+        @include opacity(.24);
+        margin-left: 7px;
+        vertical-align: top;
+        top: 2px;
+        position: relative;
+        z-index: 1;
+
+        &:hover {
+            @include opacity(.4);
+        }
+
+        &.active {
+            @include opacity(1);
+        }
+
+        svg {
+            height: 14px;
+            width: 14px;
+        }
+    }
+
     .flag-icon__container {
         display: inline-block;
         height: 15px;
-        margin-left: 7px;
+        width: 15px;
+        margin-left: 4px;
         position: relative;
         top: 2px;
         vertical-align: top;
@@ -2001,6 +2045,12 @@
     }
 }
 
+.sidebar-right__card {
+    .post-message--collapsed {
+        max-height: 150px;
+    }
+}
+
 .post-message--collapsed {
     .post-message__text-container {
         // If this max-height is changed, the MAX_POST_HEIGHT constant in
@@ -2056,4 +2106,36 @@
     right: 0;
     top: 0;
     width: 0;
+}
+
+.post-row__padding {
+    &.bottom > div:not(.post) {
+        padding-bottom: 1em;
+    }
+    &.top > div:not(.post) {
+        padding-top: 1em;
+    }
+
+    &.top .post {
+        padding-top: 22px; // this is based off of 8px padding for post + 1em
+        &.same--root.same--user {
+            padding-top: 1em;
+        }
+    }
+
+    &.bottom .post {
+        padding-bottom: 1em;
+        &.same--root.same--user {
+            padding-bottom: 1em;
+        }
+    }
+}
+
+.post-list__dynamic {
+    .date-separator, .new-separator {
+        z-index: 1;
+        height: 1px;
+        margin-bottom: 1em;
+        margin-top: -1em;
+    }
 }

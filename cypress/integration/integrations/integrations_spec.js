@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -13,27 +13,20 @@ import {getRandomInt} from '../../utils';
 
 describe('Integrations page', () => {
     before(() => {
-        // # Login
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
-        // # Get current settings
-        cy.request('/api/v4/config').then((response) => {
-            const settings = response.body;
-
-            // # Modify the settings we need to change
-            settings.ServiceSettings.EnableOAuthServiceProvider = true;
-            settings.ServiceSettings.EnableIncomingWebhooks = true;
-            settings.ServiceSettings.EnableOutgoingWebhooks = true;
-            settings.ServiceSettings.EnableCommands = true;
-
-            // # Set the modified settings
-            cy.request({
-                url: '/api/v4/config',
-                headers: {'X-Requested-With': 'XMLHttpRequest'},
-                method: 'PUT',
-                body: settings,
-            });
-        });
+        // # Set ServiceSettings to expected values
+        const newSettings = {
+            ServiceSettings: {
+                EnableOAuthServiceProvider: true,
+                EnableIncomingWebhooks: true,
+                EnableOutgoingWebhooks: true,
+                EnableCommands: true,
+                EnableBotAccountCreation: true,
+            },
+        };
+        cy.apiUpdateConfig(newSettings);
 
         // # Go to integrations
         cy.visit('/ad-1/integrations');
@@ -109,7 +102,7 @@ describe('Integrations page', () => {
         cy.get('#addSlashCommand').click();
 
         // # Pick a dummy trigger and callback
-        cy.get('#trigger').type(`test-trigger${getRandomInt(10000)}`);
+        cy.get('#trigger').type(`test-trigger${Date.now()}`);
         cy.get('#url').type('https://dummy');
 
         // # Save
@@ -171,6 +164,9 @@ describe('Integrations page', () => {
 
         // # Save
         cy.get('#saveBot').click();
+
+        // # Click done button
+        cy.get('#doneButton').click();
 
         // * Make sure we are done saving
         cy.url().should('contain', '/integrations/bots');

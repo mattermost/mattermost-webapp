@@ -28,6 +28,7 @@ export default class SidebarHeader extends React.Component {
         if (me.last_picture_update) {
             profilePicture = (
                 <img
+                    alt={''}
                     className='user__picture'
                     src={Client4.getProfilePictureUrl(me.id, me.last_picture_update)}
                 />
@@ -45,7 +46,7 @@ export default class SidebarHeader extends React.Component {
                                 defaultMessage='System Console'
                             />
                         </div>
-                        <div className='user__name'>{'@' + me.username}</div>
+                        <div className='user__name overflow--ellipsis whitespace--nowrap'>{'@' + me.username}</div>
                     </div>
                     <MenuIcon className='menu-icon'/>
                 </div>

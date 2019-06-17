@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // **************************************************************
@@ -25,9 +25,28 @@ const testCases = [
     {key: 12, name: 'Mention Jewel Text', inputTarget: '.saturation-black', inputColor: ['background-color', 'rgb(65, 92, 129)'], content: '"mentionColor":"#415c81"'},
 ];
 
+// Selects Edit Theme, selects Custom Theme, checks display, selects custom drop-down for color options
+function customColors(dropdownInt, dropdownName) {
+    cy.get('#themeEdit').scrollIntoView().click();
+
+    cy.get('#customThemes').click();
+
+    // Checking Custom Theme Display
+    cy.get('#displaySettingsTitle').scrollIntoView();
+    cy.get('.theme-elements__header').should('be.visible', 'contain', 'Sidebar Styles');
+    cy.get('.theme-elements__header').should('be.visible', 'contain', 'Center Channel Styles');
+    cy.get('.theme-elements__header').should('be.visible', 'contain', 'Link and BUtton Sytles');
+    cy.get('.padding-top').should('be.visible', 'contain', 'Import theme Colors from Slack');
+    cy.get('#saveSetting').scrollIntoView().should('be.visible', 'contain', 'Save');
+    cy.get('#cancelSetting').should('be.visible', 'contain', 'Cancel');
+
+    cy.get('.theme-elements__header').eq(dropdownInt).should('contain', dropdownName).click();
+}
+
 describe('AS14318 Theme Colors - Color Picker', () => {
     before(() => {
-        // 1. Set default theme preference
+        // # Set default theme preference
+        cy.apiLogin('user-1');
         cy.apiSaveThemePreference();
     });
 
@@ -37,13 +56,13 @@ describe('AS14318 Theme Colors - Color Picker', () => {
     });
 
     it('Theme Display should render in min setting view', () => {
-        // 1. Go to Account Settings with "user-1"
-        cy.toAccountSettingsModal('user-1');
+        // # Go to Account Settings with "user-1"
+        cy.toAccountSettingsModal(null, true);
 
         // * Check that the Display tab is loaded
         cy.get('#displayButton').should('be.visible');
 
-        // 2. Click the Display tab
+        // # Click the Display tab
         cy.get('#displayButton').click();
 
         // * Check that it changed into the Display section
@@ -55,22 +74,22 @@ describe('AS14318 Theme Colors - Color Picker', () => {
 
     describe('Custom - Sidebar Styles input change', () => {
         before(() => {
-            // 1. Go to Theme > Custom > Sidebar Styles
-            cy.customColors(0, 'Sidebar Styles');
+            // # Go to Theme > Custom > Sidebar Styles
+            customColors(0, 'Sidebar Styles');
         });
 
         after(() => {
             // Save Sidebar Text color change and close the Account settings modal
-            cy.get('#saveSetting').click();
+            cy.get('#saveSetting').click({force: true});
             cy.get('#accountSettingsHeader > .close').click();
         });
 
         testCases.forEach((testCase) => {
             it(`should change ${testCase.name} custom color`, () => {
-                // 2. Click input color button
+                // # Click input color button
                 cy.get('.input-group-addon').eq(testCase.key).click();
 
-                // 3. Click on color bar to change color
+                // # Click on color bar to change color
                 cy.get(testCase.inputTarget).click();
 
                 // * Check that icon color change
@@ -113,25 +132,25 @@ describe('AS14318 Theme Colors - Color Picker', () => {
             // * Check Mention Jewel Text color
             cy.get('#unreadIndicatorBottom').should('have.css', 'color', 'rgb(65, 92, 129)');
 
-            // 1. Set user status to online
+            // # Set user status to online
             cy.userStatus(0);
 
             // * Check Online Indicator color
             cy.get('.online--icon').should('have.css', 'fill', 'rgb(65, 129, 113)');
 
-            // 2. Set user status to away
+            // # Set user status to away
             cy.userStatus(1);
 
             // * Check Away Indicator color
             cy.get('.away--icon').should('have.css', 'fill', 'rgb(129, 106, 65)');
 
-            // 3. Set user status to do not disturb
+            // # Set user status to do not disturb
             cy.userStatus(2);
 
             // * Check Do Not Disturb Indicator color
             cy.get('.dnd--icon').should('have.css', 'fill', 'rgb(129, 65, 65)');
 
-            // 4. Revert user status to online
+            // # Revert user status to online
             cy.userStatus(0);
         });
     });

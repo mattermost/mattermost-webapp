@@ -13,6 +13,7 @@ import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
 import BackIcon from 'components/icon/back_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {t} from 'utils/i18n.jsx';
 
@@ -341,49 +342,64 @@ export default class GeneralTab extends React.Component {
 
         let openInviteSection;
         if (this.props.activeSection === 'open_invite') {
-            const inputs = [
-                <div key='userOpenInviteOptions'>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='teamOpenInvite'
-                                name='userOpenInviteOptions'
-                                type='radio'
-                                defaultChecked={this.state.allow_open_invite}
-                                onChange={this.handleOpenInviteRadio.bind(this, true)}
+            let inputs;
+
+            if (team.group_constrained) {
+                inputs = [
+                    <div key='userOpenInviteOptions'>
+                        <div>
+                            <FormattedMarkdownMessage
+                                id='team_settings.openInviteDescription.groupConstrained'
+                                defaultMessage='No, members of this team are added and removed by linked groups. [Learn More](https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
                             />
+                        </div>
+                    </div>,
+                ];
+            } else {
+                inputs = [
+                    <div key='userOpenInviteOptions'>
+                        <div className='radio'>
+                            <label>
+                                <input
+                                    id='teamOpenInvite'
+                                    name='userOpenInviteOptions'
+                                    type='radio'
+                                    defaultChecked={this.state.allow_open_invite}
+                                    onChange={this.handleOpenInviteRadio.bind(this, true)}
+                                />
+                                <FormattedMessage
+                                    id='general_tab.yes'
+                                    defaultMessage='Yes'
+                                />
+                            </label>
+                            <br/>
+                        </div>
+                        <div className='radio'>
+                            <label>
+                                <input
+                                    id='teamOpenInviteNo'
+                                    name='userOpenInviteOptions'
+                                    type='radio'
+                                    defaultChecked={!this.state.allow_open_invite}
+                                    onChange={this.handleOpenInviteRadio.bind(this, false)}
+                                />
+                                <FormattedMessage
+                                    id='general_tab.no'
+                                    defaultMessage='No'
+                                />
+                            </label>
+                            <br/>
+                        </div>
+                        <div>
+                            <br/>
                             <FormattedMessage
-                                id='general_tab.yes'
-                                defaultMessage='Yes'
+                                id='general_tab.openInviteDesc'
+                                defaultMessage='When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team.'
                             />
-                        </label>
-                        <br/>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='teamOpenInviteNo'
-                                name='userOpenInviteOptions'
-                                type='radio'
-                                defaultChecked={!this.state.allow_open_invite}
-                                onChange={this.handleOpenInviteRadio.bind(this, false)}
-                            />
-                            <FormattedMessage
-                                id='general_tab.no'
-                                defaultMessage='No'
-                            />
-                        </label>
-                        <br/>
-                    </div>
-                    <div>
-                        <br/>
-                        <FormattedMessage
-                            id='general_tab.openInviteDesc'
-                            defaultMessage='When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team.'
-                        />
-                    </div>
-                </div>,
-            ];
+                        </div>
+                    </div>,
+                ];
+            }
 
             openInviteSection = (
                 <SettingItemMax
@@ -398,6 +414,8 @@ export default class GeneralTab extends React.Component {
             let describe = '';
             if (this.state.allow_open_invite === true) {
                 describe = Utils.localizeMessage('general_tab.yes', 'Yes');
+            } else if (team.group_constrained) {
+                describe = Utils.localizeMessage('team_settings.openInviteSetting.groupConstrained', 'No, members of this team are added and removed by linked groups.');
             } else {
                 describe = Utils.localizeMessage('general_tab.no', 'No');
             }
@@ -769,12 +787,20 @@ export default class GeneralTab extends React.Component {
                     {descriptionSection}
                     <div className='divider-light'/>
                     {teamIconSection}
-                    <div className='divider-light'/>
-                    {allowedDomainsSection}
+                    {!team.group_constrained &&
+                        <>
+                            <div className='divider-light'/>
+                            {allowedDomainsSection}
+                        </>
+                    }
                     <div className='divider-light'/>
                     {openInviteSection}
-                    <div className='divider-light'/>
-                    {inviteSection}
+                    {!team.group_constrained &&
+                        <>
+                            <div className='divider-light'/>
+                            {inviteSection}
+                        </>
+                    }
                     <div className='divider-dark'/>
                 </div>
             </div>

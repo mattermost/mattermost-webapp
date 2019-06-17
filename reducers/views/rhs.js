@@ -14,6 +14,26 @@ function selectedPostId(state = '', action) {
     switch (action.type) {
     case ActionTypes.SELECT_POST:
         return action.postId;
+    case ActionTypes.SELECT_POST_CARD:
+        return '';
+    case PostTypes.REMOVE_POST:
+        if (action.data && action.data.id === state) {
+            return '';
+        }
+        return state;
+    case ActionTypes.UPDATE_RHS_STATE:
+        return '';
+    default:
+        return state;
+    }
+}
+
+function selectedPostCardId(state = '', action) {
+    switch (action.type) {
+    case ActionTypes.SELECT_POST_CARD:
+        return action.postId;
+    case ActionTypes.SELECT_POST:
+        return '';
     case PostTypes.POST_REMOVED:
         if (action.data && action.data.id === state) {
             return '';
@@ -29,6 +49,8 @@ function selectedPostId(state = '', action) {
 function selectedChannelId(state = '', action) {
     switch (action.type) {
     case ActionTypes.SELECT_POST:
+        return action.channelId;
+    case ActionTypes.SELECT_POST_CARD:
         return action.channelId;
     case ActionTypes.UPDATE_RHS_STATE:
         if (action.state === RHSStates.PIN) {
@@ -47,6 +69,11 @@ function previousRhsState(state = null, action) {
             return action.previousRhsState;
         }
         return null;
+    case ActionTypes.SELECT_POST_CARD:
+        if (action.previousRhsState) {
+            return action.previousRhsState;
+        }
+        return null;
     default:
         return state;
     }
@@ -57,6 +84,8 @@ function rhsState(state = null, action) {
     case ActionTypes.UPDATE_RHS_STATE:
         return action.state;
     case ActionTypes.SELECT_POST:
+        return null;
+    case ActionTypes.SELECT_POST_CARD:
         return null;
     default:
         return state;
@@ -111,6 +140,8 @@ function isSidebarOpen(state = false, action) {
         return Boolean(action.state);
     case ActionTypes.SELECT_POST:
         return Boolean(action.postId);
+    case ActionTypes.SELECT_POST_CARD:
+        return Boolean(action.postId);
     case ActionTypes.TOGGLE_RHS_MENU:
         return false;
     case ActionTypes.OPEN_RHS_MENU:
@@ -135,6 +166,8 @@ function isSidebarExpanded(state = false, action) {
     case ActionTypes.UPDATE_RHS_STATE:
         return action.state ? state : false;
     case ActionTypes.SELECT_POST:
+        return action.postId ? state : false;
+    case ActionTypes.SELECT_POST_CARD:
         return action.postId ? state : false;
     case ActionTypes.TOGGLE_RHS_MENU:
         return false;
@@ -172,6 +205,7 @@ function isMenuOpen(state = false, action) {
 
 export default combineReducers({
     selectedPostId,
+    selectedPostCardId,
     selectedChannelId,
     previousRhsState,
     rhsState,

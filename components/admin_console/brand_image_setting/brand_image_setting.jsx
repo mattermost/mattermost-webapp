@@ -127,6 +127,7 @@ export default class BrandImageSetting extends React.PureComponent {
                 <img
                     ref='image'
                     className='brand-img'
+                    alt='brand image'
                     src=''
                 />
             );
@@ -134,6 +135,7 @@ export default class BrandImageSetting extends React.PureComponent {
             img = (
                 <img
                     className='brand-img'
+                    alt='brand image'
                     src={Client4.getBrandImageUrl(this.state.brandImageTimestamp)}
                 />
             );

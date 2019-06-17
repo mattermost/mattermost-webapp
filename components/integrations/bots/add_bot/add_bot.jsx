@@ -589,13 +589,21 @@ export default class AddBot extends React.Component {
                                 />
                             </label>
                             <div className='col-md-5 col-sm-8 checkbox'>
-                                <input
-                                    id='postAll'
-                                    type='checkbox'
-                                    checked={this.state.postAll || this.state.role === roleOptionSystemAdmin}
-                                    onChange={this.updatePostAll}
-                                    disabled={!this.props.editingUserHasManageSystem || this.state.role === roleOptionSystemAdmin}
-                                />
+                                <div className='checkbox no-padding'>
+                                    <label htmlFor='postAll'>
+                                        <input
+                                            id='postAll'
+                                            type='checkbox'
+                                            checked={this.state.postAll || this.state.role === roleOptionSystemAdmin}
+                                            onChange={this.updatePostAll}
+                                            disabled={!this.props.editingUserHasManageSystem || this.state.role === roleOptionSystemAdmin}
+                                        />
+                                        <FormattedMessage
+                                            id='bot.add.post_all.enabled'
+                                            defaultMessage='Enabled'
+                                        />
+                                    </label>
+                                </div>
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='bot.add.post_all.help'
@@ -615,13 +623,21 @@ export default class AddBot extends React.Component {
                                 />
                             </label>
                             <div className='col-md-5 col-sm-8 checkbox'>
-                                <input
-                                    id='postChannels'
-                                    type='checkbox'
-                                    checked={this.state.postChannels || this.state.role === roleOptionSystemAdmin || this.state.postAll}
-                                    onChange={this.updatePostChannels}
-                                    disabled={!this.props.editingUserHasManageSystem || this.state.role === roleOptionSystemAdmin || this.state.postAll}
-                                />
+                                <div className='checkbox no-padding'>
+                                    <label htmlFor='postChannels'>
+                                        <input
+                                            id='postChannels'
+                                            type='checkbox'
+                                            checked={this.state.postChannels || this.state.role === roleOptionSystemAdmin || this.state.postAll}
+                                            onChange={this.updatePostChannels}
+                                            disabled={!this.props.editingUserHasManageSystem || this.state.role === roleOptionSystemAdmin || this.state.postAll}
+                                        />
+                                        <FormattedMessage
+                                            id='bot.add.post_channels.enabled'
+                                            defaultMessage='Enabled'
+                                        />
+                                    </label>
+                                </div>
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='bot.add.post_channels.help'

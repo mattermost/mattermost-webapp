@@ -185,6 +185,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                   }
                 >
                   <button
+                    aria-label="add to favorites"
                     className="style--none color--link channel-header__favorites inactive"
                     id="toggleFavorite"
                     onClick={[Function]}
@@ -409,6 +410,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                   }
                 >
                   <button
+                    aria-label="add to favorites"
                     className="style--none color--link channel-header__favorites inactive"
                     id="toggleFavorite"
                     onClick={[Function]}
