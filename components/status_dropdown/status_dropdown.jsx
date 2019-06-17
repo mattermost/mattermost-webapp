@@ -119,9 +119,17 @@ export default class StatusDropdown extends React.Component {
                 onToggle={this.onToggle}
                 style={this.props.style}
             >
-                <div className='status-wrapper status-selector'>
+                <div className='status-wrapper status-selector style--none'>
                     {profilePicture}
-                    <StatusIcon status={this.props.status}/>
+                    <button
+                        className='status style--none'
+                        aria-label={localizeMessage('status_dropdown.menuAriaLabel', 'Change Status Menu')}
+                    >
+                        <StatusIcon
+                            status={this.props.status}
+                            button={true}
+                        />
+                    </button>
                     <span className={'status status-edit edit'}>
                         {dropdownIcon}
                     </span>
@@ -131,6 +139,7 @@ export default class StatusDropdown extends React.Component {
                         <MenuItemAction
                             show={this.isUserOutOfOffice()}
                             onClick={() => null}
+                            ariaLabel={localizeMessage('status_dropdown.set_ooo', 'Out of office')}
                             text={localizeMessage('status_dropdown.set_ooo', 'Out of office')}
                             extraText={localizeMessage('status_dropdown.set_ooo.extra', 'Automatic Replies are enabled')}
                         />
@@ -138,19 +147,23 @@ export default class StatusDropdown extends React.Component {
                     <MenuGroup>
                         <MenuItemAction
                             onClick={setOnline}
+                            ariaLabel={localizeMessage('status_dropdown.set_online', 'Online')}
                             text={localizeMessage('status_dropdown.set_online', 'Online')}
                         />
                         <MenuItemAction
                             onClick={setAway}
+                            ariaLabel={localizeMessage('status_dropdown.set_away', 'Away')}
                             text={localizeMessage('status_dropdown.set_away', 'Away')}
                         />
                         <MenuItemAction
                             onClick={setDnd}
+                            ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables Desktop and Push Notifications')}`}
                             text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
                             extraText={localizeMessage('status_dropdown.set_dnd.extra', 'Disables Desktop and Push Notifications')}
                         />
                         <MenuItemAction
                             onClick={setOffline}
+                            ariaLabel={localizeMessage('status_dropdown.set_offline', 'Offline')}
                             text={localizeMessage('status_dropdown.set_offline', 'Offline')}
                         />
                     </MenuGroup>
