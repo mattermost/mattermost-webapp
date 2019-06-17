@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {getTeam as fetchTeam} from 'mattermost-redux/actions/teams';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
+import {setNavigationBlocked} from 'actions/admin_actions.jsx';
 
 import TeamDetails from './team_details.jsx';
 
@@ -23,6 +24,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getTeam: fetchTeam,
+            setNavigationBlocked,
         }, dispatch),
     };
 }

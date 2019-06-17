@@ -9,26 +9,34 @@ import {FormattedMessage} from 'react-intl';
 export default class GroupRow extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
+        groupConstrained: PropTypes.bool,
         name: PropTypes.string.isRequired,
-        onRowClick: PropTypes.func,
+        onRowClick: PropTypes.func.isRequired,
     };
 
+    onRowClick = () => {
+        const {id, onRowClick: onRowClick1} = this.props;
+        onRowClick1(id);
+    }
     render = () => {
+        const {id, name, groupConstrained} = this.props;
         return (
             <div
                 className={'group '}
-                onClick={this.props.onRowClick}
+                onClick={this.onRowClick}
             >
                 <div className='group-row'>
-
                     <span className='group-name'>
-                        {this.props.name}
+                        {name}
                     </span>
                     <span className='group-description'>
-                        Manual Invites
+                        <FormattedMessage
+                            id={`admin.team_settings.team_row.managementMethod.${groupConstrained ? 'group' : 'manual'}`}
+                            defaultMessage={groupConstrained ? 'Group Sync' : 'Manual Invites'}
+                        />
                     </span>
                     <span className='group-actions'>
-                        <Link to={'/admin_console/user_management/teams/' + this.props.id}>
+                        <Link to={`/admin_console/user_management/teams/${id}`}>
                             <FormattedMessage
                                 id='admin.team_settings.team_row.configure'
                                 defaultMessage='Edit'

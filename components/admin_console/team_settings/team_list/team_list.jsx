@@ -5,9 +5,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import TeamRow from 'components/admin_console/team_settings/team_row.jsx';
+import TeamRow from 'components/admin_console/team_settings/team_list/team_row.jsx';
 import NextIcon from 'components/icon/next_icon';
 import PreviousIcon from 'components/icon/previous_icon';
+import {browserHistory} from 'utils/browser_history';
 
 const TEAMS_PAGE_SIZE = 200;
 
@@ -77,10 +78,14 @@ export default class TeamList extends React.PureComponent {
                     name={item.name}
                     onRowClick={this.onTeamClick}
                     onCheckToggle={this.onCheckToggle}
-
+                    groupConstrained={item.group_constrained}
                 />
             );
         });
+    }
+
+    onTeamClick = (id) => {
+        browserHistory.push(`/admin_console/user_management/teams/${id}`);
     }
 
     render = () => {

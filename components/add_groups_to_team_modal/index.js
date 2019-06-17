@@ -11,10 +11,10 @@ import {setModalSearchTerm} from 'actions/views/search';
 
 import AddGroupsToTeamModal from './add_groups_to_team_modal';
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
     const searchTerm = state.views.search.modalSearch;
 
-    const team = getCurrentTeam(state) || {};
+    const team = ownProps.team || getCurrentTeam(state) || {};
 
     let groups = selectGroupsNotAssociatedToTeam(state, team.id);
     if (searchTerm) {

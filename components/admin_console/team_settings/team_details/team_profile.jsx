@@ -12,7 +12,7 @@ import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export function TeamProfile({team}) {
-    const brandImageUrl = Client4.getBrandImageUrl(0);
+    const brandImageUrl = Client4.getTeamIconUrl(team.id);
 
     return (
         <AdminPanel
