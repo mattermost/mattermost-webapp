@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 // ***************************************************************
 // - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -38,6 +36,10 @@ function verifyMentionedUserAndProfilePopover(postId) {
 }
 
 describe('Add user to a channel', () => {
+    after(() => {
+        deleteCurrentChannel();
+    });
+
     it('Single User: Usernames are links, open profile popovers', () => {
         // # Login as 'user-1', go to / and create 'Channel test 1'
         cy.apiLogin('user-1');
@@ -71,7 +73,7 @@ describe('Add user to a channel', () => {
                 cy.get('#saveItems').click();
 
                 // # Wait for the modal to disappear
-                cy.wait(TIMEOUTS.SHORT);
+                cy.get('#addUsersToChannelModal').should('not.exist');
 
                 cy.getLastPostId().then((id) => {
                     // * The system message should contain 'added to the channel by you'
@@ -80,12 +82,10 @@ describe('Add user to a channel', () => {
                     // # Verify username link
                     verifyMentionedUserAndProfilePopover(id);
                 });
-
-                // * Delete the 'Channel test 1'
-                deleteCurrentChannel();
             });
         });
     });
+
     it('Combined Users: Usernames are links, open profile popovers', () => {
         cy.getCurrentTeamId().then((teamId) => {
             // # Create 'Channel test 2'
@@ -119,7 +119,7 @@ describe('Add user to a channel', () => {
                 cy.get('#saveItems').click();
 
                 // # Wait for the modal to disappear
-                cy.wait(TIMEOUTS.SHORT);
+                cy.get('#addUsersToChannelModal').should('not.exist');
 
                 cy.getLastPostId().then((id) => {
                     cy.get(`#postMessageText_${id}`).should('contain', '2 others were added to the channel by you');
@@ -130,9 +130,6 @@ describe('Add user to a channel', () => {
                         verifyMentionedUserAndProfilePopover(id);
                     });
                 });
-
-                // # Delete 'Channel test 2'
-                deleteCurrentChannel();
             });
         });
     });
