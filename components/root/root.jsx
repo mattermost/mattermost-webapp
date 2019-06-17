@@ -47,7 +47,7 @@ import loadCreateTeam from 'bundle-loader?lazy!components/create_team';
 import loadMfa from 'bundle-loader?lazy!components/mfa/mfa_controller';
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url.jsx';
-import {enableDevModeFeatures, isDevMode} from 'utils/utils';
+import {enableDevModeFeatures, isDevMode, isKeyPressed} from 'utils/utils';
 
 const CreateTeam = makeAsyncComponent(loadCreateTeam);
 const ErrorPage = makeAsyncComponent(loadErrorPage);
@@ -141,6 +141,21 @@ export default class Root extends React.Component {
             configLoaded: false,
         };
     }
+
+    handleTabKey = (e) => {
+        if (isKeyPressed(e, Constants.KeyCodes.TAB)) {
+            const activeElement = e.target;
+            activeElement.classList.add('keyboard-focus');
+
+            function removeClass() {
+                activeElement.classList.remove('keyboard-focus');
+                activeElement.removeEventListener('blur', removeClass);
+            }
+
+            activeElement.removeEventListener('blur', removeClass);
+            activeElement.addEventListener('blur', removeClass, {once: true});
+        }
+    };
 
     onConfigLoaded = () => {
         if (isDevMode()) {
@@ -240,10 +255,12 @@ export default class Root extends React.Component {
             this.onConfigLoaded();
         });
         trackLoadTime();
+        document.addEventListener('keyup', this.handleTabKey);
     }
 
     componentWillUnmount() {
         $(window).unbind('storage');
+        document.removeEventListener('keyup', this.handleTabKey);
     }
 
     render() {

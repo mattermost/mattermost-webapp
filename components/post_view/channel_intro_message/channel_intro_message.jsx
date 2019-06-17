@@ -148,14 +148,12 @@ function createDMIntroMessage(channel, centeredIntro) {
                         hasMention={true}
                     />
                 </div>
-                <div className='channel-intro-profile'>
-                    <strong>
-                        <UserProfile
-                            userId={teammate.id}
-                            disablePopover={false}
-                            hasMention={true}
-                        />
-                    </strong>
+                <div className='channel-intro-profile d-flex'>
+                    <UserProfile
+                        userId={teammate.id}
+                        disablePopover={false}
+                        hasMention={true}
+                    />
                 </div>
                 <p className='channel-intro-text'>
                     <FormattedMarkdownMessage
