@@ -19,6 +19,7 @@ export const MenuItemActionImpl = ({onClick, ariaLabel, text, extraText, id}) =>
 );
 MenuItemActionImpl.propTypes = {
     onClick: PropTypes.func.isRequired,
+    ariaLabel: PropTypes.string,
     text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     extraText: PropTypes.string,
     id: PropTypes.string,

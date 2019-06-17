@@ -119,7 +119,7 @@ export default class StatusDropdown extends React.Component {
                 onToggle={this.onToggle}
                 style={this.props.style}
             >
-                <div className='status-wrapper status-selector style--none'>
+                <div className='status-wrapper status-selector'>
                     {profilePicture}
                     <button
                         className='status style--none'
