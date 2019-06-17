@@ -396,13 +396,13 @@
                 }
             }
 
-            .flag-icon__container {
+            .flag-icon__container, .card-icon-container {
                 left: -21px;
                 position: absolute;
                 top: 4px;
             }
 
-            .sidebar--right & .flag-icon__container {
+            .sidebar--right & .flag-icon__container, .sidebar--right & .card-icon__container {
                 left: auto;
                 position: relative;
                 top: 1px;
@@ -413,7 +413,7 @@
                     padding-left: 77px;
                     padding-top: 0;
 
-                    .flag-icon__container {
+                    .flag-icon__container, .card-icon__container {
                         left: -21px;
                         position: absolute;
                         top: 4px;
@@ -496,7 +496,7 @@
                         }
                     }
 
-                    .flag-icon__container {
+                    .flag-icon__container, .card-icon__container {
                         .sidebar--right & {
                             left: 30px;
                         }
