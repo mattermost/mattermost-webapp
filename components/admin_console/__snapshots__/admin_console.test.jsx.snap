@@ -173,6 +173,11 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           render={[Function]}
         />
         <Route
+          key="integrations/bot_accounts"
+          path="/integrations/bot_accounts"
+          render={[Function]}
+        />
+        <Route
           key="integrations/gif"
           path="/integrations/gif"
           render={[Function]}
