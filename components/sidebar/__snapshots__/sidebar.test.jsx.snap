@@ -22,7 +22,10 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     />
   </div>
   <div
+    aria-label="channel sidebar region"
     className="sidebar--left__list"
+    id="lhsList"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -267,7 +270,10 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     />
   </div>
   <div
+    aria-label="channel sidebar region"
     className="sidebar--left__list"
+    id="lhsList"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -512,7 +518,10 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     />
   </div>
   <div
+    aria-label="channel sidebar region"
     className="sidebar--left__list"
+    id="lhsList"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -757,7 +766,10 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     />
   </div>
   <div
+    aria-label="channel sidebar region"
     className="sidebar--left__list"
+    id="lhsList"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -1010,7 +1022,10 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
+    aria-label="channel sidebar region"
     className="sidebar--left__list"
+    id="lhsList"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -1255,7 +1270,10 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
+    aria-label="channel sidebar region"
     className="sidebar--left__list"
+    id="lhsList"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -1504,7 +1522,10 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
+    aria-label="channel sidebar region"
     className="sidebar--left__list"
+    id="lhsList"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -1749,7 +1770,10 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
+    aria-label="channel sidebar region"
     className="sidebar--left__list"
+    id="lhsList"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -1994,7 +2018,10 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
+    aria-label="channel sidebar region"
     className="sidebar--left__list"
+    id="lhsList"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -2239,7 +2266,10 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
+    aria-label="channel sidebar region"
     className="sidebar--left__list"
+    id="lhsList"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
