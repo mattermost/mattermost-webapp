@@ -8,6 +8,7 @@ import {withRouter} from 'react-router-dom';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
+import {getPostsSince} from 'mattermost-redux/actions/posts';
 
 import {
     checkAndSetMobileView,
@@ -77,6 +78,7 @@ function mapDispatchToProps(dispatch) {
             loadInitialPosts,
             increasePostVisibility,
             checkAndSetMobileView,
+            getPostsSince,
         }, dispatch),
     };
 }

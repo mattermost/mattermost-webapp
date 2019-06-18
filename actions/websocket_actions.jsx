@@ -29,6 +29,7 @@ import {
     postDeleted,
     receivedNewPost,
     receivedPost,
+    getPostsSince,
 } from 'mattermost-redux/actions/posts';
 import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 
@@ -39,6 +40,7 @@ import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mat
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 
 import {getSelectedChannelId} from 'selectors/rhs';
 
@@ -149,8 +151,18 @@ export function reconnect(includeWebSocket = true) {
 
     const currentTeamId = getState().entities.teams.currentTeamId;
     if (currentTeamId) {
+        const state = getState();
+        const currentChannelId = getCurrentChannelId(state);
+        const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
+        const mostRecentPost = getPost(state, mostRecentId);
         dispatch(loadChannelsForCurrentUser());
-        dispatch(getPosts(getCurrentChannelId(getState())));
+        if (mostRecentPost) {
+            dispatch(getPostsSince(currentChannelId, mostRecentPost.create_at));
+        } else {
+            // if network timesout the first time when loading a channel
+            // we can request for getPosts again when socket is connected
+            dispatch(getPosts(currentChannelId));
+        }
         StatusActions.loadStatusesForChannelAndSidebar();
         dispatch(TeamActions.getMyTeamUnreads());
     }

@@ -4,6 +4,7 @@
 import {
     getProfilesAndStatusesForPosts,
     receivedNewPost,
+    getPostsSince,
 } from 'mattermost-redux/actions/posts';
 import {UserTypes} from 'mattermost-redux/action_types';
 
@@ -21,11 +22,13 @@ import {
     handleNewPostEvents,
     handlePostEditEvent,
     handleUserRemovedEvent,
+    reconnect,
 } from './websocket_actions';
 
 jest.mock('mattermost-redux/actions/posts', () => ({
     ...jest.requireActual('mattermost-redux/actions/posts'),
     getProfilesAndStatusesForPosts: jest.fn(),
+    getPostsSince: jest.fn(),
 }));
 
 jest.mock('actions/post_actions', () => ({
@@ -33,39 +36,59 @@ jest.mock('actions/post_actions', () => ({
     handleNewPost: jest.fn(() => ({type: 'HANDLE_NEW_POST'})),
 }));
 
+const mockState = {
+    entities: {
+        users: {
+            currentUserId: 'currentUserId',
+            profiles: {
+                user: {
+                    id: 'user',
+                },
+            },
+            statuses: {
+                user: 'away',
+            },
+        },
+        general: {
+            config: {},
+        },
+        channels: {
+            currentChannelId: 'otherChannel',
+            channels: {},
+        },
+        preferences: {
+            myPreferences: {},
+        },
+        teams: {
+            currentTeamId: 'currentTeamId',
+        },
+        posts: {
+            posts: {
+                post1: {id: 'post1', channel_id: 'otherChannel', create_at: '12341'},
+                post2: {id: 'post2', channel_id: 'otherChannel', create_at: '12342'},
+                post3: {id: 'post3', channel_id: 'channel2', create_at: '12343'},
+                post4: {id: 'post4', channel_id: 'channel2', create_at: '12344'},
+                post5: {id: 'post5', channel_id: 'otherChannel', create_at: '12345'},
+            },
+            postsInChannel: {
+                otherChannel: [{
+                    order: ['post5', 'post2', 'post1'],
+                    recent: true,
+                }],
+            },
+        },
+    },
+    views: {
+        rhs: {
+            selectedChannelId: 'otherChannel',
+        },
+    },
+};
+
 jest.mock('stores/redux_store', () => {
     return {
         dispatch: jest.fn(),
-        getState: () => ({
-            entities: {
-                users: {
-                    currentUserId: 'currentUserId',
-                    profiles: {
-                        user: {
-                            id: 'user',
-                        },
-                    },
-                    statuses: {
-                        user: 'away',
-                    },
-                },
-                general: {
-                    config: {},
-                },
-                channels: {
-                    currentChannelId: 'otherChannel',
-                    channels: {},
-                },
-                preferences: {
-                    myPreferences: {},
-                },
-            },
-            views: {
-                rhs: {
-                    selectedChannelId: 'otherChannel',
-                },
-            },
-        }),
+        getState: () => mockState,
     };
 });
 
@@ -186,5 +209,12 @@ describe('handleNewPostEvents', () => {
             },
         ]);
         expect(getProfilesAndStatusesForPosts).toHaveBeenCalledWith(posts, expect.anything(), expect.anything());
+    });
+});
+
+describe('reconnect', () => {
+    test('should call getPostsSince when socket reconnects', () => {
+        reconnect(false);
+        expect(getPostsSince).toHaveBeenCalledWith('otherChannel', '12345');
     });
 });
