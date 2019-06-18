@@ -12,6 +12,10 @@ export function getSelectedPostId(state) {
     return state.views.rhs.selectedPostId;
 }
 
+export function getSelectedPostFocussedAt(state) {
+    return state.views.rhs.selectedPostFocussedAt;
+}
+
 export function getSelectedPostCardId(state) {
     return state.views.rhs.selectedPostCardId;
 }

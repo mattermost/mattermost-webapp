@@ -180,6 +180,11 @@ export default class CreateComment extends React.PureComponent {
          * To check if the timezones are enable on the server.
          */
         isTimezoneEnabled: PropTypes.bool.isRequired,
+
+        /**
+         * The last time, if any, when the selected post changed. Will be 0 if no post selected.
+         */
+        selectedPostFocussedAt: PropTypes.number.isRequired,
     }
 
     static contextTypes = {
@@ -251,7 +256,7 @@ export default class CreateComment extends React.PureComponent {
             this.scrollToBottom();
         }
 
-        if (prevProps.rootId !== this.props.rootId) {
+        if (prevProps.rootId !== this.props.rootId || this.props.selectedPostFocussedAt > this.lastBlurAt) {
             this.focusTextbox();
         }
 

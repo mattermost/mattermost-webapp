@@ -9,6 +9,7 @@ import {ActionTypes, RHSStates} from 'utils/constants.jsx';
 describe('Reducers.RHS', () => {
     const initialState = {
         selectedPostId: '',
+        selectedPostFocussedAt: 0,
         selectedPostCardId: '',
         selectedChannelId: '',
         previousRhsState: null,
@@ -137,12 +138,14 @@ describe('Reducers.RHS', () => {
                 type: ActionTypes.SELECT_POST,
                 postId: '123',
                 channelId: '321',
+                timestamp: 1234,
             }
         );
 
         expect(nextState1).toEqual({
             ...initialState,
             selectedPostId: '123',
+            selectedPostFocussedAt: 1234,
             selectedChannelId: '321',
             isSidebarOpen: true,
         });
@@ -155,12 +158,14 @@ describe('Reducers.RHS', () => {
                 postId: '123',
                 channelId: '321',
                 previousRhsState: RHSStates.SEARCH,
+                timestamp: 4567,
             }
         );
 
         expect(nextState2).toEqual({
             ...initialState,
             selectedPostId: '123',
+            selectedPostFocussedAt: 4567,
             selectedChannelId: '321',
             previousRhsState: RHSStates.SEARCH,
             isSidebarOpen: true,
@@ -175,12 +180,14 @@ describe('Reducers.RHS', () => {
                 postId: '123',
                 channelId: '321',
                 previousRhsState: RHSStates.FLAG,
+                timestamp: 0,
             }
         );
 
         expect(nextState3).toEqual({
             ...initialState,
             selectedPostId: '123',
+            selectedPostFocussedAt: 0,
             selectedChannelId: '321',
             previousRhsState: RHSStates.FLAG,
             isSidebarOpen: true,
