@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Posts} from 'mattermost-redux/constants';
+import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import PostProfilePicture from 'components/post_profile_picture';
@@ -219,7 +220,7 @@ export default class Post extends React.PureComponent {
         }
 
         const isSystemMessage = PostUtils.isSystemMessage(post);
-        const isMeMessage = PostUtils.isMeMessage(post);
+        const isMeMessage = checkIsMeMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
         const fromWebhook = post && post.props && post.props.from_webhook === 'true';
         const fromBot = post && post.props && post.props.from_bot === 'true';
