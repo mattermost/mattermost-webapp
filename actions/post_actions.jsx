@@ -14,7 +14,7 @@ import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
 import {isEmbedVisible} from 'selectors/posts';
-import {getSelectedPostId, getRhsState} from 'selectors/rhs';
+import {getSelectedPostId, getSelectedPostCardId, getRhsState} from 'selectors/rhs';
 import {
     ActionTypes,
     Constants,
@@ -241,6 +241,14 @@ export function deleteAndRemovePost(post) {
         if (post.id === getSelectedPostId(getState())) {
             dispatch({
                 type: ActionTypes.SELECT_POST,
+                postId: '',
+                channelId: '',
+            });
+        }
+
+        if (post.id === getSelectedPostCardId(getState())) {
+            dispatch({
+                type: ActionTypes.SELECT_POST_CARD,
                 postId: '',
                 channelId: '',
             });

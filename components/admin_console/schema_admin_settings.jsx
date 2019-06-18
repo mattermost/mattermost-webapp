@@ -862,11 +862,26 @@ export default class SchemaAdminSettings extends React.Component {
         return Boolean(SchemaAdminSettings.getConfigValue(this.props.environmentConfig, path));
     };
 
-    customComponentWrapperClass = (className) => {
-        this.setState({customComponentWrapperClass: className});
+    hybridSchemaAndComponent = () => {
+        const schema = this.props.schema;
+        if (schema && schema.component && schema.settings) {
+            const CustomComponent = schema.component;
+            return (
+                <CustomComponent {...this.props}/>
+            );
+        }
+        return null;
     }
 
-    renderSettingsWrapper = () => {
+    render = () => {
+        const schema = this.props.schema;
+        if (schema && schema.component && !schema.settings) {
+            const CustomComponent = schema.component;
+            return (
+                <CustomComponent {...this.props}/>
+            );
+        }
+
         return (
             <div className={'wrapper--fixed ' + this.state.customComponentWrapperClass}>
                 {this.renderTitle()}
@@ -879,6 +894,7 @@ export default class SchemaAdminSettings extends React.Component {
                         >
                             {this.renderSettings()}
                         </form>
+                        {this.hybridSchemaAndComponent()}
                     </div>
                 </div>
                 <div className='admin-console-save'>
@@ -907,34 +923,6 @@ export default class SchemaAdminSettings extends React.Component {
                         </Tooltip>
                     </Overlay>
                 </div>
-            </div>
-        );
-    }
-
-    render = () => {
-        const schema = this.props.schema;
-
-        if (schema && schema.component && schema.settings) {
-            const CustomComponent = schema.component;
-            return (
-                <React.Fragment>
-                    {this.renderSettingsWrapper()}
-                    <CustomComponent
-                        {...this.props}
-                        customWrapperClass={this.customComponentWrapperClass}
-                    />
-                </React.Fragment>
-            );
-        }
-        if (schema && schema.component) {
-            const CustomComponent = schema.component;
-            return (
-                <CustomComponent {...this.props}/>
-            );
-        }
-        return (
-            <div className='wrapper--fixed'>
-                {this.renderSettingsWrapper()}
             </div>
         );
     }
