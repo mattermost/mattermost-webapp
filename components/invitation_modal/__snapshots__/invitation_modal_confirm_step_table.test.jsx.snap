@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/invitation_modal/InvitationModalConfirmStepTable should match the snapshot 1`] = `
+<div
+  className="InvitationModalConfirmStepTable"
+>
+  <div
+    className="table-header"
+  >
+    <div
+      className="people-header"
+    >
+      <FormattedMessage
+        defaultMessage="People"
+        id="invitation-modal.confirm.people-header"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="details-header"
+    >
+      <FormattedMessage
+        defaultMessage="Details"
+        id="invitation-modal.confirm.details-header"
+        values={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="rows"
+  >
+    <InvitationModalConfirmStepRow
+      invitation={
+        Object {
+          "email": "test-email@test.com",
+        }
+      }
+      key="test-email@test.com"
+    />
+    <InvitationModalConfirmStepRow
+      invitation={
+        Object {
+          "user": Object {
+            "id": "test-id",
+            "username": "test",
+          },
+        }
+      }
+      key="test-id"
+    />
+  </div>
+</div>
+`;

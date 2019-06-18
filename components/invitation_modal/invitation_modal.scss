@@ -1,0 +1,69 @@
+@import 'utils/variables';
+
+.InvitationModal {
+    display: flex;
+    flex-direction: column;
+    margin-top: 160px;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    font-size: 16px;
+    h1 {
+        font-size: 32px;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+    .back {
+        position: absolute;
+        top: 58px;
+        left: 58px;
+        cursor: pointer;
+        svg {
+            width: 28px;
+            height: 28px;
+            opacity: .6;
+        }
+    }
+    .modal-icon {
+        text-align: center;
+        svg {
+            fill: $primary-color;
+            height: 32px;
+            width: 126px;
+            margin-right: 85px;
+        }
+    }
+}
+
+.app__body .modal.invitation-modal-confirm {
+    .modal-dialog {
+        width: 400px;
+    }
+    .modal-content {
+        border-radius: 8px;
+    }
+    .modal-header {
+        border-radius: 8px 8px 0 0;
+        background: $white;
+        border: 0px;
+        min-height: 64px;
+        padding: 20px;
+        .modal-title {
+            font-size: 20px;
+            color: $black;
+        }
+    }
+    .modal-body {
+        padding: 0 20px;
+    }
+    .modal-footer {
+        border-radius: 0 0 8px 8px;
+        border: 0px;
+        min-height: 80px;
+        padding: 20px;
+        button {
+            font-size: 15px;
+            font-weight: bold;
+        }
+    }
+}

@@ -1,0 +1,57 @@
+@import 'utils/variables';
+
+.InvitationModalGuestsStep {
+    max-width: 720px;
+    width: 100%;
+    h2 {
+        margin-bottom: 12px;
+        margin-top: 0px;
+        font-size: 20px;
+    }
+    input {
+        height: 48px;
+        background: $white;
+        border: 1px solid $gray;
+        border-radius: 4px;
+        padding: 12px 14px;
+        width: 100%;
+    }
+    textarea {
+        height: 90px;
+        background: $white;
+        border: 1px solid $gray;
+        border-radius: 4px;
+        padding: 12px;
+        width: 100%;
+        margin-top: 4px;
+    }
+    .help-text {
+        margin-top: 8px;
+        color: $dark-gray;
+    }
+    .add-people, .add-channels, .custom-message {
+        max-width: 720px;
+        width: 100%;
+        margin-bottom: 28px;
+    }
+    .invite-guests {
+        text-align: right;
+        button {
+            height: 48px;
+            padding: 13px 26px;
+            font-size: 16px;
+        }
+    }
+    .custom-message {
+        position: relative;
+        svg {
+            cursor: pointer;
+            position: absolute;
+            right: 0px;
+            top: 3px;
+            width: 16px;
+            height: 16px;
+            opacity: .4;
+        }
+    }
+}

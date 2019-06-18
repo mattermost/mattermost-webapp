@@ -58,6 +58,11 @@ export const SettingsTypes = {
     TYPE_CUSTOM: 'custom',
 };
 
+export const InviteTypes = {
+    INVITE_MEMBER: 'member',
+    INVITE_GUEST: 'guest',
+};
+
 export const Preferences = {
     CATEGORY_CHANNEL_OPEN_TIME: 'channel_open_time',
     CATEGORY_DIRECT_CHANNEL_SHOW: 'direct_channel_show',
@@ -188,6 +193,7 @@ export const ModalIdentifiers = {
     EMAIL_INVITE: 'email_invite',
     INTERACTIVE_DIALOG: 'interactive_dialog',
     ADD_TEAMS_TO_SCHEME: 'add_teams_to_scheme',
+    INVITATION: 'invitation',
     ADD_GROUPS_TO_TEAM: 'add_groups_to_team',
     ADD_GROUPS_TO_CHANNEL: 'add_groups_to_channel',
     MANAGE_TEAM_GROUPS: 'manage_team_groups',

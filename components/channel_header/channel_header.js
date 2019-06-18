@@ -300,10 +300,7 @@ export default class ChannelHeader extends React.PureComponent {
             channelTitle = (
                 <React.Fragment>
                     {channelTitle}
-                    <GuestBadge
-                        show={Utils.isGuest(dmUser)}
-                        className='popoverlist'
-                    />
+                    <GuestBadge show={Utils.isGuest(dmUser)}/>
                 </React.Fragment>
             );
         }
@@ -312,14 +309,11 @@ export default class ChannelHeader extends React.PureComponent {
             const usernames = channel.display_name.split(',');
             const nodes = [];
             for (const username of usernames) {
-                const user = Utils.getUserByUsername(username);
+                const user = Utils.getUserByUsername(username.trim());
                 nodes.push((
                     <React.Fragment key={username}>
                         {username + ' '}
-                        <GuestBadge
-                            show={Utils.isGuest(user)}
-                            className='popoverlist'
-                        />
+                        <GuestBadge show={Utils.isGuest(user)}/>
                     </React.Fragment>
                 ));
             }

@@ -1245,6 +1245,19 @@ export function getDisplayName(user) {
     return user.username;
 }
 
+export function getLongDisplayName(user) {
+    let displayName = '@' + user.username;
+    var fullName = getFullName(user);
+    if (fullName) {
+        displayName = displayName + ' - ' + fullName;
+    }
+    if (user.nickname && user.nickname.trim().length > 0) {
+        displayName = displayName + ' (' + user.nickname + ')';
+    }
+
+    return displayName;
+}
+
 /**
  * Gets the display name of the user with the specified id, respecting the TeammateNameDisplay configuration setting
  */

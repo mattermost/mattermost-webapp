@@ -12,9 +12,11 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MailIcon from 'components/svg/mail_icon';
 import MailPlusIcon from 'components/svg/mail_plus_icon';
-import {imageURLForUser} from 'utils/utils.jsx';
+import GuestBadge from 'components/widgets/badges/guest_badge';
+import {imageURLForUser, getDisplayName, getLongDisplayName} from 'utils/utils.jsx';
 
 import {t} from 'utils/i18n.jsx';
+import {isGuest} from 'utils/utils';
 
 import './users_emails_input.scss';
 
@@ -64,21 +66,6 @@ export default class UsersEmailsInput extends React.Component {
         return user.id || user.value;
     }
 
-    formatUserName = (user) => {
-        let displayName = '@' + user.username + ' - ' + user.first_name + ' ' + user.last_name;
-        if (user.nickname) {
-            displayName = displayName + ' (' + user.nickname + ')';
-        }
-        return displayName;
-    }
-
-    formatShortUserName = (user) => {
-        if (user.first_name || user.last_name) {
-            return user.first_name + ' ' + user.last_name;
-        }
-        return user.username;
-    }
-
     formatOptionLabel = (user, options) => {
         const profileImg = imageURLForUser(user);
         const avatar = (
@@ -89,6 +76,11 @@ export default class UsersEmailsInput extends React.Component {
             />
         );
 
+        let guestBadge = null;
+        if (!isEmail(user.value) && isGuest(user)) {
+            guestBadge = <GuestBadge/>;
+        }
+
         if (options.context === 'menu') {
             if (user.value && isEmail(user.value)) {
                 return this.getCreateLabel(user.value);
@@ -96,7 +88,8 @@ export default class UsersEmailsInput extends React.Component {
             return (
                 <React.Fragment>
                     {avatar}
-                    {this.formatUserName(user)}
+                    {getLongDisplayName(user)}
+                    {guestBadge}
                 </React.Fragment>
             );
         }
@@ -113,7 +106,8 @@ export default class UsersEmailsInput extends React.Component {
         return (
             <React.Fragment>
                 {avatar}
-                {this.formatShortUserName(user)}
+                {getDisplayName(user)}
+                {guestBadge}
             </React.Fragment>
         );
     }
