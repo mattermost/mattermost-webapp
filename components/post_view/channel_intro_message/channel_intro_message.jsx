@@ -561,9 +561,8 @@ function createSetHeaderButton(channel) {
 
     return (
         <FormattedMessage
-            className='intro-links color--link'
-            dialogType={EditChannelHeaderModal}
-            dialogProps={{channel}}
+            id='intro_messages.setHeader'
+            defaultMessage='Set a Header'
         >
             {(message) => (
                 <ToggleModalButtonRedux
