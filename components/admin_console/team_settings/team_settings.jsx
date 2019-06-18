@@ -32,8 +32,8 @@ export default class TeamsSettings extends React.PureComponent {
                             titleId={t('admin.team_settings.title')}
                             titleDefault='Teams'
                             subtitleId={t('admin.team_settings.description')}
-                            subtitleDefault={'bla bla'}
-
+                            subtitleDefault={'Showing {from} - {to} teams. Search for and [manage team settings](www.mattermost.com/pl/default-team-management.html ).'}
+                            subtitleValues={{from: 1, to: 1}}
                         >
                             <TeamList/>
                         </AdminPanel>
