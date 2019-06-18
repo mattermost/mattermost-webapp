@@ -152,7 +152,7 @@ export default class MainMenu extends React.PureComponent {
             <Menu
                 mobile={this.props.mobile}
                 id={this.props.id}
-                ariaLabel={localizeMessage('navbar_dropdown.menuAriaLabel', 'Main Menu')}
+                ariaLabel={localizeMessage('navbar_dropdown.menuAriaLabel', 'main menu')}
             >
                 <MenuGroup>
                     <MenuItemAction

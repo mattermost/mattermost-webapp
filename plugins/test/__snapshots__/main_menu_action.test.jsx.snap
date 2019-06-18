@@ -2,7 +2,7 @@
 
 exports[`plugins/MainMenuActions should match snapshot and click plugin item for main menu 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={false}
 >
   <MenuGroup>

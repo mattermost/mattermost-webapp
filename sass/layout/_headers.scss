@@ -612,7 +612,6 @@
         }
 
         .header__info {
-            @include clearfix;
             @include flex-grow(1);
             color: $white;
             padding: 2px 16px 0 8px;

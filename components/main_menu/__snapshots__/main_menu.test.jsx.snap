@@ -2,7 +2,7 @@
 
 exports[`components/Menu should match snapshot with id 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   id="test-id"
   mobile={false}
 >
@@ -325,7 +325,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
 
 exports[`components/Menu should match snapshot with most of the thing disabled 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={false}
 >
   <MenuGroup>
@@ -647,7 +647,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
 
 exports[`components/Menu should match snapshot with most of the thing disabled in mobile 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={true}
 >
   <MenuGroup>
@@ -1051,7 +1051,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
 
 exports[`components/Menu should match snapshot with most of the thing enabled 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={false}
 >
   <MenuGroup>
@@ -1373,7 +1373,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
 
 exports[`components/Menu should match snapshot with most of the thing enabled in mobile 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={true}
 >
   <MenuGroup>
@@ -1777,7 +1777,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
 
 exports[`components/Menu should match snapshot with plugins 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={false}
 >
   <MenuGroup>
@@ -2116,7 +2116,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
 
 exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={true}
 >
   <MenuGroup>
