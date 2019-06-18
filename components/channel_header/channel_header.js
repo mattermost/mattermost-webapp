@@ -508,7 +508,7 @@ export default class ChannelHeader extends React.PureComponent {
                     {toggleFavorite}
                     <button
                         className='channel-header__trigger style--none'
-                        aria-label={formatMessage({id: 'channel_header.menuAriaLabel', defaultMessage: 'Channel Menu'})}
+                        aria-label={formatMessage({id: 'channel_header.menuAriaLabel', defaultMessage: 'Channel Menu'}).toLowerCase()}
                     >
                         <strong
                             id='channelHeaderTitle'
@@ -522,7 +522,7 @@ export default class ChannelHeader extends React.PureComponent {
                         <span
                             id='channelHeaderDropdownIcon'
                             className='fa fa-angle-down header-dropdown__icon'
-                            aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'})}
+                            aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'}).toLowerCase()}
                         />
                     </button>
                 </div>

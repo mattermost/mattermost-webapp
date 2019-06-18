@@ -29,7 +29,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
                 id="channelHeaderDropdownButton"
               >
                 <button
-                  aria-label="Channel Menu"
+                  aria-label="channel menu"
                   className="channel-header__trigger style--none"
                 >
                   <strong
@@ -43,7 +43,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
                     </span>
                   </strong>
                   <span
-                    aria-label="Dropdown Icon"
+                    aria-label="dropdown icon"
                     className="fa fa-angle-down header-dropdown__icon"
                     id="channelHeaderDropdownIcon"
                   />
@@ -201,7 +201,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                   </button>
                 </OverlayTrigger>
                 <button
-                  aria-label="Channel Menu"
+                  aria-label="channel menu"
                   className="channel-header__trigger style--none"
                 >
                   <strong
@@ -211,7 +211,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                     <span />
                   </strong>
                   <span
-                    aria-label="Dropdown Icon"
+                    aria-label="dropdown icon"
                     className="fa fa-angle-down header-dropdown__icon"
                     id="channelHeaderDropdownIcon"
                   />
@@ -431,7 +431,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                   </button>
                 </OverlayTrigger>
                 <button
-                  aria-label="Channel Menu"
+                  aria-label="channel menu"
                   className="channel-header__trigger style--none"
                 >
                   <strong
@@ -441,7 +441,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                     <span />
                   </strong>
                   <span
-                    aria-label="Dropdown Icon"
+                    aria-label="dropdown icon"
                     className="fa fa-angle-down header-dropdown__icon"
                     id="channelHeaderDropdownIcon"
                   />
@@ -585,7 +585,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
                 id="channelHeaderDropdownButton"
               >
                 <button
-                  aria-label="Channel Menu"
+                  aria-label="channel menu"
                   className="channel-header__trigger style--none"
                 >
                   <strong
@@ -599,7 +599,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
                     </span>
                   </strong>
                   <span
-                    aria-label="Dropdown Icon"
+                    aria-label="dropdown icon"
                     className="fa fa-angle-down header-dropdown__icon"
                     id="channelHeaderDropdownIcon"
                   />
