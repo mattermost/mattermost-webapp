@@ -4,6 +4,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Toggle from 'components/toggle';
+
 export default class LineSwitch extends React.PureComponent {
     static propTypes = {
         title: PropTypes.node.isRequired,
@@ -21,13 +23,10 @@ export default class LineSwitch extends React.PureComponent {
                     <label className='control-label'>{title}</label>
                 </div>
                 <div className='col-sm-2'>
-                    <label className='checkbox-inline'>
-                        <input
-                            type='checkbox'
-                            checked={toggled}
-                            onChange={onToggle}
-                        />
-                    </label>
+                    <Toggle
+                        onToggle={onToggle}
+                        toggled={toggled}
+                    />
                 </div>
             </div>
             <div className='row'>

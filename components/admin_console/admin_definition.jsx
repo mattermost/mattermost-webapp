@@ -32,7 +32,7 @@ import ServerLogs from './server_logs';
 import BrandImageSetting from './brand_image_setting/brand_image_setting.jsx';
 import GroupSettings from './group_settings/group_settings.jsx';
 import GroupDetails from './group_settings/group_details';
-import TeamSettings from './team_settings/team_settings.jsx';
+import TeamSettings from './team_settings';
 import TeamDetails from './team_settings/team_details';
 import PasswordSettings from './password_settings.jsx';
 import PushNotificationsSettings from './push_settings.jsx';

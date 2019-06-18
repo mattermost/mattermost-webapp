@@ -45,7 +45,7 @@ export default class TeamDetails extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            teamMode: MANAGE_MODE.NONE,
+            teamMode: MANAGE_MODE.SYNC_GROUPS,
             saving: false,
             saveNeeded: false,
             serverError: null,
@@ -79,6 +79,8 @@ export default class TeamDetails extends React.Component {
     render = () => {
         const {team} = this.props;
         const teamMode = this.state.teamMode;
+        const isModeSync = teamMode === MANAGE_MODE.SYNC_GROUPS;
+
         return (
             <div className='wrapper--fixed'>
                 <div className='admin-console__header with-back'>
@@ -112,7 +114,7 @@ export default class TeamDetails extends React.Component {
 
                                 <div className='group-teams-and-channels--body'>
                                     <LineSwitch
-                                        toggled={teamMode === MANAGE_MODE.SYNC_GROUPS}
+                                        toggled={isModeSync}
                                         onToggle={() => this.toggleMode(MANAGE_MODE.SYNC_GROUPS)}
                                         title={(
                                             <FormattedMessage
@@ -127,60 +129,62 @@ export default class TeamDetails extends React.Component {
                                             />
                                         )}
                                     />
-                                    <LineSwitch
-                                        toggled={teamMode === MANAGE_MODE.ALLOW_ALL}
-                                        onToggle={() => this.toggleMode(MANAGE_MODE.ALLOW_ALL)}
-                                        title={(
-                                            <FormattedMessage
-                                                id='admin.team_settings.team_details.anyoneCanJoin'
-                                                defaultMessage='Anyone can join this team'
+                                    {!isModeSync && (
+                                        <LineSwitch
+                                            toggled={teamMode === MANAGE_MODE.ALLOW_ALL}
+                                            onToggle={() => this.toggleMode(MANAGE_MODE.ALLOW_ALL)}
+                                            title={(
+                                                <FormattedMessage
+                                                    id='admin.team_settings.team_details.anyoneCanJoin'
+                                                    defaultMessage='Anyone can join this team'
+                                                />
+                                            )}
+                                            subTitle={(
+                                                <FormattedMessage
+                                                    id='admin.team_settings.team_details.anyoneCanJoinDescr'
+                                                    defaultMessage='This team can be discovered allowing anyone with an account to join this team.'
+                                                />
+                                            )}
+                                        />)}
+                                    {!isModeSync && (
+                                        <LineSwitch
+                                            toggled={teamMode === MANAGE_MODE.DOMAIN_RESTRICTED}
+                                            onToggle={() => this.toggleMode(MANAGE_MODE.DOMAIN_RESTRICTED)}
+                                            title={(
+                                                <FormattedMessage
+                                                    id='admin.team_settings.team_details.specificDomains'
+                                                    defaultMessage='Only specific email domains can join this team'
+                                                />
+                                            )}
+                                            subTitle={(
+                                                <FormattedMessage
+                                                    id='admin.team_settings.team_details.specificDomainsDescr'
+                                                    defaultMessage='Users can only join the team if their email matches one of the specified domains'
+                                                />
+                                            )}
+                                        >
+                                            <div className='help-text'>
+                                                <FormattedMessage
+                                                    id='admin.team_settings.team_details.csvDomains'
+                                                    defaultMessage='Comma Separated Email Domain List'
+                                                />
+                                            </div>
+                                            <input
+                                                type='text'
+                                                placeholder='mattermost.org'
+                                                className='form-control'
                                             />
-                                        )}
-                                        subTitle={(
-                                            <FormattedMessage
-                                                id='admin.team_settings.team_details.anyoneCanJoinDescr'
-                                                defaultMessage='This team can be discovered allowing anyone with an account to join this team.'
-                                            />
-                                        )}
-                                    />
-                                    <LineSwitch
-                                        toggled={teamMode === MANAGE_MODE.DOMAIN_RESTRICTED}
-                                        onToggle={() => this.toggleMode(MANAGE_MODE.DOMAIN_RESTRICTED)}
-                                        title={(
-                                            <FormattedMessage
-                                                id='admin.team_settings.team_details.specificDomains'
-                                                defaultMessage='Only specific email domains can join this team'
-                                            />
-                                        )}
-                                        subTitle={(
-                                            <FormattedMessage
-                                                id='admin.team_settings.team_details.specificDomainsDescr'
-                                                defaultMessage='Users can only join the team if their email matches one of the specified domains'
-                                            />
-                                        )}
-                                    >
-                                        <div className='help-text'>
-                                            <FormattedMessage
-                                                id='admin.team_settings.team_details.csvDomains'
-                                                defaultMessage='Comma Separated Email Domain List'
-                                            />
-                                        </div>
-                                        <input
-                                            type='text'
-                                            placeholder='mattermost.org'
-                                            className='form-control'
-                                        />
-                                    </LineSwitch>
+                                        </LineSwitch>)}
                                 </div>
                             </div>
                         </AdminPanel>
 
                         <AdminPanel
                             id='team_groups'
-                            titleId={t('admin.team_settings.team_detail.groupsTitle')}
-                            titleDefault='Groups'
-                            subtitleId={t('admin.team_settings.team_detail.groupsDescription')}
-                            subtitleDefault='Group members will be added to the team.'
+                            titleId={isModeSync ? t('admin.team_settings.team_detail.syncedGroupsTitle') : t('admin.team_settings.team_detail.groupsTitle')}
+                            titleDefault={isModeSync ? 'Synced Groups' : 'Groups'}
+                            subtitleId={isModeSync ? t('admin.team_settings.team_detail.syncedGroupsDescription') : t('admin.team_settings.team_detail.groupsDescription')}
+                            subtitleDefault={isModeSync ? 'Add and remove team members based on their group membership..' : 'Group members will be added to the team.'}
                             button={
                                 <ToggleModalButton
                                     className='btn btn-primary'
@@ -196,41 +200,11 @@ export default class TeamDetails extends React.Component {
                             <div className='group-teams-and-channels'>
                                 <div className='group-teams-and-channels-empty'>
                                     <FormattedMessage
-                                        id='admin.team_settings.team_details.no-groups'
-                                        defaultMessage='No groups specified yet'
+                                        id={isModeSync ? t('admin.team_settings.team_details.no-synced-groups') : t('admin.team_settings.team_details.no-groups')}
+                                        defaultMessage={isModeSync ? 'At least one group must be specified' : 'No groups specified yet'}
                                     />
                                 </div>
                             </div>
-                        </AdminPanel>
-
-                        <AdminPanel
-                            id='team_synced_groups'
-                            titleId={t('admin.team_settings.team_detail.syncedGroupsTitle')}
-                            titleDefault='Synced Groups'
-                            subtitleId={t('admin.team_settings.team_detail.syncedGroupsDescription')}
-                            subtitleDefault='Add and remove team members based on their group membership..'
-
-                            button={
-                                <ToggleModalButton
-                                    className='btn btn-primary'
-                                    dialogType={AddGroupsToTeamModal}
-                                    dialogProps={{team}}
-                                >
-                                    <FormattedMessage
-                                        id='admin.team_settings.team_details.add_group'
-                                        defaultMessage='Add Group'
-                                    />
-                                </ToggleModalButton>}
-                        >
-                            <div className='group-teams-and-channels'>
-                                <div className='group-teams-and-channels-empty'>
-                                    <FormattedMessage
-                                        id='admin.team_settings.team_details.no-synced-groups'
-                                        defaultMessage='At least one group must be specified'
-                                    />
-                                </div>
-                            </div>
-
                         </AdminPanel>
 
                     </div>

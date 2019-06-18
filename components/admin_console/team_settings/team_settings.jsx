@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import {t} from 'utils/i18n';
@@ -9,13 +10,18 @@ import TeamList from 'components/admin_console/team_settings/team_list';
 import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
 
 export default class TeamsSettings extends React.PureComponent {
+    static propTypes = {
+        siteName: PropTypes.string.isRequired,
+    };
+
     render = () => {
         return (
             <div className='wrapper--fixed'>
                 <div className='admin-console__header'>
                     <FormattedMessage
                         id='admin.team_settings.groupsPageTitle'
-                        defaultMessage='Teams'
+                        defaultMessage='{siteName} Teams'
+                        values={{siteName: this.props.siteName}}
                     />
                 </div>
 
