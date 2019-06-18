@@ -16,7 +16,6 @@
 
 
     .channel-header__favorites {
-        @include opacity(.5);
         float: left;
         height: 20px;
         margin: 0 5px 0 0;
@@ -29,10 +28,13 @@
         }
 
         &.active {
-            @include opacity(1);
+            i {
+               @include opacity(1);
+            }
         }
 
         i {
+            @include opacity(.5);
             font-size: 16px;
             position: relative;
             top: -1px;
@@ -370,6 +372,7 @@
         &.light {
             @include opacity(.8);
             color: inherit;
+            overflow: visible;
 
             button {
                 &:hover
