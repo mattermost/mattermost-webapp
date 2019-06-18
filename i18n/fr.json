@@ -264,7 +264,6 @@
   "admin.complianceExport.globalRelaySmtpUsername.title": "Nom d'utilisateur SMTP Global Relay :",
   "admin.complianceExport.messagesExportedCount": "{count} messages exportés.",
   "admin.complianceExport.title": "Export de conformité (Beta)",
-  "admin.complianceMonitoring.title": "Compliance Monitoring",
   "admin.complianceMonitoring.userActivityLogsTitle": "Journaux d'activité utilisateur",
   "admin.connectionSecurityNone": "Aucun",
   "admin.connectionSecurityNoneDescription": "Mattermost se connecte via une connexion non sécurisée.",
