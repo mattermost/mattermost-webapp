@@ -159,7 +159,7 @@ export function reconnect(includeWebSocket = true) {
         if (mostRecentPost) {
             dispatch(getPostsSince(currentChannelId, mostRecentPost.create_at));
         } else {
-            // if network timesout the first time when loading a channel
+            // if network timed-out the first time when loading a channel
             // we can request for getPosts again when socket is connected
             dispatch(getPosts(currentChannelId));
         }
