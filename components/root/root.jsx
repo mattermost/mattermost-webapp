@@ -11,6 +11,8 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import {setUrl} from 'mattermost-redux/actions/general';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getMostRecentPostIdInChannel, makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
 
 import * as UserAgent from 'utils/user_agent.jsx';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
@@ -22,6 +24,7 @@ import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
+import {getSelectedPost} from 'selectors/rhs.jsx';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
@@ -93,6 +96,7 @@ export default class Root extends React.Component {
 
     constructor(props) {
         super(props);
+        this.currentFocus = 0;
 
         // Redux
         setUrl(getSiteURL());
@@ -142,7 +146,7 @@ export default class Root extends React.Component {
         };
     }
 
-    handleTabKey = (e) => {
+    handleAccessibilityKeys = (e) => {
         if (isKeyPressed(e, Constants.KeyCodes.TAB)) {
             const activeElement = e.target;
             activeElement.classList.add('keyboard-focus');
@@ -154,6 +158,77 @@ export default class Root extends React.Component {
 
             activeElement.removeEventListener('blur', removeClass);
             activeElement.addEventListener('blur', removeClass, {once: true});
+        } else if (isKeyPressed(e, Constants.KeyCodes.F6)) {
+            const currentChannel = getCurrentChannel(store.getState()) || {};
+            const recentPostIdInChannel = getMostRecentPostIdInChannel(store.getState(), currentChannel.id);
+            const getPostsForThread = makeGetPostsForThread();
+            const selected = getSelectedPost(store.getState());
+            const rhsPosts = getPostsForThread(store.getState(), {rootId: selected.id});
+            let rhsLastPostId;
+
+            if (rhsPosts[0]) {
+                rhsLastPostId = rhsPosts[0].id;
+            }
+
+            var elements = [];
+            const centerPost = document.getElementById('post_' + recentPostIdInChannel);
+            const centerChannelFooter = document.getElementById('centerChannelFooter');
+            const rhsPost = document.getElementById('rhsPost_' + rhsLastPostId);
+            const rhsFooter = document.getElementById('rhsFooter');
+            const lhsHeader = document.getElementById('lhsHeader');
+            const lhsList = document.getElementById('lhsList');
+            const channelHeader = document.getElementById('channel-header');
+            const searchBox = document.getElementById('searchBox');
+
+            if (centerPost) {
+                elements.push(centerPost);
+            }
+            if (centerChannelFooter) {
+                elements.push(centerChannelFooter);
+            }
+            if (rhsPost) {
+                elements.push(rhsPost);
+            }
+            if (rhsFooter) {
+                elements.push(rhsFooter);
+            }
+            if (lhsHeader) {
+                elements.push(lhsHeader);
+            }
+            if (lhsList) {
+                elements.push(lhsList);
+            }
+            if (channelHeader) {
+                elements.push(channelHeader);
+            }
+            if (searchBox) {
+                elements.push(searchBox);
+            }
+
+            if (this.currentFocus === elements.length) {
+                this.currentFocus = 0;
+            }
+
+            const lastElement = elements[this.currentFocus - 1];
+
+            if (e.target !== lastElement && this.currentFocus !== 0) {
+                this.currentFocus = 0;
+                console.log('incorrect');
+            }
+
+            const activeElement = elements[this.currentFocus];
+            activeElement.classList.add('keyboard-focus');
+            activeElement.focus();
+
+            function removeClass() {
+                activeElement.classList.remove('keyboard-focus');
+                activeElement.removeEventListener('blur', removeClass);
+            }
+
+            activeElement.removeEventListener('blur', removeClass);
+            activeElement.addEventListener('blur', removeClass, {once: true});
+
+            this.currentFocus++;
         }
     };
 
@@ -255,12 +330,12 @@ export default class Root extends React.Component {
             this.onConfigLoaded();
         });
         trackLoadTime();
-        document.addEventListener('keyup', this.handleTabKey);
+        document.addEventListener('keyup', this.handleAccessibilityKeys);
     }
 
     componentWillUnmount() {
         $(window).unbind('storage');
-        document.removeEventListener('keyup', this.handleTabKey);
+        document.removeEventListener('keyup', this.handleAccessibilityKeys);
     }
 
     render() {

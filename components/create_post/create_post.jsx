@@ -1236,7 +1236,12 @@ export default class CreatePost extends React.Component {
             >
                 <div className={'post-create' + attachmentsDisabled + scrollbarClass}>
                     <div className='post-create-body'>
-                        <div className='post-body__cell'>
+                        <div
+                            id='centerChannelFooter'
+                            aria-label={Utils.localizeMessage('accessibility.sections.centerFooter', 'message input complimentary region')}
+                            tabIndex='-1'
+                            className='post-body__cell'
+                        >
                             <Textbox
                                 onChange={this.handleChange}
                                 onKeyPress={this.postMsgKeyPress}

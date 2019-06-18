@@ -902,7 +902,12 @@ export default class CreateComment extends React.PureComponent {
 
         return (
             <form onSubmit={this.handleSubmit}>
-                <div className={'post-create' + scrollbarClass}>
+                <div
+                    id='rhsFooter'
+                    aria-label={Utils.localizeMessage('accessibility.sections.rhsFooter', 'reply input region')}
+                    tabIndex='-1'
+                    className={'post-create' + scrollbarClass}
+                >
                     <div
                         id={this.props.rootId}
                         className='post-create-body comment-create-body'
@@ -943,7 +948,9 @@ export default class CreateComment extends React.PureComponent {
                         channelId={this.props.channelId}
                         postId={this.props.rootId}
                     />
-                    <div className='post-create-footer'>
+                    <div
+                        className='post-create-footer'
+                    >
                         <input
                             type='button'
                             className={addButtonClass}

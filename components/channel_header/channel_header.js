@@ -548,6 +548,8 @@ export default class ChannelHeader extends React.PureComponent {
         return (
             <div
                 id='channel-header'
+                aria-label={Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region')}
+                tabIndex='-1'
                 data-channelid={`${channel.id}`}
                 className='channel-header alt'
             >

@@ -538,6 +538,7 @@ export default class PostList extends React.PureComponent {
                     <div className='post-list__table'>
                         <div
                             id='postListContent'
+                            tabIndex='-1'
                             className='post-list__content'
                         >
                             <AutoSizer>
