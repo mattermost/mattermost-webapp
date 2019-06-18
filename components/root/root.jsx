@@ -213,7 +213,6 @@ export default class Root extends React.Component {
 
             if (e.target !== lastElement && this.currentFocus !== 0) {
                 this.currentFocus = 0;
-                console.log('incorrect');
             }
 
             const activeElement = elements[this.currentFocus];

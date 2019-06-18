@@ -306,6 +306,7 @@ export default class RhsRootPost extends React.PureComponent {
         return (
             <div
                 id={'rhsPost_' + post.id}
+                aria-label={Utils.localizeMessage('accessibility.sections.rhsContent', 'message details complimentary region')}
                 tabIndex='-1'
                 className={'thread__root ' + this.getClassName(post, isSystemMessage)}
             >

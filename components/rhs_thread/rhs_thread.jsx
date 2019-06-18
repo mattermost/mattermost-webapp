@@ -366,7 +366,6 @@ export default class RhsThread extends React.Component {
                     <div className='post-right__scroll'>
                         <div
                             id='rhsContent'
-                            aria-label={Utils.localizeMessage('accessibility.sections.rhsContent', 'message details complimentary region')}
                             tabIndex='-1'
                             className='post-right__content'
                         >

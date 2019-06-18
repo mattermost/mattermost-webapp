@@ -13,6 +13,7 @@ import {
 
 import Constants, {Locations} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import PostProfilePicture from 'components/post_profile_picture';
@@ -377,6 +378,7 @@ export default class RhsComment extends React.PureComponent {
             <div
                 ref={'post_body_' + post.id}
                 id={'rhsPost_' + post.id}
+                aria-label={localizeMessage('accessibility.sections.rhsContent', 'message details complimentary region')}
                 tabIndex='-1'
                 className={this.getClassName(post, isSystemMessage)}
                 onMouseOver={this.setHover}
