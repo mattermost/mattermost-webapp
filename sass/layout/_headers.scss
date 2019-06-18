@@ -14,6 +14,12 @@
         }
     }
 
+    .channel-header__trigger {
+        display: flex;
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
 
     .channel-header__favorites {
         float: left;
@@ -269,6 +275,7 @@
 
 .channel-header__top {
     display: flex;
+    min-width: 0;
 }
 
 .channel-header__info {
