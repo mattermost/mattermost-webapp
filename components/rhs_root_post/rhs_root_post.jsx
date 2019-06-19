@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
@@ -19,10 +20,11 @@ import PostTime from 'components/post_view/post_time';
 import PostReaction from 'components/post_view/post_reaction';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import InfoSmallIcon from 'components/svg/info_small_icon';
 
 import UserProfile from 'components/user_profile';
 
-export default class RhsRootPost extends React.Component {
+export default class RhsRootPost extends React.PureComponent {
     static propTypes = {
         post: PropTypes.object.isRequired,
         teamId: PropTypes.string.isRequired,
@@ -41,6 +43,7 @@ export default class RhsRootPost extends React.Component {
         channelIsArchived: PropTypes.bool.isRequired,
         channelType: PropTypes.string,
         channelDisplayName: PropTypes.string,
+        handleCardClick: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -55,50 +58,6 @@ export default class RhsRootPost extends React.Component {
             testStateObj: true,
             dropdownOpened: false,
         };
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.isBusy !== this.props.isBusy) {
-            return true;
-        }
-
-        if (nextProps.compactDisplay !== this.props.compactDisplay) {
-            return true;
-        }
-
-        if (nextProps.isFlagged !== this.props.isFlagged) {
-            return true;
-        }
-
-        if (nextProps.isEmbedVisible !== this.props.isEmbedVisible) {
-            return true;
-        }
-
-        if (nextProps.previewEnabled !== this.props.previewEnabled) {
-            return true;
-        }
-
-        if (!Utils.areObjectsEqual(nextProps.post, this.props.post)) {
-            return true;
-        }
-
-        if (this.state.showEmojiPicker !== nextState.showEmojiPicker) {
-            return true;
-        }
-
-        if (this.state.dropdownOpened !== nextState.dropdownOpened) {
-            return true;
-        }
-
-        if (this.props.previewCollapsed !== nextProps.previewCollapsed) {
-            return true;
-        }
-
-        if ((this.state.width !== nextState.width) || this.state.height !== nextState.height) {
-            return true;
-        }
-
-        return false;
     }
 
     renderPostTime = (isEphemeral) => {
@@ -312,6 +271,38 @@ export default class RhsRootPost extends React.Component {
             );
         }
 
+        let postInfoIcon;
+        if (this.props.post.props && this.props.post.props.card) {
+            postInfoIcon = (
+                <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={
+                        <Tooltip>
+                            <FormattedMessage
+                                id='post_info.info.view_additional_info'
+                                defaultMessage='View additional info'
+                            />
+                        </Tooltip>
+                    }
+                >
+                    <button
+                        className='card-icon__container icon--show style--none'
+                        onClick={(e) => {
+                            e.preventDefault();
+                            this.props.handleCardClick(this.props.post);
+                        }}
+                    >
+                        <InfoSmallIcon
+                            className='icon icon__info'
+                            aria-hidden='true'
+                        />
+                    </button>
+                </OverlayTrigger>
+            );
+        }
+
         return (
             <div
                 id='thread--root'
@@ -335,6 +326,7 @@ export default class RhsRootPost extends React.Component {
                             <div className='col'>
                                 {this.renderPostTime(isEphemeral)}
                                 {pinnedBadge}
+                                {postInfoIcon}
                                 {postFlagIcon}
                             </div>
                             {dotMenuContainer}

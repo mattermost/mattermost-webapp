@@ -2,7 +2,7 @@
 
 exports[`plugins/MainMenuActions should match snapshot and click plugin item for main menu 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={false}
 >
   <MenuGroup>
@@ -159,14 +159,43 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         text="Manage Groups"
       />
     </Connect(TeamPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogType={[Function]}
-      icon={false}
-      id="manageMembers"
-      modalId="team_members"
-      show={true}
-      text="Manage Members"
-    />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
   </MenuGroup>
   <MenuGroup>
     <Connect(SystemPermissionGate)

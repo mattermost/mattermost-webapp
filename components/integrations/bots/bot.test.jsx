@@ -6,6 +6,8 @@ import {shallow} from 'enzyme';
 
 import {FormattedMessage} from 'react-intl';
 
+import Markdown from 'components/markdown';
+
 import TestHelper from 'tests/helpers/client-test-helper';
 
 import Bot from './bot.jsx';
@@ -25,7 +27,7 @@ describe('components/integrations/bots/Bot', () => {
         );
 
         expect(wrapper.contains(bot.display_name + ' (@' + bot.username + ')')).toEqual(true);
-        expect(wrapper.contains(bot.description)).toEqual(true);
+        expect(wrapper.contains(<Markdown message={bot.description}/>)).toEqual(true);
         expect(wrapper.contains('plugin')).toEqual(true);
 
         // if bot managed by plugin, remove ability to edit from UI
@@ -67,7 +69,7 @@ describe('components/integrations/bots/Bot', () => {
             />
         );
         expect(wrapper.contains(bot.display_name + ' (@' + bot.username + ')')).toEqual(true);
-        expect(wrapper.contains(bot.description)).toEqual(true);
+        expect(wrapper.contains(<Markdown message={bot.description}/>)).toEqual(true);
         expect(wrapper.contains('plugin')).toEqual(true);
         expect(wrapper.contains(
             <FormattedMessage
