@@ -115,7 +115,7 @@ describe('rhs view actions', () => {
             store.dispatch(selectPostFromRightHandSideSearch(post));
 
             const compareStore = mockStore(initialState);
-            compareStore.dispatch(PostActions.getPostThread(post.id));
+            compareStore.dispatch(PostActions.getPostThread(post.root_id));
 
             expect(store.getActions()[0]).toEqual(compareStore.getActions()[0]);
         });

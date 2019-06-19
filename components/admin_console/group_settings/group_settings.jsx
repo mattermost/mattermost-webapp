@@ -16,32 +16,36 @@ export default class GroupSettings extends React.PureComponent {
         const siteURL = getSiteURL();
         return (
             <div className='wrapper--fixed'>
-                <h3 className='admin-console-header'>
+                <div className='admin-console__header'>
                     <FormattedMessage
                         id='admin.group_settings.groupsPageTitle'
                         defaultMessage='Groups'
                     />
-                </h3>
-
-                <div className={'banner info'}>
-                    <div className='banner__content'>
-                        <FormattedMarkdownMessage
-                            id='admin.group_settings.introBanner'
-                            defaultMessage={'Groups are a way to organize users and apply actions to all users within that group.\nFor more information on Groups, please see [documentation](!https://www.mattermost.com/default-ad-ldap-groups).'}
-                        />
-                    </div>
                 </div>
 
-                <AdminPanel
-                    id='ldap_groups'
-                    titleId={t('admin.group_settings.ldapGroupsTitle')}
-                    titleDefault='AD/LDAP Groups'
-                    subtitleId={t('admin.group_settings.ldapGroupsDescription')}
-                    subtitleDefault={`Link and configure groups from your AD/LDAP to Mattermost. Please ensure you have configured a [group filter](${siteURL}/admin_console/authentication/ldap).`}
-                    subtitleValues={{siteURL}}
-                >
-                    <GroupsList/>
-                </AdminPanel>
+                <div className='admin-console__wrapper'>
+                    <div className='admin-console__content'>
+                        <div className={'banner info'}>
+                            <div className='banner__content'>
+                                <FormattedMarkdownMessage
+                                    id='admin.group_settings.introBanner'
+                                    defaultMessage={'Groups are a way to organize users and apply actions to all users within that group.\nFor more information on Groups, please see [documentation](!https://www.mattermost.com/default-ad-ldap-groups).'}
+                                />
+                            </div>
+                        </div>
+
+                        <AdminPanel
+                            id='ldap_groups'
+                            titleId={t('admin.group_settings.ldapGroupsTitle')}
+                            titleDefault='AD/LDAP Groups'
+                            subtitleId={t('admin.group_settings.ldapGroupsDescription')}
+                            subtitleDefault={`Link and configure groups from your AD/LDAP to Mattermost. Please ensure you have configured a [group filter](${siteURL}/admin_console/authentication/ldap).`}
+                            subtitleValues={{siteURL}}
+                        >
+                            <GroupsList/>
+                        </AdminPanel>
+                    </div>
+                </div>
             </div>
         );
     };

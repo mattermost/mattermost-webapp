@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {getMyTeams} from 'mattermost-redux/selectors/entities/teams';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {deferNavigation} from 'actions/admin_actions.jsx';
 import {getCurrentLocale} from 'selectors/i18n';
@@ -16,6 +17,7 @@ function mapStateToProps(state) {
     return {
         locale: getCurrentLocale(state),
         teams: getMyTeams(state),
+        siteName: getConfig(state).SiteName,
         navigationBlocked: getNavigationBlocked(state),
     };
 }

@@ -9,7 +9,7 @@
 }
 
 .modal-body {
-    max-height: calc(90vh - 62px);
+    max-height: calc(90vh - 80px);
     overflow: auto;
     padding: 20px 15px;
 }
@@ -126,6 +126,14 @@
 
     textarea {
         overflow-x: hidden;
+    }
+
+    .modal-footer {
+        &.modal-footer--invisible {
+            height: 0;
+            padding: 0;
+            overflow: hidden;
+        }
     }
 
     &.modal-image {
@@ -699,6 +707,14 @@
         overflow: hidden;
         padding-left: 10px;
         text-overflow: ellipsis;
+
+        .more-modal__name {
+            display: flex;
+            min-width: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
 
     .more-modal__actions {
@@ -709,12 +725,14 @@
     }
 
     .more-modal__name {
+        display: flex;
         font-weight: 600;
-        overflow: hidden;
-        text-overflow: ellipsis;
         white-space: nowrap;
-        & span {
-            @include opacity(.6);
+
+        span {
+            overflow: hidden;
+            max-width: 90%;
+            text-overflow: ellipsis;
         }
     }
 

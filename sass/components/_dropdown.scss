@@ -16,6 +16,10 @@
             display: none;
         }
     }
+
+    .keyboard-focus {
+        box-shadow: none !important;
+    }
 }
 
 .open {

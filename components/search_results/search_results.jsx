@@ -60,6 +60,7 @@ export default class SearchResults extends React.PureComponent {
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
         isPinnedPosts: PropTypes.bool,
+        isCard: PropTypes.bool,
         channelDisplayName: PropTypes.string.isRequired,
         dataRetentionEnableMessageDeletion: PropTypes.bool.isRequired,
         dataRetentionMessageRetentionDays: PropTypes.string,
@@ -240,6 +241,13 @@ export default class SearchResults extends React.PureComponent {
                     values={{
                         channelDisplayName: this.props.channelDisplayName,
                     }}
+                />
+            );
+        } else if (this.props.isCard) {
+            formattedTitle = (
+                <FormattedMessage
+                    id='search_header.title5'
+                    defaultMessage='Extra information'
                 />
             );
         }

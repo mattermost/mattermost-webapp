@@ -9,6 +9,7 @@ import {ActionTypes, RHSStates} from 'utils/constants.jsx';
 describe('Reducers.RHS', () => {
     const initialState = {
         selectedPostId: '',
+        selectedPostCardId: '',
         selectedChannelId: '',
         previousRhsState: null,
         rhsState: null,
@@ -82,6 +83,25 @@ describe('Reducers.RHS', () => {
         expect(nextState).toEqual({
             ...initialState,
             selectedPostId: '',
+            rhsState: RHSStates.SEARCH,
+            isSidebarOpen: true,
+        });
+    });
+
+    test(`should wipe selectedPostCardId on ${ActionTypes.UPDATE_RHS_STATE}`, () => {
+        const nextState = rhsReducer(
+            {
+                selectedPostCardId: '123',
+            },
+            {
+                type: ActionTypes.UPDATE_RHS_STATE,
+                state: RHSStates.SEARCH,
+            }
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            selectedPostCardId: '',
             rhsState: RHSStates.SEARCH,
             isSidebarOpen: true,
         });
@@ -187,6 +207,63 @@ describe('Reducers.RHS', () => {
         });
     });
 
+    test('should match select_post_card state', () => {
+        const nextState1 = rhsReducer(
+            {},
+            {
+                type: ActionTypes.SELECT_POST_CARD,
+                postId: '123',
+                channelId: '321',
+            }
+        );
+
+        expect(nextState1).toEqual({
+            ...initialState,
+            selectedPostCardId: '123',
+            selectedChannelId: '321',
+            isSidebarOpen: true,
+        });
+
+        const nextState2 = rhsReducer(
+            {
+            },
+            {
+                type: ActionTypes.SELECT_POST_CARD,
+                postId: '123',
+                channelId: '321',
+                previousRhsState: RHSStates.SEARCH,
+            }
+        );
+
+        expect(nextState2).toEqual({
+            ...initialState,
+            selectedPostCardId: '123',
+            selectedChannelId: '321',
+            previousRhsState: RHSStates.SEARCH,
+            isSidebarOpen: true,
+        });
+
+        const nextState3 = rhsReducer(
+            {
+                previousRhsState: RHSStates.SEARCH,
+            },
+            {
+                type: ActionTypes.SELECT_POST_CARD,
+                postId: '123',
+                channelId: '321',
+                previousRhsState: RHSStates.FLAG,
+            }
+        );
+
+        expect(nextState3).toEqual({
+            ...initialState,
+            selectedPostCardId: '123',
+            selectedChannelId: '321',
+            previousRhsState: RHSStates.FLAG,
+            isSidebarOpen: true,
+        });
+    });
+
     test(`should wipe rhsState on ${ActionTypes.SELECT_POST}`, () => {
         const nextState = rhsReducer(
             {
@@ -204,6 +281,29 @@ describe('Reducers.RHS', () => {
             ...initialState,
             rhsState: null,
             selectedPostId: '123',
+            selectedChannelId: '321',
+            previousRhsState: RHSStates.PIN,
+            isSidebarOpen: true,
+        });
+    });
+
+    test(`should wipe rhsState on ${ActionTypes.SELECT_POST_CARD}`, () => {
+        const nextState = rhsReducer(
+            {
+                rhsState: RHSStates.PIN,
+            },
+            {
+                type: ActionTypes.SELECT_POST_CARD,
+                postId: '123',
+                channelId: '321',
+                previousRhsState: RHSStates.PIN,
+            }
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            rhsState: null,
+            selectedPostCardId: '123',
             selectedChannelId: '321',
             previousRhsState: RHSStates.PIN,
             isSidebarOpen: true,

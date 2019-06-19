@@ -1,0 +1,30 @@
+.post-card--info {
+    border-top: $border-gray;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    white-space: nowrap;
+    min-width: 0;
+
+    .post-card--post-by {
+        padding-right: 10px;
+    }
+
+    .status-wrapper {
+        height: auto;
+    }
+
+    .more-modal__image {
+        height: 20px;
+        width: 20px;
+        margin: 0px 2px 0px 4px
+    }
+
+    .user-popover {
+        font-weight: 600;
+    }
+}

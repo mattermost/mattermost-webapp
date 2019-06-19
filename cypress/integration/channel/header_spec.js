@@ -2,12 +2,14 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. 1. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
 /* eslint max-nested-callbacks: ["error", 3] */
+
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Header', () => {
     before(() => {
@@ -49,8 +51,8 @@ describe('Header', () => {
         cy.changeMessageDisplaySetting('COMPACT');
 
         // # Open a DM with user named 'user-2'
-        cy.get('#directChannel > .add-channel-btn').click().wait(100);
-        cy.focused().type('user-2', {force: true}).type('{enter}', {force: true}).wait(500);
+        cy.get('#directChannel > .add-channel-btn').click().wait(TIMEOUTS.TINY);
+        cy.focused().type('user-2', {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.TINY);
         cy.get('#saveItems').click();
 
         // # Update DM channel header

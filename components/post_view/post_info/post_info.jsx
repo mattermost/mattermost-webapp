@@ -4,17 +4,20 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
+import Constants from 'utils/constants.jsx';
 import CommentIcon from 'components/common/comment_icon.jsx';
 import DotMenu from 'components/dot_menu';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostReaction from 'components/post_view/post_reaction';
 import PostTime from 'components/post_view/post_time';
+import InfoSmallIcon from 'components/svg/info_small_icon';
 
 export default class PostInfo extends React.PureComponent {
     static propTypes = {
@@ -35,6 +38,11 @@ export default class PostInfo extends React.PureComponent {
         handleCommentClick: PropTypes.func.isRequired,
 
         /*
+         * Function called when the card icon is clicked
+         */
+        handleCardClick: PropTypes.func.isRequired,
+
+        /*
          * Funciton called when the post options dropdown is opened
          */
         handleDropdownOpened: PropTypes.func.isRequired,
@@ -43,6 +51,11 @@ export default class PostInfo extends React.PureComponent {
          * Set to mark the post as flagged
          */
         isFlagged: PropTypes.bool,
+
+        /*
+         * Set to mark the post as open the extra info in the rhs
+         */
+        isCardOpen: PropTypes.bool,
 
         /*
          * The number of replies in the same thread as this post
@@ -219,6 +232,38 @@ export default class PostInfo extends React.PureComponent {
             );
         }
 
+        let postInfoIcon;
+        if (post.props && post.props.card) {
+            postInfoIcon = (
+                <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={
+                        <Tooltip>
+                            <FormattedMessage
+                                id='post_info.info.view_additional_info'
+                                defaultMessage='View additional info'
+                            />
+                        </Tooltip>
+                    }
+                >
+                    <button
+                        className={'card-icon__container icon--show style--none ' + (this.props.isCardOpen ? 'active' : '')}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            this.props.handleCardClick(this.props.post);
+                        }}
+                    >
+                        <InfoSmallIcon
+                            className='icon icon__info'
+                            aria-hidden='true'
+                        />
+                    </button>
+                </OverlayTrigger>
+            );
+        }
+
         let options;
         if (isEphemeral) {
             options = (
@@ -274,6 +319,7 @@ export default class PostInfo extends React.PureComponent {
                 <div className='col'>
                     {postTime}
                     {pinnedBadge}
+                    {postInfoIcon}
                     {postFlagIcon}
                     {visibleMessage}
                 </div>

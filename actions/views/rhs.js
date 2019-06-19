@@ -42,11 +42,23 @@ export function updateRhsState(rhsState, channelId) {
 
 export function selectPostFromRightHandSideSearch(post) {
     return async (dispatch, getState) => {
-        await dispatch(PostActions.getPostThread(post.id));
+        const postRootId = Utils.getRootId(post);
+        await dispatch(PostActions.getPostThread(postRootId));
 
         dispatch({
             type: ActionTypes.SELECT_POST,
-            postId: Utils.getRootId(post),
+            postId: postRootId,
+            channelId: post.channel_id,
+            previousRhsState: getRhsState(getState()),
+        });
+    };
+}
+
+export function selectPostCardFromRightHandSideSearch(post) {
+    return async (dispatch, getState) => {
+        dispatch({
+            type: ActionTypes.SELECT_POST_CARD,
+            postId: post.id,
             channelId: post.channel_id,
             previousRhsState: getRhsState(getState()),
         });
@@ -239,4 +251,8 @@ export function toggleRhsExpanded() {
 
 export function selectPost(post) {
     return {type: ActionTypes.SELECT_POST, postId: post.root_id || post.id, channelId: post.channel_id};
+}
+
+export function selectPostCard(post) {
+    return {type: ActionTypes.SELECT_POST_CARD, postId: post.id, channelId: post.channel_id};
 }
