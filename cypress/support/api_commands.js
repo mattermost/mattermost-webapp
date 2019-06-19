@@ -32,6 +32,7 @@ Cypress.Commands.add('apiLogin', (username = 'user-1') => {
     const user = users[username];
 
     return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/login',
         method: 'POST',
         body: {login_id: user.username, password: user.password},
@@ -159,6 +160,23 @@ Cypress.Commands.add('apiGetTeams', () => {
     });
 });
 
+/**
+ * Add user into a team directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} teamId - The team ID
+ * @param {String} userId - ID of user to be added into a team
+ * All parameter required
+ */
+Cypress.Commands.add('apiAddUserToTeam', (teamId, userId) => {
+    return cy.request({
+        method: 'POST',
+        url: `/api/v4/teams/${teamId}/members`,
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        body: {team_id: teamId, user_id: userId},
+        qs: {team_id: teamId},
+    });
+});
+
 // *****************************************************************************
 // Preferences
 // https://api.mattermost.com/#tag/preferences
@@ -243,7 +261,7 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
  @param {Object} user - Object of user email, username, and password that you can optionally set. Otherwise use default values
  @returns {Object} Returns object containing email, username, id and password if you need it further in the test
  */
-Cypress.Commands.add('createNewUser', (user = {}, teams = null) => {
+Cypress.Commands.add('createNewUser', (user = {}, teamIds = []) => {
     const timestamp = Date.now();
 
     const {email = `newe2etestuser${timestamp}@sample.mattermost.com`, username = `NewE2ETestUser${timestamp}`, password = 'password123'} = user;
@@ -258,10 +276,10 @@ Cypress.Commands.add('createNewUser', (user = {}, teams = null) => {
 
         const userId = userResponse.body.id;
 
-        let teamsToAdd;
-
-        if (teams) {
-            teamsToAdd = teams;
+        if (teamIds && teamIds.length > 0) {
+            teamIds.forEach((teamId) => {
+                cy.apiAddUserToTeam(teamId, userId);
+            });
         } else {
             // Get teams, select the first three, and add new user to that team
             cy.request('GET', '/api/v4/teams').then((teamsResponse) => {
@@ -269,19 +287,11 @@ Cypress.Commands.add('createNewUser', (user = {}, teams = null) => {
                 expect(teamsResponse).to.have.property('body').to.have.length.greaterThan(1);
 
                 // Pull out only the first 2 teams
-                teamsToAdd = teamsResponse.body.slice(0, 2).map((t) => t.id);
+                teamsResponse.body.slice(0, 2).map((t) => t.id).forEach((teamId) => {
+                    cy.apiAddUserToTeam(teamId, userId);
+                });
             });
         }
-
-        // Add user to several teams by default
-        teamsToAdd.forEach((team) => {
-            cy.request({
-                method: 'POST',
-                url: `/api/v4/teams/${team}/members`,
-                headers: {'X-Requested-With': 'XMLHttpRequest'},
-                body: {team_id: team, user_id: userId},
-                qs: {team_id: team}});
-        });
 
         // # Update new user preferences to bypass tutorial
         const preferences = [{
@@ -293,7 +303,7 @@ Cypress.Commands.add('createNewUser', (user = {}, teams = null) => {
 
         cy.apiSaveUserPreference(preferences, userId);
 
-        // Wrap our user object so it gets returnd from our cypress command
+        // Wrap our user object so it gets returned from our cypress command
         cy.wrap({email, username, password, id: userId});
     });
 });
@@ -307,6 +317,7 @@ Cypress.Commands.add('createNewUser', (user = {}, teams = null) => {
 Cypress.Commands.add('loginAsNewUser', (user = {}) => {
     return cy.createNewUser(user).then((newUser) => {
         cy.request({
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
             url: '/api/v4/users/login',
             method: 'POST',
             body: {login_id: newUser.username, password: newUser.password},

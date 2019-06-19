@@ -12,7 +12,13 @@ const cypressConfig = require('../../cypress.json');
 module.exports = async ({sender, message, channelId, createAt = 0}) => {
     const url = `${cypressConfig.baseUrl}/api/v4/users/login`;
 
-    const response = await axios({url, method: 'post', data: {login_id: sender.username, password: sender.password}});
+    const response = await axios({
+        url,
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'post',
+        data: {login_id: sender.username, password: sender.password},
+    });
+
     const token = response.headers.token;
 
     Client4.setUrl(cypressConfig.baseUrl);

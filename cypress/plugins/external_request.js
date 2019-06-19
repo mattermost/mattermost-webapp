@@ -9,7 +9,13 @@ module.exports = async ({user, method = 'get', path, data = {}}) => {
     const loginUrl = `${cypressConfig.baseUrl}/api/v4/users/login`;
 
     // First we need to login with our external user to get cookies/tokens
-    const loginResponse = await axios({url: loginUrl, method: 'post', data: {login_id: user.username, password: user.password}});
+    const loginResponse = await axios({
+        url: loginUrl,
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'post',
+        data: {login_id: user.username, password: user.password},
+    });
+
     const setCookie = loginResponse.headers['set-cookie'];
 
     let cookieString = '';
