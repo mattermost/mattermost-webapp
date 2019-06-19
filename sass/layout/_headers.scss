@@ -14,9 +14,14 @@
         }
     }
 
+    .channel-header__trigger {
+        display: flex;
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
 
     .channel-header__favorites {
-        @include opacity(.5);
         float: left;
         height: 20px;
         margin: 0 5px 0 0;
@@ -29,10 +34,13 @@
         }
 
         &.active {
-            @include opacity(1);
+            i {
+               @include opacity(1);
+            }
         }
 
         i {
+            @include opacity(.5);
             font-size: 16px;
             position: relative;
             top: -1px;
@@ -267,6 +275,7 @@
 
 .channel-header__top {
     display: flex;
+    min-width: 0;
 }
 
 .channel-header__info {
@@ -370,6 +379,7 @@
         &.light {
             @include opacity(.8);
             color: inherit;
+            overflow: visible;
 
             button {
                 &:hover
@@ -609,7 +619,6 @@
         }
 
         .header__info {
-            @include clearfix;
             @include flex-grow(1);
             color: $white;
             padding: 2px 16px 0 8px;

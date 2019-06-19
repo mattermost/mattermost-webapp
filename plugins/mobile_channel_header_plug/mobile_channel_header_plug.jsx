@@ -26,38 +26,26 @@ export default class MobileChannelHeaderPlug extends React.PureComponent {
         theme: PropTypes.object.isRequired,
     }
 
-    createButton(plug) {
+    createButton = (plug) => {
         return (
-            <li className='flex-parent--center'>
-                <button
-                    className='navbar-toggle navbar-right__icon'
+            <li
+                key={'mobileChannelHeaderItem' + plug.id}
+                role='presentation'
+                className='MenuItem'
+            >
+                <a
+                    role='menuitem'
+                    href='#'
                     onClick={() => this.fireAction(plug)}
                 >
-                    <span className='icon navbar-plugin-button'>
-                        {plug.icon}
-                    </span>
-                </button>
+                    {plug.dropdownText}
+                </a>
             </li>
         );
     }
 
     createList(plugs) {
-        return plugs.map((plug) => {
-            return (
-                <li
-                    key={'mobileChannelHeaderItem' + plug.id}
-                    role='presentation'
-                >
-                    <a
-                        role='menuitem'
-                        href='#'
-                        onClick={() => this.fireAction(plug)}
-                    >
-                        {plug.dropdownText}
-                    </a>
-                </li>
-            );
-        });
+        return plugs.map(this.createButton);
     }
 
     fireAction(plug) {

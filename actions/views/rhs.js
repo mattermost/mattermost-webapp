@@ -54,6 +54,17 @@ export function selectPostFromRightHandSideSearch(post) {
     };
 }
 
+export function selectPostCardFromRightHandSideSearch(post) {
+    return async (dispatch, getState) => {
+        dispatch({
+            type: ActionTypes.SELECT_POST_CARD,
+            postId: post.id,
+            channelId: post.channel_id,
+            previousRhsState: getRhsState(getState()),
+        });
+    };
+}
+
 export function selectPostFromRightHandSideSearchByPostId(postId) {
     return async (dispatch, getState) => {
         const post = getPost(getState(), postId);
@@ -230,4 +241,8 @@ export function toggleRhsExpanded() {
 
 export function selectPost(post) {
     return {type: ActionTypes.SELECT_POST, postId: post.root_id || post.id, channelId: post.channel_id};
+}
+
+export function selectPostCard(post) {
+    return {type: ActionTypes.SELECT_POST_CARD, postId: post.id, channelId: post.channel_id};
 }
