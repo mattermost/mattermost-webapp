@@ -746,10 +746,16 @@ export default class Sidebar extends React.PureComponent {
 
                 <div
                     id='lhsList'
-                    aria-label={Utils.localizeMessage('accessibility.sections.lhsList', 'channel sidebar region')}
+                    aria-labelledby='lhs_list_aria_label'
                     tabIndex='-1'
                     className='sidebar--left__list'
                 >
+                    <h1
+                        id='lhs_list_aria_label'
+                        className='hidden-label'
+                    >
+                        {Utils.localizeMessage('accessibility.sections.lhsList', 'channel sidebar region')}
+                    </h1>
                     <UnreadChannelIndicator
                         name='Top'
                         show={this.state.showTopUnread}

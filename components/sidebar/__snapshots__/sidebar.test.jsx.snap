@@ -22,11 +22,17 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     />
   </div>
   <div
-    aria-label="channel sidebar region"
+    aria-labelledby="lhs_list_aria_label"
     className="sidebar--left__list"
     id="lhsList"
     tabIndex="-1"
   >
+    <h1
+      className="hidden-label"
+      id="lhs_list_aria_label"
+    >
+      channel sidebar region
+    </h1>
     <UnreadChannelIndicator
       content={
         <FormattedMessage
@@ -270,11 +276,17 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     />
   </div>
   <div
-    aria-label="channel sidebar region"
+    aria-labelledby="lhs_list_aria_label"
     className="sidebar--left__list"
     id="lhsList"
     tabIndex="-1"
   >
+    <h1
+      className="hidden-label"
+      id="lhs_list_aria_label"
+    >
+      channel sidebar region
+    </h1>
     <UnreadChannelIndicator
       content={
         <FormattedMessage
@@ -518,11 +530,17 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     />
   </div>
   <div
-    aria-label="channel sidebar region"
+    aria-labelledby="lhs_list_aria_label"
     className="sidebar--left__list"
     id="lhsList"
     tabIndex="-1"
   >
+    <h1
+      className="hidden-label"
+      id="lhs_list_aria_label"
+    >
+      channel sidebar region
+    </h1>
     <UnreadChannelIndicator
       content={
         <FormattedMessage
@@ -766,11 +784,17 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     />
   </div>
   <div
-    aria-label="channel sidebar region"
+    aria-labelledby="lhs_list_aria_label"
     className="sidebar--left__list"
     id="lhsList"
     tabIndex="-1"
   >
+    <h1
+      className="hidden-label"
+      id="lhs_list_aria_label"
+    >
+      channel sidebar region
+    </h1>
     <UnreadChannelIndicator
       content={
         <FormattedMessage
@@ -1022,11 +1046,17 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
-    aria-label="channel sidebar region"
+    aria-labelledby="lhs_list_aria_label"
     className="sidebar--left__list"
     id="lhsList"
     tabIndex="-1"
   >
+    <h1
+      className="hidden-label"
+      id="lhs_list_aria_label"
+    >
+      channel sidebar region
+    </h1>
     <UnreadChannelIndicator
       content={
         <FormattedMessage
@@ -1270,11 +1300,17 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
-    aria-label="channel sidebar region"
+    aria-labelledby="lhs_list_aria_label"
     className="sidebar--left__list"
     id="lhsList"
     tabIndex="-1"
   >
+    <h1
+      className="hidden-label"
+      id="lhs_list_aria_label"
+    >
+      channel sidebar region
+    </h1>
     <UnreadChannelIndicator
       content={
         <FormattedMessage
@@ -1522,11 +1558,17 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
-    aria-label="channel sidebar region"
+    aria-labelledby="lhs_list_aria_label"
     className="sidebar--left__list"
     id="lhsList"
     tabIndex="-1"
   >
+    <h1
+      className="hidden-label"
+      id="lhs_list_aria_label"
+    >
+      channel sidebar region
+    </h1>
     <UnreadChannelIndicator
       content={
         <FormattedMessage
@@ -1770,11 +1812,17 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
-    aria-label="channel sidebar region"
+    aria-labelledby="lhs_list_aria_label"
     className="sidebar--left__list"
     id="lhsList"
     tabIndex="-1"
   >
+    <h1
+      className="hidden-label"
+      id="lhs_list_aria_label"
+    >
+      channel sidebar region
+    </h1>
     <UnreadChannelIndicator
       content={
         <FormattedMessage
@@ -2018,11 +2066,17 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
-    aria-label="channel sidebar region"
+    aria-labelledby="lhs_list_aria_label"
     className="sidebar--left__list"
     id="lhsList"
     tabIndex="-1"
   >
+    <h1
+      className="hidden-label"
+      id="lhs_list_aria_label"
+    >
+      channel sidebar region
+    </h1>
     <UnreadChannelIndicator
       content={
         <FormattedMessage
@@ -2266,11 +2320,17 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
-    aria-label="channel sidebar region"
+    aria-labelledby="lhs_list_aria_label"
     className="sidebar--left__list"
     id="lhsList"
     tabIndex="-1"
   >
+    <h1
+      className="hidden-label"
+      id="lhs_list_aria_label"
+    >
+      channel sidebar region
+    </h1>
     <UnreadChannelIndicator
       content={
         <FormattedMessage

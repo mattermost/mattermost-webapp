@@ -366,7 +366,7 @@ export default class RhsThread extends React.Component {
                     <div className='post-right__scroll'>
                         <div
                             id='rhsContent'
-                            tabIndex='-1'
+                            aria-label={Utils.localizeMessage('accessibility.sections.rhsContent', 'message details complimentary region')}
                             className='post-right__content'
                         >
                             {!isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}

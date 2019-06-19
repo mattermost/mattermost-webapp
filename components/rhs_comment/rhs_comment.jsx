@@ -376,9 +376,9 @@ export default class RhsComment extends React.PureComponent {
 
         return (
             <div
+                role='listitem'
                 ref={'post_body_' + post.id}
                 id={'rhsPost_' + post.id}
-                aria-label={localizeMessage('accessibility.sections.rhsContent', 'message details complimentary region')}
                 tabIndex='-1'
                 className={this.getClassName(post, isSystemMessage)}
                 onMouseOver={this.setHover}

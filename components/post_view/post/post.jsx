@@ -6,7 +6,6 @@ import React from 'react';
 import {Posts} from 'mattermost-redux/constants';
 
 import * as PostUtils from 'utils/post_utils.jsx';
-import {localizeMessage} from 'utils/utils.jsx';
 import PostProfilePicture from 'components/post_profile_picture';
 import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';
@@ -252,9 +251,11 @@ export default class Post extends React.PureComponent {
             <div
                 ref={this.getRef}
                 id={'post_' + post.id}
-                aria-label={localizeMessage('accessibility.sections.centerContent', 'message list main region')}
+                role='listitem'
                 className={this.getClassName(post, isSystemMessage, fromWebhook, fromAutoResponder, fromBot)}
                 tabIndex='1'
+                onFocus={this.setFocus}
+                onBlur={this.removeFocus}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
                 onTouchStart={this.setHover}

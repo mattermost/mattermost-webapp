@@ -904,10 +904,16 @@ export default class CreateComment extends React.PureComponent {
             <form onSubmit={this.handleSubmit}>
                 <div
                     id='rhsFooter'
-                    aria-label={Utils.localizeMessage('accessibility.sections.rhsFooter', 'reply input region')}
+                    aria-labelledby='rhs_footer_aria_label'
                     tabIndex='-1'
                     className={'post-create' + scrollbarClass}
                 >
+                    <h1
+                        id='rhs_footer_aria_label'
+                        className='hidden-label'
+                    >
+                        {Utils.localizeMessage('accessibility.sections.rhsFooter', 'reply input region')}
+                    </h1>
                     <div
                         id={this.props.rootId}
                         className='post-create-body comment-create-body'

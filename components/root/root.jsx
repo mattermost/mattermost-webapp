@@ -16,6 +16,7 @@ import {getMostRecentPostIdInChannel, makeGetPostsForThread} from 'mattermost-re
 
 import * as UserAgent from 'utils/user_agent.jsx';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 import {trackLoadTime} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
@@ -150,60 +151,30 @@ export default class Root extends React.Component {
         if (isKeyPressed(e, Constants.KeyCodes.TAB)) {
             const activeElement = e.target;
             activeElement.classList.add('keyboard-focus');
-
-            function removeClass() {
-                activeElement.classList.remove('keyboard-focus');
-                activeElement.removeEventListener('blur', removeClass);
-            }
-
-            activeElement.removeEventListener('blur', removeClass);
-            activeElement.addEventListener('blur', removeClass, {once: true});
+            this.addFocusClass(activeElement);
         } else if (isKeyPressed(e, Constants.KeyCodes.F6)) {
-            const currentChannel = getCurrentChannel(store.getState()) || {};
-            const recentPostIdInChannel = getMostRecentPostIdInChannel(store.getState(), currentChannel.id);
+            const state = store.getState();
+            const currentChannel = getCurrentChannel(state) || {};
+            const recentPostIdInChannel = getMostRecentPostIdInChannel(state, currentChannel.id);
             const getPostsForThread = makeGetPostsForThread();
-            const selected = getSelectedPost(store.getState());
-            const rhsPosts = getPostsForThread(store.getState(), {rootId: selected.id});
+            const selected = getSelectedPost(state);
+            const rhsPosts = getPostsForThread(state, {rootId: selected.id});
             let rhsLastPostId;
 
             if (rhsPosts[0]) {
                 rhsLastPostId = rhsPosts[0].id;
             }
 
-            var elements = [];
-            const centerPost = document.getElementById('post_' + recentPostIdInChannel);
-            const centerChannelFooter = document.getElementById('centerChannelFooter');
-            const rhsPost = document.getElementById('rhsPost_' + rhsLastPostId);
-            const rhsFooter = document.getElementById('rhsFooter');
-            const lhsHeader = document.getElementById('lhsHeader');
-            const lhsList = document.getElementById('lhsList');
-            const channelHeader = document.getElementById('channel-header');
-            const searchBox = document.getElementById('searchBox');
-
-            if (centerPost) {
-                elements.push(centerPost);
-            }
-            if (centerChannelFooter) {
-                elements.push(centerChannelFooter);
-            }
-            if (rhsPost) {
-                elements.push(rhsPost);
-            }
-            if (rhsFooter) {
-                elements.push(rhsFooter);
-            }
-            if (lhsHeader) {
-                elements.push(lhsHeader);
-            }
-            if (lhsList) {
-                elements.push(lhsList);
-            }
-            if (channelHeader) {
-                elements.push(channelHeader);
-            }
-            if (searchBox) {
-                elements.push(searchBox);
-            }
+            const elements = [
+                document.getElementById('post_' + recentPostIdInChannel),
+                document.getElementById('centerChannelFooter'),
+                document.getElementById('rhsPost_' + rhsLastPostId),
+                document.getElementById('rhsFooter'),
+                document.getElementById('lhsHeader'),
+                document.getElementById('lhsList'),
+                document.getElementById('channel-header'),
+                document.getElementById('searchBox'),
+            ].filter((element) => Boolean(element));
 
             if (this.currentFocus === elements.length) {
                 this.currentFocus = 0;
@@ -216,20 +187,22 @@ export default class Root extends React.Component {
             }
 
             const activeElement = elements[this.currentFocus];
-            activeElement.classList.add('keyboard-focus');
-            activeElement.focus();
 
-            function removeClass() {
-                activeElement.classList.remove('keyboard-focus');
-                activeElement.removeEventListener('blur', removeClass);
-            }
-
-            activeElement.removeEventListener('blur', removeClass);
-            activeElement.addEventListener('blur', removeClass, {once: true});
-
+            this.addFocusClass(activeElement);
             this.currentFocus++;
         }
     };
+
+    addFocusClass = (element) => {
+        element.classList.add('keyboard-focus');
+        element.focus();
+
+        function removeClass() {
+            element.classList.remove('keyboard-focus');
+        }
+
+        element.addEventListener('blur', removeClass, {once: true});
+    }
 
     onConfigLoaded = () => {
         if (isDevMode()) {
