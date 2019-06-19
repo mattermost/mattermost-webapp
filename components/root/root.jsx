@@ -16,7 +16,6 @@ import {getMostRecentPostIdInChannel, makeGetPostsForThread} from 'mattermost-re
 
 import * as UserAgent from 'utils/user_agent.jsx';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
-import {localizeMessage} from 'utils/utils.jsx';
 import {trackLoadTime} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
