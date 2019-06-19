@@ -448,7 +448,7 @@ describe('PostList', () => {
     describe('getPostsSince', () => {
         test('should call getPostsSince on channel switch', () => {
             shallow(<PostList {...baseProps}/>);
-            expect(baseProps.actions.getPostsSince).toHaveBeenCalledWith(baseProps.channel.id, baseProps.latestPostTimeStamp);
+            expect(baseProps.actions.getPostsSince).toHaveBeenCalledWith(baseProps.channel.id, baseProps.lastViewedAt);
         });
     });
 });

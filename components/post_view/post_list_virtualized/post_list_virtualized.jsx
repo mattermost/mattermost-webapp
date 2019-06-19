@@ -77,6 +77,12 @@ export default class PostList extends React.PureComponent {
 
         latestPostTimeStamp: PropTypes.number,
 
+        /**
+         * This is used for fetching posts for channels previously visited(Posts exist from previous visit)
+         * This is mainly for making sure user has all the posts that should exist in the view since last viewed
+         */
+        lastViewedAt: PropTypes.number,
+
         actions: PropTypes.shape({
 
             loadInitialPosts: PropTypes.func.isRequired,
@@ -263,7 +269,7 @@ export default class PostList extends React.PureComponent {
                 });
             }
         } else {
-            await this.props.actions.getPostsSince(channelId, this.props.latestPostTimeStamp);
+            await this.props.actions.getPostsSince(channelId, this.props.lastViewedAt);
         }
     }
 
