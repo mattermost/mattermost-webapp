@@ -158,16 +158,28 @@ export default class RhsComment extends React.PureComponent {
         let profilePicture;
         let visibleMessage;
 
-        let userProfile = (
-            <UserProfile
-                userId={post.user_id}
-                isBusy={this.props.isBusy}
-                isRHS={true}
-                hasMention={true}
-            />
-        );
+        let userProfile = null;
+        if (this.props.compactDisplay) {
+            userProfile = (
+                <UserProfile
+                    userId={post.user_id}
+                    isBusy={this.props.isBusy}
+                    isRHS={true}
+                    hasMention={true}
+                />
+            );
+        }
 
         if (!isConsecutivePost) {
+            userProfile = (
+                <UserProfile
+                    userId={post.user_id}
+                    isBusy={this.props.isBusy}
+                    isRHS={true}
+                    hasMention={true}
+                />
+            );
+
             profilePicture = (
                 <PostProfilePicture
                     compactDisplay={this.props.compactDisplay}
