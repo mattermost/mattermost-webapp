@@ -41,20 +41,17 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   theme={Object {}}
 >
   <li
-    className="flex-parent--center"
+    className="MenuItem"
+    key="mobileChannelHeaderItemsomeid"
+    role="presentation"
   >
-    <button
-      className="navbar-toggle navbar-right__icon"
+    <a
+      href="#"
       onClick={[Function]}
+      role="menuitem"
     >
-      <span
-        className="icon navbar-plugin-button"
-      >
-        <i
-          className="fa fa-anchor"
-        />
-      </span>
-    </button>
+      some dropdown text
+    </a>
   </li>
 </MobileChannelHeaderPlug>
 `;
@@ -80,20 +77,17 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   theme={Object {}}
 >
   <li
-    className="flex-parent--center"
+    className="MenuItem"
+    key="mobileChannelHeaderItemsomeid"
+    role="presentation"
   >
-    <button
-      className="navbar-toggle navbar-right__icon"
+    <a
+      href="#"
       onClick={[Function]}
+      role="menuitem"
     >
-      <span
-        className="icon navbar-plugin-button"
-      >
-        <i
-          className="fa fa-anchor"
-        />
-      </span>
-    </button>
+      some dropdown text
+    </a>
   </li>
 </MobileChannelHeaderPlug>
 `;
@@ -159,6 +153,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two extended
   theme={Object {}}
 >
   <li
+    className="MenuItem"
     key="mobileChannelHeaderItemsomeid"
     role="presentation"
   >
@@ -171,6 +166,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two extended
     </a>
   </li>
   <li
+    className="MenuItem"
     key="mobileChannelHeaderItemsomeid2"
     role="presentation"
   >
