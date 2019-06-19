@@ -9,7 +9,7 @@ const axios = require('axios');
 
 const cypressConfig = require('../../cypress.json');
 
-module.exports = async ({sender, message, channelId}) => {
+module.exports = async ({sender, message, channelId, createAt = 0}) => {
     const url = `${cypressConfig.baseUrl}/api/v4/users/login`;
 
     const response = await axios({url, method: 'post', data: {login_id: sender.username, password: sender.password}});
@@ -18,9 +18,12 @@ module.exports = async ({sender, message, channelId}) => {
     Client4.setUrl(cypressConfig.baseUrl);
     Client4.setToken(token);
 
-    return Client4.createPost({
+    const options = {
         channel_id: channelId,
         message,
         type: '',
-    });
+        create_at: createAt,
+    };
+
+    return Client4.createPost(options);
 };
