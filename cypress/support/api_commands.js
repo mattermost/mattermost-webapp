@@ -26,15 +26,19 @@ import theme from '../fixtures/theme.json';
  * Login a user directly via API
  * @param {String} username - e.g. "user-1" (default)
  */
-Cypress.Commands.add('apiLogin', (username = 'user-1') => {
+Cypress.Commands.add('apiLogin', (username = 'user-1', password = 'user-1') => {
     cy.apiLogout();
 
     const user = users[username];
 
     return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/login',
         method: 'POST',
-        body: {login_id: user.username, password: user.password},
+        body: {
+            login_id: user ? user.username : username,
+            password: user ? user.password : password,
+        },
     });
 });
 
@@ -277,11 +281,7 @@ Cypress.Commands.add('loginAsNewUser', (user = {}) => {
         });
 
         // # Login as the new user
-        cy.request({
-            url: '/api/v4/users/login',
-            method: 'POST',
-            body: {login_id: username, password},
-        });
+        cy.apiLogin(username, password);
 
         // # Update new user preferences to bypass tutorial
         const preferences = [{
