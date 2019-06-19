@@ -246,9 +246,7 @@ export default class SearchResults extends React.PureComponent {
 
         return (
             <div className='sidebar-right__body'>
-                <SearchResultsHeader
-                    isLoading={this.props.isSearchingTerm}
-                >
+                <SearchResultsHeader>
                     {formattedTitle}
                 </SearchResultsHeader>
                 <Scrollbars

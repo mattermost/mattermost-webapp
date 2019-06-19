@@ -11,7 +11,7 @@ import {
     unregisterPluginReconnectHandler,
 } from 'actions/websocket_actions.jsx';
 
-import {showRHSPlug} from 'actions/views/rhs';
+import {showRHSPlugin} from 'actions/views/rhs';
 
 import {
     registerPluginTranslationsSource,
@@ -380,6 +380,13 @@ export default class PluginRegistry {
         registerPluginTranslationsSource(this.id, getTranslationsForLocale);
     }
 
+    // Register a Right-Hand Sidebar component by providing a title for the right hand component.
+    // Accepts the following:
+    // - title - A string or JSX element to display as a title for the RHS.
+    // - component - A react component to display in the Right-Hand Sidebar.
+    // Returns:
+    // - id: a unique identifier
+    // - showRHSPlugin: the action to dispatch that will open the RHS.
     registerRightHandSidebarComponent(component, title) {
         const id = generateId();
 
@@ -394,6 +401,6 @@ export default class PluginRegistry {
             },
         });
 
-        return {id, showRHSPlug};
+        return {id, showRHSPlugin: showRHSPlugin(id)};
     }
 }

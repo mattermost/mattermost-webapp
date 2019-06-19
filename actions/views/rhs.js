@@ -96,16 +96,14 @@ export function showSearchResults() {
     };
 }
 
-export function showRHSPlug(pluginId) {
-    return (dispatch) => {
-        const action = {
-            type: ActionTypes.UPDATE_RHS_STATE,
-            state: RHSStates.PLUGIN,
-            pluginId,
-        };
-
-        dispatch(action);
+export function showRHSPlugin(pluginId) {
+    const action = {
+        type: ActionTypes.UPDATE_RHS_STATE,
+        state: RHSStates.PLUGIN,
+        pluginId,
     };
+
+    return action;
 }
 
 export function showFlaggedPosts() {

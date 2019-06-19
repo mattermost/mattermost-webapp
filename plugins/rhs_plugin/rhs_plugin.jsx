@@ -10,7 +10,10 @@ import Pluggable from 'plugins/pluggable';
 
 export default class RhsPlugin extends React.PureComponent {
     static propTypes = {
-        title: PropTypes.object,
+        title: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.object,
+        ]),
         pluggableId: PropTypes.string.isRequired,
     }
 
