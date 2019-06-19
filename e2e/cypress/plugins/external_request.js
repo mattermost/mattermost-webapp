@@ -21,7 +21,8 @@ module.exports = async ({baseUrl, user, method = 'get', path, data = {}}) => {
         cookieString += nameAndValue + ';';
     });
 
-    let response = {status: null, data: {}, error: {}};
+    // let response = {status: null, data: {}, error: {}};
+    let response;
 
     try {
         response = await axios({
@@ -36,7 +37,7 @@ module.exports = async ({baseUrl, user, method = 'get', path, data = {}}) => {
         });
     } catch (error) {
         if (error.response) {
-            response = error.response;
+            response = error.message;
         }
     }
 

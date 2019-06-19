@@ -11,6 +11,8 @@ let config;
 
 describe('Signup Email page', () => {
     before(() => {
+        cy.apiLogin('sysadmin');
+
         // Disable other auth options
         const newSettings = {
             Office365Settings: {Enable: false},

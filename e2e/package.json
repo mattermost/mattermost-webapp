@@ -8,7 +8,8 @@
     "mocha-junit-reporter": "1.22.0"
   },
   "scripts": {
-    "cypress:run": "cypress run",
-    "cypress:open": "cypress open"
+    "cypress:run": "cypress run --config ignoreTestFiles='**/enterprise/**/*.js'",
+    "cypress:open": "cypress open",
+    "cypress:run:enterprise": "cypress run --spec='cypress/integration/enterprise/**/*_spec.js'"
   }
 }

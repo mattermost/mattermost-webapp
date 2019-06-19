@@ -121,7 +121,9 @@ describe('Teams Suite', () => {
     });
 
     it('TS14633 Leave all teams', () => {
+        cy.apiLogin('sysadmin');
         cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: false}});
+        cy.apiLogoit();
 
         // # Login as new user
         cy.loginAsNewUser();
