@@ -26,6 +26,7 @@ describe('PostList', () => {
         ],
         latestPostTimeStamp: 12345,
         postVisibility: 10,
+        lastViewedAt: 12343,
         actions: {
             checkAndSetMobileView: jest.fn(),
             increasePostVisibility: jest.fn(),
