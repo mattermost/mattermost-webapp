@@ -338,7 +338,10 @@ export default class SearchResultsItem extends React.PureComponent {
         const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
 
         return (
-            <div className='search-item__container'>
+            <div
+                data-testid='search-item-container'
+                className='search-item__container'
+            >
                 <DateSeparator date={currentPostDay}/>
                 <div className={this.getClassName()}>
                     <div className='search-channel__name'>

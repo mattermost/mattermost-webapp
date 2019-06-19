@@ -26,7 +26,7 @@ import theme from '../fixtures/theme.json';
  * Login a user directly via API
  * @param {String} username - e.g. "user-1" (default)
  */
-Cypress.Commands.add('apiLogin', (username = 'user-1', password = 'user-1') => {
+Cypress.Commands.add('apiLogin', (username = 'user-1') => {
     cy.apiLogout();
 
     const user = users[username];
@@ -35,10 +35,7 @@ Cypress.Commands.add('apiLogin', (username = 'user-1', password = 'user-1') => {
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/login',
         method: 'POST',
-        body: {
-            login_id: user ? user.username : username,
-            password: user ? user.password : password,
-        },
+        body: {login_id: user.username, password: user.password},
     });
 });
 
@@ -163,6 +160,23 @@ Cypress.Commands.add('apiGetTeams', () => {
     });
 });
 
+/**
+ * Add user into a team directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} teamId - The team ID
+ * @param {String} userId - ID of user to be added into a team
+ * All parameter required
+ */
+Cypress.Commands.add('apiAddUserToTeam', (teamId, userId) => {
+    return cy.request({
+        method: 'POST',
+        url: `/api/v4/teams/${teamId}/members`,
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        body: {team_id: teamId, user_id: userId},
+        qs: {team_id: teamId},
+    });
+});
+
 // *****************************************************************************
 // Preferences
 // https://api.mattermost.com/#tag/preferences
@@ -173,10 +187,10 @@ Cypress.Commands.add('apiGetTeams', () => {
  * This API assume that the user is logged in and has cookie to access
  * @param {Array} preference - a list of user's preferences
  */
-Cypress.Commands.add('apiSaveUserPreference', (preferences = []) => {
+Cypress.Commands.add('apiSaveUserPreference', (preferences = [], userId = 'me') => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/users/me/preferences',
+        url: `/api/v4/users/${userId}/preferences`,
         method: 'PUT',
         body: preferences,
     });
@@ -247,7 +261,7 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
  @param {Object} user - Object of user email, username, and password that you can optionally set. Otherwise use default values
  @returns {Object} Returns object containing email, username, id and password if you need it further in the test
  */
-Cypress.Commands.add('loginAsNewUser', (user = {}) => {
+Cypress.Commands.add('createNewUser', (user = {}, teamIds = []) => {
     const timestamp = Date.now();
 
     const {email = `newe2etestuser${timestamp}@sample.mattermost.com`, username = `NewE2ETestUser${timestamp}`, password = 'password123'} = user;
@@ -262,26 +276,22 @@ Cypress.Commands.add('loginAsNewUser', (user = {}) => {
 
         const userId = userResponse.body.id;
 
-        // Get teams, select the first three, and add new user to that team
-        cy.request('GET', '/api/v4/teams').then((teamsResponse) => {
-            // Verify we have at least 2 teams in the response to add the user to
-            expect(teamsResponse).to.have.property('body').to.have.length.greaterThan(1);
-
-            const [team1, team2] = teamsResponse.body;
-
-            // Add user to several teams
-            [team1, team2].forEach((team) => {
-                cy.request({
-                    method: 'POST',
-                    url: `/api/v4/teams/${team.id}/members`,
-                    headers: {'X-Requested-With': 'XMLHttpRequest'},
-                    body: {team_id: team.id, user_id: userId},
-                    qs: {team_id: team.id}});
+        if (teamIds && teamIds.length > 0) {
+            teamIds.forEach((teamId) => {
+                cy.apiAddUserToTeam(teamId, userId);
             });
-        });
+        } else {
+            // Get teams, select the first three, and add new user to that team
+            cy.request('GET', '/api/v4/teams').then((teamsResponse) => {
+                // Verify we have at least 2 teams in the response to add the user to
+                expect(teamsResponse).to.have.property('body').to.have.length.greaterThan(1);
 
-        // # Login as the new user
-        cy.apiLogin(username, password);
+                // Pull out only the first 2 teams
+                teamsResponse.body.slice(0, 2).map((t) => t.id).forEach((teamId) => {
+                    cy.apiAddUserToTeam(teamId, userId);
+                });
+            });
+        }
 
         // # Update new user preferences to bypass tutorial
         const preferences = [{
@@ -291,11 +301,31 @@ Cypress.Commands.add('loginAsNewUser', (user = {}) => {
             value: '999',
         }];
 
-        cy.apiSaveUserPreference(preferences);
+        cy.apiSaveUserPreference(preferences, userId);
+
+        // Wrap our user object so it gets returned from our cypress command
+        cy.wrap({email, username, password, id: userId});
+    });
+});
+
+/**
+ * Creates a new user via the API, adds them to 3 teams, and sets preference to bypass tutorial.
+ * Then logs in as the user
+ @param {Object} user - Object of user email, username, and password that you can optionally set. Otherwise use default values
+ @returns {Object} Returns object containing email, username, id and password if you need it further in the test
+ */
+Cypress.Commands.add('loginAsNewUser', (user = {}) => {
+    return cy.createNewUser(user).then((newUser) => {
+        cy.request({
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            url: '/api/v4/users/login',
+            method: 'POST',
+            body: {login_id: newUser.username, password: newUser.password},
+        });
+
         cy.visit('/');
 
-        // Wrap our user object so it gets returnd from our cypress command
-        cy.wrap({email, username, password, id: userId});
+        return cy.wrap(newUser);
     });
 });
 
@@ -347,6 +377,6 @@ Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
 // Post creation
 // *****************************************************************************
 
-Cypress.Commands.add('postMessageAs', (sender, message, channelId) => {
-    cy.task('postMessageAs', {sender, message, channelId}).its('message').should('equal', message);
+Cypress.Commands.add('postMessageAs', (sender, message, channelId, createAt = 0) => {
+    cy.task('postMessageAs', {sender, message, channelId, createAt}).its('message').should('equal', message);
 });
