@@ -278,7 +278,14 @@ export default class AddBot extends React.Component {
             }
         } else {
             const result = await this.props.actions.createBot(bot);
-            if (result) {
+            const usernameError = Utils.isValidUsername(bot.username);
+            if (usernameError) {
+                this.setState({
+                    adding: false,
+                    error: usernameError,
+                });
+                return;
+            } else if (result) {
                 data = result.data;
                 error = result.error;
             } else {
