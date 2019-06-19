@@ -4,6 +4,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+import {bindActionCreators} from 'redux';
+
+import {getTeam} from 'mattermost-redux/selectors/entities/teams';
+
+import {getTeam as fetchTeam} from 'mattermost-redux/actions/teams';
+
+import {connect} from 'react-redux';
 
 import {t} from 'utils/i18n';
 import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
@@ -18,6 +25,8 @@ import ToggleModalButton from 'components/toggle_modal_button.jsx';
 
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
+import {setNavigationBlocked} from '../../../../actions/admin_actions';
+
 import {TeamProfile} from './team_profile';
 import LineSwitch from './line_switch.jsx';
 
@@ -28,7 +37,7 @@ const MANAGE_MODE = {
     DOMAIN_RESTRICTED: 2,
 };
 
-export default class TeamDetails extends React.Component {
+class TeamDetails extends React.Component {
     static propTypes = {
         teamID: PropTypes.string.isRequired,
         team: PropTypes.object.isRequired,
@@ -235,3 +244,24 @@ export default class TeamDetails extends React.Component {
         );
     };
 }
+
+function mapStateToProps(state, props) {
+    const teamID = props.match.params.team_id;
+    const team = getTeam(state, teamID);
+
+    return {
+        team,
+        teamID,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            getTeam: fetchTeam,
+            setNavigationBlocked,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TeamDetails);

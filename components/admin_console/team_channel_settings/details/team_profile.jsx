@@ -4,15 +4,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {Client4} from 'mattermost-redux/client';
-
 import {t} from 'utils/i18n';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
+import * as Utils from 'utils/utils';
+
+import TeamImage from '../team_image.jsx';
+
 export function TeamProfile({team}) {
-    const brandImageUrl = Client4.getTeamIconUrl(team.id);
+    const teamIconUrl = Utils.imageURLForTeam(team);
 
     return (
         <AdminPanel
@@ -28,10 +30,9 @@ export function TeamProfile({team}) {
                 <div className='group-teams-and-channels--body'>
                     <div className='row'>
                         <div className='col-sm-3'>
-                            <img
-                                className='brand-img'
-                                alt='brand image'
-                                src={brandImageUrl}
+                            <TeamImage
+                                displayName={team.display_name}
+                                teamIconUrl={teamIconUrl}
                             />
                         </div>
                         <div className='col-sm-9'>

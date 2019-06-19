@@ -18,7 +18,7 @@ function mapStateToProps(state, ownProps) {
 
     let groups = selectGroupsNotAssociatedToTeam(state, team.id);
     if (searchTerm) {
-        var regex = RegExp(searchTerm, 'i');
+        const regex = RegExp(searchTerm, 'i');
         groups = groups.filter((group) => regex.test(group.display_name) || regex.test(group.name));
     }
 

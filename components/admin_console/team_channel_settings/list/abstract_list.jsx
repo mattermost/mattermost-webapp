@@ -5,23 +5,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import TeamRow from 'components/admin_console/team_settings/team_list/team_row.jsx';
 import NextIcon from 'components/icon/next_icon';
 import PreviousIcon from 'components/icon/previous_icon';
-import {browserHistory} from 'utils/browser_history';
 
-const TEAMS_PAGE_SIZE = 200;
+const PAGE_SIZE = 10;
 
 export default class TeamList extends React.PureComponent {
     static propTypes = {
-        teams: PropTypes.arrayOf(PropTypes.object),
+        data: PropTypes.arrayOf(PropTypes.object),
+        onPageChangedCallback: PropTypes.func.isRequired,
+        emptyListTextId: PropTypes.string.isRequired,
+        emptyListTextDefaultMessage: PropTypes.string.isRequired,
         actions: PropTypes.shape({
-            getTeams: PropTypes.func.isRequired,
+            getData: PropTypes.func.isRequired,
         }).isRequired,
     };
 
     static defaultProps = {
-        teams: [],
+        data: [],
     };
 
     constructor(props) {
@@ -33,23 +34,21 @@ export default class TeamList extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.actions.getTeams(this.state.page, TEAMS_PAGE_SIZE).then(() => {
-            this.setState({loading: false});
-        });
+        this.performSearch(this.state.page);
     }
 
     previousPage = async (e) => {
         e.preventDefault();
         const page = this.state.page < 1 ? 0 : this.state.page - 1;
         this.setState({page, loading: true});
-//        this.searchGroups(page);
+        this.performSearch(page);
     }
 
     nextPage = async (e) => {
         e.preventDefault();
         const page = this.state.page + 1;
         this.setState({page, loading: true});
-  //      this.searchGroups(page);
+        this.performSearch(page);
     }
 
     renderRows = () => {
@@ -60,60 +59,49 @@ export default class TeamList extends React.PureComponent {
                 </div>
             );
         }
-        if (this.props.teams.length === 0) {
+        if (this.props.data.length === 0) {
             return (
                 <div className='groups-list-empty'>
                     <FormattedMessage
-                        id='admin.team_settings.team_list.no_groups_found'
-                        defaultMessage='No groups found'
+                        id={this.props.emptyListTextId}
+                        defaultMessage={this.props.emptyListTextDefaultMessage}
                     />
                 </div>
             );
         }
-        return this.props.teams.map((item) => {
-            return (
-                <TeamRow
-                    key={item.id}
-                    id={item.id}
-                    name={item.name}
-                    onRowClick={this.onTeamClick}
-                    onCheckToggle={this.onCheckToggle}
-                    groupConstrained={item.group_constrained}
-                />
-            );
+        return this.props.data.slice(0, PAGE_SIZE).map(this.renderRow);
+    }
+
+    performSearch = (page) => {
+        const newState = {...this.state};
+        delete newState.page;
+
+        newState.loading = true;
+        this.setState(newState);
+
+        this.props.actions.getData(page, PAGE_SIZE, {}).then(() => {
+            this.props.onPageChangedCallback(this.getPaging());
+            this.setState({loading: false});
         });
     }
 
-    onTeamClick = (id) => {
-        browserHistory.push(`/admin_console/user_management/teams/${id}`);
-    }
-
-    render = () => {
-        const startCount = (this.state.page * TEAMS_PAGE_SIZE) + 1;
-        let endCount = (this.state.page * TEAMS_PAGE_SIZE) + TEAMS_PAGE_SIZE;
-        const total = this.props.teams.length;
+    getPaging() {
+        const startCount = (this.state.page * PAGE_SIZE) + 1;
+        let endCount = (this.state.page * PAGE_SIZE) + PAGE_SIZE;
+        const total = this.props.data.length;
         if (endCount > total) {
             endCount = total;
         }
+        return {startCount, endCount, total};
+    }
+
+    render = () => {
+        const {startCount, endCount, total} = this.getPaging();
         const lastPage = endCount === total;
         const firstPage = this.state.page === 0;
         return (
             <div className='groups-list'>
-                <div className='groups-list--header'>
-                    <div className='group-name'>
-                        <FormattedMessage
-                            id='admin.team_settings.team_list.nameHeader'
-                            defaultMessage='Name'
-                        />
-                    </div>
-                    <div className='group-description'>
-                        <FormattedMessage
-                            id='admin.team_settings.team_list.mappingHeader'
-                            defaultMessage='Management'
-                        />
-                    </div>
-                    <div className='group-actions'/>
-                </div>
+                {this.renderHeader()}
                 <div className='groups-list--body'>
                     {this.renderRows()}
                 </div>

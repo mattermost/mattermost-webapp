@@ -5,14 +5,31 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
+import {connect} from 'react-redux';
+
 import {t} from 'utils/i18n';
-import TeamList from 'components/admin_console/team_settings/team_list';
+import TeamList from 'components/admin_console/team_channel_settings/list/teams';
 import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
 
-export default class TeamsSettings extends React.PureComponent {
+class TeamsSettings extends React.Component {
     static propTypes = {
         siteName: PropTypes.string.isRequired,
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            startCount: 0,
+            endCount: 1,
+            total: 0,
+        };
+    }
+
+    onPageChangedCallback = ({startCount, endCount, total}) => {
+        this.setState({startCount, endCount, total});
+    }
 
     render = () => {
         return (
@@ -32,10 +49,10 @@ export default class TeamsSettings extends React.PureComponent {
                             titleId={t('admin.team_settings.title')}
                             titleDefault='Teams'
                             subtitleId={t('admin.team_settings.description')}
-                            subtitleDefault={'Showing {from} - {to} teams. Search for and [manage team settings](www.mattermost.com/pl/default-team-management.html ).'}
-                            subtitleValues={{from: 1, to: 1}}
+                            subtitleDefault={'Showing {startCount, number} - {endCount, number} of {total, number} teams. Search for and [manage team settings](www.mattermost.com/pl/default-team-management.html ).'}
+                            subtitleValues={{...this.state}}
                         >
-                            <TeamList/>
+                            <TeamList onPageChangedCallback={this.onPageChangedCallback}/>
                         </AdminPanel>
                     </div>
                 </div>
@@ -43,3 +60,14 @@ export default class TeamsSettings extends React.PureComponent {
         );
     };
 }
+
+function mapStateToProps(state) {
+    const config = getConfig(state);
+    const siteName = config.SiteName;
+
+    return {
+        siteName,
+    };
+}
+
+export default connect(mapStateToProps)(TeamsSettings);

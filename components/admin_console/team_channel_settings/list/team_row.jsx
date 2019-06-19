@@ -6,37 +6,44 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
-export default class GroupRow extends React.Component {
+import TeamImage from '../team_image.jsx';
+import * as Utils from 'utils/utils';
+
+export default class TeamRow extends React.Component {
     static propTypes = {
-        id: PropTypes.string.isRequired,
-        groupConstrained: PropTypes.bool,
-        name: PropTypes.string.isRequired,
+        team: PropTypes.object.isRequired,
         onRowClick: PropTypes.func.isRequired,
     };
 
-    onRowClick = () => {
-        const {id, onRowClick: onRowClick1} = this.props;
-        onRowClick1(id);
+    handleRowClick = () => {
+        const {team, onRowClick} = this.props;
+        onRowClick(team.id);
     }
     render = () => {
-        const {id, name, groupConstrained} = this.props;
+        const {team} = this.props;
+        const teamIconUrl = Utils.imageURLForTeam(team);
         return (
             <div
                 className={'group '}
-                onClick={this.onRowClick}
+                onClick={this.handleRowClick}
             >
                 <div className='group-row'>
+                    <TeamImage
+                        small={true}
+                        teamIconUrl={teamIconUrl}
+                        displayName={team.display_name}
+                    />
                     <span className='group-name'>
-                        {name}
+                        {team.display_name}
                     </span>
                     <span className='group-description'>
                         <FormattedMessage
-                            id={`admin.team_settings.team_row.managementMethod.${groupConstrained ? 'group' : 'manual'}`}
-                            defaultMessage={groupConstrained ? 'Group Sync' : 'Manual Invites'}
+                            id={`admin.team_settings.team_row.managementMethod.${team.group_constrained ? 'group' : 'manual'}`}
+                            defaultMessage={team.group_constrained ? 'Group Sync' : 'Manual Invites'}
                         />
                     </span>
                     <span className='group-actions'>
-                        <Link to={`/admin_console/user_management/teams/${id}`}>
+                        <Link to={`/admin_console/user_management/teams/${team.id}`}>
                             <FormattedMessage
                                 id='admin.team_settings.team_row.configure'
                                 defaultMessage='Edit'

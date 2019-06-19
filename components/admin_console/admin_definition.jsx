@@ -32,8 +32,10 @@ import ServerLogs from './server_logs';
 import BrandImageSetting from './brand_image_setting/brand_image_setting.jsx';
 import GroupSettings from './group_settings/group_settings.jsx';
 import GroupDetails from './group_settings/group_details';
-import TeamSettings from './team_settings';
-import TeamDetails from './team_settings/team_details';
+import TeamSettings from './team_channel_settings/team_settings';
+import TeamDetails from './team_channel_settings/details/team_details';
+import ChannelSettings from './team_channel_settings/channel_settings';
+import ChannelDetails from './team_channel_settings/details/channel_details';
 import PasswordSettings from './password_settings.jsx';
 import PushNotificationsSettings from './push_settings.jsx';
 import DataRetentionSettings from './data_retention_settings.jsx';
@@ -310,6 +312,30 @@ export default {
             schema: {
                 id: 'Teams',
                 component: TeamSettings,
+            },
+        },
+        channel_detail: {
+            url: 'user_management/channels/:channel_id',
+            isHidden: it.either(
+                it.isnt(it.licensedForFeature('LDAPGroups')),
+                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
+            ),
+            schema: {
+                id: 'ChannelDetail',
+                component: ChannelDetails,
+            },
+        },
+        channel: {
+            url: 'user_management/channels',
+            title: t('admin.sidebar.channels'),
+            title_default: 'Channels',
+            isHidden: it.either(
+                it.isnt(it.licensedForFeature('LDAPGroups')),
+                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
+            ),
+            schema: {
+                id: 'Channels',
+                component: ChannelSettings,
             },
         },
         systemScheme: {
