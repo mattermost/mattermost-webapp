@@ -287,6 +287,7 @@ export const PostTypes = {
     EPHEMERAL: 'system_ephemeral',
     EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
     REMOVE_LINK_PREVIEW: 'remove_link_preview',
+    ME: 'me',
 };
 
 export const StatTypes = keyMirror({
