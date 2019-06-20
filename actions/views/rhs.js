@@ -108,6 +108,16 @@ export function showSearchResults() {
     };
 }
 
+export function showRHSPlugin(pluginId) {
+    const action = {
+        type: ActionTypes.UPDATE_RHS_STATE,
+        state: RHSStates.PLUGIN,
+        pluginId,
+    };
+
+    return action;
+}
+
 export function showFlaggedPosts() {
     return async (dispatch, getState) => {
         const state = getState();
