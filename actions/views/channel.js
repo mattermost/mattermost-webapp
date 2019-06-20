@@ -193,30 +193,22 @@ export function increasePostVisibility(channelId, beforePostId) {
             data: true,
             channelId,
         });
-        const time = Date.now();
+
         const result = await dispatch(PostActions.getPostsBefore(channelId, beforePostId, 0, Posts.POST_CHUNK_SIZE / 2));
         const posts = result.data;
 
-        let actions = [{
+        const actions = [{
             type: ActionTypes.LOADING_POSTS,
             data: false,
             channelId,
         }];
 
         if (posts) {
-            actions = [
-                ...actions,
-                {
-                    type: ActionTypes.INCREASE_POST_VISIBILITY,
-                    data: channelId,
-                    amount: posts.order.length,
-                },
-                {
-                    type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
-                    channelId,
-                    time,
-                },
-            ];
+            actions.push({
+                type: ActionTypes.INCREASE_POST_VISIBILITY,
+                data: channelId,
+                amount: posts.order.length,
+            });
         }
 
         dispatch(batchActions(actions));

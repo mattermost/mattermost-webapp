@@ -310,11 +310,6 @@ describe('channel view actions', () => {
                         amount: posts.order.length,
                         data: channelId,
                     },
-                    {
-                        channelId,
-                        time: 12344,
-                        type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
-                    },
                 ],
                 type: 'BATCHING_REDUCER.BATCH',
             });
