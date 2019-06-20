@@ -91,12 +91,8 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
             shouldProcessNode: (node) => node.attribs && node.attribs[emojiAttrib],
             processNode: (node) => {
                 const emojiName = node.attribs[emojiAttrib];
-                const callPostEmoji = (
-                    <PostEmoji
-                        name={emojiName}
-                    />
-                );
-                return callPostEmoji;
+
+                return <PostEmoji name={emojiName}/>;
             },
         });
     }

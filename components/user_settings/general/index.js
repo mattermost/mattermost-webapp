@@ -27,7 +27,8 @@ function mapStateToProps(state) {
     const samlLastNameAttributeSet = config.SamlLastNameAttributeSet === 'true';
     const ldapNicknameAttributeSet = config.LdapNicknameAttributeSet === 'true';
     const samlNicknameAttributeSet = config.SamlNicknameAttributeSet === 'true';
-    const positionAttributeSet = config.PositionAttributeSet === 'true';
+    const samlPositionAttributeSet = config.SamlPositionAttributeSet === 'true';
+    const ldapPositionAttributeSet = config.LdapPositionAttributeSet === 'true';
 
     return {
         sendEmailNotifications,
@@ -39,7 +40,8 @@ function mapStateToProps(state) {
         samlLastNameAttributeSet,
         ldapNicknameAttributeSet,
         samlNicknameAttributeSet,
-        positionAttributeSet,
+        samlPositionAttributeSet,
+        ldapPositionAttributeSet,
     };
 }
 

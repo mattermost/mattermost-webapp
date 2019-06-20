@@ -2816,6 +2816,19 @@ export default {
                         remove_action: removePublicSamlCertificate,
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'SamlSettings.SignRequest',
+                        label: t('admin.saml.signRequestTitle'),
+                        label_default: 'Sign Request:',
+                        help_text: t('admin.saml.signRequestDescription'),
+                        help_text_default: 'When true, Mattermost will sign the SAML request using your private key. When false, Mattermost will not sign the SAML request.',
+                        isDisabled: it.either(
+                            it.stateIsFalse('SamlSettings.Encrypt'),
+                            it.stateIsFalse('SamlSettings.PrivateKeyFile'),
+                            it.stateIsFalse('SamlSettings.PublicCertificateFile')
+                        ),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SamlSettings.EmailAttribute',
                         label: t('admin.saml.emailAttrTitle'),
@@ -3289,7 +3302,7 @@ export default {
     plugins: {
         icon: 'fa-plug',
         sectionTitle: t('admin.sidebar.plugins'),
-        sectionTitleDefault: 'Plugins',
+        sectionTitleDefault: 'Plugins (Beta)',
         id: 'plugins',
         plugin_management: {
             url: 'plugins/plugin_management',
@@ -3399,6 +3412,27 @@ export default {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableUserAccessTokens',
+                        label: t('admin.service.userAccessTokensTitle'),
+                        label_default: 'Enable User Access Tokens: ',
+                        help_text: t('admin.service.userAccessTokensDescription'),
+                        help_text_default: 'When true, users can create [user access tokens](!https://about.mattermost.com/default-user-access-tokens) for integrations in **Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
+                        help_text_markdown: true,
+                    },
+                ],
+            },
+        },
+        bot_accounts: {
+            url: 'integrations/bot_accounts',
+            title: t('admin.integrations.botAccounts'),
+            title_default: 'Bot Accounts',
+            schema: {
+                id: 'BotAccountSettings',
+                name: t('admin.integrations.botAccounts.title'),
+                name_default: 'Bot Accounts',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableBotAccountCreation',
                         label: t('admin.service.enableBotTitle'),
                         label_default: 'Enable Bot Account Creation: ',
@@ -3408,11 +3442,11 @@ export default {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.EnableUserAccessTokens',
-                        label: t('admin.service.userAccessTokensTitle'),
-                        label_default: 'Enable User Access Tokens: ',
-                        help_text: t('admin.service.userAccessTokensDescription'),
-                        help_text_default: 'When true, users can create [user access tokens](!https://about.mattermost.com/default-user-access-tokens) for integrations in **Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
+                        key: 'ServiceSettings.DisableBotsWhenOwnerIsDeactivated',
+                        label: t('admin.service.disableBotOwnerDeactivatedTitle'),
+                        label_default: 'Disable bot accounts when owner is deactivated:',
+                        help_text: t('admin.service.disableBotWhenOwnerIsDeactivated'),
+                        help_text_default: 'When a user is deactivated, disables all bot accounts managed by the user. To re-enable bot accounts, go to **Integrations > Bot Accounts**.',
                         help_text_markdown: true,
                     },
                 ],
@@ -3501,14 +3535,6 @@ export default {
                         help_text: t('admin.service.corsDebugDescription'),
                         help_text_default: 'When true, prints messages to the logs to help when developing an integration that uses CORS. These messages will include the structured key value pair "source":"cors".',
                     },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.EnableInsecureOutgoingConnections',
-                        label: t('admin.service.insecureTlsTitle'),
-                        label_default: 'Enable Insecure Outgoing Connections: ',
-                        help_text: t('admin.service.insecureTlsDesc'),
-                        help_text_default: 'When true, any outgoing HTTPS requests will accept unverified, self-signed certificates. For example, outgoing webhooks to a server with a self-signed TLS certificate, using any domain, will be allowed. Note that this makes these connections susceptible to man-in-the-middle attacks.',
-                    },
                 ],
             },
         },
@@ -3580,6 +3606,8 @@ export default {
             ],
             schema: {
                 id: 'Audits',
+                name: t('admin.compliance.complianceMonitoring'),
+                name_default: 'Compliance Monitoring',
                 component: Audits,
                 isHidden: it.isnt(it.licensedForFeature('Compliance')),
                 settings: [
@@ -3853,7 +3881,7 @@ export default {
                         label: t('admin.experimental.experimentalLdapGroupSync.title'),
                         label_default: 'Enable AD/LDAP Group Sync:',
                         help_text: t('admin.experimental.experimentalLdapGroupSync.desc'),
-                        help_text_default: 'When true, enables **AD/LDAP Group Sync** configurable under **Access Controls > Groups**. See [documentation](!https://mattermost.com/pl/default-ldap-group-sync) to learn more.',
+                        help_text_default: 'When true, enables **AD/LDAP Group Sync** configurable under **User Management > Groups**. See [documentation](!https://mattermost.com/pl/default-ldap-group-sync) to learn more.',
                         help_text_markdown: true,
                     },
                     {

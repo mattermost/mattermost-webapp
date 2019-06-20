@@ -12,7 +12,7 @@ exports[`components/post_view/post_list_row should render channel intro message 
 
 exports[`components/post_view/post_list_row should render combined post 1`] = `
 <Connect(Connect(Post))
-  combinedId="user-activity--1234-5678"
+  combinedId="user-activity-1234-5678"
   previousPostId="abcd"
   shouldHighlight={false}
 />

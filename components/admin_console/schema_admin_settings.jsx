@@ -10,7 +10,6 @@ import * as I18n from 'i18n/i18n.jsx';
 
 import {saveConfig} from 'actions/admin_actions.jsx';
 import Constants from 'utils/constants.jsx';
-import {formatText} from 'utils/text_formatting.jsx';
 import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
 import * as Utils from 'utils/utils.jsx';
 import RequestButton from 'components/admin_console/request_button/request_button';
@@ -27,7 +26,7 @@ import SettingsGroup from 'components/admin_console/settings_group.jsx';
 import JobsTable from 'components/admin_console/jobs';
 import FileUploadSetting from 'components/admin_console/file_upload_setting.jsx';
 import RemoveFileSetting from 'components/admin_console/remove_file_setting.jsx';
-import HelpText from 'components/admin_console/help_text';
+import SchemaText from 'components/admin_console/schema_text';
 import SaveButton from 'components/save_button.jsx';
 import FormError from 'components/form_error.jsx';
 
@@ -309,7 +308,7 @@ export default class SchemaAdminSettings extends React.Component {
         }
 
         return (
-            <HelpText
+            <SchemaText
                 isMarkdown={isMarkdown}
                 isTranslated={this.props.schema.translate}
                 text={helpText}
@@ -741,20 +740,24 @@ export default class SchemaAdminSettings extends React.Component {
         let header;
         if (schema.header) {
             header = (
-                <div
-                    className='banner'
-                    dangerouslySetInnerHTML={{__html: formatText(schema.header, {mentionHighlight: false})}}
-                />
+                <div className='banner'>
+                    <SchemaText
+                        text={schema.header}
+                        isMarkdown={true}
+                    />
+                </div>
             );
         }
 
         let footer;
         if (schema.footer) {
             footer = (
-                <div
-                    className='banner'
-                    dangerouslySetInnerHTML={{__html: formatText(schema.footer, {mentionHighlight: false})}}
-                />
+                <div className='banner'>
+                    <SchemaText
+                        text={schema.footer}
+                        isMarkdown={true}
+                    />
+                </div>
             );
         }
 
@@ -859,11 +862,26 @@ export default class SchemaAdminSettings extends React.Component {
         return Boolean(SchemaAdminSettings.getConfigValue(this.props.environmentConfig, path));
     };
 
-    customComponentWrapperClass = (className) => {
-        this.setState({customComponentWrapperClass: className});
+    hybridSchemaAndComponent = () => {
+        const schema = this.props.schema;
+        if (schema && schema.component && schema.settings) {
+            const CustomComponent = schema.component;
+            return (
+                <CustomComponent {...this.props}/>
+            );
+        }
+        return null;
     }
 
-    renderSettingsWrapper = () => {
+    render = () => {
+        const schema = this.props.schema;
+        if (schema && schema.component && !schema.settings) {
+            const CustomComponent = schema.component;
+            return (
+                <CustomComponent {...this.props}/>
+            );
+        }
+
         return (
             <div className={'wrapper--fixed ' + this.state.customComponentWrapperClass}>
                 {this.renderTitle()}
@@ -876,6 +894,7 @@ export default class SchemaAdminSettings extends React.Component {
                         >
                             {this.renderSettings()}
                         </form>
+                        {this.hybridSchemaAndComponent()}
                     </div>
                 </div>
                 <div className='admin-console-save'>
@@ -904,34 +923,6 @@ export default class SchemaAdminSettings extends React.Component {
                         </Tooltip>
                     </Overlay>
                 </div>
-            </div>
-        );
-    }
-
-    render = () => {
-        const schema = this.props.schema;
-
-        if (schema && schema.component && schema.settings) {
-            const CustomComponent = schema.component;
-            return (
-                <React.Fragment>
-                    {this.renderSettingsWrapper()}
-                    <CustomComponent
-                        {...this.props}
-                        customWrapperClass={this.customComponentWrapperClass}
-                    />
-                </React.Fragment>
-            );
-        }
-        if (schema && schema.component) {
-            const CustomComponent = schema.component;
-            return (
-                <CustomComponent {...this.props}/>
-            );
-        }
-        return (
-            <div className='wrapper--fixed'>
-                {this.renderSettingsWrapper()}
             </div>
         );
     }

@@ -11,7 +11,7 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {isPostEphemeral, isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
-import {selectPost} from 'actions/views/rhs';
+import {selectPost, selectPostCard} from 'actions/views/rhs';
 import {Preferences} from 'utils/constants.jsx';
 
 import Post from './post.jsx';
@@ -89,6 +89,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             selectPost,
+            selectPostCard,
         }, dispatch),
     };
 }
