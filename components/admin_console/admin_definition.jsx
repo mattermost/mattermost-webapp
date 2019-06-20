@@ -3308,7 +3308,6 @@ export default {
             url: 'plugins/plugin_management',
             title: t('admin.plugins.pluginManagement'),
             title_default: 'Plugin Management',
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             searchableStrings: [
                 'admin.plugin.management.title',
                 'admin.plugins.settings.enable',
