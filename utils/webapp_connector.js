@@ -14,6 +14,6 @@ if (!window.webappConnector) {
 }
 
 /**
-* Returns a reference to the webappConnector if available, or a placeholder object to silently ignore any interraction
+* Returns a reference to the webappConnector if available, or a placeholder object to silently ignore any interaction
 */
 export const webappConnector = window.webappConnector;
