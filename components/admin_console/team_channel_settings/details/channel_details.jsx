@@ -21,14 +21,7 @@ import SaveButton from 'components/save_button';
 import {localizeMessage} from 'utils/utils';
 import FormError from 'components/form_error';
 
-import ToggleModalButton from 'components/toggle_modal_button.jsx';
-
-import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
-
-import {setNavigationBlocked} from '../../../../actions/admin_actions';
-
-import {TeamProfile} from './team_profile';
-import LineSwitch from './line_switch.jsx';
+import {setNavigationBlocked} from 'actions/admin_actions';
 
 const MANAGE_MODE = {
     NONE: -1,
@@ -86,136 +79,20 @@ class ChannelDetails extends React.Component {
     }
 
     render = () => {
-        const {channel} = this.props;
-
         return (
             <div className='wrapper--fixed'>
                 <div className='admin-console__header with-back'>
                     <div>
                         <BlockableLink
-                            to='/admin_console/user_management/teams'
+                            to='/admin_console/user_management/channels'
                             className='fa fa-angle-left back'
                         />
                         <FormattedMessage
-                            id='admin.team_settings.team_detail.zgroup_configuration'
+                            id='admin.team_settings.channel_detail.channel_configuration'
                             defaultMessage='Channel Configuration'
                         />
                     </div>
                 </div>
-
-                {/*<div className='admin-console__wrapper'>*/}
-                {/*    <div className='admin-console__content'>*/}
-
-                {/*        <TeamProfile*/}
-                {/*            team={team}*/}
-                {/*        />*/}
-
-                {/*        <AdminPanel*/}
-                {/*            id='team_manage'*/}
-                {/*            titleId={t('admin.team_settings.team_detail.manageTitle')}*/}
-                {/*            titleDefault='Team Management'*/}
-                {/*            subtitleId={t('admin.team_settings.team_detail.manageDescription')}*/}
-                {/*            subtitleDefault='Choose between inviting members manually or syncing members automatically from groups.'*/}
-                {/*        >*/}
-                {/*            <div className='group-teams-and-channels'>*/}
-
-                {/*                <div className='group-teams-and-channels--body'>*/}
-                {/*                    <LineSwitch*/}
-                {/*                        toggled={isModeSync}*/}
-                {/*                        onToggle={() => this.toggleMode(MANAGE_MODE.SYNC_GROUPS)}*/}
-                {/*                        title={(*/}
-                {/*                            <FormattedMessage*/}
-                {/*                                id='admin.team_settings.team_details.syncGroupMembers'*/}
-                {/*                                defaultMessage='Sync Group Members'*/}
-                {/*                            />*/}
-                {/*                        )}*/}
-                {/*                        subTitle={(*/}
-                {/*                            <FormattedMarkdownMessage*/}
-                {/*                                id='admin.team_settings.team_details.syncGroupMembersDescr'*/}
-                {/*                                defaultMessage='When enabled, adding and removing users from groups will add or remove them from this team. The only way of inviting members to this team is by adding the groups they belong to. [Learn More](www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'*/}
-                {/*                            />*/}
-                {/*                        )}*/}
-                {/*                    />*/}
-                {/*                    {!isModeSync && (*/}
-                {/*                        <LineSwitch*/}
-                {/*                            toggled={teamMode === MANAGE_MODE.ALLOW_ALL}*/}
-                {/*                            onToggle={() => this.toggleMode(MANAGE_MODE.ALLOW_ALL)}*/}
-                {/*                            title={(*/}
-                {/*                                <FormattedMessage*/}
-                {/*                                    id='admin.team_settings.team_details.anyoneCanJoin'*/}
-                {/*                                    defaultMessage='Anyone can join this team'*/}
-                {/*                                />*/}
-                {/*                            )}*/}
-                {/*                            subTitle={(*/}
-                {/*                                <FormattedMessage*/}
-                {/*                                    id='admin.team_settings.team_details.anyoneCanJoinDescr'*/}
-                {/*                                    defaultMessage='This team can be discovered allowing anyone with an account to join this team.'*/}
-                {/*                                />*/}
-                {/*                            )}*/}
-                {/*                        />)}*/}
-                {/*                    {!isModeSync && (*/}
-                {/*                        <LineSwitch*/}
-                {/*                            toggled={teamMode === MANAGE_MODE.DOMAIN_RESTRICTED}*/}
-                {/*                            onToggle={() => this.toggleMode(MANAGE_MODE.DOMAIN_RESTRICTED)}*/}
-                {/*                            title={(*/}
-                {/*                                <FormattedMessage*/}
-                {/*                                    id='admin.team_settings.team_details.specificDomains'*/}
-                {/*                                    defaultMessage='Only specific email domains can join this team'*/}
-                {/*                                />*/}
-                {/*                            )}*/}
-                {/*                            subTitle={(*/}
-                {/*                                <FormattedMessage*/}
-                {/*                                    id='admin.team_settings.team_details.specificDomainsDescr'*/}
-                {/*                                    defaultMessage='Users can only join the team if their email matches one of the specified domains'*/}
-                {/*                                />*/}
-                {/*                            )}*/}
-                {/*                        >*/}
-                {/*                            <div className='help-text'>*/}
-                {/*                                <FormattedMessage*/}
-                {/*                                    id='admin.team_settings.team_details.csvDomains'*/}
-                {/*                                    defaultMessage='Comma Separated Email Domain List'*/}
-                {/*                                />*/}
-                {/*                            </div>*/}
-                {/*                            <input*/}
-                {/*                                type='text'*/}
-                {/*                                placeholder='mattermost.org'*/}
-                {/*                                className='form-control'*/}
-                {/*                            />*/}
-                {/*                        </LineSwitch>)}*/}
-                {/*                </div>*/}
-                {/*            </div>*/}
-                {/*        </AdminPanel>*/}
-
-                {/*        <AdminPanel*/}
-                {/*            id='team_groups'*/}
-                {/*            titleId={isModeSync ? t('admin.team_settings.team_detail.syncedGroupsTitle') : t('admin.team_settings.team_detail.groupsTitle')}*/}
-                {/*            titleDefault={isModeSync ? 'Synced Groups' : 'Groups'}*/}
-                {/*            subtitleId={isModeSync ? t('admin.team_settings.team_detail.syncedGroupsDescription') : t('admin.team_settings.team_detail.groupsDescription')}*/}
-                {/*            subtitleDefault={isModeSync ? 'Add and remove team members based on their group membership..' : 'Group members will be added to the team.'}*/}
-                {/*            button={*/}
-                {/*                <ToggleModalButton*/}
-                {/*                    className='btn btn-primary'*/}
-                {/*                    dialogType={AddGroupsToTeamModal}*/}
-                {/*                    dialogProps={{team}}*/}
-                {/*                >*/}
-                {/*                    <FormattedMessage*/}
-                {/*                        id='admin.team_settings.team_details.add_group'*/}
-                {/*                        defaultMessage='Add Group'*/}
-                {/*                    />*/}
-                {/*                </ToggleModalButton>}*/}
-                {/*        >*/}
-                {/*            <div className='group-teams-and-channels'>*/}
-                {/*                <div className='group-teams-and-channels-empty'>*/}
-                {/*                    <FormattedMessage*/}
-                {/*                        id={isModeSync ? t('admin.team_settings.team_details.no-synced-groups') : t('admin.team_settings.team_details.no-groups')}*/}
-                {/*                        defaultMessage={isModeSync ? 'At least one group must be specified' : 'No groups specified yet'}*/}
-                {/*                    />*/}
-                {/*                </div>*/}
-                {/*            </div>*/}
-                {/*        </AdminPanel>*/}
-
-                {/*    </div>*/}
-                {/*</div>*/}
 
                 <div className='admin-console-save'>
                     <SaveButton
@@ -226,7 +103,7 @@ class ChannelDetails extends React.Component {
                     />
                     <BlockableLink
                         className='cancel-button'
-                        to='/admin_console/user_management/teams'
+                        to='/admin_console/user_management/channels'
                     >
                         <FormattedMessage
                             id='admin.team_settings.team_detail.cancel'
@@ -256,7 +133,7 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getTeam: fetchChannel,
+            getChannel: fetchChannel,
             setNavigationBlocked,
         }, dispatch),
     };

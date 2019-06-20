@@ -7,24 +7,20 @@ import {FormattedMessage} from 'react-intl';
 import AbstractList from 'components/admin_console/team_channel_settings/list/abstract_list.jsx';
 import {browserHistory} from 'utils/browser_history';
 
+import ChannelRow from './channel_row';
+
 export default class TeamList extends AbstractList {
-    /*
-     <TeamRow
-                key={item.id}
-                id={item.id}
-                name={item.name}
-                onRowClick={this.onTeamClick}
-                onCheckToggle={this.onCheckToggle}
-                groupConstrained={item.group_constrained}
-            />
-     */
     renderRow = (item) => {
         return (
-            <div>channel row</div>
+            <ChannelRow
+                key={item.id}
+                channel={item}
+                onRowClick={this.onChannelClick}
+            />
         );
     }
 
-    onTeamClick = (id) => {
+    onChannelClick = (id) => {
         browserHistory.push(`/admin_console/user_management/channels/${id}`);
     }
 

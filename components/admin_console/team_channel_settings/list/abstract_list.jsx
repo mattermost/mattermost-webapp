@@ -8,9 +8,9 @@ import {FormattedMessage} from 'react-intl';
 import NextIcon from 'components/icon/next_icon';
 import PreviousIcon from 'components/icon/previous_icon';
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 5;
 
-export default class TeamList extends React.PureComponent {
+export default class List extends React.PureComponent {
     static propTypes = {
         data: PropTypes.arrayOf(PropTypes.object),
         onPageChangedCallback: PropTypes.func.isRequired,
