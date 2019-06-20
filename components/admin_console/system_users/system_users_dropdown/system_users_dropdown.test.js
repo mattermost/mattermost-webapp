@@ -10,6 +10,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
     const user = {
         id: 'user_id',
         roles: '',
+        username: 'some-user',
     };
 
     const requiredProps = {
@@ -30,7 +31,12 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         actions: {
             updateUserActive: jest.fn().mockResolvedValue({data: true}),
             revokeAllSessionsForUser: jest.fn().mockResolvedValue({data: true}),
+            loadBots: jest.fn(() => Promise.resolve({})),
         },
+        config: {
+            ServiceSettings: {},
+        },
+        bots: {},
     };
 
     test('handleMakeActive() should have called updateUserActive', async () => {
@@ -95,5 +101,66 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         await wrapper.instance().handleRevokeSessions();
 
         expect(onError).toHaveBeenCalled();
+    });
+
+    test('handleShowDeactivateMemberModal should not call the loadBots if the setting is not true', async () => {
+        const wrapper = shallow(<SystemUsersDropdown {...requiredProps}/>);
+
+        const event = {preventDefault: jest.fn()};
+        await wrapper.instance().handleShowDeactivateMemberModal(event);
+
+        expect(requiredProps.actions.loadBots).toHaveBeenCalledTimes(0);
+    });
+
+    test('handleShowDeactivateMemberModal should call the loadBots only if the setting is true', async () => {
+        const overrideConfig = {
+            ServiceSettings: {
+                DisableBotsWhenOwnerIsDeactivated: true,
+            },
+        };
+        const wrapper = shallow(<SystemUsersDropdown {...{...requiredProps, config: overrideConfig, bots: { }}}/>);
+
+        const event = {preventDefault: jest.fn()};
+        await wrapper.instance().handleShowDeactivateMemberModal(event);
+
+        expect(requiredProps.actions.loadBots).toHaveBeenCalledTimes(1);
+    });
+
+    test('renderDeactivateMemberModal should not render the bot accounts warning in case the user do not have any bot accounts', async () => {
+        const overrideProps = {
+            config: {
+                ServiceSettings: {
+                    DisableBotsWhenOwnerIsDeactivated: true,
+                },
+            },
+            bots: {
+                1: {owner_id: '1'},
+                2: {owner_id: '1'},
+                3: {owner_id: '2'},
+            },
+        };
+        const wrapper = shallow(<SystemUsersDropdown {...{...requiredProps, ...overrideProps}}/>);
+
+        const modal = wrapper.wrap(wrapper.instance().renderDeactivateMemberModal());
+        expect(modal.prop('message')).toMatchSnapshot();
+    });
+
+    test('renderDeactivateMemberModal should render the bot accounts warning in case the user do has any bot accounts', async () => {
+        const overrideProps = {
+            config: {
+                ServiceSettings: {
+                    DisableBotsWhenOwnerIsDeactivated: true,
+                },
+            },
+            bots: {
+                1: {owner_id: '1'},
+                2: {owner_id: '1'},
+                3: {owner_id: 'user_id'},
+            },
+        };
+        const wrapper = shallow(<SystemUsersDropdown {...{...requiredProps, ...overrideProps}}/>);
+
+        const modal = wrapper.wrap(wrapper.instance().renderDeactivateMemberModal());
+        expect(modal.prop('message')).toMatchSnapshot();
     });
 });

@@ -4,12 +4,12 @@
     align-items: center;
 
     .header__info {
-        @include clearfix;
         @include flex-grow(1);
         color: $white;
         padding: 3px 15px 0 8px;
         position: relative;
         width: 100%;
+
         .team__name {
             font-size: 14px;
             font-weight: 600;
@@ -19,6 +19,7 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
         .user__name {
             font-weight: 400;
         }

@@ -8,6 +8,7 @@ import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {adminResetMfa} from 'actions/admin_actions.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -79,7 +80,11 @@ export default class SystemUsersDropdown extends React.PureComponent {
         actions: PropTypes.shape({
             updateUserActive: PropTypes.func.isRequired,
             revokeAllSessionsForUser: PropTypes.func.isRequired,
+            loadBots: PropTypes.func.isRequired,
         }).isRequired,
+        config: PropTypes.object.isRequired,
+        bots: PropTypes.object.isRequired,
+
     };
 
     constructor(props) {
@@ -132,9 +137,17 @@ export default class SystemUsersDropdown extends React.PureComponent {
         adminResetMfa(this.props.user.id, null, this.props.onError);
     }
 
-    handleShowDeactivateMemberModal = (e) => {
+    handleShowDeactivateMemberModal = async (e) => {
         e.preventDefault();
-        this.setState({showDeactivateMemberModal: true});
+        if (this.shouldDisableBotsWhenOwnerIsDeactivated()) {
+            const {data} = await this.props.actions.loadBots(
+                Constants.Integrations.START_PAGE_NUM,
+                Constants.Integrations.PAGE_SIZE
+            );
+            if (data) {
+                this.setState({loading: false, showDeactivateMemberModal: true});
+            }
+        }
     }
 
     handleDeactivateMember = () => {
@@ -155,7 +168,6 @@ export default class SystemUsersDropdown extends React.PureComponent {
 
     renderDeactivateMemberModal = () => {
         const user = this.props.user;
-
         const title = (
             <FormattedMessage
                 id='deactivate_member_modal.title'
@@ -165,6 +177,15 @@ export default class SystemUsersDropdown extends React.PureComponent {
                 }}
             />
         );
+
+        const defaultMessage = (
+            <FormattedMarkdownMessage
+                id='deactivate_member_modal.desc'
+                defaultMessage='This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system.\n'
+                values={{
+                    username: user.username,
+                }}
+            />);
 
         let warning;
         if (user.auth_service !== '' && user.auth_service !== Constants.EMAIL_SERVICE) {
@@ -180,15 +201,35 @@ export default class SystemUsersDropdown extends React.PureComponent {
             );
         }
 
+        const confirmationMessage = (
+            <FormattedMarkdownMessage
+                id='deactivate_member_modal.desc.confirm'
+                defaultMessage='Are you sure you want to deactivate {username}?'
+                values={{
+                    username: user.username,
+                }}
+            />);
+        let messageForUsersWithBotAccounts;
+        if (this.shouldDisableBotsWhenOwnerIsDeactivated()) {
+            for (const bot of Object.values(this.props.bots)) {
+                if (bot.owner_id === user.id) {
+                    messageForUsersWithBotAccounts = (
+                        <FormattedMarkdownMessage
+                            id='deactivate_member_modal.desc.for_users_with_bot_accounts'
+                            defaultMessage='This action deactivates {username}.\n \n * They will be logged out and not have access to any teams or channels on this system.\n * Bot accounts they manage will be disabled along with their integrations. To enable them again, go to Integrations > Bot Accounts. [Learn more about bot accounts](!https://mattermost.com/pl/default-bot-accounts).\n \n \n'
+                            values={{
+                                username: user.username,
+                            }}
+                        />);
+                    break;
+                }
+            }
+        }
+
         const message = (
             <div>
-                <FormattedMessage
-                    id='deactivate_member_modal.desc'
-                    defaultMessage='This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate {username}?'
-                    values={{
-                        username: user.username,
-                    }}
-                />
+                {messageForUsersWithBotAccounts || defaultMessage}
+                {confirmationMessage}
                 {warning}
             </div>
         );
@@ -212,6 +253,12 @@ export default class SystemUsersDropdown extends React.PureComponent {
                 onCancel={this.handleDeactivateCancel}
             />
         );
+    }
+
+    shouldDisableBotsWhenOwnerIsDeactivated() {
+        return this.props.config &&
+            this.props.config.ServiceSettings &&
+            this.props.config.ServiceSettings.DisableBotsWhenOwnerIsDeactivated;
     }
 
     handleShowRevokeSessionsModal = (e) => {
