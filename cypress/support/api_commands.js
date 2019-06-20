@@ -50,7 +50,7 @@ Cypress.Commands.add('apiLogout', () => {
     });
 
     ['MMAUTHTOKEN', 'MMUSERID', 'MMCSRF'].forEach((cookie) => {
-        cy.clearCookie(cookie, {log: false});
+        cy.clearCookie(cookie);
     });
 
     cy.getCookies({log: false}).should('be.empty');
