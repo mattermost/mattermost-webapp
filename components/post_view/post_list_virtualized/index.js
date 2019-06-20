@@ -40,7 +40,6 @@ function makeMapStateToProps() {
         return {
             postListIds: postIds,
             latestPostTimeStamp,
-            lastViewedAt,
         };
     };
 }

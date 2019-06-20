@@ -26,12 +26,11 @@ describe('PostList', () => {
         ],
         latestPostTimeStamp: 12345,
         postVisibility: 10,
-        lastViewedAt: 12343,
         actions: {
             checkAndSetMobileView: jest.fn(),
             increasePostVisibility: jest.fn(),
             loadInitialPosts: jest.fn(() => ({posts: {posts: {}, order: []}, hasMoreBefore: false})),
-            getPostsSince: jest.fn(),
+            syncPostsInChannel: jest.fn(),
         },
     };
 
@@ -449,7 +448,7 @@ describe('PostList', () => {
     describe('getPostsSince', () => {
         test('should call getPostsSince on channel switch', () => {
             shallow(<PostList {...baseProps}/>);
-            expect(baseProps.actions.getPostsSince).toHaveBeenCalledWith(baseProps.channel.id, baseProps.lastViewedAt);
+            expect(baseProps.actions.syncPostsInChannel).toHaveBeenCalledWith(baseProps.channel.id, baseProps.latestPostTimeStamp);
         });
     });
 });

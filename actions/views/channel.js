@@ -16,6 +16,8 @@ import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {getLastViewedChannelName} from 'selectors/local_storage';
+import {getLastPostsApiTimeForChannel} from 'selectors/views/channel';
+import {getSocketStatus} from 'selectors/views/websocket';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ActionTypes, EventTypes} from 'utils/constants.jsx';
@@ -133,7 +135,7 @@ export function loadInitialPosts(channelId, focusedPostId) {
         let posts;
         let hasMoreBefore = false;
         let hasMoreAfter = false;
-
+        const time = Date.now();
         if (focusedPostId) {
             const result = await dispatch(PostActions.getPostsAround(channelId, focusedPostId, Posts.POST_CHUNK_SIZE / 2));
 
@@ -155,6 +157,14 @@ export function loadInitialPosts(channelId, focusedPostId) {
             if (posts) {
                 hasMoreBefore = posts && posts.order.length >= Posts.POST_CHUNK_SIZE / 2;
             }
+        }
+
+        if (posts) {
+            dispatch({
+                type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
+                channelId,
+                time,
+            });
         }
 
         return {
@@ -183,22 +193,30 @@ export function increasePostVisibility(channelId, beforePostId) {
             data: true,
             channelId,
         });
-
+        const time = Date.now();
         const result = await dispatch(PostActions.getPostsBefore(channelId, beforePostId, 0, Posts.POST_CHUNK_SIZE / 2));
         const posts = result.data;
 
-        const actions = [{
+        let actions = [{
             type: ActionTypes.LOADING_POSTS,
             data: false,
             channelId,
         }];
 
         if (posts) {
-            actions.push({
-                type: ActionTypes.INCREASE_POST_VISIBILITY,
-                data: channelId,
-                amount: posts.order.length,
-            });
+            actions = [
+                ...actions,
+                {
+                    type: ActionTypes.INCREASE_POST_VISIBILITY,
+                    data: channelId,
+                    amount: posts.order.length,
+                },
+                {
+                    type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
+                    channelId,
+                    time,
+                },
+            ];
         }
 
         dispatch(batchActions(actions));
@@ -207,6 +225,30 @@ export function increasePostVisibility(channelId, beforePostId) {
             moreToLoad: posts ? posts.order.length >= Posts.POST_CHUNK_SIZE / 2 : false,
             error: result.error,
         };
+    };
+}
+
+export function syncPostsInChannel(channelId, since) {
+    return async (dispatch, getState) => {
+        const time = Date.now();
+        const state = getState();
+        const socketStatus = getSocketStatus(state);
+        let sinceTimeToGetPosts = since;
+        const lastPostsApiCallForChannel = getLastPostsApiTimeForChannel(state, channelId);
+
+        if (lastPostsApiCallForChannel && lastPostsApiCallForChannel < socketStatus.lastDisconnectAt) {
+            sinceTimeToGetPosts = lastPostsApiCallForChannel;
+        }
+
+        const {data, error} = await dispatch(PostActions.getPostsSince(channelId, sinceTimeToGetPosts));
+        if (data) {
+            dispatch({
+                type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
+                channelId,
+                time,
+            });
+        }
+        return {data, error};
     };
 }
 

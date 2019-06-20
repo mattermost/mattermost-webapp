@@ -4,12 +4,12 @@
 import {
     getProfilesAndStatusesForPosts,
     receivedNewPost,
-    getPostsSince,
 } from 'mattermost-redux/actions/posts';
 import {UserTypes} from 'mattermost-redux/action_types';
 
 import {handleNewPost} from 'actions/post_actions';
 import {closeRightHandSide} from 'actions/views/rhs';
+import {syncPostsInChannel} from 'actions/views/channel';
 
 import store from 'stores/redux_store.jsx';
 
@@ -28,12 +28,16 @@ import {
 jest.mock('mattermost-redux/actions/posts', () => ({
     ...jest.requireActual('mattermost-redux/actions/posts'),
     getProfilesAndStatusesForPosts: jest.fn(),
-    getPostsSince: jest.fn(),
 }));
 
 jest.mock('actions/post_actions', () => ({
     ...jest.requireActual('actions/post_actions'),
     handleNewPost: jest.fn(() => ({type: 'HANDLE_NEW_POST'})),
+}));
+
+jest.mock('actions/views/channel', () => ({
+    ...jest.requireActual('actions/views/channel'),
+    syncPostsInChannel: jest.fn(),
 }));
 
 const mockState = {
@@ -213,8 +217,8 @@ describe('handleNewPostEvents', () => {
 });
 
 describe('reconnect', () => {
-    test('should call getPostsSince when socket reconnects', () => {
+    test('should call syncPostsInChannel when socket reconnects', () => {
         reconnect(false);
-        expect(getPostsSince).toHaveBeenCalledWith('otherChannel', '12345');
+        expect(syncPostsInChannel).toHaveBeenCalledWith('otherChannel', '12345');
     });
 });

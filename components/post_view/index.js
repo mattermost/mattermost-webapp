@@ -8,12 +8,12 @@ import {withRouter} from 'react-router-dom';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
-import {getPostsSince} from 'mattermost-redux/actions/posts';
 
 import {
     checkAndSetMobileView,
     increasePostVisibility,
     loadInitialPosts,
+    syncPostsInChannel,
 } from 'actions/views/channel';
 import {Constants} from 'utils/constants.jsx';
 import {disableVirtList} from 'utils/utils.jsx';
@@ -78,7 +78,7 @@ function mapDispatchToProps(dispatch) {
             loadInitialPosts,
             increasePostVisibility,
             checkAndSetMobileView,
-            getPostsSince,
+            syncPostsInChannel,
         }, dispatch),
     };
 }
