@@ -277,7 +277,6 @@ export default class AddBot extends React.Component {
                 return;
             }
         } else {
-            const result = await this.props.actions.createBot(bot);
             const usernameError = Utils.isValidUsername(bot.username);
             if (usernameError) {
                 this.setState({
@@ -285,7 +284,10 @@ export default class AddBot extends React.Component {
                     error: usernameError,
                 });
                 return;
-            } else if (result) {
+            }
+
+            const result = await this.props.actions.createBot(bot);
+            if (result) {
                 data = result.data;
                 error = result.error;
             } else {
