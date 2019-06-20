@@ -129,7 +129,8 @@ function lastGetPosts(state = {}, action) {
             ...state,
             [action.channelId]: action.time,
         };
-
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
