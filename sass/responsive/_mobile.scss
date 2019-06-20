@@ -1578,6 +1578,15 @@
         }
     }
 
+    .app__body {
+        .MenuWrapper {
+            .MenuItem__divider {
+                margin: 0;
+                border: none;
+            }
+        }
+    }
+
     .filtered-user-list {
         height: calc(100vh - 80px);
     }
