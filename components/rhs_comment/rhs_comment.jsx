@@ -74,12 +74,10 @@ export default class RhsComment extends React.PureComponent {
         );
     };
 
-    renderPostTime = (isEphemeral) => {
+    renderPostTime = () => {
         const post = this.props.post;
 
-        const isPermalink = !(isEphemeral ||
-            Posts.POST_DELETED === post.state ||
-            isPostPendingOrFailed(post));
+        const isPermalink = !(Posts.POST_DELETED === post.state || isPostPendingOrFailed(post));
 
         return (
             <PostTime
@@ -159,6 +157,17 @@ export default class RhsComment extends React.PureComponent {
         let visibleMessage;
 
         let userProfile = null;
+        if (this.props.compactDisplay) {
+            userProfile = (
+                <UserProfile
+                    userId={post.user_id}
+                    isBusy={this.props.isBusy}
+                    isRHS={true}
+                    hasMention={true}
+                />
+            );
+        }
+
         if (!isConsecutivePost) {
             userProfile = (
                 <UserProfile
@@ -336,10 +345,7 @@ export default class RhsComment extends React.PureComponent {
                 />
             );
         }
-        let postTime = null;
-        if (!isConsecutivePost || this.state.hover || this.state.dropdownOpened || this.state.showEmojiPicker) {
-            postTime = this.renderPostTime(isEphemeral);
-        }
+        const postTime = this.renderPostTime();
 
         let postInfoIcon;
         if (post.props && post.props.card) {
