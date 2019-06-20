@@ -857,8 +857,7 @@
                     }
 
                     .flag-icon__container, .card-icon__container {
-                        left: 32px;
-                        margin-left: 7px;
+                        left: 37px;
                         position: absolute;
                         top: 6px;
                     }
@@ -1184,8 +1183,7 @@
             }
 
             .flag-icon__container, .card-icon__container {
-                left: 32px;
-                margin-left: 7px;
+                left: 37px;
                 position: absolute;
                 top: 6px;
             }
@@ -1729,6 +1727,7 @@
     .post__time {
         @include opacity(.6);
         font-size: .9em;
+        margin-right: 4px;
     }
 
     .post__permalink {
@@ -1874,7 +1873,6 @@
         display: inline-block;
         height: 15px;
         width: 15px;
-        margin-left: 4px;
         position: relative;
         top: 2px;
         vertical-align: top;
