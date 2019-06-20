@@ -361,6 +361,7 @@ if (DEV) {
     if (process.env.MM_LIVE_RELOAD) { //eslint-disable-line no-process-env
         config.plugins.push(new LiveReloadPlugin());
     }
+} else {
     env.NODE_ENV = JSON.stringify('production');
 }
 config.plugins.push(new webpack.DefinePlugin({
