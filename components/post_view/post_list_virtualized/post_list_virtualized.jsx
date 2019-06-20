@@ -515,7 +515,10 @@ export default class PostList extends React.PureComponent {
         }
 
         return (
-            <div id='post-list'>
+            <div
+                id='post-list'
+                aria-label={Utils.localizeMessage('accessibility.sections.centerContent', 'message list main region')}
+            >
                 {this.state.isMobile && (
                     <React.Fragment>
                         <FloatingTimestamp
@@ -532,17 +535,23 @@ export default class PostList extends React.PureComponent {
                 )}
                 {newMessagesBelow}
                 <div
+                    role='presentation'
                     className='post-list-holder-by-time'
                     key={'postlist-' + channel.id}
                 >
-                    <div className='post-list__table'>
+                    <div
+                        role='presentation'
+                        className='post-list__table'
+                    >
                         <div
+                            role='presentation'
                             id='postListContent'
                             className='post-list__content'
                         >
                             <AutoSizer>
                                 {({height, width}) => (
                                     <DynamicSizeList
+                                        role='presentation'
                                         ref={this.listRef}
                                         height={height}
                                         width={width}
