@@ -16,13 +16,13 @@ export default function(state = getInitialState(), action) {
         return {
             ...state,
             connected: true,
-            lastConnectAt: new Date().getTime(),
+            lastConnectAt: Date.now(),
         };
     } else if (state.connected && (action.type === GeneralTypes.WEBSOCKET_FAILURE || action.type === GeneralTypes.WEBSOCKET_CLOSED)) {
         return {
             ...state,
             connected: false,
-            lastDisconnectAt: new Date().getTime(),
+            lastDisconnectAt: Date.now(),
         };
     }
 

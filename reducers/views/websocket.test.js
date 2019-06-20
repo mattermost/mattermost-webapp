@@ -5,17 +5,6 @@ import {GeneralTypes, UserTypes} from 'mattermost-redux/action_types';
 import websocketReducer from 'reducers/views/websocket';
 
 describe('Reducers.Channel', () => {
-    const constantDate = new Date('2018-01-01T12:00:00');
-
-    beforeAll(() => {
-        global.Date = class extends Date {
-            constructor() {
-                super();
-                return constantDate;
-            }
-        };
-    });
-
     const initialState = {
         connected: false,
         lastConnectAt: 0,
@@ -28,22 +17,24 @@ describe('Reducers.Channel', () => {
     });
 
     test('websocket success should have connected flag true and timestamp saved', () => {
+        Date.now = jest.fn().mockReturnValue(12344);
         const nextState = websocketReducer(initialState, {type: GeneralTypes.WEBSOCKET_SUCCESS});
 
         expect(nextState).toEqual({
             ...initialState,
             connected: true,
-            lastConnectAt: 1514788200000,
+            lastConnectAt: 12344,
         });
     });
 
     test('websocket success should have connected flag false and timestamp saved', () => {
+        Date.now = jest.fn().mockReturnValue(12344);
         const nextState = websocketReducer({...initialState, connected: true}, {type: GeneralTypes.WEBSOCKET_FAILURE});
 
         expect(nextState).toEqual({
             ...initialState,
             connected: false,
-            lastDisconnectAt: 1514788200000,
+            lastDisconnectAt: 12344,
         });
     });
 
