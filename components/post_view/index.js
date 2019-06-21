@@ -13,6 +13,7 @@ import {
     checkAndSetMobileView,
     increasePostVisibility,
     loadInitialPosts,
+    syncPostsInChannel,
 } from 'actions/views/channel';
 import {Constants} from 'utils/constants.jsx';
 import {disableVirtList} from 'utils/utils.jsx';
@@ -77,6 +78,7 @@ function mapDispatchToProps(dispatch) {
             loadInitialPosts,
             increasePostVisibility,
             checkAndSetMobileView,
+            syncPostsInChannel,
         }, dispatch),
     };
 }
