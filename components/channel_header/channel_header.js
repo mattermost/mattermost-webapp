@@ -420,6 +420,8 @@ export default class ChannelHeader extends React.PureComponent {
 
         let toggleFavoriteTooltip;
         let toggleFavorite = null;
+        let ariaLabel = '';
+
         if (!channelIsArchived) {
             if (isFavorite) {
                 toggleFavoriteTooltip = (
@@ -430,6 +432,7 @@ export default class ChannelHeader extends React.PureComponent {
                         />
                     </Tooltip>
                 );
+                ariaLabel = formatMessage({id: 'channelHeader.removeFromFavorites', defaultMessage: 'Remove from Favorites'}).toLowerCase();
             } else {
                 toggleFavoriteTooltip = (
                     <Tooltip id='favoriteTooltip'>
@@ -439,6 +442,7 @@ export default class ChannelHeader extends React.PureComponent {
                         />
                     </Tooltip>
                 );
+                ariaLabel = formatMessage({id: 'channelHeader.addToFavorites', defaultMessage: 'Add to Favorites'}).toLowerCase();
             }
 
             toggleFavorite = (
@@ -452,6 +456,7 @@ export default class ChannelHeader extends React.PureComponent {
                         id='toggleFavorite'
                         onClick={this.toggleFavorite}
                         className={'style--none color--link channel-header__favorites ' + (this.props.isFavorite ? 'active' : 'inactive')}
+                        aria-label={ariaLabel}
                     >
                         <i className={'icon fa ' + (this.props.isFavorite ? 'fa-star' : 'fa-star-o')}/>
                     </button>
@@ -501,20 +506,25 @@ export default class ChannelHeader extends React.PureComponent {
                     className='channel-header__top'
                 >
                     {toggleFavorite}
-                    <strong
-                        id='channelHeaderTitle'
-                        className='heading'
+                    <button
+                        className='channel-header__trigger style--none'
+                        aria-label={formatMessage({id: 'channel_header.menuAriaLabel', defaultMessage: 'Channel Menu'}).toLowerCase()}
                     >
-                        <span>
-                            {archivedIcon}
-                            {channelTitle}
-                        </span>
-                    </strong>
-                    <span
-                        id='channelHeaderDropdownIcon'
-                        className='fa fa-angle-down header-dropdown__icon'
-                        aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'})}
-                    />
+                        <strong
+                            id='channelHeaderTitle'
+                            className='heading'
+                        >
+                            <span>
+                                {archivedIcon}
+                                {channelTitle}
+                            </span>
+                        </strong>
+                        <span
+                            id='channelHeaderDropdownIcon'
+                            className='fa fa-angle-down header-dropdown__icon'
+                            aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'}).toLowerCase()}
+                        />
+                    </button>
                 </div>
                 <ChannelHeaderDropdown/>
             </MenuWrapper>
@@ -543,9 +553,17 @@ export default class ChannelHeader extends React.PureComponent {
         return (
             <div
                 id='channel-header'
+                aria-labelledby='channel_header_aria_label'
+                tabIndex='-1'
                 data-channelid={`${channel.id}`}
                 className='channel-header alt'
             >
+                <h1
+                    id='channel_header_aria_label'
+                    className='hidden-label'
+                >
+                    {Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region')}
+                </h1>
                 <div className='flex-parent'>
                     <div className='flex-child'>
                         <div

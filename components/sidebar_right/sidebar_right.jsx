@@ -15,6 +15,8 @@ import RhsCard from 'components/rhs_card';
 import SearchBar from 'components/search_bar';
 import SearchResults from 'components/search_results';
 
+import RhsPlugin from 'plugins/rhs_plugin';
+
 export default class SidebarRight extends React.PureComponent {
     static propTypes = {
         isExpanded: PropTypes.bool.isRequired,
@@ -27,6 +29,7 @@ export default class SidebarRight extends React.PureComponent {
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
         isPinnedPosts: PropTypes.bool,
+        isPluginView: PropTypes.bool,
         previousRhsState: PropTypes.string,
         actions: PropTypes.shape({
             setRhsExpanded: PropTypes.func.isRequired,
@@ -67,6 +70,7 @@ export default class SidebarRight extends React.PureComponent {
             postCardVisible,
             previousRhsState,
             searchVisible,
+            isPluginView,
         } = this.props;
 
         let content = null;
@@ -115,6 +119,13 @@ export default class SidebarRight extends React.PureComponent {
                         toggleSize={this.toggleSize}
                         shrink={this.onShrink}
                     />
+                </div>
+            );
+        } else if (isPluginView) {
+            content = (
+                <div className='post-right__container'>
+                    <div className='search-bar__container channel-header alt'>{searchForm}</div>
+                    <RhsPlugin/>
                 </div>
             );
         } else if (postCardVisible) {

@@ -211,13 +211,13 @@ function autolinkChannelMentions(text, tokens, channelNamesMap, team) {
         return alias;
     }
 
-    function replaceChannelMentionWithToken(fullMatch, spacer, mention, channelName) {
+    function replaceChannelMentionWithToken(fullMatch, mention, channelName) {
         let channelNameLower = channelName.toLowerCase();
 
         if (channelMentionExists(channelNameLower)) {
             // Exact match
             const alias = addToken(channelNameLower, mention, escapeHtml(channelNamesMap[channelNameLower].display_name));
-            return spacer + alias;
+            return alias;
         }
 
         // Not an exact match, attempt to truncate any punctuation to see if we can find a channel
@@ -231,7 +231,7 @@ function autolinkChannelMentions(text, tokens, channelNamesMap, team) {
                     const suffix = originalChannelName.substr(c - 1);
                     const alias = addToken(channelNameLower, '~' + channelNameLower,
                         escapeHtml(channelNamesMap[channelNameLower].display_name));
-                    return spacer + alias + suffix;
+                    return alias + suffix;
                 }
             } else {
                 // If the last character is not punctuation, no point in going any further
@@ -243,7 +243,7 @@ function autolinkChannelMentions(text, tokens, channelNamesMap, team) {
     }
 
     let output = text;
-    output = output.replace(/(^|\s)(~([a-z0-9.\-_]*))/gi, replaceChannelMentionWithToken);
+    output = output.replace(/\B(~([a-z0-9.\-_]*))/gi, replaceChannelMentionWithToken);
 
     return output;
 }
