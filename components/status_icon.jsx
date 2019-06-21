@@ -15,6 +15,7 @@ import StatusOnlineIcon from 'components/svg/status_online_icon';
 
 export default class StatusIcon extends React.PureComponent {
     static propTypes = {
+        button: PropTypes.bool,
         status: PropTypes.string,
         className: PropTypes.string,
         type: PropTypes.string,
@@ -22,16 +23,21 @@ export default class StatusIcon extends React.PureComponent {
 
     static defaultProps = {
         className: '',
+        button: false,
     };
 
     render() {
-        const {status, type} = this.props;
+        const {button, status, type} = this.props;
 
         if (!status) {
             return null;
         }
 
-        const className = 'status ' + this.props.className;
+        let className = 'status ' + this.props.className;
+
+        if (button) {
+            className = this.props.className;
+        }
 
         let IconComponent = 'span';
         if (type === 'avatar') {

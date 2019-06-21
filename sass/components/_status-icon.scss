@@ -6,6 +6,51 @@
     position: relative;
     align-self: center;
 
+    .sidebar--left & {
+        height: 36px;
+        width: 36px;
+
+        .status {
+            bottom: -5px;
+            height: 19px;
+            right: -6px;
+            width: 19px;
+
+            &.status-edit {
+                .fa {
+                    top: 4px;
+                }
+            }
+
+            .fa {
+                position: relative;
+                top: 2px;
+            }
+
+            .icon__container {
+                &:after {
+                    border-radius: 20px;
+                    content: '';
+                    height: 10px;
+                    left: 4px;
+                    position: absolute;
+                    top: 4px;
+                    width: 10px;
+                }
+            }
+
+            svg {
+                height: 13px;
+                left: 0;
+                max-height: initial;
+                position: relative;
+                top: 0;
+                width: 13px;
+                z-index: 1;
+            }
+        }
+    }
+
     .status {
         border-radius: 100px;
         bottom: -4px;
@@ -40,16 +85,19 @@
     }
 }
 
-.status-selector:hover > .status {
+.status-selector:hover>.status {
     display: none;
 }
-.status-selector > .status {
+
+.status-selector>.status {
     display: inherit;
 }
-.status-selector > .status-edit {
+
+.status-selector>.status-edit {
     display: none;
 }
-.status-selector:hover > .status-edit {
+
+.status-selector:hover>.status-edit {
     display: inherit;
 }
 

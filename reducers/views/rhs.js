@@ -101,6 +101,18 @@ function searchTerms(state = '', action) {
     }
 }
 
+function pluginId(state = '', action) {
+    switch (action.type) {
+    case ActionTypes.UPDATE_RHS_STATE:
+        if (action.state === RHSStates.PLUGIN) {
+            return action.pluginId;
+        }
+        return '';
+    default:
+        return state;
+    }
+}
+
 function searchResultsTerms(state = '', action) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS:
@@ -211,6 +223,7 @@ export default combineReducers({
     rhsState,
     searchTerms,
     searchResultsTerms,
+    pluginId,
     isSearchingFlaggedPost,
     isSearchingPinnedPost,
     isSidebarOpen,

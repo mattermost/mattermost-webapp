@@ -12,7 +12,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     const userid2 = {id: 'userid2', username: 'user2', first_name: 'd', last_name: 'e', nickname: 'f'};
     const userid4 = {id: 'userid4', username: 'user4', first_name: 'X', last_name: 'Y', nickname: 'Z'};
     const userid5 = {id: 'userid5', username: 'user5', first_name: 'out', last_name: 'out', nickname: 'out'};
-    const userid6 = {id: 'userid6', username: 'user.six-split', first_name: 'out', last_name: 'out', nickname: 'out'};
+    const userid6 = {id: 'userid6', username: 'user.six-split', first_name: 'out Junior', last_name: 'out', nickname: 'out'};
 
     const baseParams = {
         currentUserId: 'userid1',
@@ -372,6 +372,108 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 resolve({data: {
                     users: [userid4],
                     out_of_channel: [userid5, userid6],
+                }});
+            })),
+        };
+
+        const provider = new AtMentionProvider(params);
+        const resultCallback = jest.fn();
+        expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
+
+        expect(resultCallback).toHaveBeenNthCalledWith(1, {
+            matchedPretext,
+            terms: [],
+            items: [],
+            component: AtMentionSuggestion,
+        });
+
+        jest.runAllTimers();
+
+        expect(resultCallback).toHaveBeenNthCalledWith(2, {
+            matchedPretext,
+            terms: [
+                '',
+            ],
+            items: [
+                {type: Constants.MENTION_MORE_MEMBERS, loading: true},
+            ],
+            component: AtMentionSuggestion,
+        });
+
+        await Promise.resolve().then(() => {
+            expect(resultCallback).toHaveBeenNthCalledWith(3, {
+                matchedPretext,
+                terms: [
+                    '@user.six-split',
+                ],
+                items: [
+                    {type: Constants.MENTION_NONMEMBERS, ...userid6},
+                ],
+                component: AtMentionSuggestion,
+            });
+        });
+    });
+
+    it('should suggest for username match "@-split"', async () => {
+        const pretext = '@-split';
+        const matchedPretext = '@-split';
+        const params = {
+            ...baseParams,
+            autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({data: {
+                    users: [],
+                    out_of_channel: [userid6],
+                }});
+            })),
+        };
+
+        const provider = new AtMentionProvider(params);
+        const resultCallback = jest.fn();
+        expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
+
+        expect(resultCallback).toHaveBeenNthCalledWith(1, {
+            matchedPretext,
+            terms: [],
+            items: [],
+            component: AtMentionSuggestion,
+        });
+
+        jest.runAllTimers();
+
+        expect(resultCallback).toHaveBeenNthCalledWith(2, {
+            matchedPretext,
+            terms: [
+                '',
+            ],
+            items: [
+                {type: Constants.MENTION_MORE_MEMBERS, loading: true},
+            ],
+            component: AtMentionSuggestion,
+        });
+
+        await Promise.resolve().then(() => {
+            expect(resultCallback).toHaveBeenNthCalledWith(3, {
+                matchedPretext,
+                terms: [
+                    '@user.six-split',
+                ],
+                items: [
+                    {type: Constants.MENTION_NONMEMBERS, ...userid6},
+                ],
+                component: AtMentionSuggestion,
+            });
+        });
+    });
+
+    it('should suggest for username match "@junior"', async () => {
+        const pretext = '@junior';
+        const matchedPretext = '@junior';
+        const params = {
+            ...baseParams,
+            autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({data: {
+                    users: [],
+                    out_of_channel: [userid6],
                 }});
             })),
         };

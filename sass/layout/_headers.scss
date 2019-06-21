@@ -14,6 +14,12 @@
         }
     }
 
+    .channel-header__trigger {
+        display: flex;
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
 
     .channel-header__favorites {
         float: left;
@@ -269,6 +275,7 @@
 
 .channel-header__top {
     display: flex;
+    min-width: 0;
 }
 
 .channel-header__info {
@@ -529,6 +536,18 @@
             }
         }
 
+        .d-flex {
+            width: 100%;
+
+            .MenuWrapper {
+                flex: auto;
+
+                &:first-child {
+                    flex: 0 0 36px;
+                }
+            }
+        }
+
         a {
             text-decoration: none;
             @include flex-grow(1);
@@ -612,7 +631,6 @@
         }
 
         .header__info {
-            @include clearfix;
             @include flex-grow(1);
             color: $white;
             padding: 2px 16px 0 8px;
