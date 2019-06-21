@@ -226,7 +226,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.elasticsearch.skipTLSVerificationDescription'
-                            defaultMessage="When true, the Elasticsearch connection will not validate the server's certificate."
+                            defaultMessage='When true, Mattermost will not require the Elasticsearch certificate to be signed by a trusted Certificate Authority.'
                         />
                     }
                     value={this.state.skipTLSVerification}
