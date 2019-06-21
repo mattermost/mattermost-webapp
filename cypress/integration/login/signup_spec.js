@@ -52,7 +52,7 @@ describe('Signup Email page', () => {
         cy.get('#password_label').should('contain', 'Choose your password');
         cy.get('#password').should('be.visible');
 
-        cy.get('#createAccountButton').should('be.visible');
+        cy.get('#createAccountButton').scrollIntoView().should('be.visible');
         cy.get('#createAccountButton').should('contain', 'Create Account');
 
         cy.get('#signup_agreement').should('contain', 'By proceeding to create your account and use Mattermost, you agree to our Terms of Service and Privacy Policy. If you do not agree, you cannot use Mattermost.');
@@ -62,7 +62,7 @@ describe('Signup Email page', () => {
 
     it('should match elements, footer', () => {
         // * Check elements in the footer
-        cy.get('#footer_section').should('be.visible');
+        cy.get('#footer_section').scrollIntoView().should('be.visible');
         cy.get('#company_name').should('contain', 'Mattermost');
         cy.get('#copyright').should('contain', '© 2015-');
         cy.get('#copyright').should('contain', 'Mattermost, Inc.');

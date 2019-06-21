@@ -71,9 +71,9 @@ describe('Markdown message', () => {
         const tests = [
             {name: 'Markdown - in-line images 1', fileKey: 'markdown_inline_images_1'},
             {name: 'Markdown - in-line images 2', fileKey: 'markdown_inline_images_2'},
-            {name: 'Markdown - in-line images 3', fileKey: 'markdown_inline_images_3'},
-            {name: 'Markdown - in-line images 4', fileKey: 'markdown_inline_images_4'},
-            {name: 'Markdown - in-line images 5', fileKey: 'markdown_inline_images_5'},
+            {name: 'Markdown - in-line images 3 (Gif)', fileKey: 'markdown_inline_images_3'},
+            {name: 'Markdown - in-line images 4 (4k)', fileKey: 'markdown_inline_images_4'},
+            {name: 'Markdown - in-line images 5 (Panorama)', fileKey: 'markdown_inline_images_5'},
         ];
 
         tests.forEach((test) => {
