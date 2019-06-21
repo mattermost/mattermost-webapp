@@ -16,6 +16,8 @@ import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {getLastViewedChannelName} from 'selectors/local_storage';
+import {getLastPostsApiTimeForChannel} from 'selectors/views/channel';
+import {getSocketStatus} from 'selectors/views/websocket';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ActionTypes, EventTypes} from 'utils/constants.jsx';
@@ -133,7 +135,7 @@ export function loadInitialPosts(channelId, focusedPostId) {
         let posts;
         let hasMoreBefore = false;
         let hasMoreAfter = false;
-
+        const time = Date.now();
         if (focusedPostId) {
             const result = await dispatch(PostActions.getPostsAround(channelId, focusedPostId, Posts.POST_CHUNK_SIZE / 2));
 
@@ -155,6 +157,14 @@ export function loadInitialPosts(channelId, focusedPostId) {
             if (posts) {
                 hasMoreBefore = posts && posts.order.length >= Posts.POST_CHUNK_SIZE / 2;
             }
+        }
+
+        if (posts) {
+            dispatch({
+                type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
+                channelId,
+                time,
+            });
         }
 
         return {
@@ -207,6 +217,30 @@ export function increasePostVisibility(channelId, beforePostId) {
             moreToLoad: posts ? posts.order.length >= Posts.POST_CHUNK_SIZE / 2 : false,
             error: result.error,
         };
+    };
+}
+
+export function syncPostsInChannel(channelId, since) {
+    return async (dispatch, getState) => {
+        const time = Date.now();
+        const state = getState();
+        const socketStatus = getSocketStatus(state);
+        let sinceTimeToGetPosts = since;
+        const lastPostsApiCallForChannel = getLastPostsApiTimeForChannel(state, channelId);
+
+        if (lastPostsApiCallForChannel && lastPostsApiCallForChannel < socketStatus.lastDisconnectAt) {
+            sinceTimeToGetPosts = lastPostsApiCallForChannel;
+        }
+
+        const {data, error} = await dispatch(PostActions.getPostsSince(channelId, sinceTimeToGetPosts));
+        if (data) {
+            dispatch({
+                type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
+                channelId,
+                time,
+            });
+        }
+        return {data, error};
     };
 }
 
