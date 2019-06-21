@@ -4,12 +4,16 @@
 const postMessageAs = require('./post_message_as');
 const externalRequest = require('./external_request');
 const getRecentEmail = require('./get_recent_email');
+const getNonTeammates = require('./get_non_teammates');
+const postAddTeammates = require('./post_add_teammates');
 
 module.exports = (on) => {
     on('task', {
         postMessageAs,
         externalRequest,
         getRecentEmail,
+        getNonTeammates,
+        postAddTeammates,
     });
 
     on('before:browser:launch', (browser = {}, args) => {

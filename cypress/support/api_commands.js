@@ -177,6 +177,35 @@ Cypress.Commands.add('apiAddUserToTeam', (teamId, userId) => {
     });
 });
 
+/**
+ * Join teammates directly via API
+ * @param {String} teamId - The team GUID
+ * @param {Array} userIds - The user IDs to join
+ * All parameter required
+ */
+Cypress.Commands.add('postAddTeammates', (admin, teamId, userIds) => {
+    // The API errors when the list is more than 20 users, so do chunks.
+    const batchLimit = 60;
+    const batchChunk = 20;
+    let count = 0;
+    Cypress._.chunk(userIds, batchChunk).forEach((twenty) => {
+        if (count < batchLimit) {
+            // Send request on chunk
+            cy.task('postAddTeammates', {admin, teamId, userIds: twenty});
+            count += batchChunk;
+        } else {
+            // Make the remaining batch request. batch API call stops at 59, workaround by resorting to add-single-team
+            twenty.forEach((userId) => {
+                cy.apiAddUserToTeam(teamId, userId);
+            });
+        }
+    });
+});
+
+Cypress.Commands.add('getNonTeammates', (admin, teamId, grp = false, size = 60) => {
+    return cy.task('getNonTeammates', {admin, teamId, grp, size});
+});
+
 // *****************************************************************************
 // Preferences
 // https://api.mattermost.com/#tag/preferences
