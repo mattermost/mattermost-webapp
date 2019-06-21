@@ -6,7 +6,6 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
-import {hasReactions} from 'mattermost-redux/utils/post_utils';
 
 import Constants from 'utils/constants.jsx';
 import Reaction from 'components/post_view/reaction';
@@ -87,10 +86,6 @@ export default class ReactionList extends React.PureComponent {
     }
 
     render() {
-        if (!hasReactions(this.props.post)) {
-            return null;
-        }
-
         const reactionsByName = new Map();
         const emojiNames = [];
 
@@ -105,6 +100,10 @@ export default class ReactionList extends React.PureComponent {
                     reactionsByName.set(emojiName, [reaction]);
                 }
             }
+        }
+
+        if (reactionsByName.size === 0) {
+            return null;
         }
 
         const reactions = emojiNames.map((emojiName) => {
