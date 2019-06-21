@@ -2,18 +2,13 @@
 
 exports[`components/ChannelHeader should render archived view 1`] = `
 <div
-  aria-labelledby="channel_header_aria_label"
+  aria-label="channel header region"
   className="channel-header alt"
   data-channelid="channel_id"
   id="channel-header"
+  role="navigation"
   tabIndex="-1"
 >
-  <h1
-    className="hidden-label"
-    id="channel_header_aria_label"
-  >
-    channel header region
-  </h1>
   <div
     className="flex-parent"
   >
@@ -150,18 +145,13 @@ exports[`components/ChannelHeader should render archived view 1`] = `
 
 exports[`components/ChannelHeader should render correct menu when muted 1`] = `
 <div
-  aria-labelledby="channel_header_aria_label"
+  aria-label="channel header region"
   className="channel-header alt"
   data-channelid="channel_id"
   id="channel-header"
+  role="navigation"
   tabIndex="-1"
 >
-  <h1
-    className="hidden-label"
-    id="channel_header_aria_label"
-  >
-    channel header region
-  </h1>
   <div
     className="flex-parent"
   >
@@ -391,18 +381,13 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
 
 exports[`components/ChannelHeader should render properly when populated 1`] = `
 <div
-  aria-labelledby="channel_header_aria_label"
+  aria-label="channel header region"
   className="channel-header alt"
   data-channelid="channel_id"
   id="channel-header"
+  role="navigation"
   tabIndex="-1"
 >
-  <h1
-    className="hidden-label"
-    id="channel_header_aria_label"
-  >
-    channel header region
-  </h1>
   <div
     className="flex-parent"
   >
@@ -591,18 +576,13 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
 
 exports[`components/ChannelHeader should render properly when populated with channel props 1`] = `
 <div
-  aria-labelledby="channel_header_aria_label"
+  aria-label="channel header region"
   className="channel-header alt"
   data-channelid="channel_id"
   id="channel-header"
+  role="navigation"
   tabIndex="-1"
 >
-  <h1
-    className="hidden-label"
-    id="channel_header_aria_label"
-  >
-    channel header region
-  </h1>
   <div
     className="flex-parent"
   >
