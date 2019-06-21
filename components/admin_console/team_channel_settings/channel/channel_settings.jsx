@@ -10,10 +10,10 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {connect} from 'react-redux';
 
 import {t} from 'utils/i18n';
-import TeamList from 'components/admin_console/team_channel_settings/list/teams';
+import ChannelsList from 'components/admin_console/team_channel_settings/channel/channels';
 import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
 
-class TeamsSettings extends React.Component {
+class ChannelsSettings extends React.Component {
     static propTypes = {
         siteName: PropTypes.string.isRequired,
     };
@@ -36,8 +36,8 @@ class TeamsSettings extends React.Component {
             <div className='wrapper--fixed'>
                 <div className='admin-console__header'>
                     <FormattedMessage
-                        id='admin.team_settings.groupsPageTitle'
-                        defaultMessage='{siteName} Teams'
+                        id='admin.channel_settings.groupsPageTitle'
+                        defaultMessage='{siteName} Channels'
                         values={{siteName: this.props.siteName}}
                     />
                 </div>
@@ -45,14 +45,14 @@ class TeamsSettings extends React.Component {
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
                         <AdminPanel
-                            id='teams'
-                            titleId={t('admin.team_settings.title')}
-                            titleDefault='Teams'
-                            subtitleId={t('admin.team_settings.description')}
-                            subtitleDefault={'Showing {startCount, number} - {endCount, number} of {total, number} teams. Search for and [manage team settings](www.mattermost.com/pl/default-team-management.html ).'}
+                            id='channels'
+                            titleId={t('admin.channel_settings.title')}
+                            titleDefault='Channels'
+                            subtitleId={t('admin.channel_settings.description')}
+                            subtitleDefault={'Showing {startCount, number} - {endCount, number} of {total, number} channels. Search for and manage channel settings.'}
                             subtitleValues={{...this.state}}
                         >
-                            <TeamList onPageChangedCallback={this.onPageChangedCallback}/>
+                            <ChannelsList onPageChangedCallback={this.onPageChangedCallback}/>
                         </AdminPanel>
                     </div>
                 </div>
@@ -70,4 +70,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(TeamsSettings);
+export default connect(mapStateToProps)(ChannelsSettings);

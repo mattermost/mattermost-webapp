@@ -10,10 +10,10 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {connect} from 'react-redux';
 
 import {t} from 'utils/i18n';
-import ChannelsList from 'components/admin_console/team_channel_settings/list/channels';
+import TeamList from 'components/admin_console/team_channel_settings/team/teams';
 import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
 
-class ChannelsSettings extends React.Component {
+class TeamsSettings extends React.Component {
     static propTypes = {
         siteName: PropTypes.string.isRequired,
     };
@@ -36,8 +36,8 @@ class ChannelsSettings extends React.Component {
             <div className='wrapper--fixed'>
                 <div className='admin-console__header'>
                     <FormattedMessage
-                        id='admin.channel_settings.groupsPageTitle'
-                        defaultMessage='{siteName} Channels'
+                        id='admin.team_settings.groupsPageTitle'
+                        defaultMessage='{siteName} Teams'
                         values={{siteName: this.props.siteName}}
                     />
                 </div>
@@ -45,14 +45,14 @@ class ChannelsSettings extends React.Component {
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
                         <AdminPanel
-                            id='channels'
-                            titleId={t('admin.channel_settings.title')}
-                            titleDefault='Channels'
-                            subtitleId={t('admin.channel_settings.description')}
-                            subtitleDefault={'Showing {startCount, number} - {endCount, number} of {total, number} channels. Search for and [manage settings](www.mattermost.com).'}
+                            id='teams'
+                            titleId={t('admin.team_settings.title')}
+                            titleDefault='Teams'
+                            subtitleId={t('admin.team_settings.description')}
+                            subtitleDefault={'Showing {startCount, number} - {endCount, number} of {total, number} teams. Search for and [manage team settings](www.mattermost.com/pl/default-team-management.html ).'}
                             subtitleValues={{...this.state}}
                         >
-                            <ChannelsList onPageChangedCallback={this.onPageChangedCallback}/>
+                            <TeamList onPageChangedCallback={this.onPageChangedCallback}/>
                         </AdminPanel>
                     </div>
                 </div>
@@ -70,4 +70,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(ChannelsSettings);
+export default connect(mapStateToProps)(TeamsSettings);

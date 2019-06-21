@@ -4,8 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import TeamRow from 'components/admin_console/team_channel_settings/list/team_row.jsx';
-import AbstractList from 'components/admin_console/team_channel_settings/list/abstract_list.jsx';
+import TeamRow from 'components/admin_console/team_channel_settings/team/team_row.jsx';
+import AbstractList from 'components/admin_console/team_channel_settings/abstract_list.jsx';
 import {browserHistory} from 'utils/browser_history';
 
 export default class TeamList extends AbstractList {

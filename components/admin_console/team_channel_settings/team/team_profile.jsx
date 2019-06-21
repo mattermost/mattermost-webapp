@@ -11,7 +11,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 import * as Utils from 'utils/utils';
 
-import TeamImage from '../team_image.jsx';
+import TeamImage from './team_image.jsx';
 
 export function TeamProfile({team}) {
     const teamIconUrl = Utils.imageURLForTeam(team);

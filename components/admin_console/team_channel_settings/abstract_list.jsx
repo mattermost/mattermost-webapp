@@ -13,7 +13,8 @@ const PAGE_SIZE = 5;
 export default class List extends React.PureComponent {
     static propTypes = {
         data: PropTypes.arrayOf(PropTypes.object),
-        onPageChangedCallback: PropTypes.func.isRequired,
+        onPageChangedCallback: PropTypes.func,
+        total: PropTypes.number.isRequired,
         emptyListTextId: PropTypes.string.isRequired,
         emptyListTextDefaultMessage: PropTypes.string.isRequired,
         actions: PropTypes.shape({
@@ -80,7 +81,9 @@ export default class List extends React.PureComponent {
         this.setState(newState);
 
         this.props.actions.getData(page, PAGE_SIZE, {}).then(() => {
-            this.props.onPageChangedCallback(this.getPaging());
+            if (this.props.onPageChangedCallback) {
+                this.props.onPageChangedCallback(this.getPaging());
+            }
             this.setState({loading: false});
         });
     }
@@ -88,7 +91,7 @@ export default class List extends React.PureComponent {
     getPaging() {
         const startCount = (this.state.page * PAGE_SIZE) + 1;
         let endCount = (this.state.page * PAGE_SIZE) + PAGE_SIZE;
-        const total = this.props.data.length;
+        const total = this.props.total;
         if (endCount > total) {
             endCount = total;
         }

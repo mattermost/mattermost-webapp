@@ -6,6 +6,10 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
+import {Constants} from 'utils/constants';
+import GlobeIcon from 'components/svg/globe_icon';
+import LockIcon from 'components/svg/lock_icon';
+
 export default class ChannelRow extends React.Component {
     static propTypes = {
         channel: PropTypes.object.isRequired,
@@ -25,7 +29,8 @@ export default class ChannelRow extends React.Component {
             >
                 <div className='group-row'>
                     <span className='group-name'>
-                        {channel.display_name}
+                        {channel.type === Constants.PRIVATE_CHANNEL ? <LockIcon className='channel-icon channel-icon__lock'/> : <GlobeIcon className='channel-icon channel-icon__globe'/>}
+                        {channel.name}
                     </span>
                     <span className='group-description'>
                         <FormattedMessage

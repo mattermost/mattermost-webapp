@@ -20,6 +20,7 @@ const getSortedListOfTeams = createSelector(
 function mapStateToProps(state) {
     return {
         data: getSortedListOfTeams(state),
+        total: 100,
         emptyListTextId: t('admin.team_settings.team_list.no_teams_found'),
         emptyListTextDefaultMessage: 'No teams found',
     };

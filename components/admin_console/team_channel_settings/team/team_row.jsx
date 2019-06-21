@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
-import TeamImage from '../team_image.jsx';
+import TeamImage from './team_image.jsx';
 import * as Utils from 'utils/utils';
 
 export default class TeamRow extends React.Component {

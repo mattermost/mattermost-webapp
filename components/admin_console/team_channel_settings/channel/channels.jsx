@@ -10,16 +10,21 @@ import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 
 import {t} from 'utils/i18n';
 
+import {Constants} from 'utils/constants';
+
 import List from './channel_list.jsx';
 
 const getSortedListOfChannels = createSelector(
     getAllChannels,
-    (teams) => Object.values(teams).sort((a, b) => a.name.localeCompare(b.name))
+    (teams) => Object.values(teams).
+        filter((c) => c.type === Constants.OPEN_CHANNEL || c.type === Constants.PRIVATE_CHANNEL).
+        sort((a, b) => a.name.localeCompare(b.name))
 );
 
 function mapStateToProps(state) {
     return {
         data: getSortedListOfChannels(state),
+        total: 100,
         emptyListTextId: t('admin.team_settings.channel_list.no_channels_found'),
         emptyListTextDefaultMessage: 'No channels found',
     };

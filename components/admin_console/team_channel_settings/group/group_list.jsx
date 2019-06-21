@@ -4,24 +4,23 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import AbstractList from 'components/admin_console/team_channel_settings/list/abstract_list.jsx';
+import AbstractList from 'components/admin_console/team_channel_settings/abstract_list.jsx';
 import {browserHistory} from 'utils/browser_history';
 
-import ChannelRow from './channel_row';
+import GroupRow from './group_row';
 
 export default class TeamList extends AbstractList {
     renderRow = (item) => {
         return (
-            <ChannelRow
-                key={item.id}
-                channel={item}
-                onRowClick={this.onChannelClick}
+            <GroupRow
+                key={item.mattedmost_group_id}
+                group={item}
             />
         );
     }
 
-    onChannelClick = (id) => {
-        browserHistory.push(`/admin_console/user_management/channels/${id}`);
+    onTeamClick = (id) => {
+        browserHistory.push(`/admin_console/user_management/teams/${id}`);
     }
 
     renderHeader() {
@@ -29,14 +28,14 @@ export default class TeamList extends AbstractList {
             <div className='groups-list--header'>
                 <div className='group-name'>
                     <FormattedMessage
-                        id='admin.team_settings.team_list.nameHeader'
+                        id='admin.team_settings.group_list.nameHeader'
                         defaultMessage='Name'
                     />
                 </div>
                 <div className='group-description'>
                     <FormattedMessage
-                        id='admin.team_settings.team_list.mappingHeader'
-                        defaultMessage='Management'
+                        id='admin.team_settings.group_list.membersHeader'
+                        defaultMessage='Members'
                     />
                 </div>
                 <div className='group-actions'/>
