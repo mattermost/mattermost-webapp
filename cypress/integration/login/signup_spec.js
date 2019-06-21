@@ -18,7 +18,6 @@ describe('Signup Email page', () => {
         });
         cy.apiLogout();
 
-        // # Go to login page
         // # Go to signup email page
         cy.visit('/signup_email');
     });

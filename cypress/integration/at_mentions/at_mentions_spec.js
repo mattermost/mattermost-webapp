@@ -231,7 +231,7 @@ describe('at-mention', () => {
                 find(`[data-mention=${receiver.username}]`).
                 should('not.exist');
 
-            cy.get('#sidebarItem_saepe-5').scrollIntoView().click({force: true});
+            cy.get('#sidebarItem_saepe-5').click({force: true});
         });
     });
 });

@@ -385,5 +385,7 @@ Cypress.Commands.add('apiGetConfig', () => {
 // *****************************************************************************
 
 Cypress.Commands.add('postMessageAs', (sender, message, channelId, createAt = 0) => {
-    cy.task('postMessageAs', {sender, message, channelId, createAt});
+    cy.task('postMessageAs', {sender, message, channelId, createAt}).
+        its('status').
+        should('be.equal', 201);
 });
