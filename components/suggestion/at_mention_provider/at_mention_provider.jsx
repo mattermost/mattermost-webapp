@@ -58,18 +58,10 @@ export default class AtMentionProvider extends Provider {
             const usernameSuggestions = getSuggestionsSplitByMultiple(profile.username.toLowerCase(), Constants.AUTOCOMPLETE_SPLIT_CHARACTERS);
             profileSuggestions.push(...usernameSuggestions);
         }
-        if (profile.first_name) {
-            const firstNameSuggestions = getSuggestionsSplitBy(profile.first_name.toLowerCase(), ' ');
-            profileSuggestions.push(...firstNameSuggestions);
-        }
-        if (profile.last_name) {
-            const lastNameSuggestions = getSuggestionsSplitBy(profile.last_name.toLowerCase(), ' ');
-            profileSuggestions.push(...lastNameSuggestions);
-        }
-        if (profile.nickname) {
-            const nicknameSuggestions = getSuggestionsSplitBy(profile.nickname.toLowerCase(), ' ');
-            profileSuggestions.push(...nicknameSuggestions);
-        }
+        [profile.first_name, profile.last_name, profile.nickname].forEach((property) => {
+            const suggestions = getSuggestionsSplitBy(property.toLowerCase(), ' ');
+            profileSuggestions.push(...suggestions);
+        });
 
         return profileSuggestions;
     }
