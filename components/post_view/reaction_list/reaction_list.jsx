@@ -6,6 +6,7 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
+import {hasReactions} from 'mattermost-redux/utils/post_utils';
 
 import Constants from 'utils/constants.jsx';
 import Reaction from 'components/post_view/reaction';
@@ -86,7 +87,7 @@ export default class ReactionList extends React.PureComponent {
     }
 
     render() {
-        if (!this.props.post.has_reactions || !this.props.reactions) {
+        if (!hasReactions(this.props.post)) {
             return null;
         }
 
