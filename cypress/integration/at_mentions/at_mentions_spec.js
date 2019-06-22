@@ -230,6 +230,8 @@ describe('at-mention', () => {
             cy.get('@postMessageText').
                 find(`[data-mention=${receiver.username}]`).
                 should('not.exist');
+
+            cy.get('#sidebarItem_saepe-5').click({force: true});
         });
     });
 });

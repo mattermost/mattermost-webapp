@@ -17,7 +17,7 @@ describe('Account Settings > Display > Channel Display Mode', () => {
 
         // Post a message to a channel
         cy.visit('/');
-        cy.postMessage('Test for channel display mode {enter}');
+        cy.postMessage('Test for channel display mode');
     });
 
     beforeEach(() => {

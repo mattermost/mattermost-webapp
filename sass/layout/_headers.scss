@@ -536,6 +536,18 @@
             }
         }
 
+        .d-flex {
+            width: 100%;
+
+            .MenuWrapper {
+                flex: auto;
+
+                &:first-child {
+                    flex: 0 0 36px;
+                }
+            }
+        }
+
         a {
             text-decoration: none;
             @include flex-grow(1);

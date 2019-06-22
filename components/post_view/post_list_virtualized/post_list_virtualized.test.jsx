@@ -30,6 +30,7 @@ describe('PostList', () => {
             checkAndSetMobileView: jest.fn(),
             increasePostVisibility: jest.fn(),
             loadInitialPosts: jest.fn(() => ({posts: {posts: {}, order: []}, hasMoreBefore: false})),
+            syncPostsInChannel: jest.fn(),
         },
     };
 
@@ -441,6 +442,13 @@ describe('PostList', () => {
 
             instance.onItemsRendered({visibleStartIndex: 2});
             expect(wrapper.state('topPostId')).toBe('post3');
+        });
+    });
+
+    describe('getPostsSince', () => {
+        test('should call getPostsSince on channel switch', () => {
+            shallow(<PostList {...baseProps}/>);
+            expect(baseProps.actions.syncPostsInChannel).toHaveBeenCalledWith(baseProps.channel.id, baseProps.latestPostTimeStamp);
         });
     });
 });
