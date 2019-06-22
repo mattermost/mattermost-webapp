@@ -9,6 +9,15 @@
 
 /*eslint max-nested-callbacks: ["error", 5]*/
 
+function checkEmojiSize(message, emojis) {
+    emojis.forEach((emoji) => {
+        cy.get('@newLineMessage').
+            find('span[alt="' + emoji + '"]').
+            and('have.css', 'minHeight', '32px').
+            and('have.css', 'minWidth', '32px');
+    });
+}
+
 describe('Messaging', () => {
     before(() => {
         // # Login as "user-1" and go to /
@@ -17,8 +26,10 @@ describe('Messaging', () => {
     });
 
     it('M15381 - Whitespace with emojis does not affect size', () => {
+        const emojis = [':book:', ':key:', ':gem:'];
+
         // # Post a message beginning with a new line and followed by emojis
-        cy.postMessage('\n:book: :key: :gem:');
+        cy.postMessage('\n' + emojis.join(' '));
 
         // # Get last post message text
         cy.getLastPostId().then((postId) => {
@@ -30,26 +41,11 @@ describe('Messaging', () => {
             should('be.visible').
             and('not.contain', '\n');
 
-        // * Verify book emoticon size
-        cy.get('@newLineMessage').
-            find('span[alt=":book:"]').
-            and('have.css', 'minHeight', '32px').
-            and('have.css', 'minWidth', '32px');
-
-        // * Verify key emoticon size
-        cy.get('@newLineMessage').
-            find('span[alt=":key:"]').
-            and('have.css', 'minHeight', '32px').
-            and('have.css', 'minWidth', '32px');
-
-        // * Verify gem emoticon size
-        cy.get('@newLineMessage').
-            find('span[alt=":gem:"]').
-            and('have.css', 'minHeight', '32px').
-            and('have.css', 'minWidth', '32px');
+        // * Verify emoji size
+        checkEmojiSize('@newLineMessage', emojis);
 
         // # Post a message beginning with three spaces and followed by emojis
-        cy.postMessage('   :book: :key: :gem:');
+        cy.postMessage('   ' + emojis.join(' '));
 
         // # Get last post message text
         cy.getLastPostId().then((postId) => {
@@ -64,22 +60,7 @@ describe('Messaging', () => {
                 expect(message.find('span.all-emoji p').html()).to.match(/^[ ]{3}/);
             });
 
-        // * Verify book emoticon size
-        cy.get('@spacesMessage').
-            find('span[alt=":book:"]').
-            and('have.css', 'minHeight', '32px').
-            and('have.css', 'minWidth', '32px');
-
-        // * Verify key emoticon size
-        cy.get('@spacesMessage').
-            find('span[alt=":key:"]').
-            and('have.css', 'minHeight', '32px').
-            and('have.css', 'minWidth', '32px');
-
-        // * Verify gem emoticon size
-        cy.get('@spacesMessage').
-            find('span[alt=":gem:"]').
-            and('have.css', 'minHeight', '32px').
-            and('have.css', 'minWidth', '32px');
+        // * Verify emoji size
+        checkEmojiSize('@newLineMessage', emojis);
     });
 });
