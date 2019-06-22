@@ -16,13 +16,6 @@ describe('Messaging', () => {
         cy.visit('/');
     });
 
-    // Unpin all posts at the end of the test
-    after(() => {
-        // pinnedPosts.forEach((pinnedPost) => {
-        //     cy.apiUnpinPosts(pinnedPost);
-        // });
-    });
-
     it('M15381 - Whitespace with emojis does not affect size', () => {
         // # Post a message beginning with a new line and followed by emojis
         cy.postMessage('\n:book: :key: :gem:');
