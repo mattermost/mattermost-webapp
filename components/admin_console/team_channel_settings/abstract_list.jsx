@@ -19,6 +19,7 @@ export default class List extends React.PureComponent {
         emptyListTextDefaultMessage: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             getData: PropTypes.func.isRequired,
+            removeGroup: PropTypes.func,
         }).isRequired,
     };
 

@@ -39,18 +39,18 @@ export function TeamProfile({team}) {
                             <div className='row'>
                                 <FormattedMarkdownMessage
                                     id='admin.team_settings.team_detail.teamName'
-                                    defaultMessage='**Team Name**: {name}'
-                                    values={{name: team.display_name}}
+                                    defaultMessage='**Team Name**:'
                                 />
-
+                                <br/>
+                                {team.display_name}
                             </div>
                             <div className='row'>
                                 <FormattedMarkdownMessage
                                     id='admin.team_settings.team_detail.teamDescription'
-                                    defaultMessage='**Team Description**: {description}'
-                                    values={{description: team.description}}
+                                    defaultMessage='**Team Description**:'
                                 />
-
+                                <br/>
+                                {team.description || Utils.localizeMessage('admin.team_settings.team_detail.profileNoDescription', 'No team description added.')}
                             </div>
 
                         </div>

@@ -5,22 +5,24 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import AbstractList from 'components/admin_console/team_channel_settings/abstract_list.jsx';
-import {browserHistory} from 'utils/browser_history';
 
 import GroupRow from './group_row';
 
-export default class TeamList extends AbstractList {
+export default class GroupList extends AbstractList {
+    removeGroup = (id) => {
+        this.props.actions.removeGroup(id);
+        this.setState({saveNeeded: true});
+        this.props.actions.setNavigationBlocked(true);
+    }
+
     renderRow = (item) => {
         return (
             <GroupRow
-                key={item.mattedmost_group_id}
+                key={item.id}
                 group={item}
+                removeGroup={this.removeGroup}
             />
         );
-    }
-
-    onTeamClick = (id) => {
-        browserHistory.push(`/admin_console/user_management/teams/${id}`);
     }
 
     renderHeader() {

@@ -22,6 +22,9 @@ import {localizeMessage} from 'utils/utils';
 import FormError from 'components/form_error';
 
 import {setNavigationBlocked} from 'actions/admin_actions';
+import ToggleModalButton from 'components/toggle_modal_button';
+import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
+import GroupList from '../group/groups';
 
 const MANAGE_MODE = {
     NONE: -1,
@@ -56,8 +59,11 @@ class ChannelDetails extends React.Component {
 
     componentDidMount() {
         const {channelID, actions} = this.props;
-        actions.getChannel(channelID);
+        if (!this.props.channel.id) {
+            actions.getChannel(channelID);
+        }
     }
+
 
     handleSubmit = () => {
         this.setState({saving: true});
@@ -79,6 +85,8 @@ class ChannelDetails extends React.Component {
     }
 
     render = () => {
+        const isModeSync = false;
+        const channel = this.props.channel;
         return (
             <div className='wrapper--fixed'>
                 <div className='admin-console__header with-back'>
@@ -93,7 +101,56 @@ class ChannelDetails extends React.Component {
                         />
                     </div>
                 </div>
+                <div className='admin-console__wrapper'>
+                    <div className='admin-console__content'>
 
+                        <AdminPanel
+                            id='channel_profile'
+                            titleId={t('admin.channel_settings.channel_detail.profileTitle')}
+                            titleDefault='Channel Profile'
+                            subtitleId={t('admin.channel_settings.channel_detail.profileDescription')}
+                            subtitleDefault='Summary of the channel, including the channel name.'
+                        >
+
+                            <div className='group-teams-and-channels'>
+
+                                <div className='group-teams-and-channels--body'>
+                                    <FormattedMarkdownMessage
+                                        id='admin.channel_settings.channel_detail.channelName'
+                                        defaultMessage='**Name**'
+                                    />
+                                    <br/>
+                                    {channel.name}
+                                </div>
+                            </div>
+
+                        </AdminPanel>
+                        <AdminPanel
+                            id='team_groups'
+                            titleId={isModeSync ? t('admin.team_settings.team_detail.syncedGroupsTitle') : t('admin.team_settings.team_detail.groupsTitle')}
+                            titleDefault={isModeSync ? 'Synced Groups' : 'Groups'}
+                            subtitleId={isModeSync ? t('admin.team_settings.team_detail.syncedGroupsDescription') : t('admin.team_settings.team_detail.groupsDescription')}
+                            subtitleDefault={isModeSync ? 'Add and remove team members based on their group membership..' : 'Group members will be added to the team.'}
+                            button={
+                                <ToggleModalButton
+                                    className='btn btn-primary'
+                                    dialogType={AddGroupsToChannelModal}
+                                    dialogProps={{channel}}
+                                >
+                                    <FormattedMessage
+                                        id='admin.team_settings.team_details.add_group'
+                                        defaultMessage='Add Group'
+                                    />
+                                </ToggleModalButton>}
+                        >
+                            {channel.id && <GroupList
+                                channel={channel}
+                                isModeSync={isModeSync}
+                            />}
+
+                        </AdminPanel>
+                    </div>
+                </div>
                 <div className='admin-console-save'>
                     <SaveButton
                         saving={this.state.saving}
@@ -122,7 +179,7 @@ class ChannelDetails extends React.Component {
 
 function mapStateToProps(state, props) {
     const channelID = props.match.params.channel_id;
-    const channel = getChannel(state, channelID);
+    const channel = getChannel(state, channelID) || {};
 
     return {
         channel,

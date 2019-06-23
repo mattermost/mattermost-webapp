@@ -3,12 +3,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
-export default class ChannelRow extends React.Component {
+export default class GroupRow extends React.Component {
     static propTypes = {
         group: PropTypes.object.isRequired,
+        removeGroup: PropTypes.func.isRequired,
     };
 
     render = () => {
@@ -19,7 +19,7 @@ export default class ChannelRow extends React.Component {
             >
                 <div className='group-row'>
                     <span className='group-name'>
-                        {group.name}
+                        {group.display_name || group.name}
                     </span>
                     <span className='group-description'>
                         <FormattedMessage
@@ -29,12 +29,15 @@ export default class ChannelRow extends React.Component {
                         />
                     </span>
                     <span className='group-actions'>
-                        <Link to={`/admin_console/user_management/groups/${group.id}`}>
+                        <a
+                            href='#'
+                            onClick={() => this.props.removeGroup(group.id)}
+                        >
                             <FormattedMessage
-                                id='admin.team_settings.group_row.edit'
-                                defaultMessage='Edit'
+                                id='admin.team_settings.group_row.remove'
+                                defaultMessage='Remove'
                             />
-                        </Link>
+                        </a>
                     </span>
                 </div>
             </div>

@@ -4,27 +4,33 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getGroupsAssociatedToTeam as fetchAssociatedGroups} from 'mattermost-redux/actions/groups';
-import {getGroupsAssociatedToTeam, getAllGroups} from 'mattermost-redux/selectors/entities/groups';
+import {getGroupsAssociatedToTeam as fetchAssociatedGroupsForTeam, getGroupsAssociatedToChannel as fetchAssociatedGroupsForChannel, unlinkGroupSyncable} from 'mattermost-redux/actions/groups';
+import {getGroupsAssociatedToTeam, getAllGroups, getGroupsAssociatedToChannel} from 'mattermost-redux/selectors/entities/groups';
 
 import {createSelector} from 'reselect';
 
+import {Groups} from 'mattermost-redux/constants';
+
 import {t} from 'utils/i18n';
+
+import {setNavigationBlocked} from 'actions/admin_actions';
 
 import List from './group_list.jsx';
 
-const getSortedListOfGroups = createSelector(
+const getSortedListOfGroupsForTeam = createSelector(
     getGroupsAssociatedToTeam,
     getAllGroups,
-    (result, allGroups) => {
-        const groups = Object.values(allGroups).filter((g) => result.indexOf(g.id) !== -1);
-        groups.sort((a, b) => a.name.localeCompare(b.name));
-        return {groups, total: 100};
-    }
+    (result) => ({groups: result.sort((a, b) => a.name.localeCompare(b.name)), total: 100})
 );
 
-function mapStateToProps(state, {team, isModeSync}) {
-    const data = getSortedListOfGroups(state, team.id);
+const getSortedListOfGroupsForChannel = createSelector(
+    getGroupsAssociatedToChannel,
+    getAllGroups,
+    (result) => ({groups: result.sort((a, b) => a.name.localeCompare(b.name)), total: 100})
+);
+
+function mapStateToProps(state, {team, channel, isModeSync}) {
+    const data = team ? getSortedListOfGroupsForTeam(state, team.id) : getSortedListOfGroupsForChannel(state, channel.id);
 
     return {
         data: data.groups,
@@ -34,13 +40,17 @@ function mapStateToProps(state, {team, isModeSync}) {
     };
 }
 
-function mapDispatchToProps(dispatch, {team}) {
+function mapDispatchToProps(dispatch, {team, channel}) {
     return {
         actions: bindActionCreators({
             getData: (page, pageSize) => {
                 // eslint-disable-next-line no-undefined
-                return fetchAssociatedGroups(team.id, undefined, page, pageSize);
+                return team ? fetchAssociatedGroupsForTeam(team.id, undefined, page, pageSize) : fetchAssociatedGroupsForChannel(channel.id, undefined, page, pageSize);
             },
+            removeGroup: (id) => {
+                return unlinkGroupSyncable(id, team ? team.id : channel.id, team ? Groups.SYNCABLE_TYPE_TEAM : Groups.SYNCABLE_TYPE_CHANNEL);
+            },
+            setNavigationBlocked,
         }, dispatch),
     };
 }

@@ -25,7 +25,7 @@ import ToggleModalButton from 'components/toggle_modal_button.jsx';
 
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
-import {setNavigationBlocked} from '../../../../actions/admin_actions';
+import {setNavigationBlocked} from 'actions/admin_actions';
 
 import {TeamProfile} from './team_profile';
 import LineSwitch from '../line_switch.jsx';
@@ -207,14 +207,6 @@ class TeamDetails extends React.Component {
                                     />
                                 </ToggleModalButton>}
                         >
-                            {/*<div className='group-teams-and-channels'>*/}
-                            {/*    <div className='group-teams-and-channels-empty'>*/}
-                            {/*        <FormattedMessage*/}
-                            {/*            id={isModeSync ? t('admin.team_settings.team_details.no-synced-groups') : t('admin.team_settings.team_details.no-groups')}*/}
-                            {/*            defaultMessage={isModeSync ? 'At least one group must be specified' : 'No groups specified yet'}*/}
-                            {/*        />*/}
-                            {/*    </div>*/}
-                            {/*</div>*/}
                             <GroupList
                                 team={team}
                                 isModeSync={isModeSync}

@@ -18,7 +18,12 @@ const getSortedListOfChannels = createSelector(
     getAllChannels,
     (teams) => Object.values(teams).
         filter((c) => c.type === Constants.OPEN_CHANNEL || c.type === Constants.PRIVATE_CHANNEL).
-        sort((a, b) => a.name.localeCompare(b.name))
+        sort((a, b) => {
+            if (a.type === b.type) {
+                return a.name.localeCompare(b.name);
+            }
+            return a.type === Constants.OPEN_CHANNEL ? 1 : -1;
+        })
 );
 
 function mapStateToProps(state) {
