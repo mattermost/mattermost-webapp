@@ -3,7 +3,7 @@
 
 import XRegExp from 'xregexp';
 
-import {getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
+import {getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
 
 import {Constants} from 'utils/constants.jsx';
 
@@ -58,15 +58,10 @@ export default class AtMentionProvider extends Provider {
             const usernameSuggestions = getSuggestionsSplitByMultiple(profile.username.toLowerCase(), Constants.AUTOCOMPLETE_SPLIT_CHARACTERS);
             profileSuggestions.push(...usernameSuggestions);
         }
-        if (profile.first_name) {
-            profileSuggestions.push(profile.first_name.toLowerCase());
-        }
-        if (profile.last_name) {
-            profileSuggestions.push(profile.last_name.toLowerCase());
-        }
-        if (profile.nickname) {
-            profileSuggestions.push(profile.nickname.toLowerCase());
-        }
+        [profile.first_name, profile.last_name, profile.nickname].forEach((property) => {
+            const suggestions = getSuggestionsSplitBy(property.toLowerCase(), ' ');
+            profileSuggestions.push(...suggestions);
+        });
 
         return profileSuggestions;
     }

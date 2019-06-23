@@ -34,7 +34,7 @@ describe('MM-13697 Edit Post with attachment', () => {
         });
 
         // # Type 'This is sample text' and submit
-        cy.get('#post_textbox').type('This is sample text{enter}');
+        cy.postMessage('This is sample text');
 
         // # Get last post ID
         cy.getLastPostId().then((postID) => {

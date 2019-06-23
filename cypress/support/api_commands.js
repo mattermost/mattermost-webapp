@@ -337,7 +337,7 @@ Cypress.Commands.add('loginAsNewUser', (user = {}) => {
 /**
 * Unpins pinned posts of given postID directly via API
 * This API assume that the user is logged in and has cookie to access
-* @param {Object} postId - Post ID of the pinned post to unpin
+* @param {String} postId - Post ID of the pinned post to unpin
 */
 Cypress.Commands.add('apiUnpinPosts', (postId) => {
     return cy.request({
@@ -373,10 +373,19 @@ Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
     cy.apiLogout();
 });
 
+Cypress.Commands.add('apiGetConfig', () => {
+    cy.apiLogin('sysadmin');
+
+    // # Get current settings
+    return cy.request('/api/v4/config');
+});
+
 // *****************************************************************************
 // Post creation
 // *****************************************************************************
 
 Cypress.Commands.add('postMessageAs', (sender, message, channelId, createAt = 0) => {
-    cy.task('postMessageAs', {sender, message, channelId, createAt}).its('message').should('equal', message);
+    cy.task('postMessageAs', {sender, message, channelId, createAt}).
+        its('status').
+        should('be.equal', 201);
 });
