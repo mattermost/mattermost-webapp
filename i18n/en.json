@@ -1080,7 +1080,7 @@
   "admin.plugin.version_title": "Version",
   "admin.plugins.pluginManagement": "Plugin Management",
   "admin.plugins.settings.enable": "Enable Plugins: ",
-  "admin.plugins.settings.enableDesc": "When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugins) to learn more.",
+  "admin.plugins.settings.enableDesc": "When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugins) to learn more.",
   "admin.privacy.showEmailDescription": "When false, hides the email address of members from everyone except System Administrators.",
   "admin.privacy.showEmailTitle": "Show Email Address: ",
   "admin.privacy.showFullNameDescription": "When false, hides the full name of members from everyone except System Administrators. Username is shown in place of full name.",
