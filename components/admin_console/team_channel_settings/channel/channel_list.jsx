@@ -9,7 +9,7 @@ import {browserHistory} from 'utils/browser_history';
 
 import ChannelRow from './channel_row';
 
-export default class TeamList extends AbstractList {
+export default class ChannelList extends AbstractList {
     renderRow = (item) => {
         return (
             <ChannelRow
@@ -29,13 +29,19 @@ export default class TeamList extends AbstractList {
             <div className='groups-list--header'>
                 <div className='group-name'>
                     <FormattedMessage
-                        id='admin.team_settings.team_list.nameHeader'
+                        id='admin.channel_settings.channel_list.nameHeader'
                         defaultMessage='Name'
                     />
                 </div>
                 <div className='group-description'>
                     <FormattedMessage
-                        id='admin.team_settings.team_list.mappingHeader'
+                        id='admin.channel_settings.channel_list.teamHeader'
+                        defaultMessage='Team'
+                    />
+                </div>
+                <div className='group-description'>
+                    <FormattedMessage
+                        id='admin.channel_settings.channel_list.managementHeader'
                         defaultMessage='Management'
                     />
                 </div>

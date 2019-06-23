@@ -33,15 +33,18 @@ export default class ChannelRow extends React.Component {
                         {channel.name}
                     </span>
                     <span className='group-description'>
+                        {channel.team_name}
+                    </span>
+                    <span className='group-description'>
                         <FormattedMessage
-                            id={`admin.team_settings.team_row.managementMethod.${channel.group_constrained ? 'group' : 'manual'}`}
+                            id={`admin.channel_settings.channel_row.managementMethod.${channel.group_constrained ? 'group' : 'manual'}`}
                             defaultMessage={channel.group_constrained ? 'Group Sync' : 'Manual Invites'}
                         />
                     </span>
                     <span className='group-actions'>
                         <Link to={`/admin_console/user_management/channels/${channel.id}`}>
                             <FormattedMessage
-                                id='admin.team_settings.team_row.configure'
+                                id='admin.channel_settings.channel_row.configure'
                                 defaultMessage='Edit'
                             />
                         </Link>

@@ -14,22 +14,24 @@ import {Constants} from 'utils/constants';
 
 import List from './channel_list.jsx';
 
+const compareByTypeAndName = (a, b) => {
+    if (a.type === b.type) {
+        return a.name.localeCompare(b.name);
+    }
+    return a.type === Constants.OPEN_CHANNEL ? 1 : -1;
+};
+
 const getSortedListOfChannels = createSelector(
     getAllChannels,
     (teams) => Object.values(teams).
         filter((c) => c.type === Constants.OPEN_CHANNEL || c.type === Constants.PRIVATE_CHANNEL).
-        sort((a, b) => {
-            if (a.type === b.type) {
-                return a.name.localeCompare(b.name);
-            }
-            return a.type === Constants.OPEN_CHANNEL ? 1 : -1;
-        })
+        sort(compareByTypeAndName)
 );
 
 function mapStateToProps(state) {
     return {
         data: getSortedListOfChannels(state),
-        total: 100,
+        total: 100, // TODO: take care of pagination once getChannelsCount is available
         emptyListTextId: t('admin.team_settings.channel_list.no_channels_found'),
         emptyListTextDefaultMessage: 'No channels found',
     };

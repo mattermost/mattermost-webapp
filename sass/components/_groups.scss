@@ -233,6 +233,9 @@
             animation-duration: 3s;
             animation-name: rowhighlight;
         }
+        &.group-row-large {
+            height: 50px;
+        }
     }
 }
 

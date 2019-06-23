@@ -15,7 +15,6 @@ export default class TeamList extends AbstractList {
                 key={item.id}
                 team={item}
                 onRowClick={this.onTeamClick}
-                onCheckToggle={this.onCheckToggle}
             />
         );
     }
