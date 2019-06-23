@@ -12,7 +12,7 @@ describe('messageHtmlToComponent', () => {
         expect(messageHtmlToComponent(html)).toMatchSnapshot();
     });
 
-    test('latex', () => {
+    describe('latex', () => {
         const input = `This is some latex!
 \`\`\`latex
 x^2 + y^2 = z^2
@@ -23,9 +23,18 @@ F_m - 2 = F_0 F_1 \\dots F_{m-1}
 \`\`\`
 
 That was some latex!`;
-        const html = TextFormatting.formatText(input);
 
-        expect(messageHtmlToComponent(html)).toMatchSnapshot();
+        test('without enabled latex plugins', () => {
+            const html = TextFormatting.formatText(input);
+
+            expect(messageHtmlToComponent(html)).toMatchSnapshot();
+        });
+
+        test('with enabled latex plugin', () => {
+            const html = TextFormatting.formatText(input, {latex: true});
+
+            expect(messageHtmlToComponent(html, false, {hasLatexPlugin: true})).toMatchSnapshot();
+        });
     });
 
     test('link without enabled tooltip plugins', () => {

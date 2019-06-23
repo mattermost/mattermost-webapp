@@ -23,7 +23,7 @@ export default class Renderer extends marked.Renderer {
         let usedLanguage = language || '';
         usedLanguage = usedLanguage.toLowerCase();
 
-        if (usedLanguage === 'tex' || usedLanguage === 'latex') {
+        if ((usedLanguage === 'tex' || usedLanguage === 'latex') && this.formattingOptions.latex) {
             return `<div data-latex="${TextFormatting.escapeHtml(code)}"></div>`;
         }
 

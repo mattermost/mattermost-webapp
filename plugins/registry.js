@@ -461,4 +461,10 @@ export default class PluginRegistry {
 
         return {id, showRHSPlugin: showRHSPlugin(id)};
     }
+
+    // Register a component to replace latex code with a component provided by the plugin.
+    // Accepts a React component. Returns a unique identifier.
+    registerLatexPlugin(component) {
+        return dispatchPluginComponentAction('LatexBlock', this.id, component);
+    }
 }

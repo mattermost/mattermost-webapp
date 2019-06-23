@@ -1,20 +1,76 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`messageHtmlToComponent latex 1`] = `
+exports[`messageHtmlToComponent latex with enabled latex plugin 1`] = `
 Array [
   <p>
     This is some latex!
   </p>,
   "
 ",
-  <LatexBlock
+  <Connect(Pluggable)
     content="x^2 + y^2 = z^2
 "
+    pluggableName="LatexBlock"
   />,
-  <LatexBlock
+  <Connect(Pluggable)
     content="F_m - 2 = F_0 F_1 \\\\dots F_{m-1}
 "
+    pluggableName="LatexBlock"
   />,
+  <p>
+    That was some latex!
+  </p>,
+]
+`;
+
+exports[`messageHtmlToComponent latex without enabled latex plugins 1`] = `
+Array [
+  <p>
+    This is some latex!
+  </p>,
+  "
+",
+  <div
+    className="post-code"
+  >
+    <span
+      className="post-code__language"
+    >
+      TeX
+    </span>
+    <code
+      className="hljs"
+    >
+      x^2 + y^2 = z^2
+
+    </code>
+  </div>,
+  <div
+    className="post-code"
+  >
+    <span
+      className="post-code__language"
+    >
+      TeX
+    </span>
+    <code
+      className="hljs"
+    >
+      F_m - 2 = F_0 F_1 
+      <span
+        className="hljs-tag"
+      >
+        \\
+        <span
+          className="hljs-name"
+        >
+          dots
+        </span>
+      </span>
+       F_{m-1}
+
+    </code>
+  </div>,
   <p>
     That was some latex!
   </p>,

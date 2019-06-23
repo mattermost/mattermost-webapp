@@ -37,6 +37,11 @@ export default class PostMarkdown extends React.PureComponent {
         pluginHooks: PropTypes.arrayOf(PropTypes.object),
 
         /**
+         * Whether or not to replace latex code with a component provided by the plugin
+         */
+        hasLatexPlugin: PropTypes.bool,
+
+        /**
          * Whether or not to place the LinkTooltip component inside links
          */
         hasPluginTooltips: PropTypes.bool,
@@ -76,6 +81,7 @@ export default class PostMarkdown extends React.PureComponent {
                 proxyImages={proxyImages}
                 options={this.props.options}
                 channelNamesMap={channelNamesMap}
+                hasLatexPlugin={this.props.hasLatexPlugin}
                 hasPluginTooltips={this.props.hasPluginTooltips}
                 imagesMetadata={this.props.post && this.props.post.metadata && this.props.post.metadata.images}
             />

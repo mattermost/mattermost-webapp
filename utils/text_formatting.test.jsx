@@ -7,6 +7,7 @@ import {formatText, autolinkAtMentions, highlightSearchTerms, handleUnicodeEmoji
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
 import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
+import Renderer from 'utils/markdown/renderer';
 
 describe('formatText', () => {
     test('jumbo emoji should be able to handle up to 3 spaces before the emoji character', () => {
@@ -153,5 +154,22 @@ describe('linkOnlyMarkdown', () => {
         expect(output).toBe(
             'Do you like <a class="theme markdown__link" href="https://www.mattermost.com" target="_blank">' +
             'Mattermost</a>?');
+    });
+});
+
+describe('latex', () => {
+    const text = `\`\`\`latex
+x^2 + y^2 = z^2
+\`\`\``;
+    test('enabled', () => {
+        const options = {latex: true};
+        const output = formatText(text, options);
+        expect(output).toBe('<div data-latex="x^2 + y^2 = z^2\n"></div>');
+    });
+    test('disabled', () => {
+        const options = {latex: false};
+        const output = formatText(text, options);
+        expect(output).toBe('<div class="post-code"><span class="post-code__language">TeX</span>' +
+            '<code class="hljs">x^2 + y^2 = z^2\n</code></div>');
     });
 });
