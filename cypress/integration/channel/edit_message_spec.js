@@ -22,7 +22,7 @@ describe('Edit Message', () => {
         cy.visit('/');
 
         // # Post message "Hello"
-        cy.get('#post_textbox').type('Hello World!').type('{enter}');
+        cy.postMessage('Hello World!');
 
         // # Hit the up arrow to open the "edit modal"
         cy.get('#post_textbox').type('{uparrow}');
@@ -75,7 +75,7 @@ describe('Edit Message', () => {
         cy.visit('/');
 
         // # Post a message
-        cy.postMessage('Checking timestamp {enter}');
+        cy.postMessage('Checking timestamp');
 
         cy.getLastPostId().then((postId) => {
             // # Mouseover post to display the timestamp
@@ -149,7 +149,7 @@ describe('Edit Message', () => {
         cy.visit('/');
 
         // # Enter first message
-        cy.get('#post_textbox').type('Hello{enter}');
+        cy.postMessage('Hello');
 
         // * Verify first message is sent and not pending
         cy.getLastPostId().then((postId) => {
@@ -158,7 +158,7 @@ describe('Edit Message', () => {
         });
 
         // # Enter second message
-        cy.get('#post_textbox').type('World!{enter}');
+        cy.postMessage('World!');
 
         // * Verify second message is sent and not pending
         cy.getLastPostId().then((postId) => {

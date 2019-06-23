@@ -11,6 +11,7 @@
 /*eslint-disable func-names*/
 
 import users from '../../fixtures/users.json';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 const sysadmin = users.sysadmin;
 
@@ -40,7 +41,7 @@ describe('System Console', () => {
 
         // # User should get redirected to town square
         cy.get('#adminConsoleWrapper').should('not.exist');
-        cy.get('#postListContent').should('be.visible');
+        cy.get('#postListContent', {timeout: TIMEOUTS.LARGE}).should('be.visible');
         cy.url().should('include', 'town-square');
     });
 });

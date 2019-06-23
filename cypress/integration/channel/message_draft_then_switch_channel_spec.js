@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-/*eslint max-nested-callbacks: ["error", 3]*/
+/*eslint max-nested-callbacks: ["error", 4]*/
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -16,12 +16,12 @@ let testTeam;
 describe('Message Draft and Switch Channels', () => {
     before(() => {
         // # Login as new user
-        cy.loginAsNewUser();
-
-        // # Create new team and visit its URL
-        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-            testTeam = response.body;
-            cy.visit(`/${testTeam.name}`);
+        cy.loginAsNewUser().then(() => {
+            // # Create new team and visit its URL
+            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+                testTeam = response.body;
+                cy.visit(`/${testTeam.name}`);
+            });
         });
     });
 

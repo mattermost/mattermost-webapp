@@ -12,6 +12,7 @@ const nodeExternals = require('webpack-node-externals');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
+const LiveReloadPlugin = require('webpack-livereload-plugin');
 
 const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
 
@@ -357,6 +358,9 @@ if (!DEV) {
 const env = {};
 if (DEV) {
     env.PUBLIC_PATH = JSON.stringify(publicPath);
+    if (process.env.MM_LIVE_RELOAD) { //eslint-disable-line no-process-env
+        config.plugins.push(new LiveReloadPlugin());
+    }
 } else {
     env.NODE_ENV = JSON.stringify('production');
 }

@@ -6,12 +6,19 @@ import {bindActionCreators} from 'redux';
 
 import {updateUserActive, revokeAllSessionsForUser} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
+import {loadBots} from 'mattermost-redux/actions/bots';
+
+import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 
 import SystemUsersDropdown from './system_users_dropdown.jsx';
 
 function mapStateToProps(state) {
+    const bots = getBotAccounts(state);
     return {
+        config: Selectors.getConfig(state),
         currentUser: getCurrentUser(state),
+        bots,
     };
 }
 
@@ -20,6 +27,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             updateUserActive,
             revokeAllSessionsForUser,
+            loadBots,
         }, dispatch),
     };
 }
