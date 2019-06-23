@@ -24,7 +24,10 @@ export default class AddGroupsToChannelModal extends React.Component {
         currentChannelId: PropTypes.string.isRequired,
         searchTerm: PropTypes.string.isRequired,
         groups: PropTypes.array.isRequired,
+        excludeGroups: PropTypes.array.isRequired,
         onHide: PropTypes.func,
+        skipCommit: PropTypes.bool,
+        onAddCallback: PropTypes.func,
         actions: PropTypes.shape({
             getGroupsNotAssociatedToChannel: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
@@ -107,6 +110,14 @@ export default class AddGroupsToChannelModal extends React.Component {
 
         const groupIDs = this.state.values.map((v) => v.id);
         if (groupIDs.length === 0) {
+            return;
+        }
+
+        if (this.props.skipCommit) {
+            if (this.props.onAddCallback) {
+                this.props.onAddCallback(groupIDs);
+            }
+            this.handleHide();
             return;
         }
 
@@ -222,6 +233,10 @@ export default class AddGroupsToChannelModal extends React.Component {
         if (this.state.addError) {
             addError = (<div className='has-error col-sm-12'><label className='control-label font-weight--normal'>{this.state.addError}</label></div>);
         }
+        let groupsToShow = this.props.groups;
+        if (this.props.excludeGroups) {
+            groupsToShow = groupsToShow.filter((g) => !this.props.excludeGroups.includes(g));
+        }
 
         return (
             <Modal
@@ -248,7 +263,7 @@ export default class AddGroupsToChannelModal extends React.Component {
                     {addError}
                     <MultiSelect
                         key='addGroupsToChannelKey'
-                        options={this.props.groups}
+                        options={groupsToShow}
                         optionRenderer={this.renderOption}
                         values={this.state.values}
                         valueRenderer={this.renderValue}

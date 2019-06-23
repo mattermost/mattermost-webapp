@@ -24,7 +24,10 @@ export default class AddGroupsToTeamModal extends React.Component {
         currentTeamId: PropTypes.string.isRequired,
         searchTerm: PropTypes.string.isRequired,
         groups: PropTypes.array.isRequired,
+        excludeGroups: PropTypes.array.isRequired,
         onHide: PropTypes.func,
+        skipCommit: PropTypes.bool,
+        onAddCallback: PropTypes.func,
         actions: PropTypes.shape({
             getGroupsNotAssociatedToTeam: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
@@ -109,6 +112,14 @@ export default class AddGroupsToTeamModal extends React.Component {
         if (groupIDs.length === 0) {
             return;
         }
+        if (this.props.skipCommit) {
+            if (this.props.onAddCallback) {
+                this.props.onAddCallback(groupIDs);
+            }
+            this.handleHide();
+            return;
+        }
+
 
         this.setState({saving: true});
 
@@ -223,6 +234,11 @@ export default class AddGroupsToTeamModal extends React.Component {
             addError = (<div className='has-error col-sm-12'><label className='control-label font-weight--normal'>{this.state.addError}</label></div>);
         }
 
+        let groupsToShow = this.props.groups;
+        if (this.props.excludeGroups) {
+            groupsToShow = groupsToShow.filter(g => !this.props.excludeGroups.includes(g));
+        }
+
         return (
             <Modal
                 id='addGroupsToTeamModal'
@@ -248,7 +264,7 @@ export default class AddGroupsToTeamModal extends React.Component {
                     {addError}
                     <MultiSelect
                         key='addGroupsToTeamKey'
-                        options={this.props.groups}
+                        options={groupsToShow}
                         optionRenderer={this.renderOption}
                         values={this.state.values}
                         valueRenderer={this.renderValue}

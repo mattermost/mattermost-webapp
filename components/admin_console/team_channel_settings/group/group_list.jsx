@@ -9,18 +9,12 @@ import AbstractList from 'components/admin_console/team_channel_settings/abstrac
 import GroupRow from './group_row';
 
 export default class GroupList extends AbstractList {
-    removeGroup = (id) => {
-        this.props.actions.removeGroup(id);
-        this.setState({saveNeeded: true});
-        this.props.actions.setNavigationBlocked(true);
-    }
-
     renderRow = (item) => {
         return (
             <GroupRow
                 key={item.id}
                 group={item}
-                removeGroup={this.removeGroup}
+                removeGroup={this.props.removeGroup}
             />
         );
     }

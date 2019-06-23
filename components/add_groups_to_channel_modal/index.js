@@ -25,6 +25,9 @@ function mapStateToProps(state, ownProps) {
     return {
         currentChannelName: channel.display_name,
         currentChannelId: channel.id,
+        skipCommit: ownProps.skipCommit,
+        onAddCallback: ownProps.onAddCallback,
+        excludeGroups: ownProps.excludeGroups,
         searchTerm,
         groups,
     };

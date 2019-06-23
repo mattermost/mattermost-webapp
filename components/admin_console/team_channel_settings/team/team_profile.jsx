@@ -29,13 +29,13 @@ export function TeamProfile({team}) {
 
                 <div className='group-teams-and-channels--body'>
                     <div className='row'>
-                        <div className='col-sm-3'>
+                        <div className='col-sm-2'>
                             <TeamImage
                                 displayName={team.display_name}
                                 teamIconUrl={teamIconUrl}
                             />
                         </div>
-                        <div className='col-sm-9'>
+                        <div className='col-sm-10'>
                             <div className='row'>
                                 <FormattedMarkdownMessage
                                     id='admin.team_settings.team_detail.teamName'

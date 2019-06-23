@@ -25,6 +25,9 @@ function mapStateToProps(state, ownProps) {
     return {
         currentTeamName: team.display_name,
         currentTeamId: team.id,
+        skipCommit: ownProps.skipCommit,
+        onAddCallback: ownProps.onAddCallback,
+        excludeGroups: ownProps.excludeGroups,
         searchTerm,
         groups,
     };
