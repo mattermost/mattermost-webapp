@@ -592,6 +592,8 @@ export default {
                 'admin.elasticsearch.connectionUrlTitle',
                 ['admin.elasticsearch.connectionUrlDescription', {documentationLink: ''}],
                 'admin.elasticsearch.connectionUrlExample.documentationLinkText',
+                'admin.elasticsearch.skipTLSVerificationTitle',
+                'admin.elasticsearch.skipTLSVerificationDescription',
                 'admin.elasticsearch.usernameTitle',
                 'admin.elasticsearch.usernameDescription',
                 'admin.elasticsearch.passwordTitle',
