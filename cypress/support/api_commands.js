@@ -233,6 +233,24 @@ Cypress.Commands.add('apiSaveMessageDisplayPreference', (value = 'clean') => {
 });
 
 /**
+ * Saves teammate name display preference of a user directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} value - Either "username" (default), "nickname_full_name" or "full_name"
+ */
+Cypress.Commands.add('apiSaveTeammateNameDisplayPreference', (value = 'username') => {
+    return cy.getCookie('MMUSERID').then((cookie) => {
+        const preference = {
+            user_id: cookie.value,
+            category: 'display_settings',
+            name: 'name_format',
+            value,
+        };
+
+        return cy.apiSaveUserPreference([preference]);
+    });
+});
+
+/**
  * Saves theme preference of a user directly via API
  * This API assume that the user is logged in and has cookie to access
  * @param {Object} value - theme object.  Will pass default value if none is provided.
@@ -264,7 +282,7 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
 Cypress.Commands.add('createNewUser', (user = {}, teamIds = []) => {
     const timestamp = Date.now();
 
-    const {email = `newe2etestuser${timestamp}@sample.mattermost.com`, username = `NewE2ETestUser${timestamp}`, password = 'password123'} = user;
+    const {email = `user${timestamp}@sample.mattermost.com`, username = `user${timestamp}`, password = 'password123'} = user;
 
     // # Login as sysadmin to make admin requests
     cy.apiLogin('sysadmin');
