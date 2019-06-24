@@ -127,11 +127,11 @@ export default class ChannelMembersDropdown extends React.Component {
         if (this.props.canChangeMemberRoles) {
             const role = this.renderRole(isChannelAdmin, isGuest);
 
-            const canRemoveFromChannel = this.props.canRemoveMember && this.props.channel.name !== Constants.DEFAULT_CHANNEL && !this.props.channel.group_constrained;
+            const canRemoveFromChannel = this.props.canRemoveMember && (this.props.channel.name !== Constants.DEFAULT_CHANNEL || isGuest) && !this.props.channel.group_constrained;
             const canMakeChannelMember = isChannelAdmin && !isGuest;
             const canMakeChannelAdmin = supportsChannelAdmin && !isChannelAdmin && !isGuest;
 
-            if ((canMakeChannelMember || canMakeChannelAdmin)) {
+            if ((canMakeChannelMember || canMakeChannelAdmin || canRemoveFromChannel)) {
                 const {index, totalUsers} = this.props;
                 let openUp = false;
                 if (totalUsers > ROWS_FROM_BOTTOM_TO_OPEN_UP && totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP) {
@@ -172,23 +172,6 @@ export default class ChannelMembersDropdown extends React.Component {
                     </MenuWrapper>
                 );
             }
-        }
-
-        if (this.props.canRemoveMember && this.props.channel.name !== Constants.DEFAULT_CHANNEL && !this.props.channel.group_constrained) {
-            return (
-                <button
-                    id='removeMember'
-                    type='button'
-                    className='btn btn-danger btn-message'
-                    onClick={this.handleRemoveFromChannel}
-                    disabled={this.state.removing}
-                >
-                    <FormattedMessage
-                        id='channel_members_dropdown.remove_member'
-                        defaultMessage='Remove Member'
-                    />
-                </button>
-            );
         }
 
         if (this.props.channel.name === Constants.DEFAULT_CHANNEL) {

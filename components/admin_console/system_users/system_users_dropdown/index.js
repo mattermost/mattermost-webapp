@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {updateUserActive, revokeAllSessionsForUser} from 'mattermost-redux/actions/users';
+import {updateUserActive, revokeAllSessionsForUser, promoteGuestToUser, demoteUserToGuest} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import SystemUsersDropdown from './system_users_dropdown.jsx';
@@ -20,6 +20,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             updateUserActive,
             revokeAllSessionsForUser,
+            promoteGuestToUser,
+            demoteUserToGuest,
         }, dispatch),
     };
 }
