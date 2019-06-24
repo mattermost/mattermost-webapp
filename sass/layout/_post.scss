@@ -2064,6 +2064,12 @@
             .emoticon--unicode {
                 font-size: 32px;
                 line-height: 1.1;
+
+                .os--windows & {
+                    font-size: 29px;
+                    left: -4px;
+                    position: relative;
+                }
             }
         }
     }
