@@ -8,11 +8,11 @@ import {bindActionCreators} from 'redux';
 
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import {getTeam as fetchTeam, membersMinusGroupMembers} from 'mattermost-redux/actions/teams';
+import {getTeam as fetchTeam, membersMinusGroupMembers, patchTeam} from 'mattermost-redux/actions/teams';
 
 import {getAllGroups, getGroupsAssociatedToTeam} from 'mattermost-redux/selectors/entities/groups';
 
-import {getGroupsAssociatedToTeam as fetchAssociatedGroups} from 'mattermost-redux/actions/groups';
+import {getGroupsAssociatedToTeam as fetchAssociatedGroups, linkGroupSyncable, unlinkGroupSyncable} from 'mattermost-redux/actions/groups';
 
 import {connect} from 'react-redux';
 
@@ -35,6 +35,8 @@ import GroupList from '../group/groups.jsx';
 
 import {NeedGroupsError, UsersWillBeRemovedError} from '../group/errors';
 
+import FormError from '../../../form_error';
+
 import {TeamProfile} from './team_profile';
 
 class TeamDetails extends React.Component {
@@ -46,8 +48,11 @@ class TeamDetails extends React.Component {
         actions: PropTypes.shape({
             setNavigationBlocked: PropTypes.func.isRequired,
             getTeam: PropTypes.func.isRequired,
+            linkGroupSyncable: PropTypes.func.isRequired,
+            unlinkGroupSyncable: PropTypes.func.isRequired,
             membersMinusGroupMembers: PropTypes.func.isRequired,
             getGroups: PropTypes.func.isRequired,
+            patchTeam: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -77,16 +82,31 @@ class TeamDetails extends React.Component {
             then(() => this.setState({groups: this.props.groups}));
     }
 
-    handleSubmit = () => {
+    handleSubmit = async () => {
         this.setState({saving: true});
+        const {groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked} = this.state;
 
         let serverError = null;
         let saveNeeded = false;
 
-        // TODO: save changes
         if (this.state.groups.length === 0) {
             serverError = <NeedGroupsError/>;
             saveNeeded = true;
+        } else {
+            // TODO: add confirm dialog
+            try {
+                await this.props.actions.patchTeam({
+                    ...this.props.team,
+                    group_constrained: syncChecked,
+                    allowed_domains: allowedDomainsChecked ? allowedDomains : '',
+                    allow_open_invite: allAllowedChecked,
+                });
+                const unlink = this.props.groups.filter((g) => !groups.includes(g)).map((g) => this.props.actions.unlinkGroupSyncable(g.id, this.props.teamID));
+                const link = groups.filter((g) => !this.props.groups.includes(g)).map((g) => this.props.actions.linkGroupSyncable(g.id, this.props.teamID));
+                await Promise.all([...unlink, ...link]);
+            } catch (ex) {
+                serverError = <FormError error={ex}/>;
+            }
         }
 
         this.setState({serverError, saving: false, saveNeeded});
@@ -317,6 +337,9 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getTeam: fetchTeam,
             getGroups: fetchAssociatedGroups,
+            patchTeam,
+            linkGroupSyncable,
+            unlinkGroupSyncable,
             membersMinusGroupMembers,
             setNavigationBlocked,
         }, dispatch),

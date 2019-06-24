@@ -9,7 +9,7 @@ import {bindActionCreators} from 'redux';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getAllGroups, getGroupsAssociatedToChannel} from 'mattermost-redux/selectors/entities/groups';
 import {getChannel as fetchChannel, membersMinusGroupMembers} from 'mattermost-redux/actions/channels';
-import {getGroupsAssociatedToChannel as fetchAssociatedGroups} from 'mattermost-redux/actions/groups';
+import {getGroupsAssociatedToChannel as fetchAssociatedGroups, linkGroupSyncable, unlinkGroupSyncable} from 'mattermost-redux/actions/groups';
 import {connect} from 'react-redux';
 
 import {t} from 'utils/i18n';
@@ -25,8 +25,9 @@ import ToggleModalButton from 'components/toggle_modal_button';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import GroupList from '../group/groups';
 import Constants from 'utils/constants';
-import {UsersWillBeRemovedError} from '../group/errors';
+import {NeedGroupsError, UsersWillBeRemovedError} from '../group/errors';
 import LineSwitch from '../line_switch';
+import FormError from '../../../form_error';
 
 class ChannelDetails extends React.Component {
     static propTypes = {
@@ -36,6 +37,8 @@ class ChannelDetails extends React.Component {
         allGroups: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getGroups: PropTypes.func.isRequired,
+            linkGroupSyncable: PropTypes.func.isRequired,
+            unlinkGroupSyncable: PropTypes.func.isRequired,
             membersMinusGroupMembers: PropTypes.func.isRequired,
             setNavigationBlocked: PropTypes.func.isRequired,
             getChannel: PropTypes.func.isRequired,
@@ -101,18 +104,36 @@ class ChannelDetails extends React.Component {
         this.processGroupsChange(groups);
     }
 
-    handleSubmit = () => {
+    handleSubmit = async () => {
         this.setState({saving: true});
+        const {groups, isSynced, isPublic} = this.state;
 
-        const serverError = null;
-        const saveNeeded = false;
+        let serverError = null;
+        let saveNeeded = false;
 
-        // TODO: save changes
+        const {channelID, actions, channel} = this.props;
+        if (this.state.groups.length === 0) {
+            serverError = <NeedGroupsError/>;
+            saveNeeded = true;
+        } else {
+            // TODO: add confirm dialog
+            try {
+                await actions.patchChannel({
+                    ...channel,
+                    group_constrained: isSynced,
+                    type: isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL,
+                });
+                const unlink = this.props.groups.filter((g) => !groups.includes(g)).map((g) => actions.unlinkGroupSyncable(g.id, channelID));
+                const link = groups.filter((g) => !this.props.groups.includes(g)).map((g) => actions.linkGroupSyncable(g.id, channelID));
+                await Promise.all([...unlink, ...link]);
+            } catch (ex) {
+                serverError = <FormError error={ex}/>;
+            }
+        }
 
         this.setState({serverError, saving: false, saveNeeded});
-        this.props.actions.setNavigationBlocked(saveNeeded);
+        actions.setNavigationBlocked(saveNeeded);
     }
-
     render = () => {
         const {isSynced, isPublic, groups} = this.state;
         const channel = this.props.channel;
@@ -283,6 +304,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getChannel: fetchChannel,
             getGroups: fetchAssociatedGroups,
+            linkGroupSyncable,
+            unlinkGroupSyncable,
             membersMinusGroupMembers,
             setNavigationBlocked,
         }, dispatch),
