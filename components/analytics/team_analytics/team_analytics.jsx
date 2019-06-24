@@ -83,6 +83,7 @@ export default class TeamAnalytics extends React.Component {
     getData = async (id) => {
         AdminActions.getStandardAnalytics(id);
         AdminActions.getPostsPerDayAnalytics(id);
+        AdminActions.getBotPostsPerDayAnalytics(id);
         AdminActions.getUsersPerDayAnalytics(id);
         const {data: recentlyActiveUsers} = await this.props.actions.getProfilesInTeam(id, 0, General.PROFILE_CHUNK_SIZE, 'last_activity_at');
         const {data: newUsers} = await this.props.actions.getProfilesInTeam(id, 0, General.PROFILE_CHUNK_SIZE, 'create_at');
@@ -130,6 +131,7 @@ export default class TeamAnalytics extends React.Component {
 
         const stats = this.props.stats[this.state.team.id];
         const postCountsDay = formatPostsPerDayData(stats[StatTypes.POST_PER_DAY]);
+        const botPostCountsDay = formatPostsPerDayData(stats[StatTypes.BOT_POST_PER_DAY]);
         const userCountsWithPostsDay = formatUsersWithPostsPerDayData(stats[StatTypes.USERS_WITH_POSTS_PER_DAY]);
 
         let banner = (
