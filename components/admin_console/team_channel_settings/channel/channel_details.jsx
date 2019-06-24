@@ -8,7 +8,7 @@ import {bindActionCreators} from 'redux';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getAllGroups, getGroupsAssociatedToChannel} from 'mattermost-redux/selectors/entities/groups';
-import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
+import {getChannel as fetchChannel, membersMinusGroupMembers} from 'mattermost-redux/actions/channels';
 import {getGroupsAssociatedToChannel as fetchAssociatedGroups} from 'mattermost-redux/actions/groups';
 import {connect} from 'react-redux';
 
@@ -36,6 +36,7 @@ class ChannelDetails extends React.Component {
         allGroups: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getGroups: PropTypes.func.isRequired,
+            membersMinusGroupMembers: PropTypes.func.isRequired,
             setNavigationBlocked: PropTypes.func.isRequired,
             getChannel: PropTypes.func.isRequired,
         }).isRequired,
@@ -72,22 +73,32 @@ class ChannelDetails extends React.Component {
         this.props.actions.setNavigationBlocked(true);
     }
 
+    processGroupsChange(groups) {
+        this.props.actions.setNavigationBlocked(true);
+
+        const removed = this.props.groups.filter((g) => !groups.includes(g)).map((g) => g.id);
+        this.props.actions.membersMinusGroupMembers(this.props.channelID, removed).then((result) => {
+            let serverError = null;
+            if (result.data.total_count > 0) {
+                serverError = (
+                    <UsersWillBeRemovedError
+                        team={this.props.channel}
+                        amount={result.data.total_count}
+                    />
+                );
+            }
+            this.setState({groups, saveNeeded: true, serverError});
+        });
+    }
+
     handleGroupRemoved = (gid) => {
         const groups = this.state.groups.filter((g) => g.id !== gid);
-        const serverError = (
-            <UsersWillBeRemovedError
-                team={this.props.channel} // TODO: fix
-                amount={40}
-            />
-        );
-        this.setState({groups, saveNeeded: true, serverError});
-        this.props.actions.setNavigationBlocked(true);
+        this.processGroupsChange(groups);
     }
 
     handleGroupChange = (groupIDs) => {
         const groups = [...this.state.groups, ...groupIDs.map((gid) => this.props.allGroups[gid])];
-        this.setState({groups, saveNeeded: true});
-        this.props.actions.setNavigationBlocked(true);
+        this.processGroupsChange(groups);
     }
 
     handleSubmit = () => {
@@ -272,6 +283,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getChannel: fetchChannel,
             getGroups: fetchAssociatedGroups,
+            membersMinusGroupMembers,
             setNavigationBlocked,
         }, dispatch),
     };

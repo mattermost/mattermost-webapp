@@ -8,7 +8,7 @@ import {bindActionCreators} from 'redux';
 
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import {getTeam as fetchTeam} from 'mattermost-redux/actions/teams';
+import {getTeam as fetchTeam, membersMinusGroupMembers} from 'mattermost-redux/actions/teams';
 
 import {getAllGroups, getGroupsAssociatedToTeam} from 'mattermost-redux/selectors/entities/groups';
 
@@ -46,6 +46,7 @@ class TeamDetails extends React.Component {
         actions: PropTypes.shape({
             setNavigationBlocked: PropTypes.func.isRequired,
             getTeam: PropTypes.func.isRequired,
+            membersMinusGroupMembers: PropTypes.func.isRequired,
             getGroups: PropTypes.func.isRequired,
         }).isRequired,
     };
@@ -103,22 +104,32 @@ class TeamDetails extends React.Component {
         this.props.actions.setNavigationBlocked(true);
     }
 
+    processGroupsChange(groups) {
+        this.props.actions.setNavigationBlocked(true);
+
+        const removed = this.props.groups.filter((g) => !groups.includes(g)).map((g) => g.id);
+        this.props.actions.membersMinusGroupMembers(this.props.teamID, removed).then((result) => {
+            let serverError = null;
+            if (result.data.total_count > 0) {
+                serverError = (
+                    <UsersWillBeRemovedError
+                        team={this.props.team}
+                        amount={result.data.total_count}
+                    />
+                );
+            }
+            this.setState({groups, saveNeeded: true, serverError});
+        });
+    }
+
     handleGroupRemoved = (gid) => {
         const groups = this.state.groups.filter((g) => g.id !== gid);
-        const serverError = (
-            <UsersWillBeRemovedError
-                team={this.props.team}
-                amount={40}
-            />
-        );
-        this.setState({groups, saveNeeded: true, serverError});
-        this.props.actions.setNavigationBlocked(true);
+        this.processGroupsChange(groups);
     }
 
     handleGroupChange = (groupIDs) => {
         const groups = [...this.state.groups, ...groupIDs.map((gid) => this.props.allGroups[gid])];
-        this.setState({groups, saveNeeded: true});
-        this.props.actions.setNavigationBlocked(true);
+        this.processGroupsChange(groups);
     }
 
     render = () => {
@@ -306,6 +317,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getTeam: fetchTeam,
             getGroups: fetchAssociatedGroups,
+            membersMinusGroupMembers,
             setNavigationBlocked,
         }, dispatch),
     };
