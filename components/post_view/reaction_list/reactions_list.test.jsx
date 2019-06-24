@@ -18,7 +18,6 @@ describe('components/ReactionList', () => {
 
     const post = {
         id: 'post_id',
-        has_reactions: true,
     };
 
     const teamId = 'teamId';
@@ -36,7 +35,20 @@ describe('components/ReactionList', () => {
         actions,
     };
 
-    test('Should match snapshot for reactions', () => {
+    test('should render nothing when no reactions', () => {
+        const props = {
+            ...baseProps,
+            reactions: {},
+        };
+
+        const wrapper = shallow(
+            <ReactionList {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render when there are reactions', () => {
         const wrapper = shallow(
             <ReactionList {...baseProps}/>
         );
