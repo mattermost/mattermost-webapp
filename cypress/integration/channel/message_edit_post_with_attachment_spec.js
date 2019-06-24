@@ -9,6 +9,8 @@
 
 /* eslint max-nested-callbacks: ["error", 4] */
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('MM-13697 Edit Post with attachment', () => {
     before(() => {
         // # Login and go to /
@@ -32,7 +34,7 @@ describe('MM-13697 Edit Post with attachment', () => {
         });
 
         // # Type 'This is sample text' and submit
-        cy.get('#post_textbox').type('This is sample text{enter}');
+        cy.postMessage('This is sample text');
 
         // # Get last post ID
         cy.getLastPostId().then((postID) => {
@@ -42,19 +44,20 @@ describe('MM-13697 Edit Post with attachment', () => {
             // # click edit post
             cy.get(`#edit_post_${postID}`).click();
 
-            // * Check if focus is set to "edit_textbox"
-            cy.focused().should('have.attr', 'id', 'edit_textbox');
-
             // # Edit message to 'This is sample add text'
-            cy.get('#edit_textbox').should('be.visible').type('{leftarrow}{leftarrow}{leftarrow}{leftarrow}add ');
+            cy.get('#edit_textbox').
+                should('be.visible').
+                and('be.focused').
+                wait(TIMEOUTS.TINY).
+                type('{leftarrow}{leftarrow}{leftarrow}{leftarrow}').type('add ');
 
             // # Click button Edit
             cy.get('#editButton').click();
 
-            cy.get(`#${postID}_message`).within(() => {
-                // * Assert post message should contain 'This is sample add text'
-                cy.get('.post-message__text p').should('contain', 'This is sample add text');
+            // * Assert post message should contain 'This is sample add text'
+            cy.get(`#postMessageText_${postID}`).should('have.text', 'This is sample add text');
 
+            cy.get(`#${postID}_message`).within(() => {
                 // * Assert file attachment should still exist
                 cy.get('.file-view--single').should('be.visible');
             });

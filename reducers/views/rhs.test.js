@@ -16,11 +16,13 @@ describe('Reducers.RHS', () => {
         rhsState: null,
         searchTerms: '',
         searchResultsTerms: '',
+        pluginId: '',
         isSearchingFlaggedPost: false,
         isSearchingPinnedPost: false,
         isMenuOpen: false,
         isSidebarOpen: false,
         isSidebarExpanded: false,
+
     };
 
     test('Initial state', () => {
@@ -46,6 +48,24 @@ describe('Reducers.RHS', () => {
             ...initialState,
             selectedChannelId: '123',
             rhsState: RHSStates.PIN,
+            isSidebarOpen: true,
+        });
+    });
+
+    test('should match RHS state to plugin id', () => {
+        const nextState = rhsReducer(
+            {},
+            {
+                type: ActionTypes.UPDATE_RHS_STATE,
+                state: RHSStates.PLUGIN,
+                pluginId: '123',
+            }
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            pluginId: '123',
+            rhsState: RHSStates.PLUGIN,
             isSidebarOpen: true,
         });
     });

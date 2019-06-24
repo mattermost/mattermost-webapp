@@ -257,8 +257,10 @@ export default class SearchBar extends React.Component {
                             aria-hidden='true'
                         />
                         <SuggestionBox
-                            id='searchBox'
                             ref={this.getSearch}
+                            id='searchBox'
+                            aria-label={Utils.localizeMessage('accessibility.sections.searchBox', 'search region')}
+                            tabIndex='-1'
                             className='search-bar'
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                             value={this.props.searchTerms}

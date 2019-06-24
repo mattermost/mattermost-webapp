@@ -364,24 +364,30 @@ export default class RhsThread extends React.Component {
                     onScroll={this.handleScroll}
                 >
                     <div className='post-right__scroll'>
-                        {!isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
-                        <RhsRootPost
-                            ref={selected.id}
-                            post={selected}
-                            commentCount={postsLength}
-                            teamId={this.props.channel.team_id}
-                            currentUserId={this.props.currentUserId}
-                            previewCollapsed={this.props.previewCollapsed}
-                            previewEnabled={this.props.previewEnabled}
-                            isBusy={this.state.isBusy}
-                            handleCardClick={this.handleCardClick}
-                        />
-                        {isFakeDeletedPost && rootPostDay && <DateSeparator date={rootPostDay}/>}
                         <div
-                            ref='rhspostlist'
-                            className='post-right-comments-container'
+                            id='rhsContent'
+                            aria-label={Utils.localizeMessage('accessibility.sections.rhsContent', 'message details complimentary region')}
+                            className='post-right__content'
                         >
-                            {commentsLists}
+                            {!isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
+                            <RhsRootPost
+                                ref={selected.id}
+                                post={selected}
+                                commentCount={postsLength}
+                                teamId={this.props.channel.team_id}
+                                currentUserId={this.props.currentUserId}
+                                previewCollapsed={this.props.previewCollapsed}
+                                previewEnabled={this.props.previewEnabled}
+                                isBusy={this.state.isBusy}
+                                handleCardClick={this.handleCardClick}
+                            />
+                            {isFakeDeletedPost && rootPostDay && <DateSeparator date={rootPostDay}/>}
+                            <div
+                                ref='rhspostlist'
+                                className='post-right-comments-container'
+                            >
+                                {commentsLists}
+                            </div>
                         </div>
                         {createComment}
                     </div>

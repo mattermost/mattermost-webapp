@@ -90,6 +90,11 @@ export default class PostList extends React.PureComponent {
              * Function to check and set if app is in mobile view
              */
             checkAndSetMobileView: PropTypes.func.isRequired,
+
+            /**
+             * Function to be called on recurring channel visits to get any possible missing latest posts
+             */
+            syncPostsInChannel: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -248,13 +253,17 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        const {hasMoreBefore} = await this.props.actions.loadInitialPosts(channelId, focusedPostId);
+        if (this.state.loadingFirstSetOfPosts) {
+            const {hasMoreBefore} = await this.props.actions.loadInitialPosts(channelId, focusedPostId);
 
-        if (this.mounted) {
-            this.setState({
-                loadingFirstSetOfPosts: false,
-                atEnd: !hasMoreBefore,
-            });
+            if (this.mounted) {
+                this.setState({
+                    loadingFirstSetOfPosts: false,
+                    atEnd: !hasMoreBefore,
+                });
+            }
+        } else {
+            await this.props.actions.syncPostsInChannel(channelId, this.props.latestPostTimeStamp);
         }
     }
 
@@ -515,7 +524,10 @@ export default class PostList extends React.PureComponent {
         }
 
         return (
-            <div id='post-list'>
+            <div
+                id='post-list'
+                aria-label={Utils.localizeMessage('accessibility.sections.centerContent', 'message list main region')}
+            >
                 {this.state.isMobile && (
                     <React.Fragment>
                         <FloatingTimestamp
@@ -532,17 +544,23 @@ export default class PostList extends React.PureComponent {
                 )}
                 {newMessagesBelow}
                 <div
+                    role='presentation'
                     className='post-list-holder-by-time'
                     key={'postlist-' + channel.id}
                 >
-                    <div className='post-list__table'>
+                    <div
+                        role='presentation'
+                        className='post-list__table'
+                    >
                         <div
+                            role='presentation'
                             id='postListContent'
                             className='post-list__content'
                         >
                             <AutoSizer>
                                 {({height, width}) => (
                                     <DynamicSizeList
+                                        role='presentation'
                                         ref={this.listRef}
                                         height={height}
                                         width={width}
