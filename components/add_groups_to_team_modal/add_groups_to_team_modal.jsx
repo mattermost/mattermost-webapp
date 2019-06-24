@@ -24,7 +24,7 @@ export default class AddGroupsToTeamModal extends React.Component {
         currentTeamId: PropTypes.string.isRequired,
         searchTerm: PropTypes.string.isRequired,
         groups: PropTypes.array.isRequired,
-        excludeGroups: PropTypes.array.isRequired,
+        excludeGroups: PropTypes.array,
         onHide: PropTypes.func,
         skipCommit: PropTypes.bool,
         onAddCallback: PropTypes.func,

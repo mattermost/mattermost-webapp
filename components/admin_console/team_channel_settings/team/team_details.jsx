@@ -23,7 +23,6 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 import SaveButton from 'components/save_button';
 import {localizeMessage} from 'utils/utils';
-import FormError from 'components/form_error';
 
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 
@@ -34,44 +33,9 @@ import {setNavigationBlocked} from 'actions/admin_actions';
 import LineSwitch from '../line_switch.jsx';
 import GroupList from '../group/groups.jsx';
 
+import {NeedGroupsError, UsersWillBeRemovedError} from '../group/errors';
+
 import {TeamProfile} from './team_profile';
-
-const NeedGroupsError = () => (
-    <FormError
-        error={(
-            <FormattedMessage
-                id='admin.team_settings.team_detail.need_groups'
-                defaultMessage='You must add at least one group to manage this team by sync group members.'
-            />)}
-    />
-);
-
-const UsersWillBeRemovedError = ({amount, team}) => (
-    <FormError
-        iconClassName='fa-exclamation-triangle'
-        textClassName='has-warning'
-        error={(
-            <span>
-                <FormattedMessage
-                    id='admin.team_settings.team_detail.users_will_be_removed'
-                    defaultMessage='{amount} Users will be removed from this team. They are not in groups linked to this team.'
-                    values={{amount}}
-                />
-                <ToggleModalButton
-                    className='btn btn-link'
-                    dialogType={AddGroupsToTeamModal}
-                    dialogProps={{team}}
-                >
-                    <FormattedMessage
-                        id='admin.team_settings.team_details.view_removed_users'
-                        defaultMessage='View These Users'
-                    />
-                </ToggleModalButton>
-            </span>
-        )}
-    />
-
-);
 
 class TeamDetails extends React.Component {
     static propTypes = {

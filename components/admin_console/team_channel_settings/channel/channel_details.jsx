@@ -7,9 +7,9 @@ import {FormattedMessage} from 'react-intl';
 import {bindActionCreators} from 'redux';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-
+import {getAllGroups, getGroupsAssociatedToChannel} from 'mattermost-redux/selectors/entities/groups';
 import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
-
+import {getGroupsAssociatedToChannel as fetchAssociatedGroups} from 'mattermost-redux/actions/groups';
 import {connect} from 'react-redux';
 
 import {t} from 'utils/i18n';
@@ -19,38 +19,37 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 import SaveButton from 'components/save_button';
 import {localizeMessage} from 'utils/utils';
-import FormError from 'components/form_error';
 
 import {setNavigationBlocked} from 'actions/admin_actions';
 import ToggleModalButton from 'components/toggle_modal_button';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import GroupList from '../group/groups';
-
-const MANAGE_MODE = {
-    NONE: -1,
-    SYNC_GROUPS: 0,
-    ALLOW_ALL: 1,
-    DOMAIN_RESTRICTED: 2,
-};
+import Constants from 'utils/constants';
+import {UsersWillBeRemovedError} from '../group/errors';
+import LineSwitch from '../line_switch';
 
 class ChannelDetails extends React.Component {
     static propTypes = {
         channelID: PropTypes.string.isRequired,
         channel: PropTypes.object.isRequired,
+        groups: PropTypes.arrayOf(PropTypes.object).isRequired,
+        allGroups: PropTypes.object.isRequired,
         actions: PropTypes.shape({
+            getGroups: PropTypes.func.isRequired,
             setNavigationBlocked: PropTypes.func.isRequired,
             getChannel: PropTypes.func.isRequired,
         }).isRequired,
     };
 
     static defaultProps = {
-        team: {display_name: '', id: ''},
+        channel: {display_name: '', id: ''},
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            teamMode: MANAGE_MODE.SYNC_GROUPS,
+            isSynced: Boolean(props.channel.group_constrained),
+            isPublic: props.channel.type === Constants.OPEN_CHANNEL,
             saving: false,
             saveNeeded: false,
             serverError: null,
@@ -59,11 +58,37 @@ class ChannelDetails extends React.Component {
 
     componentDidMount() {
         const {channelID, actions} = this.props;
-        if (!this.props.channel.id) {
-            actions.getChannel(channelID);
-        }
+        actions.getChannel(channelID).
+            then(() => actions.getGroups(channelID)).
+            then(() => this.setState({groups: this.props.groups}));
     }
 
+    setToggles = (isSynced, isPublic) => {
+        this.setState({
+            saveNeeded: true,
+            isSynced,
+            isPublic: !isSynced && isPublic,
+        });
+        this.props.actions.setNavigationBlocked(true);
+    }
+
+    handleGroupRemoved = (gid) => {
+        const groups = this.state.groups.filter((g) => g.id !== gid);
+        const serverError = (
+            <UsersWillBeRemovedError
+                team={this.props.channel} // TODO: fix
+                amount={40}
+            />
+        );
+        this.setState({groups, saveNeeded: true, serverError});
+        this.props.actions.setNavigationBlocked(true);
+    }
+
+    handleGroupChange = (groupIDs) => {
+        const groups = [...this.state.groups, ...groupIDs.map((gid) => this.props.allGroups[gid])];
+        this.setState({groups, saveNeeded: true});
+        this.props.actions.setNavigationBlocked(true);
+    }
 
     handleSubmit = () => {
         this.setState({saving: true});
@@ -77,16 +102,47 @@ class ChannelDetails extends React.Component {
         this.props.actions.setNavigationBlocked(saveNeeded);
     }
 
-    toggleMode = (mode) => {
-        const newMode = (mode === this.state.teamMode) ? MANAGE_MODE.NONE : mode;
-
-        this.setState({saveNeeded: true, teamMode: newMode});
-        this.props.actions.setNavigationBlocked(true);
-    }
-
     render = () => {
-        const isModeSync = false;
+        const {isSynced, isPublic, groups} = this.state;
         const channel = this.props.channel;
+
+        const SyncGroupsToggle = () => (
+            <LineSwitch
+                toggled={isSynced}
+                onToggle={() => this.setToggles(!isSynced, isPublic)}
+                title={(
+                    <FormattedMessage
+                        id='admin.channel_settings.channel_details.syncGroupMembers'
+                        defaultMessage='Sync Group Members'
+                    />
+                )}
+                subTitle={(
+                    <FormattedMarkdownMessage
+                        id='admin.channel_settings.channel_details.syncGroupMembersDescr'
+                        defaultMessage='When enabled, adding and removing users from groups will add or remove them from this channel. The only way of inviting members to this channel is by adding the groups they belong to. [Learn More](www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
+                    />
+                )}
+            />);
+
+        const AllowAllToggle = () =>
+            !isSynced && (
+                <LineSwitch
+                    toggled={isPublic}
+                    onToggle={() => this.setToggles(isSynced, !isPublic)}
+                    title={(
+                        <FormattedMessage
+                            id='admin.channel_settings.channel_details.isPublic'
+                            defaultMessage='Public channel or private channel'
+                        />
+                    )}
+                    subTitle={(
+                        <FormattedMessage
+                            id='admin.channel_settings.channel_details.isPublicDescr'
+                            defaultMessage='If `public` the channel is discoverable and any user can join, or if `private` invitations are required.'
+                        />
+                    )}
+                />);
+
         return (
             <div className='wrapper--fixed'>
                 <div className='admin-console__header with-back'>
@@ -96,7 +152,7 @@ class ChannelDetails extends React.Component {
                             className='fa fa-angle-left back'
                         />
                         <FormattedMessage
-                            id='admin.team_settings.channel_detail.channel_configuration'
+                            id='admin.channel_settings.channel_detail.channel_configuration'
                             defaultMessage='Channel Configuration'
                         />
                     </div>
@@ -125,28 +181,48 @@ class ChannelDetails extends React.Component {
                             </div>
 
                         </AdminPanel>
+
                         <AdminPanel
-                            id='team_groups'
-                            titleId={isModeSync ? t('admin.team_settings.team_detail.syncedGroupsTitle') : t('admin.team_settings.team_detail.groupsTitle')}
-                            titleDefault={isModeSync ? 'Synced Groups' : 'Groups'}
-                            subtitleId={isModeSync ? t('admin.team_settings.team_detail.syncedGroupsDescription') : t('admin.team_settings.team_detail.groupsDescription')}
-                            subtitleDefault={isModeSync ? 'Add and remove team members based on their group membership..' : 'Group members will be added to the team.'}
+                            id='channel_manage'
+                            titleId={t('admin.channel_settings.channel_detail.manageTitle')}
+                            titleDefault='Channel Management'
+                            subtitleId={t('admin.channel_settings.channel_detail.manageDescription')}
+                            subtitleDefault='Choose between inviting members manually or syncing members automatically from groups.'
+                        >
+                            <div className='group-teams-and-channels'>
+                                <div className='group-teams-and-channels--body'>
+                                    <SyncGroupsToggle/>
+                                    <AllowAllToggle/>
+                                </div>
+                            </div>
+                        </AdminPanel>
+
+                        <AdminPanel
+                            id='channel_groups'
+                            titleId={isSynced ? t('admin.channel_settings.channel_detail.syncedGroupsTitle') : t('admin.channel_settings.channel_detail.groupsTitle')}
+                            titleDefault={isSynced ? 'Synced Groups' : 'Groups'}
+                            subtitleId={isSynced ? t('admin.channel_settings.channel_detail.syncedGroupsDescription') : t('admin.channel_settings.channel_detail.groupsDescription')}
+                            subtitleDefault={isSynced ? 'Add and remove team members based on their group membership..' : 'Group members will be added to the team.'}
                             button={
                                 <ToggleModalButton
                                     className='btn btn-primary'
                                     dialogType={AddGroupsToChannelModal}
-                                    dialogProps={{channel}}
+                                    dialogProps={{channel, onAddCallback: this.handleGroupChange, skipCommit: true, excludeGroups: groups}}
                                 >
                                     <FormattedMessage
-                                        id='admin.team_settings.team_details.add_group'
+                                        id='admin.channel_settings.channel_details.add_group'
                                         defaultMessage='Add Group'
                                     />
                                 </ToggleModalButton>}
                         >
-                            {channel.id && <GroupList
-                                channel={channel}
-                                isModeSync={isModeSync}
-                            />}
+                            {channel.id && (
+                                <GroupList
+                                    channel={channel}
+                                    groups={groups}
+                                    onGroupRemoved={this.handleGroupRemoved}
+                                    isModeSync={isSynced}
+                                />
+                            )}
 
                         </AdminPanel>
                     </div>
@@ -156,20 +232,20 @@ class ChannelDetails extends React.Component {
                         saving={this.state.saving}
                         disabled={!this.state.saveNeeded}
                         onClick={this.handleSubmit}
-                        savingMessage={localizeMessage('admin.team_settings.team_detail.saving', 'Saving Config...')}
+                        savingMessage={localizeMessage('admin.channel_settings.channel_detail.saving', 'Saving Config...')}
                     />
                     <BlockableLink
                         className='cancel-button'
                         to='/admin_console/user_management/channels'
                     >
                         <FormattedMessage
-                            id='admin.team_settings.team_detail.cancel'
+                            id='admin.channel_settings.channel_detail.cancel'
                             defaultMessage='Cancel'
                         />
                     </BlockableLink>
 
                     <div className='error-message'>
-                        <FormError error={this.state.serverError}/>
+                        {this.state.serverError}
                     </div>
                 </div>
             </div>
@@ -180,9 +256,13 @@ class ChannelDetails extends React.Component {
 function mapStateToProps(state, props) {
     const channelID = props.match.params.channel_id;
     const channel = getChannel(state, channelID) || {};
+    const groups = getGroupsAssociatedToChannel(state, channelID);
+    const allGroups = getAllGroups(state, channel.team_id);
 
     return {
         channel,
+        allGroups,
+        groups,
         channelID,
     };
 }
@@ -191,6 +271,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getChannel: fetchChannel,
+            getGroups: fetchAssociatedGroups,
             setNavigationBlocked,
         }, dispatch),
     };
