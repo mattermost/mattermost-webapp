@@ -226,6 +226,7 @@ export default class TeamDetails extends React.Component {
 
                 <SaveChangesPanel
                     saving={saving}
+                    cancelLink='/admin_console/user_management/teams'
                     saveNeeded={saveNeeded}
                     onClick={this.showRemoveUsersModal}
                     serverError={serverError}

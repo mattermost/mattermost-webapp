@@ -41,7 +41,7 @@ export default class RemoveConfirmModal extends React.PureComponent {
         const {amount, inChannel} = this.props;
         const title = (
             <FormattedMessage
-                id='admin.team_settings.removeConfirmModal.title'
+                id='admin.team_channel_settings.removeConfirmModal.title'
                 defaultMessage='Save and remove {amount} users?'
                 values={{amount}}
             />
@@ -49,7 +49,7 @@ export default class RemoveConfirmModal extends React.PureComponent {
 
         const message = (
             <FormattedMessage
-                id='admin.team_settings.removeConfirmModal.message'
+                id='admin.team_channel_settings.removeConfirmModal.message'
                 defaultMessage='{amount} users will be removed on the next AD/LDAP synchronization. They are not in groups linked to this {type}. Are you sure you wish to remove these users?'
                 values={{amount, type: inChannel ? 'channel' : 'group'}}
             />
@@ -58,7 +58,7 @@ export default class RemoveConfirmModal extends React.PureComponent {
         const buttonClass = 'btn btn-primary';
         const button = (
             <FormattedMessage
-                id='admin.team_settings.removeConfirmModal.remove'
+                id='admin.team_channel_settings.removeConfirmModal.remove'
                 defaultMessage='Save and Remove Users'
             />
         );

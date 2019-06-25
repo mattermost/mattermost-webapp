@@ -219,6 +219,7 @@ export default class ChannelDetails extends React.Component {
                     saveNeeded={saveNeeded}
                     onClick={this.showRemoveUsersModal}
                     serverError={serverError}
+                    cancelLink='/admin_console/user_management/channels'
                 />
 
             </div>

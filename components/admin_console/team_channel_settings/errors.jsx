@@ -16,7 +16,7 @@ export const NeedGroupsError = () => (
     <FormError
         error={(
             <FormattedMessage
-                id='admin.team_settings.team_detail.need_groups'
+                id='admin.team_channel_settings.need_groups'
                 defaultMessage='You must add at least one group to manage this team by sync group members.'
             />)}
     />
@@ -37,17 +37,17 @@ export class UsersWillBeRemovedError extends React.PureComponent {
                 error={(
                     <span>
                         <FormattedMessage
-                            id='admin.team_settings.team_detail.users_will_be_removed'
+                            id='admin.team_channel_settings.users_will_be_removed'
                             defaultMessage='{amount} Users will be removed from this team. They are not in groups linked to this team.'
                             values={{amount}}
                         />
                         <ToggleModalButton
                             className='btn btn-link'
-                            dialogType={AddGroupsToTeamModal}
+                            dialogType={AddGroupsToTeamModal} // TODO: fix this, it should display 'These users will be removed' dialog
                             dialogProps={{team}}
                         >
                             <FormattedMessage
-                                id='admin.team_settings.team_details.view_removed_users'
+                                id='admin.team_channel_settings.view_removed_users'
                                 defaultMessage='View These Users'
                             />
                         </ToggleModalButton>

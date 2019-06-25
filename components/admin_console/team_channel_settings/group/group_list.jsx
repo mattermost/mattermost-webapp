@@ -24,13 +24,13 @@ export default class GroupList extends AbstractList {
             <div className='groups-list--header'>
                 <div className='group-name'>
                     <FormattedMessage
-                        id='admin.team_settings.group_list.nameHeader'
+                        id='admin.team_channel_settings.group_list.nameHeader'
                         defaultMessage='Name'
                     />
                 </div>
                 <div className='group-description'>
                     <FormattedMessage
-                        id='admin.team_settings.group_list.membersHeader'
+                        id='admin.team_channel_settings.group_list.membersHeader'
                         defaultMessage='Members'
                     />
                 </div>

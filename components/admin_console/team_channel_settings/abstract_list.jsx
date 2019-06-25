@@ -112,7 +112,7 @@ export default class List extends React.PureComponent {
                 <div className='groups-list--footer'>
                     <div className='counter'>
                         <FormattedMessage
-                            id='admin.team_settings.list.paginatorCount'
+                            id='admin.team_channel_settings.list.paginatorCount'
                             defaultMessage='{startCount, number} - {endCount, number} of {total, number}'
                             values={{
                                 startCount,

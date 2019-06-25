@@ -10,21 +10,21 @@ import SaveButton from 'components/save_button';
 import {localizeMessage} from 'utils/utils';
 import BlockableLink from 'components/admin_console/blockable_link';
 
-export default function SaveChangesPanel({saveNeeded, onClick, saving, serverError}) {
+export default function SaveChangesPanel({saveNeeded, onClick, saving, serverError, cancelLink}) {
     return (
         <div className='admin-console-save'>
             <SaveButton
                 saving={saving}
                 disabled={!saveNeeded}
                 onClick={onClick}
-                savingMessage={localizeMessage('admin.team_settings.channel_detail.saving', 'Saving Config...')}
+                savingMessage={localizeMessage('admin.team_channel_settings.saving', 'Saving Config...')}
             />
             <BlockableLink
                 className='cancel-button'
-                to='/admin_console/user_management/teams'
+                to={cancelLink}
             >
                 <FormattedMessage
-                    id='admin.team_settings.channel_detail.cancel'
+                    id='admin.team_channel_settings.cancel'
                     defaultMessage='Cancel'
                 />
             </BlockableLink>
@@ -40,5 +40,6 @@ SaveChangesPanel.propTypes = {
     saving: PropTypes.bool.isRequired,
     saveNeeded: PropTypes.bool.isRequired,
     onClick: PropTypes.func.isRequired,
+    cancelLink: PropTypes.string.isRequired,
     serverError: PropTypes.node,
 };

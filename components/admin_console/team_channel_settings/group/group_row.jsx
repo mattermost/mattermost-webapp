@@ -23,7 +23,7 @@ export default class GroupRow extends React.Component {
                     </span>
                     <span className='group-description'>
                         <FormattedMessage
-                            id='admin.team_settings.group_row.members'
+                            id='admin.team_channel_settings.group_row.members'
                             defaultMessage='{memberCount} members'
                             values={{memberCount: group.member_count}}
                         />
@@ -34,7 +34,7 @@ export default class GroupRow extends React.Component {
                             onClick={() => this.props.removeGroup(group.id)}
                         >
                             <FormattedMessage
-                                id='admin.team_settings.group_row.remove'
+                                id='admin.team_channel_settings.group_row.remove'
                                 defaultMessage='Remove'
                             />
                         </a>
