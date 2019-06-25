@@ -99,14 +99,14 @@
         width: 16px;
         height: 16px;
         border-radius: 16px;
-        background: $gray;
+        background: var(--center-channel-color-30);
         padding: 1px;
         cursor: pointer;
         &:hover {
             background-color: var(--button-bg);
         }
         svg {
-            fill: $white;
+            fill: var(--center-channel-bg);
             opacity: .6;
         }
     }

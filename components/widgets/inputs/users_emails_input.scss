@@ -19,6 +19,9 @@
     }
     .users-emails-input__menu {
         margin-top: 0px;
+        background: var(--center-channel-bg);
+        color: var(--center-channel-color);
+        border-color: var(--center-channel-color);
     }
     .users-emails-input__menu-list{
         padding: 0px;
@@ -50,14 +53,14 @@
             width: 36px;
             height: 36px;
             border-radius: 18px;
-            background: $primary-color;
+            background: var(--center-channel-color-60);
             padding: 3px;
             margin-right: 8px;
             display: inline-block;
             svg {
                 width: 24px;
                 height: 24px;
-                fill: $white;
+                fill: var(--center-channel-color);
                 margin: 3px;
             }
         }
@@ -109,14 +112,14 @@
         width: 16px;
         height: 16px;
         border-radius: 16px;
-        background: $gray;
+        background: var(--center-channel-color-30);
         padding: 1px;
         cursor: pointer;
         &:hover {
             background-color: var(--button-bg);
         }
         svg {
-            fill: $white;
+            fill: var(--center-channel-color);
             opacity: .6;
         }
     }
