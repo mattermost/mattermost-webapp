@@ -387,8 +387,6 @@ Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
             body: settings,
         });
     });
-
-    cy.apiLogout();
 });
 
 Cypress.Commands.add('apiGetConfig', () => {
@@ -396,14 +394,4 @@ Cypress.Commands.add('apiGetConfig', () => {
 
     // # Get current settings
     return cy.request('/api/v4/config');
-});
-
-// *****************************************************************************
-// Post creation
-// *****************************************************************************
-
-Cypress.Commands.add('postMessageAs', (sender, message, channelId, createAt = 0) => {
-    cy.task('postMessageAs', {sender, message, channelId, createAt}).
-        its('status').
-        should('be.equal', 201);
 });
