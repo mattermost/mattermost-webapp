@@ -20,7 +20,7 @@ const getSortedListOfTeams = createSelector(
 function mapStateToProps(state) {
     return {
         data: getSortedListOfTeams(state),
-        total: 100, // TODO: take care of pagination once getTeamCount is available
+        total: state.entities.teams.totalCount || 0,
         emptyListTextId: t('admin.team_settings.team_list.no_teams_found'),
         emptyListTextDefaultMessage: 'No teams found',
     };
@@ -29,7 +29,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getData: fetchTeams,
+            getData: (page, pageSize) => fetchTeams(page, pageSize, true),
         }, dispatch),
     };
 }

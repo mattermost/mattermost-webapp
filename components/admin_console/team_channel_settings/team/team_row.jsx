@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils';
 
-import TeamImage from './team_image.jsx';
+import TeamImage from './details/team_image.jsx';
 
 export default class TeamRow extends React.Component {
     static propTypes = {

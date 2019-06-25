@@ -81,7 +81,7 @@ export default class List extends React.PureComponent {
         newState.loading = true;
         this.setState(newState);
 
-        this.props.actions.getData(page, PAGE_SIZE, {}).then(() => {
+        this.props.actions.getData(page, PAGE_SIZE).then(() => {
             if (this.props.onPageChangedCallback) {
                 this.props.onPageChangedCallback(this.getPaging());
             }
@@ -112,7 +112,7 @@ export default class List extends React.PureComponent {
                 <div className='groups-list--footer'>
                     <div className='counter'>
                         <FormattedMessage
-                            id='admin.team_settings.team_list.paginatorCount'
+                            id='admin.team_settings.list.paginatorCount'
                             defaultMessage='{startCount, number} - {endCount, number} of {total, number}'
                             values={{
                                 startCount,

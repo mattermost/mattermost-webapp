@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
 
-import {getAllChannels as getData} from 'mattermost-redux/actions/channels';
+import {getAllChannelsWithCount as getData} from 'mattermost-redux/actions/channels';
 import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 
 import {t} from 'utils/i18n';
@@ -31,7 +31,7 @@ const getSortedListOfChannels = createSelector(
 function mapStateToProps(state) {
     return {
         data: getSortedListOfChannels(state),
-        total: 100, // TODO: take care of pagination once getChannelsCount is available
+        total: state.entities.channels.totalCount,
         emptyListTextId: t('admin.team_settings.channel_list.no_channels_found'),
         emptyListTextDefaultMessage: 'No channels found',
     };
