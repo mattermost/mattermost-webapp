@@ -20,7 +20,7 @@ export const TeamGroups = ({onGroupRemoved, syncChecked, team, onAddCallback, to
         titleId={syncChecked ? t('admin.team_settings.team_detail.syncedGroupsTitle') : t('admin.team_settings.team_detail.groupsTitle')}
         titleDefault={syncChecked ? 'Synced Groups' : 'Groups'}
         subtitleId={syncChecked ? t('admin.team_settings.team_detail.syncedGroupsDescription') : t('admin.team_settings.team_detail.groupsDescription')}
-        subtitleDefault={syncChecked ? 'Add and remove team members based on their group membership..' : 'Group members will be added to the team.'}
+        subtitleDefault={syncChecked ? 'Add and remove team members based on their group membership.' : 'Group members will be added to the team.'}
         button={
             <ToggleModalButton
                 className='btn btn-primary'

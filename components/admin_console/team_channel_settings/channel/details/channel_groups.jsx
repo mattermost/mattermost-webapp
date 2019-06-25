@@ -18,7 +18,7 @@ export const ChannelGroups = ({onGroupRemoved, onAddCallback, totalGroups, group
         titleId={synced ? t('admin.channel_settings.channel_detail.syncedGroupsTitle') : t('admin.channel_settings.channel_detail.groupsTitle')}
         titleDefault={synced ? 'Synced Groups' : 'Groups'}
         subtitleId={synced ? t('admin.channel_settings.channel_detail.syncedGroupsDescription') : t('admin.channel_settings.channel_detail.groupsDescription')}
-        subtitleDefault={synced ? 'Add and remove team members based on their group membership..' : 'Group members will be added to the team.'}
+        subtitleDefault={synced ? 'Add and remove channel members based on their group membership.' : 'Group members will be added to the channel.'}
         button={
             <ToggleModalButton
                 className='btn btn-primary'

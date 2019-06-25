@@ -49,7 +49,7 @@ class TeamsSettings extends React.Component {
                             titleId={t('admin.team_settings.title')}
                             titleDefault='Teams'
                             subtitleId={t('admin.team_settings.description')}
-                            subtitleDefault={'Showing {startCount, number} - {endCount, number} of {total, number} teams. Search for and [manage team settings](www.mattermost.com/pl/default-team-management.html ).'}
+                            subtitleDefault={'Showing {startCount, number} - {endCount, number} of {total, number} teams. Search for and [manage team settings](www.mattermost.com/pl/default-team-management.html).'}
                             subtitleValues={{...this.state}}
                         >
                             <TeamList onPageChangedCallback={this.onPageChangedCallback}/>
