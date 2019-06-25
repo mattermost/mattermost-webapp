@@ -90,6 +90,8 @@ export default class SystemUsersDropdown extends React.PureComponent {
         this.state = {
             showDeactivateMemberModal: false,
             showRevokeSessionsModal: false,
+            showPromoteToUserModal: false,
+            showDemoteToGuestModal: false,
             user: null,
             role: null,
         };
