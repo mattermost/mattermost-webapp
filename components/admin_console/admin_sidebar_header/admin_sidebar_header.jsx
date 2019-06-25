@@ -48,7 +48,7 @@ export default class SidebarHeader extends React.Component {
                         </div>
                         <div className='user__name overflow--ellipsis whitespace--nowrap'>{'@' + me.username}</div>
                     </div>
-                    <MenuIcon className='menu-icon'/>
+                    <MenuIcon className='style--none menu-icon'/>
                 </div>
                 <AdminNavbarDropdown/>
             </MenuWrapper>
