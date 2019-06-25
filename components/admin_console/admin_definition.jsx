@@ -643,6 +643,8 @@ export default {
                 'admin.elasticsearch.connectionUrlTitle',
                 ['admin.elasticsearch.connectionUrlDescription', {documentationLink: ''}],
                 'admin.elasticsearch.connectionUrlExample.documentationLinkText',
+                'admin.elasticsearch.skipTLSVerificationTitle',
+                'admin.elasticsearch.skipTLSVerificationDescription',
                 'admin.elasticsearch.usernameTitle',
                 'admin.elasticsearch.usernameDescription',
                 'admin.elasticsearch.passwordTitle',
@@ -3359,7 +3361,6 @@ export default {
             url: 'plugins/plugin_management',
             title: t('admin.plugins.pluginManagement'),
             title_default: 'Plugin Management',
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             searchableStrings: [
                 'admin.plugin.management.title',
                 'admin.plugins.settings.enable',

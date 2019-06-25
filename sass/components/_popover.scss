@@ -195,6 +195,8 @@
     .search-autocomplete__item {
         @include border-radius(2px);
         cursor: pointer;
+        display: flex;
+        align-items: center;
         margin: 3px 0 0 5px;
         overflow: hidden;
         padding: 6px 8px;
@@ -213,9 +215,16 @@
             display: inline;
         }
 
+        .search-autocomplete__name {
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
         .fa {
             @include opacity(.5);
             margin-right: 5px;
+            top: 1px;
+            position: relative;
         }
 
         .profile-img {

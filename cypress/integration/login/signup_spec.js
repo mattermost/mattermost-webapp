@@ -64,7 +64,7 @@ describe('Signup Email page', () => {
         cy.get('#createAccountButton').scrollIntoView().should('be.visible');
         cy.get('#createAccountButton').should('contain', 'Create Account');
 
-        cy.get('#signup_agreement').should('contain', 'By proceeding to create your account and use Mattermost, you agree to our Terms of Service and Privacy Policy. If you do not agree, you cannot use Mattermost.');
+        cy.get('#signup_agreement').should('contain', `By proceeding to create your account and use ${config.TeamSettings.SiteName}, you agree to our Terms of Service and Privacy Policy. If you do not agree, you cannot use ${config.TeamSettings.SiteName}.`);
         cy.get(`#signup_agreement > span > [href="${config.SupportSettings.TermsOfServiceLink}"]`).should('be.visible');
         cy.get(`#signup_agreement > span > [href="${config.SupportSettings.PrivacyPolicyLink}"]`).should('be.visible');
     });
