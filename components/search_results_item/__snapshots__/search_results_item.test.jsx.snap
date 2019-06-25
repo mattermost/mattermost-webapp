@@ -73,18 +73,16 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
           <div
             className="col col__name"
           >
-            <strong>
-              <Connect(UserProfile)
-                disablePopover={false}
-                isRHS={true}
-                userId="user_id"
-              />
-            </strong>
+            <Connect(UserProfile)
+              disablePopover={false}
+              isRHS={true}
+              userId="user_id"
+            />
+            <BotBadge
+              className=""
+              show={false}
+            />
           </div>
-          <BotBadge
-            className=""
-            show={false}
-          />
           <div
             className="col"
           >
@@ -291,18 +289,16 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
           <div
             className="col col__name"
           >
-            <strong>
-              <Connect(UserProfile)
-                disablePopover={false}
-                isRHS={true}
-                userId="user_id"
-              />
-            </strong>
+            <Connect(UserProfile)
+              disablePopover={false}
+              isRHS={true}
+              userId="user_id"
+            />
+            <BotBadge
+              className=""
+              show={false}
+            />
           </div>
-          <BotBadge
-            className=""
-            show={false}
-          />
           <div
             className="col"
           >
@@ -500,18 +496,16 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
           <div
             className="col col__name"
           >
-            <strong>
-              <Connect(UserProfile)
-                disablePopover={false}
-                isRHS={true}
-                userId="user_id"
-              />
-            </strong>
+            <Connect(UserProfile)
+              disablePopover={false}
+              isRHS={true}
+              userId="user_id"
+            />
+            <BotBadge
+              className=""
+              show={false}
+            />
           </div>
-          <BotBadge
-            className=""
-            show={false}
-          />
           <div
             className="col"
           >
@@ -717,19 +711,17 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
           <div
             className="col col__name"
           >
-            <strong>
-              <Connect(UserProfile)
-                disablePopover={true}
-                isRHS={true}
-                overwriteName="overridden_username"
-                userId="user_id"
-              />
-            </strong>
+            <Connect(UserProfile)
+              disablePopover={true}
+              isRHS={true}
+              overwriteName="overridden_username"
+              userId="user_id"
+            />
+            <BotBadge
+              className=""
+              show={true}
+            />
           </div>
-          <BotBadge
-            className=""
-            show={true}
-          />
           <div
             className="col"
           >

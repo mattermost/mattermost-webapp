@@ -361,16 +361,14 @@ export default class SearchResultsItem extends React.PureComponent {
                         <div>
                             <div className='post__header'>
                                 <div className='col col__name'>
-                                    <strong>
-                                        <UserProfile
-                                            userId={post.user_id}
-                                            overwriteName={overrideUsername}
-                                            disablePopover={disableProfilePopover}
-                                            isRHS={true}
-                                        />
-                                    </strong>
+                                    <UserProfile
+                                        userId={post.user_id}
+                                        overwriteName={overrideUsername}
+                                        disablePopover={disableProfilePopover}
+                                        isRHS={true}
+                                    />
+                                    <BotBadge show={Boolean(post.props && post.props.from_webhook && !this.props.isBot)}/>
                                 </div>
-                                <BotBadge show={Boolean(post.props && post.props.from_webhook && !this.props.isBot)}/>
                                 <div className='col'>
                                     {this.renderPostTime()}
                                     {pinnedBadge}
