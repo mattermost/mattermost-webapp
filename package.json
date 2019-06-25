@@ -88,6 +88,7 @@
     "css-loader": "2.1.1",
     "cypress": "3.3.1",
     "cypress-file-upload": "3.1.2",
+    "cypress-plugin-retries": "1.2.2",
     "enzyme": "3.9.0",
     "enzyme-adapter-react-16": "1.13.2",
     "enzyme-to-json": "3.3.5",

@@ -9,6 +9,7 @@ import './ui_commands';
 import './api_commands';
 import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
+import 'cypress-plugin-retries';
 
 // Add login cookies to whitelist to preserve it
 beforeEach(() => {

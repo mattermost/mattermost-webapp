@@ -36,8 +36,13 @@ describe('Login page', () => {
         cy.get('#login_section').should('be.visible');
         cy.get('#site_name').should('contain', config.TeamSettings.SiteName);
         cy.get('#site_description').should('contain', 'All team communication in one place, searchable and accessible anywhere');
-        cy.get('#loginId').should('be.visible');
-        cy.get('#loginId').should('have.attr', 'placeholder', 'Email or Username');
+        cy.get('#loginId').
+            should('be.visible').
+            and(($loginTextbox) => {
+                const placeholder = $loginTextbox[0].placeholder;
+                expect(placeholder).to.match(/Email/);
+                expect(placeholder).to.match(/Username/);
+            });
         cy.get('#loginPassword').should('be.visible');
         cy.get('#loginPassword').should('have.attr', 'placeholder', 'Password');
         cy.get('#loginButton').should('be.visible');
