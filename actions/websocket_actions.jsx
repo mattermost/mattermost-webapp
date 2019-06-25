@@ -143,6 +143,7 @@ export function reconnect(includeWebSocket = true) {
 
     dispatch({
         type: GeneralTypes.WEBSOCKET_SUCCESS,
+        timestamp: Date.now(),
     });
 
     loadPluginsIfNecessary();
@@ -217,7 +218,10 @@ export function unregisterAllPluginWebSocketEvents(pluginId) {
 
 function handleFirstConnect() {
     dispatch(batchActions([
-        {type: GeneralTypes.WEBSOCKET_SUCCESS},
+        {
+            type: GeneralTypes.WEBSOCKET_SUCCESS,
+            timestamp: Date.now(),
+        },
         clearErrors(),
     ]));
 }
@@ -227,7 +231,10 @@ function handleClose(failCount) {
         dispatch(logError({type: 'critical', message: AnnouncementBarMessages.WEBSOCKET_PORT_ERROR}, true));
     }
     dispatch(batchActions([
-        {type: GeneralTypes.WEBSOCKET_FAILURE},
+        {
+            type: GeneralTypes.WEBSOCKET_FAILURE,
+            timestamp: Date.now(),
+        },
         incrementWsErrorCount(),
     ]));
 }
