@@ -4,7 +4,7 @@
     .sidebar--right {
         @include single-transition(all, .35s, ease);
         @include translateX(100%);
-        z-index: 10;
+        z-index: 12;
 
         &.move--left {
             -webkit-transform: translateX(0) !important;
