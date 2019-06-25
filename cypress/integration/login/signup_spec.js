@@ -13,6 +13,13 @@ let config;
 
 describe('Signup Email page', () => {
     before(() => {
+        // Disable other auth options
+        const newSettings = {
+            Office365Settings: {Enable: false},
+            LdapSettings: {Enable: false},
+        };
+        cy.apiUpdateConfig(newSettings);
+
         cy.apiGetConfig().then((response) => {
             config = response.body;
         });
@@ -23,6 +30,9 @@ describe('Signup Email page', () => {
     });
 
     it('should render', () => {
+        // * check the initialUrl
+        cy.url().should('include', '/signup_email');
+
         // * Check that the login section is loaded
         cy.get('#signup_email_section').should('be.visible');
 
