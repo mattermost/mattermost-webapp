@@ -3884,6 +3884,7 @@ export default {
                         help_text: t('admin.experimental.experimentalLdapGroupSync.desc'),
                         help_text_default: 'When true, enables **AD/LDAP Group Sync** configurable under **User Management > Groups**. See [documentation](!https://mattermost.com/pl/default-ldap-group-sync) to learn more.',
                         help_text_markdown: true,
+                        isHidden: it.isnt(it.licensedForFeature('LDAPGroups')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
