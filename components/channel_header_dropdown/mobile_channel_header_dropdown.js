@@ -4,7 +4,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+import {getUser} from 'mattermost-redux/selectors/entities/users';
+import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 
+import store from 'stores/redux_store.jsx';
 import StatusIcon from 'components/status_icon';
 
 import {Constants} from 'utils/constants';
@@ -23,6 +26,18 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
         channel: PropTypes.object.isRequired,
         teammateId: PropTypes.string,
         teammateStatus: PropTypes.string,
+    }
+
+    getDmUser = () => {
+        const {user, channel} = this.props;
+        const isDirect = (channel.type === Constants.DM_CHANNEL);
+        let dmUser;
+        if (channel && isDirect) {
+            const dmUserId = getUserIdFromChannelName(user.id, channel.name);
+            dmUser = getUser(store.getState(), dmUserId);
+        }
+
+        return dmUser;
     }
 
     getChannelTitle = () => {
@@ -45,15 +60,22 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
     }
 
     render() {
-        const {
-            teammateStatus,
-        } = this.props;
+        const {channel, teammateStatus} = this.props;
+        const isDirect = (channel.type === Constants.DM_CHANNEL);
+
+        let dmHeaderIconStatus;
+        const dmUser = this.getDmUser();
+        if (isDirect && !dmUser.is_bot) {
+            dmHeaderIconStatus = (
+                <StatusIcon status={teammateStatus}/>
+            );
+        }
 
         return (
             <MenuWrapper animationComponent={MobileChannelHeaderDropdownAnimation}>
                 <a>
                     <span className='heading'>
-                        <StatusIcon status={teammateStatus}/>
+                        {dmHeaderIconStatus}
                         {this.getChannelTitle()}
                     </span>
                     <FormattedMessage
