@@ -18,7 +18,7 @@ function verifyExistingChannelError(newChannelName, makePrivate = false) {
     const channelTypeID = makePrivate ? '#createPrivateChannel' : '#createPublicChannel';
 
     // Click on '+' button for Public or Private Channel
-    cy.get(channelTypeID).click();
+    cy.get(channelTypeID).click({force: true});
 
     if (makePrivate) {
         cy.get('#private').check({force: true}).as('channelType');

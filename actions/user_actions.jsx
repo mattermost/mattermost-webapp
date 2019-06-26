@@ -176,6 +176,26 @@ export async function loadNewGMIfNeeded(channelId) {
     checkPreference();
 }
 
+export function loadProfilesForGroupChannels(groupChannels) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        const userIdsInChannels = Selectors.getUserIdsInChannels(state);
+
+        const groupChannelsToFetch = groupChannels.reduce((acc, {id}) => {
+            const userIdsInGroupChannel = (userIdsInChannels[id] || new Set());
+
+            if (userIdsInGroupChannel.size === 0) {
+                acc.push(id);
+            }
+            return acc;
+        }, []);
+
+        if (groupChannelsToFetch.length > 0) {
+            doDispatch(UserActions.getProfilesInGroupChannels(groupChannelsToFetch));
+        }
+    };
+}
+
 export function loadProfilesForSidebar() {
     loadProfilesForDM();
     loadProfilesForGM();

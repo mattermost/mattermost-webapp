@@ -122,6 +122,20 @@ function keepChannelIdAsUnread(state = null, action) {
     }
 }
 
+function lastGetPosts(state = {}, action) {
+    switch (action.type) {
+    case ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME:
+        return {
+            ...state,
+            [action.channelId]: action.time,
+        };
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     postVisibility,
     lastChannelViewTime,
@@ -129,4 +143,5 @@ export default combineReducers({
     focusedPostId,
     mobileView,
     keepChannelIdAsUnread,
+    lastGetPosts,
 });

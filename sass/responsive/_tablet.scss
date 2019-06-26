@@ -4,7 +4,7 @@
     .sidebar--right {
         @include single-transition(all, .35s, ease);
         @include translateX(100%);
-        z-index: 10;
+        z-index: 12;
 
         &.move--left {
             -webkit-transform: translateX(0) !important;
@@ -397,7 +397,7 @@
             }
 
             .flag-icon__container, .card-icon-container {
-                left: -21px;
+                left: -16px;
                 position: absolute;
                 top: 4px;
             }
@@ -414,7 +414,7 @@
                     padding-top: 0;
 
                     .flag-icon__container, .card-icon__container {
-                        left: -21px;
+                        left: -16px;
                         position: absolute;
                         top: 4px;
                     }
@@ -496,12 +496,6 @@
                         }
                     }
 
-                    .flag-icon__container, .card-icon__container {
-                        .sidebar--right & {
-                            left: 30px;
-                        }
-                    }
-
                     .post__time {
                         display: inline-block;
                         font-size: 11px;
@@ -510,11 +504,12 @@
                         position: absolute;
                         text-align: right;
                         text-rendering: auto;
-                        top: 4px;
+                        top: 5px;
                         width: 51px;
 
                         .sidebar--right & {
-                            left: -20px;
+                            left: -18px;
+                            top: 4px;
                         }
 
                         &:hover {

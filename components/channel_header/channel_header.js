@@ -553,9 +553,17 @@ export default class ChannelHeader extends React.PureComponent {
         return (
             <div
                 id='channel-header'
+                aria-labelledby='channel_header_aria_label'
+                tabIndex='-1'
                 data-channelid={`${channel.id}`}
                 className='channel-header alt'
             >
+                <h1
+                    id='channel_header_aria_label'
+                    className='hidden-label'
+                >
+                    {Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region')}
+                </h1>
                 <div className='flex-parent'>
                     <div className='flex-child'>
                         <div
