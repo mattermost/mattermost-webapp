@@ -2,7 +2,7 @@
 
 exports[`components/Menu should match snapshot with id 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   id="test-id"
   mobile={false}
 >
@@ -109,14 +109,43 @@ exports[`components/Menu should match snapshot with id 1`] = `
         text="Manage Groups"
       />
     </Connect(TeamPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogType={[Function]}
-      icon={false}
-      id="manageMembers"
-      modalId="team_members"
-      show={true}
-      text="Manage Members"
-    />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
   </MenuGroup>
   <MenuGroup>
     <Connect(SystemPermissionGate)
@@ -245,7 +274,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
 
 exports[`components/Menu should match snapshot with most of the thing disabled 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={false}
 >
   <MenuGroup>
@@ -351,14 +380,43 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
         text="Manage Groups"
       />
     </Connect(TeamPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogType={[Function]}
-      icon={false}
-      id="manageMembers"
-      modalId="team_members"
-      show={true}
-      text="Manage Members"
-    />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
   </MenuGroup>
   <MenuGroup>
     <Connect(SystemPermissionGate)
@@ -487,7 +545,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
 
 exports[`components/Menu should match snapshot with most of the thing disabled in mobile 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={true}
 >
   <MenuGroup>
@@ -623,18 +681,51 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
         text="Manage Groups"
       />
     </Connect(TeamPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogType={[Function]}
-      icon={
-        <i
-          className="fa fa-users"
-        />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
       }
-      id="manageMembers"
-      modalId="team_members"
-      show={true}
-      text="Manage Members"
-    />
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-users"
+          />
+        }
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-users"
+          />
+        }
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
   </MenuGroup>
   <MenuGroup>
     <Connect(SystemPermissionGate)
@@ -795,7 +886,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
 
 exports[`components/Menu should match snapshot with most of the thing enabled 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={false}
 >
   <MenuGroup>
@@ -901,14 +992,43 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
         text="Manage Groups"
       />
     </Connect(TeamPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogType={[Function]}
-      icon={false}
-      id="manageMembers"
-      modalId="team_members"
-      show={true}
-      text="Manage Members"
-    />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
   </MenuGroup>
   <MenuGroup>
     <Connect(SystemPermissionGate)
@@ -1037,7 +1157,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
 
 exports[`components/Menu should match snapshot with most of the thing enabled in mobile 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={true}
 >
   <MenuGroup>
@@ -1173,18 +1293,51 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
         text="Manage Groups"
       />
     </Connect(TeamPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogType={[Function]}
-      icon={
-        <i
-          className="fa fa-users"
-        />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
       }
-      id="manageMembers"
-      modalId="team_members"
-      show={true}
-      text="Manage Members"
-    />
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-users"
+          />
+        }
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-users"
+          />
+        }
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
   </MenuGroup>
   <MenuGroup>
     <Connect(SystemPermissionGate)
@@ -1345,7 +1498,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
 
 exports[`components/Menu should match snapshot with plugins 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={false}
 >
   <MenuGroup>
@@ -1451,14 +1604,43 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         text="Manage Groups"
       />
     </Connect(TeamPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogType={[Function]}
-      icon={false}
-      id="manageMembers"
-      modalId="team_members"
-      show={true}
-      text="Manage Members"
-    />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
   </MenuGroup>
   <MenuGroup>
     <Connect(SystemPermissionGate)
@@ -1604,7 +1786,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
 
 exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={true}
 >
   <MenuGroup>
@@ -1740,18 +1922,51 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
         text="Manage Groups"
       />
     </Connect(TeamPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogType={[Function]}
-      icon={
-        <i
-          className="fa fa-users"
-        />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
       }
-      id="manageMembers"
-      modalId="team_members"
-      show={true}
-      text="Manage Members"
-    />
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-users"
+          />
+        }
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-users"
+          />
+        }
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
   </MenuGroup>
   <MenuGroup>
     <Connect(SystemPermissionGate)

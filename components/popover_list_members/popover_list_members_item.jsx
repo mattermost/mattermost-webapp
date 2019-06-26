@@ -68,16 +68,14 @@ export default class PopoverListMembersItem extends React.PureComponent {
                     <div className='more-modal__name'>
                         {name}
                     </div>
-                    <div>
-                        <BotBadge
-                            show={Boolean(this.props.user.is_bot)}
-                            className='badge-popoverlist'
-                        />
-                        <GuestBadge
-                            show={Utils.isGuest(this.props.user)}
-                            className='badge-popoverlist'
-                        />
-                    </div>
+                    <BotBadge
+                        show={Boolean(this.props.user.is_bot)}
+                        className='badge-popoverlist'
+                    />
+                    <GuestBadge
+                        show={Utils.isGuest(this.props.user)}
+                        className='badge-popoverlist'
+                    />
                 </div>
                 <div className='more-modal__actions'>
                     {messageIcon}

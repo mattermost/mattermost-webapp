@@ -649,13 +649,13 @@ export default class PostList extends React.PureComponent {
                     createAt={topPostCreateAt}
                 />
                 <ScrollToBottomArrows
-                    isScrolling={this.state.atBottom}
-                    atBottom={this.checkBottom()}
+                    isScrolling={this.state.isScrolling}
+                    atBottom={this.atBottom}
                     onClick={this.scrollToBottom}
                 />
                 {!this.props.focusedPostId && (
                     <NewMessagesBelow
-                        atBottom={this.state.atBottom}
+                        atBottom={this.atBottom}
                         lastViewedBottom={this.state.lastViewed}
                         onClick={this.scrollToBottom}
                         channelId={this.props.channel.id}

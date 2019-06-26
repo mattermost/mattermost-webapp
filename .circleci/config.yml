@@ -68,6 +68,9 @@ jobs:
       - run: make package-ci
       - store_artifacts:
           path: ~/mattermost-webapp/mattermost-webapp.tar.gz
+      - persist_to_workspace:
+          root: .
+          paths: mattermost-webapp.tar.gz
       - run:
           name: Upload to S3
           command: |
@@ -88,6 +91,65 @@ jobs:
             curl --request POST \
             --url "https://lambdas.devops.mattermost.com/circleci/uploader?token=${UPLOADER_TOKEN}&vcs-type=github&username=${CIRCLE_PROJECT_USERNAME}&project=${CIRCLE_PROJECT_REPONAME}&build_num=${CIRCLE_BUILD_NUM}&bucket=releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/"
 
+  build-docker:
+    working_directory: ~/
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - attach_workspace:
+          at: .
+      - setup_remote_docker
+      - run:
+          command: |
+            curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform-pr/${CHANGE_BRANCH}/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform/master/mattermost-enterprise-linux-amd64.tar.gz
+
+            tar xf server.tar.gz
+            rm -rf mattermost/client
+            tar xf mattermost-webapp.tar.gz
+            mv client mattermost/client
+            tar -zcf mattermost-enterprise-linux-amd64.tar.gz mattermost/
+      - store_artifacts:
+          path: ~/mattermost-enterprise-linux-amd64.tar.gz
+      - run:
+          name: Upload to S3
+          command: |
+            if [[ -z "${CIRCLE_PULL_REQUEST:-}" ]]; then
+              echo "Not a PR using the branch name ${CIRCLE_BRANCH}..."
+              export FOLDER_NAME=${CIRCLE_BRANCH}
+              echo "${FOLDER_NAME}"
+            else
+              echo "This is a PR ${CIRCLE_BRANCH}..."
+              export FOLDER_NAME=$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')
+              echo "${FOLDER_NAME}"
+            fi
+            curl --request POST \
+            --url "https://lambdas.devops.mattermost.com/circleci/uploader?token=${UPLOADER_TOKEN}&vcs-type=github&username=${CIRCLE_PROJECT_USERNAME}&project=${CIRCLE_PROJECT_REPONAME}&build_num=${CIRCLE_BUILD_NUM}&bucket=releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/${FOLDER_NAME}/"
+      - add_ssh_keys:
+          fingerprints:
+            - "1f:ea:9e:d2:11:90:f7:35:0f:86:0d:45:e2:a4:73:f7"
+      - run:
+          command: |
+            if [[ -z "${CIRCLE_PULL_REQUEST:-}" ]]; then
+              echo "Not a PR using the branch name ${CIRCLE_BRANCH}..."
+              export FOLDER_NAME=${CIRCLE_BRANCH}
+              echo "${FOLDER_NAME}"
+            else
+              echo "This is a PR ${CIRCLE_BRANCH}..."
+              echo "Commit hash ${TAG}"
+              export FOLDER_NAME=$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')
+              echo "${FOLDER_NAME}"
+            fi
+            export TAG="${CIRCLE_SHA1:0:7}"
+
+            mkdir -p ~/.ssh/
+            echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+            git clone git@github.com:mattermost/mattermost-docker.git
+
+            cd mattermost-docker
+            export MM_BINARY=https://releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/${FOLDER_NAME}/mattermost-enterprise-linux-amd64.tar.gz
+            docker build --build-arg MM_BINARY=$MM_BINARY -t mattermost/mattermost-enterprise-edition:${TAG} app
+            echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
+            docker push mattermost/mattermost-enterprise-edition:${TAG}
 workflows:
   version: 2
   untagged-build:
@@ -105,3 +167,7 @@ workflows:
       - build:
           requires:
             - test
+      - build-docker:
+          context: matterbuild-docker
+          requires:
+            - build

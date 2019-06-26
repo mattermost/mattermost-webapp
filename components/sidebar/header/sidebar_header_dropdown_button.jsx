@@ -6,6 +6,7 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {localizeMessage} from 'utils/utils.jsx';
 import MenuIcon from 'components/svg/menu_icon';
 import Constants from 'utils/constants.jsx';
 
@@ -83,7 +84,10 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                         >
                             {'@' + this.props.currentUser.username}
                         </div>
-                        <MenuIcon className='sidebar-header-dropdown__icon'/>
+                        <MenuIcon
+                            className='style--none sidebar-header-dropdown__icon'
+                            aria-label={localizeMessage('navbar_dropdown.menuAriaLabel', 'main menu')}
+                        />
                     </div>
                 </OverlayTrigger>
             </div>

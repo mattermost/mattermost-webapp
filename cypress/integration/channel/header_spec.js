@@ -24,7 +24,7 @@ describe('Header', () => {
 
         // * Check if channel header description has no ellipsis
         cy.get('#channelHeaderDescription').then(($header) => {
-            expect($header.outerWidth()).to.be.closeTo($header[0].scrollWidth, 0.1);
+            expect($header.outerWidth()).to.be.closeTo($header[0].scrollWidth, 1);
         });
 
         // # Update channel header text to a long string

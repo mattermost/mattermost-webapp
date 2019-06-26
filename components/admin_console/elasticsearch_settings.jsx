@@ -31,6 +31,7 @@ export default class ElasticsearchSettings extends AdminSettings {
 
     getConfigFromState(config) {
         config.ElasticsearchSettings.ConnectionUrl = this.state.connectionUrl;
+        config.ElasticsearchSettings.SkipTLSVerification = this.state.skipTLSVerification;
         config.ElasticsearchSettings.Username = this.state.username;
         config.ElasticsearchSettings.Password = this.state.password;
         config.ElasticsearchSettings.Sniff = this.state.sniff;
@@ -44,6 +45,7 @@ export default class ElasticsearchSettings extends AdminSettings {
     getStateFromConfig(config) {
         return {
             connectionUrl: config.ElasticsearchSettings.ConnectionUrl,
+            skipTLSVerification: config.ElasticsearchSettings.SkipTLSVerification,
             username: config.ElasticsearchSettings.Username,
             password: config.ElasticsearchSettings.Password,
             sniff: config.ElasticsearchSettings.Sniff,
@@ -71,7 +73,7 @@ export default class ElasticsearchSettings extends AdminSettings {
             }
         }
 
-        if (id === 'connectionUrl' || id === 'username' || id === 'password' || id === 'sniff') {
+        if (id === 'connectionUrl' || id === 'skipTLSVerification' || id === 'username' || id === 'password' || id === 'sniff') {
             this.setState({
                 configTested: false,
                 canSave: false,
@@ -212,6 +214,25 @@ export default class ElasticsearchSettings extends AdminSettings {
                     disabled={!this.state.enableIndexing}
                     onChange={this.handleSettingChanged}
                     setByEnv={this.isSetByEnv('ElasticsearchSettings.ConnectionUrl')}
+                />
+                <BooleanSetting
+                    id='skipTLSVerification'
+                    label={
+                        <FormattedMessage
+                            id='admin.elasticsearch.skipTLSVerificationTitle'
+                            defaultMessage='Skip TLS Verification:'
+                        />
+                    }
+                    helpText={
+                        <FormattedMessage
+                            id='admin.elasticsearch.skipTLSVerificationDescription'
+                            defaultMessage='When true, Mattermost will not require the Elasticsearch certificate to be signed by a trusted Certificate Authority.'
+                        />
+                    }
+                    value={this.state.skipTLSVerification}
+                    disabled={!this.state.enableIndexing}
+                    onChange={this.handleSettingChanged}
+                    setByEnv={this.isSetByEnv('ElasticsearchSettings.SkipTLSVerification')}
                 />
                 <TextSetting
                     id='username'

@@ -26,6 +26,11 @@ export default class Pluggable extends React.PureComponent {
          * Logged in user's theme
          */
         theme: PropTypes.object.isRequired,
+
+        /*
+         * Id of the specific component to be plugged.
+         */
+        pluggableId: PropTypes.string,
     }
 
     render() {
@@ -50,8 +55,15 @@ export default class Pluggable extends React.PureComponent {
         props = {...props, ...childrenProps};
 
         // Override the default component with any registered plugin's component
+        // Select a specific component by pluginId if available
         if (components.hasOwnProperty(componentName)) {
-            const pluginComponents = components[componentName];
+            let pluginComponents = components[componentName];
+
+            if (this.props.pluggableId) {
+                pluginComponents = pluginComponents.filter(
+                    (element) => element.id === this.props.pluggableId);
+            }
+
             const content = pluginComponents.map((p) => {
                 const PluginComponent = p.component;
                 return (

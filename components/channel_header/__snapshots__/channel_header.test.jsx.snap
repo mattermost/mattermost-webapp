@@ -2,10 +2,18 @@
 
 exports[`components/ChannelHeader should render archived view 1`] = `
 <div
+  aria-labelledby="channel_header_aria_label"
   className="channel-header alt"
   data-channelid="channel_id"
   id="channel-header"
+  tabIndex="-1"
 >
+  <h1
+    className="hidden-label"
+    id="channel_header_aria_label"
+  >
+    channel header region
+  </h1>
   <div
     className="flex-parent"
   >
@@ -28,21 +36,26 @@ exports[`components/ChannelHeader should render archived view 1`] = `
                 className="channel-header__top"
                 id="channelHeaderDropdownButton"
               >
-                <strong
-                  className="heading"
-                  id="channelHeaderTitle"
+                <button
+                  aria-label="channel menu"
+                  className="channel-header__trigger style--none"
                 >
-                  <span>
-                    <ArchiveIcon
-                      className="icon icon__archive icon channel-header-archived-icon svg-text-color"
-                    />
-                  </span>
-                </strong>
-                <span
-                  aria-label="Dropdown Icon"
-                  className="fa fa-angle-down header-dropdown__icon"
-                  id="channelHeaderDropdownIcon"
-                />
+                  <strong
+                    className="heading"
+                    id="channelHeaderTitle"
+                  >
+                    <span>
+                      <ArchiveIcon
+                        className="icon icon__archive icon channel-header-archived-icon svg-text-color"
+                      />
+                    </span>
+                  </strong>
+                  <span
+                    aria-label="dropdown icon"
+                    className="fa fa-angle-down header-dropdown__icon"
+                    id="channelHeaderDropdownIcon"
+                  />
+                </button>
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
@@ -134,10 +147,18 @@ exports[`components/ChannelHeader should render archived view 1`] = `
 
 exports[`components/ChannelHeader should render correct menu when muted 1`] = `
 <div
+  aria-labelledby="channel_header_aria_label"
   className="channel-header alt"
   data-channelid="channel_id"
   id="channel-header"
+  tabIndex="-1"
 >
+  <h1
+    className="hidden-label"
+    id="channel_header_aria_label"
+  >
+    channel header region
+  </h1>
   <div
     className="flex-parent"
   >
@@ -185,6 +206,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                   }
                 >
                   <button
+                    aria-label="add to favorites"
                     className="style--none color--link channel-header__favorites inactive"
                     id="toggleFavorite"
                     onClick={[Function]}
@@ -194,17 +216,22 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                     />
                   </button>
                 </OverlayTrigger>
-                <strong
-                  className="heading"
-                  id="channelHeaderTitle"
+                <button
+                  aria-label="channel menu"
+                  className="channel-header__trigger style--none"
                 >
-                  <span />
-                </strong>
-                <span
-                  aria-label="Dropdown Icon"
-                  className="fa fa-angle-down header-dropdown__icon"
-                  id="channelHeaderDropdownIcon"
-                />
+                  <strong
+                    className="heading"
+                    id="channelHeaderTitle"
+                  >
+                    <span />
+                  </strong>
+                  <span
+                    aria-label="dropdown icon"
+                    className="fa fa-angle-down header-dropdown__icon"
+                    id="channelHeaderDropdownIcon"
+                  />
+                </button>
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
@@ -358,10 +385,18 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
 
 exports[`components/ChannelHeader should render properly when populated 1`] = `
 <div
+  aria-labelledby="channel_header_aria_label"
   className="channel-header alt"
   data-channelid="channel_id"
   id="channel-header"
+  tabIndex="-1"
 >
+  <h1
+    className="hidden-label"
+    id="channel_header_aria_label"
+  >
+    channel header region
+  </h1>
   <div
     className="flex-parent"
   >
@@ -409,6 +444,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                   }
                 >
                   <button
+                    aria-label="add to favorites"
                     className="style--none color--link channel-header__favorites inactive"
                     id="toggleFavorite"
                     onClick={[Function]}
@@ -418,17 +454,22 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                     />
                   </button>
                 </OverlayTrigger>
-                <strong
-                  className="heading"
-                  id="channelHeaderTitle"
+                <button
+                  aria-label="channel menu"
+                  className="channel-header__trigger style--none"
                 >
-                  <span />
-                </strong>
-                <span
-                  aria-label="Dropdown Icon"
-                  className="fa fa-angle-down header-dropdown__icon"
-                  id="channelHeaderDropdownIcon"
-                />
+                  <strong
+                    className="heading"
+                    id="channelHeaderTitle"
+                  >
+                    <span />
+                  </strong>
+                  <span
+                    aria-label="dropdown icon"
+                    className="fa fa-angle-down header-dropdown__icon"
+                    id="channelHeaderDropdownIcon"
+                  />
+                </button>
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
@@ -541,10 +582,18 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
 
 exports[`components/ChannelHeader should render properly when populated with channel props 1`] = `
 <div
+  aria-labelledby="channel_header_aria_label"
   className="channel-header alt"
   data-channelid="channel_id"
   id="channel-header"
+  tabIndex="-1"
 >
+  <h1
+    className="hidden-label"
+    id="channel_header_aria_label"
+  >
+    channel header region
+  </h1>
   <div
     className="flex-parent"
   >
@@ -567,21 +616,26 @@ exports[`components/ChannelHeader should render properly when populated with cha
                 className="channel-header__top"
                 id="channelHeaderDropdownButton"
               >
-                <strong
-                  className="heading"
-                  id="channelHeaderTitle"
+                <button
+                  aria-label="channel menu"
+                  className="channel-header__trigger style--none"
                 >
-                  <span>
-                    <ArchiveIcon
-                      className="icon icon__archive icon channel-header-archived-icon svg-text-color"
-                    />
-                  </span>
-                </strong>
-                <span
-                  aria-label="Dropdown Icon"
-                  className="fa fa-angle-down header-dropdown__icon"
-                  id="channelHeaderDropdownIcon"
-                />
+                  <strong
+                    className="heading"
+                    id="channelHeaderTitle"
+                  >
+                    <span>
+                      <ArchiveIcon
+                        className="icon icon__archive icon channel-header-archived-icon svg-text-color"
+                      />
+                    </span>
+                  </strong>
+                  <span
+                    aria-label="dropdown icon"
+                    className="fa fa-angle-down header-dropdown__icon"
+                    id="channelHeaderDropdownIcon"
+                  />
+                </button>
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>

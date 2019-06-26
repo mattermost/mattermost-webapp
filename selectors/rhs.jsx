@@ -12,8 +12,20 @@ export function getSelectedPostId(state) {
     return state.views.rhs.selectedPostId;
 }
 
+export function getSelectedPostCardId(state) {
+    return state.views.rhs.selectedPostCardId;
+}
+
+export function getSelectedPostCard(state) {
+    return state.entities.posts.posts[getSelectedPostCardId(state)];
+}
+
 export function getSelectedChannelId(state) {
     return state.views.rhs.selectedChannelId;
+}
+
+export function getPluginId(state) {
+    return state.views.rhs.pluginId;
 }
 
 function getRealSelectedPost(state) {
