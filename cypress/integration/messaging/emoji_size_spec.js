@@ -61,6 +61,6 @@ describe('Messaging', () => {
             });
 
         // * Verify emoji size
-        checkEmojiSize('@newLineMessage', emojis);
+        checkEmojiSize('@spacesMessage', emojis);
     });
 });
