@@ -86,10 +86,6 @@ export default class ReactionList extends React.PureComponent {
     }
 
     render() {
-        if (!this.props.post.has_reactions || !this.props.reactions) {
-            return null;
-        }
-
         const reactionsByName = new Map();
         const emojiNames = [];
 
@@ -104,6 +100,10 @@ export default class ReactionList extends React.PureComponent {
                     reactionsByName.set(emojiName, [reaction]);
                 }
             }
+        }
+
+        if (reactionsByName.size === 0) {
+            return null;
         }
 
         const reactions = emojiNames.map((emojiName) => {

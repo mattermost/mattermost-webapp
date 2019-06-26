@@ -69,8 +69,9 @@ describe('Teams Suite', () => {
         const townSquareURL = `/${teamURL}/channels/town-square`;
         const offTopicURL = `/${teamURL}/channels/off-topic`;
 
-        // # Login as System Admin
+        // # Login as System Admin, update teammate name display preference to "username" and visit "/"
         cy.apiLogin('sysadmin');
+        cy.apiSaveTeammateNameDisplayPreference('username');
         cy.visit('/');
 
         // # Create team
@@ -103,11 +104,9 @@ describe('Teams Suite', () => {
         cy.visit(offTopicURL);
         cy.getLastPost().should('contain', 'System').and('contain', `${user.username} added to the channel by you.`);
 
-        // # Logout
-        cy.apiLogout();
-
-        // # Login as user added to Team
+        // # Login as user added to Team, update teammate name display preference to "username" and reload
         cy.apiLogin(user.username);
+        cy.apiSaveTeammateNameDisplayPreference('username');
         cy.reload();
 
         // * The added user sees the new team added to the team sidebar
@@ -124,6 +123,8 @@ describe('Teams Suite', () => {
     });
 
     it('TS14633 Leave all teams', () => {
+        cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: false}});
+
         // # Login as new user
         cy.loginAsNewUser();
 

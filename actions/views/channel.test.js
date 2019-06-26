@@ -58,6 +58,7 @@ describe('channel view actions', () => {
             },
             teams: {
                 currentTeamId: 'teamid1',
+                myMembers: {teamId1: {}},
                 teams: {teamid1: team1},
             },
             channels: {

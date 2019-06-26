@@ -17,12 +17,14 @@ const sysadmin = users.sysadmin;
 
 describe('System Console', () => {
     it('SC14734 Demoted user cannot continue to view System Console', () => {
+        const baseUrl = Cypress.config('baseUrl');
+
         // # Login as new user
         cy.loginAsNewUser().as('newuser');
 
         // # Set user to be a sysadmin, so it can access the system console
         cy.get('@newuser').then((user) => {
-            cy.task('externalRequest', {user: sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}}).
+            cy.task('externalRequest', {user: sysadmin, method: 'put', baseUrl, path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}}).
                 its('status').
                 should('be.equal', 200);
         });
@@ -34,7 +36,7 @@ describe('System Console', () => {
 
         // # Change the role of the user back to user
         cy.get('@newuser').then((user) => {
-            cy.task('externalRequest', {user: sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user'}}).
+            cy.task('externalRequest', {user: sysadmin, method: 'put', baseUrl, path: `users/${user.id}/roles`, data: {roles: 'system_user'}}).
                 its('status').
                 should('be.equal', 200);
         });

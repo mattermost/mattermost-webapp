@@ -81,6 +81,8 @@ function setNotificationSettings(desiredSettings = {first: true, username: true,
 }
 
 describe('at-mention', () => {
+    const baseUrl = Cypress.config('baseUrl');
+
     beforeEach(() => {
         cy.fixture('users').as('usersJSON');
 
@@ -117,7 +119,7 @@ describe('at-mention', () => {
         const message = `@${this.receiver.username} I'm messaging you! ${Date.now()}`;
 
         // # Use another account to post a message @-mentioning our receiver
-        cy.postMessageAs(this.sender, message, this.channelId);
+        cy.task('postMessageAs', {sender: this.sender, message, channelId: this.channelId, baseUrl});
 
         const body = `@${this.sender.username}: ${message}`;
 
@@ -127,6 +129,7 @@ describe('at-mention', () => {
         cy.get('#publicChannel').scrollIntoView();
 
         cy.get('#sidebarItem_town-square').
+            scrollIntoView().
             find('#unreadMentions').
             should('be.visible').
             and('have.text', '1');
@@ -158,7 +161,7 @@ describe('at-mention', () => {
         const message = `Hey ${this.receiver.username}! I'm messaging you! ${Date.now()}`;
 
         // # Use another account to post a message @-mentioning our receiver
-        cy.postMessageAs(this.sender, message, this.channelId);
+        cy.task('postMessageAs', {sender: this.sender, message, channelId: this.channelId, baseUrl});
 
         // * Verify stub was not called
         cy.get('@notifySpy').should('be.not.called');
@@ -194,15 +197,12 @@ describe('at-mention', () => {
         setNotificationSettings({first: false, username: false, shouts: false, custom: true});
 
         const channelMentions = ['@here', '@all', '@channel'];
-        const sender = this.sender;
-        const channelId = this.channelId;
-        const receiver = this.receiver;
 
         channelMentions.forEach((mention) => {
             const message = `Hey ${mention} I'm message you all! ${Date.now()}`;
 
             // # Use another account to post a message @-mentioning our receiver
-            cy.postMessageAs(sender, message, channelId);
+            cy.task('postMessageAs', {sender: this.sender, message, channelId: this.channelId, baseUrl});
 
             // * Verify stub was not called
             cy.get('@notifySpy').should('be.not.called');
@@ -228,7 +228,7 @@ describe('at-mention', () => {
 
             // * Verify it's not highlighted
             cy.get('@postMessageText').
-                find(`[data-mention=${receiver.username}]`).
+                find(`[data-mention=${this.receiver.username}]`).
                 should('not.exist');
 
             cy.get('#sidebarItem_saepe-5').click({force: true});
