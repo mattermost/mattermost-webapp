@@ -24,7 +24,7 @@ import {
     makeOnSubmit,
     makeOnEditLatestPost,
 } from 'actions/views/create_comment';
-import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
+import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
 
 import CreateComment from './create_comment.jsx';
 
@@ -66,6 +66,7 @@ function makeMapStateToProps() {
             rhsExpanded: getIsRhsExpanded(state),
             badConnection,
             isTimezoneEnabled,
+            selectedPostFocussedAt: getSelectedPostFocussedAt(state),
         };
     };
 }
