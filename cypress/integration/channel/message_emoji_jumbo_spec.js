@@ -9,8 +9,17 @@
 
 /*eslint max-nested-callbacks: ["error", 4]*/
 
+const normalSize = '21px';
+const jumboSize = '32px';
+
+const testCases = [
+    {message: 'This is a normal reply with emoji :smile: {enter}', emojiSize: normalSize},
+    {message: ':smile: {enter}', emojiSize: jumboSize},
+    {message: ':smile: :yum: {enter}', emojiSize: jumboSize},
+];
+
 function verifyLastPostStyle(expectedSize) {
-    //  * Verify text sizes
+    //  * Verify size of the emoji
     cy.getLastPostId().then(() => {
         cy.get('span.emoticon').last().should('have.css', 'height', expectedSize).and('have.css', 'width', expectedSize);
     });
@@ -22,38 +31,23 @@ describe('Message', () => {
         cy.apiLogin('user-1');
         cy.visit('/');
 
-        const comment1 = 'This is a normal reply with emoji :smile: {enter}';
-        const comment2 = ':smile: {enter}';
-        const comment3 = ':smile: :yum: {enter}';
-        const normalSize = '21px';
-        const jumboSize = '32px';
 
         // # Post a message
         const messageText = 'This is a test message';
         cy.postMessage(messageText);
 
         // # Get Last Post ID
-        cy.getLastPostId().then(() => {
+        cy.getLastPostId().then((postId) => {
             // # Mouseover the post and click post comment icon.
-            cy.clickPostCommentIcon();
+            cy.clickPostCommentIcon(postId);
 
-            // # Post a reply with text and emoji
-            cy.postMessageReplyInRHS(comment1);
+            testCases.forEach((testCase) => {
+                // # Post a reply
+                cy.postMessageReplyInRHS(testCase.message);
 
-            // * Verify the size of the emoji is normal size
-            verifyLastPostStyle(normalSize);
-
-            // # Post a reply with single emoji
-            cy.postMessageReplyInRHS(comment2);
-
-            // * Verify the size of the emoji is jumbo size
-            verifyLastPostStyle(jumboSize);
-
-            // # Post a reply with multiple emojis
-            cy.postMessageReplyInRHS(comment3);
-
-            // * Verify the size of the emoji is jumbo size
-            verifyLastPostStyle(jumboSize);
+                // * Verify the size of the emoji
+                verifyLastPostStyle(testCase.emojiSize);
+            });
         });
     });
 });
