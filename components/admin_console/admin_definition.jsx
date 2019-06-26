@@ -1652,7 +1652,6 @@ export default {
             url: 'environment/notifications',
             title: t('admin.sidebar.notifications'),
             title_default: 'Notifications',
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             schema: {
                 id: 'notifications',
                 name: t('admin.environment.notifications'),
@@ -1741,6 +1740,7 @@ export default {
                         help_text: t('admin.environment.notifications.feedbackEmail.help'),
                         help_text_default: 'Email address displayed on email account used when sending notification emails from Mattermost.',
                         isDisabled: it.stateIsFalse('EmailSettings.SendEmailNotifications'),
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
