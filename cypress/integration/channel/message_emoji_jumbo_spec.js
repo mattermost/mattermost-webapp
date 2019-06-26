@@ -11,9 +11,9 @@
 
 function verifyLastPostStyle(expectedSize) {
     //  * Verify text sizes
-    cy.getLastPostId().then((replyMessageId) => {
-        cy.get('span.emoticon').last().should('have.css', 'height', expectedSize).and('have.css','width',expectedSize);
-    })
+    cy.getLastPostId().then(() => {
+        cy.get('span.emoticon').last().should('have.css', 'height', expectedSize).and('have.css', 'width', expectedSize);
+    });
 }
 
 describe('Message', () => {
@@ -33,8 +33,7 @@ describe('Message', () => {
         cy.postMessage(messageText);
 
         // # Get Last Post ID
-        cy.getLastPostId().then((postId) => {
-
+        cy.getLastPostId().then(() => {
             // # Mouseover the post and click post comment icon.
             cy.clickPostCommentIcon();
 
