@@ -72,9 +72,6 @@ export default class TeamDetails extends React.Component {
         actions.getTeam(teamID).
             then(() => actions.getGroups(teamID)).
             then(() => this.setState({groups: this.props.groups}));
-        setTimeout(()=>{
-            this.handleGroupRemoved(this.props.groups[0].id);
-        }, 1000);
     }
 
     handleSubmit = async () => {
