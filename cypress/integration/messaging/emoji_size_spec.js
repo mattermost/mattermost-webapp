@@ -11,7 +11,7 @@
 
 function checkEmojiSize(message, emojis) {
     emojis.forEach((emoji) => {
-        cy.get('@newLineMessage').
+        cy.get(message).
             find('span[alt="' + emoji + '"]').
             and('have.css', 'minHeight', '32px').
             and('have.css', 'minWidth', '32px');
