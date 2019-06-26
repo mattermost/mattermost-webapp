@@ -12,7 +12,7 @@
 import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-const reUrl = /(https?:\/\/[^ ]*)/;
+import {reUrl} from '../../utils';
 
 const user1 = users['user-1'];
 const user2 = users['user-2'];
@@ -28,7 +28,7 @@ describe('Email notification', () => {
     it('post a message that mentions a user', () => {
         cy.apiLogin('user-1');
         cy.visit('/ad-1/channels/town-square');
-        cy.postMessage(`${text}{enter}`);
+        cy.postMessage(text);
 
         // Wait for a while to ensure that email notification is sent.
         cy.wait(TIMEOUTS.SMALL);

@@ -55,9 +55,11 @@ export default class MoreDirectChannels extends React.Component {
             getStatusesByIds: PropTypes.func.isRequired,
             getTotalUsersStats: PropTypes.func.isRequired,
             loadStatusesForProfilesList: PropTypes.func.isRequired,
+            loadProfilesForGroupChannels: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
             openGroupChannelToUserIds: PropTypes.func.isRequired,
             searchProfiles: PropTypes.func.isRequired,
+            searchGroupChannels: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -109,11 +111,17 @@ export default class MoreDirectChannels extends React.Component {
                 this.searchTimeoutId = setTimeout(
                     async () => {
                         this.setUsersLoadingState(true);
-                        const {data} = await this.props.actions.searchProfiles(searchTerm, {team_id: teamId});
-                        if (data) {
-                            this.props.actions.loadStatusesForProfilesList(data);
-                            this.resetPaging();
+                        const [{data: profilesData}, {data: groupChannelsData}] = await Promise.all([
+                            this.props.actions.searchProfiles(searchTerm, {team_id: teamId}),
+                            this.props.actions.searchGroupChannels(searchTerm),
+                        ]);
+                        if (profilesData) {
+                            this.props.actions.loadStatusesForProfilesList(profilesData);
                         }
+                        if (groupChannelsData) {
+                            this.props.actions.loadProfilesForGroupChannels(groupChannelsData);
+                        }
+                        this.resetPaging();
                         this.setUsersLoadingState(false);
                     },
                     Constants.SEARCH_TIMEOUT_MILLISECONDS
@@ -304,6 +312,7 @@ export default class MoreDirectChannels extends React.Component {
         }
 
         const status = option.delete_at || option.is_bot ? null : this.props.statuses[option.id];
+        const email = option.is_bot ? null : option.email;
 
         return (
             <div
@@ -329,7 +338,7 @@ export default class MoreDirectChannels extends React.Component {
                         />
                     </div>
                     <div className='more-modal__description'>
-                        {option.email}
+                        {email}
                     </div>
                 </div>
                 <div className='more-modal__actions'>

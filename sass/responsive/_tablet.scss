@@ -4,7 +4,7 @@
     .sidebar--right {
         @include single-transition(all, .35s, ease);
         @include translateX(100%);
-        z-index: 10;
+        z-index: 12;
 
         &.move--left {
             -webkit-transform: translateX(0) !important;
@@ -331,7 +331,7 @@
             }
 
             &:not(.post--thread) {
-                padding: 0 .5em 0 77px;
+                padding: 0 .5em 0 77px; // .post-row__padding.bottom needs to be changed accordingly if this is changed
 
                 .post__link {
                     margin: 3px 0 7px;
@@ -396,13 +396,13 @@
                 }
             }
 
-            .flag-icon__container {
-                left: -21px;
+            .flag-icon__container, .card-icon-container {
+                left: -16px;
                 position: absolute;
                 top: 4px;
             }
 
-            .sidebar--right & .flag-icon__container {
+            .sidebar--right & .flag-icon__container, .sidebar--right & .card-icon__container {
                 left: auto;
                 position: relative;
                 top: 1px;
@@ -413,8 +413,8 @@
                     padding-left: 77px;
                     padding-top: 0;
 
-                    .flag-icon__container {
-                        left: -21px;
+                    .flag-icon__container, .card-icon__container {
+                        left: -16px;
                         position: absolute;
                         top: 4px;
                     }
@@ -496,12 +496,6 @@
                         }
                     }
 
-                    .flag-icon__container {
-                        .sidebar--right & {
-                            left: 30px;
-                        }
-                    }
-
                     .post__time {
                         display: inline-block;
                         font-size: 11px;
@@ -510,11 +504,12 @@
                         position: absolute;
                         text-align: right;
                         text-rendering: auto;
-                        top: 4px;
+                        top: 5px;
                         width: 51px;
 
                         .sidebar--right & {
-                            left: -20px;
+                            left: -18px;
+                            top: 4px;
                         }
 
                         &:hover {
@@ -530,5 +525,13 @@
                 }
             }
         }
+    }
+
+    .post-row__padding.top .post--compact {
+        padding-top: 1em;
+    }
+
+    .post-row__padding.bottom .post--compact {
+        padding-bottom: 1em;
     }
 }

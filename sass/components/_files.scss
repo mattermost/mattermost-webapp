@@ -507,4 +507,7 @@
 .image-loading__container {
     max-height: inherit;
     overflow: hidden;
+    &.markdown-inline-img svg {
+        margin: 5px 0px;
+    }
 }

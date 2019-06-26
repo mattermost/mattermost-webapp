@@ -35,4 +35,25 @@ describe('components/ProfilePopover', () => {
         ).dive();
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should have bot description', () => {
+        const props = {
+            ...baseProps,
+            user: {
+                is_bot: true,
+                bot_description: 'bot description',
+            },
+        };
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>
+        ).dive();
+        expect(wrapper.containsMatchingElement(
+            <div
+                key='bot-description'
+            >
+                {'bot description'}
+            </div>
+        )).toEqual(true);
+    });
 });

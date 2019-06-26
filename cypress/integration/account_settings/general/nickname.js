@@ -51,8 +51,8 @@ describe('Account Settings > Sidebar > General', () => {
         cy.get('#accountSettingsHeader > .close').click();
         cy.get('#sidebarHeaderDropdownButton').click();
 
-        cy.get('#manageMembers').should('be.visible');
-        cy.get('#manageMembers').click();
+        cy.get('#viewMembers').should('be.visible');
+        cy.get('#viewMembers').click();
 
         // # Search for username and check that no nickname is present
         cy.get('.modal-title').should('be.visible');
@@ -82,8 +82,8 @@ describe('Account Settings > Sidebar > General', () => {
         cy.get('#accountSettingsHeader > .close').click();
         cy.get('#sidebarHeaderDropdownButton').click();
 
-        cy.get('#manageMembers').should('be.visible');
-        cy.get('#manageMembers').click();
+        cy.get('#viewMembers').should('be.visible');
+        cy.get('#viewMembers').click();
 
         // # Search for username and check that expected nickname is present
         cy.get('.modal-title').should('be.visible');

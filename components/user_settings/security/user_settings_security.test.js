@@ -25,26 +25,26 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         actions: {
             getMe: jest.fn(),
             updateUserPassword: jest.fn(() => Promise.resolve({})),
-            getAuthorizedApps: jest.fn().mockResolvedValue({data: []}),
+            getAuthorizedOAuthApps: jest.fn().mockResolvedValue({data: []}),
             deauthorizeOAuthApp: jest.fn().mockResolvedValue({data: true}),
         },
     };
 
-    test('componentDidMount() should have called getAuthorizedApps', () => {
+    test('componentDidMount() should have called getAuthorizedOAuthApps', () => {
         const props = {...requiredProps, enableOAuthServiceProvider: true};
 
         shallow(<UserSettingsSecurity {...props}/>);
 
-        expect(requiredProps.actions.getAuthorizedApps).toHaveBeenCalled();
+        expect(requiredProps.actions.getAuthorizedOAuthApps).toHaveBeenCalled();
     });
 
     test('componentDidMount() should have updated state.authorizedApps', async () => {
         const apps = [{name: 'app1'}];
         const promise = Promise.resolve({data: apps});
-        const getAuthorizedApps = () => promise;
+        const getAuthorizedOAuthApps = () => promise;
         const props = {
             ...requiredProps,
-            actions: {...requiredProps.actions, getAuthorizedApps},
+            actions: {...requiredProps.actions, getAuthorizedOAuthApps},
             enableOAuthServiceProvider: true,
         };
 
@@ -58,10 +58,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     test('componentDidMount() should have updated state.serverError', async () => {
         const error = {message: 'error'};
         const promise = Promise.resolve({error});
-        const getAuthorizedApps = () => promise;
+        const getAuthorizedOAuthApps = () => promise;
         const props = {
             ...requiredProps,
-            actions: {...requiredProps.actions, getAuthorizedApps},
+            actions: {...requiredProps.actions, getAuthorizedOAuthApps},
             enableOAuthServiceProvider: true,
         };
 

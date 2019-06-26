@@ -16,6 +16,7 @@ jest.mock('mattermost-redux/actions/users', () => {
         ...original,
         getProfilesInTeam: (...args) => ({type: 'MOCK_GET_PROFILES_IN_TEAM', args}),
         getProfilesInChannel: (...args) => ({type: 'MOCK_GET_PROFILES_IN_CHANNEL', args}),
+        getProfilesInGroupChannels: (...args) => ({type: 'MOCK_GET_PROFILES_IN_GROUP_CHANNELS', args}),
     };
 });
 
@@ -112,6 +113,9 @@ describe('Actions.User', () => {
             },
             users: {
                 currentUserId: 'current_user_id',
+                profilesInChannel: {
+                    group_channel_2: ['user_1', 'user_2'],
+                },
             },
         },
     };
@@ -208,55 +212,13 @@ describe('Actions.User', () => {
         expect(testStore.getActions()).toEqual([]);
     });
 
-    test('saveTheme for a specific team', async () => {
-        const {currentUserId} = initialState.entities.users;
-        const {currentTeamId} = initialState.entities.teams;
-        const expectedActions = [{
-            args: [
-                currentUserId,
-                [{
-                    category: 'theme',
-                    name: currentTeamId,
-                    user_id: currentUserId,
-                    value: JSON.stringify(Preferences.THEMES.mattermostDark),
-                }],
-            ],
-            type: 'MOCK_SAVE_PREFERENCES',
-        }];
+    test('loadProfilesForGroupChannels', async () => {
+        const mockedGroupChannels = [{id: 'group_channel_1'}, {id: 'group_channel_2'}];
+
+        // as users in group_channel_2 are already loaded, it should only try to load group_channel_1
+        const expectedActions = [{args: [['group_channel_1']], type: 'MOCK_GET_PROFILES_IN_GROUP_CHANNELS'}];
         const testStore = await mockStore(initialState);
-
-        await testStore.dispatch(UserActions.saveTheme(currentTeamId, Preferences.THEMES.mattermostDark));
-        expect(testStore.getActions()).toEqual(expectedActions);
-    });
-
-    test('saveTheme for a all teams', async () => {
-        const {currentUserId} = initialState.entities.users;
-        const {currentTeamId} = initialState.entities.teams;
-        const expectedActions = [{
-            args: [
-                currentUserId,
-                [{
-                    category: 'theme',
-                    name: '',
-                    user_id: currentUserId,
-                    value: JSON.stringify(Preferences.THEMES.mattermostDark),
-                }],
-            ],
-            type: 'MOCK_SAVE_PREFERENCES',
-        }, {
-            args: [
-                currentUserId,
-                [{
-                    category: 'theme',
-                    name: currentTeamId,
-                    user_id: currentUserId,
-                }],
-            ],
-            type: 'MOCK_DELETE_PREFERENCES',
-        }];
-        const testStore = await mockStore(initialState);
-
-        await testStore.dispatch(UserActions.saveTheme('', Preferences.THEMES.mattermostDark));
+        await testStore.dispatch(UserActions.loadProfilesForGroupChannels(mockedGroupChannels));
         expect(testStore.getActions()).toEqual(expectedActions);
     });
 });

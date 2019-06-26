@@ -303,7 +303,6 @@ export default class CreatePost extends React.Component {
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.currentChannel.id !== this.props.currentChannel.id) {
             const draft = nextProps.draft;
-
             this.setState({
                 message: draft.message,
                 submitting: false,
@@ -768,6 +767,8 @@ export default class CreatePost extends React.Component {
 
         this.draftsForChannel[channelId] = draft;
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        const enableSendButton = this.handleEnableSendButton(this.state.message, draft.fileInfos);
+        this.setState({enableSendButton});
     }
 
     handleUploadError = (err, clientId, channelId) => {
@@ -831,7 +832,7 @@ export default class CreatePost extends React.Component {
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft);
         this.draftsForChannel[channelId] = modifiedDraft;
-        const enableSendButton = this.handleEnableSendButton(this.state.message, draft.fileInfos);
+        const enableSendButton = this.handleEnableSendButton(this.state.message, modifiedDraft.fileInfos);
 
         this.setState({enableSendButton});
 
@@ -1235,7 +1236,18 @@ export default class CreatePost extends React.Component {
             >
                 <div className={'post-create' + attachmentsDisabled + scrollbarClass}>
                     <div className='post-create-body'>
-                        <div className='post-body__cell'>
+                        <div
+                            id='centerChannelFooter'
+                            aria-labelledby='message_input_aria_label'
+                            tabIndex='-1'
+                            className='post-body__cell'
+                        >
+                            <h1
+                                id='message_input_aria_label'
+                                className='hidden-label'
+                            >
+                                {Utils.localizeMessage('accessibility.sections.centerFooter', 'message input complimentary region')}
+                            </h1>
                             <Textbox
                                 onChange={this.handleChange}
                                 onKeyPress={this.postMsgKeyPress}

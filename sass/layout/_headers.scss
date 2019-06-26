@@ -14,9 +14,14 @@
         }
     }
 
+    .channel-header__trigger {
+        display: flex;
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
 
     .channel-header__favorites {
-        @include opacity(.5);
         float: left;
         height: 20px;
         margin: 0 5px 0 0;
@@ -29,10 +34,13 @@
         }
 
         &.active {
-            @include opacity(1);
+            i {
+               @include opacity(1);
+            }
         }
 
         i {
+            @include opacity(.5);
             font-size: 16px;
             position: relative;
             top: -1px;
@@ -124,7 +132,6 @@
         text-align: center;
         width: 30px;
         z-index: 5;
-        color: #B1B1B3;
 
         &.wide {
             @include border-radius(37px);
@@ -225,14 +232,9 @@
     .heading {
         font-size: 14px;
         font-weight: 600;
-        margin: 0 8px 0 0;
         flex: 1 1 0;
         overflow: hidden;
         text-overflow: ellipsis;
-    }
-
-    .Badge {
-        margin-left: 0;
     }
 
     .caret {
@@ -265,13 +267,14 @@
 .header-dropdown__icon {
     color: inherit;
     font-size: 19px;
-    margin-left: 1px;
+    margin: 0 0 0 8px;
     position: relative;
     top: 0;
 }
 
 .channel-header__top {
     display: flex;
+    min-width: 0;
 }
 
 .channel-header__info {
@@ -375,6 +378,7 @@
         &.light {
             @include opacity(.8);
             color: inherit;
+            overflow: visible;
 
             button {
                 &:hover
@@ -435,9 +439,10 @@
     }
 
     .channel-intro-profile {
-        margin-top: 5px;
+        margin: 0 0 4px;
 
         .user-popover {
+            font-weight: 600;
             max-width: calc(100% - 100px);
             overflow: hidden;
             text-overflow: ellipsis;
@@ -530,6 +535,18 @@
             }
         }
 
+        .d-flex {
+            width: 100%;
+
+            .MenuWrapper {
+                flex: auto;
+
+                &:first-child {
+                    flex: 0 0 36px;
+                }
+            }
+        }
+
         a {
             text-decoration: none;
             @include flex-grow(1);
@@ -613,7 +630,6 @@
         }
 
         .header__info {
-            @include clearfix;
             @include flex-grow(1);
             color: $white;
             padding: 2px 16px 0 8px;

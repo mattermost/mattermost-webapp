@@ -13,6 +13,8 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
 import store from 'stores/redux_store.jsx';
+import {webappConnector} from 'utils/webapp_connector';
+import WebSocketClient from 'client/web_websocket_client.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -69,6 +71,11 @@ export default class LoggedIn extends React.PureComponent {
         window.addEventListener('focus', this.onFocusListener);
         window.addEventListener('blur', this.onBlurListener);
 
+        // Listen for user activity updates from external sources via the webapp connector
+        if (webappConnector.active) {
+            webappConnector.on('user-activity-update', this.handleUserActivityUpdates);
+        }
+
         // Because current CSS requires the root tag to have specific stuff
 
         // Device tracking setup
@@ -83,7 +90,7 @@ export default class LoggedIn extends React.PureComponent {
             GlobalActions.emitUserLoggedOutEvent('/login?redirect_to=' + encodeURIComponent(this.props.location.pathname), true, false);
         }
 
-        $('body').on('mouseenter mouseleave', '.post', function mouseOver(ev) {
+        $('body').on('mouseenter mouseleave', ':not(.post-list__dynamic) .post', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
                 $(this).prev('.date-separator, .new-separator').addClass('hovered--after');
                 $(this).next('.date-separator, .new-separator').addClass('hovered--before');
@@ -103,7 +110,7 @@ export default class LoggedIn extends React.PureComponent {
             }
         });
 
-        $('body').on('mouseenter mouseleave', '.post.post--comment.same--root', function mouseOver(ev) {
+        $('body').on('mouseenter mouseleave', ':not(.post-list__dynamic) .post.post--comment.same--root', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
                 $(this).prev('.date-separator, .new-separator').addClass('hovered--comment');
                 $(this).next('.date-separator, .new-separator').addClass('hovered--comment');
@@ -132,9 +139,10 @@ export default class LoggedIn extends React.PureComponent {
 
         $(window).off('keydown.preventBackspace');
 
-        // Listen for focussed tab/window state
         window.removeEventListener('focus', this.onFocusListener);
         window.removeEventListener('blur', this.onBlurListener);
+
+        webappConnector.removeListener('user-activity-update', this.handleUserActivityUpdates);
     }
 
     render() {
@@ -163,5 +171,14 @@ export default class LoggedIn extends React.PureComponent {
 
     onBlurListener() {
         GlobalActions.emitBrowserFocus(false);
+    }
+
+    handleUserActivityUpdates = ({userIsActive, manual}) => {
+        if (!this.props.currentUser) {
+            return;
+        }
+
+        // update the server with the users current away status
+        WebSocketClient.userUpdateActiveStatus(userIsActive, manual);
     }
 }
