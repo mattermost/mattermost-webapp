@@ -17,7 +17,7 @@ export default class LineSwitch extends React.PureComponent {
 
     render() {
         const {title, subTitle, toggled, onToggle, children} = this.props;
-        return (<div style={{paddingBottom: 10}}>
+        return (<div className='padding-bottom x2'>
             <div className='row align-items-start'>
                 <div className='col-sm-10'>
                     <label className='control-label'>{title}</label>

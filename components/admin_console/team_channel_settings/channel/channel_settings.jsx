@@ -13,7 +13,7 @@ import {t} from 'utils/i18n';
 import ChannelsList from 'components/admin_console/team_channel_settings/channel/channels';
 import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
 
-class ChannelsSettings extends React.Component {
+export class ChannelsSettings extends React.Component {
     static propTypes = {
         siteName: PropTypes.string.isRequired,
     };

@@ -279,7 +279,7 @@ export default {
         },
         groups: {
             url: 'user_management/groups',
-            title: t('groups'),
+            title: t('admin.sidebar.groups'),
             title_default: 'Groups',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
@@ -303,7 +303,7 @@ export default {
         },
         teams: {
             url: 'user_management/teams',
-            title: t('teams'),
+            title: t('admin.sidebar.teams'),
             title_default: 'Teams',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
@@ -327,7 +327,7 @@ export default {
         },
         channel: {
             url: 'user_management/channels',
-            title: t('channels'),
+            title: t('admin.sidebar.channels'),
             title_default: 'Channels',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),

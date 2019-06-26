@@ -13,7 +13,7 @@ import {t} from 'utils/i18n';
 import TeamList from 'components/admin_console/team_channel_settings/team/teams';
 import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
 
-class TeamsSettings extends React.Component {
+export class TeamsSettings extends React.Component {
     static propTypes = {
         siteName: PropTypes.string.isRequired,
     };

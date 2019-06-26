@@ -11,6 +11,10 @@ export default class GroupRow extends React.Component {
         removeGroup: PropTypes.func.isRequired,
     };
 
+    removeGroup = () => {
+        this.props.removeGroup(this.props.group.id);
+    }
+
     render = () => {
         const {group} = this.props;
         return (
@@ -31,7 +35,7 @@ export default class GroupRow extends React.Component {
                     <span className='group-actions'>
                         <a
                             href='#'
-                            onClick={() => this.props.removeGroup(group.id)}
+                            onClick={this.removeGroup}
                         >
                             <FormattedMessage
                                 id='admin.team_channel_settings.group_row.remove'
