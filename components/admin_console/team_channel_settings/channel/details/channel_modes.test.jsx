@@ -17,5 +17,4 @@ describe('admin_console/team_channel_settings/channel/ChannelModes', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
-
 });
