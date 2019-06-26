@@ -72,6 +72,8 @@ describe('SF15699 Search Date Filter', () => {
     const secondDateEarly = getMsAndQueryForDate(Date.UTC(2018, 9, 15, 13, 15)); // October 15th, 2018 @ 1:15pm
     const secondDateLater = getMsAndQueryForDate(Date.UTC(2018, 9, 15, 13, 25)); // October 15th, 2018 @ 1:25pm
 
+    const baseUrl = Cypress.config('baseUrl');
+
     before(() => {
         // # Login as the sysadmin.
         cy.apiLogin('sysadmin');
@@ -98,7 +100,7 @@ describe('SF15699 Search Date Filter', () => {
 
         // # Set user to be a sysadmin, so it can access the system console
         cy.get('@newAdmin').then((user) => {
-            cy.task('externalRequest', {user: users.sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}}).
+            cy.task('externalRequest', {user: users.sysadmin, method: 'put', baseUrl, path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}}).
                 its('status').
                 should('be.equal', 200);
         });
@@ -107,11 +109,11 @@ describe('SF15699 Search Date Filter', () => {
         cy.getCurrentChannelId().then((channelId) => {
             // Post message as new admin to Town Square
             cy.get('@newAdmin').then((user) => {
-                cy.postMessageAs(user, firstMessage, channelId, firstDateEarly.ms);
+                cy.task('postMessageAs', {sender: user, message: firstMessage, channelId, createAt: firstDateEarly.ms, baseUrl});
             });
 
             // Post message as sysadmin to Town Square
-            cy.postMessageAs(users.sysadmin, secondMessage, channelId, secondDateEarly.ms);
+            cy.task('postMessageAs', {sender: users.sysadmin, message: secondMessage, channelId, createAt: secondDateEarly.ms, baseUrl});
         });
 
         // # Create messages at same dates in Off Topic channel
@@ -121,11 +123,11 @@ describe('SF15699 Search Date Filter', () => {
 
         cy.getCurrentChannelId().then((channelId) => {
             // Post message as sysadmin to off topic
-            cy.postMessageAs(users.sysadmin, firstOffTopicMessage, channelId, firstDateLater.ms);
+            cy.task('postMessageAs', {sender: users.sysadmin, message: firstOffTopicMessage, channelId, createAt: firstDateLater.ms, baseUrl});
 
             // Post message as new admin to off topic
             cy.get('@newAdmin').then((user) => {
-                cy.postMessageAs(user, secondOffTopicMessage, channelId, secondDateLater.ms);
+                cy.task('postMessageAs', {sender: user, message: secondOffTopicMessage, channelId, createAt: secondDateLater.ms, baseUrl});
             });
         });
     });
@@ -294,10 +296,10 @@ describe('SF15699 Search Date Filter', () => {
 
             // Post same message at different times
             cy.getCurrentChannelId().then((channelId) => {
-                cy.postMessageAs(users.sysadmin, 'pretarget ' + identifier, channelId, preTarget.ms);
-                cy.postMessageAs(users.sysadmin, targetAMMessage, channelId, targetAM.ms);
-                cy.postMessageAs(users.sysadmin, targetPMMessage, channelId, targetPM.ms);
-                cy.postMessageAs(users.sysadmin, 'postTarget' + identifier, channelId, postTarget.ms);
+                cy.task('postMessageAs', {sender: users.sysadmin, message: 'pretarget ' + identifier, channelId, createAt: preTarget.ms, baseUrl});
+                cy.task('postMessageAs', {sender: users.sysadmin, message: targetAMMessage, channelId, createAt: targetAM.ms, baseUrl});
+                cy.task('postMessageAs', {sender: users.sysadmin, message: targetPMMessage, channelId, createAt: targetPM.ms, baseUrl});
+                cy.task('postMessageAs', {sender: users.sysadmin, message: 'postTarget' + identifier, channelId, createAt: postTarget.ms, baseUrl});
             });
 
             // * Verify we only see messages from the expected date, and not outside of it
@@ -345,7 +347,7 @@ describe('SF15699 Search Date Filter', () => {
 
             // # Post message with unique text
             cy.getCurrentChannelId().then((channelId) => {
-                cy.postMessageAs(users.sysadmin, targetMessage, channelId, targetDate.ms);
+                cy.task('postMessageAs', {sender: users.sysadmin, message: targetMessage, channelId, createAt: targetDate.ms, baseUrl});
             });
 
             // # Set clock to custom date, reload page for it to take effect

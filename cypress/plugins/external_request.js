@@ -3,10 +3,8 @@
 
 const axios = require('axios');
 
-const cypressConfig = require('../../cypress.json');
-
-module.exports = async ({user, method = 'get', path, data = {}}) => {
-    const loginUrl = `${cypressConfig.baseUrl}/api/v4/users/login`;
+module.exports = async ({baseUrl, user, method = 'get', path, data = {}}) => {
+    const loginUrl = `${baseUrl}/api/v4/users/login`;
 
     // First we need to login with our external user to get cookies/tokens
     const loginResponse = await axios({
@@ -16,34 +14,30 @@ module.exports = async ({user, method = 'get', path, data = {}}) => {
         data: {login_id: user.username, password: user.password},
     });
 
-    const setCookie = loginResponse.headers['set-cookie'];
-
     let cookieString = '';
-    const cookies = {};
-
+    const setCookie = loginResponse.headers['set-cookie'];
     setCookie.forEach((cookie) => {
         const nameAndValue = cookie.split(';')[0];
         cookieString += nameAndValue + ';';
-        const [name, value] = nameAndValue.split('=');
-        cookies[name] = value;
     });
 
-    let response;
+    let response = {status: null, data: {}, error: {}};
 
     try {
         response = await axios({
             method,
-            url: `${cypressConfig.baseUrl}/api/v4/${path}`,
+            url: `${baseUrl}/api/v4/${path}`,
             headers: {
                 'Content-Type': 'text/plain',
                 Cookie: cookieString,
                 'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRF-Token': cookies.MMCSRF,
             },
             data,
         });
     } catch (error) {
-        response = error;
+        if (error.response) {
+            response = error.response;
+        }
     }
 
     return {status: response.status, data: response.data, error: response.error};

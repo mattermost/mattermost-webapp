@@ -60,9 +60,21 @@ export default class SignupEmail extends React.Component {
     componentDidMount() {
         trackEvent('signup', 'signup_user_01_welcome');
 
+        this.setDocumentTitle(this.props.siteName);
+
         const {inviteId} = this.state;
         if (inviteId && inviteId.length > 0) {
             this.getInviteInfo(inviteId);
+        }
+    }
+
+    componentDidUpdate() {
+        this.setDocumentTitle(this.props.siteName);
+    }
+
+    setDocumentTitle = (siteName) => {
+        if (siteName) {
+            document.title = siteName;
         }
     }
 

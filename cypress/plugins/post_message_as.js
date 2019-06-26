@@ -3,11 +3,9 @@
 
 const axios = require('axios');
 
-const cypressConfig = require('../../cypress.json');
-
-module.exports = async ({sender, message, channelId, createAt = 0}) => {
+module.exports = async ({sender, message, channelId, createAt = 0, baseUrl}) => {
     const loginResponse = await axios({
-        url: `${cypressConfig.baseUrl}/api/v4/users/login`,
+        url: `${baseUrl}/api/v4/users/login`,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         method: 'post',
         data: {login_id: sender.username, password: sender.password},
@@ -21,7 +19,7 @@ module.exports = async ({sender, message, channelId, createAt = 0}) => {
     });
 
     const response = await axios({
-        url: `${cypressConfig.baseUrl}/api/v4/posts`,
+        url: `${baseUrl}/api/v4/posts`,
         headers: {
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
