@@ -24,7 +24,10 @@ export default class AddGroupsToChannelModal extends React.Component {
         currentChannelId: PropTypes.string.isRequired,
         searchTerm: PropTypes.string.isRequired,
         groups: PropTypes.array.isRequired,
-        excludeGroups: PropTypes.array,
+
+        // used in tandem with 'skipCommit' to allow using this component without performing actual linking
+        excludeGroups: PropTypes.arrayOf(PropTypes.object),
+        includeGroups: PropTypes.arrayOf(PropTypes.object),
         onHide: PropTypes.func,
         skipCommit: PropTypes.bool,
         onAddCallback: PropTypes.func,
@@ -166,10 +169,7 @@ export default class AddGroupsToChannelModal extends React.Component {
     }
 
     renderOption(option, isSelected, onAdd) {
-        var rowSelected = '';
-        if (isSelected) {
-            rowSelected = 'more-modal__row--selected';
-        }
+        const rowSelected = isSelected ? 'more-modal__row--selected' : '';
 
         return (
             <div
@@ -236,6 +236,9 @@ export default class AddGroupsToChannelModal extends React.Component {
         let groupsToShow = this.props.groups;
         if (this.props.excludeGroups) {
             groupsToShow = groupsToShow.filter((g) => !this.props.excludeGroups.includes(g));
+        }
+        if (this.props.includeGroups) {
+            groupsToShow = [...groupsToShow, ...this.props.includeGroups.filter((g) => !groupsToShow.includes(g))];
         }
 
         return (

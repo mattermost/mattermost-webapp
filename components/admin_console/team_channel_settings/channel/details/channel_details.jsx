@@ -95,8 +95,8 @@ export default class ChannelDetails extends React.Component {
                         if (usersToRemove > 0) {
                             serverError = (
                                 <UsersWillBeRemovedError
-                                    team={this.props.channel}
-                                    amount={result.data.total_count}
+                                    total={usersToRemove}
+                                    users={result.data.users}
                                 />
                             );
                         }
@@ -171,6 +171,7 @@ export default class ChannelDetails extends React.Component {
     render = () => {
         const {totalGroups, saving, saveNeeded, serverError, isSynced, isPublic, groups, showRemoveConfirmation, usersToRemove} = this.state;
         const {channel} = this.props;
+        const removedGroups = this.props.groups.filter((g) => !groups.includes(g));
 
         return (
             <div className='wrapper--fixed'>
@@ -208,6 +209,7 @@ export default class ChannelDetails extends React.Component {
                             channel={channel}
                             totalGroups={totalGroups}
                             groups={groups}
+                            removedGroups={removedGroups}
                             onAddCallback={this.handleGroupChange}
                             onGroupRemoved={this.handleGroupRemoved}
                         />

@@ -14,7 +14,7 @@ import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
 import GroupList from '../../group/groups.jsx';
 
-export const TeamGroups = ({onGroupRemoved, syncChecked, team, onAddCallback, totalGroups, groups}) => (
+export const TeamGroups = ({onGroupRemoved, syncChecked, team, onAddCallback, totalGroups, groups, removedGroups}) => (
     <AdminPanel
         id='team_groups'
         titleId={syncChecked ? t('admin.team_settings.team_detail.syncedGroupsTitle') : t('admin.team_settings.team_detail.groupsTitle')}
@@ -30,6 +30,7 @@ export const TeamGroups = ({onGroupRemoved, syncChecked, team, onAddCallback, to
                     onAddCallback,
                     skipCommit: true,
                     excludeGroups: groups,
+                    includeGroups: removedGroups,
                 }}
             >
                 <FormattedMessage
@@ -52,6 +53,7 @@ TeamGroups.propTypes = {
     team: PropTypes.object.isRequired,
     totalGroups: PropTypes.number.isRequired,
     groups: PropTypes.arrayOf(PropTypes.object).isRequired,
+    removedGroups: PropTypes.arrayOf(PropTypes.object).isRequired,
     onAddCallback: PropTypes.func.isRequired,
     onGroupRemoved: PropTypes.func.isRequired,
 };

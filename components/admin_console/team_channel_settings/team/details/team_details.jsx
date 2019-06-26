@@ -72,6 +72,9 @@ export default class TeamDetails extends React.Component {
         actions.getTeam(teamID).
             then(() => actions.getGroups(teamID)).
             then(() => this.setState({groups: this.props.groups}));
+        setTimeout(()=>{
+            this.handleGroupRemoved(this.props.groups[0].id);
+        }, 1000);
     }
 
     handleSubmit = async () => {
@@ -116,12 +119,16 @@ export default class TeamDetails extends React.Component {
             allAllowedChecked: !syncChecked && allAllowedChecked,
             allowedDomainsChecked: !syncChecked && allowedDomainsChecked,
             allowedDomains,
+        }, () => {
+            if (syncChecked) {
+                this.processGroupsChange(this.state.groups);
+            }
         });
         this.props.actions.setNavigationBlocked(true);
     }
 
     async processGroupsChange(groups) {
-        const {team, teamID, actions} = this.props;
+        const {teamID, actions} = this.props;
         actions.setNavigationBlocked(true);
 
         let serverError = null;
@@ -136,8 +143,8 @@ export default class TeamDetails extends React.Component {
                     if (usersToRemove > 0) {
                         serverError = (
                             <UsersWillBeRemovedError
-                                team={team}
-                                amount={result.data.total_count}
+                                total={usersToRemove}
+                                users={result.data.users}
                             />
                         );
                     }
@@ -175,6 +182,7 @@ export default class TeamDetails extends React.Component {
     render = () => {
         const {team} = this.props;
         const {totalGroups, saving, saveNeeded, serverError, groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, showRemoveConfirmation, usersToRemove} = this.state;
+        const removedGroups = this.props.groups.filter((g) => !groups.includes(g));
 
         return (
             <div className='wrapper--fixed'>
@@ -216,6 +224,7 @@ export default class TeamDetails extends React.Component {
                             syncChecked={syncChecked}
                             team={team}
                             groups={groups}
+                            removedGroups={removedGroups}
                             totalGroups={totalGroups}
                             onAddCallback={this.handleGroupChange}
                             onGroupRemoved={this.handleGroupRemoved}
