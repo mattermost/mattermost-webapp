@@ -595,6 +595,7 @@ export default class ChannelHeader extends React.PureComponent {
                                 aria-hidden='true'
                             />
                         }
+                        ariaLabel={true}
                         buttonClass={'style--none ' + pinnedIconClass}
                         buttonId={'channelHeaderPinButton'}
                         onClick={this.showPinnedPosts}
@@ -627,6 +628,7 @@ export default class ChannelHeader extends React.PureComponent {
                                 aria-hidden='true'
                             />
                         }
+                        ariaLabel={true}
                         buttonId={'channelHeaderMentionButton'}
                         onClick={this.searchMentions}
                         tooltipKey={'recentMentions'}
@@ -635,6 +637,7 @@ export default class ChannelHeader extends React.PureComponent {
                         iconComponent={
                             <FlagIcon className='icon icon__flag'/>
                         }
+                        ariaLabel={true}
                         buttonId={'channelHeaderFlagButton'}
                         onClick={this.getFlagged}
                         tooltipKey={'flaggedPosts'}

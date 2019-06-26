@@ -215,35 +215,37 @@ export default class PopoverListMembers extends React.Component {
             </Tooltip>
         );
 
+        const ariaLabel = `${Utils.localizeMessage('channel_header.channelMembers', 'Members')} ${Utils.localizeMessage('accessibility.button.button', 'button')}`.toLowerCase();
+
         return (
-            <div
-                id='channelMember'
-                className={'channel-header__icon wide ' + (this.state.showPopover ? 'active' : '')}
-            >
+            <div id='channelMember'>
                 <OverlayTrigger
                     trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={channelMembersTooltip}
                 >
-                    <div
+                    <button
                         id='member_popover'
-                        className='member-popover__trigger'
+                        aria-label={ariaLabel}
+                        className={'style--none member-popover__trigger channel-header__icon wide ' + (this.state.showPopover ? 'active' : '')}
                         ref='member_popover_target'
                         onClick={this.handleGetProfilesInChannel}
                     >
-                        <span
-                            id='channelMemberCountText'
-                            className='icon__text'
-                        >
-                            {countText}
-                        </span>
-                        <MemberIcon
-                            id='channelMemberIcon'
-                            className='icon icon__members'
-                            aria-hidden='true'
-                        />
-                    </div>
+                        <div>
+                            <span
+                                id='channelMemberCountText'
+                                className='icon__text'
+                            >
+                                {countText}
+                            </span>
+                            <MemberIcon
+                                id='channelMemberIcon'
+                                className='icon icon__members'
+                                aria-hidden='true'
+                            />
+                        </div>
+                    </button>
                 </OverlayTrigger>
                 <Overlay
                     rootClose={true}
