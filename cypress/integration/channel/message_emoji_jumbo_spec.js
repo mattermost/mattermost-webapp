@@ -19,9 +19,15 @@ const testCases = [
 ];
 
 function verifyLastPostStyle(expectedSize) {
-    //  * Verify size of the emoji
-    cy.getLastPostId().then(() => {
-        cy.get('span.emoticon').last().should('have.css', 'height', expectedSize).and('have.css', 'width', expectedSize);
+    //  # Get Last Post ID
+    cy.getLastPostId().then((postId) => {
+        const postMessageTextId = `#postMessageText_${postId}`;
+        // # Get Each Emoji from Reply Window RHS for the postId
+        cy.get(`#rhsContent ${postMessageTextId} span.emoticon`).each(($el) => {
+            cy.wrap($el).as('message');
+            // * Verify the size of the emoji
+            cy.get('@message').should('have.css', 'height', expectedSize).and('have.css', 'width', expectedSize);
+        });
     });
 }
 
