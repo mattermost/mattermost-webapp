@@ -15,7 +15,7 @@ describe('Search', () => {
         cy.apiLogin('user-1');
         cy.visit('/');
 
-        const message = `asparagus-${Date.now()}`;
+        const message = `asparagus${Date.now()}`;
         const comment = 'Replying to asparagus';
 
         // # Post a new message
