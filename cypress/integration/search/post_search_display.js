@@ -26,7 +26,7 @@ describe('Post search display', () => {
         cy.get('#searchClearButton').click();
 
         // # RHS should be visible with search results
-        cy.get('#searchResultsContainer').should('be.visible');
+        cy.get('#search-items-container').should('be.visible');
 
         // # focused element searchbox should be visible
         cy.get('#searchBox').should('be.visible');

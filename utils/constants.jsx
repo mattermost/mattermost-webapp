@@ -101,6 +101,7 @@ export const Preferences = {
 export const ActionTypes = keyMirror({
     RECEIVED_FOCUSED_POST: null,
     SELECT_POST: null,
+    SELECT_POST_CARD: null,
     INCREASE_POST_VISIBILITY: null,
     LOADING_POSTS: null,
 
@@ -136,7 +137,9 @@ export const ActionTypes = keyMirror({
     RECEIVED_PLUGIN_COMPONENT: null,
     REMOVED_PLUGIN_COMPONENT: null,
     RECEIVED_PLUGIN_POST_COMPONENT: null,
+    RECEIVED_PLUGIN_POST_CARD_COMPONENT: null,
     REMOVED_PLUGIN_POST_COMPONENT: null,
+    REMOVED_PLUGIN_POST_CARD_COMPONENT: null,
     RECEIVED_WEBAPP_PLUGINS: null,
     RECEIVED_WEBAPP_PLUGIN: null,
     REMOVED_WEBAPP_PLUGIN: null,
@@ -166,6 +169,7 @@ export const ActionTypes = keyMirror({
 
     INCREMENT_WS_ERROR_COUNT: null,
     RESET_WS_ERROR_COUNT: null,
+    RECEIVED_POSTS_FOR_CHANNEL_AT_TIME: null,
 });
 
 export const ModalIdentifiers = {
@@ -290,6 +294,7 @@ export const PostTypes = {
     EPHEMERAL: 'system_ephemeral',
     EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
     REMOVE_LINK_PREVIEW: 'remove_link_preview',
+    ME: 'me',
 };
 
 export const StatTypes = keyMirror({
@@ -447,6 +452,7 @@ export const RHSStates = {
     SEARCH: 'search',
     FLAG: 'flag',
     PIN: 'pin',
+    PLUGIN: 'plugin',
 };
 
 export const UploadStatuses = {

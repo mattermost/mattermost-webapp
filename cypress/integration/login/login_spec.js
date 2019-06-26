@@ -7,9 +7,24 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+/* eslint max-nested-callbacks: ["error", 4] */
+
+let config;
+
 describe('Login page', () => {
     before(() => {
-        // 1. Go to login page
+        // Disable other auth options
+        const newSettings = {
+            Office365Settings: {Enable: false},
+            LdapSettings: {Enable: false},
+        };
+        cy.apiUpdateConfig(newSettings);
+
+        cy.apiGetConfig().then((response) => {
+            config = response.body;
+        });
+
+        // # Go to login page
         cy.apiLogout();
 
         cy.visit('/login');
@@ -20,16 +35,22 @@ describe('Login page', () => {
         cy.get('#login_section').should('be.visible');
 
         // * Check the title
-        cy.title().should('include', 'Mattermost');
+        cy.title().should('include', config.TeamSettings.SiteName);
     });
 
     it('should match elements, body', () => {
         // * Check elements in the body
         cy.get('#login_section').should('be.visible');
-        cy.get('#site_name').should('contain', 'Mattermost');
+        cy.get('#site_name').should('contain', config.TeamSettings.SiteName);
         cy.get('#site_description').should('contain', 'All team communication in one place, searchable and accessible anywhere');
         cy.get('#loginId').should('be.visible');
-        cy.get('#loginId').should('have.attr', 'placeholder', 'Email or Username');
+        cy.get('#loginId').
+            should('be.visible').
+            and(($loginTextbox) => {
+                const placeholder = $loginTextbox[0].placeholder;
+                expect(placeholder).to.match(/Email/);
+                expect(placeholder).to.match(/Username/);
+            });
         cy.get('#loginPassword').should('be.visible');
         cy.get('#loginPassword').should('have.attr', 'placeholder', 'Password');
         cy.get('#loginButton').should('be.visible');
@@ -44,13 +65,13 @@ describe('Login page', () => {
         cy.get('#copyright').should('contain', '© 2015-');
         cy.get('#copyright').should('contain', 'Mattermost, Inc.');
         cy.get('#about_link').should('contain', 'About');
-        cy.get('#about_link').should('have.attr', 'href', 'https://about.mattermost.com/default-about/');
+        cy.get('#about_link').should('have.attr', 'href', config.SupportSettings.AboutLink);
         cy.get('#privacy_link').should('contain', 'Privacy');
-        cy.get('#privacy_link').should('have.attr', 'href', 'https://about.mattermost.com/default-privacy-policy/');
+        cy.get('#privacy_link').should('have.attr', 'href', config.SupportSettings.PrivacyPolicyLink);
         cy.get('#terms_link').should('contain', 'Terms');
-        cy.get('#terms_link').should('have.attr', 'href', 'https://about.mattermost.com/default-terms/');
+        cy.get('#terms_link').should('have.attr', 'href', config.SupportSettings.TermsOfServiceLink);
         cy.get('#help_link').should('contain', 'Help');
-        cy.get('#help_link').should('have.attr', 'href', 'https://about.mattermost.com/default-help/');
+        cy.get('#help_link').should('have.attr', 'href', config.SupportSettings.HelpLink);
     });
 
     it('should login then logout by user-1', () => {

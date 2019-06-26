@@ -12,10 +12,14 @@
 import {reUrl} from '../../utils';
 
 const feedbackEmail = 'test@example.com';
+let config;
 
 describe('Signin/Authentication', () => {
     before(() => {
         cy.apiUpdateConfig({EmailSettings: {FeedbackEmail: feedbackEmail}});
+        cy.apiGetConfig().then((response) => {
+            config = response.body;
+        });
     });
 
     it('SA15008 - Sign In Forgot password - Email address has account on server', () => {
@@ -45,7 +49,7 @@ function verifyForgotPasswordEmail(response, toUser, fromEmail) {
     expect(data.date).to.contain(isoDate);
 
     // * Verify that the email subject is correct
-    expect(data.subject).to.equal('[Mattermost] Reset your password');
+    expect(data.subject).to.equal(`[${config.TeamSettings.SiteName}] Reset your password`);
 
     // * Verify that the email body is correct
     const bodyText = data.body.text.split('\r\n');
@@ -56,7 +60,7 @@ function verifyForgotPasswordEmail(response, toUser, fromEmail) {
     expect(bodyText[7]).to.contain('Reset Password');
     expect(bodyText[9]).to.contain('Any questions at all, mail us any time: feedback@mattermost.com');
     expect(bodyText[10]).to.equal('Best wishes,');
-    expect(bodyText[11]).to.equal('The Mattermost Team');
+    expect(bodyText[11]).to.equal(`The ${config.TeamSettings.SiteName} Team`);
     expect(bodyText[13]).to.equal('To change your notification preferences, log in to your team site and go to Account Settings > Notifications.');
 }
 
