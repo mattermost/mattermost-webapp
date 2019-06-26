@@ -31,7 +31,6 @@ describe('Message', () => {
         cy.apiLogin('user-1');
         cy.visit('/');
 
-
         // # Post a message
         const messageText = 'This is a test message';
         cy.postMessage(messageText);
