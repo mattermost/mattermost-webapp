@@ -110,6 +110,9 @@
 
 .mention__fullname {
     @include opacity(.5);
+    margin: 0 0 0 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .mention--highlight {
