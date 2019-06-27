@@ -13,21 +13,21 @@
             width: 36px;
             height: 36px;
             border-radius: 18px;
-            background: $primary-color;
+            background: var(--center-channel-color-60);
             display: inline-flex;
             align-items: center;
             margin: 12px;
             svg {
                 width: 36px;
                 height: 36px;
-                fill: $white;
+                fill: var(--center-channel-color);
                 margin: 6px;
             }
         }
         .avatar {
-            border-radius: 16px;
-            width: 24px;
-            height: 24px;
+            border-radius: 18px;
+            width: 36px;
+            height: 36px;
             margin-right: 3px;
             margin: 12px;
         }

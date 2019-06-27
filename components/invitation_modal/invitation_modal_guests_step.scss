@@ -10,16 +10,18 @@
     }
     input {
         height: 48px;
-        background: $white;
-        border: 1px solid $gray;
+        background: var(--center-channel-bg);
+        border-color: var(--center-channel-color-60);
+        border: 1px solid;
         border-radius: 4px;
         padding: 12px 14px;
         width: 100%;
     }
     textarea {
         height: 90px;
-        background: $white;
-        border: 1px solid $gray;
+        background: var(--center-channel-bg);
+        border: 1px solid;
+        border-color: var(--center-channel-color-60);
         border-radius: 4px;
         padding: 12px;
         width: 100%;
@@ -27,7 +29,7 @@
     }
     .help-text {
         margin-top: 8px;
-        color: $dark-gray;
+        color: var(--center-channel-color-60);
     }
     .add-people, .add-channels, .custom-message {
         max-width: 720px;
@@ -44,14 +46,20 @@
     }
     .custom-message {
         position: relative;
+        a {
+            color: var(--button-bg-90);
+        }
         svg {
+            &:hover {
+                fill: var(--button-bg-60);
+            }
+            fill: var(--center-channel-color-60);
             cursor: pointer;
             position: absolute;
             right: 0px;
             top: 3px;
             width: 16px;
             height: 16px;
-            opacity: .4;
         }
     }
 }

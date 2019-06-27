@@ -3,16 +3,25 @@
 .UsersEmailsInput {
     .users-emails-input__control {
         min-height: 48px;
-        border-color: $gray;
-        &:hover {
-            border-color: $gray;
+        background: var(--center-channel-bg);
+        color: var(--center-channel-color-60);
+        box-shadow: none;
+        border-color: var(--center-channel-color-60);
+        &:hover, &:focus, &--menu-is-open {
+            border-color: var(--button-bg);
         }
+    }
+    .users-emails-input__placeholder, .users-emails-input__input {
+        color: var(--center-channel-color-60);
     }
     input {
         height: inherit;
     }
     .users-emails-input__menu {
         margin-top: 0px;
+        background: var(--center-channel-bg);
+        color: var(--center-channel-color);
+        border-color: var(--center-channel-color);
     }
     .users-emails-input__menu-list{
         padding: 0px;
@@ -30,19 +39,28 @@
         padding: 12px;
         display: flex;
         align-items: center;
-        border-radius: 4px 4px 0 0;
+        &:first-child {
+            border-radius: 4px 4px 0 0;
+        }
+        &:last-child {
+            border-radius: 0 0 4px 4px;
+        }
+        &:hover, &--is-focused {
+            background: var(--button-bg);
+            color: var(--button-color);
+        }
         .mail-plus-icon {
             width: 36px;
             height: 36px;
             border-radius: 18px;
-            background: $primary-color;
+            background: var(--center-channel-color-60);
             padding: 3px;
             margin-right: 8px;
             display: inline-block;
             svg {
                 width: 24px;
                 height: 24px;
-                fill: $white;
+                fill: var(--center-channel-color);
                 margin: 3px;
             }
         }
@@ -59,25 +77,28 @@
     }
     .users-emails-input__multi-value {
         align-items: center;
-        background: $bg--gray;
+        background: var(--center-channel-color-30);
         padding: 4px;
         border-radius: 16px;
+        color: var(--center-channel-color);
     }
 
     .users-emails-input__multi-value__label {
         display: flex;
         align-items: center;
         padding-left: 0px;
+        color: var(--center-channel-color);
         .mail-icon {
             width: 24px;
             height: 24px;
             border-radius: 16px;
-            background: $gray;
+            background: var(--center-channel-color-60);
             padding: 3px;
+            margin-right: 3px;
             svg {
                 width: 18px;
                 height: 18px;
-                fill: $white;
+                fill: var(--center-channel-color);
             }
         }
         .avatar {
@@ -91,11 +112,14 @@
         width: 16px;
         height: 16px;
         border-radius: 16px;
-        background: $gray;
+        background: var(--center-channel-color-30);
         padding: 1px;
         cursor: pointer;
+        &:hover {
+            background-color: var(--button-bg);
+        }
         svg {
-            fill: $white;
+            fill: var(--center-channel-color);
             opacity: .6;
         }
     }

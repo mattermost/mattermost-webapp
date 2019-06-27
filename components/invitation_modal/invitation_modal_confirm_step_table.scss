@@ -9,6 +9,18 @@
             margin: 12px;
             width: 50%;
             font-weight: bold;
+            display: flex;
+        }
+        span {
+            display: flex;
+        }
+        svg {
+            align-self: end;
+            transform: rotate(90deg);
+            fill: var(--center-channel-color-60);
+            height: 20px;
+            width: 20px;
+            margin-right: 2px;
         }
     }
 }
