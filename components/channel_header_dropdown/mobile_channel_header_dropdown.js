@@ -4,10 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
-import {getUser} from 'mattermost-redux/selectors/entities/users';
-import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 
-import store from 'stores/redux_store.jsx';
 import StatusIcon from 'components/status_icon';
 
 import {Constants} from 'utils/constants';
@@ -25,19 +22,8 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
         user: PropTypes.object.isRequired,
         channel: PropTypes.object.isRequired,
         teammateId: PropTypes.string,
+        teammateIsBot: PropTypes.bool,
         teammateStatus: PropTypes.string,
-    }
-
-    getDmUser = () => {
-        const {user, channel} = this.props;
-        const isDirect = (channel.type === Constants.DM_CHANNEL);
-        let dmUser;
-        if (channel && isDirect) {
-            const dmUserId = getUserIdFromChannelName(user.id, channel.name);
-            dmUser = getUser(store.getState(), dmUserId);
-        }
-
-        return dmUser;
     }
 
     getChannelTitle = () => {
@@ -60,12 +46,10 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
     }
 
     render() {
-        const {channel, teammateStatus} = this.props;
-        const isDirect = (channel.type === Constants.DM_CHANNEL);
-
+        const {teammateIsBot, teammateStatus} = this.props;
         let dmHeaderIconStatus;
-        const dmUser = this.getDmUser();
-        if (isDirect && !dmUser.is_bot) {
+
+        if (!teammateIsBot) {
             dmHeaderIconStatus = (
                 <StatusIcon status={teammateStatus}/>
             );
