@@ -6,6 +6,8 @@ export function getFilterOptions(filter) {
     const options = {};
     if (filter === SearchUserOptionsFilter.SYSTEM_ADMIN) {
         options[UserSearchOptions.ROLE] = SearchUserOptionsFilter.SYSTEM_ADMIN;
+    } else if (filter === SearchUserOptionsFilter.SYSTEM_GUEST) {
+        options[UserSearchOptions.ROLE] = SearchUserOptionsFilter.SYSTEM_GUEST;
     } else if (filter === SearchUserOptionsFilter.ALLOW_INACTIVE) {
         options[SearchUserOptionsFilter.ALLOW_INACTIVE] = true;
     }
