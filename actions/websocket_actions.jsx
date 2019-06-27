@@ -33,7 +33,7 @@ import {
 import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 
 import * as TeamActions from 'mattermost-redux/actions/teams';
-import {getMe, getStatusesByIds, getProfilesByIds} from 'mattermost-redux/actions/users';
+import {checkForModifiedUsers, getMe, getStatusesByIds, getProfilesByIds} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
@@ -154,9 +154,9 @@ export function reconnect(includeWebSocket = true) {
         }
     });
 
-    const currentTeamId = getState().entities.teams.currentTeamId;
+    const state = getState();
+    const currentTeamId = state.entities.teams.currentTeamId;
     if (currentTeamId) {
-        const state = getState();
         const currentChannelId = getCurrentChannelId(state);
         const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
         const mostRecentPost = getPost(state, mostRecentId);
@@ -170,6 +170,10 @@ export function reconnect(includeWebSocket = true) {
         }
         StatusActions.loadStatusesForChannelAndSidebar();
         dispatch(TeamActions.getMyTeamUnreads());
+    }
+
+    if (state.websocket.lastDisconnectAt) {
+        dispatch(checkForModifiedUsers());
     }
 
     dispatch(resetWsErrorCount());
