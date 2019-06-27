@@ -64,8 +64,8 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
                     <ArchiveIcon className='icon icon__archive'/>
                 );
             } else if (this.props.teammateId && this.props.teammateIsBot) {
-                const defaultBotIcon = (<BotIcon className='icon icon__bot'/>);
-                icon = defaultBotIcon; // Use default bot icon
+                // Use default bot icon
+                icon = (<BotIcon className='icon icon__bot'/>);
 
                 const iconUri = iconImageURLForUser(this.props.teammateId);
                 if (iconUri && !this.state.svgError) {
@@ -74,7 +74,6 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
                             className='icon icon__bot'
                             src={iconUri}
                             onError={this.onSvgLoadError}
-                            preloader={defaultBotIcon}
                         />
                     );
                 }
