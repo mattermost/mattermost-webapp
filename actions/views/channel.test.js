@@ -424,9 +424,9 @@ describe('channel view actions', () => {
                             [channelId]: 12345,
                         },
                     },
-                    websocket: {
-                        lastDisconnectAt: 12344,
-                    },
+                },
+                websocket: {
+                    lastDisconnectAt: 12344,
                 },
             });
 
@@ -448,9 +448,9 @@ describe('channel view actions', () => {
                             [channelId]: 12343,
                         },
                     },
-                    websocket: {
-                        lastDisconnectAt: 12344,
-                    },
+                },
+                websocket: {
+                    lastDisconnectAt: 12344,
                 },
             });
 
