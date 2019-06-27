@@ -35,6 +35,10 @@ const currentUserId = 'user123';
 const UserSelectors = require('mattermost-redux/selectors/entities/users');
 UserSelectors.getCurrentUserMentionKeys = jest.fn(() => [{key: '@here'}, {key: '@mattermost'}, {key: '@channel'}, {key: '@all'}]);
 
+// Mock Date.now() to return a constant value.
+const POST_CREATED_TIME = Date.now();
+global.Date.now = jest.fn(() => POST_CREATED_TIME);
+
 jest.mock('mattermost-redux/actions/posts', () => ({
     getPostThread: (...args) => ({type: 'MOCK_GET_POST_THREAD', args}),
     getProfilesAndStatusesForPosts: (...args) => ({type: 'MOCK_GET_PROFILES_AND_STATUSES_FOR_POSTS', args}),
@@ -120,26 +124,29 @@ describe('rhs view actions', () => {
             expect(store.getActions()[0]).toEqual(compareStore.getActions()[0]);
         });
 
-        test(`it dispatches ${ActionTypes.SELECT_POST} correctly`, async () => {
-            store = mockStore({
-                ...initialState,
-                views: {
-                    rhs: {
-                        rhsState: RHSStates.FLAG,
+        describe(`it dispatches ${ActionTypes.SELECT_POST} correctly`, () => {
+            it('with mocked date', async () => {
+                store = mockStore({
+                    ...initialState,
+                    views: {
+                        rhs: {
+                            rhsState: RHSStates.FLAG,
+                        },
                     },
-                },
+                });
+
+                await store.dispatch(selectPostFromRightHandSideSearch(post));
+
+                const action = {
+                    type: ActionTypes.SELECT_POST,
+                    postId: post.root_id,
+                    channelId: post.channel_id,
+                    previousRhsState: RHSStates.FLAG,
+                    timestamp: POST_CREATED_TIME,
+                };
+
+                expect(store.getActions()[1]).toEqual(action);
             });
-
-            await store.dispatch(selectPostFromRightHandSideSearch(post));
-
-            const action = {
-                type: ActionTypes.SELECT_POST,
-                postId: post.root_id,
-                channelId: post.channel_id,
-                previousRhsState: RHSStates.FLAG,
-            };
-
-            expect(store.getActions()[1]).toEqual(action);
         });
     });
 
@@ -413,6 +420,7 @@ describe('rhs view actions', () => {
                     type: ActionTypes.SELECT_POST,
                     postId: '',
                     channelId: '',
+                    timestamp: 0,
                 },
             ]));
 
