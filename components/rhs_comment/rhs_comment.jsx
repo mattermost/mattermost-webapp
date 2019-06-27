@@ -344,9 +344,9 @@ export default class RhsComment extends React.PureComponent {
                     <div>
                         <div className='post__header'>
                             <div className='col col__name'>
-                                <strong>{userProfile}</strong>
+                                {userProfile}
+                                {botIndicator}
                             </div>
-                            {botIndicator}
                             <div className='col'>
                                 {this.renderPostTime(isEphemeral)}
                                 {pinnedBadge}

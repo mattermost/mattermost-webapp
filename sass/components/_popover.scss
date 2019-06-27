@@ -212,7 +212,8 @@
         }
 
         .mention--align {
-            display: inline;
+            display: inline-flex;
+            overflow: hidden;
         }
 
         .search-autocomplete__name {

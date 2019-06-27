@@ -201,7 +201,7 @@ export default class RhsRootPost extends React.PureComponent {
                 );
             }
 
-            botIndicator = <BotBadge className='col col__name'/>;
+            botIndicator = <BotBadge/>;
         } else {
             userProfile = (
                 <UserProfile
@@ -286,8 +286,10 @@ export default class RhsRootPost extends React.PureComponent {
                     </div>
                     <div>
                         <div className='post__header'>
-                            <div className='col__name'>{userProfile}</div>
-                            {botIndicator}
+                            <div className='col__name'>
+                                {userProfile}
+                                {botIndicator}
+                            </div>
                             <div className='col'>
                                 {this.renderPostTime(isEphemeral)}
                                 {pinnedBadge}
