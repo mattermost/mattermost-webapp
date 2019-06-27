@@ -4,8 +4,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {Constants} from 'utils/constants.jsx';
+import Svg from 'react-inlinesvg';
 
+import {Constants} from 'utils/constants.jsx';
+import {iconImageURLForUser} from 'utils/utils.jsx';
 import ArchiveIcon from 'components/svg/archive_icon';
 import DraftIcon from 'components/svg/draft_icon';
 import GlobeIcon from 'components/svg/globe_icon';
@@ -24,6 +26,17 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
         teammateDeletedAt: PropTypes.number,
         teammateIsBot: PropTypes.bool,
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            svgError: false,
+        };
+    }
+
+    onSvgLoadError = () => {
+        this.setState({svgError: true});
+    }
 
     render() {
         let icon = null;
@@ -51,9 +64,20 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
                     <ArchiveIcon className='icon icon__archive'/>
                 );
             } else if (this.props.teammateId && this.props.teammateIsBot) {
-                icon = (
-                    <BotIcon className='icon icon__bot'/>
-                );
+                const defaultBotIcon = (<BotIcon className='icon icon__bot'/>);
+                icon = defaultBotIcon; // Use default bot icon
+
+                const iconUri = iconImageURLForUser(this.props.teammateId);
+                if (iconUri && !this.state.svgError) {
+                    icon = (
+                        <Svg
+                            className='icon icon__bot'
+                            src={iconUri}
+                            onError={this.onSvgLoadError}
+                            preloader={defaultBotIcon}
+                        />
+                    );
+                }
             } else {
                 icon = (
                     <StatusIcon

@@ -503,6 +503,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .sidebar--left .sidebar__switcher span', 'color:' + theme.sidebarText);
         changeCss('.app__body .sidebar--left .sidebar__switcher button svg', 'fill:' + theme.sidebarText);
         changeCss('.channel-header .channel-header_plugin-dropdown a, .app__body .sidebar__switcher button', 'background:' + changeOpacity(theme.sidebarText, 0.08));
+        changeCss('.app__body .icon__bot', 'fill:' + theme.sidebarText);
     }
 
     if (theme.sidebarUnreadText) {
@@ -1337,6 +1338,17 @@ export function imageURLForUser(userIdOrObject) {
         return Constants.TRANSPARENT_PIXEL;
     }
     return Client4.getUsersRoute() + '/' + userIdOrObject.id + '/image?_=' + (userIdOrObject.last_picture_update || 0);
+}
+
+export function iconImageURLForUser(userIdOrObject) {
+    if (typeof userIdOrObject == 'string') {
+        const profile = getUser(store.getState(), userIdOrObject);
+        if (profile) {
+            return iconImageURLForUser(profile);
+        }
+        return Constants.TRANSPARENT_PIXEL;
+    }
+    return Client4.getUsersRoute() + '/' + userIdOrObject.id + '/icon';
 }
 
 export function defaultImageURLForUser(userId) {
