@@ -1433,6 +1433,10 @@
             max-width: none;
             vertical-align: inherit;
             width: 32px;
+
+            &.overriden {
+                @include border-radius(unset);
+            }
         }
     }
 

@@ -38,6 +38,42 @@ exports[`components/ProfilePicture should match snapshot, no user specified, ove
 </span>
 `;
 
+exports[`components/ProfilePicture should match snapshot, profile and src, default props 1`] = `
+<OverlayTrigger
+  defaultOverlayShown={false}
+  overlay={
+    <Connect(InjectIntl(ProfilePopover))
+      hasMention={false}
+      hide={[Function]}
+      isBusy={true}
+      isRHS={false}
+      src="http://example.com/image.png"
+      userId="uid"
+    />
+  }
+  placement="right"
+  rootClose={true}
+  trigger="click"
+>
+  <span
+    className="status-wrapper"
+  >
+    <img
+      alt="user profile image"
+      className="more-modal__image overriden"
+      height="36"
+      src="http://example.com/emoji.png"
+      width="36"
+    />
+    <StatusIcon
+      button={false}
+      className=""
+      status="away"
+    />
+  </span>
+</OverlayTrigger>
+`;
+
 exports[`components/ProfilePicture should match snapshot, user specified 1`] = `
 <span
   className="status-wrapper"
