@@ -1348,7 +1348,7 @@ export function iconImageURLForUser(userIdOrObject) {
         }
         return Constants.TRANSPARENT_PIXEL;
     }
-    return Client4.getUsersRoute() + '/' + userIdOrObject.id + '/icon';
+    return Client4.getUsersRoute() + '/' + userIdOrObject.id + '/icon?_=' + (userIdOrObject.last_picture_update || 0);
 }
 
 export function defaultImageURLForUser(userId) {

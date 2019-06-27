@@ -36,6 +36,11 @@ export default class SidebarChannel extends React.PureComponent {
         channelDisplayName: PropTypes.string.isRequired,
 
         /**
+         * Channel icon image url
+         */
+        channelIconUrl: PropTypes.string,
+
+        /**
          * Channel is muted
          */
         channelMuted: PropTypes.bool,
@@ -293,6 +298,7 @@ export default class SidebarChannel extends React.PureComponent {
                     rowClass={rowClass}
                     channelId={this.props.channelId}
                     channelName={this.props.channelName}
+                    channelIconUrl={this.props.channelIconUrl}
                     channelStatus={this.props.channelStatus}
                     channelType={this.props.channelType}
                     displayName={displayName}

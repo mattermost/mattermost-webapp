@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import Svg from 'react-inlinesvg';
 
 import {Constants} from 'utils/constants.jsx';
-import {iconImageURLForUser} from 'utils/utils.jsx';
 import ArchiveIcon from 'components/svg/archive_icon';
 import DraftIcon from 'components/svg/draft_icon';
 import GlobeIcon from 'components/svg/globe_icon';
@@ -17,6 +16,7 @@ import BotIcon from 'components/svg/bot_icon.jsx';
 
 export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent {
     static propTypes = {
+        channelIconUrl: PropTypes.string,
         channelIsArchived: PropTypes.bool.isRequired,
         channelType: PropTypes.string.isRequired,
         channelStatus: PropTypes.string,
@@ -31,11 +31,15 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
         super(props);
         this.state = {
             svgError: false,
+            channelIconUrl: null,
         };
     }
 
     onSvgLoadError = () => {
-        this.setState({svgError: true});
+        this.setState({
+            svgError: true,
+            channelIconUrl: this.props.channelIconUrl,
+        });
     }
 
     render() {
@@ -67,12 +71,14 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
                 // Use default bot icon
                 icon = (<BotIcon className='icon icon__bot'/>);
 
-                const iconUri = iconImageURLForUser(this.props.teammateId);
-                if (iconUri && !this.state.svgError) {
+                // Attempt to display custom icon if channelIconUrl has changed
+                // or if there was no error when loading custom svg
+                if ((this.props.channelIconUrl && !this.state.svgError) ||
+                    this.props.channelIconUrl !== this.state.channelIconUrl) {
                     icon = (
                         <Svg
                             className='icon icon__bot'
-                            src={iconUri}
+                            src={this.props.channelIconUrl}
                             onError={this.onSvgLoadError}
                         />
                     );

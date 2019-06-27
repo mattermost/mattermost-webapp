@@ -22,6 +22,8 @@ import {isChannelMuted, isFavoriteChannel} from 'mattermost-redux/utils/channel_
 
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
+import {iconImageURLForUser} from 'utils/utils.jsx';
+
 import {Constants, NotificationLevels, StoragePrefixes} from 'utils/constants.jsx';
 
 import {leaveChannel} from 'actions/views/channel';
@@ -78,6 +80,7 @@ function makeMapStateToProps() {
         let channelTeammateUsername = '';
         let channelTeammateIsBot = false;
         let channelDisplayName = channel.display_name;
+        let channelIconUrl = null;
         if (channel.type === Constants.DM_CHANNEL) {
             teammate = getUser(state, channel.teammate_id);
             if (teammate) {
@@ -85,6 +88,7 @@ function makeMapStateToProps() {
                 channelTeammateDeletedAt = teammate.delete_at;
                 channelTeammateUsername = teammate.username;
                 channelTeammateIsBot = teammate.is_bot;
+                channelIconUrl = iconImageURLForUser(teammate);
             }
 
             channelDisplayName = displayUsername(teammate, teammateNameDisplay, false);
@@ -105,6 +109,7 @@ function makeMapStateToProps() {
             channelId,
             channelName: channel.name,
             channelDisplayName,
+            channelIconUrl,
             channelType: channel.type,
             channelStatus: channel.status,
             channelFake: channel.fake,
