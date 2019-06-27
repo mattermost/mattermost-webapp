@@ -11,7 +11,7 @@
 
 describe('Teams Suite', () => {
     it('TS14868 Team Admin can use Next button to page through list in Manage Members', () => {
-        cy.apiLogin('user-1')
+        cy.apiLogin('user-1');
 
         // # Create new team and visit its URL
         cy.apiCreateTeam('test-team', 'Test Team').then((createResponse) => {
@@ -29,7 +29,7 @@ describe('Teams Suite', () => {
                 });
 
                 Cypress._.chunk(usersToAdd, 20).forEach((chunk) => {
-                        cy.apiAddUsersToTeam(testTeam.id, chunk);
+                    cy.apiAddUsersToTeam(testTeam.id, chunk);
                 });
             });
         });
