@@ -334,7 +334,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
         const message = (
             <FormattedMessage
                 id='promote_to_user_modal.desc'
-                defaultMessage='This action promotes the guest {username} to a member. This action will allow the user to join public channels and interact with users outside of the channels they are currently members of. Are you sure you want to promote guest {username} to user?'
+                defaultMessage='This action promotes the guest {username} to a member. It will allow the user to join public channels and interact with users outside of the channels they are currently members of. Are you sure you want to promote guest {username} to user?'
                 values={{
                     username: this.props.user.username,
                 }}
@@ -375,7 +375,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
         const message = (
             <FormattedMessage
                 id='demote_to_user_modal.desc'
-                defaultMessage={'This action demotes the user {username} to a guest. This action will restrict the user\'s ability to join public channels and interact with users outside of the channels they are currently members of. Are you sure you want to demote user {username} to guest?'}
+                defaultMessage={'This action demotes the user {username} to a guest. It will restrict the user\'s ability to join public channels and interact with users outside of the channels they are currently members of. Are you sure you want to demote user {username} to guest?'}
                 values={{
                     username: this.props.user.username,
                 }}
