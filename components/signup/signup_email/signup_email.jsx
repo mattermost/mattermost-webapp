@@ -282,7 +282,7 @@ export default class SignupEmail extends React.Component {
             >
                 <FormattedMessage
                     id='signup_user_completed.userHelp'
-                    defaultMessage='You can use lowercase letters, numbers, periods, dashes, and underscores'
+                    defaultMessage='You can use lowercase letters, numbers, periods, dashes, and underscores.'
                 />
             </span>
         );
