@@ -88,6 +88,11 @@ export default class SystemUsers extends React.Component {
              * Function to revoke all sessions in the system
              */
             revokeSessionsForAllUsers: PropTypes.func.isRequired,
+
+            /*
+            *  Function to log errors
+            */
+            logError: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -161,6 +166,8 @@ export default class SystemUsers extends React.Component {
         const {data} = await this.props.actions.revokeSessionsForAllUsers();
         if (data) {
             emitUserLoggedOutEvent();
+        } else {
+            this.props.actions.logError({type: 'critical', message: 'Can\'t revoke all sessions'});
         }
     }
     handleRevokeAllSessionsCancel = () => {
