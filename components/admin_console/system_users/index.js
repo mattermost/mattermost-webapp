@@ -10,6 +10,7 @@ import {
     getUserAccessToken,
     getProfiles,
     searchProfiles,
+    revokeSessionsForAllUsers,
 } from 'mattermost-redux/actions/users';
 import {getTeamsList} from 'mattermost-redux/selectors/entities/teams';
 import {getUsers} from 'mattermost-redux/selectors/entities/users';
@@ -78,6 +79,7 @@ function mapDispatchToProps(dispatch) {
             loadProfilesWithoutTeam,
             getProfiles,
             searchProfiles,
+            revokeSessionsForAllUsers,
         }, dispatch),
     };
 }
