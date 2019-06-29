@@ -1511,6 +1511,7 @@
   "analytics.system.totalMasterDbConnections": "Master DB Conns",
   "analytics.system.totalOutgoingWebhooks": "Outgoing Webhooks",
   "analytics.system.totalPosts": "Total Posts",
+  "analytics.system.totalBotPosts": "Total Posts from Bots",
   "analytics.system.totalReadDbConnections": "Replica DB Conns",
   "analytics.system.totalSessions": "Total Sessions",
   "analytics.system.totalTeams": "Total Teams",
