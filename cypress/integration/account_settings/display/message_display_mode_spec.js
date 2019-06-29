@@ -18,7 +18,7 @@ describe('Account Settings > Display > Message Display', () => {
 
     after(() => {
         // Revert setting so it does not impact other tests
-        cy.changeMessageDisplaySetting('STANDARD');
+        cy.apiSaveMessageDisplayPreference('clean');
     });
 
     it('M14283 Compact view: Line breaks remain intact after editing', () => {
@@ -36,10 +36,10 @@ describe('Account Settings > Display > Message Display', () => {
             cy.get(postMessageTextId).should('have.html', '<p>First line</p>\n<p>Text after</p>');
 
             // # click dot menu button
-            cy.clickPostDotMenu();
+            cy.clickPostDotMenu(postId);
 
             // # click edit post
-            cy.get(`#edit_post_${postId}`).click();
+            cy.get(`#edit_post_${postId}`).should('be.visible').click();
 
             // # Add ",edited" to the text
             cy.get('#edit_textbox').type(',edited');

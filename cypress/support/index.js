@@ -14,7 +14,4 @@ import 'cypress-plugin-retries';
 // Add login cookies to whitelist to preserve it
 beforeEach(() => {
     Cypress.Cookies.preserveOnce('MMAUTHTOKEN', 'MMUSERID', 'MMCSRF');
-
-    cy.apiUpdateConfig({TeamSettings: {MaxUsersPerTeam: 500}});
 });
-

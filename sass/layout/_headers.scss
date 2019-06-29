@@ -632,7 +632,7 @@
         .header__info {
             @include flex-grow(1);
             color: $white;
-            padding: 2px 16px 0 8px;
+            padding: 2px 16px 0 0;
             position: relative;
             width: 100%;
 
