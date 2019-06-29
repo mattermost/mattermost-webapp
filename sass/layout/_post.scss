@@ -774,6 +774,7 @@
     &:hover {
         .dropdown,
         .comment-icon__container,
+        .card-icon__container,
         .reacticon,
         .reacticon__container,
         .flag-icon__container,
@@ -799,6 +800,7 @@
     &.post--hovered {
         .dropdown,
         .comment-icon__container,
+        .card-icon__container,
         .post__reply,
         .post__remove,
         .post__dropdown,
@@ -854,9 +856,8 @@
 
                     }
 
-                    .flag-icon__container {
-                        left: 32px;
-                        margin-left: 7px;
+                    .flag-icon__container, .card-icon__container {
+                        left: 37px;
                         position: absolute;
                         top: 6px;
                     }
@@ -888,6 +889,14 @@
                     height: 0;
                 }
             }
+        }
+
+        .Badge {
+            margin: 0;
+        }
+
+        .card-icon__container {
+            margin: 0 7px 0 -4px;
         }
 
         .post-message {
@@ -1173,9 +1182,8 @@
                 }
             }
 
-            .flag-icon__container {
-                left: 32px;
-                margin-left: 7px;
+            .flag-icon__container, .card-icon__container {
+                left: 37px;
                 position: absolute;
                 top: 6px;
             }
@@ -1719,6 +1727,7 @@
     .post__time {
         @include opacity(.6);
         font-size: .9em;
+        margin-right: 4px;
     }
 
     .post__permalink {
@@ -1837,10 +1846,33 @@
         }
     }
 
+    .card-icon__container {
+        @extend %btn-transition;
+        @include opacity(.24);
+        margin: 0 6px 0 4px;
+        vertical-align: top;
+        top: 2px;
+        position: relative;
+        z-index: 1;
+
+        &:hover {
+            @include opacity(.4);
+        }
+
+        &.active {
+            @include opacity(1);
+        }
+
+        svg {
+            height: 14px;
+            width: 14px;
+        }
+    }
+
     .flag-icon__container {
         display: inline-block;
         height: 15px;
-        margin-left: 7px;
+        width: 15px;
         position: relative;
         top: 2px;
         vertical-align: top;
@@ -2011,6 +2043,12 @@
     }
 }
 
+.sidebar-right__card {
+    .post-message--collapsed {
+        max-height: 150px;
+    }
+}
+
 .post-message--collapsed {
     .post-message__text-container {
         // If this max-height is changed, the MAX_POST_HEIGHT constant in
@@ -2026,6 +2064,12 @@
             .emoticon--unicode {
                 font-size: 32px;
                 line-height: 1.1;
+
+                .os--windows & {
+                    font-size: 29px;
+                    left: -4px;
+                    position: relative;
+                }
             }
         }
     }

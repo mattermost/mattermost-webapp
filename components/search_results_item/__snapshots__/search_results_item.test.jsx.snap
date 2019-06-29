@@ -3,6 +3,7 @@
 exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
 <div
   className="search-item__container"
+  data-testid="search-item-container"
 >
   <Connect(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
@@ -72,18 +73,16 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
           <div
             className="col col__name"
           >
-            <strong>
-              <Connect(UserProfile)
-                disablePopover={false}
-                isRHS={true}
-                userId="user_id"
-              />
-            </strong>
+            <Connect(UserProfile)
+              disablePopover={false}
+              isRHS={true}
+              userId="user_id"
+            />
+            <BotBadge
+              className=""
+              show={false}
+            />
           </div>
-          <BotBadge
-            className=""
-            show={false}
-          />
           <div
             className="col"
           >
@@ -158,7 +157,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
         </div>
         <div
           className="search-item-snippet post__body"
-          dir='auto'
+          dir="auto"
         >
           <div
             className=" post--edited"
@@ -230,6 +229,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
 exports[`components/SearchResultsItem should match snapshot for archived channel 1`] = `
 <div
   className="search-item__container"
+  data-testid="search-item-container"
 >
   <Connect(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
@@ -290,18 +290,16 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
           <div
             className="col col__name"
           >
-            <strong>
-              <Connect(UserProfile)
-                disablePopover={false}
-                isRHS={true}
-                userId="user_id"
-              />
-            </strong>
+            <Connect(UserProfile)
+              disablePopover={false}
+              isRHS={true}
+              userId="user_id"
+            />
+            <BotBadge
+              className=""
+              show={false}
+            />
           </div>
-          <BotBadge
-            className=""
-            show={false}
-          />
           <div
             className="col"
           >
@@ -367,7 +365,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
         </div>
         <div
           className="search-item-snippet post__body"
-          dir='auto'
+          dir="auto"
         >
           <div
             className=" post--edited"
@@ -439,6 +437,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
 exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
 <div
   className="search-item__container"
+  data-testid="search-item-container"
 >
   <Connect(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
@@ -499,18 +498,16 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
           <div
             className="col col__name"
           >
-            <strong>
-              <Connect(UserProfile)
-                disablePopover={false}
-                isRHS={true}
-                userId="user_id"
-              />
-            </strong>
+            <Connect(UserProfile)
+              disablePopover={false}
+              isRHS={true}
+              userId="user_id"
+            />
+            <BotBadge
+              className=""
+              show={false}
+            />
           </div>
-          <BotBadge
-            className=""
-            show={false}
-          />
           <div
             className="col"
           >
@@ -576,7 +573,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
         </div>
         <div
           className="search-item-snippet post__body"
-          dir='auto'
+          dir="auto"
         >
           <div
             className=" post--edited"
@@ -648,6 +645,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
 exports[`components/SearchResultsItem should match snapshot for deleted message with attachments by bot 1`] = `
 <div
   className="search-item__container"
+  data-testid="search-item-container"
 >
   <Connect(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
@@ -716,19 +714,17 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
           <div
             className="col col__name"
           >
-            <strong>
-              <Connect(UserProfile)
-                disablePopover={true}
-                isRHS={true}
-                overwriteName="overridden_username"
-                userId="user_id"
-              />
-            </strong>
+            <Connect(UserProfile)
+              disablePopover={true}
+              isRHS={true}
+              overwriteName="overridden_username"
+              userId="user_id"
+            />
+            <BotBadge
+              className=""
+              show={true}
+            />
           </div>
-          <BotBadge
-            className=""
-            show={true}
-          />
           <div
             className="col"
           >
@@ -742,7 +738,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
         </div>
         <div
           className="search-item-snippet post__body"
-          dir='auto'
+          dir="auto"
         >
           <div
             className=" post--edited"

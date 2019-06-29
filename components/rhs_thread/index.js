@@ -10,6 +10,7 @@ import {removePost} from 'mattermost-redux/actions/posts';
 
 import {Preferences} from 'utils/constants.jsx';
 import {getSelectedPost} from 'selectors/rhs.jsx';
+import {selectPostCard} from 'actions/views/rhs';
 
 import RhsThread from './rhs_thread.jsx';
 
@@ -42,6 +43,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             removePost,
+            selectPostCard,
         }, dispatch),
     };
 }

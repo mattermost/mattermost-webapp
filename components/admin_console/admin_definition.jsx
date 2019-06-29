@@ -592,6 +592,8 @@ export default {
                 'admin.elasticsearch.connectionUrlTitle',
                 ['admin.elasticsearch.connectionUrlDescription', {documentationLink: ''}],
                 'admin.elasticsearch.connectionUrlExample.documentationLinkText',
+                'admin.elasticsearch.skipTLSVerificationTitle',
+                'admin.elasticsearch.skipTLSVerificationDescription',
                 'admin.elasticsearch.usernameTitle',
                 'admin.elasticsearch.usernameDescription',
                 'admin.elasticsearch.passwordTitle',
@@ -1650,7 +1652,6 @@ export default {
             url: 'environment/notifications',
             title: t('admin.sidebar.notifications'),
             title_default: 'Notifications',
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             schema: {
                 id: 'notifications',
                 name: t('admin.environment.notifications'),
@@ -1739,6 +1740,7 @@ export default {
                         help_text: t('admin.environment.notifications.feedbackEmail.help'),
                         help_text_default: 'Email address displayed on email account used when sending notification emails from Mattermost.',
                         isDisabled: it.stateIsFalse('EmailSettings.SendEmailNotifications'),
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1934,7 +1936,7 @@ export default {
                         label_default: 'Allow File Uploads on Mobile:',
                         help_text: t('admin.file.enableMobileUploadDesc'),
                         help_text_default: 'When false, disables file uploads on mobile apps. If Allow File Sharing is set to true, users can still upload files from a mobile web browser.',
-                        isHidden: it.isnt(it.licensed),
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1943,7 +1945,7 @@ export default {
                         label_default: 'Allow File Downloads on Mobile:',
                         help_text: t('admin.file.enableMobileDownloadDesc'),
                         help_text_default: 'When false, disables file downloads on mobile apps. Users can still download files from a mobile web browser.',
-                        isHidden: it.isnt(it.licensed),
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
                     },
                 ],
             },
@@ -2816,6 +2818,19 @@ export default {
                         remove_action: removePublicSamlCertificate,
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'SamlSettings.SignRequest',
+                        label: t('admin.saml.signRequestTitle'),
+                        label_default: 'Sign Request:',
+                        help_text: t('admin.saml.signRequestDescription'),
+                        help_text_default: 'When true, Mattermost will sign the SAML request using your private key. When false, Mattermost will not sign the SAML request.',
+                        isDisabled: it.either(
+                            it.stateIsFalse('SamlSettings.Encrypt'),
+                            it.stateIsFalse('SamlSettings.PrivateKeyFile'),
+                            it.stateIsFalse('SamlSettings.PublicCertificateFile')
+                        ),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SamlSettings.EmailAttribute',
                         label: t('admin.saml.emailAttrTitle'),
@@ -3295,7 +3310,6 @@ export default {
             url: 'plugins/plugin_management',
             title: t('admin.plugins.pluginManagement'),
             title_default: 'Plugin Management',
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             searchableStrings: [
                 'admin.plugin.management.title',
                 'admin.plugins.settings.enable',
@@ -3399,6 +3413,27 @@ export default {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableUserAccessTokens',
+                        label: t('admin.service.userAccessTokensTitle'),
+                        label_default: 'Enable User Access Tokens: ',
+                        help_text: t('admin.service.userAccessTokensDescription'),
+                        help_text_default: 'When true, users can create [user access tokens](!https://about.mattermost.com/default-user-access-tokens) for integrations in **Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
+                        help_text_markdown: true,
+                    },
+                ],
+            },
+        },
+        bot_accounts: {
+            url: 'integrations/bot_accounts',
+            title: t('admin.integrations.botAccounts'),
+            title_default: 'Bot Accounts',
+            schema: {
+                id: 'BotAccountSettings',
+                name: t('admin.integrations.botAccounts.title'),
+                name_default: 'Bot Accounts',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableBotAccountCreation',
                         label: t('admin.service.enableBotTitle'),
                         label_default: 'Enable Bot Account Creation: ',
@@ -3408,11 +3443,11 @@ export default {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.EnableUserAccessTokens',
-                        label: t('admin.service.userAccessTokensTitle'),
-                        label_default: 'Enable User Access Tokens: ',
-                        help_text: t('admin.service.userAccessTokensDescription'),
-                        help_text_default: 'When true, users can create [user access tokens](!https://about.mattermost.com/default-user-access-tokens) for integrations in **Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
+                        key: 'ServiceSettings.DisableBotsWhenOwnerIsDeactivated',
+                        label: t('admin.service.disableBotOwnerDeactivatedTitle'),
+                        label_default: 'Disable bot accounts when owner is deactivated:',
+                        help_text: t('admin.service.disableBotWhenOwnerIsDeactivated'),
+                        help_text_default: 'When a user is deactivated, disables all bot accounts managed by the user. To re-enable bot accounts, go to **Integrations > Bot Accounts**.',
                         help_text_markdown: true,
                     },
                 ],
@@ -3849,6 +3884,7 @@ export default {
                         help_text: t('admin.experimental.experimentalLdapGroupSync.desc'),
                         help_text_default: 'When true, enables **AD/LDAP Group Sync** configurable under **User Management > Groups**. See [documentation](!https://mattermost.com/pl/default-ldap-group-sync) to learn more.',
                         help_text_markdown: true,
+                        isHidden: it.isnt(it.licensedForFeature('LDAPGroups')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,

@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants/index';
 import {
     isPostEphemeral,
@@ -12,7 +13,6 @@ import {
 
 import Constants, {Locations} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
-import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import PostProfilePicture from 'components/post_profile_picture';
@@ -24,10 +24,11 @@ import ReactionList from 'components/post_view/reaction_list';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 import Badge from 'components/widgets/badges/badge.jsx';
+import InfoSmallIcon from 'components/svg/info_small_icon';
 
 import UserProfile from 'components/user_profile';
 
-export default class RhsComment extends React.Component {
+export default class RhsComment extends React.PureComponent {
     static propTypes = {
         post: PropTypes.object,
         teamId: PropTypes.string.isRequired,
@@ -45,6 +46,7 @@ export default class RhsComment extends React.Component {
         pluginPostTypes: PropTypes.object,
         channelIsArchived: PropTypes.bool.isRequired,
         isConsecutivePost: PropTypes.bool,
+        handleCardClick: PropTypes.func,
     };
 
     constructor(props) {
@@ -54,50 +56,6 @@ export default class RhsComment extends React.Component {
             showEmojiPicker: false,
             dropdownOpened: false,
         };
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.isBusy !== this.props.isBusy) {
-            return true;
-        }
-
-        if (nextProps.compactDisplay !== this.props.compactDisplay) {
-            return true;
-        }
-
-        if (nextProps.isFlagged !== this.props.isFlagged) {
-            return true;
-        }
-
-        if (!Utils.areObjectsEqual(nextProps.post, this.props.post)) {
-            return true;
-        }
-
-        if (this.state.showEmojiPicker !== nextState.showEmojiPicker) {
-            return true;
-        }
-
-        if (this.state.dropdownOpened !== nextState.dropdownOpened) {
-            return true;
-        }
-
-        if (nextProps.isEmbedVisible !== this.props.isEmbedVisible) {
-            return true;
-        }
-
-        if (this.props.previewEnabled !== nextProps.previewEnabled) {
-            return true;
-        }
-
-        if ((this.state.width !== nextState.width) || this.state.height !== nextState.height) {
-            return true;
-        }
-
-        if (this.state.hover !== nextState.hover) {
-            return true;
-        }
-
-        return false;
     }
 
     removePost = () => {
@@ -116,12 +74,10 @@ export default class RhsComment extends React.Component {
         );
     };
 
-    renderPostTime = (isEphemeral) => {
+    renderPostTime = () => {
         const post = this.props.post;
 
-        const isPermalink = !(isEphemeral ||
-            Posts.POST_DELETED === post.state ||
-            isPostPendingOrFailed(post));
+        const isPermalink = !(Posts.POST_DELETED === post.state || isPostPendingOrFailed(post));
 
         return (
             <PostTime
@@ -200,16 +156,28 @@ export default class RhsComment extends React.Component {
         let profilePicture;
         let visibleMessage;
 
-        let userProfile = (
-            <UserProfile
-                userId={post.user_id}
-                isBusy={this.props.isBusy}
-                isRHS={true}
-                hasMention={true}
-            />
-        );
+        let userProfile = null;
+        if (this.props.compactDisplay) {
+            userProfile = (
+                <UserProfile
+                    userId={post.user_id}
+                    isBusy={this.props.isBusy}
+                    isRHS={true}
+                    hasMention={true}
+                />
+            );
+        }
 
         if (!isConsecutivePost) {
+            userProfile = (
+                <UserProfile
+                    userId={post.user_id}
+                    isBusy={this.props.isBusy}
+                    isRHS={true}
+                    hasMention={true}
+                />
+            );
+
             profilePicture = (
                 <PostProfilePicture
                     compactDisplay={this.props.compactDisplay}
@@ -366,18 +334,57 @@ export default class RhsComment extends React.Component {
             );
         }
 
-        const flagIcon = (
-            <PostFlagIcon
-                location={Locations.RHS_COMMENT}
-                postId={post.id}
-                isFlagged={this.props.isFlagged}
-                isEphemeral={isEphemeral}
-            />
-        );
+        let flagIcon = null;
+        if (this.state.hover || this.state.dropdownOpened || this.state.showEmojiPicker || this.props.isFlagged) {
+            flagIcon = (
+                <PostFlagIcon
+                    location={Locations.RHS_COMMENT}
+                    postId={post.id}
+                    isFlagged={this.props.isFlagged}
+                    isEphemeral={isEphemeral}
+                />
+            );
+        }
+        const postTime = this.renderPostTime();
+
+        let postInfoIcon;
+        if (post.props && post.props.card) {
+            postInfoIcon = (
+                <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={
+                        <Tooltip>
+                            <FormattedMessage
+                                id='post_info.info.view_additional_info'
+                                defaultMessage='View additional info'
+                            />
+                        </Tooltip>
+                    }
+                >
+                    <button
+                        className='card-icon__container icon--show style--none'
+                        onClick={(e) => {
+                            e.preventDefault();
+                            this.props.handleCardClick(this.props.post);
+                        }}
+                    >
+                        <InfoSmallIcon
+                            className='icon icon__info'
+                            aria-hidden='true'
+                        />
+                    </button>
+                </OverlayTrigger>
+            );
+        }
 
         return (
             <div
+                role='listitem'
                 ref={'post_body_' + post.id}
+                id={'rhsPost_' + post.id}
+                tabIndex='-1'
                 className={this.getClassName(post, isSystemMessage)}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
@@ -389,12 +396,13 @@ export default class RhsComment extends React.Component {
                     <div>
                         <div className='post__header'>
                             <div className='col col__name'>
-                                <strong>{userProfile}</strong>
+                                {userProfile}
+                                {botIndicator}
                             </div>
-                            {botIndicator}
                             <div className='col'>
-                                {this.renderPostTime(isEphemeral)}
+                                {postTime}
                                 {pinnedBadge}
+                                {postInfoIcon}
                                 {flagIcon}
                                 {visibleMessage}
                             </div>

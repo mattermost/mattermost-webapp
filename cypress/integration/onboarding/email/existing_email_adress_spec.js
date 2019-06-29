@@ -33,9 +33,11 @@ function signupWithEmail(name, pw) {
 
 describe('Email Address', () => {
     before(() => {
-        // Set EnableOpenServer to true
+        // Set EnableOpenServer to true and disable other auth options
         const newSettings = {
             TeamSettings: {EnableOpenServer: true},
+            Office365Settings: {Enable: false},
+            LdapSettings: {Enable: false},
         };
         cy.apiUpdateConfig(newSettings);
     });

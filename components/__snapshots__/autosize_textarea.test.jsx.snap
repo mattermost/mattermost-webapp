@@ -15,6 +15,7 @@ exports[`components/AutosizeTextarea should match snapshot, init 1`] = `
     }
   />
   <textarea
+    dir="auto"
     onChange={[Function]}
     rows={1}
   />

@@ -9,5 +9,8 @@
     "reporterOptions": {
         "mochaFile": "results/results-[hash].xml",
         "toConsole": false
+    },
+    "env": {
+        "RETRIES": 2
     }
 }

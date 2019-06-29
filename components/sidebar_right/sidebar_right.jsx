@@ -11,8 +11,11 @@ import * as Utils from 'utils/utils.jsx';
 
 import FileUploadOverlay from 'components/file_upload_overlay.jsx';
 import RhsThread from 'components/rhs_thread';
+import RhsCard from 'components/rhs_card';
 import SearchBar from 'components/search_bar';
 import SearchResults from 'components/search_results';
+
+import RhsPlugin from 'plugins/rhs_plugin';
 
 export default class SidebarRight extends React.PureComponent {
     static propTypes = {
@@ -21,10 +24,12 @@ export default class SidebarRight extends React.PureComponent {
         currentUserId: PropTypes.string.isRequired,
         channel: PropTypes.object,
         postRightVisible: PropTypes.bool,
+        postCardVisible: PropTypes.bool,
         searchVisible: PropTypes.bool,
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
         isPinnedPosts: PropTypes.bool,
+        isPluginView: PropTypes.bool,
         previousRhsState: PropTypes.string,
         actions: PropTypes.shape({
             setRhsExpanded: PropTypes.func.isRequired,
@@ -62,8 +67,10 @@ export default class SidebarRight extends React.PureComponent {
             isMentionSearch,
             isPinnedPosts,
             postRightVisible,
+            postCardVisible,
             previousRhsState,
             searchVisible,
+            isPluginView,
         } = this.props;
 
         let content = null;
@@ -112,6 +119,20 @@ export default class SidebarRight extends React.PureComponent {
                         toggleSize={this.toggleSize}
                         shrink={this.onShrink}
                     />
+                </div>
+            );
+        } else if (isPluginView) {
+            content = (
+                <div className='post-right__container'>
+                    <div className='search-bar__container channel-header alt'>{searchForm}</div>
+                    <RhsPlugin/>
+                </div>
+            );
+        } else if (postCardVisible) {
+            content = (
+                <div className='post-right__container'>
+                    <div className='search-bar__container channel-header alt'>{searchForm}</div>
+                    <RhsCard previousRhsState={previousRhsState}/>
                 </div>
             );
         }

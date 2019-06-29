@@ -380,6 +380,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                   <div>
                     <textarea
                       className="form-control"
+                      dir="auto"
                       id="autoResponderMessageInput"
                       maxLength={200}
                       onChange={[Function]}
