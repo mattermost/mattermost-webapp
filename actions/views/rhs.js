@@ -50,6 +50,7 @@ export function selectPostFromRightHandSideSearch(post) {
             postId: postRootId,
             channelId: post.channel_id,
             previousRhsState: getRhsState(getState()),
+            timestamp: Date.now(),
         });
     };
 }
@@ -219,6 +220,7 @@ export function closeRightHandSide() {
                 type: ActionTypes.SELECT_POST,
                 postId: '',
                 channelId: '',
+                timestamp: 0,
             },
         ]));
     };
@@ -250,7 +252,12 @@ export function toggleRhsExpanded() {
 }
 
 export function selectPost(post) {
-    return {type: ActionTypes.SELECT_POST, postId: post.root_id || post.id, channelId: post.channel_id};
+    return {
+        type: ActionTypes.SELECT_POST,
+        postId: post.root_id || post.id,
+        channelId: post.channel_id,
+        timestamp: Date.now(),
+    };
 }
 
 export function selectPostCard(post) {

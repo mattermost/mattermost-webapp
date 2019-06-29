@@ -177,6 +177,36 @@ Cypress.Commands.add('apiAddUserToTeam', (teamId, userId) => {
     });
 });
 
+/**
+ * List users that are not team members
+ * @param {String} teamId - The team GUID
+ * @param {Integer} page - The desired page of the paginated list
+ * @param {Integer} perPage - The number of users per page
+ * All parameter required
+ */
+Cypress.Commands.add('apiGetUsersNotInTeam', (teamId, page = 0, perPage = 60) => {
+    return cy.request({
+        method: 'GET',
+        url: `/api/v4/users?not_in_team=${teamId}&page=${page}&per_page=${perPage}`,
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+    });
+});
+
+/**
+ * Join teammates directly via API
+ * @param {String} teamId - The team GUID
+ * @param {Array} teamMembers - The user IDs to join
+ * All parameter required
+ */
+Cypress.Commands.add('apiAddUsersToTeam', (teamId, teamMembers) => {
+    return cy.request({
+        method: 'POST',
+        url: `/api/v4/teams/${teamId}/members/batch`,
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        body: teamMembers,
+    });
+});
+
 // *****************************************************************************
 // Preferences
 // https://api.mattermost.com/#tag/preferences
@@ -233,6 +263,24 @@ Cypress.Commands.add('apiSaveMessageDisplayPreference', (value = 'clean') => {
 });
 
 /**
+ * Saves teammate name display preference of a user directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} value - Either "username" (default), "nickname_full_name" or "full_name"
+ */
+Cypress.Commands.add('apiSaveTeammateNameDisplayPreference', (value = 'username') => {
+    return cy.getCookie('MMUSERID').then((cookie) => {
+        const preference = {
+            user_id: cookie.value,
+            category: 'display_settings',
+            name: 'name_format',
+            value,
+        };
+
+        return cy.apiSaveUserPreference([preference]);
+    });
+});
+
+/**
  * Saves theme preference of a user directly via API
  * This API assume that the user is logged in and has cookie to access
  * @param {Object} value - theme object.  Will pass default value if none is provided.
@@ -264,7 +312,7 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
 Cypress.Commands.add('createNewUser', (user = {}, teamIds = []) => {
     const timestamp = Date.now();
 
-    const {email = `newe2etestuser${timestamp}@sample.mattermost.com`, username = `NewE2ETestUser${timestamp}`, password = 'password123'} = user;
+    const {email = `user${timestamp}@sample.mattermost.com`, username = `user${timestamp}`, password = 'password123'} = user;
 
     // # Login as sysadmin to make admin requests
     cy.apiLogin('sysadmin');
@@ -369,8 +417,6 @@ Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
             body: settings,
         });
     });
-
-    cy.apiLogout();
 });
 
 Cypress.Commands.add('apiGetConfig', () => {
@@ -378,14 +424,4 @@ Cypress.Commands.add('apiGetConfig', () => {
 
     // # Get current settings
     return cy.request('/api/v4/config');
-});
-
-// *****************************************************************************
-// Post creation
-// *****************************************************************************
-
-Cypress.Commands.add('postMessageAs', (sender, message, channelId, createAt = 0) => {
-    cy.task('postMessageAs', {sender, message, channelId, createAt}).
-        its('status').
-        should('be.equal', 201);
 });

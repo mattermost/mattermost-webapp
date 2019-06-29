@@ -1849,7 +1849,7 @@
     .card-icon__container {
         @extend %btn-transition;
         @include opacity(.24);
-        margin-left: 7px;
+        margin: 0 6px 0 4px;
         vertical-align: top;
         top: 2px;
         position: relative;
@@ -2064,6 +2064,12 @@
             .emoticon--unicode {
                 font-size: 32px;
                 line-height: 1.1;
+
+                .os--windows & {
+                    font-size: 29px;
+                    left: -4px;
+                    position: relative;
+                }
             }
         }
     }

@@ -6,6 +6,18 @@ import assert from 'assert';
 import * as Selectors from 'selectors/rhs.jsx';
 
 describe('Selectors.Rhs', () => {
+    describe('should return the last time a post was selected', () => {
+        [0, 1000000, 2000000].forEach((expected) => {
+            it(`when open is ${expected}`, () => {
+                const state = {views: {rhs: {
+                    selectedPostFocussedAt: expected,
+                }}};
+
+                assert.deepEqual(expected, Selectors.getSelectedPostFocussedAt(state));
+            });
+        });
+    });
+
     describe('should return the open state of the sidebar', () => {
         [true, false].forEach((expected) => {
             it(`when open is ${expected}`, () => {

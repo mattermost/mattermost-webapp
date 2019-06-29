@@ -13,6 +13,13 @@ let config;
 
 describe('Login page', () => {
     before(() => {
+        // Disable other auth options
+        const newSettings = {
+            Office365Settings: {Enable: false},
+            LdapSettings: {Enable: false},
+        };
+        cy.apiUpdateConfig(newSettings);
+
         cy.apiGetConfig().then((response) => {
             config = response.body;
         });
@@ -37,7 +44,13 @@ describe('Login page', () => {
         cy.get('#site_name').should('contain', config.TeamSettings.SiteName);
         cy.get('#site_description').should('contain', 'All team communication in one place, searchable and accessible anywhere');
         cy.get('#loginId').should('be.visible');
-        cy.get('#loginId').should('have.attr', 'placeholder', 'Email or Username');
+        cy.get('#loginId').
+            should('be.visible').
+            and(($loginTextbox) => {
+                const placeholder = $loginTextbox[0].placeholder;
+                expect(placeholder).to.match(/Email/);
+                expect(placeholder).to.match(/Username/);
+            });
         cy.get('#loginPassword').should('be.visible');
         cy.get('#loginPassword').should('have.attr', 'placeholder', 'Password');
         cy.get('#loginButton').should('be.visible');
