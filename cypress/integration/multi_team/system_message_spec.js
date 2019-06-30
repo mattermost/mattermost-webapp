@@ -6,9 +6,11 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+/* eslint max-nested-callbacks: ["error", 4] */
 
-function checkForStatus(post) {
-    post.
+
+function verifySystemMessage(post) {
+    cy.get(post).
         invoke('attr', 'class').
             should('contain', 'post--system').
             should('not.contain', 'same--root').
@@ -18,7 +20,12 @@ function checkForStatus(post) {
             should('not.contain', 'post--root');
 }
 
-/* eslint max-nested-callbacks: ["error", 4] */
+function verifyStatusIconNotVisible(post) {
+    cy.get(post).
+        find('.status-wrapper .status svg').
+        should('not.be.visible');
+}
+
 describe('System Message', () => {
     before(() => {
         // # Login and go to /
@@ -27,14 +34,28 @@ describe('System Message', () => {
     });
 
     it('MM-15240 - No status on a system message', () => {
-        const channelHeader = ' Updating header to test system message status'.repeat(5);
+        const channelHeader = ' Updating header'.repeat(Math.floor(Math.random() * 10));
+        const displayTypes = ['COMPACT', 'STANDARD'];
 
-        // # Update the header to a long string
-        cy.updateChannelHeader('>' + channelHeader);
+        displayTypes.forEach(function(displayType) {
+            const systemMessage = displayType.toLowerCase() + 'SystemMessage';
 
-        // # Get last post
-        cy.getLastPostId().then((postId) => {
-            checkForStatus(cy.get(`#post_${postId}`));                
+            // # Set message display
+            cy.changeMessageDisplaySetting(displayType);
+
+            // # Update the header to a long string
+            cy.updateChannelHeader('>' + channelHeader);
+
+            // # Get last post
+            cy.getLastPostId().then((postId) => {
+                cy.get(`#post_${postId}`).as(systemMessage);
+            });
+
+            // * Verify it is a system message
+            verifySystemMessage('@' + systemMessage);
+
+            // * Verify the status icon is not visible
+            verifyStatusIconNotVisible('@' + systemMessage);
         });
     });
 });
