@@ -53,7 +53,6 @@ export default class ChannelCreate extends React.PureComponent {
             >
                 <button
                     id='createPublicChannel'
-                    role='navigation'
                     aria-label={ariaLabelPublic}
                     type='button'
                     className='add-channel-btn cursor--pointer style--none'
@@ -91,7 +90,6 @@ export default class ChannelCreate extends React.PureComponent {
             >
                 <button
                     id='createPrivateChannel'
-                    role='navigation'
                     aria-label={ariaLabelPrivate}
                     type='button'
                     className='add-channel-btn cursor--pointer style--none'
@@ -127,7 +125,6 @@ export default class ChannelCreate extends React.PureComponent {
             >
                 <button
                     id='addDirectChannel'
-                    role='navigation'
                     aria-label={ariaLabelDM}
                     className='add-channel-btn cursor--pointer style--none'
                     onClick={this.props.createDirectMessage}
