@@ -8,16 +8,15 @@
 // ***************************************************************
 /* eslint max-nested-callbacks: ["error", 4] */
 
-
 function verifySystemMessage(post) {
     cy.get(post).
         invoke('attr', 'class').
-            should('contain', 'post--system').
-            should('not.contain', 'same--root').
-            should('not.contain', 'other--root').
-            should('not.contain', 'current--user').
-            should('not.contain', 'post--comment').
-            should('not.contain', 'post--root');
+        should('contain', 'post--system').
+        should('not.contain', 'same--root').
+        should('not.contain', 'other--root').
+        should('not.contain', 'current--user').
+        should('not.contain', 'post--comment').
+        should('not.contain', 'post--root');
 }
 
 function verifyStatusIconNotVisible(post) {
@@ -37,7 +36,7 @@ describe('System Message', () => {
         const channelHeader = ' Updating header'.repeat(Math.floor(Math.random() * 10));
         const displayTypes = ['COMPACT', 'STANDARD'];
 
-        displayTypes.forEach(function(displayType) {
+        displayTypes.forEach((displayType) => {
             const systemMessage = displayType.toLowerCase() + 'SystemMessage';
 
             // # Set message display
