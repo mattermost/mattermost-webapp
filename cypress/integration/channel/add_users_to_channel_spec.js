@@ -35,8 +35,14 @@ function verifyMentionedUserAndProfilePopover(postId) {
     });
 }
 
+function addUsersToChannel(amount) {
+    for (let i = 0; i < amount; i++) {
+        cy.get('#multiSelectList').first().click();
+    }
+}
+
 describe('Add user to a channel', () => {
-    after(() => {
+    afterEach(() => {
         deleteCurrentChannel();
     });
 
@@ -67,7 +73,7 @@ describe('Add user to a channel', () => {
                 cy.get('#addUsersToChannelModal').should('be.visible');
 
                 // # Click the first row clickable of the modal to select a user
-                cy.get('#multiSelectList').first().click();
+                addUsersToChannel(1);
 
                 // # Click the button "Add" to add this user to 'Channel test 1' channel
                 cy.get('#saveItems').click();
@@ -111,9 +117,7 @@ describe('Add user to a channel', () => {
                 cy.get('#addUsersToChannelModal').should('be.visible');
 
                 // # Click 3 times the first row clickable of the modal to select 3 different users
-                cy.get('#multiSelectList').first().click();
-                cy.get('#multiSelectList').first().click();
-                cy.get('#multiSelectList').first().click();
+                addUsersToChannel(3);
 
                 // # Click the button "Add" to add these 3 users to 'Channel test 2' channel
                 cy.get('#saveItems').click();
