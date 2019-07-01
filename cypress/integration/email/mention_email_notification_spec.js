@@ -14,26 +14,33 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
 
-const user1 = users['user-1'];
-const user2 = users['user-2'];
-
-const text = `Hello @${user2.username}`;
 let config;
 
 describe('Email notification', () => {
+    let mentionedUser;
+
     before(() => {
         cy.apiGetConfig().then((response) => {
             config = response.body;
         });
 
-        cy.apiLogin('user-2');
-        cy.apiUpdateUserStatus('offline');
-        cy.apiLogout();
+        cy.visit('/');
+        cy.url().should('include', '/channels/town-square');
+
+        cy.getCurrentTeamId().then((teamId) => {
+            cy.createNewUser({}, [teamId]).then((user) => {
+                mentionedUser = user;
+            });
+        });
     });
 
     it('post a message that mentions a user', () => {
+        // # Login as user-1 and visit town-square channel
         cy.apiLogin('user-1');
         cy.visit('/ad-1/channels/town-square');
+
+        // # Post a message mentioning the new user
+        const text = `Hello @${mentionedUser.username}`;
         cy.postMessage(text);
 
         // Wait for a while to ensure that email notification is sent.
@@ -42,9 +49,10 @@ describe('Email notification', () => {
         const baseUrl = Cypress.config('baseUrl');
         const mailUrl = getEmailUrl(baseUrl);
 
-        cy.task('getRecentEmail', {username: 'user-2', mailUrl}).then((response) => {
+        cy.task('getRecentEmail', {username: mentionedUser.username, mailUrl}).then((response) => {
             const messageSeparator = getEmailMessageSeparator(baseUrl);
-            verifyEmailNotification(response, config.TeamSettings.SiteName, 'eligendi', 'Town Square', user2, user1, text, config.EmailSettings.FeedbackEmail, config.SupportSettings.SupportEmail, messageSeparator);
+            const user1 = users['user-1'];
+            verifyEmailNotification(response, config.TeamSettings.SiteName, 'eligendi', 'Town Square', mentionedUser, user1, text, config.EmailSettings.FeedbackEmail, config.SupportSettings.SupportEmail, messageSeparator);
 
             const bodyText = response.data.body.text.split('\n');
 
@@ -72,7 +80,7 @@ function verifyEmailNotification(response, siteName, teamDisplayName, channelDis
     // * Should return success status
     expect(status).to.equal(200);
 
-    // * Verify that email is addressed to user-2
+    // * Verify that email is addressed to mentionedUser
     expect(data.to.length).to.equal(1);
     expect(data.to[0]).to.contain(mentionedUser.email);
 
