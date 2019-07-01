@@ -33,99 +33,40 @@ const initialState = {
                 current_channel_id: {
                     channel_id: 'current_channel_id',
                     user_id: 'current_user_id',
-                    roles: 'channel_role',
                     mention_count: 1,
                     msg_count: 9,
                 },
                 new_post_channel_id: {
                     channel_id: 'new_post_channel_id',
                     user_id: 'current_user_id',
-                    roles: 'channel_role',
-                    mention_count: 0,
-                    msg_count: 0,
                 },
             },
             channels: {
                 current_channel_id: {
                     id: 'current_channel_id',
-                    name: 'default-name',
-                    display_name: 'Default',
-                    delete_at: 0,
                     type: 'O',
                     total_msg_count: 10,
-                    team_id: 'team_id',
                 },
-            },
-            channelsInTeam: {
-                'team-id': ['current_channel_id'],
-            },
-        },
-        teams: {
-            currentTeamId: 'team-id',
-            teams: {
-                'team-id': {
-                    id: 'team_id',
-                    name: 'team-1',
-                    displayName: 'Team 1',
+                new_post_channel_id: {
+                    id: 'new_post_channel_id',
+                    type: 'O',
                 },
-            },
-            myMembers: {
-                'team-id': {roles: 'team_role'},
             },
         },
         users: {
             currentUserId: 'current_user_id',
             profiles: {
-                current_user_id: {roles: 'system_role'},
+                current_user_id: {},
             },
             statuses: {
                 current_user_id: 'online',
             },
         },
-        posts: {
-            posts: {
-                [latestPost.id]: latestPost,
-            },
-            postsInChannel: {
-                current_channel_id: [
-                    {order: [latestPost.id], recent: true},
-                ],
-            },
-            postsInThread: {},
-            messagesHistory: {
-                index: {
-                    [Posts.MESSAGE_TYPES.COMMENT]: 0,
-                },
-                messages: ['test message'],
-            },
-        },
         preferences: {
-            myPreferences: {
-                'display_settings--name_format': {
-                    category: 'display_settings',
-                    name: 'name_format',
-                    user_id: 'current_user_id',
-                    value: 'username',
-                },
-            },
-        },
-        roles: {
-            roles: {
-                system_role: {
-                    permissions: [],
-                },
-                team_role: {
-                    permissions: [],
-                },
-                channel_role: {
-                    permissions: [],
-                },
-            },
+            myPreferences: {},
         },
         general: {
-            license: {IsLicensed: 'false'},
-            serverVersion: '5.4.0',
-            config: {PostEditTimeLimit: -1},
+            config: {},
         },
     },
 };
