@@ -356,6 +356,8 @@
   "admin.elasticsearch.purgeIndexesButton.label": "Indexe leeren:",
   "admin.elasticsearch.purgeIndexesButton.success": "Indexe erfolgreich geleert.",
   "admin.elasticsearch.purgeIndexesHelpText": "Leeren wird den gesamten Index auf dem Elasticsearch-Server entfernen. Suchergebnisse könnten unvollständig sein bis ein Bulk-Index der existierenden Beitrags-Datenbank wiederaufgebaut ist.",
+  "admin.elasticsearch.skipTLSVerificationDescription": "When true, Mattermost will not require the Elasticsearch certificate to be signed by a trusted Certificate Authority.",
+  "admin.elasticsearch.skipTLSVerificationTitle": "Skip TLS Verification:",
   "admin.elasticsearch.sniffDescription": "Wenn wahr, findet und verbindet Sniffing alle Data-Nodes in ihrem Cluster automatisch.",
   "admin.elasticsearch.sniffTitle": "Cluster-Sniffing aktivieren:",
   "admin.elasticsearch.testConfigSuccess": "Test erfolgreich. Konfiguration gespeichert.",

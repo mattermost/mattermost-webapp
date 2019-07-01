@@ -356,6 +356,8 @@
   "admin.elasticsearch.purgeIndexesButton.label": "Elimina indici:",
   "admin.elasticsearch.purgeIndexesButton.success": "Indici eliminati correttamente.",
   "admin.elasticsearch.purgeIndexesHelpText": "Elimina completamente l'indice sul server Elasticsearch. I risultati delle ricerche potrebbero essere incompleti fino a quando un indice completo delle pubblicazioni non viene ricostruito.",
+  "admin.elasticsearch.skipTLSVerificationDescription": "Se vero, Mattermost non richiederà che il certificato Elasticsearch sia firmato da una Certificate Authority affidabile.",
+  "admin.elasticsearch.skipTLSVerificationTitle": "Evita verifica TLS:",
   "admin.elasticsearch.sniffDescription": "Se vero, trova e connette automaticamente a tutti i nodi del cluster.",
   "admin.elasticsearch.sniffTitle": "Abilita ricerca nel cluster:",
   "admin.elasticsearch.testConfigSuccess": "Test eseguito correttamente. Configurazione salvata.",

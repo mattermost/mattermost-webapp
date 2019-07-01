@@ -356,6 +356,8 @@
   "admin.elasticsearch.purgeIndexesButton.label": "Dizinleri Sil:",
   "admin.elasticsearch.purgeIndexesButton.success": "Dizinler silindi.",
   "admin.elasticsearch.purgeIndexesHelpText": "Silme işlemi Elasticsearch sunucusu üzerindeki tüm dizinleri siler. Var olan  veritabanı için toplu dizine ekleme işlemi yürütülene kadar arama sonuçları eksik olabilir.",
+  "admin.elasticsearch.skipTLSVerificationDescription": "When true, Mattermost will not require the Elasticsearch certificate to be signed by a trusted Certificate Authority.",
+  "admin.elasticsearch.skipTLSVerificationTitle": "Skip TLS Verification:",
   "admin.elasticsearch.sniffDescription": "Bu seçenek etkinleştirildiğinde, kümenizdeki tüm veri düğümleri koklama ile otomatik olarak bulunur ve bağlanılır.",
   "admin.elasticsearch.sniffTitle": "Küme Koklama Kullanılsın:",
   "admin.elasticsearch.testConfigSuccess": "Sınama tamamlandı. Ayarlar kaydedildi.",

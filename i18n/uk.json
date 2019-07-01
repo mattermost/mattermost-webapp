@@ -356,6 +356,8 @@
   "admin.elasticsearch.purgeIndexesButton.label": "Очистити індекси:",
   "admin.elasticsearch.purgeIndexesButton.success": "Індекси успішно очищені.",
   "admin.elasticsearch.purgeIndexesHelpText": "Очищення призведе до видалення індексів з Elasticsearch. Результати пошукових запитів можуть бути неповні, поки буде проводиться розбудова бази даних.",
+  "admin.elasticsearch.skipTLSVerificationDescription": "When true, Mattermost will not require the Elasticsearch certificate to be signed by a trusted Certificate Authority.",
+  "admin.elasticsearch.skipTLSVerificationTitle": "Skip TLS Verification:",
   "admin.elasticsearch.sniffDescription": "Коли це правда, нюхфування знаходить і підключається до всіх вузлів даних у вашому кластері автоматично.",
   "admin.elasticsearch.sniffTitle": "Увімкнути фрагмент кластера:",
   "admin.elasticsearch.testConfigSuccess": "Тестування пройшло успішно. Конфігурація збережена.",

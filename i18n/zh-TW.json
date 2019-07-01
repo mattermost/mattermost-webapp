@@ -356,6 +356,8 @@
   "admin.elasticsearch.purgeIndexesButton.label": "清除索引：",
   "admin.elasticsearch.purgeIndexesButton.success": "成功的清除索引",
   "admin.elasticsearch.purgeIndexesHelpText": "清除將會將 Elasticsearch 伺服器上的索引完全移除。在對現有資料庫重新批次索引前檢索結果可能會不完整。",
+  "admin.elasticsearch.skipTLSVerificationDescription": "When true, Mattermost will not require the Elasticsearch certificate to be signed by a trusted Certificate Authority.",
+  "admin.elasticsearch.skipTLSVerificationTitle": "Skip TLS Verification:",
   "admin.elasticsearch.sniffDescription": "啟用時，探查將自動找尋並連接叢集中全部的資料節點。",
   "admin.elasticsearch.sniffTitle": "啟用叢集探查：",
   "admin.elasticsearch.testConfigSuccess": "測試成功。設定已儲存。",
