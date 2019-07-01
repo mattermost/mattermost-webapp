@@ -501,7 +501,13 @@ export default class PostList extends React.PureComponent {
 
         if (this.state.loadingFirstSetOfPosts) {
             return (
-                <div id='post-list'>
+                <div
+                    id='post-list'
+                    className='a11y__region'
+                    data-a11y-sort-order='1'
+                    data-a11y-focus-child={true}
+                    data-a11y-order-reversed={true}
+                    >
                     <LoadingScreen
                         position='absolute'
                         key='loading'
@@ -526,6 +532,10 @@ export default class PostList extends React.PureComponent {
         return (
             <div
                 id='post-list'
+                className='a11y__region'
+                data-a11y-sort-order='1'
+                data-a11y-focus-child={true}
+                data-a11y-order-reversed={true}
                 aria-label={Utils.localizeMessage('accessibility.sections.centerContent', 'message list main region')}
             >
                 {this.state.isMobile && (

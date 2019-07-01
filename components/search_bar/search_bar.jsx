@@ -258,7 +258,9 @@ export default class SearchBar extends React.Component {
                         <SuggestionBox
                             ref={this.getSearch}
                             id='searchBox'
-                            className='search-bar'
+                            tabIndex='-1'
+                            className='search-bar a11y__region'
+                            data-a11y-sort-order='8'
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                             value={this.props.searchTerms}
                             onFocus={this.handleUserFocus}

@@ -385,7 +385,7 @@ export default class RhsComment extends React.PureComponent {
                 ref={'post_body_' + post.id}
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
-                className={this.getClassName(post, isSystemMessage)}
+                className={'a11y__section ' + this.getClassName(post, isSystemMessage)}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
             >

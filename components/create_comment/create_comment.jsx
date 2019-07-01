@@ -912,7 +912,8 @@ export default class CreateComment extends React.PureComponent {
                     id='rhsFooter'
                     aria-label={ariaLabelReplyInput}
                     tabIndex='-1'
-                    className={'post-create' + scrollbarClass}
+                    className={`post-create a11y__region${scrollbarClass}`}
+                    data-a11y-sort-order='4'
                 >
                     <div
                         id={this.props.rootId}

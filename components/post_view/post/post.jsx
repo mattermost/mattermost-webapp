@@ -7,6 +7,7 @@ import {Posts} from 'mattermost-redux/constants';
 import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
 
 import * as PostUtils from 'utils/post_utils.jsx';
+import {A11yCustomEventTypes} from 'utils/constants.jsx';
 import PostProfilePicture from 'components/post_profile_picture';
 import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';
@@ -85,12 +86,22 @@ export default class Post extends React.PureComponent {
         this.state = {
             dropdownOpened: false,
             hover: false,
+            a11yActive: false,
             sameRoot: this.hasSameRoot(props),
         };
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         this.setState({sameRoot: this.hasSameRoot(nextProps)});
+    }
+
+    componentDidMount() {
+        this.domNode.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        this.domNode.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+    }
+    componentWillUnmount() {
+        this.domNode.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        this.domNode.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
     }
 
     handleCommentClick = (e) => {
@@ -213,6 +224,14 @@ export default class Post extends React.PureComponent {
         this.setState({hover: false});
     }
 
+    handleA11yActivateEvent = (event) => {
+        this.setState({a11yActive: true});
+    }
+
+    handleA11yDeactivateEvent = (event) => {
+        this.setState({a11yActive: false});
+    }
+
     render() {
         const {post} = this.props;
         if (!post.id) {
@@ -255,7 +274,7 @@ export default class Post extends React.PureComponent {
                 ref={this.getRef}
                 id={'post_' + post.id}
                 role='listitem'
-                className={this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}
+                className={'a11y__section ' + this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}
                 tabIndex='-1'
                 onFocus={this.setFocus}
                 onBlur={this.removeFocus}
@@ -280,7 +299,7 @@ export default class Post extends React.PureComponent {
                             isFirstReply={this.props.isFirstReply}
                             replyCount={this.props.replyCount}
                             showTimeWithoutHover={!hideProfilePicture}
-                            hover={this.state.hover}
+                            hover={this.state.hover || this.state.a11yActive}
                         />
                         <PostBody
                             post={post}
