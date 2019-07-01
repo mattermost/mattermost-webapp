@@ -27,7 +27,7 @@ const CollapseLhsButton = ({
                 defaultMessage='Toggle sidebar'
             />
         </span>
-        <MenuIcon className='icon icon__menu icon--sidebarHeaderTextColor'/>
+        <MenuIcon className='style--none icon icon__menu icon--sidebarHeaderTextColor'/>
         <NotifyCounts/>
     </button>
 );
