@@ -23,8 +23,9 @@ export default class Renderer extends marked.Renderer {
         let usedLanguage = language || '';
         usedLanguage = usedLanguage.toLowerCase();
 
-        if ((usedLanguage === 'tex' || usedLanguage === 'latex') && this.formattingOptions.latex) {
-            return `<div data-latex="${TextFormatting.escapeHtml(code)}"></div>`;
+        const codeBlockPlugins = this.formattingOptions.codeBlockPlugins;
+        if (codeBlockPlugins && codeBlockPlugins.find((p) => p.languages.indexOf(usedLanguage) > -1)) {
+            return `<div data-language="${usedLanguage}" data-code="${TextFormatting.escapeHtml(code)}"></div>`;
         }
 
         // treat html as xml to prevent injection attacks

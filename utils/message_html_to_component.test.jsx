@@ -31,9 +31,18 @@ That was some latex!`;
         });
 
         test('with enabled latex plugin', () => {
-            const html = TextFormatting.formatText(input, {latex: true});
+            const options = {
+                codeBlockPlugins: [
+                    {
+                        id: 'LatexPlugin',
+                        languages: ['latex'],
+                    },
+                ],
 
-            expect(messageHtmlToComponent(html, false, {hasLatexPlugin: true})).toMatchSnapshot();
+            };
+            const html = TextFormatting.formatText(input, options);
+
+            expect(messageHtmlToComponent(html, false, options)).toMatchSnapshot();
         });
     });
 

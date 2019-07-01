@@ -43,7 +43,7 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 // - autolinkedUrlSchemes - An array of url schemes that will be allowed for autolinking. Defaults to autolinking with any url scheme.
 // - renderer - a custom renderer object to use in the formatWithRenderer function. Defaults to empty.
 // - minimumHashtagLength - Minimum number of characters in a hashtag. Defaults to 3.
-// - latex - If specified, replaces latex code with a div with a data-latex attribute. Defaults to false.
+// - codeBlockPlugins - If specified, code blocks are replaced by components provided by plugins. Defaults to empty.
 export function formatText(text, inputOptions) {
     if (!text || typeof text !== 'string') {
         return '';

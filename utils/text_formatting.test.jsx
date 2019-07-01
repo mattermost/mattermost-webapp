@@ -7,7 +7,6 @@ import {formatText, autolinkAtMentions, highlightSearchTerms, handleUnicodeEmoji
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
 import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
-import Renderer from 'utils/markdown/renderer';
 
 describe('formatText', () => {
     test('jumbo emoji should be able to handle up to 3 spaces before the emoji character', () => {
@@ -157,17 +156,23 @@ describe('linkOnlyMarkdown', () => {
     });
 });
 
-describe('latex', () => {
+describe('latex plugin', () => {
     const text = `\`\`\`latex
 x^2 + y^2 = z^2
 \`\`\``;
     test('enabled', () => {
-        const options = {latex: true};
+        const options = {
+            codeBlockPlugins: [
+                {
+                    languages: ['latex'],
+                },
+            ],
+        };
         const output = formatText(text, options);
-        expect(output).toBe('<div data-latex="x^2 + y^2 = z^2\n"></div>');
+        expect(output).toBe('<div data-language="latex" data-code="x^2 + y^2 = z^2\n"></div>');
     });
     test('disabled', () => {
-        const options = {latex: false};
+        const options = {};
         const output = formatText(text, options);
         expect(output).toBe('<div class="post-code"><span class="post-code__language">TeX</span>' +
             '<code class="hljs">x^2 + y^2 = z^2\n</code></div>');

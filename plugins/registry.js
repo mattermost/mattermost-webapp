@@ -462,9 +462,22 @@ export default class PluginRegistry {
         return {id, showRHSPlugin: showRHSPlugin(id)};
     }
 
-    // Register a component to replace latex code with a component provided by the plugin.
+    // Register a component to replace code blocks with components provided by plugins.
     // Accepts a React component. Returns a unique identifier.
-    registerLatexPlugin(component) {
-        return dispatchPluginComponentAction('LatexBlock', this.id, component);
+    registerCodeBlockComponent(component, languages) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'CodeBlockComponent',
+            data: {
+                id,
+                pluginId: this.id,
+                component,
+                languages,
+            },
+        });
+
+        return id;
     }
 }

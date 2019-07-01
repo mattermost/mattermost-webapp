@@ -10,12 +10,14 @@ Array [
   <Connect(Pluggable)
     content="x^2 + y^2 = z^2
 "
-    pluggableName="LatexBlock"
+    pluggableId="LatexPlugin"
+    pluggableName="CodeBlockComponent"
   />,
   <Connect(Pluggable)
     content="F_m - 2 = F_0 F_1 \\\\dots F_{m-1}
 "
-    pluggableName="LatexBlock"
+    pluggableId="LatexPlugin"
+    pluggableName="CodeBlockComponent"
   />,
   <p>
     That was some latex!

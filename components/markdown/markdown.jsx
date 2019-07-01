@@ -82,9 +82,9 @@ export default class Markdown extends React.PureComponent {
         imagesMetadata: PropTypes.object,
 
         /**
-         * Whether or not to replace latex code with a component provided by the plugin
+         * If specified, code blocks are replaced by components provided by plugins
          */
-        hasLatexPlugin: PropTypes.bool,
+        codeBlockPlugins: PropTypes.arrayOf(PropTypes.object),
 
         /**
          * Whether or not to place the LinkTooltip component inside links
@@ -113,14 +113,14 @@ export default class Markdown extends React.PureComponent {
             proxyImages: this.props.hasImageProxy && this.props.proxyImages,
             team: this.props.team,
             minimumHashtagLength: this.props.minimumHashtagLength,
-            latex: this.props.hasLatexPlugin,
+            codeBlockPlugins: this.props.codeBlockPlugins,
         }, this.props.options);
 
         const htmlFormattedText = TextFormatting.formatText(this.props.message, options);
         return messageHtmlToComponent(htmlFormattedText, this.props.isRHS, {
             imageProps: this.props.imageProps,
             imagesMetadata: this.props.imagesMetadata,
-            hasLatexPlugin: this.props.hasLatexPlugin,
+            codeBlockPlugins: this.props.codeBlockPlugins,
             hasPluginTooltips: this.props.hasPluginTooltips,
         });
     }
