@@ -592,6 +592,8 @@ export default {
                 'admin.elasticsearch.connectionUrlTitle',
                 ['admin.elasticsearch.connectionUrlDescription', {documentationLink: ''}],
                 'admin.elasticsearch.connectionUrlExample.documentationLinkText',
+                'admin.elasticsearch.skipTLSVerificationTitle',
+                'admin.elasticsearch.skipTLSVerificationDescription',
                 'admin.elasticsearch.usernameTitle',
                 'admin.elasticsearch.usernameDescription',
                 'admin.elasticsearch.passwordTitle',
@@ -1650,7 +1652,6 @@ export default {
             url: 'environment/notifications',
             title: t('admin.sidebar.notifications'),
             title_default: 'Notifications',
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             schema: {
                 id: 'notifications',
                 name: t('admin.environment.notifications'),
@@ -1739,6 +1740,7 @@ export default {
                         help_text: t('admin.environment.notifications.feedbackEmail.help'),
                         help_text_default: 'Email address displayed on email account used when sending notification emails from Mattermost.',
                         isDisabled: it.stateIsFalse('EmailSettings.SendEmailNotifications'),
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1934,7 +1936,7 @@ export default {
                         label_default: 'Allow File Uploads on Mobile:',
                         help_text: t('admin.file.enableMobileUploadDesc'),
                         help_text_default: 'When false, disables file uploads on mobile apps. If Allow File Sharing is set to true, users can still upload files from a mobile web browser.',
-                        isHidden: it.isnt(it.licensed),
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1943,7 +1945,7 @@ export default {
                         label_default: 'Allow File Downloads on Mobile:',
                         help_text: t('admin.file.enableMobileDownloadDesc'),
                         help_text_default: 'When false, disables file downloads on mobile apps. Users can still download files from a mobile web browser.',
-                        isHidden: it.isnt(it.licensed),
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
                     },
                 ],
             },
@@ -3308,7 +3310,6 @@ export default {
             url: 'plugins/plugin_management',
             title: t('admin.plugins.pluginManagement'),
             title_default: 'Plugin Management',
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             searchableStrings: [
                 'admin.plugin.management.title',
                 'admin.plugins.settings.enable',
@@ -3883,6 +3884,7 @@ export default {
                         help_text: t('admin.experimental.experimentalLdapGroupSync.desc'),
                         help_text_default: 'When true, enables **AD/LDAP Group Sync** configurable under **User Management > Groups**. See [documentation](!https://mattermost.com/pl/default-ldap-group-sync) to learn more.',
                         help_text_markdown: true,
+                        isHidden: it.isnt(it.licensedForFeature('LDAPGroups')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,

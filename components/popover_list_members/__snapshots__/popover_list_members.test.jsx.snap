@@ -2,7 +2,6 @@
 
 exports[`components/PopoverListMembers should match snapshot 1`] = `
 <div
-  className="channel-header__icon wide "
   id="channelMember"
 >
   <OverlayTrigger
@@ -29,23 +28,26 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
       ]
     }
   >
-    <div
-      className="member-popover__trigger"
+    <button
+      aria-label="members button"
+      className="style--none member-popover__trigger channel-header__icon wide "
       id="member_popover"
       onClick={[Function]}
     >
-      <span
-        className="icon__text"
-        id="channelMemberCountText"
-      >
-        2
-      </span>
-      <MemberIcon
-        aria-hidden="true"
-        className="icon icon__members"
-        id="channelMemberIcon"
-      />
-    </div>
+      <div>
+        <span
+          className="icon__text"
+          id="channelMemberCountText"
+        >
+          2
+        </span>
+        <MemberIcon
+          aria-hidden="true"
+          className="icon icon__members"
+          id="channelMemberIcon"
+        />
+      </div>
+    </button>
   </OverlayTrigger>
   <Overlay
     animation={[Function]}
@@ -107,7 +109,6 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
 
 exports[`components/PopoverListMembers should match snapshot with archived channel 1`] = `
 <div
-  className="channel-header__icon wide "
   id="channelMember"
 >
   <OverlayTrigger
@@ -134,23 +135,26 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
       ]
     }
   >
-    <div
-      className="member-popover__trigger"
+    <button
+      aria-label="members button"
+      className="style--none member-popover__trigger channel-header__icon wide "
       id="member_popover"
       onClick={[Function]}
     >
-      <span
-        className="icon__text"
-        id="channelMemberCountText"
-      >
-        2
-      </span>
-      <MemberIcon
-        aria-hidden="true"
-        className="icon icon__members"
-        id="channelMemberIcon"
-      />
-    </div>
+      <div>
+        <span
+          className="icon__text"
+          id="channelMemberCountText"
+        >
+          2
+        </span>
+        <MemberIcon
+          aria-hidden="true"
+          className="icon icon__members"
+          id="channelMemberIcon"
+        />
+      </div>
+    </button>
   </OverlayTrigger>
   <Overlay
     animation={[Function]}
@@ -212,7 +216,6 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
 
 exports[`components/PopoverListMembers should match snapshot with group-constrained channel 1`] = `
 <div
-  className="channel-header__icon wide "
   id="channelMember"
 >
   <OverlayTrigger
@@ -239,23 +242,26 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
       ]
     }
   >
-    <div
-      className="member-popover__trigger"
+    <button
+      aria-label="members button"
+      className="style--none member-popover__trigger channel-header__icon wide "
       id="member_popover"
       onClick={[Function]}
     >
-      <span
-        className="icon__text"
-        id="channelMemberCountText"
-      >
-        2
-      </span>
-      <MemberIcon
-        aria-hidden="true"
-        className="icon icon__members"
-        id="channelMemberIcon"
-      />
-    </div>
+      <div>
+        <span
+          className="icon__text"
+          id="channelMemberCountText"
+        >
+          2
+        </span>
+        <MemberIcon
+          aria-hidden="true"
+          className="icon icon__members"
+          id="channelMemberIcon"
+        />
+      </div>
+    </button>
   </OverlayTrigger>
   <Overlay
     animation={[Function]}
@@ -326,7 +332,6 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
 
 exports[`components/PopoverListMembers should match state when showChannelInviteModal is called 1`] = `
 <div
-  className="channel-header__icon wide "
   id="channelMember"
 >
   <OverlayTrigger
@@ -353,23 +358,26 @@ exports[`components/PopoverListMembers should match state when showChannelInvite
       ]
     }
   >
-    <div
-      className="member-popover__trigger"
+    <button
+      aria-label="members button"
+      className="style--none member-popover__trigger channel-header__icon wide "
       id="member_popover"
       onClick={[Function]}
     >
-      <span
-        className="icon__text"
-        id="channelMemberCountText"
-      >
-        2
-      </span>
-      <MemberIcon
-        aria-hidden="true"
-        className="icon icon__members"
-        id="channelMemberIcon"
-      />
-    </div>
+      <div>
+        <span
+          className="icon__text"
+          id="channelMemberCountText"
+        >
+          2
+        </span>
+        <MemberIcon
+          aria-hidden="true"
+          className="icon icon__members"
+          id="channelMemberIcon"
+        />
+      </div>
+    </button>
   </OverlayTrigger>
   <Overlay
     animation={[Function]}

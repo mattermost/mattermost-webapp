@@ -40,7 +40,7 @@ describe('Search in DMs', () => {
         createNewDMChannel(users['user-2'].email);
 
         // # Post message to user
-        cy.postMessage(message + '{enter}');
+        cy.postMessage(message);
 
         // # Type `in:` in searchbox
         cy.get('#searchBox').type('in:');

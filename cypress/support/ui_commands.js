@@ -126,6 +126,7 @@ function isMac() {
 
 Cypress.Commands.add('postMessage', (message) => {
     cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type(message).type('{enter}');
+    cy.wait(TIMEOUTS.TINY);
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
@@ -311,7 +312,7 @@ Cypress.Commands.add('minDisplaySettings', () => {
     cy.get('#collapseTitle').should('be.visible', 'contain', 'Default appearance of image previews');
     cy.get('#collapseEdit').should('be.visible', 'contain', 'Edit');
 
-    cy.get('#message_displayTitle').should('be.visible', 'contain', 'Message Display');
+    cy.get('#message_displayTitle').scrollIntoView().should('be.visible', 'contain', 'Message Display');
     cy.get('#message_displayEdit').should('be.visible', 'contain', 'Edit');
 
     cy.get('#languagesTitle').scrollIntoView().should('be.visible', 'contain', 'Language');

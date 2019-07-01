@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 
+import {FormattedMessage} from 'react-intl';
+
 import {debounce} from 'mattermost-redux/actions/helpers';
 
 import * as Utils from 'utils/utils.jsx';
@@ -58,6 +60,7 @@ export default class SearchResults extends React.PureComponent {
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
         isPinnedPosts: PropTypes.bool,
+        isCard: PropTypes.bool,
         channelDisplayName: PropTypes.string.isRequired,
         dataRetentionEnableMessageDeletion: PropTypes.bool.isRequired,
         dataRetentionMessageRetentionDays: PropTypes.string,
@@ -209,18 +212,51 @@ export default class SearchResults extends React.PureComponent {
             }
         }
 
-        return (
-            <div
-                className='sidebar-right__body'
-                id='searchResultsContainer'
-            >
-                <SearchResultsHeader
-                    isMentionSearch={this.props.isMentionSearch}
-                    isFlaggedPosts={this.props.isFlaggedPosts}
-                    isPinnedPosts={this.props.isPinnedPosts}
-                    channelDisplayName={this.props.channelDisplayName}
-                    isLoading={this.props.isSearchingTerm}
+        var formattedTitle = (
+            <FormattedMessage
+                id='search_header.results'
+                defaultMessage='Search Results'
+            />
+        );
+
+        if (this.props.isMentionSearch) {
+            formattedTitle = (
+                <FormattedMessage
+                    id='search_header.title2'
+                    defaultMessage='Recent Mentions'
                 />
+            );
+        } else if (this.props.isFlaggedPosts) {
+            formattedTitle = (
+                <FormattedMessage
+                    id='search_header.title3'
+                    defaultMessage='Flagged Posts'
+                />
+            );
+        } else if (this.props.isPinnedPosts) {
+            formattedTitle = (
+                <FormattedMessage
+                    id='search_header.title4'
+                    defaultMessage='Pinned posts in {channelDisplayName}'
+                    values={{
+                        channelDisplayName: this.props.channelDisplayName,
+                    }}
+                />
+            );
+        } else if (this.props.isCard) {
+            formattedTitle = (
+                <FormattedMessage
+                    id='search_header.title5'
+                    defaultMessage='Extra information'
+                />
+            );
+        }
+
+        return (
+            <div className='sidebar-right__body'>
+                <SearchResultsHeader>
+                    {formattedTitle}
+                </SearchResultsHeader>
                 <Scrollbars
                     ref='scrollbars'
                     autoHide={true}

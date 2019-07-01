@@ -10,11 +10,7 @@ import Constants from 'utils/constants.jsx';
 
 export default class SearchResultsHeader extends React.Component {
     static propTypes = {
-        isMentionSearch: PropTypes.bool,
-        isFlaggedPosts: PropTypes.bool,
-        isPinnedPosts: PropTypes.bool,
-        isCard: PropTypes.bool,
-        channelDisplayName: PropTypes.string.isRequired,
+        children: PropTypes.element,
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func,
             toggleRhsExpanded: PropTypes.func.isRequired,
@@ -22,13 +18,6 @@ export default class SearchResultsHeader extends React.Component {
     };
 
     render() {
-        var title = (
-            <FormattedMessage
-                id='search_header.results'
-                defaultMessage='Search Results'
-            />
-        );
-
         const closeSidebarTooltip = (
             <Tooltip id='closeSidebarTooltip'>
                 <FormattedMessage
@@ -56,42 +45,9 @@ export default class SearchResultsHeader extends React.Component {
             </Tooltip>
         );
 
-        if (this.props.isMentionSearch) {
-            title = (
-                <FormattedMessage
-                    id='search_header.title2'
-                    defaultMessage='Recent Mentions'
-                />
-            );
-        } else if (this.props.isFlaggedPosts) {
-            title = (
-                <FormattedMessage
-                    id='search_header.title3'
-                    defaultMessage='Flagged Posts'
-                />
-            );
-        } else if (this.props.isPinnedPosts) {
-            title = (
-                <FormattedMessage
-                    id='search_header.title4'
-                    defaultMessage='Pinned posts in {channelDisplayName}'
-                    values={{
-                        channelDisplayName: this.props.channelDisplayName,
-                    }}
-                />
-            );
-        } else if (this.props.isCard) {
-            title = (
-                <FormattedMessage
-                    id='search_header.title5'
-                    defaultMessage='Extra information'
-                />
-            );
-        }
-
         return (
             <div className='sidebar--right__header'>
-                <span className='sidebar--right__title'>{title}</span>
+                <span className='sidebar--right__title'>{this.props.children}</span>
                 <div className='pull-right'>
                     <button
                         type='button'

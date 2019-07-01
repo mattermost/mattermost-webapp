@@ -12,6 +12,7 @@ exports[`components/ProfilePicture should match snapshot, no user specified, def
     width="36"
   />
   <StatusIcon
+    button={false}
     className=""
     status="away"
   />
@@ -30,6 +31,7 @@ exports[`components/ProfilePicture should match snapshot, no user specified, ove
     width="48"
   />
   <StatusIcon
+    button={false}
     className=""
     status="away"
   />
@@ -48,6 +50,7 @@ exports[`components/ProfilePicture should match snapshot, user specified 1`] = `
     width="36"
   />
   <StatusIcon
+    button={false}
     className=""
     status="away"
   />
@@ -66,6 +69,7 @@ exports[`components/ProfilePicture should match snapshot, user specified, overri
     width="48"
   />
   <StatusIcon
+    button={false}
     className=""
     status="away"
   />

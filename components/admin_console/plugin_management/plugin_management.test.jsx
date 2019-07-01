@@ -15,6 +15,9 @@ describe('components/PluginManagement', () => {
                 Enable: true,
                 EnableUploads: true,
             },
+            ExperimentalSettings: {
+                RestrictSystemAdmin: false,
+            },
         },
         pluginStatuses: {
             plugin_0: {
@@ -114,6 +117,20 @@ describe('components/PluginManagement', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot when `Enable Plugins` is hidden', () => {
+        const props = {
+            ...defaultProps,
+            config: {
+                ...defaultProps.config,
+                ExperimentalSettings: {
+                    RestrictSystemAdmin: true,
+                },
+            },
+        };
+        const wrapper = shallow(<PluginManagement {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, upload disabled', () => {
         const props = {
             ...defaultProps,
@@ -132,6 +149,7 @@ describe('components/PluginManagement', () => {
     test('should match snapshot, No installed plugins', () => {
         const props = {
             config: {
+                ...defaultProps.config,
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
@@ -162,6 +180,7 @@ describe('components/PluginManagement', () => {
     test('should match snapshot, with installed plugins and not settings link should set hasSettings to false', () => {
         const props = {
             config: {
+                ...defaultProps.config,
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
@@ -243,6 +262,7 @@ describe('components/PluginManagement', () => {
     test('should match snapshot, with installed plugins and just header should set hasSettings to true', () => {
         const props = {
             config: {
+                ...defaultProps.config,
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
@@ -296,6 +316,7 @@ describe('components/PluginManagement', () => {
     test('should match snapshot, with installed plugins and just footer should set hasSettings to true', () => {
         const props = {
             config: {
+                ...defaultProps.config,
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
@@ -349,6 +370,7 @@ describe('components/PluginManagement', () => {
     test('should match snapshot, with installed plugins and just settings should set hasSettings to true', () => {
         const props = {
             config: {
+                ...defaultProps.config,
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,

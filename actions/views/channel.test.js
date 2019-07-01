@@ -58,6 +58,7 @@ describe('channel view actions', () => {
             },
             teams: {
                 currentTeamId: 'teamid1',
+                myMembers: {teamId1: {}},
                 teams: {teamid1: team1},
             },
             channels: {
@@ -167,6 +168,8 @@ describe('channel view actions', () => {
 
         describe('with a focused post', () => {
             test('should call getPostsAround and return the results', async () => {
+                Date.now = jest.fn().mockReturnValue(12344);
+
                 const posts = {posts: {}, order: []};
 
                 PostActions.getPostsAround.mockReturnValue(() => ({data: posts}));
@@ -176,6 +179,14 @@ describe('channel view actions', () => {
                 expect(result.posts).toBe(posts);
 
                 expect(PostActions.getPostsAround).toHaveBeenCalledWith('channel', 'post', Posts.POST_CHUNK_SIZE / 2);
+
+                expect(store.getActions()).toEqual([
+                    {
+                        channelId: 'channel',
+                        time: 12344,
+                        type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
+                    },
+                ]);
             });
 
             test('when enough posts are received before and after the focused post', async () => {
@@ -275,6 +286,8 @@ describe('channel view actions', () => {
         });
 
         test('should increase post visibility when receiving posts', async () => {
+            Date.now = jest.fn().mockReturnValue(12344);
+
             const channelId = 'channel1';
             const posts = {
                 posts: {},
@@ -393,6 +406,56 @@ describe('channel view actions', () => {
             expect(result).toBe(true);
 
             expect(PostActions.getPostsBefore).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('syncPostsInChannel', () => {
+        test('should call getPostsSince with since argument time as last discconet was earlier than lastGetPosts', async () => {
+            const channelId = 'channel1';
+            PostActions.getPostsSince.mockReturnValue(() => ({data: []}));
+
+            store = mockStore({
+                ...initialState,
+                views: {
+                    ...initialState.views,
+                    channel: {
+                        ...initialState.views.channel,
+                        lastGetPosts: {
+                            [channelId]: 12345,
+                        },
+                    },
+                    websocket: {
+                        lastDisconnectAt: 12344,
+                    },
+                },
+            });
+
+            await store.dispatch(Actions.syncPostsInChannel(channelId, 12350));
+            expect(PostActions.getPostsSince).toHaveBeenCalledWith(channelId, 12350);
+        });
+
+        test('should call getPostsSince with lastDisconnect time as last discconet was later than lastGetPosts', async () => {
+            const channelId = 'channel1';
+            PostActions.getPostsSince.mockReturnValue(() => ({data: []}));
+
+            store = mockStore({
+                ...initialState,
+                views: {
+                    ...initialState.views,
+                    channel: {
+                        ...initialState.views.channel,
+                        lastGetPosts: {
+                            [channelId]: 12343,
+                        },
+                    },
+                    websocket: {
+                        lastDisconnectAt: 12344,
+                    },
+                },
+            });
+
+            await store.dispatch(Actions.syncPostsInChannel(channelId, 12355));
+            expect(PostActions.getPostsSince).toHaveBeenCalledWith(channelId, 12343);
         });
     });
 });

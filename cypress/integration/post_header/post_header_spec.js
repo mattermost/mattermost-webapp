@@ -21,7 +21,7 @@ describe('Post Header', () => {
         cy.visit('/ad-1/channels/town-square');
 
         // # Post a message
-        cy.postMessage('test for permalink{enter}');
+        cy.postMessage('test for permalink');
 
         // * Check initial state that "the jump to recent messages" is not visible
         cy.get('#archive-link-home').should('not.be.visible');
@@ -62,7 +62,7 @@ describe('Post Header', () => {
         cy.visit('/ad-1/channels/town-square');
 
         // # Post a message
-        cy.postMessage('test for flagged post{enter}');
+        cy.postMessage('test for flagged post');
 
         cy.getLastPostId().then((postId) => {
             // * Check that the center flag icon of a post is not visible
@@ -87,7 +87,7 @@ describe('Post Header', () => {
         cy.visit('/ad-1/channels/town-square');
 
         // # Post a message
-        cy.postMessage('test for dropdown menu{enter}');
+        cy.postMessage('test for dropdown menu');
 
         cy.getLastPostId().then((postId) => {
             // * Check that the center dot menu' button and dropdown are hidden
@@ -115,7 +115,7 @@ describe('Post Header', () => {
         cy.visit('/ad-1/channels/town-square');
 
         // # Post a message
-        cy.postMessage('test for reaction and emoji picker{enter}');
+        cy.postMessage('test for reaction and emoji picker');
 
         cy.getLastPostId().then((postId) => {
             // * Check that the center post reaction icon and emoji picker are not visible
@@ -145,7 +145,7 @@ describe('Post Header', () => {
         cy.visit('/ad-1/channels/town-square');
 
         // # Post a message
-        cy.postMessage('test for opening and closing RHS{enter}');
+        cy.postMessage('test for opening and closing RHS');
 
         // # Open RHS on hover to a post and click to its comment icon
         cy.clickPostCommentIcon();
