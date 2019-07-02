@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {browserHistory} from 'utils/browser_history';
@@ -151,6 +151,10 @@ export default class SidebarChannel extends React.PureComponent {
         }).isRequired,
     }
 
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    }
+
     isLeaving = false;
 
     handleLeavePublicChannel = () => {
@@ -269,15 +273,12 @@ export default class SidebarChannel extends React.PureComponent {
 
         let displayName = '';
         if (this.props.currentUserId === this.props.channelTeammateId) {
-            displayName = (
-                <FormattedMessage
-                    id='sidebar.directchannel.you'
-                    defaultMessage='{displayname} (you)'
-                    values={{
-                        displayname: this.props.channelDisplayName,
-                    }}
-                />
-            );
+            displayName = this.context.intl.formatMessage({
+                id: 'sidebar.directchannel.you',
+                defaultMessage: '{displayname} (you)',
+            }, {
+                displayname: this.props.channelDisplayName,
+            });
         } else {
             displayName = this.props.channelDisplayName;
         }

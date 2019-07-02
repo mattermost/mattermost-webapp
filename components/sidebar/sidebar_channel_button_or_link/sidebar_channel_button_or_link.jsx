@@ -23,10 +23,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         channelType: PropTypes.string.isRequired,
         channelId: PropTypes.string.isRequired,
         channelName: PropTypes.string.isRequired,
-        displayName: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.object,
-        ]).isRequired,
+        displayName: PropTypes.string.isRequired,
         channelStatus: PropTypes.string,
         handleClose: PropTypes.func,
         hasDraft: PropTypes.bool.isRequired,
