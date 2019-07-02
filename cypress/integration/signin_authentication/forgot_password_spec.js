@@ -9,14 +9,12 @@
 
 /*eslint max-nested-callbacks: ["error", 5]*/
 
-import {reUrl} from '../../utils';
+import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
 
-const feedbackEmail = 'test@example.com';
 let config;
 
 describe('Signin/Authentication', () => {
     before(() => {
-        cy.apiUpdateConfig({EmailSettings: {FeedbackEmail: feedbackEmail}});
         cy.apiGetConfig().then((response) => {
             config = response.body;
         });
@@ -26,12 +24,12 @@ describe('Signin/Authentication', () => {
         cy.loginAsNewUser().then((user) => {
             cy.apiLogout();
 
-            resetPasswordAndLogin(user, feedbackEmail);
+            resetPasswordAndLogin(user, config.EmailSettings.FeedbackEmail, config.SupportSettings.SupportEmail);
         });
     });
 });
 
-function verifyForgotPasswordEmail(response, toUser, fromEmail) {
+function verifyForgotPasswordEmail(response, toUser, feedbackEmail, supportEmail, messageSeparator) {
     const isoDate = new Date().toISOString().substring(0, 10);
     const {data, status} = response;
 
@@ -43,7 +41,7 @@ function verifyForgotPasswordEmail(response, toUser, fromEmail) {
     expect(data.to[0]).to.contain(toUser.email);
 
     // * Verify that email is from default feedback email
-    expect(data.from).to.contain(fromEmail);
+    expect(data.from).to.contain(feedbackEmail);
 
     // * Verify that date is current
     expect(data.date).to.contain(isoDate);
@@ -52,19 +50,19 @@ function verifyForgotPasswordEmail(response, toUser, fromEmail) {
     expect(data.subject).to.equal(`[${config.TeamSettings.SiteName}] Reset your password`);
 
     // * Verify that the email body is correct
-    const bodyText = data.body.text.split('\r\n');
+    const bodyText = data.body.text.split(messageSeparator);
     expect(bodyText.length).to.equal(14);
     expect(bodyText[1]).to.equal('You requested a password reset');
     expect(bodyText[4]).to.equal('To change your password, click "Reset Password" below.');
     expect(bodyText[5]).to.contain('If you did not mean to reset your password, please ignore this email and your password will remain the same. The password reset link expires in 24 hours.');
     expect(bodyText[7]).to.contain('Reset Password');
-    expect(bodyText[9]).to.contain('Any questions at all, mail us any time: feedback@mattermost.com');
+    expect(bodyText[9]).to.contain(`Any questions at all, mail us any time: ${supportEmail}`);
     expect(bodyText[10]).to.equal('Best wishes,');
     expect(bodyText[11]).to.equal(`The ${config.TeamSettings.SiteName} Team`);
     expect(bodyText[13]).to.equal('To change your notification preferences, log in to your team site and go to Account Settings > Notifications.');
 }
 
-function resetPasswordAndLogin(user, fromEmail) {
+function resetPasswordAndLogin(user, feedbackEmail, supportEmail) {
     const newPassword = 'newpasswd';
 
     // # Visit '/'
@@ -94,11 +92,16 @@ function resetPasswordAndLogin(user, fromEmail) {
         cy.get('span').last().should('have.text', 'Please check your inbox.');
     });
 
-    cy.task('getRecentEmail', {username: user.username}).then((response) => {
-        // * Verify contents password reset email
-        verifyForgotPasswordEmail(response, user, fromEmail);
+    const baseUrl = Cypress.config('baseUrl');
+    const mailUrl = getEmailUrl(baseUrl);
 
-        const bodyText = response.data.body.text.split('\r\n');
+    cy.task('getRecentEmail', {username: user.username, mailUrl}).then((response) => {
+        const separator = getEmailMessageSeparator(baseUrl);
+
+        // * Verify contents password reset email
+        verifyForgotPasswordEmail(response, user, feedbackEmail, supportEmail, separator);
+
+        const bodyText = response.data.body.text.split(separator);
         const passwordResetLink = bodyText[7].match(reUrl)[0];
         const token = passwordResetLink.split('token=')[1];
 
@@ -127,8 +130,8 @@ function resetPasswordAndLogin(user, fromEmail) {
         cy.get('#loginPassword').should('be.visible').type(newPassword);
         cy.get('#loginButton').click();
 
-        // * Verify that it successfully logged in and redirects to /ad-1/channels/town-square
-        cy.url().should('contain', '/ad-1/channels/town-square');
+        // * Verify that it successfully logged in and redirects to /channels/town-square
+        cy.url().should('contain', '/channels/town-square');
 
         // # Logout
         cy.apiLogout();

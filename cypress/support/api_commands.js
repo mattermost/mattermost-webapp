@@ -377,6 +377,24 @@ Cypress.Commands.add('loginAsNewUser', (user = {}) => {
     });
 });
 
+/**
+ * Saves channel display mode preference of a user directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} status - "online" (default), "offline", "away" or "dnd"
+ */
+Cypress.Commands.add('apiUpdateUserStatus', (status = 'online') => {
+    return cy.getCookie('MMUSERID').then((cookie) => {
+        const data = {user_id: cookie.value, status};
+
+        return cy.request({
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            url: '/api/v4/users/me/status',
+            method: 'PUT',
+            body: data,
+        });
+    });
+});
+
 // *****************************************************************************
 // Posts
 // https://api.mattermost.com/#tag/posts
