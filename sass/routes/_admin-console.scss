@@ -14,6 +14,10 @@
         display: flex;
         flex-direction: column;
         height: 100vh;
+
+        .announcement-bar--fixed & {
+            height: calc(100vh - 32px);
+        }
     }
 
     .admin-console__wrapper {

@@ -243,6 +243,7 @@ export function deleteAndRemovePost(post) {
                 type: ActionTypes.SELECT_POST,
                 postId: '',
                 channelId: '',
+                timestamp: 0,
             });
         }
 

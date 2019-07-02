@@ -17,7 +17,7 @@ describe('Message deletion', () => {
 
     it('M13336 Delete both parent post and reply when deleting parent post from center', () => {
         // # Post message in center.
-        cy.postMessage('test message deletion {enter}');
+        cy.postMessage('test message deletion');
 
         cy.getLastPostId().then((parentMessageId) => {
             // # Mouseover the post and click post comment icon.

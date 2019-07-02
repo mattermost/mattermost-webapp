@@ -610,6 +610,33 @@ export default class PluginManagement extends AdminSettings {
         );
     }
 
+    renderEnablePluginsSetting = () => {
+        const hideEnablePlugins = this.props.config.ExperimentalSettings.RestrictSystemAdmin;
+        if (!hideEnablePlugins) {
+            return (
+                <BooleanSetting
+                    id='enable'
+                    label={
+                        <FormattedMessage
+                            id='admin.plugins.settings.enable'
+                            defaultMessage='Enable Plugins: '
+                        />
+                    }
+                    helpText={
+                        <FormattedMarkdownMessage
+                            id='admin.plugins.settings.enableDesc'
+                            defaultMessage='When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                        />
+                    }
+                    value={this.state.enable}
+                    onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('PluginSettings.Enable')}
+                />
+            );
+        }
+        return null;
+    }
+
     renderSettings() {
         const {enableUploads} = this.state;
         const enable = this.props.config.PluginSettings.Enable;
@@ -760,24 +787,7 @@ export default class PluginManagement extends AdminSettings {
                         id={'PluginSettings'}
                         container={false}
                     >
-                        <BooleanSetting
-                            id='enable'
-                            label={
-                                <FormattedMessage
-                                    id='admin.plugins.settings.enable'
-                                    defaultMessage='Enable Plugins: '
-                                />
-                            }
-                            helpText={
-                                <FormattedMarkdownMessage
-                                    id='admin.plugins.settings.enableDesc'
-                                    defaultMessage='When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more.'
-                                />
-                            }
-                            value={this.state.enable}
-                            onChange={this.handleChange}
-                            setByEnv={this.isSetByEnv('PluginSettings.Enable')}
-                        />
+                        {this.renderEnablePluginsSetting()}
 
                         <div className='form-group'>
                             <label

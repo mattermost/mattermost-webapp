@@ -39,12 +39,14 @@ import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mat
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 
 import {getSelectedChannelId} from 'selectors/rhs';
 
 import {openModal} from 'actions/views/modals';
 import {incrementWsErrorCount, resetWsErrorCount} from 'actions/views/system';
 import {closeRightHandSide} from 'actions/views/rhs';
+import {syncPostsInChannel} from 'actions/views/channel';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
@@ -139,6 +141,10 @@ export function reconnect(includeWebSocket = true) {
         reconnectWebSocket();
     }
 
+    dispatch({
+        type: GeneralTypes.WEBSOCKET_SUCCESS,
+    });
+
     loadPluginsIfNecessary();
 
     Object.values(pluginReconnectHandlers).forEach((handler) => {
@@ -149,8 +155,18 @@ export function reconnect(includeWebSocket = true) {
 
     const currentTeamId = getState().entities.teams.currentTeamId;
     if (currentTeamId) {
+        const state = getState();
+        const currentChannelId = getCurrentChannelId(state);
+        const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
+        const mostRecentPost = getPost(state, mostRecentId);
         dispatch(loadChannelsForCurrentUser());
-        dispatch(getPosts(getCurrentChannelId(getState())));
+        if (mostRecentPost) {
+            dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
+        } else {
+            // if network timed-out the first time when loading a channel
+            // we can request for getPosts again when socket is connected
+            dispatch(getPosts(currentChannelId));
+        }
         StatusActions.loadStatusesForChannelAndSidebar();
         dispatch(TeamActions.getMyTeamUnreads());
     }
@@ -200,14 +216,20 @@ export function unregisterAllPluginWebSocketEvents(pluginId) {
 }
 
 function handleFirstConnect() {
-    dispatch(clearErrors);
+    dispatch(batchActions([
+        {type: GeneralTypes.WEBSOCKET_SUCCESS},
+        clearErrors(),
+    ]));
 }
 
 function handleClose(failCount) {
     if (failCount > MAX_WEBSOCKET_FAILS) {
         dispatch(logError({type: 'critical', message: AnnouncementBarMessages.WEBSOCKET_PORT_ERROR}, true));
     }
-    dispatch(incrementWsErrorCount());
+    dispatch(batchActions([
+        {type: GeneralTypes.WEBSOCKET_FAILURE},
+        incrementWsErrorCount(),
+    ]));
 }
 
 function handleEvent(msg) {

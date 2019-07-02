@@ -448,6 +448,8 @@ export default class FileUpload extends PureComponent {
         $(containerSelector).dragster(dragsterActions);
     }
 
+    containsEventTarget = (targetElement, eventTarget) => targetElement && targetElement.contains(eventTarget);
+
     pasteUpload = (e) => {
         const {formatMessage} = this.context.intl;
 
@@ -455,8 +457,9 @@ export default class FileUpload extends PureComponent {
             return;
         }
 
-        const textarea = ReactDOM.findDOMNode(this.props.getTarget());
-        if (!textarea || !textarea.contains(e.target)) {
+        const target = this.props.getTarget();
+        const textarea = ReactDOM.findDOMNode(target);
+        if (!this.containsEventTarget(textarea, e.target)) {
             return;
         }
 
@@ -505,7 +508,9 @@ export default class FileUpload extends PureComponent {
 
                 const name = formatMessage(holders.pasted) + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + hour + '-' + minute + ext;
 
-                files.push(new File([file], name));
+                const newFile = new Blob([file], {type: file.type});
+                newFile.name = name;
+                files.push(newFile);
             }
 
             if (files.length > 0) {

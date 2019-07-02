@@ -310,6 +310,10 @@ function renderChannelDeletedMessage(post) {
     );
 }
 
+function renderMeMessage(post) {
+    return renderFormattedText((post.props && post.props.message) ? post.props.message : post.message);
+}
+
 const systemMessageRenderers = {
     [Posts.POST_TYPES.JOIN_CHANNEL]: renderJoinChannelMessage,
     [Posts.POST_TYPES.LEAVE_CHANNEL]: renderLeaveChannelMessage,
@@ -325,6 +329,7 @@ const systemMessageRenderers = {
     [Posts.POST_TYPES.PURPOSE_CHANGE]: renderPurposeChangeMessage,
     [Posts.POST_TYPES.CHANNEL_DELETED]: renderChannelDeletedMessage,
     [Posts.POST_TYPES.ADD_BOT_TEAMS_CHANNELS]: renderAddBotToTeamsAndChannelsMessage,
+    [Posts.POST_TYPES.ME]: renderMeMessage,
 };
 
 export function renderSystemMessage(post, channel) {

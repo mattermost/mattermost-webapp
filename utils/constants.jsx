@@ -164,6 +164,7 @@ export const ActionTypes = keyMirror({
 
     INCREMENT_WS_ERROR_COUNT: null,
     RESET_WS_ERROR_COUNT: null,
+    RECEIVED_POSTS_FOR_CHANNEL_AT_TIME: null,
 });
 
 export const ModalIdentifiers = {
@@ -288,6 +289,7 @@ export const PostTypes = {
     EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
     REMOVE_LINK_PREVIEW: 'remove_link_preview',
     ADD_BOT_TEAMS_CHANNELS: 'add_bot_teams_channels',
+    ME: 'me',
 };
 
 export const StatTypes = keyMirror({
@@ -444,6 +446,7 @@ export const RHSStates = {
     SEARCH: 'search',
     FLAG: 'flag',
     PIN: 'pin',
+    PLUGIN: 'plugin',
 };
 
 export const UploadStatuses = {

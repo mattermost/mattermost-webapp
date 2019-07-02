@@ -3,10 +3,8 @@
 
 const axios = require('axios');
 
-const cypressConfig = require('../../cypress.json');
-
-module.exports = async ({username}) => {
-    const mailboxUrl = cypressConfig.mailboxAPI + username;
+module.exports = async ({username, mailUrl}) => {
+    const mailboxUrl = `${mailUrl}/${username}`;
     let response;
     let recentEmail;
 
@@ -15,6 +13,10 @@ module.exports = async ({username}) => {
         recentEmail = response.data[response.data.length - 1];
     } catch (error) {
         return {status: error.status, data: null};
+    }
+
+    if (!recentEmail || !recentEmail.id) {
+        return {status: 501, data: null};
     }
 
     let recentEmailMessage;

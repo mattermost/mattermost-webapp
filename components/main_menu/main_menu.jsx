@@ -152,7 +152,7 @@ export default class MainMenu extends React.PureComponent {
             <Menu
                 mobile={this.props.mobile}
                 id={this.props.id}
-                ariaLabel={localizeMessage('navbar_dropdown.menuAriaLabel', 'Main Menu')}
+                ariaLabel={localizeMessage('navbar_dropdown.menuAriaLabel', 'main menu')}
             >
                 <MenuGroup>
                     <MenuItemAction
@@ -276,13 +276,31 @@ export default class MainMenu extends React.PureComponent {
                             icon={this.props.mobile && <i className='fa fa-user-plus'/>}
                         />
                     </TeamPermissionGate>
-                    <MenuItemToggleModalRedux
-                        id='manageMembers'
-                        modalId={ModalIdentifiers.TEAM_MEMBERS}
-                        dialogType={TeamMembersModal}
-                        text={localizeMessage('navbar_dropdown.manageMembers', 'Manage Members')}
-                        icon={this.props.mobile && <i className='fa fa-users'/>}
-                    />
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
+                    >
+                        <MenuItemToggleModalRedux
+                            id='manageMembers'
+                            modalId={ModalIdentifiers.TEAM_MEMBERS}
+                            dialogType={TeamMembersModal}
+                            text={localizeMessage('navbar_dropdown.manageMembers', 'Manage Members')}
+                            icon={this.props.mobile && <i className='fa fa-users'/>}
+                        />
+                    </TeamPermissionGate>
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
+                        invert={true}
+                    >
+                        <MenuItemToggleModalRedux
+                            id='viewMembers'
+                            modalId={ModalIdentifiers.TEAM_MEMBERS}
+                            dialogType={TeamMembersModal}
+                            text={localizeMessage('navbar_dropdown.viewMembers', 'View Members')}
+                            icon={this.props.mobile && <i className='fa fa-users'/>}
+                        />
+                    </TeamPermissionGate>
                 </MenuGroup>
                 <MenuGroup>
                     <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>

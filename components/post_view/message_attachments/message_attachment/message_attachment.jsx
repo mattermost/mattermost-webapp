@@ -164,6 +164,7 @@ export default class MessageAttachment extends React.PureComponent {
         let rowPos = 0;
         let lastWasLong = false;
         let nrTables = 0;
+        const markdown = {markdown: false, mentionHighlight: false};
 
         fields.forEach((field, i) => {
             if (rowPos === 2 || !(field.short === true) || lastWasLong) {
@@ -196,7 +197,10 @@ export default class MessageAttachment extends React.PureComponent {
                     key={'attachment__field-caption-' + i + '__' + nrTables}
                     width='50%'
                 >
-                    {field.title}
+                    <Markdown
+                        message={field.title}
+                        options={markdown}
+                    />
                 </th>
             );
 

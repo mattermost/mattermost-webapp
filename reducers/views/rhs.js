@@ -28,6 +28,17 @@ function selectedPostId(state = '', action) {
     }
 }
 
+// selectedPostFocussedAt keeps track of the last time a post was selected, whether or not it
+// is currently selected.
+function selectedPostFocussedAt(state = 0, action) {
+    switch (action.type) {
+    case ActionTypes.SELECT_POST:
+        return action.timestamp || 0;
+    default:
+        return state;
+    }
+}
+
 function selectedPostCardId(state = '', action) {
     switch (action.type) {
     case ActionTypes.SELECT_POST_CARD:
@@ -96,6 +107,18 @@ function searchTerms(state = '', action) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_SEARCH_TERMS:
         return action.terms;
+    default:
+        return state;
+    }
+}
+
+function pluginId(state = '', action) {
+    switch (action.type) {
+    case ActionTypes.UPDATE_RHS_STATE:
+        if (action.state === RHSStates.PLUGIN) {
+            return action.pluginId;
+        }
+        return '';
     default:
         return state;
     }
@@ -205,12 +228,14 @@ function isMenuOpen(state = false, action) {
 
 export default combineReducers({
     selectedPostId,
+    selectedPostFocussedAt,
     selectedPostCardId,
     selectedChannelId,
     previousRhsState,
     rhsState,
     searchTerms,
     searchResultsTerms,
+    pluginId,
     isSearchingFlaggedPost,
     isSearchingPinnedPost,
     isSidebarOpen,

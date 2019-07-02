@@ -338,7 +338,10 @@ export default class SearchResultsItem extends React.PureComponent {
         const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
 
         return (
-            <div className='search-item__container'>
+            <div
+                data-testid='search-item-container'
+                className='search-item__container'
+            >
                 <DateSeparator date={currentPostDay}/>
                 <div className={this.getClassName()}>
                     <div className='search-channel__name'>
@@ -358,16 +361,14 @@ export default class SearchResultsItem extends React.PureComponent {
                         <div>
                             <div className='post__header'>
                                 <div className='col col__name'>
-                                    <strong>
-                                        <UserProfile
-                                            userId={post.user_id}
-                                            overwriteName={overrideUsername}
-                                            disablePopover={disableProfilePopover}
-                                            isRHS={true}
-                                        />
-                                    </strong>
+                                    <UserProfile
+                                        userId={post.user_id}
+                                        overwriteName={overrideUsername}
+                                        disablePopover={disableProfilePopover}
+                                        isRHS={true}
+                                    />
+                                    <BotBadge show={Boolean(post.props && post.props.from_webhook && !this.props.isBot)}/>
                                 </div>
-                                <BotBadge show={Boolean(post.props && post.props.from_webhook && !this.props.isBot)}/>
                                 <div className='col'>
                                     {this.renderPostTime()}
                                     {pinnedBadge}
