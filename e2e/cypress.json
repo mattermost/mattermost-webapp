@@ -1,6 +1,5 @@
 {
     "baseUrl": "http://localhost:8065",
-    "mailboxAPI": "http://localhost:9000/api/v1/mailbox/",
     "viewportWidth": 1300,
     "defaultCommandTimeout": 20000,
     "taskTimeout": 20000,

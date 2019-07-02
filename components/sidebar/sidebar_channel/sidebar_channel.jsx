@@ -299,7 +299,9 @@ export default class SidebarChannel extends React.PureComponent {
                     handleClose={closeHandler}
                     hasDraft={this.props.hasDraft}
                     badge={badge}
+                    showUnreadForMsgs={this.props.showUnreadForMsgs}
                     unreadMentions={this.props.unreadMentions}
+                    unreadMsgs={this.props.unreadMsgs}
                     membersCount={this.props.membersCount}
                     teammateId={this.props.channelTeammateId}
                     teammateDeletedAt={this.props.channelTeammateDeletedAt}

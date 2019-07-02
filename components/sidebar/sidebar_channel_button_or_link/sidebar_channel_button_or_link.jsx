@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
+import {localizeMessage} from 'utils/utils.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import {isDesktopApp} from 'utils/user_agent.jsx';
@@ -31,7 +32,9 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         hasDraft: PropTypes.bool.isRequired,
         badge: PropTypes.bool,
         membersCount: PropTypes.number.isRequired,
-        unreadMentions: PropTypes.number,
+        showUnreadForMsgs: PropTypes.bool.isRequired,
+        unreadMsgs: PropTypes.number.isRequired,
+        unreadMentions: PropTypes.number.isRequired,
         teammateId: PropTypes.string,
         teammateDeletedAt: PropTypes.number,
         teammateIsBot: PropTypes.bool,
@@ -90,6 +93,26 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         );
 
         let element;
+        let ariaLabel = this.props.displayName;
+
+        if (this.props.channelType === Constants.OPEN_CHANNEL) {
+            ariaLabel += ` ${localizeMessage('accessibility.sidebar.types.public', 'public channel')}`;
+        } else if (this.props.channelType === Constants.PRIVATE_CHANNEL) {
+            ariaLabel += ` ${localizeMessage('accessibility.sidebar.types.private', 'private channel')}`;
+        }
+
+        if (this.props.unreadMentions === 1) {
+            ariaLabel += ` ${this.props.unreadMentions} ${localizeMessage('accessibility.sidebar.types.mention', 'mention')}`;
+        } else if (this.props.unreadMentions > 1) {
+            ariaLabel += ` ${this.props.unreadMentions} ${localizeMessage('accessibility.sidebar.types.mentions', 'mentions')}`;
+        }
+
+        if (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs && this.props.unreadMentions === 0) {
+            ariaLabel += ` ${localizeMessage('accessibility.sidebar.types.unread', 'unread')}`;
+        }
+
+        ariaLabel = ariaLabel.toLowerCase();
+
         if (isDesktopApp()) {
             element = (
                 <div>
@@ -99,6 +122,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                     >
                         <button
                             className={'btn btn-link ' + this.props.rowClass}
+                            aria-label={ariaLabel}
                             onClick={this.handleClick}
                         >
                             {content}
@@ -110,6 +134,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
             element = (
                 <Link
                     id={`sidebarItem_${this.props.channelName}`}
+                    aria-label={ariaLabel}
                     to={this.props.link}
                     className={this.props.rowClass}
                     onClick={this.trackChannelSelectedEvent}

@@ -18,9 +18,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item has-close"
+    showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
+    unreadMsgs={0}
   />
 </li>
 `;
@@ -45,9 +47,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item has-close"
+    showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
+    unreadMsgs={0}
   />
 </li>
 `;
@@ -70,9 +74,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/town-square"
     membersCount={8}
     rowClass="sidebar-item"
+    showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
+    unreadMsgs={0}
   />
   <SidebarTutorialTip
     offTopicDisplayName="Off-Topic"
@@ -99,9 +105,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item unread-title has-badge"
+    showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={4}
+    unreadMsgs={0}
   />
 </li>
 `;
@@ -124,9 +132,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item has-close"
+    showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
+    unreadMsgs={0}
   />
 </li>
 `;
@@ -159,9 +169,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item has-close"
+    showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="myself"
     unreadMentions={0}
+    unreadMsgs={0}
   />
 </li>
 `;
@@ -184,9 +196,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/town-square"
     membersCount={8}
     rowClass="sidebar-item"
+    showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
+    unreadMsgs={0}
   />
 </li>
 `;
@@ -209,9 +223,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/town-square"
     membersCount={8}
     rowClass="sidebar-item"
+    showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
+    unreadMsgs={0}
   />
 </li>
 `;
@@ -234,9 +250,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/channel-name?fakechannel=%7B%22display_name%22%3A%22Channel%20display%20name%22%2C%22name%22%3A%22channel-name%22%2C%22type%22%3A%22D%22%2C%22id%22%3A%22test-channel-id%22%2C%22status%22%3A%22test%22%2C%22fake%22%3Atrue%7D"
     membersCount={8}
     rowClass="sidebar-item has-close"
+    showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
+    unreadMsgs={0}
   />
 </li>
 `;
@@ -259,9 +277,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item"
+    showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
+    unreadMsgs={0}
   />
 </li>
 `;
@@ -284,9 +304,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item has-close"
+    showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
+    unreadMsgs={0}
   />
 </li>
 `;
@@ -319,9 +341,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item has-close"
+    showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="myself"
     unreadMentions={0}
+    unreadMsgs={0}
   />
 </li>
 `;
@@ -344,9 +368,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item"
+    showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
+    unreadMsgs={0}
   />
 </li>
 `;
@@ -369,9 +395,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item has-close"
+    showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
+    unreadMsgs={0}
   />
 </li>
 `;
@@ -394,9 +422,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item"
+    showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
+    unreadMsgs={0}
   />
 </li>
 `;
@@ -419,9 +449,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item has-close"
+    showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
+    unreadMsgs={0}
   />
 </li>
 `;
