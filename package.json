@@ -75,8 +75,6 @@
     "@babel/preset-env": "7.4.5",
     "@babel/preset-react": "7.0.0",
     "@babel/runtime": "7.4.5",
-    "@testing-library/cypress": "4.0.3",
-    "axios": "0.18.1",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.0.1",
     "babel-jest": "24.8.0",
@@ -86,9 +84,6 @@
     "copy-webpack-plugin": "5.0.3",
     "cross-env": "5.2.0",
     "css-loader": "2.1.1",
-    "cypress": "3.3.2",
-    "cypress-file-upload": "3.1.2",
-    "cypress-plugin-retries": "1.2.2",
     "enzyme": "3.9.0",
     "enzyme-adapter-react-16": "1.13.2",
     "enzyme-to-json": "3.3.5",
@@ -111,10 +106,8 @@
     "jest-cli": "24.8.0",
     "jest-junit": "6.4.0",
     "jquery-deferred": "0.3.1",
-    "merge-deep": "3.0.2",
     "mini-css-extract-plugin": "0.7.0",
     "mmjstool": "github:mattermost/mattermost-utilities#89543752e9c3b7fe4ad41d3af3821d3923198c20",
-    "mocha-junit-reporter": "1.22.0",
     "node-sass": "4.12.0",
     "react-router-enzyme-context": "^1.2.0",
     "redux-mock-store": "1.5.3",
@@ -193,8 +186,6 @@
     "updatesnapshot": "jest --updateSnapshot",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "cypress:run": "cypress run",
-    "cypress:open": "cypress open",
     "mmjstool": "mmjstool"
   }
 }
