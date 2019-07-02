@@ -98,6 +98,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
       }
     />
     <HeaderIconWrapper
+      ariaLabel={true}
       buttonClass="style--none channel-header__icon"
       buttonId="channelHeaderPinButton"
       iconComponent={
@@ -121,6 +122,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
       tooltipKey="search"
     />
     <HeaderIconWrapper
+      ariaLabel={true}
       buttonId="channelHeaderMentionButton"
       iconComponent={
         <MentionsIcon
@@ -132,6 +134,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
       tooltipKey="recentMentions"
     />
     <HeaderIconWrapper
+      ariaLabel={true}
       buttonId="channelHeaderFlagButton"
       iconComponent={
         <FlagIcon
@@ -330,6 +333,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
       }
     />
     <HeaderIconWrapper
+      ariaLabel={true}
       buttonClass="style--none channel-header__icon"
       buttonId="channelHeaderPinButton"
       iconComponent={
@@ -353,6 +357,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
       tooltipKey="search"
     />
     <HeaderIconWrapper
+      ariaLabel={true}
       buttonId="channelHeaderMentionButton"
       iconComponent={
         <MentionsIcon
@@ -364,6 +369,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
       tooltipKey="recentMentions"
     />
     <HeaderIconWrapper
+      ariaLabel={true}
       buttonId="channelHeaderFlagButton"
       iconComponent={
         <FlagIcon
@@ -533,6 +539,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
       }
     />
     <HeaderIconWrapper
+      ariaLabel={true}
       buttonClass="style--none channel-header__icon"
       buttonId="channelHeaderPinButton"
       iconComponent={
@@ -556,6 +563,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
       tooltipKey="search"
     />
     <HeaderIconWrapper
+      ariaLabel={true}
       buttonId="channelHeaderMentionButton"
       iconComponent={
         <MentionsIcon
@@ -567,6 +575,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
       tooltipKey="recentMentions"
     />
     <HeaderIconWrapper
+      ariaLabel={true}
       buttonId="channelHeaderFlagButton"
       iconComponent={
         <FlagIcon
@@ -747,6 +756,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
       }
     />
     <HeaderIconWrapper
+      ariaLabel={true}
       buttonClass="style--none channel-header__icon"
       buttonId="channelHeaderPinButton"
       iconComponent={
@@ -770,6 +780,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
       tooltipKey="search"
     />
     <HeaderIconWrapper
+      ariaLabel={true}
       buttonId="channelHeaderMentionButton"
       iconComponent={
         <MentionsIcon
@@ -781,6 +792,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
       tooltipKey="recentMentions"
     />
     <HeaderIconWrapper
+      ariaLabel={true}
       buttonId="channelHeaderFlagButton"
       iconComponent={
         <FlagIcon

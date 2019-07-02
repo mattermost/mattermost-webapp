@@ -1849,7 +1849,7 @@
     .card-icon__container {
         @extend %btn-transition;
         @include opacity(.24);
-        margin-left: 7px;
+        margin: 0 6px 0 4px;
         vertical-align: top;
         top: 2px;
         position: relative;

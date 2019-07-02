@@ -282,11 +282,7 @@ export default class SignupEmail extends React.Component {
             >
                 <FormattedMessage
                     id='signup_user_completed.userHelp'
-                    defaultMessage="Username must begin with a letter, and contain between {min} to {max} lowercase characters made up of numbers, letters, and the symbols '.', '-' and '_'"
-                    values={{
-                        min: Constants.MIN_USERNAME_LENGTH,
-                        max: Constants.MAX_USERNAME_LENGTH,
-                    }}
+                    defaultMessage='You can use lowercase letters, numbers, periods, dashes, and underscores.'
                 />
             </span>
         );
