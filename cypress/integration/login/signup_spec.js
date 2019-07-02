@@ -66,7 +66,7 @@ describe('Signup Email page', () => {
 
         cy.get('#name_label').should('contain', 'Choose your username');
         cy.get('#name').should('be.visible');
-        cy.get('#valid_name').should('contain', 'Username must begin with a letter, and contain between 3 to 22 lowercase characters made up of numbers, letters, and the symbols \'.\', \'-\' and \'_\'');
+        cy.get('#valid_name').should('contain', 'You can use lowercase letters, numbers, periods, dashes, and underscores.');
 
         cy.get('#password_label').should('contain', 'Choose your password');
         cy.get('#password').should('be.visible');

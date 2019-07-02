@@ -209,15 +209,20 @@
             cursor: pointer;
         }
 
+        .sidebar-section__header {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            font-weight: 600;
+            margin: 1.5em 0 .7em;
+            padding: 0 12px 0 15px;
+            text-transform: uppercase;
+        }
+
         li {
             > h4 {
-                align-items: end;
-                display: flex;
                 font-size: 1em;
-                font-weight: 600;
-                margin: 1.5em 0 .7em;
-                padding: 0 12px 0 15px;
-                text-transform: uppercase;
+                margin: 0;
 
                 span {
                     flex: 1;
@@ -365,6 +370,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        line-height: 0;
 
         &:hover {
             color: #666666;

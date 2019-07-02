@@ -16,6 +16,11 @@ function searchAndValidate(query, expectedResults = []) {
     // # Enter in search query, and hit enter
     cy.get('#searchBox').clear().type(query).type('{enter}');
 
+    if (expectedResults.length > 0) {
+        // * Verify that there's search item before querying by test ID
+        cy.get('.search-item__container').should('be.visible');
+    }
+
     // * Verify the amount of results matches the amount of our expected results
     cy.queryAllByTestId('search-item-container').should('have.length', expectedResults.length).then((results) => {
         if (expectedResults.length > 0) {
@@ -73,6 +78,7 @@ describe('SF15699 Search Date Filter', () => {
     const secondDateLater = getMsAndQueryForDate(Date.UTC(2018, 9, 15, 13, 25)); // October 15th, 2018 @ 1:25pm
 
     const baseUrl = Cypress.config('baseUrl');
+    let newAdmin;
 
     before(() => {
         // # Login as the sysadmin.
@@ -100,6 +106,7 @@ describe('SF15699 Search Date Filter', () => {
 
         // # Set user to be a sysadmin, so it can access the system console
         cy.get('@newAdmin').then((user) => {
+            newAdmin = user;
             cy.task('externalRequest', {user: users.sysadmin, method: 'put', baseUrl, path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}}).
                 its('status').
                 should('be.equal', 200);
@@ -191,10 +198,6 @@ describe('SF15699 Search Date Filter', () => {
         });
 
         describe('works without leading 0 in', () => {
-            before(() => {
-                cy.reload();
-            });
-
             // These must match the date of the firstMessage, only altering leading zeroes
             const tests = [
                 {name: 'day', date: '2018-06-5'},
@@ -234,8 +237,8 @@ describe('SF15699 Search Date Filter', () => {
             searchAndValidate(`before:${secondDateEarly.query} in:town-square ${timestamp}`, [firstMessage]);
         });
 
-        it('can be used in conjunction with "from:"', function() {
-            searchAndValidate(`before:${secondDateEarly.query} from:${this.newAdmin.username} ${timestamp}`, [firstMessage]);
+        it('can be used in conjunction with "from:"', () => {
+            searchAndValidate(`before:${secondDateEarly.query} from:${newAdmin.username} ${timestamp}`, [firstMessage]);
         });
 
         it('using a date from the future shows results', () => {
@@ -252,8 +255,8 @@ describe('SF15699 Search Date Filter', () => {
             searchAndValidate(`after:${firstDateEarly.query} in:town-square ${timestamp}`, [todayMessage, secondMessage]);
         });
 
-        it('can be used in conjunction with "from:"', function() {
-            searchAndValidate(`after:${firstDateEarly.query} from:${this.newAdmin.username} ${timestamp}`, [secondOffTopicMessage]);
+        it('can be used in conjunction with "from:"', () => {
+            searchAndValidate(`after:${firstDateEarly.query} from:${newAdmin.username} ${timestamp}`, [secondOffTopicMessage]);
         });
 
         it('using a date from the future shows no results', () => {
@@ -278,8 +281,8 @@ describe('SF15699 Search Date Filter', () => {
             searchAndValidate(`on:${secondDateEarly.query} in:town-square ${timestamp}`, [secondMessage]);
         });
 
-        it('can be used in conjunction with "from:"', function() {
-            searchAndValidate(`on:${secondDateEarly.query} from:${this.newAdmin.username} ${timestamp}`, [secondOffTopicMessage]);
+        it('can be used in conjunction with "from:"', () => {
+            searchAndValidate(`on:${secondDateEarly.query} from:${newAdmin.username} ${timestamp}`, [secondOffTopicMessage]);
         });
 
         it('works from 12:00am to 11:59pm', () => {
@@ -334,8 +337,8 @@ describe('SF15699 Search Date Filter', () => {
             searchAndValidate(`before:${Cypress.moment().format('YYYY-MM-DD')} after:${firstDateEarly.query} ${timestamp}`, [secondOffTopicMessage, secondMessage]);
         });
 
-        it('"before:", "after:", "from:", and "in:" can be used in one search', function() {
-            searchAndValidate(`before:${Cypress.moment().format('YYYY-MM-DD')} after:${firstDateEarly.query} from:${this.newAdmin.username} in:off-topic ${timestamp}`, [secondOffTopicMessage]);
+        it('"before:", "after:", "from:", and "in:" can be used in one search', () => {
+            searchAndValidate(`before:${Cypress.moment().format('YYYY-MM-DD')} after:${firstDateEarly.query} from:${newAdmin.username} in:off-topic ${timestamp}`, [secondOffTopicMessage]);
         });
     });
 
@@ -410,7 +413,7 @@ describe('SF15699 Search Date Filter', () => {
 
             // # Post message with unique text
             cy.getCurrentChannelId().then((channelId) => {
-                cy.postMessageAs(users.sysadmin, targetMessage, channelId, target.ms);
+                cy.task('postMessageAs', {sender: users.sysadmin, message: targetMessage, channelId, createAt: target.ms, baseUrl});
             });
 
             // * Verify result appears in current timezone
