@@ -12,29 +12,47 @@
 import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {reUrl} from '../../utils';
+import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
 
-const user1 = users['user-1'];
-const user2 = users['user-2'];
-
-const text = `Hello @${user2.username}`;
-const feedbackEmail = 'test@example.com';
+let config;
 
 describe('Email notification', () => {
+    let mentionedUser;
+
     before(() => {
-        cy.apiUpdateConfig({EmailSettings: {FeedbackEmail: feedbackEmail}});
+        cy.apiGetConfig().then((response) => {
+            config = response.body;
+        });
+
+        cy.visit('/');
+        cy.url().should('include', '/channels/town-square');
+
+        cy.getCurrentTeamId().then((teamId) => {
+            cy.createNewUser({}, [teamId]).then((user) => {
+                mentionedUser = user;
+            });
+        });
     });
 
     it('post a message that mentions a user', () => {
+        // # Login as user-1 and visit town-square channel
         cy.apiLogin('user-1');
         cy.visit('/ad-1/channels/town-square');
+
+        // # Post a message mentioning the new user
+        const text = `Hello @${mentionedUser.username}`;
         cy.postMessage(text);
 
         // Wait for a while to ensure that email notification is sent.
         cy.wait(TIMEOUTS.SMALL);
 
-        cy.task('getRecentEmail', {username: 'user-2'}).then((response) => {
-            verifyEmailNotification(response, 'eligendi', 'Town Square', user2, user1, text, feedbackEmail);
+        const baseUrl = Cypress.config('baseUrl');
+        const mailUrl = getEmailUrl(baseUrl);
+
+        cy.task('getRecentEmail', {username: mentionedUser.username, mailUrl}).then((response) => {
+            const messageSeparator = getEmailMessageSeparator(baseUrl);
+            const user1 = users['user-1'];
+            verifyEmailNotification(response, config.TeamSettings.SiteName, 'eligendi', 'Town Square', mentionedUser, user1, text, config.EmailSettings.FeedbackEmail, config.SupportSettings.SupportEmail, messageSeparator);
 
             const bodyText = response.data.body.text.split('\n');
 
@@ -55,36 +73,36 @@ describe('Email notification', () => {
     });
 });
 
-function verifyEmailNotification(response, teamDisplayName, channelDisplayName, mentionedUser, byUser, message, fromEmail) {
+function verifyEmailNotification(response, siteName, teamDisplayName, channelDisplayName, mentionedUser, byUser, message, feedbackEmail, supportEmail, messageSeparator) {
     const isoDate = new Date().toISOString().substring(0, 10);
     const {data, status} = response;
 
     // * Should return success status
     expect(status).to.equal(200);
 
-    // * Verify that email is addressed to user-2
+    // * Verify that email is addressed to mentionedUser
     expect(data.to.length).to.equal(1);
     expect(data.to[0]).to.contain(mentionedUser.email);
 
     // * Verify that email is from default feedback email
-    expect(data.from).to.contain(fromEmail);
+    expect(data.from).to.contain(feedbackEmail);
 
     // * Verify that date is current
     expect(data.date).to.contain(isoDate);
 
     // * Verify that the email subject is correct
-    expect(data.subject).to.contain(`[Mattermost] Notification in ${teamDisplayName}`);
+    expect(data.subject).to.contain(`[${siteName}] Notification in ${teamDisplayName}`);
 
     // * Verify that the email body is correct
-    const bodyText = data.body.text.split('\r\n');
+    const bodyText = data.body.text.split(messageSeparator);
     expect(bodyText.length).to.equal(16);
     expect(bodyText[1]).to.equal('You have a new notification.');
     expect(bodyText[4]).to.equal(`Channel: ${channelDisplayName}`);
     expect(bodyText[5]).to.contain(`@${byUser.username}`);
     expect(bodyText[7]).to.equal(`${message}`);
     expect(bodyText[9]).to.contain('Go To Post');
-    expect(bodyText[11]).to.equal('Any questions at all, mail us any time: feedback@mattermost.com');
+    expect(bodyText[11]).to.equal(`Any questions at all, mail us any time: ${supportEmail}`);
     expect(bodyText[12]).to.equal('Best wishes,');
-    expect(bodyText[13]).to.equal('The Mattermost Team');
+    expect(bodyText[13]).to.equal(`The ${siteName} Team`);
     expect(bodyText[15]).to.equal('To change your notification preferences, log in to your team site and go to Account Settings > Notifications.');
 }

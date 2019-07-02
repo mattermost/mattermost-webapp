@@ -128,6 +128,7 @@ export default class PluginRegistry {
 
     // Register a component to render a custom body for posts with a specific type.
     // Custom post types must be prefixed with 'custom_'.
+    // Custom post types can also apply for ephemeral posts.
     // Accepts a string type and a component.
     // Returns a unique identifier.
     registerPostTypeComponent(type, component) {
