@@ -30,34 +30,26 @@ describe('System Message', () => {
         cy.visit('/');
     });
 
-    it('MM-15240 - No status on a system message', () => {
-        // const channelHeader = ' Updating header'.repeat(Math.floor(Math.random() * 10));
-        const displayTypes = ['COMPACT', 'STANDARD'];
+    const displayTypes = ['COMPACT', 'STANDARD'];
 
-        displayTypes.forEach((type) => {
-            it(`has no status on ${type} display`, () => {
-                // # Set message display
-                cy.changeMessageDisplaySetting(type);
+    displayTypes.forEach((type) => {
+        it(`MM-15240 - no status on a system message with ${type} display`, () => {
+        // # Set message display
+            cy.changeMessageDisplaySetting(type);
 
-                // # Update the header to a long string
-                // cy.updateChannelHeader('>' + channelHeader);
-                cy.getCurrentChannelId().then((channelId) => {
-                    cy.apiUpdateChannel({
-                        channelId: channelId,
-                        header: ' Updating header'.repeat(Math.floor(Math.random() * 10)),
-                    }).then((response) => {
-                        if (response.status_code === 200) {
-                            // # Get last post
-                            cy.getLastPostId().then((postId) => {
-                                cy.get(`#post_${postId}`).as('SystemMessage');
-                            });
-
-                            // * Verify it is a system message and that the status icon is not visible
-                            verifySystemMessage('@SystemMessage');
-                        } else {
-                            cy.url().should('include', 'pizza');
-                        }
+            // # Update the header to a long string
+            cy.getCurrentChannelId().then((channelId) => {
+                cy.apiUpdateChannel({
+                    id: channelId,
+                    header: ' Updating header',
+                }).then(() => {
+                    // # Get last post
+                    cy.getLastPostId().then((postId) => {
+                        cy.get(`#post_${postId}`).as('SystemMessage');
                     });
+
+                    // * Verify it is a system message and that the status icon is not visible
+                    verifySystemMessage('@SystemMessage');
                 });
             });
         });

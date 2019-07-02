@@ -107,18 +107,19 @@ Cypress.Commands.add('apiDeleteChannel', (channelId) => {
 /**
  * Updates a channel directly via API
  * This API assume that the user is logged in and has cookie to access
- * @param {String} channelId - The channel's id, not updatable
- * @param {String} name - The unique handle for the channel, will be present in the channel URL
- * @param {String} displayName - The non-unique UI name for the channel
- * @param {String} type - 'O' for a public channel (default), 'P' for a private channel
- * @param {String} purpose - A short description of the purpose of the channel
- * @param {String} header - Markdown-formatted text to display in the header of the channel
+ * @param {Object} parameters
+ *   {String} id - The channel's id, not updatable
+ *   {String} name - The unique handle for the channel, will be present in the channel URL
+ *   {String} display_name - The non-unique UI name for the channel
+ *   {String} type - 'O' for a public channel (default), 'P' for a private channel
+ *   {String} purpose - A short description of the purpose of the channel
+ *   {String} header - Markdown-formatted text to display in the header of the channel
  * Only channelId is required
  */
 Cypress.Commands.add('apiUpdateChannel', (parameters) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/channels/' + parameters.channelId,
+        url: '/api/v4/channels/' + parameters.id,
         method: 'PUT',
         body: parameters,
     });
