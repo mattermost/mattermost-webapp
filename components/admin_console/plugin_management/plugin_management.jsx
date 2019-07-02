@@ -542,7 +542,7 @@ export default class PluginManagement extends AdminSettings {
         });
     }
 
-    helpSubmitInstall = async (force) => {
+    installFromUrl = async (force) => {
         const {pluginDownloadUrl} = this.state;
 
         this.setState({
@@ -589,7 +589,7 @@ export default class PluginManagement extends AdminSettings {
 
     handleSubmitInstall = (e) => {
         e.preventDefault();
-        return this.helpSubmitInstall(false);
+        return this.installFromUrl(false);
     }
 
     handleOverwriteInstallPluginCancel = () => {
@@ -603,7 +603,7 @@ export default class PluginManagement extends AdminSettings {
 
     handleOverwriteInstallPlugin = () => {
         this.setState({confirmOverwriteInstallModal: false});
-        return this.helpSubmitInstall(true);
+        return this.installFromUrl(true);
     }
 
     handleRemove = async (e) => {
