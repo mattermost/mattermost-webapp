@@ -12,7 +12,7 @@ import ToggleModalButton from 'components/toggle_modal_button.jsx';
 
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
-import GroupList from '../../group/groups.jsx';
+import GroupList from '../../group';
 
 export const TeamGroups = ({onGroupRemoved, syncChecked, team, onAddCallback, totalGroups, groups, removedGroups}) => (
     <AdminPanel

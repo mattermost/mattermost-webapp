@@ -10,7 +10,7 @@ import {t} from 'utils/i18n';
 import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
 import ToggleModalButton from 'components/toggle_modal_button';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
-import GroupList from '../../group/groups';
+import GroupList from '../../group';
 
 export const ChannelGroups = ({onGroupRemoved, onAddCallback, totalGroups, groups, removedGroups, channel, synced}) => (
     <AdminPanel

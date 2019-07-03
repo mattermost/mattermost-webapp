@@ -5,12 +5,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-
-import {connect} from 'react-redux';
-
 import {t} from 'utils/i18n';
-import TeamList from 'components/admin_console/team_channel_settings/team/teams';
+import TeamList from 'components/admin_console/team_channel_settings/team/list';
 import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
 
 export class TeamsSettings extends React.Component {
@@ -60,14 +56,3 @@ export class TeamsSettings extends React.Component {
         );
     };
 }
-
-function mapStateToProps(state) {
-    const config = getConfig(state);
-    const siteName = config.SiteName;
-
-    return {
-        siteName,
-    };
-}
-
-export default connect(mapStateToProps)(TeamsSettings);
