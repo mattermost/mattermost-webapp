@@ -239,8 +239,6 @@ export const A11yAttributeNames = {
 };
 
 export const A11yCustomEventTypes = {
-    FOCUS: 'a11yfocus',
-    BLUR: 'a11yblur',
     ACTIVATE: 'a11yactivate',
     DEACTIVATE: 'a11ydeactivate',
 };
