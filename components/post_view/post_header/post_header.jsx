@@ -150,8 +150,11 @@ export default class PostHeader extends React.PureComponent {
 
         return (
             <div className='post__header'>
-                <div className='col col__name'>{userProfile}{colon}</div>
-                {indicator}
+                <div className='col col__name'>
+                    {userProfile}
+                    {colon}
+                    {indicator}
+                </div>
                 <div className='col'>
                     <PostInfo
                         post={post}
