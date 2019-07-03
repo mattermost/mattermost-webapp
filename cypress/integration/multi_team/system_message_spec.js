@@ -23,26 +23,26 @@ function verifySystemMessage(post) {
         should('not.be.visible');
 }
 
-describe('System Message', () => {
+describe('MM-15240 - no status on a system message', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
     });
 
-    const displayTypes = ['COMPACT', 'STANDARD'];
+    const displayTypes = ['compact', 'clean'];
 
     displayTypes.forEach((type) => {
-        it(`MM-15240 - no status on a system message with ${type} display`, () => {
-        // # Set message display
-            cy.changeMessageDisplaySetting(type);
+        it(`should have no status with ${type} display`, () => {
+            // # Set message display
+            cy.apiSaveMessageDisplayPreference(type);
 
-            // # Update the header to a long string
+            // # Update the header
             cy.getCurrentChannelId().then((channelId) => {
-                cy.apiUpdateChannel({
-                    id: channelId,
-                    header: ' Updating header',
-                }).then(() => {
+                cy.apiPatchChannel(
+                    channelId,
+                    {header: ' Updating header'.repeat(Math.floor(Math.random() * 10))}
+                ).then(() => {
                     // # Get last post
                     cy.getLastPostId().then((postId) => {
                         cy.get(`#post_${postId}`).as('SystemMessage');
