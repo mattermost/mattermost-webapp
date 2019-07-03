@@ -241,6 +241,7 @@ export const A11yAttributeNames = {
 export const A11yCustomEventTypes = {
     ACTIVATE: 'a11yactivate',
     DEACTIVATE: 'a11ydeactivate',
+    UPDATE: 'a11yupdate',
 };
 
 export const SocketEvents = {

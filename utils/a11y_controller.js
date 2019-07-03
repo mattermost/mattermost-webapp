@@ -86,6 +86,18 @@ export default class A11yController {
         return reverseSections && reverseSections.toLowerCase() === 'true';
     }
 
+    get focusedElement() {
+        let focusedElement;
+        if (this.activeElement) {
+            focusedElement = this.activeElement;
+        } else if (this.activeSection) {
+            focusedElement = this.activeSection;
+        } else if (this.activeRegion) {
+            focusedElement = this.activeRegion;
+        }
+        return focusedElement;
+    }
+
     // public methods
 
     nextRegion() {
@@ -204,17 +216,16 @@ export default class A11yController {
             return;
         }
 
+        // clear previous active region
         this.clearActiveRegion();
 
         // setup new active region
         this.activeRegion = element;
-        this.activeRegion.classList.add(A11yClassNames.ACTIVE);
+        this.activeRegion.addEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveRegionUpdate);
         this.activeRegion.dispatchEvent(new Event(A11yCustomEventTypes.ACTIVATE));
 
-        // ensure active region element is focusable
-        if (!this.activeRegion.getAttribute('tabindex')) {
-            this.activeRegion.setAttribute('tabindex', -1);
-        }
+        // apply visual updates to active region
+        this.updateActiveRegion();
 
         // retrieve all sections for the new active region
         this.sectionHTMLCollection = this.getAllSectionsForRegion(this.activeRegion);
@@ -231,17 +242,16 @@ export default class A11yController {
             return;
         }
 
+        // clear previous active section
         this.clearActiveSection();
 
         // setup new active section
         this.activeSection = element;
-        this.activeSection.classList.add(A11yClassNames.ACTIVE);
+        this.activeSection.addEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveSectionUpdate);
         this.activeSection.dispatchEvent(new Event(A11yCustomEventTypes.ACTIVATE));
 
-        // ensure active section element is focusable
-        if (!this.activeSection.getAttribute('tabindex')) {
-            this.activeSection.setAttribute('tabindex', -1);
-        }
+        // apply visual updates to active section
+        this.updateActiveSection();
     }
 
     setActiveElement(element) {
@@ -254,14 +264,67 @@ export default class A11yController {
 
         // setup new active element
         this.activeElement = element;
-        this.activeElement.classList.add(A11yClassNames.ACTIVE);
+        this.activeElement.addEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveElementUpdate);
         this.activeElement.dispatchEvent(new Event(A11yCustomEventTypes.ACTIVATE));
+
+        // apply visual updates to active element
+        this.updateActiveElement();
+    }
+
+    setCurrentFocus() {
+        this.clearCurrentFocus();
+        if (!this.focusedElement) {
+            return;
+        }
+
+        this.focusedElement.focus();
+
+        // apply visual updates to focused element
+        this.udpateCurrentFocus();
+    }
+
+    updateActiveRegion() {
+        if (!this.activeRegion) {
+            return;
+        }
+        this.activeRegion.classList.add(A11yClassNames.ACTIVE);
+
+        // ensure active region element is focusable
+        if (!this.activeRegion.getAttribute('tabindex')) {
+            this.activeRegion.setAttribute('tabindex', -1);
+        }
+    }
+
+    updateActiveSection() {
+        if (!this.activeSection) {
+            return;
+        }
+        this.activeSection.classList.add(A11yClassNames.ACTIVE);
+
+        // ensure active section element is focusable
+        if (!this.activeSection.getAttribute('tabindex')) {
+            this.activeSection.setAttribute('tabindex', -1);
+        }
+    }
+
+    updateActiveElement() {
+        if (!this.activeElement) {
+            return;
+        }
+        this.activeElement.classList.add(A11yClassNames.ACTIVE);
+    }
+
+    udpateCurrentFocus() {
+        if (!this.focusedElement) {
+            return;
+        }
+        this.focusedElement.classList.add(A11yClassNames.FOCUSED);
     }
 
     clearActiveRegion() {
         if (this.activeRegion) {
             this.activeRegion.classList.remove(A11yClassNames.ACTIVE);
-
+            this.activeRegion.removeEventListener('a11yupdate', this.handleActiveRegionUpdate);
             this.activeRegion.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
             this.activeRegion = null;
         }
@@ -271,7 +334,7 @@ export default class A11yController {
     clearActiveSection() {
         if (this.activeSection) {
             this.activeSection.classList.remove(A11yClassNames.ACTIVE);
-
+            this.activeSection.removeEventListener('a11yupdate', this.handleActiveSectionUpdate);
             this.activeSection.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
             this.activeSection = null;
         }
@@ -281,25 +344,9 @@ export default class A11yController {
     clearActiveElement() {
         if (this.activeElement) {
             this.activeElement.classList.remove(A11yClassNames.ACTIVE);
-
+            this.activeElement.removeEventListener('a11yupdate', this.handleActiveElementUpdate);
             this.activeElement.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
             this.activeElement = null;
-        }
-    }
-
-    setCurrentFocus() {
-        this.clearCurrentFocus();
-        let focusedElement;
-        if (this.activeElement) {
-            focusedElement = this.activeElement;
-        } else if (this.activeSection) {
-            focusedElement = this.activeSection;
-        } else if (this.activeRegion) {
-            focusedElement = this.activeRegion;
-        }
-        if (focusedElement) {
-            focusedElement.classList.add(A11yClassNames.FOCUSED);
-            focusedElement.focus();
         }
     }
 
@@ -412,5 +459,20 @@ export default class A11yController {
             return;
         }
         this.nextElement(event.target, event.path);
+    }
+
+    handleActiveRegionUpdate = () => {
+        this.updateActiveRegion();
+        this.udpateCurrentFocus();
+    }
+
+    handleActiveSectionUpdate = () => {
+        this.updateActiveSection();
+        this.udpateCurrentFocus();
+    }
+
+    handleActiveElementUpdate = () => {
+        this.updateActiveElement();
+        this.udpateCurrentFocus();
     }
 }

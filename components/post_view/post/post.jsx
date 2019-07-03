@@ -106,6 +106,10 @@ export default class Post extends React.PureComponent {
         this.postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
     }
 
+    componentDidUpdate() {
+        this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
+    }
+
     handleCommentClick = (e) => {
         e.preventDefault();
 

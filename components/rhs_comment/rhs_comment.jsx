@@ -71,6 +71,10 @@ export default class RhsComment extends React.PureComponent {
         this.postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
     }
 
+    componentDidUpdate() {
+        this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
+    }
+
     removePost = () => {
         this.props.removePost(this.props.post);
     };
