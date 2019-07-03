@@ -16,6 +16,26 @@ export default class SearchSuggestionList extends SuggestionList {
         ...SuggestionList.propTypes,
     };
 
+    constructor(props) {
+        super(props);
+        this.suggestionReadOut = React.createRef();
+        this.currentLabel = '';
+    }
+
+    componentDidUpdate() {
+        setTimeout(() => {
+            this.announceLabel();
+        }, 0);
+    }
+
+    announceLabel() {
+        console.log(this.currentLabel);
+        const suggestionReadOut = this.refs.suggestionReadOut;
+        if (suggestionReadOut) {
+            suggestionReadOut.innerHTML = this.currentLabel;
+        }
+    }
+
     getContent() {
         return $(ReactDOM.findDOMNode(this.refs.popover)).find('.popover-content');
     }
@@ -69,6 +89,17 @@ export default class SearchSuggestionList extends SuggestionList {
             // ReactComponent names need to be upper case when used in JSX
             const Component = this.props.components[i];
 
+            if (isSelection) {
+                if (item.type === Constants.DM_CHANNEL || item.type === Constants.GM_CHANNEL) {
+                    this.currentLabel = item.display_name;
+                } else if (item.username) {
+                    this.currentLabel = item.username;
+                } else {
+                    this.currentLabel = item.name;
+                }
+                this.announceLabel();
+            }
+
             // temporary hack to add dividers between public and private channels in the search suggestion list
             if (this.props.renderDividers) {
                 if (i === 0 || item.type !== this.props.items[i - 1].type) {
@@ -104,7 +135,7 @@ export default class SearchSuggestionList extends SuggestionList {
             >
                 {items}
                 <div
-                    id='suggestionReadOut'
+                    ref='suggestionReadOut'
                     aria-live='polite'
                     className='hidden-label'
                 />

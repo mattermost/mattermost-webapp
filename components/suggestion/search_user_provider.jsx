@@ -12,24 +12,6 @@ import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
 
 class SearchUserSuggestion extends Suggestion {
-    componentDidMount() {
-        // Pause the event loop and Wait for the aria-live element to be up
-        setTimeout(() => {
-            this.announceLabel();
-        }, 0);
-    }
-
-    componentDidUpdate() {
-        this.announceLabel();
-    }
-
-    announceLabel() {
-        const {item, isSelection} = this.props;
-        if (isSelection) {
-            document.getElementById('suggestionReadOut').innerHTML = item.username;
-        }
-    }
-
     render() {
         const {item, isSelection} = this.props;
 
