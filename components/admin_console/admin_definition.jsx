@@ -903,7 +903,6 @@ export default {
                         label: t('admin.environment.smtp.connectionSecurity.title'),
                         label_default: 'Connection Security:',
                         help_text: DefinitionConstants.CONNECTION_SECURITY_HELP_TEXT_EMAIL,
-                        isHidden: it.isnt(it.licensedForFeature('EmailNotificationContents')),
                         options: [
                             {
                                 value: '',
