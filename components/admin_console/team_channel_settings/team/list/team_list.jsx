@@ -8,7 +8,34 @@ import TeamRow from 'components/admin_console/team_channel_settings/team/list/te
 import AbstractList from 'components/admin_console/team_channel_settings/abstract_list.jsx';
 import {browserHistory} from 'utils/browser_history';
 
-export default class TeamList extends AbstractList {
+const Header = () => (
+    <div className='groups-list--header'>
+        <div className='group-name'>
+            <FormattedMessage
+                id='admin.team_settings.team_list.nameHeader'
+                defaultMessage='Name'
+            />
+        </div>
+        <div className='group-description'>
+            <FormattedMessage
+                id='admin.team_settings.team_list.mappingHeader'
+                defaultMessage='Management'
+            />
+        </div>
+        <div className='group-actions'/>
+    </div>
+);
+
+export default class TeamList extends React.PureComponent {
+    render() {
+        return (
+            <AbstractList
+                header={<Header/>}
+                renderRow={this.renderRow}
+                {...this.props}
+            />);
+    }
+
     renderRow = (item) => {
         return (
             <TeamRow
@@ -21,26 +48,6 @@ export default class TeamList extends AbstractList {
 
     onTeamClick = (id) => {
         browserHistory.push(`/admin_console/user_management/teams/${id}`);
-    }
-
-    renderHeader() {
-        return (
-            <div className='groups-list--header'>
-                <div className='group-name'>
-                    <FormattedMessage
-                        id='admin.team_settings.team_list.nameHeader'
-                        defaultMessage='Name'
-                    />
-                </div>
-                <div className='group-description'>
-                    <FormattedMessage
-                        id='admin.team_settings.team_list.mappingHeader'
-                        defaultMessage='Management'
-                    />
-                </div>
-                <div className='group-actions'/>
-            </div>
-        );
     }
 }
 

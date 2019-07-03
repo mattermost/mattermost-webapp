@@ -10,11 +10,13 @@ import PreviousIcon from 'components/icon/previous_icon';
 
 const PAGE_SIZE = 10;
 
-export default class List extends React.PureComponent {
+export default class AbstractList extends React.PureComponent {
     static propTypes = {
         data: PropTypes.arrayOf(PropTypes.object),
         onPageChangedCallback: PropTypes.func,
         total: PropTypes.number.isRequired,
+        header: PropTypes.node.isRequired,
+        renderRow: PropTypes.func.isRequired,
         emptyListTextId: PropTypes.string.isRequired,
         emptyListTextDefaultMessage: PropTypes.string.isRequired,
         actions: PropTypes.shape({
@@ -71,7 +73,7 @@ export default class List extends React.PureComponent {
                 </div>
             );
         }
-        return this.props.data.slice(0, PAGE_SIZE).map(this.renderRow);
+        return this.props.data.slice(0, PAGE_SIZE).map(this.props.renderRow);
     }
 
     performSearch = (page) => {
@@ -105,7 +107,7 @@ export default class List extends React.PureComponent {
         const firstPage = this.state.page === 0;
         return (
             <div className='groups-list'>
-                {this.renderHeader()}
+                {this.props.header}
                 <div className='groups-list--body'>
                     {this.renderRows()}
                 </div>

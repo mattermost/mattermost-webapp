@@ -9,7 +9,42 @@ import {browserHistory} from 'utils/browser_history';
 
 import ChannelRow from './channel_row';
 
-export default class ChannelList extends AbstractList {
+const Header = () => {
+    return (
+        <div className='groups-list--header'>
+            <div className='group-name'>
+                <FormattedMessage
+                    id='admin.channel_settings.channel_list.nameHeader'
+                    defaultMessage='Name'
+                />
+            </div>
+            <div className='group-description'>
+                <FormattedMessage
+                    id='admin.channel_settings.channel_list.teamHeader'
+                    defaultMessage='Team'
+                />
+            </div>
+            <div className='group-description'>
+                <FormattedMessage
+                    id='admin.channel_settings.channel_list.managementHeader'
+                    defaultMessage='Management'
+                />
+            </div>
+            <div className='group-actions'/>
+        </div>
+    );
+};
+
+export default class ChannelList extends React.PureComponent {
+    render() {
+        return (
+            <AbstractList
+                header={<Header/>}
+                renderRow={this.renderRow}
+                {...this.props}
+            />);
+    }
+
     renderRow = (item) => {
         return (
             <ChannelRow
@@ -22,32 +57,6 @@ export default class ChannelList extends AbstractList {
 
     onChannelClick = (id) => {
         browserHistory.push(`/admin_console/user_management/channels/${id}`);
-    }
-
-    renderHeader() {
-        return (
-            <div className='groups-list--header'>
-                <div className='group-name'>
-                    <FormattedMessage
-                        id='admin.channel_settings.channel_list.nameHeader'
-                        defaultMessage='Name'
-                    />
-                </div>
-                <div className='group-description'>
-                    <FormattedMessage
-                        id='admin.channel_settings.channel_list.teamHeader'
-                        defaultMessage='Team'
-                    />
-                </div>
-                <div className='group-description'>
-                    <FormattedMessage
-                        id='admin.channel_settings.channel_list.managementHeader'
-                        defaultMessage='Management'
-                    />
-                </div>
-                <div className='group-actions'/>
-            </div>
-        );
     }
 }
 

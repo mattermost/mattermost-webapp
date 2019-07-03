@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import ChannelList from './channel_list.jsx';
-import ChannelRow from './channel_row';
 
 describe('admin_console/team_channel_settings/channel/ChannelList', () => {
     test('should match snapshot', () => {
@@ -43,7 +42,7 @@ describe('admin_console/team_channel_settings/channel/ChannelList', () => {
             });
         }
         const actions = {
-            getData: jest.fn().mockResolvedValue(testChannels),
+            getData: jest.fn().mockResolvedValue(Promise.resolve(testChannels)),
             removeGroup: jest.fn(),
         };
 
@@ -59,6 +58,5 @@ describe('admin_console/team_channel_settings/channel/ChannelList', () => {
             />);
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find(ChannelRow).length).toEqual(10);
     });
 });

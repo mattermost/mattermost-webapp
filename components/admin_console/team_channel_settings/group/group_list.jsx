@@ -4,11 +4,37 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import PropTypes from 'prop-types';
+
 import AbstractList from 'components/admin_console/team_channel_settings/abstract_list.jsx';
 
 import GroupRow from './group_row';
 
-export default class GroupList extends AbstractList {
+const Header = () => {
+    return (
+        <div className='groups-list--header'>
+            <div className='group-name'>
+                <FormattedMessage
+                    id='admin.team_channel_settings.group_list.nameHeader'
+                    defaultMessage='Name'
+                />
+            </div>
+            <div className='group-description'>
+                <FormattedMessage
+                    id='admin.team_channel_settings.group_list.membersHeader'
+                    defaultMessage='Members'
+                />
+            </div>
+            <div className='group-actions'/>
+        </div>
+    );
+};
+
+export default class GroupList extends React.PureComponent {
+    static propTypes = {
+        removeGroup: PropTypes.func,
+    }
+
     renderRow = (item) => {
         return (
             <GroupRow
@@ -19,24 +45,13 @@ export default class GroupList extends AbstractList {
         );
     }
 
-    renderHeader() {
+    render() {
         return (
-            <div className='groups-list--header'>
-                <div className='group-name'>
-                    <FormattedMessage
-                        id='admin.team_channel_settings.group_list.nameHeader'
-                        defaultMessage='Name'
-                    />
-                </div>
-                <div className='group-description'>
-                    <FormattedMessage
-                        id='admin.team_channel_settings.group_list.membersHeader'
-                        defaultMessage='Members'
-                    />
-                </div>
-                <div className='group-actions'/>
-            </div>
-        );
+            <AbstractList
+                header={<Header/>}
+                renderRow={this.renderRow}
+                {...this.props}
+            />);
     }
 }
 

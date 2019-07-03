@@ -44,7 +44,7 @@ describe('admin_console/team_channel_settings/group/GroupList', () => {
             });
         }
         const actions = {
-            getData: jest.fn().mockResolvedValue(testGroups),
+            getData: jest.fn().mockResolvedValue(Promise.resolve(testGroups)),
             removeGroup: jest.fn(),
         };
 
@@ -60,6 +60,5 @@ describe('admin_console/team_channel_settings/group/GroupList', () => {
             />);
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find(GroupRow).length).toEqual(10);
     });
 });
