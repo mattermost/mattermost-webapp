@@ -4,8 +4,6 @@
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
-import {Posts} from 'mattermost-redux/constants';
-
 import * as Actions from 'actions/notification_actions';
 
 import * as Utils from 'utils/utils.jsx';
@@ -17,13 +15,6 @@ jest.mock('utils/utils.jsx', () => ({
     notifyMe: jest.fn(),
     ding: jest.fn(),
 }));
-
-const latestPost = {
-    id: 'latest_post_id',
-    user_id: 'current_user_id',
-    message: 'test msg',
-    channel_id: 'current_channel_id',
-};
 
 const initialState = {
     entities: {
