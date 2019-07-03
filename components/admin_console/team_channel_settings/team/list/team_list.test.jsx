@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import TeamList from './team_list.jsx';
-import TeamRow from './team_row';
 
 describe('admin_console/team_channel_settings/team/TeamList', () => {
     test('should match snapshot', () => {
