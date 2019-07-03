@@ -84,10 +84,12 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                         >
                             {'@' + this.props.currentUser.username}
                         </div>
-                        <MenuIcon
+                        <button
                             className='style--none sidebar-header-dropdown__icon'
                             aria-label={localizeMessage('navbar_dropdown.menuAriaLabel', 'main menu')}
-                        />
+                        >
+                            <MenuIcon/>
+                        </button>
                     </div>
                 </OverlayTrigger>
             </div>
