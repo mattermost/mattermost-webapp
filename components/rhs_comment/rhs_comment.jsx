@@ -52,6 +52,8 @@ export default class RhsComment extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        this.postRef = React.createRef();
+
         this.state = {
             showEmojiPicker: false,
             dropdownOpened: false,
@@ -61,12 +63,12 @@ export default class RhsComment extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.domNode.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
-        this.domNode.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
     }
     componentWillUnmount() {
-        this.domNode.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
-        this.domNode.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        this.postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
     }
 
     removePost = () => {
@@ -143,10 +145,6 @@ export default class RhsComment extends React.PureComponent {
             dropdownOpened: isOpened,
         });
     };
-
-    getRef = (node) => {
-        this.domNode = node;
-    }
 
     getDotMenuRef = () => {
         return this.refs.dotMenu;
@@ -405,7 +403,7 @@ export default class RhsComment extends React.PureComponent {
         return (
             <div
                 role='listitem'
-                ref={this.getRef}
+                ref={this.postRef}
 
                 // ref={'post_body_' + post.id}
                 id={'rhsPost_' + post.id}

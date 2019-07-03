@@ -83,6 +83,8 @@ export default class Post extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        this.postRef = React.createRef();
+
         this.state = {
             dropdownOpened: false,
             hover: false,
@@ -96,12 +98,12 @@ export default class Post extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.domNode.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
-        this.domNode.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
     }
     componentWillUnmount() {
-        this.domNode.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
-        this.domNode.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        this.postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
     }
 
     handleCommentClick = (e) => {
@@ -212,10 +214,6 @@ export default class Post extends React.PureComponent {
         return className + ' ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + currentUserCss;
     }
 
-    getRef = (node) => {
-        this.domNode = node;
-    }
-
     setHover = () => {
         this.setState({hover: true});
     }
@@ -271,7 +269,7 @@ export default class Post extends React.PureComponent {
 
         return (
             <div
-                ref={this.getRef}
+                ref={this.postRef}
                 id={'post_' + post.id}
                 role='listitem'
                 className={'a11y__section ' + this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}
