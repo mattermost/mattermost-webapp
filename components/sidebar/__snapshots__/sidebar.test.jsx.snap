@@ -23,7 +23,8 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
   </div>
   <div
     aria-label="channel sidebar region"
-    className="sidebar--left__list"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
     id="lhsList"
     role="application"
     tabIndex="-1"
@@ -83,7 +84,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
       >
         <ul
           aria-label="public channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
           role="presentation"
@@ -135,7 +136,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         </ul>
         <ul
           aria-label="private channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
           role="presentation"
@@ -187,7 +188,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         </ul>
         <ul
           aria-label="direct messages"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
           role="presentation"
@@ -290,7 +291,8 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
   </div>
   <div
     aria-label="channel sidebar region"
-    className="sidebar--left__list"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
     id="lhsList"
     role="application"
     tabIndex="-1"
@@ -350,7 +352,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
       >
         <ul
           aria-label="public channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
           role="presentation"
@@ -402,7 +404,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         </ul>
         <ul
           aria-label="private channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
           role="presentation"
@@ -454,7 +456,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         </ul>
         <ul
           aria-label="direct messages"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
           role="presentation"
@@ -557,7 +559,8 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
   </div>
   <div
     aria-label="channel sidebar region"
-    className="sidebar--left__list"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
     id="lhsList"
     role="application"
     tabIndex="-1"
@@ -617,7 +620,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
       >
         <ul
           aria-label="public channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
           role="presentation"
@@ -669,7 +672,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         </ul>
         <ul
           aria-label="private channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
           role="presentation"
@@ -721,7 +724,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         </ul>
         <ul
           aria-label="direct messages"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
           role="presentation"
@@ -824,7 +827,8 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
   </div>
   <div
     aria-label="channel sidebar region"
-    className="sidebar--left__list"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
     id="lhsList"
     role="application"
     tabIndex="-1"
@@ -884,7 +888,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
       >
         <ul
           aria-label="public channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
           role="presentation"
@@ -936,7 +940,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         </ul>
         <ul
           aria-label="private channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
           role="presentation"
@@ -988,7 +992,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         </ul>
         <ul
           aria-label="direct messages"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
           role="presentation"
@@ -1099,7 +1103,8 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
   </div>
   <div
     aria-label="channel sidebar region"
-    className="sidebar--left__list"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
     id="lhsList"
     role="application"
     tabIndex="-1"
@@ -1159,7 +1164,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
       >
         <ul
           aria-label="public channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
           role="presentation"
@@ -1211,7 +1216,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           aria-label="private channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
           role="presentation"
@@ -1263,7 +1268,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           aria-label="direct messages"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
           role="presentation"
@@ -1366,7 +1371,8 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
   </div>
   <div
     aria-label="channel sidebar region"
-    className="sidebar--left__list"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
     id="lhsList"
     role="application"
     tabIndex="-1"
@@ -1426,7 +1432,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
       >
         <ul
           aria-label="public channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
           role="presentation"
@@ -1478,7 +1484,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           aria-label="private channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
           role="presentation"
@@ -1530,7 +1536,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           aria-label="direct messages"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
           role="presentation"
@@ -1637,7 +1643,8 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
   </div>
   <div
     aria-label="channel sidebar region"
-    className="sidebar--left__list"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
     id="lhsList"
     role="application"
     tabIndex="-1"
@@ -1697,7 +1704,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
       >
         <ul
           aria-label="public channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
           role="presentation"
@@ -1749,7 +1756,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           aria-label="private channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
           role="presentation"
@@ -1801,7 +1808,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           aria-label="direct messages"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
           role="presentation"
@@ -1904,7 +1911,8 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
   </div>
   <div
     aria-label="channel sidebar region"
-    className="sidebar--left__list"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
     id="lhsList"
     role="application"
     tabIndex="-1"
@@ -1964,7 +1972,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
       >
         <ul
           aria-label="public channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
           role="presentation"
@@ -2016,7 +2024,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           aria-label="private channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
           role="presentation"
@@ -2068,7 +2076,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           aria-label="direct messages"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
           role="presentation"
@@ -2171,7 +2179,8 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
   </div>
   <div
     aria-label="channel sidebar region"
-    className="sidebar--left__list"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
     id="lhsList"
     role="application"
     tabIndex="-1"
@@ -2231,7 +2240,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
       >
         <ul
           aria-label="public channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
           role="presentation"
@@ -2283,7 +2292,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           aria-label="private channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
           role="presentation"
@@ -2335,7 +2344,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           aria-label="direct messages"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
           role="presentation"
@@ -2438,7 +2447,8 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
   </div>
   <div
     aria-label="channel sidebar region"
-    className="sidebar--left__list"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
     id="lhsList"
     role="application"
     tabIndex="-1"
@@ -2498,7 +2508,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
       >
         <ul
           aria-label="public channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
           role="presentation"
@@ -2550,7 +2560,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           aria-label="private channels"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
           role="presentation"
@@ -2602,7 +2612,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         </ul>
         <ul
           aria-label="direct messages"
-          className="nav nav-pills nav-stacked"
+          className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
           role="presentation"
