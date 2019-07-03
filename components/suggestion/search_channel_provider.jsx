@@ -26,12 +26,31 @@ function itemToName(item) {
 }
 
 class SearchChannelSuggestion extends Suggestion {
+    componentDidMount() {
+        // Pause the event loop and Wait for the aria-live element to be up
+        setTimeout(() => {
+            this.announceLabel();
+        }, 0);
+    }
+
+    componentDidUpdate() {
+        this.announceLabel();
+    }
+
+    announceLabel() {
+        const {item, isSelection} = this.props;
+        const name = itemToName(item);
+        if (isSelection) {
+            document.getElementById('suggestionReadOut').innerHTML = name;
+        }
+    }
+
     render() {
         const {item, isSelection} = this.props;
 
         let className = 'search-autocomplete__item';
         if (isSelection) {
-            className += ' selected';
+            className += ' selected keyboard-focus';
         }
 
         const name = itemToName(item);

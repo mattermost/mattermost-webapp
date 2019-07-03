@@ -102,6 +102,10 @@ export default class SearchSuggestionList extends SuggestionList {
                 className='search-help-popover autocomplete visible'
                 placement='bottom'
             >
+                <div
+                    id='suggestionReadOut'
+                    aria-live='polite'
+                />
                 {items}
             </Popover>
         );
