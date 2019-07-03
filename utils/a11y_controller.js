@@ -8,7 +8,6 @@ const listenerOptions = {
     capture: true,
 };
 
-/* eslint-disable no-console */
 export default class A11yController {
     constructor() {
         this.regionHTMLCollection = this.getAllRegions();
@@ -17,6 +16,9 @@ export default class A11yController {
         this.activeRegion = null;
         this.activeSection = null;
         this.activeElement = null;
+
+        // used to reset navigation whenever navigation within a region occurs (section or element)
+        this.resetNavigation = false;
 
         document.addEventListener(EventTypes.KEY_DOWN, this.handleKeyDown, listenerOptions);
         document.addEventListener(EventTypes.KEY_UP, this.handleKeyUp, listenerOptions);
@@ -92,13 +94,14 @@ export default class A11yController {
             return;
         }
         let newRegion;
-        if (!this.activeRegion || this.activeRegionIndex === regions.length - 1) {
+        if (!this.activeRegion || this.activeRegionIndex === regions.length - 1 || (this.resetNavigation && this.activeRegionIndex !== 0)) {
             newRegion = regions[0];
         } else {
             newRegion = regions[this.activeRegionIndex + 1];
         }
         this.setActiveRegion(newRegion);
         this.setCurrentFocus();
+        this.resetNavigation = false;
     }
 
     previousRegion() {
@@ -107,7 +110,7 @@ export default class A11yController {
             return;
         }
         let newRegion;
-        if (!this.activeRegion) {
+        if (!this.activeRegion || (this.resetNavigation && this.activeRegionIndex !== 0)) {
             newRegion = regions[0];
         } else if (this.activeRegionIndex === 0) {
             newRegion = regions[regions.length - 1];
@@ -116,6 +119,7 @@ export default class A11yController {
         }
         this.setActiveRegion(newRegion);
         this.setCurrentFocus();
+        this.resetNavigation = false;
     }
 
     nextSection() {
@@ -131,6 +135,7 @@ export default class A11yController {
         }
         this.setActiveSection(newSection);
         this.setCurrentFocus();
+        this.resetNavigation = true;
     }
 
     previousSection() {
@@ -146,6 +151,7 @@ export default class A11yController {
         }
         this.setActiveSection(newSection);
         this.setCurrentFocus();
+        this.resetNavigation = true;
     }
 
     nextElement(element, elementPath = []) {
@@ -153,6 +159,7 @@ export default class A11yController {
             return;
         }
         if (elementPath && elementPath.length) {
+            // is the current element in an active region?
             if (elementPath.indexOf(this.activeRegion) < 0) {
                 const region = elementPath.find((pathElement) => {
                     if (!pathElement.classList) {
@@ -164,6 +171,8 @@ export default class A11yController {
                     this.setActiveRegion(region);
                 }
             }
+
+            // is the current element in an active section?
             if (elementPath.indexOf(this.activeSection) < 0) {
                 const section = elementPath.find((pathElement) => {
                     if (!pathElement.classList) {
@@ -178,6 +187,7 @@ export default class A11yController {
         }
         this.setActiveElement(element);
         this.setCurrentFocus();
+        this.resetNavigation = true;
     }
 
     cancelNavigation() {
@@ -190,7 +200,7 @@ export default class A11yController {
     // private methods
 
     setActiveRegion(element) {
-        if (!element || element === this.activeRegion) {
+        if ((!element || element === this.activeRegion) && !this.resetNavigation) {
             return;
         }
 
@@ -201,7 +211,7 @@ export default class A11yController {
         this.activeRegion.classList.add(A11yClassNames.ACTIVE);
         this.activeRegion.dispatchEvent(new Event(A11yCustomEventTypes.ACTIVATE));
 
-        // ensure active region element is focusable but not in the focus order
+        // ensure active region element is focusable
         if (!this.activeRegion.getAttribute('tabindex')) {
             this.activeRegion.setAttribute('tabindex', -1);
         }
@@ -211,8 +221,8 @@ export default class A11yController {
 
         // should the visual focus start on a child section
         const focusChild = this.activeRegion.getAttribute(A11yAttributeNames.FOCUS_CHILD);
-        if (focusChild && focusChild.toLowerCase() === 'true') {
-            this.nextSection();
+        if (focusChild && focusChild.toLowerCase() === 'true' && this.sections && this.sections.length) {
+            this.setActiveSection(this.sections[0]);
         }
     }
 
@@ -228,7 +238,7 @@ export default class A11yController {
         this.activeSection.classList.add(A11yClassNames.ACTIVE);
         this.activeSection.dispatchEvent(new Event(A11yCustomEventTypes.ACTIVATE));
 
-        // ensure active section element is focusable but not in the focus order
+        // ensure active section element is focusable
         if (!this.activeSection.getAttribute('tabindex')) {
             this.activeSection.setAttribute('tabindex', -1);
         }
@@ -404,4 +414,3 @@ export default class A11yController {
         this.nextElement(event.target, event.path);
     }
 }
-/* eslint-enable no-console */
