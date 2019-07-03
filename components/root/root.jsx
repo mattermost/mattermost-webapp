@@ -11,8 +11,6 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import {setUrl} from 'mattermost-redux/actions/general';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getMostRecentPostIdInChannel, makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
 
 import * as UserAgent from 'utils/user_agent.jsx';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
@@ -24,7 +22,6 @@ import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
-import {getSelectedPost} from 'selectors/rhs.jsx';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
@@ -50,7 +47,7 @@ import loadCreateTeam from 'bundle-loader?lazy!components/create_team';
 import loadMfa from 'bundle-loader?lazy!components/mfa/mfa_controller';
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url.jsx';
-import {enableDevModeFeatures, isDevMode, isKeyPressed} from 'utils/utils';
+import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 import A11yController from 'utils/a11y_controller';
 
 const CreateTeam = makeAsyncComponent(loadCreateTeam);

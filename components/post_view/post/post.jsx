@@ -224,11 +224,11 @@ export default class Post extends React.PureComponent {
         this.setState({hover: false});
     }
 
-    handleA11yActivateEvent = (event) => {
+    handleA11yActivateEvent = () => {
         this.setState({a11yActive: true});
     }
 
-    handleA11yDeactivateEvent = (event) => {
+    handleA11yDeactivateEvent = () => {
         this.setState({a11yActive: false});
     }
 

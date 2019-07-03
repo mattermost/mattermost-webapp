@@ -507,7 +507,7 @@ export default class PostList extends React.PureComponent {
                     data-a11y-sort-order='1'
                     data-a11y-focus-child={true}
                     data-a11y-order-reversed={true}
-                    >
+                >
                     <LoadingScreen
                         position='absolute'
                         key='loading'
