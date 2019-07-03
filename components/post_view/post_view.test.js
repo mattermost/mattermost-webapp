@@ -48,7 +48,7 @@ describe('components/post_view/post_view', () => {
         wrapper.find(PostList).prop('changeTimeStampToShowPosts')(1234678);
         expect(wrapper.state('timeStampToShowPosts')).toEqual(1234678);
         expect(wrapper.state('loaderForChangeOfPostsChunk')).toEqual(true);
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(wrapper.state('loaderForChangeOfPostsChunk')).toEqual(false);
     });
 });

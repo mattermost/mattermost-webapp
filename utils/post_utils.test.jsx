@@ -527,13 +527,13 @@ describe('PostUtils.postMessageOnKeyPress', () => {
 });
 
 describe('PostUtils.getOldestPostId', () => {
-    test('Should not return MANUAL_TRIGGER_LOAD_MESSAGES', () => {
-        const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES]);
+    test('Should not return LOAD_OLDER_MESSAGES_TRIGGER', () => {
+        const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER]);
         assert.equal(postId, 'postId2');
     });
 
-    test('Should not return MORE_MESSAGES_LOADER', () => {
-        const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.MORE_MESSAGES_LOADER]);
+    test('Should not return OLDER_MESSAGES_LOADER', () => {
+        const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.OLDER_MESSAGES_LOADER]);
         assert.equal(postId, 'postId2');
     });
 
@@ -571,13 +571,13 @@ describe('PostUtils.getPreviousPostId', () => {
 });
 
 describe('PostUtils.getLatestPostId', () => {
-    test('Should not return MANUAL_TRIGGER_LOAD_MESSAGES', () => {
-        const postId = PostUtils.getLatestPostId([PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES, 'postId1', 'postId2']);
+    test('Should not return LOAD_OLDER_MESSAGES_TRIGGER', () => {
+        const postId = PostUtils.getLatestPostId([PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER, 'postId1', 'postId2']);
         assert.equal(postId, 'postId1');
     });
 
-    test('Should not return MORE_MESSAGES_LOADER', () => {
-        const postId = PostUtils.getLatestPostId([PostListRowListIds.MORE_MESSAGES_LOADER, 'postId1', 'postId2']);
+    test('Should not return OLDER_MESSAGES_LOADER', () => {
+        const postId = PostUtils.getLatestPostId([PostListRowListIds.OLDER_MESSAGES_LOADER, 'postId1', 'postId2']);
         assert.equal(postId, 'postId1');
     });
 
