@@ -269,6 +269,7 @@ class UserSettingsModal extends React.Component {
             >
                 <Modal.Header
                     id='accountSettingsHeader'
+                    closeButton={true}
                 >
                     <Modal.Title
                         componentClass='h1'
@@ -279,15 +280,6 @@ class UserSettingsModal extends React.Component {
                             defaultMessage='Account Settings'
                         />
                     </Modal.Title>
-                    <button
-                        type='button'
-                        className='close'
-                        onClick={this.handleHide}
-                        aria-label='Close'
-                    >
-                        <span aria-hidden='true'>{'×'}</span>
-                        <span className='sr-only'>{'Close'}</span>
-                    </button>
                 </Modal.Header>
                 <Modal.Body ref={this.modalBodyRef}>
                     <div className='settings-table'>
