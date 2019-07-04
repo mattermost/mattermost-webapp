@@ -8,7 +8,7 @@ exports[`admin_console/team_channel_settings/group/GroupRow should match snapsho
     className="group-row"
   >
     <span
-      className="group-name"
+      className="group-name "
     >
       DN
     </span>

@@ -44,6 +44,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         }
       />
       <ChannelModes
+        isOriginallyPrivate={false}
         isPublic={true}
         isSynced={false}
         onToggle={[Function]}
