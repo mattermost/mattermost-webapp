@@ -58,7 +58,7 @@ export default class ChannelDetails extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.channel !== prevProps.channel) {
+        if (this.props.channel.id !== prevProps.channel.id) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
                 totalGroups: this.props.totalGroups,

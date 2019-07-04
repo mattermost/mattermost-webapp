@@ -19,7 +19,7 @@ export default class GroupRow extends React.Component {
         const {group} = this.props;
         return (
             <div
-                className={'group '}
+                className={'group'}
             >
                 <div className='group-row'>
                     <span className='group-name '>
