@@ -261,6 +261,7 @@ export default class SearchBar extends React.Component {
                             tabIndex='-1'
                             className='search-bar a11y__region'
                             data-a11y-sort-order='8'
+                            aria-describedby='searchbar-help-popup'
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                             value={this.props.searchTerms}
                             onFocus={this.handleUserFocus}
