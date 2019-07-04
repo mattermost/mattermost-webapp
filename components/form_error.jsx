@@ -10,6 +10,8 @@ export default class FormError extends React.Component {
         return {
             type: PropTypes.node,
             error: PropTypes.node,
+            textClassName: PropTypes.string,
+            iconClassName: PropTypes.string,
             margin: PropTypes.bool,
             errors: PropTypes.arrayOf(PropTypes.node),
         };
@@ -73,9 +75,9 @@ export default class FormError extends React.Component {
         }
 
         return (
-            <div className='col-sm-12 has-error'>
+            <div className={`col-sm-12 ${this.props.textClassName || 'has-error'}`}>
                 <label className='control-label'>
-                    <i className='fa fa-exclamation-circle'/> {message}
+                    <i className={`fa ${this.props.iconClassName || 'fa-exclamation-circle'}`}/> {message}
                 </label>
             </div>
         );
