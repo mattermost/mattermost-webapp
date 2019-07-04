@@ -256,7 +256,7 @@ export default class CreateComment extends React.PureComponent {
             this.scrollToBottom();
         }
 
-        if (prevProps.rootId !== this.props.rootId || this.props.selectedPostFocussedAt > this.lastBlurAt) {
+        if (prevProps.rootId !== this.props.rootId || prevProps.selectedPostFocussedAt !== this.props.selectedPostFocussedAt) {
             this.focusTextbox();
         }
 
