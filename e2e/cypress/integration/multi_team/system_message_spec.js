@@ -42,16 +42,16 @@ describe('MM-15240 - no status on a system message', () => {
                 cy.apiPatchChannel(
                     channelId,
                     {header: ' Updating header'.repeat(Math.floor(Math.random() * 10))}
-                ).then(() => {
-                    // # Get last post
-                    cy.getLastPostId().then((postId) => {
-                        cy.get(`#post_${postId}`).as('SystemMessage');
-                    });
-
-                    // * Verify it is a system message and that the status icon is not visible
-                    verifySystemMessage('@SystemMessage');
-                });
+                );
             });
+
+            // # Get last post
+            cy.getLastPostId().then((postId) => {
+                cy.get(`#post_${postId}`).as('SystemMessage');
+            });
+
+            // * Verify it is a system message and that the status icon is not visible
+            verifySystemMessage('@SystemMessage');
         });
     });
 });
