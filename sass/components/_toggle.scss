@@ -73,7 +73,7 @@ $toggle-default-font-size: .75rem;
     @include toggle-color;
 
     &.btn-lg {
-        @include toggle-mixin($size: 2.5rem, $font-size: 1rem, $margin: 5rem);
+        @include toggle-mixin($size: 24px, $font-size: 1rem, $margin: 5rem);
     }
 
     &.btn-sm {

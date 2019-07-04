@@ -12,7 +12,7 @@ import BlockableLink from 'components/admin_console/blockable_link';
 import FormError from 'components/form_error';
 
 import RemoveConfirmModal from '../../remove_confirm_modal';
-import {NeedGroupsError, UsersWillBeRemovedError} from '../../errors';
+import {NeedDomainsError, NeedGroupsError, UsersWillBeRemovedError} from '../../errors';
 
 import SaveChangesPanel from '../../save_changes_panel';
 
@@ -50,7 +50,7 @@ export default class TeamDetails extends React.Component {
             syncChecked: Boolean(team.group_constrained),
             allAllowedChecked: team.allow_open_invite,
             allowedDomainsChecked: team.allowed_domains !== '',
-            allowedDomains: team.allowed_domains,
+            allowedDomains: team.allowed_domains || '',
             saving: false,
             showRemoveConfirmation: false,
             usersToRemove: 0,
@@ -60,7 +60,7 @@ export default class TeamDetails extends React.Component {
         };
     }
 
-    componentDidUpdate(prevProps) { // TODO: find out how to do this without the lifecycle
+    componentDidUpdate(prevProps) {
         if (prevProps.totalGroups !== this.props.totalGroups) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({totalGroups: this.props.totalGroups});
@@ -82,7 +82,10 @@ export default class TeamDetails extends React.Component {
         let saveNeeded = false;
 
         const {team, groups: origGroups, teamID, actions} = this.props;
-        if (this.state.groups.length === 0 && syncChecked) {
+        if (allowedDomainsChecked && allowedDomains.trim().length === 0) {
+            saveNeeded = true;
+            serverError = <NeedDomainsError/>;
+        } else if (this.state.groups.length === 0 && syncChecked) {
             serverError = <NeedGroupsError/>;
             saveNeeded = true;
         } else {
@@ -116,11 +119,7 @@ export default class TeamDetails extends React.Component {
             allAllowedChecked: !syncChecked && allAllowedChecked,
             allowedDomainsChecked: !syncChecked && allowedDomainsChecked,
             allowedDomains,
-        }, () => {
-            if (syncChecked) {
-                this.processGroupsChange(this.state.groups);
-            }
-        });
+        }, () => this.processGroupsChange(this.state.groups));
         this.props.actions.setNavigationBlocked(true);
     }
 
@@ -133,7 +132,7 @@ export default class TeamDetails extends React.Component {
         if (this.state.syncChecked) {
             try {
                 if (groups.length === 0) {
-                    serverError = <NeedGroupsError/>;
+                    serverError = <NeedGroupsError warning={true}/>;
                 } else {
                     const result = await actions.membersMinusGroupMembers(teamID, groups.map((g) => g.id));
                     usersToRemove = result.data.total_count;

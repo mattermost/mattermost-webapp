@@ -106,7 +106,7 @@ export default class AbstractList extends React.PureComponent {
         const lastPage = endCount === total;
         const firstPage = this.state.page === 0;
         return (
-            <div className='groups-list'>
+            <div className='groups-list groups-list-no-padding'>
                 {this.props.header}
                 <div className='groups-list--body'>
                     {this.renderRows()}

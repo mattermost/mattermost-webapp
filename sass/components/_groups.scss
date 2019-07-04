@@ -4,7 +4,9 @@
 .groups-list {
     @include single-transition(all, .4s, ease-in-out, 0s);
     padding: .8em 1.5rem;
-
+    &.groups-list-less-padding {
+        padding: 0;
+    }
     .groups-list--global-actions {
         position: relative;
         display: flex;
@@ -95,6 +97,9 @@
             display: block;
             width: 150px;
             opacity: 1;
+            &.adjusted {
+                width: 100px;
+            }
         }
 
         .group-actions {
@@ -171,6 +176,9 @@
         overflow: hidden;
         opacity: .65;
         width: 150px;
+        &.adjusted {
+            width: 100px;
+        }
         i {
             margin-right: 5px;
         }
@@ -187,7 +195,14 @@
             }
         }
     }
-
+    .group-description-link {
+        > a {
+            &:hover {
+                background-color: transparent;
+                text-decoration: underline;
+            }
+        }
+    }
     .group-actions {
         width: 130px;
         text-align: right;

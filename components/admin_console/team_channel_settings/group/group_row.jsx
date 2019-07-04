@@ -22,7 +22,7 @@ export default class GroupRow extends React.Component {
                 className={'group '}
             >
                 <div className='group-row'>
-                    <span className='group-name'>
+                    <span className='group-name '>
                         {group.display_name || group.name}
                     </span>
                     <span className='group-description'>

@@ -14,6 +14,7 @@ import LineSwitch from '../../line_switch.jsx';
 const SyncGroupsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle}) => (
     <LineSwitch
         toggled={syncChecked}
+        last={syncChecked}
         onToggle={() => onToggle(!syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains)}
         title={(
             <FormattedMessage
@@ -24,7 +25,7 @@ const SyncGroupsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked
         subTitle={(
             <FormattedMarkdownMessage
                 id='admin.team_settings.team_details.syncGroupMembersDescr'
-                defaultMessage='When enabled, adding and removing users from groups will add or remove them from this team. The only way of inviting members to this team is by adding the groups they belong to. [Learn More](www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
+                defaultMessage='When enabled, adding and removing users from groups will add or remove them from this team. The only way of inviting members to this team is by adding the groups they belong to. [Learn More](https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
             />
         )}
     />);
@@ -68,6 +69,7 @@ const AllowedDomainsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChe
     !syncChecked && (
         <LineSwitch
             toggled={allowedDomainsChecked}
+            last={true}
             onToggle={() => onToggle(syncChecked, allAllowedChecked, !allowedDomainsChecked, allowedDomains)}
             title={(
                 <FormattedMessage
@@ -82,7 +84,7 @@ const AllowedDomainsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChe
                 />
             )}
         >
-            <div className='help-text'>
+            <div className='help-text csvDomains'>
                 <FormattedMessage
                     id='admin.team_settings.team_details.csvDomains'
                     defaultMessage='Comma Separated Email Domain List'

@@ -29,6 +29,7 @@ export default class ChannelDetails extends React.Component {
         actions: PropTypes.shape({
             getGroups: PropTypes.func.isRequired,
             linkGroupSyncable: PropTypes.func.isRequired,
+            convertChannelToPrivate: PropTypes.func.isRequired,
             unlinkGroupSyncable: PropTypes.func.isRequired,
             membersMinusGroupMembers: PropTypes.func.isRequired,
             setNavigationBlocked: PropTypes.func.isRequired,
@@ -56,10 +57,14 @@ export default class ChannelDetails extends React.Component {
         };
     }
 
-    componentDidUpdate(prevProps) { // TODO: find out how to do this without the lifecycle
-        if (prevProps.totalGroups !== this.props.totalGroups) {
+    componentDidUpdate(prevProps) {
+        if (this.props.channel !== prevProps.channel) {
             // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({totalGroups: this.props.totalGroups});
+            this.setState({
+                totalGroups: this.props.totalGroups,
+                isSynced: Boolean(this.props.channel.group_constrained),
+                isPublic: this.props.channel.type === Constants.OPEN_CHANNEL,
+            });
         }
     }
 
@@ -146,21 +151,21 @@ export default class ChannelDetails extends React.Component {
             serverError = <NeedGroupsError/>;
             saveNeeded = true;
         } else {
-            const {error} = await actions.patchChannel(channel.id, {
+            const promises = [];
+            promises.push(actions.patchChannel(channel.id, {
                 ...channel,
                 group_constrained: isSynced,
                 type: isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL,
-            });
-            if (error) {
-                serverError = <FormError error={error.message}/>;
-            } else {
-                const unlink = origGroups.filter((g) => !groups.includes(g)).map((g) => actions.unlinkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL));
-                const link = groups.filter((g) => !origGroups.includes(g)).map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL));
-                const result = await Promise.all([...unlink, ...link]);
-                const resultWithError = result.find((r) => r.error);
-                if (resultWithError) {
-                    serverError = <FormError error={resultWithError.error.message}/>;
-                }
+            }));
+            if (!isPublic && channel.type === Constants.OPEN_CHANNEL) {
+                promises.push(actions.convertChannelToPrivate(channel.id));
+            }
+            const unlink = origGroups.filter((g) => !groups.includes(g)).map((g) => actions.unlinkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL));
+            const link = groups.filter((g) => !origGroups.includes(g)).map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL));
+            const result = await Promise.all([...promises, ...unlink, ...link]);
+            const resultWithError = result.find((r) => r.error);
+            if (resultWithError) {
+                serverError = <FormError error={resultWithError.error.message}/>;
             }
         }
 
@@ -201,6 +206,7 @@ export default class ChannelDetails extends React.Component {
                         <ChannelModes
                             isPublic={isPublic}
                             isSynced={isSynced}
+                            isOriginallyPrivate={channel.type === Constants.PRIVATE_CHANNEL}
                             onToggle={this.setToggles}
                         />
 

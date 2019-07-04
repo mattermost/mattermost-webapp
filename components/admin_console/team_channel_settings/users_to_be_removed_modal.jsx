@@ -70,7 +70,7 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
                 role='dialog'
                 aria-labelledby='confirmModalLabel'
             >
-                <Modal.Header>
+                <Modal.Header closeButton={true}>
                     <Modal.Title
                         componentClass='h1'
                         id='confirmModalLabel'
