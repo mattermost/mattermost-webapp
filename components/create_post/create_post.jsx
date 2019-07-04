@@ -1069,6 +1069,7 @@ export default class CreatePost extends React.Component {
         const {formatMessage} = this.context.intl;
         const members = currentChannelMembersCount - 1;
         const {renderScrollbar} = this.state;
+        const ariaLabelMessageInput = Utils.localizeMessage('accessibility.sections.centerFooter', 'message input complimentary region');
 
         const notifyAllTitle = (
             <FormattedMessage
@@ -1230,7 +1231,6 @@ export default class CreatePost extends React.Component {
             <form
                 id='create_post'
                 ref='topDiv'
-                role='form'
                 className={centerClass}
                 onSubmit={this.handleSubmit}
             >
@@ -1238,16 +1238,10 @@ export default class CreatePost extends React.Component {
                     <div className='post-create-body'>
                         <div
                             id='centerChannelFooter'
-                            aria-labelledby='message_input_aria_label'
+                            aria-label={ariaLabelMessageInput}
                             tabIndex='-1'
                             className='post-body__cell'
                         >
-                            <h1
-                                id='message_input_aria_label'
-                                className='hidden-label'
-                            >
-                                {Utils.localizeMessage('accessibility.sections.centerFooter', 'message input complimentary region')}
-                            </h1>
                             <Textbox
                                 onChange={this.handleChange}
                                 onKeyPress={this.postMsgKeyPress}

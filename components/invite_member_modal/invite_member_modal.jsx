@@ -50,7 +50,6 @@ const holders = defineMessages({
 class InviteMemberModal extends React.PureComponent {
     static propTypes = {
         intl: intlShape.isRequired,
-        sendEmailNotifications: PropTypes.bool.isRequired,
         enableUserCreation: PropTypes.bool.isRequired,
         currentUser: PropTypes.object.isRequired,
         defaultChannelName: PropTypes.string.isRequired,
@@ -82,10 +81,6 @@ class InviteMemberModal extends React.PureComponent {
     }
 
     handleSubmit = async () => {
-        if (!this.props.sendEmailNotifications) {
-            return;
-        }
-
         const inviteIds = this.state.inviteIds;
         const count = inviteIds.length;
         const invites = [];
@@ -285,7 +280,7 @@ class InviteMemberModal extends React.PureComponent {
                                     ref={'first_name' + index}
                                     placeholder={holders.firstname}
                                     maxLength='64'
-                                    disabled={!this.props.sendEmailNotifications || !this.props.enableUserCreation}
+                                    disabled={!this.props.enableUserCreation}
                                     spellCheck='false'
                                 />
                                 {firstNameError}
@@ -300,7 +295,7 @@ class InviteMemberModal extends React.PureComponent {
                                     ref={'last_name' + index}
                                     placeholder={holders.lastname}
                                     maxLength='64'
-                                    disabled={!this.props.sendEmailNotifications || !this.props.enableUserCreation}
+                                    disabled={!this.props.enableUserCreation}
                                     spellCheck='false'
                                 />
                                 {lastNameError}
@@ -321,7 +316,7 @@ class InviteMemberModal extends React.PureComponent {
                                 className='form-control'
                                 placeholder='email@domain.com'
                                 maxLength='64'
-                                disabled={!this.props.sendEmailNotifications || !this.props.enableUserCreation}
+                                disabled={!this.props.enableUserCreation}
                                 spellCheck='false'
                                 autoFocus={true}
                             />
@@ -340,7 +335,7 @@ class InviteMemberModal extends React.PureComponent {
             var content = null;
             var sendButton = null;
 
-            if (this.props.sendEmailNotifications && this.props.enableUserCreation) {
+            if (this.props.enableUserCreation) {
                 content = (
                     <div>
                         {serverError}
