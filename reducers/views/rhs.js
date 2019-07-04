@@ -28,6 +28,17 @@ function selectedPostId(state = '', action) {
     }
 }
 
+// selectedPostFocussedAt keeps track of the last time a post was selected, whether or not it
+// is currently selected.
+function selectedPostFocussedAt(state = 0, action) {
+    switch (action.type) {
+    case ActionTypes.SELECT_POST:
+        return action.timestamp || 0;
+    default:
+        return state;
+    }
+}
+
 function selectedPostCardId(state = '', action) {
     switch (action.type) {
     case ActionTypes.SELECT_POST_CARD:
@@ -217,6 +228,7 @@ function isMenuOpen(state = false, action) {
 
 export default combineReducers({
     selectedPostId,
+    selectedPostFocussedAt,
     selectedPostCardId,
     selectedChannelId,
     previousRhsState,

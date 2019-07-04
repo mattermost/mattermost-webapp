@@ -258,6 +258,7 @@ export default class ChannelHeader extends React.PureComponent {
             rhsState,
         } = this.props;
         const {formatMessage} = this.context.intl;
+        const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
 
         const channelIsArchived = channel.delete_at !== 0;
         if (Utils.isEmptyObject(channel) ||
@@ -575,17 +576,12 @@ export default class ChannelHeader extends React.PureComponent {
         return (
             <div
                 id='channel-header'
-                aria-labelledby='channel_header_aria_label'
+                aria-label={ariaLabelChannelHeader}
+                role='navigation'
                 tabIndex='-1'
                 data-channelid={`${channel.id}`}
                 className='channel-header alt'
             >
-                <h1
-                    id='channel_header_aria_label'
-                    className='hidden-label'
-                >
-                    {Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region')}
-                </h1>
                 <div className='flex-parent'>
                     <div className='flex-child'>
                         <div
@@ -617,6 +613,7 @@ export default class ChannelHeader extends React.PureComponent {
                                 aria-hidden='true'
                             />
                         }
+                        ariaLabel={true}
                         buttonClass={'style--none ' + pinnedIconClass}
                         buttonId={'channelHeaderPinButton'}
                         onClick={this.showPinnedPosts}
@@ -649,6 +646,7 @@ export default class ChannelHeader extends React.PureComponent {
                                 aria-hidden='true'
                             />
                         }
+                        ariaLabel={true}
                         buttonId={'channelHeaderMentionButton'}
                         onClick={this.searchMentions}
                         tooltipKey={'recentMentions'}
@@ -657,6 +655,7 @@ export default class ChannelHeader extends React.PureComponent {
                         iconComponent={
                             <FlagIcon className='icon icon__flag'/>
                         }
+                        ariaLabel={true}
                         buttonId={'channelHeaderFlagButton'}
                         onClick={this.getFlagged}
                         tooltipKey={'flaggedPosts'}
