@@ -44,11 +44,11 @@ export default class PostAddBotTeamsChannels extends React.PureComponent {
     }
 
     handleSelectedTeam = (selected) => {
-        this.setState({selectedTeamName: selected.text, team: selected});
+        this.setState({selectedTeamName: selected.text, team: selected, selectedChannelName: null, channel: null});
     }
 
     handleSelectedChannel = async (selected) => {
-        this.setState({selectedChannelName: selected.display_name, channel: selected});
+        await this.setState({selectedChannelName: selected.display_name, channel: selected});
 
         await this.props.actions.addUserToTeam(this.state.team.value, this.props.post.user_id);
         await this.props.actions.addChannelMember(this.state.channel.id, this.props.post.user_id);
