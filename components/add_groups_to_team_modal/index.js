@@ -11,20 +11,23 @@ import {setModalSearchTerm} from 'actions/views/search';
 
 import AddGroupsToTeamModal from './add_groups_to_team_modal';
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
     const searchTerm = state.views.search.modalSearch;
 
-    const team = getCurrentTeam(state) || {};
+    const team = ownProps.team || getCurrentTeam(state) || {};
 
     let groups = selectGroupsNotAssociatedToTeam(state, team.id);
     if (searchTerm) {
-        var regex = RegExp(searchTerm, 'i');
+        const regex = RegExp(searchTerm, 'i');
         groups = groups.filter((group) => regex.test(group.display_name) || regex.test(group.name));
     }
 
     return {
         currentTeamName: team.display_name,
         currentTeamId: team.id,
+        skipCommit: ownProps.skipCommit,
+        onAddCallback: ownProps.onAddCallback,
+        excludeGroups: ownProps.excludeGroups,
         searchTerm,
         groups,
     };

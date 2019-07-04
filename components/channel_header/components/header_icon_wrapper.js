@@ -80,14 +80,14 @@ export default function HeaderIconWrapper({
 
     let ariaLabelText;
     if (ariaLabel) {
-        ariaLabelText = `${localizeMessage(toolTips[tooltipKey].messageID, toolTips[tooltipKey].message)} ${localizeMessage('accessibility.button.button', 'button')}`.toLowerCase();
+        ariaLabelText = `${localizeMessage(toolTips[tooltipKey].messageID, toolTips[tooltipKey].message)}`;
     }
 
     if (tooltip) {
         return (
             <div className='flex-child'>
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
+                    trigger={['hover']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={tooltip}
