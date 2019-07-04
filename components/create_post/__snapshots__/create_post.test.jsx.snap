@@ -5,7 +5,6 @@ exports[`components/create_post Show tutorial 1`] = `
   className=""
   id="create_post"
   onSubmit={[Function]}
-  role="form"
 >
   <div
     className="post-create"
@@ -14,17 +13,11 @@ exports[`components/create_post Show tutorial 1`] = `
       className="post-create-body"
     >
       <div
-        aria-labelledby="message_input_aria_label"
+        aria-label="message input complimentary region"
         className="post-body__cell"
         id="centerChannelFooter"
         tabIndex="-1"
       >
-        <h1
-          className="hidden-label"
-          id="message_input_aria_label"
-        >
-          message input complimentary region
-        </h1>
         <Connect(Textbox)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
@@ -180,7 +173,6 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
   className="center"
   id="create_post"
   onSubmit={[Function]}
-  role="form"
 >
   <div
     className="post-create"
@@ -189,17 +181,11 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
       className="post-create-body"
     >
       <div
-        aria-labelledby="message_input_aria_label"
+        aria-label="message input complimentary region"
         className="post-body__cell"
         id="centerChannelFooter"
         tabIndex="-1"
       >
-        <h1
-          className="hidden-label"
-          id="message_input_aria_label"
-        >
-          message input complimentary region
-        </h1>
         <Connect(Textbox)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
@@ -324,7 +310,6 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
   className=""
   id="create_post"
   onSubmit={[Function]}
-  role="form"
 >
   <div
     className="post-create"
@@ -333,17 +318,11 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
       className="post-create-body"
     >
       <div
-        aria-labelledby="message_input_aria_label"
+        aria-label="message input complimentary region"
         className="post-body__cell"
         id="centerChannelFooter"
         tabIndex="-1"
       >
-        <h1
-          className="hidden-label"
-          id="message_input_aria_label"
-        >
-          message input complimentary region
-        </h1>
         <Connect(Textbox)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
@@ -434,7 +413,6 @@ exports[`components/create_post should match snapshot when file upload disabled 
   className=""
   id="create_post"
   onSubmit={[Function]}
-  role="form"
 >
   <div
     className="post-create post-create--attachment-disabled"
@@ -443,17 +421,11 @@ exports[`components/create_post should match snapshot when file upload disabled 
       className="post-create-body"
     >
       <div
-        aria-labelledby="message_input_aria_label"
+        aria-label="message input complimentary region"
         className="post-body__cell"
         id="centerChannelFooter"
         tabIndex="-1"
       >
-        <h1
-          className="hidden-label"
-          id="message_input_aria_label"
-        >
-          message input complimentary region
-        </h1>
         <Connect(Textbox)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
@@ -578,7 +550,6 @@ exports[`components/create_post should match snapshot, init 1`] = `
   className=""
   id="create_post"
   onSubmit={[Function]}
-  role="form"
 >
   <div
     className="post-create"
@@ -587,17 +558,11 @@ exports[`components/create_post should match snapshot, init 1`] = `
       className="post-create-body"
     >
       <div
-        aria-labelledby="message_input_aria_label"
+        aria-label="message input complimentary region"
         className="post-body__cell"
         id="centerChannelFooter"
         tabIndex="-1"
       >
-        <h1
-          className="hidden-label"
-          id="message_input_aria_label"
-        >
-          message input complimentary region
-        </h1>
         <Connect(Textbox)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
