@@ -259,6 +259,7 @@ export default class SearchBar extends React.Component {
                             ref={this.getSearch}
                             id='searchBox'
                             className='search-bar'
+                            aria-describedby='searchbar-help-popup'
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                             value={this.props.searchTerms}
                             onFocus={this.handleUserFocus}
