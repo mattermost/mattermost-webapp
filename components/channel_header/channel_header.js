@@ -257,6 +257,7 @@ export default class ChannelHeader extends React.PureComponent {
             rhsState,
         } = this.props;
         const {formatMessage} = this.context.intl;
+        const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
 
         const channelIsArchived = channel.delete_at !== 0;
         if (Utils.isEmptyObject(channel) ||
@@ -506,20 +507,25 @@ export default class ChannelHeader extends React.PureComponent {
                     className='channel-header__top'
                 >
                     {toggleFavorite}
-                    <strong
-                        id='channelHeaderTitle'
-                        className='heading'
+                    <button
+                        className='channel-header__trigger style--none'
+                        aria-label={formatMessage({id: 'channel_header.menuAriaLabel', defaultMessage: 'Channel Menu'}).toLowerCase()}
                     >
-                        <span>
-                            {archivedIcon}
-                            {channelTitle}
-                        </span>
-                    </strong>
-                    <span
-                        id='channelHeaderDropdownIcon'
-                        className='fa fa-angle-down header-dropdown__icon'
-                        aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'})}
-                    />
+                        <strong
+                            id='channelHeaderTitle'
+                            className='heading'
+                        >
+                            <span>
+                                {archivedIcon}
+                                {channelTitle}
+                            </span>
+                        </strong>
+                        <span
+                            id='channelHeaderDropdownIcon'
+                            className='fa fa-angle-down header-dropdown__icon'
+                            aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'}).toLowerCase()}
+                        />
+                    </button>
                 </div>
                 <ChannelHeaderDropdown/>
             </MenuWrapper>
@@ -548,6 +554,9 @@ export default class ChannelHeader extends React.PureComponent {
         return (
             <div
                 id='channel-header'
+                aria-label={ariaLabelChannelHeader}
+                role='navigation'
+                tabIndex='-1'
                 data-channelid={`${channel.id}`}
                 className='channel-header alt'
             >
@@ -582,6 +591,7 @@ export default class ChannelHeader extends React.PureComponent {
                                 aria-hidden='true'
                             />
                         }
+                        ariaLabel={true}
                         buttonClass={'style--none ' + pinnedIconClass}
                         buttonId={'channelHeaderPinButton'}
                         onClick={this.showPinnedPosts}
@@ -614,6 +624,7 @@ export default class ChannelHeader extends React.PureComponent {
                                 aria-hidden='true'
                             />
                         }
+                        ariaLabel={true}
                         buttonId={'channelHeaderMentionButton'}
                         onClick={this.searchMentions}
                         tooltipKey={'recentMentions'}
@@ -622,6 +633,7 @@ export default class ChannelHeader extends React.PureComponent {
                         iconComponent={
                             <FlagIcon className='icon icon__flag'/>
                         }
+                        ariaLabel={true}
                         buttonId={'channelHeaderFlagButton'}
                         onClick={this.getFlagged}
                         tooltipKey={'flaggedPosts'}

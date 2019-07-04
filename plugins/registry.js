@@ -11,6 +11,8 @@ import {
     unregisterPluginReconnectHandler,
 } from 'actions/websocket_actions.jsx';
 
+import {showRHSPlugin} from 'actions/views/rhs';
+
 import {
     registerPluginTranslationsSource,
 } from 'actions/views/root';
@@ -128,6 +130,7 @@ export default class PluginRegistry {
 
     // Register a component to render a custom body for posts with a specific type.
     // Custom post types must be prefixed with 'custom_'.
+    // Custom post types can also apply for ephemeral posts.
     // Accepts a string type and a component.
     // Returns a unique identifier.
     registerPostTypeComponent(type, component) {
@@ -444,5 +447,29 @@ export default class PluginRegistry {
     // Each plugin can only register a function, if you reguster multiple functions the last one will be used.
     registerAdminConsolePlugin(func) {
         registerAdminConsolePlugin(this.id, func);
+    }
+
+    // Register a Right-Hand Sidebar component by providing a title for the right hand component.
+    // Accepts the following:
+    // - title - A string or JSX element to display as a title for the RHS.
+    // - component - A react component to display in the Right-Hand Sidebar.
+    // Returns:
+    // - id: a unique identifier
+    // - showRHSPlugin: the action to dispatch that will open the RHS.
+    registerRightHandSidebarComponent(component, title) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'RightHandSidebarComponent',
+            data: {
+                id,
+                pluginId: this.id,
+                component,
+                title,
+            },
+        });
+
+        return {id, showRHSPlugin: showRHSPlugin(id)};
     }
 }

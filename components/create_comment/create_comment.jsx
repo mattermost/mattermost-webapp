@@ -180,6 +180,11 @@ export default class CreateComment extends React.PureComponent {
          * To check if the timezones are enable on the server.
          */
         isTimezoneEnabled: PropTypes.bool.isRequired,
+
+        /**
+         * The last time, if any, when the selected post changed. Will be 0 if no post selected.
+         */
+        selectedPostFocussedAt: PropTypes.number.isRequired,
     }
 
     static contextTypes = {
@@ -251,7 +256,7 @@ export default class CreateComment extends React.PureComponent {
             this.scrollToBottom();
         }
 
-        if (prevProps.rootId !== this.props.rootId) {
+        if (prevProps.rootId !== this.props.rootId || this.props.selectedPostFocussedAt > this.lastBlurAt) {
             this.focusTextbox();
         }
 
@@ -749,6 +754,7 @@ export default class CreateComment extends React.PureComponent {
         const {formatMessage} = this.context.intl;
         const enableAddButton = this.shouldEnableAddButton();
         const {renderScrollbar} = this.state;
+        const ariaLabelReplyInput = Utils.localizeMessage('accessibility.sections.rhsFooter', 'reply input region');
 
         const notifyAllTitle = (
             <FormattedMessage
@@ -902,7 +908,12 @@ export default class CreateComment extends React.PureComponent {
 
         return (
             <form onSubmit={this.handleSubmit}>
-                <div className={'post-create' + scrollbarClass}>
+                <div
+                    id='rhsFooter'
+                    aria-label={ariaLabelReplyInput}
+                    tabIndex='-1'
+                    className={'post-create' + scrollbarClass}
+                >
                     <div
                         id={this.props.rootId}
                         className='post-create-body comment-create-body'
@@ -943,7 +954,9 @@ export default class CreateComment extends React.PureComponent {
                         channelId={this.props.channelId}
                         postId={this.props.rootId}
                     />
-                    <div className='post-create-footer'>
+                    <div
+                        className='post-create-footer'
+                    >
                         <input
                             type='button'
                             className={addButtonClass}

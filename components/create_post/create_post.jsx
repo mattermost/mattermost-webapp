@@ -1069,6 +1069,7 @@ export default class CreatePost extends React.Component {
         const {formatMessage} = this.context.intl;
         const members = currentChannelMembersCount - 1;
         const {renderScrollbar} = this.state;
+        const ariaLabelMessageInput = Utils.localizeMessage('accessibility.sections.centerFooter', 'message input complimentary region');
 
         const notifyAllTitle = (
             <FormattedMessage
@@ -1230,13 +1231,17 @@ export default class CreatePost extends React.Component {
             <form
                 id='create_post'
                 ref='topDiv'
-                role='form'
                 className={centerClass}
                 onSubmit={this.handleSubmit}
             >
                 <div className={'post-create' + attachmentsDisabled + scrollbarClass}>
                     <div className='post-create-body'>
-                        <div className='post-body__cell'>
+                        <div
+                            id='centerChannelFooter'
+                            aria-label={ariaLabelMessageInput}
+                            tabIndex='-1'
+                            className='post-body__cell'
+                        >
                             <Textbox
                                 onChange={this.handleChange}
                                 onKeyPress={this.postMsgKeyPress}

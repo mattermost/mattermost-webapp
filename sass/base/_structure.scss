@@ -22,6 +22,10 @@ body {
     }
 }
 
+*:focus {
+    outline: none;
+}
+
 .sticky {
     background: $white;
 

@@ -13,6 +13,8 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
 import store from 'stores/redux_store.jsx';
+import {webappConnector} from 'utils/webapp_connector';
+import WebSocketClient from 'client/web_websocket_client.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -68,6 +70,11 @@ export default class LoggedIn extends React.PureComponent {
         // Listen for focused tab/window state
         window.addEventListener('focus', this.onFocusListener);
         window.addEventListener('blur', this.onBlurListener);
+
+        // Listen for user activity updates from external sources via the webapp connector
+        if (webappConnector.active) {
+            webappConnector.on('user-activity-update', this.handleUserActivityUpdates);
+        }
 
         // Because current CSS requires the root tag to have specific stuff
 
@@ -132,9 +139,10 @@ export default class LoggedIn extends React.PureComponent {
 
         $(window).off('keydown.preventBackspace');
 
-        // Listen for focussed tab/window state
         window.removeEventListener('focus', this.onFocusListener);
         window.removeEventListener('blur', this.onBlurListener);
+
+        webappConnector.removeListener('user-activity-update', this.handleUserActivityUpdates);
     }
 
     render() {
@@ -163,5 +171,14 @@ export default class LoggedIn extends React.PureComponent {
 
     onBlurListener() {
         GlobalActions.emitBrowserFocus(false);
+    }
+
+    handleUserActivityUpdates = ({userIsActive, manual}) => {
+        if (!this.props.currentUser) {
+            return;
+        }
+
+        // update the server with the users current away status
+        WebSocketClient.userUpdateActiveStatus(userIsActive, manual);
     }
 }

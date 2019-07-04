@@ -33,7 +33,10 @@ import ServerLogs from './server_logs';
 import BrandImageSetting from './brand_image_setting/brand_image_setting.jsx';
 import GroupSettings from './group_settings/group_settings.jsx';
 import GroupDetails from './group_settings/group_details';
-
+import TeamSettings from './team_channel_settings/team';
+import TeamDetails from './team_channel_settings/team/details';
+import ChannelSettings from './team_channel_settings/channel';
+import ChannelDetails from './team_channel_settings/channel/details';
 import PasswordSettings from './password_settings.jsx';
 import PushNotificationsSettings from './push_settings.jsx';
 import DataRetentionSettings from './data_retention_settings.jsx';
@@ -286,6 +289,54 @@ const AdminDefinition = {
             schema: {
                 id: 'Groups',
                 component: GroupSettings,
+            },
+        },
+        team_detail: {
+            url: 'user_management/teams/:team_id',
+            isHidden: it.either(
+                it.isnt(it.licensedForFeature('LDAPGroups')),
+                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
+            ),
+            schema: {
+                id: 'TeamDetail',
+                component: TeamDetails,
+            },
+        },
+        teams: {
+            url: 'user_management/teams',
+            title: t('admin.sidebar.teams'),
+            title_default: 'Teams',
+            isHidden: it.either(
+                it.isnt(it.licensedForFeature('LDAPGroups')),
+                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
+            ),
+            schema: {
+                id: 'Teams',
+                component: TeamSettings,
+            },
+        },
+        channel_detail: {
+            url: 'user_management/channels/:channel_id',
+            isHidden: it.either(
+                it.isnt(it.licensedForFeature('LDAPGroups')),
+                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
+            ),
+            schema: {
+                id: 'ChannelDetail',
+                component: ChannelDetails,
+            },
+        },
+        channel: {
+            url: 'user_management/channels',
+            title: t('admin.sidebar.channels'),
+            title_default: 'Channels',
+            isHidden: it.either(
+                it.isnt(it.licensedForFeature('LDAPGroups')),
+                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
+            ),
+            schema: {
+                id: 'Channels',
+                component: ChannelSettings,
             },
         },
         systemScheme: {
@@ -593,6 +644,8 @@ const AdminDefinition = {
                 'admin.elasticsearch.connectionUrlTitle',
                 ['admin.elasticsearch.connectionUrlDescription', {documentationLink: ''}],
                 'admin.elasticsearch.connectionUrlExample.documentationLinkText',
+                'admin.elasticsearch.skipTLSVerificationTitle',
+                'admin.elasticsearch.skipTLSVerificationDescription',
                 'admin.elasticsearch.usernameTitle',
                 'admin.elasticsearch.usernameDescription',
                 'admin.elasticsearch.passwordTitle',
@@ -902,7 +955,6 @@ const AdminDefinition = {
                         label: t('admin.environment.smtp.connectionSecurity.title'),
                         label_default: 'Connection Security:',
                         help_text: DefinitionConstants.CONNECTION_SECURITY_HELP_TEXT_EMAIL,
-                        isHidden: it.isnt(it.licensedForFeature('EmailNotificationContents')),
                         options: [
                             {
                                 value: '',
@@ -1651,7 +1703,6 @@ const AdminDefinition = {
             url: 'environment/notifications',
             title: t('admin.sidebar.notifications'),
             title_default: 'Notifications',
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             schema: {
                 id: 'notifications',
                 name: t('admin.environment.notifications'),
@@ -1740,6 +1791,7 @@ const AdminDefinition = {
                         help_text: t('admin.environment.notifications.feedbackEmail.help'),
                         help_text_default: 'Email address displayed on email account used when sending notification emails from Mattermost.',
                         isDisabled: it.stateIsFalse('EmailSettings.SendEmailNotifications'),
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1935,7 +1987,7 @@ const AdminDefinition = {
                         label_default: 'Allow File Uploads on Mobile:',
                         help_text: t('admin.file.enableMobileUploadDesc'),
                         help_text_default: 'When false, disables file uploads on mobile apps. If Allow File Sharing is set to true, users can still upload files from a mobile web browser.',
-                        isHidden: it.isnt(it.licensed),
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1944,7 +1996,7 @@ const AdminDefinition = {
                         label_default: 'Allow File Downloads on Mobile:',
                         help_text: t('admin.file.enableMobileDownloadDesc'),
                         help_text_default: 'When false, disables file downloads on mobile apps. Users can still download files from a mobile web browser.',
-                        isHidden: it.isnt(it.licensed),
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
                     },
                 ],
             },
@@ -3309,7 +3361,6 @@ const AdminDefinition = {
             url: 'plugins/plugin_management',
             title: t('admin.plugins.pluginManagement'),
             title_default: 'Plugin Management',
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             searchableStrings: [
                 'admin.plugin.management.title',
                 'admin.plugins.settings.enable',
@@ -3884,6 +3935,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalLdapGroupSync.desc'),
                         help_text_default: 'When true, enables **AD/LDAP Group Sync** configurable under **User Management > Groups**. See [documentation](!https://mattermost.com/pl/default-ldap-group-sync) to learn more.',
                         help_text_markdown: true,
+                        isHidden: it.isnt(it.licensedForFeature('LDAPGroups')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
