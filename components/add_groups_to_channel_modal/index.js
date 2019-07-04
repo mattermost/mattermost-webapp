@@ -11,20 +11,23 @@ import {setModalSearchTerm} from 'actions/views/search';
 
 import AddGroupsToChannelModal from './add_groups_to_channel_modal';
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
     const searchTerm = state.views.search.modalSearch;
 
-    const channel = getCurrentChannel(state) || {};
+    const channel = ownProps.channel || getCurrentChannel(state) || {};
 
     let groups = selectGroupsNotAssociatedToChannel(state, channel.id);
     if (searchTerm) {
-        var regex = RegExp(searchTerm, 'i');
+        const regex = RegExp(searchTerm, 'i');
         groups = groups.filter((group) => regex.test(group.display_name) || regex.test(group.name));
     }
 
     return {
         currentChannelName: channel.display_name,
         currentChannelId: channel.id,
+        skipCommit: ownProps.skipCommit,
+        onAddCallback: ownProps.onAddCallback,
+        excludeGroups: ownProps.excludeGroups,
         searchTerm,
         groups,
     };

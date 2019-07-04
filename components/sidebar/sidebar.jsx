@@ -590,30 +590,37 @@ export default class Sidebar extends React.PureComponent {
                         }
 
                         const sectionId = `${section.type}Channel`;
+                        const ariaLabel = section.name.toLowerCase();
 
                         return (
                             <ul
                                 key={section.type}
+                                aria-label={ariaLabel}
+                                role='presentation'
                                 className='nav nav-pills nav-stacked'
                                 id={sectionId + 'List'}
+                                tabIndex='-1'
                             >
-                                <li>
-                                    <h4 id={sectionId}>
+                                <li className='sidebar-section__header'>
+                                    <h4
+                                        role='presentation'
+                                        id={sectionId}
+                                    >
                                         <ChannelName
                                             sectionType={section.type}
                                             channelName={section.name}
                                             browsePublicDirectChannels={this.showMorePublicDirectChannelsModal}
                                         />
-                                        <ChannelCreate
-                                            sectionType={section.type}
-                                            canCreatePublicChannel={this.props.canCreatePublicChannel}
-                                            canCreatePrivateChannel={this.props.canCreatePrivateChannel}
-                                            createPublicChannel={this.showNewPublicChannelModal}
-                                            createPrivateChannel={this.showNewPrivateChannelModal}
-                                            createDirectMessage={this.handleOpenMoreDirectChannelsModal}
-                                            createPublicDirectChannel={this.showNewPublicChannelModal}
-                                        />
                                     </h4>
+                                    <ChannelCreate
+                                        sectionType={section.type}
+                                        canCreatePublicChannel={this.props.canCreatePublicChannel}
+                                        canCreatePrivateChannel={this.props.canCreatePrivateChannel}
+                                        createPublicChannel={this.showNewPublicChannelModal}
+                                        createPrivateChannel={this.showNewPrivateChannelModal}
+                                        createDirectMessage={this.handleOpenMoreDirectChannelsModal}
+                                        createPublicDirectChannel={this.showNewPublicChannelModal}
+                                    />
                                 </li>
                                 {section.items}
                                 <ChannelMore
@@ -632,6 +639,7 @@ export default class Sidebar extends React.PureComponent {
 
     render() {
         const {channelSwitcherOption} = this.props;
+        const ariaLabel = Utils.localizeMessage('accessibility.sections.lhsList', 'channel sidebar region');
 
         // Check if we have all info needed to render
         if (this.props.currentTeam == null || this.props.currentUser == null) {
@@ -755,16 +763,11 @@ export default class Sidebar extends React.PureComponent {
 
                 <div
                     id='lhsList'
-                    aria-labelledby='lhs_list_aria_label'
+                    role='application'
+                    aria-label={ariaLabel}
                     tabIndex='-1'
                     className='sidebar--left__list'
                 >
-                    <h1
-                        id='lhs_list_aria_label'
-                        className='hidden-label'
-                    >
-                        {Utils.localizeMessage('accessibility.sections.lhsList', 'channel sidebar region')}
-                    </h1>
                     <UnreadChannelIndicator
                         name='Top'
                         show={this.state.showTopUnread}

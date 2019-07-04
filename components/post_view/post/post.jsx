@@ -256,7 +256,7 @@ export default class Post extends React.PureComponent {
                 id={'post_' + post.id}
                 role='listitem'
                 className={this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}
-                tabIndex='1'
+                tabIndex='-1'
                 onFocus={this.setFocus}
                 onBlur={this.removeFocus}
                 onMouseOver={this.setHover}

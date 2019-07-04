@@ -24,7 +24,7 @@ export default class ChannelCreate extends React.PureComponent {
             return [];
         }
 
-        return ['hover', 'focus'];
+        return ['hover'];
     };
 
     renderPublic = () => {
@@ -33,6 +33,7 @@ export default class ChannelCreate extends React.PureComponent {
         }
 
         const tooltipTriggers = this.getTooltipTriggers();
+        const ariaLabelPublic = `${Utils.localizeMessage('sidebar.createChannel', 'Create new public channel').toLowerCase()} ${Utils.localizeMessage('accessibility.button.button', 'button')}`;
 
         const tooltip = (
             <Tooltip id='new-channel-tooltip' >
@@ -52,6 +53,8 @@ export default class ChannelCreate extends React.PureComponent {
             >
                 <button
                     id='createPublicChannel'
+                    aria-label={ariaLabelPublic}
+                    type='button'
                     className='add-channel-btn cursor--pointer style--none'
                     onClick={this.props.createPublicChannel}
                 >
@@ -67,6 +70,7 @@ export default class ChannelCreate extends React.PureComponent {
         }
 
         const tooltipTriggers = this.getTooltipTriggers();
+        const ariaLabelPrivate = `${Utils.localizeMessage('sidebar.createGroup', 'Create new private channel').toLowerCase()} ${Utils.localizeMessage('accessibility.button.button', 'button')}`;
 
         const tooltip = (
             <Tooltip id='new-group-tooltip'>
@@ -86,6 +90,8 @@ export default class ChannelCreate extends React.PureComponent {
             >
                 <button
                     id='createPrivateChannel'
+                    aria-label={ariaLabelPrivate}
+                    type='button'
                     className='add-channel-btn cursor--pointer style--none'
                     onClick={this.props.createPrivateChannel}
                 >
@@ -96,6 +102,7 @@ export default class ChannelCreate extends React.PureComponent {
     };
 
     renderDirect = () => {
+        const ariaLabelDM = `${Utils.localizeMessage('sidebar.createDirectMessage', 'Create new direct message')} ${Utils.localizeMessage('accessibility.button.button', 'button')}`;
         const tooltip = (
             <Tooltip
                 id='new-group-tooltip'
@@ -110,15 +117,17 @@ export default class ChannelCreate extends React.PureComponent {
 
         return (
             <OverlayTrigger
+                trigger={'hover'}
                 className='hidden-xs'
                 delayShow={500}
                 placement='top'
                 overlay={tooltip}
             >
                 <button
+                    id='addDirectChannel'
+                    aria-label={ariaLabelDM}
                     className='add-channel-btn cursor--pointer style--none'
                     onClick={this.props.createDirectMessage}
-                    id='addDirectChannel'
                 >
                     {'+'}
                 </button>
@@ -161,6 +170,7 @@ export default class ChannelCreate extends React.PureComponent {
                 overlay={tooltip}
             >
                 <button
+                    type='button'
                     className='add-channel-btn cursor--pointer style--none'
                     onClick={this.props.createPublicDirectChannel}
                 >
