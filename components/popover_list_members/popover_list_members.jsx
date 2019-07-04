@@ -215,12 +215,12 @@ export default class PopoverListMembers extends React.Component {
             </Tooltip>
         );
 
-        const ariaLabel = `${Utils.localizeMessage('channel_header.channelMembers', 'Members')} ${Utils.localizeMessage('accessibility.button.button', 'button')}`.toLowerCase();
+        const ariaLabel = `${Utils.localizeMessage('channel_header.channelMembers', 'Members')}`.toLowerCase();
 
         return (
             <div id='channelMember'>
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
+                    trigger={'hover'}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={channelMembersTooltip}
