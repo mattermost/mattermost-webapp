@@ -432,6 +432,8 @@ Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
             body: settings,
         });
     });
+
+    cy.apiLogout();
 });
 
 Cypress.Commands.add('apiGetConfig', () => {
