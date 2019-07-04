@@ -72,7 +72,7 @@ describe('components/interactive_dialog/DialogElement', () => {
         )).toEqual(true);
     });
 
-    it('subtype invalid', () => {
+    it('subtype password', () => {
         const wrapper = shallow(
             <DialogElement
                 {...baseDialogProps}
