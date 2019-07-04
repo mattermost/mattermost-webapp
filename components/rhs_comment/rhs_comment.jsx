@@ -72,7 +72,9 @@ export default class RhsComment extends React.PureComponent {
     }
 
     componentDidUpdate() {
-        this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
+        if (this.state.a11yActive) {
+            this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
+        }
     }
 
     removePost = () => {
