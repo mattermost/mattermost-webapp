@@ -23,7 +23,7 @@ export default class SearchSuggestionList extends SuggestionList {
     }
 
     announceLabel() {
-        const suggestionReadOut = this.refs.suggestionReadOut;
+        const suggestionReadOut = this.suggestionReadOut.current;
         if (suggestionReadOut) {
             suggestionReadOut.innerHTML = this.currentLabel;
         }
@@ -131,7 +131,7 @@ export default class SearchSuggestionList extends SuggestionList {
                 placement='bottom'
             >
                 <div
-                    ref='suggestionReadOut'
+                    ref={this.suggestionReadOut}
                     aria-live='polite'
                     className='hidden-label'
                 />
