@@ -3,7 +3,7 @@
 
 const axios = require('axios');
 
-module.exports = async ({sender, message, channelId, createAt = 0, baseUrl}) => {
+module.exports = async ({sender, message, channelId, rootId, createAt = 0, baseUrl}) => {
     const loginResponse = await axios({
         url: `${baseUrl}/api/v4/users/login`,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -31,6 +31,8 @@ module.exports = async ({sender, message, channelId, createAt = 0, baseUrl}) => 
             message,
             type: '',
             create_at: createAt,
+            parent_id: rootId,
+            root_id: rootId,
         },
     });
 
