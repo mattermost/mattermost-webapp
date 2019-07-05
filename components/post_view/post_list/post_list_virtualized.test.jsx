@@ -225,27 +225,21 @@ describe('PostList', () => {
 
             instance.postListRef = {current: {scrollTop: 10, scrollHeight: 100}};
 
-            // wrapper.setProps({olderPosts: {allLoaded: true, loading: false}});
-            // expect(instance.componentDidUpdate).toHaveBeenCalledTimes(1);
-            // expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollTop: 10, previousScrollHeight: 100});
-            //
-            // instance.postListRef = {current: {scrollTop: 30, scrollHeight: 200}};
-            // wrapper.setProps({olderPosts: {allLoaded: true, loading: false}});
-            // expect(instance.componentDidUpdate).toHaveBeenCalledTimes(2);
-            // expect(instance.componentDidUpdate.mock.calls[1][2]).toEqual({previousScrollTop: 30, previousScrollHeight: 200});
+            wrapper.setProps({olderPosts: {allLoaded: true, loading: false}});
+            expect(instance.componentDidUpdate).toHaveBeenCalledTimes(1);
+            expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollTop: 10, previousScrollHeight: 100});
 
-            /*instance.postListRef = {current: {scrollTop: 40, scrollHeight: 400}};
+            instance.postListRef = {current: {scrollTop: 30, scrollHeight: 200}};
             wrapper.setProps({postListIds: [
                 'post1',
                 'post2',
                 'post3',
-                'post4',
-                'post5',
                 DATE_LINE + 1551711600000,
+                'post4',
             ]});
 
-            expect(instance.componentDidUpdate).toHaveBeenCalledTimes(3);
-            expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual({previousScrollTop: 40, previousScrollHeight: 400});*/
+            expect(instance.componentDidUpdate).toHaveBeenCalledTimes(2);
+            expect(instance.componentDidUpdate.mock.calls[1][2]).toEqual({previousScrollTop: 30, previousScrollHeight: 200});
         });
 
         test('should not return previous scroll position from getSnapshotBeforeUpdate as list is at bottom', () => {
@@ -253,11 +247,11 @@ describe('PostList', () => {
             const instance = wrapper.instance();
             instance.componentDidUpdate = jest.fn();
 
-            // instance.postListRef = {current: {scrollTop: 10, scrollHeight: 100}};
-            // wrapper.setProps({olderPosts: {allLoaded: true, loading: false}});
-            // expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual(null);
+            instance.postListRef = {current: {scrollTop: 10, scrollHeight: 100}};
+            wrapper.setProps({olderPosts: {allLoaded: true, loading: false}});
+            expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollHeight: 100, previousScrollTop: 10});
 
-            /*wrapper.setState({atEnd: false});
+            wrapper.setState({atBottom: true});
             instance.postListRef = {current: {scrollTop: 40, scrollHeight: 400}};
             wrapper.setProps({postListIds: [
                 'post1',
@@ -268,14 +262,14 @@ describe('PostList', () => {
                 DATE_LINE + 1551711600000,
             ]});
 
-            expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual(null);*/
+            expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual(null);
         });
     });
 
     describe('initRangeToRender', () => {
-        test('should return 0 to 50 for channel with more than 50 messages', () => {
+        test('should return 0 to 50 for channel with more than 100 messages', () => {
             const postListIds = [];
-            for (let i = 0; i < 70; i++) {
+            for (let i = 0; i < 110; i++) {
                 postListIds.push(`post${i}`);
             }
 
@@ -397,6 +391,24 @@ describe('PostList', () => {
 
             instance.onItemsRendered({visibleStartIndex: 2});
             expect(wrapper.state('topPostId')).toBe('post3');
+        });
+    });
+
+    describe('scrollToLatestMessages', () => {
+        test('should call scrollToBottom', () => {
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            wrapper.setProps({olderPosts: {allLoaded: true, loading: false}});
+            const instance = wrapper.instance();
+            instance.scrollToBottom = jest.fn();
+            instance.scrollToLatestMessages();
+            expect(instance.scrollToBottom).toHaveBeenCalled();
+        });
+
+        test('should call changeTimeStampToShowPosts', () => {
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            const instance = wrapper.instance();
+            instance.scrollToLatestMessages();
+            expect(baseActions.changeTimeStampToShowPosts).toHaveBeenCalledWith('');
         });
     });
 });

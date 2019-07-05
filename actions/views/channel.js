@@ -132,13 +132,19 @@ export function autocompleteUsersInChannel(prefix, channelId) {
 
 export function loadUnreads(channelId) {
     return async (dispatch) => {
-        const {data} = await dispatch(PostActions.getPostsUnread(channelId));
+        const {data, error} = await dispatch(PostActions.getPostsUnread(channelId));
         if (data) {
             dispatch({
                 type: ActionTypes.INCREASE_POST_VISIBILITY,
                 data: channelId,
                 amount: data.order.length,
             });
+        } else {
+            return {
+                error,
+                atLatestMessage: true,
+                atOldestmessage: true,
+            };
         }
 
         return {
@@ -150,13 +156,19 @@ export function loadUnreads(channelId) {
 
 export function loadPostsAround(channelId, focusedPostId) {
     return async (dispatch) => {
-        const {data} = await dispatch(PostActions.getPostsAround(channelId, focusedPostId, Posts.POST_CHUNK_SIZE / 2));
+        const {data, error} = await dispatch(PostActions.getPostsAround(channelId, focusedPostId, Posts.POST_CHUNK_SIZE / 2));
         if (data) {
             dispatch({
                 type: ActionTypes.INCREASE_POST_VISIBILITY,
                 data: channelId,
                 amount: data.order.length,
             });
+        } else {
+            return {
+                error,
+                atLatestMessage: true,
+                atOldestmessage: true,
+            };
         }
         return {
             atLatestMessage: data.next_post_id === '',
@@ -168,7 +180,7 @@ export function loadPostsAround(channelId, focusedPostId) {
 export function loadLatestPosts(channelId) {
     return async (dispatch) => {
         const time = Date.now();
-        const {data} = await dispatch(PostActions.getPosts(channelId, 0, Posts.POST_CHUNK_SIZE / 2));
+        const {data, error} = await dispatch(PostActions.getPosts(channelId, 0, Posts.POST_CHUNK_SIZE / 2));
 
         if (data) {
             dispatch({
@@ -176,6 +188,12 @@ export function loadLatestPosts(channelId) {
                 channelId,
                 time,
             });
+        } else {
+            return {
+                error,
+                atLatestMessage: true,
+                atOldestmessage: true,
+            };
         }
 
         return {

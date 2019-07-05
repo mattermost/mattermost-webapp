@@ -11,7 +11,7 @@ import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import Constants, {PostListRowListIds, EventTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
-import {getOldestPostId, getPreviousPostId, getLatestPostId} from 'utils/post_utils.jsx';
+import {getPreviousPostId, getLatestPostId} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
@@ -260,36 +260,6 @@ export default class PostList extends React.PureComponent {
         }
     }
 
-    loadMoreOlderPosts = () => {
-        const oldestPostId = this.getOldestVisiblePostId();
-
-        if (!oldestPostId) {
-            // loadOlderPosts shouldn't be called if we don't already have posts
-            return;
-        }
-
-        this.props.actions.loadOlderPosts(oldestPostId);
-    };
-
-    loadMoreNewerPosts = () => {
-        const recentPostId = this.getNewestVisiblePostId();
-
-        if (!recentPostId) {
-            // loadNewerPosts shouldn't be called if we don't already have posts
-            return;
-        }
-
-        this.props.actions.loadNewerPosts(recentPostId);
-    };
-
-    getOldestVisiblePostId = () => {
-        return getOldestPostId(this.state.postListIds);
-    }
-
-    getNewestVisiblePostId = () => {
-        return getLatestPostId(this.state.postListIds);
-    }
-
     togglePostMenu = (opened) => {
         const dynamicListStyle = this.state.dynamicListStyle;
         if (this.state.isMobile) {
@@ -330,8 +300,8 @@ export default class PostList extends React.PureComponent {
                     listId={itemId}
                     previousListId={getPreviousPostId(data, index)}
                     shouldHighlight={itemId === this.props.focusedPostId}
-                    loadOlderPosts={this.loadMoreOlderPosts}
-                    loadNewerPosts={this.loadMoreNewerPosts}
+                    loadOlderPosts={this.props.actions.loadOlderPosts}
+                    loadNewerPosts={this.props.actions.loadNewerPosts}
                     togglePostMenu={this.togglePostMenu}
                 />
             </div>
@@ -348,10 +318,10 @@ export default class PostList extends React.PureComponent {
         const didUserScrollForwards = scrollDirection === 'forward' && !scrollUpdateWasRequested;
         const isOffsetWithInRange = scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
         const offsetFromBottom = (scrollHeight - clientHeight) - scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
-        if (didUserScrollBackwards && isOffsetWithInRange && !this.props.olderPosts.allLoaded) {
-            this.loadMoreOlderPosts();
+        if (didUserScrollBackwards && isOffsetWithInRange && !this.props.olderPosts.allLoaded && !this.props.olderPosts.loading) {
+            this.props.actions.loadOlderPosts();
         } else if (didUserScrollForwards && offsetFromBottom && !this.props.newerPosts.allLoaded && !this.props.newerPosts.loading) {
-            this.loadMoreNewerPosts();
+            this.props.actions.loadNewerPosts();
         }
 
         if (this.state.isMobile) {

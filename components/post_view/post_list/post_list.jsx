@@ -6,11 +6,12 @@ import PropTypes from 'prop-types';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 import {PostRequestTypes} from 'utils/constants.jsx';
+import {getOldestPostId, getLatestPostId} from 'utils/post_utils.jsx';
 
 import VirtPostList from './post_list_virtualized.jsx';
 
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
-const MAX_EXTRA_PAGES_LOADED = 10;
+export const MAX_EXTRA_PAGES_LOADED = 10;
 
 export default class PostList extends React.PureComponent {
     static propTypes = {
@@ -100,6 +101,7 @@ export default class PostList extends React.PureComponent {
         };
 
         this.autoRetriesCount = 0;
+        this.loadingMorePosts = null;
         this.actionsForPostList = {
             loadOlderPosts: this.getPostsBefore,
             loadNewerPosts: this.getPostsAfter,
@@ -131,7 +133,7 @@ export default class PostList extends React.PureComponent {
             await this.loadPermalinkPosts(channelId);
         } else if (this.props.isFirstLoad) {
             await this.loadUnreadPosts(channelId);
-        } else if (this.props.postListIds) {
+        } else if (this.props.latestPostTimeStamp) {
             await this.props.actions.syncPostsInChannel(channelId, this.props.latestPostTimeStamp);
         } else {
             await this.loadLatestPosts(channelId);
@@ -239,22 +241,20 @@ export default class PostList extends React.PureComponent {
         });
     }
 
+    getOldestVisiblePostId = () => {
+        return getOldestPostId(this.props.postListIds);
+    }
+
+    getLatestVisiblePostId = () => {
+        return getLatestPostId(this.props.postListIds);
+    }
+
     canLoadMorePosts = async () => {
-        if (this.props.focusedPostId) {
+        if (!this.props.postListIds) {
             return;
         }
 
-        if (this.state.loadingFirstSetOfPosts) {
-            // Should already be loading posts
-            return;
-        }
-
-        if (this.state.olderPosts.allLoaded) {
-            // Screen is full
-            return;
-        }
-
-        if (this.state.olderPosts.loading) {
+        if (this.state.olderPosts.loading || this.state.newerPosts.loading) {
             return;
         }
 
@@ -265,18 +265,37 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        await this.getPostsBefore();
+        if (this.loadingMorePosts) {
+            return;
+        }
+
+        //canLoadMorePosts can be called few times in a setState cycle so having a instance
+        //variable to prevent from calling getPosts call when one call is in place
+        this.loadingMorePosts = true;
+
+        if (!this.state.olderPosts.allLoaded) {
+            const oldestPostId = this.getOldestVisiblePostId();
+            await this.getPostsBefore(oldestPostId);
+        } else if (!this.state.newerPosts.allLoaded) {
+            // if all olderPosts are loaded load new ones
+            const latestPostId = this.getLatestVisiblePostId();
+            await this.getPostsAfter(latestPostId);
+        }
+
+        this.loadingMorePosts = false;
         this.extraPagesLoaded += 1;
     }
 
-    getPostsBefore = (oldestPostId) => {
+    getPostsBefore = async () => {
+        const oldestPostId = this.getOldestVisiblePostId();
         this.setLoadingPosts('olderPosts');
-        return this.callLoadPosts(this.props.channelId, oldestPostId, PostRequestTypes.BEFORE_ID);
+        await this.callLoadPosts(this.props.channelId, oldestPostId, PostRequestTypes.BEFORE_ID);
     }
 
-    getPostsAfter = (newestMessageId) => {
+    getPostsAfter = async () => {
+        const latestPostId = this.getLatestVisiblePostId();
         this.setLoadingPosts('newerPosts');
-        return this.callLoadPosts(this.props.channelId, newestMessageId, PostRequestTypes.AFTER_ID);
+        await this.callLoadPosts(this.props.channelId, latestPostId, PostRequestTypes.AFTER_ID);
     }
 
     render() {

@@ -175,6 +175,38 @@ describe('channel view actions', () => {
         });
     });
 
+    describe('loadUnreads', () => {
+        test('when there are no posts after and before the response', async () => {
+            const posts = {posts: {}, order: [], next_post_id: '', prev_post_id: ''};
+
+            PostActions.getPostsUnread.mockReturnValue(() => ({data: posts}));
+
+            const result = await store.dispatch(Actions.loadUnreads('channel', 'post'));
+
+            expect(result).toEqual({atLatestMessage: true, atOldestmessage: true});
+            expect(PostActions.getPostsUnread).toHaveBeenCalledWith('channel');
+        });
+
+        test('when there are posts before and after the response', async () => {
+            const posts = {
+                posts: {},
+                order: [
+                    ...new Array(Posts.POST_CHUNK_SIZE / 2), // after
+                    'post',
+                    ...new Array(Posts.POST_CHUNK_SIZE / 2), // before
+                ],
+                next_post_id: 'test',
+                prev_post_id: 'test',
+            };
+
+            PostActions.getPostsUnread.mockReturnValue(() => ({data: posts}));
+
+            const result = await store.dispatch(Actions.loadUnreads('channel', 'post'));
+            expect(result).toEqual({atLatestMessage: false, atOldestmessage: false});
+            expect(PostActions.getPostsUnread).toHaveBeenCalledWith('channel');
+        });
+    });
+
     describe('loadPostsAround', () => {
         test('should call getPostsAround and return the results', async () => {
             const posts = {posts: {}, order: [], next_post_id: '', prev_post_id: ''};
