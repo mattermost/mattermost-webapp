@@ -32,6 +32,7 @@ export default class InvitationModalGuestsStep extends React.Component {
 
     constructor(props) {
         super(props);
+        this.textareaRef = React.createRef();
         this.state = {
             customMessageOpen: false,
             customMessage: '',
@@ -79,6 +80,11 @@ export default class InvitationModalGuestsStep extends React.Component {
 
     openCustomMessage = () => {
         this.setState({customMessageOpen: true});
+        setTimeout(() => {
+            if (this.textareaRef.current) {
+                this.textareaRef.current.focus();
+            }
+        });
     }
 
     closeCustomMessage = () => {
@@ -198,6 +204,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                                 <CloseCircleIcon onClick={this.closeCustomMessage}/>
                             </div>
                             <textarea
+                                ref={this.textareaRef}
                                 onChange={this.onMessageChange}
                                 value={this.state.customMessage}
                             />

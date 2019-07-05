@@ -10,7 +10,7 @@
         display: flex;
         max-width: 720px;
         border-top: 1px solid;
-        border-top-color: var(--center-channel-color-60);
+        border-top-color: var(--center-channel-color-20);
         padding: 32px;
         width: 100%;
         align-items: center;
@@ -18,16 +18,20 @@
         font-size: 16px;
         &:last-child {
             border-bottom: 1px solid;
-            border-color: var(--center-channel-color-60);
+            border-bottom-color: var(--center-channel-color-20);
         }
         h2 {
             margin-top: 0px;
+            margin-bottom: 16px;
             font-size: 24px;
+            line-height: 1.38;
         }
         .arrow {
-            margin-left: 32px;
-            font-size: 40px;
-            color: var(--center-channel-color-60);
+            svg {
+                height: 48px;
+                width: 48px;
+                fill: var(--center-channel-color-20);
+            }
         }
     }
 }

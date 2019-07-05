@@ -3,27 +3,34 @@
 .InvitationModal {
     display: flex;
     flex-direction: column;
-    margin-top: 160px;
+    margin-top: 168px;
     width: 100%;
     height: 100%;
     align-items: center;
     font-size: 16px;
-    color: var(--center-channel-color-60);
+    color: var(--center-channel-color-80);
     h1 {
         font-size: 32px;
         margin-bottom: 40px;
+        margin-top: 16px;
         text-align: center;
+        font-weight: 300;
+        line-height: 1;
+        strong {
+            font-weight: 400;
+        }
     }
     .back {
         position: absolute;
-        top: 58px;
-        left: 58px;
+        top: 48px;
+        left: 48px;
         cursor: pointer;
         svg {
-            fill: var(--center-channel-color-60);
-            width: 32px;
-            height: 32px;
-            border-radius: 5px;
+            fill: var(--center-channel-color-90);
+            padding: 4px;
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
             &:hover {
                 background: var(--button-bg-10);
             }

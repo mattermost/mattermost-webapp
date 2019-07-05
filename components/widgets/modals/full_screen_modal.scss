@@ -9,14 +9,15 @@
 
     .close-x {
         position: absolute;
-        top: 58px;
-        right: 58px;
+        top: 48px;
+        right: 48px;
         cursor: pointer;
         svg {
-            fill: var(--center-channel-color-60);
-            width: 32px;
-            height: 32px;
-            border-radius: 5px;
+            fill: var(--center-channel-color-90);
+            padding: 4px;
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
             &:hover {
                 background: var(--button-bg-10);
             }
