@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 export default class MenuIcon extends React.PureComponent {
     render() {
         return (
-            <button {...this.props}>
+            <span {...this.props}>
                 <FormattedMessage
                     id='generic_icons.menu'
                     defaultMessage='Menu Icon'
@@ -44,7 +44,7 @@ export default class MenuIcon extends React.PureComponent {
                         </svg>
                     )}
                 </FormattedMessage>
-            </button>
+            </span>
         );
     }
 }
