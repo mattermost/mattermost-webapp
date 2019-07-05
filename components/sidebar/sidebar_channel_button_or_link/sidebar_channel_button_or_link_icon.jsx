@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import Svg from 'react-inlinesvg';
 
 import {Constants} from 'utils/constants.jsx';
+
 import ArchiveIcon from 'components/svg/archive_icon';
 import DraftIcon from 'components/svg/draft_icon';
 import GlobeIcon from 'components/svg/globe_icon';
