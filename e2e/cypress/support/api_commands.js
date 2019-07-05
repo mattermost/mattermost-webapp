@@ -354,6 +354,49 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = []) => {
 });
 
 /**
+ * Creates a new user via the API, adds them to a team, but does not set preference to bypass tutorial.
+ * Then logs in as the user
+ @param {Object} user - Object of user email, username, and password that you can optionally set. Otherwise use default values
+ @returns {Object} Returns object containing email, username, id and password if you need it further in the test
+ */
+Cypress.Commands.add('createNewUserWithTutorial', (user = {}, teamIds = []) => {
+    const timestamp = Date.now();
+
+    const {email = `user${timestamp}@sample.mattermost.com`, username = `user${timestamp}`, password = 'password123'} = user;
+
+    // # Login as sysadmin to make admin requests
+    cy.apiLogin('sysadmin');
+
+    // # Create a new user
+    return cy.request({method: 'POST', url: '/api/v4/users', body: {email, username, password}}).then((userResponse) => {
+        // Safety assertions to make sure we have a valid response
+        expect(userResponse).to.have.property('body').to.have.property('id');
+
+        const userId = userResponse.body.id;
+
+        if (teamIds && teamIds.length > 0) {
+            teamIds.forEach((teamId) => {
+                cy.apiAddUserToTeam(teamId, userId);
+            });
+        } else {
+            // Get teams, select the first three, and add new user to that team
+            cy.request('GET', '/api/v4/teams').then((teamsResponse) => {
+                // Verify we have at least 2 teams in the response to add the user to
+                expect(teamsResponse).to.have.property('body').to.have.length.greaterThan(1);
+
+                // Pull out only the first 2 teams
+                teamsResponse.body.slice(0, 2).map((t) => t.id).forEach((teamId) => {
+                    cy.apiAddUserToTeam(teamId, userId);
+                });
+            });
+        }
+    
+        // Wrap our user object so it gets returned from our cypress command
+        cy.wrap({email, username, password, id: userId});
+    });
+});
+
+/**
  * Creates a new user via the API, adds them to 3 teams, and sets preference to bypass tutorial.
  * Then logs in as the user
  @param {Object} user - Object of user email, username, and password that you can optionally set. Otherwise use default values
@@ -374,6 +417,26 @@ Cypress.Commands.add('loginAsNewUser', (user = {}) => {
     });
 });
 
+/**
+ * Creates a new user via the API, adds them to 3 teams, and sets preference to bypass tutorial.
+ * Then logs in as the user
+ @param {Object} user - Object of user email, username, and password that you can optionally set. Otherwise use default values
+ @returns {Object} Returns object containing email, username, id and password if you need it further in the test
+ */
+Cypress.Commands.add('loginAsNewUserWithTutorial', (user = {}) => {
+    return cy.createNewUserWithTutorial(user).then((newUser) => {
+        cy.request({
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            url: '/api/v4/users/login',
+            method: 'POST',
+            body: {login_id: newUser.username, password: newUser.password},
+        });
+
+        cy.visit('/');
+
+        return cy.wrap(newUser);
+    });
+});
 /**
  * Saves channel display mode preference of a user directly via API
  * This API assume that the user is logged in and has cookie to access
