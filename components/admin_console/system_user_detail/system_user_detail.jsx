@@ -94,7 +94,7 @@ export default class SystemUserDetail extends React.Component {
 
     onUpdateActiveResult = ({error}) => {
         if (error) {
-            //this.props.onError({id: error.server_error_id, ...error});
+            this.setState({error});
         }
     }
 
@@ -256,8 +256,6 @@ export default class SystemUserDetail extends React.Component {
             />
         );
 
-        // TODO: get the user object if navigated to page directly
-        // for now, redirecting to parent page
         if (!user.id) {
             return (
                 <Redirect to={{pathname: '/admin_console/user_management/users'}}/>
