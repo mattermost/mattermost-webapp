@@ -59,7 +59,7 @@ function makeMapStateToProps() {
             atLatestPost = chunk.recent;
         }
 
-        if (postIds) {
+        if (postIds && postIds.length) {
             postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true});
             const latestPostId = memoizedGetLatestPostId(postIds);
             const latestPost = getPost(state, latestPostId);

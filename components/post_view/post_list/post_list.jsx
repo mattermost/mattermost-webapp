@@ -95,7 +95,7 @@ export default class PostList extends React.PureComponent {
                 loading: false,
                 allLoaded: false,
             },
-            loadingFirstSetOfPosts: !this.props.postListIds,
+            loadingFirstSetOfPosts: !props.postListIds,
             autoRetryEnable: true,
         };
 
@@ -254,6 +254,10 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
+        if (this.state.olderPosts.loading) {
+            return;
+        }
+
         if (this.extraPagesLoaded > MAX_EXTRA_PAGES_LOADED) {
             // Prevent this from loading a lot of pages in a channel with only hidden messages
             // Enable load more messages manual link
@@ -261,7 +265,7 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        // await this.getPostsBefore();
+        await this.getPostsBefore();
         this.extraPagesLoaded += 1;
     }
 
