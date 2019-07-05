@@ -16,7 +16,7 @@ import BotIcon from 'components/svg/bot_icon.jsx';
 
 export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent {
     static propTypes = {
-        channelIconUrl: PropTypes.string,
+        botIconUrl: PropTypes.string,
         channelIsArchived: PropTypes.bool.isRequired,
         channelType: PropTypes.string.isRequired,
         channelStatus: PropTypes.string,
@@ -31,14 +31,14 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
         super(props);
         this.state = {
             svgError: false,
-            channelIconUrl: null,
+            botIconUrl: null,
         };
     }
 
     onSvgLoadError = () => {
         this.setState({
             svgError: true,
-            channelIconUrl: this.props.channelIconUrl,
+            botIconUrl: this.props.botIconUrl,
         });
     }
 
@@ -71,14 +71,14 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
                 // Use default bot icon
                 icon = (<BotIcon className='icon icon__bot'/>);
 
-                // Attempt to display custom icon if channelIconUrl has changed
+                // Attempt to display custom icon if botIconUrl has changed
                 // or if there was no error when loading custom svg
-                if ((this.props.channelIconUrl && !this.state.svgError) ||
-                    this.props.channelIconUrl !== this.state.channelIconUrl) {
+                if ((this.props.botIconUrl && !this.state.svgError) ||
+                    this.props.botIconUrl !== this.state.botIconUrl) {
                     icon = (
                         <Svg
                             className='icon icon__bot'
-                            src={this.props.channelIconUrl}
+                            src={this.props.botIconUrl}
                             onError={this.onSvgLoadError}
                         />
                     );

@@ -1340,17 +1340,6 @@ export function imageURLForUser(userIdOrObject) {
     return Client4.getUsersRoute() + '/' + userIdOrObject.id + '/image?_=' + (userIdOrObject.last_picture_update || 0);
 }
 
-export function iconImageURLForUser(userIdOrObject) {
-    if (typeof userIdOrObject == 'string') {
-        const profile = getUser(store.getState(), userIdOrObject);
-        if (profile) {
-            return iconImageURLForUser(profile);
-        }
-        return Constants.TRANSPARENT_PIXEL;
-    }
-    return Client4.getUsersRoute() + '/' + userIdOrObject.id + '/icon?_=' + (userIdOrObject.last_picture_update || 0);
-}
-
 export function defaultImageURLForUser(userId) {
     return Client4.getUsersRoute() + '/' + userId + '/image/default';
 }
