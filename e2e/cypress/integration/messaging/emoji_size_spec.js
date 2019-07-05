@@ -74,7 +74,7 @@ describe('Messaging', () => {
 
         // # Post a message
         const messageText = 'This is a message from the future';
-        cy.postMessage(messageText + ' ' + emojis);
+        cy.postMessage(messageText + ' ' + emojis.join(' '));
 
         // # Get last post message text
         cy.getLastPostId().then((postId) => {
