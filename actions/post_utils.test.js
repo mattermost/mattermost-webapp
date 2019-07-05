@@ -125,7 +125,7 @@ describe('actions/post_utils', () => {
 
     test('setChannelReadAndView', async () => {
         let testStore = await mockStore(initialState);
-        const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL};
+        const newPost = {id: 'new_post_id', root_id: 'new_post_root_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL};
         const websocketProps = {team_id: 'team_id', mentions: ['current_user_id']};
 
         await testStore.dispatch(PostActionsUtils.setChannelReadAndView(newPost, websocketProps));
@@ -140,5 +140,21 @@ describe('actions/post_utils', () => {
         newPost.user_id = 'current_user_id';
         await testStore.dispatch(PostActionsUtils.setChannelReadAndView(newPost, websocketProps));
         expect(testStore.getActions()).toEqual([MARK_CHANNEL_AS_READ, MARK_CHANNEL_AS_VIEWED]);
+
+        testStore = await mockStore({
+            ...initialState,
+            views: {
+                ...initialState.views,
+                browser: {
+                    focused: true,
+                },
+                rhs: {
+                    selectedPostId: newPost.root_id,
+                },
+            },
+        });
+
+        await testStore.dispatch(PostActionsUtils.setChannelReadAndView(newPost, websocketProps));
+        expect(testStore.getActions()).toEqual(EMPTY_ACTION);
     });
 });

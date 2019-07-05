@@ -1888,7 +1888,33 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
+            key="7"
+            name="user_management/teams"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Teams"
+                id="admin.sidebar.teams"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
             key="9"
+            name="user_management/channels"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Channels"
+                id="admin.sidebar.channels"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="13"
             name="user_management/permissions/"
             parentLink=""
             subsection={false}
@@ -2649,7 +2675,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           />
           <AdminSidebarSection
-            key="9"
+            key="13"
             name="user_management/permissions/"
             parentLink=""
             subsection={false}
