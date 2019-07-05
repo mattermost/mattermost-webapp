@@ -6,13 +6,25 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
-
 function checkEmojiSize(message, emojis) {
     emojis.forEach((emoji) => {
         cy.get(message).
             find('span[alt="' + emoji + '"]').
             and('have.css', 'minHeight', '32px').
             and('have.css', 'minWidth', '32px');
+    });
+}
+
+/**
+ * [checkEmojiSizeInPost: this function is going to check the correct size of emojis when they're inside messages]
+ * @param  {[type]} message [this is the message we send along with some emojis attached to it ]
+ * @param  {[type]} emojis [array of emojis]
+ */
+function checkEmojiSizeInPost(message, emojis) {
+    emojis.forEach((emoji) => {
+        cy.get(message).find('span[alt="' + emoji + '"]').
+            and('have.css', 'Height', '21px').
+            and('have.css', 'Width', '21px');
     });
 }
 
@@ -60,5 +72,21 @@ describe('Messaging', () => {
 
         // * Verify emoji size
         checkEmojiSize('@spacesMessage', emojis);
+    });
+
+    it('MM-15012 - Emojis are not jumbo when accompanied by text', () => {
+        const emojis = [':book:', ':key:', ':gem:'];
+
+        // # Post a message
+        const messageText = 'This is a message from the future';
+        cy.postMessage(messageText + ' ' + emojis);
+
+        // # Get last post message text
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#postMessageText_${postId}`).as('newLineMessage');
+        });
+
+        // # Making sure Emojis from last post message are 21px size
+        checkEmojiSizeInPost('@newLineMessage', emojis);
     });
 });
