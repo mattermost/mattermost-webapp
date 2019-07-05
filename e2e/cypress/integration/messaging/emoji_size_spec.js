@@ -6,25 +6,20 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
-function checkEmojiSize(message, emojis) {
+/**
+ * [checkEmojiSizeInPost: this function is going to check the correct size of emojis when they're inside messages]
+ * @param  message {string[]} [this is the message we send along with some emojis attached to it ]
+ * @param  emojis  {string[]} [array of emojis]
+ * @param  isJumbo {boolean}  [This parameter is used to verify what kind of matcher and size we need to compare in the emojis]
+ */
+function checkEmojiSize(message, emojis, isJumbo) {
+    const [height, width, size] = isJumbo ? ['min-Height', 'min-Width', '32px'] : ['height', 'width', '21px'];
+
     emojis.forEach((emoji) => {
         cy.get(message).
             find('span[alt="' + emoji + '"]').
-            and('have.css', 'minHeight', '32px').
-            and('have.css', 'minWidth', '32px');
-    });
-}
-
-/**
- * [checkEmojiSizeInPost: this function is going to check the correct size of emojis when they're inside messages]
- * @param  {[type]} message [this is the message we send along with some emojis attached to it ]
- * @param  {[type]} emojis [array of emojis]
- */
-function checkEmojiSizeInPost(message, emojis) {
-    emojis.forEach((emoji) => {
-        cy.get(message).find('span[alt="' + emoji + '"]').
-            and('have.css', 'Height', '21px').
-            and('have.css', 'Width', '21px');
+            and('have.css', height, size).
+            and('have.css', width, size);
     });
 }
 
@@ -52,7 +47,7 @@ describe('Messaging', () => {
             and('not.contain', '\n');
 
         // * Verify emoji size
-        checkEmojiSize('@newLineMessage', emojis);
+        checkEmojiSize('@newLineMessage', emojis, true);
 
         // # Post a message beginning with three spaces and followed by emojis
         cy.postMessage('   ' + emojis.join(' '));
@@ -71,7 +66,7 @@ describe('Messaging', () => {
             });
 
         // * Verify emoji size
-        checkEmojiSize('@spacesMessage', emojis);
+        checkEmojiSize('@spacesMessage', emojis, true);
     });
 
     it('MM-15012 - Emojis are not jumbo when accompanied by text', () => {
@@ -87,6 +82,6 @@ describe('Messaging', () => {
         });
 
         // # Making sure Emojis from last post message are 21px size
-        checkEmojiSizeInPost('@newLineMessage', emojis);
+        checkEmojiSize('@newLineMessage', emojis, false);
     });
 });
