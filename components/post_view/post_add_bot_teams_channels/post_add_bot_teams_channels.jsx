@@ -44,7 +44,7 @@ export default class PostAddBotTeamsChannels extends React.PureComponent {
     }
 
     handleSelectedTeam = (selected) => {
-        this.setState({selectedTeamName: selected.text, team: selected, selectedChannelName: null, channel: null});
+        this.setState({selectedTeamName: selected.text, team: selected, selectedChannelName: '', channel: null});
     }
 
     handleSelectedChannel = async (selected) => {
