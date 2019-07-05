@@ -142,8 +142,6 @@ export default class InvitationModalMembersStep extends React.Component {
                                     value={this.state.usersAndEmails}
                                     validAddressMessageId={t('invitation_modal.members.users_emails_input.valid_email')}
                                     validAddressMessageDefault='Invite **{email}** as a team member'
-                                    noOptionsMessageId={t('invitation_modal.members.users_emails_input.empty')}
-                                    noOptionsMessageDefault='No one found outside this team, type email to invite'
                                     noMatchMessageId={t('invitation_modal.members.users_emails_input.no_user_found_matching')}
                                     noMatchMessageDefault='No one found matching **{text}**, type email to invite'
                                 />

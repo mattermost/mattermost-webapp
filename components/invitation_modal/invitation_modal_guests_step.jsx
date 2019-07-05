@@ -141,8 +141,6 @@ export default class InvitationModalGuestsStep extends React.Component {
                                     value={this.state.usersAndEmails}
                                     validAddressMessageId={t('invitation_modal.guests.users_emails_input.valid_email')}
                                     validAddressMessageDefault='Invite **{email}** as a guest'
-                                    noOptionsMessageId={t('invitation_modal.guests.users_emails_input.empty')}
-                                    noOptionsMessageDefault='No guest found outside, type email to invite'
                                     noMatchMessageId={t('invitation_modal.guests.users_emails_input.no_user_found_matching')}
                                     noMatchMessageDefault='No one found matching **{text}**, type email to invite'
                                 />
