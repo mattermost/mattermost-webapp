@@ -83,9 +83,12 @@ export default class UserProfile extends PureComponent {
                         />
                     }
                 >
-                    <div className='user-popover'>
+                    <button
+                        aria-label={name.toLowerCase()}
+                        className='user-popover style--none'
+                    >
                         {name}
-                    </div>
+                    </button>
                 </OverlayTrigger>
                 <BotBadge
                     show={Boolean(user && user.is_bot)}

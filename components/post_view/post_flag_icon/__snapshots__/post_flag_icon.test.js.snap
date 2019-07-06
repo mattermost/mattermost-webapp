@@ -22,11 +22,12 @@ exports[`components/post_view/PostFlagIcon should match snapshot 1`] = `
   trigger={
     Array [
       "hover",
-      "focus",
+      "click",
     ]
   }
 >
   <button
+    aria-label="flag"
     className="style--none flag-icon__container "
     id="CENTER_flagIcon_post_id"
     onClick={[Function]}
@@ -60,11 +61,12 @@ exports[`components/post_view/PostFlagIcon should match snapshot 2`] = `
   trigger={
     Array [
       "hover",
-      "focus",
+      "click",
     ]
   }
 >
   <button
+    aria-label="flag"
     className="style--none flag-icon__container visible"
     id="CENTER_flagIcon_post_id"
     onClick={[Function]}

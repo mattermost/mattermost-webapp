@@ -259,7 +259,6 @@
     height: 100px;
     margin: 5px 10px 5px 0;
     max-width: 100%;
-    overflow: hidden;
     position: relative;
     width: 320px;
 
@@ -339,6 +338,7 @@
     flex: none;
     height: 100%;
     width: 100px;
+    z-index: 1;
 }
 
 .post-image__details {
@@ -372,6 +372,10 @@
                 margin-bottom: 3px;
                 outline: none;
                 text-decoration: none;
+
+                a {
+                    border-radius: 100px;
+                }
             }
 
             .post-image__type {

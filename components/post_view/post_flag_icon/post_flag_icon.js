@@ -9,6 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import FlagIcon from 'components/svg/flag_icon';
 import FlagIconFilled from 'components/svg/flag_icon_filled';
 import Constants, {Locations} from 'utils/constants.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
 export default class PostFlagIcon extends React.PureComponent {
@@ -62,7 +63,7 @@ export default class PostFlagIcon extends React.PureComponent {
 
         return (
             <OverlayTrigger
-                trigger={['hover', 'focus']}
+                trigger={['hover', 'click']}
                 key={'flagtooltipkey' + flagVisible}
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='top'
@@ -77,6 +78,7 @@ export default class PostFlagIcon extends React.PureComponent {
             >
                 <button
                     id={`${this.props.location}_flagIcon_${this.props.postId}`}
+                    aria-label={localizeMessage('rhs_root.mobile.flag', 'Flag').toLowerCase()}
                     className={'style--none flag-icon__container ' + flagVisible}
                     onClick={this.handlePress}
                 >
