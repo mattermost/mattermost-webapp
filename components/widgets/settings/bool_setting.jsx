@@ -12,7 +12,7 @@ export default class BoolSetting extends React.Component {
         label: PropTypes.node.isRequired,
         labelClassName: PropTypes.string,
         helpText: PropTypes.node,
-        placeholder: PropTypes.string,
+        placeholder: PropTypes.string.isRequired,
         value: PropTypes.bool.isRequired,
         inputClassName: PropTypes.string,
         maxLength: PropTypes.number,
