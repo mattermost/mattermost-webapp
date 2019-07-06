@@ -152,6 +152,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
+            padding-left: 3px;
 
             div {
                 display: inline;
@@ -342,7 +343,6 @@
 }
 
 .post-image__details {
-    @include clearfix;
     position: relative;
     align-items: center;
     border-left: 1px solid $light-gray;
