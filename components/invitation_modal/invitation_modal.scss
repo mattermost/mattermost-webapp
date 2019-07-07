@@ -8,6 +8,7 @@
     height: 100%;
     align-items: center;
     font-size: 16px;
+    color: var(--center-channel-color-60);
     h1 {
         font-size: 32px;
         margin-bottom: 40px;
@@ -19,15 +20,19 @@
         left: 58px;
         cursor: pointer;
         svg {
-            width: 28px;
-            height: 28px;
-            opacity: .6;
+            fill: var(--center-channel-color-60);
+            width: 32px;
+            height: 32px;
+            border-radius: 5px;
+            &:hover {
+                background: var(--button-bg-10);
+            }
         }
     }
     .modal-icon {
         text-align: center;
         svg {
-            fill: $primary-color;
+            fill: var(--button-bg);
             height: 32px;
             width: 126px;
             margin-right: 85px;
@@ -44,13 +49,13 @@
     }
     .modal-header {
         border-radius: 8px 8px 0 0;
-        background: $white;
+        background: var(--center-channel-bg);
         border: 0px;
         min-height: 64px;
         padding: 20px;
         .modal-title {
             font-size: 20px;
-            color: $black;
+            color: var(--center-channel-color);
         }
     }
     .modal-body {

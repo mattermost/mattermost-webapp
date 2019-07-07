@@ -14,23 +14,29 @@
     .invitation-modal-confirm-not-sent {
         h2 {
             margin-top: 32px;
-            margin-bottom: 0;
+            margin-bottom: 13px;
             font-size: 20px;
         }
         .InvitationModalConfirmStepTable {
             .table-header {
-                border-bottom: 1px solid orange;
+                border-bottom: 1px solid;
+                border-top: 1px solid;
+                border-color: var(--center-channel-color-10);
+                background: rgba(255,165,0,.2);
             }
         }
     }
     .invitation-modal-confirm-sent {
         h2 {
             font-size: 20px;
-            margin-bottom: 0;
+            margin-bottom: 13px;
         }
         .InvitationModalConfirmStepTable {
             .table-header {
-                border-bottom: 1px solid green;
+                border-bottom: 1px solid;
+                border-top: 1px solid;
+                border-color: var(--center-channel-color-10);
+                background: rgba(0,128,0,.2);
             }
         }
     }

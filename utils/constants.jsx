@@ -328,6 +328,7 @@ export const SearchUserTeamFilter = {
 export const SearchUserOptionsFilter = {
     ALLOW_INACTIVE: 'inactive',
     SYSTEM_ADMIN: 'system_admin',
+    SYSTEM_GUEST: 'system_guest',
 };
 
 export const SearchTypes = keyMirror({

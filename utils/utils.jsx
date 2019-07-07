@@ -702,7 +702,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .channel-header .heading', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .col__reply > button:hover, .app__body .col__reply > a:hover, .app__body .col__reply > div:hover, .app__body .markdown__table tbody tr:nth-child(2n)', 'background:' + changeOpacity(theme.centerChannelColor, 0.07));
         changeCss('.app__body .channel-header__info .header-dropdown__icon', 'color:' + changeOpacity(theme.centerChannelColor, 0.8));
-        changeCss('.app__body .post-create__container .post-create-body .send-button.disabled i, .app__body .channel-header #member_popover', 'color:' + changeOpacity(theme.centerChannelColor, 0.4));
+        changeCss('.app__body .post-create__container .post-create-body .send-button.disabled i, .app__body .channel-header', 'color:' + changeOpacity(theme.centerChannelColor, 0.4));
         changeCss('.app__body .channel-header .pinned-posts-button svg', 'fill:' + changeOpacity(theme.centerChannelColor, 0.6));
         changeCss('.app__body .channel-header .channel-header_plugin-dropdown svg', 'fill:' + changeOpacity(theme.centerChannelColor, 0.6));
         changeCss('.app__body .custom-textarea, .app__body .custom-textarea:focus, .app__body .file-preview, .app__body .post-image__details, .app__body .sidebar--right .sidebar-right__body, .app__body .markdown__table th, .app__body .markdown__table td, .app__body .suggestion-list__content, .app__body .modal .modal-content, .app__body .modal .settings-modal .settings-table .settings-content .divider-light, .app__body .webhooks__container, .app__body .dropdown-menu, .app__body .modal .modal-header', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
@@ -919,7 +919,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .channel-header__links .icon:hover, .app__body .channel-header__links > a.active .icon, .app__body .post .flag-icon__container.visible, .app__body .post .reacticon__container, .app__body .post .comment-icon__container, .app__body .post .post__reply', 'fill:' + theme.linkColor);
         changeCss('@media(min-width: 768px){.app__body .search__form.focused .search__icon svg, .app__body .search__form:hover .search__icon svg', 'stroke:' + theme.linkColor);
         changeCss('.app__body .channel-header__links .icon:hover, .app__body .post .flag-icon__container.visible, .app__body .post .card-icon__container.active svg, .app__body .post .comment-icon__container, .app__body .post .post__reply', 'fill:' + theme.linkColor);
-        changeCss('.app__body .channel-header .channel-header__icon:hover #member_popover, .app__body .channel-header .channel-header__icon.active #member_popover', 'color:' + theme.linkColor);
+        changeCss('.app__body .channel-header .channel-header__icon:hover, .app__body .channel-header .channel-header__icon.active', 'color:' + theme.linkColor);
         changeCss('.app__body .channel-header .pinned-posts-button:hover svg', 'fill:' + changeOpacity(theme.linkColor, 0.6));
         changeCss('.app__body .member-list__popover .more-modal__actions svg, .app__body .channel-header .channel-header__icon:hover svg, .app__body .channel-header .channel-header__icon.active svg', 'fill:' + theme.linkColor);
         changeCss('.app__body .channel-header .channel-header__icon:hover .icon--stroke svg', 'stroke:' + theme.linkColor);
@@ -986,10 +986,26 @@ export function applyTheme(theme) {
             'mention-color': theme.mentionColor,
             'center-channel-bg': theme.centerChannelBg,
             'center-channel-color': theme.centerChannelColor,
+            'center-channel-bg-90': changeOpacity(theme.centerChannelBg, 0.9),
+            'center-channel-color-90': changeOpacity(theme.centerChannelColor, 0.9),
+            'center-channel-bg-60': changeOpacity(theme.centerChannelBg, 0.6),
+            'center-channel-color-60': changeOpacity(theme.centerChannelColor, 0.6),
+            'center-channel-bg-30': changeOpacity(theme.centerChannelBg, 0.3),
+            'center-channel-color-30': changeOpacity(theme.centerChannelColor, 0.3),
+            'center-channel-bg-10': changeOpacity(theme.centerChannelBg, 0.1),
+            'center-channel-color-10': changeOpacity(theme.centerChannelColor, 0.1),
             'new-message-separator': theme.newMessageSeparator,
             'link-color': theme.linkColor,
             'button-bg': theme.buttonBg,
             'button-color': theme.buttonColor,
+            'button-bg-90': changeOpacity(theme.buttonBg, 0.9),
+            'button-color-90': changeOpacity(theme.buttonColor, 0.9),
+            'button-bg-60': changeOpacity(theme.buttonBg, 0.6),
+            'button-color-60': changeOpacity(theme.buttonColor, 0.6),
+            'button-bg-30': changeOpacity(theme.buttonBg, 0.3),
+            'button-color-30': changeOpacity(theme.buttonColor, 0.3),
+            'button-bg-10': changeOpacity(theme.buttonBg, 0.1),
+            'button-color-10': changeOpacity(theme.buttonColor, 0.1),
             'error-text-color': theme.errorTextColor,
             'mention-highlight-bg': theme.mentionHighlightBg,
             'mention-highlight-link': theme.mentionHighlightLink,
