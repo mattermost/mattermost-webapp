@@ -499,7 +499,7 @@ export default class PostList extends React.PureComponent {
         const channel = this.props.channel;
         const {dynamicListStyle} = this.state;
 
-        if (this.state.loadingFirstSetOfPosts) {
+        if (this.state.loadingFirstSetOfPosts || !channel) {
             return (
                 <div id='post-list'>
                     <LoadingScreen
