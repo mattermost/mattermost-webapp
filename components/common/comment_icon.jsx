@@ -61,7 +61,7 @@ export default class CommentIcon extends React.PureComponent {
         return (
             <OverlayTrigger
                 className='hidden-xs'
-                trigger={this.getTooltipTriggers}
+                trigger={['hover', 'focus']}
                 delayShow={500}
                 placement='top'
                 overlay={tooltip}

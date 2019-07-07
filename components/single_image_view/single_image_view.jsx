@@ -182,6 +182,7 @@ export default class SingleImageView extends React.PureComponent {
                                 className={minPreviewClass}
                                 src={previewURL}
                                 dimensions={this.state.dimensions}
+                                fileInfo={this.props.fileInfo}
                                 onImageLoaded={this.imageLoaded}
                                 showLoader={this.props.isEmbedVisible}
                             />
