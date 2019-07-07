@@ -8,6 +8,7 @@ import {
     getPluginStatuses,
     removePlugin,
     uploadPlugin,
+    installPluginFromUrl,
     enablePlugin,
     disablePlugin,
 } from 'mattermost-redux/actions/admin';
@@ -25,6 +26,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             uploadPlugin,
+            installPluginFromUrl,
             removePlugin,
             getPlugins,
             getPluginStatuses,

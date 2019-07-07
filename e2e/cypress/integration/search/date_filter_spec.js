@@ -195,6 +195,11 @@ describe('SF15699 Search Date Filter', () => {
         });
 
         describe('works without leading 0 in', () => {
+            before(() => {
+                // # Close the search side bar
+                cy.get('#searchResultsCloseButton').should('be.visible').click();
+            });
+
             // These must match the date of the firstMessage, only altering leading zeroes
             const tests = [
                 {name: 'day', date: '2018-06-5'},
