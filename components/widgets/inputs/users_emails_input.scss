@@ -17,7 +17,6 @@
             }
             border-color: var(--button-bg);
             border-width: 2px;
-            padding: 0px;
             transition: none;
         }
     }
@@ -26,6 +25,7 @@
     }
     .users-emails-input__input {
         color: var(--center-channel-color);
+        margin-left: 4px;
     }
     input {
         height: inherit;

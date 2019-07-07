@@ -8,7 +8,7 @@
     height: 100%;
     align-items: center;
     font-size: 16px;
-    color: var(--center-channel-color-80);
+    color: var(--center-channel-color-90);
     h1 {
         font-size: 32px;
         margin-bottom: 40px;
@@ -16,6 +16,12 @@
         text-align: center;
         font-weight: 300;
         line-height: 1;
+        strong {
+            font-weight: 400;
+        }
+    }
+    h2 {
+        font-weight: 300;
         strong {
             font-weight: 400;
         }
