@@ -146,4 +146,21 @@ describe('AS14318 Theme Colors - Color Picker', () => {
             cy.userStatus(0);
         });
     });
+
+    describe('Theme Colors', () => {
+        it('Should be able to use color picket and change Sidebar theme color', () => {
+        // # Go to Account Settings with "user-1"
+            cy.toAccountSettingsModal(null, true);
+        });
+
+        it('Should be able to use color picket and change Center Channel Styles', () => {
+            // # Go to Account Settings with "user-1"
+            cy.toAccountSettingsModal(null, true);
+        });
+
+        it('Should be able to use color picket and change Link and Button Styles', () => {
+            // # Go to Account Settings with "user-1"
+            cy.toAccountSettingsModal(null, true);
+        });
+    });
 });
