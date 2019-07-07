@@ -390,7 +390,7 @@ Cypress.Commands.add('createNewUserWithTutorial', (user = {}, teamIds = []) => {
                 });
             });
         }
-    
+
         // Wrap our user object so it gets returned from our cypress command
         cy.wrap({email, username, password, id: userId});
     });
@@ -418,7 +418,7 @@ Cypress.Commands.add('loginAsNewUser', (user = {}) => {
 });
 
 /**
- * Creates a new user via the API, adds them to 3 teams, and sets preference to bypass tutorial.
+ * Creates a new user via the API, adds them to 3 teams, but does not set preference to bypass tutorial.
  * Then logs in as the user
  @param {Object} user - Object of user email, username, and password that you can optionally set. Otherwise use default values
  @returns {Object} Returns object containing email, username, id and password if you need it further in the test
@@ -437,6 +437,7 @@ Cypress.Commands.add('loginAsNewUserWithTutorial', (user = {}) => {
         return cy.wrap(newUser);
     });
 });
+
 /**
  * Saves channel display mode preference of a user directly via API
  * This API assume that the user is logged in and has cookie to access
