@@ -153,17 +153,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelName="channel-name"
     channelStatus="test"
     channelType="D"
-    displayName={
-      <FormattedMessage
-        defaultMessage="{displayname} (you)"
-        id="sidebar.directchannel.you"
-        values={
-          Object {
-            "displayname": "Channel display name",
-          }
-        }
-      />
-    }
+    displayName="Channel display name (you)"
     handleClose={[Function]}
     hasDraft={true}
     link="/current-team/messages/@undefined"
@@ -325,17 +315,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelName="channel-name"
     channelStatus="test"
     channelType="D"
-    displayName={
-      <FormattedMessage
-        defaultMessage="{displayname} (you)"
-        id="sidebar.directchannel.you"
-        values={
-          Object {
-            "displayname": "Channel display name",
-          }
-        }
-      />
-    }
+    displayName="Channel display name (you)"
     handleClose={[Function]}
     hasDraft={false}
     link="/current-team/messages/@undefined"
