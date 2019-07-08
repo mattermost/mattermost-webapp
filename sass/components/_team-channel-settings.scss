@@ -6,16 +6,13 @@ span.greyed-out {
 
 .groups-list-no-padding {
     padding: 0;
-    div.group {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
     div.group-row {
         height: 40px;
+        padding-left: 20px;
     }
     div.groups-list--header {
         div.group-name.adjusted {
-            margin-left: 44px;
+            margin-left: 20px;
         }
         div.group-description.adjusted {
             margin-right: 22px;
