@@ -1,3 +1,7 @@
+.team-container {
+    margin-right: 10px;
+}
+
 .team-btn__content {
     @include single-transition(all, .25s, ease);
     @include opacity(.5);

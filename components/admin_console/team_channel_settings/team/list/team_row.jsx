@@ -29,8 +29,8 @@ export default class TeamRow extends React.Component {
                 onClick={this.handleRowClick}
             >
                 <div className='group-row group-row-large'>
-                    <div className='group-name adjusted row center-row'>
-                        <div className='col-sm-auto'>
+                    <div className='group-name adjusted center-row'>
+                        <div>
                             <TeamImage
                                 small={true}
                                 teamIconUrl={teamIconUrl}
@@ -38,7 +38,7 @@ export default class TeamRow extends React.Component {
                             />
 
                         </div>
-                        <div className='col-sm-auto'>
+                        <div>
                             <b>{team.display_name}</b>
                             {team.description && (
                                 <div className='overflow--ellipsis text-nowrap team-descr-list-column'>
