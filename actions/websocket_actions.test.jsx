@@ -5,7 +5,7 @@ import {
     getProfilesAndStatusesForPosts,
     receivedNewPost,
 } from 'mattermost-redux/actions/posts';
-import {UserTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, UserTypes} from 'mattermost-redux/action_types';
 
 import {handleNewPost} from 'actions/post_actions';
 import {closeRightHandSide} from 'actions/views/rhs';
@@ -15,9 +15,11 @@ import store from 'stores/redux_store.jsx';
 
 import configureStore from 'tests/test_store';
 
+import {browserHistory} from 'utils/browser_history';
 import Constants, {UserStatuses} from 'utils/constants';
 
 import {
+    handleChannelUpdatedEvent,
     handleNewPostEvent,
     handleNewPostEvents,
     handlePostEditEvent,
@@ -39,6 +41,8 @@ jest.mock('actions/views/channel', () => ({
     ...jest.requireActual('actions/views/channel'),
     syncPostsInChannel: jest.fn(),
 }));
+
+jest.mock('utils/browser_history');
 
 const mockState = {
     entities: {
@@ -220,5 +224,56 @@ describe('reconnect', () => {
     test('should call syncPostsInChannel when socket reconnects', () => {
         reconnect(false);
         expect(syncPostsInChannel).toHaveBeenCalledWith('otherChannel', '12345');
+    });
+});
+
+describe('handleChannelUpdatedEvent', () => {
+    const initialState = {
+        entities: {
+            channels: {
+                currentChannelId: 'channel',
+            },
+            teams: {
+                currentTeamId: 'team',
+                teams: {
+                    team: {id: 'team', name: 'team'},
+                },
+            },
+        },
+    };
+
+    test('when a channel is updated', () => {
+        const testStore = configureStore(initialState);
+
+        const channel = {id: 'channel'};
+        const msg = {data: {channel: JSON.stringify(channel)}};
+
+        testStore.dispatch(handleChannelUpdatedEvent(msg));
+
+        expect(testStore.getActions()).toEqual([
+            {type: ChannelTypes.RECEIVED_CHANNEL, data: channel},
+        ]);
+    });
+
+    test('should not change URL when current channel is updated', () => {
+        const testStore = configureStore(initialState);
+
+        const channel = {id: 'channel'};
+        const msg = {data: {channel: JSON.stringify(channel)}};
+
+        testStore.dispatch(handleChannelUpdatedEvent(msg));
+
+        expect(browserHistory.replace).toHaveBeenCalled();
+    });
+
+    test('should not change URL when another channel is updated', () => {
+        const testStore = configureStore(initialState);
+
+        const channel = {id: 'otherchannel'};
+        const msg = {data: {channel: JSON.stringify(channel)}};
+
+        testStore.dispatch(handleChannelUpdatedEvent(msg));
+
+        expect(browserHistory.replace).not.toHaveBeenCalled();
     });
 });
