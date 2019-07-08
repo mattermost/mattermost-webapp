@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
+import GeneralConstants from 'mattermost-redux/constants/general';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 
@@ -69,7 +70,17 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                 channel_admin: true,
             },
         };
-        this.rolesNeeded = ['system_admin', 'system_user', 'team_admin', 'team_user', 'channel_admin', 'channel_user', 'system_guest', 'team_guest', 'channel_guest'];
+        this.rolesNeeded = [
+            GeneralConstants.SYSTEM_ADMIN_ROLE,
+            GeneralConstants.SYSTEM_USER_ROLE,
+            GeneralConstants.TEAM_ADMIN_ROLE,
+            GeneralConstants.TEAM_USER_ROLE,
+            GeneralConstants.CHANNEL_ADMIN_ROLE,
+            GeneralConstants.CHANNEL_USER_ROLE,
+            GeneralConstants.SYSTEM_GUEST_ROLE,
+            GeneralConstants.TEAM_GUEST_ROLE,
+            GeneralConstants.CHANNEL_GUEST_ROLE,
+        ];
     }
 
     componentDidMount() {
