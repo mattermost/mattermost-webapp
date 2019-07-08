@@ -25,51 +25,6 @@
         padding: 16px 0 6px;
     }
 
-    .team-btn__content {
-        @include single-transition(all, .25s, ease);
-        @include opacity(.5);
-        @include border-radius(3px);
-        background-color: alpha-color($black, .3);
-        overflow: hidden;
-        height: 100%;
-    }
-
-    .team-btn {
-        @include border-radius(4px);
-        border: 1px solid transparent;
-        font-weight: bold;
-        height: 44px;
-        letter-spacing: -.5px;
-        line-height: 42px;
-        position: relative;
-        text-align: center;
-        text-transform: capitalize;
-        vertical-align: top;
-        width: 44px;
-
-        &:hover {
-            .team-btn__content {
-                @include opacity(.8);
-            }
-        }
-
-        .team-btn__image {
-            @include clearfix;
-            @include background-size(100% 100%);
-            background-color: $white;
-            background-repeat: no-repeat;
-            width: 43px;
-            height: 100%;
-        }
-
-        &.team-btn__add {
-            font-size: 25px;
-            line-height: 41px;
-            vertical-align: middle;
-            background-color: alpha-color($black, .3);
-        }
-    }
-
     .team-wrapper {
         -webkit-overflow-scrolling: touch;
         background-color: alpha-color($black, .2);
