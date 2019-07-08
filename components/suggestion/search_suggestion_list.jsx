@@ -19,14 +19,6 @@ export default class SearchSuggestionList extends SuggestionList {
     constructor(props) {
         super(props);
         this.suggestionReadOut = React.createRef();
-        this.currentLabel = '';
-    }
-
-    announceLabel() {
-        const suggestionReadOut = this.suggestionReadOut.current;
-        if (suggestionReadOut) {
-            suggestionReadOut.innerHTML = this.currentLabel;
-        }
     }
 
     generateLabel(item) {
@@ -46,11 +38,9 @@ export default class SearchSuggestionList extends SuggestionList {
         }
 
         this.currentLabel = this.currentLabel.toLowerCase();
+        this.announceLabel();
 
-        // Pause the event loop and Wait for the aria-live element to be up
-        setTimeout(() => {
-            this.announceLabel();
-        }, Constants.OVERLAY_TIME_DELAY_SMALL);
+        console.log(this.currentLabel);
     }
 
     getContent() {
@@ -120,7 +110,7 @@ export default class SearchSuggestionList extends SuggestionList {
             }
 
             if (isSelection) {
-                this.generateLabel(item);
+                this.currentItem = item;
             }
 
             items.push(

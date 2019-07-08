@@ -7,6 +7,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
+import {isEmptyObject} from 'utils/utils.jsx';
 import Constants from 'utils/constants.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
@@ -40,12 +41,19 @@ export default class SuggestionList extends React.PureComponent {
         this.suggestionReadOut = React.createRef();
         this.scrollToItem = this.scrollToItem.bind(this);
         this.currentLabel = '';
+        this.currentItem = {};
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.selection !== prevProps.selection && this.props.selection) {
             this.scrollToItem(this.props.selection);
         }
+
+        setTimeout(() => {
+            if (!isEmptyObject(this.currentItem)) {
+                this.generateLabel(this.currentItem);
+            }
+        }, Constants.OVERLAY_TIME_DELAY);
     }
 
     announceLabel() {
@@ -70,11 +78,7 @@ export default class SuggestionList extends React.PureComponent {
         }
 
         this.currentLabel = this.currentLabel.toLowerCase();
-
-        // Pause the event loop and Wait for the aria-live element to be up
-        setTimeout(() => {
-            this.announceLabel();
-        }, Constants.OVERLAY_TIME_DELAY_SMALL);
+        this.announceLabel();
     }
 
     getContent() {
@@ -178,7 +182,7 @@ export default class SuggestionList extends React.PureComponent {
             }
 
             if (isSelection) {
-                this.generateLabel(item);
+                this.currentItem = item;
             }
 
             items.push(
