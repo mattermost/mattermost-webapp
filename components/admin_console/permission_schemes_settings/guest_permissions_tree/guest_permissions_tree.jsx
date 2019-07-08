@@ -5,6 +5,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
+import Permissions from 'mattermost-redux/constants/permissions';
+
 import PermissionGroup from '../permission_group.jsx';
 
 import EditPostTimeLimitButton from '../edit_post_time_limit_button';
@@ -41,15 +43,15 @@ export default class GuestPermissionsTree extends React.Component {
         };
 
         this.permissions = [
-            'create_private_channel',
-            'edit_post',
-            'delete_post',
+            Permissions.CREATE_PRIVATE_CHANNEL,
+            Permissions.EDIT_POST,
+            Permissions.DELETE_POST,
             {
                 id: 'reactions',
                 combined: true,
                 permissions: [
-                    'add_reaction',
-                    'remove_reaction',
+                    Permissions.ADD_REACTION,
+                    Permissions.REMOVE_REACTION,
                 ],
             },
         ];
