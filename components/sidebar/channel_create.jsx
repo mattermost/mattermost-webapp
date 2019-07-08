@@ -96,7 +96,7 @@ export default class ChannelCreate extends React.PureComponent {
     };
 
     renderDirect = () => {
-        const ariaLabelDM = `${Utils.localizeMessage('sidebar.createDirectMessage', 'Create new direct message')}`;
+        const ariaLabelDM = `${Utils.localizeMessage('sidebar.createDirectMessage', 'Create new direct message').toLowerCase()}`;
         const tooltip = (
             <Tooltip
                 id='new-group-tooltip'

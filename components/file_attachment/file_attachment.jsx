@@ -117,7 +117,7 @@ export default class FileAttachment extends React.PureComponent {
         const trimmedFilename = trimFilename(fileInfo.name);
         let fileThumbnail;
         let fileDetail;
-        const ariaLabelImage = `${localizeMessage('file_attachment.thumbnail', 'file thumbnail')} ${fileInfo.name}`;
+        const ariaLabelImage = `${localizeMessage('file_attachment.thumbnail', 'file thumbnail')} ${fileInfo.name}`.toLowerCase();
 
         if (!compactDisplay) {
             fileThumbnail = (

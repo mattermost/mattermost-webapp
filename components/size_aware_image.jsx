@@ -109,7 +109,7 @@ export default class SizeAwareImage extends React.PureComponent {
         let imageStyleChangesOnLoad = {};
         let ariaLabelImage = localizeMessage('file_attachment.thumbnail', 'file thumbnail');
         if (fileInfo) {
-            ariaLabelImage += ` ${fileInfo.name}`;
+            ariaLabelImage += ` ${fileInfo.name}`.toLowerCase();
         }
 
         if (dimensions && dimensions.width && !this.state.loaded) {
