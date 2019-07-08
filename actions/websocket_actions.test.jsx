@@ -87,6 +87,7 @@ const mockState = {
             selectedChannelId: 'otherChannel',
         },
     },
+    websocket: {},
 };
 
 jest.mock('stores/redux_store', () => {
