@@ -97,7 +97,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           }
         >
           <AdminSidebarSection
-            key="3"
+            key="4"
             name="user_management/users"
             parentLink=""
             subsection={false}
@@ -681,7 +681,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
           }
         >
           <AdminSidebarSection
-            key="3"
+            key="4"
             name="user_management/users"
             parentLink=""
             subsection={false}
@@ -1258,7 +1258,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
           }
         >
           <AdminSidebarSection
-            key="3"
+            key="4"
             name="user_management/users"
             parentLink=""
             subsection={false}
@@ -1862,7 +1862,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           }
         >
           <AdminSidebarSection
-            key="3"
+            key="4"
             name="user_management/users"
             parentLink=""
             subsection={false}
@@ -1875,7 +1875,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="5"
+            key="6"
             name="user_management/groups"
             parentLink=""
             subsection={false}
@@ -1888,7 +1888,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="9"
+            key="10"
             name="user_management/permissions/"
             parentLink=""
             subsection={false}
@@ -2636,7 +2636,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           }
         >
           <AdminSidebarSection
-            key="3"
+            key="4"
             name="user_management/users"
             parentLink=""
             subsection={false}
@@ -2649,7 +2649,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           />
           <AdminSidebarSection
-            key="9"
+            key="10"
             name="user_management/permissions/"
             parentLink=""
             subsection={false}

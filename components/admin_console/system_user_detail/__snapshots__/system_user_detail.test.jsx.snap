@@ -1,0 +1,813 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/system_user_detail should match default snapshot 1`] = `
+<div
+  className="SystemUserDetail wrapper--fixed"
+>
+  <div
+    className="admin-console__header with-back"
+  >
+    <div>
+      <Connect(BlockableLink)
+        className="fa fa-angle-left back"
+        to="/admin_console/user_management/users"
+      />
+      <FormattedMessage
+        defaultMessage="User Configuration"
+        id="admin.systemUserDetail.title"
+        values={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <AdminUserCard
+        body={
+          <React.Fragment>
+            <span
+              className="SystemUserDetail__field-label"
+            />
+            <span
+              className="SystemUserDetail__field-label"
+            >
+              Email
+            </span>
+            <input
+              className="SystemUserDetail__input form-control"
+              onChange={[Function]}
+              type="text"
+            />
+            <span
+              className="SystemUserDetail__field-label"
+            >
+              Username
+            </span>
+            <p>
+              jim.halpert
+            </p>
+            <span
+              className="SystemUserDetail__field-label"
+            >
+              Authentication Method
+            </span>
+            <p>
+              Email
+            </p>
+            <span
+              className="SystemUserDetail__field-label"
+            >
+              Role
+            </span>
+            <p>
+              <FormattedMessage
+                defaultMessage="Member"
+                id="admin.user_item.member"
+                values={Object {}}
+              />
+            </p>
+          </React.Fragment>
+        }
+        footer={
+          <React.Fragment>
+            <AdminButtonOutline
+              className="admin-btn-default"
+              onClick={[Function]}
+            >
+              Reset Password
+            </AdminButtonOutline>
+            <AdminButtonOutline
+              className="admin-btn-default"
+              onClick={[Function]}
+            >
+              Deactivate
+            </AdminButtonOutline>
+          </React.Fragment>
+        }
+        user={
+          Object {
+            "first_name": "Jim",
+            "id": "1234",
+            "last_name": "Halpert",
+            "nickname": "Big Tuna",
+            "roles": "system_user",
+            "username": "jim.halpert",
+          }
+        }
+      />
+    </div>
+  </div>
+  <div
+    className="admin-console-save"
+  >
+    <SaveButton
+      btnClass="btn-primary"
+      disabled={true}
+      extraClasses=""
+      onClick={[Function]}
+      saving={false}
+      savingMessage="Saving Config..."
+    />
+    <div
+      className="error-message"
+    >
+      <FormError
+        error={null}
+        errors={Array []}
+      />
+    </div>
+    <Overlay
+      animation={[Function]}
+      delayShow={400}
+      placement="top"
+      rootClose={false}
+      show={false}
+    >
+      <Tooltip
+        bsClass="tooltip"
+        id="error-tooltip"
+        placement="right"
+      />
+    </Overlay>
+  </div>
+  <Connect(ResetPasswordModal)
+    onModalDismissed={[Function]}
+    onModalSubmit={[Function]}
+    show={false}
+    user={
+      Object {
+        "first_name": "Jim",
+        "id": "1234",
+        "last_name": "Halpert",
+        "nickname": "Big Tuna",
+        "roles": "system_user",
+        "username": "jim.halpert",
+      }
+    }
+  />
+  <ConfirmModal
+    confirmButtonClass="btn btn-danger"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Deactivate"
+        id="deactivate_member_modal.deactivate"
+        values={Object {}}
+      />
+    }
+    message={
+      <div>
+        <FormattedMessage
+          defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate {username}?"
+          id="deactivate_member_modal.desc"
+          values={
+            Object {
+              "username": "jim.halpert",
+            }
+          }
+        />
+        <strong>
+          <br />
+          <br />
+          <FormattedMessage
+            defaultMessage="You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync."
+            id="deactivate_member_modal.sso_warning"
+            values={Object {}}
+          />
+        </strong>
+      </div>
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Deactivate {username}"
+        id="deactivate_member_modal.title"
+        values={
+          Object {
+            "username": "jim.halpert",
+          }
+        }
+      />
+    }
+  />
+</div>
+`;
+
+exports[`components/admin_console/system_user_detail should match snapshot if MFA is enabled 1`] = `
+<div
+  className="SystemUserDetail wrapper--fixed"
+>
+  <div
+    className="admin-console__header with-back"
+  >
+    <div>
+      <Connect(BlockableLink)
+        className="fa fa-angle-left back"
+        to="/admin_console/user_management/users"
+      />
+      <FormattedMessage
+        defaultMessage="User Configuration"
+        id="admin.systemUserDetail.title"
+        values={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <AdminUserCard
+        body={
+          <React.Fragment>
+            <span
+              className="SystemUserDetail__field-label"
+            />
+            <span
+              className="SystemUserDetail__field-label"
+            >
+              Email
+            </span>
+            <input
+              className="SystemUserDetail__input form-control"
+              onChange={[Function]}
+              type="text"
+            />
+            <span
+              className="SystemUserDetail__field-label"
+            >
+              Username
+            </span>
+            <p>
+              jim.halpert
+            </p>
+            <span
+              className="SystemUserDetail__field-label"
+            >
+              Authentication Method
+            </span>
+            <p>
+              MFA
+            </p>
+            <span
+              className="SystemUserDetail__field-label"
+            >
+              Role
+            </span>
+            <p>
+              <FormattedMessage
+                defaultMessage="Member"
+                id="admin.user_item.member"
+                values={Object {}}
+              />
+            </p>
+          </React.Fragment>
+        }
+        footer={
+          <React.Fragment>
+            <AdminButtonOutline
+              className="admin-btn-default"
+              onClick={[Function]}
+            >
+              Reset Password
+            </AdminButtonOutline>
+            <AdminButtonOutline
+              className="admin-btn-default"
+              onClick={[Function]}
+            >
+              Deactivate
+            </AdminButtonOutline>
+            <AdminButtonOutline
+              className="admin-btn-default"
+              onClick={[Function]}
+            >
+              Remove MFA
+            </AdminButtonOutline>
+          </React.Fragment>
+        }
+        user={
+          Object {
+            "first_name": "Jim",
+            "id": "1234",
+            "last_name": "Halpert",
+            "mfa_active": "MFA",
+            "nickname": "Big Tuna",
+            "roles": "system_user",
+            "username": "jim.halpert",
+          }
+        }
+      />
+    </div>
+  </div>
+  <div
+    className="admin-console-save"
+  >
+    <SaveButton
+      btnClass="btn-primary"
+      disabled={true}
+      extraClasses=""
+      onClick={[Function]}
+      saving={false}
+      savingMessage="Saving Config..."
+    />
+    <div
+      className="error-message"
+    >
+      <FormError
+        error={null}
+        errors={Array []}
+      />
+    </div>
+    <Overlay
+      animation={[Function]}
+      delayShow={400}
+      placement="top"
+      rootClose={false}
+      show={false}
+    >
+      <Tooltip
+        bsClass="tooltip"
+        id="error-tooltip"
+        placement="right"
+      />
+    </Overlay>
+  </div>
+  <Connect(ResetPasswordModal)
+    onModalDismissed={[Function]}
+    onModalSubmit={[Function]}
+    show={false}
+    user={
+      Object {
+        "first_name": "Jim",
+        "id": "1234",
+        "last_name": "Halpert",
+        "mfa_active": "MFA",
+        "nickname": "Big Tuna",
+        "roles": "system_user",
+        "username": "jim.halpert",
+      }
+    }
+  />
+  <ConfirmModal
+    confirmButtonClass="btn btn-danger"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Deactivate"
+        id="deactivate_member_modal.deactivate"
+        values={Object {}}
+      />
+    }
+    message={
+      <div>
+        <FormattedMessage
+          defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate {username}?"
+          id="deactivate_member_modal.desc"
+          values={
+            Object {
+              "username": "jim.halpert",
+            }
+          }
+        />
+        <strong>
+          <br />
+          <br />
+          <FormattedMessage
+            defaultMessage="You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync."
+            id="deactivate_member_modal.sso_warning"
+            values={Object {}}
+          />
+        </strong>
+      </div>
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Deactivate {username}"
+        id="deactivate_member_modal.title"
+        values={
+          Object {
+            "username": "jim.halpert",
+          }
+        }
+      />
+    }
+  />
+</div>
+`;
+
+exports[`components/admin_console/system_user_detail should match snapshot if no nickname is defined 1`] = `
+<div
+  className="SystemUserDetail wrapper--fixed"
+>
+  <div
+    className="admin-console__header with-back"
+  >
+    <div>
+      <Connect(BlockableLink)
+        className="fa fa-angle-left back"
+        to="/admin_console/user_management/users"
+      />
+      <FormattedMessage
+        defaultMessage="User Configuration"
+        id="admin.systemUserDetail.title"
+        values={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <AdminUserCard
+        body={
+          <React.Fragment>
+            <span
+              className="SystemUserDetail__field-label"
+            />
+            <span
+              className="SystemUserDetail__field-label"
+            >
+              Email
+            </span>
+            <input
+              className="SystemUserDetail__input form-control"
+              onChange={[Function]}
+              type="text"
+            />
+            <span
+              className="SystemUserDetail__field-label"
+            >
+              Username
+            </span>
+            <p>
+              jim.halpert
+            </p>
+            <span
+              className="SystemUserDetail__field-label"
+            >
+              Authentication Method
+            </span>
+            <p>
+              Email
+            </p>
+            <span
+              className="SystemUserDetail__field-label"
+            >
+              Role
+            </span>
+            <p>
+              <FormattedMessage
+                defaultMessage="Member"
+                id="admin.user_item.member"
+                values={Object {}}
+              />
+            </p>
+          </React.Fragment>
+        }
+        footer={
+          <React.Fragment>
+            <AdminButtonOutline
+              className="admin-btn-default"
+              onClick={[Function]}
+            >
+              Reset Password
+            </AdminButtonOutline>
+            <AdminButtonOutline
+              className="admin-btn-default"
+              onClick={[Function]}
+            >
+              Deactivate
+            </AdminButtonOutline>
+          </React.Fragment>
+        }
+        user={
+          Object {
+            "first_name": "Jim",
+            "id": "1234",
+            "last_name": "Halpert",
+            "nickname": null,
+            "roles": "system_user",
+            "username": "jim.halpert",
+          }
+        }
+      />
+    </div>
+  </div>
+  <div
+    className="admin-console-save"
+  >
+    <SaveButton
+      btnClass="btn-primary"
+      disabled={true}
+      extraClasses=""
+      onClick={[Function]}
+      saving={false}
+      savingMessage="Saving Config..."
+    />
+    <div
+      className="error-message"
+    >
+      <FormError
+        error={null}
+        errors={Array []}
+      />
+    </div>
+    <Overlay
+      animation={[Function]}
+      delayShow={400}
+      placement="top"
+      rootClose={false}
+      show={false}
+    >
+      <Tooltip
+        bsClass="tooltip"
+        id="error-tooltip"
+        placement="right"
+      />
+    </Overlay>
+  </div>
+  <Connect(ResetPasswordModal)
+    onModalDismissed={[Function]}
+    onModalSubmit={[Function]}
+    show={false}
+    user={
+      Object {
+        "first_name": "Jim",
+        "id": "1234",
+        "last_name": "Halpert",
+        "nickname": null,
+        "roles": "system_user",
+        "username": "jim.halpert",
+      }
+    }
+  />
+  <ConfirmModal
+    confirmButtonClass="btn btn-danger"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Deactivate"
+        id="deactivate_member_modal.deactivate"
+        values={Object {}}
+      />
+    }
+    message={
+      <div>
+        <FormattedMessage
+          defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate {username}?"
+          id="deactivate_member_modal.desc"
+          values={
+            Object {
+              "username": "jim.halpert",
+            }
+          }
+        />
+        <strong>
+          <br />
+          <br />
+          <FormattedMessage
+            defaultMessage="You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync."
+            id="deactivate_member_modal.sso_warning"
+            values={Object {}}
+          />
+        </strong>
+      </div>
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Deactivate {username}"
+        id="deactivate_member_modal.title"
+        values={
+          Object {
+            "username": "jim.halpert",
+          }
+        }
+      />
+    }
+  />
+</div>
+`;
+
+exports[`components/admin_console/system_user_detail should match snapshot if user is inactive 1`] = `
+<div
+  className="SystemUserDetail wrapper--fixed"
+>
+  <div
+    className="admin-console__header with-back"
+  >
+    <div>
+      <Connect(BlockableLink)
+        className="fa fa-angle-left back"
+        to="/admin_console/user_management/users"
+      />
+      <FormattedMessage
+        defaultMessage="User Configuration"
+        id="admin.systemUserDetail.title"
+        values={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <AdminUserCard
+        body={
+          <React.Fragment>
+            <span
+              className="SystemUserDetail__field-label"
+            />
+            <span
+              className="SystemUserDetail__field-label"
+            >
+              Email
+            </span>
+            <input
+              className="SystemUserDetail__input form-control"
+              onChange={[Function]}
+              type="text"
+            />
+            <span
+              className="SystemUserDetail__field-label"
+            >
+              Username
+            </span>
+            <p>
+              jim.halpert
+            </p>
+            <span
+              className="SystemUserDetail__field-label"
+            >
+              Authentication Method
+            </span>
+            <p>
+              Email
+            </p>
+            <span
+              className="SystemUserDetail__field-label"
+            >
+              Role
+            </span>
+            <p>
+              <FormattedMessage
+                defaultMessage="Inactive"
+                id="admin.user_item.inactive"
+                values={Object {}}
+              />
+            </p>
+          </React.Fragment>
+        }
+        footer={
+          <React.Fragment>
+            <AdminButtonOutline
+              className="admin-btn-default"
+              onClick={[Function]}
+            >
+              Reset Password
+            </AdminButtonOutline>
+            <AdminButtonOutline
+              className="admin-btn-default"
+              onClick={[Function]}
+            >
+              Activate
+            </AdminButtonOutline>
+          </React.Fragment>
+        }
+        user={
+          Object {
+            "delete_at": 1561683854166,
+            "first_name": "Jim",
+            "id": "1234",
+            "last_name": "Halpert",
+            "nickname": "Big Tuna",
+            "roles": "system_user",
+            "username": "jim.halpert",
+          }
+        }
+      />
+    </div>
+  </div>
+  <div
+    className="admin-console-save"
+  >
+    <SaveButton
+      btnClass="btn-primary"
+      disabled={true}
+      extraClasses=""
+      onClick={[Function]}
+      saving={false}
+      savingMessage="Saving Config..."
+    />
+    <div
+      className="error-message"
+    >
+      <FormError
+        error={null}
+        errors={Array []}
+      />
+    </div>
+    <Overlay
+      animation={[Function]}
+      delayShow={400}
+      placement="top"
+      rootClose={false}
+      show={false}
+    >
+      <Tooltip
+        bsClass="tooltip"
+        id="error-tooltip"
+        placement="right"
+      />
+    </Overlay>
+  </div>
+  <Connect(ResetPasswordModal)
+    onModalDismissed={[Function]}
+    onModalSubmit={[Function]}
+    show={false}
+    user={
+      Object {
+        "delete_at": 1561683854166,
+        "first_name": "Jim",
+        "id": "1234",
+        "last_name": "Halpert",
+        "nickname": "Big Tuna",
+        "roles": "system_user",
+        "username": "jim.halpert",
+      }
+    }
+  />
+  <ConfirmModal
+    confirmButtonClass="btn btn-danger"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Deactivate"
+        id="deactivate_member_modal.deactivate"
+        values={Object {}}
+      />
+    }
+    message={
+      <div>
+        <FormattedMessage
+          defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate {username}?"
+          id="deactivate_member_modal.desc"
+          values={
+            Object {
+              "username": "jim.halpert",
+            }
+          }
+        />
+        <strong>
+          <br />
+          <br />
+          <FormattedMessage
+            defaultMessage="You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync."
+            id="deactivate_member_modal.sso_warning"
+            values={Object {}}
+          />
+        </strong>
+      </div>
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Deactivate {username}"
+        id="deactivate_member_modal.title"
+        values={
+          Object {
+            "username": "jim.halpert",
+          }
+        }
+      />
+    }
+  />
+</div>
+`;
+
+exports[`components/admin_console/system_user_detail should redirect if user id is not defined 1`] = `
+<Redirect
+  to={
+    Object {
+      "pathname": "/admin_console/user_management/users",
+    }
+  }
+/>
+`;
