@@ -4,16 +4,15 @@
 const axios = require('axios');
 
 module.exports = async ({url, data}) => {
-    let success;
-    let error;
     let response;
 
     try {
         response = await axios({method: 'post', url, data});
-        success = true;
     } catch (err) {
-        error = err;
+        if (err.response) {
+            response = err.response;
+        }
     }
 
-    return {body: JSON.stringify(response.body), success, error};
+    return {status: response.status, data: response.data};
 };

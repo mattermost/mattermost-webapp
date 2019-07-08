@@ -59,8 +59,9 @@ describe('MM-15887 Interactive menus - basic options', () => {
 
     it('matches elements', () => {
         // # Post an incoming webhook
-        cy.task('postIncomingWebhook', {url: incomingWebhook.url, data: payload});
-        cy.wait(TIMEOUTS.TINY);
+        cy.task('postIncomingWebhook', {url: incomingWebhook.url, data: payload}).
+            its('status').
+            should('be.equal', 200);
 
         // # Get message attachment from the last post
         cy.getLastPostId().then((postId) => {
@@ -90,8 +91,9 @@ describe('MM-15887 Interactive menus - basic options', () => {
 
     it('displays selected option and posts ephemeral message', () => {
         // # Post an incoming webhook
-        cy.task('postIncomingWebhook', {url: incomingWebhook.url, data: payload});
-        cy.wait(TIMEOUTS.TINY);
+        cy.task('postIncomingWebhook', {url: incomingWebhook.url, data: payload}).
+            its('status').
+            should('be.equal', 200);
 
         // # Get message attachment from the last post
         cy.getLastPostId().then((postId) => {
@@ -106,7 +108,7 @@ describe('MM-15887 Interactive menus - basic options', () => {
             cy.get('.select-suggestion-container > input').should('be.visible').and('have.attr', 'value', options[0].text);
         });
 
-        cy.wait(TIMEOUTS.TINY);
+        cy.wait(TIMEOUTS.SMALL);
 
         cy.getLastPostId().then((postId) => {
             // * Verify that ephemeral message is posted, visible to observer and contains an exact message
@@ -120,15 +122,18 @@ describe('MM-15887 Interactive menus - basic options', () => {
         const user1 = users['user-1'];
 
         // # Post an incoming webhook
-        cy.task('postIncomingWebhook', {url: incomingWebhook.url, data: payload});
-        cy.wait(TIMEOUTS.TINY);
+        cy.task('postIncomingWebhook', {url: incomingWebhook.url, data: payload}).
+            its('status').
+            should('be.equal', 200);
 
         // # Get last post
         cy.getLastPostId().then((parentMessageId) => {
             const baseUrl = Cypress.config('baseUrl');
 
             // # Post another message
-            cy.task('postMessageAs', {sender: user1, message: 'Just another message', channelId, baseUrl});
+            cy.task('postMessageAs', {sender: user1, message: 'Just another message', channelId, baseUrl}).
+                its('status').
+                should('be.equal', 201);
 
             // # Click comment icon to open RHS
             cy.clickPostCommentIcon(parentMessageId);
@@ -137,8 +142,9 @@ describe('MM-15887 Interactive menus - basic options', () => {
             cy.get('#rhsContainer').should('be.visible');
 
             // # Have another user reply to the webhook message
-            cy.task('postMessageAs', {sender: user1, message: 'Reply to webhook', channelId, rootId: parentMessageId, baseUrl});
-            cy.wait(TIMEOUTS.TINY);
+            cy.task('postMessageAs', {sender: user1, message: 'Reply to webhook', channelId, rootId: parentMessageId, baseUrl}).
+                its('status').
+                should('be.equal', 201);
 
             // # Get the latest post
             cy.getLastPostId().then((replyMessageId) => {
