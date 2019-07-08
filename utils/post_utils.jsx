@@ -311,8 +311,9 @@ export function getLatestPostId(postIds) {
 export function createAriaLabelForPost(post, author, isFlagged, reactions, intl) {
     const {formatMessage, formatTime} = intl;
 
-    let ariaLabel = post.root_id ?
-        formatMessage({
+    let ariaLabel;
+    if (post.root_id) {
+        ariaLabel = formatMessage({
             id: 'post.ariaLabel.replyMessage',
             defaultMessage: '{authorName} at {timestamp} wrote a reply, {message}',
         },
@@ -320,8 +321,9 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl)
             authorName: author,
             timestamp: formatTime(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
             message: post.message,
-        }) :
-        formatMessage({
+        });
+    } else {
+        ariaLabel = formatMessage({
             id: 'post.ariaLabel.message',
             defaultMessage: '{authorName} at {timestamp} wrote, {message}',
         },
@@ -330,20 +332,23 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl)
             timestamp: formatTime(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
             message: post.message,
         });
+    }
 
     if (post.props && post.props.attachments && post.props.attachments.length) {
-        ariaLabel += post.props.attachments.length > 1 ?
-            formatMessage({
+        if (post.props.attachments.length > 1) {
+            ariaLabel += formatMessage({
                 id: 'post.ariaLabel.attachmentMultiple',
                 defaultMessage: ', {attachmentCount} attachments',
             },
             {
                 attachmentCount: post.props.attachments.length,
-            }) :
-            formatMessage({
+            });
+        } else {
+            ariaLabel += formatMessage({
                 id: 'post.ariaLabel.attachment',
                 defaultMessage: ', 1 attachment',
             });
+        }
     }
 
     if (reactions) {
@@ -356,30 +361,34 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl)
             }
         }
 
-        ariaLabel += emojiNames.length > 1 ?
-            formatMessage({
+        if (emojiNames.length > 1) {
+            ariaLabel += formatMessage({
                 id: 'post.ariaLabel.reactionMultiple',
                 defaultMessage: ', {reactionCount} reactions',
             },
             {
                 reactionCount: emojiNames.length,
-            }) :
-            formatMessage({
+            });
+        } else {
+            ariaLabel += formatMessage({
                 id: 'post.ariaLabel.reaction',
                 defaultMessage: ', 1 reaction',
             });
+        }
     }
 
     if (isFlagged) {
-        ariaLabel += post.is_pinned ?
-            formatMessage({
+        if (post.is_pinned) {
+            ariaLabel += formatMessage({
                 id: 'post.ariaLabel.messageIsFlaggedAndPinned',
                 defaultMessage: ', message is flagged and pinned',
-            }) :
-            formatMessage({
+            });
+        } else {
+            ariaLabel += formatMessage({
                 id: 'post.ariaLabel.messageIsFlagged',
                 defaultMessage: ', message is flagged',
             });
+        }
     } else if (!isFlagged && post.is_pinned) {
         ariaLabel += formatMessage({
             id: 'post.ariaLabel.messageIsPinned',
