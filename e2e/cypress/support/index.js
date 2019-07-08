@@ -7,6 +7,7 @@
 
 import './ui_commands';
 import './api_commands';
+import './task_commands';
 import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
 
