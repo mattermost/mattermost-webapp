@@ -1585,6 +1585,7 @@
   "analytics.system.skippedIntensiveQueries": "To maximize performance, some statistics are disabled. You can [re-enable them in config.json](!https://docs.mattermost.com/administration/statistics.html).",
   "analytics.system.textPosts": "Posts with Text-only",
   "analytics.system.title": "System Statistics",
+  "analytics.system.totalBotPosts": "Total Posts from Bots",
   "analytics.system.totalChannels": "Total Channels",
   "analytics.system.totalCommands": "Total Commands",
   "analytics.system.totalFilePosts": "Posts with Files",
