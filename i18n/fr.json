@@ -356,6 +356,8 @@
   "admin.elasticsearch.purgeIndexesButton.label": "Purger les index :",
   "admin.elasticsearch.purgeIndexesButton.success": "Les index ont été purgés avec succès.",
   "admin.elasticsearch.purgeIndexesHelpText": "Purger supprimera entièrement les index du serveur Elasticsearch. Les résultats de recherche peuvent être incomplets tant qu'une réindexation en masse de la base de données n'est pas effectuée.",
+  "admin.elasticsearch.skipTLSVerificationDescription": "When true, Mattermost will not require the Elasticsearch certificate to be signed by a trusted Certificate Authority.",
+  "admin.elasticsearch.skipTLSVerificationTitle": "Skip TLS Verification:",
   "admin.elasticsearch.sniffDescription": "Lorqu'activé, le sniffing permet de retrouver et de se reconnecter à tous les nœuds de données du cluster.",
   "admin.elasticsearch.sniffTitle": "Activer le sniffing du cluster :",
   "admin.elasticsearch.testConfigSuccess": "Test réussi. La configuration a été enregistrée.",
