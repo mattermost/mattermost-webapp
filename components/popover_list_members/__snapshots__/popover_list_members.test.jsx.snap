@@ -21,15 +21,10 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
       </Tooltip>
     }
     placement="bottom"
-    trigger={
-      Array [
-        "hover",
-        "focus",
-      ]
-    }
+    trigger="hover"
   >
     <button
-      aria-label="members button"
+      aria-label="members"
       className="style--none member-popover__trigger channel-header__icon wide "
       id="member_popover"
       onClick={[Function]}
@@ -128,15 +123,10 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
       </Tooltip>
     }
     placement="bottom"
-    trigger={
-      Array [
-        "hover",
-        "focus",
-      ]
-    }
+    trigger="hover"
   >
     <button
-      aria-label="members button"
+      aria-label="members"
       className="style--none member-popover__trigger channel-header__icon wide "
       id="member_popover"
       onClick={[Function]}
@@ -235,15 +225,10 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
       </Tooltip>
     }
     placement="bottom"
-    trigger={
-      Array [
-        "hover",
-        "focus",
-      ]
-    }
+    trigger="hover"
   >
     <button
-      aria-label="members button"
+      aria-label="members"
       className="style--none member-popover__trigger channel-header__icon wide "
       id="member_popover"
       onClick={[Function]}
@@ -351,15 +336,10 @@ exports[`components/PopoverListMembers should match state when showChannelInvite
       </Tooltip>
     }
     placement="bottom"
-    trigger={
-      Array [
-        "hover",
-        "focus",
-      ]
-    }
+    trigger="hover"
   >
     <button
-      aria-label="members button"
+      aria-label="members"
       className="style--none member-popover__trigger channel-header__icon wide "
       id="member_popover"
       onClick={[Function]}
