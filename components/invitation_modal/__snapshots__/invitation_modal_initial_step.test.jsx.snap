@@ -37,8 +37,8 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
         values={Object {}}
       />
     </div>
-    <span
-      className="fa fa-angle-right arrow"
+    <ArrowRightIcon
+      className="arrow"
     />
   </div>
   <div
@@ -58,8 +58,8 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
         values={Object {}}
       />
     </div>
-    <span
-      className="fa fa-angle-right arrow"
+    <ArrowRightIcon
+      className="arrow"
     />
   </div>
 </div>

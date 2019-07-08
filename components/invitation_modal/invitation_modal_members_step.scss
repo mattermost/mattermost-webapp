@@ -7,6 +7,7 @@
         margin-bottom: 12px;
         margin-top: 0px;
         font-size: 20px;
+        font-weight: 400;
     }
     .share-link {
         max-width: 720px;
@@ -17,7 +18,7 @@
         .share-link-input {
             flex-grow: 1;
             height: 48px;
-            background: var(--center-channel-color-10);
+            background: var(--center-channel-color-05);
             border-top: 1px solid var(--center-channel-color-60);
             border-left: 1px solid var(--center-channel-color-60);
             border-bottom: 1px solid var(--center-channel-color-60);
@@ -25,7 +26,7 @@
             border-radius: 4px 0 0 4px;
             padding: 12px 14px;
             font-size: 16px;
-            color: var(--center-channel-color-60);
+            color: var(--center-channel-color-50);
         }
         .share-link-input-button {
             flex-grow: 0;
@@ -33,9 +34,9 @@
             border-color: var(--button-bg);
             color: var(--button-bg);
             height: 48px;
+            width: 180px;
             border-radius: 0 4px 4px 0;
             background: var(--center-channel-bg);
-            padding: 13px 38px;
             font-size: 16px;
             span {
                 display: inline-block;
@@ -75,6 +76,7 @@
             max-width: 720px;
             width: calc(100% - 40px);
             margin: 50px 0;
+            border-color: var(--center-channel-color-10);
         }
         div {
             text-align: center;
@@ -83,7 +85,7 @@
             background: var(--center-channel-bg);
             padding: 35px 12px;
             top: 0;
-            color: var(--center-channel-color-60);
+            color: var(--center-channel-color-20);
             font-size: 20px;
         }
     }
@@ -93,6 +95,8 @@
             height: 48px;
             padding: 13px 26px;
             font-size: 16px;
+            width: 180px;
+            border-radius: 4px;
         }
     }
 }
