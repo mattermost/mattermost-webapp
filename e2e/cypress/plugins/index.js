@@ -23,8 +23,12 @@ module.exports = (on, config) => {
     });
 
     if (process.env.NODE_ENV === 'qa') { // eslint-disable-line no-process-env
+        config.baseUrl = 'https://cypress.test.mattermost.com';
+        config.mailboxUrl = 'https://cypress.test.mattermost.com/mail';
         config.webhookBaseUrl = 'https://cypress.test.mattermost.com/webhook';
     } else {
+        config.baseUrl = 'http://localhost:8065';
+        config.mailboxUrl = 'http://localhost:9000/api/v1/mailbox';
         config.webhookBaseUrl = 'http://localhost:3000';
     }
 

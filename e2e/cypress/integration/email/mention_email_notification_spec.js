@@ -10,7 +10,7 @@
 import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
+import {getEmailMessageSeparator, reUrl} from '../../utils';
 
 let config;
 
@@ -44,11 +44,8 @@ describe('Email notification', () => {
         // Wait for a while to ensure that email notification is sent.
         cy.wait(TIMEOUTS.SMALL);
 
-        const baseUrl = Cypress.config('baseUrl');
-        const mailUrl = getEmailUrl(baseUrl);
-
-        cy.task('getRecentEmail', {username: mentionedUser.username, mailUrl}).then((response) => {
-            const messageSeparator = getEmailMessageSeparator(baseUrl);
+        cy.task('getRecentEmail', {username: mentionedUser.username, mailUrl: Cypress.config('mailboxUrl')}).then((response) => {
+            const messageSeparator = getEmailMessageSeparator();
             const user1 = users['user-1'];
             verifyEmailNotification(response, config.TeamSettings.SiteName, 'eligendi', 'Town Square', mentionedUser, user1, text, config.EmailSettings.FeedbackEmail, config.SupportSettings.SupportEmail, messageSeparator);
 

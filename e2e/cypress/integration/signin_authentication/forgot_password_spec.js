@@ -9,7 +9,7 @@
 
 /*eslint max-nested-callbacks: ["error", 5]*/
 
-import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
+import {getEmailMessageSeparator, reUrl} from '../../utils';
 
 let config;
 
@@ -92,11 +92,8 @@ function resetPasswordAndLogin(user, feedbackEmail, supportEmail) {
         cy.get('span').last().should('have.text', 'Please check your inbox.');
     });
 
-    const baseUrl = Cypress.config('baseUrl');
-    const mailUrl = getEmailUrl(baseUrl);
-
-    cy.task('getRecentEmail', {username: user.username, mailUrl}).then((response) => {
-        const separator = getEmailMessageSeparator(baseUrl);
+    cy.task('getRecentEmail', {username: user.username, mailUrl: Cypress.config().mailboxUrl}).then((response) => {
+        const separator = getEmailMessageSeparator();
 
         // * Verify contents password reset email
         verifyForgotPasswordEmail(response, user, feedbackEmail, supportEmail, separator);
