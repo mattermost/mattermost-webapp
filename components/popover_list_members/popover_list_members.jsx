@@ -220,7 +220,7 @@ export default class PopoverListMembers extends React.Component {
         return (
             <div id='channelMember'>
                 <OverlayTrigger
-                    trigger={'hover'}
+                    trigger={['hover', 'click']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={channelMembersTooltip}

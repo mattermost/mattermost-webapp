@@ -239,6 +239,7 @@ export default class DotMenu extends Component {
         return (
             <MenuWrapper onToggle={this.props.handleDropdownOpened}>
                 <OverlayTrigger
+                    trigger={['hover', 'click']}
                     className='hidden-xs'
                     delayShow={500}
                     placement='top'
@@ -247,6 +248,7 @@ export default class DotMenu extends Component {
                 >
                     <button
                         id={`${this.props.location}_button_${this.props.post.id}`}
+                        aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'More Actions').toLowerCase()}
                         className='post__dropdown color--link style--none'
                         type='button'
                         aria-expanded='false'

@@ -554,6 +554,7 @@ export default class PostList extends React.PureComponent {
                     >
                         <div
                             role='presentation'
+                            aria-live='polite'
                             id='postListContent'
                             className='post-list__content'
                         >
