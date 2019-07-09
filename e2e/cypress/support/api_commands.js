@@ -492,3 +492,23 @@ Cypress.Commands.add('apiGetConfig', () => {
     // # Get current settings
     return cy.request('/api/v4/config');
 });
+
+// *****************************************************************************
+// Webhooks
+// https://api.mattermost.com/#tag/webhooks
+// *****************************************************************************
+
+Cypress.Commands.add('apiCreateWebhook', (hook = {}, isIncoming = true) => {
+    const hookUrl = isIncoming ? '/api/v4/hooks/incoming' : '/api/v4/hooks/outgoing';
+    const options = {
+        url: hookUrl,
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'POST',
+        body: hook,
+    };
+
+    return cy.request(options).then((response) => {
+        const data = response.body;
+        return {...data, url: isIncoming ? `${Cypress.config().baseUrl}/hooks/${data.id}` : ''};
+    });
+});
