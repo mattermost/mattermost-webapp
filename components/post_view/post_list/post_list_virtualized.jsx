@@ -235,7 +235,7 @@ export default class PostList extends React.PureComponent {
 
     scrollChange = (toBottom) => {
         if (toBottom) {
-            this.scrollToBottom();
+            this.scrollToLatestMessages();
         }
     }
 

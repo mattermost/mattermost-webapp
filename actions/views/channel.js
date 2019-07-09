@@ -133,19 +133,19 @@ export function autocompleteUsersInChannel(prefix, channelId) {
 export function loadUnreads(channelId) {
     return async (dispatch) => {
         const {data, error} = await dispatch(PostActions.getPostsUnread(channelId));
-        if (data) {
-            dispatch({
-                type: ActionTypes.INCREASE_POST_VISIBILITY,
-                data: channelId,
-                amount: data.order.length,
-            });
-        } else {
+        if (error) {
             return {
                 error,
-                atLatestMessage: true,
-                atOldestmessage: true,
+                atLatestMessage: false,
+                atOldestmessage: false,
             };
         }
+
+        dispatch({
+            type: ActionTypes.INCREASE_POST_VISIBILITY,
+            data: channelId,
+            amount: data.order.length,
+        });
 
         return {
             atLatestMessage: data.next_post_id === '',
@@ -157,19 +157,19 @@ export function loadUnreads(channelId) {
 export function loadPostsAround(channelId, focusedPostId) {
     return async (dispatch) => {
         const {data, error} = await dispatch(PostActions.getPostsAround(channelId, focusedPostId, Posts.POST_CHUNK_SIZE / 2));
-        if (data) {
-            dispatch({
-                type: ActionTypes.INCREASE_POST_VISIBILITY,
-                data: channelId,
-                amount: data.order.length,
-            });
-        } else {
+        if (error) {
             return {
                 error,
-                atLatestMessage: true,
-                atOldestmessage: true,
+                atLatestMessage: false,
+                atOldestmessage: false,
             };
         }
+
+        dispatch({
+            type: ActionTypes.INCREASE_POST_VISIBILITY,
+            data: channelId,
+            amount: data.order.length,
+        });
         return {
             atLatestMessage: data.next_post_id === '',
             atOldestmessage: data.prev_post_id === '',
@@ -182,19 +182,19 @@ export function loadLatestPosts(channelId) {
         const time = Date.now();
         const {data, error} = await dispatch(PostActions.getPosts(channelId, 0, Posts.POST_CHUNK_SIZE / 2));
 
-        if (data) {
-            dispatch({
-                type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
-                channelId,
-                time,
-            });
-        } else {
+        if (error) {
             return {
                 error,
-                atLatestMessage: true,
-                atOldestmessage: true,
+                atLatestMessage: false,
+                atOldestmessage: false,
             };
         }
+
+        dispatch({
+            type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
+            channelId,
+            time,
+        });
 
         return {
             data,

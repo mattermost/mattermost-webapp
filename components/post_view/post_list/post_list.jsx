@@ -129,19 +129,39 @@ export default class PostList extends React.PureComponent {
     }
 
     postsOnLoad = async (channelId) => {
+        let error;
+        let atOldestmessage;
+        let atLatestMessage;
         if (this.props.focusedPostId) {
-            await this.loadPermalinkPosts(channelId);
+            ({atLatestMessage, atOldestmessage, error} = await this.props.actions.loadPostsAround(channelId, this.props.focusedPostId));
         } else if (this.props.isFirstLoad) {
-            await this.loadUnreadPosts(channelId);
+            ({atLatestMessage, atOldestmessage, error} = await this.props.actions.loadUnreads(channelId));
         } else if (this.props.latestPostTimeStamp) {
-            await this.props.actions.syncPostsInChannel(channelId, this.props.latestPostTimeStamp);
+            ({error} = await this.props.actions.syncPostsInChannel(channelId, this.props.latestPostTimeStamp));
         } else {
-            await this.loadLatestPosts(channelId);
+            ({atLatestMessage, atOldestmessage, error} = await this.props.actions.loadLatestPosts(channelId));
         }
 
-        this.setState({
-            loadingFirstSetOfPosts: false,
-        });
+        if (error) {
+            // leave the loader if it exists as it is
+            return;
+        }
+
+        // atLatestMessage does not exist for syncPostsInChannel call
+        // We dont need to setState on syncPostsInChannel call as the loader does not exist and atLatestMessage state will be taken care by the prop
+        if (typeof atLatestMessage !== 'undefined') {
+            this.setState({
+                olderPosts: {
+                    loading: false,
+                    allLoaded: atOldestmessage,
+                },
+                newerPosts: {
+                    loading: false,
+                    allLoaded: atLatestMessage,
+                },
+                loadingFirstSetOfPosts: false,
+            });
+        }
     }
 
     setLoadingPosts = (type) => {
@@ -199,48 +219,6 @@ export default class PostList extends React.PureComponent {
         return {moreToLoad, error};
     }
 
-    loadPermalinkPosts = async (channelId) => {
-        const {atLatestMessage, atOldestmessage} = await this.props.actions.loadPostsAround(channelId, this.props.focusedPostId);
-        this.setState({
-            olderPosts: {
-                loading: false,
-                allLoaded: atOldestmessage,
-            },
-            newerPosts: {
-                loading: false,
-                allLoaded: atLatestMessage,
-            },
-        });
-    }
-
-    loadUnreadPosts = async (channelId) => {
-        const {atLatestMessage, atOldestmessage} = await this.props.actions.loadUnreads(channelId);
-        this.setState({
-            olderPosts: {
-                loading: false,
-                allLoaded: atOldestmessage,
-            },
-            newerPosts: {
-                loading: false,
-                allLoaded: atLatestMessage,
-            },
-        });
-    }
-
-    loadLatestPosts = async (channelId) => {
-        const {atLatestMessage, atOldestmessage} = await this.props.actions.loadLatestPosts(channelId);
-        this.setState({
-            olderPosts: {
-                loading: false,
-                allLoaded: atOldestmessage,
-            },
-            newerPosts: {
-                loading: false,
-                allLoaded: atLatestMessage,
-            },
-        });
-    }
-
     getOldestVisiblePostId = () => {
         return getOldestPostId(this.props.postListIds);
     }
@@ -250,7 +228,7 @@ export default class PostList extends React.PureComponent {
     }
 
     canLoadMorePosts = async () => {
-        if (!this.props.postListIds) {
+        if (!this.props.postListIds || !this.props.postListIds.length) {
             return;
         }
 
