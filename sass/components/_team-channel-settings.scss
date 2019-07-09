@@ -4,6 +4,9 @@ span.greyed-out {
     @include opacity(.4)
 }
 
+.row-content {
+    @include opacity(.8)
+}
 .groups-list-no-padding {
     padding: 0;
     div.group-row {
@@ -32,15 +35,17 @@ span.greyed-out {
     margin-left: 68px;
 }
 
-.help-text-no-padding {
+.help-text-small.help-text-no-padding {
     margin-top: 0;
 }
-
+.help-text-small.help-text-single-line {
+    height: 17px;
+}
 .team-descr-list-column {
     max-width: 440px;
 }
 .large-team-image-col {
-    max-width: 128px;
+    max-width: 120px;
 }
 .center-row > div {
     display: inline-block;
@@ -53,7 +58,7 @@ span.greyed-out {
 }
 
 .csvDomains {
-    padding-bottom: 10px;
+    padding-bottom: 4px;
     span {
         font-size: 12px;
         font-weight: 600;

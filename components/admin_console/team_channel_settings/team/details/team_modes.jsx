@@ -42,6 +42,7 @@ const AllowAllToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, 
     !syncChecked && (
         <LineSwitch
             toggled={allAllowedChecked}
+            singleLine={true}
             onToggle={() => onToggle(syncChecked, !allAllowedChecked, allowedDomainsChecked, allowedDomains)}
             title={(
                 <FormattedMessage
@@ -71,6 +72,7 @@ const AllowedDomainsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChe
             toggled={allowedDomainsChecked}
             last={true}
             onToggle={() => onToggle(syncChecked, allAllowedChecked, !allowedDomainsChecked, allowedDomains)}
+            singleLine={true}
             title={(
                 <FormattedMessage
                     id='admin.team_settings.team_details.specificDomains'

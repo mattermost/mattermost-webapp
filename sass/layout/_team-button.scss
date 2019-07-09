@@ -11,12 +11,16 @@
     height: 100%;
 }
 
+.team-btn__content.no-hover {
+    transition:none;
+}
+
 .team-btn__initials {
     &.team-btn-large__initials {
         font-size: 3em;
     }
     &.team-btn-small__initials {
-        font-size: 0.6em;
+        font-size: 14px;
     }
 }
 .team-btn {
@@ -48,6 +52,9 @@
     &:hover {
         .team-btn__content {
             @include opacity(.8);
+        }
+        .team-btn__content.no-hover {
+            @include opacity(.5);
         }
     }
 

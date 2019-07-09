@@ -4,6 +4,7 @@
 .groups-list {
     @include single-transition(all, .4s, ease-in-out, 0s);
     padding: .8em 1.5rem;
+
     &.groups-list-less-padding {
         padding: 0;
     }
@@ -109,6 +110,7 @@
 
     .groups-list--body {
         background: $bg--gray;
+        border-bottom: solid 1px rgba(0, 0, 0, 0.1);
         cursor: pointer;
         .groups-list-loading {
             text-align: center;

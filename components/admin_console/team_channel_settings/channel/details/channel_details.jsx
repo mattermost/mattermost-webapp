@@ -68,10 +68,10 @@ export default class ChannelDetails extends React.Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         const {channelID, actions} = this.props;
-        actions.getChannel(channelID).
-            then(() => actions.getGroups(channelID)).
+        actions.getGroups(channelID).
+            then(() => actions.getChannel(channelID)).
             then(() => this.setState({groups: this.props.groups}));
     }
 
