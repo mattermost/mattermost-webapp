@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {localizeMessage} from 'utils/utils.jsx';
 import LoadingImagePreview from 'components/loading_image_preview';
 
 // SizeAwareImage is a component used for rendering images where the dimensions of the image are important for
@@ -20,6 +21,7 @@ export default class SizeAwareImage extends React.PureComponent {
          * dimensions object to create empty space required to prevent scroll pop
          */
         dimensions: PropTypes.object,
+        fileInfo: PropTypes.object,
 
         /*
          * Boolean value to pass for showing a loader when image is being loaded
@@ -98,12 +100,17 @@ export default class SizeAwareImage extends React.PureComponent {
     renderImageOrPlaceholder = () => {
         const {
             dimensions,
+            fileInfo,
             src,
             ...props
         } = this.props;
 
         let placeHolder;
         let imageStyleChangesOnLoad = {};
+        let ariaLabelImage = localizeMessage('file_attachment.thumbnail', 'file thumbnail');
+        if (fileInfo) {
+            ariaLabelImage += ` ${fileInfo.name}`.toLowerCase();
+        }
 
         if (dimensions && dimensions.width && !this.state.loaded) {
             placeHolder = (
@@ -127,14 +134,19 @@ export default class SizeAwareImage extends React.PureComponent {
         return (
             <React.Fragment>
                 {placeHolder}
-                <img
-                    alt='image placeholder'
+                <button
                     {...props}
-                    src={src}
-                    onLoad={this.handleLoad}
-                    onError={this.handleError}
-                    style={imageStyleChangesOnLoad}
-                />
+                    aria-label={ariaLabelImage}
+                    className='style--none'
+                >
+                    <img
+                        alt='image placeholder'
+                        src={src}
+                        onError={this.handleError}
+                        onLoad={this.handleLoad}
+                        style={imageStyleChangesOnLoad}
+                    />
+                </button>
             </React.Fragment>
         );
     }

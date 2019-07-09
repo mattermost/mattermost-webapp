@@ -116,9 +116,9 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
 
     renderToggle = (prependToggle) => {
         return (
-            <a
+            <button
                 key='toggle'
-                className={`post__embed-visibility ${prependToggle ? 'pull-left' : ''}`}
+                className={`style--none post__embed-visibility ${prependToggle ? 'pull-left' : ''}`}
                 data-expanded={this.props.isEmbedVisible}
                 aria-label='Toggle Embed Visibility'
                 onClick={this.toggleEmbedVisibility}
