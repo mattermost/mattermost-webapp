@@ -41,7 +41,7 @@ export default class LineSwitch extends React.PureComponent {
                 </div>
             </div>
             {children}
-            {!last && <div className='date-separator'><hr className='separator__hr'/></div>}
+            {!last && <div className='section-separator'><hr className='separator__hr'/></div>}
         </div>);
     }
 }
