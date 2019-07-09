@@ -3,7 +3,7 @@
 
 const axios = require('axios');
 
-module.exports = async ({sender, message, channelId, createAt = 0, baseUrl}) => {
+module.exports = async ({sender, message, channelId, rootId, createAt = 0, baseUrl}) => {
     const loginResponse = await axios({
         url: `${baseUrl}/api/v4/users/login`,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -18,21 +18,30 @@ module.exports = async ({sender, message, channelId, createAt = 0, baseUrl}) => 
         cookieString += nameAndValue + ';';
     });
 
-    const response = await axios({
-        url: `${baseUrl}/api/v4/posts`,
-        headers: {
-            'Content-Type': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest',
-            Cookie: cookieString,
-        },
-        method: 'post',
-        data: {
-            channel_id: channelId,
-            message,
-            type: '',
-            create_at: createAt,
-        },
-    });
+    let response;
+    try {
+        response = await axios({
+            url: `${baseUrl}/api/v4/posts`,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                Cookie: cookieString,
+            },
+            method: 'post',
+            data: {
+                channel_id: channelId,
+                message,
+                type: '',
+                create_at: createAt,
+                parent_id: rootId,
+                root_id: rootId,
+            },
+        });
+    } catch (err) {
+        if (err.response) {
+            response = err.response;
+        }
+    }
 
     return {status: response.status, data: response.data, error: response.error};
 };

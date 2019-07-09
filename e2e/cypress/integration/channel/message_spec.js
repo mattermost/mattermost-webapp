@@ -104,17 +104,16 @@ describe('Message', () => {
     });
 
     it('M14320 @here., @all. and @channel. (ending in a period) still highlight', () => {
+        // # Login as new user
+        cy.loginAsNewUser().then(() => {
+            // # Create new team and visit its URL
+            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+                cy.visit(`/${response.body.name}`);
+            });
+        });
+
         // # Post message
         cy.postMessage('@here. @all. @channel.');
-
-        // * Check that confirm modal is displayed
-        cy.get('#confirmModal').should('be.visible');
-
-        // # Confirm multiple mentions
-        cy.get('#confirmModalButton').click();
-
-        // * Check that confirm modal is closed
-        cy.get('#confirmModal').should('not.be.visible');
 
         cy.getLastPostId().then((postId) => {
             const divPostId = `#postMessageText_${postId}`;
