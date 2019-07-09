@@ -43,124 +43,102 @@ function customColors(dropdownInt, dropdownName) {
 
 describe('AS14318 Theme Colors - Color Picker', () => {
     before(() => {
-        // # Set default theme preference
+        //Login and navigating to settings
         cy.apiLogin('user-1');
-        cy.apiSaveThemePreference();
+        cy.toAccountSettingsModal(null, true);
+        cy.get('#displayButton').click();
+        cy.get('#themeTitle').click();
+        cy.get('#customThemes').click();
     });
 
     after(() => {
-        // * Revert to default theme preference
-        cy.apiSaveThemePreference();
+        cy.defaultTheme();
     });
 
-    it('Theme Display should render in min setting view', () => {
-        // # Go to Account Settings with "user-1"
-        cy.toAccountSettingsModal(null, true);
+    it('Should be able to use color picket and change Sidebar theme color', () => {
+        //Access to Sidebar Styles section
+        cy.get('#SidebarStyles').click();
 
-        // * Check that the Display tab is loaded
-        cy.get('#displayButton').should('be.visible');
+        // # Click the Sidebar BG setting
+        cy.get('.color-icon:visible').first().click();
 
-        // # Click the Display tab
-        cy.get('#displayButton').click();
+        //Filling up input with value #bb123e
+        cy.get("input[spellcheck='false']").clear().type('#bb123e');
 
-        // * Check that it changed into the Display section
-        cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
+        //closing modal clicking Sidebar Link
+        cy.get('#SidebarStyles').click();
 
-        // * Check the min setting view for each element that is present and contains the expected values
-        cy.minDisplaySettings();
+        //saving account settings
+        cy.get('#saveSetting').click();
+
+        //access to theme settings one more time
+        cy.get('#themeTitle').click();
+
+        //access to custom settings one more time
+        cy.get('#customThemes').click();
+
+        //opening Sidebar section again in order to verify change
+        cy.get('#SidebarStyles').click();
+
+        //verifying configuration change was performed correctly
+        cy.get('.color-icon').should('have.css', 'background-color', 'rgb(187, 18, 62)');
     });
 
-    describe('Custom - Sidebar Styles input change', () => {
-        before(() => {
-            // # Go to Theme > Custom > Sidebar Styles
-            customColors(0, 'Sidebar Styles');
-        });
+    it('Should be able to use color picket and change Center Channel Styles', () => {
+        //Access to center Channel Styles section
+        cy.get('#centerChannelStyles').click();
 
-        after(() => {
-            // Save Sidebar Text color change and close the Account settings modal
-            cy.get('#saveSetting').click({force: true});
-            cy.get('#accountSettingsHeader > .close').click();
-        });
+        // # Click the Sidebar BG setting
+        cy.get('.color-icon:visible').first().click();
 
-        testCases.forEach((testCase) => {
-            it(`should change ${testCase.name} custom color`, () => {
-                // # Click input color button
-                cy.get('.input-group-addon').eq(testCase.key).click();
+        //Filling up input with value #bb123e
+        cy.get("input[spellcheck='false']").clear().type('#bb123e');
 
-                // # Click on color bar to change color
-                cy.get(testCase.inputTarget).click();
+        //closing modal clicking Sidebar Link
+        cy.get('#SidebarStyles').click();
 
-                // * Check that icon color change
-                cy.get('.color-icon').eq(testCase.key).should('have.css', testCase.inputColor[0], testCase.inputColor[1]);
+        //saving account settings
+        cy.get('#saveSetting').click();
 
-                // * Check that theme colors for text sharing is updated
-                cy.get('#pasteBox').scrollIntoView().should('contain', testCase.content);
-            });
-        });
+        //access to theme settings one more time
+        cy.get('#themeTitle').click();
 
-        it('should observe color change in Account Settings modal before saving', () => {
-            // * Check Sidebar BG color change
-            cy.get('.settings-links').should('have.css', 'background-color', 'rgb(20, 191, 188)');
+        //access to custom settings one more time
+        cy.get('#customThemes').click();
 
-            // * Check Sidebar Text color change
-            cy.get('#generalButton').should('have.css', 'color', 'rgba(129, 65, 65, 0.6)');
+        //opening centerChannelStyles section again in order to verify change
+        cy.get('#centerChannelStyles').click();
 
-            // * Check Sidebar Header BG color change
-            cy.get('#accountSettingsHeader').should('have.css', 'background', 'rgb(17, 171, 168) none repeat scroll 0% 0% / auto padding-box border-box');
-
-            // * Check Sidebar Header Text color change
-            cy.get('#accountSettingsModalLabel').should('have.css', 'color', 'rgb(129, 65, 65)');
-        });
+        //verifying configuration change was performed correctly
+        cy.get('.color-icon').should('have.css', 'background-color', 'rgb(187, 18, 62)');
     });
 
-    describe('Custom - Sidebar styles target output change', () => {
-        it('should take effect each custom color in Channel View', () => {
-            // * Check Sidebar Unread Text
-            cy.get('.sidebar-item.unread-title').should('have.css', 'color', 'rgb(129, 65, 65)');
+    it('Should be able to use color picket and change Link and Button Styles', () => {
+        //Access to Link and buttons styles section
+        cy.get('#LinkAndButtonsStyles').click();
 
-            // * Check Mention Jewel BG color
-            cy.get('#unreadIndicatorBottom').should('have.css', 'background-color', 'rgb(129, 65, 65)');
+        // # Click the Sidebar BG setting
+        cy.get('.color-icon:visible').first().click();
 
-            // * Check Mention Jewel Text color
-            cy.get('#unreadIndicatorBottom').should('have.css', 'color', 'rgb(65, 92, 129)');
+        //Filling up input with value #bb123e
+        cy.get("input[spellcheck='false']").clear().type('#bb123e');
 
-            // # Set user status to online
-            cy.userStatus(0);
+        //closing modal clicking Sidebar Link
+        cy.get('#SidebarStyles').click();
 
-            // * Check Online Indicator color
-            cy.get('.online--icon').should('have.css', 'fill', 'rgb(65, 129, 113)');
+        //saving account settings
+        cy.get('#saveSetting').click();
 
-            // # Set user status to away
-            cy.userStatus(1);
+        //access to theme settings one more time
+        cy.get('#themeTitle').click();
 
-            // * Check Away Indicator color
-            cy.get('.away--icon').should('have.css', 'fill', 'rgb(129, 106, 65)');
+        //access to custom settings one more time
+        cy.get('#customThemes').click();
 
-            // # Set user status to do not disturb
-            cy.userStatus(2);
+        //opening LinkAndButtons section again in order to verify change
+        cy.get('#LinkAndButtonsStyles').click();
 
-            // * Check Do Not Disturb Indicator color
-            cy.get('.dnd--icon').should('have.css', 'fill', 'rgb(129, 65, 65)');
-
-            // # Revert user status to online
-            cy.userStatus(0);
-        });
-    });
-
-    describe('Theme Colors', () => {
-        it('Should be able to use color picket and change Sidebar theme color', () => {
-        // # Go to Account Settings with "user-1"
-            cy.toAccountSettingsModal(null, true);
-        });
-
-        it('Should be able to use color picket and change Center Channel Styles', () => {
-            // # Go to Account Settings with "user-1"
-            cy.toAccountSettingsModal(null, true);
-        });
-
-        it('Should be able to use color picket and change Link and Button Styles', () => {
-            // # Go to Account Settings with "user-1"
-            cy.toAccountSettingsModal(null, true);
-        });
+        //verifying configuration change was performed correctly
+        cy.get('.color-icon').should('have.css', 'background-color', 'rgb(187, 18, 62)');
     });
 });
