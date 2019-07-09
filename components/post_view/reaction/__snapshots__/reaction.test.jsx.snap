@@ -47,12 +47,13 @@ exports[`components/post_view/Reaction should disable add reaction when you do n
   trigger={
     Array [
       "hover",
-      "focus",
+      "click",
     ]
   }
 >
-  <div
-    className="post-reaction post-reaction--read-only"
+  <button
+    aria-label="react with smile"
+    className="style--none post-reaction post-reaction--read-only"
     id="postReaction-post_id_1-smile"
   >
     <span
@@ -68,7 +69,7 @@ exports[`components/post_view/Reaction should disable add reaction when you do n
     >
       2
     </span>
-  </div>
+  </button>
 </OverlayTrigger>
 `;
 
@@ -119,12 +120,13 @@ exports[`components/post_view/Reaction should disable remove reaction when you d
   trigger={
     Array [
       "hover",
-      "focus",
+      "click",
     ]
   }
 >
-  <div
-    className="post-reaction post-reaction--read-only post-reaction--current-user"
+  <button
+    aria-label="react with smile"
+    className="style--none post-reaction post-reaction--read-only post-reaction--current-user"
     id="postReaction-post_id_1-smile"
   >
     <span
@@ -140,7 +142,7 @@ exports[`components/post_view/Reaction should disable remove reaction when you d
     >
       2
     </span>
-  </div>
+  </button>
 </OverlayTrigger>
 `;
 
@@ -196,12 +198,13 @@ exports[`components/post_view/Reaction should match snapshot 1`] = `
   trigger={
     Array [
       "hover",
-      "focus",
+      "click",
     ]
   }
 >
-  <div
-    className="post-reaction"
+  <button
+    aria-label="react with smile"
+    className="style--none post-reaction"
     id="postReaction-post_id_1-smile"
     onClick={[Function]}
   >
@@ -218,7 +221,7 @@ exports[`components/post_view/Reaction should match snapshot 1`] = `
     >
       2
     </span>
-  </div>
+  </button>
 </OverlayTrigger>
 `;
 
@@ -274,12 +277,13 @@ exports[`components/post_view/Reaction should match snapshot when a current user
   trigger={
     Array [
       "hover",
-      "focus",
+      "click",
     ]
   }
 >
-  <div
-    className="post-reaction post-reaction--current-user"
+  <button
+    aria-label="remove reaction smile"
+    className="style--none post-reaction post-reaction--current-user"
     id="postReaction-post_id_1-smile"
     onClick={[Function]}
   >
@@ -296,7 +300,7 @@ exports[`components/post_view/Reaction should match snapshot when a current user
     >
       2
     </span>
-  </div>
+  </button>
 </OverlayTrigger>
 `;
 
