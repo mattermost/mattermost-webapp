@@ -22,10 +22,10 @@ export default class GroupRow extends React.Component {
                 className={'group'}
             >
                 <div className='group-row'>
-                    <span className='group-name '>
+                    <span className='group-name row-content'>
                         {group.display_name || group.name}
                     </span>
-                    <span className='group-description'>
+                    <span className='group-description row-content'>
                         <FormattedMessage
                             id='admin.team_channel_settings.group_row.members'
                             defaultMessage='{memberCount} members'

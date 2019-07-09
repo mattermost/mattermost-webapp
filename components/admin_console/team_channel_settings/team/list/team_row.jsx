@@ -29,7 +29,7 @@ export default class TeamRow extends React.Component {
                 onClick={this.handleRowClick}
             >
                 <div className='group-row group-row-large'>
-                    <div className='group-name adjusted center-row'>
+                    <div className='group-name adjusted center-row row-content'>
                         <div>
                             <TeamImage
                                 small={true}
@@ -49,7 +49,7 @@ export default class TeamRow extends React.Component {
 
                     </div>
 
-                    <span className='group-description adjusted'>
+                    <span className='group-description adjusted row-content'>
                         <FormattedMessage
                             id={`admin.team_settings.team_row.managementMethod.${team.group_constrained ? 'group' : 'manual'}`}
                             defaultMessage={team.group_constrained ? 'Group Sync' : 'Manual Invites'}
