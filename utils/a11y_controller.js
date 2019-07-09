@@ -204,7 +204,6 @@ export default class A11yController {
     cancelNavigation() {
         this.clearActiveRegion();
         this.setCurrentFocus();
-        console.log('[a11y] Navigation cancelled');
     }
 
     // private methods
@@ -221,7 +220,6 @@ export default class A11yController {
         this.activeRegion = element;
         this.activeRegion.addEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveRegionUpdate);
         this.activeRegion.dispatchEvent(new Event(A11yCustomEventTypes.ACTIVATE));
-        console.log(`[a11y] Set new active region.`, this.activeRegion);
 
         // apply visual updates to active region
         this.updateActiveRegion();
@@ -248,7 +246,6 @@ export default class A11yController {
         this.activeSection = element;
         this.activeSection.addEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveSectionUpdate);
         this.activeSection.dispatchEvent(new Event(A11yCustomEventTypes.ACTIVATE));
-        console.log(`[a11y] Set new active section.`, this.activeSection);
 
         // apply visual updates to active section
         this.updateActiveSection();
@@ -266,7 +263,6 @@ export default class A11yController {
         this.activeElement = element;
         this.activeElement.addEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveElementUpdate);
         this.activeElement.dispatchEvent(new Event(A11yCustomEventTypes.ACTIVATE));
-        console.log(`[a11y] Set new active element.`, this.activeElement);
 
         // apply visual updates to active element
         this.updateActiveElement();
@@ -324,7 +320,6 @@ export default class A11yController {
 
     clearActiveRegion() {
         if (this.activeRegion) {
-            console.log(`[a11y] Clear active region.`, this.activeRegion);
             this.activeRegion.classList.remove(A11yClassNames.ACTIVE);
             this.activeRegion.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
             this.activeRegion.removeEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveRegionUpdate);
@@ -335,7 +330,6 @@ export default class A11yController {
 
     clearActiveSection() {
         if (this.activeSection) {
-            console.log(`[a11y] Clear active section.`, this.activeSection);
             this.activeSection.classList.remove(A11yClassNames.ACTIVE);
             this.activeSection.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
             this.activeSection.removeEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveSectionUpdate);
@@ -346,7 +340,6 @@ export default class A11yController {
 
     clearActiveElement() {
         if (this.activeElement) {
-            console.log(`[a11y] Clear active element.`, this.activeElement);
             if (this.activeElement !== this.activeRegion && this.activeElement !== this.activeSection) {
                 this.activeElement.classList.remove(A11yClassNames.ACTIVE);
                 this.activeElement.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
