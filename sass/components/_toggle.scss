@@ -48,11 +48,11 @@ $toggle-default-font-size: .75rem;
 
     > .handle {
         position: absolute;
-        top: ($size * .25) / 2;
-        left: ($size * .25) / 2;
-        width: $size * .75;
-        height: $size * .75;
-        border-radius: $size * .75;
+        top: 0.4rem;
+        left: 0.4rem;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 1rem;
         background: #fff;
         transition: left .25s;
     }
@@ -60,7 +60,7 @@ $toggle-default-font-size: .75rem;
         transition: background-color .25s;
         > .handle {
             left: inherit;
-            right: ($size * .25) / 2;
+            right: 0.4rem;
             transition: left .25s;
         }
     }
@@ -74,7 +74,7 @@ $toggle-default-font-size: .75rem;
     @include toggle-color;
 
     &.btn-lg {
-        @include toggle-mixin($size: 24px, $font-size: 1rem, $margin: 5rem);
+        @include toggle-mixin($size: 2.8rem, $font-size: 1rem, $margin: 5rem);
     }
 
     &.btn-sm {
@@ -86,14 +86,14 @@ $toggle-default-font-size: .75rem;
     }
 
     .bg-text {
-        font-size: 14px;
+        font-size: 1.4rem;
         color: #fff;
 
         &.off {
-            padding: 0 10px 0 30px;
+            padding: 0 1.6rem 0 3.4rem;
         }
         &.on {
-            padding: 0 30px 0 10px;
+            padding: 0 3.4rem 0 1.6rem;
         }
     }
 }
