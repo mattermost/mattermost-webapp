@@ -269,7 +269,7 @@ export default class SystemUsers extends React.Component {
         const revokeAllButton = (
             <FormattedMessage
                 id='deactivate_member_modal.deactivate'
-                defaultMessage='Deactivate'
+                defaultMessage='Revoke All Sessions'
             />
         );
 
@@ -379,24 +379,25 @@ export default class SystemUsers extends React.Component {
                             />
                         </div>
                     </div>
-                </div>
-                <SystemPermissionGate permissions={[Permissions.REVOKE_USER_ACCESS_TOKEN]}>
-                    {revokeAllUsersModal}
-                    <div className='admin-console__wrapper'>
+
+                    <SystemPermissionGate permissions={[Permissions.REVOKE_USER_ACCESS_TOKEN]}>
+                        {revokeAllUsersModal}
                         <div className='admin-console__content'>
-                            <button
-                                id='revoke-all-users'
-                                className='btn btn-danger btn-message'
-                                onClick={() => this.handleShowRevokeAllSessionsModal()}
-                            >
-                                <FormattedMessage
-                                    id='admin.system_users.revokeAllSessions'
-                                    defaultMessage='Revoke All Sessions'
-                                />
-                            </button>
+                            <div className='help-text'>
+                                <button
+                                    id='revoke-all-users'
+                                    className='btn btn-default'
+                                    onClick={() => this.handleShowRevokeAllSessionsModal()}
+                                >
+                                    <FormattedMessage
+                                        id='admin.system_users.revokeAllSessions'
+                                        defaultMessage='Revoke All Sessions'
+                                    />
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </SystemPermissionGate>
+                    </SystemPermissionGate>
+                </div>
             </div>
         );
     }

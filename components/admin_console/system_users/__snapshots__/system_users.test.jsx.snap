@@ -40,62 +40,62 @@ exports[`components/admin_console/system_users should match default snapshot 1`]
         />
       </div>
     </div>
-  </div>
-  <Connect(SystemPermissionGate)
-    permissions={
-      Array [
-        "revoke_user_access_token",
-      ]
-    }
-  >
-    <ConfirmModal
-      confirmButtonClass="btn btn-danger"
-      confirmButtonText={
-        <FormattedMessage
-          defaultMessage="Deactivate"
-          id="deactivate_member_modal.deactivate"
-          values={Object {}}
-        />
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "revoke_user_access_token",
+        ]
       }
-      message={
-        <div>
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="This action revokes all sessions in the system. All users will be logged out from all devices. Are you sure you want to revoke all sessions?"
-            id="admin.system_users.revoke_all_sessions_modal_message"
-          />
-        </div>
-      }
-      modalClass=""
-      onCancel={[Function]}
-      onConfirm={[Function]}
-      show={false}
-      title={
-        <FormattedMessage
-          defaultMessage="Revoke all sessions in the system"
-          id="admin.system_users.revoke_all_sessions_modal_title"
-          values={Object {}}
-        />
-      }
-    />
-    <div
-      className="admin-console__wrapper"
     >
+      <ConfirmModal
+        confirmButtonClass="btn btn-danger"
+        confirmButtonText={
+          <FormattedMessage
+            defaultMessage="Revoke All Sessions"
+            id="deactivate_member_modal.deactivate"
+            values={Object {}}
+          />
+        }
+        message={
+          <div>
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="This action revokes all sessions in the system. All users will be logged out from all devices. Are you sure you want to revoke all sessions?"
+              id="admin.system_users.revoke_all_sessions_modal_message"
+            />
+          </div>
+        }
+        modalClass=""
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+        title={
+          <FormattedMessage
+            defaultMessage="Revoke all sessions in the system"
+            id="admin.system_users.revoke_all_sessions_modal_title"
+            values={Object {}}
+          />
+        }
+      />
       <div
         className="admin-console__content"
       >
-        <button
-          className="btn btn-danger btn-message"
-          id="revoke-all-users"
-          onClick={[Function]}
+        <div
+          className="help-text"
         >
-          <FormattedMessage
-            defaultMessage="Revoke All Sessions"
-            id="admin.system_users.revokeAllSessions"
-            values={Object {}}
-          />
-        </button>
+          <button
+            className="btn btn-default"
+            id="revoke-all-users"
+            onClick={[Function]}
+          >
+            <FormattedMessage
+              defaultMessage="Revoke All Sessions"
+              id="admin.system_users.revokeAllSessions"
+              values={Object {}}
+            />
+          </button>
+        </div>
       </div>
-    </div>
-  </Connect(SystemPermissionGate)>
+    </Connect(SystemPermissionGate)>
+  </div>
 </div>
 `;
