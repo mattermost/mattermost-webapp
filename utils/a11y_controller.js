@@ -27,6 +27,9 @@ export default class A11yController {
     }
 
     destroy() {
+        this.clearActiveRegion();
+        this.clearCurrentFocus();
+
         document.removeEventListener(EventTypes.KEY_DOWN, this.handleKeyDown, listenerOptions);
         document.removeEventListener(EventTypes.KEY_UP, this.handleKeyUp, listenerOptions);
         document.removeEventListener(EventTypes.CLICK, this.handleMouseClick, listenerOptions);
@@ -39,25 +42,25 @@ export default class A11yController {
      * Returns an array of available regions sorted by A11yAttributeNames.SORT_ORDER
      */
     get regions() {
-        let elements = this.sortElementsByAttributeOrder(this.regionHTMLCollection);
-        elements = elements.filter((element) => {
+        let domElements = this.sortElementsByAttributeOrder(this.regionHTMLCollection);
+        domElements = domElements.filter((element) => {
             return this.elementIsVisible(element);
         });
-        return elements;
+        return domElements;
     }
 
     /**
      * Returns an array of available sections sorted by A11yAttributeNames.SORT_ORDER and optionally reversed
      */
     get sections() {
-        let elements = this.sortElementsByAttributeOrder(this.sectionHTMLCollection);
-        elements = elements.filter((element) => {
+        let domElements = this.sortElementsByAttributeOrder(this.sectionHTMLCollection);
+        domElements = domElements.filter((element) => {
             return this.elementIsVisible(element);
         });
         if (this.reverseSections) {
-            elements.reverse();
+            domElements.reverse();
         }
-        return elements;
+        return domElements;
     }
 
     get navInProgress() {
@@ -274,7 +277,9 @@ export default class A11yController {
             return;
         }
 
-        this.focusedElement.focus();
+        if (document.activeElement !== this.focusedElement) {
+            this.focusedElement.focus();
+        }
 
         // apply visual updates to focused element
         this.udpateCurrentFocus();
@@ -443,14 +448,18 @@ export default class A11yController {
         }
     }
 
-    handleMouseClick = (e) => {
-        if (!this.navInProgress || e.target === this.activeElement) {
+    handleMouseClick = (event) => {
+        if (!this.navInProgress || event.target === this.activeElement) {
             return;
         }
         this.cancelNavigation();
     }
 
     handleFocus = (event) => {
+        // clicking on a focusable element will trigger this event, check if tabbing is supposed to be disabled
+        if (event.target.getAttribute('tabindex') === '-1') {
+            return;
+        }
         this.nextElement(event.target, event.path);
     }
 
