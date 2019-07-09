@@ -367,3 +367,12 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         type('{enter}').
         wait(TIMEOUTS.TINY);
 });
+
+/**
+ * Get last recently used emoji and makes sure has given ID
+ * @param {emojiId} emojiId - emoji id you want to make sure was the las recently used
+ */
+Cypress.Commands.add('assertLastUsedEmojiHasId', (emojiId) => {
+    cy.get('.emoji-picker__item').eq(0).children('div').children('img').should('have.id', emojiId);
+});
+
