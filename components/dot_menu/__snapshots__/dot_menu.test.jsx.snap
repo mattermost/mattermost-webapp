@@ -29,12 +29,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     trigger={
       Array [
         "hover",
-        "focus",
+        "click",
       ]
     }
   >
     <button
       aria-expanded="false"
+      aria-label="more actions"
       className="post__dropdown color--link style--none"
       id="CENTER_button_post_id_1"
       type="button"
@@ -140,12 +141,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     trigger={
       Array [
         "hover",
-        "focus",
+        "click",
       ]
     }
   >
     <button
       aria-expanded="false"
+      aria-label="more actions"
       className="post__dropdown color--link style--none"
       id="CENTER_button_post_id_1"
       type="button"

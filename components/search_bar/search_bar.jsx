@@ -257,6 +257,7 @@ export default class SearchBar extends React.Component {
                         />
                         <SuggestionBox
                             ref={this.getSearch}
+                            role='application'
                             id='searchBox'
                             className='search-bar'
                             aria-describedby='searchbar-help-popup'
