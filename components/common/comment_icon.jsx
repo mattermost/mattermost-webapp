@@ -28,10 +28,6 @@ export default class CommentIcon extends React.PureComponent {
         location: Locations.CENTER,
     };
 
-    getTooltipTriggers = () => {
-        return ['hover', 'click'];
-    };
-
     render() {
         let commentCountSpan = '';
         let iconStyle = 'comment-icon__container';
@@ -61,7 +57,7 @@ export default class CommentIcon extends React.PureComponent {
         return (
             <OverlayTrigger
                 className='hidden-xs'
-                trigger={['hover', 'focus']}
+                trigger={['hover', 'click']}
                 delayShow={500}
                 placement='top'
                 overlay={tooltip}

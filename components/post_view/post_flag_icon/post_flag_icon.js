@@ -62,29 +62,28 @@ export default class PostFlagIcon extends React.PureComponent {
         }
 
         return (
-            <OverlayTrigger
-                trigger={['hover', 'click']}
-                key={'flagtooltipkey' + flagVisible}
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='top'
-                overlay={
-                    <Tooltip id='flagTooltip'>
-                        <FormattedMessage
-                            id={isFlagged ? t('flag_post.unflag') : t('flag_post.flag')}
-                            defaultMessage={isFlagged ? 'Unflag' : 'Flag for follow up'}
-                        />
-                    </Tooltip>
-                }
+            <button
+                id={`${this.props.location}_flagIcon_${this.props.postId}`}
+                aria-label={isFlagged ? localizeMessage('flag_post.unflag', 'Unflag').toLowerCase() : localizeMessage('flag_post.flag', 'Flag for follow up').toLowerCase()}
+                className={'style--none flag-icon__container ' + flagVisible}
+                onClick={this.handlePress}
             >
-                <button
-                    id={`${this.props.location}_flagIcon_${this.props.postId}`}
-                    aria-label={localizeMessage('rhs_root.mobile.flag', 'Flag').toLowerCase()}
-                    className={'style--none flag-icon__container ' + flagVisible}
-                    onClick={this.handlePress}
+                <OverlayTrigger
+                    key={'flagtooltipkey' + flagVisible}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={
+                        <Tooltip id='flagTooltip'>
+                            <FormattedMessage
+                                id={isFlagged ? t('flag_post.unflag') : t('flag_post.flag')}
+                                defaultMessage={isFlagged ? 'Unflag' : 'Flag for follow up'}
+                            />
+                        </Tooltip>
+                    }
                 >
                     {flagIcon}
-                </button>
-            </OverlayTrigger>
+                </OverlayTrigger>
+            </button>
         );
     }
 }

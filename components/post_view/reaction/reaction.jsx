@@ -252,7 +252,7 @@ export default class Reaction extends React.PureComponent {
                 <button
                     id={`postReaction-${this.props.post.id}-${this.props.emojiName}`}
                     aria-label={ariaLabelEmoji}
-                    className={'style--none ' + className}
+                    className={`style--none ${className}`}
                     onClick={handleClick}
                 >
                     <span
