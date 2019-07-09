@@ -205,9 +205,12 @@ export default class Reaction extends React.PureComponent {
         let handleClick;
         let clickTooltip;
         let className = 'post-reaction';
+        const emojiNameWithSpaces = this.props.emojiName.replace(/_/g, ' ');
+        let ariaLabelEmoji = `${Utils.localizeMessage('reaction.reactWidth.ariaLabel', 'react with')} ${emojiNameWithSpaces}`;
         if (currentUserReacted) {
             if (this.props.canRemoveReaction) {
                 handleClick = this.handleRemoveReaction;
+                ariaLabelEmoji = `${Utils.localizeMessage('reaction.removeReact.ariaLabel', 'remove reaction')} ${emojiNameWithSpaces}`;
                 clickTooltip = (
                     <FormattedMessage
                         id='reaction.clickToRemove'
@@ -233,7 +236,7 @@ export default class Reaction extends React.PureComponent {
 
         return (
             <OverlayTrigger
-                trigger={['hover', 'focus']}
+                trigger={['hover', 'click']}
                 delayShow={1000}
                 placement='top'
                 shouldUpdatePosition={true}
@@ -246,9 +249,10 @@ export default class Reaction extends React.PureComponent {
                 }
                 onEnter={this.loadMissingProfiles}
             >
-                <div
+                <button
                     id={`postReaction-${this.props.post.id}-${this.props.emojiName}`}
-                    className={className}
+                    aria-label={ariaLabelEmoji}
+                    className={`style--none ${className}`}
                     onClick={handleClick}
                 >
                     <span
@@ -260,7 +264,7 @@ export default class Reaction extends React.PureComponent {
                     >
                         {this.props.reactionCount}
                     </span>
-                </div>
+                </button>
             </OverlayTrigger>
         );
     }

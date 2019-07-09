@@ -376,7 +376,7 @@
         }
 
         &.light {
-            @include opacity(.8);
+            @include opacity(.6);
             color: inherit;
             overflow: visible;
 

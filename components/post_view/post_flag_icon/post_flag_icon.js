@@ -9,6 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import FlagIcon from 'components/svg/flag_icon';
 import FlagIconFilled from 'components/svg/flag_icon_filled';
 import Constants, {Locations} from 'utils/constants.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
 export default class PostFlagIcon extends React.PureComponent {
@@ -61,28 +62,28 @@ export default class PostFlagIcon extends React.PureComponent {
         }
 
         return (
-            <OverlayTrigger
-                trigger={['hover', 'focus']}
-                key={'flagtooltipkey' + flagVisible}
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='top'
-                overlay={
-                    <Tooltip id='flagTooltip'>
-                        <FormattedMessage
-                            id={isFlagged ? t('flag_post.unflag') : t('flag_post.flag')}
-                            defaultMessage={isFlagged ? 'Unflag' : 'Flag for follow up'}
-                        />
-                    </Tooltip>
-                }
+            <button
+                id={`${this.props.location}_flagIcon_${this.props.postId}`}
+                aria-label={isFlagged ? localizeMessage('flag_post.unflag', 'Unflag').toLowerCase() : localizeMessage('flag_post.flag', 'Flag for follow up').toLowerCase()}
+                className={'style--none flag-icon__container ' + flagVisible}
+                onClick={this.handlePress}
             >
-                <button
-                    id={`${this.props.location}_flagIcon_${this.props.postId}`}
-                    className={'style--none flag-icon__container ' + flagVisible}
-                    onClick={this.handlePress}
+                <OverlayTrigger
+                    key={'flagtooltipkey' + flagVisible}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={
+                        <Tooltip id='flagTooltip'>
+                            <FormattedMessage
+                                id={isFlagged ? t('flag_post.unflag') : t('flag_post.flag')}
+                                defaultMessage={isFlagged ? 'Unflag' : 'Flag for follow up'}
+                            />
+                        </Tooltip>
+                    }
                 >
                     {flagIcon}
-                </button>
-            </OverlayTrigger>
+                </OverlayTrigger>
+            </button>
         );
     }
 }
