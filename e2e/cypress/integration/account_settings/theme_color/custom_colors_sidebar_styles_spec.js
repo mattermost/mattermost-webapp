@@ -162,7 +162,7 @@ describe('MM-14318 Theme Colors', () => {
         cy.defaultTheme();
     });
 
-    it('Should be able to use color picket and change Sidebar theme color', () => {
+    it('Should be able to use color picker input and change Sidebar theme color', () => {
         cy.get('#SidebarStyles').click();
 
         // # Click the Sidebar BG setting
@@ -190,7 +190,7 @@ describe('MM-14318 Theme Colors', () => {
         cy.get('.color-icon').should('have.css', 'background-color', 'rgb(187, 18, 62)');
     });
 
-    it('Should be able to use color picket and change Center Channel Styles', () => {
+    it('Should be able to use color picker input and change Center Channel Styles', () => {
         cy.get('#centerChannelStyles').click();
 
         // # Click the Sidebar BG setting
@@ -218,7 +218,7 @@ describe('MM-14318 Theme Colors', () => {
         cy.get('.color-icon').should('have.css', 'background-color', 'rgb(187, 18, 62)');
     });
 
-    it('Should be able to use color picket and change Link and Button Styles', () => {
+    it('Should be able to use color picker input and change Link and Button Styles', () => {
         cy.get('#LinkAndButtonsStyles').click();
 
         // # Click the Sidebar BG setting
