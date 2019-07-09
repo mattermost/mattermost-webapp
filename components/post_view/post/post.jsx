@@ -300,7 +300,7 @@ export default class Post extends React.PureComponent {
                             compactDisplay={this.props.compactDisplay}
                             isFirstReply={this.props.isFirstReply}
                             replyCount={this.props.replyCount}
-                            showDateWithoutHover={!hideProfilePicture}
+                            showTimeWithoutHover={!hideProfilePicture}
                             hover={this.state.hover}
                         />
                         <PostBody

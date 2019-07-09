@@ -621,6 +621,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
                     {and: 'i am attachment 2'},
                 ],
             },
+            file_ids: ['test_file_id_1'],
         };
         const author = 'test_author';
         const reactions = {
@@ -632,7 +633,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl);
         assert.ok(ariaLabel.indexOf(author) === 0);
         assert.ok(ariaLabel.indexOf(testPost.message));
-        assert.ok(ariaLabel.indexOf('2 attachments'));
+        assert.ok(ariaLabel.indexOf('3 attachments'));
         assert.ok(ariaLabel.indexOf('2 reactions'));
         assert.ok(ariaLabel.indexOf('message is flagged and pinned'));
     });

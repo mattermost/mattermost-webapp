@@ -309,39 +309,49 @@ export function getLatestPostId(postIds) {
 }
 
 export function createAriaLabelForPost(post, author, isFlagged, reactions, intl) {
-    const {formatMessage, formatTime} = intl;
+    const {formatMessage, formatTime, formatDate} = intl;
 
     let ariaLabel;
     if (post.root_id) {
         ariaLabel = formatMessage({
             id: 'post.ariaLabel.replyMessage',
-            defaultMessage: '{authorName} at {timestamp} wrote a reply, {message}',
+            defaultMessage: '{authorName} at {time} {date} wrote a reply, {message}',
         },
         {
             authorName: author,
-            timestamp: formatTime(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
+            time: formatTime(post.create_at),
+            date: formatDate(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
             message: post.message,
         });
     } else {
         ariaLabel = formatMessage({
             id: 'post.ariaLabel.message',
-            defaultMessage: '{authorName} at {timestamp} wrote, {message}',
+            defaultMessage: '{authorName} at {time} {date} wrote, {message}',
         },
         {
             authorName: author,
-            timestamp: formatTime(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
+            time: formatTime(post.create_at),
+            date: formatDate(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
             message: post.message,
         });
     }
 
-    if (post.props && post.props.attachments && post.props.attachments.length) {
-        if (post.props.attachments.length > 1) {
+    let attachmentCount = 0;
+    if (post.props && post.props.attachments) {
+        attachmentCount += post.props.attachments.length;
+    }
+    if (post.file_ids) {
+        attachmentCount += post.file_ids.length;
+    }
+
+    if (attachmentCount) {
+        if (attachmentCount > 1) {
             ariaLabel += formatMessage({
                 id: 'post.ariaLabel.attachmentMultiple',
                 defaultMessage: ', {attachmentCount} attachments',
             },
             {
-                attachmentCount: post.props.attachments.length,
+                attachmentCount,
             });
         } else {
             ariaLabel += formatMessage({
