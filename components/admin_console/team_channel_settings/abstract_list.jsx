@@ -112,7 +112,7 @@ export default class AbstractList extends React.PureComponent {
                 <div className='groups-list--body'>
                     {this.renderRows()}
                 </div>
-                <div className='groups-list--footer'>
+                {total > 0 && <div className='groups-list--footer'>
                     <div className='counter'>
                         <FormattedMessage
                             id='admin.team_channel_settings.list.paginatorCount'
@@ -138,7 +138,7 @@ export default class AbstractList extends React.PureComponent {
                     >
                         <NextIcon/>
                     </button>
-                </div>
+                </div>}
             </div>
         );
     }
