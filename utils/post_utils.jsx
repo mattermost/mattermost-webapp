@@ -229,9 +229,7 @@ function isIdNotPost(postId) {
     return (
         PostListUtils.isStartOfNewMessages(postId) ||
         PostListUtils.isDateLine(postId) ||
-        postId === PostListRowListIds.CHANNEL_INTRO_MESSAGE ||
-        postId === PostListRowListIds.MORE_MESSAGES_LOADER ||
-        postId === PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES
+        PostListRowListIds[postId]
     );
 }
 

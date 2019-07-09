@@ -11,7 +11,7 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 import {browserHistory} from 'utils/browser_history';
 import * as Actions from 'actions/views/channel';
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
+import {ActionTypes, PostRequestTypes} from 'utils/constants.jsx';
 
 const mockStore = configureStore([thunk]);
 
@@ -129,156 +129,194 @@ describe('channel view actions', () => {
         });
     });
 
-    describe('loadInitialPosts', () => {
-        describe('without a focused post', () => {
-            test('should call getPosts and return the results', async () => {
-                const posts = {posts: {}, order: []};
+    describe('loadLatestPosts', () => {
+        test('should call getPosts and return the results', async () => {
+            const posts = {posts: {}, order: []};
 
-                PostActions.getPosts.mockReturnValue(() => ({data: posts}));
+            PostActions.getPosts.mockReturnValue(() => ({data: posts}));
 
-                const result = await store.dispatch(Actions.loadInitialPosts('channel'));
+            const result = await store.dispatch(Actions.loadLatestPosts('channel'));
 
-                expect(result.posts).toBe(posts);
+            expect(result.data).toBe(posts);
 
-                expect(PostActions.getPosts).toHaveBeenCalledWith('channel', 0, Posts.POST_CHUNK_SIZE / 2);
-            });
-
-            test('when enough posts are received', async () => {
-                const posts = {posts: {}, order: new Array(Posts.POST_CHUNK_SIZE)};
-
-                PostActions.getPosts.mockReturnValue(() => ({data: posts}));
-
-                const result = await store.dispatch(Actions.loadInitialPosts('channel'));
-
-                expect(result.hasMoreBefore).toBe(true);
-                expect(result.hasMoreAfter).toBe(false);
-            });
-
-            test('when not enough posts are received', async () => {
-                const posts = {posts: {}, order: new Array((Posts.POST_CHUNK_SIZE / 2) - 1)};
-
-                PostActions.getPosts.mockReturnValue(() => ({data: posts}));
-
-                const result = await store.dispatch(Actions.loadInitialPosts('channel'));
-
-                expect(result.hasMoreBefore).toBe(false);
-                expect(result.hasMoreAfter).toBe(false);
-            });
+            expect(PostActions.getPosts).toHaveBeenCalledWith('channel', 0, Posts.POST_CHUNK_SIZE / 2);
         });
 
-        describe('with a focused post', () => {
-            test('should call getPostsAround and return the results', async () => {
-                Date.now = jest.fn().mockReturnValue(12344);
+        test('when oldest posts are recived', async () => {
+            const posts = {posts: {}, order: new Array(Posts.POST_CHUNK_SIZE), next_post_id: 'test', prev_post_id: ''};
 
-                const posts = {posts: {}, order: []};
+            PostActions.getPosts.mockReturnValue(() => ({data: posts}));
 
-                PostActions.getPostsAround.mockReturnValue(() => ({data: posts}));
+            const result = await store.dispatch(Actions.loadLatestPosts('channel'));
 
-                const result = await store.dispatch(Actions.loadInitialPosts('channel', 'post'));
+            expect(result.atLatestMessage).toBe(false);
+            expect(result.atOldestmessage).toBe(true);
+        });
 
-                expect(result.posts).toBe(posts);
+        test('when latest posts are received', async () => {
+            Date.now = jest.fn().mockReturnValue(12344);
 
-                expect(PostActions.getPostsAround).toHaveBeenCalledWith('channel', 'post', Posts.POST_CHUNK_SIZE / 2);
+            const posts = {posts: {}, order: new Array((Posts.POST_CHUNK_SIZE / 2) - 1), next_post_id: '', prev_post_id: 'test'};
 
-                expect(store.getActions()).toEqual([
-                    {
-                        channelId: 'channel',
-                        time: 12344,
-                        type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
-                    },
-                ]);
-            });
+            PostActions.getPosts.mockReturnValue(() => ({data: posts}));
 
-            test('when enough posts are received before and after the focused post', async () => {
-                const posts = {
-                    posts: {},
-                    order: [
-                        ...new Array(Posts.POST_CHUNK_SIZE / 2), // after
-                        'post',
-                        ...new Array(Posts.POST_CHUNK_SIZE / 2), // before
-                    ],
-                };
+            const result = await store.dispatch(Actions.loadLatestPosts('channel'));
 
-                PostActions.getPostsAround.mockReturnValue(() => ({data: posts}));
+            expect(result.atLatestMessage).toBe(true);
+            expect(result.atOldestmessage).toBe(false);
 
-                const result = await store.dispatch(Actions.loadInitialPosts('channel', 'post'));
+            expect(store.getActions()).toEqual([
+                {
+                    channelId: 'channel',
+                    time: 12344,
+                    type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
+                },
+            ]);
+        });
+    });
 
-                expect(result.hasMoreAfter).toBe(true);
-                expect(result.hasMoreBefore).toBe(true);
-            });
+    describe('loadUnreads', () => {
+        test('when there are no posts after and before the response', async () => {
+            const posts = {posts: {}, order: [], next_post_id: '', prev_post_id: ''};
 
-            test('when not enough posts are received before the focused post', async () => {
-                const posts = {
-                    posts: {},
-                    order: [
-                        ...new Array(Posts.POST_CHUNK_SIZE / 2), // after
-                        'post',
-                        ...new Array((Posts.POST_CHUNK_SIZE / 2) - 1), // before
-                    ],
-                };
+            PostActions.getPostsUnread.mockReturnValue(() => ({data: posts}));
 
-                PostActions.getPostsAround.mockReturnValue(() => ({data: posts}));
+            const result = await store.dispatch(Actions.loadUnreads('channel', 'post'));
 
-                const result = await store.dispatch(Actions.loadInitialPosts('channel', 'post'));
+            expect(result).toEqual({atLatestMessage: true, atOldestmessage: true});
+            expect(PostActions.getPostsUnread).toHaveBeenCalledWith('channel');
+        });
 
-                expect(result.hasMoreAfter).toBe(true);
-                expect(result.hasMoreBefore).toBe(false);
-            });
+        test('when there are posts before and after the response', async () => {
+            const posts = {
+                posts: {},
+                order: [
+                    ...new Array(Posts.POST_CHUNK_SIZE / 2), // after
+                    'post',
+                    ...new Array(Posts.POST_CHUNK_SIZE / 2), // before
+                ],
+                next_post_id: 'test',
+                prev_post_id: 'test',
+            };
 
-            test('when not enough posts are received after the focused post', async () => {
-                const posts = {
-                    posts: {},
-                    order: [
-                        ...new Array((Posts.POST_CHUNK_SIZE / 2) - 1), // after
-                        'post',
-                        ...new Array(Posts.POST_CHUNK_SIZE / 2), // before
-                    ],
-                };
+            PostActions.getPostsUnread.mockReturnValue(() => ({data: posts}));
 
-                PostActions.getPostsAround.mockReturnValue(() => ({data: posts}));
+            const result = await store.dispatch(Actions.loadUnreads('channel', 'post'));
+            expect(result).toEqual({atLatestMessage: false, atOldestmessage: false});
+            expect(PostActions.getPostsUnread).toHaveBeenCalledWith('channel');
+        });
+    });
 
-                const result = await store.dispatch(Actions.loadInitialPosts('channel', 'post'));
+    describe('loadPostsAround', () => {
+        test('should call getPostsAround and return the results', async () => {
+            const posts = {posts: {}, order: [], next_post_id: '', prev_post_id: ''};
 
-                expect(result.hasMoreAfter).toBe(false);
-                expect(result.hasMoreBefore).toBe(true);
-            });
+            PostActions.getPostsAround.mockReturnValue(() => ({data: posts}));
 
-            test('when not enough posts are received before and after the focused post', async () => {
-                const posts = {
-                    posts: {},
-                    order: [
-                        ...new Array((Posts.POST_CHUNK_SIZE / 2) - 1), // after
-                        'post',
-                        ...new Array((Posts.POST_CHUNK_SIZE / 2) - 1), // before
-                    ],
-                };
+            const result = await store.dispatch(Actions.loadPostsAround('channel', 'post'));
 
-                PostActions.getPostsAround.mockReturnValue(() => ({data: posts}));
+            expect(result).toEqual({atLatestMessage: true, atOldestmessage: true});
 
-                const result = await store.dispatch(Actions.loadInitialPosts('channel', 'post'));
+            expect(PostActions.getPostsAround).toHaveBeenCalledWith('channel', 'post', Posts.POST_CHUNK_SIZE / 2);
+        });
 
-                expect(result.hasMoreAfter).toBe(false);
-                expect(result.hasMoreBefore).toBe(false);
-            });
+        test('when there are posts before and after reponse posts chunk', async () => {
+            const posts = {
+                posts: {},
+                order: [
+                    ...new Array(Posts.POST_CHUNK_SIZE / 2), // after
+                    'post',
+                    ...new Array(Posts.POST_CHUNK_SIZE / 2), // before
+                ],
+                next_post_id: 'test',
+                prev_post_id: 'test',
+            };
+
+            PostActions.getPostsAround.mockReturnValue(() => ({data: posts}));
+
+            const result = await store.dispatch(Actions.loadPostsAround('channel', 'post'));
+
+            expect(result).toEqual({atLatestMessage: false, atOldestmessage: false});
+        });
+
+        test('when there are posts before the reponse posts chunk', async () => {
+            const posts = {
+                posts: {},
+                order: [
+                    ...new Array(Posts.POST_CHUNK_SIZE / 2), // after
+                    'post',
+                    ...new Array((Posts.POST_CHUNK_SIZE / 2) - 1), // before
+                ],
+                next_post_id: '',
+                prev_post_id: 'test',
+            };
+
+            PostActions.getPostsAround.mockReturnValue(() => ({data: posts}));
+
+            const result = await store.dispatch(Actions.loadPostsAround('channel', 'post'));
+
+            expect(result).toEqual({atLatestMessage: true, atOldestmessage: false});
+        });
+
+        test('when there are posts before the reponse posts chunk', async () => {
+            const posts = {
+                posts: {},
+                order: [
+                    ...new Array((Posts.POST_CHUNK_SIZE / 2) - 1), // after
+                    'post',
+                    ...new Array(Posts.POST_CHUNK_SIZE / 2), // before
+                ],
+                next_post_id: 'test',
+                prev_post_id: '',
+            };
+
+            PostActions.getPostsAround.mockReturnValue(() => ({data: posts}));
+
+            const result = await store.dispatch(Actions.loadPostsAround('channel', 'post'));
+
+            expect(result).toEqual({atLatestMessage: false, atOldestmessage: true});
+        });
+
+        test('when there are no posts before and after the posts chunk', async () => {
+            const posts = {
+                posts: {},
+                order: [
+                    ...new Array((Posts.POST_CHUNK_SIZE / 2) - 1), // after
+                    'post',
+                    ...new Array((Posts.POST_CHUNK_SIZE / 2) - 1), // before
+                ],
+                next_post_id: '',
+                prev_post_id: '',
+            };
+
+            PostActions.getPostsAround.mockReturnValue(() => ({data: posts}));
+
+            const result = await store.dispatch(Actions.loadPostsAround('channel', 'post'));
+
+            expect(result).toEqual({atLatestMessage: true, atOldestmessage: true});
         });
     });
 
     describe('increasePostVisibility', () => {
         test('should dispatch the correct actions', async () => {
-            PostActions.getPostsBefore.mockImplementation((...args) => ({type: 'MOCK_GET_POSTS_BEFORE', args}));
+            const posts = {
+                posts: {},
+                order: new Array(7),
+                prev_post_id: '',
+                next_post_id: '',
+            };
 
-            await store.dispatch(Actions.increasePostVisibility('current_channel_id', 'oldest_post_id'));
+            PostActions.getPostsBefore.mockReturnValue(() => ({data: posts}));
+
+            await store.dispatch(Actions.loadPosts({channelId: 'current_channel_id', postId: 'oldest_post_id', type: PostRequestTypes.BEFORE_ID}));
 
             expect(store.getActions()).toEqual([
                 {channelId: 'current_channel_id', data: true, type: 'LOADING_POSTS'},
                 {
-                    args: ['current_channel_id', 'oldest_post_id', 0, 30],
-                    type: 'MOCK_GET_POSTS_BEFORE',
-                },
-                {
                     meta: {batch: true},
                     payload: [
                         {channelId: 'current_channel_id', data: false, type: 'LOADING_POSTS'},
+                        {amount: 7, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'},
                     ],
                     type: 'BATCHING_REDUCER.BATCH',
                 },
@@ -296,7 +334,7 @@ describe('channel view actions', () => {
 
             PostActions.getPostsBefore.mockReturnValue(() => ({data: posts}));
 
-            await store.dispatch(Actions.increasePostVisibility(channelId, 'oldest_post_id'));
+            await store.dispatch(Actions.loadPosts({channelId, postId: 'oldest_post_id', type: PostRequestTypes.BEFORE_ID}));
 
             expect(store.getActions()).toContainEqual({
                 meta: {batch: true},
@@ -321,11 +359,12 @@ describe('channel view actions', () => {
             const posts = {
                 posts: {},
                 order: new Array(Posts.POST_CHUNK_SIZE / 2),
+                prev_post_id: 'saasdsd',
             };
 
             PostActions.getPostsBefore.mockReturnValue(() => ({data: posts}));
 
-            const result = await store.dispatch(Actions.increasePostVisibility(channelId, 'oldest_post_id'));
+            const result = await store.dispatch(Actions.loadPosts({channelId, postId: 'oldest_post_id', type: PostRequestTypes.BEFORE_ID}));
 
             expect(result).toEqual({
                 moreToLoad: true,
@@ -337,11 +376,12 @@ describe('channel view actions', () => {
             const posts = {
                 posts: {},
                 order: new Array((Posts.POST_CHUNK_SIZE / 2) - 1),
+                prev_post_id: '',
             };
 
             PostActions.getPostsBefore.mockReturnValue(() => ({data: posts}));
 
-            const result = await store.dispatch(Actions.increasePostVisibility(channelId, 'oldest_post_id'));
+            const result = await store.dispatch(Actions.loadPosts({channelId, postId: 'oldest_post_id', type: PostRequestTypes.BEFORE_ID}));
 
             expect(result).toEqual({
                 moreToLoad: false,
@@ -354,58 +394,12 @@ describe('channel view actions', () => {
 
             PostActions.getPostsBefore.mockReturnValue(() => ({error}));
 
-            const result = await store.dispatch(Actions.increasePostVisibility(channelId, 'oldest_post_id'));
+            const result = await store.dispatch(Actions.loadPosts({channelId, postId: 'oldest_post_id', type: PostRequestTypes.BEFORE_ID}));
 
             expect(result).toEqual({
                 error,
-                moreToLoad: false,
+                moreToLoad: true,
             });
-        });
-
-        test('should do nothing when already loading posts', async () => {
-            const channelId = 'channel1';
-
-            store = mockStore({
-                ...initialState,
-                views: {
-                    ...initialState.views,
-                    channel: {
-                        ...initialState.views.channel,
-                        loadingPosts: {
-                            [channelId]: true,
-                        },
-                    },
-                },
-            });
-
-            const result = await store.dispatch(Actions.increasePostVisibility(channelId, 'oldest_post_id'));
-
-            expect(result).toBe(true);
-
-            expect(PostActions.getPostsBefore).not.toHaveBeenCalled();
-        });
-
-        test('should do nothing with too many posts loaded', async () => {
-            const channelId = 'channel1';
-
-            store = mockStore({
-                ...initialState,
-                views: {
-                    ...initialState.views,
-                    channel: {
-                        ...initialState.views.channel,
-                        postVisibility: {
-                            [channelId]: 100000000,
-                        },
-                    },
-                },
-            });
-
-            const result = await store.dispatch(Actions.increasePostVisibility(channelId, 'oldest_post_id'));
-
-            expect(result).toBe(true);
-
-            expect(PostActions.getPostsBefore).not.toHaveBeenCalled();
         });
     });
 
