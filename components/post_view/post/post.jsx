@@ -209,7 +209,7 @@ export default class Post extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened) {
+        if (this.state.dropdownOpened || this.state.a11yActive) {
             className += ' post--hovered';
         }
 
@@ -278,7 +278,7 @@ export default class Post extends React.PureComponent {
                 ref={this.postRef}
                 id={'post_' + post.id}
                 role='listitem'
-                className={'a11y__section ' + this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}
+                className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}`}
                 tabIndex='-1'
                 onFocus={this.setFocus}
                 onBlur={this.removeFocus}

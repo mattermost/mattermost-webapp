@@ -308,7 +308,7 @@ export default class RhsRootPost extends React.PureComponent {
                 role='listitem'
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
-                className={'thread__root a11y__section ' + this.getClassName(post, isSystemMessage)}
+                className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage)}`}
             >
                 <div className='post-right-channel__name'>{channelName}</div>
                 <div className='post__content'>

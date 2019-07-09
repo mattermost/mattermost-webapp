@@ -258,7 +258,7 @@ export default class SearchBar extends React.Component {
                         <SuggestionBox
                             ref={this.getSearch}
                             id='searchBox'
-                            tabIndex='-1'
+                            tabIndex='0'
                             className='search-bar a11y__region'
                             data-a11y-sort-order='8'
                             aria-describedby='searchbar-help-popup'

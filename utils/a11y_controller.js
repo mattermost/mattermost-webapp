@@ -136,11 +136,11 @@ export default class A11yController {
 
     nextSection() {
         const sections = this.sections;
-        if (!sections || !sections.length || this.activeSectionIndex === sections.length - 1) {
+        if (!sections || !sections.length) {
             return;
         }
         let newSection;
-        if (this.activeSection) {
+        if (this.activeSection && this.activeSectionIndex < sections.length - 1) {
             newSection = sections[this.activeSectionIndex + 1];
         } else {
             newSection = sections[0];
@@ -152,12 +152,14 @@ export default class A11yController {
 
     previousSection() {
         const sections = this.sections;
-        if (!sections || !sections.length || this.activeSection === 0) {
+        if (!sections || !sections.length) {
             return;
         }
         let newSection;
-        if (this.activeSection) {
+        if (this.activeSection && this.activeSectionIndex > 0) {
             newSection = sections[this.activeSectionIndex - 1];
+        } else if (this.activeSection && this.activeSectionIndex === 0) {
+            newSection = sections[sections.length - 1];
         } else {
             newSection = sections[0];
         }
@@ -167,9 +169,6 @@ export default class A11yController {
     }
 
     nextElement(element, elementPath = []) {
-        if (element.classList.contains(A11yClassNames.REGION) || element.classList.contains(A11yClassNames.SECTION)) {
-            return;
-        }
         if (elementPath && elementPath.length) {
             // is the current element in an active region?
             if (elementPath.indexOf(this.activeRegion) < 0) {
@@ -180,7 +179,7 @@ export default class A11yController {
                     return pathElement.classList.contains(A11yClassNames.REGION);
                 });
                 if (region) {
-                    this.setActiveRegion(region);
+                    this.setActiveRegion(region, false);
                 }
             }
 
@@ -204,14 +203,13 @@ export default class A11yController {
 
     cancelNavigation() {
         this.clearActiveRegion();
-        this.clearActiveSection();
-        this.clearActiveElement();
         this.setCurrentFocus();
+        console.log('[a11y] Navigation cancelled');
     }
 
     // private methods
 
-    setActiveRegion(element) {
+    setActiveRegion(element, focusChildIfNeeded = true) {
         if ((!element || element === this.activeRegion) && !this.resetNavigation) {
             return;
         }
@@ -223,6 +221,7 @@ export default class A11yController {
         this.activeRegion = element;
         this.activeRegion.addEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveRegionUpdate);
         this.activeRegion.dispatchEvent(new Event(A11yCustomEventTypes.ACTIVATE));
+        console.log(`[a11y] Set new active region.`, this.activeRegion);
 
         // apply visual updates to active region
         this.updateActiveRegion();
@@ -232,13 +231,13 @@ export default class A11yController {
 
         // should the visual focus start on a child section
         const focusChild = this.activeRegion.getAttribute(A11yAttributeNames.FOCUS_CHILD);
-        if (focusChild && focusChild.toLowerCase() === 'true' && this.sections && this.sections.length) {
+        if (focusChildIfNeeded && focusChild && focusChild.toLowerCase() === 'true' && this.sections && this.sections.length) {
             this.setActiveSection(this.sections[0]);
         }
     }
 
     setActiveSection(element) {
-        if (!this.navInProgress || !element || element === this.activeSection) {
+        if (!element || element === this.activeSection) {
             return;
         }
 
@@ -249,13 +248,14 @@ export default class A11yController {
         this.activeSection = element;
         this.activeSection.addEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveSectionUpdate);
         this.activeSection.dispatchEvent(new Event(A11yCustomEventTypes.ACTIVATE));
+        console.log(`[a11y] Set new active section.`, this.activeSection);
 
         // apply visual updates to active section
         this.updateActiveSection();
     }
 
     setActiveElement(element) {
-        if (!this.navInProgress || !element || element === this.activeElement) {
+        if (!element || element === this.activeElement) {
             return;
         }
 
@@ -266,6 +266,7 @@ export default class A11yController {
         this.activeElement = element;
         this.activeElement.addEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveElementUpdate);
         this.activeElement.dispatchEvent(new Event(A11yCustomEventTypes.ACTIVATE));
+        console.log(`[a11y] Set new active element.`, this.activeElement);
 
         // apply visual updates to active element
         this.updateActiveElement();
@@ -323,9 +324,10 @@ export default class A11yController {
 
     clearActiveRegion() {
         if (this.activeRegion) {
+            console.log(`[a11y] Clear active region.`, this.activeRegion);
             this.activeRegion.classList.remove(A11yClassNames.ACTIVE);
-            this.activeRegion.removeEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveRegionUpdate);
             this.activeRegion.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
+            this.activeRegion.removeEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveRegionUpdate);
             this.activeRegion = null;
         }
         this.clearActiveSection();
@@ -333,9 +335,10 @@ export default class A11yController {
 
     clearActiveSection() {
         if (this.activeSection) {
+            console.log(`[a11y] Clear active section.`, this.activeSection);
             this.activeSection.classList.remove(A11yClassNames.ACTIVE);
-            this.activeSection.removeEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveSectionUpdate);
             this.activeSection.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
+            this.activeSection.removeEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveSectionUpdate);
             this.activeSection = null;
         }
         this.clearActiveElement();
@@ -343,9 +346,12 @@ export default class A11yController {
 
     clearActiveElement() {
         if (this.activeElement) {
-            this.activeElement.classList.remove(A11yClassNames.ACTIVE);
+            console.log(`[a11y] Clear active element.`, this.activeElement);
+            if (this.activeElement !== this.activeRegion && this.activeElement !== this.activeSection) {
+                this.activeElement.classList.remove(A11yClassNames.ACTIVE);
+                this.activeElement.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
+            }
             this.activeElement.removeEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveElementUpdate);
-            this.activeElement.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
             this.activeElement = null;
         }
     }
@@ -439,25 +445,19 @@ export default class A11yController {
             }
             break;
         case isKeyPressed(event, Constants.KeyCodes.ESCAPE):
-            if (!this.navInProgress) {
-                return;
-            }
             this.cancelNavigation();
             break;
         }
     }
 
-    handleMouseClick = () => {
-        if (!this.navInProgress) {
+    handleMouseClick = (e) => {
+        if (!this.navInProgress || e.target === this.activeElement) {
             return;
         }
         this.cancelNavigation();
     }
 
     handleFocus = (event) => {
-        if (!this.navInProgress) {
-            return;
-        }
         this.nextElement(event.target, event.path);
     }
 
