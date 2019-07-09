@@ -73,7 +73,8 @@ export default class AbstractList extends React.PureComponent {
                 </div>
             );
         }
-        return this.props.data.slice(0, PAGE_SIZE).map(this.props.renderRow);
+        const offset = this.state.page * PAGE_SIZE;
+        return this.props.data.slice(offset, offset + PAGE_SIZE).map(this.props.renderRow);
     }
 
     performSearch = (page) => {
