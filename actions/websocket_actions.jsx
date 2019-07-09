@@ -344,7 +344,7 @@ function handleEvent(msg) {
         break;
 
     case SocketEvents.TYPING:
-        handleUserTypingEvent(msg);
+        dispatch(handleUserTypingEvent(msg));
         break;
 
     case SocketEvents.STATUS_CHANGED:
