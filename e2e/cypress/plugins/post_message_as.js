@@ -43,5 +43,5 @@ module.exports = async ({sender, message, channelId, rootId, createAt = 0, baseU
         }
     }
 
-    return {status: response.status, data: response.data, error: response.error};
+    return {status: response.status, data: response.data};
 };
