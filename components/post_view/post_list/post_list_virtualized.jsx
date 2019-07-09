@@ -106,7 +106,7 @@ export default class PostList extends React.PureComponent {
             /**
              * Function to change the post selected for postList
              */
-            changeTimeStampToShowPosts: PropTypes.func.isRequired,
+            changeUnreadChunkTimeStamp: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -424,7 +424,7 @@ export default class PostList extends React.PureComponent {
         if (this.props.olderPosts.allLoaded) {
             this.scrollToBottom();
         } else {
-            this.props.actions.changeTimeStampToShowPosts('');
+            this.props.actions.changeUnreadChunkTimeStamp('');
         }
     }
 

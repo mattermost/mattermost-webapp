@@ -27,7 +27,6 @@ describe('components/post_view/post_view', () => {
 
     test('should match snapshot for channel loading', () => {
         const wrapper = shallow(<PostView {...{...baseProps, channelLoading: true}}/>);
-        expect(wrapper.state('timeStampToShowPosts')).toEqual(null);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -37,16 +36,16 @@ describe('components/post_view/post_view', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('timeStampToShowPosts should be set for first load of channel', () => {
+    test('unreadChunkTimeStamp should be set for first load of channel', () => {
         const wrapper = shallow(<PostView {...{...baseProps, isFirstLoad: true}}/>);
-        expect(wrapper.state('timeStampToShowPosts')).toEqual(baseProps.lastViewedAt);
+        expect(wrapper.state('unreadChunkTimeStamp')).toEqual(baseProps.lastViewedAt);
     });
 
-    test('changeTimeStampToShowPosts', () => {
+    test('changeUnreadChunkTimeStamp', () => {
         const wrapper = shallow(<PostView {...{...baseProps, isFirstLoad: true}}/>);
-        expect(wrapper.state('timeStampToShowPosts')).toEqual(baseProps.lastViewedAt);
-        wrapper.find(PostList).prop('changeTimeStampToShowPosts')(1234678);
-        expect(wrapper.state('timeStampToShowPosts')).toEqual(1234678);
+        expect(wrapper.state('unreadChunkTimeStamp')).toEqual(baseProps.lastViewedAt);
+        wrapper.find(PostList).prop('changeUnreadChunkTimeStamp')(1234678);
+        expect(wrapper.state('unreadChunkTimeStamp')).toEqual(1234678);
         expect(wrapper.state('loaderForChangeOfPostsChunk')).toEqual(true);
         jest.runOnlyPendingTimers();
         expect(wrapper.state('loaderForChangeOfPostsChunk')).toEqual(false);

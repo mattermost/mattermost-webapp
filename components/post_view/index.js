@@ -11,8 +11,6 @@ import {Constants} from 'utils/constants.jsx';
 
 import PostView from './post_view.jsx';
 
-const isFirstLoad = (state, channelId) => !state.entities.posts.postsInChannel[channelId];
-
 const isChannelLoading = (params, channel, team, teammate) => {
     if (params.postid) {
         return false;
@@ -48,7 +46,6 @@ function makeMapStateToProps() {
         const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
         return {
             lastViewedAt,
-            isFirstLoad: isFirstLoad(state, ownProps.channelId),
             channelLoading,
             channel,
         };

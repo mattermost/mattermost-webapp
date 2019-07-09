@@ -19,7 +19,7 @@ describe('PostList', () => {
         loadOlderPosts: jest.fn(),
         loadNewerPosts: jest.fn(),
         canLoadMorePosts: jest.fn(),
-        changeTimeStampToShowPosts: jest.fn(),
+        changeUnreadChunkTimeStamp: jest.fn(),
     };
 
     const newerPosts = {
@@ -404,11 +404,11 @@ describe('PostList', () => {
             expect(instance.scrollToBottom).toHaveBeenCalled();
         });
 
-        test('should call changeTimeStampToShowPosts', () => {
+        test('should call changeUnreadChunkTimeStamp', () => {
             const wrapper = shallow(<PostList {...baseProps}/>);
             const instance = wrapper.instance();
             instance.scrollToLatestMessages();
-            expect(baseActions.changeTimeStampToShowPosts).toHaveBeenCalledWith('');
+            expect(baseActions.changeUnreadChunkTimeStamp).toHaveBeenCalledWith('');
         });
     });
 });

@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
-import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getPostsChunkInChannelAroundTime, getPost} from 'mattermost-redux/selectors/entities/posts';
+import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 
@@ -48,8 +48,8 @@ function makeMapStateToProps() {
 
         if (ownProps.match.params.postid) {
             chunk = getPostsChunkAroundPost(state, ownProps.match.params.postid, ownProps.channelId);
-        } else if (ownProps.timeStampToShowPosts) {
-            chunk = getPostsChunkInChannelAroundTime(state, ownProps.channelId, ownProps.timeStampToShowPosts);
+        } else if (ownProps.unreadChunkTimeStamp) {
+            chunk = getUnreadPostsChunk(state, ownProps.channelId, ownProps.unreadChunkTimeStamp);
         } else {
             chunk = getRecentPostsChunkInChannel(state, ownProps.channelId);
         }

@@ -35,7 +35,7 @@ const baseProps = {
     lastViewedAt,
     channelId,
     postListIds: [],
-    changeTimeStampToShowPosts: jest.fn(),
+    changeUnreadChunkTimeStamp: jest.fn(),
     isFirstLoad: true,
     atLatestPost: false,
 };
@@ -144,15 +144,6 @@ describe('components/post_view/post_list', () => {
             const postIds = createFakePosIds(2);
             const wrapper = shallow(<PostList {...{...baseProps, isFirstLoad: false, postListIds: postIds}}/>);
             wrapper.instance().extraPagesLoaded = MAX_EXTRA_PAGES_LOADED + 1;
-            wrapper.find(VirtPostList).prop('actions').canLoadMorePosts();
-            await wrapper.instance().loadLatestPosts();
-            expect(actionsProp.loadPosts).not.toHaveBeenCalled();
-        });
-
-        test('Should not call loadPosts if there were more than MAX_EXTRA_PAGES_LOADED', async () => {
-            const postIds = createFakePosIds(2);
-            const wrapper = shallow(<PostList {...{...baseProps, isFirstLoad: false, postListIds: postIds}}/>);
-            wrapper.instance().loadingMorePosts = true;
             wrapper.find(VirtPostList).prop('actions').canLoadMorePosts();
             await wrapper.instance().loadLatestPosts();
             expect(actionsProp.loadPosts).not.toHaveBeenCalled();

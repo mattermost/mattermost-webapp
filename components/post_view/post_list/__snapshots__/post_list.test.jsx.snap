@@ -31,7 +31,7 @@ exports[`components/post_view/post_list snapshot with couple of posts 1`] = `
           actions={
             Object {
               "canLoadMorePosts": [Function],
-              "changeTimeStampToShowPosts": [MockFunction],
+              "changeUnreadChunkTimeStamp": [MockFunction],
               "checkAndSetMobileView": [MockFunction],
               "loadNewerPosts": [Function],
               "loadOlderPosts": [Function],

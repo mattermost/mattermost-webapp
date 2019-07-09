@@ -11,7 +11,6 @@ import PostList from './post_list';
 export default class PostView extends React.PureComponent {
     static propTypes = {
         lastViewedAt: PropTypes.number,
-        isFirstLoad: PropTypes.bool,
         channelLoading: PropTypes.bool,
         channelId: PropTypes.string,
         focusedPostId: PropTypes.string,
@@ -20,23 +19,30 @@ export default class PostView extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            timeStampToShowPosts: props.isFirstLoad ? props.lastViewedAt : null,
+            unreadChunkTimeStamp: props.lastViewedAt,
             loaderForChangeOfPostsChunk: false,
+            channelLoading: props.channelLoading,
         };
     }
 
     static getDerivedStateFromProps(props, state) {
-        if (!state.timeStampToShowPosts && props.lastViewedAt) {
+        if (state.unreadChunkTimeStamp === null && props.lastViewedAt) {
             return {
-                timeStampToShowPosts: props.isFirstLoad ? props.lastViewedAt : null,
+                unreadChunkTimeStamp: props.lastViewedAt,
+            };
+        }
+        if (props.channelLoading !== state.channelLoading) {
+            return {
+                unreadChunkTimeStamp: props.lastViewedAt,
+                channelLoading: props.channelLoading,
             };
         }
         return null;
     }
 
-    changeTimeStampToShowPosts = (timeStampToShowPosts) => {
+    changeUnreadChunkTimeStamp = (unreadChunkTimeStamp) => {
         this.setState({
-            timeStampToShowPosts,
+            unreadChunkTimeStamp,
             loaderForChangeOfPostsChunk: true,
         }, () => {
             window.requestAnimationFrame(() => {
@@ -61,10 +67,9 @@ export default class PostView extends React.PureComponent {
 
         return (
             <PostList
-                timeStampToShowPosts={this.state.timeStampToShowPosts}
+                unreadChunkTimeStamp={this.state.unreadChunkTimeStamp}
                 channelId={this.props.channelId}
-                changeTimeStampToShowPosts={this.changeTimeStampToShowPosts}
-                isFirstLoad={this.props.isFirstLoad}
+                changeUnreadChunkTimeStamp={this.changeUnreadChunkTimeStamp}
                 focusedPostId={this.props.focusedPostId}
             />
         );

@@ -401,29 +401,6 @@ describe('channel view actions', () => {
                 moreToLoad: true,
             });
         });
-
-        test('should do nothing when already loading posts', async () => {
-            const channelId = 'channel1';
-
-            store = mockStore({
-                ...initialState,
-                views: {
-                    ...initialState.views,
-                    channel: {
-                        ...initialState.views.channel,
-                        loadingPosts: {
-                            [channelId]: true,
-                        },
-                    },
-                },
-            });
-
-            const result = await store.dispatch(Actions.loadPosts({channelId, postId: 'oldest_post_id', type: PostRequestTypes.BEFORE_ID}));
-
-            expect(result).toBe(true);
-
-            expect(PostActions.getPostsBefore).not.toHaveBeenCalled();
-        });
     });
 
     describe('syncPostsInChannel', () => {

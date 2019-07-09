@@ -206,12 +206,8 @@ export function loadLatestPosts(channelId) {
 
 export function loadPosts({channelId, postId, type}) {
     //type here can be BEFORE_ID or AFTER_ID
-    return async (dispatch, getState) => {
-        const state = getState();
+    return async (dispatch) => {
         const POST_INCREASE_AMOUNT = Constants.POST_CHUNK_SIZE / 2;
-        if (state.views.channel.loadingPosts[channelId]) {
-            return true;
-        }
 
         dispatch({
             type: ActionTypes.LOADING_POSTS,
