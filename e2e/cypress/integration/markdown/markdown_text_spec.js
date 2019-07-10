@@ -31,8 +31,6 @@ describe('Markdown message', () => {
             win.fetch = null;
         });
 
-        cy.apiLogin('sysadmin');
-
         // # Enable local image proxy so our expected URLs match
         const newSettings = {
             ImageProxySettings: {

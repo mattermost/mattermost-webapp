@@ -11,9 +11,6 @@ import {getRandomInt} from '../../utils';
 
 describe('Integrations page', () => {
     before(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
         // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {

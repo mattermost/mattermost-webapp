@@ -18,7 +18,6 @@ describe('Email notification', () => {
     let mentionedUser;
 
     before(() => {
-        cy.apiLogin('sysadmin');
         cy.apiGetConfig().then((response) => {
             config = response.body;
         });

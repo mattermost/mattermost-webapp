@@ -447,6 +447,9 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = []) => {
         nickname = `NewE2ENickname${timestamp}`,
         password = 'password123'} = user;
 
+    // # Login as sysadmin to make admin requests
+    cy.apiLogin('sysadmin');
+
     // # Create a new user
     return cy.request({method: 'POST', url: '/api/v4/users', body: {email, username, first_name: firstName, last_name: lastName, password, nickname}}).then((userResponse) => {
         // Safety assertions to make sure we have a valid response
@@ -549,6 +552,8 @@ Cypress.Commands.add('apiUnpinPosts', (postId) => {
 // *****************************************************************************
 
 Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
+    cy.apiLogin('sysadmin');
+
     // # Get current settings
     cy.request('/api/v4/config').then((response) => {
         const oldSettings = response.body;
@@ -563,12 +568,16 @@ Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
             body: settings,
         });
     });
+
+    cy.apiLogout();
 });
 
 Cypress.Commands.add('apiGetConfig', () => {
+    cy.apiLogin('sysadmin');
+
     // # Get current settings
     return cy.request('/api/v4/config').then((response) => {
-        expect(response.status).to.match(/20\d/);
+        expect(response.status).to.equal(200);
         cy.wrap(response);
     });
 });

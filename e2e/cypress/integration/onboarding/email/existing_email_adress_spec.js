@@ -33,8 +33,6 @@ function signupWithEmail(name, pw) {
 
 describe('Email Address', () => {
     before(() => {
-        cy.apiLogin('sysadmin');
-
         // Set EnableOpenServer to true and disable other auth options
         const newSettings = {
             TeamSettings: {EnableOpenServer: true},
@@ -42,7 +40,6 @@ describe('Email Address', () => {
             LdapSettings: {Enable: false},
         };
         cy.apiUpdateConfig(newSettings);
-        cy.apiLogout();
     });
 
     it('M14634 Should not create account with an existing email address', () => {
