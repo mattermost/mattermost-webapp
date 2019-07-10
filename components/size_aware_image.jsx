@@ -140,6 +140,7 @@ export default class SizeAwareImage extends React.PureComponent {
                     className='style--none'
                 >
                     <img
+                        className={this.props.className}
                         alt='image placeholder'
                         src={src}
                         onError={this.handleError}
