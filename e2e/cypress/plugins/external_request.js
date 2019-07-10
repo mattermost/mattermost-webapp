@@ -21,11 +21,8 @@ module.exports = async ({baseUrl, user, method = 'get', path, data = {}}) => {
         cookieString += nameAndValue + ';';
     });
 
-    // let response = {status: null, data: {}, error: {}};
-    let response;
-
     try {
-        response = await axios({
+        const response = await axios({
             method,
             url: `${baseUrl}/api/v4/${path}`,
             headers: {
@@ -35,11 +32,19 @@ module.exports = async ({baseUrl, user, method = 'get', path, data = {}}) => {
             },
             data,
         });
+
+        return {
+            status: response.status,
+            statusText: response.statusText,
+            data: response.data,
+        };
     } catch (error) {
         if (error.response) {
-            response = error.message;
+            return {
+                status: error.response.status,
+                statusText: error.response.statusText,
+                data: error.response.data,
+            };
         }
     }
-
-    return {status: response.status, data: response.data, error: response.error};
 };
