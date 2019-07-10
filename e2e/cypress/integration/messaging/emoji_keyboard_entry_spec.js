@@ -16,7 +16,7 @@ describe('Message', () => {
 
     it('M16738 Use keyboard navigation in emoji picker', () => {
         // # Open emoji picker
-        cy.get('span[aria-label="Open emoji picker"]').click();
+        cy.get('#emojiPickerButton').click();
 
         // # Wait for emojis to load
         cy.get('#emojiPicker').should('be.visible');
@@ -28,19 +28,19 @@ describe('Message', () => {
             const pressCount = Math.floor(Math.random() * max) + min;
 
             for (let i = 0; i < pressCount; i += 1) {
-                cy.get('input[aria-label="Search for an emoji"]').type(`{${direction}arrow}`);
+                cy.get('#emojiPickerSearch').type(`{${direction}arrow}`);
             }
         }
 
         cy.get('.emoji-picker__preview-image-label-box .emoji-picker__preview-aliases').invoke('text').then((selectedEmoji) => {
             // # Select chosen emoji
-            cy.get('input[aria-label="Search for an emoji"]').type('{enter}');
+            cy.get('#emojiPickerSearch').type('{enter}');
 
             // # Post message with keyboard
             cy.get('#post_textbox').type('{enter}');
 
             // # Compare selected emoji with last post
-            cy.getLastPost().find('.post-message__text-container .all-emoji .emoticon').should('have.attr', 'title', selectedEmoji);
+            cy.getLastPost().find('.emoticon').should('have.attr', 'title', selectedEmoji);
         });
     });
 });

@@ -524,6 +524,7 @@ export default class EmojiPicker extends React.PureComponent {
                 >
                     {(ariaLabel) => (
                         <LocalizedInput
+                            id='emojiPickerSearch'
                             aria-label={ariaLabel}
                             ref={this.emojiSearchInput}
                             className='emoji-picker__search'
