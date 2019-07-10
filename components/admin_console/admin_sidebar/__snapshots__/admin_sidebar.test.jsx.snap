@@ -1888,7 +1888,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="7"
+            key="8"
             name="user_management/teams"
             parentLink=""
             subsection={false}
@@ -1901,7 +1901,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="9"
+            key="10"
             name="user_management/channels"
             parentLink=""
             subsection={false}
@@ -1914,7 +1914,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           />
           <AdminSidebarSection
-            key="13"
+            key="14"
             name="user_management/permissions/"
             parentLink=""
             subsection={false}
@@ -2675,7 +2675,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           />
           <AdminSidebarSection
-            key="13"
+            key="14"
             name="user_management/permissions/"
             parentLink=""
             subsection={false}
