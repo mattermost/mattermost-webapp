@@ -692,7 +692,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
           <div
             className="col-sm-9"
           >
-            <div
+            <fieldset
               className="multi-select__radio"
               key="channelType"
             >
@@ -756,7 +756,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
                   </div>
                 </label>
               </div>
-            </div>
+            </fieldset>
           </div>
         </div>
         <div
@@ -1034,7 +1034,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
           <div
             className="col-sm-9"
           >
-            <div
+            <fieldset
               className="multi-select__radio"
               key="channelType"
             >
@@ -1098,7 +1098,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
                   </div>
                 </label>
               </div>
-            </div>
+            </fieldset>
           </div>
         </div>
         <div
@@ -1376,7 +1376,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
           <div
             className="col-sm-9"
           >
-            <div
+            <fieldset
               className="multi-select__radio"
               key="channelType"
             >
@@ -1440,7 +1440,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
                   </div>
                 </label>
               </div>
-            </div>
+            </fieldset>
           </div>
         </div>
         <div
@@ -1728,7 +1728,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
           <div
             className="col-sm-9"
           >
-            <div
+            <fieldset
               className="multi-select__radio"
               key="channelType"
             >
@@ -1792,7 +1792,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
                   </div>
                 </label>
               </div>
-            </div>
+            </fieldset>
           </div>
         </div>
         <div
@@ -2084,7 +2084,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
           <div
             className="col-sm-9"
           >
-            <div
+            <fieldset
               className="multi-select__radio"
               key="channelType"
             >
@@ -2148,7 +2148,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
                   </div>
                 </label>
               </div>
-            </div>
+            </fieldset>
           </div>
         </div>
         <div

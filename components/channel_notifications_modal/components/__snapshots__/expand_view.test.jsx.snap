@@ -12,7 +12,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
   inputs={
     Array [
       <div>
-        <div>
+        <fieldset>
           <div
             className="radio"
           >
@@ -22,6 +22,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               <input
                 checked={false}
                 id="channelNotificationGlobalDefault"
+                name="channelDesktopNotifications"
                 onChange={[Function]}
                 type="radio"
                 value="default"
@@ -42,6 +43,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               <input
                 checked={true}
                 id="channelNotificationAllActivity"
+                name="channelDesktopNotifications"
                 onChange={[Function]}
                 type="radio"
                 value="all"
@@ -61,6 +63,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               <input
                 checked={false}
                 id="channelNotificationMentions"
+                name="channelDesktopNotifications"
                 onChange={[Function]}
                 type="radio"
                 value="mention"
@@ -78,6 +81,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               <input
                 checked={false}
                 id="channelNotificationNever"
+                name="channelDesktopNotifications"
                 onChange={[Function]}
                 type="radio"
                 value="none"
@@ -88,7 +92,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               />
             </label>
           </div>
-        </div>
+        </fieldset>
       </div>,
     ]
   }
@@ -117,7 +121,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
   inputs={
     Array [
       <div>
-        <div>
+        <fieldset>
           <div
             className="radio"
           >
@@ -127,6 +131,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               <input
                 checked={false}
                 id="channelNotificationUnmute"
+                name="channelNotificationMute"
                 onChange={[Function]}
                 type="radio"
                 value="mention"
@@ -146,6 +151,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               <input
                 checked={true}
                 id="channelNotificationMute"
+                name="channelNotificationMute"
                 onChange={[Function]}
                 type="radio"
                 value="all"
@@ -156,7 +162,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               />
             </label>
           </div>
-        </div>
+        </fieldset>
       </div>,
     ]
   }
@@ -185,7 +191,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
   inputs={
     Array [
       <div>
-        <div>
+        <fieldset>
           <div
             className="radio"
           >
@@ -195,6 +201,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               <input
                 checked={false}
                 id="channelNotificationGlobalDefault"
+                name="channelDesktopNotifications"
                 onChange={[Function]}
                 type="radio"
                 value="default"
@@ -215,6 +222,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               <input
                 checked={true}
                 id="channelNotificationAllActivity"
+                name="channelDesktopNotifications"
                 onChange={[Function]}
                 type="radio"
                 value="all"
@@ -234,6 +242,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               <input
                 checked={false}
                 id="channelNotificationMentions"
+                name="channelDesktopNotifications"
                 onChange={[Function]}
                 type="radio"
                 value="mention"
@@ -251,6 +260,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               <input
                 checked={false}
                 id="channelNotificationNever"
+                name="channelDesktopNotifications"
                 onChange={[Function]}
                 type="radio"
                 value="none"
@@ -261,7 +271,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               />
             </label>
           </div>
-        </div>
+        </fieldset>
       </div>,
     ]
   }
