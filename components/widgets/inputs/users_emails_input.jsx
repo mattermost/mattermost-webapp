@@ -12,6 +12,7 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MailIcon from 'components/svg/mail_icon';
 import MailPlusIcon from 'components/svg/mail_plus_icon';
+import CloseCircleSolidIcon from 'components/svg/close_circle_solid_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import {imageURLForUser, getDisplayName, getLongDisplayName} from 'utils/utils.jsx';
 
@@ -26,8 +27,6 @@ export default class UsersEmailsInput extends React.Component {
         usersLoader: PropTypes.func,
         onChange: PropTypes.func,
         value: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object, PropTypes.string])),
-        noOptionsMessageId: PropTypes.string,
-        noOptionsMessageDefault: PropTypes.string,
         noMatchMessageId: PropTypes.string,
         noMatchMessageDefault: PropTypes.string,
         validAddressMessageId: PropTypes.string,
@@ -41,8 +40,6 @@ export default class UsersEmailsInput extends React.Component {
     };
 
     static defaultProps = {
-        noOptionsMessageId: t('widgets.users_emails_input.empty'),
-        noOptionsMessageDefault: 'Add users or email addresses',
         noMatchMessageId: t('widgets.users_emails_input.no_user_found_matching'),
         noMatchMessageDefault: 'No one found matching **{text}**, type email address',
         validAddressMessageId: t('widgets.users_emails_input.valid_email'),
@@ -137,17 +134,14 @@ export default class UsersEmailsInput extends React.Component {
 
     NoOptionsMessage = (props) => {
         const inputValue = props.selectProps.inputValue;
-        let messageId = this.props.noOptionsMessageId;
-        let messageDefault = this.props.noOptionsMessageDefault;
-        if (inputValue) {
-            messageId = this.props.noMatchMessageId;
-            messageDefault = this.props.noMatchMessageDefault;
+        if (!inputValue) {
+            return null;
         }
         return (
-            <div className='users-emails-input__option'>
+            <div className='users-emails-input__option users-emails-input__option--no-matches'>
                 <FormattedMarkdownMessage
-                    id={messageId}
-                    defaultMessage={messageDefault}
+                    id={this.props.noMatchMessageId}
+                    defaultMessage={this.props.noMatchMessageDefault}
                     values={{text: inputValue}}
                 >
                     {(message) => (
@@ -160,8 +154,15 @@ export default class UsersEmailsInput extends React.Component {
         );
     };
 
+    MultiValueRemove = ({children, innerProps}) => (
+        <div {...innerProps}>
+            {children || <CloseCircleSolidIcon/>}
+        </div>
+    );
+
     components = {
         NoOptionsMessage: this.NoOptionsMessage,
+        MultiValueRemove: this.MultiValueRemove,
         IndicatorsContainer: () => null,
     };
 
@@ -186,7 +187,9 @@ export default class UsersEmailsInput extends React.Component {
                 components={this.components}
                 getOptionValue={this.getOptionValue}
                 formatOptionLabel={this.formatOptionLabel}
-                defaultOptions={true}
+                defaultOptions={false}
+                defaultMenuIsOpen={false}
+                openMenuOnClick={false}
                 loadingMessage={this.loadingMessage}
                 value={values}
             />

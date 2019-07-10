@@ -5,11 +5,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import AsyncSelect from 'react-select/lib/Async';
 import {intlShape} from 'react-intl';
+import {components} from 'react-select';
 
 import {Constants} from 'utils/constants';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import PublicChannelIcon from 'components/svg/globe_icon.jsx';
 import PrivateChannelIcon from 'components/svg/lock_icon.jsx';
+import CloseCircleSolidIcon from 'components/svg/close_circle_solid_icon';
 
 import {t} from 'utils/i18n.jsx';
 
@@ -38,10 +41,6 @@ export default class ChannelsInput extends React.Component {
         intl: intlShape.isRequired,
     };
 
-    components = {
-        IndicatorsContainer: () => null,
-    };
-
     getOptionValue = (channel) => channel.id
 
     loadingMessage = () => {
@@ -55,16 +54,27 @@ export default class ChannelsInput extends React.Component {
         });
     }
 
-    noOptionsMessage = () => {
-        if (!this.context.intl) {
-            return 'No channels found';
+    NoOptionsMessage = (props) => {
+        const inputValue = props.selectProps.inputValue;
+        if (!inputValue) {
+            return null;
         }
-
-        return this.context.intl.formatMessage({
-            id: this.props.noOptionsMessageId,
-            defaultMessage: this.props.noOptionsMessageDefault,
-        });
-    }
+        return (
+            <div className='channels-input__option channels-input__option--no-matches'>
+                <FormattedMarkdownMessage
+                    id={this.props.noOptionsMessageId}
+                    defaultMessage={this.props.noOptionsMessageDefault}
+                    values={{text: inputValue}}
+                >
+                    {(message) => (
+                        <components.NoOptionsMessage {...props}>
+                            {message}
+                        </components.NoOptionsMessage>
+                    )}
+                </FormattedMarkdownMessage>
+            </div>
+        );
+    };
 
     formatOptionLabel = (channel) => {
         let icon = <PublicChannelIcon className='public-channel-icon'/>;
@@ -85,6 +95,18 @@ export default class ChannelsInput extends React.Component {
         }
     }
 
+    MultiValueRemove = ({children, innerProps}) => (
+        <div {...innerProps}>
+            {children || <CloseCircleSolidIcon/>}
+        </div>
+    );
+
+    components = {
+        NoOptionsMessage: this.NoOptionsMessage,
+        MultiValueRemove: this.MultiValueRemove,
+        IndicatorsContainer: () => null,
+    };
+
     render() {
         return (
             <AsyncSelect
@@ -101,7 +123,9 @@ export default class ChannelsInput extends React.Component {
                 formatOptionLabel={this.formatOptionLabel}
                 noOptionsMessage={this.noOptionsMessage}
                 loadingMessage={this.loadingMessage}
-                defaultOptions={true}
+                defaultOptions={false}
+                defaultMenuIsOpen={false}
+                openMenuOnClick={false}
                 value={this.props.value}
             />
         );

@@ -78,7 +78,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
   >
     <h2>
       <FormattedMessage
-        defaultMessage="Search and Add People"
+        defaultMessage="Invite People"
         id="invitation_modal.members.search_and_add.title"
         values={Object {}}
       />
@@ -96,7 +96,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       className="help-text"
     >
       <FormattedMessage
-        defaultMessage="Search and add existing users or email an invitation to new users."
+        defaultMessage="Search and add members from other teams or email invite new users."
         id="invitation_modal.members.search-and-add.description"
         values={Object {}}
       />
@@ -106,7 +106,8 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
     className="invite-members"
   >
     <button
-      className="btn btn-primary"
+      className="btn btn-inactive"
+      disabled={true}
       onClick={[Function]}
     >
       <FormattedMessage

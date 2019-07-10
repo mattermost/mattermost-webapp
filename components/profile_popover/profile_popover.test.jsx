@@ -17,6 +17,7 @@ describe('components/ProfilePopover', () => {
         currentTeamId: 'team_id',
         isChannelAdmin: false,
         isTeamAdmin: false,
+        isInCurrentTeam: true,
         teamUrl: '',
         canManageAnyChannelMembersInCurrentTeam: true,
         actions: {
@@ -55,5 +56,15 @@ describe('components/ProfilePopover', () => {
                 {'bot description'}
             </div>
         )).toEqual(true);
+    });
+
+    test('should hide add-to-channel option if not on team', () => {
+        const props = {...baseProps};
+        props.isInCurrentTeam = false;
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>
+        ).dive();
+        expect(wrapper).toMatchSnapshot();
     });
 });
