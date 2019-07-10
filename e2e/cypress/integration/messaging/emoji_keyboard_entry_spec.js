@@ -21,25 +21,32 @@ describe('Message', () => {
         // # Wait for emojis to load
         cy.get('#emojiPicker').should('be.visible');
 
-        // # Randomize directional arrow inputs
-        const min = 1;
-        const max = 5;
-        for (const direction of ['right', 'down', 'up']) {
-            const pressCount = Math.floor(Math.random() * max) + min;
-
-            for (let i = 0; i < pressCount; i += 1) {
+        // # Move around and verify emojis with directional arrow input
+        const pressCounts = {
+            right: 5,
+            down: 5,
+            left: 4,
+            up: 5,
+        };
+        for (const direction of Object.keys(pressCounts)) {
+            for (let i = 0; i < pressCounts[direction]; i += 1) {
                 cy.get('#emojiPickerSearch').type(`{${direction}arrow}`);
+
+                // * Verify that the selected picker item matches the sprite preview
+                cy.get('.emoji-picker__item.selected img').invoke('attr', 'src').then((selectedEmoji) => {
+                    cy.get('#emojiPickerSpritePreview').invoke('attr', 'src').should('equal', selectedEmoji);
+                });
             }
         }
 
-        cy.get('.emoji-picker__preview-image-label-box .emoji-picker__preview-aliases').invoke('text').then((selectedEmoji) => {
+        cy.get('#emojiPickerAliasesPreview').invoke('text').then((selectedEmoji) => {
             // # Select chosen emoji
             cy.get('#emojiPickerSearch').type('{enter}');
 
             // # Post message with keyboard
             cy.get('#post_textbox').type('{enter}');
 
-            // # Compare selected emoji with last post
+            // * Compare selected emoji with last post
             cy.getLastPost().find('.emoticon').should('have.attr', 'title', selectedEmoji);
         });
     });
