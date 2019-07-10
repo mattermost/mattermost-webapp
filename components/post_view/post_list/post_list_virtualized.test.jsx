@@ -6,7 +6,6 @@ import {shallow} from 'enzyme';
 
 import {DATE_LINE} from 'mattermost-redux/utils/post_list';
 
-import LoadingScreen from 'components/loading_screen';
 import {PostListRowListIds} from 'utils/constants';
 
 import NewMessagesBelow from 'components/post_view/new_messages_below';
@@ -15,8 +14,26 @@ import PostListRow from 'components/post_view/post_list_row';
 import PostList from './post_list_virtualized';
 
 describe('PostList', () => {
+    const baseActions = {
+        checkAndSetMobileView: jest.fn(),
+        loadOlderPosts: jest.fn(),
+        loadNewerPosts: jest.fn(),
+        canLoadMorePosts: jest.fn(),
+        changeUnreadChunkTimeStamp: jest.fn(),
+    };
+
+    const newerPosts = {
+        loading: false,
+        allLoaded: false,
+    };
+
+    const olderPosts = {
+        loading: false,
+        allLoaded: false,
+    };
+
     const baseProps = {
-        channel: {id: 'channel'},
+        channelId: 'channel',
         focusedPostId: '',
         postListIds: [
             'post1',
@@ -25,13 +42,9 @@ describe('PostList', () => {
             DATE_LINE + 1551711600000,
         ],
         latestPostTimeStamp: 12345,
-        postVisibility: 10,
-        actions: {
-            checkAndSetMobileView: jest.fn(),
-            increasePostVisibility: jest.fn(),
-            loadInitialPosts: jest.fn(() => ({posts: {posts: {}, order: []}, hasMoreBefore: false})),
-            syncPostsInChannel: jest.fn(),
-        },
+        newerPosts,
+        olderPosts,
+        actions: baseActions,
     };
 
     const postListIdsForClassNames = [
@@ -43,22 +56,6 @@ describe('PostList', () => {
         PostListRowListIds.START_OF_NEW_MESSAGES,
         'post5',
     ];
-
-    test('should render loading screen while loading posts', () => {
-        const props = {
-            ...baseProps,
-            postListIds: null,
-        };
-
-        const wrapper = shallow(<PostList {...props}/>);
-
-        expect(wrapper.state('loadingFirstSetOfPosts')).toBe(true);
-        expect(wrapper.find(LoadingScreen).exists()).toBe(true);
-
-        wrapper.setState({loadingFirstSetOfPosts: false});
-
-        expect(wrapper.find(LoadingScreen).exists()).toBe(false);
-    });
 
     describe('renderRow', () => {
         const postListIds = ['a', 'b', 'c', 'd'];
@@ -108,7 +105,6 @@ describe('PostList', () => {
     describe('new messages below', () => {
         test('should mount outside of permalink view', () => {
             const wrapper = shallow(<PostList {...baseProps}/>);
-            wrapper.setState({loadingFirstSetOfPosts: false});
 
             expect(wrapper.find(NewMessagesBelow).exists()).toBe(true);
         });
@@ -120,49 +116,7 @@ describe('PostList', () => {
             };
 
             const wrapper = shallow(<PostList {...props}/>);
-            wrapper.setState({loadingFirstSetOfPosts: false});
-
             expect(wrapper.find(NewMessagesBelow).exists()).toBe(false);
-        });
-    });
-
-    describe('initScrollToIndex', () => {
-        test('should return index of start of new messages and call increasePostVisibility when all posts are unread', () => {
-            baseProps.actions.increasePostVisibility.mockResolvedValue({moreToLoad: false});
-            const postListIds = [];
-            for (let i = 0; i < 30; i++) {
-                postListIds.push(`post${i}`);
-            }
-            postListIds.push(PostListRowListIds.START_OF_NEW_MESSAGES);
-
-            const props = {
-                ...baseProps,
-                postListIds,
-            };
-
-            const wrapper = shallow(<PostList {...props}/>);
-            const initScrollToIndex = wrapper.instance().initScrollToIndex();
-
-            expect(initScrollToIndex).toEqual({index: 31, position: 'start'});
-
-            expect(baseProps.actions.increasePostVisibility).toHaveBeenCalledTimes(1);
-        });
-    });
-
-    describe('loadMorePosts', () => {
-        test('should set state.atEnd to true after loading all posts in the channel', async () => {
-            baseProps.actions.increasePostVisibility.mockResolvedValue({moreToLoad: false});
-
-            const wrapper = shallow(<PostList {...baseProps}/>);
-
-            await wrapper.instance().loadMorePosts();
-
-            expect(baseProps.actions.increasePostVisibility).toHaveBeenCalledTimes(1);
-            expect(baseProps.actions.increasePostVisibility).toHaveBeenCalledWith(baseProps.channel.id, 'post3');
-
-            wrapper.update();
-
-            expect(wrapper.state('atEnd')).toEqual(true);
         });
     });
 
@@ -225,9 +179,9 @@ describe('PostList', () => {
             const wrapper = shallow(<PostList {...baseProps}/>);
             wrapper.setState({lastViewedBottom: 1234});
 
-            wrapper.instance().updateAtBottom(false);
+            wrapper.instance().updateAtBottom(true);
 
-            expect(wrapper.state('atBottom')).toBe(false);
+            expect(wrapper.state('atBottom')).toBe(true);
             expect(wrapper.state('lastViewedBottom')).not.toBe(1234);
         });
 
@@ -235,7 +189,7 @@ describe('PostList', () => {
             const wrapper = shallow(<PostList {...baseProps}/>);
             wrapper.setState({lastViewedBottom: 1234});
 
-            wrapper.instance().updateAtBottom(true);
+            wrapper.instance().updateAtBottom(false);
 
             expect(wrapper.state('lastViewedBottom')).toBe(1234);
         });
@@ -246,7 +200,7 @@ describe('PostList', () => {
             const wrapper = shallow(<PostList {...baseProps}/>);
             wrapper.setState({lastViewedBottom: 1234});
 
-            wrapper.instance().updateAtBottom(false);
+            wrapper.instance().updateAtBottom(true);
 
             expect(wrapper.state('lastViewedBottom')).toBe(12345);
         });
@@ -257,7 +211,7 @@ describe('PostList', () => {
             const wrapper = shallow(<PostList {...baseProps}/>);
             wrapper.setState({lastViewedBottom: 1234});
 
-            wrapper.instance().updateAtBottom(false);
+            wrapper.instance().updateAtBottom(true);
 
             expect(wrapper.state('lastViewedBottom')).toBe(12346);
         });
@@ -270,27 +224,22 @@ describe('PostList', () => {
             instance.componentDidUpdate = jest.fn();
 
             instance.postListRef = {current: {scrollTop: 10, scrollHeight: 100}};
-            wrapper.setState({atEnd: true, atBottom: false});
+
+            wrapper.setProps({olderPosts: {allLoaded: true, loading: false}});
             expect(instance.componentDidUpdate).toHaveBeenCalledTimes(1);
             expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollTop: 10, previousScrollHeight: 100});
 
             instance.postListRef = {current: {scrollTop: 30, scrollHeight: 200}};
-            wrapper.setState({atEnd: false});
-            expect(instance.componentDidUpdate).toHaveBeenCalledTimes(2);
-            expect(instance.componentDidUpdate.mock.calls[1][2]).toEqual({previousScrollTop: 30, previousScrollHeight: 200});
-
-            /*instance.postListRef = {current: {scrollTop: 40, scrollHeight: 400}};
             wrapper.setProps({postListIds: [
                 'post1',
                 'post2',
                 'post3',
-                'post4',
-                'post5',
                 DATE_LINE + 1551711600000,
+                'post4',
             ]});
 
-            expect(instance.componentDidUpdate).toHaveBeenCalledTimes(3);
-            expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual({previousScrollTop: 40, previousScrollHeight: 400});*/
+            expect(instance.componentDidUpdate).toHaveBeenCalledTimes(2);
+            expect(instance.componentDidUpdate.mock.calls[1][2]).toEqual({previousScrollTop: 30, previousScrollHeight: 200});
         });
 
         test('should not return previous scroll position from getSnapshotBeforeUpdate as list is at bottom', () => {
@@ -299,10 +248,10 @@ describe('PostList', () => {
             instance.componentDidUpdate = jest.fn();
 
             instance.postListRef = {current: {scrollTop: 10, scrollHeight: 100}};
-            wrapper.setState({atEnd: true, atBottom: true});
-            expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual(null);
+            wrapper.setProps({olderPosts: {allLoaded: true, loading: false}});
+            expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollHeight: 100, previousScrollTop: 10});
 
-            /*wrapper.setState({atEnd: false});
+            wrapper.setState({atBottom: true});
             instance.postListRef = {current: {scrollTop: 40, scrollHeight: 400}};
             wrapper.setProps({postListIds: [
                 'post1',
@@ -313,14 +262,14 @@ describe('PostList', () => {
                 DATE_LINE + 1551711600000,
             ]});
 
-            expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual(null);*/
+            expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual(null);
         });
     });
 
     describe('initRangeToRender', () => {
-        test('should return 0 to 50 for channel with more than 50 messages', () => {
+        test('should return 0 to 50 for channel with more than 100 messages', () => {
             const postListIds = [];
-            for (let i = 0; i < 70; i++) {
+            for (let i = 0; i < 110; i++) {
                 postListIds.push(`post${i}`);
             }
 
@@ -445,10 +394,21 @@ describe('PostList', () => {
         });
     });
 
-    describe('getPostsSince', () => {
-        test('should call getPostsSince on channel switch', () => {
-            shallow(<PostList {...baseProps}/>);
-            expect(baseProps.actions.syncPostsInChannel).toHaveBeenCalledWith(baseProps.channel.id, baseProps.latestPostTimeStamp);
+    describe('scrollToLatestMessages', () => {
+        test('should call scrollToBottom', () => {
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            wrapper.setProps({olderPosts: {allLoaded: true, loading: false}});
+            const instance = wrapper.instance();
+            instance.scrollToBottom = jest.fn();
+            instance.scrollToLatestMessages();
+            expect(instance.scrollToBottom).toHaveBeenCalled();
+        });
+
+        test('should call changeUnreadChunkTimeStamp', () => {
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            const instance = wrapper.instance();
+            instance.scrollToLatestMessages();
+            expect(baseActions.changeUnreadChunkTimeStamp).toHaveBeenCalledWith('');
         });
     });
 });

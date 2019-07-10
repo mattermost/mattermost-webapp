@@ -7,14 +7,11 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'react-window';
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 
-import {debounce} from 'mattermost-redux/actions/helpers';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
-
-import LoadingScreen from 'components/loading_screen.jsx';
 
 import Constants, {PostListRowListIds, EventTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
-import {getOldestPostId, getPreviousPostId, getLatestPostId} from 'utils/post_utils.jsx';
+import {getPreviousPostId, getLatestPostId} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
@@ -22,9 +19,6 @@ import NewMessagesBelow from 'components/post_view/new_messages_below';
 import PostListRow from 'components/post_view/post_list_row';
 import ScrollToBottomArrows from 'components/post_view/scroll_to_bottom_arrows';
 
-const MAX_NUMBER_OF_AUTO_RETRIES = 3;
-
-const MAX_EXTRA_PAGES_LOADED = 10;
 const OVERSCAN_COUNT_BACKWARD = window.OVERSCAN_COUNT_BACKWARD || 80; // Exposing the value for PM to test will be removed soon
 const OVERSCAN_COUNT_FORWARD = window.OVERSCAN_COUNT_FORWARD || 80; // Exposing the value for PM to test will be removed soon
 const HEIGHT_TRIGGER_FOR_MORE_POSTS = window.HEIGHT_TRIGGER_FOR_MORE_POSTS || 1000; // Exposing the value for PM to test will be removed soon
@@ -55,36 +49,54 @@ export default class PostList extends React.PureComponent {
         postListIds: PropTypes.array,
 
         /**
-         * The number of posts that should be rendered
-         */
-        postVisibility: PropTypes.number,
-
-        /**
-         * The channel the posts are in
-         */
-        channel: PropTypes.object.isRequired,
-
-        /**
          * Set to focus this post
          */
         focusedPostId: PropTypes.string,
 
         /**
-         * When switching teams we might end up in a state where we select channel from previous team
-         * This flag is explicitly added for adding a loader in these cases to not mounting post list
+         * The current channel id
          */
-        channelLoading: PropTypes.bool,
+        channelId: PropTypes.string.isRequired,
+
+        /**
+         * Used for disabling auto retry of posts and enabling manual link for loading posts
+         */
+        autoRetryEnable: PropTypes.bool,
+
+        /**
+         * Data used for determining more messages state at the bottom
+         */
+        newerPosts: PropTypes.shape({
+            loading: PropTypes.bool,
+            allLoaded: PropTypes.bool,
+        }),
+
+        /**
+         * Data used for determining more messages state at the top
+         */
+        olderPosts: PropTypes.shape({
+            loading: PropTypes.bool,
+            allLoaded: PropTypes.bool,
+        }),
 
         latestPostTimeStamp: PropTypes.number,
 
         actions: PropTypes.shape({
 
-            loadInitialPosts: PropTypes.func.isRequired,
+            /**
+             * Function to get older posts in the channel
+             */
+            loadOlderPosts: PropTypes.func.isRequired,
 
             /**
-             * Function to increase the number of posts being rendered
+             * Function to get newer posts in the channel
              */
-            increasePostVisibility: PropTypes.func.isRequired,
+            loadNewerPosts: PropTypes.func.isRequired,
+
+            /**
+             * Function used for autoLoad of posts incase screen is not filled with posts
+             */
+            canLoadMorePosts: PropTypes.func.isRequired,
 
             /**
              * Function to check and set if app is in mobile view
@@ -92,27 +104,21 @@ export default class PostList extends React.PureComponent {
             checkAndSetMobileView: PropTypes.func.isRequired,
 
             /**
-             * Function to be called on recurring channel visits to get any possible missing latest posts
+             * Function to change the post selected for postList
              */
-            syncPostsInChannel: PropTypes.func.isRequired,
+            changeUnreadChunkTimeStamp: PropTypes.func.isRequired,
         }).isRequired,
     }
 
     constructor(props) {
         super(props);
 
-        this.loadingMorePosts = false;
-        this.extraPagesLoaded = 0;
-
         const channelIntroMessage = PostListRowListIds.CHANNEL_INTRO_MESSAGE;
         const isMobile = Utils.isMobile();
         this.state = {
-            atEnd: false,
-            loadingFirstSetOfPosts: Boolean(!props.postListIds || props.channelLoading),
             isScrolling: false,
-            autoRetryEnable: true,
             isMobile,
-            atBottom: true,
+            atBottom: false,
             lastViewedBottom: Date.now(),
             postListIds: [channelIntroMessage],
             topPostId: '',
@@ -130,20 +136,24 @@ export default class PostList extends React.PureComponent {
 
         this.initRangeToRender = this.props.focusedPostId ? [0, MAXIMUM_POSTS_FOR_SLICING.permalink] : [0, MAXIMUM_POSTS_FOR_SLICING.channel];
 
-        if (!this.state.loadingFirstSetOfPosts) {
-            const newMessagesSeparatorIndex = this.getNewMessagesSeparatorIndex(props.postListIds);
+        if (props.postListIds) {
+            let postIndex = 0;
+            if (props.focusedPostId) {
+                postIndex = this.props.postListIds.findIndex((postId) => postId === this.props.focusedPostId);
+            } else {
+                postIndex = this.getNewMessagesSeparatorIndex(props.postListIds);
+            }
+
+            const maxPostsForSlicing = props.focusedPostId ? MAXIMUM_POSTS_FOR_SLICING.permalink : MAXIMUM_POSTS_FOR_SLICING.channel;
             this.initRangeToRender = [
-                Math.max(newMessagesSeparatorIndex - 30, 0),
-                Math.max(newMessagesSeparatorIndex + 30, Math.min(props.postListIds.length - 1, MAXIMUM_POSTS_FOR_SLICING.channel)),
+                Math.max(postIndex - 30, 0),
+                Math.max(postIndex + 30, Math.min(props.postListIds.length - 1, maxPostsForSlicing)),
             ];
         }
     }
 
     componentDidMount() {
         this.mounted = true;
-        if (!this.props.channelLoading) {
-            this.loadPosts(this.props.channel.id, this.props.focusedPostId);
-        }
         this.props.actions.checkAndSetMobileView();
 
         window.addEventListener('resize', this.handleWindowResize);
@@ -151,10 +161,10 @@ export default class PostList extends React.PureComponent {
         EventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.scrollChange);
     }
 
-    getSnapshotBeforeUpdate(prevProps, prevState) {
+    getSnapshotBeforeUpdate(prevProps) {
         if (this.postListRef && this.postListRef.current) {
-            const postsAddedAtTop = this.state.postListIds.length !== prevState.postListIds.length && this.state.postListIds[0] === prevState.postListIds[0];
-            const channelHeaderAdded = this.state.atEnd !== prevState.atEnd;
+            const postsAddedAtTop = this.props.postListIds.length !== prevProps.postListIds.length && this.props.postListIds[0] === prevProps.postListIds[0];
+            const channelHeaderAdded = this.props.olderPosts.allLoaded !== prevProps.olderPosts.allLoaded;
             if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom) {
                 const previousScrollTop = this.postListRef.current.scrollTop;
                 const previousScrollHeight = this.postListRef.current.scrollHeight;
@@ -169,17 +179,13 @@ export default class PostList extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.channelLoading && !this.props.channelLoading) {
-            this.loadPosts(this.props.channel.id, this.props.focusedPostId);
-        }
-
         if (!this.postListRef.current || !snapshot) {
             return;
         }
 
         const postlistScrollHeight = this.postListRef.current.scrollHeight;
-        const postsAddedAtTop = this.state.postListIds.length !== prevState.postListIds.length && this.state.postListIds[0] === prevState.postListIds[0];
-        const channelHeaderAdded = this.state.atEnd !== prevState.atEnd;
+        const postsAddedAtTop = this.props.postListIds.length !== prevProps.postListIds.length && this.props.postListIds[0] === prevProps.postListIds[0];
+        const channelHeaderAdded = this.props.olderPosts.allLoaded !== prevProps.olderPosts.allLoaded;
         if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom) {
             const scrollValue = snapshot.previousScrollTop + (postlistScrollHeight - snapshot.previousScrollHeight);
             if (scrollValue !== 0 && (scrollValue - snapshot.previousScrollTop) !== 0) {
@@ -196,18 +202,24 @@ export default class PostList extends React.PureComponent {
         EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.scrollChange);
     }
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(props) {
         const postListIds = props.postListIds || [];
         let newPostListIds;
 
-        if (state.atEnd) {
+        if (props.olderPosts.allLoaded) {
             newPostListIds = [...postListIds, PostListRowListIds.CHANNEL_INTRO_MESSAGE];
-        } else if (props.postVisibility >= Constants.MAX_POST_VISIBILITY) {
-            newPostListIds = [...postListIds, PostListRowListIds.MAX_MESSAGES_LOADED];
-        } else if (state.autoRetryEnable) {
-            newPostListIds = [...postListIds, PostListRowListIds.MORE_MESSAGES_LOADER];
+        } else if (props.autoRetryEnable) {
+            newPostListIds = [...postListIds, PostListRowListIds.OLDER_MESSAGES_LOADER];
         } else {
-            newPostListIds = [...postListIds, PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES];
+            newPostListIds = [...postListIds, PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER];
+        }
+
+        if (!props.newerPosts.allLoaded) {
+            if (props.autoRetryEnable) {
+                newPostListIds = [PostListRowListIds.NEWER_MESSAGES_LOADER, ...newPostListIds];
+            } else {
+                newPostListIds = [...postListIds, PostListRowListIds.LOAD_NEWER_MESSAGES_TRIGGER];
+            }
         }
 
         return {
@@ -223,7 +235,7 @@ export default class PostList extends React.PureComponent {
 
     scrollChange = (toBottom) => {
         if (toBottom) {
-            this.scrollToBottom();
+            this.scrollToLatestMessages();
         }
     }
 
@@ -246,63 +258,6 @@ export default class PostList extends React.PureComponent {
             });
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
-    }
-
-    loadPosts = async (channelId, focusedPostId) => {
-        if (!channelId) {
-            return;
-        }
-
-        if (this.state.loadingFirstSetOfPosts) {
-            const {hasMoreBefore} = await this.props.actions.loadInitialPosts(channelId, focusedPostId);
-
-            if (this.mounted) {
-                this.setState({
-                    loadingFirstSetOfPosts: false,
-                    atEnd: !hasMoreBefore,
-                });
-            }
-        } else {
-            await this.props.actions.syncPostsInChannel(channelId, this.props.latestPostTimeStamp);
-        }
-    }
-
-    loadMorePosts = async () => {
-        const oldestPostId = this.getOldestVisiblePostId();
-
-        if (!oldestPostId) {
-            // loadMorePosts shouldn't be called if we don't already have posts
-            return;
-        }
-
-        this.loadingMorePosts = true;
-
-        const {moreToLoad, error} = await this.props.actions.increasePostVisibility(this.props.channel.id, oldestPostId);
-        if (error) {
-            if (this.autoRetriesCount < MAX_NUMBER_OF_AUTO_RETRIES) {
-                this.autoRetriesCount++;
-                debounce(this.loadMorePosts());
-            } else if (this.mounted) {
-                this.setState({autoRetryEnable: false});
-            }
-        } else {
-            this.loadingMorePosts = false;
-
-            if (this.mounted && this.props.postListIds) {
-                this.setState({
-                    atEnd: !moreToLoad,
-                    autoRetryEnable: true,
-                });
-            }
-
-            if (!this.state.autoRetryEnable) {
-                this.autoRetriesCount = 0;
-            }
-        }
-    };
-
-    getOldestVisiblePostId = () => {
-        return getOldestPostId(this.state.postListIds);
     }
 
     togglePostMenu = (opened) => {
@@ -344,9 +299,9 @@ export default class PostList extends React.PureComponent {
                 <PostListRow
                     listId={itemId}
                     previousListId={getPreviousPostId(data, index)}
-                    channel={this.props.channel}
                     shouldHighlight={itemId === this.props.focusedPostId}
-                    loadMorePosts={this.loadMorePosts}
+                    loadOlderPosts={this.props.actions.loadOlderPosts}
+                    loadNewerPosts={this.props.actions.loadNewerPosts}
                     togglePostMenu={this.togglePostMenu}
                 />
             </div>
@@ -359,11 +314,14 @@ export default class PostList extends React.PureComponent {
     }
 
     onScroll = ({scrollDirection, scrollOffset, scrollUpdateWasRequested, clientHeight, scrollHeight}) => {
-        const isNotLoadingPosts = !this.state.loadingFirstSetOfPosts && !this.loadingMorePosts;
         const didUserScrollBackwards = scrollDirection === 'backward' && !scrollUpdateWasRequested;
+        const didUserScrollForwards = scrollDirection === 'forward' && !scrollUpdateWasRequested;
         const isOffsetWithInRange = scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
-        if (isNotLoadingPosts && didUserScrollBackwards && isOffsetWithInRange && !this.state.atEnd) {
-            this.loadMorePosts();
+        const offsetFromBottom = (scrollHeight - clientHeight) - scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
+        if (didUserScrollBackwards && isOffsetWithInRange && !this.props.olderPosts.allLoaded && !this.props.olderPosts.loading) {
+            this.props.actions.loadOlderPosts();
+        } else if (didUserScrollForwards && offsetFromBottom && !this.props.newerPosts.allLoaded && !this.props.newerPosts.loading) {
+            this.props.actions.loadNewerPosts();
         }
 
         if (this.state.isMobile) {
@@ -389,7 +347,7 @@ export default class PostList extends React.PureComponent {
         // Calculate how far the post list is from being scrolled to the bottom
         const offsetFromBottom = scrollHeight - clientHeight - scrollOffset;
 
-        return offsetFromBottom <= BUFFER_TO_BE_CONSIDERED_BOTTOM;
+        return offsetFromBottom <= BUFFER_TO_BE_CONSIDERED_BOTTOM && scrollHeight > 0;
     }
 
     updateAtBottom = (atBottom) => {
@@ -443,72 +401,40 @@ export default class PostList extends React.PureComponent {
                 position: 'center',
             };
         }
-        const newMessagesSeparatorIndex = this.getNewMessagesSeparatorIndex(this.state.postListIds);
+
+        const newMessagesSeparatorIndex = this.state.postListIds.findIndex(
+            (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
+        );
 
         if (newMessagesSeparatorIndex > 0) {
-            const topMostPostIndex = this.state.postListIds.indexOf(getOldestPostId(this.state.postListIds));
-            if (newMessagesSeparatorIndex === topMostPostIndex + 1) {
-                this.loadMorePosts();
-                return {
-                    index: this.state.postListIds.length - 1,
-                    position: 'start',
-                };
-            }
             return {
                 index: newMessagesSeparatorIndex,
                 position: 'start',
             };
         }
+
+        this.setState({atBottom: true});
         return {
             index: 0,
             position: 'end',
         };
     }
 
+    scrollToLatestMessages = () => {
+        if (this.props.olderPosts.allLoaded) {
+            this.scrollToBottom();
+        } else {
+            this.props.actions.changeUnreadChunkTimeStamp('');
+        }
+    }
+
     scrollToBottom = () => {
         this.listRef.current.scrollToItem(0, 'end');
     }
 
-    canLoadMorePosts = async () => {
-        if (this.props.focusedPostId) {
-            return;
-        }
-
-        if (this.state.loadingFirstSetOfPosts || this.loadingMorePosts) {
-            // Should already be loading posts
-            return;
-        }
-
-        if (this.state.atEnd) {
-            // Screen is full
-            return;
-        }
-
-        if (this.extraPagesLoaded > MAX_EXTRA_PAGES_LOADED) {
-            // Prevent this from loading a lot of pages in a channel with only hidden messages
-            // Enable load more messages manual link
-            this.setState({autoRetryEnable: false});
-            return;
-        }
-
-        await this.loadMorePosts();
-        this.extraPagesLoaded += 1;
-    }
-
     render() {
-        const channel = this.props.channel;
+        const channelId = this.props.channelId;
         const {dynamicListStyle} = this.state;
-
-        if (this.state.loadingFirstSetOfPosts) {
-            return (
-                <div id='post-list'>
-                    <LoadingScreen
-                        position='absolute'
-                        key='loading'
-                    />
-                </div>
-            );
-        }
 
         let newMessagesBelow = null;
         if (!this.props.focusedPostId) {
@@ -517,8 +443,8 @@ export default class PostList extends React.PureComponent {
                     atBottom={this.state.atBottom}
                     lastViewedBottom={this.state.lastViewedBottom}
                     postIds={this.state.postListIds}
-                    onClick={this.scrollToBottom}
-                    channelId={this.props.channel.id}
+                    onClick={this.scrollToLatestMessages}
+                    channelId={channelId}
                 />
             );
         }
@@ -546,7 +472,7 @@ export default class PostList extends React.PureComponent {
                 <div
                     role='presentation'
                     className='post-list-holder-by-time'
-                    key={'postlist-' + channel.id}
+                    key={'postlist-' + channelId}
                 >
                     <div
                         role='presentation'
@@ -574,13 +500,14 @@ export default class PostList extends React.PureComponent {
                                         onScroll={this.onScroll}
                                         onItemsRendered={this.onItemsRendered}
                                         initScrollToIndex={this.initScrollToIndex}
-                                        canLoadMorePosts={this.canLoadMorePosts}
+                                        canLoadMorePosts={this.props.actions.canLoadMorePosts}
                                         skipResizeClass='col__reply'
                                         innerRef={this.postListRef}
                                         style={{...virtListStyles, ...dynamicListStyle}}
                                         innerListStyle={postListStyle}
                                         initRangeToRender={this.initRangeToRender}
-                                        loaderId={PostListRowListIds.MORE_MESSAGES_LOADER}
+                                        loaderId={PostListRowListIds.OLDER_MESSAGES_LOADER}
+                                        correctScrollToBottom={this.props.newerPosts.allLoaded}
                                     >
                                         {this.renderRow}
                                     </DynamicSizeList>

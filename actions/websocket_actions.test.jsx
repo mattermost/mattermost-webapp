@@ -5,7 +5,12 @@ import {
     getProfilesAndStatusesForPosts,
     receivedNewPost,
 } from 'mattermost-redux/actions/posts';
+import {
+    getMissingProfilesByIds,
+    getStatusesByIds,
+} from 'mattermost-redux/actions/users';
 import {UserTypes} from 'mattermost-redux/action_types';
+import {General, WebsocketEvents} from 'mattermost-redux/constants';
 
 import {handleNewPost} from 'actions/post_actions';
 import {closeRightHandSide} from 'actions/views/rhs';
@@ -22,12 +27,18 @@ import {
     handleNewPostEvents,
     handlePostEditEvent,
     handleUserRemovedEvent,
+    handleUserTypingEvent,
     reconnect,
 } from './websocket_actions';
 
 jest.mock('mattermost-redux/actions/posts', () => ({
     ...jest.requireActual('mattermost-redux/actions/posts'),
     getProfilesAndStatusesForPosts: jest.fn(),
+}));
+
+jest.mock('mattermost-redux/actions/users', () => ({
+    getMissingProfilesByIds: jest.fn(() => ({type: 'GET_MISSING_PROFILES_BY_IDS'})),
+    getStatusesByIds: jest.fn(() => ({type: 'GET_STATUSES_BY_IDS'})),
 }));
 
 jest.mock('actions/post_actions', () => ({
@@ -221,5 +232,128 @@ describe('reconnect', () => {
     test('should call syncPostsInChannel when socket reconnects', () => {
         reconnect(false);
         expect(syncPostsInChannel).toHaveBeenCalledWith('otherChannel', '12345');
+    });
+});
+
+describe('handleUserTypingEvent', () => {
+    const initialState = {
+        entities: {
+            general: {
+                config: {},
+            },
+            users: {
+                currentUserId: 'user',
+                statuses: {},
+                users: {},
+            },
+        },
+    };
+
+    test('should dispatch a TYPING event', () => {
+        const testStore = configureStore(initialState);
+
+        const channelId = 'channel';
+        const rootId = 'root';
+        const userId = 'otheruser';
+        const msg = {
+            broadcast: {
+                channel_id: channelId,
+            },
+            data: {
+                parent_id: rootId,
+                user_id: userId,
+            },
+        };
+
+        testStore.dispatch(handleUserTypingEvent(msg));
+
+        expect(testStore.getActions().find((action) => action.type === WebsocketEvents.TYPING)).toMatchObject({
+            type: WebsocketEvents.TYPING,
+            data: {
+                id: channelId + rootId,
+                userId,
+            },
+        });
+    });
+
+    test('should possibly load missing users', () => {
+        const testStore = configureStore(initialState);
+
+        const userId = 'otheruser';
+        const msg = {
+            broadcast: {
+                channel_id: 'channel',
+            },
+            data: {
+                parent_id: '',
+                user_id: userId,
+            },
+        };
+
+        testStore.dispatch(handleUserTypingEvent(msg));
+
+        expect(getMissingProfilesByIds).toHaveBeenCalledWith([userId]);
+    });
+
+    test('should load statuses for users that are not online', () => {
+        const testStore = configureStore({
+            ...initialState,
+            entities: {
+                ...initialState.entities,
+                users: {
+                    ...initialState.entities.users,
+                    statuses: {
+                        ...initialState.entities.users.statuses,
+                        otheruser: General.AWAY,
+                    },
+                },
+            },
+        });
+
+        const userId = 'otheruser';
+        const msg = {
+            broadcast: {
+                channel_id: 'channel',
+            },
+            data: {
+                parent_id: '',
+                user_id: userId,
+            },
+        };
+
+        testStore.dispatch(handleUserTypingEvent(msg));
+
+        expect(getStatusesByIds).toHaveBeenCalled();
+    });
+
+    test('should not load statuses for users that are online', () => {
+        const testStore = configureStore({
+            ...initialState,
+            entities: {
+                ...initialState.entities,
+                users: {
+                    ...initialState.entities.users,
+                    statuses: {
+                        ...initialState.entities.users.statuses,
+                        otheruser: General.ONLINE,
+                    },
+                },
+            },
+        });
+
+        const userId = 'otheruser';
+        const msg = {
+            broadcast: {
+                channel_id: 'channel',
+            },
+            data: {
+                parent_id: '',
+                user_id: userId,
+            },
+        };
+
+        testStore.dispatch(handleUserTypingEvent(msg));
+
+        expect(getStatusesByIds).not.toHaveBeenCalled();
     });
 });

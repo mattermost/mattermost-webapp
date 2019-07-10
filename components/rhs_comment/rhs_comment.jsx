@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants/index';
 import {
@@ -34,6 +34,8 @@ export default class RhsComment extends React.PureComponent {
         teamId: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,
         compactDisplay: PropTypes.bool,
+        author: PropTypes.string,
+        reactions: PropTypes.object,
         isFlagged: PropTypes.bool,
         isBusy: PropTypes.bool,
         removePost: PropTypes.func.isRequired,
@@ -47,6 +49,10 @@ export default class RhsComment extends React.PureComponent {
         channelIsArchived: PropTypes.bool.isRequired,
         isConsecutivePost: PropTypes.bool,
         handleCardClick: PropTypes.func,
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -146,7 +152,7 @@ export default class RhsComment extends React.PureComponent {
     }
 
     render() {
-        const {post, isConsecutivePost, isReadOnly, channelIsArchived} = this.props;
+        const {post, isConsecutivePost, isReadOnly, channelIsArchived, author, reactions, isFlagged} = this.props;
 
         const isEphemeral = isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
@@ -388,6 +394,7 @@ export default class RhsComment extends React.PureComponent {
                 className={this.getClassName(post, isSystemMessage)}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
+                aria-label={PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)}
             >
                 <div className='post__content'>
                     <div className='post__img'>
