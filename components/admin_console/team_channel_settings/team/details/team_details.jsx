@@ -99,7 +99,7 @@ export default class TeamDetails extends React.Component {
                 serverError = <FormError error={error.message}/>;
             } else {
                 const unlink = origGroups.filter((g) => !groups.includes(g)).map((g) => actions.unlinkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM));
-                const link = groups.filter((g) => !origGroups.includes(g)).map((g) => actions.linkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM));
+                const link = groups.filter((g) => !origGroups.includes(g)).map((g) => actions.linkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true}));
                 const result = await Promise.all([...unlink, ...link]);
                 const resultWithError = result.find((r) => r.error);
                 if (resultWithError) {
