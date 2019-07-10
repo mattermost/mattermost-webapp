@@ -8,7 +8,6 @@ span.greyed-out {
     @include opacity(.8)
 }
 .groups-list-no-padding {
-    padding: 0;
     div.group-row {
         height: 40px;
         padding-left: 20px;
@@ -33,6 +32,7 @@ span.greyed-out {
 }
 .btn-toggle.btn-lg {
     margin-left: 68px;
+    margin-bottom: -5px;
 }
 
 .help-text-small.help-text-no-padding {
