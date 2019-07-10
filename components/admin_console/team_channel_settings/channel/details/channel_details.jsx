@@ -152,14 +152,14 @@ export default class ChannelDetails extends React.Component {
             saveNeeded = true;
         } else {
             const promises = [];
+            if (!isPublic && channel.type === Constants.OPEN_CHANNEL) {
+                promises.push(actions.convertChannelToPrivate(channel.id));
+            }
             promises.push(actions.patchChannel(channel.id, {
                 ...channel,
                 group_constrained: isSynced,
                 type: isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL,
             }));
-            if (!isPublic && channel.type === Constants.OPEN_CHANNEL) {
-                promises.push(actions.convertChannelToPrivate(channel.id));
-            }
             const unlink = origGroups.filter((g) => !groups.includes(g)).map((g) => actions.unlinkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL));
             const link = groups.filter((g) => !origGroups.includes(g)).map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true}));
             const result = await Promise.all([...promises, ...unlink, ...link]);
