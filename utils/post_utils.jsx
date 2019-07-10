@@ -305,3 +305,104 @@ export function getLatestPostId(postIds) {
 
     return '';
 }
+
+export function createAriaLabelForPost(post, author, isFlagged, reactions, intl) {
+    const {formatMessage, formatTime, formatDate} = intl;
+
+    let ariaLabel;
+    if (post.root_id) {
+        ariaLabel = formatMessage({
+            id: 'post.ariaLabel.replyMessage',
+            defaultMessage: '{authorName} at {time} {date} wrote a reply, {message}',
+        },
+        {
+            authorName: author,
+            time: formatTime(post.create_at),
+            date: formatDate(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
+            message: post.message,
+        });
+    } else {
+        ariaLabel = formatMessage({
+            id: 'post.ariaLabel.message',
+            defaultMessage: '{authorName} at {time} {date} wrote, {message}',
+        },
+        {
+            authorName: author,
+            time: formatTime(post.create_at),
+            date: formatDate(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
+            message: post.message,
+        });
+    }
+
+    let attachmentCount = 0;
+    if (post.props && post.props.attachments) {
+        attachmentCount += post.props.attachments.length;
+    }
+    if (post.file_ids) {
+        attachmentCount += post.file_ids.length;
+    }
+
+    if (attachmentCount) {
+        if (attachmentCount > 1) {
+            ariaLabel += formatMessage({
+                id: 'post.ariaLabel.attachmentMultiple',
+                defaultMessage: ', {attachmentCount} attachments',
+            },
+            {
+                attachmentCount,
+            });
+        } else {
+            ariaLabel += formatMessage({
+                id: 'post.ariaLabel.attachment',
+                defaultMessage: ', 1 attachment',
+            });
+        }
+    }
+
+    if (reactions) {
+        const emojiNames = [];
+        for (const reaction of Object.values(reactions)) {
+            const emojiName = reaction.emoji_name;
+
+            if (emojiNames.indexOf(emojiName) < 0) {
+                emojiNames.push(emojiName);
+            }
+        }
+
+        if (emojiNames.length > 1) {
+            ariaLabel += formatMessage({
+                id: 'post.ariaLabel.reactionMultiple',
+                defaultMessage: ', {reactionCount} reactions',
+            },
+            {
+                reactionCount: emojiNames.length,
+            });
+        } else {
+            ariaLabel += formatMessage({
+                id: 'post.ariaLabel.reaction',
+                defaultMessage: ', 1 reaction',
+            });
+        }
+    }
+
+    if (isFlagged) {
+        if (post.is_pinned) {
+            ariaLabel += formatMessage({
+                id: 'post.ariaLabel.messageIsFlaggedAndPinned',
+                defaultMessage: ', message is flagged and pinned',
+            });
+        } else {
+            ariaLabel += formatMessage({
+                id: 'post.ariaLabel.messageIsFlagged',
+                defaultMessage: ', message is flagged',
+            });
+        }
+    } else if (!isFlagged && post.is_pinned) {
+        ariaLabel += formatMessage({
+            id: 'post.ariaLabel.messageIsPinned',
+            defaultMessage: ', message is pinned',
+        });
+    }
+
+    return ariaLabel;
+}
