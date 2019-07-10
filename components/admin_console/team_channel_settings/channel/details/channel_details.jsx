@@ -166,6 +166,8 @@ export default class ChannelDetails extends React.Component {
             const resultWithError = result.find((r) => r.error);
             if (resultWithError) {
                 serverError = <FormError error={resultWithError.error.message}/>;
+            } else {
+                await actions.getGroups(channelID);
             }
         }
 
@@ -176,8 +178,8 @@ export default class ChannelDetails extends React.Component {
     render = () => {
         const {totalGroups, saving, saveNeeded, serverError, isSynced, isPublic, groups, showRemoveConfirmation, usersToRemove} = this.state;
         const {channel} = this.props;
-        const removedGroups = this.props.groups.filter((g) => !groups.includes(g));
-
+        const missingGroup = (og) => !groups.find((g) => g.id === og.id);
+        const removedGroups = this.props.groups.filter(missingGroup);
         return (
             <div className='wrapper--fixed'>
                 <div className='admin-console__header with-back'>

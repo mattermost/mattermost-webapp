@@ -23,8 +23,9 @@ function mapStateToProps(state, props) {
     const channelID = props.match.params.channel_id;
     const channel = getChannel(state, channelID) || {};
     const groups = getGroupsAssociatedToChannel(state, channelID);
+    const associatedGroups = state.entities.channels.groupsAssociatedToChannel;
     const allGroups = getAllGroups(state, channel.team_id);
-    const totalGroups = state.entities.channels.groupsAssociatedToChannel && state.entities.channels.groupsAssociatedToChannel[channelID] ? state.entities.channels.groupsAssociatedToChannel[channelID].totalCount : 0;
+    const totalGroups = associatedGroups && associatedGroups[channelID] && associatedGroups[channelID].totalCount? associatedGroups[channelID].totalCount : 0;
     return {
         channel,
         allGroups,

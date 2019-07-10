@@ -89,22 +89,20 @@ export default class TeamDetails extends React.Component {
             serverError = <NeedGroupsError/>;
             saveNeeded = true;
         } else {
-            const {error} = await actions.patchTeam({
+            const patchTeamPromise = actions.patchTeam({
                 ...team,
                 group_constrained: syncChecked,
                 allowed_domains: allowedDomainsChecked ? allowedDomains : '',
                 allow_open_invite: allAllowedChecked,
             });
-            if (error) {
-                serverError = <FormError error={error.message}/>;
+            const unlink = origGroups.filter((g) => !groups.includes(g)).map((g) => actions.unlinkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM));
+            const link = groups.filter((g) => !origGroups.includes(g)).map((g) => actions.linkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true}));
+            const result = await Promise.all([patchTeamPromise, ...unlink, ...link]);
+            const resultWithError = result.find((r) => r.error);
+            if (resultWithError) {
+                serverError = <FormError error={resultWithError.error.message}/>;
             } else {
-                const unlink = origGroups.filter((g) => !groups.includes(g)).map((g) => actions.unlinkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM));
-                const link = groups.filter((g) => !origGroups.includes(g)).map((g) => actions.linkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true}));
-                const result = await Promise.all([...unlink, ...link]);
-                const resultWithError = result.find((r) => r.error);
-                if (resultWithError) {
-                    serverError = <FormError error={resultWithError.error.message}/>;
-                }
+                await actions.getGroups(teamID);
             }
         }
 
@@ -178,7 +176,8 @@ export default class TeamDetails extends React.Component {
     render = () => {
         const {team} = this.props;
         const {totalGroups, saving, saveNeeded, serverError, groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, showRemoveConfirmation, usersToRemove} = this.state;
-        const removedGroups = this.props.groups.filter((g) => !groups.includes(g));
+        const missingGroup = (og) => !groups.find((g) => g.id === og.id);
+        const removedGroups = this.props.groups.filter(missingGroup);
 
         return (
             <div className='wrapper--fixed'>
