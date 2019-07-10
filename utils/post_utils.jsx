@@ -10,6 +10,8 @@ import {Permissions} from 'mattermost-redux/constants';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 import {canEditPost as canEditPostRedux} from 'mattermost-redux/utils/post_utils';
 
+import {getEmojiMap} from 'selectors/emojis';
+
 import store from 'stores/redux_store.jsx';
 
 import Constants, {PostListRowListIds} from 'utils/constants.jsx';
@@ -309,6 +311,21 @@ export function getLatestPostId(postIds) {
 export function createAriaLabelForPost(post, author, isFlagged, reactions, intl) {
     const {formatMessage, formatTime, formatDate} = intl;
 
+    const emojiMap = getEmojiMap(store.getState());
+    const emojiRegex = /:([A-Za-z0-9_\-+]+):/g;
+    var message = post.message;
+    var match;
+
+    while ((match = emojiRegex.exec(message)) !== null && emojiMap.has(match[1])) {
+        message = message.replace(match[0], formatMessage({
+            id: 'post.ariaLabel.emoji',
+            defaultMessage: '{name} emoji',
+        },
+        {
+            name: match[1].replace(/_/, ' '),
+        }));
+    }
+
     let ariaLabel;
     if (post.root_id) {
         ariaLabel = formatMessage({
@@ -319,7 +336,7 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl)
             authorName: author,
             time: formatTime(post.create_at),
             date: formatDate(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
-            message: post.message,
+            message,
         });
     } else {
         ariaLabel = formatMessage({
@@ -330,7 +347,7 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl)
             authorName: author,
             time: formatTime(post.create_at),
             date: formatDate(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
-            message: post.message,
+            message,
         });
     }
 
