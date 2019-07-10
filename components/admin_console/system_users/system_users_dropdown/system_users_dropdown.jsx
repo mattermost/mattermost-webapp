@@ -144,10 +144,8 @@ export default class SystemUsersDropdown extends React.PureComponent {
                 Constants.Integrations.START_PAGE_NUM,
                 Constants.Integrations.PAGE_SIZE,
             );
-            this.setState({showDeactivateMemberModal: true});
-        } else {
-            this.setState({showDeactivateMemberModal: true});
         }
+        this.setState({showDeactivateMemberModal: true});
     }
 
     handleDeactivateMember = () => {
