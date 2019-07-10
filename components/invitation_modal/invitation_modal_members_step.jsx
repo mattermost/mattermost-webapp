@@ -126,7 +126,7 @@ export default class InvitationModalMembersStep extends React.Component {
                     <h2>
                         <FormattedMessage
                             id='invitation_modal.members.search_and_add.title'
-                            defaultMessage='Search and Add People'
+                            defaultMessage='Invite People'
                         />
                     </h2>
                     <div>
@@ -142,8 +142,6 @@ export default class InvitationModalMembersStep extends React.Component {
                                     value={this.state.usersAndEmails}
                                     validAddressMessageId={t('invitation_modal.members.users_emails_input.valid_email')}
                                     validAddressMessageDefault='Invite **{email}** as a team member'
-                                    noOptionsMessageId={t('invitation_modal.members.users_emails_input.empty')}
-                                    noOptionsMessageDefault='No one found outside this team, type email to invite'
                                     noMatchMessageId={t('invitation_modal.members.users_emails_input.no_user_found_matching')}
                                     noMatchMessageDefault='No one found matching **{text}**, type email to invite'
                                 />
@@ -153,14 +151,15 @@ export default class InvitationModalMembersStep extends React.Component {
                     <div className='help-text'>
                         <FormattedMessage
                             id='invitation_modal.members.search-and-add.description'
-                            defaultMessage='Search and add existing users or email an invitation to new users.'
+                            defaultMessage='Search and add members from other teams or email invite new users.'
                         />
                     </div>
                 </div>
                 <div className='invite-members'>
                     <button
-                        className='btn btn-primary'
+                        className={'btn ' + (this.state.usersAndEmails.length === 0 ? 'btn-inactive' : 'btn-primary')}
                         onClick={this.submit}
+                        disabled={this.state.usersAndEmails.length === 0}
                     >
                         <FormattedMessage
                             id='invitation_modal.members.invite_button'

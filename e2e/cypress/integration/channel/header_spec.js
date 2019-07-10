@@ -21,6 +21,7 @@ describe('Header', () => {
         cy.updateChannelHeader('> newheader');
 
         // * Check if channel header description has no ellipsis
+        cy.get('#channelHeaderDescription').should('have.text', ' newheader');
         cy.get('#channelHeaderDescription').then(($header) => {
             expect($header.outerWidth()).to.be.closeTo($header[0].scrollWidth, 1);
         });
@@ -29,6 +30,7 @@ describe('Header', () => {
         cy.updateChannelHeader('>' + ' newheader'.repeat(20));
 
         // * Check if channel header description has ellipsis
+        cy.get('#channelHeaderDescription').should('have.text', ' newheader'.repeat(20));
         cy.get('#channelHeaderDescription').then(($header) => {
             expect($header.outerWidth()).lt($header[0].scrollWidth);
         });
@@ -49,7 +51,7 @@ describe('Header', () => {
         cy.changeMessageDisplaySetting('COMPACT');
 
         // # Open a DM with user named 'user-2'
-        cy.get('#directChannel > .add-channel-btn').click().wait(TIMEOUTS.TINY);
+        cy.get('#addDirectChannel').click().wait(TIMEOUTS.TINY);
         cy.focused().type('user-2', {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.TINY);
         cy.get('#saveItems').click();
 

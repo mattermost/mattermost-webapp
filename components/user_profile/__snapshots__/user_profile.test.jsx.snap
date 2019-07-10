@@ -19,11 +19,12 @@ exports[`components/UserProfile should match snapshot 1`] = `
     rootClose={true}
     trigger="click"
   >
-    <div
-      className="user-popover"
+    <button
+      aria-label="nickname"
+      className="user-popover style--none"
     >
       nickname
-    </div>
+    </button>
   </OverlayTrigger>
   <BotBadge
     className="badge-popoverlist"

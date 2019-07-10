@@ -26,6 +26,11 @@
         padding: 12px;
         width: 100%;
         margin-top: 4px;
+        &:focus {
+            border: 2px solid;
+            padding: 11px;
+            border-color: var(--button-bg);
+        }
     }
     .help-text {
         margin-top: 8px;
@@ -42,6 +47,8 @@
             height: 48px;
             padding: 13px 26px;
             font-size: 16px;
+            width: 180px;
+            border-radius: 4px;
         }
     }
     .custom-message {
