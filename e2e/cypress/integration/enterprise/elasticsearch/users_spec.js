@@ -127,6 +127,7 @@ describe('Autocomplete', () => {
         describe(`with ${config.name}`, () => {
             before(() => {
                 config.before();
+                cy.apiLogin('sysadmin');
             });
 
             describe('autocomplete', () => {

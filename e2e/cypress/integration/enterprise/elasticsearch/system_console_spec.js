@@ -11,9 +11,6 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Elasticsearch system console', () => {
     before(() => {
-        // # Login as admin
-        cy.apiLogin('sysadmin');
-
         // # Enable Elasticsearch
         cy.apiUpdateConfig({
             ElasticsearchSettings: {
@@ -23,6 +20,9 @@ describe('Elasticsearch system console', () => {
                 Sniff: false,
             },
         });
+
+        // # Login as admin
+        cy.apiLogin('sysadmin');
 
         // # Visit the Elasticsearch settings page
         cy.visit('/admin_console/environment/elasticsearch');

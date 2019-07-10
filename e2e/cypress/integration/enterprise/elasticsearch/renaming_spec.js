@@ -77,7 +77,7 @@ describe('renaming with', () => {
     });
 
     afterEach(() => {
-        cy.reload();
+        cy.get('body').type('{esc}');
     });
 
     configs.forEach((config) => {
@@ -86,7 +86,6 @@ describe('renaming with', () => {
 
             before(() => {
                 config.before();
-                cy.visit(`/${team.name}`);
             });
 
             it('renamed user appears in message input box', () => {
@@ -101,6 +100,7 @@ describe('renaming with', () => {
                 // # Create a new user
                 cy.createNewUser(spiderman, [team.id]).then((userResponse) => {
                     const user = userResponse;
+                    cy.visit(`/${team.name}`);
 
                     // # Verify user appears in search results pre-change
                     searchAndVerifyUser(user);

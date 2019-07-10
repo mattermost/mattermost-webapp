@@ -21,6 +21,8 @@ module.exports = {
             },
         });
 
+        cy.apiLogin('sysadmin');
+
         // Navigate to the elastic search setting page
         cy.visit('/admin_console/environment/elasticsearch');
 

@@ -95,7 +95,7 @@ Cypress.Commands.add('apiCreateChannel', (teamId, name, displayName, type = 'O',
             header,
         },
     }).then((response) => {
-        expect(response.status).to.match(/20\d/);
+        expect(response.status).to.equal(201);
         return cy.wrap(response);
     });
 });
@@ -112,7 +112,7 @@ Cypress.Commands.add('apiDeleteChannel', (channelId) => {
         url: '/api/v4/channels/' + channelId,
         method: 'DELETE',
     }).then((response) => {
-        expect(response.status).to.match(/20\d/);
+        expect(response.status).to.equal(200);
         return cy.wrap(response);
     });
 });
@@ -139,7 +139,7 @@ Cypress.Commands.add('apiUpdateChannel', (channelId, channelData) => {
             ...channelData,
         },
     }).then((response) => {
-        expect(response.status).to.match(/20\d/);
+        expect(response.status).to.equal(200);
         return cy.wrap(response);
     });
 });
@@ -162,7 +162,7 @@ Cypress.Commands.add('apiPatchChannel', (channelId, channelData) => {
         url: `/api/v4/channels/${channelId}/patch`,
         body: channelData,
     }).then((response) => {
-        expect(response.status).to.match(/20\d/);
+        expect(response.status).to.equal(200);
         return cy.wrap(response);
     });
 });
@@ -172,7 +172,7 @@ Cypress.Commands.add('apiGetChannelByName', (channelName) => {
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/channels/name/${channelName}`,
     }).then((response) => {
-        expect(response.status).to.match(/20\d/);
+        expect(response.status).to.equal(200);
         return cy.wrap(response);
     });
 });
@@ -186,7 +186,7 @@ Cypress.Commands.add('apiAddUserToChannel', (channelId, userId) => {
             user_id: userId,
         },
     }).then((response) => {
-        expect(response.status).to.match(/20\d/);
+        expect(response.status).to.equal(201);
         return cy.wrap(response);
     });
 });
@@ -217,7 +217,7 @@ Cypress.Commands.add('apiCreateTeam', (name, displayName, type = 'O') => {
             type,
         },
     }).then((response) => {
-        expect(response.status).to.match(/20\d/);
+        expect(response.status).to.equal(201);
         cy.wrap(response);
     });
 });
@@ -243,7 +243,7 @@ Cypress.Commands.add('apiPatchTeam', (teamId, teamData) => {
         method: 'PUT',
         body: teamData,
     }).then((response) => {
-        expect(response.status).to.match(/20\d/);
+        expect(response.status).to.equal(200);
         cy.wrap(response);
     });
 });
@@ -277,7 +277,7 @@ Cypress.Commands.add('apiAddUserToTeam', (teamId, userId) => {
         body: {team_id: teamId, user_id: userId},
         qs: {team_id: teamId},
     }).then((response) => {
-        expect(response.status).to.match(/20\d/);
+        expect(response.status).to.equal(201);
         return cy.wrap(response);
     });
 });
@@ -413,7 +413,7 @@ Cypress.Commands.add('apiGetUserByEmail', (email) => {
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/email/' + email,
     }).then((response) => {
-        expect(response.status).to.match(/20\d/);
+        expect(response.status).to.equal(200);
         cy.wrap(response);
     });
 });
@@ -425,7 +425,7 @@ Cypress.Commands.add('apiPatchUser', (userId, userData) => {
         url: `/api/v4/users/${userId}/patch`,
         body: userData,
     }).then((response) => {
-        expect(response.status).to.match(/20\d/);
+        expect(response.status).to.equal(200);
         cy.wrap(response);
     });
 });
