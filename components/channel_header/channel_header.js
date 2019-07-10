@@ -448,7 +448,6 @@ export default class ChannelHeader extends React.PureComponent {
 
             toggleFavorite = (
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={toggleFavoriteTooltip}
@@ -478,7 +477,6 @@ export default class ChannelHeader extends React.PureComponent {
         if (channelMuted) {
             muteTrigger = (
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={channelMutedTooltip}

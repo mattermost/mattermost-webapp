@@ -384,7 +384,6 @@ export default class RhsComment extends React.PureComponent {
         if (post.props && post.props.card) {
             postInfoIcon = (
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
                     overlay={
