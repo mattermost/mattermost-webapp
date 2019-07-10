@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Posts} from 'mattermost-redux/constants';
+import {intlShape} from 'react-intl';
 import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
 
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -19,6 +20,16 @@ export default class Post extends React.PureComponent {
          * The post to render
          */
         post: PropTypes.object.isRequired,
+
+        /**
+         * The reactions to use for screen readers
+         */
+        reactions: PropTypes.object,
+
+        /**
+         * Author of the post
+         */
+        author: PropTypes.string,
 
         /**
          * The logged in user ID
@@ -39,6 +50,11 @@ export default class Post extends React.PureComponent {
          * Set to render a preview of the parent post above this reply
          */
         isFirstReply: PropTypes.bool,
+
+        /*
+         * Set to mark the post as flagged
+         */
+        isFlagged: PropTypes.bool,
 
         /**
          * Set to highlight the background of the post
@@ -75,6 +91,10 @@ export default class Post extends React.PureComponent {
             selectPostCard: PropTypes.func.isRequired,
         }).isRequired,
     }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
 
     static defaultProps = {
         post: {},
@@ -237,7 +257,7 @@ export default class Post extends React.PureComponent {
     }
 
     render() {
-        const {post} = this.props;
+        const {post, author, isFlagged, reactions} = this.props;
         if (!post.id) {
             return null;
         }
@@ -285,6 +305,7 @@ export default class Post extends React.PureComponent {
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
                 onTouchStart={this.setHover}
+                aria-label={PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)}
             >
                 <div
                     id='postContent'
