@@ -52,6 +52,18 @@ const AllowAllToggle = ({isSynced, isPublic, onToggle}) =>
                     defaultMessage='If `public` the channel is discoverable and any user can join, or if `private` invitations are required.'
                 />
             )}
+            onText={(
+                <FormattedMessage
+                    id='channel_toggle_button.public'
+                    defaultMessage='Public'
+                />
+            )}
+            offText={(
+                <FormattedMessage
+                    id='channel_toggle_button.private'
+                    defaultMessage='Private'
+                />
+            )}
         />);
 
 AllowAllToggle.propTypes = {
