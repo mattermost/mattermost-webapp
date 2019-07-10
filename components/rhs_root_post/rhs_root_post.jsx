@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
@@ -31,6 +31,8 @@ export default class RhsRootPost extends React.PureComponent {
         currentUserId: PropTypes.string.isRequired,
         compactDisplay: PropTypes.bool,
         commentCount: PropTypes.number.isRequired,
+        author: PropTypes.string,
+        reactions: PropTypes.object,
         isFlagged: PropTypes.bool,
         previewCollapsed: PropTypes.string,
         previewEnabled: PropTypes.bool,
@@ -44,6 +46,10 @@ export default class RhsRootPost extends React.PureComponent {
         channelType: PropTypes.string,
         channelDisplayName: PropTypes.string,
         handleCardClick: PropTypes.func.isRequired,
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     static defaultProps = {
@@ -125,7 +131,7 @@ export default class RhsRootPost extends React.PureComponent {
     };
 
     render() {
-        const {post, isReadOnly, teamId, channelIsArchived, channelType, channelDisplayName} = this.props;
+        const {post, isReadOnly, teamId, channelIsArchived, channelType, channelDisplayName, author, reactions, isFlagged} = this.props;
 
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
@@ -309,6 +315,7 @@ export default class RhsRootPost extends React.PureComponent {
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
                 className={'thread__root ' + this.getClassName(post, isSystemMessage)}
+                aria-label={PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)}
             >
                 <div className='post-right-channel__name'>{channelName}</div>
                 <div className='post__content'>

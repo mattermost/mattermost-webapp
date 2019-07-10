@@ -34,6 +34,13 @@ describe('components/SizeAwareImage', () => {
         expect(style).toHaveProperty('visibility', 'hidden');
     });
 
+    test('img should have inherited class name from prop', () => {
+        const wrapper = mount(<SizeAwareImage {...{...baseProps, className: 'imgClass'}}/>);
+
+        const className = wrapper.find('img').prop('className');
+        expect(className).toEqual('imgClass');
+    });
+
     test('should render a placeholder and has loader when showLoader is true', () => {
         const props = {
             ...baseProps,
