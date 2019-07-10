@@ -23,6 +23,9 @@ describe('Integrations page', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
         // # Go to integrations
         cy.visit('/ad-1/integrations');
 
