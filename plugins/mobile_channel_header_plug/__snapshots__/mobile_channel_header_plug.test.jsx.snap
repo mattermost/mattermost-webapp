@@ -41,17 +41,20 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   theme={Object {}}
 >
   <li
-    className="MenuItem"
-    key="mobileChannelHeaderItemsomeid"
-    role="presentation"
+    className="flex-parent--center"
   >
-    <a
-      href="#"
+    <button
+      className="navbar-toggle navbar-right__icon"
       onClick={[Function]}
-      role="menuitem"
     >
-      some dropdown text
-    </a>
+      <span
+        className="icon navbar-plugin-button"
+      >
+        <i
+          className="fa fa-anchor"
+        />
+      </span>
+    </button>
   </li>
 </MobileChannelHeaderPlug>
 `;

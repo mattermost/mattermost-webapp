@@ -1292,7 +1292,6 @@
             display: flex;
             font-weight: 600;
             margin-right: 7px;
-            overflow: hidden;
             text-overflow: ellipsis;
 
             .user-popover {
@@ -1617,6 +1616,8 @@
         }
 
         .post-reaction-list {
+            display: flex;
+            align-items: center;
             min-height: 30px;
             position: relative;
             z-index: 5;
@@ -1636,24 +1637,24 @@
             @include border-radius(3px);
             border: 1px solid $primary-color;
             cursor: pointer;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
             font-size: 11px;
-            height: 23px;
+            height: 24px;
             margin-bottom: 5px;
             margin-right: 5px;
             padding: 0 4px 0 3px;
 
             .post-reaction__emoji {
-                margin: 2px 3px 0 0;
+                margin: 0 3px 0 0;
                 max-height: 16px;
                 max-width: 16px;
                 vertical-align: middle;
             }
 
             .post-reaction__count {
-                line-height: 10px;
+                top: -1px;
                 position: relative;
-                top: 3px;
             }
 
             .post-reaction__add {
@@ -1961,7 +1962,7 @@
 }
 
 .post__pinned-badge {
-    margin-left: 7px;
+    margin: 0 8px 0 4px;
     position: relative;
     top: -1px;
 }

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {browserHistory} from 'utils/browser_history';
@@ -34,6 +34,11 @@ export default class SidebarChannel extends React.PureComponent {
          * Channel display name
          */
         channelDisplayName: PropTypes.string.isRequired,
+
+        /**
+         * LHS bot icon image url
+         */
+        botIconUrl: PropTypes.string,
 
         /**
          * Channel is muted
@@ -149,6 +154,10 @@ export default class SidebarChannel extends React.PureComponent {
             leaveChannel: PropTypes.func.isRequired,
             openLhs: PropTypes.func.isRequired,
         }).isRequired,
+    }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     }
 
     isLeaving = false;
@@ -269,15 +278,12 @@ export default class SidebarChannel extends React.PureComponent {
 
         let displayName = '';
         if (this.props.currentUserId === this.props.channelTeammateId) {
-            displayName = (
-                <FormattedMessage
-                    id='sidebar.directchannel.you'
-                    defaultMessage='{displayname} (you)'
-                    values={{
-                        displayname: this.props.channelDisplayName,
-                    }}
-                />
-            );
+            displayName = this.context.intl.formatMessage({
+                id: 'sidebar.directchannel.you',
+                defaultMessage: '{displayname} (you)',
+            }, {
+                displayname: this.props.channelDisplayName,
+            });
         } else {
             displayName = this.props.channelDisplayName;
         }
@@ -293,13 +299,16 @@ export default class SidebarChannel extends React.PureComponent {
                     rowClass={rowClass}
                     channelId={this.props.channelId}
                     channelName={this.props.channelName}
+                    botIconUrl={this.props.botIconUrl}
                     channelStatus={this.props.channelStatus}
                     channelType={this.props.channelType}
                     displayName={displayName}
                     handleClose={closeHandler}
                     hasDraft={this.props.hasDraft}
                     badge={badge}
+                    showUnreadForMsgs={this.props.showUnreadForMsgs}
                     unreadMentions={this.props.unreadMentions}
+                    unreadMsgs={this.props.unreadMsgs}
                     membersCount={this.props.membersCount}
                     teammateId={this.props.channelTeammateId}
                     teammateDeletedAt={this.props.channelTeammateDeletedAt}

@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/post_list snapshot for loading when there are no posts 1`] = `
+<div
+  id="post-list"
+>
+  <LoadingScreen
+    key="loading"
+    position="absolute"
+    style={Object {}}
+  />
+</div>
+`;
+
+exports[`components/post_view/post_list snapshot with couple of posts 1`] = `
+<div
+  id="post-list"
+>
+  <div
+    className="post-list-holder-by-time"
+    key="postlist-fake-id"
+  >
+    <div
+      className="post-list__table"
+    >
+      <div
+        className="post-list__content"
+        id="postListContent"
+      >
+        <PostList
+          actions={
+            Object {
+              "canLoadMorePosts": [Function],
+              "changeUnreadChunkTimeStamp": [MockFunction],
+              "checkAndSetMobileView": [MockFunction],
+              "loadNewerPosts": [Function],
+              "loadOlderPosts": [Function],
+            }
+          }
+          autoRetryEnable={true}
+          channelId="fake-id"
+          newerPosts={
+            Object {
+              "allLoaded": false,
+              "loading": false,
+            }
+          }
+          olderPosts={
+            Object {
+              "allLoaded": false,
+              "loading": false,
+            }
+          }
+          postListIds={
+            Array [
+              "12341",
+              "12342",
+            ]
+          }
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -152,6 +152,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
+            padding-left: 3px;
 
             div {
                 display: inline;
@@ -259,7 +260,6 @@
     height: 100px;
     margin: 5px 10px 5px 0;
     max-width: 100%;
-    overflow: hidden;
     position: relative;
     width: 320px;
 
@@ -339,10 +339,10 @@
     flex: none;
     height: 100%;
     width: 100px;
+    z-index: 1;
 }
 
 .post-image__details {
-    @include clearfix;
     position: relative;
     align-items: center;
     border-left: 1px solid $light-gray;
@@ -372,6 +372,10 @@
                 margin-bottom: 3px;
                 outline: none;
                 text-decoration: none;
+
+                a {
+                    border-radius: 100px;
+                }
             }
 
             .post-image__type {
