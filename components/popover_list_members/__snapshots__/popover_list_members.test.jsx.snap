@@ -21,7 +21,12 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
       </Tooltip>
     }
     placement="bottom"
-    trigger="hover"
+    trigger={
+      Array [
+        "hover",
+        "click",
+      ]
+    }
   >
     <button
       aria-label="members"
@@ -123,7 +128,12 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
       </Tooltip>
     }
     placement="bottom"
-    trigger="hover"
+    trigger={
+      Array [
+        "hover",
+        "click",
+      ]
+    }
   >
     <button
       aria-label="members"
@@ -225,7 +235,12 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
       </Tooltip>
     }
     placement="bottom"
-    trigger="hover"
+    trigger={
+      Array [
+        "hover",
+        "click",
+      ]
+    }
   >
     <button
       aria-label="members"
@@ -336,7 +351,12 @@ exports[`components/PopoverListMembers should match state when showChannelInvite
       </Tooltip>
     }
     placement="bottom"
-    trigger="hover"
+    trigger={
+      Array [
+        "hover",
+        "click",
+      ]
+    }
   >
     <button
       aria-label="members"

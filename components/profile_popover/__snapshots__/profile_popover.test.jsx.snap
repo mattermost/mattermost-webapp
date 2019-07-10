@@ -1,9 +1,80 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/ProfilePopover should hide add-to-channel option if not on team 1`] = `
+<Popover
+  bsClass="popover"
+  id="user-profile-popover"
+  isInCurrentTeam={false}
+  placement="right"
+  title={
+    <span>
+      <span
+        className="user-popover__username"
+      >
+        @some_username
+      </span>
+    </span>
+  }
+>
+  <img
+    alt="some_username profile image"
+    className="user-popover__image"
+    height="128"
+    key="user-popover-image"
+    src="src"
+    width="128"
+  />
+  <Connect(Pluggable)
+    key="profilePopoverPluggable2"
+    pluggableName="PopoverUserAttributes"
+    status="offline"
+    user={
+      Object {
+        "name": "some name",
+        "username": "some_username",
+      }
+    }
+  />
+  <div
+    className="popover__row first"
+    data-toggle="tooltip"
+    key="user-popover-dm"
+  >
+    <a
+      className="text-nowrap user-popover__email"
+      href="#"
+      onClick={[Function]}
+    >
+      <i
+        className="fa fa-paper-plane"
+        title="Send Message Icon"
+      />
+      <FormattedMessage
+        defaultMessage="Send Message"
+        id="user_profile.send.dm"
+        values={Object {}}
+      />
+    </a>
+  </div>
+  <Connect(Pluggable)
+    key="profilePopoverPluggable3"
+    pluggableName="PopoverUserActions"
+    status="offline"
+    user={
+      Object {
+        "name": "some name",
+        "username": "some_username",
+      }
+    }
+  />
+</Popover>
+`;
+
 exports[`components/ProfilePopover should match snapshot 1`] = `
 <Popover
   bsClass="popover"
   id="user-profile-popover"
+  isInCurrentTeam={true}
   placement="right"
   title={
     <span>

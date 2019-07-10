@@ -33,7 +33,12 @@ import {
 import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 
 import * as TeamActions from 'mattermost-redux/actions/teams';
-import {getMe, getStatusesByIds, getProfilesByIds} from 'mattermost-redux/actions/users';
+import {
+    checkForModifiedUsers,
+    getMe,
+    getMissingProfilesByIds,
+    getStatusesByIds,
+} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
@@ -143,6 +148,7 @@ export function reconnect(includeWebSocket = true) {
 
     dispatch({
         type: GeneralTypes.WEBSOCKET_SUCCESS,
+        timestamp: Date.now(),
     });
 
     loadPluginsIfNecessary();
@@ -153,9 +159,9 @@ export function reconnect(includeWebSocket = true) {
         }
     });
 
-    const currentTeamId = getState().entities.teams.currentTeamId;
+    const state = getState();
+    const currentTeamId = state.entities.teams.currentTeamId;
     if (currentTeamId) {
-        const state = getState();
         const currentChannelId = getCurrentChannelId(state);
         const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
         const mostRecentPost = getPost(state, mostRecentId);
@@ -169,6 +175,10 @@ export function reconnect(includeWebSocket = true) {
         }
         StatusActions.loadStatusesForChannelAndSidebar();
         dispatch(TeamActions.getMyTeamUnreads());
+    }
+
+    if (state.websocket.lastDisconnectAt) {
+        dispatch(checkForModifiedUsers());
     }
 
     dispatch(resetWsErrorCount());
@@ -217,7 +227,10 @@ export function unregisterAllPluginWebSocketEvents(pluginId) {
 
 function handleFirstConnect() {
     dispatch(batchActions([
-        {type: GeneralTypes.WEBSOCKET_SUCCESS},
+        {
+            type: GeneralTypes.WEBSOCKET_SUCCESS,
+            timestamp: Date.now(),
+        },
         clearErrors(),
     ]));
 }
@@ -227,7 +240,10 @@ function handleClose(failCount) {
         dispatch(logError({type: 'critical', message: AnnouncementBarMessages.WEBSOCKET_PORT_ERROR}, true));
     }
     dispatch(batchActions([
-        {type: GeneralTypes.WEBSOCKET_FAILURE},
+        {
+            type: GeneralTypes.WEBSOCKET_FAILURE,
+            timestamp: Date.now(),
+        },
         incrementWsErrorCount(),
     ]));
 }
@@ -328,7 +344,7 @@ function handleEvent(msg) {
         break;
 
     case SocketEvents.TYPING:
-        handleUserTypingEvent(msg);
+        dispatch(handleUserTypingEvent(msg));
         break;
 
     case SocketEvents.STATUS_CHANGED:
@@ -769,39 +785,40 @@ function addedNewDmUser(preference) {
     return preference.category === Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW && preference.value === 'true';
 }
 
-function handleUserTypingEvent(msg) {
-    const state = getState();
-    const config = getConfig(state);
-    const currentUserId = getCurrentUserId(state);
-    const currentUser = getCurrentUser(state);
-    const userId = msg.data.user_id;
+export function handleUserTypingEvent(msg) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        const config = getConfig(state);
+        const currentUserId = getCurrentUserId(state);
+        const userId = msg.data.user_id;
 
-    const data = {
-        id: msg.broadcast.channel_id + msg.data.parent_id,
-        userId,
-        now: Date.now(),
-    };
+        const data = {
+            id: msg.broadcast.channel_id + msg.data.parent_id,
+            userId,
+            now: Date.now(),
+        };
 
-    dispatch({
-        type: WebsocketEvents.TYPING,
-        data,
-    }, getState);
-
-    setTimeout(() => {
-        dispatch({
-            type: WebsocketEvents.STOP_TYPING,
+        doDispatch({
+            type: WebsocketEvents.TYPING,
             data,
         });
-    }, parseInt(config.TimeBetweenUserTypingUpdatesMilliseconds, 10));
 
-    if (!currentUser && userId !== currentUserId) {
-        getProfilesByIds([userId])(dispatch, getState);
-    }
+        setTimeout(() => {
+            doDispatch({
+                type: WebsocketEvents.STOP_TYPING,
+                data,
+            });
+        }, parseInt(config.TimeBetweenUserTypingUpdatesMilliseconds, 10));
 
-    const status = getStatusForUserId(state, userId);
-    if (status !== General.ONLINE) {
-        getStatusesByIds([userId])(dispatch, getState);
-    }
+        if (userId !== currentUserId) {
+            doDispatch(getMissingProfilesByIds([userId]));
+        }
+
+        const status = getStatusForUserId(state, userId);
+        if (status !== General.ONLINE) {
+            doDispatch(getStatusesByIds([userId]));
+        }
+    };
 }
 
 function handleStatusChangedEvent(msg) {
