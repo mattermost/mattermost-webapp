@@ -30,13 +30,13 @@ $toggle-default-font-size: .75rem;
 @mixin toggle-mixin($size: $toggle-default-size, $margin: $toggle-default-margin, $font-size: $toggle-default-font-size){
     // color: $color;
     // background: $bg;
-    margin: 0 $margin;
     padding: 0;
     position: relative;
     border: none;
     height: $size;
-    width: $size * 2;
+    min-width: $size * 2;
     border-radius: $size;
+    float: right;
 
     &:focus,
     &.focus {
@@ -48,18 +48,19 @@ $toggle-default-font-size: .75rem;
 
     > .handle {
         position: absolute;
-        top: ($size * .25) / 2;
-        left: ($size * .25) / 2;
-        width: $size * .75;
-        height: $size * .75;
-        border-radius: $size * .75;
+        top: 0.4rem;
+        left: 0.4rem;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 1rem;
         background: #fff;
         transition: left .25s;
     }
     &.active {
         transition: background-color .25s;
         > .handle {
-            left: $size + (($size * .25) / 2);
+            left: inherit;
+            right: 0.4rem;
             transition: left .25s;
         }
     }
@@ -73,7 +74,7 @@ $toggle-default-font-size: .75rem;
     @include toggle-color;
 
     &.btn-lg {
-        @include toggle-mixin($size: 2.5rem, $font-size: 1rem, $margin: 5rem);
+        @include toggle-mixin($size: 2.8rem, $font-size: 1rem, $margin: 5rem);
     }
 
     &.btn-sm {
@@ -82,5 +83,18 @@ $toggle-default-font-size: .75rem;
 
     &.btn-xs {
         @include toggle-mixin($size:1rem,$margin:0);
+    }
+
+    .bg-text {
+        font-size: 1.4rem;
+        color: #fff;
+        font-weight: 600;
+
+        &.off {
+            padding: 0 1.6rem 0 3.4rem;
+        }
+        &.on {
+            padding: 0 3.4rem 0 1.6rem;
+        }
     }
 }

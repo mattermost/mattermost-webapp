@@ -20,6 +20,7 @@ exports[`components/UserProfile should match snapshot 1`] = `
     trigger="click"
   >
     <button
+      aria-label="nickname"
       className="user-popover style--none"
     >
       nickname

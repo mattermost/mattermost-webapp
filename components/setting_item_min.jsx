@@ -80,6 +80,7 @@ export default class SettingItemMin extends React.PureComponent {
                         className='color--link cursor--pointer style--none'
                         onClick={this.handleUpdateSection}
                         ref={this.getEdit}
+                        aria-labelledby={this.props.section + 'Title ' + this.props.section + 'Edit'}
                     >
                         <EditIcon/>
                         {this.props.describe}
@@ -94,6 +95,7 @@ export default class SettingItemMin extends React.PureComponent {
                         className='color--link cursor--pointer style--none text-left'
                         onClick={this.handleUpdateSection}
                         ref={this.getEdit}
+                        aria-labelledby={this.props.section + 'Title ' + this.props.section + 'Edit'}
                     >
                         <EditIcon/>
                         <FormattedMessage

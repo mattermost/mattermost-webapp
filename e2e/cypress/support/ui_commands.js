@@ -167,7 +167,7 @@ Cypress.Commands.add('getNthPostId', (nthPost) => {
  */
 Cypress.Commands.add('postMessageFromFile', (file, target = '#post_textbox') => {
     cy.fixture(file, 'utf-8').then((text) => {
-        cy.get(target).clear().invoke('val', text).wait(TIMEOUTS.TINY).type(' {backspace}{enter}').should('have.text', '');
+        cy.get(target).clear().invoke('val', text).wait(TIMEOUTS.MEDIUM).type(' {backspace}{enter}').should('have.text', '');
     });
 });
 

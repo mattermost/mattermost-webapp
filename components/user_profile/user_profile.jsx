@@ -83,7 +83,10 @@ export default class UserProfile extends PureComponent {
                         />
                     }
                 >
-                    <button className='user-popover style--none'>
+                    <button
+                        aria-label={name.toLowerCase()}
+                        className='user-popover style--none'
+                    >
                         {name}
                     </button>
                 </OverlayTrigger>

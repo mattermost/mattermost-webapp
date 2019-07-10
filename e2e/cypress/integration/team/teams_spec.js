@@ -137,9 +137,11 @@ describe('Teams Suite', () => {
 
         leaveAllTeams();
 
-        cy.get('a.signup-team-login').should('contain', 'Create a new team');
+        // * Check that it redirects into team selection page after leaving all teams
+        cy.url().should('include', '/select_team');
 
-        cy.logout();
+        // # Check that logout is visible and then click to logout
+        cy.get('#logout').should('be.visible').click();
 
         // * Ensure user is logged out
         cy.url({timeout: TIMEOUTS.LARGE}).should('include', 'login');
