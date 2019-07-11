@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import Constants, {EventTypes, A11yClassNames, A11yAttributeNames, A11yCustomEventTypes} from 'utils/constants.jsx';
-import {isKeyPressed, cmdOrCtrlPressed, isDesktopApp} from 'utils/utils';
+import {isKeyPressed, cmdOrCtrlPressed, isMac} from 'utils/utils';
+import {isDesktopApp} from 'utils/user_agent';
 
 const listenerOptions = {
     capture: true,
@@ -403,6 +404,9 @@ export default class A11yController {
         };
         switch (true) {
         case isKeyPressed(event, Constants.KeyCodes.TAB):
+            if ((!isMac() && modifierKeys.altIsPressed) || cmdOrCtrlPressed(event)) {
+                return;
+            }
             this.a11yKeyEngaged = true;
             break;
         case isKeyPressed(event, Constants.KeyCodes.TILDE):
@@ -417,7 +421,7 @@ export default class A11yController {
             }
             break;
         case isKeyPressed(event, Constants.KeyCodes.F6):
-            if (!isDesktopApp && !cmdOrCtrlPressed(event)) {
+            if (!isDesktopApp() && !cmdOrCtrlPressed(event)) {
                 return;
             }
             this.a11yKeyEngaged = true;
@@ -457,16 +461,8 @@ export default class A11yController {
         }
     }
 
-    handleKeyUp = (event) => {
-        switch (true) {
-        case isKeyPressed(event, Constants.KeyCodes.TAB):
-        case isKeyPressed(event, Constants.KeyCodes.TILDE):
-        case isKeyPressed(event, Constants.KeyCodes.UP):
-        case isKeyPressed(event, Constants.KeyCodes.DOWN):
-        case isKeyPressed(event, Constants.KeyCodes.F6):
-            this.a11yKeyEngaged = false;
-            break;
-        }
+    handleKeyUp = () => {
+        this.a11yKeyEngaged = false;
     }
 
     handleMouseClick = (event) => {
@@ -477,10 +473,6 @@ export default class A11yController {
     }
 
     handleFocus = (event) => {
-        // clicking on a focusable element will trigger this event, check if tabbing is supposed to be disabled
-        if (event.target.getAttribute('tabindex') === '-1') {
-            return;
-        }
         this.nextElement(event.target, event.path);
     }
 
