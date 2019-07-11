@@ -29,21 +29,16 @@ export default class PostProfilePicture extends React.PureComponent {
         status: UserStatuses.OFFLINE,
     };
 
-    getProfilePicSrc = () => {
+    getProfilePictureURL = () => {
         const {post, user} = this.props;
 
-        if (this.props.compactDisplay) {
-            return '';
-        }
-
-        let src = '';
         if (user && user.id === post.user_id) {
-            src = Utils.imageURLForUser(user);
+            return Utils.imageURLForUser(user);
         } else if (post.user_id) {
-            src = Utils.imageURLForUser(post.user_id);
+            return Utils.imageURLForUser(post.user_id);
         }
 
-        return src;
+        return '';
     };
 
     getStatus = (fromAutoResponder, fromWebhook, user) => {
@@ -59,14 +54,18 @@ export default class PostProfilePicture extends React.PureComponent {
         const postIconOverrideURL = post.props.override_icon_url;
         const useUserIcon = post.props.use_user_icon;
 
-        if (enablePostIconOverride) {
+        if (this.props.compactDisplay) {
+            return '';
+        }
+
+        if (!fromAutoResponder && fromWebhook && !useUserIcon && enablePostIconOverride) {
             if (postIconOverrideURL && postIconOverrideURL !== '') {
                 return PostUtils.getImageSrc(postIconOverrideURL, hasImageProxy);
             }
-            if (!fromAutoResponder && fromWebhook && !useUserIcon && enablePostIconOverride) {
-                return Constants.DEFAULT_WEBHOOK_LOGO;
-            }
+
+            return Constants.DEFAULT_WEBHOOK_LOGO;
         }
+
         return defaultURL;
     };
 
@@ -89,7 +88,7 @@ export default class PostProfilePicture extends React.PureComponent {
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
 
         const hasMention = !fromAutoResponder && !fromWebhook;
-        const profileSrc = this.getProfilePicSrc(fromAutoResponder, fromWebhook);
+        const profileSrc = this.getProfilePictureURL();
         const src = this.getPostIconURL(profileSrc, fromAutoResponder, fromWebhook);
 
         // if it's relative we assume it's a link to an emoji
