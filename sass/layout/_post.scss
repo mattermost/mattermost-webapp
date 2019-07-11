@@ -1617,6 +1617,7 @@
 
         .post-reaction-list {
             display: flex;
+            padding: 4px 0 0;
             align-items: center;
             min-height: 30px;
             position: relative;
@@ -1662,7 +1663,6 @@
                 line-height: 0;
                 margin: 0 5px;
                 position: relative;
-                top: 1px;
                 vertical-align: middle;
             }
 
