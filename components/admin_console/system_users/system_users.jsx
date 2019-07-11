@@ -378,12 +378,9 @@ export default class SystemUsers extends React.Component {
                                 experimentalEnableAuthenticationTransfer={this.props.experimentalEnableAuthenticationTransfer}
                             />
                         </div>
-                    </div>
-
-                    <SystemPermissionGate permissions={[Permissions.REVOKE_USER_ACCESS_TOKEN]}>
-                        {revokeAllUsersModal}
-                        <div className='admin-console__content'>
-                            <div className='help-text'>
+                        <SystemPermissionGate permissions={[Permissions.REVOKE_USER_ACCESS_TOKEN]}>
+                            {revokeAllUsersModal}
+                            <div className='padding-top padding-bottom x2'>
                                 <button
                                     id='revoke-all-users'
                                     className='btn btn-default'
@@ -395,8 +392,8 @@ export default class SystemUsers extends React.Component {
                                     />
                                 </button>
                             </div>
-                        </div>
-                    </SystemPermissionGate>
+                        </SystemPermissionGate>
+                    </div>
                 </div>
             </div>
         );
