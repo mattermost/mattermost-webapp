@@ -41,13 +41,7 @@ describe('Test Tutorial Navigation', () => {
         checkStepTwo();
 
         // * Test the App Download Image link to ensure it returns a 200 result.
-        cy.get('#appDownloadImage').then(($a) => {
-            const href = $a.prop('href');
-
-            cy.request(href).then((response) => {
-                expect(response.status).to.eq(200);
-            });
-        });
+        cy.request('href').its('status').should('equal', 200);
 
         //* Check the Off-Topic sidebar link to ensure it is not active.
         cy.get('#sidebarItem_off-topic').parent().should('not.have.class', 'active');
@@ -73,10 +67,10 @@ describe('Test Tutorial Navigation', () => {
         // * Verify that the Off-Topic channel displays.
         checkOffTopicChannel();
 
-        // # Logg the current user out.
+        // # Log the current user out.
         cy.apiLogout();
 
-        // # Create another new user with the tutorial bypass flag set to true.
+        // # Create another new user with the tutorial bypass flag set to false.
         cy.loginAsNewUser({}, false);
 
         // * Verify that the first step of the tutorial displays.

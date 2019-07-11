@@ -353,10 +353,10 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
 /**
  * Creates a new user via the API, adds them to 3 teams, and sets preference to bypass tutorial.
  * Then logs in as the user
- @param {Object} user - Object of user email, username, and password that you can optionally set.
-        [Array] teamIDs - list of teams to add the new user to
-        Boolean bypassTutorial - whether to set user preferences to bypass the tutorial on first login (true) or to show it (false)
-        Otherwise use default values
+ * @param {Object} user - Object of user email, username, and password that you can optionally set.
+ * @param {Array} teamIDs - list of teams to add the new user to
+ * @param {Boolean} bypassTutorial - whether to set user preferences to bypass the tutorial on first login (true) or to show it (false)
+ * Otherwise use default values
  @returns {Object} Returns object containing email, username, id and password if you need it further in the test
  */
 
@@ -412,9 +412,9 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = [], bypassTutorial =
 /**
  * Creates a new user via the API , adds them to 3 teams, and sets preference to bypass tutorial.
  * Then logs in as the user
- @param {Object} user - Object of user email, username, and password that you can optionally set.
-        Boolean bypassTutorial - Whether to set user preferences to bypass the tutorial (true) or to show it (false)
-        Otherwise use default values
+ * @param {Object} user - Object of user email, username, and password that you can optionally set.
+ * @param {Boolean} bypassTutorial - Whether to set user preferences to bypass the tutorial (true) or to show it (false)
+ * Otherwise use default values
  @returns {Object} Returns object containing email, username, id and password if you need it further in the test
  */
 Cypress.Commands.add('loginAsNewUser', (user = {}, bypassTutorial = true) => {
