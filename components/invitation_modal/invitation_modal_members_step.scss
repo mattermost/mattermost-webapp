@@ -29,6 +29,9 @@
             color: var(--center-channel-color-50);
         }
         .share-link-input-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             flex-grow: 0;
             border: 1px solid;
             border-color: var(--button-bg);
@@ -40,7 +43,11 @@
             font-size: 16px;
             span {
                 display: inline-block;
-                margin-right: 9px
+                margin-right: 9px;
+                height: 24px;
+            }
+            svg {
+                fill: var(--button-bg);
             }
         }
         .help-text {
