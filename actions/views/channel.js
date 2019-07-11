@@ -120,7 +120,7 @@ export function leaveChannel(channelId) {
         if (!prevChannel || !getMyChannelMemberships(getState())[prevChannel.id]) {
             LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id);
         }
-        if (getMyChannels(getState()).filter((c) => c.type === 'O' || c.type === 'P').length === 0) {
+        if (getMyChannels(getState()).filter((c) => c.type === Constants.OPEN_CHANNEL || c.type === Constants.PRIVATE_CHANNEL).length === 0) {
             LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id);
             dispatch(selectTeam(''));
             dispatch({type: TeamTypes.LEAVE_TEAM, data: currentTeam});

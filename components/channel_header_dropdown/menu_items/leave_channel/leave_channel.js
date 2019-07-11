@@ -45,6 +45,10 @@ export default class LeaveChannel extends React.PureComponent {
         }).isRequired,
     };
 
+    static defaultProps = {
+        isGuestUser: false,
+    }
+
     handleLeave = (e) => {
         e.preventDefault();
 
