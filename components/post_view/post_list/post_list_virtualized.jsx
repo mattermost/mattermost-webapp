@@ -340,13 +340,14 @@ export default class PostList extends React.PureComponent {
         }
 
         if (scrollUpdateWasRequested) { //if scroll change is programatically requested i.e by calling scrollTo
-            const postsRenderedRange = this.listRef.current._getRangeToRender();
+            //This is a private method on virtlist
+            const postsRenderedRange = this.listRef.current._getRangeToRender(); //eslint-disable-line no-underscore-dangle
 
             // postsRenderedRange[3] is the visibleStopIndex which is post at the bottom of the screen
             if (postsRenderedRange[3] <= 1 && canLoadNewerPosts) {
                 this.props.actions.canLoadMorePosts(PostRequestTypes.AFTER_ID);
             }
-        };
+        }
 
         this.checkBottom(scrollOffset, scrollHeight, clientHeight);
     }

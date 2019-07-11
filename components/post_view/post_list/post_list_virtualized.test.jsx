@@ -159,6 +159,26 @@ describe('PostList', () => {
 
             expect(baseProps.actions.canLoadMorePosts).toHaveBeenCalledWith(PostRequestTypes.AFTER_ID);
         });
+
+        test('should not call canLoadMorePosts with AFTER_ID if loader is below the fold by couple of messages', () => {
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            const instance = wrapper.instance();
+
+            const scrollOffset = 1234;
+            const scrollHeight = 1000;
+            const clientHeight = 500;
+
+            instance.listRef = {current: {_getRangeToRender: () => [0, 70, 12, 2]}};
+            instance.onScroll({
+                scrollDirection: 'forward',
+                scrollOffset,
+                scrollUpdateWasRequested: true,
+                scrollHeight,
+                clientHeight,
+            });
+
+            expect(baseProps.actions.canLoadMorePosts).not.toHaveBeenCalled();
+        });
     });
 
     describe('isAtBottom', () => {
