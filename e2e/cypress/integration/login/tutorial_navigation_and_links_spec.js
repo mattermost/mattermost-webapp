@@ -41,7 +41,9 @@ describe('Test Tutorial Navigation', () => {
         checkStepTwo();
 
         // * Test the App Download Image link to ensure it returns a 200 result.
-        cy.request('href').its('status').should('equal', 200);
+        cy.get('#appDownloadImage').should('have.attr', 'href').then((href) => {
+            cy.request(href).its('status').should('equal', 200);
+        });
 
         //* Check the Off-Topic sidebar link to ensure it is not active.
         cy.get('#sidebarItem_off-topic').parent().should('not.have.class', 'active');
