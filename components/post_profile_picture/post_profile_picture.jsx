@@ -91,6 +91,9 @@ export default class PostProfilePicture extends React.PureComponent {
         const hasMention = !fromAutoResponder && !fromWebhook;
         const profileSrc = this.getProfilePicSrc(fromAutoResponder, fromWebhook);
         const src = this.getPostIconURL(profileSrc, fromAutoResponder, fromWebhook);
+
+        // if it's relative we assume it's a link to an emoji
+        const isEmoji = src.startsWith('/') && src !== Constants.DEFAULT_WEBHOOK_LOGO;
         const status = this.getStatus(fromAutoResponder, fromWebhook, user);
 
         return (
@@ -100,6 +103,7 @@ export default class PostProfilePicture extends React.PureComponent {
                 isRHS={isRHS}
                 src={src}
                 profileSrc={profileSrc}
+                isEmoji={isEmoji}
                 status={status}
                 userId={user ? user.id : null}
                 username={user ? user.username : null}

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger} from 'react-bootstrap';
 
-import Constants from 'utils/constants';
 import ProfilePopover from 'components/profile_popover';
 import StatusIcon from 'components/status_icon';
 
@@ -14,6 +13,7 @@ export default class ProfilePicture extends React.PureComponent {
         width: '36',
         height: '36',
         isRHS: false,
+        isEmoji: false,
         hasMention: false,
     };
 
@@ -28,6 +28,7 @@ export default class ProfilePicture extends React.PureComponent {
         isBusy: PropTypes.bool,
         isRHS: PropTypes.bool,
         hasMention: PropTypes.bool,
+        isEmoji: PropTypes.bool,
     };
 
     hideProfilePopover = () => {
@@ -38,7 +39,8 @@ export default class ProfilePicture extends React.PureComponent {
         const profileSrc = (typeof this.props.profileSrc === 'string' && this.props.profileSrc !== '') ?
             this.props.profileSrc :
             this.props.src;
-        const overridenSrc = profileSrc !== this.props.src && this.props.src !== Constants.DEFAULT_WEBHOOK_LOGO;
+
+        const profileIconClass = `profile-icon ${this.props.isEmoji ? 'emoji' : ''}`;
 
         if (this.props.userId) {
             return (
@@ -59,13 +61,15 @@ export default class ProfilePicture extends React.PureComponent {
                     }
                 >
                     <span className='status-wrapper'>
-                        <img
-                            className={'more-modal__image ' + (overridenSrc ? 'overriden' : 'rounded')}
-                            alt={`${this.props.username || 'user'} profile image`}
-                            width={this.props.width}
-                            height={this.props.width}
-                            src={this.props.src}
-                        />
+                        <span className={profileIconClass}>
+                            <img
+                                className='more-modal__image'
+                                alt={`${this.props.username || 'user'} profile image`}
+                                width={this.props.width}
+                                height={this.props.width}
+                                src={this.props.src}
+                            />
+                        </span>
                         <StatusIcon status={this.props.status}/>
                     </span>
                 </OverlayTrigger>
@@ -73,13 +77,15 @@ export default class ProfilePicture extends React.PureComponent {
         }
         return (
             <span className='status-wrapper'>
-                <img
-                    className={'more-modal__image ' + (overridenSrc ? 'overriden' : 'rounded')}
-                    alt=''
-                    width={this.props.width}
-                    height={this.props.width}
-                    src={this.props.src}
-                />
+                <span className={profileIconClass}>
+                    <img
+                        className='more-modal__image'
+                        alt=''
+                        height={this.props.width}
+                        width={this.props.width}
+                        src={this.props.src}
+                    />
+                </span>
                 <StatusIcon status={this.props.status}/>
             </span>
         );
