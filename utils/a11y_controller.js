@@ -20,8 +20,21 @@ export default class A11yController {
 
         this.a11yKeyEngaged = false;
 
+        this.modalIsOpen = false;
+        this.popupOsOpen = false;
+
         // used to reset navigation whenever navigation within a region occurs (section or element)
         this.resetNavigation = false;
+
+        this.bodyTagObserver = new MutationObserver(this.handleBodyTagUpdates);
+        this.bodyTagObserver.observe(document.getElementsByTagName('body')[0], {
+            attributes: true,
+            characterData: false,
+            childList: false,
+            subtree: false,
+            attributeOldValue: true,
+            characterDataOldValue: false,
+        });
 
         document.addEventListener(EventTypes.KEY_DOWN, this.handleKeyDown, listenerOptions);
         document.addEventListener(EventTypes.KEY_UP, this.handleKeyUp, listenerOptions);
@@ -108,7 +121,7 @@ export default class A11yController {
 
     nextRegion() {
         const regions = this.regions;
-        if (!regions || !regions.length) {
+        if (this.modalIsOpen || this.popupOsOpen || !regions || !regions.length) {
             return;
         }
         let newRegion;
@@ -124,7 +137,7 @@ export default class A11yController {
 
     previousRegion() {
         const regions = this.regions;
-        if (!regions || !regions.length) {
+        if (this.modalIsOpen || this.popupOsOpen || !regions || !regions.length) {
             return;
         }
         let newRegion;
@@ -142,7 +155,7 @@ export default class A11yController {
 
     nextSection() {
         const sections = this.sections;
-        if (!sections || !sections.length) {
+        if (this.modalIsOpen || this.popupOsOpen || !sections || !sections.length) {
             return;
         }
         let newSection;
@@ -158,7 +171,7 @@ export default class A11yController {
 
     previousSection() {
         const sections = this.sections;
-        if (!sections || !sections.length) {
+        if (this.modalIsOpen || this.popupOsOpen || !sections || !sections.length) {
             return;
         }
         let newSection;
@@ -395,6 +408,16 @@ export default class A11yController {
     }
 
     // event handling methods
+
+    handleBodyTagUpdates = (mutations) => {
+        mutations.forEach((mutation) => {
+            switch (mutation.attributeName) {
+            case 'class':
+                this.modalIsOpen = document.getElementsByTagName('body')[0].classList.contains('modal-open');
+                break;
+            }
+        });
+    }
 
     handleKeyDown = (event) => {
         const modifierKeys = {
