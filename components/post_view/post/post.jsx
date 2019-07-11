@@ -299,7 +299,7 @@ export default class Post extends React.PureComponent {
                 id={'post_' + post.id}
                 role='listitem'
                 className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}`}
-                tabIndex='-1'
+                tabIndex='0'
                 onFocus={this.setFocus}
                 onBlur={this.removeFocus}
                 onMouseOver={this.setHover}
