@@ -1789,7 +1789,7 @@
   "create_team.team_url.unavailable": "Esta dirección URL ya está en uso ó no está disponible. Por favor, pruebe con otra.",
   "create_team.team_url.webAddress": "Escoge la dirección web para tu nuevo equipo:",
   "custom_emoji.header": "Emoticonos Personalizados",
-  "deactivate_member_modal.deactivate": "Revocar todas las sesiones",
+  "deactivate_member_modal.deactivate": "Desactivar",
   "deactivate_member_modal.desc": "Esta acción desactiva a {username}. Se cerrará la sesión del usuario y no tendrá acceso a ningún equipo o canal en este sistema. ¿Estás seguro de querer desactivar a {username}?",
   "deactivate_member_modal.sso_warning": "También debes desactivar este usuario en el proveedor de SSO o ellos podrán ser reactivados la próxima vez que inicien sesión u ocurra una sincronización.",
   "deactivate_member_modal.title": "Descativar a {username}",

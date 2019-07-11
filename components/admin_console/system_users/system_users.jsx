@@ -268,7 +268,7 @@ export default class SystemUsers extends React.Component {
         const confirmButtonClass = 'btn btn-danger';
         const revokeAllButton = (
             <FormattedMessage
-                id='deactivate_member_modal.deactivate'
+                id='admin.system_users.revoke_all_sessions_button'
                 defaultMessage='Revoke All Sessions'
             />
         );
