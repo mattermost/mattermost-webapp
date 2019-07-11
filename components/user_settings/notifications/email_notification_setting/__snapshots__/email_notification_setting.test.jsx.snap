@@ -141,6 +141,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
         >
           <li
             className="setting-list-item"
+            role="presentation"
           >
             <div
               key="userNotificationEmailOptions"
@@ -512,6 +513,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
         >
           <li
             className="setting-list-item"
+            role="presentation"
           >
             <div
               key="userNotificationEmailOptions"

@@ -109,6 +109,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
         >
           <li
             className="setting-list-item"
+            role="presentation"
           >
             <div
               className="checkbox"
@@ -332,6 +333,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
         >
           <li
             className="setting-list-item"
+            role="presentation"
           >
             <div
               className="checkbox"
