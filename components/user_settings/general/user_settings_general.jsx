@@ -869,7 +869,6 @@ class UserSettingsGeneralTab extends React.Component {
                     clientError={clientError}
                     updateSection={this.updateSection}
                     extraInfo={extraInfo}
-                    aria-hidden='false'
                 />
             );
         } else {
