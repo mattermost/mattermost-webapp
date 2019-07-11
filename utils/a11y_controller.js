@@ -109,7 +109,7 @@ export default class A11yController {
             return;
         }
         let newRegion;
-        if (!this.activeRegion || this.activeRegionIndex === regions.length - 1 || (this.resetNavigation && this.activeRegionIndex !== 0)) {
+        if (!this.activeRegion || this.activeRegionIndex === regions.length - 1 || (this.resetNavigation)) {
             newRegion = regions[0];
         } else {
             newRegion = regions[this.activeRegionIndex + 1];
