@@ -20,6 +20,8 @@ import MentionableRenderer from 'utils/markdown/mentionable_renderer';
 import * as Utils from 'utils/utils.jsx';
 import {isMobile} from 'utils/user_agent.jsx';
 
+import * as Emoticons from './emoticons.jsx';
+
 const CHANNEL_SWITCH_IGNORE_ENTER_THRESHOLD_MS = 500;
 
 export function isSystemMessage(post) {
@@ -312,18 +314,25 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl)
     const {formatMessage, formatTime, formatDate} = intl;
 
     const emojiMap = getEmojiMap(store.getState());
-    const emojiRegex = /:([A-Za-z0-9_\-+]+):/g;
-    var message = post.message;
-    var match;
+    let message = post.message;
+    let match;
 
-    while ((match = emojiRegex.exec(message)) !== null && emojiMap.has(match[1])) {
-        message = message.replace(match[0], formatMessage({
-            id: 'post.ariaLabel.emoji',
-            defaultMessage: '{name} emoji',
-        },
-        {
-            name: match[1].replace(/_/, ' '),
-        }));
+    // Match all the shorthand forms of emojis first
+    for (const name of Object.keys(Emoticons.emoticonPatterns)) {
+        const pattern = Emoticons.emoticonPatterns[name];
+        message = message.replace(pattern, `:${name}:`);
+    }
+
+    while ((match = Emoticons.EMOJI_PATTERN.exec(message)) !== null) {
+        if (emojiMap.has(match[2])) {
+            message = message.replace(match[0], formatMessage({
+                id: 'post.ariaLabel.emoji',
+                defaultMessage: '{name} emoji',
+            },
+            {
+                name: match[2].replace(/_/g, ' '),
+            }));
+        }
     }
 
     let ariaLabel;
