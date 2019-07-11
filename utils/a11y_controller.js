@@ -17,6 +17,8 @@ export default class A11yController {
         this.activeSection = null;
         this.activeElement = null;
 
+        this.a11yKeyEngaged = false;
+
         // used to reset navigation whenever navigation within a region occurs (section or element)
         this.resetNavigation = false;
 
@@ -316,8 +318,8 @@ export default class A11yController {
         this.activeElement.classList.add(A11yClassNames.ACTIVE);
     }
 
-    udpateCurrentFocus() {
-        if (!this.focusedElement) {
+    udpateCurrentFocus(forceUpdate = false) {
+        if ((!this.focusedElement || !this.a11yKeyEngaged) && !forceUpdate) {
             return;
         }
         this.focusedElement.classList.add(A11yClassNames.FOCUSED);
@@ -400,8 +402,12 @@ export default class A11yController {
             shiftIsPressed: event.shiftKey,
         };
         switch (true) {
+        case isKeyPressed(event, Constants.KeyCodes.TAB):
+            this.a11yKeyEngaged = true;
+            break;
         case isKeyPressed(event, Constants.KeyCodes.TILDE):
             if (modifierKeys.ctrlIsPressed) {
+                this.a11yKeyEngaged = true;
                 event.preventDefault();
                 if (modifierKeys.shiftIsPressed) {
                     this.previousRegion();
@@ -414,6 +420,7 @@ export default class A11yController {
             if (!isDesktopApp && !cmdOrCtrlPressed(event)) {
                 return;
             }
+            this.a11yKeyEngaged = true;
             if (modifierKeys.shiftIsPressed) {
                 this.previousRegion();
             } else {
@@ -424,6 +431,7 @@ export default class A11yController {
             if (!this.navInProgress) {
                 return;
             }
+            this.a11yKeyEngaged = true;
             event.preventDefault();
             if (this.reverseSections) {
                 this.nextSection();
@@ -435,6 +443,7 @@ export default class A11yController {
             if (!this.navInProgress) {
                 return;
             }
+            this.a11yKeyEngaged = true;
             event.preventDefault();
             if (this.reverseSections) {
                 this.previousSection();
@@ -444,6 +453,18 @@ export default class A11yController {
             break;
         case isKeyPressed(event, Constants.KeyCodes.ESCAPE):
             this.cancelNavigation();
+            break;
+        }
+    }
+
+    handleKeyUp = (event) => {
+        switch (true) {
+        case isKeyPressed(event, Constants.KeyCodes.TAB):
+        case isKeyPressed(event, Constants.KeyCodes.TILDE):
+        case isKeyPressed(event, Constants.KeyCodes.UP):
+        case isKeyPressed(event, Constants.KeyCodes.DOWN):
+        case isKeyPressed(event, Constants.KeyCodes.F6):
+            this.a11yKeyEngaged = false;
             break;
         }
     }
@@ -465,16 +486,16 @@ export default class A11yController {
 
     handleActiveRegionUpdate = () => {
         this.updateActiveRegion();
-        this.udpateCurrentFocus();
+        this.udpateCurrentFocus(true);
     }
 
     handleActiveSectionUpdate = () => {
         this.updateActiveSection();
-        this.udpateCurrentFocus();
+        this.udpateCurrentFocus(true);
     }
 
     handleActiveElementUpdate = () => {
         this.updateActiveElement();
-        this.udpateCurrentFocus();
+        this.udpateCurrentFocus(true);
     }
 }
