@@ -26,4 +26,18 @@ describe('Filtered emojis are sorted by recency, then begins with, then contains
         // #Assert first recently used emoji has the id of the last emoji we sent (:cat: with id: emoji-1f431)
         cy.assertLastUsedEmojiHasId('emoji-1f431');
     });
+
+    it('should order recently used emoji first in alphabetical order, Followed by emoji that contain "word" in alphabetical', async () => {
+        // #Post a guardsman emoji
+        cy.postMessage(':guardsman:');
+
+        // #Post a white small square emoji
+        cy.postMessage(':white_small_square:');
+
+        // #Open emoji picker
+        cy.get('#emojiPickerButton').click();
+
+        // #Search in emoji input the text: sma
+        cy.get('emoji-picker__search').type('sma');
+    });
 });
