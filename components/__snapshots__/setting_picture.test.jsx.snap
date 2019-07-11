@@ -64,12 +64,14 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           />
           <input
             accept=".jpg,.png,.bmp"
+            aria-label="Select"
             disabled={false}
             onChange={[Function]}
             type="file"
           />
         </div>
-        <a
+        <button
+          aria-label="Save"
           className="btn btn-sm btn-primary"
           onClick={[Function]}
         >
@@ -83,8 +85,9 @@ exports[`components/SettingItemMin should match snapshot with active Save button
               values={Object {}}
             />
           </LoadingWrapper>
-        </a>
-        <a
+        </button>
+        <button
+          aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
@@ -94,7 +97,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             id="setting_picture.cancel"
             values={Object {}}
           />
-        </a>
+        </button>
       </li>
     </ul>
   </li>
@@ -154,12 +157,14 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           />
           <input
             accept=".jpg,.png,.bmp"
+            aria-label="Select"
             disabled={false}
             onChange={[Function]}
             type="file"
           />
         </div>
-        <a
+        <button
+          aria-label="Save"
           className="btn btn-sm btn-primary"
           onClick={[Function]}
         >
@@ -173,8 +178,9 @@ exports[`components/SettingItemMin should match snapshot with active Save button
               values={Object {}}
             />
           </LoadingWrapper>
-        </a>
-        <a
+        </button>
+        <button
+          aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
@@ -184,7 +190,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             id="setting_picture.cancel"
             values={Object {}}
           />
-        </a>
+        </button>
       </li>
     </ul>
   </li>
@@ -255,12 +261,14 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
           />
           <input
             accept=".jpg,.png,.bmp"
+            aria-label="Select"
             disabled={true}
             onChange={[Function]}
             type="file"
           />
         </div>
-        <a
+        <button
+          aria-label="Uploading..."
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
         >
@@ -274,8 +282,9 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
               values={Object {}}
             />
           </LoadingWrapper>
-        </a>
-        <a
+        </button>
+        <button
+          aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
@@ -285,7 +294,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
             id="setting_picture.cancel"
             values={Object {}}
           />
-        </a>
+        </button>
       </li>
     </ul>
   </li>
@@ -368,12 +377,14 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
           />
           <input
             accept=".jpg,.png,.bmp"
+            aria-label="Select"
             disabled={false}
             onChange={[Function]}
             type="file"
           />
         </div>
-        <a
+        <button
+          aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
         >
@@ -387,8 +398,9 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
               values={Object {}}
             />
           </LoadingWrapper>
-        </a>
-        <a
+        </button>
+        <button
+          aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
@@ -398,7 +410,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
             id="setting_picture.cancel"
             values={Object {}}
           />
-        </a>
+        </button>
       </li>
     </ul>
   </li>
@@ -469,12 +481,14 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
           />
           <input
             accept=".jpg,.png,.bmp"
+            aria-label="Select"
             disabled={false}
             onChange={[Function]}
             type="file"
           />
         </div>
-        <a
+        <button
+          aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
         >
@@ -488,8 +502,9 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
               values={Object {}}
             />
           </LoadingWrapper>
-        </a>
-        <a
+        </button>
+        <button
+          aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
@@ -499,7 +514,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
             id="setting_picture.cancel"
             values={Object {}}
           />
-        </a>
+        </button>
       </li>
     </ul>
   </li>
@@ -577,12 +592,14 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
           />
           <input
             accept=".jpg,.png,.bmp"
+            aria-label="Select"
             disabled={false}
             onChange={[Function]}
             type="file"
           />
         </div>
-        <a
+        <button
+          aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
         >
@@ -596,8 +613,9 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
               values={Object {}}
             />
           </LoadingWrapper>
-        </a>
-        <a
+        </button>
+        <button
+          aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
@@ -607,7 +625,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
             id="setting_picture.cancel"
             values={Object {}}
           />
-        </a>
+        </button>
       </li>
     </ul>
   </li>
@@ -714,12 +732,14 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
           />
           <input
             accept=".jpg,.png,.bmp"
+            aria-label="Select"
             disabled={false}
             onChange={[Function]}
             type="file"
           />
         </div>
-        <a
+        <button
+          aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
         >
@@ -733,8 +753,9 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
               values={Object {}}
             />
           </LoadingWrapper>
-        </a>
-        <a
+        </button>
+        <button
+          aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
@@ -744,7 +765,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
             id="setting_picture.cancel"
             values={Object {}}
           />
-        </a>
+        </button>
       </li>
     </ul>
   </li>
@@ -856,12 +877,14 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
           />
           <input
             accept=".jpg,.png,.bmp"
+            aria-label="Select"
             disabled={false}
             onChange={[Function]}
             type="file"
           />
         </div>
-        <a
+        <button
+          aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
         >
@@ -875,8 +898,9 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
               values={Object {}}
             />
           </LoadingWrapper>
-        </a>
-        <a
+        </button>
+        <button
+          aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
@@ -886,7 +910,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
             id="setting_picture.cancel"
             values={Object {}}
           />
-        </a>
+        </button>
       </li>
     </ul>
   </li>

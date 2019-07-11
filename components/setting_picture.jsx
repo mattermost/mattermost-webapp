@@ -262,11 +262,13 @@ export default class SettingPicture extends Component {
                                     type='file'
                                     onChange={this.handleFileChange}
                                     disabled={this.props.loadingPicture}
+                                    aria-label={localizeMessage('setting_picture.select', 'Select')}
                                 />
                             </div>
-                            <a
+                            <button
                                 className={confirmButtonClass}
                                 onClick={this.props.loadingPicture ? () => true : this.handleSave}
+                                aria-label={this.props.loadingPicture ? localizeMessage('setting_picture.uploading', 'Uploading...') : localizeMessage('setting_picture.save', 'Save')}
                             >
                                 <LoadingWrapper
                                     loading={this.props.loadingPicture}
@@ -277,17 +279,18 @@ export default class SettingPicture extends Component {
                                         defaultMessage='Save'
                                     />
                                 </LoadingWrapper>
-                            </a>
-                            <a
+                            </button>
+                            <button
                                 className='btn btn-link btn-sm theme'
                                 href='#'
                                 onClick={this.handleCancel}
+                                aria-label={localizeMessage('setting_picture.cancel', 'Cancel')}
                             >
                                 <FormattedMessage
                                     id='setting_picture.cancel'
                                     defaultMessage='Cancel'
                                 />
-                            </a>
+                            </button>
                         </li>
                     </ul>
                 </li>
