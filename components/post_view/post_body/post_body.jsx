@@ -196,7 +196,7 @@ export default class PostBody extends React.PureComponent {
         }
 
         return (
-            <div style={{color: 'red'}}>
+            <div style={{color: 'green'}}>
                 {comment}
                 <div
                     id={`${post.id}_message`}
