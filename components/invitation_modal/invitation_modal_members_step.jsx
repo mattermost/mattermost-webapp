@@ -44,11 +44,7 @@ export default class InvitationModalMembersStep extends React.Component {
         input.setSelectionRange(0, input.value.length);
 
         try {
-            if (document.execCommand('copy')) {
-                this.setState({copiedLink: true});
-            } else {
-                this.setState({copiedLink: false});
-            }
+            this.setState({copiedLink: document.execCommand('copy')});
         } catch (err) {
             this.setState({copiedLink: false});
         }
