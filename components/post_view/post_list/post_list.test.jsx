@@ -42,7 +42,6 @@ const baseProps = {
 
 describe('components/post_view/post_list', () => {
     it('snapshot for loading when there are no posts', () => {
-        const noPostList = undefined;
         const wrapper = shallow(
             <PostList {...{...baseProps, postListIds: []}}/>
         );
