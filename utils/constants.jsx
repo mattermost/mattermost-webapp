@@ -220,9 +220,40 @@ export const UserSearchOptions = {
     ROLE: 'role',
 };
 
-export const EventTypes = keyMirror({
-    POST_LIST_SCROLL_CHANGE: null,
-});
+export const EventTypes = Object.assign(
+    {
+        KEY_DOWN: 'keydown',
+        KEY_UP: 'keyup',
+        CLICK: 'click',
+        FOCUS: 'focus',
+        BLUR: 'blur',
+    },
+    keyMirror({
+        POST_LIST_SCROLL_CHANGE: null,
+    })
+);
+
+export const A11yClassNames = {
+    REGION: 'a11y__region',
+    SECTION: 'a11y__section',
+    ACTIVE: 'a11y--active',
+    FOCUSED: 'a11y--focused',
+    MODAL: 'a11y__modal',
+    POPUP: 'a11y__popup',
+};
+
+export const A11yAttributeNames = {
+    SORT_ORDER: 'data-a11y-sort-order',
+    ORDER_REVERSE: 'data-a11y-order-reversed',
+    FOCUS_CHILD: 'data-a11y-focus-child',
+    LOOP_NAVIGATION: 'data-a11y-loop-navigation',
+};
+
+export const A11yCustomEventTypes = {
+    ACTIVATE: 'a11yactivate',
+    DEACTIVATE: 'a11ydeactivate',
+    UPDATE: 'a11yupdate',
+};
 
 export const SocketEvents = {
     POSTED: 'posted',
