@@ -50,7 +50,7 @@ export default class InvitationModalMembersStep extends React.Component {
 
     onChange = (usersAndEmails) => {
         this.setState({usersAndEmails});
-        this.props.onEdit();
+        this.props.onEdit(usersAndEmails.length > 0);
     }
 
     submit = () => {
