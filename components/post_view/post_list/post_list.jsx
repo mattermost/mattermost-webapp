@@ -96,7 +96,7 @@ export default class PostList extends React.PureComponent {
                 loading: false,
                 allLoaded: false,
             },
-            loadingFirstSetOfPosts: !props.postListIds,
+            loadingFirstSetOfPosts: !props.postListIds || !props.postListIds.length,
             autoRetryEnable: true,
         };
 
