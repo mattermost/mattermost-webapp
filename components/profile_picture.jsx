@@ -15,6 +15,7 @@ export default class ProfilePicture extends React.PureComponent {
         isRHS: false,
         isEmoji: false,
         hasMention: false,
+        wrapperClass: '',
     };
 
     static propTypes = {
