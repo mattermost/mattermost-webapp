@@ -20,11 +20,7 @@ export default class ChannelCreate extends React.PureComponent {
     };
 
     getTooltipTriggers = () => {
-        if (Utils.isMobile()) {
-            return [];
-        }
-
-        return ['hover', 'focus'];
+        return ['hover', 'click'];
     };
 
     renderPublic = () => {
@@ -33,6 +29,7 @@ export default class ChannelCreate extends React.PureComponent {
         }
 
         const tooltipTriggers = this.getTooltipTriggers();
+        const ariaLabelPublic = `${Utils.localizeMessage('sidebar.createChannel', 'Create new public channel').toLowerCase()}`;
 
         const tooltip = (
             <Tooltip id='new-channel-tooltip' >
@@ -52,6 +49,8 @@ export default class ChannelCreate extends React.PureComponent {
             >
                 <button
                     id='createPublicChannel'
+                    aria-label={ariaLabelPublic}
+                    type='button'
                     className='add-channel-btn cursor--pointer style--none'
                     onClick={this.props.createPublicChannel}
                 >
@@ -67,6 +66,7 @@ export default class ChannelCreate extends React.PureComponent {
         }
 
         const tooltipTriggers = this.getTooltipTriggers();
+        const ariaLabelPrivate = `${Utils.localizeMessage('sidebar.createGroup', 'Create new private channel').toLowerCase()}`;
 
         const tooltip = (
             <Tooltip id='new-group-tooltip'>
@@ -86,6 +86,8 @@ export default class ChannelCreate extends React.PureComponent {
             >
                 <button
                     id='createPrivateChannel'
+                    aria-label={ariaLabelPrivate}
+                    type='button'
                     className='add-channel-btn cursor--pointer style--none'
                     onClick={this.props.createPrivateChannel}
                 >
@@ -96,6 +98,8 @@ export default class ChannelCreate extends React.PureComponent {
     };
 
     renderDirect = () => {
+        const tooltipTriggers = this.getTooltipTriggers();
+        const ariaLabelDM = Utils.localizeMessage('sidebar.createDirectMessage', 'Create new direct message').toLowerCase();
         const tooltip = (
             <Tooltip
                 id='new-group-tooltip'
@@ -110,15 +114,17 @@ export default class ChannelCreate extends React.PureComponent {
 
         return (
             <OverlayTrigger
+                trigger={tooltipTriggers}
                 className='hidden-xs'
                 delayShow={500}
                 placement='top'
                 overlay={tooltip}
             >
                 <button
+                    id='addDirectChannel'
+                    aria-label={ariaLabelDM}
                     className='add-channel-btn cursor--pointer style--none'
                     onClick={this.props.createDirectMessage}
-                    id='addDirectChannel'
                 >
                     {'+'}
                 </button>
@@ -127,6 +133,7 @@ export default class ChannelCreate extends React.PureComponent {
     };
 
     renderCombined = () => {
+        const tooltipTriggers = this.getTooltipTriggers();
         const {canCreatePublicChannel, canCreatePrivateChannel} = this.props;
 
         if (canCreatePublicChannel && !canCreatePrivateChannel) {
@@ -155,12 +162,14 @@ export default class ChannelCreate extends React.PureComponent {
 
         return (
             <OverlayTrigger
+                trigger={tooltipTriggers}
                 className='hidden-xs'
                 delayShow={500}
                 placement='top'
                 overlay={tooltip}
             >
                 <button
+                    type='button'
                     className='add-channel-btn cursor--pointer style--none'
                     onClick={this.props.createPublicDirectChannel}
                 >

@@ -63,12 +63,17 @@ class ProfilePopover extends React.PureComponent {
         /**
          * @internal
          */
+        currentUserId: PropTypes.string.isRequired,
+
+        /**
+         * @internal
+         */
         hasMention: PropTypes.bool,
 
         /**
          * @internal
          */
-        currentUserId: PropTypes.string.isRequired,
+        isInCurrentTeam: PropTypes.bool.isRequired,
 
         /**
          * @internal
@@ -376,7 +381,7 @@ class ProfilePopover extends React.PureComponent {
                 </div>
             );
 
-            if (this.props.canManageAnyChannelMembersInCurrentTeam) {
+            if (this.props.canManageAnyChannelMembersInCurrentTeam && this.props.isInCurrentTeam) {
                 const addToChannelMessage = formatMessage({id: 'user_profile.add_user_to_channel', defaultMessage: 'Add to a Channel'});
                 dataContent.push(
                     <div
