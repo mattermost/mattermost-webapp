@@ -160,7 +160,6 @@ export default class DialogElement extends React.PureComponent {
                 <BoolSetting
                     id={name}
                     label={displayNameContent}
-                    maxLength={maxLength}
                     value={value || false}
                     helpText={helpTextContent}
                     placeholder={placeholder}

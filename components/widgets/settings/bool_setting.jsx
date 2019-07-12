@@ -15,15 +15,12 @@ export default class BoolSetting extends React.Component {
         placeholder: PropTypes.string.isRequired,
         value: PropTypes.bool.isRequired,
         inputClassName: PropTypes.string,
-        maxLength: PropTypes.number,
         onChange: PropTypes.func,
-        disabled: PropTypes.bool,
     };
 
     static defaultProps = {
         labelClassName: '',
         inputClassName: '',
-        maxLength: null,
     };
 
     handleChange = (e) => {
@@ -31,23 +28,6 @@ export default class BoolSetting extends React.Component {
     }
 
     render() {
-        let input = null;
-
-        input = (
-            <div className='checkbox'>
-                <label>
-                    <input
-                        id={this.props.id}
-                        type='checkbox'
-                        checked={this.props.value}
-                        onChange={this.handleChange}
-                        disabled={this.props.disabled}
-                    />
-                    <span>{this.props.placeholder}</span>
-                </label>
-            </div>
-        );
-
         return (
             <Setting
                 label={this.props.label}
@@ -55,9 +35,18 @@ export default class BoolSetting extends React.Component {
                 inputClassName={this.props.inputClassName}
                 helpText={this.props.helpText}
                 inputId={this.props.id}
-                maxLength={this.props.maxLength}
             >
-                {input}
+                <div className='checkbox'>
+                    <label>
+                        <input
+                            id={this.props.id}
+                            type='checkbox'
+                            checked={this.props.value}
+                            onChange={this.handleChange}
+                        />
+                        <span>{this.props.placeholder}</span>
+                    </label>
+                </div>
             </Setting>
         );
     }
