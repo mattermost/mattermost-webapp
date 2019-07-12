@@ -153,7 +153,6 @@ export default class A11yController {
     nextSection() {
         const sections = this.sections;
         const loopNavigation = this.getLoopNavigationAttribute(this.activeRegion);
-        console.log(loopNavigation);
         if (this.modalIsOpen || this.popupIsOpen || !sections || !sections.length || (!loopNavigation && this.activeSectionIndex === sections.length - 1)) {
             return;
         }
@@ -171,7 +170,6 @@ export default class A11yController {
     previousSection() {
         const sections = this.sections;
         const loopNavigation = this.getLoopNavigationAttribute(this.activeRegion);
-        console.log(loopNavigation);
         if (this.modalIsOpen || this.popupIsOpen || !sections || !sections.length || (!loopNavigation && this.activeSectionIndex === 0)) {
             return;
         }
@@ -248,7 +246,7 @@ export default class A11yController {
         this.sectionHTMLCollection = this.getAllSectionsForRegion(this.activeRegion);
 
         // should the visual focus start on a child section
-        if (this.getFocusChildAttribute(this.activeRegion) && this.sections && this.sections.length) {
+        if (focusChildIfNeeded && this.getFocusChildAttribute(this.activeRegion) && this.sections && this.sections.length) {
             this.setActiveSection(this.sections[0]);
         }
     }
