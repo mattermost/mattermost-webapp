@@ -916,6 +916,12 @@ export default class CreatePost extends React.Component {
         }
     }
 
+    handleKeyDownEmojiPicker = (e) => {
+        if (Utils.isKeyPressed(e, KeyCodes.ENTER)) {
+            this.toggleEmojiPicker();
+        }
+    }
+
     editLastPost = (e) => {
         e.preventDefault();
 
@@ -1187,6 +1193,7 @@ export default class CreatePost extends React.Component {
                 <span
                     role='button'
                     tabIndex='0'
+                    onKeyPress={this.handleKeyDownEmojiPicker}
                     aria-label={formatMessage({
                         id: 'create_post.open_emoji_picker',
                         defaultMessage: 'Open emoji picker',

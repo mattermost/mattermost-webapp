@@ -42,6 +42,7 @@ export default class EmojiPickerCategory extends React.Component {
                 className={className}
                 href='#'
                 onClick={this.handleClick}
+                aria-label={this.props.category}
             >
                 {this.props.icon}
             </a>
