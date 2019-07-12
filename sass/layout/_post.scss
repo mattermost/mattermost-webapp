@@ -1443,9 +1443,12 @@
                 width: 32px;
             }
 
-            &.emoji img {
-                height: 28px;
-                width: 28px;
+            &.emoji {
+                @include border-radius(unset);
+                img {
+                    height: 28px;
+                    width: 28px;
+                }
             }
         }
     }
