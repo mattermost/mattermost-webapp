@@ -260,6 +260,7 @@ export default class SettingPicture extends Component {
                                     ref='input'
                                     accept='.jpg,.png,.bmp'
                                     type='file'
+                                    autoFocus={true}
                                     onChange={this.handleFileChange}
                                     disabled={this.props.loadingPicture}
                                     aria-label={localizeMessage('setting_picture.select', 'Select')}
