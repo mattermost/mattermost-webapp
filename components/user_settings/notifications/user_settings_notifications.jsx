@@ -290,15 +290,13 @@ export default class NotificationsTab extends React.Component {
                 let pushStatusSettings;
                 if (this.state.pushActivity !== NotificationLevels.NONE) {
                     pushStatusSettings = (
-                        <div>
-                            <hr/>
-                            <label>
+                        <fieldset>
+                            <legend className='form-legend'>
                                 <FormattedMessage
                                     id='user.settings.notifications.push_notification.status'
                                     defaultMessage='Trigger push notifications when'
                                 />
-                            </label>
-                            <br/>
+                            </legend>
                             <div className='radio'>
                                 <label>
                                     <input
@@ -313,7 +311,6 @@ export default class NotificationsTab extends React.Component {
                                         defaultMessage='Online, away or offline'
                                     />
                                 </label>
-                                <br/>
                             </div>
                             <div className='radio'>
                                 <label>
@@ -329,7 +326,6 @@ export default class NotificationsTab extends React.Component {
                                         defaultMessage='Away or offline'
                                     />
                                 </label>
-                                <br/>
                             </div>
                             <div className='radio'>
                                 <label>
@@ -346,7 +342,7 @@ export default class NotificationsTab extends React.Component {
                                     />
                                 </label>
                             </div>
-                        </div>
+                        </fieldset>
                     );
 
                     extraInfo = (
@@ -360,14 +356,13 @@ export default class NotificationsTab extends React.Component {
                 }
 
                 inputs.push(
-                    <div key='userNotificationLevelOption'>
-                        <label>
+                    <fieldset key='userNotificationLevelOption'>
+                        <legend className='form-legend'>
                             <FormattedMessage
                                 id='user.settings.push_notification.send'
                                 defaultMessage='Send mobile push notifications'
                             />
-                        </label>
-                        <br/>
+                        </legend>
                         <div className='radio'>
                             <label>
                                 <input
@@ -382,7 +377,6 @@ export default class NotificationsTab extends React.Component {
                                     defaultMessage='For all activity'
                                 />
                             </label>
-                            <br/>
                         </div>
                         <div className='radio'>
                             <label>
@@ -398,7 +392,6 @@ export default class NotificationsTab extends React.Component {
                                     defaultMessage='For mentions and direct messages'
                                 />
                             </label>
-                            <br/>
                         </div>
                         <div className='radio'>
                             <label>
@@ -415,15 +408,14 @@ export default class NotificationsTab extends React.Component {
                                 />
                             </label>
                         </div>
-                        <br/>
-                        <span>
+                        <div className='margin-top x3'>
                             <FormattedMessage
                                 id='user.settings.push_notification.info'
                                 defaultMessage='Notification alerts are pushed to your mobile device when there is activity in Mattermost.'
                             />
-                        </span>
+                        </div>
                         {pushStatusSettings}
-                    </div>
+                    </fieldset>
                 );
 
                 submit = this.handleSubmit;
@@ -723,7 +715,10 @@ export default class NotificationsTab extends React.Component {
             const inputs = [];
 
             inputs.push(
-                <div key='userNotificationLevelOption'>
+                <fieldset key='userNotificationLevelOption'>
+                    <legend className='form-legend hidden-label'>
+                        {Utils.localizeMessage('user.settings.notifications.comments', 'Reply notifications')}
+                    </legend>
                     <div className='radio'>
                         <label>
                             <input
@@ -771,7 +766,7 @@ export default class NotificationsTab extends React.Component {
                             />
                         </label>
                     </div>
-                </div>
+                </fieldset>
             );
 
             const extraInfo = (
@@ -861,7 +856,6 @@ export default class NotificationsTab extends React.Component {
                 );
 
                 autoResponderSection = (
-
                     <SettingItemMin
                         title={
                             <FormattedMessage

@@ -9,6 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {Locations} from 'utils/constants.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import EmojiIcon from 'components/svg/emoji_icon';
@@ -77,6 +78,7 @@ export default class PostReaction extends React.PureComponent {
                     />
                     <OverlayTrigger
                         className='hidden-xs'
+                        trigger={['hover', 'click']}
                         delayShow={500}
                         placement='top'
                         overlay={
@@ -93,6 +95,7 @@ export default class PostReaction extends React.PureComponent {
                     >
                         <button
                             id={`${location}_reaction_${postId}`}
+                            aria-label={localizeMessage('post_info.tooltip.add_reactions', 'Add Reaction').toLowerCase()}
                             className='reacticon__container color--link style--none'
                             onClick={this.props.toggleEmojiPicker}
                         >

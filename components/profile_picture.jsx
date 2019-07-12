@@ -29,6 +29,7 @@ export default class ProfilePicture extends React.PureComponent {
         isRHS: PropTypes.bool,
         hasMention: PropTypes.bool,
         isEmoji: PropTypes.bool,
+        wrapperClass: PropTypes.string,
     };
 
     hideProfilePopover = () => {
@@ -60,7 +61,7 @@ export default class ProfilePicture extends React.PureComponent {
                         />
                     }
                 >
-                    <span className='status-wrapper'>
+                    <span className={`status-wrapper ${this.props.wrapperClass}`}>
                         <span className={profileIconClass}>
                             <img
                                 className='more-modal__image'

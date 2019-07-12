@@ -16,6 +16,19 @@ export default class SearchSuggestionList extends SuggestionList {
         ...SuggestionList.propTypes,
     };
 
+    constructor(props) {
+        super(props);
+        this.suggestionReadOut = React.createRef();
+        this.currentLabel = '';
+    }
+
+    announceLabel() {
+        const suggestionReadOut = this.suggestionReadOut.current;
+        if (suggestionReadOut) {
+            suggestionReadOut.innerHTML = this.currentLabel;
+        }
+    }
+
     getContent() {
         return $(ReactDOM.findDOMNode(this.refs.popover)).find('.popover-content');
     }
@@ -82,6 +95,21 @@ export default class SearchSuggestionList extends SuggestionList {
                 }
             }
 
+            if (isSelection) {
+                if (item.type === Constants.DM_CHANNEL || item.type === Constants.GM_CHANNEL) {
+                    this.currentLabel = item.display_name;
+                } else if (item.username) {
+                    this.currentLabel = item.username;
+                } else {
+                    this.currentLabel = item.name;
+                }
+
+                // Pause the event loop and Wait for the aria-live element to be up
+                setTimeout(() => {
+                    this.announceLabel();
+                }, Constants.OVERLAY_TIME_DELAY_SMALL);
+            }
+
             items.push(
                 <Component
                     key={term}
@@ -102,6 +130,11 @@ export default class SearchSuggestionList extends SuggestionList {
                 className='search-help-popover autocomplete visible'
                 placement='bottom'
             >
+                <div
+                    ref={this.suggestionReadOut}
+                    aria-live='polite'
+                    className='hidden-label'
+                />
                 {items}
             </Popover>
         );

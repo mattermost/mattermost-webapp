@@ -101,6 +101,56 @@ Cypress.Commands.add('apiDeleteChannel', (channelId) => {
     });
 });
 
+/**
+ * Updates a channel directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} channelId - The channel's id, not updatable
+ * @param {Object} channelData
+ *   {String} name - The unique handle for the channel, will be present in the channel URL
+ *   {String} display_name - The non-unique UI name for the channel
+ *   {String} type - 'O' for a public channel (default), 'P' for a private channel
+ *   {String} purpose - A short description of the purpose of the channel
+ *   {String} header - Markdown-formatted text to display in the header of the channel
+ * Only channelId is required
+ */
+Cypress.Commands.add('apiUpdateChannel', (channelId, channelData) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/channels/' + channelId,
+        method: 'PUT',
+        body: {
+            id: channelId,
+            ...channelData,
+        },
+    }).then((response) => {
+        expect(response.status).to.match(/20\d/);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Partially update a channel directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} channelId - The channel's id, not updatable
+ * @param {Object} channelData
+ *   {String} name - The unique handle for the channel, will be present in the channel URL
+ *   {String} display_name - The non-unique UI name for the channel
+ *   {String} purpose - A short description of the purpose of the channel
+ *   {String} header - Markdown-formatted text to display in the header of the channel
+ * Only channelId is required
+ */
+Cypress.Commands.add('apiPatchChannel', (channelId, channelData) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'PUT',
+        url: `/api/v4/channels/${channelId}/patch`,
+        body: channelData,
+    }).then((response) => {
+        expect(response.status).to.match(/20\d/);
+        return cy.wrap(response);
+    });
+});
+
 // *****************************************************************************
 // Teams
 // https://api.mattermost.com/#tag/teams
@@ -303,10 +353,14 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
 /**
  * Creates a new user via the API, adds them to 3 teams, and sets preference to bypass tutorial.
  * Then logs in as the user
- @param {Object} user - Object of user email, username, and password that you can optionally set. Otherwise use default values
+ * @param {Object} user - Object of user email, username, and password that you can optionally set.
+ * @param {Array} teamIDs - list of teams to add the new user to
+ * @param {Boolean} bypassTutorial - whether to set user preferences to bypass the tutorial on first login (true) or to show it (false)
+ * Otherwise use default values
  @returns {Object} Returns object containing email, username, id and password if you need it further in the test
  */
-Cypress.Commands.add('createNewUser', (user = {}, teamIds = []) => {
+
+Cypress.Commands.add('createNewUser', (user = {}, teamIds = [], bypassTutorial = true) => {
     const timestamp = Date.now();
 
     const {email = `user${timestamp}@sample.mattermost.com`, username = `user${timestamp}`, password = 'password123'} = user;
@@ -338,15 +392,17 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = []) => {
             });
         }
 
-        // # Update new user preferences to bypass tutorial
-        const preferences = [{
-            user_id: userId,
-            category: 'tutorial_step',
-            name: userId,
-            value: '999',
-        }];
+        // # If the bypass flag is true, bypass tutorial
+        if (bypassTutorial === true) {
+            const preferences = [{
+                user_id: userId,
+                category: 'tutorial_step',
+                name: userId,
+                value: '999',
+            }];
 
-        cy.apiSaveUserPreference(preferences, userId);
+            cy.apiSaveUserPreference(preferences, userId);
+        }
 
         // Wrap our user object so it gets returned from our cypress command
         cy.wrap({email, username, password, id: userId});
@@ -354,13 +410,15 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = []) => {
 });
 
 /**
- * Creates a new user via the API, adds them to 3 teams, and sets preference to bypass tutorial.
+ * Creates a new user via the API , adds them to 3 teams, and sets preference to bypass tutorial.
  * Then logs in as the user
- @param {Object} user - Object of user email, username, and password that you can optionally set. Otherwise use default values
+ * @param {Object} user - Object of user email, username, and password that you can optionally set.
+ * @param {Boolean} bypassTutorial - Whether to set user preferences to bypass the tutorial (true) or to show it (false)
+ * Otherwise use default values
  @returns {Object} Returns object containing email, username, id and password if you need it further in the test
  */
-Cypress.Commands.add('loginAsNewUser', (user = {}) => {
-    return cy.createNewUser(user).then((newUser) => {
+Cypress.Commands.add('loginAsNewUser', (user = {}, bypassTutorial = true) => {
+    return cy.createNewUser(user, [], bypassTutorial).then((newUser) => {
         cy.request({
             headers: {'X-Requested-With': 'XMLHttpRequest'},
             url: '/api/v4/users/login',
@@ -432,6 +490,8 @@ Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
             body: settings,
         });
     });
+
+    cy.apiLogout();
 });
 
 Cypress.Commands.add('apiGetConfig', () => {
@@ -439,4 +499,24 @@ Cypress.Commands.add('apiGetConfig', () => {
 
     // # Get current settings
     return cy.request('/api/v4/config');
+});
+
+// *****************************************************************************
+// Webhooks
+// https://api.mattermost.com/#tag/webhooks
+// *****************************************************************************
+
+Cypress.Commands.add('apiCreateWebhook', (hook = {}, isIncoming = true) => {
+    const hookUrl = isIncoming ? '/api/v4/hooks/incoming' : '/api/v4/hooks/outgoing';
+    const options = {
+        url: hookUrl,
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'POST',
+        body: hook,
+    };
+
+    return cy.request(options).then((response) => {
+        const data = response.body;
+        return {...data, url: isIncoming ? `${Cypress.config().baseUrl}/hooks/${data.id}` : ''};
+    });
 });
