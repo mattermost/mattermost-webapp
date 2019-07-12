@@ -228,7 +228,7 @@ export default class PostList extends React.PureComponent {
     }
 
     canLoadMorePosts = async () => {
-        if (!this.props.postListIds || !this.props.postListIds.length) {
+        if (!this.props.postListIds) {
             return;
         }
 
