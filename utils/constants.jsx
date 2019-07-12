@@ -246,6 +246,7 @@ export const A11yAttributeNames = {
     SORT_ORDER: 'data-a11y-sort-order',
     ORDER_REVERSE: 'data-a11y-order-reversed',
     FOCUS_CHILD: 'data-a11y-focus-child',
+    LOOP_NAVIGATION: 'data-a11y-loop-navigation',
 };
 
 export const A11yCustomEventTypes = {

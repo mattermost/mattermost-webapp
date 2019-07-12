@@ -91,8 +91,7 @@ export default class A11yController {
         if (!this.activeRegion) {
             return false;
         }
-        const reverseSections = this.activeRegion.getAttribute(A11yAttributeNames.ORDER_REVERSE);
-        return reverseSections && reverseSections.toLowerCase() === 'true';
+        return this.getOrderReverseAttribute(this.activeRegion);
     }
 
     get focusedElement() {
@@ -153,7 +152,9 @@ export default class A11yController {
 
     nextSection() {
         const sections = this.sections;
-        if (this.modalIsOpen || this.popupIsOpen || !sections || !sections.length) {
+        const loopNavigation = this.getLoopNavigationAttribute(this.activeRegion);
+        console.log(loopNavigation);
+        if (this.modalIsOpen || this.popupIsOpen || !sections || !sections.length || (!loopNavigation && this.activeSectionIndex === sections.length - 1)) {
             return;
         }
         let newSection;
@@ -169,7 +170,9 @@ export default class A11yController {
 
     previousSection() {
         const sections = this.sections;
-        if (this.modalIsOpen || this.popupIsOpen || !sections || !sections.length) {
+        const loopNavigation = this.getLoopNavigationAttribute(this.activeRegion);
+        console.log(loopNavigation);
+        if (this.modalIsOpen || this.popupIsOpen || !sections || !sections.length || (!loopNavigation && this.activeSectionIndex === 0)) {
             return;
         }
         let newSection;
@@ -245,8 +248,7 @@ export default class A11yController {
         this.sectionHTMLCollection = this.getAllSectionsForRegion(this.activeRegion);
 
         // should the visual focus start on a child section
-        const focusChild = this.activeRegion.getAttribute(A11yAttributeNames.FOCUS_CHILD);
-        if (focusChildIfNeeded && focusChild && focusChild.toLowerCase() === 'true' && this.sections && this.sections.length) {
+        if (this.getFocusChildAttribute(this.activeRegion) && this.sections && this.sections.length) {
             this.setActiveSection(this.sections[0]);
         }
     }
@@ -411,6 +413,30 @@ export default class A11yController {
 
     getAllPopups() {
         return document.getElementsByClassName(A11yClassNames.POPUP);
+    }
+
+    getLoopNavigationAttribute(element) {
+        const attributeValue = element.getAttribute(A11yAttributeNames.LOOP_NAVIGATION);
+        if (attributeValue && attributeValue.toLowerCase() === 'false') {
+            return false;
+        }
+        return true;
+    }
+
+    getOrderReverseAttribute(element) {
+        const attributeValue = element.getAttribute(A11yAttributeNames.ORDER_REVERSE);
+        if (attributeValue && attributeValue.toLowerCase() === 'true') {
+            return true;
+        }
+        return false;
+    }
+
+    getFocusChildAttribute(element) {
+        const attributeValue = element.getAttribute(A11yAttributeNames.FOCUS_CHILD);
+        if (attributeValue && attributeValue.toLowerCase() === 'true') {
+            return true;
+        }
+        return false;
     }
 
     // event handling methods
