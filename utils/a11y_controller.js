@@ -14,27 +14,17 @@ export default class A11yController {
         this.regionHTMLCollection = this.getAllRegions();
         this.sectionHTMLCollection = null;
 
+        this.modalHTMLCollection = this.getAllModals();
+        this.popupHTMLCollection = this.getAllPopups();
+
         this.activeRegion = null;
         this.activeSection = null;
         this.activeElement = null;
 
         this.a11yKeyEngaged = false;
 
-        this.modalIsOpen = false;
-        this.popupOsOpen = false;
-
         // used to reset navigation whenever navigation within a region occurs (section or element)
         this.resetNavigation = false;
-
-        this.bodyTagObserver = new MutationObserver(this.handleBodyTagUpdates);
-        this.bodyTagObserver.observe(document.getElementsByTagName('body')[0], {
-            attributes: true,
-            characterData: false,
-            childList: false,
-            subtree: false,
-            attributeOldValue: true,
-            characterDataOldValue: false,
-        });
 
         document.addEventListener(EventTypes.KEY_DOWN, this.handleKeyDown, listenerOptions);
         document.addEventListener(EventTypes.KEY_UP, this.handleKeyUp, listenerOptions);
@@ -117,11 +107,19 @@ export default class A11yController {
         return focusedElement;
     }
 
+    get modalIsOpen() {
+        return this.modalHTMLCollection.length > 0;
+    }
+
+    get popupIsOpen() {
+        return this.popupHTMLCollection.length > 0;
+    }
+
     // public methods
 
     nextRegion() {
         const regions = this.regions;
-        if (this.modalIsOpen || this.popupOsOpen || !regions || !regions.length) {
+        if (this.modalIsOpen || this.popupIsOpen || !regions || !regions.length) {
             return;
         }
         let newRegion;
@@ -137,7 +135,7 @@ export default class A11yController {
 
     previousRegion() {
         const regions = this.regions;
-        if (this.modalIsOpen || this.popupOsOpen || !regions || !regions.length) {
+        if (this.modalIsOpen || this.popupIsOpen || !regions || !regions.length) {
             return;
         }
         let newRegion;
@@ -155,7 +153,7 @@ export default class A11yController {
 
     nextSection() {
         const sections = this.sections;
-        if (this.modalIsOpen || this.popupOsOpen || !sections || !sections.length) {
+        if (this.modalIsOpen || this.popupIsOpen || !sections || !sections.length) {
             return;
         }
         let newSection;
@@ -171,7 +169,7 @@ export default class A11yController {
 
     previousSection() {
         const sections = this.sections;
-        if (this.modalIsOpen || this.popupOsOpen || !sections || !sections.length) {
+        if (this.modalIsOpen || this.popupIsOpen || !sections || !sections.length) {
             return;
         }
         let newSection;
@@ -407,17 +405,15 @@ export default class A11yController {
         return element && element.offsetParent;
     }
 
-    // event handling methods
-
-    handleBodyTagUpdates = (mutations) => {
-        mutations.forEach((mutation) => {
-            switch (mutation.attributeName) {
-            case 'class':
-                this.modalIsOpen = document.getElementsByTagName('body')[0].classList.contains('modal-open');
-                break;
-            }
-        });
+    getAllModals() {
+        return document.getElementsByClassName(A11yClassNames.MODAL);
     }
+
+    getAllPopups() {
+        return document.getElementsByClassName(A11yClassNames.POPUP);
+    }
+
+    // event handling methods
 
     handleKeyDown = (event) => {
         const modifierKeys = {

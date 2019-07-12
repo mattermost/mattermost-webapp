@@ -238,6 +238,8 @@ export const A11yClassNames = {
     SECTION: 'a11y__section',
     ACTIVE: 'a11y--active',
     FOCUSED: 'a11y--focused',
+    MODAL: 'a11y__modal',
+    POPUP: 'a11y__popup',
 };
 
 export const A11yAttributeNames = {

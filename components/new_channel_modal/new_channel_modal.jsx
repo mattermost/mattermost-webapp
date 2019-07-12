@@ -275,7 +275,7 @@ export default class NewChannelModal extends React.PureComponent {
         return (
             <span>
                 <Modal
-                    dialogClassName='new-channel__modal new-channel'
+                    dialogClassName='a11y__modal new-channel__modal new-channel'
                     show={this.props.show}
                     bsSize='large'
                     onHide={this.props.onModalDismissed}
