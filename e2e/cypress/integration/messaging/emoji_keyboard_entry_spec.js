@@ -20,7 +20,7 @@ describe('Message', () => {
         cy.get('#emojiPicker').should('be.visible');
 
         // # Select "People" category
-        cy.get('.emoji-picker__categories').find('.fa.fa-smile-o').click();
+        cy.get('#emojiPickerCategories').find('.fa.fa-smile-o').click();
     });
 
     describe('starting with no prior selection', () => {

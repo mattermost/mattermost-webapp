@@ -511,7 +511,14 @@ export default class EmojiPicker extends React.PureComponent {
                 />
             );
         });
-        return <div className='emoji-picker__categories'>{emojiPickerCategories}</div>;
+        return (
+            <div
+                id='emojiPickerCategories'
+                className='emoji-picker__categories'
+            >
+                {emojiPickerCategories}
+            </div>
+        );
     }
 
     emojiSearch() {
