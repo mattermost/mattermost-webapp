@@ -86,6 +86,8 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
       />
       <InvitationModalGuestsStep
         currentTeamId="test"
+        defaultChannels={Array []}
+        defaultMessage=""
         goBack={null}
         myInvitableChannels={Array []}
         onEdit={[Function]}
