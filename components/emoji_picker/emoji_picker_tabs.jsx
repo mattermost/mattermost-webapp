@@ -124,7 +124,11 @@ export default class EmojiPickerTabs extends PureComponent {
             );
         }
         return (
-            <FocusTrap>
+            <FocusTrap
+                focusTrapOptions={{
+                    clickOutsideDeactivates: true,
+                }}
+            >
                 <div
                     id='emojiPicker'
                     style={pickerStyle}
