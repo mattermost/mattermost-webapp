@@ -469,7 +469,7 @@ class InviteMemberModal extends React.PureComponent {
                             </Modal.Title>
                         </Modal.Header>
                         <Modal.Body ref='modalBody'>
-                            <form role='form'>
+                            <form>
                                 {inviteSections}
                             </form>
                             {content}
