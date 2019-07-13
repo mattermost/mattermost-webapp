@@ -114,7 +114,7 @@ describe('components/SettingItemMin', () => {
         const instance = wrapper.instance();
         const select = wrapper.find('select');
         if (!select) {
-            instance.onKeyDown({preventDefault: jest.fn(), key: Constants.KeyCodes.ENTER[0]});
+            instance.onKeyDown({preventDefault: jest.fn(), key: Constants.KeyCodes.ENTER[0], target: {tagName: 'SELECT'}});
             expect(submit).toHaveBeenCalled();
             expect(submit).toHaveBeenCalledWith('setting');
         }
