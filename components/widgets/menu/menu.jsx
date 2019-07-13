@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import FocusTrap from 'focus-trap-react';
 
 import {isMobile} from 'utils/utils';
 
@@ -19,6 +20,27 @@ export default class Menu extends React.PureComponent {
     constructor(props) {
         super(props);
         this.node = React.createRef();
+
+        this.state = {
+            activeTrap: false,
+        };
+
+        this.mountTrap = this.mountTrap.bind(this);
+        this.unmountTrap = this.unmountTrap.bind(this);
+    }
+
+    mountTrap() {
+        this.setState({activeTrap: true});
+    }
+
+    unmountTrap() {
+        this.setState({activeTrap: false});
+    }
+
+    componentDidMount() {
+        setTimeout(() => {
+            this.mountTrap();
+        }, 0);
     }
 
     // Used from DotMenu component to know in which direction show the menu
@@ -46,16 +68,20 @@ export default class Menu extends React.PureComponent {
         }
 
         return (
-            <ul
-                id={id}
-                ref={this.node}
-                className='a11y__popup Menu dropdown-menu'
-                style={styles}
-                role='menu'
-                aria-label={ariaLabel}
-            >
-                {children}
-            </ul>
+            <FocusTrap active={this.state.activeTrap}>
+                <ul
+                    id={id}
+                    className='a11y__popup Menu dropdown-menu'
+                    style={styles}
+                    role='menu'
+                    aria-label={ariaLabel}
+                >
+                    {this.focusText}
+                    <div ref={this.node}>
+                        {children}
+                    </div>
+                </ul>
+            </FocusTrap>
         );
     }
 }
