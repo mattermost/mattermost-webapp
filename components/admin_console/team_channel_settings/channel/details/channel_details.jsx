@@ -204,7 +204,10 @@ export default class ChannelDetails extends React.Component {
                             onCancel={this.hideRemoveUsersModal}
                             onConfirm={this.handleSubmit}
                         />
-                        <ChannelProfile channel={channel} team={team}/>
+                        <ChannelProfile
+                            channel={channel}
+                            team={team}
+                        />
 
                         <ChannelModes
                             isPublic={isPublic}
