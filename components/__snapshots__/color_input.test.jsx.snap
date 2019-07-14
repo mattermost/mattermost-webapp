@@ -31,6 +31,7 @@ exports[`components/ColorInput should match snapshot, click on picker 1`] = `
       disableAlpha={false}
       onChange={[Function]}
       styles={Object {}}
+      width={225}
     />
   </div>
 </div>
@@ -93,6 +94,7 @@ exports[`components/ColorInput should match snapshot, opened 1`] = `
       disableAlpha={false}
       onChange={[Function]}
       styles={Object {}}
+      width={225}
     />
   </div>
 </div>

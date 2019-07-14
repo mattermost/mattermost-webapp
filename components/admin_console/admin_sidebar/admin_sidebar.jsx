@@ -54,11 +54,16 @@ export default class AdminSidebar extends React.Component {
             filter: '',
         };
         this.idx = null;
+        this.searchRef = React.createRef();
     }
 
     componentDidMount() {
         if (this.props.config.PluginSettings.Enable) {
             this.props.actions.getPlugins();
+        }
+
+        if (this.searchRef.current) {
+            this.searchRef.current.focus();
         }
 
         this.updateTitle();
@@ -198,7 +203,7 @@ export default class AdminSidebar extends React.Component {
 
             // Special case for plugins entries
             let moreSidebarItems;
-            if (section.id === 'integrations') {
+            if (section.id === 'plugins') {
                 moreSidebarItems = this.renderPluginsMenu();
             }
 
@@ -253,7 +258,7 @@ export default class AdminSidebar extends React.Component {
                 customPlugins.push(
                     <AdminSidebarSection
                         key={'customplugin' + p.id}
-                        name={'integrations/plugin_' + p.id}
+                        name={'plugins/plugin_' + p.id}
                         title={p.name}
                     />
                 );
@@ -294,6 +299,7 @@ export default class AdminSidebar extends React.Component {
                                     onChange={this.onFilterChange}
                                     value={this.state.filter}
                                     placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Find settings')}
+                                    ref={this.searchRef}
                                 />
                                 {this.state.filter &&
                                     <div

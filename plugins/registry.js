@@ -11,6 +11,8 @@ import {
     unregisterPluginReconnectHandler,
 } from 'actions/websocket_actions.jsx';
 
+import {showRHSPlugin} from 'actions/views/rhs';
+
 import {
     registerPluginTranslationsSource,
 } from 'actions/views/root';
@@ -126,6 +128,7 @@ export default class PluginRegistry {
 
     // Register a component to render a custom body for posts with a specific type.
     // Custom post types must be prefixed with 'custom_'.
+    // Custom post types can also apply for ephemeral posts.
     // Accepts a string type and a component.
     // Returns a unique identifier.
     registerPostTypeComponent(type, component) {
@@ -133,6 +136,26 @@ export default class PluginRegistry {
 
         store.dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_POST_COMPONENT,
+            data: {
+                id,
+                pluginId: this.id,
+                type,
+                component,
+            },
+        });
+
+        return id;
+    }
+
+    // Register a component to render a custom body for post cards with a specific type.
+    // Custom post types must be prefixed with 'custom_'.
+    // Accepts a string type and a component.
+    // Returns a unique identifier.
+    registerPostCardTypeComponent(type, component) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_POST_CARD_COMPONENT,
             data: {
                 id,
                 pluginId: this.id,
@@ -329,6 +352,43 @@ export default class PluginRegistry {
         return id;
     }
 
+    // Register a hook that will be called when a slash command is posted by the user before it
+    // is sent to the server. Accepts a function that receives the message (string) and the args
+    // (object) as arguments.
+    // The args object is:
+    //        {
+    //            channel_id: channelId,
+    //            team_id: teamId,
+    //            root_id: rootId,
+    //            parent_id: rootId,
+    //        }
+    //
+    // To reject a command, return an object containing an error:
+    //     {error: {message: 'Rejected'}}
+    // To ignore a command, return an empty object (to prevent an error from being displayed):
+    //     {}
+    // To modify or allow the command without modification, return an object containing the new message
+    // and args. It is not likely that you will need to change the args, so return the object that was provided:
+    //     {message: {...}, args}
+    //
+    // If the hook function is asynchronous, the command will not be sent to the server
+    // until the hook returns.
+    registerSlashCommandWillBePostedHook(hook) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'SlashCommandWillBePosted',
+            data: {
+                id,
+                pluginId: this.id,
+                hook,
+            },
+        });
+
+        return id;
+    }
+
     // Register a hook that will be called before a message is formatted into Markdown.
     // Accepts a function that receives the unmodified post and the message (potentially
     // already modified by other hooks) as arguments. This function must return a string
@@ -376,5 +436,29 @@ export default class PluginRegistry {
 
     registerTranslations(getTranslationsForLocale) {
         registerPluginTranslationsSource(this.id, getTranslationsForLocale);
+    }
+
+    // Register a Right-Hand Sidebar component by providing a title for the right hand component.
+    // Accepts the following:
+    // - title - A string or JSX element to display as a title for the RHS.
+    // - component - A react component to display in the Right-Hand Sidebar.
+    // Returns:
+    // - id: a unique identifier
+    // - showRHSPlugin: the action to dispatch that will open the RHS.
+    registerRightHandSidebarComponent(component, title) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'RightHandSidebarComponent',
+            data: {
+                id,
+                pluginId: this.id,
+                component,
+                title,
+            },
+        });
+
+        return {id, showRHSPlugin: showRHSPlugin(id)};
     }
 }

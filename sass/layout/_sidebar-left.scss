@@ -8,7 +8,7 @@
     left: 0;
     position: fixed;
     width: 220px;
-    z-index: 10;
+    z-index: 12;
 
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
@@ -33,7 +33,7 @@
         }
 
         .icon__lock {
-            top: 2px;
+            top: 1px;
         }
 
         .icon__globe {
@@ -209,15 +209,20 @@
             cursor: pointer;
         }
 
+        .sidebar-section__header {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            font-weight: 600;
+            margin: 1.5em 0 .7em;
+            padding: 0 12px 0 15px;
+            text-transform: uppercase;
+        }
+
         li {
             > h4 {
-                align-items: end;
-                display: flex;
                 font-size: 1em;
-                font-weight: 600;
-                margin: 1.5em 0 .7em;
-                padding: 0 12px 0 15px;
-                text-transform: uppercase;
+                margin: 0;
 
                 span {
                     flex: 1;
@@ -357,59 +362,18 @@
         float: right;
         font-size: 1.9em;
         font-weight: 700;
-        line-height: 18px;
-        margin: -2px 0 0 0;
-        outline: none;
-        padding: 0 5px;
         text-decoration: none;
+        border-radius: 50%;
+        margin: -7px 0;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 0;
 
         &:hover {
             color: #666666;
-        }
-    }
-
-    .status-wrapper {
-        height: 36px;
-        width: 36px;
-
-        .status {
-            bottom: -4px;
-            height: 18px;
-            right: -5px;
-            width: 18px;
-
-            &.status-edit {
-                .fa {
-                    top: 4px;
-                }
-            }
-
-            .fa {
-                position: relative;
-                top: 2px;
-            }
-
-            .icon__container {
-                &:after {
-                    border-radius: 20px;
-                    content: '';
-                    height: 10px;
-                    left: 4px;
-                    position: absolute;
-                    top: 4px;
-                    width: 10px;
-                }
-            }
-
-            svg {
-                height: 13px;
-                left: 3px;
-                max-height: initial;
-                position: relative;
-                top: 3px;
-                width: 13px;
-                z-index: 1;
-            }
         }
     }
 }

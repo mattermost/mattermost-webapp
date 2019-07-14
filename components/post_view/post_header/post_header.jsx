@@ -26,6 +26,11 @@ export default class PostHeader extends React.PureComponent {
         handleCommentClick: PropTypes.func.isRequired,
 
         /*
+         * Function called when the card icon is clicked
+         */
+        handleCardClick: PropTypes.func.isRequired,
+
+        /*
          * Function called when the post options dropdown is opened
          */
         handleDropdownOpened: PropTypes.func.isRequired,
@@ -145,12 +150,16 @@ export default class PostHeader extends React.PureComponent {
 
         return (
             <div className='post__header'>
-                <div className='col col__name'>{userProfile}{colon}</div>
-                {indicator}
+                <div className='col col__name'>
+                    {userProfile}
+                    {colon}
+                    {indicator}
+                </div>
                 <div className='col'>
                     <PostInfo
                         post={post}
                         handleCommentClick={this.props.handleCommentClick}
+                        handleCardClick={this.props.handleCardClick}
                         handleDropdownOpened={this.props.handleDropdownOpened}
                         compactDisplay={this.props.compactDisplay}
                         replyCount={this.props.replyCount}

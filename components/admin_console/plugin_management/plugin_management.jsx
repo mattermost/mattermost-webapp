@@ -204,7 +204,7 @@ const PluginItem = ({
             <span>
                 {' - '}
                 <Link
-                    to={'/admin_console/integrations/plugin_' + pluginStatus.id}
+                    to={'/admin_console/plugins/plugin_' + pluginStatus.id}
                 >
                     <FormattedMessage
                         id='admin.plugin.settingsButton'
@@ -403,6 +403,7 @@ export default class PluginManagement extends AdminSettings {
             getPluginStatuses: PropTypes.func.isRequired,
             enablePlugin: PropTypes.func.isRequired,
             disablePlugin: PropTypes.func.isRequired,
+            installPluginFromUrl: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -416,16 +417,22 @@ export default class PluginManagement extends AdminSettings {
             loading: true,
             fileSelected: false,
             file: null,
+            pluginDownloadUrl: '',
             serverError: null,
             lastMessage: null,
-            overwriting: false,
-            confirmModal: false,
+            uploading: false,
+            installing: false,
+            overwritingUpload: false,
+            confirmOverwriteUploadModal: false,
+            overwritingInstall: false,
+            confirmOverwriteInstallModal: false,
         });
     }
 
     getConfigFromState(config) {
         config.PluginSettings.Enable = this.state.enable;
         config.PluginSettings.EnableUploads = this.state.enableUploads;
+        config.PluginSettings.AllowInsecureDownloadUrl = this.state.allowInsecureDownloadUrl;
 
         return config;
     }
@@ -434,6 +441,7 @@ export default class PluginManagement extends AdminSettings {
         const state = {
             enable: config.PluginSettings.Enable,
             enableUploads: config.PluginSettings.EnableUploads,
+            allowInsecureDownloadUrl: config.PluginSettings.AllowInsecureDownloadUrl,
         };
 
         return state;
@@ -461,7 +469,7 @@ export default class PluginManagement extends AdminSettings {
 
         if (error) {
             if (error.server_error_id === 'app.plugin.install_id.app_error' && !force) {
-                this.setState({confirmModal: true, overwriting: true});
+                this.setState({confirmOverwriteUploadModal: true, overwritingUpload: true});
                 return;
             }
             this.setState({
@@ -484,7 +492,7 @@ export default class PluginManagement extends AdminSettings {
         await this.props.actions.getPlugins();
 
         let msg = `Successfully uploaded plugin from ${file.name}`;
-        if (this.state.overwriting) {
+        if (this.state.overwritingUpload) {
             msg = `Successfully updated plugin from ${file.name}`;
         }
 
@@ -493,7 +501,7 @@ export default class PluginManagement extends AdminSettings {
             fileSelected: false,
             serverError: null,
             lastMessage: msg,
-            overwriting: false,
+            overwritingUpload: false,
             uploading: false,
             loading: false,
         });
@@ -512,20 +520,90 @@ export default class PluginManagement extends AdminSettings {
         Utils.clearFileInput(element);
     }
 
-    handleOverwritePluginCancel = () => {
+    handleOverwriteUploadPluginCancel = () => {
         this.setState({
             file: null,
             fileSelected: false,
             serverError: null,
-            confirmModal: false,
+            confirmOverwriteUploadModal: false,
             lastMessage: null,
             uploading: false,
         });
     }
 
-    handleOverwritePlugin = () => {
-        this.setState({confirmModal: false});
+    handleOverwriteUploadPlugin = () => {
+        this.setState({confirmOverwriteUploadModal: false});
         this.helpSubmitUpload(this.state.file, true);
+    }
+
+    onPluginDownloadUrlChange = (e) => {
+        this.setState({
+            pluginDownloadUrl: e.target.value,
+        });
+    }
+
+    installFromUrl = async (force) => {
+        const {pluginDownloadUrl} = this.state;
+
+        this.setState({
+            installing: true,
+            serverError: null,
+            lastMessage: null,
+        });
+        const {error} = await this.props.actions.installPluginFromUrl(pluginDownloadUrl, force);
+
+        if (error) {
+            if (error.server_error_id === 'app.plugin.install_id.app_error' && !force) {
+                this.setState({confirmOverwriteInstallModal: true, overwritingInstall: true});
+                return;
+            }
+
+            this.setState({
+                installing: false,
+            });
+
+            if (error.server_error_id === 'app.plugin.extract.app_error') {
+                this.setState({serverError: Utils.localizeMessage('admin.plugin.error.extract', 'Encountered an error when extracting the plugin. Review your plugin file content and try again.')});
+            } else {
+                this.setState({serverError: error.message});
+            }
+            return;
+        }
+
+        this.setState({loading: true});
+        await this.props.actions.getPlugins();
+
+        let msg = `Successfully installed plugin from ${pluginDownloadUrl}`;
+        if (this.state.overwritingInstall) {
+            msg = `Successfully updated plugin from ${pluginDownloadUrl}`;
+        }
+
+        this.setState({
+            serverError: null,
+            lastMessage: msg,
+            overwritingInstall: false,
+            installing: false,
+            loading: false,
+        });
+    }
+
+    handleSubmitInstall = (e) => {
+        e.preventDefault();
+        return this.installFromUrl(false);
+    }
+
+    handleOverwriteInstallPluginCancel = () => {
+        this.setState({
+            confirmOverwriteInstallModal: false,
+            installing: false,
+            serverError: null,
+            lastMessage: null,
+        });
+    }
+
+    handleOverwriteInstallPlugin = () => {
+        this.setState({confirmOverwriteInstallModal: false});
+        return this.installFromUrl(true);
     }
 
     handleRemove = async (e) => {
@@ -575,7 +653,7 @@ export default class PluginManagement extends AdminSettings {
         );
     }
 
-    renderOverwritePluginModal = () => {
+    renderOverwritePluginModal = ({show, onConfirm, onCancel}) => {
         const title = (
             <FormattedMessage
                 id='admin.plugin.upload.overwrite_modal.title'
@@ -599,15 +677,42 @@ export default class PluginManagement extends AdminSettings {
 
         return (
             <ConfirmModal
-                show={this.state.confirmModal}
+                show={show}
                 title={title}
                 message={message}
                 confirmButtonClass='btn btn-danger'
                 confirmButtonText={overwriteButton}
-                onConfirm={this.handleOverwritePlugin}
-                onCancel={this.handleOverwritePluginCancel}
+                onConfirm={onConfirm}
+                onCancel={onCancel}
             />
         );
+    }
+
+    renderEnablePluginsSetting = () => {
+        const hideEnablePlugins = this.props.config.ExperimentalSettings.RestrictSystemAdmin;
+        if (!hideEnablePlugins) {
+            return (
+                <BooleanSetting
+                    id='enable'
+                    label={
+                        <FormattedMessage
+                            id='admin.plugins.settings.enable'
+                            defaultMessage='Enable Plugins: '
+                        />
+                    }
+                    helpText={
+                        <FormattedMarkdownMessage
+                            id='admin.plugins.settings.enableDesc'
+                            defaultMessage='When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                        />
+                    }
+                    value={this.state.enable}
+                    onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('PluginSettings.Enable')}
+                />
+            );
+        }
+        return null;
     }
 
     renderSettings() {
@@ -646,6 +751,23 @@ export default class PluginManagement extends AdminSettings {
                 <FormattedMessage
                     id='admin.plugin.upload'
                     defaultMessage='Upload'
+                />
+            );
+        }
+
+        let installButtonText;
+        if (this.state.installing) {
+            installButtonText = (
+                <FormattedMessage
+                    id='admin.plugin.installing'
+                    defaultMessage='Installing...'
+                />
+            );
+        } else {
+            installButtonText = (
+                <FormattedMessage
+                    id='admin.plugin.install'
+                    defaultMessage='Install'
                 />
             );
         }
@@ -751,78 +873,130 @@ export default class PluginManagement extends AdminSettings {
 
         const uploadBtnClass = enableUploads ? 'btn btn-primary' : 'btn';
 
-        const overwritePluginModal = this.state.confirmModal && this.renderOverwritePluginModal();
+        const overwriteUploadPluginModal = this.state.confirmOverwriteUploadModal && this.renderOverwritePluginModal({
+            show: this.state.confirmOverwriteUploadModal,
+            onConfirm: this.handleOverwriteUploadPlugin,
+            onCancel: this.handleOverwriteUploadPluginCancel,
+        });
+
+        const overwriteInstallPluginModal = this.state.confirmOverwriteInstallModal && this.renderOverwritePluginModal({
+            show: this.state.confirmOverwriteInstallModal,
+            onConfirm: this.handleOverwriteInstallPlugin,
+            onCancel: this.handleOverwriteInstallPluginCancel,
+        });
 
         return (
-            <div className='wrapper--fixed'>
-                <SettingsGroup id={'PluginSettings'}>
-                    <BooleanSetting
-                        id='enable'
-                        label={
-                            <FormattedMessage
-                                id='admin.plugins.settings.enable'
-                                defaultMessage='Enable Plugins: '
-                            />
-                        }
-                        helpText={
-                            <FormattedMarkdownMessage
-                                id='admin.plugins.settings.enableDesc'
-                                defaultMessage='When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more.'
-                            />
-                        }
-                        value={this.state.enable}
-                        onChange={this.handleChange}
-                        setByEnv={this.isSetByEnv('PluginSettings.Enable')}
-                    />
+            <div className='admin-console__wrapper'>
+                <div className='admin-console__content'>
+                    <SettingsGroup
+                        id={'PluginSettings'}
+                        container={false}
+                    >
+                        {this.renderEnablePluginsSetting()}
 
-                    <div className='form-group'>
-                        <label
-                            className='control-label col-sm-4'
-                        >
-                            <FormattedMessage
-                                id='admin.plugin.uploadTitle'
-                                defaultMessage='Upload Plugin: '
-                            />
-                        </label>
-                        <div className='col-sm-8'>
-                            <div className='file__upload'>
-                                <button
-                                    className={uploadBtnClass}
-                                    disabled={!enableUploads || !enable}
-                                >
-                                    <FormattedMessage
-                                        id='admin.plugin.choose'
-                                        defaultMessage='Choose File'
-                                    />
-                                </button>
-                                <input
-                                    ref='fileInput'
-                                    type='file'
-                                    accept='.gz'
-                                    onChange={this.handleUpload}
-                                    disabled={!enableUploads || !enable}
-                                />
-                            </div>
-                            <button
-                                className={btnClass}
-                                disabled={!this.state.fileSelected}
-                                onClick={this.handleSubmitUpload}
+                        <div className='form-group'>
+                            <label
+                                className='control-label col-sm-4'
                             >
-                                {uploadButtonText}
-                            </button>
-                            <div className='help-text no-margin'>
-                                {fileName}
+                                <FormattedMessage
+                                    id='admin.plugin.uploadTitle'
+                                    defaultMessage='Upload Plugin: '
+                                />
+                            </label>
+                            <div className='col-sm-8'>
+                                <div className='file__upload'>
+                                    <button
+                                        className={uploadBtnClass}
+                                        disabled={!enableUploads || !enable}
+                                    >
+                                        <FormattedMessage
+                                            id='admin.plugin.choose'
+                                            defaultMessage='Choose File'
+                                        />
+                                    </button>
+                                    <input
+                                        ref='fileInput'
+                                        type='file'
+                                        accept='.gz'
+                                        onChange={this.handleUpload}
+                                        disabled={!enableUploads || !enable}
+                                    />
+                                </div>
+                                <button
+                                    className={btnClass}
+                                    disabled={!this.state.fileSelected}
+                                    onClick={this.handleSubmitUpload}
+                                >
+                                    {uploadButtonText}
+                                </button>
+                                <div className='help-text no-margin'>
+                                    {fileName}
+                                </div>
+                                {serverError}
+                                {lastMessage}
+                                <p className='help-text'>
+                                    {uploadHelpText}
+                                </p>
                             </div>
-                            {serverError}
-                            {lastMessage}
-                            <p className='help-text'>
-                                {uploadHelpText}
-                            </p>
                         </div>
-                    </div>
-                    {pluginsContainer}
-                </SettingsGroup>
-                {overwritePluginModal}
+                        <div className='form-group'>
+                            <label
+                                className='control-label col-sm-4'
+                            >
+                                <FormattedMessage
+                                    id='admin.plugin.installTitle'
+                                    defaultMessage='Install Plugin from URL: '
+                                />
+                            </label>
+
+                            <div className='col-sm-8'>
+                                <p>
+                                    <input
+                                        style={{width: '100%'}}
+                                        onChange={this.onPluginDownloadUrlChange}
+                                        value={this.state.pluginDownloadUrl}
+                                        type='text'
+                                    />
+                                </p>
+                            </div>
+                            <div className='col-sm-4'/>
+                            <div className='col-sm-8'>
+                                <p>
+                                    <button
+                                        id='installPluginButton'
+                                        className={btnClass}
+                                        disabled={this.state.installing || !this.state.pluginDownloadUrl}
+                                        onClick={this.handleSubmitInstall}
+                                    >
+                                        {installButtonText}
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+
+                        <BooleanSetting
+                            id='allowInsecureDownloadUrl'
+                            label={
+                                <FormattedMessage
+                                    id='admin.plugins.settings.allowInsecureUrl'
+                                    defaultMessage='Allow Insecure Install URL:'
+                                />
+                            }
+                            helpText={
+                                <FormattedMarkdownMessage
+                                    id='admin.plugins.settings.allowInsecureUrlDesc'
+                                    defaultMessage='When false, URLs provided must use the HTTPS protocol.'
+                                />
+                            }
+                            value={this.state.allowInsecureDownloadUrl}
+                            onChange={this.handleChange}
+                            setByEnv={this.isSetByEnv('PluginSettings.AllowInsecureDownloadUrl')}
+                        />
+                        {pluginsContainer}
+                    </SettingsGroup>
+                    {overwriteUploadPluginModal}
+                    {overwriteInstallPluginModal}
+                </div>
             </div>
         );
     }

@@ -24,7 +24,13 @@ export default class AddGroupsToTeamModal extends React.Component {
         currentTeamId: PropTypes.string.isRequired,
         searchTerm: PropTypes.string.isRequired,
         groups: PropTypes.array.isRequired,
+
+        // used in tandem with 'skipCommit' to allow using this component without performing actual linking
+        excludeGroups: PropTypes.arrayOf(PropTypes.object),
+        includeGroups: PropTypes.arrayOf(PropTypes.object),
         onHide: PropTypes.func,
+        skipCommit: PropTypes.bool,
+        onAddCallback: PropTypes.func,
         actions: PropTypes.shape({
             getGroupsNotAssociatedToTeam: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
@@ -50,7 +56,7 @@ export default class AddGroupsToTeamModal extends React.Component {
 
     componentDidMount() {
         Promise.all([
-            this.props.actions.getGroupsNotAssociatedToTeam(this.props.currentTeamId, '', 0, GROUPS_PER_PAGE * 2),
+            this.props.actions.getGroupsNotAssociatedToTeam(this.props.currentTeamId, '', 0, GROUPS_PER_PAGE + 1),
             this.props.actions.getAllGroupsAssociatedToTeam(this.props.currentTeamId),
         ]).then(() => {
             this.setGroupsLoadingState(false);
@@ -109,6 +115,13 @@ export default class AddGroupsToTeamModal extends React.Component {
         if (groupIDs.length === 0) {
             return;
         }
+        if (this.props.skipCommit) {
+            if (this.props.onAddCallback) {
+                this.props.onAddCallback(groupIDs);
+            }
+            this.handleHide();
+            return;
+        }
 
         this.setState({saving: true});
 
@@ -140,7 +153,7 @@ export default class AddGroupsToTeamModal extends React.Component {
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
             this.setGroupsLoadingState(true);
-            this.props.actions.getGroupsNotAssociatedToTeam(this.props.currentTeamId, this.props.searchTerm, page + 1, GROUPS_PER_PAGE).then(() => {
+            this.props.actions.getGroupsNotAssociatedToTeam(this.props.currentTeamId, this.props.searchTerm, page, GROUPS_PER_PAGE + 1).then(() => {
                 this.setGroupsLoadingState(false);
             });
         }
@@ -155,10 +168,7 @@ export default class AddGroupsToTeamModal extends React.Component {
     }
 
     renderOption(option, isSelected, onAdd) {
-        var rowSelected = '';
-        if (isSelected) {
-            rowSelected = 'more-modal__row--selected';
-        }
+        const rowSelected = isSelected ? 'more-modal__row--selected' : '';
 
         return (
             <div
@@ -218,14 +228,17 @@ export default class AddGroupsToTeamModal extends React.Component {
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
-        let groups = [];
-        if (this.props.groups) {
-            groups = this.props.groups.filter((user) => user.delete_at === 0);
-        }
-
         let addError = null;
         if (this.state.addError) {
             addError = (<div className='has-error col-sm-12'><label className='control-label font-weight--normal'>{this.state.addError}</label></div>);
+        }
+
+        let groupsToShow = this.props.groups;
+        if (this.props.excludeGroups) {
+            groupsToShow = groupsToShow.filter((g) => !this.props.excludeGroups.includes(g));
+        }
+        if (this.props.includeGroups) {
+            groupsToShow = [...groupsToShow, ...this.props.includeGroups.filter((g) => !groupsToShow.includes(g))];
         }
 
         return (
@@ -253,7 +266,7 @@ export default class AddGroupsToTeamModal extends React.Component {
                     {addError}
                     <MultiSelect
                         key='addGroupsToTeamKey'
-                        options={groups}
+                        options={groupsToShow}
                         optionRenderer={this.renderOption}
                         values={this.state.values}
                         valueRenderer={this.renderValue}

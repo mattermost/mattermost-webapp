@@ -83,6 +83,10 @@
         outline: none;
         padding-bottom: 2px;
         width: 100%;
+
+        &.keyboard-focus {
+            box-shadow: none;
+        }
     }
 
     .LoadingSpinner {

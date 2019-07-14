@@ -41,6 +41,7 @@ export default class SettingsSidebar extends React.Component {
                         id={`${tab.name}Button`}
                         className='cursor--pointer style--none'
                         onClick={this.handleClick.bind(null, tab)}
+                        aria-label={tab.uiName.toLowerCase()}
                     >
                         <i
                             className={tab.icon}

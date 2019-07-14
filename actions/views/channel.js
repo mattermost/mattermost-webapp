@@ -7,15 +7,17 @@ import {leaveChannel as leaveChannelRedux, joinChannel, unfavoriteChannel} from 
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {autocompleteUsers} from 'mattermost-redux/actions/users';
 import {Posts} from 'mattermost-redux/constants';
-import {getChannel, getChannelByName, getCurrentChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getChannelsNameMapInCurrentTeam, getCurrentChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
-import {isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
+import {getChannelByName, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {getLastViewedChannelName} from 'selectors/local_storage';
+import {getLastPostsApiTimeForChannel} from 'selectors/views/channel';
+import {getSocketStatus} from 'selectors/views/websocket';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ActionTypes, EventTypes} from 'utils/constants.jsx';
@@ -35,10 +37,12 @@ export function goToLastViewedChannel() {
     return async (dispatch, getState) => {
         const state = getState();
         const currentChannel = getCurrentChannel(state);
-        let channelToSwitchTo = getChannelByName(state, getLastViewedChannelName(state));
+        const channelsInTeam = getChannelsNameMapInCurrentTeam(state);
+
+        let channelToSwitchTo = getChannelByName(channelsInTeam, getLastViewedChannelName(state));
 
         if (currentChannel.id === channelToSwitchTo.id) {
-            channelToSwitchTo = getChannelByName(state, getRedirectChannelNameForTeam(state, getCurrentTeamId(state)));
+            channelToSwitchTo = getChannelByName(channelsInTeam, getRedirectChannelNameForTeam(state, getCurrentTeamId(state)));
         }
 
         return dispatch(switchToChannel(channelToSwitchTo));
@@ -131,7 +135,7 @@ export function loadInitialPosts(channelId, focusedPostId) {
         let posts;
         let hasMoreBefore = false;
         let hasMoreAfter = false;
-
+        const time = Date.now();
         if (focusedPostId) {
             const result = await dispatch(PostActions.getPostsAround(channelId, focusedPostId, Posts.POST_CHUNK_SIZE / 2));
 
@@ -153,6 +157,14 @@ export function loadInitialPosts(channelId, focusedPostId) {
             if (posts) {
                 hasMoreBefore = posts && posts.order.length >= Posts.POST_CHUNK_SIZE / 2;
             }
+        }
+
+        if (posts) {
+            dispatch({
+                type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
+                channelId,
+                time,
+            });
         }
 
         return {
@@ -205,6 +217,30 @@ export function increasePostVisibility(channelId, beforePostId) {
             moreToLoad: posts ? posts.order.length >= Posts.POST_CHUNK_SIZE / 2 : false,
             error: result.error,
         };
+    };
+}
+
+export function syncPostsInChannel(channelId, since) {
+    return async (dispatch, getState) => {
+        const time = Date.now();
+        const state = getState();
+        const socketStatus = getSocketStatus(state);
+        let sinceTimeToGetPosts = since;
+        const lastPostsApiCallForChannel = getLastPostsApiTimeForChannel(state, channelId);
+
+        if (lastPostsApiCallForChannel && lastPostsApiCallForChannel < socketStatus.lastDisconnectAt) {
+            sinceTimeToGetPosts = lastPostsApiCallForChannel;
+        }
+
+        const {data, error} = await dispatch(PostActions.getPostsSince(channelId, sinceTimeToGetPosts));
+        if (data) {
+            dispatch({
+                type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
+                channelId,
+                time,
+            });
+        }
+        return {data, error};
     };
 }
 

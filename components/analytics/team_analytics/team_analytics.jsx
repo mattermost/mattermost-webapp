@@ -17,8 +17,6 @@ import StatisticCount from 'components/analytics/statistic_count.jsx';
 import TableChart from 'components/analytics/table_chart.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
-import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
-
 import {getMonthLong} from 'utils/i18n';
 
 import {formatPostsPerDayData, formatUsersWithPostsPerDayData} from '../format.jsx';
@@ -234,9 +232,9 @@ export default class TeamAnalytics extends React.Component {
 
         return (
             <div className='wrapper--fixed team_statistics'>
-                <div className='admin-console-header team-statistics__header-row'>
+                <div className='admin-console__header team-statistics__header-row'>
                     <div className='team-statistics__header'>
-                        <FormattedAdminHeader
+                        <FormattedMarkdownMessage
                             id='analytics.team.title'
                             defaultMessage='Team Statistics for {team}'
                             values={{
@@ -254,61 +252,66 @@ export default class TeamAnalytics extends React.Component {
                         </select>
                     </div>
                 </div>
-                {banner}
-                <div className='row'>
-                    <StatisticCount
-                        title={
-                            <FormattedMessage
-                                id='analytics.team.totalUsers'
-                                defaultMessage='Total Active Users'
+
+                <div className='admin-console__wrapper'>
+                    <div className='admin-console__content'>
+                        {banner}
+                        <div className='row'>
+                            <StatisticCount
+                                title={
+                                    <FormattedMessage
+                                        id='analytics.team.totalUsers'
+                                        defaultMessage='Total Active Users'
+                                    />
+                                }
+                                icon='fa-users'
+                                count={stats[StatTypes.TOTAL_USERS]}
                             />
-                        }
-                        icon='fa-users'
-                        count={stats[StatTypes.TOTAL_USERS]}
-                    />
-                    <StatisticCount
-                        title={
-                            <FormattedMessage
-                                id='analytics.team.publicChannels'
-                                defaultMessage='Public Channels'
+                            <StatisticCount
+                                title={
+                                    <FormattedMessage
+                                        id='analytics.team.publicChannels'
+                                        defaultMessage='Public Channels'
+                                    />
+                                }
+                                icon='fa-globe'
+                                count={stats[StatTypes.TOTAL_PUBLIC_CHANNELS]}
                             />
-                        }
-                        icon='fa-globe'
-                        count={stats[StatTypes.TOTAL_PUBLIC_CHANNELS]}
-                    />
-                    <StatisticCount
-                        title={
-                            <FormattedMessage
-                                id='analytics.team.privateGroups'
-                                defaultMessage='Private Channels'
+                            <StatisticCount
+                                title={
+                                    <FormattedMessage
+                                        id='analytics.team.privateGroups'
+                                        defaultMessage='Private Channels'
+                                    />
+                                }
+                                icon='fa-lock'
+                                count={stats[StatTypes.TOTAL_PRIVATE_GROUPS]}
                             />
-                        }
-                        icon='fa-lock'
-                        count={stats[StatTypes.TOTAL_PRIVATE_GROUPS]}
-                    />
-                    {totalPostsCount}
-                </div>
-                {postTotalGraph}
-                {userActiveGraph}
-                <div className='row'>
-                    <TableChart
-                        title={
-                            <FormattedMessage
-                                id='analytics.team.recentUsers'
-                                defaultMessage='Recent Active Users'
+                            {totalPostsCount}
+                        </div>
+                        {postTotalGraph}
+                        {userActiveGraph}
+                        <div className='row'>
+                            <TableChart
+                                title={
+                                    <FormattedMessage
+                                        id='analytics.team.recentUsers'
+                                        defaultMessage='Recent Active Users'
+                                    />
+                                }
+                                data={recentActiveUsers}
                             />
-                        }
-                        data={recentActiveUsers}
-                    />
-                    <TableChart
-                        title={
-                            <FormattedMessage
-                                id='analytics.team.newlyCreated'
-                                defaultMessage='Newly Created Users'
+                            <TableChart
+                                title={
+                                    <FormattedMessage
+                                        id='analytics.team.newlyCreated'
+                                        defaultMessage='Newly Created Users'
+                                    />
+                                }
+                                data={newlyCreatedUsers}
                             />
-                        }
-                        data={newlyCreatedUsers}
-                    />
+                        </div>
+                    </div>
                 </div>
             </div>
         );

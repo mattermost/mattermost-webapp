@@ -31,7 +31,7 @@ class SearchChannelSuggestion extends Suggestion {
 
         let className = 'search-autocomplete__item';
         if (isSelection) {
-            className += ' selected';
+            className += ' selected keyboard-focus';
         }
 
         const name = itemToName(item);
@@ -54,7 +54,9 @@ class SearchChannelSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 <SelectIcon/>
-                {name}
+                <span className='search-autocomplete__name'>
+                    {name}
+                </span>
                 {tag}
             </div>
         );

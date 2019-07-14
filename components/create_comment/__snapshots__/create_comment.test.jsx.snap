@@ -5,7 +5,10 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
   onSubmit={[Function]}
 >
   <div
+    aria-label="reply input region"
     className="post-create"
+    id="rhsFooter"
+    tabIndex="-1"
   >
     <div
       className="post-create-body comment-create-body"
@@ -99,7 +102,10 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
   onSubmit={[Function]}
 >
   <div
+    aria-label="reply input region"
     className="post-create"
+    id="rhsFooter"
+    tabIndex="-1"
   >
     <div
       className="post-create-body comment-create-body"
@@ -228,7 +234,10 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
   onSubmit={[Function]}
 >
   <div
+    aria-label="reply input region"
     className="post-create"
+    id="rhsFooter"
+    tabIndex="-1"
   >
     <div
       className="post-create-body comment-create-body"
@@ -346,7 +355,10 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
   onSubmit={[Function]}
 >
   <div
+    aria-label="reply input region"
     className="post-create"
+    id="rhsFooter"
+    tabIndex="-1"
   >
     <div
       className="post-create-body comment-create-body"
@@ -475,7 +487,10 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
   onSubmit={[Function]}
 >
   <div
+    aria-label="reply input region"
     className="post-create"
+    id="rhsFooter"
+    tabIndex="-1"
   >
     <div
       className="post-create-body comment-create-body"

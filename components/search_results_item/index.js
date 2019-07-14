@@ -14,6 +14,7 @@ import {isPostFlagged} from 'mattermost-redux/utils/post_utils';
 import {
     closeRightHandSide,
     selectPostFromRightHandSideSearch,
+    selectPostCardFromRightHandSideSearch,
     setRhsExpanded,
 } from 'actions/views/rhs';
 
@@ -45,6 +46,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             closeRightHandSide,
             selectPost: selectPostFromRightHandSideSearch,
+            selectPostCard: selectPostCardFromRightHandSideSearch,
             setRhsExpanded,
         }, dispatch),
     };

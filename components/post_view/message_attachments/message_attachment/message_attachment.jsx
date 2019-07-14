@@ -16,8 +16,6 @@ import ActionButton from '../action_button';
 import ActionMenu from '../action_menu';
 import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
 
-const MAX_ATTACHMENT_TEXT_HEIGHT = 200;
-
 export default class MessageAttachment extends React.PureComponent {
     static propTypes = {
 
@@ -166,6 +164,7 @@ export default class MessageAttachment extends React.PureComponent {
         let rowPos = 0;
         let lastWasLong = false;
         let nrTables = 0;
+        const markdown = {markdown: false, mentionHighlight: false};
 
         fields.forEach((field, i) => {
             if (rowPos === 2 || !(field.short === true) || lastWasLong) {
@@ -198,7 +197,10 @@ export default class MessageAttachment extends React.PureComponent {
                     key={'attachment__field-caption-' + i + '__' + nrTables}
                     width='50%'
                 >
-                    {field.title}
+                    <Markdown
+                        message={field.title}
+                        options={markdown}
+                    />
                 </th>
             );
 
@@ -327,7 +329,6 @@ export default class MessageAttachment extends React.PureComponent {
                 <ShowMore
                     checkOverflow={this.state.checkOverflow}
                     isAttachmentText={true}
-                    maxHeight={MAX_ATTACHMENT_TEXT_HEIGHT}
                     text={attachment.text}
                 >
                     <Markdown

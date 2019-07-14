@@ -10,7 +10,12 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx';
-import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand} from 'utils/post_utils.jsx';
+import {
+    containsAtChannel,
+    postMessageOnKeyPress,
+    shouldFocusMainTextbox,
+    isErrorInvalidSlashCommand,
+} from 'utils/post_utils.jsx';
 import {getTable, formatMarkdownTableMessage} from 'utils/paste.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -46,28 +51,28 @@ export default class CreatePost extends React.Component {
     static propTypes = {
 
         /**
-        *  ref passed from channelView for EmojiPickerOverlay
-        */
+         *  ref passed from channelView for EmojiPickerOverlay
+         */
         getChannelView: PropTypes.func,
 
         /**
-        *  Data used in notifying user for @all and @channel
-        */
+         *  Data used in notifying user for @all and @channel
+         */
         currentChannelMembersCount: PropTypes.number,
 
         /**
-        *  Data used in multiple places of the component
-        */
+         *  Data used in multiple places of the component
+         */
         currentChannel: PropTypes.object,
 
         /**
-        *  Data used in executing commands for channel actions passed down to client4 function
-        */
+         *  Data used in executing commands for channel actions passed down to client4 function
+         */
         currentTeamId: PropTypes.string,
 
         /**
-        *  Data used for posting message
-        */
+         *  Data used for posting message
+         */
         currentUserId: PropTypes.string,
 
         /**
@@ -76,28 +81,28 @@ export default class CreatePost extends React.Component {
         codeBlockOnCtrlEnter: PropTypes.bool,
 
         /**
-        *  Flag used for handling submit
-        */
+         *  Flag used for handling submit
+         */
         ctrlSend: PropTypes.bool,
 
         /**
-        *  Flag used for adding a class center to Postbox based on user pref
-        */
+         *  Flag used for adding a class center to Postbox based on user pref
+         */
         fullWidthTextBox: PropTypes.bool,
 
         /**
-        *  Data used for deciding if tutorial tip is to be shown
-        */
+         *  Data used for deciding if tutorial tip is to be shown
+         */
         showTutorialTip: PropTypes.bool.isRequired,
 
         /**
-        *  Data used populating message state when triggered by shortcuts
-        */
+         *  Data used populating message state when triggered by shortcuts
+         */
         messageInHistoryItem: PropTypes.string,
 
         /**
-        *  Data used for populating message state from previous draft
-        */
+         *  Data used for populating message state from previous draft
+         */
         draft: PropTypes.shape({
             message: PropTypes.string.isRequired,
             uploadsInProgress: PropTypes.array.isRequired,
@@ -105,24 +110,24 @@ export default class CreatePost extends React.Component {
         }).isRequired,
 
         /**
-        *  Data used dispatching handleViewAction
-        */
+         *  Data used dispatching handleViewAction
+         */
         commentCountForPost: PropTypes.number,
 
         /**
-        *  Data used dispatching handleViewAction ex: edit post
-        */
+         *  Data used dispatching handleViewAction ex: edit post
+         */
         latestReplyablePostId: PropTypes.string,
         locale: PropTypes.string.isRequired,
 
         /**
-        *  Data used for calling edit of post
-        */
+         *  Data used for calling edit of post
+         */
         currentUsersLatestPost: PropTypes.object,
 
         /**
-        *  Set if the channel is read only.
-        */
+         *  Set if the channel is read only.
+         */
         readOnlyChannel: PropTypes.bool,
 
         /**
@@ -169,50 +174,58 @@ export default class CreatePost extends React.Component {
         actions: PropTypes.shape({
 
             /**
-            *  func called after message submit.
-            */
+             *  func called after message submit.
+             */
             addMessageIntoHistory: PropTypes.func.isRequired,
 
             /**
-            *  func called for navigation through messages by Up arrow
-            */
+             *  func called for navigation through messages by Up arrow
+             */
             moveHistoryIndexBack: PropTypes.func.isRequired,
 
             /**
-            *  func called for navigation through messages by Down arrow
-            */
+             *  func called for navigation through messages by Down arrow
+             */
             moveHistoryIndexForward: PropTypes.func.isRequired,
 
             /**
-            *  func called for adding a reaction
-            */
+             *  func called for adding a reaction
+             */
             addReaction: PropTypes.func.isRequired,
 
             /**
-            *  func called for posting message
-            */
+             *  func called for posting message
+             */
             onSubmitPost: PropTypes.func.isRequired,
 
             /**
-            *  func called for removing a reaction
-            */
+             *  func called for removing a reaction
+             */
             removeReaction: PropTypes.func.isRequired,
 
             /**
-            *  func called on load of component to clear drafts
-            */
+             *  func called on load of component to clear drafts
+             */
             clearDraftUploads: PropTypes.func.isRequired,
 
+            /**
+             * hooks called before a message is sent to the server
+             */
             runMessageWillBePostedHooks: PropTypes.func.isRequired,
 
             /**
-            *  func called for setting drafts
-            */
+             * hooks called before a slash command is sent to the server
+             */
+            runSlashCommandWillBePostedHooks: PropTypes.func.isRequired,
+
+            /**
+             *  func called for setting drafts
+             */
             setDraft: PropTypes.func.isRequired,
 
             /**
-            *  func called for editing posts
-            */
+             *  func called for editing posts
+             */
             setEditingPost: PropTypes.func.isRequired,
 
             /**
@@ -290,7 +303,6 @@ export default class CreatePost extends React.Component {
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.currentChannel.id !== this.props.currentChannel.id) {
             const draft = nextProps.draft;
-
             this.setState({
                 message: draft.message,
                 submitting: false,
@@ -405,23 +417,40 @@ export default class CreatePost extends React.Component {
         const isReaction = Utils.REACTION_PATTERN.exec(post.message);
         if (post.message.indexOf('/') === 0 && !ignoreSlash) {
             this.setState({message: '', postError: null, enableSendButton: false});
-            const args = {};
+            let args = {};
             args.channel_id = channelId;
             args.team_id = this.props.currentTeamId;
 
-            const {error} = await this.props.actions.executeCommand(post.message, args);
+            const hookResult = await this.props.actions.runSlashCommandWillBePostedHooks(post.message, args);
 
-            if (error) {
-                if (error.sendMessage) {
-                    await this.sendMessage(post);
-                } else {
-                    this.setState({
-                        serverError: {
-                            ...error,
-                            submittedMessage: post.message,
-                        },
-                        message: post.message,
-                    });
+            if (hookResult.error) {
+                this.setState({
+                    serverError: {
+                        ...hookResult.error,
+                        submittedMessage: post.message,
+                    },
+                    message: post.message,
+                });
+            } else if (!hookResult.data.message && !hookResult.data.args) {
+                // do nothing with an empty return from a hook
+            } else {
+                post.message = hookResult.data.message;
+                args = hookResult.data.args;
+
+                const {error} = await this.props.actions.executeCommand(post.message, args);
+
+                if (error) {
+                    if (error.sendMessage) {
+                        await this.sendMessage(post);
+                    } else {
+                        this.setState({
+                            serverError: {
+                                ...error,
+                                submittedMessage: post.message,
+                            },
+                            message: post.message,
+                        });
+                    }
                 }
             }
         } else if (isReaction && this.props.emojiMap.has(isReaction[2])) {
@@ -738,6 +767,8 @@ export default class CreatePost extends React.Component {
 
         this.draftsForChannel[channelId] = draft;
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        const enableSendButton = this.handleEnableSendButton(this.state.message, draft.fileInfos);
+        this.setState({enableSendButton});
     }
 
     handleUploadError = (err, clientId, channelId) => {
@@ -801,7 +832,7 @@ export default class CreatePost extends React.Component {
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft);
         this.draftsForChannel[channelId] = modifiedDraft;
-        const enableSendButton = this.handleEnableSendButton(this.state.message, draft.fileInfos);
+        const enableSendButton = this.handleEnableSendButton(this.state.message, modifiedDraft.fileInfos);
 
         this.setState({enableSendButton});
 
@@ -1004,7 +1035,7 @@ export default class CreatePost extends React.Component {
                         defaultMessage='Click the **Attachment** button to upload an image or a file.'
                     />
                 </p>
-            </div>
+            </div>,
         );
 
         return (
@@ -1038,6 +1069,7 @@ export default class CreatePost extends React.Component {
         const {formatMessage} = this.context.intl;
         const members = currentChannelMembersCount - 1;
         const {renderScrollbar} = this.state;
+        const ariaLabelMessageInput = Utils.localizeMessage('accessibility.sections.centerFooter', 'message input complimentary region');
 
         const notifyAllTitle = (
             <FormattedMessage
@@ -1155,7 +1187,10 @@ export default class CreatePost extends React.Component {
                 <span
                     role='button'
                     tabIndex='0'
-                    aria-label={formatMessage({id: 'create_post.open_emoji_picker', defaultMessage: 'Open emoji picker'})}
+                    aria-label={formatMessage({
+                        id: 'create_post.open_emoji_picker',
+                        defaultMessage: 'Open emoji picker',
+                    })}
                     className='emoji-picker__container'
                 >
                     <EmojiPickerOverlay
@@ -1183,7 +1218,7 @@ export default class CreatePost extends React.Component {
         } else {
             createMessage = formatMessage(
                 {id: 'create_post.write', defaultMessage: 'Write to {channelDisplayName}'},
-                {channelDisplayName: currentChannel.display_name}
+                {channelDisplayName: currentChannel.display_name},
             );
         }
 
@@ -1196,13 +1231,17 @@ export default class CreatePost extends React.Component {
             <form
                 id='create_post'
                 ref='topDiv'
-                role='form'
                 className={centerClass}
                 onSubmit={this.handleSubmit}
             >
                 <div className={'post-create' + attachmentsDisabled + scrollbarClass}>
                     <div className='post-create-body'>
-                        <div className='post-body__cell'>
+                        <div
+                            id='centerChannelFooter'
+                            aria-label={ariaLabelMessageInput}
+                            tabIndex='-1'
+                            className='post-body__cell'
+                        >
                             <Textbox
                                 onChange={this.handleChange}
                                 onKeyPress={this.postMsgKeyPress}
@@ -1231,13 +1270,19 @@ export default class CreatePost extends React.Component {
                                 <a
                                     role='button'
                                     tabIndex='0'
-                                    aria-label={formatMessage({id: 'create_post.send_message', defaultMessage: 'Send a message'})}
+                                    aria-label={formatMessage({
+                                        id: 'create_post.send_message',
+                                        defaultMessage: 'Send a message',
+                                    })}
                                     className={sendButtonClass}
                                     onClick={this.handleSubmit}
                                 >
                                     <i
                                         className='fa fa-paper-plane'
-                                        title={formatMessage({id: 'create_post.icon', defaultMessage: 'Send Post Icon'})}
+                                        title={formatMessage({
+                                            id: 'create_post.icon',
+                                            defaultMessage: 'Send Post Icon',
+                                        })}
                                     />
                                 </a>
                             </span>

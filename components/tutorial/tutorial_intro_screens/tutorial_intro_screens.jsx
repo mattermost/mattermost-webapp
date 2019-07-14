@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -28,6 +28,10 @@ export default class TutorialIntroScreens extends React.Component {
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
         }).isRequired,
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -215,21 +219,21 @@ export default class TutorialIntroScreens extends React.Component {
         let inviteModalLink;
         let inviteText;
         const {teamType} = this.props;
+        const {formatMessage} = this.context.intl;
 
         if (!this.props.isLicensed || !this.props.restrictTeamInvite) {
             if (teamType === Constants.INVITE_TEAM) {
+                const inviteMessage = formatMessage({id: 'tutorial_intro.invite', defaultMessage: 'Invite teammates'});
                 inviteModalLink = (
                     <ModalToggleButtonRedux
+                        accessibilityLabel={inviteMessage}
                         id='tutorialIntroInvite'
                         className='intro-links color--link style--none'
                         modalId={ModalIdentifiers.EMAIL_INVITE}
                         dialogType={InviteMemberModal}
                         dialogProps={{}}
                     >
-                        <FormattedMessage
-                            id='tutorial_intro.invite'
-                            defaultMessage='Invite teammates'
-                        />
+                        {inviteMessage}
                     </ModalToggleButtonRedux>
                 );
             } else {

@@ -50,7 +50,6 @@ export default class ChannelHeader extends React.PureComponent {
         channel: PropTypes.object,
         channelMember: PropTypes.object,
         dmUser: PropTypes.object,
-        dmBot: PropTypes.object,
         isFavorite: PropTypes.bool,
         isReadOnly: PropTypes.bool,
         isMuted: PropTypes.bool,
@@ -71,7 +70,6 @@ export default class ChannelHeader extends React.PureComponent {
             goToLastViewedChannel: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
             closeModal: PropTypes.func.isRequired,
-            loadBot: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -97,9 +95,6 @@ export default class ChannelHeader extends React.PureComponent {
 
     componentDidMount() {
         this.props.actions.getCustomEmojisInText(this.props.channel ? this.props.channel.header : '');
-        if (this.props.dmUser && this.props.dmUser.is_bot) {
-            this.props.actions.loadBot(this.props.dmUser.id);
-        }
         document.addEventListener('keydown', this.handleShortcut);
         document.addEventListener('keydown', this.handleQuickSwitchKeyPress);
         window.addEventListener('resize', this.handleResize);
@@ -116,11 +111,6 @@ export default class ChannelHeader extends React.PureComponent {
         const prevHeader = prevProps.channel ? prevProps.channel.header : '';
         if (header !== prevHeader) {
             this.props.actions.getCustomEmojisInText(header);
-        }
-        const dmUser = this.props.dmUser;
-        const prevDmUser = prevProps.dmUser || {};
-        if (dmUser && dmUser.id !== prevDmUser.id && dmUser.is_bot) {
-            this.props.actions.loadBot(dmUser.id);
         }
     }
 
@@ -264,17 +254,16 @@ export default class ChannelHeader extends React.PureComponent {
             isReadOnly,
             isFavorite,
             dmUser,
-            dmBot,
             rhsState,
         } = this.props;
         const {formatMessage} = this.context.intl;
+        const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
 
         const channelIsArchived = channel.delete_at !== 0;
         if (Utils.isEmptyObject(channel) ||
             Utils.isEmptyObject(channelMember) ||
             Utils.isEmptyObject(currentUser) ||
-            (!dmUser && channel.type === Constants.DM_CHANNEL) ||
-            (dmUser && dmUser.is_bot && !dmBot)
+            (!dmUser && channel.type === Constants.DM_CHANNEL)
         ) {
             // Use an empty div to make sure the header's height stays constant
             return (
@@ -340,7 +329,7 @@ export default class ChannelHeader extends React.PureComponent {
         }
 
         let headerTextContainer;
-        const headerText = (isDirect && dmUser.is_bot) ? dmBot.description : channel.header;
+        const headerText = (isDirect && dmUser.is_bot) ? dmUser.bot_description : channel.header;
         if (headerText) {
             const popoverContent = (
                 <Popover
@@ -432,6 +421,8 @@ export default class ChannelHeader extends React.PureComponent {
 
         let toggleFavoriteTooltip;
         let toggleFavorite = null;
+        let ariaLabel = '';
+
         if (!channelIsArchived) {
             if (isFavorite) {
                 toggleFavoriteTooltip = (
@@ -442,6 +433,7 @@ export default class ChannelHeader extends React.PureComponent {
                         />
                     </Tooltip>
                 );
+                ariaLabel = formatMessage({id: 'channelHeader.removeFromFavorites', defaultMessage: 'Remove from Favorites'}).toLowerCase();
             } else {
                 toggleFavoriteTooltip = (
                     <Tooltip id='favoriteTooltip'>
@@ -451,6 +443,7 @@ export default class ChannelHeader extends React.PureComponent {
                         />
                     </Tooltip>
                 );
+                ariaLabel = formatMessage({id: 'channelHeader.addToFavorites', defaultMessage: 'Add to Favorites'}).toLowerCase();
             }
 
             toggleFavorite = (
@@ -464,6 +457,7 @@ export default class ChannelHeader extends React.PureComponent {
                         id='toggleFavorite'
                         onClick={this.toggleFavorite}
                         className={'style--none color--link channel-header__favorites ' + (this.props.isFavorite ? 'active' : 'inactive')}
+                        aria-label={ariaLabel}
                     >
                         <i className={'icon fa ' + (this.props.isFavorite ? 'fa-star' : 'fa-star-o')}/>
                     </button>
@@ -513,20 +507,25 @@ export default class ChannelHeader extends React.PureComponent {
                     className='channel-header__top'
                 >
                     {toggleFavorite}
-                    <strong
-                        id='channelHeaderTitle'
-                        className='heading'
+                    <button
+                        className='channel-header__trigger style--none'
+                        aria-label={formatMessage({id: 'channel_header.menuAriaLabel', defaultMessage: 'Channel Menu'}).toLowerCase()}
                     >
-                        <span>
-                            {archivedIcon}
-                            {channelTitle}
-                        </span>
-                    </strong>
-                    <span
-                        id='channelHeaderDropdownIcon'
-                        className='fa fa-angle-down header-dropdown__icon'
-                        aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'})}
-                    />
+                        <strong
+                            id='channelHeaderTitle'
+                            className='heading'
+                        >
+                            <span>
+                                {archivedIcon}
+                                {channelTitle}
+                            </span>
+                        </strong>
+                        <span
+                            id='channelHeaderDropdownIcon'
+                            className='fa fa-angle-down header-dropdown__icon'
+                            aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'}).toLowerCase()}
+                        />
+                    </button>
                 </div>
                 <ChannelHeaderDropdown/>
             </MenuWrapper>
@@ -547,9 +546,7 @@ export default class ChannelHeader extends React.PureComponent {
                             {channelTitle}
                         </span>
                     </strong>
-                    <div>
-                        <BotBadge className='badge-popoverlist'/>
-                    </div>
+                    <BotBadge className='badge-popoverlist'/>
                 </div>
             );
         }
@@ -557,6 +554,9 @@ export default class ChannelHeader extends React.PureComponent {
         return (
             <div
                 id='channel-header'
+                aria-label={ariaLabelChannelHeader}
+                role='navigation'
+                tabIndex='-1'
                 data-channelid={`${channel.id}`}
                 className='channel-header alt'
             >
@@ -591,6 +591,7 @@ export default class ChannelHeader extends React.PureComponent {
                                 aria-hidden='true'
                             />
                         }
+                        ariaLabel={true}
                         buttonClass={'style--none ' + pinnedIconClass}
                         buttonId={'channelHeaderPinButton'}
                         onClick={this.showPinnedPosts}
@@ -623,6 +624,7 @@ export default class ChannelHeader extends React.PureComponent {
                                 aria-hidden='true'
                             />
                         }
+                        ariaLabel={true}
                         buttonId={'channelHeaderMentionButton'}
                         onClick={this.searchMentions}
                         tooltipKey={'recentMentions'}
@@ -631,6 +633,7 @@ export default class ChannelHeader extends React.PureComponent {
                         iconComponent={
                             <FlagIcon className='icon icon__flag'/>
                         }
+                        ariaLabel={true}
                         buttonId={'channelHeaderFlagButton'}
                         onClick={this.getFlagged}
                         tooltipKey={'flaggedPosts'}

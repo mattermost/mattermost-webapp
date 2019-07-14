@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Posts} from 'mattermost-redux/constants';
+import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import PostProfilePicture from 'components/post_profile_picture';
@@ -70,6 +71,7 @@ export default class Post extends React.PureComponent {
 
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
+            selectPostCard: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -102,6 +104,14 @@ export default class Post extends React.PureComponent {
         this.props.actions.selectPost(post);
     }
 
+    handleCardClick = (post) => {
+        if (!post) {
+            return;
+        }
+
+        this.props.actions.selectPostCard(post);
+    }
+
     handleDropdownOpened = (opened) => {
         if (this.props.togglePostMenu) {
             this.props.togglePostMenu(opened);
@@ -126,7 +136,7 @@ export default class Post extends React.PureComponent {
         return false;
     }
 
-    getClassName = (post, isSystemMessage, fromWebhook, fromAutoResponder, fromBot) => {
+    getClassName = (post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot) => {
         let className = 'post';
 
         if (post.failed || post.state === Posts.POST_DELETED) {
@@ -163,12 +173,13 @@ export default class Post extends React.PureComponent {
             rootUser = '';
         }
 
-        if (isSystemMessage) {
+        if (isSystemMessage || isMeMessage) {
             className += ' post--system';
-            sameUserClass = '';
-            currentUserCss = '';
-            postType = '';
-            rootUser = '';
+            if (isSystemMessage) {
+                currentUserCss = '';
+                postType = '';
+                rootUser = '';
+            }
         }
 
         if (fromAutoResponder) {
@@ -209,6 +220,7 @@ export default class Post extends React.PureComponent {
         }
 
         const isSystemMessage = PostUtils.isSystemMessage(post);
+        const isMeMessage = checkIsMeMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
         const fromWebhook = post && post.props && post.props.from_webhook === 'true';
         const fromBot = post && post.props && post.props.from_bot === 'true';
@@ -242,7 +254,11 @@ export default class Post extends React.PureComponent {
             <div
                 ref={this.getRef}
                 id={'post_' + post.id}
-                className={this.getClassName(post, isSystemMessage, fromWebhook, fromAutoResponder, fromBot)}
+                role='listitem'
+                className={this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}
+                tabIndex='-1'
+                onFocus={this.setFocus}
+                onBlur={this.removeFocus}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
                 onTouchStart={this.setHover}
@@ -258,6 +274,7 @@ export default class Post extends React.PureComponent {
                         <PostHeader
                             post={post}
                             handleCommentClick={this.handleCommentClick}
+                            handleCardClick={this.handleCardClick}
                             handleDropdownOpened={this.handleDropdownOpened}
                             compactDisplay={this.props.compactDisplay}
                             isFirstReply={this.props.isFirstReply}
