@@ -421,7 +421,10 @@
         }
 
         .post-add-reaction {
-            display: none;
+            .post-reaction {
+                opacity: 1;
+                visibility: visible;
+            }
         }
 
         .browser--ie & {
