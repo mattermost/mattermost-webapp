@@ -15,6 +15,8 @@ import {
 
 import {connect} from 'react-redux';
 
+import {getTeam} from 'mattermost-redux/selectors/entities/teams';
+
 import {setNavigationBlocked} from 'actions/admin_actions';
 
 import ChannelDetails from './channel_details';
@@ -22,12 +24,14 @@ import ChannelDetails from './channel_details';
 function mapStateToProps(state, props) {
     const channelID = props.match.params.channel_id;
     const channel = getChannel(state, channelID) || {};
+    const team = channel.team_id ? getTeam(state, channel.team_id) : {};
     const groups = getGroupsAssociatedToChannel(state, channelID);
     const associatedGroups = state.entities.channels.groupsAssociatedToChannel;
     const allGroups = getAllGroups(state, channel.team_id);
     const totalGroups = associatedGroups && associatedGroups[channelID] && associatedGroups[channelID].totalCount ? associatedGroups[channelID].totalCount : 0;
     return {
         channel,
+        team,
         allGroups,
         totalGroups,
         groups,

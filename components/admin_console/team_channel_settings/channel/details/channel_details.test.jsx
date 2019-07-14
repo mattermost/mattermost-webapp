@@ -23,9 +23,14 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             group_constrained: false,
             name: 'DN',
         };
+        const team = {
+            display_name: 'test',
+        };
+
         const wrapper = shallow(
             <ChannelDetails
                 groups={groups}
+                team={team}
                 totalGroups={groups.length}
                 actions={{
                     getChannel: jest.fn().mockResolvedValue([]),

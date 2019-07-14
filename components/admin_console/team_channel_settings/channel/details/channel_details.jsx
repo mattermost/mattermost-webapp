@@ -23,6 +23,7 @@ export default class ChannelDetails extends React.Component {
     static propTypes = {
         channelID: PropTypes.string.isRequired,
         channel: PropTypes.object.isRequired,
+        team: PropTypes.object.isRequired,
         groups: PropTypes.arrayOf(PropTypes.object).isRequired,
         totalGroups: PropTypes.number.isRequired,
         allGroups: PropTypes.object.isRequired,
@@ -177,7 +178,7 @@ export default class ChannelDetails extends React.Component {
 
     render = () => {
         const {totalGroups, saving, saveNeeded, serverError, isSynced, isPublic, groups, showRemoveConfirmation, usersToRemove} = this.state;
-        const {channel} = this.props;
+        const {channel, team} = this.props;
         const missingGroup = (og) => !groups.find((g) => g.id === og.id);
         const removedGroups = this.props.groups.filter(missingGroup);
         return (
@@ -203,7 +204,7 @@ export default class ChannelDetails extends React.Component {
                             onCancel={this.hideRemoveUsersModal}
                             onConfirm={this.handleSubmit}
                         />
-                        <ChannelProfile channel={channel}/>
+                        <ChannelProfile channel={channel} team={team}/>
 
                         <ChannelModes
                             isPublic={isPublic}
