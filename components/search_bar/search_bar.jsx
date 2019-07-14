@@ -259,7 +259,9 @@ export default class SearchBar extends React.Component {
                             ref={this.getSearch}
                             role='application'
                             id='searchBox'
-                            className='search-bar'
+                            tabIndex='0'
+                            className='search-bar a11y__region'
+                            data-a11y-sort-order='8'
                             aria-describedby='searchbar-help-popup'
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                             value={this.props.searchTerms}
