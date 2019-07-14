@@ -21,7 +21,6 @@ describe('components/widgets/settings/TextSetting', () => {
   inputId="string.id"
   label="some label"
   labelClassName=""
-  maxLength={null}
 >
   <div
     className="checkbox"
