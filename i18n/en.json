@@ -197,6 +197,7 @@
   "admin.banner.heading": "Note:",
   "admin.channel_settings.channel_detail.channel_configuration": "Channel Configuration",
   "admin.channel_settings.channel_detail.channelName": "**Name**",
+  "admin.channel_settings.channel_detail.channelTeam": "**Team**",
   "admin.channel_settings.channel_detail.groupsDescription": "Group members will be added to the channel based on your sync schedule.",
   "admin.channel_settings.channel_detail.groupsTitle": "Groups",
   "admin.channel_settings.channel_detail.manageDescription": "Choose between inviting members manually or syncing members automatically from groups.",
