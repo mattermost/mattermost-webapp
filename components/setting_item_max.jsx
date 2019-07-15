@@ -108,7 +108,19 @@ export default class SettingItemMax extends React.PureComponent {
         saveButtonText: PropTypes.string,
     }
 
+    constructor(props) {
+        super(props);
+        this.settingList = React.createRef();
+    }
+
     componentDidMount() {
+        if (this.settingList.current) {
+            const focusableElements = this.settingList.current.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            if (focusableElements) {
+                focusableElements[0].focus();
+            }
+        }
+
         document.addEventListener('keydown', this.onKeyDown);
     }
 
@@ -120,7 +132,7 @@ export default class SettingItemMax extends React.PureComponent {
         if (this.props.shiftEnter && e.keyCode === Constants.KeyCodes.ENTER && e.shiftKey) {
             return;
         }
-        if (isKeyPressed(e, Constants.KeyCodes.ENTER) && this.props.submit) {
+        if (isKeyPressed(e, Constants.KeyCodes.ENTER) && this.props.submit && e.target.tagName !== 'SELECT') {
             this.handleSubmit(e);
         }
     }
@@ -247,7 +259,10 @@ export default class SettingItemMax extends React.PureComponent {
             >
                 {title}
                 <li className={widthClass}>
-                    <ul className='setting-list'>
+                    <ul
+                        className='setting-list'
+                        ref={this.settingList}
+                    >
                         {listContent}
                         <li className='setting-list-item'>
                             <hr/>

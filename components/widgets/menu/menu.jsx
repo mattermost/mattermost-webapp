@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import FocusTrap from 'focus-trap-react';
 
 import {isMobile} from 'utils/utils';
 
@@ -46,16 +47,24 @@ export default class Menu extends React.PureComponent {
         }
 
         return (
-            <ul
-                id={id}
-                ref={this.node}
-                className='a11y__popup Menu dropdown-menu'
-                style={styles}
-                role='menu'
-                aria-label={ariaLabel}
+            <FocusTrap
+                focusTrapOptions={{
+                    clickOutsideDeactivates: true,
+                }}
             >
-                {children}
-            </ul>
+                <div>
+                    <ul
+                        id={id}
+                        className='a11y__popup Menu dropdown-menu'
+                        ref={this.node}
+                        style={styles}
+                        role='menu'
+                        aria-label={ariaLabel}
+                    >
+                        {children}
+                    </ul>
+                </div>
+            </FocusTrap>
         );
     }
 }
