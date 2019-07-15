@@ -42,7 +42,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       className="help-text"
     >
       <FormattedMessage
-        defaultMessage="Email an invitation to new users."
+        defaultMessage="Search and add guests or email invite new users."
         id="invitation_modal.guests.add_people.description"
         values={Object {}}
       />
