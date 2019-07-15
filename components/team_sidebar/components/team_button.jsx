@@ -112,7 +112,6 @@ export default class TeamButton extends React.Component {
         const toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'Name undefined');
         const btn = (
             <OverlayTrigger
-                trigger={['hover', 'focus']}
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement={this.props.placement}
                 overlay={

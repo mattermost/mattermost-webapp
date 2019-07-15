@@ -281,7 +281,6 @@ export default class RhsRootPost extends React.PureComponent {
         if (this.props.post.props && this.props.post.props.card) {
             postInfoIcon = (
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
                     overlay={
