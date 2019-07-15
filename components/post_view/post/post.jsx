@@ -8,6 +8,7 @@ import {intlShape} from 'react-intl';
 import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
 
 import * as PostUtils from 'utils/post_utils.jsx';
+import {A11yCustomEventTypes} from 'utils/constants.jsx';
 import PostProfilePicture from 'components/post_profile_picture';
 import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';
@@ -102,15 +103,33 @@ export default class Post extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        this.postRef = React.createRef();
+
         this.state = {
             dropdownOpened: false,
             hover: false,
+            a11yActive: false,
             sameRoot: this.hasSameRoot(props),
         };
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         this.setState({sameRoot: this.hasSameRoot(nextProps)});
+    }
+
+    componentDidMount() {
+        this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+    }
+    componentWillUnmount() {
+        this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        this.postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+    }
+
+    componentDidUpdate() {
+        if (this.state.a11yActive) {
+            this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
+        }
     }
 
     handleCommentClick = (e) => {
@@ -210,7 +229,7 @@ export default class Post extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened) {
+        if (this.state.dropdownOpened || this.state.a11yActive) {
             className += ' post--hovered';
         }
 
@@ -221,16 +240,20 @@ export default class Post extends React.PureComponent {
         return className + ' ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + currentUserCss;
     }
 
-    getRef = (node) => {
-        this.domNode = node;
-    }
-
     setHover = () => {
         this.setState({hover: true});
     }
 
     unsetHover = () => {
         this.setState({hover: false});
+    }
+
+    handleA11yActivateEvent = () => {
+        this.setState({a11yActive: true});
+    }
+
+    handleA11yDeactivateEvent = () => {
+        this.setState({a11yActive: false});
     }
 
     render() {
@@ -272,11 +295,11 @@ export default class Post extends React.PureComponent {
 
         return (
             <div
-                ref={this.getRef}
+                ref={this.postRef}
                 id={'post_' + post.id}
                 role='listitem'
-                className={this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}
-                tabIndex='-1'
+                className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}`}
+                tabIndex='0'
                 onFocus={this.setFocus}
                 onBlur={this.removeFocus}
                 onMouseOver={this.setHover}
@@ -301,7 +324,7 @@ export default class Post extends React.PureComponent {
                             isFirstReply={this.props.isFirstReply}
                             replyCount={this.props.replyCount}
                             showTimeWithoutHover={!hideProfilePicture}
-                            hover={this.state.hover}
+                            hover={this.state.hover || this.state.a11yActive}
                         />
                         <PostBody
                             post={post}

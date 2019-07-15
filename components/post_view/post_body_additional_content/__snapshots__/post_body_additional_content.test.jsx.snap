@@ -4,7 +4,7 @@ exports[`PostBodyAdditionalContent with a YouTube video should not render conten
 <div>
   <button
     aria-label="Toggle Embed Visibility"
-    className="style--none post__embed-visibility pull-left"
+    className="style--none post__embed-visibility color--link pull-left"
     data-expanded={false}
     key="toggle"
     onClick={[Function]}
@@ -19,7 +19,7 @@ exports[`PostBodyAdditionalContent with a YouTube video should render correctly 
 <div>
   <button
     aria-label="Toggle Embed Visibility"
-    className="style--none post__embed-visibility pull-left"
+    className="style--none post__embed-visibility color--link pull-left"
     data-expanded={true}
     key="toggle"
     onClick={[Function]}
@@ -42,7 +42,7 @@ exports[`PostBodyAdditionalContent with a YouTube video should render the toggle
   </span>
   <button
     aria-label="Toggle Embed Visibility"
-    className="style--none post__embed-visibility "
+    className="style--none post__embed-visibility color--link "
     data-expanded={true}
     key="toggle"
     onClick={[Function]}
@@ -72,7 +72,7 @@ exports[`PostBodyAdditionalContent with an image preview should render correctly
 <div>
   <button
     aria-label="Toggle Embed Visibility"
-    className="style--none post__embed-visibility pull-left"
+    className="style--none post__embed-visibility color--link pull-left"
     data-expanded={true}
     key="toggle"
     onClick={[Function]}
@@ -114,7 +114,7 @@ exports[`PostBodyAdditionalContent with an image preview should render the toggl
   </span>
   <button
     aria-label="Toggle Embed Visibility"
-    className="style--none post__embed-visibility "
+    className="style--none post__embed-visibility color--link "
     data-expanded={true}
     key="toggle"
     onClick={[Function]}
