@@ -27,17 +27,15 @@ let incomingWebhook;
 
 describe('MM-15887 Interactive menus - basic options', () => {
     before(() => {
-        if (process.env.NODE_ENV !== 'qa') {
-            // Set required ServiceSettings
-            const newSettings = {
-                ServiceSettings: {
-                    AllowedUntrustedInternalConnections: 'localhost',
-                    EnablePostUsernameOverride: true,
-                    EnablePostIconOverride: true,
-                },
-            };
-            cy.apiUpdateConfig(newSettings);
-        }
+        // Set required ServiceSettings
+        const newSettings = {
+            ServiceSettings: {
+                AllowedUntrustedInternalConnections: 'localhost',
+                EnablePostUsernameOverride: true,
+                EnablePostIconOverride: true,
+            },
+        };
+        cy.apiUpdateConfig(newSettings);
 
         // # Login as sysadmin and ensure that teammate name display setting us set to default 'username'
         cy.apiLogin('sysadmin');
