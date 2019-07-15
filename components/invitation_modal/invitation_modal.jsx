@@ -55,6 +55,9 @@ export default class InvitationModal extends React.Component {
 
         this.state = {
             step,
+            prevStep: null,
+            lastInviteChannels: [],
+            lastInviteMessage: '',
             confirmModal: false,
             confirmBack: false,
             hasChanges: false,
@@ -68,16 +71,24 @@ export default class InvitationModal extends React.Component {
         if (this.state.hasChanges) {
             this.setState({confirmBack: true});
         } else {
-            this.setState({step: STEPS_INITIAL, hasChanges: false});
+            this.setState({step: STEPS_INITIAL, hasChanges: false, lastInviteChannels: [], lastInviteMesssage: '', prevStep: this.state.step});
         }
     }
 
     goToMembers = () => {
-        this.setState({step: STEPS_INVITE_MEMBERS, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_MEMBER});
+        this.setState({step: STEPS_INVITE_MEMBERS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_MEMBER});
     }
 
     goToGuests = () => {
-        this.setState({step: STEPS_INVITE_GUESTS, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_GUEST});
+        this.setState({step: STEPS_INVITE_GUESTS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_GUEST});
+    }
+
+    goToPrevStep = () => {
+        if (this.state.prevStep === STEPS_INVITE_GUESTS) {
+            this.setState({step: STEPS_INVITE_GUESTS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_GUEST});
+        } else if (this.state.prevStep === STEPS_INVITE_MEMBERS) {
+            this.setState({step: STEPS_INVITE_MEMBERS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_MEMBER});
+        }
     }
 
     onEdit = (hasChanges) => {
@@ -111,7 +122,7 @@ export default class InvitationModal extends React.Component {
 
     onMembersSubmit = async (users, emails) => {
         const invites = await this.props.actions.sendMembersInvites(this.props.currentTeam.id, users, emails);
-        this.setState({step: STEPS_INVITE_CONFIRM, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: InviteTypes.INVITE_MEMBER, hasChanges: false});
+        this.setState({step: STEPS_INVITE_CONFIRM, prevStep: this.state.step, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: InviteTypes.INVITE_MEMBER, hasChanges: false});
     }
 
     onGuestsSubmit = async (users, emails, channels, message) => {
@@ -122,7 +133,7 @@ export default class InvitationModal extends React.Component {
             emails,
             message,
         );
-        this.setState({step: STEPS_INVITE_CONFIRM, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: InviteTypes.INVITE_GUEST, hasChanges: false});
+        this.setState({step: STEPS_INVITE_CONFIRM, prevStep: this.state.step, lastInviteChannels: channels, lastInviteMessage: message, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: InviteTypes.INVITE_GUEST, hasChanges: false});
     }
 
     render() {
@@ -179,6 +190,8 @@ export default class InvitationModal extends React.Component {
                                 currentTeamId={this.props.currentTeam.id}
                                 myInvitableChannels={this.props.invitableChannels}
                                 searchProfiles={this.props.actions.searchProfiles}
+                                defaultChannels={this.state.lastInviteChannels}
+                                defaultMessage={this.state.lastInviteMessage}
                                 onSubmit={this.onGuestsSubmit}
                                 onEdit={this.onEdit}
                             />
@@ -187,7 +200,7 @@ export default class InvitationModal extends React.Component {
                             <InvitationModalConfirmStep
                                 teamName={this.props.currentTeam.display_name}
                                 currentTeamId={this.props.currentTeam.id}
-                                goBack={this.goToInitialStep}
+                                goBack={this.goToPrevStep}
                                 onDone={this.close}
                                 invitesType={this.state.invitesType}
                                 invitesSent={this.state.invitesSent}
