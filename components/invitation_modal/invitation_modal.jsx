@@ -59,6 +59,7 @@ export default class InvitationModal extends React.Component {
             lastInviteChannels: [],
             lastInviteMessage: '',
             confirmModal: false,
+            confirmBack: false,
             hasChanges: false,
             invitesType: InviteTypes.INVITE_MEMBER,
             invitesSent: [],
@@ -67,7 +68,11 @@ export default class InvitationModal extends React.Component {
     }
 
     goToInitialStep = () => {
-        this.setState({step: STEPS_INITIAL, lastInviteChannels: [], lastInviteMesssage: '', prevStep: this.state.step, hasChanges: false});
+        if (this.state.hasChanges) {
+            this.setState({confirmBack: true});
+        } else {
+            this.setState({step: STEPS_INITIAL, hasChanges: false, lastInviteChannels: [], lastInviteMesssage: '', prevStep: this.state.step});
+        }
     }
 
     goToMembers = () => {
@@ -86,8 +91,8 @@ export default class InvitationModal extends React.Component {
         }
     }
 
-    onEdit = () => {
-        this.setState({hasChanges: true});
+    onEdit = (hasChanges) => {
+        this.setState({hasChanges});
     }
 
     close = () => {
@@ -96,6 +101,14 @@ export default class InvitationModal extends React.Component {
         } else {
             this.props.actions.closeModal();
         }
+    }
+
+    confirmBack = () => {
+        this.setState({step: STEPS_INITIAL, hasChanges: false, confirmBack: false});
+    }
+
+    cancelBack= () => {
+        this.setState({confirmBack: false});
     }
 
     confirmClose = () => {
@@ -132,7 +145,7 @@ export default class InvitationModal extends React.Component {
                 >
                     <div className='InvitationModal'>
                         <ConfirmModal
-                            show={this.state.confirmModal}
+                            show={this.state.confirmModal || this.state.confirmBack}
                             title={
                                 <FormattedMessage
                                     id='invitation-modal.discard-changes.title'
@@ -152,8 +165,8 @@ export default class InvitationModal extends React.Component {
                                 />
                             }
                             modalClass='invitation-modal-confirm'
-                            onConfirm={this.confirmClose}
-                            onCancel={this.cancelConfirm}
+                            onConfirm={this.confirmModal ? this.confirmClose : this.confirmBack}
+                            onCancel={this.confirmModal ? this.cancelConfirm : this.cancelBack}
                         />
                         {this.state.step === STEPS_INITIAL &&
                             <InvitationModalInitialStep
