@@ -75,6 +75,7 @@ export default class EmojiPickerItem extends React.Component {
             image = (
                 <img
                     alt={'emoji image'}
+                    data-testid={emoji.aliases}
                     onMouseOver={this.handleMouseOverThrottle}
                     src={imgTrans}
                     className={spriteClassName}
