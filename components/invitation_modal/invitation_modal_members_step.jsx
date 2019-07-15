@@ -12,6 +12,7 @@ import InviteIcon from 'components/svg/invite_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 
 import BackIcon from 'components/svg/back_icon';
+import LinkIcon from 'components/svg/link_icon';
 
 import {getSiteURL} from 'utils/url.jsx';
 import debouncePromise from 'utils/debounce_promise.jsx';
@@ -99,7 +100,7 @@ export default class InvitationModalMembersStep extends React.Component {
                             value={inviteUrl}
                         />
                         <button className='share-link-input-button'>
-                            <span className='fa fa-link'/>
+                            <LinkIcon/>
                             <FormattedMessage
                                 id='invitation_modal.members.share_link.copy_button'
                                 defaultMessage='Copy Link'
