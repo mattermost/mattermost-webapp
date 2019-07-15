@@ -8,13 +8,16 @@
 // ***************************************************************
 
 import users from '../../fixtures/users.json';
+import TIMEOUTS from '../../fixtures/timeouts';
 
 function searchAndValidate(query, expectedResults = []) {
     // # Enter in search query, and hit enter
     cy.get('#searchBox').clear().type(query).type('{enter}');
 
     // # Wait for search request to complete
-    cy.wait('@searchRequest').its('status').should('equal', 200);
+    cy.wait('@searchRequest', {requestTimeout: TIMEOUTS.MEDIUM}).its('status').should('equal', 200);
+
+    cy.get('#loadingSpinner').should('not.be.visible');
 
     if (expectedResults.length > 0) {
         // * Verify that there's search item before querying by test ID
@@ -390,11 +393,14 @@ describe('SF15699 Search Date Filter', () => {
                 type(`${targetMessage}{enter}`);
 
             // # Wait for search request to complete
-            cy.wait('@searchRequest').its('status').should('equal', 200);
+            cy.wait('@searchRequest', {requestTimeout: TIMEOUTS.MEDIUM}).its('status').should('equal', 200);
+
+            cy.get('#loadingSpinner').should('not.be.visible');
 
             // * Verify we see our single result
             cy.queryAllByTestId('search-item-container').
-                should('have.length', 1).
+                should('be.visible').
+                and('have.length', 1).
                 find('.post-message').
                 should('have.text', targetMessage);
 
@@ -418,7 +424,9 @@ describe('SF15699 Search Date Filter', () => {
                 type('{enter}');
 
             // # Wait for search request to complete
-            cy.wait('@searchRequest').its('status').should('equal', 200);
+            cy.wait('@searchRequest', {requestTimeout: TIMEOUTS.MEDIUM}).its('status').should('equal', 200);
+
+            cy.get('#loadingSpinner').should('not.be.visible');
 
             // * There should be no results
             cy.queryAllByTestId('search-item-container').should('have.length', 0);
