@@ -1240,7 +1240,8 @@ export default class CreatePost extends React.Component {
                             id='centerChannelFooter'
                             aria-label={ariaLabelMessageInput}
                             tabIndex='-1'
-                            className='post-body__cell'
+                            className='post-body__cell a11y__region'
+                            data-a11y-sort-order='2'
                         >
                             <Textbox
                                 onChange={this.handleChange}

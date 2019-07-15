@@ -12,7 +12,7 @@ import ChannelRow from './channel_row';
 const Header = () => {
     return (
         <div className='groups-list--header'>
-            <div className='group-name'>
+            <div className='group-name adjusted'>
                 <FormattedMessage
                     id='admin.channel_settings.channel_list.nameHeader'
                     defaultMessage='Name'
@@ -24,7 +24,7 @@ const Header = () => {
                     defaultMessage='Team'
                 />
             </div>
-            <div className='group-description'>
+            <div className='group-description adjusted'>
                 <FormattedMessage
                     id='admin.channel_settings.channel_list.managementHeader'
                     defaultMessage='Management'

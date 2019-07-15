@@ -357,7 +357,7 @@ export default class GeneralTab extends React.Component {
                 ];
             } else {
                 inputs = [
-                    <div key='userOpenInviteOptions'>
+                    <fieldset key='userOpenInviteOptions'>
                         <div className='radio'>
                             <label>
                                 <input
@@ -390,14 +390,13 @@ export default class GeneralTab extends React.Component {
                             </label>
                             <br/>
                         </div>
-                        <div>
-                            <br/>
+                        <div className='margin-top x3'>
                             <FormattedMessage
                                 id='general_tab.openInviteDesc'
                                 defaultMessage='When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team.'
                             />
                         </div>
-                    </div>,
+                    </fieldset>,
                 ];
             }
 
