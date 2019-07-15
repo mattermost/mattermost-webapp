@@ -236,7 +236,7 @@ export class AuditTable extends React.PureComponent {
         const audits = this.props.audits;
         const showUserId = this.props.showUserId;
         const showIp = this.props.showIp;
-        const showSession = this.props.showSession
+        const showSession = this.props.showSession;
         var accessList = [];
 
         for (var i = 0; i < audits.length; i++) {
