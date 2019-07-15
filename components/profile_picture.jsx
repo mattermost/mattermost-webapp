@@ -38,6 +38,8 @@ export default class ProfilePicture extends React.PureComponent {
     }
 
     render() {
+        // profileSrc will, if possible, be the original user profile picture even if the icon
+        // for the post is overriden, so that the popup shows the user identity
         const profileSrc = (typeof this.props.profileSrc === 'string' && this.props.profileSrc !== '') ?
             this.props.profileSrc :
             this.props.src;
