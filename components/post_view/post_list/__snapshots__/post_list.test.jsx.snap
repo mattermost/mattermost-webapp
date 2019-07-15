@@ -25,7 +25,7 @@ exports[`components/post_view/post_list snapshot with couple of posts 1`] = `
     >
       <div
         className="post-list__content"
-        id="postListContent"
+        id="virtualizedPostListContent"
       >
         <PostList
           actions={
