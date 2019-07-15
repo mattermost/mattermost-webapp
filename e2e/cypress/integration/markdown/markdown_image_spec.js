@@ -11,8 +11,13 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Markdown', () => {
     before(() => {
-        cy.apiLogin('user-1');
-        cy.visit('/');
+        // # Login as new user
+        cy.loginAsNewUser().then(() => {
+            // # Create new team and visit its URL
+            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+                cy.visit(`/${response.body.name}`);
+            });
+        });
     });
 
     const baseUrl = Cypress.config('baseUrl');

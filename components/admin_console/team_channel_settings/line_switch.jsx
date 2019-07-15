@@ -9,17 +9,19 @@ import Toggle from 'components/toggle';
 export default class LineSwitch extends React.PureComponent {
     static propTypes = {
         title: PropTypes.node.isRequired,
+        last: PropTypes.bool,
         toggled: PropTypes.bool.isRequired,
+        singleLine: PropTypes.bool,
         subTitle: PropTypes.node.isRequired,
         onToggle: PropTypes.func.isRequired,
         children: PropTypes.node,
-        offText: PropTypes.string,
-        onText: PropTypes.string,
+        offText: PropTypes.node,
+        onText: PropTypes.node,
     };
 
     render() {
-        const {title, subTitle, toggled, onToggle, children, offText, onText} = this.props;
-        return (<div className='padding-bottom x2'>
+        const {title, subTitle, singleLine, toggled, onToggle, children, offText, onText, last} = this.props;
+        return (<div>
             <div className='row align-items-start'>
                 <div className='col-sm-10'>
                     <label className='control-label'>{title}</label>
@@ -35,10 +37,11 @@ export default class LineSwitch extends React.PureComponent {
             </div>
             <div className='row'>
                 <div className='col-sm-10'>
-                    <div className='help-text'>{subTitle}</div>
+                    <div className={`help-text-small help-text-no-padding ${singleLine ? 'help-text-single-line' : ''}`}>{subTitle}</div>
                 </div>
             </div>
             {children}
+            {!last && <div className='section-separator'><hr className='separator__hr'/></div>}
         </div>);
     }
 }

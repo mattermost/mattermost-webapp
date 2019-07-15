@@ -279,6 +279,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         id='channelLeaveChannel'
                         channel={channel}
                         isDefault={isDefault}
+                        isGuestUser={user.is_guest}
                     />
                     <MenuItemCloseChannel
                         id='channelCloseChannel'

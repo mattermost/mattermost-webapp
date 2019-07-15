@@ -55,7 +55,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
       system_user
     </span>
     <span
-      className="group-user-removal-column group-description"
+      className="group-user-removal-column group-description group-description-link"
     >
       test group
     </span>
@@ -118,7 +118,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
       system_user
     </span>
     <span
-      className="group-user-removal-column group-description"
+      className="group-user-removal-column group-description group-description-link"
     >
       <OverlayTrigger
         defaultOverlayShown={false}

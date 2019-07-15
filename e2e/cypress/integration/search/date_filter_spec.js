@@ -13,6 +13,9 @@ function searchAndValidate(query, expectedResults = []) {
     // # Enter in search query, and hit enter
     cy.get('#searchBox').clear().type(query).type('{enter}');
 
+    // # Wait for search request to complete
+    cy.wait('@searchRequest').its('status').should('equal', 200);
+
     if (expectedResults.length > 0) {
         // * Verify that there's search item before querying by test ID
         cy.get('.search-item__container').should('be.visible');
@@ -78,6 +81,11 @@ describe('SF15699 Search Date Filter', () => {
     let newAdmin;
 
     before(() => {
+        // # Make fetch null so we falback to XHR requests to be able to listen in on them
+        Cypress.on('window:before:load', (win) => {
+            win.fetch = null;
+        });
+
         // # Login as the sysadmin.
         cy.apiLogin('sysadmin');
 
@@ -132,6 +140,12 @@ describe('SF15699 Search Date Filter', () => {
                 cy.postMessageAs({sender: user, message: secondOffTopicMessage, channelId, createAt: secondDateLater.ms, baseUrl});
             });
         });
+    });
+
+    beforeEach(() => {
+        // # Setup server and listen for search request
+        cy.server();
+        cy.route({method: 'POST', url: '**/posts/search'}).as('searchRequest');
     });
 
     describe('input date filter', () => {
@@ -375,6 +389,9 @@ describe('SF15699 Search Date Filter', () => {
                 focus().
                 type(`${targetMessage}{enter}`);
 
+            // # Wait for search request to complete
+            cy.wait('@searchRequest').its('status').should('equal', 200);
+
             // * Verify we see our single result
             cy.queryAllByTestId('search-item-container').
                 should('have.length', 1).
@@ -399,6 +416,9 @@ describe('SF15699 Search Date Filter', () => {
             cy.get('#searchBox').
                 should('have.value', `on:2019-01-16  ${targetMessage}`).
                 type('{enter}');
+
+            // # Wait for search request to complete
+            cy.wait('@searchRequest').its('status').should('equal', 200);
 
             // * There should be no results
             cy.queryAllByTestId('search-item-container').should('have.length', 0);

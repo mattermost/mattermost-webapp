@@ -28,6 +28,6 @@ function text(toggled, onText, offText) {
 Toggle.propTypes = {
     onToggle: PropTypes.func.isRequired,
     toggled: PropTypes.bool,
-    onText: PropTypes.string,
-    offText: PropTypes.string,
+    onText: PropTypes.node,
+    offText: PropTypes.node,
 };
