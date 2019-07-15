@@ -53,7 +53,7 @@ export function sendMembersInvites(teamId, users, emails) {
             }
             for (const email of emails) {
                 if (response.error) {
-                    notSent.push({email, reason: response.error});
+                    notSent.push({email, reason: response.error.toString()});
                 } else {
                     sent.push({email, reason: localizeMessage('invite.members.invite-sent', 'An invitation email has been sent')});
                 }
