@@ -112,12 +112,13 @@ describe('components/SettingItemMin', () => {
             <SettingItemMax {...props}/>
         );
         const instance = wrapper.instance();
-        const select = wrapper.find('select');
-        if (!select) {
-            instance.onKeyDown({preventDefault: jest.fn(), key: Constants.KeyCodes.ENTER[0], target: {tagName: 'SELECT'}});
-            expect(submit).toHaveBeenCalled();
-            expect(submit).toHaveBeenCalledWith('setting');
-        }
+
+        instance.onKeyDown({preventDefault: jest.fn(), key: Constants.KeyCodes.ENTER[0], target: {tagName: 'SELECT'}});
+        expect(submit).toHaveBeenCalledTimes(0);
+
+        instance.onKeyDown({preventDefault: jest.fn(), key: Constants.KeyCodes.ENTER[0], target: {tagName: ''}});
+        expect(submit).toHaveBeenCalledTimes(1);
+        expect(submit).toHaveBeenCalledWith('setting');
     });
 
     test('should match snapshot, with new saveTextButton', () => {
