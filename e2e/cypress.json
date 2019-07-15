@@ -1,5 +1,6 @@
 {
     "baseUrl": "http://localhost:8065",
+    "webhookBaseUrl": "http://localhost:3000",
     "viewportWidth": 1300,
     "defaultCommandTimeout": 20000,
     "taskTimeout": 20000,
