@@ -448,7 +448,7 @@ class InviteMemberModal extends React.PureComponent {
             return (
                 <div>
                     <Modal
-                        dialogClassName='modal-invite-member'
+                        dialogClassName='a11y__modal modal-invite-member'
                         show={this.state.show}
                         onHide={this.handleHide.bind(this, true)}
                         onExited={this.props.onHide}
@@ -469,7 +469,7 @@ class InviteMemberModal extends React.PureComponent {
                             </Modal.Title>
                         </Modal.Header>
                         <Modal.Body ref='modalBody'>
-                            <form role='form'>
+                            <form>
                                 {inviteSections}
                             </form>
                             {content}
