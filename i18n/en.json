@@ -2488,7 +2488,7 @@
   "invitation_modal.confirm.sent-header": "Successful Invites",
   "invitation_modal.guests.add_channels.placeholder": "Search and add Channels",
   "invitation_modal.guests.add_channels.title": "Search and Add Channels",
-  "invitation_modal.guests.add_people.description": "Email an invitation to new users.",
+  "invitation_modal.guests.add_people.description": "Search and add guests or email invite new users.",
   "invitation_modal.guests.add_people.title": "Add People",
   "invitation_modal.guests.add-channels.description": "Specify the channels the guests have access to.",
   "invitation_modal.guests.custom-message.description": "Create a custom message to make your invite more personal.",

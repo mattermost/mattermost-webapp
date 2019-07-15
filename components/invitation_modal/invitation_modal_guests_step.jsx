@@ -152,7 +152,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                     <div className='help-text'>
                         <FormattedMessage
                             id='invitation_modal.guests.add_people.description'
-                            defaultMessage='Email an invitation to new users.'
+                            defaultMessage='Search and add guests or email invite new users.'
                         />
                     </div>
                 </div>
