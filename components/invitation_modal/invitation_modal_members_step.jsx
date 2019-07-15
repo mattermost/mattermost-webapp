@@ -12,6 +12,8 @@ import InviteIcon from 'components/svg/invite_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 
 import BackIcon from 'components/svg/back_icon';
+import SuccessIcon from 'components/icon/success_icon';
+import LinkIcon from 'components/svg/link_icon';
 
 import {getSiteURL} from 'utils/url.jsx';
 import debouncePromise from 'utils/debounce_promise.jsx';
@@ -30,9 +32,24 @@ export default class InvitationModalMembersStep extends React.Component {
 
     constructor(props) {
         super(props);
+        this.inviteLinkRef = React.createRef();
         this.state = {
             usersAndEmails: [],
+            copiedLink: false,
         };
+    }
+
+    copyLink = () => {
+        const input = this.inviteLinkRef.current;
+        input.focus();
+        input.setSelectionRange(0, input.value.length);
+
+        try {
+            this.setState({copiedLink: document.execCommand('copy')});
+        } catch (err) {
+            this.setState({copiedLink: false});
+        }
+        input.setSelectionRange(0, 0);
     }
 
     usersLoader = async (term) => {
@@ -50,7 +67,7 @@ export default class InvitationModalMembersStep extends React.Component {
 
     onChange = (usersAndEmails) => {
         this.setState({usersAndEmails});
-        this.props.onEdit();
+        this.props.onEdit(usersAndEmails.length > 0);
     }
 
     submit = () => {
@@ -68,6 +85,18 @@ export default class InvitationModalMembersStep extends React.Component {
 
     render() {
         const inviteUrl = getSiteURL() + '/signup_user_complete/?id=' + this.props.inviteId;
+        let copyLinkConfirm = null;
+        if (this.state.copiedLink) {
+            copyLinkConfirm = (
+                <p className='alert alert-success alert--confirm'>
+                    <SuccessIcon/>
+                    <FormattedMessage
+                        id='get_link.clipboard'
+                        defaultMessage=' Link copied'
+                    />
+                </p>
+            );
+        }
         return (
             <div className='InvitationModalMembersStep'>
                 {this.props.goBack &&
@@ -93,19 +122,24 @@ export default class InvitationModalMembersStep extends React.Component {
                     </h2>
                     <div className='share-link-input-block'>
                         <input
+                            ref={this.inviteLinkRef}
                             className='share-link-input'
                             type='text'
-                            disabled='distabled'
+                            readOnly={true}
                             value={inviteUrl}
                         />
-                        <button className='share-link-input-button'>
-                            <span className='fa fa-link'/>
+                        <button
+                            className='share-link-input-button'
+                            onClick={this.copyLink}
+                        >
+                            <LinkIcon/>
                             <FormattedMessage
                                 id='invitation_modal.members.share_link.copy_button'
                                 defaultMessage='Copy Link'
                             />
                         </button>
                     </div>
+                    {copyLinkConfirm}
                     <div className='help-text'>
                         <FormattedMessage
                             id='invitation_modal.members.share_link.description'
