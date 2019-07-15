@@ -558,7 +558,8 @@ export default class ChannelHeader extends React.PureComponent {
                 role='navigation'
                 tabIndex='-1'
                 data-channelid={`${channel.id}`}
-                className='channel-header alt'
+                className='channel-header alt a11y__region'
+                data-a11y-sort-order='7'
             >
                 <div className='flex-parent'>
                     <div className='flex-child'>

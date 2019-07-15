@@ -11,7 +11,7 @@ import {
     isPostPendingOrFailed,
 } from 'mattermost-redux/utils/post_utils';
 
-import Constants, {Locations} from 'utils/constants.jsx';
+import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -58,10 +58,29 @@ export default class RhsComment extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        this.postRef = React.createRef();
+
         this.state = {
             showEmojiPicker: false,
             dropdownOpened: false,
+            hover: false,
+            a11yActive: false,
         };
+    }
+
+    componentDidMount() {
+        this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+    }
+    componentWillUnmount() {
+        this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        this.postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+    }
+
+    componentDidUpdate() {
+        if (this.state.a11yActive) {
+            this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
+        }
     }
 
     removePost = () => {
@@ -149,6 +168,14 @@ export default class RhsComment extends React.PureComponent {
 
     unsetHover = () => {
         this.setState({hover: false});
+    }
+
+    handleA11yActivateEvent = () => {
+        this.setState({a11yActive: true});
+    }
+
+    handleA11yDeactivateEvent = () => {
+        this.setState({a11yActive: false});
     }
 
     render() {
@@ -304,7 +331,7 @@ export default class RhsComment extends React.PureComponent {
                     {this.createRemovePostButton()}
                 </div>
             );
-        } else if (!isSystemMessage && (this.state.hover || this.state.dropdownOpened || this.state.showEmojiPicker)) {
+        } else if (!isSystemMessage && (this.state.hover || this.state.a11yActive || this.state.dropdownOpened || this.state.showEmojiPicker)) {
             const dotMenu = (
                 <DotMenu
                     post={this.props.post}
@@ -341,7 +368,7 @@ export default class RhsComment extends React.PureComponent {
         }
 
         let flagIcon = null;
-        if (this.state.hover || this.state.dropdownOpened || this.state.showEmojiPicker || this.props.isFlagged) {
+        if (this.state.hover || this.state.a11yActive || this.state.dropdownOpened || this.state.showEmojiPicker || this.props.isFlagged) {
             flagIcon = (
                 <PostFlagIcon
                     location={Locations.RHS_COMMENT}
@@ -388,10 +415,10 @@ export default class RhsComment extends React.PureComponent {
         return (
             <div
                 role='listitem'
-                ref={'post_body_' + post.id}
+                ref={this.postRef}
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
-                className={this.getClassName(post, isSystemMessage)}
+                className={`a11y__section ${this.getClassName(post, isSystemMessage)}`}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
                 aria-label={PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)}

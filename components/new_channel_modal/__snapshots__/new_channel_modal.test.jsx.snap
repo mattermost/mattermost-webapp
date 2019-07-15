@@ -9,7 +9,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
     backdrop={true}
     bsClass="modal"
     bsSize="large"
-    dialogClassName="new-channel__modal new-channel"
+    dialogClassName="a11y__modal new-channel__modal new-channel"
     dialogComponentClass={[Function]}
     enforceFocus={true}
     keyboard={true}
@@ -39,7 +39,6 @@ exports[`components/NewChannelModal should match snapshot, display only private 
       <button
         className="close"
         onClick={[MockFunction]}
-        tabIndex="5"
         type="button"
       >
         <span
@@ -143,7 +142,6 @@ exports[`components/NewChannelModal should match snapshot, display only private 
                   "id": "channel_modal.nameEx",
                 }
               }
-              tabIndex="1"
               type="text"
               value="testchannel"
             />
@@ -154,7 +152,6 @@ exports[`components/NewChannelModal should match snapshot, display only private 
               <button
                 className="color--link style--none"
                 onClick={[Function]}
-                tabIndex="7"
               >
                 <FormattedMessage
                   defaultMessage="Edit"
@@ -201,7 +198,6 @@ exports[`components/NewChannelModal should match snapshot, display only private 
               onChange={[Function]}
               placeholder="E.g.: \\"A channel to file bugs and improvements\\""
               rows="4"
-              tabIndex="2"
               value=""
             />
             <p
@@ -250,7 +246,6 @@ exports[`components/NewChannelModal should match snapshot, display only private 
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
               rows="4"
-              tabIndex="3"
               value=""
             />
             <p
@@ -274,7 +269,6 @@ exports[`components/NewChannelModal should match snapshot, display only private 
           id="cancelNewChannel"
           onBlur={[Function]}
           onClick={[MockFunction]}
-          tabIndex="8"
           type="button"
         >
           <FormattedMessage
@@ -287,7 +281,6 @@ exports[`components/NewChannelModal should match snapshot, display only private 
           className="btn btn-primary"
           id="submitNewChannel"
           onClick={[Function]}
-          tabIndex="4"
           type="submit"
         >
           <FormattedMessage
@@ -311,7 +304,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
     backdrop={true}
     bsClass="modal"
     bsSize="large"
-    dialogClassName="new-channel__modal new-channel"
+    dialogClassName="a11y__modal new-channel__modal new-channel"
     dialogComponentClass={[Function]}
     enforceFocus={true}
     keyboard={true}
@@ -341,7 +334,6 @@ exports[`components/NewChannelModal should match snapshot, display only public c
       <button
         className="close"
         onClick={[MockFunction]}
-        tabIndex="5"
         type="button"
       >
         <span
@@ -445,7 +437,6 @@ exports[`components/NewChannelModal should match snapshot, display only public c
                   "id": "channel_modal.nameEx",
                 }
               }
-              tabIndex="1"
               type="text"
               value="testchannel"
             />
@@ -456,7 +447,6 @@ exports[`components/NewChannelModal should match snapshot, display only public c
               <button
                 className="color--link style--none"
                 onClick={[Function]}
-                tabIndex="7"
               >
                 <FormattedMessage
                   defaultMessage="Edit"
@@ -503,7 +493,6 @@ exports[`components/NewChannelModal should match snapshot, display only public c
               onChange={[Function]}
               placeholder="E.g.: \\"A channel to file bugs and improvements\\""
               rows="4"
-              tabIndex="2"
               value=""
             />
             <p
@@ -552,7 +541,6 @@ exports[`components/NewChannelModal should match snapshot, display only public c
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
               rows="4"
-              tabIndex="3"
               value=""
             />
             <p
@@ -576,7 +564,6 @@ exports[`components/NewChannelModal should match snapshot, display only public c
           id="cancelNewChannel"
           onBlur={[Function]}
           onClick={[MockFunction]}
-          tabIndex="8"
           type="button"
         >
           <FormattedMessage
@@ -589,7 +576,6 @@ exports[`components/NewChannelModal should match snapshot, display only public c
           className="btn btn-primary"
           id="submitNewChannel"
           onClick={[Function]}
-          tabIndex="4"
           type="submit"
         >
           <FormattedMessage
@@ -613,7 +599,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
     backdrop={true}
     bsClass="modal"
     bsSize="large"
-    dialogClassName="new-channel__modal new-channel"
+    dialogClassName="a11y__modal new-channel__modal new-channel"
     dialogComponentClass={[Function]}
     enforceFocus={true}
     keyboard={true}
@@ -643,7 +629,6 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
       <button
         className="close"
         onClick={[MockFunction]}
-        tabIndex="5"
         type="button"
       >
         <span
@@ -692,7 +677,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
           <div
             className="col-sm-9"
           >
-            <div
+            <fieldset
               className="multi-select__radio"
               key="channelType"
             >
@@ -756,7 +741,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
                   </div>
                 </label>
               </div>
-            </div>
+            </fieldset>
           </div>
         </div>
         <div
@@ -787,7 +772,6 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
                   "id": "channel_modal.nameEx",
                 }
               }
-              tabIndex="1"
               type="text"
               value="testchannel"
             />
@@ -798,7 +782,6 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
               <button
                 className="color--link style--none"
                 onClick={[Function]}
-                tabIndex="7"
               >
                 <FormattedMessage
                   defaultMessage="Edit"
@@ -845,7 +828,6 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
               onChange={[Function]}
               placeholder="E.g.: \\"A channel to file bugs and improvements\\""
               rows="4"
-              tabIndex="2"
               value=""
             />
             <p
@@ -894,7 +876,6 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
               rows="4"
-              tabIndex="3"
               value=""
             />
             <p
@@ -918,7 +899,6 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
           id="cancelNewChannel"
           onBlur={[Function]}
           onClick={[MockFunction]}
-          tabIndex="8"
           type="button"
         >
           <FormattedMessage
@@ -931,7 +911,6 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
           className="btn btn-primary"
           id="submitNewChannel"
           onClick={[Function]}
-          tabIndex="4"
           type="submit"
         >
           <FormattedMessage
@@ -955,7 +934,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
     backdrop={true}
     bsClass="modal"
     bsSize="large"
-    dialogClassName="new-channel__modal new-channel"
+    dialogClassName="a11y__modal new-channel__modal new-channel"
     dialogComponentClass={[Function]}
     enforceFocus={true}
     keyboard={true}
@@ -985,7 +964,6 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
       <button
         className="close"
         onClick={[MockFunction]}
-        tabIndex="5"
         type="button"
       >
         <span
@@ -1034,7 +1012,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
           <div
             className="col-sm-9"
           >
-            <div
+            <fieldset
               className="multi-select__radio"
               key="channelType"
             >
@@ -1098,7 +1076,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
                   </div>
                 </label>
               </div>
-            </div>
+            </fieldset>
           </div>
         </div>
         <div
@@ -1129,7 +1107,6 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
                   "id": "channel_modal.nameEx",
                 }
               }
-              tabIndex="1"
               type="text"
               value="testchannel"
             />
@@ -1140,7 +1117,6 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
               <button
                 className="color--link style--none"
                 onClick={[Function]}
-                tabIndex="7"
               >
                 <FormattedMessage
                   defaultMessage="Edit"
@@ -1187,7 +1163,6 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
               onChange={[Function]}
               placeholder="E.g.: \\"A channel to file bugs and improvements\\""
               rows="4"
-              tabIndex="2"
               value=""
             />
             <p
@@ -1236,7 +1211,6 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
               rows="4"
-              tabIndex="3"
               value=""
             />
             <p
@@ -1260,7 +1234,6 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
           id="cancelNewChannel"
           onBlur={[Function]}
           onClick={[MockFunction]}
-          tabIndex="8"
           type="button"
         >
           <FormattedMessage
@@ -1273,7 +1246,6 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
           className="btn btn-primary"
           id="submitNewChannel"
           onClick={[Function]}
-          tabIndex="4"
           type="submit"
         >
           <FormattedMessage
@@ -1297,7 +1269,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
     backdrop={true}
     bsClass="modal"
     bsSize="large"
-    dialogClassName="new-channel__modal new-channel"
+    dialogClassName="a11y__modal new-channel__modal new-channel"
     dialogComponentClass={[Function]}
     enforceFocus={true}
     keyboard={true}
@@ -1327,7 +1299,6 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
       <button
         className="close"
         onClick={[MockFunction]}
-        tabIndex="5"
         type="button"
       >
         <span
@@ -1376,7 +1347,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
           <div
             className="col-sm-9"
           >
-            <div
+            <fieldset
               className="multi-select__radio"
               key="channelType"
             >
@@ -1440,7 +1411,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
                   </div>
                 </label>
               </div>
-            </div>
+            </fieldset>
           </div>
         </div>
         <div
@@ -1471,7 +1442,6 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
                   "id": "channel_modal.nameEx",
                 }
               }
-              tabIndex="1"
               type="text"
               value="testchannel"
             />
@@ -1492,7 +1462,6 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
               <button
                 className="color--link style--none"
                 onClick={[Function]}
-                tabIndex="7"
               >
                 <FormattedMessage
                   defaultMessage="Edit"
@@ -1539,7 +1508,6 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
               onChange={[Function]}
               placeholder="E.g.: \\"A channel to file bugs and improvements\\""
               rows="4"
-              tabIndex="2"
               value=""
             />
             <p
@@ -1588,7 +1556,6 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
               rows="4"
-              tabIndex="3"
               value=""
             />
             <p
@@ -1612,7 +1579,6 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
           id="cancelNewChannel"
           onBlur={[Function]}
           onClick={[MockFunction]}
-          tabIndex="8"
           type="button"
         >
           <FormattedMessage
@@ -1625,7 +1591,6 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
           className="btn btn-primary"
           id="submitNewChannel"
           onClick={[Function]}
-          tabIndex="4"
           type="submit"
         >
           <FormattedMessage
@@ -1649,7 +1614,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
     backdrop={true}
     bsClass="modal"
     bsSize="large"
-    dialogClassName="new-channel__modal new-channel"
+    dialogClassName="a11y__modal new-channel__modal new-channel"
     dialogComponentClass={[Function]}
     enforceFocus={true}
     keyboard={true}
@@ -1679,7 +1644,6 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
       <button
         className="close"
         onClick={[MockFunction]}
-        tabIndex="5"
         type="button"
       >
         <span
@@ -1728,7 +1692,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
           <div
             className="col-sm-9"
           >
-            <div
+            <fieldset
               className="multi-select__radio"
               key="channelType"
             >
@@ -1792,7 +1756,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
                   </div>
                 </label>
               </div>
-            </div>
+            </fieldset>
           </div>
         </div>
         <div
@@ -1823,7 +1787,6 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
                   "id": "channel_modal.nameEx",
                 }
               }
-              tabIndex="1"
               type="text"
               value="testchannel"
             />
@@ -1834,7 +1797,6 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
               <button
                 className="color--link style--none"
                 onClick={[Function]}
-                tabIndex="7"
               >
                 <FormattedMessage
                   defaultMessage="Edit"
@@ -1881,7 +1843,6 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
               onChange={[Function]}
               placeholder="E.g.: \\"A channel to file bugs and improvements\\""
               rows="4"
-              tabIndex="2"
               value=""
             />
             <p
@@ -1930,7 +1891,6 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
               rows="4"
-              tabIndex="3"
               value=""
             />
             <p
@@ -1968,7 +1928,6 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
           id="cancelNewChannel"
           onBlur={[Function]}
           onClick={[MockFunction]}
-          tabIndex="8"
           type="button"
         >
           <FormattedMessage
@@ -1981,7 +1940,6 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
           className="btn btn-primary"
           id="submitNewChannel"
           onClick={[Function]}
-          tabIndex="4"
           type="submit"
         >
           <FormattedMessage
@@ -2005,7 +1963,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
     backdrop={true}
     bsClass="modal"
     bsSize="large"
-    dialogClassName="new-channel__modal new-channel"
+    dialogClassName="a11y__modal new-channel__modal new-channel"
     dialogComponentClass={[Function]}
     enforceFocus={true}
     keyboard={true}
@@ -2035,7 +1993,6 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
       <button
         className="close"
         onClick={[MockFunction]}
-        tabIndex="5"
         type="button"
       >
         <span
@@ -2084,7 +2041,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
           <div
             className="col-sm-9"
           >
-            <div
+            <fieldset
               className="multi-select__radio"
               key="channelType"
             >
@@ -2148,7 +2105,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
                   </div>
                 </label>
               </div>
-            </div>
+            </fieldset>
           </div>
         </div>
         <div
@@ -2179,7 +2136,6 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
                   "id": "channel_modal.nameEx",
                 }
               }
-              tabIndex="1"
               type="text"
               value="testchannel"
             />
@@ -2190,7 +2146,6 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
               <button
                 className="color--link style--none"
                 onClick={[Function]}
-                tabIndex="7"
               >
                 <FormattedMessage
                   defaultMessage="Edit"
@@ -2237,7 +2192,6 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
               onChange={[Function]}
               placeholder="E.g.: \\"A channel to file bugs and improvements\\""
               rows="4"
-              tabIndex="2"
               value="some purpose"
             />
             <p
@@ -2286,7 +2240,6 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
               rows="4"
-              tabIndex="3"
               value="some header"
             />
             <p
@@ -2310,7 +2263,6 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
           id="cancelNewChannel"
           onBlur={[Function]}
           onClick={[MockFunction]}
-          tabIndex="8"
           type="button"
         >
           <FormattedMessage
@@ -2323,7 +2275,6 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
           className="btn btn-primary"
           id="submitNewChannel"
           onClick={[Function]}
-          tabIndex="4"
           type="submit"
         >
           <FormattedMessage

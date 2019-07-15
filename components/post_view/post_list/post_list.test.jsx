@@ -13,7 +13,7 @@ const actionsProp = {
     loadPostsAround: jest.fn().mockImplementation(() => Promise.resolve({atLatestMessage: true, atOldestmessage: true})),
     loadUnreads: jest.fn().mockImplementation(() => Promise.resolve({atLatestMessage: true, atOldestmessage: true})),
     loadPosts: jest.fn().mockImplementation(() => Promise.resolve({moreToLoad: false})),
-    syncPostsInChannel: jest.fn(),
+    syncPostsInChannel: jest.fn().mockResolvedValue({}),
     loadLatestPosts: jest.fn().mockImplementation(() => Promise.resolve({atLatestMessage: true, atOldestmessage: true})),
     checkAndSetMobileView: jest.fn(),
 };

@@ -11,6 +11,7 @@ server.use(bodyParser.urlencoded({extended: true}));
 
 process.title = process.argv[2];
 
+server.get('/', (req, res) => res.send('I\'m alive!\n'));
 server.post('/message_menus', postMessageMenus);
 
 server.listen(port, () => console.log(`Webhook test server listening on port ${port}!`)); // eslint-disable-line no-console
