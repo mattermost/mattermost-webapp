@@ -14,6 +14,7 @@ import MailIcon from 'components/svg/mail_icon';
 import MailPlusIcon from 'components/svg/mail_plus_icon';
 import CloseCircleSolidIcon from 'components/svg/close_circle_solid_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import {imageURLForUser, getDisplayName, getLongDisplayName} from 'utils/utils.jsx';
 
 import {t} from 'utils/i18n.jsx';
@@ -49,14 +50,15 @@ export default class UsersEmailsInput extends React.Component {
     };
 
     loadingMessage = () => {
-        if (!this.context.intl) {
-            return 'Loading';
+        let text = 'Loading';
+        if (this.context.intl) {
+            text = this.context.intl.formatMessage({
+                id: this.props.loadingMessageId,
+                defaultMessage: this.props.loadingMessageDefault,
+            });
         }
 
-        return this.context.intl.formatMessage({
-            id: this.props.loadingMessageId,
-            defaultMessage: this.props.loadingMessageDefault,
-        });
+        return (<LoadingSpinner text={text}/>);
     }
 
     getOptionValue = (user) => {

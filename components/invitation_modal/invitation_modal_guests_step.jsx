@@ -45,17 +45,17 @@ export default class InvitationModalGuestsStep extends React.Component {
 
     onUsersEmailsChange = (usersAndEmails) => {
         this.setState({usersAndEmails});
-        this.props.onEdit();
+        this.props.onEdit(usersAndEmails.length > 0 || this.state.channels.length > 0 || this.state.customMessage !== '');
     }
 
     onChannelsChange = (channels) => {
         this.setState({channels});
-        this.props.onEdit();
+        this.props.onEdit(this.state.usersAndEmails.length > 0 || channels.length > 0 || this.state.customMessage !== '');
     }
 
     onMessageChange = (e) => {
         this.setState({customMessage: e.target.value});
-        this.props.onEdit();
+        this.props.onEdit(this.state.usersAndEmails.length > 0 || this.state.channels.length > 0 || e.target.value !== '');
     }
 
     usersLoader = async (term) => {
@@ -152,7 +152,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                     <div className='help-text'>
                         <FormattedMessage
                             id='invitation_modal.guests.add_people.description'
-                            defaultMessage='Email an invitation to new users.'
+                            defaultMessage='Search and add guests or email invite new users.'
                         />
                     </div>
                 </div>

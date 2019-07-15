@@ -13,6 +13,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import PublicChannelIcon from 'components/svg/globe_icon.jsx';
 import PrivateChannelIcon from 'components/svg/lock_icon.jsx';
 import CloseCircleSolidIcon from 'components/svg/close_circle_solid_icon';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 import {t} from 'utils/i18n.jsx';
 
@@ -44,14 +45,15 @@ export default class ChannelsInput extends React.Component {
     getOptionValue = (channel) => channel.id
 
     loadingMessage = () => {
-        if (!this.context.intl) {
-            return 'Loading';
+        let text = 'Loading';
+        if (this.context.intl) {
+            text = this.context.intl.formatMessage({
+                id: this.props.loadingMessageId,
+                defaultMessage: this.props.loadingMessageDefault,
+            });
         }
 
-        return this.context.intl.formatMessage({
-            id: this.props.loadingMessageId,
-            defaultMessage: this.props.loadingMessageDefault,
-        });
+        return (<LoadingSpinner text={text}/>);
     }
 
     NoOptionsMessage = (props) => {
