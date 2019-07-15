@@ -5,6 +5,8 @@ import React from 'react';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
+import * as UserAgent from 'utils/user_agent.jsx';
+
 import mattermostIcon from 'images/icon50x50.png';
 
 // Notices are objects with the following fields:
@@ -102,6 +104,32 @@ export default [
             }
 
             if (license.IsLicensed === 'true' && license.Cluster === 'true') {
+                return false;
+            }
+
+            return true;
+        },
+    },
+    {
+        name: 'ie11_deprecation',
+        allowForget: false,
+        body: (
+            <FormattedMarkdownMessage
+                id='system_notice.body.ie11_deprecation'
+                defaultMessage='Your browser, IE11, will no longer be supported in an upcoming release. [Find out how to move to another browser in one simple step](!https://forum.mattermost.org/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575).'
+            />
+        ),
+        show: (serverVersion) => {
+            const versionNumberSplit = serverVersion.split('.');
+            const versionNumber = [Number(versionNumberSplit[0]), Number(versionNumberSplit[1])];
+
+            // Don't show the notice after v5.16, show a different notice
+            if (versionNumber[0] > 5 || (versionNumber[0] === 5 && versionNumber[1] > 15)) {
+                return false;
+            }
+
+            // Only show if they're using IE
+            if (!UserAgent.isInternetExplorer()) {
                 return false;
             }
 
