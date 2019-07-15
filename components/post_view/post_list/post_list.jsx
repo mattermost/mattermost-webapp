@@ -96,7 +96,7 @@ export default class PostList extends React.PureComponent {
                 loading: false,
                 allLoaded: false,
             },
-            loadingFirstSetOfPosts: !props.postListIds || !props.postListIds.length,
+            loadingFirstSetOfPosts: !props.postListIds,
             autoRetryEnable: true,
         };
 
@@ -228,7 +228,7 @@ export default class PostList extends React.PureComponent {
     }
 
     canLoadMorePosts = async () => {
-        if (!this.props.postListIds) {
+        if (!this.props.postListIds || !this.props.postListIds.length) {
             return;
         }
 
