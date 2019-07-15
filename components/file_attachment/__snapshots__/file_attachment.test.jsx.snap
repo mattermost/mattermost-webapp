@@ -5,6 +5,7 @@ exports[`component/FileAttachment should match snapshot, after change from file 
   className="post-image__column"
 >
   <a
+    aria-label="file thumbnail test.png"
     className="post-image__thumbnail"
     href="#"
     onClick={[Function]}
@@ -66,6 +67,7 @@ exports[`component/FileAttachment should match snapshot, file with long name 1`]
   className="post-image__column"
 >
   <a
+    aria-label="file thumbnail a-quite-long-filename-to-test-the-filename-shortener.pdf"
     className="post-image__thumbnail"
     href="#"
     onClick={[Function]}
@@ -132,6 +134,7 @@ exports[`component/FileAttachment should match snapshot, regular file 1`] = `
   className="post-image__column"
 >
   <a
+    aria-label="file thumbnail test.pdf"
     className="post-image__thumbnail"
     href="#"
     onClick={[Function]}
@@ -198,6 +201,7 @@ exports[`component/FileAttachment should match snapshot, regular image 1`] = `
   className="post-image__column"
 >
   <a
+    aria-label="file thumbnail test.png"
     className="post-image__thumbnail"
     href="#"
     onClick={[Function]}
@@ -268,6 +272,7 @@ exports[`component/FileAttachment should match snapshot, small image 1`] = `
   className="post-image__column"
 >
   <a
+    aria-label="file thumbnail test.png"
     className="post-image__thumbnail"
     href="#"
     onClick={[Function]}
@@ -338,6 +343,7 @@ exports[`component/FileAttachment should match snapshot, svg image 1`] = `
   className="post-image__column"
 >
   <a
+    aria-label="file thumbnail test.svg"
     className="post-image__thumbnail"
     href="#"
     onClick={[Function]}
@@ -408,6 +414,7 @@ exports[`component/FileAttachment should match snapshot, when file is not loaded
   className="post-image__column"
 >
   <a
+    aria-label="file thumbnail test.pdf"
     className="post-image__thumbnail"
     href="#"
     onClick={[Function]}
@@ -494,6 +501,7 @@ exports[`component/FileAttachment should match snapshot, without compact display
   className="post-image__column"
 >
   <a
+    aria-label="file thumbnail test.pdf"
     className="post-image__thumbnail"
     href="#"
     onClick={[Function]}

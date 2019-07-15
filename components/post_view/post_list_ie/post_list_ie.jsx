@@ -10,7 +10,7 @@ import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
-import Constants, {PostTypes, EventTypes} from 'utils/constants.jsx';
+import Constants, {PostTypes, EventTypes, PostRequestTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -66,12 +66,12 @@ export default class PostList extends React.PureComponent {
 
         actions: PropTypes.shape({
 
-            loadInitialPosts: PropTypes.func.isRequired,
+            loadLatestPosts: PropTypes.func.isRequired,
 
             /**
              * Function to increase the number of posts being rendered
              */
-            increasePostVisibility: PropTypes.func.isRequired,
+            loadPosts: PropTypes.func.isRequired,
 
             /**
              * Function to check and set if app is in mobile view
@@ -386,12 +386,12 @@ export default class PostList extends React.PureComponent {
         }
 
         let posts;
-        const {hasMoreBefore} = await this.props.actions.loadInitialPosts(channelId, focusedPostId);
+        const {atOldestmessage} = await this.props.actions.loadLatestPosts(channelId, focusedPostId);
 
         if (this.mounted) {
             this.setState({
                 isDoingInitialLoad: false,
-                atEnd: !hasMoreBefore,
+                atEnd: atOldestmessage,
             });
         }
 
@@ -419,7 +419,7 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        const {moreToLoad} = await this.props.actions.increasePostVisibility(channel.id, posts[postsLength - 1].id);
+        const {moreToLoad} = await this.props.actions.loadPosts({channelId: channel.id, postId: posts[postsLength - 1].id, type: PostRequestTypes.BEFORE_ID});
         this.setState({atEnd: !moreToLoad});
     }
 
@@ -592,7 +592,14 @@ export default class PostList extends React.PureComponent {
 
         if ((posts.length === 0 && this.state.isDoingInitialLoad) || channel == null) {
             return (
-                <div id='post-list'>
+                <div
+                    id='post-list'
+                    className='a11y__region'
+                    data-a11y-sort-order='1'
+                    data-a11y-focus-child={true}
+                    data-a11y-order-reversed={true}
+                    data-a11y-loop-navigation={false}
+                >
                     <LoadingScreen
                         position='absolute'
                         key='loading'
@@ -642,7 +649,14 @@ export default class PostList extends React.PureComponent {
         }
 
         return (
-            <div id='post-list'>
+            <div
+                id='post-list'
+                className='a11y__region'
+                data-a11y-sort-order='1'
+                data-a11y-focus-child={true}
+                data-a11y-order-reversed={true}
+                data-a11y-loop-navigation={false}
+            >
                 <FloatingTimestamp
                     isScrolling={this.state.isScrolling}
                     isMobile={Utils.isMobile()}
