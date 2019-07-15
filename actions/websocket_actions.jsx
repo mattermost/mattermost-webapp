@@ -292,11 +292,11 @@ function handleEvent(msg) {
         break;
 
     case SocketEvents.ROLE_ADDED:
-        handleRoleAddedEvent(msg, dispatch, getState);
+        handleRoleAddedEvent(msg);
         break;
 
     case SocketEvents.ROLE_REMOVED:
-        handleRoleRemovedEvent(msg, dispatch, getState);
+        handleRoleRemovedEvent(msg);
         break;
 
     case SocketEvents.MEMBERROLE_UPDATED:
@@ -304,7 +304,7 @@ function handleEvent(msg) {
         break;
 
     case SocketEvents.ROLE_UPDATED:
-        handleRoleUpdatedEvent(msg, dispatch, getState);
+        handleRoleUpdatedEvent(msg);
         break;
 
     case SocketEvents.CHANNEL_CREATED:
@@ -427,9 +427,17 @@ function handleChannelConvertedEvent(msg) {
     }
 }
 
-function handleChannelUpdatedEvent(msg) {
-    const channel = JSON.parse(msg.data.channel);
-    dispatch({type: ChannelTypes.RECEIVED_CHANNEL, data: channel});
+export function handleChannelUpdatedEvent(msg) {
+    return (doDispatch, doGetState) => {
+        const channel = JSON.parse(msg.data.channel);
+
+        doDispatch({type: ChannelTypes.RECEIVED_CHANNEL, data: channel});
+
+        const state = doGetState();
+        if (channel.id === getCurrentChannelId(state)) {
+            browserHistory.replace(`${getCurrentRelativeTeamUrl(state)}/channels/${channel.name}`);
+        }
+    };
 }
 
 function handleChannelMemberUpdatedEvent(msg) {

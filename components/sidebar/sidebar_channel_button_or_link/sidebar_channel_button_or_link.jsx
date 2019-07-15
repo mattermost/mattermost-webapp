@@ -39,8 +39,6 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         channelIsArchived: PropTypes.bool.isRequired,
     }
 
-    overlayTriggerAttr = ['hover', 'focus']
-
     trackChannelSelectedEvent = () => {
         mark('SidebarChannelLink#click');
         trackEvent('ui', 'ui_channel_selected');
@@ -154,7 +152,6 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
             );
             element = (
                 <OverlayTrigger
-                    trigger={this.overlayTriggerAttr}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
                     overlay={displayNameToolTip}

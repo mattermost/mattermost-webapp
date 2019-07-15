@@ -1,0 +1,78 @@
+@charset 'UTF-8';
+
+span.greyed-out {
+    @include opacity(.4)
+}
+
+.row-content {
+    @include opacity(.8)
+}
+.groups-list-no-padding {
+    div.group-row {
+        height: 40px;
+        padding-left: 20px;
+    }
+    div.groups-list--header {
+        div.group-name.adjusted {
+            margin-left: 20px;
+        }
+        div.group-description.adjusted {
+            margin-right: 22px;
+        }
+
+        div.group-description.group-description-adjusted {
+            margin-right: 22px;
+        }
+
+        div.group-name.group-name-adjusted {
+            margin-left: 22px;
+        }
+    }
+
+}
+.btn-toggle.btn-lg {
+    margin-left: 68px;
+    margin-bottom: -5px;
+}
+
+.help-text-small.help-text-no-padding {
+    margin-top: 0;
+}
+.help-text-small.help-text-single-line {
+    height: 17px;
+}
+.team-descr-list-column {
+    max-width: 440px;
+}
+.large-team-image-col {
+    max-width: 120px;
+}
+.center-row > div {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.row-bottom-padding {
+    padding-bottom: 12px;
+}
+
+.csvDomains {
+    padding-bottom: 4px;
+    span {
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 17px;
+    }
+}
+
+
+.help-text-small {
+    height: 34px;
+    width: 668px;
+    opacity: 0.5;
+    color: #000000;
+    font-family: "Open Sans";
+    font-size: 12px;
+    line-height: 17px;
+}

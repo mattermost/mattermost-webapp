@@ -2,18 +2,18 @@
 
 exports[`admin_console/team_channel_settings/group/GroupRow should match snapshot 1`] = `
 <div
-  className="group "
+  className="group"
 >
   <div
     className="group-row"
   >
     <span
-      className="group-name"
+      className="group-name row-content"
     >
       DN
     </span>
     <span
-      className="group-description"
+      className="group-description row-content"
     >
       <FormattedMessage
         defaultMessage="{memberCount} members"

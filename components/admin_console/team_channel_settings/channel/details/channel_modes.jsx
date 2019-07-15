@@ -14,6 +14,7 @@ import LineSwitch from '../../line_switch';
 const SyncGroupsToggle = ({isSynced, isPublic, onToggle}) => (
     <LineSwitch
         toggled={isSynced}
+        last={isSynced}
         onToggle={() => onToggle(!isSynced, isPublic)}
         title={(
             <FormattedMessage
@@ -24,7 +25,7 @@ const SyncGroupsToggle = ({isSynced, isPublic, onToggle}) => (
         subTitle={(
             <FormattedMarkdownMessage
                 id='admin.channel_settings.channel_details.syncGroupMembersDescr'
-                defaultMessage='When enabled, adding and removing users from groups will add or remove them from this channel. The only way of inviting members to this channel is by adding the groups they belong to. [Learn More](www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
+                defaultMessage='When enabled, adding and removing users from groups will add or remove them from this channel. The only way of inviting members to this channel is by adding the groups they belong to. [Learn More](https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
             />
         )}
     />);
@@ -35,11 +36,17 @@ SyncGroupsToggle.propTypes = {
     onToggle: PropTypes.func.isRequired,
 };
 
-const AllowAllToggle = ({isSynced, isPublic, onToggle}) =>
+const AllowAllToggle = ({isSynced, isOriginallyPrivate, isPublic, onToggle}) =>
     !isSynced && (
         <LineSwitch
             toggled={isPublic}
-            onToggle={() => onToggle(isSynced, !isPublic)}
+            last={true}
+            singleLine={true}
+            onToggle={() => {
+                if (!isOriginallyPrivate) {
+                    onToggle(isSynced, !isPublic);
+                }
+            }}
             title={(
                 <FormattedMessage
                     id='admin.channel_settings.channel_details.isPublic'
@@ -67,12 +74,13 @@ const AllowAllToggle = ({isSynced, isPublic, onToggle}) =>
         />);
 
 AllowAllToggle.propTypes = {
+    isOriginallyPrivate: PropTypes.bool.isRequired,
     isPublic: PropTypes.bool.isRequired,
     isSynced: PropTypes.bool.isRequired,
     onToggle: PropTypes.func.isRequired,
 };
 
-export const ChannelModes = ({isPublic, isSynced, onToggle}) => (
+export const ChannelModes = ({isOriginallyPrivate, isPublic, isSynced, onToggle}) => (
     <AdminPanel
         id='channel_manage'
         titleId={t('admin.channel_settings.channel_detail.manageTitle')}
@@ -88,6 +96,7 @@ export const ChannelModes = ({isPublic, isSynced, onToggle}) => (
                     onToggle={onToggle}
                 />
                 <AllowAllToggle
+                    isOriginallyPrivate={isOriginallyPrivate}
                     isPublic={isPublic}
                     isSynced={isSynced}
                     onToggle={onToggle}
@@ -97,6 +106,7 @@ export const ChannelModes = ({isPublic, isSynced, onToggle}) => (
     </AdminPanel>);
 
 ChannelModes.propTypes = {
+    isOriginallyPrivate: PropTypes.bool.isRequired,
     isPublic: PropTypes.bool.isRequired,
     isSynced: PropTypes.bool.isRequired,
     onToggle: PropTypes.func.isRequired,

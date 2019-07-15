@@ -96,7 +96,7 @@ export default class PostList extends React.PureComponent {
                 loading: false,
                 allLoaded: false,
             },
-            loadingFirstSetOfPosts: !props.postListIds,
+            loadingFirstSetOfPosts: !props.postListIds || !props.postListIds.length,
             autoRetryEnable: true,
         };
 
@@ -228,7 +228,7 @@ export default class PostList extends React.PureComponent {
     }
 
     canLoadMorePosts = async () => {
-        if (!this.props.postListIds || !this.props.postListIds.length) {
+        if (!this.props.postListIds) {
             return;
         }
 
@@ -294,7 +294,7 @@ export default class PostList extends React.PureComponent {
                 >
                     <div className='post-list__table'>
                         <div
-                            id='postListContent'
+                            id='virtualizedPostListContent'
                             ref='postListContent'
                             className='post-list__content'
                         >
