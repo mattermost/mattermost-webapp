@@ -11,7 +11,7 @@ import Constants from 'utils/constants.jsx';
 import Reaction from 'components/post_view/reaction';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import {disableVirtList} from 'utils/utils.jsx';
+import {disableVirtList, localizeMessage} from 'utils/utils.jsx';
 
 const DEFAULT_EMOJI_PICKER_RIGHT_OFFSET = 15;
 const EMOJI_PICKER_WIDTH_OFFSET = 260;
@@ -160,8 +160,9 @@ export default class ReactionList extends React.PureComponent {
                             teamId={this.props.teamId}
                             permissions={[Permissions.ADD_REACTION]}
                         >
-                            <div
-                                className='post-reaction'
+                            <button
+                                aria-label={localizeMessage('reaction.add.ariaLabel', 'add reaction')}
+                                className='style--none post-reaction'
                                 onClick={this.toggleEmojiPicker}
                             >
                                 <span
@@ -171,7 +172,7 @@ export default class ReactionList extends React.PureComponent {
                                 >
                                     {'+'}
                                 </span>
-                            </div>
+                            </button>
                         </ChannelPermissionGate>
                     </OverlayTrigger>
                 </span>
@@ -184,7 +185,10 @@ export default class ReactionList extends React.PureComponent {
         }
 
         return (
-            <div className='post-reaction-list'>
+            <div
+                aria-label={localizeMessage('reaction.container.ariaLabel', 'reactions')}
+                className='post-reaction-list'
+            >
                 {reactions}
                 <div className={addReactionClassName}>
                     {emojiPicker}

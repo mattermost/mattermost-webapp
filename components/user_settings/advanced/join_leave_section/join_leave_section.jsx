@@ -67,7 +67,7 @@ export default class JoinLeaveSection extends React.PureComponent {
                         />
                     }
                     inputs={[
-                        <div key='joinLeaveSetting'>
+                        <fieldset key='joinLeaveSetting'>
                             <div className='radio'>
                                 <label>
                                     <input
@@ -102,14 +102,13 @@ export default class JoinLeaveSection extends React.PureComponent {
                                 </label>
                                 <br/>
                             </div>
-                            <div>
-                                <br/>
+                            <div className='margin-top x3'>
                                 <FormattedMessage
                                     id='user.settings.advance.joinLeaveDesc'
                                     defaultMessage='When "On", System Messages saying a user has joined or left a channel will be visible. When "Off", the System Messages about joining or leaving a channel will be hidden. A message will still show up when you are added to a channel, so you can receive a notification.'
                                 />
                             </div>
-                        </div>,
+                        </fieldset>,
                     ]}
                     setting={AdvancedSections.JOIN_LEAVE}
                     submit={this.handleSubmit}

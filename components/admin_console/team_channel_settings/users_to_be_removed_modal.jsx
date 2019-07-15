@@ -63,7 +63,7 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName={'settings-modal'}
+                dialogClassName='a11y__modal settings-modal'
                 show={this.state.show}
                 onHide={this.handleHide}
                 id='confirmModal'

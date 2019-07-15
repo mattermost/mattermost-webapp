@@ -294,7 +294,7 @@ export default class EditPostModal extends React.PureComponent {
         return (
             <Modal
                 id='editPostModal'
-                dialogClassName='edit-modal'
+                dialogClassName='a11y__modal edit-modal'
                 show={this.props.editingPost.show}
                 onKeyDown={this.handleKeyDown}
                 onHide={this.handleHide}

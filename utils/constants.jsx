@@ -165,6 +165,14 @@ export const ActionTypes = keyMirror({
     INCREMENT_WS_ERROR_COUNT: null,
     RESET_WS_ERROR_COUNT: null,
     RECEIVED_POSTS_FOR_CHANNEL_AT_TIME: null,
+    CHANNEL_POSTS_STATUS: null,
+    CHANNEL_SYNC_STATUS: null,
+    ALL_CHANNEL_SYNC_STATUS: null,
+});
+
+export const PostRequestTypes = keyMirror({
+    BEFORE_ID: null,
+    AFTER_ID: null,
 });
 
 export const ModalIdentifiers = {
@@ -212,9 +220,40 @@ export const UserSearchOptions = {
     ROLE: 'role',
 };
 
-export const EventTypes = keyMirror({
-    POST_LIST_SCROLL_CHANGE: null,
-});
+export const EventTypes = Object.assign(
+    {
+        KEY_DOWN: 'keydown',
+        KEY_UP: 'keyup',
+        CLICK: 'click',
+        FOCUS: 'focus',
+        BLUR: 'blur',
+    },
+    keyMirror({
+        POST_LIST_SCROLL_CHANGE: null,
+    })
+);
+
+export const A11yClassNames = {
+    REGION: 'a11y__region',
+    SECTION: 'a11y__section',
+    ACTIVE: 'a11y--active',
+    FOCUSED: 'a11y--focused',
+    MODAL: 'a11y__modal',
+    POPUP: 'a11y__popup',
+};
+
+export const A11yAttributeNames = {
+    SORT_ORDER: 'data-a11y-sort-order',
+    ORDER_REVERSE: 'data-a11y-order-reversed',
+    FOCUS_CHILD: 'data-a11y-focus-child',
+    LOOP_NAVIGATION: 'data-a11y-loop-navigation',
+};
+
+export const A11yCustomEventTypes = {
+    ACTIVATE: 'a11yactivate',
+    DEACTIVATE: 'a11ydeactivate',
+    UPDATE: 'a11yupdate',
+};
 
 export const SocketEvents = {
     POSTED: 'posted',
@@ -593,9 +632,10 @@ export const PostListRowListIds = {
     DATE_LINE: PostListUtils.DATE_LINE,
     START_OF_NEW_MESSAGES: PostListUtils.START_OF_NEW_MESSAGES,
     CHANNEL_INTRO_MESSAGE: 'CHANNEL_INTRO_MESSAGE',
-    MORE_MESSAGES_LOADER: 'MORE_MESSAGES_LOADER',
-    MAX_MESSAGES_LOADED: 'MAX_MESSAGES_LOADED',
-    MANUAL_TRIGGER_LOAD_MESSAGES: 'MANUAL_TRIGGER_LOAD_MESSAGES',
+    OLDER_MESSAGES_LOADER: 'OLDER_MESSAGES_LOADER',
+    NEWER_MESSAGES_LOADER: 'NEWER_MESSAGES_LOADER',
+    LOAD_OLDER_MESSAGES_TRIGGER: 'LOAD_OLDER_MESSAGES_TRIGGER',
+    LOAD_NEWER_MESSAGES_TRIGGER: 'LOAD_NEWER_MESSAGES_TRIGGER',
 };
 
 export const Constants = {
