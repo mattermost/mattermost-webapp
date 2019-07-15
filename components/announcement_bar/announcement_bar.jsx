@@ -93,7 +93,6 @@ export default class AnnouncementBar extends React.PureComponent {
                 style={barStyle}
             >
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={announcementTooltip}
