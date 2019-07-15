@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {intlShape} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 
@@ -12,6 +13,7 @@ import {isDesktopApp} from 'utils/user_agent.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 
+// eslint-disable-next-line react/require-optimization
 export default class TeamButton extends React.Component {
     constructor(props) {
         super(props);
@@ -19,6 +21,10 @@ export default class TeamButton extends React.Component {
         this.handleSwitch = this.handleSwitch.bind(this);
         this.handleDisabled = this.handleDisabled.bind(this);
     }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
 
     handleSwitch(e) {
         e.preventDefault();
@@ -33,6 +39,7 @@ export default class TeamButton extends React.Component {
 
     render() {
         const teamIconUrl = this.props.teamIconUrl;
+        const {formatMessage} = this.context.intl;
 
         let teamClass = this.props.active ? 'active' : '';
         const btnClass = this.props.btnClass;
@@ -40,15 +47,41 @@ export default class TeamButton extends React.Component {
         const handleClick = (this.props.active || this.props.disabled) ? this.handleDisabled : this.handleSwitch;
         let badge;
 
+        let ariaLabel = formatMessage({
+            id: 'team.button.ariaLabel',
+            defaultMessage: '{teamName} team',
+        },
+        {
+            teamName: this.props.displayName,
+        });
+
         if (!teamClass) {
             teamClass = this.props.unread ? 'unread' : '';
+            ariaLabel = formatMessage({
+                id: 'team.button.unread.ariaLabel',
+                defaultMessage: '{teamName} team unread',
+            },
+            {
+                teamName: this.props.displayName,
+            });
 
             if (this.props.mentions) {
+                ariaLabel = formatMessage({
+                    id: 'team.button.mentions.ariaLabel',
+                    defaultMessage: '{teamName} team, {mentionCount} mentions',
+                },
+                {
+                    teamName: this.props.displayName,
+                    mentionCount: this.props.mentions,
+                });
+
                 badge = (
                     <span className={'badge pull-right small'}>{this.props.mentions}</span>
                 );
             }
         }
+
+        ariaLabel = ariaLabel.toLowerCase();
 
         let content = this.props.content;
 
@@ -121,6 +154,7 @@ export default class TeamButton extends React.Component {
             teamButton = (
                 <Link
                     id={`${this.props.url.slice(1)}TeamButton`}
+                    aria-label={ariaLabel}
                     className={disabled}
                     to={this.props.url}
                     onClick={handleClick}
