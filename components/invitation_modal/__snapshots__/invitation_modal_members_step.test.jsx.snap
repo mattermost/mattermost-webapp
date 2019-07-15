@@ -34,12 +34,13 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
     >
       <input
         className="share-link-input"
-        disabled="distabled"
+        readOnly={true}
         type="text"
         value="http://localhost:8065/signup_user_complete/?id=123"
       />
       <button
         className="share-link-input-button"
+        onClick={[Function]}
       >
         <LinkIcon />
         <FormattedMessage
