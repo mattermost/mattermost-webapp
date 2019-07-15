@@ -55,23 +55,24 @@ export default class CommentIcon extends React.PureComponent {
         );
 
         return (
-            <OverlayTrigger
-                className='hidden-xs'
-                trigger={['hover', 'click']}
-                delayShow={500}
-                placement='top'
-                overlay={tooltip}
+            <button
+                id={`${this.props.location}_commentIcon_${this.props.postId}`}
+                aria-label={localizeMessage('post_info.comment_icon.tooltip.reply', 'Reply').toLowerCase()}
+                className={iconStyle + ' color--link style--none ' + this.props.extraClass}
+                onClick={this.props.handleCommentClick}
             >
-                <button
-                    id={`${this.props.location}_commentIcon_${this.props.postId}`}
-                    aria-label={localizeMessage('post_info.comment_icon.tooltip.reply', 'Reply').toLowerCase()}
-                    className={iconStyle + ' color--link style--none ' + this.props.extraClass}
-                    onClick={this.props.handleCommentClick}
+                <OverlayTrigger
+                    className='hidden-xs'
+                    delayShow={500}
+                    placement='top'
+                    overlay={tooltip}
                 >
-                    <ReplyIcon className='comment-icon'/>
-                    {commentCountSpan}
-                </button>
-            </OverlayTrigger>
+                    <span className='d-flex'>
+                        <ReplyIcon className='comment-icon'/>
+                        {commentCountSpan}
+                    </span>
+                </OverlayTrigger>
+            </button>
         );
     }
 }

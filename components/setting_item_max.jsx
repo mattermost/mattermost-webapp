@@ -120,7 +120,7 @@ export default class SettingItemMax extends React.PureComponent {
         if (this.props.shiftEnter && e.keyCode === Constants.KeyCodes.ENTER && e.shiftKey) {
             return;
         }
-        if (isKeyPressed(e, Constants.KeyCodes.ENTER) && this.props.submit) {
+        if (isKeyPressed(e, Constants.KeyCodes.ENTER) && this.props.submit && e.target.tagName !== 'SELECT') {
             this.handleSubmit(e);
         }
     }

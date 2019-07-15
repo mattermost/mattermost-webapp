@@ -61,7 +61,6 @@ export default class FilenameOverlay extends React.PureComponent {
         if (compactDisplay) {
             filenameOverlay = (
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={1000}
                     placement='top'
                     overlay={<Tooltip id='file-name__tooltip'>{fileName}</Tooltip>}
@@ -88,7 +87,6 @@ export default class FilenameOverlay extends React.PureComponent {
                         rel='noopener noreferrer'
                     >
                         <OverlayTrigger
-                            trigger={['hover', 'click']}
                             delayShow={1000}
                             placement='top'
                             overlay={
