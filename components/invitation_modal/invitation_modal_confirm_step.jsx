@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteIcon from 'components/svg/invite_icon';
+import BackIcon from 'components/svg/back_icon';
 import InvitationModalConfirmStepTable from 'components/invitation_modal/invitation_modal_confirm_step_table';
 
 import {InviteTypes} from 'utils/constants.jsx';
@@ -27,6 +28,11 @@ export default class InvitationModalConfirmStep extends React.Component {
         const {teamName, invitesType, invitesSent, invitesNotSent, onDone} = this.props;
         return (
             <div className='InvitationModalConfirmStep'>
+                {this.props.goBack &&
+                    <BackIcon
+                        className='back'
+                        onClick={this.props.goBack}
+                    />}
                 <div className='modal-icon'>
                     <InviteIcon/>
                 </div>

@@ -571,6 +571,7 @@ function createSetHeaderButton(channel) {
                     className={'intro-links color--link'}
                     dialogType={EditChannelHeaderModal}
                     dialogProps={{channel}}
+                    modalId={'setChannelHeader'}
                 >
                     <EditIcon/>
                     {message}

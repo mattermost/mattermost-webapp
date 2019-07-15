@@ -82,7 +82,7 @@ export default class AdminGroupUsersRow extends React.PureComponent {
                         className='group-user-removal-column group-description'
                     >{this.renderRolesColumn(user)}</span>
                     <span
-                        className='group-user-removal-column group-description'
+                        className='group-user-removal-column group-description group-description-link'
                     >{this.renderGroupsColumn(user)}</span>
                 </div>
             </div>

@@ -21,7 +21,7 @@ describe('components/Menu', () => {
         expect(wrapper).toMatchInlineSnapshot(`
 <ul
   aria-label="test-label"
-  className="Menu dropdown-menu"
+  className="a11y__popup Menu dropdown-menu"
   role="menu"
   style={Object {}}
 >
@@ -43,7 +43,7 @@ describe('components/Menu', () => {
         expect(wrapper).toMatchInlineSnapshot(`
 <ul
   aria-label="test-label"
-  className="Menu dropdown-menu"
+  className="a11y__popup Menu dropdown-menu"
   id="test-id"
   role="menu"
   style={Object {}}
@@ -70,7 +70,7 @@ describe('components/Menu', () => {
         expect(wrapper).toMatchInlineSnapshot(`
 <ul
   aria-label="test-label"
-  className="Menu dropdown-menu"
+  className="a11y__popup Menu dropdown-menu"
   role="menu"
   style={Object {}}
 >
@@ -96,7 +96,7 @@ describe('components/Menu', () => {
         expect(wrapper).toMatchInlineSnapshot(`
 <ul
   aria-label="test-label"
-  className="Menu dropdown-menu"
+  className="a11y__popup Menu dropdown-menu"
   role="menu"
   style={
     Object {

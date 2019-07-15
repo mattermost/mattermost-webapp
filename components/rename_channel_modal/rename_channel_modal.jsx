@@ -268,6 +268,7 @@ export class RenameChannelModal extends React.PureComponent {
 
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 show={this.state.show}
                 onHide={this.handleCancel}
                 onEntering={this.handleEntering}

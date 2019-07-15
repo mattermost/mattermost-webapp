@@ -49,7 +49,7 @@ export default class Menu extends React.PureComponent {
             <ul
                 id={id}
                 ref={this.node}
-                className='Menu dropdown-menu'
+                className='a11y__popup Menu dropdown-menu'
                 style={styles}
                 role='menu'
                 aria-label={ariaLabel}
