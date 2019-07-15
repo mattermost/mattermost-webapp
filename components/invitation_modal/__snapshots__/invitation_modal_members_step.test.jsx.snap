@@ -42,9 +42,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
         className="share-link-input-button"
         onClick={[Function]}
       >
-        <span
-          className="fa fa-link"
-        />
+        <LinkIcon />
         <FormattedMessage
           defaultMessage="Copy Link"
           id="invitation_modal.members.share_link.copy_button"
