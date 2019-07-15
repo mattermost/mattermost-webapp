@@ -281,7 +281,6 @@ export default class RhsRootPost extends React.PureComponent {
         if (this.props.post.props && this.props.post.props.card) {
             postInfoIcon = (
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
                     overlay={
@@ -314,7 +313,7 @@ export default class RhsRootPost extends React.PureComponent {
                 role='listitem'
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
-                className={'thread__root ' + this.getClassName(post, isSystemMessage)}
+                className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage)}`}
                 aria-label={PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)}
             >
                 <div className='post-right-channel__name'>{channelName}</div>

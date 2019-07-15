@@ -181,7 +181,6 @@ export default class SettingPicture extends Component {
                         {imageElement}
                     </div>
                     <OverlayTrigger
-                        trigger={['hover', 'focus']}
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         placement='right'
                         overlay={(

@@ -53,14 +53,16 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     infoPosition="bottom"
     inputs={
       Array [
-        <div>
-          <label>
+        <fieldset>
+          <legend
+            className="form-legend"
+          >
             <FormattedMessage
               defaultMessage="Send email notifications"
               id="user.settings.notifications.email.send"
               values={Object {}}
             />
-          </label>
+          </legend>
           <div
             className="radio"
           >
@@ -101,8 +103,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               />
             </label>
           </div>
-          <br />
-          <div>
+          <div
+            className="margin-top x2"
+          >
             <FormattedMessage
               defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
               id="user.settings.notifications.emailInfo"
@@ -114,7 +117,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             />
              
           </div>
-        </div>,
+        </fieldset>,
       ]
     }
     saving={false}
@@ -142,10 +145,12 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
           <li
             className="setting-list-item"
           >
-            <div
+            <fieldset
               key="userNotificationEmailOptions"
             >
-              <label>
+              <legend
+                className="form-legend"
+              >
                 <FormattedMessage
                   defaultMessage="Send email notifications"
                   id="user.settings.notifications.email.send"
@@ -155,7 +160,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     Send email notifications
                   </span>
                 </FormattedMessage>
-              </label>
+              </legend>
               <div
                 className="radio"
               >
@@ -204,8 +209,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   </FormattedMessage>
                 </label>
               </div>
-              <br />
-              <div>
+              <div
+                className="margin-top x2"
+              >
                 <FormattedMessage
                   defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
                   id="user.settings.notifications.emailInfo"
@@ -221,7 +227,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 </FormattedMessage>
                  
               </div>
-            </div>
+            </fieldset>
           </li>
           <li
             className="setting-list-item"
@@ -373,14 +379,16 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     infoPosition="bottom"
     inputs={
       Array [
-        <div>
-          <label>
+        <fieldset>
+          <legend
+            className="form-legend"
+          >
             <FormattedMessage
               defaultMessage="Send email notifications"
               id="user.settings.notifications.email.send"
               values={Object {}}
             />
-          </label>
+          </legend>
           <div
             className="radio"
           >
@@ -401,7 +409,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               />
             </label>
           </div>
-          <div>
+          <fieldset>
             <div
               className="radio"
             >
@@ -446,7 +454,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 />
               </label>
             </div>
-          </div>
+          </fieldset>
           <div
             className="radio"
           >
@@ -467,8 +475,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               />
             </label>
           </div>
-          <br />
-          <div>
+          <div
+            className="margin-top x2"
+          >
             <FormattedMessage
               defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
               id="user.settings.notifications.emailInfo"
@@ -485,7 +494,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               values={Object {}}
             />
           </div>
-        </div>,
+        </fieldset>,
       ]
     }
     saving={false}
@@ -513,10 +522,12 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
           <li
             className="setting-list-item"
           >
-            <div
+            <fieldset
               key="userNotificationEmailOptions"
             >
-              <label>
+              <legend
+                className="form-legend"
+              >
                 <FormattedMessage
                   defaultMessage="Send email notifications"
                   id="user.settings.notifications.email.send"
@@ -526,7 +537,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     Send email notifications
                   </span>
                 </FormattedMessage>
-              </label>
+              </legend>
               <div
                 className="radio"
               >
@@ -551,7 +562,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   </FormattedMessage>
                 </label>
               </div>
-              <div>
+              <fieldset>
                 <div
                   className="radio"
                 >
@@ -604,7 +615,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     </FormattedMessage>
                   </label>
                 </div>
-              </div>
+              </fieldset>
               <div
                 className="radio"
               >
@@ -629,8 +640,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   </FormattedMessage>
                 </label>
               </div>
-              <br />
-              <div>
+              <div
+                className="margin-top x2"
+              >
                 <FormattedMessage
                   defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
                   id="user.settings.notifications.emailInfo"
@@ -655,7 +667,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   </span>
                 </FormattedMessage>
               </div>
-            </div>
+            </fieldset>
           </li>
           <li
             className="setting-list-item"
@@ -737,14 +749,16 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   infoPosition="bottom"
   inputs={
     Array [
-      <div>
-        <label>
+      <fieldset>
+        <legend
+          className="form-legend"
+        >
           <FormattedMessage
             defaultMessage="Send email notifications"
             id="user.settings.notifications.email.send"
             values={Object {}}
           />
-        </label>
+        </legend>
         <div
           className="radio"
         >
@@ -785,8 +799,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             />
           </label>
         </div>
-        <br />
-        <div>
+        <div
+          className="margin-top x2"
+        >
           <FormattedMessage
             defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
             id="user.settings.notifications.emailInfo"
@@ -798,7 +813,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
           />
            
         </div>
-      </div>,
+      </fieldset>,
     ]
   }
   saving={false}

@@ -78,7 +78,7 @@ export default class EditPostTimeLimitModal extends React.Component {
     render = () => {
         return (
             <Modal
-                dialogClassName='admin-modal edit-post-time-limit-modal'
+                dialogClassName='a11y__modal admin-modal edit-post-time-limit-modal'
                 show={this.props.show}
                 role='dialog'
                 aria-labelledby='editPostTimeModalLabel'

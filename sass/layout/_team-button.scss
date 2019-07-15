@@ -1,3 +1,7 @@
+.team-container {
+    margin-right: 10px;
+}
+
 .team-btn__content {
     @include single-transition(all, .25s, ease);
     @include opacity(.5);
@@ -7,12 +11,16 @@
     height: 100%;
 }
 
+.team-btn__content.no-hover {
+    transition:none;
+}
+
 .team-btn__initials {
     &.team-btn-large__initials {
         font-size: 3em;
     }
     &.team-btn-small__initials {
-        font-size: 0.6em;
+        font-size: 14px;
     }
 }
 .team-btn {
@@ -29,21 +37,24 @@
     width: 44px;
 
     &.team-btn-large {
-        width: 100px;
-        height: 100px;
-        line-height: 98px;
+        width: 94px;
+        height: 94px;
+        line-height: 92px;
     }
 
     &.team-btn-small {
-        width: 30px;
-        height: 30px;
-        line-height: 28px;
+        width: 40px;
+        height: 40px;
+        line-height: 38px;
     }
 
 
     &:hover {
         .team-btn__content {
             @include opacity(.8);
+        }
+        .team-btn__content.no-hover {
+            @include opacity(.5);
         }
     }
 
@@ -59,7 +70,7 @@
         }
 
         &.team-btn-small__image {
-            width: 29px;
+            width: 40px;
         }
 
     }
