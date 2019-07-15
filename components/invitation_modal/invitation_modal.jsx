@@ -78,7 +78,6 @@ export default class InvitationModal extends React.Component {
 
     goToGuests = () => {
         this.setState({step: STEPS_INVITE_GUESTS, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_GUEST});
-        this.setState({});
     }
 
     onEdit = (hasChanges) => {
@@ -94,8 +93,7 @@ export default class InvitationModal extends React.Component {
     }
 
     confirmBack = () => {
-        this.setState({step: STEPS_INITIAL, hasChanges: false});
-        this.setState({confirmBack: false});
+        this.setState({step: STEPS_INITIAL, hasChanges: false, confirmBack: false});
     }
 
     cancelBack= () => {
