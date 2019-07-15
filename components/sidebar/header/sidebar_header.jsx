@@ -38,7 +38,8 @@ export default class SidebarHeader extends React.PureComponent {
                 aria-label={ariaLabel}
                 tabIndex='-1'
                 role='navigation'
-                className='SidebarHeader team__header theme'
+                className='SidebarHeader team__header theme a11y__region'
+                data-a11y-sort-order='5'
             >
                 <div
                     className='d-flex'

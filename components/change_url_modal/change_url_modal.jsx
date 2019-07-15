@@ -177,6 +177,7 @@ export default class ChangeURLModal extends React.PureComponent {
 
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 show={this.props.show}
                 onHide={this.onCancel}
                 onExited={this.props.onModalExited}

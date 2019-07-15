@@ -237,7 +237,7 @@ export default class AddUsersToTeam extends React.Component {
         return (
             <Modal
                 id='addUsersToTeamModal'
-                dialogClassName={'more-modal more-direct-channels'}
+                dialogClassName={'a11y__modal more-modal more-direct-channels'}
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}

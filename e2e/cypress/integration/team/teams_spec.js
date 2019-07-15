@@ -15,7 +15,7 @@ function removeTeamMember(teamURL, username) {
     cy.apiLogout();
     cy.apiLogin('sysadmin');
     cy.visit(`/${teamURL}`);
-    cy.get('#sidebarHeaderDropdownButton').click();
+    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#manageMembers').click();
     cy.get(`#teamMembersDropdown_${username}`).should('be.visible').click();
     cy.get('#removeFromTeam').should('be.visible').click();
