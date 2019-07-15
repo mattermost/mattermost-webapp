@@ -13,5 +13,8 @@
     "cypress:run": "cypress run",
     "cypress:open": "cypress open",
     "start:webhook": "node webhook_serve.js"
+  },
+  "dependencies": {
+    "lodash": "^4.17.14"
   }
 }
