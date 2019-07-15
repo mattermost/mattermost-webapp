@@ -26,6 +26,8 @@ export default class InvitationModalGuestsStep extends React.Component {
         myInvitableChannels: PropTypes.array.isRequired,
         currentTeamId: PropTypes.string.isRequired,
         searchProfiles: PropTypes.func.isRequired,
+        defaultChannels: PropTypes.array,
+        defaultMessage: PropTypes.string,
         onEdit: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
     }
@@ -34,10 +36,10 @@ export default class InvitationModalGuestsStep extends React.Component {
         super(props);
         this.textareaRef = React.createRef();
         this.state = {
-            customMessageOpen: false,
-            customMessage: '',
+            customMessageOpen: Boolean(props.defaultMessage),
+            customMessage: props.defaultMessage || '',
             usersAndEmails: [],
-            channels: [],
+            channels: props.defaultChannels || [],
         };
     }
 
