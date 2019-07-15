@@ -233,24 +233,28 @@ export class AuditTable extends React.PureComponent {
     }
 
     render() {
+        const audits = this.props.audits;
+        const showUserId = this.props.showUserId;
+        const showIp = this.props.showIp;
+        const showSession = this.props.showSession
         var accessList = [];
 
-        for (var i = 0; i < this.props.audits.length; i++) {
-            const audit = this.props.audits[i];
+        for (var i = 0; i < audits.length; i++) {
+            const audit = audits[i];
             const auditInfo = this.formatAuditInfo(audit);
 
             let uContent;
-            if (this.props.showUserId) {
+            if (showUserId) {
                 uContent = <td className='word-break--all'>{auditInfo.userId}</td>;
             }
 
             let iContent;
-            if (this.props.showIp) {
+            if (showIp) {
                 iContent = <td className='whitespace--nowrap word-break--all'>{auditInfo.ip}</td>;
             }
 
             let sContent;
-            if (this.props.showSession) {
+            if (showSession) {
                 sContent = <td className='whitespace--nowrap word-break--all'>{auditInfo.sessionId}</td>;
             }
 
@@ -275,7 +279,7 @@ export class AuditTable extends React.PureComponent {
         }
 
         let userIdContent;
-        if (this.props.showUserId) {
+        if (showUserId) {
             userIdContent = (
                 <th>
                     <FormattedMessage
@@ -287,7 +291,7 @@ export class AuditTable extends React.PureComponent {
         }
 
         let ipContent;
-        if (this.props.showIp) {
+        if (showIp) {
             ipContent = (
                 <th>
                     <FormattedMessage
@@ -299,7 +303,7 @@ export class AuditTable extends React.PureComponent {
         }
 
         let sessionContent;
-        if (this.props.showSession) {
+        if (showSession) {
             sessionContent = (
                 <th>
                     <FormattedMessage
