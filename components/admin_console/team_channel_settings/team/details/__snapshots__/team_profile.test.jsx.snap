@@ -19,7 +19,7 @@ exports[`admin_console/team_channel_settings/team/TeamProfile should match snaps
         className="row"
       >
         <div
-          className="col-sm-2"
+          className="col-sm-2 large-team-image-col"
         >
           <TeamButton
             displayName="test"
@@ -30,7 +30,7 @@ exports[`admin_console/team_channel_settings/team/TeamProfile should match snaps
           className="col-sm-10"
         >
           <div
-            className="row"
+            className="row row-bottom-padding"
           >
             <InjectIntl(FormattedMarkdownMessage)
               defaultMessage="**Team Name**:"
@@ -47,7 +47,11 @@ exports[`admin_console/team_channel_settings/team/TeamProfile should match snaps
               id="admin.team_settings.team_detail.teamDescription"
             />
             <br />
-            No team description added.
+            <span
+              className="greyed-out"
+            >
+              No team description added.
+            </span>
           </div>
         </div>
       </div>

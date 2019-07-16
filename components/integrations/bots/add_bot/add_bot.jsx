@@ -380,7 +380,6 @@ export default class AddBot extends React.Component {
         let imageURL = '';
         let removeImageIcon = (
             <OverlayTrigger
-                trigger={['hover', 'focus']}
                 delayShow={OVERLAY_TIME_DELAY}
                 placement='right'
                 overlay={(

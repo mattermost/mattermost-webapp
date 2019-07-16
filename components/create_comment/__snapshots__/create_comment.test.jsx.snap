@@ -6,7 +6,8 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
 >
   <div
     aria-label="reply input region"
-    className="post-create"
+    className="post-create a11y__region"
+    data-a11y-sort-order="4"
     id="rhsFooter"
     tabIndex="-1"
   >
@@ -103,7 +104,8 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
 >
   <div
     aria-label="reply input region"
-    className="post-create"
+    className="post-create a11y__region"
+    data-a11y-sort-order="4"
     id="rhsFooter"
     tabIndex="-1"
   >
@@ -235,7 +237,8 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
 >
   <div
     aria-label="reply input region"
-    className="post-create"
+    className="post-create a11y__region"
+    data-a11y-sort-order="4"
     id="rhsFooter"
     tabIndex="-1"
   >
@@ -356,7 +359,8 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
 >
   <div
     aria-label="reply input region"
-    className="post-create"
+    className="post-create a11y__region"
+    data-a11y-sort-order="4"
     id="rhsFooter"
     tabIndex="-1"
   >
@@ -488,7 +492,8 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
 >
   <div
     aria-label="reply input region"
-    className="post-create"
+    className="post-create a11y__region"
+    data-a11y-sort-order="4"
     id="rhsFooter"
     tabIndex="-1"
   >

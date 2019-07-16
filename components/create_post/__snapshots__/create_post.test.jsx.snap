@@ -14,7 +14,8 @@ exports[`components/create_post Show tutorial 1`] = `
     >
       <div
         aria-label="message input complimentary region"
-        className="post-body__cell"
+        className="post-body__cell a11y__region"
+        data-a11y-sort-order="2"
         id="centerChannelFooter"
         tabIndex="-1"
       >
@@ -182,7 +183,8 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
     >
       <div
         aria-label="message input complimentary region"
-        className="post-body__cell"
+        className="post-body__cell a11y__region"
+        data-a11y-sort-order="2"
         id="centerChannelFooter"
         tabIndex="-1"
       >
@@ -319,7 +321,8 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
     >
       <div
         aria-label="message input complimentary region"
-        className="post-body__cell"
+        className="post-body__cell a11y__region"
+        data-a11y-sort-order="2"
         id="centerChannelFooter"
         tabIndex="-1"
       >
@@ -422,7 +425,8 @@ exports[`components/create_post should match snapshot when file upload disabled 
     >
       <div
         aria-label="message input complimentary region"
-        className="post-body__cell"
+        className="post-body__cell a11y__region"
+        data-a11y-sort-order="2"
         id="centerChannelFooter"
         tabIndex="-1"
       >
@@ -559,7 +563,8 @@ exports[`components/create_post should match snapshot, init 1`] = `
     >
       <div
         aria-label="message input complimentary region"
-        className="post-body__cell"
+        className="post-body__cell a11y__region"
+        data-a11y-sort-order="2"
         id="centerChannelFooter"
         tabIndex="-1"
       >

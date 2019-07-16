@@ -140,14 +140,12 @@ export default class SystemUsersDropdown extends React.PureComponent {
     handleShowDeactivateMemberModal = async (e) => {
         e.preventDefault();
         if (this.shouldDisableBotsWhenOwnerIsDeactivated()) {
-            const {data} = await this.props.actions.loadBots(
+            await this.props.actions.loadBots(
                 Constants.Integrations.START_PAGE_NUM,
-                Constants.Integrations.PAGE_SIZE
+                Constants.Integrations.PAGE_SIZE,
             );
-            if (data) {
-                this.setState({loading: false, showDeactivateMemberModal: true});
-            }
         }
+        this.setState({showDeactivateMemberModal: true});
     }
 
     handleDeactivateMember = () => {
@@ -212,7 +210,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
         let messageForUsersWithBotAccounts;
         if (this.shouldDisableBotsWhenOwnerIsDeactivated()) {
             for (const bot of Object.values(this.props.bots)) {
-                if (bot.owner_id === user.id) {
+                if ((bot.owner_id === user.id) && this.state.showDeactivateMemberModal && (bot.delete_at === 0)) {
                     messageForUsersWithBotAccounts = (
                         <FormattedMarkdownMessage
                             id='deactivate_member_modal.desc.for_users_with_bot_accounts'
