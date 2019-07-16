@@ -70,7 +70,7 @@ export default class A11yController {
     }
 
     get navInProgress() {
-        return this.regions && this.regions.length && this.activeRegion;
+        return this.regions && this.regions.length && this.activeRegion && !this.modalIsOpen && !this.popupIsOpen;
     }
 
     get activeRegionIndex() {

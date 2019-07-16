@@ -627,6 +627,7 @@ export default class NotificationsTab extends React.Component {
                         defaultValue={this.state.customKeys}
                         onChange={this.onCustomChange}
                         onFocus={Utils.moveCursorToEnd}
+                        aria-labelledby='notificationTriggerCustom'
                     />
                 </div>
             );
