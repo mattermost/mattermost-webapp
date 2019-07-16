@@ -27,13 +27,15 @@ let incomingWebhook;
 
 describe('MM-15887 Interactive menus - basic options', () => {
     before(() => {
-        if (process.env.NODE_ENV !== 'qa') {
-            // Set AllowedUntrustedInternalConnections to localhost if running in development
-            const newSettings = {
-                ServiceSettings: {AllowedUntrustedInternalConnections: 'localhost'},
-            };
-            cy.apiUpdateConfig(newSettings);
-        }
+        // Set required ServiceSettings
+        const newSettings = {
+            ServiceSettings: {
+                AllowedUntrustedInternalConnections: 'localhost',
+                EnablePostUsernameOverride: true,
+                EnablePostIconOverride: true,
+            },
+        };
+        cy.apiUpdateConfig(newSettings);
 
         // # Login as sysadmin and ensure that teammate name display setting us set to default 'username'
         cy.apiLogin('sysadmin');
@@ -140,7 +142,7 @@ describe('MM-15887 Interactive menus - basic options', () => {
             cy.getLastPostId().then((replyMessageId) => {
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyMessageId}`).within(() => {
-                    cy.get('.post__link').should('be.visible').and('have.text', 'Commented on sysadmin\'s message: This is attachment pretext with basic options');
+                    cy.get('.post__link').should('be.visible').and('have.text', 'Commented on webhook\'s message: This is attachment pretext with basic options');
                     cy.get(`#postMessageText_${replyMessageId}`).should('be.visible').and('have.text', 'Reply to webhook');
                 });
 
