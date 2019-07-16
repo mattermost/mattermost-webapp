@@ -158,10 +158,14 @@ export default class AddUsersToTeam extends React.Component {
         this.props.actions.setModalSearchTerm(term);
     }
 
-    renderOption(option, isSelected, onAdd) {
+    handleUpdateSelectedUserName = (username) => {
+        this.setState({currentSelectedUsername: username});
+    }
+
+    renderOption = (option, isSelected, onAdd) => {
         var rowSelected = '';
         if (isSelected) {
-            rowSelected = 'a11y--focused more-modal__row--selected';
+            rowSelected = 'more-modal__row--selected';
         }
 
         let email = option.email;
@@ -169,15 +173,15 @@ export default class AddUsersToTeam extends React.Component {
             email = null;
         }
 
+        this.handleUpdateSelectedUserName(option.username);
+
         return (
             <div
                 key={option.id}
                 ref={isSelected ? 'selected' : option.id}
-                className={'a11y__section more-modal__row clickable ' + rowSelected}
+                className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
                 aria-label={option.username}
-                role='menuitem'
-                aria-current={isSelected}
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
@@ -264,7 +268,12 @@ export default class AddUsersToTeam extends React.Component {
                         />
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body
+                    role='application'
+                >
+                    <div aria-live='polite'>
+                        {this.state.currentSelectedUsername}
+                    </div>
                     {addError}
                     <MultiSelect
                         className={'a11y__region'}
