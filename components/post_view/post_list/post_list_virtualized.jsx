@@ -46,7 +46,7 @@ export default class PostList extends React.PureComponent {
          * Array of Ids in the channel including date separators, new message indicator, more messages loader,
          * manual load messages trigger and postId in the order of newest to oldest for populating virtual list rows
          */
-        postListIds: PropTypes.array.isRequired,
+        postListIds: PropTypes.array,
 
         /**
          * Set to focus this post
@@ -136,18 +136,20 @@ export default class PostList extends React.PureComponent {
 
         this.initRangeToRender = this.props.focusedPostId ? [0, MAXIMUM_POSTS_FOR_SLICING.permalink] : [0, MAXIMUM_POSTS_FOR_SLICING.channel];
 
-        let postIndex = 0;
-        if (props.focusedPostId) {
-            postIndex = this.props.postListIds.findIndex((postId) => postId === this.props.focusedPostId);
-        } else {
-            postIndex = this.getNewMessagesSeparatorIndex(props.postListIds);
-        }
+        if (props.postListIds) {
+            let postIndex = 0;
+            if (props.focusedPostId) {
+                postIndex = this.props.postListIds.findIndex((postId) => postId === this.props.focusedPostId);
+            } else {
+                postIndex = this.getNewMessagesSeparatorIndex(props.postListIds);
+            }
 
-        const maxPostsForSlicing = props.focusedPostId ? MAXIMUM_POSTS_FOR_SLICING.permalink : MAXIMUM_POSTS_FOR_SLICING.channel;
-        this.initRangeToRender = [
-            Math.max(postIndex - 30, 0),
-            Math.max(postIndex + 30, Math.min(props.postListIds.length - 1, maxPostsForSlicing)),
-        ];
+            const maxPostsForSlicing = props.focusedPostId ? MAXIMUM_POSTS_FOR_SLICING.permalink : MAXIMUM_POSTS_FOR_SLICING.channel;
+            this.initRangeToRender = [
+                Math.max(postIndex - 30, 0),
+                Math.max(postIndex + 30, Math.min(props.postListIds.length - 1, maxPostsForSlicing)),
+            ];
+        }
     }
 
     componentDidMount() {
@@ -201,7 +203,7 @@ export default class PostList extends React.PureComponent {
     }
 
     static getDerivedStateFromProps(props) {
-        const postListIds = props.postListIds;
+        const postListIds = props.postListIds || [];
         let newPostListIds;
 
         if (props.olderPosts.allLoaded) {

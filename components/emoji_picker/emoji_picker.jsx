@@ -112,6 +112,10 @@ function getEmojiFilename(emoji) {
     return emoji.filename || emoji.id;
 }
 
+export function filterEmojiSearchInput(input) {
+    return input.toLowerCase().replace(/^:|:$/g, '');
+}
+
 const EMOJIS_PER_PAGE = 200;
 const LOAD_MORE_AT_PIXELS_FROM_BOTTOM = 500;
 
@@ -258,7 +262,7 @@ export default class EmojiPicker extends React.PureComponent {
 
     handleFilterChange(e) {
         e.preventDefault();
-        const filter = e.target.value.toLowerCase();
+        const filter = filterEmojiSearchInput(e.target.value);
 
         if (this.props.customEmojisEnabled && filter && filter.trim() !== '') {
             this.props.actions.searchCustomEmojis(filter);
