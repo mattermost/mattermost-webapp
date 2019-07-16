@@ -54,7 +54,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
           channelId="g6139tbospd18cmxroesdk3kkc"
           postId=""
         />
-        <Textbox
+        <TextboxLinks
           characterLimit={4000}
           message=""
           updateState={[Function]}
@@ -198,8 +198,9 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           channelId="g6139tbospd18cmxroesdk3kkc"
           postId=""
         />
-        <Textbox
+        <TextboxLinks
           characterLimit={4000}
+          message=""
           updateState={[Function]}
         />
       </div>
@@ -318,8 +319,9 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           channelId="g6139tbospd18cmxroesdk3kkc"
           postId=""
         />
-        <Textbox
+        <TextboxLinks
           characterLimit={4000}
+          message=""
           updateState={[Function]}
         />
       </div>
@@ -473,8 +475,9 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           channelId="g6139tbospd18cmxroesdk3kkc"
           postId=""
         />
-        <Textbox
+        <TextboxLinks
           characterLimit={4000}
+          message=""
           updateState={[Function]}
         />
       </div>
@@ -616,8 +619,9 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           channelId="g6139tbospd18cmxroesdk3kkc"
           postId=""
         />
-        <Textbox
+        <TextboxLinks
           characterLimit={4000}
+          message=""
           updateState={[Function]}
         />
       </div>

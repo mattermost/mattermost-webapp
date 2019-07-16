@@ -13,6 +13,10 @@ export default class AutosizeTextarea extends React.Component {
         onHeightChange: PropTypes.func,
     };
 
+    static defaultProps = {
+        placeholder: '',
+    };
+
     constructor(props) {
         super(props);
 
