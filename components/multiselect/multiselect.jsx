@@ -319,6 +319,7 @@ export default class MultiSelect extends React.Component {
                             placeholder={this.props.placeholderText}
                             inputValue={this.state.input}
                             getOptionValue={(option) => option.id}
+                            aria-label={this.props.placeholderText}
                         />
                         <SaveButton
                             id='saveItems'

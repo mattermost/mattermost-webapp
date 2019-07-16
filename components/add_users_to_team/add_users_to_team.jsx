@@ -161,7 +161,7 @@ export default class AddUsersToTeam extends React.Component {
     renderOption(option, isSelected, onAdd) {
         var rowSelected = '';
         if (isSelected) {
-            rowSelected = 'more-modal__row--selected';
+            rowSelected = 'a11y--focused more-modal__row--selected';
         }
 
         let email = option.email;
@@ -173,8 +173,10 @@ export default class AddUsersToTeam extends React.Component {
             <div
                 key={option.id}
                 ref={isSelected ? 'selected' : option.id}
-                className={'more-modal__row clickable ' + rowSelected}
+                className={'a11y__section more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
+                aria-label={option.username}
+                role='button'
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
@@ -263,6 +265,7 @@ export default class AddUsersToTeam extends React.Component {
                 <Modal.Body>
                     {addError}
                     <MultiSelect
+                        className={'a11y__region'}
                         key='addUsersToTeamKey'
                         options={users}
                         optionRenderer={this.renderOption}
