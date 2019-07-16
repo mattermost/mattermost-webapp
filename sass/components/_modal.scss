@@ -35,28 +35,6 @@
         max-height: 150px;
     }
 
-    .edit-post__actions {
-        display: inline-block;
-        height: 30px;
-        line-height: 34px;
-        position: absolute;
-        right: 18px;
-        text-align: center;
-        top: 24px;
-        width: 30px;
-
-        .icon {
-            @include opacity(.5);
-            cursor: pointer;
-        }
-
-        &:hover {
-            .icon {
-                @include opacity(.7);
-            }
-        }
-    }
-
     .edit-post-footer {
         display: inline-block;
         font-size: 13px;

@@ -1,12 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/FileUpload should match snapshot 1`] = `
-<span
-  className=""
+<div
+  className="style--none"
 >
-  <div
-    className="icon icon--attachment"
+  <button
+    aria-label="attachment"
+    className="style--none icon icon--attachment"
     id="fileUploadButton"
+    onClick={[Function]}
+    type="button"
   >
     <AttachmentIcon />
     <input
@@ -15,8 +18,9 @@ exports[`components/FileUpload should match snapshot 1`] = `
       multiple={true}
       onChange={[Function]}
       onClick={[Function]}
+      tabIndex="-1"
       type="file"
     />
-  </div>
-</span>
+  </button>
+</div>
 `;

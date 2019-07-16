@@ -564,6 +564,15 @@ export default class FileUpload extends PureComponent {
         this.setState({menuOpen: open});
     }
 
+    handleButtonClick = () => {
+        if (!this.props.canUploadFiles) {
+            this.props.onUploadError(localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
+            return;
+        }
+
+        this.fileInput.current.click();
+    }
+
     handleLocalFileUploaded = (e) => {
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
         if (uploadsRemaining > 0) {
@@ -597,14 +606,20 @@ export default class FileUpload extends PureComponent {
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
 
         let bodyAction;
+        const ariaLabel = formatMessage({id: 'accessibility.button.attachment', defaultMessage: 'attachment'});
+
         if (this.props.pluginFileUploadMethods.length === 0) {
             bodyAction = (
-                <div
+                <button
+                    aria-label={ariaLabel}
+                    type='button'
                     id='fileUploadButton'
-                    className='icon icon--attachment'
+                    className='style--none icon icon--attachment'
+                    onClick={this.handleButtonClick}
                 >
                     <AttachmentIcon/>
                     <input
+                        tabIndex='-1'
                         aria-label={formatMessage(holders.uploadFile)}
                         ref={this.fileInput}
                         type='file'
@@ -613,7 +628,7 @@ export default class FileUpload extends PureComponent {
                         multiple={multiple}
                         accept={accept}
                     />
-                </div>
+                </button>
             );
         } else {
             const pluginFileUploadMethods = this.props.pluginFileUploadMethods.map((item) => {
@@ -635,8 +650,13 @@ export default class FileUpload extends PureComponent {
                 );
             });
             bodyAction = (
-                <React.Fragment>
+                <button
+                    type='button'
+                    className='style--none'
+                    onClick={this.handleButtonClick}
+                >
                     <input
+                        tabIndex='-1'
                         aria-label={formatMessage(holders.uploadFile)}
                         ref={this.fileInput}
                         type='file'
@@ -676,7 +696,7 @@ export default class FileUpload extends PureComponent {
                             {pluginFileUploadMethods}
                         </Menu>
                     </MenuWrapper>
-                </React.Fragment>
+                </button>
             );
         }
 
@@ -685,12 +705,9 @@ export default class FileUpload extends PureComponent {
         }
 
         return (
-            <span
-                ref='input'
-                className={uploadsRemaining <= 0 ? ' btn-file__disabled' : ''}
-            >
+            <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
                 {bodyAction}
-            </span>
+            </div>
         );
     }
 }
