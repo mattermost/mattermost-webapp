@@ -33,9 +33,13 @@ function makeMapStateToProps() {
 
         if (postListChunk && postListChunk.length) {
             postIds = preparePostIdsForPostList(state, {postIds: postListChunk, lastViewedAt, indicateNewMessages: true});
-            const latestPostId = memoizedGetLatestPostId(postIds);
-            const latestPost = getPost(state, latestPostId);
-            latestPostTimeStamp = latestPost.create_at;
+
+            // postListChunk can exist but postIds might be emoty because of filter of join leave messages
+            if (postIds.length) {
+                const latestPostId = memoizedGetLatestPostId(postIds);
+                const latestPost = getPost(state, latestPostId);
+                latestPostTimeStamp = latestPost.create_at;
+            }
         }
 
         return {
