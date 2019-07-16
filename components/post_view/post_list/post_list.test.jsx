@@ -42,8 +42,9 @@ const baseProps = {
 
 describe('components/post_view/post_list', () => {
     it('snapshot for loading when there are no posts', () => {
+        const noPostList = undefined;
         const wrapper = shallow(
-            <PostList {...{...baseProps, postListIds: []}}/>
+            <PostList {...{...baseProps, postListIds: noPostList}}/>
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -168,13 +169,11 @@ describe('components/post_view/post_list', () => {
     });
 
     describe('canLoadMorePosts', () => {
-        test('Should not call loadLatestPosts if postListIds is empty', async () => {
+        test('Should not call loadPosts if postListIds is empty', async () => {
             const wrapper = shallow(<PostList {...{...baseProps, isFirstLoad: false, postListIds: []}}/>);
-            expect(wrapper.state('loadingFirstSetOfPosts')).toBe(true);
-            expect(actionsProp.loadLatestPosts).toHaveBeenCalledWith(baseProps.channelId);
-            await actionsProp.loadLatestPosts();
-            expect(wrapper.state('olderPosts')).toEqual({allLoaded: true, loading: false});
-            expect(wrapper.state('newerPosts')).toEqual({allLoaded: true, loading: false});
+            wrapper.find(VirtPostList).prop('actions').canLoadMorePosts();
+
+            expect(actionsProp.loadPosts).not.toHaveBeenCalled();
         });
 
         test('Should not call loadPosts if olderPosts or newerPosts are loading', async () => {

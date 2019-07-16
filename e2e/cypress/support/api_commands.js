@@ -46,9 +46,13 @@ Cypress.Commands.add('apiLogout', () => {
         log: false,
     });
 
+    // Ensure we clear out these specific cookies
     ['MMAUTHTOKEN', 'MMUSERID', 'MMCSRF'].forEach((cookie) => {
         cy.clearCookie(cookie);
     });
+
+    // Clear remainder of cookies
+    cy.clearCookies();
 
     cy.getCookies({log: false}).should('be.empty');
 });
@@ -424,11 +428,11 @@ Cypress.Commands.add('loginAsNewUser', (user = {}, bypassTutorial = true) => {
             url: '/api/v4/users/login',
             method: 'POST',
             body: {login_id: newUser.username, password: newUser.password},
+        }).then(() => {
+            cy.visit('/');
+
+            return cy.wrap(newUser);
         });
-
-        cy.visit('/');
-
-        return cy.wrap(newUser);
     });
 });
 
