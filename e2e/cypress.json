@@ -9,5 +9,8 @@
         "mochaFile": "results/results-[hash].xml",
         "toConsole": false
     },
-    "testFiles": "**/*_spec.js"
+    "testFiles": "**/*_spec.js",
+    "env": {
+        "webhookBaseUrl": "http://localhost:3000"
+    }
 }

@@ -56,9 +56,13 @@ Cypress.Commands.add('apiLogout', () => {
         log: false,
     });
 
+    // Ensure we clear out these specific cookies
     ['MMAUTHTOKEN', 'MMUSERID', 'MMCSRF'].forEach((cookie) => {
         cy.clearCookie(cookie);
     });
+
+    // Clear remainder of cookies
+    cy.clearCookies();
 
     cy.getCookies({log: false}).should('be.empty');
 });
@@ -433,10 +437,14 @@ Cypress.Commands.add('apiPatchUser', (userId, userData) => {
 /**
  * Creates a new user via the API, adds them to 3 teams, and sets preference to bypass tutorial.
  * Then logs in as the user
- @param {Object} user - Object of user email, username, and password that you can optionally set. Otherwise use default values
+ * @param {Object} user - Object of user email, username, and password that you can optionally set.
+ * @param {Array} teamIDs - list of teams to add the new user to
+ * @param {Boolean} bypassTutorial - whether to set user preferences to bypass the tutorial on first login (true) or to show it (false)
+ * Otherwise use default values
  @returns {Object} Returns object containing email, username, id and password if you need it further in the test
  */
-Cypress.Commands.add('createNewUser', (user = {}, teamIds = []) => {
+
+Cypress.Commands.add('createNewUser', (user = {}, teamIds = [], bypassTutorial = true) => {
     const timestamp = Date.now();
 
     const {
@@ -474,15 +482,17 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = []) => {
             });
         }
 
-        // # Update new user preferences to bypass tutorial
-        const preferences = [{
-            user_id: userId,
-            category: 'tutorial_step',
-            name: userId,
-            value: '999',
-        }];
+        // # If the bypass flag is true, bypass tutorial
+        if (bypassTutorial === true) {
+            const preferences = [{
+                user_id: userId,
+                category: 'tutorial_step',
+                name: userId,
+                value: '999',
+            }];
 
-        cy.apiSaveUserPreference(preferences, userId);
+            cy.apiSaveUserPreference(preferences, userId);
+        }
 
         // Wrap our user object so it gets returned from our cypress command
         cy.wrap({email, username, password, id: userId, firstName, lastName, nickname});
@@ -490,23 +500,25 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = []) => {
 });
 
 /**
- * Creates a new user via the API, adds them to 3 teams, and sets preference to bypass tutorial.
+ * Creates a new user via the API , adds them to 3 teams, and sets preference to bypass tutorial.
  * Then logs in as the user
- @param {Object} user - Object of user email, username, and password that you can optionally set. Otherwise use default values
+ * @param {Object} user - Object of user email, username, and password that you can optionally set.
+ * @param {Boolean} bypassTutorial - Whether to set user preferences to bypass the tutorial (true) or to show it (false)
+ * Otherwise use default values
  @returns {Object} Returns object containing email, username, id and password if you need it further in the test
  */
-Cypress.Commands.add('loginAsNewUser', (user = {}) => {
-    return cy.createNewUser(user).then((newUser) => {
+Cypress.Commands.add('loginAsNewUser', (user = {}, bypassTutorial = true) => {
+    return cy.createNewUser(user, [], bypassTutorial).then((newUser) => {
         cy.request({
             headers: {'X-Requested-With': 'XMLHttpRequest'},
             url: '/api/v4/users/login',
             method: 'POST',
             body: {login_id: newUser.username, password: newUser.password},
+        }).then(() => {
+            cy.visit('/');
+
+            return cy.wrap(newUser);
         });
-
-        cy.visit('/');
-
-        return cy.wrap(newUser);
     });
 });
 

@@ -101,6 +101,7 @@ export default class ManageLanguage extends React.Component {
                 </label>
                 <div className='padding-top'>
                     <select
+                        role='combobox'
                         id='displayLanguage'
                         ref='language'
                         className='form-control'

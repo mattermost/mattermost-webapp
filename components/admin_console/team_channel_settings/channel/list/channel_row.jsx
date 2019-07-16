@@ -28,14 +28,14 @@ export default class ChannelRow extends React.Component {
                 onClick={this.handleRowClick}
             >
                 <div className='group-row'>
-                    <span className='group-name'>
+                    <span className='group-name overflow--ellipsis row-content'>
                         {channel.type === Constants.PRIVATE_CHANNEL ? <LockIcon className='channel-icon channel-icon__lock'/> : <GlobeIcon className='channel-icon channel-icon__globe'/>}
                         {channel.name}
                     </span>
-                    <span className='group-description'>
+                    <span className='group-description row-content'>
                         {channel.team_name}
                     </span>
-                    <span className='group-description'>
+                    <span className='group-description adjusted row-content'>
                         <FormattedMessage
                             id={`admin.channel_settings.channel_row.managementMethod.${channel.group_constrained ? 'group' : 'manual'}`}
                             defaultMessage={channel.group_constrained ? 'Group Sync' : 'Manual Invites'}

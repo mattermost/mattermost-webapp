@@ -221,7 +221,7 @@ export default class EmailNotificationSetting extends React.Component {
         let batchingInfo = null;
         if (this.props.enableEmailBatching) {
             batchingOptions = (
-                <div>
+                <fieldset>
                     <div className='radio'>
                         <label>
                             <input
@@ -257,7 +257,7 @@ export default class EmailNotificationSetting extends React.Component {
                             />
                         </label>
                     </div>
-                </div>
+                </fieldset>
             );
 
             batchingInfo = (
@@ -272,13 +272,13 @@ export default class EmailNotificationSetting extends React.Component {
             <SettingItemMax
                 title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
                 inputs={[
-                    <div key='userNotificationEmailOptions'>
-                        <label>
+                    <fieldset key='userNotificationEmailOptions'>
+                        <legend className='form-legend'>
                             <FormattedMessage
                                 id='user.settings.notifications.email.send'
                                 defaultMessage='Send email notifications'
                             />
-                        </label>
+                        </legend>
                         <div className='radio'>
                             <label>
                                 <input
@@ -314,8 +314,7 @@ export default class EmailNotificationSetting extends React.Component {
                                 />
                             </label>
                         </div>
-                        <br/>
-                        <div>
+                        <div className='margin-top x2'>
                             <FormattedMessage
                                 id='user.settings.notifications.emailInfo'
                                 defaultMessage='Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes.'
@@ -326,7 +325,7 @@ export default class EmailNotificationSetting extends React.Component {
                             {' '}
                             {batchingInfo}
                         </div>
-                    </div>,
+                    </fieldset>,
                 ]}
                 submit={this.handleSubmit}
                 saving={this.props.saving}
