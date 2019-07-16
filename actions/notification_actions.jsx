@@ -64,6 +64,11 @@ export function sendDesktopNotification(post, msgProps) {
             return;
         }
 
+        const rhsPostId = state.views.rhs.selectedPostId;
+        if (rhsPostId !== '' && rhsPostId === post.root_id && state.views.browser.focused) {
+            return;
+        }
+
         const config = getConfig(state);
         let username = '';
         if (post.props.override_username && config.EnablePostUsernameOverride === 'true') {
