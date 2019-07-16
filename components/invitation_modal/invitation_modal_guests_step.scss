@@ -7,9 +7,11 @@
         margin-bottom: 12px;
         margin-top: 0px;
         font-size: 20px;
+        span {
+            font-weight: 400;
+        }
     }
     input {
-        height: 48px;
         background: var(--center-channel-bg);
         border-color: var(--center-channel-color-60);
         border: 1px solid;
@@ -54,7 +56,11 @@
     .custom-message {
         position: relative;
         a {
+            font-weight: 600;
             color: var(--button-bg-90);
+        }
+        span {
+            font-weight: 600;
         }
         svg {
             &:hover {
@@ -67,6 +73,27 @@
             top: 3px;
             width: 16px;
             height: 16px;
+        }
+    }
+    .invite-guests {
+        text-align: right;
+        button {
+            height: 48px;
+            padding: 13px 26px;
+            font-size: 16px;
+            font-weight: 600;
+            width: 180px;
+            border-radius: 4px;
+            background: var(--button-bg);
+            color: var(--button-color);
+            &:focus, &:active, &:focus:active {
+                outline: none;
+                border-color: transparent;
+            }
+            &.btn-inactive {
+                background: var(--center-channel-color-10);
+                color: var(--center-channel-color-50);
+            }
         }
     }
 }

@@ -24,11 +24,17 @@
     input {
         height: inherit;
     }
+    .emails-input__value-container {
+        margin-left: 0;
+        padding: 0;
+    }
     .emails-input__placeholder {
         color: var(--center-channel-color-60);
+        margin-left: 10px;
     }
     .emails-input__input {
         color: var(--center-channel-color);
+        margin-left: 8px;
     }
     .emails-input__menu {
         margin-top: 0px;
@@ -96,6 +102,10 @@
         padding: 4px;
         border-radius: 16px;
         color: var(--center-channel-color);
+        margin: 4px;
+        &:last-child {
+            margin: 4px 0 4px 4px;
+        }
         .mail-icon {
             width: 24px;
             height: 24px;
@@ -114,13 +124,14 @@
         align-items: center;
         padding: 0;
         color: var(--center-channel-color);
+        font-size: 1.6rem;
         .mail-icon {
             width: 24px;
             height: 24px;
             border-radius: 16px;
             background: var(--center-channel-color-50);
             padding: 3px;
-            margin-right: 3px;
+            margin-right: 4px;
             svg {
                 width: 18px;
                 height: 18px;
@@ -142,9 +153,9 @@
         svg {
             height: 19px;
             width: 19px;
-            fill: var(--center-channel-color-40);
+            fill: var(--center-channel-color-60);
             &:hover {
-                fill: var(--center-channel-color-60);
+                fill: var(--center-channel-color-80);
             }
             opacity: .6;
         }

@@ -17,15 +17,21 @@
             }
             border-color: var(--button-bg);
             border-width: 2px;
+            padding: 0px;
             transition: none;
         }
     }
+    .users-emails-input__value-container {
+        margin-left: 0;
+        padding: 0;
+    }
     .users-emails-input__placeholder {
         color: var(--center-channel-color-60);
+        margin-left: 10px;
     }
     .users-emails-input__input {
         color: var(--center-channel-color);
-        margin-left: 4px;
+        margin-left: 8px;
     }
     input {
         height: inherit;
@@ -103,6 +109,10 @@
         padding: 4px;
         border-radius: 16px;
         color: var(--center-channel-color);
+        margin: 4px;
+        &:last-child {
+            margin: 4px 0 4px 4px;
+        }
     }
 
     .users-emails-input__multi-value__label {
@@ -110,13 +120,14 @@
         align-items: center;
         padding: 0;
         color: var(--center-channel-color);
+        font-size: 1.6rem;
         .mail-icon {
             width: 24px;
             height: 24px;
             border-radius: 16px;
             background: var(--center-channel-color-50);
             padding: 3px;
-            margin-right: 3px;
+            margin-right: 4px;
             svg {
                 width: 18px;
                 height: 18px;
@@ -127,7 +138,7 @@
             border-radius: 16px;
             width: 24px;
             height: 24px;
-            margin-right: 3px;
+            margin-right: 4px;
         }
     }
     .users-emails-input__multi-value__remove {
@@ -144,9 +155,9 @@
         svg {
             height: 19px;
             width: 19px;
-            fill: var(--center-channel-color-40);
+            fill: var(--center-channel-color-60);
             &:hover {
-                fill: var(--center-channel-color-60);
+                fill: var(--center-channel-color-80);
             }
             opacity: .6;
         }

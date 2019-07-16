@@ -219,7 +219,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                 </div>
                 <div className='invite-guests'>
                     <button
-                        className='btn btn-primary'
+                        className={'btn ' + (this.state.channels.length === 0 || this.state.usersAndEmails.length === 0 ? 'btn-inactive' : 'btn-primary')}
                         disabled={this.state.channels.length === 0 || this.state.usersAndEmails.length === 0}
                         onClick={this.sendInvites}
                     >
