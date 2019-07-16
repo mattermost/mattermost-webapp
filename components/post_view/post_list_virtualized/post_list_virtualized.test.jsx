@@ -24,6 +24,12 @@ describe('PostList', () => {
             'post3',
             DATE_LINE + 1551711600000,
         ],
+        postListChunk: [
+            'post1',
+            'post2',
+            'post3',
+            DATE_LINE + 1551711600000,
+        ],
         latestPostTimeStamp: 12345,
         postVisibility: 10,
         actions: {

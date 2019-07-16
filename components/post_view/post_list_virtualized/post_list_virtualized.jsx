@@ -55,6 +55,11 @@ export default class PostList extends React.PureComponent {
         postListIds: PropTypes.array,
 
         /**
+         * Array of actual Ids in the channel which includes system messages as individual postIds
+         */
+        postListChunk: PropTypes.array,
+
+        /**
          * The number of posts that should be rendered
          */
         postVisibility: PropTypes.number,
@@ -302,7 +307,7 @@ export default class PostList extends React.PureComponent {
     };
 
     getOldestVisiblePostId = () => {
-        return getOldestPostId(this.state.postListIds);
+        return getOldestPostId(this.props.postListChunk);
     }
 
     togglePostMenu = (opened) => {
@@ -487,7 +492,9 @@ export default class PostList extends React.PureComponent {
         if (this.extraPagesLoaded > MAX_EXTRA_PAGES_LOADED) {
             // Prevent this from loading a lot of pages in a channel with only hidden messages
             // Enable load more messages manual link
-            this.setState({autoRetryEnable: false});
+            if (this.state.autoRetryEnable) {
+                this.setState({autoRetryEnable: false});
+            }
             return;
         }
 
