@@ -258,6 +258,10 @@ export default class EmojiPicker extends React.PureComponent {
 
     handleCategoryClick(categoryName) {
         this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
+        this.setState({
+            cursor: [Object.keys(this.state.categories).indexOf(categoryName), 0],
+        });
+        this.searchInput.focus();
     }
 
     handleFilterChange(e) {
@@ -425,6 +429,14 @@ export default class EmojiPicker extends React.PureComponent {
             this.state.allEmojis[emojiId]);
     }
 
+    getCurrentEmojiName() {
+        const emoji = this.getCurrentEmojiByCursor(this.state.cursor)
+        if (!emoji)
+            return '';
+
+        return emoji.aliases[0].replace(/_/g, ' ');
+    }
+
     getEmojis(props = this.props) {
         const {categories, allEmojis} = this.state;
         const emojiMap = props.emojiMap;
@@ -558,6 +570,7 @@ export default class EmojiPicker extends React.PureComponent {
                     key={category.id}
                     categoryName={category.name}
                     updateCategoryOffset={this.updateCategoryOffset}
+                    role='application'
                 >
                     {items}
                 </EmojiPickerCategorySection>
@@ -618,7 +631,6 @@ export default class EmojiPicker extends React.PureComponent {
                     containerRef={this.emojiPickerContainer}
                     containerTop={this.state.divTopOffset}
                     containerBottom={this.state.divTopOffset + this.divHeight}
-                    role='option'
                 />
             );
         });
@@ -639,7 +651,22 @@ export default class EmojiPicker extends React.PureComponent {
 
     render() {
         return (
-            <div className='emoji-picker__inner'>
+            <div 
+                className='emoji-picker__inner'
+                role='application'
+            >
+                <div
+                    aria-live='assertive'
+                    className='sr-only'
+                >
+                    <FormattedMessage
+                        id='emoji_picker_item.emoji_aria_label'
+                        defaultMessage='{emojiName} emoji'
+                        values={{
+                            emojiName: this.getCurrentEmojiName()
+                        }}
+                    />
+                </div>
                 {this.emojiSearch()}
                 {this.emojiCategories()}
                 {this.emojiCurrentResults()}
