@@ -10,11 +10,6 @@ export default class QuickInput extends React.PureComponent {
     static propTypes = {
 
         /**
-         * Aria label for the textarea
-         */
-        ariaLabel: PropTypes.string,
-
-        /**
          * Whether to delay updating the value of the textbox from props. Should only be used
          * on textboxes that to properly compose CJK characters as the user types.
          */

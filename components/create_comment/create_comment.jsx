@@ -267,7 +267,7 @@ export default class CreateComment extends React.PureComponent {
         }
     }
 
-    updateState = (newState) => {
+    updatePreview = (newState) => {
         this.setState({preview: newState});
     }
 
@@ -968,7 +968,7 @@ export default class CreateComment extends React.PureComponent {
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.state.preview}
-                                updateState={this.updateState}
+                                updatePreview={this.updatePreview}
                                 message={readOnlyChannel ? '' : this.state.message}
                             />
                         </div>

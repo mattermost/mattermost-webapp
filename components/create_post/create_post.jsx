@@ -321,7 +321,7 @@ export default class CreatePost extends React.Component {
         this.removeOrientationListeners();
     }
 
-    updateState = (newState) => {
+    updatePreview = (newState) => {
         this.setState({preview: newState});
     }
 
@@ -1304,7 +1304,7 @@ export default class CreatePost extends React.Component {
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.state.preview}
-                                updateState={this.updateState}
+                                updatePreview={this.updatePreview}
                                 message={readOnlyChannel ? '' : this.state.message}
                             />
                         </div>

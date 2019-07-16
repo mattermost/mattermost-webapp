@@ -57,7 +57,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
         <TextboxLinks
           characterLimit={4000}
           message=""
-          updateState={[Function]}
+          updatePreview={[Function]}
         />
       </div>
       <div>
@@ -201,7 +201,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
         <TextboxLinks
           characterLimit={4000}
           message=""
-          updateState={[Function]}
+          updatePreview={[Function]}
         />
       </div>
       <div>
@@ -322,7 +322,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
         <TextboxLinks
           characterLimit={4000}
           message=""
-          updateState={[Function]}
+          updatePreview={[Function]}
         />
       </div>
       <div>
@@ -478,7 +478,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
         <TextboxLinks
           characterLimit={4000}
           message=""
-          updateState={[Function]}
+          updatePreview={[Function]}
         />
       </div>
       <div>
@@ -622,7 +622,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
         <TextboxLinks
           characterLimit={4000}
           message=""
-          updateState={[Function]}
+          updatePreview={[Function]}
         />
       </div>
       <div>

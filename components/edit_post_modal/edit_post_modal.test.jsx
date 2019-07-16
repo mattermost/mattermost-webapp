@@ -211,7 +211,7 @@ describe('components/EditPostModal', () => {
         const wrapper = shallowWithIntl(createEditPost());
         const instance = wrapper.instance();
 
-        instance.updateState(true);
+        instance.updatePreview(true);
         expect(wrapper.state().preview).toBe(true);
         instance.handleExit();
         expect(wrapper.state().preview).toBe(false);

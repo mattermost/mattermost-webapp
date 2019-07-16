@@ -65,7 +65,7 @@ export default class EditPostModal extends React.PureComponent {
         }
     }
 
-    updateState = (newState) => {
+    updatePreview = (newState) => {
         this.setState({preview: newState});
     }
 
@@ -368,7 +368,7 @@ export default class EditPostModal extends React.PureComponent {
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.state.preview}
                                 ref={this.setTextboxLinksRef}
-                                updateState={this.updateState}
+                                updatePreview={this.updatePreview}
                                 message={this.state.editText}
                             />
                             <div className={errorBoxClass}>

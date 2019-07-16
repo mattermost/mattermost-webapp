@@ -116,7 +116,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
           characterLimit={4000}
           message=""
           preview={false}
-          updateState={[Function]}
+          updatePreview={[Function]}
         />
         <div
           className="edit-post-footer"
@@ -272,7 +272,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
           characterLimit={4000}
           message="new message"
           preview={false}
-          updateState={[Function]}
+          updatePreview={[Function]}
         />
         <div
           className="edit-post-footer"
@@ -428,7 +428,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
           characterLimit={4000}
           message=""
           preview={false}
-          updateState={[Function]}
+          updatePreview={[Function]}
         />
         <div
           className="edit-post-footer"
@@ -559,7 +559,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
           characterLimit={4000}
           message=""
           preview={false}
-          updateState={[Function]}
+          updatePreview={[Function]}
         />
         <div
           className="edit-post-footer"
@@ -715,7 +715,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
           characterLimit={4000}
           message="new message"
           preview={false}
-          updateState={[Function]}
+          updatePreview={[Function]}
         />
         <div
           className="edit-post-footer"
@@ -871,7 +871,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
           characterLimit={4000}
           message=""
           preview={false}
-          updateState={[Function]}
+          updatePreview={[Function]}
         />
         <div
           className="edit-post-footer"
@@ -1027,7 +1027,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
           characterLimit={4000}
           message=""
           preview={false}
-          updateState={[Function]}
+          updatePreview={[Function]}
         />
         <div
           className="edit-post-footer"
@@ -1183,7 +1183,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
           characterLimit={4000}
           message=""
           preview={false}
-          updateState={[Function]}
+          updatePreview={[Function]}
         />
         <div
           className="edit-post-footer"
@@ -1339,7 +1339,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
           characterLimit={4000}
           message=""
           preview={false}
-          updateState={[Function]}
+          updatePreview={[Function]}
         />
         <div
           className="edit-post-footer has-error"

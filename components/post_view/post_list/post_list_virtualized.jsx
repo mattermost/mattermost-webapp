@@ -489,7 +489,7 @@ export default class PostList extends React.PureComponent {
                             <AutoSizer>
                                 {({height, width}) => (
                                     <DynamicSizeList
-                                        role='”listbox'
+                                        role='listbox'
                                         ref={this.listRef}
                                         height={height}
                                         width={width}
