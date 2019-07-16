@@ -61,7 +61,6 @@
     .team-btn__image {
         @include clearfix;
         @include background-size(100% 100%);
-        background-color: $white;
         background-repeat: no-repeat;
         width: 43px;
         height: 100%;
