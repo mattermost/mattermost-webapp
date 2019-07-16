@@ -38,7 +38,7 @@ export function sendMembersInvites(teamId, users, emails) {
             }
             for (const user of usersToAdd) {
                 if (response.error) {
-                    notSent.push({user, reason: response.error});
+                    notSent.push({user, reason: response.error.toString()});
                 } else {
                     sent.push({user, reason: localizeMessage('invite.members.added-to-team', 'This member has been added to the team')});
                 }
@@ -53,7 +53,7 @@ export function sendMembersInvites(teamId, users, emails) {
             }
             for (const email of emails) {
                 if (response.error) {
-                    notSent.push({email, reason: response.error});
+                    notSent.push({email, reason: response.error.toString()});
                 } else {
                     sent.push({email, reason: localizeMessage('invite.members.invite-sent', 'An invitation email has been sent')});
                 }
@@ -105,7 +105,7 @@ export function sendGuestsInvites(teamId, channels, users, emails, message) {
             }
             for (const email of emails) {
                 if (response.error) {
-                    notSent.push({email, reason: response.error});
+                    notSent.push({email, reason: response.error.toString()});
                 } else {
                     sent.push({email, reason: localizeMessage('invite.guests.added-to-channel', 'An invitation email has been sent')});
                 }
