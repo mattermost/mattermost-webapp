@@ -42,10 +42,10 @@ export default class EmojiPickerItem extends React.Component {
         const {formatMessage} = this.context.intl;
         return formatMessage({
             id: 'emoji_picker_item.emoji_aria_label',
-            defaultMessage: "{emojiName} emoji",
+            defaultMessage: '{emojiName} emoji',
         },
         {
-            emojiName: this.props.emoji.aliases[0].replace(/_/g, " "),
+            emojiName: this.props.emoji.aliases[0].replace(/_/g, ' '),
         });
     }
 

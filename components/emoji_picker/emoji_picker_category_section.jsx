@@ -32,7 +32,7 @@ export default class EmojiPickerCategorySection extends React.PureComponent {
                         <FormattedMessage id={'emoji_picker.' + this.props.categoryName}/>
                     </div>
                 </div>
-                <div className='emoji-picker-items__container' role='list'>
+                <div className='emoji-picker-items__container'>
                     {this.props.children}
                 </div>
             </div>

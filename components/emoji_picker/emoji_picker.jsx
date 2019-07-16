@@ -430,9 +430,10 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     getCurrentEmojiName() {
-        const emoji = this.getCurrentEmojiByCursor(this.state.cursor)
-        if (!emoji)
+        const emoji = this.getCurrentEmojiByCursor(this.state.cursor);
+        if (!emoji) {
             return '';
+        }
 
         return emoji.aliases[0].replace(/_/g, ' ');
     }
@@ -651,7 +652,7 @@ export default class EmojiPicker extends React.PureComponent {
 
     render() {
         return (
-            <div 
+            <div
                 className='emoji-picker__inner'
                 role='application'
             >
@@ -663,7 +664,7 @@ export default class EmojiPicker extends React.PureComponent {
                         id='emoji_picker_item.emoji_aria_label'
                         defaultMessage='{emojiName} emoji'
                         values={{
-                            emojiName: this.getCurrentEmojiName()
+                            emojiName: this.getCurrentEmojiName(),
                         }}
                     />
                 </div>
