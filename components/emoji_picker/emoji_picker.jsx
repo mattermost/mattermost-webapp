@@ -618,6 +618,7 @@ export default class EmojiPicker extends React.PureComponent {
                     containerRef={this.emojiPickerContainer}
                     containerTop={this.state.divTopOffset}
                     containerBottom={this.state.divTopOffset + this.divHeight}
+                    role='option'
                 />
             );
         });

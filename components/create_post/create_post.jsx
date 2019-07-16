@@ -1191,7 +1191,7 @@ export default class CreatePost extends React.Component {
         if (this.props.enableEmojiPicker && !readOnlyChannel) {
             emojiPicker = (
                 <span
-                    role='button'
+                    role='application'
                     tabIndex='0'
                     onKeyPress={this.handleKeyDownEmojiPicker}
                     aria-label={formatMessage({
