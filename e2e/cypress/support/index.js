@@ -15,7 +15,7 @@ import 'cypress-file-upload';
 import addContext from 'mochawesome/addContext';
 
 Cypress.on('test:after:run', (test, runnable) => {
-    // Only if the test is failed to we want ot add
+    // Only if the test is failed do we want to add
     // the additional context of the screenshot.
     if (test.state === 'failed') {
         let filename = Cypress.spec.name + '/';
@@ -28,7 +28,7 @@ Cypress.on('test:after:run', (test, runnable) => {
         // getting our starting parent to form the correct filename.
         if (test.failedFromHookId) {
             // Failed from hook Id is always something like 'h2'
-            // We just need tho trailing number to match with parent id
+            // We just need the trailing number to match with parent id
             const hookId = test.failedFromHookId.split('')[1];
 
             // If the current parentId does not match our hook id
@@ -57,14 +57,16 @@ Cypress.on('test:after:run', (test, runnable) => {
             parent = parent.parent;
         }
 
+        // Clean up strings of characters that Cypress strips out
+        const charactersToStrip = /[;:"<>/]/g;
+        parentNames = parentNames.replace(charactersToStrip, '');
+        const testTitle = test.title.replace(charactersToStrip, '');
+
         // If the test has a hook name, that means it failed due to a hook
         // and consequently Cypress appends some text to the file name
         const hookName = test.hookName ? ' -- ' + test.hookName + ' hook' : '';
 
-        filename += parentNames + test.title + hookName + ' (failed).png';
-
-        // Clean up filename of characters that Cypress strips out
-        filename = filename.replace(/[;:"<>/]/g, '');
+        filename += parentNames + testTitle + hookName + ' (failed).png';
 
         // Add context to the mochawesome report which includes the screenshot
         addContext({test}, {

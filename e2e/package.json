@@ -21,6 +21,6 @@
     "cypress:open": "cypress open",
     "start:webhook": "node webhook_serve.js",
     "test": "start-test start:webhook 3000 test:ci",
-    "test:ci": "node runTests.js"
+    "test:ci": "node run_tests.js"
   }
 }

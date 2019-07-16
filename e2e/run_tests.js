@@ -9,18 +9,19 @@ const {merge} = require('mochawesome-merge');
 const generator = require('mochawesome-report-generator');
 
 async function runTests() {
-    await fse.remove('mochawesome-report'); // remove the report folder
     await fse.remove('results');
     await fse.remove('screenshots');
 
     const testDirs = fse.readdirSync('cypress/integration/');
     let totalFailed = 0;
 
+    const mochawesomeReportDir = 'results/mochawesome-report';
+
     for (const dir of testDirs) {
         const {failed} = await cypress.run({
             spec: `./cypress/integration/${dir}/**/*`,
             config: {
-                screenshotsFolder: 'screenshots',
+                screenshotsFolder: `${mochawesomeReportDir}/screenshots`,
                 trashAssetsBeforeRuns: false,
             },
             reporter: 'cypress-multi-reporters',
@@ -32,7 +33,7 @@ async function runTests() {
                         toConsole: false,
                     },
                     mochawesomeReporterOptions: {
-                        reportDir: 'mochawesome-report',
+                        reportDir: mochawesomeReportDir,
                         reportFilename: `mochawesome-${dir}`,
                         quiet: true,
                         overwrite: false,
@@ -45,11 +46,11 @@ async function runTests() {
         totalFailed += failed;
     }
 
-    const jsonReport = await merge(); // generate JSON report
+    // Merge all json reports into one single json report
+    const jsonReport = await merge({reportDir: mochawesomeReportDir});
 
-    await generator.create(jsonReport);
-
-    await fse.copy('screenshots', 'mochawesome-report/screenshots');
+    // Generate the html report file
+    await generator.create(jsonReport, {reportDir: mochawesomeReportDir});
 
     // eslint-disable-next-line
     process.exit(totalFailed); // exit with the number of failed tests
