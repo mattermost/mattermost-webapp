@@ -7,7 +7,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="about-modal"
+  dialogClassName="a11y__modal about-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -96,7 +96,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="about-modal"
+  dialogClassName="a11y__modal about-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}

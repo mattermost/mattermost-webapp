@@ -8,5 +8,8 @@
     "reporterOptions": {
         "mochaFile": "results/results-[hash].xml",
         "toConsole": false
+    },
+    "env": {
+        "webhookBaseUrl": "http://localhost:3000"
     }
 }

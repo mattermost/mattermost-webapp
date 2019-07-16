@@ -38,6 +38,11 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           render={[Function]}
         />
         <Route
+          key="user_management/user/:user_id"
+          path="/user_management/user/:user_id"
+          render={[Function]}
+        />
+        <Route
           key="user_management/users"
           path="/user_management/users"
           render={[Function]}

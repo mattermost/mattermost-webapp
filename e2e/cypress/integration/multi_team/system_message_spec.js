@@ -28,6 +28,17 @@ describe('MM-15240 - no status on a system message', () => {
         // # Login and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
+
+        // # Post a regular message
+        cy.postMessage('Test for no status of a system message');
+
+        // # Update the header
+        cy.getCurrentChannelId().then((channelId) => {
+            cy.apiPatchChannel(
+                channelId,
+                {header: ' Updating header'.repeat(Math.floor(Math.random() * 10))}
+            );
+        });
     });
 
     const displayTypes = ['compact', 'clean'];
@@ -36,14 +47,6 @@ describe('MM-15240 - no status on a system message', () => {
         it(`should have no status with ${type} display`, () => {
             // # Set message display
             cy.apiSaveMessageDisplayPreference(type);
-
-            // # Update the header
-            cy.getCurrentChannelId().then((channelId) => {
-                cy.apiPatchChannel(
-                    channelId,
-                    {header: ' Updating header'.repeat(Math.floor(Math.random() * 10))}
-                );
-            });
 
             // # Get last post
             cy.getLastPostId().then((postId) => {

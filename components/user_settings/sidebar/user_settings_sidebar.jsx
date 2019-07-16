@@ -210,7 +210,7 @@ export default class UserSettingsSidebar extends React.Component {
                         />
                     }
                     inputs={[
-                        <div key='autoCloseDMSetting'>
+                        <fieldset key='autoCloseDMSetting'>
                             <div className='radio'>
                                 <label>
                                     <input
@@ -225,7 +225,6 @@ export default class UserSettingsSidebar extends React.Component {
                                         defaultMessage='After 7 days with no new messages'
                                     />
                                 </label>
-                                <br/>
                             </div>
                             <div className='radio'>
                                 <label>
@@ -241,16 +240,14 @@ export default class UserSettingsSidebar extends React.Component {
                                         defaultMessage='Never'
                                     />
                                 </label>
-                                <br/>
                             </div>
-                            <div>
-                                <br/>
+                            <div className='margin-top x3'>
                                 <FormattedMessage
                                     id='user.settings.sidebar.autoCloseDMDesc'
                                     defaultMessage='Direct Message conversations can be reopened with the “+” button in the sidebar or using the Channel Switcher (CTRL+K).'
                                 />
                             </div>
-                        </div>,
+                        </fieldset>,
                     ]}
                     setting={'close_unused_direct_messages'}
                     submit={this.handleSubmit}
@@ -395,14 +392,13 @@ export default class UserSettingsSidebar extends React.Component {
             const inputs = [];
 
             inputs.push(
-                <div key='groupingSectionSetting'>
-                    <label>
+                <fieldset key='groupingSectionSetting'>
+                    <legend className='form-legend'>
                         <FormattedMessage
                             id='user.settings.sidebar.groupChannelsTitle'
                             defaultMessage='Channel grouping'
                         />
-                    </label>
-                    <br/>
+                    </legend>
                     <div className='radio'>
                         <label>
                             <input
@@ -417,7 +413,6 @@ export default class UserSettingsSidebar extends React.Component {
                                 defaultMessage='Channels grouped by type'
                             />
                         </label>
-                        <br/>
                     </div>
                     <div className='radio'>
                         <label>
@@ -433,29 +428,26 @@ export default class UserSettingsSidebar extends React.Component {
                                 defaultMessage='Combine all channel types'
                             />
                         </label>
-                        <br/>
                     </div>
-                    <div>
-                        <br/>
+                    <div className='margin-top x3'>
                         <FormattedMessage
                             id='user.settings.sidebar.groupDesc'
                             defaultMessage='Group channels by type, or combine all types into a list.'
                         />
                     </div>
-                </div>
+                </fieldset>
             );
 
             inputs.push(<hr key='sortingDivider'/>);
 
             inputs.push(
-                <div key='sortingOptions'>
-                    <label>
+                <fieldset key='sortingOptions'>
+                    <legend className='form-legend'>
                         <FormattedMessage
                             id='user.settings.sidebar.sortChannelsTitle'
                             defaultMessage='Channel sorting'
                         />
-                    </label>
-                    <br/>
+                    </legend>
                     <div className='radio'>
                         <label>
                             <input
@@ -470,7 +462,6 @@ export default class UserSettingsSidebar extends React.Component {
                                 defaultMessage='Recency'
                             />
                         </label>
-                        <br/>
                     </div>
                     <div className='radio'>
                         <label>
@@ -486,22 +477,20 @@ export default class UserSettingsSidebar extends React.Component {
                                 defaultMessage='Alphabetically'
                             />
                         </label>
-                        <br/>
                     </div>
-                    <div>
-                        <br/>
+                    <div className='margin-top x3'>
                         <FormattedMessage
                             id='user.settings.sidebar.sortDesc'
                             defaultMessage='Sort channels alphabetically, or by most recent post.'
                         />
                     </div>
-                </div>
+                </fieldset>
             );
 
             inputs.push(<hr key='divider'/>);
 
             inputs.push(
-                <div key='unreadOption'>
+                <fieldset key='unreadOption'>
                     <div className='checkbox'>
                         <label>
                             <input
@@ -516,20 +505,19 @@ export default class UserSettingsSidebar extends React.Component {
                             />
                         </label>
                     </div>
-                    <div>
-                        <br/>
+                    <div className='margin-top x3'>
                         <FormattedMessage
                             id='user.settings.sidebar.unreadsDesc'
                             defaultMessage='Group unread channels separately until read.'
                         />
                     </div>
-                </div>
+                </fieldset>
             );
 
             inputs.push(<hr key='groupingDivider'/>);
 
             inputs.push(
-                <div key='favoriteOption'>
+                <fieldset key='favoriteOption'>
                     <div className='checkbox'>
                         <label>
                             <input
@@ -551,7 +539,7 @@ export default class UserSettingsSidebar extends React.Component {
                             defaultMessage='Channels marked as favorites will be grouped separately.'
                         />
                     </div>
-                </div>
+                </fieldset>
             );
 
             contents = (
@@ -684,7 +672,6 @@ export default class UserSettingsSidebar extends React.Component {
                 describe={this.renderChannelSwitcherLabel(this.state.settings.channel_switcher_section)}
                 section={'channelSwitcher'}
                 updateSection={this.updateSection}
-                focused={true}
             />
         );
     };
