@@ -176,7 +176,8 @@ export default class AddUsersToTeam extends React.Component {
                 className={'a11y__section more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
                 aria-label={option.username}
-                role='button'
+                role='menuitem'
+                aria-current={isSelected}
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
@@ -185,6 +186,7 @@ export default class AddUsersToTeam extends React.Component {
                 />
                 <div
                     className='more-modal__details'
+                    aria-hidden='true'
                 >
                     <div className='more-modal__name'>
                         {displayEntireNameForUser(option)}
@@ -197,7 +199,7 @@ export default class AddUsersToTeam extends React.Component {
                         {email}
                     </div>
                 </div>
-                <div className='more-modal__actions'>
+                <div className='more-modal__actions' aria-hidden='true'>
                     <div className='more-modal__actions--round'>
                         <AddIcon/>
                     </div>
