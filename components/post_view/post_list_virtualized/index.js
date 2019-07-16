@@ -22,16 +22,17 @@ function makeMapStateToProps() {
     const preparePostIdsForPostList = makePreparePostIdsForPostList();
     return function mapStateToProps(state, ownProps) {
         let postIds;
+        let postListChunk;
         let latestPostTimeStamp = 0;
         const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
         if (ownProps.focusedPostId) {
-            postIds = getPostIdsAroundPost(state, ownProps.focusedPostId, ownProps.channelId, {postsBeforeCount: -1});
+            postListChunk = getPostIdsAroundPost(state, ownProps.focusedPostId, ownProps.channelId, {postsBeforeCount: -1});
         } else {
-            postIds = getPostIdsInChannel(state, ownProps.channelId);
+            postListChunk = getPostIdsInChannel(state, ownProps.channelId);
         }
 
-        if (postIds && postIds.length) {
-            postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true});
+        if (postListChunk && postListChunk.length) {
+            postIds = preparePostIdsForPostList(state, {postIds: postListChunk, lastViewedAt, indicateNewMessages: true});
             const latestPostId = memoizedGetLatestPostId(postIds);
             const latestPost = getPost(state, latestPostId);
             latestPostTimeStamp = latestPost.create_at;
@@ -40,6 +41,7 @@ function makeMapStateToProps() {
         return {
             postListIds: postIds,
             latestPostTimeStamp,
+            postListChunk,
         };
     };
 }
