@@ -981,7 +981,6 @@ export default class CreatePost extends React.Component {
     }
 
     handleEmojiClose = () => {
-        debugger;
         this.setState({showEmojiPicker: false});
         this.focusTextbox();
     }
