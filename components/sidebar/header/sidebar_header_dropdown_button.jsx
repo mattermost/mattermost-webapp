@@ -50,7 +50,6 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
         if (this.props.teamDescription) {
             teamNameWithToolTip = (
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={<Tooltip id='team-name__tooltip'>{this.props.teamDescription}</Tooltip>}
@@ -68,7 +67,6 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
             >
                 {tutorialTip}
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='right'
                     overlay={mainMenuToolTip}

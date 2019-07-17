@@ -319,7 +319,7 @@ export default class ViewImageModal extends React.PureComponent {
                 show={this.props.show}
                 onHide={this.props.onModalDismissed}
                 className='modal-image'
-                dialogClassName='modal-image'
+                dialogClassName='a11y__modal modal-image'
                 role='dialog'
                 aria-labelledby='viewImageModalLabel'
             >

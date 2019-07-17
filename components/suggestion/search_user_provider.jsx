@@ -17,7 +17,7 @@ class SearchUserSuggestion extends Suggestion {
 
         let className = 'search-autocomplete__item';
         if (isSelection) {
-            className += ' selected';
+            className += ' selected a11y--focused';
         }
 
         const username = item.username;

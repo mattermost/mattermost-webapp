@@ -24,7 +24,13 @@ export default class AddGroupsToTeamModal extends React.Component {
         currentTeamId: PropTypes.string.isRequired,
         searchTerm: PropTypes.string.isRequired,
         groups: PropTypes.array.isRequired,
+
+        // used in tandem with 'skipCommit' to allow using this component without performing actual linking
+        excludeGroups: PropTypes.arrayOf(PropTypes.object),
+        includeGroups: PropTypes.arrayOf(PropTypes.object),
         onHide: PropTypes.func,
+        skipCommit: PropTypes.bool,
+        onAddCallback: PropTypes.func,
         actions: PropTypes.shape({
             getGroupsNotAssociatedToTeam: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
@@ -109,6 +115,13 @@ export default class AddGroupsToTeamModal extends React.Component {
         if (groupIDs.length === 0) {
             return;
         }
+        if (this.props.skipCommit) {
+            if (this.props.onAddCallback) {
+                this.props.onAddCallback(groupIDs);
+            }
+            this.handleHide();
+            return;
+        }
 
         this.setState({saving: true});
 
@@ -155,10 +168,7 @@ export default class AddGroupsToTeamModal extends React.Component {
     }
 
     renderOption(option, isSelected, onAdd) {
-        var rowSelected = '';
-        if (isSelected) {
-            rowSelected = 'more-modal__row--selected';
-        }
+        const rowSelected = isSelected ? 'more-modal__row--selected' : '';
 
         return (
             <div
@@ -178,7 +188,7 @@ export default class AddGroupsToTeamModal extends React.Component {
                     className='more-modal__details'
                 >
                     <div className='more-modal__name'>
-                        {option.display_name} {'-'} <span>
+                        {option.display_name}&nbsp;{'-'}&nbsp;<span className='more-modal__name_sub'>
                             <FormattedMessage
                                 id='numMembers'
                                 defaultMessage='{num, number} {num, plural, one {member} other {members}}'
@@ -223,10 +233,20 @@ export default class AddGroupsToTeamModal extends React.Component {
             addError = (<div className='has-error col-sm-12'><label className='control-label font-weight--normal'>{this.state.addError}</label></div>);
         }
 
+        let groupsToShow = this.props.groups;
+        if (this.props.excludeGroups) {
+            const hasGroup = (og) => !this.props.excludeGroups.find((g) => g.id === og.id);
+            groupsToShow = groupsToShow.filter(hasGroup);
+        }
+        if (this.props.includeGroups) {
+            const hasGroup = (og) => this.props.includeGroups.find((g) => g.id === og.id);
+            groupsToShow = [...groupsToShow, ...this.props.includeGroups.filter(hasGroup)];
+        }
+
         return (
             <Modal
                 id='addGroupsToTeamModal'
-                dialogClassName={'more-modal more-direct-channels'}
+                dialogClassName={'a11y__modal more-modal more-direct-channels'}
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
@@ -248,7 +268,7 @@ export default class AddGroupsToTeamModal extends React.Component {
                     {addError}
                     <MultiSelect
                         key='addGroupsToTeamKey'
-                        options={this.props.groups}
+                        options={groupsToShow}
                         optionRenderer={this.renderOption}
                         values={this.state.values}
                         valueRenderer={this.renderValue}

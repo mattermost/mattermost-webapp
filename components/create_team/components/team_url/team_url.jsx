@@ -200,7 +200,6 @@ export default class TeamUrl extends React.PureComponent {
                             <div className='col-sm-11'>
                                 <div className='input-group input-group--limit'>
                                     <OverlayTrigger
-                                        trigger={['hover', 'focus']}
                                         delayShow={Constants.OVERLAY_TIME_DELAY}
                                         placement='top'
                                         overlay={urlTooltip}

@@ -257,6 +257,7 @@ export default class ChannelHeader extends React.PureComponent {
             rhsState,
         } = this.props;
         const {formatMessage} = this.context.intl;
+        const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
 
         const channelIsArchived = channel.delete_at !== 0;
         if (Utils.isEmptyObject(channel) ||
@@ -447,7 +448,6 @@ export default class ChannelHeader extends React.PureComponent {
 
             toggleFavorite = (
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={toggleFavoriteTooltip}
@@ -477,7 +477,6 @@ export default class ChannelHeader extends React.PureComponent {
         if (channelMuted) {
             muteTrigger = (
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={channelMutedTooltip}
@@ -553,17 +552,13 @@ export default class ChannelHeader extends React.PureComponent {
         return (
             <div
                 id='channel-header'
-                aria-labelledby='channel_header_aria_label'
+                aria-label={ariaLabelChannelHeader}
+                role='navigation'
                 tabIndex='-1'
                 data-channelid={`${channel.id}`}
-                className='channel-header alt'
+                className='channel-header alt a11y__region'
+                data-a11y-sort-order='7'
             >
-                <h1
-                    id='channel_header_aria_label'
-                    className='hidden-label'
-                >
-                    {Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region')}
-                </h1>
                 <div className='flex-parent'>
                     <div className='flex-child'>
                         <div

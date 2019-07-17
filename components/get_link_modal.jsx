@@ -106,6 +106,7 @@ export default class GetLinkModal extends React.PureComponent {
 
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 show={this.props.show}
                 onHide={this.onHide}
                 role='dialog'

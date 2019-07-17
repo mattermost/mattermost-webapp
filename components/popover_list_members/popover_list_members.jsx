@@ -215,22 +215,21 @@ export default class PopoverListMembers extends React.Component {
             </Tooltip>
         );
 
-        const ariaLabel = `${Utils.localizeMessage('channel_header.channelMembers', 'Members')} ${Utils.localizeMessage('accessibility.button.button', 'button')}`.toLowerCase();
+        const ariaLabel = `${Utils.localizeMessage('channel_header.channelMembers', 'Members')}`.toLowerCase();
 
         return (
             <div id='channelMember'>
-                <OverlayTrigger
-                    trigger={['hover', 'focus']}
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
-                    overlay={channelMembersTooltip}
+                <button
+                    id='member_popover'
+                    aria-label={ariaLabel}
+                    className={'style--none member-popover__trigger channel-header__icon wide ' + (this.state.showPopover ? 'active' : '')}
+                    ref='member_popover_target'
+                    onClick={this.handleGetProfilesInChannel}
                 >
-                    <button
-                        id='member_popover'
-                        aria-label={ariaLabel}
-                        className={'style--none member-popover__trigger channel-header__icon wide ' + (this.state.showPopover ? 'active' : '')}
-                        ref='member_popover_target'
-                        onClick={this.handleGetProfilesInChannel}
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='bottom'
+                        overlay={channelMembersTooltip}
                     >
                         <div>
                             <span
@@ -245,8 +244,8 @@ export default class PopoverListMembers extends React.Component {
                                 aria-hidden='true'
                             />
                         </div>
-                    </button>
-                </OverlayTrigger>
+                    </OverlayTrigger>
+                </button>
                 <Overlay
                     rootClose={true}
                     onHide={this.closePopover}

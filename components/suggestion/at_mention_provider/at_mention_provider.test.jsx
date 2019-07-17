@@ -278,7 +278,6 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         });
 
         jest.runAllTimers();
-
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
             terms: [
@@ -439,7 +438,6 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         });
 
         jest.runAllTimers();
-
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
             terms: [

@@ -11,8 +11,6 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import {setUrl} from 'mattermost-redux/actions/general';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getMostRecentPostIdInChannel, makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
 
 import * as UserAgent from 'utils/user_agent.jsx';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
@@ -24,7 +22,6 @@ import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
-import {getSelectedPost} from 'selectors/rhs.jsx';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
@@ -50,7 +47,8 @@ import loadCreateTeam from 'bundle-loader?lazy!components/create_team';
 import loadMfa from 'bundle-loader?lazy!components/mfa/mfa_controller';
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url.jsx';
-import {enableDevModeFeatures, isDevMode, isKeyPressed} from 'utils/utils';
+import {enableDevModeFeatures, isDevMode} from 'utils/utils';
+import A11yController from 'utils/a11y_controller';
 
 const CreateTeam = makeAsyncComponent(loadCreateTeam);
 const ErrorPage = makeAsyncComponent(loadErrorPage);
@@ -96,7 +94,8 @@ export default class Root extends React.Component {
 
     constructor(props) {
         super(props);
-        this.currentFocus = 0;
+        this.currentCategoryFocus = 0;
+        this.currentSidebarFocus = 0;
 
         // Redux
         setUrl(getSiteURL());
@@ -144,63 +143,9 @@ export default class Root extends React.Component {
         this.state = {
             configLoaded: false,
         };
-    }
 
-    handleAccessibilityKeys = (e) => {
-        if (isKeyPressed(e, Constants.KeyCodes.TAB)) {
-            const activeElement = e.target;
-            activeElement.classList.add('keyboard-focus');
-            this.addFocusClass(activeElement);
-        } else if (isKeyPressed(e, Constants.KeyCodes.F6)) {
-            const state = store.getState();
-            const currentChannel = getCurrentChannel(state) || {};
-            const recentPostIdInChannel = getMostRecentPostIdInChannel(state, currentChannel.id);
-            const getPostsForThread = makeGetPostsForThread();
-            const selected = getSelectedPost(state);
-            const rhsPosts = getPostsForThread(state, {rootId: selected.id});
-            let rhsLastPostId;
-
-            if (rhsPosts[0]) {
-                rhsLastPostId = rhsPosts[0].id;
-            }
-
-            const elements = [
-                document.getElementById('post_' + recentPostIdInChannel),
-                document.getElementById('centerChannelFooter'),
-                document.getElementById('rhsPost_' + rhsLastPostId),
-                document.getElementById('rhsFooter'),
-                document.getElementById('lhsHeader'),
-                document.getElementById('lhsList'),
-                document.getElementById('channel-header'),
-                document.getElementById('searchBox'),
-            ].filter((element) => Boolean(element));
-
-            if (this.currentFocus === elements.length) {
-                this.currentFocus = 0;
-            }
-
-            const lastElement = elements[this.currentFocus - 1];
-
-            if (e.target !== lastElement && this.currentFocus !== 0) {
-                this.currentFocus = 0;
-            }
-
-            const activeElement = elements[this.currentFocus];
-
-            this.addFocusClass(activeElement);
-            this.currentFocus++;
-        }
-    };
-
-    addFocusClass = (element) => {
-        element.classList.add('keyboard-focus');
-        element.focus();
-
-        function removeClass() {
-            element.classList.remove('keyboard-focus');
-        }
-
-        element.addEventListener('blur', removeClass, {once: true});
+        // Keyboard navigation for accessibility
+        this.a11yController = new A11yController();
     }
 
     onConfigLoaded = () => {
@@ -301,12 +246,10 @@ export default class Root extends React.Component {
             this.onConfigLoaded();
         });
         trackLoadTime();
-        document.addEventListener('keyup', this.handleAccessibilityKeys);
     }
 
     componentWillUnmount() {
         $(window).unbind('storage');
-        document.removeEventListener('keyup', this.handleAccessibilityKeys);
     }
 
     render() {
