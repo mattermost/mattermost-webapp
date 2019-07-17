@@ -17,8 +17,6 @@ export default class SidebarChannelButtonOrLinkCloseButton extends React.PureCom
         badge: PropTypes.bool,
     }
 
-    overlayTriggerAttr = ['hover', 'focus']
-
     handleClose = (e) => {
         e.stopPropagation();
         e.preventDefault();
@@ -51,7 +49,6 @@ export default class SidebarChannelButtonOrLinkCloseButton extends React.PureCom
 
             closeButton = (
                 <OverlayTrigger
-                    trigger={this.overlayTriggerAttr}
                     delayShow={1000}
                     placement='top'
                     overlay={removeTooltip}

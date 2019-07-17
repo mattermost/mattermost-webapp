@@ -46,9 +46,13 @@ Cypress.Commands.add('apiLogout', () => {
         log: false,
     });
 
+    // Ensure we clear out these specific cookies
     ['MMAUTHTOKEN', 'MMUSERID', 'MMCSRF'].forEach((cookie) => {
         cy.clearCookie(cookie);
     });
+
+    // Clear remainder of cookies
+    cy.clearCookies();
 
     cy.getCookies({log: false}).should('be.empty');
 });
@@ -148,6 +152,30 @@ Cypress.Commands.add('apiPatchChannel', (channelId, channelData) => {
     }).then((response) => {
         expect(response.status).to.match(/20\d/);
         return cy.wrap(response);
+    });
+});
+
+// *****************************************************************************
+// Commands
+// https://api.mattermost.com/#tag/commands
+// *****************************************************************************
+
+/**
+ * Creates a command directly via API
+ * This API assume that the user is logged in and has required permission to create a command
+ * @param {Object} command - command to be created
+ */
+Cypress.Commands.add('apiCreateCommand', (command = {}) => {
+    const options = {
+        url: '/api/v4/commands',
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'POST',
+        body: command,
+    };
+
+    return cy.request(options).then((response) => {
+        expect(response.status).to.equal(201);
+        return {data: response.body, status: response.status};
     });
 });
 
@@ -424,11 +452,11 @@ Cypress.Commands.add('loginAsNewUser', (user = {}, bypassTutorial = true) => {
             url: '/api/v4/users/login',
             method: 'POST',
             body: {login_id: newUser.username, password: newUser.password},
+        }).then(() => {
+            cy.visit('/');
+
+            return cy.wrap(newUser);
         });
-
-        cy.visit('/');
-
-        return cy.wrap(newUser);
     });
 });
 

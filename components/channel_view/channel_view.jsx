@@ -40,7 +40,13 @@ export default class ChannelView extends React.PureComponent {
     createDeferredPostView = () => {
         this.deferredPostView = deferComponentRender(
             PostView,
-            <div id='post-list'/>
+            <div
+                id='post-list'
+                className='a11y__region'
+                data-a11y-sort-order='1'
+                data-a11y-focus-child={true}
+                data-a11y-order-reversed={true}
+            />
         );
     }
 
