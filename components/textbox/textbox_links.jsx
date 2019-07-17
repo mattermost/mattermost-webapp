@@ -16,7 +16,7 @@ export default class TextboxLinks extends React.Component {
         preview: PropTypes.bool,
         characterLimit: PropTypes.number.isRequired,
         previewMessageLink: PropTypes.string,
-        updateState: PropTypes.func,
+        updatePreview: PropTypes.func,
         message: PropTypes.string.isRequired,
     };
 
@@ -26,7 +26,7 @@ export default class TextboxLinks extends React.Component {
 
     togglePreview = (e) => {
         e.preventDefault();
-        this.props.updateState(!this.props.preview);
+        this.props.updatePreview(!this.props.preview);
     }
 
     render() {
