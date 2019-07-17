@@ -297,7 +297,7 @@ export default class EditPostModal extends React.PureComponent {
                         aria-label={emojiButtonAriaLabel}
                         id='editPostEmoji'
                         ref='editPostEmoji'
-                        className='style--none edit-post__actions'
+                        className='style--none post-action'
                         onClick={this.toggleEmojiPicker}
                     >
                         <EmojiIcon

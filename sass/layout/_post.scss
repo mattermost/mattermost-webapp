@@ -595,20 +595,15 @@
     top: 0;
 
     > div {
-        border-left: 1px solid transparent;
-        width: 42px;
+        display: flex;
+        width: 43px;
 
         &:first-child {
-            border: none;
+            border-right: 1px solid transparent;
         }
 
-        > button,
-        div {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            width: 100%;
+        .post-action {
+            width: 42px;
             height: 46px;
         }
     }

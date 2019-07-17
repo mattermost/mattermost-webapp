@@ -98,7 +98,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
             />
             <button
               aria-label="emoji picker"
-              className="style--none edit-post__actions"
+              className="style--none post-action"
               id="editPostEmoji"
               onClick={[Function]}
             >
@@ -254,7 +254,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
             />
             <button
               aria-label="emoji picker"
-              className="style--none edit-post__actions"
+              className="style--none post-action"
               id="editPostEmoji"
               onClick={[Function]}
             >
@@ -410,7 +410,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
             />
             <button
               aria-label="emoji picker"
-              className="style--none edit-post__actions"
+              className="style--none post-action"
               id="editPostEmoji"
               onClick={[Function]}
             >
@@ -697,7 +697,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
             />
             <button
               aria-label="emoji picker"
-              className="style--none edit-post__actions"
+              className="style--none post-action"
               id="editPostEmoji"
               onClick={[Function]}
             >
@@ -853,7 +853,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
             />
             <button
               aria-label="emoji picker"
-              className="style--none edit-post__actions"
+              className="style--none post-action"
               id="editPostEmoji"
               onClick={[Function]}
             >
@@ -1009,7 +1009,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
             />
             <button
               aria-label="emoji picker"
-              className="style--none edit-post__actions"
+              className="style--none post-action"
               id="editPostEmoji"
               onClick={[Function]}
             >
@@ -1123,7 +1123,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
     </ModalTitle>
   </ModalHeader>
   <ModalBody
-    bsClass="modal-body edit-modal-body"
+    bsClass="modal-body edit-modal-body edit-modal-body--add-reaction"
     componentClass="div"
   >
     <div
@@ -1157,7 +1157,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
-              show={false}
+              show={true}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
@@ -1165,7 +1165,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
             />
             <button
               aria-label="emoji picker"
-              className="style--none edit-post__actions"
+              className="style--none post-action"
               id="editPostEmoji"
               onClick={[Function]}
             >
@@ -1321,7 +1321,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
             />
             <button
               aria-label="emoji picker"
-              className="style--none edit-post__actions"
+              className="style--none post-action"
               id="editPostEmoji"
               onClick={[Function]}
             >

@@ -1202,7 +1202,7 @@ export default class CreatePost extends React.Component {
                         type='button'
                         aria-label={emojiButtonAriaLabel}
                         onClick={this.toggleEmojiPicker}
-                        className='style--none emoji-picker__container'
+                        className='style--none emoji-picker__container post-action'
                     >
                         <EmojiIcon
                             id='emojiPickerButton'

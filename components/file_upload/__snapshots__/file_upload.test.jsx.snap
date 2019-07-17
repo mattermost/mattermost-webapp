@@ -4,14 +4,16 @@ exports[`components/FileUpload should match snapshot 1`] = `
 <div
   className="style--none"
 >
-  <button
-    aria-label="attachment"
-    className="style--none icon icon--attachment"
-    id="fileUploadButton"
-    onClick={[Function]}
-    type="button"
-  >
-    <AttachmentIcon />
+  <div>
+    <button
+      aria-label="attachment"
+      className="style--none post-action icon icon--attachment"
+      id="fileUploadButton"
+      onClick={[Function]}
+      type="button"
+    >
+      <AttachmentIcon />
+    </button>
     <input
       accept=""
       aria-label="Upload files"
@@ -21,6 +23,6 @@ exports[`components/FileUpload should match snapshot 1`] = `
       tabIndex="-1"
       type="file"
     />
-  </button>
+  </div>
 </div>
 `;

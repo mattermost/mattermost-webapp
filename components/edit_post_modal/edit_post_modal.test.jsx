@@ -127,7 +127,7 @@ describe('components/EditPostModal', () => {
 
     it('should show emojis on emojis click', () => {
         const wrapper = shallowWithIntl(createEditPost());
-        wrapper.find('.edit-post__actions .icon--emoji').simulate('click');
+        wrapper.find('.post-action').simulate('click');
 
         expect(wrapper).toMatchSnapshot();
     });
