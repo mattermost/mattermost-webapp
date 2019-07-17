@@ -12,7 +12,6 @@ import InviteIcon from 'components/svg/invite_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 
 import BackIcon from 'components/svg/back_icon';
-import SuccessIcon from 'components/icon/success_icon';
 import LinkIcon from 'components/svg/link_icon';
 
 import {getSiteURL} from 'utils/url.jsx';
@@ -206,5 +205,4 @@ export default class InvitationModalMembersStep extends React.Component {
             </div>
         );
     }
-
 }
