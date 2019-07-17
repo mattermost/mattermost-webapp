@@ -150,6 +150,7 @@ export default class EmojiPicker extends React.PureComponent {
         this.handleItemOver = this.handleItemOver.bind(this);
         this.handleItemClick = this.handleItemClick.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleCategoryKeyDown = this.handleCategoryKeyDown.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
         this.handleScrollThrottle = throttle(this.handleScroll, EMOJI_LAZY_LOAD_SCROLL_THROTTLE, {leading: false, trailing: true});
         this.updateCategoryOffset = this.updateCategoryOffset.bind(this);
@@ -286,6 +287,31 @@ export default class EmojiPicker extends React.PureComponent {
 
     handleItemClick(emoji) {
         this.props.onEmojiClick(emoji);
+    }
+
+    handleCategoryKeyDown(e) {
+        switch (e.key) {
+        case 'ArrowRight':
+            e.preventDefault();
+            this.selectNextEmoji();
+            this.searchInput.focus();
+            break;
+        case 'ArrowLeft':
+            e.preventDefault();
+            this.selectPrevEmoji();
+            this.searchInput.focus();
+            break;
+        case 'ArrowUp':
+            e.preventDefault();
+            this.selectPrevEmoji(EMOJI_PER_ROW);
+            this.searchInput.focus();
+            break;
+        case 'ArrowDown':
+            e.preventDefault();
+            this.selectNextEmoji(EMOJI_PER_ROW);
+            this.searchInput.focus();
+            break;
+        }
     }
 
     handleKeyDown(e) {
@@ -528,7 +554,14 @@ export default class EmojiPicker extends React.PureComponent {
                 />
             );
         });
-        return <div className='emoji-picker__categories'>{emojiPickerCategories}</div>;
+        return (
+            <div 
+                className='emoji-picker__categories' 
+                onKeyDown={this.handleCategoryKeyDown}
+            >
+                {emojiPickerCategories}
+            </div>
+        );
     }
 
     emojiSearch() {
