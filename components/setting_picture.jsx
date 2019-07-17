@@ -188,13 +188,14 @@ export default class SettingPicture extends Component {
                                 {title}
                             </Tooltip>
                         )}
+
                     >
-                        <a
+                        <button
                             className={`${imageContext}-img__remove`}
                             onClick={handler}
                         >
                             <span>{'×'}</span>
-                        </a>
+                        </button>
                     </OverlayTrigger>
                 </div>
             );
@@ -259,7 +260,6 @@ export default class SettingPicture extends Component {
                                     ref='input'
                                     accept='.jpg,.png,.bmp'
                                     type='file'
-                                    autoFocus={true}
                                     onChange={this.handleFileChange}
                                     disabled={this.props.loadingPicture}
                                     aria-label={localizeMessage('setting_picture.select', 'Select')}
