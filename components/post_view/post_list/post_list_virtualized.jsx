@@ -9,7 +9,7 @@ import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
-import Constants, {PostListRowListIds, EventTypes} from 'utils/constants.jsx';
+import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import {getPreviousPostId, getLatestPostId} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -318,9 +318,12 @@ export default class PostList extends React.PureComponent {
         const didUserScrollForwards = scrollDirection === 'forward' && !scrollUpdateWasRequested;
         const isOffsetWithInRange = scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
         const offsetFromBottom = (scrollHeight - clientHeight) - scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
-        if (didUserScrollBackwards && isOffsetWithInRange && !this.props.olderPosts.allLoaded && !this.props.olderPosts.loading) {
+        const canLoadOlderPosts = !this.props.olderPosts.allLoaded && !this.props.olderPosts.loading;
+        const canLoadNewerPosts = !this.props.newerPosts.allLoaded && !this.props.newerPosts.loading;
+
+        if (didUserScrollBackwards && isOffsetWithInRange && canLoadOlderPosts) {
             this.props.actions.loadOlderPosts();
-        } else if (didUserScrollForwards && offsetFromBottom && !this.props.newerPosts.allLoaded && !this.props.newerPosts.loading) {
+        } else if (didUserScrollForwards && offsetFromBottom && canLoadNewerPosts) {
             this.props.actions.loadNewerPosts();
         }
 
@@ -333,6 +336,16 @@ export default class PostList extends React.PureComponent {
 
             if (this.scrollStopAction) {
                 this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
+            }
+        }
+
+        if (scrollUpdateWasRequested) { //if scroll change is programatically requested i.e by calling scrollTo
+            //This is a private method on virtlist
+            const postsRenderedRange = this.listRef.current._getRangeToRender(); //eslint-disable-line no-underscore-dangle
+
+            // postsRenderedRange[3] is the visibleStopIndex which is post at the bottom of the screen
+            if (postsRenderedRange[3] <= 1 && canLoadNewerPosts) {
+                this.props.actions.canLoadMorePosts(PostRequestTypes.AFTER_ID);
             }
         }
 
