@@ -26,3 +26,48 @@ export function equalServerVersions(a, b) {
 
     return false;
 }
+
+/**
+ * Boolean function to check if a server version is greater than another.
+ * 
+ * currentVersion: The server version being checked
+ * compareVersion: The version to compare the former version against
+ * 
+ * eg.  currentVersion = 4.16.0, compareVersion = 4.17.0 returns false
+ *      currentVersion = 4.16.1, compareVersion = 4.16.1 returns true
+ */
+export function isServerVersionGreaterThanOrEqualTo(currentVersion, compareVersion) {
+    if (currentVersion === compareVersion) {
+        return true;
+    }
+
+    const currentVersionNumberSplit = (currentVersion || '').split('.');
+    const compareVersionNumberSplit = (compareVersion || '').split('.');
+
+    if (currentVersionNumberSplit.length < 3 || compareVersionNumberSplit.length < 3) {
+        return true;
+    }
+
+    const currentVersionNumber = [Number(currentVersionNumberSplit[0]), Number(currentVersionNumberSplit[1])];
+    const compareVersionNumber = [Number(compareVersionNumberSplit[0]), Number(compareVersionNumberSplit[1])];
+
+    // Major version compare
+    if (currentVersionNumber[0] > compareVersionNumber[0]) {
+        return true;
+    }
+
+    // Minor version compare
+    if (currentVersionNumber[0] === compareVersionNumber[0] 
+        && currentVersionNumber[1] > compareVersionNumber[1]) {
+        return true;
+    }
+
+    // Revision compare
+    if (currentVersionNumber[0] === compareVersionNumber[0] 
+        && currentVersionNumber[1] === compareVersionNumber[1]
+        && currentVersionNumber[2] > compareVersionNumber[2]) {
+        return true;
+    }
+
+    return false;
+}
