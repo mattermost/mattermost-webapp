@@ -113,6 +113,13 @@ export default [
     },
     {
         name: 'ie11_deprecation',
+        title: (
+            <FormattedMarkdownMessage
+                id='system_notice.title'
+                defaultMessage='**Notice**\nfrom Mattermost'
+            />
+        ),
+        icon: mattermostIcon,
         allowForget: false,
         body: (
             <FormattedMarkdownMessage
