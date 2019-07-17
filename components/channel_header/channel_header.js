@@ -54,6 +54,7 @@ export default class ChannelHeader extends React.PureComponent {
         isFavorite: PropTypes.bool,
         isReadOnly: PropTypes.bool,
         isMuted: PropTypes.bool,
+        hasGuests: PropTypes.bool,
         rhsState: PropTypes.oneOf(
             Object.values(RHSStates),
         ),
@@ -256,9 +257,22 @@ export default class ChannelHeader extends React.PureComponent {
             isFavorite,
             dmUser,
             rhsState,
+            hasGuests,
         } = this.props;
         const {formatMessage} = this.context.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
+
+        let hasGuestsText = '';
+        if (hasGuests) {
+            hasGuestsText = (
+                <span className='has-guest-header'>
+                    <FormattedMessage
+                        id='channel_header.channelHasGuests'
+                        defaultMessage='This channel has guests'
+                    />
+                </span>
+            );
+        }
 
         const channelIsArchived = channel.delete_at !== 0;
         if (Utils.isEmptyObject(channel) ||
@@ -313,12 +327,23 @@ export default class ChannelHeader extends React.PureComponent {
                 const user = Utils.getUserByUsername(username.trim());
                 nodes.push((
                     <React.Fragment key={username}>
-                        {username + ' '}
+                        {nodes.length !== 0 && ', '}
+                        {username}
                         <GuestBadge show={Utils.isGuest(user)}/>
                     </React.Fragment>
                 ));
             }
             channelTitle = nodes;
+            if (hasGuests) {
+                hasGuestsText = (
+                    <span className='has-guest-header'>
+                        <FormattedMessage
+                            id='channel_header.groupMessageHasGuests'
+                            defaultMessage='This group message has guests'
+                        />
+                    </span>
+                );
+            }
         }
 
         let popoverListMembers;
@@ -383,6 +408,7 @@ export default class ChannelHeader extends React.PureComponent {
                     >
                         {dmHeaderIconStatus}
                         {dmHeaderTextStatus}
+                        {hasGuestsText}
                         <span onClick={Utils.handleFormattedTextClick}>
                             <Markdown
                                 message={headerText}
@@ -436,6 +462,7 @@ export default class ChannelHeader extends React.PureComponent {
                 >
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
+                    {hasGuestsText}
                     {editMessage}
                 </div>
             );
