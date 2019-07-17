@@ -5,16 +5,22 @@
     "body-parser": "1.19.0",
     "cypress": "3.3.2",
     "cypress-file-upload": "3.1.2",
+    "cypress-multi-reporters": "1.1.23",
     "express": "4.17.1",
     "merge-deep": "3.0.2",
-    "mocha-junit-reporter": "1.22.0",
-    "start-server-and-test": "1.9.1"
+    "start-server-and-test": "1.9.1",
+    "mocha": "6.1.4",
+    "mocha-junit-reporters": "1.23.6",
+    "mocha-multi-reporters": "1.1.7",
+    "mochawesome": "4.0.1",
+    "mochawesome-merge": "2.0.1",
+    "mochawesome-report-generator": "4.0.1"
   },
   "scripts": {
     "cypress:run": "cypress run",
     "cypress:open": "cypress open",
     "start:webhook": "node webhook_serve.js",
-    "test": "start-test start:webhook 3000 test:group",
-    "test:group": "ls -d cypress/integration/** | xargs -t -I % sh -c '{ npx cypress run --spec=\"%/**/*\"; }'"
+    "test": "start-test start:webhook 3000 test:ci",
+    "test:ci": "node run_tests.js"
   }
 }

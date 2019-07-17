@@ -145,6 +145,7 @@ export default class InteractiveDialog extends React.Component {
         if (iconUrl) {
             icon = (
                 <img
+                    id='interactiveDialogIconUrl'
                     alt={'modal title icon'}
                     className='more-modal__image'
                     width='36'
@@ -156,6 +157,7 @@ export default class InteractiveDialog extends React.Component {
 
         return (
             <Modal
+                id='interactiveDialogModal'
                 dialogClassName='a11y__modal about-modal'
                 show={this.state.show}
                 onHide={this.onHide}
@@ -200,6 +202,7 @@ export default class InteractiveDialog extends React.Component {
                 </Modal.Body>}
                 <Modal.Footer>
                     <button
+                        id='interactiveDialogCancel'
                         type='button'
                         className='btn btn-link cancel-button'
                         onClick={this.onHide}
@@ -210,6 +213,7 @@ export default class InteractiveDialog extends React.Component {
                         />
                     </button>
                     <SpinnerButton
+                        id='interactiveDialogSubmit'
                         type='button'
                         className='btn btn-primary save-button'
                         onClick={this.handleSubmit}

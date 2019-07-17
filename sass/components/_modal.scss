@@ -704,11 +704,13 @@
         align-self: center;
         flex-grow: 1;
         flex-shrink: 1;
+        font-size: .9em;
         overflow: hidden;
         padding-left: 10px;
         text-overflow: ellipsis;
 
         .more-modal__name {
+            margin: 5px 0;
             display: flex;
             min-width: 0;
             white-space: nowrap;
@@ -801,8 +803,6 @@
     }
 
     p {
-        @include opacity(.8);
-        font-size: .9em;
         margin: 5px 0;
         overflow: hidden;
         text-overflow: ellipsis;

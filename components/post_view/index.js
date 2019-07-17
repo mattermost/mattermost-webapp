@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
-import {getTeamByName, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
+import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
 
 import {Constants} from 'utils/constants.jsx';
 
@@ -36,21 +36,14 @@ const isChannelLoading = (params, channel, team, teammate) => {
 function makeMapStateToProps() {
     return function mapStateToProps(state, ownProps) {
         const team = getTeamByName(state, ownProps.match.params.team);
-        let channelLoading = true;
         let teammate;
         const channel = getChannel(state, ownProps.channelId);
-        let lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
-        if (channel) {
-            if (channel.type === Constants.DM_CHANNEL && channel.teammate_id) {
-                teammate = getUser(state, channel.teammate_id);
-            }
-            lastViewedAt = channel.last_post_at ? lastViewedAt : channel.last_post_at;
-        }
 
-        if (getTeamMemberships(state)[team.id]) {
-            channelLoading = isChannelLoading(ownProps.match.params, channel, team, teammate);
+        if (channel && channel.type === Constants.DM_CHANNEL && channel.teammate_id) {
+            teammate = getUser(state, channel.teammate_id);
         }
-
+        const channelLoading = isChannelLoading(ownProps.match.params, channel, team, teammate);
+        const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
         return {
             lastViewedAt,
             channelLoading,
