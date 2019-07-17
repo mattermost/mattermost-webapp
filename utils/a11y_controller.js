@@ -453,6 +453,9 @@ export default class A11yController {
             this.a11yKeyEngaged = true;
             break;
         case isKeyPressed(event, Constants.KeyCodes.TILDE):
+            if (!this.regions || !this.regions.length) {
+                return;
+            }
             if (modifierKeys.ctrlIsPressed) {
                 this.a11yKeyEngaged = true;
                 event.preventDefault();
@@ -475,7 +478,7 @@ export default class A11yController {
             }
             break;
         case isKeyPressed(event, Constants.KeyCodes.UP):
-            if (!this.navInProgress) {
+            if (!this.navInProgress || !this.sections || !this.sections.length) {
                 return;
             }
             this.a11yKeyEngaged = true;
@@ -487,7 +490,7 @@ export default class A11yController {
             }
             break;
         case isKeyPressed(event, Constants.KeyCodes.DOWN):
-            if (!this.navInProgress) {
+            if (!this.navInProgress || !this.sections || !this.sections.length) {
                 return;
             }
             this.a11yKeyEngaged = true;
