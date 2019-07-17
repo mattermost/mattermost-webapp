@@ -1947,7 +1947,7 @@ export default {
                         label: t('admin.customization.enableLinkPreviewsTitle'),
                         label_default: 'Enable Link Previews:',
                         help_text: t('admin.customization.enableLinkPreviewsDesc'),
-                        help_text_default: 'Display a preview of website content, image links and YouTube links below the message when available. Users can disable these previews from Account Settings > Display > Website Link Previews. To generate previews, the server must be connected to the internet and have access through the firewall (if applicable) to the websites from which previews are expected.',
+                        help_text_default: 'Display a preview of website content, image links and YouTube links below the message when available. The server must be connected to the internet and have access through the firewall (if applicable) to the websites from which previews are expected. Users can disable these previews from Account Settings > Display > Website Link Previews.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
