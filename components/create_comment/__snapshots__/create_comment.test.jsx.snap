@@ -154,7 +154,8 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           <span
             aria-label="Open emoji picker"
             className="emoji-picker__container"
-            role="button"
+            onKeyPress={[Function]}
+            role="application"
             tabIndex="0"
           >
             <EmojiPickerOverlay
@@ -409,7 +410,8 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           <span
             aria-label="Open emoji picker"
             className="emoji-picker__container"
-            role="button"
+            onKeyPress={[Function]}
+            role="application"
             tabIndex="0"
           >
             <EmojiPickerOverlay
@@ -542,7 +544,8 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           <span
             aria-label="Open emoji picker"
             className="emoji-picker__container"
-            role="button"
+            onKeyPress={[Function]}
+            role="application"
             tabIndex="0"
           >
             <EmojiPickerOverlay

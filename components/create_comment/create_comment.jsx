@@ -27,6 +27,8 @@ import Textbox from 'components/textbox';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
 
+const KeyCodes = Constants.KeyCodes;
+
 export default class CreateComment extends React.PureComponent {
     static propTypes = {
 
@@ -570,6 +572,12 @@ export default class CreateComment extends React.PureComponent {
         }
     }
 
+    handleKeyDownEmojiPicker = (e) => {
+        if (Utils.isKeyPressed(e, KeyCodes.ENTER)) {
+            this.toggleEmojiPicker();
+        }
+    }
+
     handleFileUploadChange = () => {
         this.focusTextbox();
     }
@@ -871,8 +879,9 @@ export default class CreateComment extends React.PureComponent {
         if (this.props.enableEmojiPicker && !readOnlyChannel) {
             emojiPicker = (
                 <span
-                    role='button'
+                    role='application'
                     tabIndex='0'
+                    onKeyPress={this.handleKeyDownEmojiPicker}
                     aria-label={formatMessage({id: 'create_post.open_emoji_picker', defaultMessage: 'Open emoji picker'})}
                     className='emoji-picker__container'
                 >
