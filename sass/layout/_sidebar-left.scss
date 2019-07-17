@@ -372,16 +372,19 @@
         font-weight: 700;
         text-decoration: none;
         border-radius: 50%;
-        margin: -7px 0;
-        width: 28px;
-        height: 28px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         line-height: 0;
 
         &:hover {
             color: #666666;
+        }
+
+        span {
+            margin: -7px 0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     }
 }

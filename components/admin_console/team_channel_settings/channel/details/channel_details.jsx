@@ -23,12 +23,14 @@ export default class ChannelDetails extends React.Component {
     static propTypes = {
         channelID: PropTypes.string.isRequired,
         channel: PropTypes.object.isRequired,
+        team: PropTypes.object.isRequired,
         groups: PropTypes.arrayOf(PropTypes.object).isRequired,
         totalGroups: PropTypes.number.isRequired,
         allGroups: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getGroups: PropTypes.func.isRequired,
             linkGroupSyncable: PropTypes.func.isRequired,
+            convertChannelToPrivate: PropTypes.func.isRequired,
             unlinkGroupSyncable: PropTypes.func.isRequired,
             membersMinusGroupMembers: PropTypes.func.isRequired,
             setNavigationBlocked: PropTypes.func.isRequired,
@@ -56,17 +58,21 @@ export default class ChannelDetails extends React.Component {
         };
     }
 
-    componentDidUpdate(prevProps) { // TODO: find out how to do this without the lifecycle
-        if (prevProps.totalGroups !== this.props.totalGroups) {
+    componentDidUpdate(prevProps) {
+        if (this.props.channel.id !== prevProps.channel.id) {
             // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({totalGroups: this.props.totalGroups});
+            this.setState({
+                totalGroups: this.props.totalGroups,
+                isSynced: Boolean(this.props.channel.group_constrained),
+                isPublic: this.props.channel.type === Constants.OPEN_CHANNEL,
+            });
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         const {channelID, actions} = this.props;
-        actions.getChannel(channelID).
-            then(() => actions.getGroups(channelID)).
+        actions.getGroups(channelID).
+            then(() => actions.getChannel(channelID)).
             then(() => this.setState({groups: this.props.groups}));
     }
 
@@ -146,21 +152,23 @@ export default class ChannelDetails extends React.Component {
             serverError = <NeedGroupsError/>;
             saveNeeded = true;
         } else {
-            const {error} = await actions.patchChannel(channel.id, {
+            const promises = [];
+            if (!isPublic && channel.type === Constants.OPEN_CHANNEL) {
+                promises.push(actions.convertChannelToPrivate(channel.id));
+            }
+            promises.push(actions.patchChannel(channel.id, {
                 ...channel,
                 group_constrained: isSynced,
                 type: isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL,
-            });
-            if (error) {
-                serverError = <FormError error={error.message}/>;
+            }));
+            const unlink = origGroups.filter((g) => !groups.includes(g)).map((g) => actions.unlinkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL));
+            const link = groups.filter((g) => !origGroups.includes(g)).map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true}));
+            const result = await Promise.all([...promises, ...unlink, ...link]);
+            const resultWithError = result.find((r) => r.error);
+            if (resultWithError) {
+                serverError = <FormError error={resultWithError.error.message}/>;
             } else {
-                const unlink = origGroups.filter((g) => !groups.includes(g)).map((g) => actions.unlinkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL));
-                const link = groups.filter((g) => !origGroups.includes(g)).map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL));
-                const result = await Promise.all([...unlink, ...link]);
-                const resultWithError = result.find((r) => r.error);
-                if (resultWithError) {
-                    serverError = <FormError error={resultWithError.error.message}/>;
-                }
+                await actions.getGroups(channelID);
             }
         }
 
@@ -170,9 +178,9 @@ export default class ChannelDetails extends React.Component {
 
     render = () => {
         const {totalGroups, saving, saveNeeded, serverError, isSynced, isPublic, groups, showRemoveConfirmation, usersToRemove} = this.state;
-        const {channel} = this.props;
-        const removedGroups = this.props.groups.filter((g) => !groups.includes(g));
-
+        const {channel, team} = this.props;
+        const missingGroup = (og) => !groups.find((g) => g.id === og.id);
+        const removedGroups = this.props.groups.filter(missingGroup);
         return (
             <div className='wrapper--fixed'>
                 <div className='admin-console__header with-back'>
@@ -196,11 +204,15 @@ export default class ChannelDetails extends React.Component {
                             onCancel={this.hideRemoveUsersModal}
                             onConfirm={this.handleSubmit}
                         />
-                        <ChannelProfile channel={channel}/>
+                        <ChannelProfile
+                            channel={channel}
+                            team={team}
+                        />
 
                         <ChannelModes
                             isPublic={isPublic}
                             isSynced={isSynced}
+                            isOriginallyPrivate={channel.type === Constants.PRIVATE_CHANNEL}
                             onToggle={this.setToggles}
                         />
 

@@ -436,6 +436,8 @@ class UserSettingsGeneralTab extends React.Component {
     }
 
     createEmailSection() {
+        const {formatMessage} = this.props.intl;
+
         let emailSection;
         if (this.props.activeSection === 'email') {
             const emailEnabled = this.props.sendEmailNotifications;
@@ -503,6 +505,7 @@ class UserSettingsGeneralTab extends React.Component {
                                     type='email'
                                     onChange={this.updateEmail}
                                     value={this.state.email}
+                                    aria-label={formatMessage({id: 'user.settings.general.newEmail', defaultMessage: 'New Email'})}
                                 />
                             </div>
                         </div>
@@ -525,6 +528,7 @@ class UserSettingsGeneralTab extends React.Component {
                                     type='email'
                                     onChange={this.updateConfirmEmail}
                                     value={this.state.confirmEmail}
+                                    aria-label={formatMessage({id: 'user.settings.general.confirmEmail', defaultMessage: 'Confirm Email'})}
                                 />
                             </div>
                         </div>
@@ -547,6 +551,7 @@ class UserSettingsGeneralTab extends React.Component {
                                     type='password'
                                     onChange={this.updateCurrentPassword}
                                     value={this.state.currentPassword}
+                                    aria-label={formatMessage({id: 'user.settings.general.currentPassword', defaultMessage: 'Current Password'})}
                                 />
                             </div>
                         </div>
@@ -791,6 +796,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 onChange={this.updateFirstName}
                                 value={this.state.firstName}
                                 onFocus={Utils.moveCursorToEnd}
+                                aria-label={formatMessage({id: 'user.settings.general.firstName', defaultMessage: 'First Name'})}
                             />
                         </div>
                     </div>
@@ -814,6 +820,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 type='text'
                                 onChange={this.updateLastName}
                                 value={this.state.lastName}
+                                aria-label={formatMessage({id: 'user.settings.general.lastName', defaultMessage: 'Last Name'})}
                             />
                         </div>
                     </div>
@@ -941,6 +948,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 value={this.state.nickname}
                                 maxLength={Constants.MAX_NICKNAME_LENGTH}
                                 autoCapitalize='off'
+                                aria-label={formatMessage({id: 'user.settings.general.nickname', defaultMessage: 'Nickname'})}
                             />
                         </div>
                     </div>
@@ -1034,6 +1042,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 value={this.state.username}
                                 autoCapitalize='off'
                                 onFocus={Utils.moveCursorToEnd}
+                                aria-label={formatMessage({id: 'user.settings.general.username', defaultMessage: 'Username'})}
                             />
                         </div>
                     </div>
@@ -1125,6 +1134,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 maxLength={Constants.MAX_POSITION_LENGTH}
                                 autoCapitalize='off'
                                 onFocus={Utils.moveCursorToEnd}
+                                aria-label={formatMessage({id: 'user.settings.general.position', defaultMessage: 'Position'})}
                             />
                         </div>
                     </div>

@@ -592,7 +592,14 @@ export default class PostList extends React.PureComponent {
 
         if ((posts.length === 0 && this.state.isDoingInitialLoad) || channel == null) {
             return (
-                <div id='post-list'>
+                <div
+                    id='post-list'
+                    className='a11y__region'
+                    data-a11y-sort-order='1'
+                    data-a11y-focus-child={true}
+                    data-a11y-order-reversed={true}
+                    data-a11y-loop-navigation={false}
+                >
                     <LoadingScreen
                         position='absolute'
                         key='loading'
@@ -642,7 +649,14 @@ export default class PostList extends React.PureComponent {
         }
 
         return (
-            <div id='post-list'>
+            <div
+                id='post-list'
+                className='a11y__region'
+                data-a11y-sort-order='1'
+                data-a11y-focus-child={true}
+                data-a11y-order-reversed={true}
+                data-a11y-loop-navigation={false}
+            >
                 <FloatingTimestamp
                     isScrolling={this.state.isScrolling}
                     isMobile={Utils.isMobile()}
