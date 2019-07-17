@@ -166,7 +166,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                     <div>
                         <FormattedMessage
                             id='invitation_modal.guests.add_channels.placeholder'
-                            defaultMessage='Search and add Channels'
+                            defaultMessage='Search and add channels'
                         >
                             {(placeholder) => (
                                 <ChannelsInput
