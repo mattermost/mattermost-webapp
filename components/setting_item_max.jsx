@@ -226,7 +226,10 @@ export default class SettingItemMax extends React.PureComponent {
         }
 
         let listContent = (
-            <li className='setting-list-item'>
+            <li
+                className='setting-list-item'
+                role='presentation'
+            >
                 {inputs}
                 {extraInfo}
             </li>
@@ -234,7 +237,7 @@ export default class SettingItemMax extends React.PureComponent {
 
         if (this.props.infoPosition === 'top') {
             listContent = (
-                <li>
+                <li role='presentation'>
                     {extraInfo}
                     {inputs}
                 </li>

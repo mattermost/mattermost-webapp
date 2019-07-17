@@ -125,6 +125,7 @@ function isMac() {
 Cypress.Commands.add('postMessage', (message) => {
     cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type(message).type('{enter}');
     cy.wait(TIMEOUTS.TINY);
+    cy.get('#post_textbox').should('have.value', '');
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
