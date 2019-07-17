@@ -15,5 +15,3 @@ e2e/node_modules
 e2e/screenshots
 e2e/cypress/videos
 e2e/results
-e2e/mochawesome-report
-e2e/mochawesome-merged.json
