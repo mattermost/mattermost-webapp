@@ -555,8 +555,8 @@ export default class EmojiPicker extends React.PureComponent {
             );
         });
         return (
-            <div 
-                className='emoji-picker__categories' 
+            <div
+                className='emoji-picker__categories'
                 onKeyDown={this.handleCategoryKeyDown}
             >
                 {emojiPickerCategories}
