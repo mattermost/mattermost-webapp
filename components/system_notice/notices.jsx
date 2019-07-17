@@ -5,6 +5,7 @@ import React from 'react';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
+import * as ServerVersion from 'utils/server_version.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 
 import mattermostIcon from 'images/icon50x50.png';
@@ -120,11 +121,8 @@ export default [
             />
         ),
         show: (serverVersion) => {
-            const versionNumberSplit = serverVersion.split('.');
-            const versionNumber = [Number(versionNumberSplit[0]), Number(versionNumberSplit[1])];
-
             // Don't show the notice after v5.16, show a different notice
-            if (versionNumber[0] > 5 || (versionNumber[0] === 5 && versionNumber[1] > 15)) {
+            if (ServerVersion.isServerVersionGreaterThanOrEqualTo(serverVersion, '5.16.0')) {
                 return false;
             }
 
