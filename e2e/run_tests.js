@@ -13,12 +13,12 @@ async function runTests() {
     await fse.remove('screenshots');
 
     const testDirs = fse.readdirSync('cypress/integration/');
-    let totalFailed = 0;
+    let failedTests = 0;
 
     const mochawesomeReportDir = 'results/mochawesome-report';
 
     for (const dir of testDirs) {
-        const {failed} = await cypress.run({
+        const {totalFailed} = await cypress.run({
             spec: `./cypress/integration/${dir}/**/*`,
             config: {
                 screenshotsFolder: `${mochawesomeReportDir}/screenshots`,
@@ -43,7 +43,7 @@ async function runTests() {
                 },
         });
 
-        totalFailed += failed;
+        failedTests += totalFailed;
     }
 
     // Merge all json reports into one single json report
@@ -53,7 +53,7 @@ async function runTests() {
     await generator.create(jsonReport, {reportDir: mochawesomeReportDir});
 
     // eslint-disable-next-line
-    process.exit(totalFailed); // exit with the number of failed tests
+    process.exit(failedTests); // exit with the number of failed tests
 }
 
 runTests();
