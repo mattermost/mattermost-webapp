@@ -42,6 +42,8 @@ export default class SettingPicture extends Component {
         super(props);
 
         this.settingList = React.createRef();
+        this.selectInput = React.createRef();
+        this.handleInputFile = this.handleInputFile.bind(this);
 
         this.state = {
             image: null,
@@ -108,6 +110,10 @@ export default class SettingPicture extends Component {
     handleFileChange = (e) => {
         this.setState({removeSrc: false, setDefaultSrc: false});
         this.props.onFileChange(e);
+    }
+
+    handleInputFile = () => {
+        this.selectInput.current.click();
     }
 
     setPicture = (file) => {
@@ -291,23 +297,26 @@ export default class SettingPicture extends Component {
                                 errors={[this.props.clientError, this.props.serverError]}
                                 type={'modal'}
                             />
-                            <div
+                            <input
+                                ref={this.selectInput}
+                                accept='.jpg,.png,.bmp'
+                                type='file'
+                                onChange={this.handleFileChange}
+                                disabled={this.props.loadingPicture}
+                                aria-hidden={true}
+                                className='hidden'
+                            />
+                            <button
                                 className='btn btn-sm btn-primary btn-file sel-btn'
                                 disabled={this.props.loadingPicture}
+                                onClick={this.handleInputFile}
+                                aria-label={localizeMessage('setting_picture.select', 'Select')}
                             >
                                 <FormattedMessage
                                     id='setting_picture.select'
                                     defaultMessage='Select'
                                 />
-                                <input
-                                    ref='input'
-                                    accept='.jpg,.png,.bmp'
-                                    type='file'
-                                    onChange={this.handleFileChange}
-                                    disabled={this.props.loadingPicture}
-                                    aria-label={localizeMessage('setting_picture.select', 'Select')}
-                                />
-                            </div>
+                            </button>
                             <button
                                 className={confirmButtonClass}
                                 onClick={this.props.loadingPicture ? () => true : this.handleSave}
