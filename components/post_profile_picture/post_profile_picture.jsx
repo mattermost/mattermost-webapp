@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import isEmpty from 'lodash/isEmpty';
 
 import ProfilePicture from 'components/profile_picture';
 import MattermostLogo from 'components/svg/mattermost_logo';
@@ -91,8 +92,7 @@ export default class PostProfilePicture extends React.PureComponent {
         const profileSrc = this.getProfilePictureURL();
         const src = this.getPostIconURL(profileSrc, fromAutoResponder, fromWebhook);
 
-        // if it's relative we assume it's a link to an emoji
-        const isEmoji = src.startsWith('/') && src !== Constants.DEFAULT_WEBHOOK_LOGO;
+        const isEmoji = post.props && !isEmpty(post.props.override_icon_emoji);
         const status = this.getStatus(fromAutoResponder, fromWebhook, user);
 
         return (
