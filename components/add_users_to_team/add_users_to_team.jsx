@@ -158,8 +158,8 @@ export default class AddUsersToTeam extends React.Component {
         this.props.actions.setModalSearchTerm(term);
     }
 
-    handleUpdateSelectedUserName = (username) => {
-        this.setState({currentSelectedUsername: username});
+    renderAriaLabel = (option) => {
+        return option.username;
     }
 
     renderOption = (option, isSelected, onAdd) => {
@@ -173,15 +173,12 @@ export default class AddUsersToTeam extends React.Component {
             email = null;
         }
 
-        this.handleUpdateSelectedUserName(option.username);
-
         return (
             <div
                 key={option.id}
                 ref={isSelected ? 'selected' : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
-                aria-label={option.username}
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
@@ -190,7 +187,6 @@ export default class AddUsersToTeam extends React.Component {
                 />
                 <div
                     className='more-modal__details'
-                    aria-hidden='true'
                 >
                     <div className='more-modal__name'>
                         {displayEntireNameForUser(option)}
@@ -203,7 +199,7 @@ export default class AddUsersToTeam extends React.Component {
                         {email}
                     </div>
                 </div>
-                <div className='more-modal__actions' aria-hidden='true'>
+                <div className='more-modal__actions'>
                     <div className='more-modal__actions--round'>
                         <AddIcon/>
                     </div>
@@ -271,17 +267,14 @@ export default class AddUsersToTeam extends React.Component {
                 <Modal.Body
                     role='application'
                 >
-                    <div aria-live='polite'>
-                        {this.state.currentSelectedUsername}
-                    </div>
                     {addError}
                     <MultiSelect
-                        className={'a11y__region'}
                         key='addUsersToTeamKey'
                         options={users}
                         optionRenderer={this.renderOption}
                         values={this.state.values}
                         valueRenderer={this.renderValue}
+                        ariaLabelRenderer={this.renderAriaLabel}
                         perPage={USERS_PER_PAGE}
                         handlePageChange={this.handlePageChange}
                         handleInput={this.search}
