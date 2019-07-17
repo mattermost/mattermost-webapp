@@ -2256,7 +2256,6 @@
   "invite_member.send2": "Надіслати запрошення",
   "invite_member.sending": "Відправлення",
   "invite_member.teamInviteLink": "Ви також можете запросити людей за допомогою {link}.",
-  "katex.error": "Не вдалося скомпілювати код латексу. Ознайомтеся з синтаксисом та повторіть спробу.",
   "last_users_message.added_to_channel.type": "Ви були **додані до каналу** користувачем {actor}.",
   "last_users_message.added_to_team.type": "Ви були **додані в команду** користувачем {actor}.",
   "last_users_message.first": "{firstUser} і",

@@ -2256,7 +2256,6 @@
   "invite_member.send2": "Invia Invito",
   "invite_member.sending": " Invio",
   "invite_member.teamInviteLink": "Puoi anche invitare persone usando il {link}.",
-  "katex.error": "Impossibile compilare il codice Latex. Rivedere la sintassi e riprovare.",
   "last_users_message.added_to_channel.type": "sono stati **aggiunti al canale** da {actor}.",
   "last_users_message.added_to_team.type": "sono stati **aggiunti al canale** da {actor}.",
   "last_users_message.first": "{firstUser} e ",

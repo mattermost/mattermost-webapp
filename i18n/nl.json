@@ -2256,7 +2256,6 @@
   "invite_member.send2": "Verstuur uitnodigingen",
   "invite_member.sending": " Versturen",
   "invite_member.teamInviteLink": "U kunt ook mensen uitnodigen met deze {link} link.",
-  "katex.error": "Couldn't compile your Latex code. Please review the syntax and try again.",
   "last_users_message.added_to_channel.type": "were **added to the channel** by {actor}.",
   "last_users_message.added_to_team.type": "were **added to the team** by {actor}.",
   "last_users_message.first": "{firstUser} and ",

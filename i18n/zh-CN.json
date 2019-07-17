@@ -2256,7 +2256,6 @@
   "invite_member.send2": "邀请函",
   "invite_member.sending": "发送",
   "invite_member.teamInviteLink": "你可以使用链接{link}邀请别人。",
-  "katex.error": "无法编译您的 Latex 码。请检查语法后重试。",
   "last_users_message.added_to_channel.type": "被 {actor} **添加至此频道**。",
   "last_users_message.added_to_team.type": "被 {actor} **添加至此团队**。",
   "last_users_message.first": "{firstUser} 和 ",

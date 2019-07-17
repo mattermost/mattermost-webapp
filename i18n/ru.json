@@ -2256,7 +2256,6 @@
   "invite_member.send2": "Выслать приглашения",
   "invite_member.sending": " Отправка",
   "invite_member.teamInviteLink": "You can also invite people using the {link}.",
-  "katex.error": "Couldn't compile your Latex code. Please review the syntax and try again.",
   "last_users_message.added_to_channel.type": " **добавлены на канал**. Кем: {actor}.",
   "last_users_message.added_to_team.type": "были **добавлены в команду** пользователем {actor}.",
   "last_users_message.first": "{firstUser} и ",

@@ -2256,7 +2256,6 @@
   "invite_member.send2": "招待状を送信する",
   "invite_member.sending": " 送信しています",
   "invite_member.teamInviteLink": "{link}を使って招待することもできます。",
-  "katex.error": "Latexコードをコンパイルできませんでした。シンタックスを見直してください。",
   "last_users_message.added_to_channel.type": "が {actor} によって **チャンネルに追加されました**。",
   "last_users_message.added_to_team.type": "が {actor} によって **チームに追加されました**。",
   "last_users_message.first": "{firstUser} と ",
