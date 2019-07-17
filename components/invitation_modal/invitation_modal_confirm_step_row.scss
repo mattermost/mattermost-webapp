@@ -7,34 +7,34 @@
         display: flex;
         align-items: center;
         .name {
-            margin: 0 8px;
+            margin: 0 4px 0 8px;
         }
         .mail-icon {
             width: 36px;
             height: 36px;
             border-radius: 18px;
-            background: var(--center-channel-color-60);
-            display: inline-flex;
-            align-items: center;
-            margin: 12px;
+            background: var(--button-bg);
+            padding: 3px;
+            margin: 12px 0 12px 12px;
+            display: inline-block;
             svg {
-                width: 36px;
-                height: 36px;
-                fill: var(--center-channel-color);
-                margin: 6px;
+                width: 24px;
+                height: 24px;
+                fill: var(--button-color);
+                margin: 3px;
             }
         }
         .avatar {
             border-radius: 18px;
             width: 36px;
             height: 36px;
-            margin-right: 3px;
-            margin: 12px;
+            margin: 12px 0 12px 12px;
         }
     }
     .reason {
         display: flex;
         align-items: center;
         width: 50%;
+        padding: 12px;
     }
 }

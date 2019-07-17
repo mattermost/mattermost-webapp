@@ -12,7 +12,6 @@ import InviteIcon from 'components/svg/invite_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 
 import BackIcon from 'components/svg/back_icon';
-import SuccessIcon from 'components/icon/success_icon';
 import LinkIcon from 'components/svg/link_icon';
 
 import {getSiteURL} from 'utils/url.jsx';
@@ -33,6 +32,7 @@ export default class InvitationModalMembersStep extends React.Component {
     constructor(props) {
         super(props);
         this.inviteLinkRef = React.createRef();
+        this.timeout = null;
         this.state = {
             usersAndEmails: [],
             copiedLink: false,
@@ -50,6 +50,12 @@ export default class InvitationModalMembersStep extends React.Component {
             this.setState({copiedLink: false});
         }
         input.setSelectionRange(0, 0);
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+        }
+        this.timeout = setTimeout(() => {
+            this.setState({copiedLink: false});
+        }, 3000);
     }
 
     usersLoader = async (term) => {
@@ -85,18 +91,6 @@ export default class InvitationModalMembersStep extends React.Component {
 
     render() {
         const inviteUrl = getSiteURL() + '/signup_user_complete/?id=' + this.props.inviteId;
-        let copyLinkConfirm = null;
-        if (this.state.copiedLink) {
-            copyLinkConfirm = (
-                <p className='alert alert-success alert--confirm'>
-                    <SuccessIcon/>
-                    <FormattedMessage
-                        id='get_link.clipboard'
-                        defaultMessage=' Link copied'
-                    />
-                </p>
-            );
-        }
         return (
             <div className='InvitationModalMembersStep'>
                 {this.props.goBack &&
@@ -133,13 +127,20 @@ export default class InvitationModalMembersStep extends React.Component {
                             onClick={this.copyLink}
                         >
                             <LinkIcon/>
-                            <FormattedMessage
-                                id='invitation_modal.members.share_link.copy_button'
-                                defaultMessage='Copy Link'
-                            />
+                            {!this.state.copiedLink &&
+                                <FormattedMessage
+                                    id='invitation_modal.members.share_link.copy_button'
+                                    defaultMessage='Copy Link'
+                                />
+                            }
+                            {this.state.copiedLink &&
+                                <FormattedMessage
+                                    id='invitation_modal.members.share_link.link_copied'
+                                    defaultMessage='Link Copied'
+                                />
+                            }
                         </button>
                     </div>
-                    {copyLinkConfirm}
                     <div className='help-text'>
                         <FormattedMessage
                             id='invitation_modal.members.share_link.description'

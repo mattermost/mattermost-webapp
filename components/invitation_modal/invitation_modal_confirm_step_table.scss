@@ -10,6 +10,7 @@
             width: 50%;
             font-weight: bold;
             display: flex;
+            align-items: center;
         }
         span {
             display: flex;
@@ -17,9 +18,9 @@
         svg {
             align-self: end;
             transform: rotate(90deg);
-            fill: var(--center-channel-color-60);
-            height: 20px;
-            width: 20px;
+            fill: var(--center-channel-color);
+            height: 18px;
+            width: 18px;
             margin-right: 2px;
         }
     }

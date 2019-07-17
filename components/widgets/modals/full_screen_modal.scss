@@ -6,9 +6,10 @@
     height: 100%;
     background: var(--center-channel-bg);
     z-index: 1000;
+    overflow: auto;
 
     .close-x {
-        position: absolute;
+        position: fixed;
         top: 48px;
         right: 48px;
         cursor: pointer;

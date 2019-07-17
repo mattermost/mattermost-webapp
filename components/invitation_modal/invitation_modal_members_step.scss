@@ -7,7 +7,9 @@
         margin-bottom: 12px;
         margin-top: 0px;
         font-size: 20px;
-        font-weight: 400;
+        span {
+            font-weight: 400;
+        }
     }
     .share-link {
         max-width: 720px;
@@ -19,9 +21,9 @@
             flex-grow: 1;
             height: 48px;
             background: var(--center-channel-color-05);
-            border-top: 1px solid var(--center-channel-color-60);
-            border-left: 1px solid var(--center-channel-color-60);
-            border-bottom: 1px solid var(--center-channel-color-60);
+            border-top: 1px solid var(--center-channel-color-20);
+            border-left: 1px solid var(--center-channel-color-20);
+            border-bottom: 1px solid var(--center-channel-color-20);
             border-right: 0;
             border-radius: 4px 0 0 4px;
             padding: 12px 14px;
@@ -41,6 +43,13 @@
             border-radius: 0 4px 4px 0;
             background: var(--center-channel-bg);
             font-size: 16px;
+            font-weight: 600;
+            &:hover {
+                background: var(--button-bg-05);
+            }
+            &:active {
+                background: var(--button-bg-10);
+            }
             span {
                 display: inline-block;
                 margin-right: 9px;
@@ -82,7 +91,7 @@
         hr {
             max-width: 720px;
             width: calc(100% - 40px);
-            margin: 50px 0;
+            margin: 45px 0;
             border-color: var(--center-channel-color-10);
         }
         div {
@@ -90,7 +99,7 @@
             display: inline-block;
             position: absolute;
             background: var(--center-channel-bg);
-            padding: 35px 12px;
+            padding: 30px 12px;
             top: 0;
             color: var(--center-channel-color-20);
             font-size: 20px;
@@ -102,8 +111,19 @@
             height: 48px;
             padding: 13px 26px;
             font-size: 16px;
+            font-weight: 600;
             width: 180px;
             border-radius: 4px;
+            background: var(--button-bg);
+            color: var(--button-color);
+            &:focus, &:active, &:focus:active {
+                outline: none;
+                border-color: transparent;
+            }
+            &.btn-inactive {
+                background: var(--center-channel-color-10);
+                color: var(--center-channel-color-50);
+            }
         }
     }
 }
