@@ -65,7 +65,6 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           <input
             accept=".jpg,.png,.bmp"
             aria-label="Select"
-            autoFocus={true}
             disabled={false}
             onChange={[Function]}
             type="file"
@@ -159,7 +158,6 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           <input
             accept=".jpg,.png,.bmp"
             aria-label="Select"
-            autoFocus={true}
             disabled={false}
             onChange={[Function]}
             type="file"
@@ -264,7 +262,6 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
           <input
             accept=".jpg,.png,.bmp"
             aria-label="Select"
-            autoFocus={true}
             disabled={true}
             onChange={[Function]}
             type="file"
@@ -381,7 +378,6 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
           <input
             accept=".jpg,.png,.bmp"
             aria-label="Select"
-            autoFocus={true}
             disabled={false}
             onChange={[Function]}
             type="file"
@@ -486,7 +482,6 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
           <input
             accept=".jpg,.png,.bmp"
             aria-label="Select"
-            autoFocus={true}
             disabled={false}
             onChange={[Function]}
             type="file"
@@ -598,7 +593,6 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
           <input
             accept=".jpg,.png,.bmp"
             aria-label="Select"
-            autoFocus={true}
             disabled={false}
             onChange={[Function]}
             type="file"
@@ -693,14 +687,14 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
               ]
             }
           >
-            <a
+            <button
               className="team-img__remove"
               onClick={[Function]}
             >
               <span>
                 ×
               </span>
-            </a>
+            </button>
           </OverlayTrigger>
         </div>
          
@@ -739,7 +733,6 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
           <input
             accept=".jpg,.png,.bmp"
             aria-label="Select"
-            autoFocus={true}
             disabled={false}
             onChange={[Function]}
             type="file"
@@ -834,14 +827,14 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
               ]
             }
           >
-            <a
+            <button
               className="profile-img__remove"
               onClick={[Function]}
             >
               <span>
                 ×
               </span>
-            </a>
+            </button>
           </OverlayTrigger>
         </div>
          
@@ -885,7 +878,6 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
           <input
             accept=".jpg,.png,.bmp"
             aria-label="Select"
-            autoFocus={true}
             disabled={false}
             onChange={[Function]}
             type="file"
