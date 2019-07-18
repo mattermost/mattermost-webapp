@@ -331,7 +331,7 @@
   "admin.customization.enableEmojiPickerTitle": "Enable Emoji Picker:",
   "admin.customization.enableGifPickerDesc": "Allow users to select GIFs from the emoji picker via a Gfycat integration.",
   "admin.customization.enableGifPickerTitle": "Enable GIF Picker:",
-  "admin.customization.enableLinkPreviewsDesc": "Display a preview of website content below messages, when available. Users can disable these previews from Account Settings > Display > Website Link Previews. This setting only applies to websites with OpenGraph metadata and not for image links or YouTube previews.",
+  "admin.customization.enableLinkPreviewsDesc": "Display a preview of website content, image links and YouTube links below the message when available. The server must be connected to the internet and have access through the firewall (if applicable) to the websites from which previews are expected. Users can disable these previews from Account Settings > Display > Website Link Previews.",
   "admin.customization.enableLinkPreviewsTitle": "Enable Link Previews:",
   "admin.customization.gfycatApiKey": "Gfycat API Key:",
   "admin.customization.gfycatApiKeyDescription": "Request an API key at [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#). Enter the client ID you receive via email to this field. When blank, uses the default API key provided by Gfycat.",
