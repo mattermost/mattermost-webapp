@@ -41,11 +41,27 @@ export default class SettingPicture extends Component {
     constructor(props) {
         super(props);
 
+        this.settingList = React.createRef();
+        this.selectInput = React.createRef();
+
         this.state = {
             image: null,
             removeSrc: false,
             setDefaultSrc: false,
         };
+    }
+
+    focusFirstElement() {
+        if (this.settingList.current) {
+            const focusableElements = this.settingList.current.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            if (focusableElements) {
+                focusableElements[0].focus();
+            }
+        }
+    }
+
+    componentDidMount() {
+        this.focusFirstElement();
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -81,16 +97,22 @@ export default class SettingPicture extends Component {
     handleRemoveSrc = (e) => {
         e.preventDefault();
         this.setState({removeSrc: true});
+        this.focusFirstElement();
     }
 
     handleSetDefaultSrc = (e) => {
         e.preventDefault();
         this.setState({setDefaultSrc: true});
+        this.focusFirstElement();
     }
 
     handleFileChange = (e) => {
         this.setState({removeSrc: false, setDefaultSrc: false});
         this.props.onFileChange(e);
+    }
+
+    handleInputFile = () => {
+        this.selectInput.current.click();
     }
 
     setPicture = (file) => {
@@ -177,7 +199,10 @@ export default class SettingPicture extends Component {
 
             return (
                 <div className={`${imageContext}-img__container`}>
-                    <div className='img-preview__image'>
+                    <div
+                        className='img-preview__image'
+                        aria-hidden={true}
+                    >
                         {imageElement}
                     </div>
                     <OverlayTrigger
@@ -185,16 +210,19 @@ export default class SettingPicture extends Component {
                         placement='right'
                         overlay={(
                             <Tooltip id='removeIcon'>
-                                {title}
+                                <div aria-hidden={true}>
+                                    {title}
+                                </div>
                             </Tooltip>
                         )}
                     >
-                        <a
+                        <button
                             className={`${imageContext}-img__remove`}
                             onClick={handler}
                         >
-                            <span>{'×'}</span>
-                        </a>
+                            <span aria-hidden={true}>{'×'}</span>
+                            <span className='sr-only'>{title}</span>
+                        </button>
                     </OverlayTrigger>
                 </div>
             );
@@ -232,40 +260,66 @@ export default class SettingPicture extends Component {
             );
         }
 
+        let imgRender;
+        if (img) {
+            imgRender = (
+                <li
+                    className='setting-list-item'
+                    role='presentation'
+                >
+                    {img}
+                </li>
+            );
+        }
+
         return (
             <ul className='section-max form-horizontal'>
                 <li className='col-xs-12 section-title'>{this.props.title}</li>
                 <li className='col-xs-offset-3 col-xs-8'>
-                    <ul className='setting-list'>
-                        {img ? <li className='setting-list-item'> {img} </li> : ''}
-                        <li className='setting-list-item padding-top x2'>
+                    <ul
+                        className='setting-list'
+                        ref={this.settingList}
+                    >
+                        {imgRender}
+                        <li
+                            className='setting-list-item padding-top x2'
+                            role='presentation'
+                        >
                             {helpText}
                         </li>
-                        <li className='setting-list-item'>
+                        <li
+                            className='setting-list-item'
+                            role='presentation'
+                        >
                             <hr/>
                             <FormError
                                 errors={[this.props.clientError, this.props.serverError]}
                                 type={'modal'}
                             />
-                            <div
+                            <input
+                                ref={this.selectInput}
+                                accept='.jpg,.png,.bmp'
+                                type='file'
+                                onChange={this.handleFileChange}
+                                disabled={this.props.loadingPicture}
+                                aria-hidden={true}
+                                className='hidden'
+                            />
+                            <button
                                 className='btn btn-sm btn-primary btn-file sel-btn'
                                 disabled={this.props.loadingPicture}
+                                onClick={this.handleInputFile}
+                                aria-label={localizeMessage('setting_picture.select', 'Select')}
                             >
                                 <FormattedMessage
                                     id='setting_picture.select'
                                     defaultMessage='Select'
                                 />
-                                <input
-                                    ref='input'
-                                    accept='.jpg,.png,.bmp'
-                                    type='file'
-                                    onChange={this.handleFileChange}
-                                    disabled={this.props.loadingPicture}
-                                />
-                            </div>
-                            <a
+                            </button>
+                            <button
                                 className={confirmButtonClass}
                                 onClick={this.props.loadingPicture ? () => true : this.handleSave}
+                                aria-label={this.props.loadingPicture ? localizeMessage('setting_picture.uploading', 'Uploading...') : localizeMessage('setting_picture.save', 'Save')}
                             >
                                 <LoadingWrapper
                                     loading={this.props.loadingPicture}
@@ -276,17 +330,18 @@ export default class SettingPicture extends Component {
                                         defaultMessage='Save'
                                     />
                                 </LoadingWrapper>
-                            </a>
-                            <a
+                            </button>
+                            <button
                                 className='btn btn-link btn-sm theme'
                                 href='#'
                                 onClick={this.handleCancel}
+                                aria-label={localizeMessage('setting_picture.cancel', 'Cancel')}
                             >
                                 <FormattedMessage
                                     id='setting_picture.cancel'
                                     defaultMessage='Cancel'
                                 />
-                            </a>
+                            </button>
                         </li>
                     </ul>
                 </li>
