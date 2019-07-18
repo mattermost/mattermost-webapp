@@ -57,8 +57,10 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
+    role="application"
   >
     <MultiSelect
+      ariaLabelRenderer={[Function]}
       buttonSubmitLoadingText="Adding..."
       buttonSubmitText="Add"
       handleAdd={[Function]}
