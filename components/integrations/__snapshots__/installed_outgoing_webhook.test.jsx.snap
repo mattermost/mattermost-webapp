@@ -22,11 +22,11 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
     <div
       className="item-details__row"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         build
-      </span>
+      </strong>
     </div>
     <div
       className="item-details__row"
