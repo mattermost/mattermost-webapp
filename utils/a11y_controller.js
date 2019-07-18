@@ -237,7 +237,7 @@ export default class A11yController {
         // setup new active region
         this.activeRegion = element;
         this.activeRegion.addEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveRegionUpdate);
-        this.activeRegion.dispatchEvent(new Event(A11yCustomEventTypes.ACTIVATE));
+        this.activeRegion.dispatchEvent(this.createCustomEvent(A11yCustomEventTypes.ACTIVATE));
 
         // apply visual updates to active region
         this.updateActiveRegion();
@@ -262,7 +262,7 @@ export default class A11yController {
         // setup new active section
         this.activeSection = element;
         this.activeSection.addEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveSectionUpdate);
-        this.activeSection.dispatchEvent(new Event(A11yCustomEventTypes.ACTIVATE));
+        this.activeSection.dispatchEvent(this.createCustomEvent(A11yCustomEventTypes.ACTIVATE));
 
         // apply visual updates to active section
         this.updateActiveSection();
@@ -279,7 +279,7 @@ export default class A11yController {
         // setup new active element
         this.activeElement = element;
         this.activeElement.addEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveElementUpdate);
-        this.activeElement.dispatchEvent(new Event(A11yCustomEventTypes.ACTIVATE));
+        this.activeElement.dispatchEvent(this.createCustomEvent(A11yCustomEventTypes.ACTIVATE));
 
         // apply visual updates to active element
         this.updateActiveElement();
@@ -340,7 +340,7 @@ export default class A11yController {
     clearActiveRegion() {
         if (this.activeRegion) {
             this.activeRegion.classList.remove(A11yClassNames.ACTIVE);
-            this.activeRegion.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
+            this.activeRegion.dispatchEvent(this.createCustomEvent(A11yCustomEventTypes.DEACTIVATE));
             this.activeRegion.removeEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveRegionUpdate);
             this.activeRegion = null;
         }
@@ -350,7 +350,7 @@ export default class A11yController {
     clearActiveSection() {
         if (this.activeSection) {
             this.activeSection.classList.remove(A11yClassNames.ACTIVE);
-            this.activeSection.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
+            this.activeSection.dispatchEvent(this.createCustomEvent(A11yCustomEventTypes.DEACTIVATE));
             this.activeSection.removeEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveSectionUpdate);
             this.activeSection = null;
         }
@@ -361,7 +361,7 @@ export default class A11yController {
         if (this.activeElement) {
             if (this.activeElement !== this.activeRegion && this.activeElement !== this.activeSection) {
                 this.activeElement.classList.remove(A11yClassNames.ACTIVE);
-                this.activeElement.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
+                this.activeElement.dispatchEvent(this.createCustomEvent(A11yCustomEventTypes.DEACTIVATE));
             }
             this.activeElement.removeEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveElementUpdate);
             this.activeElement = null;
@@ -435,6 +435,17 @@ export default class A11yController {
             return true;
         }
         return false;
+    }
+
+    createCustomEvent(eventName) {
+        let event;
+        if (typeof Event === 'function') {
+            event = new Event(eventName);
+        } else {
+            event = document.createEvent('Event');
+            event.initEvent(eventName, false, true);
+        }
+        return event;
     }
 
     // event handling methods
