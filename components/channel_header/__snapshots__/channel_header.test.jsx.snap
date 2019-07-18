@@ -3,7 +3,8 @@
 exports[`components/ChannelHeader should render archived view 1`] = `
 <div
   aria-label="channel header region"
-  className="channel-header alt"
+  className="channel-header alt a11y__region"
+  data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
   role="navigation"
@@ -146,7 +147,8 @@ exports[`components/ChannelHeader should render archived view 1`] = `
 exports[`components/ChannelHeader should render correct menu when muted 1`] = `
 <div
   aria-label="channel header region"
-  className="channel-header alt"
+  className="channel-header alt a11y__region"
+  data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
   role="navigation"
@@ -382,7 +384,8 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
 exports[`components/ChannelHeader should render properly when populated 1`] = `
 <div
   aria-label="channel header region"
-  className="channel-header alt"
+  className="channel-header alt a11y__region"
+  data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
   role="navigation"
@@ -577,7 +580,8 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
 exports[`components/ChannelHeader should render properly when populated with channel props 1`] = `
 <div
   aria-label="channel header region"
-  className="channel-header alt"
+  className="channel-header alt a11y__region"
+  data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
   role="navigation"

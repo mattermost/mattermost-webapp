@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
+import {isCurrentChannelReadOnly, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getProfilesInCurrentChannel, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
@@ -22,6 +22,7 @@ function mapStateToProps(state) {
 
     return {
         currentUserId: getCurrentUserId(state),
+        channel: getCurrentChannel(state),
         locale: getCurrentLocale(state),
         channelProfiles: getProfilesInCurrentChannel(state),
         enableUserCreation,

@@ -28,6 +28,7 @@ import PermissionSchemesSettings from './permission_schemes_settings';
 import PermissionSystemSchemeSettings from './permission_schemes_settings/permission_system_scheme_settings';
 import PermissionTeamSchemeSettings from './permission_schemes_settings/permission_team_scheme_settings';
 import SystemUsers from './system_users';
+import SystemUserDetail from './system_user_detail';
 import ServerLogs from './server_logs';
 import BrandImageSetting from './brand_image_setting/brand_image_setting.jsx';
 import GroupSettings from './group_settings/group_settings.jsx';
@@ -254,6 +255,13 @@ export default {
         icon: 'fa-users',
         sectionTitle: t('admin.sidebar.userManagement'),
         sectionTitleDefault: 'User Management',
+        system_user_detail: {
+            url: 'user_management/user/:user_id',
+            schema: {
+                id: 'SystemUserDetail',
+                component: SystemUserDetail,
+            },
+        },
         system_users: {
             url: 'user_management/users',
             title: t('admin.sidebar.users'),
@@ -1822,7 +1830,6 @@ export default {
                         help_text: t('admin.environment.notifications.pushContents.help'),
                         help_text_default: '**Send generic description with only sender name** - Includes only the name of the person who sent the message in push notifications, with no information about channel name or message contents.\n **Send generic description with sender and channel names** - Includes the name of the person who sent the message and the channel it was sent in, but not the message text.\n **Send full message snippet** - Includes a message excerpt in push notifications, which may contain confidential information sent in messages. If your Push Notification Service is outside your firewall, it is *highly recommended* this option only be used with an "https" protocol to encrypt the connection.',
                         help_text_markdown: true,
-                        isHidden: it.isnt(it.licensedForFeature('EmailNotificationContents')),
                         options: [
                             {
                                 value: 'generic_no_channel',
@@ -3166,7 +3173,7 @@ export default {
                             {
                                 value: Constants.OFFICE365_SERVICE,
                                 display_name: t('admin.oauth.office365'),
-                                display_name_default: 'Office 365 (Beta)',
+                                display_name_default: 'Office 365',
                                 isHidden: it.isnt(it.licensedForFeature('Office365OAuth')),
                                 help_text: t('admin.office365.EnableMarkdownDesc'),
                                 help_text_default: '1. [Log in](!https://login.microsoftonline.com/) to your Microsoft or Office 365 account. Make sure it`s the account on the same [tenant](!https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0) that you would like users to log in with.\n2. Go to [https://apps.dev.microsoft.com](!https://apps.dev.microsoft.com), click **Go to app list** > **Add an app** and use "Mattermost - your-company-name" as the **Application Name**.\n3. Under **Application Secrets**, click **Generate New Password** and paste it to the **Application Secret Password** field below.\n4. Under **Platforms**, click **Add Platform**, choose **Web** and enter **your-mattermost-url/signup/office365/complete** (example: http://localhost:8065/signup/office365/complete) under **Redirect URIs**. Also uncheck **Allow Implicit Flow**.\n5. Finally, click **Save** and then paste the **Application ID** below.',

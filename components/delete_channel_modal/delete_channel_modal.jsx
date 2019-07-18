@@ -69,6 +69,7 @@ export default class DeleteChannelModal extends React.PureComponent {
         const {canViewArchivedChannels} = this.props;
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}

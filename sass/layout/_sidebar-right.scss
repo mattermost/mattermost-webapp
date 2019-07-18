@@ -111,11 +111,6 @@
         }
 
         .post-create-footer {
-            @include clearfix;
-            clear: both;
-            font-size: 13px;
-            position: relative;
-
             .post-error {
                 @include opacity(.55);
                 display: inline-block;

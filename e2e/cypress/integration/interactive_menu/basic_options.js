@@ -27,13 +27,15 @@ let incomingWebhook;
 
 describe('MM-15887 Interactive menus - basic options', () => {
     before(() => {
-        if (process.env.NODE_ENV !== 'qa') {
-            // Set AllowedUntrustedInternalConnections to localhost if running in development
-            const newSettings = {
-                ServiceSettings: {AllowedUntrustedInternalConnections: 'localhost'},
-            };
-            cy.apiUpdateConfig(newSettings);
-        }
+        // Set required ServiceSettings
+        const newSettings = {
+            ServiceSettings: {
+                AllowedUntrustedInternalConnections: 'localhost',
+                EnablePostUsernameOverride: true,
+                EnablePostIconOverride: true,
+            },
+        };
+        cy.apiUpdateConfig(newSettings);
 
         // # Login as sysadmin and ensure that teammate name display setting us set to default 'username'
         cy.apiLogin('sysadmin');
@@ -59,9 +61,7 @@ describe('MM-15887 Interactive menus - basic options', () => {
 
     it('matches elements', () => {
         // # Post an incoming webhook
-        cy.task('postIncomingWebhook', {url: incomingWebhook.url, data: payload}).
-            its('status').
-            should('be.equal', 200);
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
         // # Get message attachment from the last post
         cy.getLastPostId().then((postId) => {
@@ -91,9 +91,7 @@ describe('MM-15887 Interactive menus - basic options', () => {
 
     it('displays selected option and posts ephemeral message', () => {
         // # Post an incoming webhook
-        cy.task('postIncomingWebhook', {url: incomingWebhook.url, data: payload}).
-            its('status').
-            should('be.equal', 200);
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
         // # Get message attachment from the last post
         cy.getLastPostId().then((postId) => {
@@ -122,18 +120,14 @@ describe('MM-15887 Interactive menus - basic options', () => {
         const user1 = users['user-1'];
 
         // # Post an incoming webhook
-        cy.task('postIncomingWebhook', {url: incomingWebhook.url, data: payload}).
-            its('status').
-            should('be.equal', 200);
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
         // # Get last post
         cy.getLastPostId().then((parentMessageId) => {
             const baseUrl = Cypress.config('baseUrl');
 
             // # Post another message
-            cy.task('postMessageAs', {sender: user1, message: 'Just another message', channelId, baseUrl}).
-                its('status').
-                should('be.equal', 201);
+            cy.postMessageAs({sender: user1, message: 'Just another message', channelId, baseUrl});
 
             // # Click comment icon to open RHS
             cy.clickPostCommentIcon(parentMessageId);
@@ -142,15 +136,13 @@ describe('MM-15887 Interactive menus - basic options', () => {
             cy.get('#rhsContainer').should('be.visible');
 
             // # Have another user reply to the webhook message
-            cy.task('postMessageAs', {sender: user1, message: 'Reply to webhook', channelId, rootId: parentMessageId, baseUrl}).
-                its('status').
-                should('be.equal', 201);
+            cy.postMessageAs({sender: user1, message: 'Reply to webhook', channelId, rootId: parentMessageId, baseUrl});
 
             // # Get the latest post
             cy.getLastPostId().then((replyMessageId) => {
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyMessageId}`).within(() => {
-                    cy.get('.post__link').should('be.visible').and('have.text', 'Commented on sysadmin\'s message: This is attachment pretext with basic options');
+                    cy.get('.post__link').should('be.visible').and('have.text', 'Commented on webhook\'s message: This is attachment pretext with basic options');
                     cy.get(`#postMessageText_${replyMessageId}`).should('be.visible').and('have.text', 'Reply to webhook');
                 });
 

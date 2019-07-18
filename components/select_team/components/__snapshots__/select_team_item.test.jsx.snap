@@ -303,7 +303,6 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
                   Array [
                     "hover",
                     "focus",
-                    "click",
                   ]
                 }
               >
@@ -352,7 +351,6 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
       Array [
         "hover",
         "focus",
-        "click",
       ]
     }
   >
