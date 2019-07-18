@@ -298,7 +298,10 @@ export default class MultiSelect extends React.Component {
 
         return (
             <div className='filtered-user-list'>
-                <div className='filter-row filter-row--full' aria-hidden='true'>
+                <div
+                    className='filter-row filter-row--full'
+                    aria-hidden='true'
+                >
                     <div className='multi-select__container'>
                         <ReactSelect
                             id='selectItems'
