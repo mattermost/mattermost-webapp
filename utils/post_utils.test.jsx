@@ -653,4 +653,23 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl);
         assert.ok(ariaLabel.indexOf('reply'));
     });
+    test('Should translate emoji into {emoji-name} emoji', () => {
+        const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
+        const {intl} = intlProvider.getChildContext();
+
+        const testPost = {
+            message: 'emoji_test :smile: :+1: :non-potable_water: :space emoji: :not_an_emoji:',
+            create_at: (new Date().getTime() / 1000) || 0,
+        };
+        const author = 'test_author';
+        const reactions = {};
+        const isFlagged = true;
+
+        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl);
+        assert.ok(ariaLabel.indexOf('smile emoji'));
+        assert.ok(ariaLabel.indexOf('+1 emoji'));
+        assert.ok(ariaLabel.indexOf('non-potable water emoji'));
+        assert.ok(ariaLabel.indexOf(':space emoji:'));
+        assert.ok(ariaLabel.indexOf(':not_an_emoji:'));
+    });
 });
