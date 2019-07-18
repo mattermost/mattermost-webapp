@@ -515,7 +515,7 @@ body {
     border: 1px solid #dddddd;
     margin: 0 0 20px;
     border-radius: 4px;
-    overflow: hidden;
+    // overflow: hidden;
 
     .signup-team-dir {
         @include legacy-pie-clearfix;
@@ -618,6 +618,12 @@ body {
             top: 11px;
         }
     }
+}
+
+.teams {
+    // max-width: 800px;
+    max-height: 448px;
+    // overflow-y: scroll;
 }
 
 

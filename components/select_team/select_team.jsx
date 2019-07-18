@@ -24,9 +24,13 @@ import LogoutIcon from 'components/widgets/icons/fa_logout_icon';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
+import InfiniteScroll from '../common/infinite_scroll.jsx';
+
 import SelectTeamItem from './components/select_team_item.jsx';
 
-const TEAMS_PER_PAGE = 200;
+// import InfiniteScroll from './components/infinite_scroll.jsx';
+
+const TEAMS_PER_PAGE = 30;
 const TEAM_MEMBERSHIP_DENIAL_ERROR_ID = 'api.team.add_members.user_denied';
 
 export default class SelectTeam extends React.Component {
@@ -222,9 +226,13 @@ export default class SelectTeam extends React.Component {
                             defaultMessage='Teams you can join: '
                         />
                     </h4>
-                    <div className='signup-team-all'>
-                        {joinableTeamContents}
-                    </div>
+                    <InfiniteScroll
+                        callBack={() => console.log('I am called!')}
+                    >
+                        <div className='signup-team-all teams'>
+                            {joinableTeamContents}
+                        </div>
+                    </InfiniteScroll>
                 </div>
             );
         }
@@ -292,7 +300,8 @@ export default class SelectTeam extends React.Component {
                 <AnnouncementBar/>
                 {headerButton}
                 <div className='col-sm-12'>
-                    <div className={'signup-team__container'}>
+                    <div className={'signup-team__container'}
+style={{maxWidth: "800px"}}>
                         <img
                             alt={'signup team logo'}
                             className='signup-team-logo'
@@ -302,6 +311,7 @@ export default class SelectTeam extends React.Component {
                             customDescriptionText={customDescriptionText}
                             siteName={siteName}
                         />
+                        {/* <InfiniteScroll/> */}
                         {openContent}
                         {teamSignUp}
                         {adminConsoleLink}
