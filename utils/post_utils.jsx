@@ -325,13 +325,7 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl)
 
     while ((match = Emoticons.EMOJI_PATTERN.exec(message)) !== null) {
         if (emojiMap.has(match[2])) {
-            message = message.replace(match[0], formatMessage({
-                id: 'post.ariaLabel.emoji',
-                defaultMessage: '{name} emoji',
-            },
-            {
-                name: match[2].replace(/_/g, ' '),
-            }));
+            message = message.replace(match[0], `${match[2].replace(/_/g, ' ')} emoji`);
         }
     }
 
