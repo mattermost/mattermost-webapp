@@ -922,6 +922,12 @@ export default class CreatePost extends React.Component {
         }
     }
 
+    handleKeyDownEmojiPicker = (e) => {
+        if (Utils.isKeyPressed(e, KeyCodes.ENTER)) {
+            this.toggleEmojiPicker();
+        }
+    }
+
     editLastPost = (e) => {
         e.preventDefault();
 
@@ -1003,7 +1009,6 @@ export default class CreatePost extends React.Component {
         }
 
         this.setState({showEmojiPicker: false});
-
         this.focusTextbox();
     }
 

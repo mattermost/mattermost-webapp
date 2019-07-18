@@ -2061,6 +2061,7 @@
   "emoji_list.image": "Image",
   "emoji_list.name": "Name",
   "emoji_list.search": "Search Custom Emoji",
+  "emoji_picker_item.emoji_aria_label": "{emojiName} emoji",
   "emoji_picker.activity": "Activity",
   "emoji_picker.close": "Close",
   "emoji_picker.custom": "Custom",
