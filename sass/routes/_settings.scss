@@ -127,9 +127,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            border: none;
+            padding: 0;
 
             span {
                 font-size: 22px;
+                margin-top: -3px;
             }
         }
 
