@@ -8,7 +8,7 @@ export default class Infinity extends React.PureComponent {
         children: PropTypes.node.isRequired,
 
         /**
-         * Function to that is called to load more items
+         * Function that is called to load more items
          */
         callBack: PropTypes.func.isRequired,
     }
