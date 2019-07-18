@@ -31,6 +31,7 @@ import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox';
+import TextboxLinks from 'components/textbox/textbox_links.jsx';
 import TutorialTip from 'components/tutorial/tutorial_tip';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -267,6 +268,7 @@ export default class CreatePost extends React.Component {
             showEmojiPicker: false,
             showConfirmModal: false,
             channelTimezoneCount: 0,
+            preview: false,
             uploadsProgressPercent: {},
             renderScrollbar: false,
             orientation: null,
@@ -322,6 +324,10 @@ export default class CreatePost extends React.Component {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
         this.removeOrientationListeners();
+    }
+
+    updatePreview = (newState) => {
+        this.setState({preview: newState});
     }
 
     setOrientationListeners = () => {
@@ -1187,8 +1193,11 @@ export default class CreatePost extends React.Component {
         }
 
         let emojiPicker = null;
+        const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
+
         if (this.props.enableEmojiPicker && !readOnlyChannel) {
             emojiPicker = (
+<<<<<<< HEAD
                 <span
                     role='application'
                     tabIndex='0'
@@ -1199,6 +1208,9 @@ export default class CreatePost extends React.Component {
                     })}
                     className='emoji-picker__container'
                 >
+=======
+                <div>
+>>>>>>> upstream/master
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         target={this.getCreatePostControls}
@@ -1209,12 +1221,18 @@ export default class CreatePost extends React.Component {
                         enableGifPicker={this.props.enableGifPicker}
                         topOffset={-7}
                     />
-                    <EmojiIcon
-                        id='emojiPickerButton'
-                        className={'icon icon--emoji ' + (this.state.showEmojiPicker ? 'active' : '')}
+                    <button
+                        type='button'
+                        aria-label={emojiButtonAriaLabel}
                         onClick={this.toggleEmojiPicker}
-                    />
-                </span>
+                        className='style--none emoji-picker__container post-action'
+                    >
+                        <EmojiIcon
+                            id='emojiPickerButton'
+                            className={'icon icon--emoji ' + (this.state.showEmojiPicker ? 'active' : '')}
+                        />
+                    </button>
+                </div>
             );
         }
 
@@ -1265,6 +1283,7 @@ export default class CreatePost extends React.Component {
                                 ref='textbox'
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
+                                preview={this.state.preview}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                             />
@@ -1300,13 +1319,23 @@ export default class CreatePost extends React.Component {
                         id='postCreateFooter'
                         className={postFooterClassName}
                     >
-                        <MsgTyping
-                            channelId={currentChannel.id}
-                            postId=''
-                        />
-                        {postError}
-                        {preview}
-                        {serverError}
+                        <div className='d-flex justify-content-between'>
+                            <MsgTyping
+                                channelId={currentChannel.id}
+                                postId=''
+                            />
+                            <TextboxLinks
+                                characterLimit={this.props.maxPostSize}
+                                preview={this.state.preview}
+                                updatePreview={this.updatePreview}
+                                message={readOnlyChannel ? '' : this.state.message}
+                            />
+                        </div>
+                        <div>
+                            {postError}
+                            {preview}
+                            {serverError}
+                        </div>
                     </div>
                 </div>
                 <PostDeletedModal

@@ -168,6 +168,8 @@ export default class PostMessageView extends React.PureComponent {
                 text={message}
             >
                 <div
+                    aria-readonly='true'
+                    tabIndex='0'
                     id={`postMessageText_${post.id}`}
                     className='post-message__text'
                     onClick={Utils.handleFormattedTextClick}
