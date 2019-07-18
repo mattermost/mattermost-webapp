@@ -269,6 +269,10 @@ export default class MoreDirectChannels extends React.Component {
         this.setState({values});
     }
 
+    renderAriaLabel = (option) => {
+        return option.username;
+    }
+
     renderOption = (option, isSelected, onAdd) => {
         if (option.type && option.type === 'G') {
             return (
@@ -415,6 +419,7 @@ export default class MoreDirectChannels extends React.Component {
                 optionRenderer={this.renderOption}
                 values={this.state.values}
                 valueRenderer={this.renderValue}
+                ariaLabelRenderer={this.renderAriaLabel}
                 perPage={USERS_PER_PAGE}
                 handlePageChange={this.handlePageChange}
                 handleInput={this.search}
@@ -459,7 +464,9 @@ export default class MoreDirectChannels extends React.Component {
                         />
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body
+                    role='application'
+                >
                     {body}
                 </Modal.Body>
                 <Modal.Footer className='modal-footer--invisible'>
