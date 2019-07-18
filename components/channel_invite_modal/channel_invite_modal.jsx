@@ -143,6 +143,13 @@ export default class ChannelInviteModal extends React.Component {
         );
     };
 
+    renderAriaLabel = (option) => {
+        if (!option) {
+            return null;
+        }
+        return option.username;
+    }
+
     renderOption = (option, isSelected, onAdd) => {
         var rowSelected = '';
         if (isSelected) {
@@ -212,6 +219,7 @@ export default class ChannelInviteModal extends React.Component {
                 optionRenderer={this.renderOption}
                 values={this.state.values}
                 valueRenderer={this.renderValue}
+                ariaLabelRenderer={this.renderAriaLabel}
                 perPage={USERS_PER_PAGE}
                 handlePageChange={this.handlePageChange}
                 handleInput={this.search}
@@ -249,7 +257,9 @@ export default class ChannelInviteModal extends React.Component {
                         <span className='name'>{this.props.channel.display_name}</span>
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body
+                    role='application'
+                >
                     {inviteError}
                     {content}
                 </Modal.Body>

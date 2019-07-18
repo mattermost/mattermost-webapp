@@ -5,6 +5,7 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
   className="filtered-user-list"
 >
   <div
+    aria-hidden="true"
     className="filter-row filter-row--full"
   >
     <div
@@ -110,6 +111,10 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
       className="multi-select__help"
     />
   </div>
+  <div
+    aria-live="polite"
+    className="sr-only"
+  />
   <MultiSelectList
     onAction={[Function]}
     onAdd={[Function]}
@@ -163,6 +168,7 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
   className="filtered-user-list"
 >
   <div
+    aria-hidden="true"
     className="filter-row filter-row--full"
   >
     <div
@@ -268,6 +274,10 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
       className="multi-select__help"
     />
   </div>
+  <div
+    aria-live="polite"
+    className="sr-only"
+  />
   <MultiSelectList
     onAction={[Function]}
     onAdd={[Function]}
