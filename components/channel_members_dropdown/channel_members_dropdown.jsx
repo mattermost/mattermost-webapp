@@ -136,6 +136,7 @@ export default class ChannelMembersDropdown extends React.Component {
                             className='dropdown-toggle theme color--link style--none'
                             type='button'
                         >
+                            <span className='sr-only'>{this.props.user.username}</span>
                             <span>{role} </span>
                             <DropdownIcon/>
                         </button>
