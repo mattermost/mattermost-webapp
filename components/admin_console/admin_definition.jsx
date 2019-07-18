@@ -3361,12 +3361,12 @@ export default {
         guest_access: {
             url: 'authentication/guest_access',
             title: t('admin.sidebar.guest_access'),
-            title_default: 'Guest Access',
+            title_default: 'Guest Access (Beta)',
             isHidden: it.isnt(it.licensed),
             schema: {
                 id: 'GuestAccountsSettings',
                 name: t('admin.authentication.guest_access'),
-                name_default: 'Guest Access',
+                name_default: 'Guest Access (Beta)',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
