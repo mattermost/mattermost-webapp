@@ -270,6 +270,9 @@ export default class MoreDirectChannels extends React.Component {
     }
 
     renderAriaLabel = (option) => {
+        if (!option) {
+            return null;
+        }
         return option.username;
     }
 
