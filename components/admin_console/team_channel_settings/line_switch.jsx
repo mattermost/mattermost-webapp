@@ -11,7 +11,7 @@ export default class LineSwitch extends React.PureComponent {
         title: PropTypes.node.isRequired,
         last: PropTypes.bool,
         toggled: PropTypes.bool.isRequired,
-        disabled: PropTypes.bool.isRequired,
+        disabled: PropTypes.bool,
         singleLine: PropTypes.bool,
         subTitle: PropTypes.node.isRequired,
         onToggle: PropTypes.func.isRequired,
