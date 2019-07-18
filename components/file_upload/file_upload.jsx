@@ -635,7 +635,7 @@ export default class FileUpload extends PureComponent {
                             this.setState({menuOpen: false});
                         }}
                     >
-                        <a>
+                        <a href='#'>
                             <span className='margin-right'>{item.icon}</span>
                             {item.text}
                         </a>
