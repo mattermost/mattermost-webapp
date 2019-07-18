@@ -7,6 +7,7 @@ import {bindActionCreators} from 'redux';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getMyChannels} from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getProfiles, searchProfiles as reduxSearchProfiles} from 'mattermost-redux/actions/users';
 import {Permissions} from 'mattermost-redux/constants';
 
@@ -25,6 +26,8 @@ const searchProfiles = (term, options = {}) => {
 };
 
 function mapStateToProps(state) {
+    const config = getConfig(state);
+    const license = getLicense(state);
     const channels = getMyChannels(state);
     const currentTeam = getCurrentTeam(state);
     const invitableChannels = channels.filter((channel) => {
@@ -36,7 +39,9 @@ function mapStateToProps(state) {
         }
         return haveIChannelPermission(state, {channel: channel.id, team: currentTeam.id, permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS});
     });
-    const canInviteGuests = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.INVITE_GUEST});
+    const guestAccountsEnabled = config.EnableGuestAccounts === 'true';
+    const isLicensed = license && license.IsLicensed === 'true';
+    const canInviteGuests = isLicensed && guestAccountsEnabled && haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.INVITE_GUEST});
     const canAddUsers = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.ADD_USER_TO_TEAM});
     return {
         invitableChannels,
