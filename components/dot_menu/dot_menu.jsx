@@ -21,6 +21,7 @@ import Pluggable from 'plugins/pluggable';
 import Menu from 'components/widgets/menu/menu.jsx';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
 import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action.jsx';
+import SubMenuItemAction from 'components/widgets/menu/menu_items/submenu_item_action.jsx';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -90,6 +91,7 @@ export default class DotMenu extends Component {
 
         this.state = {
             openUp: false,
+            width: 0,
         };
 
         this.buttonRef = React.createRef();
@@ -205,7 +207,12 @@ export default class DotMenu extends Component {
             const height = rect.height;
             const windowHeight = window.innerHeight;
             if ((y + height) > (windowHeight - MENU_BOTTOM_MARGIN)) {
-                this.setState({openUp: true});
+                this.setState({
+                    openUp: true,
+                    width: rect.width,
+                });
+            } else {
+                this.setState({width: rect.width});
             }
         }
     }
@@ -219,6 +226,24 @@ export default class DotMenu extends Component {
                 return item.filter ? item.filter(this.props.post.id) : item;
             }).
             map((item) => {
+                if (item.text.subMenu) {
+                    return (
+                        <SubMenuItemAction
+                            key={item.id + '_pluginmenuitem'}
+                            id={item.text.id}
+                            text={item.text.text}
+                            subMenu={item.text.subMenu}
+                            action={(id) => {
+                                if (item.action) {
+                                    item.action(this.props.post.id, id);
+                                }
+                            }}
+                            openModal={this.props.actions.openModal}
+                            xOffset={this.state.width}
+                            root={true}
+                        />
+                    );
+                }
                 return (
                     <MenuItemAction
                         key={item.id + '_pluginmenuitem'}
