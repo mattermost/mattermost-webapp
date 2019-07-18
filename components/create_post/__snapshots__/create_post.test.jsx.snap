@@ -51,17 +51,7 @@ exports[`components/create_post Show tutorial 1`] = `
             onUploadStart={[Function]}
             postType="post"
           />
-<<<<<<< HEAD
-          <span
-            aria-label="Open emoji picker"
-            className="emoji-picker__container"
-            onKeyPress={[Function]}
-            role="application"
-            tabIndex="0"
-          >
-=======
           <div>
->>>>>>> upstream/master
             <EmojiPickerOverlay
               enableGifPicker={true}
               onEmojiClick={[Function]}
@@ -243,17 +233,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
             onUploadStart={[Function]}
             postType="post"
           />
-<<<<<<< HEAD
-          <span
-            aria-label="Open emoji picker"
-            className="emoji-picker__container"
-            onKeyPress={[Function]}
-            role="application"
-            tabIndex="0"
-          >
-=======
           <div>
->>>>>>> upstream/master
             <EmojiPickerOverlay
               enableGifPicker={true}
               onEmojiClick={[Function]}
@@ -520,17 +500,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
             onUploadStart={[Function]}
             postType="post"
           />
-<<<<<<< HEAD
-          <span
-            aria-label="Open emoji picker"
-            className="emoji-picker__container"
-            onKeyPress={[Function]}
-            role="application"
-            tabIndex="0"
-          >
-=======
           <div>
->>>>>>> upstream/master
             <EmojiPickerOverlay
               enableGifPicker={true}
               onEmojiClick={[Function]}
@@ -681,17 +651,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
             onUploadStart={[Function]}
             postType="post"
           />
-<<<<<<< HEAD
-          <span
-            aria-label="Open emoji picker"
-            className="emoji-picker__container"
-            onKeyPress={[Function]}
-            role="application"
-            tabIndex="0"
-          >
-=======
           <div>
->>>>>>> upstream/master
             <EmojiPickerOverlay
               enableGifPicker={true}
               onEmojiClick={[Function]}

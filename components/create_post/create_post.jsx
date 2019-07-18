@@ -1197,20 +1197,7 @@ export default class CreatePost extends React.Component {
 
         if (this.props.enableEmojiPicker && !readOnlyChannel) {
             emojiPicker = (
-<<<<<<< HEAD
-                <span
-                    role='application'
-                    tabIndex='0'
-                    onKeyPress={this.handleKeyDownEmojiPicker}
-                    aria-label={formatMessage({
-                        id: 'create_post.open_emoji_picker',
-                        defaultMessage: 'Open emoji picker',
-                    })}
-                    className='emoji-picker__container'
-                >
-=======
                 <div>
->>>>>>> upstream/master
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         target={this.getCreatePostControls}

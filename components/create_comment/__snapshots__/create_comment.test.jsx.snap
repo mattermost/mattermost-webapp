@@ -162,17 +162,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
             postType="comment"
             rootId=""
           />
-<<<<<<< HEAD
-          <span
-            aria-label="Open emoji picker"
-            className="emoji-picker__container"
-            onKeyPress={[Function]}
-            role="application"
-            tabIndex="0"
-          >
-=======
           <div>
->>>>>>> upstream/master
             <EmojiPickerOverlay
               enableGifPicker={true}
               onEmojiClick={[Function]}
@@ -449,17 +439,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
             postType="comment"
             rootId=""
           />
-<<<<<<< HEAD
-          <span
-            aria-label="Open emoji picker"
-            className="emoji-picker__container"
-            onKeyPress={[Function]}
-            role="application"
-            tabIndex="0"
-          >
-=======
           <div>
->>>>>>> upstream/master
             <EmojiPickerOverlay
               enableGifPicker={true}
               onEmojiClick={[Function]}
@@ -603,17 +583,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             postType="comment"
             rootId=""
           />
-<<<<<<< HEAD
-          <span
-            aria-label="Open emoji picker"
-            className="emoji-picker__container"
-            onKeyPress={[Function]}
-            role="application"
-            tabIndex="0"
-          >
-=======
           <div>
->>>>>>> upstream/master
             <EmojiPickerOverlay
               enableGifPicker={true}
               onEmojiClick={[Function]}
