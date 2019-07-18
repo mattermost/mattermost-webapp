@@ -43,7 +43,6 @@ export default class SettingPicture extends Component {
 
         this.settingList = React.createRef();
         this.selectInput = React.createRef();
-        this.handleInputFile = this.handleInputFile.bind(this);
 
         this.state = {
             image: null,
