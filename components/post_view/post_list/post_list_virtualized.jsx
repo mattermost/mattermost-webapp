@@ -497,7 +497,6 @@ export default class PostList extends React.PureComponent {
                         className='post-list__table'
                     >
                         <div
-                            role='presentation'
                             aria-live='polite'
                             id='postListContent'
                             className='post-list__content'
@@ -505,7 +504,7 @@ export default class PostList extends React.PureComponent {
                             <AutoSizer>
                                 {({height, width}) => (
                                     <DynamicSizeList
-                                        role='presentation'
+                                        role='listbox'
                                         ref={this.listRef}
                                         height={height}
                                         width={width}

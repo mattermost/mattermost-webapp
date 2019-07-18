@@ -1,10 +1,12 @@
 .AdminSidebarHeader {
     > div {
-        display: flex;
-        position: relative;
-        padding: 10px;
-        cursor: pointer;
-        align-items: center;
+        &:first-child {
+            display: flex;
+            position: relative;
+            padding: 10px;
+            cursor: pointer;
+            align-items: center;
+        }
 
         > img {
             border-radius: 36px;
