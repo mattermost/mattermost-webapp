@@ -80,3 +80,40 @@ Cypress.on('test:after:run', (test, runnable) => {
 beforeEach(() => {
     Cypress.Cookies.preserveOnce('MMAUTHTOKEN', 'MMUSERID', 'MMCSRF');
 });
+
+before(function() {
+    this.test.parent.suites.forEach(checkSuite);
+});
+
+const shouldSkip = (test) => {
+    const tags = Cypress.env('tags');
+
+    if (tags) {
+        return !tags.map((tag) => {
+            return test.fullTitle().includes(tag);
+        }).some((result) => {
+            return result === true;
+        });
+    }
+
+    return false;
+};
+
+const checkSuite = (suite) => {
+    if (suite.pending) {
+        return;
+    }
+
+    if (shouldSkip(suite)) {
+        suite.pending = true;
+        return;
+    }
+
+    (suite.tests || []).forEach((test) => {
+        if (shouldSkip(test)) {
+            test.pending = true;
+        }
+    });
+
+    (suite.suites || []).forEach(checkSuite);
+};
