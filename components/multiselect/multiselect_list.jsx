@@ -172,7 +172,7 @@ export default class MultiSelectList extends React.Component {
             <div className='more-modal__list'>
                 <div
                     className='sr-only'
-                    aria-live='assertive'
+                    aria-live='polite'
                 >
                     {ariaLabel}
                 </div>
