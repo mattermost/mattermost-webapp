@@ -144,6 +144,9 @@ export default class ChannelInviteModal extends React.Component {
     };
 
     renderAriaLabel = (option) => {
+        if (!option) {
+            return null;
+        }
         return option.username;
     }
 

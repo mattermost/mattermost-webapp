@@ -120,6 +120,9 @@ export default class MultiSelectList extends React.Component {
     }
 
     defaultAriaLabelRenderer(option) {
+        if (!option) {
+            return null;
+        }
         return option.label;
     }
 
@@ -165,8 +168,8 @@ export default class MultiSelectList extends React.Component {
         } else {
             renderer = this.defaultAriaLabelRenderer;
         }
-        const selectedOption = options.filter((o, i) => this.state.selected === i);
-        const ariaLabel = renderer(selectedOption[0] || {});
+        const selectedOption = options[this.state.selected];
+        const ariaLabel = renderer(selectedOption);
 
         return (
             <div className='more-modal__list'>

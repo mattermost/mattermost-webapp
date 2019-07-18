@@ -296,6 +296,18 @@ export default class MultiSelect extends React.Component {
             );
         }
 
+        let noItemsAriaLabel;
+        if (!optionsToDisplay || optionsToDisplay.length === 0) {
+            noItemsAriaLabel = (
+                <p className='primary-message'>
+                    <FormattedMessage
+                        id='multiselect.list.notFound'
+                        defaultMessage='No items found'
+                    />
+                </p>
+            );
+        }
+
         return (
             <div className='filtered-user-list'>
                 <div
@@ -341,6 +353,12 @@ export default class MultiSelect extends React.Component {
                     <div className='multi-select__help'>
                         {noteTextContainer}
                     </div>
+                </div>
+                <div
+                    className='sr-only'
+                    aria-live='polite'
+                >
+                    {noItemsAriaLabel}
                 </div>
                 <MultiSelectList
                     ref='list'
