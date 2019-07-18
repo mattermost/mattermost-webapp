@@ -103,7 +103,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
     className="invite-guests"
   >
     <button
-      className="btn btn-primary"
+      className="btn btn-inactive"
       disabled={true}
       onClick={[Function]}
     >
