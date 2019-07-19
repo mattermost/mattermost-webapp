@@ -52,7 +52,7 @@ describe('SC17020 - Revoke All Sessions from System Console', () => {
         const baseUrl = Cypress.config('baseUrl');
         cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: 'users/sessions/revoke/all'}).then(() => {
             // * Verify if the regular member is logged out and redirected to login page
-            cy.wait(TIMEOUTS.SMALL).get('#login_section').should('be.visible');
+            cy.get('#login_section', {timeout: TIMEOUTS.LARGE}).should('be.visible');
         });
     });
 });
