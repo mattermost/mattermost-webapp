@@ -1,7 +1,8 @@
 @import 'utils/variables';
 
 .InvitationModalConfirmStepTable {
-    width: 720px;
+    max-width: 720px;
+    width: 100%;
     .table-header {
         display: flex;
         border-bottom: 1px solid green;
