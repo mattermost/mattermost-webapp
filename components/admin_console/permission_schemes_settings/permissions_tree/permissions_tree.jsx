@@ -116,6 +116,7 @@ export default class PermissionsTree extends React.Component {
     updateGroups = () => {
         const {config, scope} = this.props;
         const integrationsGroup = this.groups[this.groups.length - 1];
+        const teamsGroup = this.groups[0];
         if (config.EnableIncomingWebhooks === 'true' && integrationsGroup.permissions.indexOf(Permissions.MANAGE_INCOMING_WEBHOOKS) === -1) {
             integrationsGroup.permissions.push(Permissions.MANAGE_INCOMING_WEBHOOKS);
         }
@@ -136,6 +137,9 @@ export default class PermissionsTree extends React.Component {
         }
         if (config.EnableCustomEmoji === 'true' && integrationsGroup.permissions.indexOf(Permissions.DELETE_OTHERS_EMOJIS) === -1) {
             integrationsGroup.permissions.push(Permissions.DELETE_OTHERS_EMOJIS);
+        }
+        if (config.EnableGuestAccounts === 'true' && teamsGroup.permissions.indexOf(Permissions.INVITE_GUEST) === -1) {
+            teamsGroup.permissions.push(Permissions.INVITE_GUEST);
         }
         if (scope === 'team_scope' && this.groups[0].id !== 'teams_team_scope') {
             this.groups[0].id = 'teams_team_scope';
