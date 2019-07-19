@@ -168,16 +168,10 @@ describe('MM-14318 Theme Colors', () => {
         // # Click the Sidebar BG setting
         cy.get('[data-test-id=squareColorIcon]:visible').first().click();
 
-        // # set input color to red
+        //Filling up input with value #bb123e
         cy.get('[data-test-id=ChromePickerModal]').within(() => {
-            cy.get('input').clear().type('#bb123e');
+            cy.get('input').clear().type('#bb123e').type('{enter}');
         });
-
-        //closing modal clicking Sidebar Link
-        cy.get('#sidebarStyles').click();
-
-        //saving account settings
-        cy.get('#saveSetting').click();
 
         //access to theme settings one more time
         cy.get('#themeTitle').click();
@@ -200,14 +194,8 @@ describe('MM-14318 Theme Colors', () => {
 
         //Filling up input with value #bb123e
         cy.get('[data-test-id=ChromePickerModal]').within(() => {
-            cy.get('input').clear().type('#ff8800');
+            cy.get('input').clear().type('#ff8800').type('{enter}');
         });
-
-        //closing modal clicking Sidebar Link
-        cy.get('#centerChannelStyles').click();
-
-        //saving account settings
-        cy.get('#saveSetting').click();
 
         //access to theme settings one more time
         cy.get('#themeTitle').click();
@@ -215,11 +203,8 @@ describe('MM-14318 Theme Colors', () => {
         //access to custom settings one more time
         cy.get('#centerChannelStyles').click();
 
-        //opening centerChannelStyles section again in order to verify change
-        cy.get('#sidebarStyles').click();
-
         //verifying configuration change was performed correctly
-        cy.get('[data-test-id=squareColorIconValue]').should('have.css', 'background-color', 'rgb(255, 136, 0)');
+        cy.get('[data-test-id=squareColorIconValue]:visible').first().should('have.css', 'background-color', 'rgb(255, 136, 0)');
     });
 
     it('Should be able to use color picker input and change Link and Button Styles', () => {
@@ -230,14 +215,8 @@ describe('MM-14318 Theme Colors', () => {
 
         //Filling up input with value #bb123e
         cy.get('[data-test-id=ChromePickerModal]').within(() => {
-            cy.get('input').clear().type('#ffe577');
+            cy.get('input').clear().type('#ffe577').type('{enter}');
         });
-
-        //closing modal clicking Sidebar Link
-        cy.get('#linkAndButtonsStyles').click();
-
-        //saving account settings
-        cy.get('#saveSetting').click();
 
         //access to theme settings one more time
         cy.get('#themeTitle').click();
@@ -245,12 +224,7 @@ describe('MM-14318 Theme Colors', () => {
         //access to custom settings one more time
         cy.get('#linkAndButtonsStyles').click();
 
-        //opening LinkAndButtons section again in order to verify change
-        cy.get('#sidebarStyles').click();
-
         //verifying configuration change was performed correctly
-        cy.get('[data-test-id=squareColorIconValue]').should('have.css', 'background-color', 'rgb(255, 229, 119)');
-
-        //cy.get('#linkAndButtonsStyles').click();
+        cy.get('[data-test-id=squareColorIconValue]:visible').first().should('have.css', 'background-color', 'rgb(255, 229, 119)');
     });
 });
