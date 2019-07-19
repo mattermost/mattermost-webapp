@@ -183,7 +183,7 @@ describe('MM-14318 Theme Colors', () => {
         cy.get('#sidebarStyles').click();
 
         //verifying configuration change was performed correctly
-        cy.get('[data-test-id=squareColorIconValue]').should('have.css', 'background-color', 'rgb(187, 18, 62)');
+        cy.get('[data-test-id=squareColorIconValue]:visible').first().should('have.css', 'background-color', 'rgb(187, 18, 62)');
     });
 
     it('Should be able to use color picker input and change Center Channel Styles', () => {
