@@ -82,7 +82,10 @@ export function sendGuestsInvites(teamId, channels, users, emails, message) {
 
             dispatch(addUsersToTeam(teamId, [user.id])).then(() => {
                 for (const channel of channels) {
-                    dispatch(joinChannel(user.id, teamId, channel));
+                    const member = members && members[channel] && members[channel][user.id];
+                    if (!member) {
+                        dispatch(joinChannel(user.id, teamId, channel));
+                    }
                 }
             });
 
