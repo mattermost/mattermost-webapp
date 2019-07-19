@@ -458,7 +458,7 @@ export default class CustomThemeChooser extends React.Component {
                 <div className='theme-elements row form-group'>
                     <div
                         ref='linkAndButtonStylesHeader'
-                        id='LinkAndButtonsStyles'
+                        id='linkAndButtonsStyles'
                         className='theme-elements__header'
                         onClick={this.toggleLinkAndButtonStyles}
                     >
