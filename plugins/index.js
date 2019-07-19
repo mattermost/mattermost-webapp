@@ -6,6 +6,7 @@ import {Client4} from 'mattermost-redux/client';
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url.jsx';
+import tryRequire from 'utils/try_require.js';
 import PluginRegistry from 'plugins/registry';
 import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} from 'actions/websocket_actions.jsx';
 
@@ -90,8 +91,16 @@ export function loadPlugin(manifest) {
         script.src = getSiteURL() + bundlePath;
         script.onload = onLoad;
         console.log('Loading ' + manifest.id + ' plugin'); //eslint-disable-line no-console
-        document.getElementsByTagName('head')[0].appendChild(script);
 
+        if (!tryRequire(bundlePath)) {
+            console.error('Could not load bundle for ' + manifest.id); //eslint-disable-line no-console
+            
+            loadedPlugins[manifest.id] = false;
+            resolve();
+            return;
+        }
+
+        document.getElementsByTagName('head')[0].appendChild(script);
         loadedPlugins[manifest.id] = true;
     });
 }
