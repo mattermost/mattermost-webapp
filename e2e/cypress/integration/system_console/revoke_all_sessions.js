@@ -44,7 +44,7 @@ describe('SC17020 - Revoke All Sessions from System Console', () => {
 
     it('Verify for Regular Member', () => {
         // # Login as a regular member and navigate to Town Square Chat channel
-        cy.apiLogin('user-1').as('user1');
+        cy.apiLogin('user-1');
         cy.visit('/');
         cy.get('#sidebarItem_town-square').click();
 
