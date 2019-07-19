@@ -110,6 +110,7 @@ export default class Post extends React.PureComponent {
             hover: false,
             a11yActive: false,
             sameRoot: this.hasSameRoot(props),
+            currentAriaLabel: '',
         };
     }
 
@@ -256,8 +257,13 @@ export default class Post extends React.PureComponent {
         this.setState({a11yActive: false});
     }
 
+    handlePostFocus = () => {
+        const {post, author, reactions, isFlagged} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)});
+    }
+
     render() {
-        const {post, author, isFlagged, reactions} = this.props;
+        const {post} = this.props;
         if (!post.id) {
             return null;
         }
@@ -300,12 +306,12 @@ export default class Post extends React.PureComponent {
                 role='listitem'
                 className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}`}
                 tabIndex='0'
-                onFocus={this.setFocus}
+                onFocus={this.handlePostFocus}
                 onBlur={this.removeFocus}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
                 onTouchStart={this.setHover}
-                aria-label={PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)}
+                aria-label={this.state.currentAriaLabel}
             >
                 <div
                     id='postContent'

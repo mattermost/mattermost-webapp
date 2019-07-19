@@ -128,12 +128,6 @@
         }
     }
 
-    .textarea-wrapper {
-        .help__text {
-            display: none;
-        }
-    }
-
     .integration-option {
         flex: 0 0 100%;
         margin: 0 0 30px;
@@ -180,10 +174,6 @@
     .post-create__container {
         z-index: 2;
 
-        .post-create-footer {
-            padding: 0 10px;
-        }
-
         form {
             padding: 0;
         }
@@ -217,6 +207,14 @@
         }
 
         .msg-typing {
+            display: none;
+        }
+    }
+
+    .post-create-footer {
+        padding: 0 10px;
+
+        .help__text {
             display: none;
         }
     }

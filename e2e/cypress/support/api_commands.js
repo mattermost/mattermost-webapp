@@ -156,6 +156,30 @@ Cypress.Commands.add('apiPatchChannel', (channelId, channelData) => {
 });
 
 // *****************************************************************************
+// Commands
+// https://api.mattermost.com/#tag/commands
+// *****************************************************************************
+
+/**
+ * Creates a command directly via API
+ * This API assume that the user is logged in and has required permission to create a command
+ * @param {Object} command - command to be created
+ */
+Cypress.Commands.add('apiCreateCommand', (command = {}) => {
+    const options = {
+        url: '/api/v4/commands',
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'POST',
+        body: command,
+    };
+
+    return cy.request(options).then((response) => {
+        expect(response.status).to.equal(201);
+        return {data: response.body, status: response.status};
+    });
+});
+
+// *****************************************************************************
 // Teams
 // https://api.mattermost.com/#tag/teams
 // *****************************************************************************

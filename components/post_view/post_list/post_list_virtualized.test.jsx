@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {DATE_LINE} from 'mattermost-redux/utils/post_list';
 
-import {PostListRowListIds} from 'utils/constants';
+import {PostListRowListIds, PostRequestTypes} from 'utils/constants';
 
 import NewMessagesBelow from 'components/post_view/new_messages_below';
 import PostListRow from 'components/post_view/post_list_row';
@@ -138,6 +138,46 @@ describe('PostList', () => {
             });
 
             expect(wrapper.instance().checkBottom).toHaveBeenCalledWith(scrollOffset, scrollHeight, clientHeight);
+        });
+
+        test('should call canLoadMorePosts with AFTER_ID if loader is visible', () => {
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            const instance = wrapper.instance();
+
+            const scrollOffset = 1234;
+            const scrollHeight = 1000;
+            const clientHeight = 500;
+
+            instance.listRef = {current: {_getRangeToRender: () => [0, 70, 12, 1]}};
+            instance.onScroll({
+                scrollDirection: 'forward',
+                scrollOffset,
+                scrollUpdateWasRequested: true,
+                scrollHeight,
+                clientHeight,
+            });
+
+            expect(baseProps.actions.canLoadMorePosts).toHaveBeenCalledWith(PostRequestTypes.AFTER_ID);
+        });
+
+        test('should not call canLoadMorePosts with AFTER_ID if loader is below the fold by couple of messages', () => {
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            const instance = wrapper.instance();
+
+            const scrollOffset = 1234;
+            const scrollHeight = 1000;
+            const clientHeight = 500;
+
+            instance.listRef = {current: {_getRangeToRender: () => [0, 70, 12, 2]}};
+            instance.onScroll({
+                scrollDirection: 'forward',
+                scrollOffset,
+                scrollUpdateWasRequested: true,
+                scrollHeight,
+                clientHeight,
+            });
+
+            expect(baseProps.actions.canLoadMorePosts).not.toHaveBeenCalled();
         });
     });
 
