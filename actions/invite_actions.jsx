@@ -79,15 +79,22 @@ export function sendGuestsInvites(teamId, channels, users, emails, message) {
             }
             let memberOfAll = true;
             let memberOfAny = false;
+
+            dispatch(addUsersToTeam(teamId, [user.id])).then(() => {
+                for (const channel of channels) {
+                    dispatch(joinChannel(user.id, teamId, channel));
+                }
+            });
+
             for (const channel of channels) {
                 const member = members && members[channel] && members[channel][user.id];
                 if (member) {
                     memberOfAny = true;
                 } else {
                     memberOfAll = false;
-                    dispatch(joinChannel(user.id, teamId, channel));
                 }
             }
+
             if (memberOfAll) {
                 notSent.push({user, reason: localizeMessage('invite.guests.already-all-channels-member', 'This person is already a member of all the channels.')});
             } else if (memberOfAny) {
