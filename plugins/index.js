@@ -94,7 +94,7 @@ export function loadPlugin(manifest) {
 
         if (!tryRequire(bundlePath)) {
             console.error('Could not load bundle for ' + manifest.id); //eslint-disable-line no-console
-            
+
             loadedPlugins[manifest.id] = false;
             resolve();
             return;
