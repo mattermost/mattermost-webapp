@@ -2,7 +2,7 @@
 
 .EmailsInput {
     .emails-input__control {
-        min-height: 48px;
+        min-height: 44px;
         background: var(--center-channel-bg);
         color: var(--center-channel-color-60);
         box-shadow: none;
@@ -103,6 +103,9 @@
         border-radius: 16px;
         color: var(--center-channel-color);
         margin: 4px;
+        &:first-child {
+            margin: 4px 4px 4px 6px;
+        }
         &:last-child {
             margin: 4px 0 4px 4px;
         }
