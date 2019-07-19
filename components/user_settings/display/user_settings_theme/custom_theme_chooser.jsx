@@ -397,7 +397,7 @@ export default class CustomThemeChooser extends React.Component {
                 <div className='theme-elements row'>
                     <div
                         ref='sidebarStylesHeader'
-                        id='SidebarStyles'
+                        id='sidebarStyles'
                         className='theme-elements__header'
                         onClick={this.toggleSidebarStyles}
                     >
