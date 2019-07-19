@@ -134,7 +134,7 @@ if (DEV) {
 }
 
 var config = {
-    entry: ['@babel/polyfill', 'whatwg-fetch', 'url-search-params-polyfill', './root.jsx', 'root.html'],
+    entry: ['./root.jsx', 'root.html'],
     output: {
         path: path.join(__dirname, 'dist'),
         publicPath,
@@ -371,7 +371,7 @@ config.plugins.push(new webpack.DefinePlugin({
 
 // Test mode configuration
 if (targetIsTest) {
-    config.entry = ['@babel/polyfill', './root.jsx'];
+    config.entry = ['./root.jsx'];
     config.target = 'node';
     config.externals = [nodeExternals()];
 }
