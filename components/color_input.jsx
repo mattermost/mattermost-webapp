@@ -71,16 +71,19 @@ class ColorInput extends React.Component {
         return (
             <div className='color-input input-group'>
                 <input
+                    data-test-id='inputColorValue'
                     className='form-control'
                     type='text'
                     value={color}
                     readOnly={true}
                 />
                 <span
+                    data-test-id='squareColorIcon'
                     className='input-group-addon'
                     onClick={this.togglePicker}
                 >
                     <i
+                        data-test-id='squareColorIconValue'
                         className='color-icon'
                         style={{
                             backgroundColor: color,
@@ -91,6 +94,8 @@ class ColorInput extends React.Component {
                     <div
                         ref={this.getColorPicker}
                         className='color-popover'
+                        data-test-id='ChromePickerModal'
+
                     >
                         <ChromePicker
                             color={color}
