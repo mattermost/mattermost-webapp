@@ -34,13 +34,13 @@ export function sendMembersInvites(teamId, users, emails) {
             try {
                 response = await dispatch(addUsersToTeam(teamId, usersToAdd.map((u) => u.id)));
             } catch (e) {
-                response.error = localizeMessage('invite.members.unable-to-add-the-user-to-the-team', 'Unable to add the user to the team');
+                response.error = localizeMessage('invite.members.unable-to-add-the-user-to-the-team', 'Unable to add the user to the team.');
             }
             for (const user of usersToAdd) {
                 if (response.error) {
                     notSent.push({user, reason: response.error.toString()});
                 } else {
-                    sent.push({user, reason: localizeMessage('invite.members.added-to-team', 'This member has been added to the team')});
+                    sent.push({user, reason: localizeMessage('invite.members.added-to-team', 'This member has been added to the team.')});
                 }
             }
         }
@@ -49,13 +49,13 @@ export function sendMembersInvites(teamId, users, emails) {
             try {
                 response = await dispatch(TeamActions.sendEmailInvitesToTeam(teamId, emails));
             } catch (e) {
-                response.error = localizeMessage('invite.members.unable-to-add-the-user-to-the-team', 'Unable to add the user to the team');
+                response.error = localizeMessage('invite.members.unable-to-add-the-user-to-the-team', 'Unable to add the user to the team.');
             }
             for (const email of emails) {
                 if (response.error) {
                     notSent.push({email, reason: response.error.toString()});
                 } else {
-                    sent.push({email, reason: localizeMessage('invite.members.invite-sent', 'An invitation email has been sent')});
+                    sent.push({email, reason: localizeMessage('invite.members.invite-sent', 'An invitation email has been sent.')});
                 }
             }
         }
@@ -74,7 +74,7 @@ export function sendGuestsInvites(teamId, channels, users, emails, message) {
         const members = getChannelMembersInChannels(state);
         for (const user of users) {
             if (!isGuest(user)) {
-                notSent.push({user, reason: localizeMessage('invite.members.user-is-not-guest', 'You can\'t invite a regular user as a guest.')});
+                notSent.push({user, reason: localizeMessage('invite.members.user-is-not-guest', 'This person is already a member.')});
                 continue;
             }
             let memberOfAll = true;
@@ -100,7 +100,7 @@ export function sendGuestsInvites(teamId, channels, users, emails, message) {
             } else if (memberOfAny) {
                 notSent.push({user, reason: localizeMessage('invite.guests.already-some-channels-member', 'This person is already a member of some of the channels.')});
             } else {
-                sent.push({user, reason: localizeMessage('invite.guests.new-member', 'This person has been added to all the channels.')});
+                sent.push({user, reason: localizeMessage('invite.guests.new-member', 'This guest has been added to the team and channels.')});
             }
         }
         if (emails.length > 0) {
@@ -108,13 +108,13 @@ export function sendGuestsInvites(teamId, channels, users, emails, message) {
             try {
                 response = await dispatch(TeamActions.sendEmailGuestInvitesToChannels(teamId, channels, emails, message));
             } catch (e) {
-                response.error = localizeMessage('invite.guests.unable-to-add-the-user-to-the-channels', 'Unable to add the guest to the channels');
+                response.error = localizeMessage('invite.guests.unable-to-add-the-user-to-the-channels', 'Unable to add the guest to the channels.');
             }
             for (const email of emails) {
                 if (response.error) {
                     notSent.push({email, reason: response.error.toString()});
                 } else {
-                    sent.push({email, reason: localizeMessage('invite.guests.added-to-channel', 'An invitation email has been sent')});
+                    sent.push({email, reason: localizeMessage('invite.guests.added-to-channel', 'An invitation email has been sent.')});
                 }
             }
         }

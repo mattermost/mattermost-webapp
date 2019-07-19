@@ -2,7 +2,7 @@
 
 .UsersEmailsInput {
     .users-emails-input__control {
-        min-height: 48px;
+        min-height: 44px;
         background: var(--center-channel-bg);
         color: var(--center-channel-color-60);
         box-shadow: none;
@@ -109,9 +109,12 @@
         padding: 4px;
         border-radius: 16px;
         color: var(--center-channel-color);
-        margin: 4px;
+        margin: 5px;
+        &:first-child {
+            margin: 5px 5px 5px 6px;
+        }
         &:last-child {
-            margin: 4px 0 4px 4px;
+            margin: 5px 0 5px 5px;
         }
     }
 
@@ -142,19 +145,19 @@
         }
     }
     .users-emails-input__multi-value__remove {
-        padding: 1px;
+        padding: 0px 4px 0px 8px;
         cursor: pointer;
-        margin-left: 8px;
         span {
-            height: 19px;
-            width: 19px;
+            height: 16px;
+            width: 16px;
+            display: flex;
         }
         &:hover {
             background: none;
         }
         svg {
-            height: 19px;
-            width: 19px;
+            height: 16px;
+            width: 16px;
             fill: var(--center-channel-color-60);
             &:hover {
                 fill: var(--center-channel-color-80);

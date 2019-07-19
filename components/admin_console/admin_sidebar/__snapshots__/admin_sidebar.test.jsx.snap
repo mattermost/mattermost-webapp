@@ -2352,7 +2352,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Guest Access"
+                defaultMessage="Guest Access (Beta)"
                 id="admin.sidebar.guest_access"
                 values={Object {}}
               />
@@ -3061,7 +3061,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             subsection={false}
             title={
               <FormattedMessage
-                defaultMessage="Guest Access"
+                defaultMessage="Guest Access (Beta)"
                 id="admin.sidebar.guest_access"
                 values={Object {}}
               />
