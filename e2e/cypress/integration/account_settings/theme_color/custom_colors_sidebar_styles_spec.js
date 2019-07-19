@@ -41,115 +41,115 @@ function customColors(dropdownInt, dropdownName) {
     cy.get('.theme-elements__header').eq(dropdownInt).should('contain', dropdownName).click();
 }
 
-describe('AS14318 Theme Colors - Color Picker', () => {
-    before(() => {
-        // # Set default theme preference
-        cy.apiLogin('user-1');
-        cy.apiSaveThemePreference();
-    });
-
-    after(() => {
-        // * Revert to default theme preference
-        cy.apiSaveThemePreference();
-    });
-
-    it('Theme Display should render in min setting view', () => {
-        // # Go to Account Settings with "user-1"
-        cy.toAccountSettingsModal(null, true);
-
-        // * Check that the Display tab is loaded
-        cy.get('#displayButton').should('be.visible');
-
-        // # Click the Display tab
-        cy.get('#displayButton').click();
-
-        // * Check that it changed into the Display section
-        cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
-
-        // * Check the min setting view for each element that is present and contains the expected values
-        cy.minDisplaySettings();
-    });
-
-    describe('Custom - Sidebar Styles input change', () => {
-        before(() => {
-            // # Go to Theme > Custom > Sidebar Styles
-            customColors(0, 'Sidebar Styles');
-        });
-
-        after(() => {
-            // Save Sidebar Text color change and close the Account settings modal
-            cy.get('#saveSetting').click({force: true});
-            cy.get('#accountSettingsHeader > .close').click();
-        });
-
-        testCases.forEach((testCase) => {
-            it(`should change ${testCase.name} custom color`, () => {
-                // # Click input color button
-                cy.get('.input-group-addon').eq(testCase.key).click();
-
-                // # Click on color bar to change color
-                cy.get(testCase.inputTarget).click();
-
-                // * Check that icon color change
-                cy.get('.color-icon').eq(testCase.key).should('have.css', testCase.inputColor[0], testCase.inputColor[1]);
-
-                // * Check that theme colors for text sharing is updated
-                cy.get('#pasteBox').scrollIntoView().should('contain', testCase.content);
-            });
-        });
-
-        it('should observe color change in Account Settings modal before saving', () => {
-            // * Check Sidebar BG color change
-            cy.get('.settings-links').should('have.css', 'background-color', 'rgb(20, 191, 188)');
-
-            // * Check Sidebar Text color change
-            cy.get('#generalButton').should('have.css', 'color', 'rgba(129, 65, 65, 0.6)');
-
-            // * Check Sidebar Header BG color change
-            cy.get('#accountSettingsHeader').should('have.css', 'background', 'rgb(17, 171, 168) none repeat scroll 0% 0% / auto padding-box border-box');
-
-            // * Check Sidebar Header Text color change
-            cy.get('#accountSettingsModalLabel').should('have.css', 'color', 'rgb(129, 65, 65)');
-        });
-    });
-
-    describe('Custom - Sidebar styles target output change', () => {
-        it('should take effect each custom color in Channel View', () => {
-            // * Check Sidebar Unread Text
-            cy.get('.sidebar-item.unread-title').should('have.css', 'color', 'rgb(129, 65, 65)');
-
-            // * Check Mention Jewel BG color
-            cy.get('#unreadIndicatorBottom').should('have.css', 'background-color', 'rgb(129, 65, 65)');
-
-            // * Check Mention Jewel Text color
-            cy.get('#unreadIndicatorBottom').should('have.css', 'color', 'rgb(65, 92, 129)');
-
-            // # Set user status to online
-            cy.userStatus(0);
-
-            // * Check Online Indicator color
-            cy.get('.online--icon').should('have.css', 'fill', 'rgb(65, 129, 113)');
-
-            // # Set user status to away
-            cy.userStatus(1);
-
-            // * Check Away Indicator color
-            cy.get('.away--icon').should('have.css', 'fill', 'rgb(129, 106, 65)');
-
-            // # Set user status to do not disturb
-            cy.userStatus(2);
-
-            // * Check Do Not Disturb Indicator color
-            cy.get('.dnd--icon').should('have.css', 'fill', 'rgb(129, 65, 65)');
-
-            // # Revert user status to online
-            cy.userStatus(0);
-        });
-    });
-});
+// describe('AS14318 Theme Colors - Color Picker', () => {
+//     before(() => {
+//         // # Set default theme preference
+//         cy.apiLogin('user-1');
+//         cy.apiSaveThemePreference();
+//     });
+//
+//     after(() => {
+//         // * Revert to default theme preference
+//         cy.apiSaveThemePreference();
+//     });
+//
+//     it('Theme Display should render in min setting view', () => {
+//         // # Go to Account Settings with "user-1"
+//         cy.toAccountSettingsModal(null, true);
+//
+//         // * Check that the Display tab is loaded
+//         cy.get('#displayButton').should('be.visible');
+//
+//         // # Click the Display tab
+//         cy.get('#displayButton').click();
+//
+//         // * Check that it changed into the Display section
+//         cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
+//
+//         // * Check the min setting view for each element that is present and contains the expected values
+//         cy.minDisplaySettings();
+//     });
+//
+//     describe('Custom - Sidebar Styles input change', () => {
+//         before(() => {
+//             // # Go to Theme > Custom > Sidebar Styles
+//             customColors(0, 'Sidebar Styles');
+//         });
+//
+//         after(() => {
+//             // Save Sidebar Text color change and close the Account settings modal
+//             cy.get('#saveSetting').click({force: true});
+//             cy.get('#accountSettingsHeader > .close').click();
+//         });
+//
+//         testCases.forEach((testCase) => {
+//             it(`should change ${testCase.name} custom color`, () => {
+//                 // # Click input color button
+//                 cy.get('.input-group-addon').eq(testCase.key).click();
+//
+//                 // # Click on color bar to change color
+//                 cy.get(testCase.inputTarget).click();
+//
+//                 // * Check that icon color change
+//                 cy.get('.color-icon').eq(testCase.key).should('have.css', testCase.inputColor[0], testCase.inputColor[1]);
+//
+//                 // * Check that theme colors for text sharing is updated
+//                 cy.get('#pasteBox').scrollIntoView().should('contain', testCase.content);
+//             });
+//         });
+//
+//         it('should observe color change in Account Settings modal before saving', () => {
+//             // * Check Sidebar BG color change
+//             cy.get('.settings-links').should('have.css', 'background-color', 'rgb(20, 191, 188)');
+//
+//             // * Check Sidebar Text color change
+//             cy.get('#generalButton').should('have.css', 'color', 'rgba(129, 65, 65, 0.6)');
+//
+//             // * Check Sidebar Header BG color change
+//             cy.get('#accountSettingsHeader').should('have.css', 'background', 'rgb(17, 171, 168) none repeat scroll 0% 0% / auto padding-box border-box');
+//
+//             // * Check Sidebar Header Text color change
+//             cy.get('#accountSettingsModalLabel').should('have.css', 'color', 'rgb(129, 65, 65)');
+//         });
+//     });
+//
+//     describe('Custom - Sidebar styles target output change', () => {
+//         it('should take effect each custom color in Channel View', () => {
+//             // * Check Sidebar Unread Text
+//             cy.get('.sidebar-item.unread-title').should('have.css', 'color', 'rgb(129, 65, 65)');
+//
+//             // * Check Mention Jewel BG color
+//             cy.get('#unreadIndicatorBottom').should('have.css', 'background-color', 'rgb(129, 65, 65)');
+//
+//             // * Check Mention Jewel Text color
+//             cy.get('#unreadIndicatorBottom').should('have.css', 'color', 'rgb(65, 92, 129)');
+//
+//             // # Set user status to online
+//             cy.userStatus(0);
+//
+//             // * Check Online Indicator color
+//             cy.get('.online--icon').should('have.css', 'fill', 'rgb(65, 129, 113)');
+//
+//             // # Set user status to away
+//             cy.userStatus(1);
+//
+//             // * Check Away Indicator color
+//             cy.get('.away--icon').should('have.css', 'fill', 'rgb(129, 106, 65)');
+//
+//             // # Set user status to do not disturb
+//             cy.userStatus(2);
+//
+//             // * Check Do Not Disturb Indicator color
+//             cy.get('.dnd--icon').should('have.css', 'fill', 'rgb(129, 65, 65)');
+//
+//             // # Revert user status to online
+//             cy.userStatus(0);
+//         });
+//     });
+// });
 
 describe('MM-14318 Theme Colors', () => {
-    before(() => {
+    beforeEach(() => {
         //Login and navigating to settings
         cy.apiLogin('user-1');
         cy.toAccountSettingsModal(null, true);
@@ -163,16 +163,18 @@ describe('MM-14318 Theme Colors', () => {
     });
 
     it('Should be able to use color picker input and change Sidebar theme color', () => {
-        cy.get('#SidebarStyles').click();
+        cy.get('#sidebarStyles').click();
 
         // # Click the Sidebar BG setting
-        cy.get('.color-icon:visible').first().click();
+        cy.get('[data-test-id=squareColorIcon]:visible').first().click();
 
-        //Filling up input with value #bb123e
-        cy.get("input[spellcheck='false']").clear().type('#bb123e');
+        // # set input color to red
+        cy.get('[data-test-id=ChromePickerModal]').within(() => {
+            cy.get('input').clear().type('#bb123e');
+        });
 
         //closing modal clicking Sidebar Link
-        cy.get('#SidebarStyles').click();
+        cy.get('#sidebarStyles').click();
 
         //saving account settings
         cy.get('#saveSetting').click();
@@ -184,23 +186,25 @@ describe('MM-14318 Theme Colors', () => {
         cy.get('#customThemes').click();
 
         //opening Sidebar section again in order to verify change
-        cy.get('#SidebarStyles').click();
+        cy.get('#sidebarStyles').click();
 
         //verifying configuration change was performed correctly
-        cy.get('.color-icon').should('have.css', 'background-color', 'rgb(187, 18, 62)');
+        cy.get('[data-test-id=squareColorIconValue]').should('have.css', 'background-color', 'rgb(187, 18, 62)');
     });
 
     it('Should be able to use color picker input and change Center Channel Styles', () => {
         cy.get('#centerChannelStyles').click();
 
         // # Click the Sidebar BG setting
-        cy.get('.color-icon:visible').first().click();
+        cy.get('[data-test-id=squareColorIcon]:visible').first().click();
 
         //Filling up input with value #bb123e
-        cy.get("input[spellcheck='false']").clear().type('#bb123e');
+        cy.get('[data-test-id=ChromePickerModal]').within(() => {
+            cy.get('input').clear().type('#ff8800');
+        });
 
         //closing modal clicking Sidebar Link
-        cy.get('#SidebarStyles').click();
+        cy.get('#centerChannelStyles').click();
 
         //saving account settings
         cy.get('#saveSetting').click();
@@ -209,26 +213,28 @@ describe('MM-14318 Theme Colors', () => {
         cy.get('#themeTitle').click();
 
         //access to custom settings one more time
-        cy.get('#customThemes').click();
-
-        //opening centerChannelStyles section again in order to verify change
         cy.get('#centerChannelStyles').click();
 
+        //opening centerChannelStyles section again in order to verify change
+        cy.get('#sidebarStyles').click();
+
         //verifying configuration change was performed correctly
-        cy.get('.color-icon').should('have.css', 'background-color', 'rgb(187, 18, 62)');
+        cy.get('[data-test-id=squareColorIconValue]').should('have.css', 'background-color', 'rgb(255, 136, 0)');
     });
 
     it('Should be able to use color picker input and change Link and Button Styles', () => {
-        cy.get('#LinkAndButtonsStyles').click();
+        cy.get('#linkAndButtonsStyles').click();
 
         // # Click the Sidebar BG setting
-        cy.get('.color-icon:visible').first().click();
+        cy.get('[data-test-id=squareColorIcon]:visible').first().click();
 
         //Filling up input with value #bb123e
-        cy.get("input[spellcheck='false']").clear().type('#bb123e');
+        cy.get('[data-test-id=ChromePickerModal]').within(() => {
+            cy.get('input').clear().type('#ffe577');
+        });
 
         //closing modal clicking Sidebar Link
-        cy.get('#SidebarStyles').click();
+        cy.get('#linkAndButtonsStyles').click();
 
         //saving account settings
         cy.get('#saveSetting').click();
@@ -237,12 +243,14 @@ describe('MM-14318 Theme Colors', () => {
         cy.get('#themeTitle').click();
 
         //access to custom settings one more time
-        cy.get('#customThemes').click();
+        cy.get('#linkAndButtonsStyles').click();
 
         //opening LinkAndButtons section again in order to verify change
-        cy.get('#LinkAndButtonsStyles').click();
+        cy.get('#sidebarStyles').click();
 
         //verifying configuration change was performed correctly
-        cy.get('.color-icon').should('have.css', 'background-color', 'rgb(187, 18, 62)');
+        cy.get('[data-test-id=squareColorIconValue]').should('have.css', 'background-color', 'rgb(255, 229, 119)');
+
+        //cy.get('#linkAndButtonsStyles').click();
     });
 });
