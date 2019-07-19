@@ -612,6 +612,7 @@ export default class FileUpload extends PureComponent {
                         <AttachmentIcon/>
                     </button>
                     <input
+                        id='fileUploadInput'
                         tabIndex='-1'
                         aria-label={formatMessage(holders.uploadFile)}
                         ref={this.fileInput}
