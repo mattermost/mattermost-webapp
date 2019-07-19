@@ -17,6 +17,7 @@ exports[`components/FileUpload should match snapshot 1`] = `
     <input
       accept=""
       aria-label="Upload files"
+      id="fileUploadInput"
       multiple={true}
       onChange={[Function]}
       onClick={[Function]}
