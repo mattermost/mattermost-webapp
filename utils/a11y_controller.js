@@ -227,7 +227,7 @@ export default class A11yController {
     // private methods
 
     setActiveRegion(element, focusChildIfNeeded = true) {
-        if ((!element || element === this.activeRegion) && !this.resetNavigation) {
+        if ((!element || element === this.activeRegion || !element.classList) && !this.resetNavigation) {
             return;
         }
 
@@ -252,7 +252,7 @@ export default class A11yController {
     }
 
     setActiveSection(element) {
-        if (!element || element === this.activeSection) {
+        if (!element || element === this.activeSection || !element.classList) {
             return;
         }
 
@@ -269,7 +269,7 @@ export default class A11yController {
     }
 
     setActiveElement(element) {
-        if (!element || element === this.activeElement) {
+        if (!element || element === this.activeElement || !element.classList) {
             return;
         }
 
@@ -470,6 +470,7 @@ export default class A11yController {
             if (!isDesktopApp() && !cmdOrCtrlPressed(event)) {
                 return;
             }
+            event.preventDefault();
             this.a11yKeyEngaged = true;
             if (modifierKeys.shiftIsPressed) {
                 this.previousRegion();
