@@ -227,7 +227,7 @@ export default class PostList extends React.PureComponent {
         return getLatestPostId(this.props.postListIds);
     }
 
-    canLoadMorePosts = async () => {
+    canLoadMorePosts = async (type = PostRequestTypes.BEFORE_ID) => {
         if (!this.props.postListIds || !this.props.postListIds.length) {
             return;
         }
@@ -243,7 +243,7 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        if (!this.state.olderPosts.allLoaded) {
+        if (!this.state.olderPosts.allLoaded && type === PostRequestTypes.BEFORE_ID) {
             const oldestPostId = this.getOldestVisiblePostId();
             await this.getPostsBefore(oldestPostId);
         } else if (!this.state.newerPosts.allLoaded) {

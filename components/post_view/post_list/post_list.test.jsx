@@ -212,6 +212,15 @@ describe('components/post_view/post_list', () => {
             wrapper.find(VirtPostList).prop('actions').canLoadMorePosts();
             expect(actionsProp.loadPosts).toHaveBeenCalledWith({channelId: baseProps.channelId, postId: postIds[0], type: PostRequestTypes.AFTER_ID});
         });
+
+        test('Should call getPostsAfter canLoadMorePosts is requested with AFTER_ID', async () => {
+            const postIds = createFakePosIds(2);
+            const wrapper = shallow(<PostList {...{...baseProps, isFirstLoad: false, postListIds: postIds}}/>);
+            wrapper.setState({olderPosts: {allLoaded: false, loading: false}});
+            wrapper.setState({newerPosts: {allLoaded: false, loading: false}});
+            wrapper.find(VirtPostList).prop('actions').canLoadMorePosts(PostRequestTypes.AFTER_ID);
+            expect(actionsProp.loadPosts).toHaveBeenCalledWith({channelId: baseProps.channelId, postId: postIds[0], type: PostRequestTypes.AFTER_ID});
+        });
     });
 
     describe('Auto retry of load more posts', () => {

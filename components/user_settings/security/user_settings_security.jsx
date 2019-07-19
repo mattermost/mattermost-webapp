@@ -245,6 +245,7 @@ export default class SecurityTab extends React.PureComponent {
                                 type='password'
                                 onChange={this.updateCurrentPassword}
                                 value={this.state.currentPassword}
+                                aria-label={Utils.localizeMessage('user.settings.security.currentPassword', 'Current Password')}
                             />
                         </div>
                     </div>
@@ -267,6 +268,7 @@ export default class SecurityTab extends React.PureComponent {
                                 type='password'
                                 onChange={this.updateNewPassword}
                                 value={this.state.newPassword}
+                                aria-label={Utils.localizeMessage('user.settings.security.newPassword', 'New Password')}
                             />
                         </div>
                     </div>
@@ -289,6 +291,7 @@ export default class SecurityTab extends React.PureComponent {
                                 type='password'
                                 onChange={this.updateConfirmPassword}
                                 value={this.state.confirmPassword}
+                                aria-label={Utils.localizeMessage('user.settings.security.retypePassword', 'Retype New Password')}
                             />
                         </div>
                     </div>

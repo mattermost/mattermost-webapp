@@ -263,7 +263,7 @@ export default class AddBot extends React.Component {
                 if (this.state.pictureFile && this.state.pictureFile !== 'default') {
                     const imageResult = await this.props.actions.uploadProfileImage(data.user_id, this.state.pictureFile);
                     error = imageResult.error;
-                } else {
+                } else if (this.state.pictureFile && this.state.pictureFile === 'default') {
                     await this.props.actions.setDefaultProfileImage(data.user_id);
                 }
             }

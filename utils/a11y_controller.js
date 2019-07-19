@@ -227,7 +227,7 @@ export default class A11yController {
     // private methods
 
     setActiveRegion(element, focusChildIfNeeded = true) {
-        if ((!element || element === this.activeRegion) && !this.resetNavigation) {
+        if ((!element || element === this.activeRegion || !element.classList) && !this.resetNavigation) {
             return;
         }
 
@@ -252,7 +252,7 @@ export default class A11yController {
     }
 
     setActiveSection(element) {
-        if (!element || element === this.activeSection) {
+        if (!element || element === this.activeSection || !element.classList) {
             return;
         }
 
@@ -269,7 +269,7 @@ export default class A11yController {
     }
 
     setActiveElement(element) {
-        if (!element || element === this.activeElement) {
+        if (!element || element === this.activeElement || !element.classList) {
             return;
         }
 
@@ -453,6 +453,9 @@ export default class A11yController {
             this.a11yKeyEngaged = true;
             break;
         case isKeyPressed(event, Constants.KeyCodes.TILDE):
+            if (!this.regions || !this.regions.length) {
+                return;
+            }
             if (modifierKeys.ctrlIsPressed) {
                 this.a11yKeyEngaged = true;
                 event.preventDefault();
@@ -467,6 +470,7 @@ export default class A11yController {
             if (!isDesktopApp() && !cmdOrCtrlPressed(event)) {
                 return;
             }
+            event.preventDefault();
             this.a11yKeyEngaged = true;
             if (modifierKeys.shiftIsPressed) {
                 this.previousRegion();
@@ -475,7 +479,7 @@ export default class A11yController {
             }
             break;
         case isKeyPressed(event, Constants.KeyCodes.UP):
-            if (!this.navInProgress) {
+            if (!this.navInProgress || !this.sections || !this.sections.length) {
                 return;
             }
             this.a11yKeyEngaged = true;
@@ -487,7 +491,7 @@ export default class A11yController {
             }
             break;
         case isKeyPressed(event, Constants.KeyCodes.DOWN):
-            if (!this.navInProgress) {
+            if (!this.navInProgress || !this.sections || !this.sections.length) {
                 return;
             }
             this.a11yKeyEngaged = true;
