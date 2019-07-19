@@ -10,8 +10,8 @@
 import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-describe('System Console', () => {
-    it('SC17020 - Revoke All Sessions from System Console', () => {
+describe('SC17020 - Revoke All Sessions from System Console', () => {
+    it('Verify for System Admin', () => {
         // # Login as System Admin
         cy.apiLogin('sysadmin');
 
@@ -31,8 +31,8 @@ describe('System Console', () => {
         // * Verify if Confirmation message is closed
         cy.get('#confirmModal').should('not.exist');
 
-        // # Reload the page and verify if the Admin's session is still active
-        cy.visit('/admin_console/user_management/users');
+        // * Verify if the Admin's session is still active and user is still in the same page
+        cy.url().should('contain', '/admin_console/user_management/users');
 
         // * Verify if the Admin's Session is still active and click on it and then confirm
         cy.get('#revoke-all-users').should('be.visible').click();
@@ -40,7 +40,9 @@ describe('System Console', () => {
 
         // * Verify if Admin User's session is expired and is redirected to login page
         cy.get('#login_section').should('be.visible');
+    });
 
+    it('Verify for Regular Member', () => {
         // # Login as a regular member and navigate to Town Square Chat channel
         cy.apiLogin('user-1').as('user1');
         cy.visit('/');
