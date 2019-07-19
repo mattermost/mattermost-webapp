@@ -9,7 +9,7 @@
 
 let config;
 
-describe('Login page', () => {
+describe('@smoke Login page', () => {
     before(() => {
         // Disable other auth options
         const newSettings = {
