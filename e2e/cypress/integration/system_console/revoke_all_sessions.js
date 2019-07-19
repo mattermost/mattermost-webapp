@@ -7,40 +7,50 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-const buttonTheme = {backgroundColor: 'rgba(0, 0, 0, 0.7)', color: 'rgb(255, 255, 255)'};
+import users from '../../fixtures/users.json';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('System Console', () => {
     it('SC17020 - Revoke All Sessions from System Console', () => {
         // # Login as System Admin
-        cy.apiLogin('sysadmin').as('sysadmin');
+        cy.apiLogin('sysadmin');
 
         cy.visit('/admin_console/user_management/users');
 
         // * Verify the presence of Revoke All Sessions button
-        cy.get('#revoke-all-users').should('be.visible').and('have.css', 'background-color', buttonTheme.backgroundColor).
-            and('have.css', 'color', buttonTheme.color);
-
-        cy.get('#revoke-all-users').click();
+        cy.get('#revoke-all-users').should('be.visible').and('not.have.class', 'btn-danger').click();
 
         // * Verify the confirmation message when users clicks on the Revoke All Sessions button
-        cy.get('.modal-title').should('be.visible').should('contain', 'Revoke all sessions in the system');
-        cy.get('.modal-body').should('be.visible').should('contain', 'This action revokes all sessions in the system. All users will be logged out from all devices. Are you sure you want to revoke all sessions?');
-        cy.get('#confirmModalButton').should('be.visible').should('have.class', 'btn-danger');
+        cy.get('#confirmModalLabel').should('be.visible').and('have.text', 'Revoke all sessions in the system');
+        cy.get('.modal-body').should('be.visible').and('have.text', 'This action revokes all sessions in the system. All users will be logged out from all devices. Are you sure you want to revoke all sessions?');
+        cy.get('#confirmModalButton').should('be.visible').and('have.class', 'btn-danger');
 
         // # Click on Cancel button in the confirmation message
         cy.get('.modal-footer .btn-cancel').click();
 
-        // * Verify if Confirmation message is closed and session is still active
-        cy.get('.modal-title').should('not.be.visible');
-        cy.get('.modal-body').should('not.be.visible');
-        cy.visit('/admin_console/user_management/users');
-        cy.get('#revoke-all-users').should('be.visible');
+        // * Verify if Confirmation message is closed
+        cy.get('#confirmModal').should('not.exist');
 
-        // # Click on the Revoke All Sessions button and confirm
-        cy.get('#revoke-all-users').click();
+        // # Reload the page and verify if the Admin's session is still active
+        cy.visit('/admin_console/user_management/users');
+
+        // * Verify if the Admin's Session is still active and click on it and then confirm
+        cy.get('#revoke-all-users').should('be.visible').click();
         cy.get('#confirmModalButton').click();
 
         // * Verify if Admin User's session is expired and is redirected to login page
         cy.get('#login_section').should('be.visible');
+
+        // # Login as a regular member and navigate to Town Square Chat channel
+        cy.apiLogin('user-1').as('user1');
+        cy.visit('/');
+        cy.get('#sidebarItem_town-square').click();
+
+        // # Issue a Request to Revoke All Sessions as SysAdmin
+        const baseUrl = Cypress.config('baseUrl');
+        cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: 'users/sessions/revoke/all'}).then(() => {
+            // * Verify if the regular member is logged out and redirected to login page
+            cy.wait(TIMEOUTS.SMALL).get('#login_section').should('be.visible');
+        });
     });
 });
