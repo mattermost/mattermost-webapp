@@ -65,6 +65,7 @@ export default class RhsComment extends React.PureComponent {
             dropdownOpened: false,
             hover: false,
             a11yActive: false,
+            currentAriaLabel: '',
         };
     }
 
@@ -178,8 +179,13 @@ export default class RhsComment extends React.PureComponent {
         this.setState({a11yActive: false});
     }
 
+    handlePostFocus = () => {
+        const {post, author, reactions, isFlagged} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)});
+    }
+
     render() {
-        const {post, isConsecutivePost, isReadOnly, channelIsArchived, author, reactions, isFlagged} = this.props;
+        const {post, isConsecutivePost, isReadOnly, channelIsArchived} = this.props;
 
         const isEphemeral = isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
@@ -420,7 +426,8 @@ export default class RhsComment extends React.PureComponent {
                 className={`a11y__section ${this.getClassName(post, isSystemMessage)}`}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
-                aria-label={PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)}
+                aria-label={this.state.currentAriaLabel}
+                onFocus={this.handlePostFocus}
             >
                 <div className='post__content'>
                     <div className='post__img'>

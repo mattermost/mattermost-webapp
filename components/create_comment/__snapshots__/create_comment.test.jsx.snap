@@ -44,19 +44,30 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
         />
       </div>
     </div>
-    <Connect(MsgTyping)
-      channelId="g6139tbospd18cmxroesdk3kkc"
-      postId=""
-    />
     <div
       className="post-create-footer"
     >
-      <input
-        className="btn btn-primary comment-btn pull-right"
-        onClick={[Function]}
-        type="button"
-        value="Add Comment"
-      />
+      <div
+        className="d-flex justify-content-between"
+      >
+        <Connect(MsgTyping)
+          channelId="g6139tbospd18cmxroesdk3kkc"
+          postId=""
+        />
+        <TextboxLinks
+          characterLimit={4000}
+          message=""
+          updatePreview={[Function]}
+        />
+      </div>
+      <div>
+        <input
+          className="btn btn-primary comment-btn pull-right"
+          onClick={[Function]}
+          type="button"
+          value="Add Comment"
+        />
+      </div>
     </div>
   </div>
   <PostDeletedModal
@@ -151,12 +162,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
             postType="comment"
             rootId=""
           />
-          <span
-            aria-label="Open emoji picker"
-            className="emoji-picker__container"
-            role="button"
-            tabIndex="0"
-          >
+          <div>
             <EmojiPickerOverlay
               enableGifPicker={true}
               onEmojiClick={[Function]}
@@ -169,27 +175,43 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
               target={[Function]}
               topOffset={55}
             />
-            <EmojiIcon
-              className="icon icon--emoji emoji-rhs "
+            <button
+              aria-label="emoji picker"
+              className="style--none emoji-picker__container post-action"
               onClick={[Function]}
-            />
-          </span>
+            >
+              <EmojiIcon
+                className="icon icon--emoji emoji-rhs "
+              />
+            </button>
+          </div>
         </span>
       </div>
     </div>
-    <Connect(MsgTyping)
-      channelId="g6139tbospd18cmxroesdk3kkc"
-      postId=""
-    />
     <div
       className="post-create-footer"
     >
-      <input
-        className="btn btn-primary comment-btn pull-right"
-        onClick={[Function]}
-        type="button"
-        value="Add Comment"
-      />
+      <div
+        className="d-flex justify-content-between"
+      >
+        <Connect(MsgTyping)
+          channelId="g6139tbospd18cmxroesdk3kkc"
+          postId=""
+        />
+        <TextboxLinks
+          characterLimit={4000}
+          message=""
+          updatePreview={[Function]}
+        />
+      </div>
+      <div>
+        <input
+          className="btn btn-primary comment-btn pull-right"
+          onClick={[Function]}
+          type="button"
+          value="Add Comment"
+        />
+      </div>
     </div>
   </div>
   <PostDeletedModal
@@ -287,31 +309,42 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
         </span>
       </div>
     </div>
-    <Connect(MsgTyping)
-      channelId="g6139tbospd18cmxroesdk3kkc"
-      postId=""
-    />
     <div
       className="post-create-footer"
     >
-      <input
-        className="btn btn-primary comment-btn pull-right"
-        onClick={[Function]}
-        type="button"
-        value="Add Comment"
-      />
-      <FilePreview
-        fileInfos={
-          Array [
-            Object {},
-            Object {},
-            Object {},
-          ]
-        }
-        onRemove={[Function]}
-        uploadsInProgress={Array []}
-        uploadsProgressPercent={Object {}}
-      />
+      <div
+        className="d-flex justify-content-between"
+      >
+        <Connect(MsgTyping)
+          channelId="g6139tbospd18cmxroesdk3kkc"
+          postId=""
+        />
+        <TextboxLinks
+          characterLimit={4000}
+          message=""
+          updatePreview={[Function]}
+        />
+      </div>
+      <div>
+        <input
+          className="btn btn-primary comment-btn pull-right"
+          onClick={[Function]}
+          type="button"
+          value="Add Comment"
+        />
+        <FilePreview
+          fileInfos={
+            Array [
+              Object {},
+              Object {},
+              Object {},
+            ]
+          }
+          onRemove={[Function]}
+          uploadsInProgress={Array []}
+          uploadsProgressPercent={Object {}}
+        />
+      </div>
     </div>
   </div>
   <PostDeletedModal
@@ -406,12 +439,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
             postType="comment"
             rootId=""
           />
-          <span
-            aria-label="Open emoji picker"
-            className="emoji-picker__container"
-            role="button"
-            tabIndex="0"
-          >
+          <div>
             <EmojiPickerOverlay
               enableGifPicker={true}
               onEmojiClick={[Function]}
@@ -424,27 +452,43 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
               target={[Function]}
               topOffset={55}
             />
-            <EmojiIcon
-              className="icon icon--emoji emoji-rhs "
+            <button
+              aria-label="emoji picker"
+              className="style--none emoji-picker__container post-action"
               onClick={[Function]}
-            />
-          </span>
+            >
+              <EmojiIcon
+                className="icon icon--emoji emoji-rhs "
+              />
+            </button>
+          </div>
         </span>
       </div>
     </div>
-    <Connect(MsgTyping)
-      channelId="g6139tbospd18cmxroesdk3kkc"
-      postId=""
-    />
     <div
       className="post-create-footer"
     >
-      <input
-        className="btn btn-primary comment-btn pull-right disabled"
-        onClick={[Function]}
-        type="button"
-        value="Add Comment"
-      />
+      <div
+        className="d-flex justify-content-between"
+      >
+        <Connect(MsgTyping)
+          channelId="g6139tbospd18cmxroesdk3kkc"
+          postId=""
+        />
+        <TextboxLinks
+          characterLimit={4000}
+          message=""
+          updatePreview={[Function]}
+        />
+      </div>
+      <div>
+        <input
+          className="btn btn-primary comment-btn pull-right disabled"
+          onClick={[Function]}
+          type="button"
+          value="Add Comment"
+        />
+      </div>
     </div>
   </div>
   <PostDeletedModal
@@ -539,12 +583,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             postType="comment"
             rootId=""
           />
-          <span
-            aria-label="Open emoji picker"
-            className="emoji-picker__container"
-            role="button"
-            tabIndex="0"
-          >
+          <div>
             <EmojiPickerOverlay
               enableGifPicker={true}
               onEmojiClick={[Function]}
@@ -557,52 +596,68 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
               target={[Function]}
               topOffset={55}
             />
-            <EmojiIcon
-              className="icon icon--emoji emoji-rhs "
+            <button
+              aria-label="emoji picker"
+              className="style--none emoji-picker__container post-action"
               onClick={[Function]}
-            />
-          </span>
+            >
+              <EmojiIcon
+                className="icon icon--emoji emoji-rhs "
+              />
+            </button>
+          </div>
         </span>
       </div>
     </div>
-    <Connect(MsgTyping)
-      channelId="g6139tbospd18cmxroesdk3kkc"
-      postId=""
-    />
     <div
       className="post-create-footer"
     >
-      <input
-        className="btn btn-primary comment-btn pull-right"
-        onClick={[Function]}
-        type="button"
-        value="Add Comment"
-      />
-      <span
-        className="pull-right post-right-comments-upload-in-progress"
+      <div
+        className="d-flex justify-content-between"
       >
-        <FormattedMessage
-          defaultMessage="File uploading"
-          id="create_comment.file"
-          values={Object {}}
+        <Connect(MsgTyping)
+          channelId="g6139tbospd18cmxroesdk3kkc"
+          postId=""
         />
-      </span>
-      <FilePreview
-        fileInfos={
-          Array [
-            Object {},
-            Object {},
-            Object {},
-          ]
-        }
-        onRemove={[Function]}
-        uploadsInProgress={
-          Array [
-            Object {},
-          ]
-        }
-        uploadsProgressPercent={Object {}}
-      />
+        <TextboxLinks
+          characterLimit={4000}
+          message=""
+          updatePreview={[Function]}
+        />
+      </div>
+      <div>
+        <input
+          className="btn btn-primary comment-btn pull-right"
+          onClick={[Function]}
+          type="button"
+          value="Add Comment"
+        />
+        <span
+          className="pull-right post-right-comments-upload-in-progress"
+        >
+          <FormattedMessage
+            defaultMessage="File uploading"
+            id="create_comment.file"
+            values={Object {}}
+          />
+        </span>
+        <FilePreview
+          fileInfos={
+            Array [
+              Object {},
+              Object {},
+              Object {},
+            ]
+          }
+          onRemove={[Function]}
+          uploadsInProgress={
+            Array [
+              Object {},
+            ]
+          }
+          uploadsProgressPercent={Object {}}
+        />
+      </div>
     </div>
   </div>
   <PostDeletedModal

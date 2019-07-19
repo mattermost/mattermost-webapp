@@ -350,12 +350,12 @@
     display: flex;
     font-size: 13px;
     height: 100%;
-    padding-right: 50px;
-    width: 100%;
+    flex: 1;
 
     .post-image__detail_wrapper {
-        padding-left: 15px;
-        width: 100%;
+        padding: 0 25px 0 15px;
+        display: flex;
+        flex: 1;
 
         .post--compact & {
             padding-left: 8px;

@@ -10,6 +10,8 @@ import {Permissions} from 'mattermost-redux/constants';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 import {canEditPost as canEditPostRedux} from 'mattermost-redux/utils/post_utils';
 
+import {getEmojiMap} from 'selectors/emojis';
+
 import store from 'stores/redux_store.jsx';
 
 import Constants, {PostListRowListIds} from 'utils/constants.jsx';
@@ -17,6 +19,8 @@ import {formatWithRenderer} from 'utils/markdown';
 import MentionableRenderer from 'utils/markdown/mentionable_renderer';
 import * as Utils from 'utils/utils.jsx';
 import {isMobile} from 'utils/user_agent.jsx';
+
+import * as Emoticons from './emoticons.jsx';
 
 const CHANNEL_SWITCH_IGNORE_ENTER_THRESHOLD_MS = 500;
 
@@ -309,6 +313,22 @@ export function getLatestPostId(postIds) {
 export function createAriaLabelForPost(post, author, isFlagged, reactions, intl) {
     const {formatMessage, formatTime, formatDate} = intl;
 
+    const emojiMap = getEmojiMap(store.getState());
+    let message = post.message;
+    let match;
+
+    // Match all the shorthand forms of emojis first
+    for (const name of Object.keys(Emoticons.emoticonPatterns)) {
+        const pattern = Emoticons.emoticonPatterns[name];
+        message = message.replace(pattern, `:${name}:`);
+    }
+
+    while ((match = Emoticons.EMOJI_PATTERN.exec(message)) !== null) {
+        if (emojiMap.has(match[2])) {
+            message = message.replace(match[0], `${match[2].replace(/_/g, ' ')} emoji`);
+        }
+    }
+
     let ariaLabel;
     if (post.root_id) {
         ariaLabel = formatMessage({
@@ -319,7 +339,7 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl)
             authorName: author,
             time: formatTime(post.create_at),
             date: formatDate(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
-            message: post.message,
+            message,
         });
     } else {
         ariaLabel = formatMessage({
@@ -330,7 +350,7 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl)
             authorName: author,
             time: formatTime(post.create_at),
             date: formatDate(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
-            message: post.message,
+            message,
         });
     }
 
