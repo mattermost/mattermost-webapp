@@ -116,7 +116,7 @@ export default class InvitationModal extends React.Component {
         this.setState({confirmModal: false});
     }
 
-    cancelConfirm = () => {
+    cancelClose = () => {
         this.setState({confirmModal: false});
     }
 
@@ -165,8 +165,8 @@ export default class InvitationModal extends React.Component {
                                 />
                             }
                             modalClass='invitation-modal-confirm'
-                            onConfirm={this.confirmModal ? this.confirmClose : this.confirmBack}
-                            onCancel={this.confirmModal ? this.cancelConfirm : this.cancelBack}
+                            onConfirm={this.state.confirmModal ? this.confirmClose : this.confirmBack}
+                            onCancel={this.state.confirmModal ? this.cancelClose : this.cancelBack}
                         />
                         {this.state.step === STEPS_INITIAL &&
                             <InvitationModalInitialStep
