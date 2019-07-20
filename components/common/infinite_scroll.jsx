@@ -51,10 +51,11 @@ export default class InfiniteScroll extends React.PureComponent {
     }
 
     handleScroll = () => {
+        const {isFetching} = this.state;
         const {callBack, endOfData} = this.props;
         var node = this.node.current;
         const bottom = node.scrollHeight - node.scrollTop === node.clientHeight;
-        if (bottom && !endOfData) {
+        if (bottom && !endOfData && !isFetching) {
             this.setState({
                 isFetching: true,
             });

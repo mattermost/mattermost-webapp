@@ -70,7 +70,7 @@ export default class SelectTeam extends React.Component {
 
     fetchMoreTeams = () => {
         const {actions, total} = this.props;
-        const TEAMS_TO_ADD = 4;
+        const TEAMS_TO_ADD = 4; // Load 4 extra teams
         const NEW_TEAMS_PER_PAGE = this.props.listableTeams.length + TEAMS_TO_ADD;
         actions.getTeams(0, NEW_TEAMS_PER_PAGE, true);
         if (this.props.listableTeams.length === total) {
