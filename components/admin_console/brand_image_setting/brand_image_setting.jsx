@@ -5,13 +5,12 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Client4} from 'mattermost-redux/client';
 
 import {uploadBrandImage} from 'actions/admin_actions.jsx';
-import {UploadStatuses} from 'utils/constants.jsx';
+import {UploadStatuses, Constants} from 'utils/constants.jsx';
 import FormError from 'components/form_error.jsx';
-
-import UploadButton from './upload_button.jsx';
 
 const HTTP_STATUS_OK = 200;
 
@@ -22,6 +21,11 @@ export default class BrandImageSetting extends React.PureComponent {
          * Set to disable the setting
          */
         disabled: PropTypes.bool.isRequired,
+
+        /*
+        * Enable save button when image is deleted
+        */
+        onChange: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -62,6 +66,10 @@ export default class BrandImageSetting extends React.PureComponent {
 
             reader.readAsDataURL(this.state.brandImage);
         }
+
+        if (this.state.brandImage) {
+            this.handleImageSubmit();
+        }
     }
 
     handleImageChange() {
@@ -75,9 +83,7 @@ export default class BrandImageSetting extends React.PureComponent {
         }
     }
 
-    handleImageSubmit(e) {
-        e.preventDefault();
-
+    handleImageSubmit() {
         if (!this.state.brandImage) {
             return;
         }
@@ -90,6 +96,7 @@ export default class BrandImageSetting extends React.PureComponent {
             error: '',
             status: UploadStatuses.LOADING,
         });
+        this.props.onChange('deleteBrandImage', false);
 
         uploadBrandImage(
             this.state.brandImage,
@@ -111,17 +118,44 @@ export default class BrandImageSetting extends React.PureComponent {
     }
 
     render() {
-        let btnPrimaryClass = 'btn';
-        if (this.state.brandImage) {
-            btnPrimaryClass += ' btn-primary';
-        }
-
         let letbtnDefaultClass = 'btn';
         if (!this.props.disabled) {
             letbtnDefaultClass += ' btn-default';
         }
 
         let img = null;
+        let displayImgOverlay = !this.props.disabled;
+        const IMGOVERLAY = (
+            <OverlayTrigger
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='right'
+                overlay={(
+                    <Tooltip id='removeIcon'>
+                        <div aria-hidden={true}>
+                            <FormattedMessage
+                                id='admin.team.removeBrandImage'
+                                defaultMessage='Remove brand image'
+                            />
+                        </div>
+                    </Tooltip>
+                )}
+            >
+                <button
+                    onClick={() => {
+                        this.setState({brandImage: null, brandImageExists: false});
+                        this.props.onChange('deleteBrandImage', true);
+                    }}
+                    style={{
+                        backgroundColor: 'black',
+                        color: 'white',
+                        position: 'absolute',
+                        top: '-8px',
+                    }}
+                >
+                    <span aria-hidden={true}>{'×'}</span>
+                </button>
+            </OverlayTrigger>
+        );
         if (this.state.brandImage) {
             img = (
                 <img
@@ -148,6 +182,7 @@ export default class BrandImageSetting extends React.PureComponent {
                     />
                 </p>
             );
+            displayImgOverlay = false;
         }
 
         return (
@@ -160,6 +195,7 @@ export default class BrandImageSetting extends React.PureComponent {
                 </label>
                 <div className='col-sm-8'>
                     {img}
+                    {displayImgOverlay && IMGOVERLAY}
                 </div>
                 <div className='col-sm-4'/>
                 <div className='col-sm-8'>
@@ -170,7 +206,7 @@ export default class BrandImageSetting extends React.PureComponent {
                         >
                             <FormattedMessage
                                 id='admin.team.chooseImage'
-                                defaultMessage='Choose New Image'
+                                defaultMessage='Select Image'
                             />
                         </button>
                         <input
@@ -181,12 +217,6 @@ export default class BrandImageSetting extends React.PureComponent {
                             onChange={this.handleImageChange}
                         />
                     </div>
-                    <UploadButton
-                        primaryClass={btnPrimaryClass}
-                        status={this.state.status}
-                        disabled={this.props.disabled || !this.state.brandImage}
-                        onClick={this.handleImageSubmit}
-                    />
                     <br/>
                     <FormError error={this.state.error}/>
                     <p className='help-text no-margin'>

@@ -8,7 +8,7 @@ import {Overlay, Tooltip} from 'react-bootstrap';
 
 import * as I18n from 'i18n/i18n.jsx';
 
-import {saveConfig} from 'actions/admin_actions.jsx';
+import {saveConfig, deleteBrandImage} from 'actions/admin_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
 import * as Utils from 'utils/utils.jsx';
@@ -134,6 +134,7 @@ export default class SchemaAdminSettings extends React.Component {
             this.setState({
                 saving: false,
                 saveNeeded: false,
+                deleteBrandImage: false,
                 serverError: null,
             });
             this.props.setNavigationBlocked(false);
@@ -586,12 +587,17 @@ export default class SchemaAdminSettings extends React.Component {
         if (this.state.saveNeeded === 'permissions') {
             saveNeeded = 'both';
         }
+
+        if (id === 'deleteBrandImage' && value === false) {
+            saveNeeded = false;
+        }
+
         this.setState({
             saveNeeded,
             [id]: value,
         });
 
-        this.props.setNavigationBlocked(true);
+        this.props.setNavigationBlocked(!!saveNeeded);
     }
 
     handlePermissionChange = (id, value) => {
@@ -833,6 +839,22 @@ export default class SchemaAdminSettings extends React.Component {
                 }
             }
         );
+
+        if (this.state.deleteBrandImage) {
+            deleteBrandImage(
+                () => {
+                    this.setState({
+                        deleteBrandImage: false,
+                    });
+                },
+                (err) => {
+                    this.setState({
+                        serverError: err.message,
+                        serverErrorId: err.id,
+                    });
+                }
+            );
+        }
     };
 
     static getConfigValue(config, path) {

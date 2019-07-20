@@ -1509,7 +1509,7 @@
   "admin.team.brandTextDescription": "Text that will appear below your custom brand image on your login screen. Supports Markdown-formatted text. Maximum 500 characters allowed.",
   "admin.team.brandTextTitle": "Custom Brand Text:",
   "admin.team.brandTitle": "Enable Custom Branding: ",
-  "admin.team.chooseImage": "Choose New Image",
+  "admin.team.chooseImage": "Select Image",
   "admin.team.editOthersPostsDesc": "When true, Team Administrators and System Administrators can edit other user's posts.  When false, only System Administrators can edit other user's posts.",
   "admin.team.editOthersPostsTitle": "Allow Team Administrators to edit others posts:",
   "admin.team.emailInvitationsDescription": "When true users can invite others to the system using email.",
