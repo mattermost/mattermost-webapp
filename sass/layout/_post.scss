@@ -1420,12 +1420,29 @@
             fill: inherit;
         }
 
-        img {
+        .profile-icon {
             @include border-radius(50px);
+            display: inline-flex;
+            overflow: hidden;
             height: 32px;
-            max-width: none;
-            vertical-align: inherit;
             width: 32px;
+            justify-content: center;
+            align-items: center;
+
+            img {
+                max-width: none;
+                vertical-align: inherit;
+                height: 32px;
+                width: 32px;
+            }
+
+            &.emoji {
+                @include border-radius(unset);
+                img {
+                    height: 28px;
+                    width: 28px;
+                }
+            }
         }
     }
 
