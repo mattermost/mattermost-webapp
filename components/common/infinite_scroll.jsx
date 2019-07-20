@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class Infinity extends React.PureComponent {
+export default class InfiniteScroll extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node.isRequired,
 
@@ -11,6 +12,16 @@ export default class Infinity extends React.PureComponent {
          * Function that is called to load more items
          */
         callBack: PropTypes.func.isRequired,
+
+        /**
+         * Boolean to indicate that no more data will be loaded
+         */
+        endOfData: PropTypes.bool.isRequired,
+
+        /**
+         * Message to display when all the data has been scrolled through
+         */
+        endOfDataMessage: PropTypes.string.isRequired,
     }
 
     constructor(props) {
@@ -39,11 +50,11 @@ export default class Infinity extends React.PureComponent {
         });
     }
 
-    handleScroll = (event) => {
-        const {callBack} = this.props;
-        var node = event.target;
+    handleScroll = () => {
+        const {callBack, endOfData} = this.props;
+        var node = this.node.current;
         const bottom = node.scrollHeight - node.scrollTop === node.clientHeight;
-        if (bottom) {
+        if (bottom && !endOfData) {
             this.setState({
                 isFetching: true,
             });
@@ -52,18 +63,20 @@ export default class Infinity extends React.PureComponent {
     }
 
     render() {
-        const {children} = this.props;
+        const {children, endOfData, endOfDataMessage} = this.props;
         const {isFetching} = this.state;
         return (
-            <div>
+            <>
                 <div
-                    style={{overflowY: 'scroll', maxHeight: 'inherit'}}
+                    className='signup-team-all' // take in this class name instead
+                    style={{overflowY: 'scroll', maxHeight: '468px'}}
                     ref={this.node}
                 >
                     {children}
                 </div>
                 {isFetching && 'Fetching more list items...'}
-            </div>
+                {endOfData && endOfDataMessage}
+            </>
         );
     }
 }

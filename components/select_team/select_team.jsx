@@ -28,9 +28,7 @@ import InfiniteScroll from '../common/infinite_scroll.jsx';
 
 import SelectTeamItem from './components/select_team_item.jsx';
 
-// import InfiniteScroll from './components/infinite_scroll.jsx';
-
-const TEAMS_PER_PAGE = 30;
+const TEAMS_PER_PAGE = 10;
 const TEAM_MEMBERSHIP_DENIAL_ERROR_ID = 'api.team.add_members.user_denied';
 
 export default class SelectTeam extends React.Component {
@@ -53,6 +51,7 @@ export default class SelectTeam extends React.Component {
             loadRolesIfNeeded: PropTypes.func.isRequired,
             addUserToTeam: PropTypes.func.isRequired,
         }).isRequired,
+        total: PropTypes.number.isRequired,
     };
 
     constructor(props) {
@@ -61,11 +60,24 @@ export default class SelectTeam extends React.Component {
         this.state = {
             loadingTeamId: '',
             error: null,
+            endofTeamsData: false,
         };
     }
 
     componentDidMount() {
         this.props.actions.getTeams(0, TEAMS_PER_PAGE);
+    }
+
+    fetchMoreTeams = () => {
+        const {actions, total} = this.props;
+        const TEAMS_TO_ADD = 4;
+        const NEW_TEAMS_PER_PAGE = this.props.listableTeams.length + TEAMS_TO_ADD;
+        actions.getTeams(0, NEW_TEAMS_PER_PAGE, true);
+        if (this.props.listableTeams.length === total) {
+            this.setState({
+                endofTeamsData: true,
+            });
+        }
     }
 
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
@@ -127,6 +139,7 @@ export default class SelectTeam extends React.Component {
     };
 
     render() {
+        const {endofTeamsData} = this.state;
         const {
             currentUserIsGuest,
             canManageSystem,
@@ -227,9 +240,11 @@ export default class SelectTeam extends React.Component {
                         />
                     </h4>
                     <InfiniteScroll
-                        callBack={() => console.log('I am called!')}
+                        callBack={this.fetchMoreTeams}
+                        endOfData={endofTeamsData}
+                        endOfDataMessage='No more teams to display'
                     >
-                        <div className='signup-team-all teams'>
+                        <div className='teams'>
                             {joinableTeamContents}
                         </div>
                     </InfiniteScroll>
@@ -300,8 +315,10 @@ export default class SelectTeam extends React.Component {
                 <AnnouncementBar/>
                 {headerButton}
                 <div className='col-sm-12'>
-                    <div className={'signup-team__container'}
-style={{maxWidth: "800px"}}>
+                    <div
+                        className={'signup-team__container'}
+                        style={{maxWidth: '800px'}}
+                    >
                         <img
                             alt={'signup team logo'}
                             className='signup-team-logo'
@@ -311,7 +328,6 @@ style={{maxWidth: "800px"}}>
                             customDescriptionText={customDescriptionText}
                             siteName={siteName}
                         />
-                        {/* <InfiniteScroll/> */}
                         {openContent}
                         {teamSignUp}
                         {adminConsoleLink}
