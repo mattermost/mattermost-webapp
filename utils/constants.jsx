@@ -227,6 +227,8 @@ export const EventTypes = Object.assign(
         CLICK: 'click',
         FOCUS: 'focus',
         BLUR: 'blur',
+        MOUSE_DOWN: 'mousedown',
+        MOUSE_UP: 'mouseup',
     },
     keyMirror({
         POST_LIST_SCROLL_CHANGE: null,
