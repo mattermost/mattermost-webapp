@@ -26,7 +26,7 @@ describe('SC17020 - Revoke All Sessions from System Console', () => {
         cy.get('#confirmModalButton').should('be.visible').and('have.class', 'btn-danger');
 
         // # Click on Cancel button in the confirmation message
-        cy.get('.modal-footer .btn-cancel').click();
+        cy.get('#cancelModalButton').click();
 
         // * Verify if Confirmation message is closed
         cy.get('#confirmModal').should('not.exist');
