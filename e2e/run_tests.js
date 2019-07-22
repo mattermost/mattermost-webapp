@@ -36,11 +36,13 @@ function generateStatsFieldValue(stats, failedFullTitles) {
 | :fast_forward: Skipped | ${stats.skipped} |
 `;
 
+    // If present, add full title of failing tests.
+    // Only show per maximum number of failed titles with the last item as "more..." if failing tests are more than that.
     let failedTests;
     if (failedFullTitles && failedFullTitles.length > 0) {
         const failed = failedFullTitles;
         if (failed.length > MAX_FAILED_TITLES) {
-            failedTests = failed.slice(0, 4).map((f) => `- ${f}`).join('\n');
+            failedTests = failed.slice(0, MAX_FAILED_TITLES - 1).map((f) => `- ${f}`).join('\n');
             failedTests += '\n- more...';
         } else {
             failedTests = failed.map((f) => `- ${f}`).join('\n');
