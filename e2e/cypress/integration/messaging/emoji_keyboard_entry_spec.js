@@ -8,6 +8,12 @@
 // ***************************************************************
 
 describe('Message', () => {
+    const testSelectedIndex = (done) => {
+        cy.get('.emoji-picker__item.selected').then((selectedEmoji) => {
+            done(selectedEmoji.index());
+        });
+    };
+
     beforeEach(() => {
         // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
@@ -30,9 +36,7 @@ describe('Message', () => {
                 cy.get('#emojiPickerSearch').type(`{${dir}arrow}`);
 
                 // * The the first emoji in the "People" category should be selected
-                cy.get('.emoji-picker__item.selected').then((selectedEmoji) => {
-                    expect(selectedEmoji.index()).to.equal(0);
-                });
+                testSelectedIndex((idx) => expect(idx).to.equal(0));
             });
         });
 
@@ -58,9 +62,7 @@ describe('Message', () => {
             cy.get('#emojiPickerSearch').type('{rightarrow}');
 
             // * Second emoji should now be selected
-            cy.get('.emoji-picker__item.selected').then((selectedEmoji) => {
-                expect(selectedEmoji.index()).to.equal(1);
-            });
+            testSelectedIndex((idx) => expect(idx).to.equal(1));
         });
 
         it('down key press should select emoji >= 6 elements away in list', () => {
@@ -68,9 +70,7 @@ describe('Message', () => {
             cy.get('#emojiPickerSearch').type('{downarrow}');
 
             // * Down arrow should select next row, index distance is dependant on browser size
-            cy.get('.emoji-picker__item.selected').then((selectedEmoji) => {
-                expect(selectedEmoji.index()).to.greaterThan(5);
-            });
+            testSelectedIndex((idx) => expect(idx).to.greaterThan(5));
         });
 
         ['left', 'up'].forEach((dir) => {
@@ -79,9 +79,7 @@ describe('Message', () => {
                 cy.get('#emojiPickerSearch').type(`{${dir}arrow}`);
 
                 // * Index should still equal 0
-                cy.get('.emoji-picker__item.selected').then((selectedEmoji) => {
-                    expect(selectedEmoji.index()).to.equal(0);
-                });
+                testSelectedIndex((idx) => expect(idx).to.equal(0));
             });
         });
 
