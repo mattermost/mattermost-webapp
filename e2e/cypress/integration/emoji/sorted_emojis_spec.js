@@ -7,9 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// eslint-disable-next-line no-unused-vars
-const _ = require('lodash');
-
 /**
  * Get last recently used emoji and makes sure has given ID
  * @param {emojiId} emojiId - emoji id you want to make sure was the las recently used
@@ -18,6 +15,10 @@ function assertLastUsedEmojiHasId(emojiId) {
     cy.get('.emoji-picker__item').eq(0).children('div').children('img').should('have.id', emojiId);
 }
 
+/**
+ * Compare 2 arrays and return true if the are identical
+ * @param {arr1, arr2}
+ */
 function arraysAreIdentical(arr1, arr2) {
     if (arr1.length !== arr2.length) {
         return false;
