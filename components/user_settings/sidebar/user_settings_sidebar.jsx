@@ -171,6 +171,20 @@ export default class UserSettingsSidebar extends React.Component {
         });
     };
 
+    getPreviousSection = (sectionName) => {
+        const {showChannelOrganization} = this.props;
+        switch (sectionName) {
+        case 'autoCloseDM':
+            return 'channelSwitcher';
+        case 'groupChannels':
+            return 'dummySectionName';
+        case 'channelSwitcher':
+            return showChannelOrganization ? 'groupChannels' : 'dummySectionName';
+        default:
+            return null;
+        }
+    }
+
     updateSection = (section) => {
         if (!section) {
             this.setState(this.getStateFromProps());
@@ -268,6 +282,7 @@ export default class UserSettingsSidebar extends React.Component {
                     describe={this.renderAutoCloseDMLabel(this.state.settings.close_unused_direct_messages)}
                     section={'autoCloseDM'}
                     updateSection={this.updateSection}
+                    focused={this.props.prevActiveSection === this.getPreviousSection('autoCloseDM')}
                 />
             );
         }
@@ -570,6 +585,7 @@ export default class UserSettingsSidebar extends React.Component {
                     describe={this.renderOrganizationLabel()}
                     section={'groupChannels'}
                     updateSection={this.updateSection}
+                    focused={this.props.prevActiveSection === this.getPreviousSection('groupChannels')}
                 />
             );
         }
@@ -672,6 +688,7 @@ export default class UserSettingsSidebar extends React.Component {
                 describe={this.renderChannelSwitcherLabel(this.state.settings.channel_switcher_section)}
                 section={'channelSwitcher'}
                 updateSection={this.updateSection}
+                focused={this.props.prevActiveSection === this.getPreviousSection('channelSwitcher')}
             />
         );
     };
