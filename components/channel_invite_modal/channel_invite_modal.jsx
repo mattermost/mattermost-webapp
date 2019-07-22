@@ -9,10 +9,11 @@ import {Client4} from 'mattermost-redux/client';
 
 import {filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
 
-import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
+import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import AddIcon from 'components/icon/add_icon';
+import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import Constants from 'utils/constants.jsx';
@@ -174,6 +175,10 @@ export default class ChannelInviteModal extends React.Component {
                         <BotBadge
                             show={Boolean(option.is_bot)}
                             className='badge-popoverlist'
+                        />
+                        <GuestBadge
+                            show={isGuest(option)}
+                            className='popoverlist'
                         />
                     </div>
                 </div>

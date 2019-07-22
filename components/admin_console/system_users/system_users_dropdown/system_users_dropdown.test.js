@@ -31,6 +31,8 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         actions: {
             updateUserActive: jest.fn().mockResolvedValue({data: true}),
             revokeAllSessionsForUser: jest.fn().mockResolvedValue({data: true}),
+            promoteGuestToUser: jest.fn().mockResolvedValue({data: true}),
+            demoteUserToGuest: jest.fn().mockResolvedValue({data: true}),
             loadBots: jest.fn(() => Promise.resolve({})),
         },
         config: {
