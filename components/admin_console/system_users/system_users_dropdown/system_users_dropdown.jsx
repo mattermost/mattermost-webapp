@@ -210,7 +210,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
         let messageForUsersWithBotAccounts;
         if (this.shouldDisableBotsWhenOwnerIsDeactivated()) {
             for (const bot of Object.values(this.props.bots)) {
-                if (bot.owner_id === user.id) {
+                if ((bot.owner_id === user.id) && this.state.showDeactivateMemberModal && (bot.delete_at === 0)) {
                     messageForUsersWithBotAccounts = (
                         <FormattedMarkdownMessage
                             id='deactivate_member_modal.desc.for_users_with_bot_accounts'

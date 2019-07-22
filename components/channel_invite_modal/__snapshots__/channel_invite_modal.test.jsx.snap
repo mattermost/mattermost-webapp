@@ -55,8 +55,10 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
+    role="application"
   >
     <MultiSelect
+      ariaLabelRenderer={[Function]}
       buttonSubmitLoadingText="Adding..."
       buttonSubmitText="Add"
       handleAdd={[Function]}
