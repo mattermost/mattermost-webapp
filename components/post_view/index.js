@@ -11,7 +11,7 @@ import {Constants} from 'utils/constants.jsx';
 
 import PostView from './post_view.jsx';
 
-const isChannelLoading = (params, channel, team, teammate) => {
+export const isChannelLoading = (params, channel, team, teammate, teamMemberships) => {
     if (params.postid) {
         return false;
     }
@@ -23,7 +23,8 @@ const isChannelLoading = (params, channel, team, teammate) => {
             return true;
         }
 
-        if (channel.team_id && channel.team_id !== team.id) {
+        const teamId = team.id;
+        if ((channel.team_id && channel.team_id !== teamId) || (teamMemberships && !teamMemberships[teamId])) {
             return true;
         }
 
@@ -36,8 +37,8 @@ const isChannelLoading = (params, channel, team, teammate) => {
 function makeMapStateToProps() {
     return function mapStateToProps(state, ownProps) {
         const team = getTeamByName(state, ownProps.match.params.team);
-        let channelLoading = true;
         let teammate;
+
         const channel = getChannel(state, ownProps.channelId);
         let lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
         if (channel) {
@@ -47,9 +48,8 @@ function makeMapStateToProps() {
             lastViewedAt = channel.last_post_at ? lastViewedAt : channel.last_post_at;
         }
 
-        if (getTeamMemberships(state)[team.id]) {
-            channelLoading = isChannelLoading(ownProps.match.params, channel, team, teammate);
-        }
+        const teamMemberships = getTeamMemberships(state);
+        const channelLoading = isChannelLoading(ownProps.match.params, channel, team, teammate, teamMemberships);
 
         return {
             lastViewedAt,
