@@ -52,7 +52,7 @@ describe('Filtered emojis are sorted by recency, then begins with, then contains
         assertLastUsedEmojiHasId('emoji-1f431');
     });
 
-    it.only('should order recently used emoji first in alphabetical order, Followed by emoji that contain "word" in alphabetical', async () => {
+    it('should order recently used emoji first in alphabetical order, Followed by emoji that contain "word" in alphabetical', async () => {
         const emojiList = [];
 
         // #Post a guardsman emoji
