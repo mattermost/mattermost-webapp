@@ -1,0 +1,359 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/invitation_modal/InvitationModalConfirmStep should match the snapshot for guests 1`] = `
+<div
+  className="InvitationModalConfirmStep"
+>
+  <BackIcon
+    className="back"
+    onClick={[MockFunction]}
+  />
+  <div
+    className="modal-icon"
+  >
+    <InviteIcon />
+  </div>
+  <h1>
+    <InjectIntl(FormattedMarkdownMessage)
+      defaultMessage="**Guests** Invited to **{teamName}**"
+      id="invitation_modal.confirm.guests_title"
+      values={
+        Object {
+          "teamName": "test",
+        }
+      }
+    />
+  </h1>
+  <h2
+    className="subtitle"
+  >
+    <InjectIntl(FormattedMarkdownMessage)
+      defaultMessage="**{sentCount, number} {sentCount, plural, one {person} other {people}}** {sentCount, plural, one {has} other {have}} been invited, and **{notSentCount, number} {notSentCount, plural, one {invitation} other {invitations}}** {sentCount, plural, one {was} other {were}} not sent"
+      id="invitation_modal.confirm.members_subtitle"
+      values={
+        Object {
+          "notSentCount": 2,
+          "sentCount": 2,
+        }
+      }
+    />
+  </h2>
+  <div
+    className="invitation-modal-confirm-sent"
+  >
+    <h2>
+      <FormattedMessage
+        defaultMessage="Successful Invites"
+        id="invitation_modal.confirm.sent-header"
+        values={Object {}}
+      />
+    </h2>
+    <InvitationModalConfirmStepTable
+      invites={
+        Array [
+          Object {
+            "email": "invite1@email",
+          },
+          Object {
+            "email": "invite2@email",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="invitation-modal-confirm-not-sent"
+  >
+    <h2>
+      <FormattedMessage
+        defaultMessage="Invitations Not Sent"
+        id="invitation_modal.confirm.not-sent-header"
+        values={Object {}}
+      />
+    </h2>
+    <InvitationModalConfirmStepTable
+      invites={
+        Array [
+          Object {
+            "email": "invite3@email",
+          },
+          Object {
+            "email": "invite4@email",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="confirm-done"
+  >
+    <button
+      className="btn btn-primary"
+      onClick={[MockFunction]}
+    >
+      <FormattedMessage
+        defaultMessage="Done"
+        id="invitation_modal.confirm.done"
+        values={Object {}}
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`components/invitation_modal/InvitationModalConfirmStep should match the snapshot for members 1`] = `
+<div
+  className="InvitationModalConfirmStep"
+>
+  <BackIcon
+    className="back"
+    onClick={[MockFunction]}
+  />
+  <div
+    className="modal-icon"
+  >
+    <InviteIcon />
+  </div>
+  <h1>
+    <InjectIntl(FormattedMarkdownMessage)
+      defaultMessage="**Members** Invited to **{teamName}**"
+      id="invitation_modal.confirm.members_title"
+      values={
+        Object {
+          "teamName": "test",
+        }
+      }
+    />
+  </h1>
+  <h2
+    className="subtitle"
+  >
+    <InjectIntl(FormattedMarkdownMessage)
+      defaultMessage="**{sentCount, number} {sentCount, plural, one {person} other {people}}** {sentCount, plural, one {has} other {have}} been invited, and **{notSentCount, number} {notSentCount, plural, one {invitation} other {invitations}}** {sentCount, plural, one {was} other {were}} not sent"
+      id="invitation_modal.confirm.members_subtitle"
+      values={
+        Object {
+          "notSentCount": 2,
+          "sentCount": 2,
+        }
+      }
+    />
+  </h2>
+  <div
+    className="invitation-modal-confirm-sent"
+  >
+    <h2>
+      <FormattedMessage
+        defaultMessage="Successful Invites"
+        id="invitation_modal.confirm.sent-header"
+        values={Object {}}
+      />
+    </h2>
+    <InvitationModalConfirmStepTable
+      invites={
+        Array [
+          Object {
+            "email": "invite1@email",
+          },
+          Object {
+            "email": "invite2@email",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="invitation-modal-confirm-not-sent"
+  >
+    <h2>
+      <FormattedMessage
+        defaultMessage="Invitations Not Sent"
+        id="invitation_modal.confirm.not-sent-header"
+        values={Object {}}
+      />
+    </h2>
+    <InvitationModalConfirmStepTable
+      invites={
+        Array [
+          Object {
+            "email": "invite3@email",
+          },
+          Object {
+            "email": "invite4@email",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="confirm-done"
+  >
+    <button
+      className="btn btn-primary"
+      onClick={[MockFunction]}
+    >
+      <FormattedMessage
+        defaultMessage="Done"
+        id="invitation_modal.confirm.done"
+        values={Object {}}
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`components/invitation_modal/InvitationModalConfirmStep should match the snapshot without failures 1`] = `
+<div
+  className="InvitationModalConfirmStep"
+>
+  <BackIcon
+    className="back"
+    onClick={[MockFunction]}
+  />
+  <div
+    className="modal-icon"
+  >
+    <InviteIcon />
+  </div>
+  <h1>
+    <InjectIntl(FormattedMarkdownMessage)
+      defaultMessage="**Members** Invited to **{teamName}**"
+      id="invitation_modal.confirm.members_title"
+      values={
+        Object {
+          "teamName": "test",
+        }
+      }
+    />
+  </h1>
+  <h2
+    className="subtitle"
+  >
+    <InjectIntl(FormattedMarkdownMessage)
+      defaultMessage="**{sentCount, number} {sentCount, plural, one {person} other {people}}** {sentCount, plural, one {has} other {have}} been invited, and **{notSentCount, number} {notSentCount, plural, one {invitation} other {invitations}}** {sentCount, plural, one {was} other {were}} not sent"
+      id="invitation_modal.confirm.members_subtitle"
+      values={
+        Object {
+          "notSentCount": 0,
+          "sentCount": 2,
+        }
+      }
+    />
+  </h2>
+  <div
+    className="invitation-modal-confirm-sent"
+  >
+    <h2>
+      <FormattedMessage
+        defaultMessage="Successful Invites"
+        id="invitation_modal.confirm.sent-header"
+        values={Object {}}
+      />
+    </h2>
+    <InvitationModalConfirmStepTable
+      invites={
+        Array [
+          Object {
+            "email": "invite1@email",
+          },
+          Object {
+            "email": "invite2@email",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="confirm-done"
+  >
+    <button
+      className="btn btn-primary"
+      onClick={[MockFunction]}
+    >
+      <FormattedMessage
+        defaultMessage="Done"
+        id="invitation_modal.confirm.done"
+        values={Object {}}
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`components/invitation_modal/InvitationModalConfirmStep should match the snapshot without successes 1`] = `
+<div
+  className="InvitationModalConfirmStep"
+>
+  <BackIcon
+    className="back"
+    onClick={[MockFunction]}
+  />
+  <div
+    className="modal-icon"
+  >
+    <InviteIcon />
+  </div>
+  <h1>
+    <InjectIntl(FormattedMarkdownMessage)
+      defaultMessage="**Members** Invited to **{teamName}**"
+      id="invitation_modal.confirm.members_title"
+      values={
+        Object {
+          "teamName": "test",
+        }
+      }
+    />
+  </h1>
+  <h2
+    className="subtitle"
+  >
+    <InjectIntl(FormattedMarkdownMessage)
+      defaultMessage="**{sentCount, number} {sentCount, plural, one {person} other {people}}** {sentCount, plural, one {has} other {have}} been invited, and **{notSentCount, number} {notSentCount, plural, one {invitation} other {invitations}}** {sentCount, plural, one {was} other {were}} not sent"
+      id="invitation_modal.confirm.members_subtitle"
+      values={
+        Object {
+          "notSentCount": 2,
+          "sentCount": 0,
+        }
+      }
+    />
+  </h2>
+  <div
+    className="invitation-modal-confirm-not-sent"
+  >
+    <h2>
+      <FormattedMessage
+        defaultMessage="Invitations Not Sent"
+        id="invitation_modal.confirm.not-sent-header"
+        values={Object {}}
+      />
+    </h2>
+    <InvitationModalConfirmStepTable
+      invites={
+        Array [
+          Object {
+            "email": "invite3@email",
+          },
+          Object {
+            "email": "invite4@email",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="confirm-done"
+  >
+    <button
+      className="btn btn-primary"
+      onClick={[MockFunction]}
+    >
+      <FormattedMessage
+        defaultMessage="Done"
+        id="invitation_modal.confirm.done"
+        values={Object {}}
+      />
+    </button>
+  </div>
+</div>
+`;

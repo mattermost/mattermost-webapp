@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 
 import Suggestion from '../suggestion.jsx';
 
@@ -117,6 +118,10 @@ export default class AtMentionSuggestion extends Suggestion {
                 </span>
                 <BotBadge
                     show={Boolean(user.is_bot)}
+                    className='badge-autocomplete'
+                />
+                <GuestBadge
+                    show={Utils.isGuest(user)}
                     className='badge-autocomplete'
                 />
                 <span className='mention__fullname'>

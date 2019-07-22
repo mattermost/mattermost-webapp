@@ -218,6 +218,8 @@ export default class SystemUsers extends React.Component {
         const options = {};
         if (filter === SearchUserOptionsFilter.SYSTEM_ADMIN) {
             options[UserSearchOptions.ROLE] = SearchUserOptionsFilter.SYSTEM_ADMIN;
+        } else if (filter === SearchUserOptionsFilter.SYSTEM_GUEST) {
+            options[UserSearchOptions.ROLE] = SearchUserOptionsFilter.SYSTEM_GUEST;
         } else if (filter === SearchUserOptionsFilter.ALLOW_INACTIVE) {
             options[SearchUserOptionsFilter.ALLOW_INACTIVE] = true;
         }
@@ -338,6 +340,7 @@ export default class SystemUsers extends React.Component {
                     >
                         <option value=''>{Utils.localizeMessage('admin.system_users.allUsers', 'All Users')}</option>
                         <option value={SearchUserOptionsFilter.SYSTEM_ADMIN}>{Utils.localizeMessage('admin.system_users.system_admin', 'System Admin')}</option>
+                        <option value={SearchUserOptionsFilter.SYSTEM_GUEST}>{Utils.localizeMessage('admin.system_users.guest', 'Guest')}</option>
                         <option value={SearchUserOptionsFilter.ALLOW_INACTIVE}>{Utils.localizeMessage('admin.system_users.inactive', 'Inactive')}</option>
                     </select>
                 </label>

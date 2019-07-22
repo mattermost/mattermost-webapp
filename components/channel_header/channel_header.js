@@ -24,6 +24,7 @@ import ChannelPermissionGate from 'components/permissions_gates/channel_permissi
 import QuickSwitchModal from 'components/quick_switch_modal';
 import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
+import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import {
@@ -53,6 +54,7 @@ export default class ChannelHeader extends React.PureComponent {
         isFavorite: PropTypes.bool,
         isReadOnly: PropTypes.bool,
         isMuted: PropTypes.bool,
+        hasGuests: PropTypes.bool,
         rhsState: PropTypes.oneOf(
             Object.values(RHSStates),
         ),
@@ -255,9 +257,22 @@ export default class ChannelHeader extends React.PureComponent {
             isFavorite,
             dmUser,
             rhsState,
+            hasGuests,
         } = this.props;
         const {formatMessage} = this.context.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
+
+        let hasGuestsText = '';
+        if (hasGuests) {
+            hasGuestsText = (
+                <span className='has-guest-header'>
+                    <FormattedMessage
+                        id='channel_header.channelHasGuests'
+                        defaultMessage='This channel has guests'
+                    />
+                </span>
+            );
+        }
 
         const channelIsArchived = channel.delete_at !== 0;
         if (Utils.isEmptyObject(channel) ||
@@ -296,6 +311,38 @@ export default class ChannelHeader extends React.PureComponent {
                 );
             } else {
                 channelTitle = Utils.getDisplayNameByUserId(teammateId) + ' ';
+            }
+            channelTitle = (
+                <React.Fragment>
+                    {channelTitle}
+                    <GuestBadge show={Utils.isGuest(dmUser)}/>
+                </React.Fragment>
+            );
+        }
+
+        if (isGroup) {
+            const usernames = channel.display_name.split(',');
+            const nodes = [];
+            for (const username of usernames) {
+                const user = Utils.getUserByUsername(username.trim());
+                nodes.push((
+                    <React.Fragment key={username}>
+                        {nodes.length !== 0 && ', '}
+                        {username}
+                        <GuestBadge show={Utils.isGuest(user)}/>
+                    </React.Fragment>
+                ));
+            }
+            channelTitle = nodes;
+            if (hasGuests) {
+                hasGuestsText = (
+                    <span className='has-guest-header'>
+                        <FormattedMessage
+                            id='channel_header.groupMessageHasGuests'
+                            defaultMessage='This group message has guests'
+                        />
+                    </span>
+                );
             }
         }
 
@@ -361,6 +408,7 @@ export default class ChannelHeader extends React.PureComponent {
                     >
                         {dmHeaderIconStatus}
                         {dmHeaderTextStatus}
+                        {hasGuestsText}
                         <span onClick={Utils.handleFormattedTextClick}>
                             <Markdown
                                 message={headerText}
@@ -414,6 +462,7 @@ export default class ChannelHeader extends React.PureComponent {
                 >
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
+                    {hasGuestsText}
                     {editMessage}
                 </div>
             );
