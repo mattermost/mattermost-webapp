@@ -7,6 +7,7 @@ import {Client4} from 'mattermost-redux/client';
 import {autocompleteUsers} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 
+import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import Provider from './provider.jsx';
@@ -47,6 +48,7 @@ class UserSuggestion extends Suggestion {
                     {'@' + username}
                 </span>
                 <BotBadge show={Boolean(item.is_bot)}/>
+                <GuestBadge show={Utils.isGuest(item)}/>
                 <span className='admin-setting-user__fullname'>
                     {' '}
                     {description}
