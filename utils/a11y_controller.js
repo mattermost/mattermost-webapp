@@ -134,6 +134,9 @@ export default class A11yController {
         return this.getOrderReverseAttribute(this.activeRegion);
     }
 
+    /**
+     * Returns the element that should currently have focus
+     */
     get focusedElement() {
         let focusedElement;
         if (this.activeElement) {
@@ -146,6 +149,9 @@ export default class A11yController {
         return focusedElement;
     }
 
+    /**
+     * Returnes whether an a11y-specific key is currently pressed
+     */
     get a11yKeyIsPressed() {
         return this.f6KeyIsPressed ||
                this.upArrowKeyIsPressed ||
@@ -154,23 +160,43 @@ export default class A11yController {
                this.tildeKeyIsPressed;
     }
 
+    /**
+     * Indicates if a modal window is currently open
+     * - modals must have A11yClassNames.MODAL to be considered
+     */
     get modalIsOpen() {
         return this.modalHTMLCollection.length > 0;
     }
 
+    /**
+     * Indicates if a popup/dropdown element is currently open
+     * - popups/dropdowns must have A11yClassNames.POPUP to be considered
+     */
     get popupIsOpen() {
         return this.popupHTMLCollection.length > 0;
     }
 
     // public methods
 
+    /**
+     * Determines the next region, sets it as active and updates the current focus
+     */
     nextRegion() {
         const regions = this.regions;
-        if (this.modalIsOpen || this.popupIsOpen || !regions || !regions.length) {
+        if (
+            !regions ||
+            !regions.length ||
+            this.modalIsOpen ||
+            this.popupIsOpen
+        ) {
             return;
         }
         let newRegion;
-        if (!this.activeRegion || this.activeRegionIndex === regions.length - 1 || (this.resetNavigation)) {
+        if (
+            !this.activeRegion ||
+            this.activeRegionIndex === regions.length - 1 ||
+            this.resetNavigation
+        ) {
             newRegion = regions[0];
         } else {
             newRegion = regions[this.activeRegionIndex + 1];
@@ -180,13 +206,21 @@ export default class A11yController {
         this.resetNavigation = false;
     }
 
+    /**
+     * Determines the previous region, sets it as active and updates the current focus
+     */
     previousRegion() {
         const regions = this.regions;
-        if (this.modalIsOpen || this.popupIsOpen || !regions || !regions.length) {
+        if (
+            !regions ||
+            !regions.length ||
+            this.modalIsOpen ||
+            this.popupIsOpen
+        ) {
             return;
         }
         let newRegion;
-        if (!this.activeRegion || (this.resetNavigation && this.activeRegionIndex !== 0)) {
+        if (!this.activeRegion || (this.activeRegionIndex !== 0 && this.resetNavigation)) {
             newRegion = regions[0];
         } else if (this.activeRegionIndex === 0) {
             newRegion = regions[regions.length - 1];
@@ -198,10 +232,19 @@ export default class A11yController {
         this.resetNavigation = false;
     }
 
+    /**
+     * Determines the next section, sets it as active and updates the current focus
+     */
     nextSection() {
         const sections = this.sections;
-        const loopNavigation = this.getLoopNavigationAttribute(this.activeRegion);
-        if (this.modalIsOpen || this.popupIsOpen || !sections || !sections.length || (!loopNavigation && this.activeSectionIndex === sections.length - 1)) {
+        const shouldLoopNavigation = this.getLoopNavigationAttribute(this.activeRegion);
+        if (
+            this.modalIsOpen ||
+            this.popupIsOpen ||
+            !sections ||
+            !sections.length ||
+            (!shouldLoopNavigation && this.activeSectionIndex === sections.length - 1)
+        ) {
             return;
         }
         let newSection;
@@ -215,10 +258,19 @@ export default class A11yController {
         this.resetNavigation = true;
     }
 
+    /**
+     * Determines the previous section, sets it as active and updates the current focus
+     */
     previousSection() {
         const sections = this.sections;
-        const loopNavigation = this.getLoopNavigationAttribute(this.activeRegion);
-        if (this.modalIsOpen || this.popupIsOpen || !sections || !sections.length || (!loopNavigation && this.activeSectionIndex === 0)) {
+        const shouldLoopNavigation = this.getLoopNavigationAttribute(this.activeRegion);
+        if (
+            this.modalIsOpen ||
+            this.popupIsOpen ||
+            !sections ||
+            !sections.length ||
+            (!shouldLoopNavigation && this.activeSectionIndex === 0)
+        ) {
             return;
         }
         let newSection;
@@ -234,6 +286,12 @@ export default class A11yController {
         this.resetNavigation = true;
     }
 
+    /**
+     * Takes the provided dom element, finds it's parent section and region (if available),
+     * sets them as active and updates the current focus
+     * @param {HTMLElement} element - the DOM element to set as the active element
+     * @param {array or boolean} elementPath - array of element's dom branch or boolean to find section/region of element
+     */
     nextElement(element, elementPath = false) {
         let region;
         let section;
@@ -272,6 +330,9 @@ export default class A11yController {
         this.resetNavigation = true;
     }
 
+    /**
+     * Resets the a11y navigation controller, active region/section/element, clears focus and resets user interraction states
+     */
     cancelNavigation() {
         this.clearActiveRegion();
         this.setCurrentFocus();
@@ -280,7 +341,13 @@ export default class A11yController {
 
     // private methods
 
-    setActiveRegion(element, focusChildIfNeeded = true) {
+    /**
+     * Sets the currently active region and stores a list of the regions sections
+     * @param {HTMLElement} element - DOM element to set as the active region
+     * @param {boolean} canFocusChild - whether to focus child section instead of provide region
+     * @emits {A11yCustomEventTypes.ACTIVATE} - emitted on the provided DOM element once set to active
+     */
+    setActiveRegion(element, canFocusChild = true) {
         if (!this.isElementValid(element, [this.activeRegion]) && !this.resetNavigation) {
             return;
         }
@@ -300,11 +367,16 @@ export default class A11yController {
         this.sectionHTMLCollection = this.getAllSectionsForRegion(this.activeRegion);
 
         // should the visual focus start on a child section
-        if (focusChildIfNeeded && this.getFocusChildAttribute(this.activeRegion) && this.sections && this.sections.length) {
+        if (canFocusChild && this.getFocusChildAttribute(this.activeRegion) && this.sections && this.sections.length) {
             this.setActiveSection(this.sections[0]);
         }
     }
 
+    /**
+     * Sets the currently active section
+     * @param {HTMLElement} element - DOM element to set as the active section
+     * @emits {A11yCustomEventTypes.ACTIVATE} - emitted on the provided DOM element once set to active
+     */
     setActiveSection(element) {
         if (!this.isElementValid(element, [this.activeSection])) {
             return;
@@ -322,6 +394,11 @@ export default class A11yController {
         this.updateActiveSection();
     }
 
+    /**
+     * Sets the currently active element
+     * @param {HTMLElement} element - DOM element to set as the active element
+     * @emits {A11yCustomEventTypes.ACTIVATE} - emitted on the provided DOM element once set to active
+     */
     setActiveElement(element) {
         if (!this.isElementValid(element, [this.activeElement])) {
             return;
@@ -339,12 +416,16 @@ export default class A11yController {
         this.updateActiveElement();
     }
 
+    /**
+     * Updates the focus status of the element that should now have focus
+     */
     setCurrentFocus() {
         this.clearCurrentFocus();
         if (!this.focusedElement) {
             return;
         }
 
+        // set focus on the element that should have focus if neede
         if (document.activeElement !== this.focusedElement) {
             this.focusedElement.focus();
         }
@@ -353,6 +434,9 @@ export default class A11yController {
         this.udpateCurrentFocus();
     }
 
+    /**
+     * Updates the visual state of the active region and makes sure it is focusable
+     */
     updateActiveRegion() {
         if (!this.activeRegion) {
             return;
@@ -365,6 +449,9 @@ export default class A11yController {
         }
     }
 
+    /**
+     * Updates the visual state of the active section and makes sure it is focusable
+     */
     updateActiveSection() {
         if (!this.activeSection) {
             return;
@@ -377,6 +464,9 @@ export default class A11yController {
         }
     }
 
+    /**
+     * Updates the visual state of the active element
+     */
     updateActiveElement() {
         if (!this.activeElement) {
             return;
@@ -384,6 +474,9 @@ export default class A11yController {
         this.activeElement.classList.add(A11yClassNames.ACTIVE);
     }
 
+    /**
+     * Updates the visual state of the currently focused element
+     */
     udpateCurrentFocus(forceUpdate = false) {
         if ((!this.focusedElement || !this.a11yKeyIsPressed) && !forceUpdate) {
             return;
@@ -391,6 +484,9 @@ export default class A11yController {
         this.focusedElement.classList.add(A11yClassNames.FOCUSED);
     }
 
+    /**
+     * Clears all a11y-applied classes, events and the active region DOM element reference
+     */
     clearActiveRegion() {
         if (this.activeRegion) {
             this.activeRegion.classList.remove(A11yClassNames.ACTIVE);
@@ -401,6 +497,9 @@ export default class A11yController {
         this.clearActiveSection();
     }
 
+    /**
+     * Clears all a11y-applied classes, events and the active section DOM element reference
+     */
     clearActiveSection() {
         if (this.activeSection) {
             this.activeSection.classList.remove(A11yClassNames.ACTIVE);
@@ -411,6 +510,9 @@ export default class A11yController {
         this.clearActiveElement();
     }
 
+    /**
+     * Clears all a11y-applied classes, events and the active DOM element reference
+     */
     clearActiveElement() {
         if (this.activeElement) {
             if (this.activeElement !== this.activeRegion && this.activeElement !== this.activeSection) {
@@ -422,6 +524,9 @@ export default class A11yController {
         }
     }
 
+    /**
+     * Clears all focused element classes and blurs the active element if requested
+     */
     clearCurrentFocus(blurActiveElement = false) {
         Array.from(document.getElementsByClassName(A11yClassNames.FOCUSED)).forEach((element) => {
             element.classList.remove(A11yClassNames.FOCUSED);
@@ -431,6 +536,9 @@ export default class A11yController {
         }
     }
 
+    /**
+     * Resets the state of all a11y-defined interraction methods
+     */
     resetInterractionStates() {
         this.mouseIsPressed = false;
         this.f6KeyIsPressed = false;
@@ -443,10 +551,18 @@ export default class A11yController {
 
     // helper methods
 
+    /**
+     * Returns an HTMLCollection object of all defined regions
+     * - use of HTMLCollection is intentional as this object auto updates to reflect DOM changes
+     */
     getAllRegions() {
         return document.getElementsByClassName(A11yClassNames.REGION);
     }
 
+    /**
+     * Returns an HTMLCollection object of all defined sections for the currently active region
+     * - use of HTMLCollection is intentional as this object auto updates to reflect DOM changes
+     */
     getAllSectionsForRegion(region) {
         if (!region) {
             return null;
@@ -454,6 +570,10 @@ export default class A11yController {
         return region.getElementsByClassName(A11yClassNames.SECTION);
     }
 
+    /**
+     * Sort a list of DOM elements by defined A11yAttributeNames.SORT_ORDER attribute
+     * @param {HTMLCollection} elements - list of elements to be sorted
+     */
     sortElementsByAttributeOrder(elements) {
         if (!elements || !elements.length) {
             return [];
@@ -465,18 +585,32 @@ export default class A11yController {
         });
     }
 
+    /**
+     * Returns whether a DOM element is currently visible or not
+     * @param {HTMLElement} element - the DOM element to check
+     */
     elementIsVisible(element) {
         return element && element.offsetParent;
     }
 
+    /**
+     * Retuns an HTMLCollection of all DOM elements that have the A11yClassNames.MODAL class
+     */
     getAllModals() {
         return document.getElementsByClassName(A11yClassNames.MODAL);
     }
 
+    /**
+     * Retuns an HTMLCollection of all DOM elements that have the A11yClassNames.POPUP class
+     */
     getAllPopups() {
         return document.getElementsByClassName(A11yClassNames.POPUP);
     }
 
+    /**
+     * Helper to retrieve the value of the A11yAttributeNames.LOOP_NAVIGATION attribute for the provided DOM element
+     * @param {HTMLElement} element - the element to retrive the A11yAttributeNames.LOOP_NAVIGATION value from
+     */
     getLoopNavigationAttribute(element) {
         const attributeValue = element.getAttribute(A11yAttributeNames.LOOP_NAVIGATION);
         if (attributeValue && attributeValue.toLowerCase() === 'false') {
@@ -485,6 +619,10 @@ export default class A11yController {
         return true;
     }
 
+    /**
+     * Helper to retrieve the value of the A11yAttributeNames.ORDER_REVERSE attribute for the provided DOM element
+     * @param {HTMLElement} element - the element to retrive the A11yAttributeNames.ORDER_REVERSE value from
+     */
     getOrderReverseAttribute(element) {
         const attributeValue = element.getAttribute(A11yAttributeNames.ORDER_REVERSE);
         if (attributeValue && attributeValue.toLowerCase() === 'true') {
@@ -493,6 +631,10 @@ export default class A11yController {
         return false;
     }
 
+    /**
+     * Helper to retrieve the value of the A11yAttributeNames.FOCUS_CHILD attribute for the provided DOM element
+     * @param {HTMLElement} element - the element to retrive the A11yAttributeNames.FOCUS_CHILD value from
+     */
     getFocusChildAttribute(element) {
         const attributeValue = element.getAttribute(A11yAttributeNames.FOCUS_CHILD);
         if (attributeValue && attributeValue.toLowerCase() === 'true') {
@@ -501,6 +643,11 @@ export default class A11yController {
         return false;
     }
 
+    /**
+     * Helper method to verify if a provided DOM element is a valid element for a11y navigation
+     * @param {HTMLElement} element - the DOM element to check
+     * @param {arry of HTMLElements} invalidElements - a list of invalid DOM elements to check against
+     */
     isElementValid(element, invalidElements = []) {
         if (
             element &&
