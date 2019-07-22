@@ -358,7 +358,7 @@ export default class MultiSelect extends React.Component {
                     className='sr-only'
                     aria-live='polite'
                 >
-                    {noItemsAriaLabel}
+                    {this.props.loading ? '' : noItemsAriaLabel}
                 </div>
                 <MultiSelectList
                     ref='list'
