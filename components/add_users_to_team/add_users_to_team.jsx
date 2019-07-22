@@ -158,7 +158,14 @@ export default class AddUsersToTeam extends React.Component {
         this.props.actions.setModalSearchTerm(term);
     }
 
-    renderOption(option, isSelected, onAdd) {
+    renderAriaLabel = (option) => {
+        if (!option) {
+            return null;
+        }
+        return option.username;
+    }
+
+    renderOption = (option, isSelected, onAdd) => {
         var rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -260,7 +267,9 @@ export default class AddUsersToTeam extends React.Component {
                         />
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body
+                    role='application'
+                >
                     {addError}
                     <MultiSelect
                         key='addUsersToTeamKey'
@@ -268,6 +277,7 @@ export default class AddUsersToTeam extends React.Component {
                         optionRenderer={this.renderOption}
                         values={this.state.values}
                         valueRenderer={this.renderValue}
+                        ariaLabelRenderer={this.renderAriaLabel}
                         perPage={USERS_PER_PAGE}
                         handlePageChange={this.handlePageChange}
                         handleInput={this.search}

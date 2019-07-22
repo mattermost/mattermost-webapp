@@ -14,7 +14,8 @@
     "mocha-multi-reporters": "1.1.7",
     "mochawesome": "4.0.1",
     "mochawesome-merge": "2.0.1",
-    "mochawesome-report-generator": "4.0.1"
+    "mochawesome-report-generator": "4.0.1",
+    "lodash": ">=4.17.13"
   },
   "scripts": {
     "cypress:run": "cypress run",
