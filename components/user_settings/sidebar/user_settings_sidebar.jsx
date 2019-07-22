@@ -80,6 +80,8 @@ export default class UserSettingsSidebar extends React.Component {
         activeSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
+
+        prevActiveSection: PropTypes.string.isRequired,
     };
 
     static contextTypes = {
