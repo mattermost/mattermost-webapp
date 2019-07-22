@@ -579,6 +579,10 @@ export default class A11yController {
             }
             break;
         case isKeyPressed(event, Constants.KeyCodes.ESCAPE):
+            if (!this.navigationInProgress) {
+                return;
+            }
+            event.preventDefault();
             this.cancelNavigation();
             break;
         case isKeyPressed(event, Constants.KeyCodes.ENTER):
