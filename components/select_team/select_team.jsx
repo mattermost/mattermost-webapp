@@ -65,13 +65,13 @@ export default class SelectTeam extends React.Component {
     }
 
     componentDidMount() {
-        this.props.actions.getTeams(0, TEAMS_PER_PAGE);
+        this.props.actions.getTeams(0, TEAMS_PER_PAGE, true);
     }
 
     fetchMoreTeams = () => {
         const {actions, total} = this.props;
-        const TEAMS_TO_ADD = 4; // Load 4 extra teams
-        const NEW_TEAMS_PER_PAGE = this.props.listableTeams.length + TEAMS_TO_ADD;
+        const BATCH_OF_TEAMS_TO_LOAD = 4; // Load 4 extra teams
+        const NEW_TEAMS_PER_PAGE = this.props.listableTeams.length + BATCH_OF_TEAMS_TO_LOAD;
         actions.getTeams(0, NEW_TEAMS_PER_PAGE, true);
         if (this.props.listableTeams.length === total) {
             this.setState({
@@ -243,8 +243,9 @@ export default class SelectTeam extends React.Component {
                         callBack={this.fetchMoreTeams}
                         endOfData={endofTeamsData}
                         endOfDataMessage='No more teams to display'
+                        className='signup-team-all'
                     >
-                        <div className='teams'>
+                        <div>
                             {joinableTeamContents}
                         </div>
                     </InfiniteScroll>

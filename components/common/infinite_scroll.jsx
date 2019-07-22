@@ -22,6 +22,11 @@ export default class InfiniteScroll extends React.PureComponent {
          * Message to display when all the data has been scrolled through
          */
         endOfDataMessage: PropTypes.string.isRequired,
+
+        /**
+         * A wrapper class to define styling of the infinite scroll
+         */
+        className: PropTypes.string.isRequired,
     }
 
     constructor(props) {
@@ -64,13 +69,13 @@ export default class InfiniteScroll extends React.PureComponent {
     }
 
     render() {
-        const {children, endOfData, endOfDataMessage} = this.props;
+        const {children, endOfData, endOfDataMessage, className} = this.props;
         const {isFetching} = this.state;
         return (
             <>
                 <div
-                    className='signup-team-all' // take in this class name instead
-                    style={{overflowY: 'scroll', maxHeight: '468px'}}
+                    className={className}
+                    style={{overflowY: 'scroll'}}
                     ref={this.node}
                 >
                     {children}

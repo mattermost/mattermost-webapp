@@ -8,11 +8,12 @@ import InfiniteScroll from 'components/common/infinite_scroll.jsx';
 describe('/components/common/InfiniteScroll', () => {
     const baseProps = {
         callBack: jest.fn(),
+        endOfData: false,
+        endOfDataMessage: 'No more items to fetch',
+        className: 'signup-team-all',
     };
-    test('', () => {
-        const wrapper = shallow(<InfiniteScroll {...baseProps}/>);
-
-        // Write proper test
-        wrapper.debug();
+    test('should match snapshot', () => {
+        const wrapper = shallow(<InfiniteScroll {...baseProps}><div/></InfiniteScroll>);
+        expect(wrapper).toMatchSnapshot();
     });
 });
