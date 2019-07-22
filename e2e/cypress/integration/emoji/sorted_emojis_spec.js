@@ -18,14 +18,16 @@ function assertLastUsedEmojiHasId(emojiId) {
     cy.get('.emoji-picker__item').eq(0).children('div').children('img').should('have.id', emojiId);
 }
 
-function getEmojiList() {
-    const emojis = [];
-
-    cy.get("img[alt='emoji image']").each(($el) => {
-        const emojiName = $el.get(0);
-        emojis.push(emojiName.dataset.testid);
-    });
-    return emojis;
+function arraysAreIdentical(arr1, arr2) {
+    if (arr1.length !== arr2.length) {
+        return false;
+    }
+    for (let i = 0, len = arr1.length; i < len; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false;
+        }
+    }
+    return true;
 }
 
 describe('Filtered emojis are sorted by recency, then begins with, then contains', () => {
@@ -49,7 +51,9 @@ describe('Filtered emojis are sorted by recency, then begins with, then contains
         assertLastUsedEmojiHasId('emoji-1f431');
     });
 
-    it('should order recently used emoji first in alphabetical order, Followed by emoji that contain "word" in alphabetical', async () => {
+    it.only('should order recently used emoji first in alphabetical order, Followed by emoji that contain "word" in alphabetical', async () => {
+        const emojiList = [];
+
         // #Post a guardsman emoji
         cy.postMessage(':guardsman:');
 
@@ -59,9 +63,16 @@ describe('Filtered emojis are sorted by recency, then begins with, then contains
         // #Open emoji picker
         cy.get('#emojiPickerButton').click();
 
-        // #Search in emoji input the text: sma
-        cy.get('.emoji-picker__search').type('sma').debug();
-
-        getEmojiList();
+        // #Search sma text in emoji searching input
+        cy.get('.emoji-picker__search').type('sma').then(() => {
+            // #Get list of recent emojis based on search text
+            cy.get("img[alt='emoji image']").each(($el) => {
+                const emojiName = $el.get(0);
+                emojiList.push(emojiName.dataset.testid);
+            }).then(() => {
+                // #Comparing list of emojis obtained from search above and making sure order is same as requirement describes
+                expect(arraysAreIdentical(emojiList, ['guardsman', 'white_small_square', 'small_airplane', 'small_blue_diamond', 'small_orange_diamond', 'small_red_triangle', 'small_red_triangle_down', 'arrow_down_small', 'arrow_up_small', 'black_medium_small_square', 'black_small_square', 'sun_behind_small_cloud', 'white_medium_small_square'])).to.be.true;
+            });
+        });
     });
 });
