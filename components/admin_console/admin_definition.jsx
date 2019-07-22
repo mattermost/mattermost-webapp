@@ -801,7 +801,6 @@ export default {
                         help_text: t('admin.image.amazonS3SSEDescription'),
                         help_text_markdown: true,
                         help_text_default: 'When true, encrypt files in Amazon S3 using server-side encryption with Amazon S3-managed keys. See [documentation](!https://about.mattermost.com/default-server-side-encryption) to learn more.',
-                        isHidden: it.isnt(it.licensed),
                         isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                     },
                     {
