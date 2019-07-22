@@ -40,7 +40,7 @@ export default class AnnouncementBar extends React.PureComponent {
         document.body.setAttribute('announcementBarCount', announcementBarCount);
 
         // remove the class on body as it is the last announcementBar
-        if (announcementBarCount == 0) {
+        if (announcementBarCount === 0) {
             document.body.classList.remove('announcement-bar--fixed');
         }
     }
