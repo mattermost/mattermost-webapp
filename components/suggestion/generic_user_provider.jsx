@@ -47,12 +47,12 @@ class UserSuggestion extends Suggestion {
                 <span className='admin-setting-user--align'>
                     {'@' + username}
                 </span>
-                <BotBadge show={Boolean(item.is_bot)}/>
-                <GuestBadge show={Utils.isGuest(item)}/>
                 <span className='admin-setting-user__fullname'>
                     {' '}
                     {description}
                 </span>
+                <BotBadge show={Boolean(item.is_bot)}/>
+                <GuestBadge show={Utils.isGuest(item)}/>
             </div>
         );
     }
