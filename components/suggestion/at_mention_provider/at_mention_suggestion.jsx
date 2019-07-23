@@ -120,14 +120,14 @@ export default class AtMentionSuggestion extends Suggestion {
                     show={Boolean(user.is_bot)}
                     className='badge-autocomplete'
                 />
-                <GuestBadge
-                    show={Utils.isGuest(user)}
-                    className='badge-autocomplete'
-                />
                 <span className='mention__fullname'>
                     {' '}
                     {description}
                 </span>
+                <GuestBadge
+                    show={Utils.isGuest(user)}
+                    className='badge-autocomplete'
+                />
             </div>
         );
     }
