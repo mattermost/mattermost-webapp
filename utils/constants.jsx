@@ -59,6 +59,11 @@ export const SettingsTypes = {
     TYPE_CUSTOM: 'custom',
 };
 
+export const InviteTypes = {
+    INVITE_MEMBER: 'member',
+    INVITE_GUEST: 'guest',
+};
+
 export const Preferences = {
     CATEGORY_CHANNEL_OPEN_TIME: 'channel_open_time',
     CATEGORY_DIRECT_CHANNEL_SHOW: 'direct_channel_show',
@@ -201,6 +206,7 @@ export const ModalIdentifiers = {
     EMAIL_INVITE: 'email_invite',
     INTERACTIVE_DIALOG: 'interactive_dialog',
     ADD_TEAMS_TO_SCHEME: 'add_teams_to_scheme',
+    INVITATION: 'invitation',
     ADD_GROUPS_TO_TEAM: 'add_groups_to_team',
     ADD_GROUPS_TO_CHANNEL: 'add_groups_to_channel',
     MANAGE_TEAM_GROUPS: 'manage_team_groups',
@@ -228,6 +234,8 @@ export const EventTypes = Object.assign(
         CLICK: 'click',
         FOCUS: 'focus',
         BLUR: 'blur',
+        MOUSE_DOWN: 'mousedown',
+        MOUSE_UP: 'mouseup',
     },
     keyMirror({
         POST_LIST_SCROLL_CHANGE: null,
@@ -363,6 +371,7 @@ export const SearchUserTeamFilter = {
 export const SearchUserOptionsFilter = {
     ALLOW_INACTIVE: 'inactive',
     SYSTEM_ADMIN: 'system_admin',
+    SYSTEM_GUEST: 'system_guest',
 };
 
 export const SearchTypes = keyMirror({

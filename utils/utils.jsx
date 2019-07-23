@@ -10,7 +10,7 @@ import {Posts} from 'mattermost-redux/constants';
 import {getChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting, getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getUser, getUserByUsername as getUserByUsernameRedux} from 'mattermost-redux/selectors/entities/users';
 import {
     blendColors,
     changeOpacity,
@@ -116,6 +116,14 @@ export function isAdmin(roles) {
 
 export function isSystemAdmin(roles) {
     if (isInRole(roles, 'system_admin')) {
+        return true;
+    }
+
+    return false;
+}
+
+export function isGuest(user) {
+    if (user && user.roles && isInRole(user.roles, 'system_guest')) {
         return true;
     }
 
@@ -979,10 +987,46 @@ export function applyTheme(theme) {
             'mention-color': theme.mentionColor,
             'center-channel-bg': theme.centerChannelBg,
             'center-channel-color': theme.centerChannelColor,
+            'center-channel-bg-90': changeOpacity(theme.centerChannelBg, 0.9),
+            'center-channel-color-90': changeOpacity(theme.centerChannelColor, 0.9),
+            'center-channel-bg-80': changeOpacity(theme.centerChannelBg, 0.8),
+            'center-channel-color-80': changeOpacity(theme.centerChannelColor, 0.8),
+            'center-channel-bg-60': changeOpacity(theme.centerChannelBg, 0.6),
+            'center-channel-color-60': changeOpacity(theme.centerChannelColor, 0.6),
+            'center-channel-bg-50': changeOpacity(theme.centerChannelBg, 0.5),
+            'center-channel-color-50': changeOpacity(theme.centerChannelColor, 0.5),
+            'center-channel-bg-40': changeOpacity(theme.centerChannelBg, 0.4),
+            'center-channel-color-40': changeOpacity(theme.centerChannelColor, 0.4),
+            'center-channel-bg-30': changeOpacity(theme.centerChannelBg, 0.3),
+            'center-channel-color-30': changeOpacity(theme.centerChannelColor, 0.3),
+            'center-channel-bg-20': changeOpacity(theme.centerChannelBg, 0.2),
+            'center-channel-color-20': changeOpacity(theme.centerChannelColor, 0.2),
+            'center-channel-bg-10': changeOpacity(theme.centerChannelBg, 0.1),
+            'center-channel-color-10': changeOpacity(theme.centerChannelColor, 0.1),
+            'center-channel-bg-05': changeOpacity(theme.centerChannelBg, 0.05),
+            'center-channel-color-05': changeOpacity(theme.centerChannelColor, 0.05),
             'new-message-separator': theme.newMessageSeparator,
             'link-color': theme.linkColor,
             'button-bg': theme.buttonBg,
             'button-color': theme.buttonColor,
+            'button-bg-90': changeOpacity(theme.buttonBg, 0.9),
+            'button-color-90': changeOpacity(theme.buttonColor, 0.9),
+            'button-bg-80': changeOpacity(theme.buttonBg, 0.8),
+            'button-color-80': changeOpacity(theme.buttonColor, 0.8),
+            'button-bg-60': changeOpacity(theme.buttonBg, 0.6),
+            'button-color-60': changeOpacity(theme.buttonColor, 0.6),
+            'button-bg-50': changeOpacity(theme.buttonBg, 0.5),
+            'button-color-50': changeOpacity(theme.buttonColor, 0.5),
+            'button-bg-40': changeOpacity(theme.buttonBg, 0.4),
+            'button-color-40': changeOpacity(theme.buttonColor, 0.4),
+            'button-bg-30': changeOpacity(theme.buttonBg, 0.3),
+            'button-color-30': changeOpacity(theme.buttonColor, 0.3),
+            'button-bg-20': changeOpacity(theme.buttonBg, 0.2),
+            'button-color-20': changeOpacity(theme.buttonColor, 0.2),
+            'button-bg-10': changeOpacity(theme.buttonBg, 0.1),
+            'button-color-10': changeOpacity(theme.buttonColor, 0.1),
+            'button-bg-05': changeOpacity(theme.buttonBg, 0.05),
+            'button-color-05': changeOpacity(theme.buttonColor, 0.05),
             'error-text-color': theme.errorTextColor,
             'mention-highlight-bg': theme.mentionHighlightBg,
             'mention-highlight-link': theme.mentionHighlightLink,
@@ -1129,6 +1173,16 @@ export function isMobile() {
     return window.innerWidth <= Constants.MOBILE_SCREEN_WIDTH;
 }
 
+export function getUserById(userId) {
+    const state = store.getState();
+    return getUser(state, userId);
+}
+
+export function getUserByUsername(username) {
+    const state = store.getState();
+    return getUserByUsernameRedux(state, username);
+}
+
 export function getDirectTeammate(channelId) {
     const state = store.getState();
     let teammate = {};
@@ -1230,6 +1284,19 @@ export function getDisplayName(user) {
     }
 
     return user.username;
+}
+
+export function getLongDisplayName(user) {
+    let displayName = '@' + user.username;
+    var fullName = getFullName(user);
+    if (fullName) {
+        displayName = displayName + ' - ' + fullName;
+    }
+    if (user.nickname && user.nickname.trim().length > 0) {
+        displayName = displayName + ' (' + user.nickname + ')';
+    }
+
+    return displayName;
 }
 
 /**

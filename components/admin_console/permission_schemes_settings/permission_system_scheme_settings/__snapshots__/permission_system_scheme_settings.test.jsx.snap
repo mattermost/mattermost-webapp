@@ -44,6 +44,35 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         id="all_users"
         onToggle={[Function]}
         open={true}
+        subtitleDefault="Permissions granted to guest users."
+        subtitleId="admin.permissions.systemScheme.GuestsDescription"
+        titleDefault="Guests"
+        titleId="admin.permissions.systemScheme.GuestsTitle"
+      >
+        <Connect(GuestPermissionsTree)
+          onToggle={[Function]}
+          readOnly={false}
+          role={
+            Object {
+              "displayName": "Guests",
+              "name": "guests",
+              "permissions": Array [
+                "create_post",
+                "invite_user",
+                "add_reaction",
+              ],
+            }
+          }
+          scope="system_scope"
+          selectRow={[Function]}
+          selected={null}
+        />
+      </AdminPanelTogglable>
+      <AdminPanelTogglable
+        className="permissions-block"
+        id="all_users"
+        onToggle={[Function]}
+        open={true}
         subtitleDefault="Permissions granted to all members, including administrators and newly created users."
         subtitleId="admin.permissions.systemScheme.allMembersDescription"
         titleDefault="All Members"
@@ -235,6 +264,7 @@ Object {
   "openRoles": Object {
     "all_users": true,
     "channel_admin": true,
+    "guests": true,
     "system_admin": true,
     "team_admin": true,
   },
@@ -251,6 +281,15 @@ Object {
     "channel_admin": Object {
       "permissions": Array [
         "delete_post",
+      ],
+    },
+    "guests": Object {
+      "displayName": "Guests",
+      "name": "guests",
+      "permissions": Array [
+        "create_post",
+        "invite_user",
+        "add_reaction",
       ],
     },
     "system_admin": Object {
@@ -278,6 +317,7 @@ Object {
   "openRoles": Object {
     "all_users": true,
     "channel_admin": true,
+    "guests": true,
     "system_admin": true,
     "team_admin": true,
   },
@@ -288,6 +328,11 @@ Object {
       "permissions": Array [],
     },
     "channel_admin": Object {
+      "permissions": Array [],
+    },
+    "guests": Object {
+      "displayName": "Guests",
+      "name": "guests",
       "permissions": Array [],
     },
     "system_admin": Object {
@@ -344,6 +389,31 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           </span>
         </div>
       </div>
+      <AdminPanelTogglable
+        className="permissions-block"
+        id="all_users"
+        onToggle={[Function]}
+        open={true}
+        subtitleDefault="Permissions granted to guest users."
+        subtitleId="admin.permissions.systemScheme.GuestsDescription"
+        titleDefault="Guests"
+        titleId="admin.permissions.systemScheme.GuestsTitle"
+      >
+        <Connect(GuestPermissionsTree)
+          onToggle={[Function]}
+          readOnly={true}
+          role={
+            Object {
+              "displayName": "Guests",
+              "name": "guests",
+              "permissions": Array [],
+            }
+          }
+          scope="system_scope"
+          selectRow={[Function]}
+          selected={null}
+        />
+      </AdminPanelTogglable>
       <AdminPanelTogglable
         className="permissions-block"
         id="all_users"
@@ -555,6 +625,31 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           </span>
         </div>
       </div>
+      <AdminPanelTogglable
+        className="permissions-block"
+        id="all_users"
+        onToggle={[Function]}
+        open={true}
+        subtitleDefault="Permissions granted to guest users."
+        subtitleId="admin.permissions.systemScheme.GuestsDescription"
+        titleDefault="Guests"
+        titleId="admin.permissions.systemScheme.GuestsTitle"
+      >
+        <Connect(GuestPermissionsTree)
+          onToggle={[Function]}
+          readOnly={false}
+          role={
+            Object {
+              "displayName": "Guests",
+              "name": "guests",
+              "permissions": Array [],
+            }
+          }
+          scope="system_scope"
+          selectRow={[Function]}
+          selected={null}
+        />
+      </AdminPanelTogglable>
       <AdminPanelTogglable
         className="permissions-block"
         id="all_users"

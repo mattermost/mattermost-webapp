@@ -14,10 +14,18 @@
         }
     }
 
+    .Badge {
+        display: inline-block;
+    }
+
     .channel-header__trigger {
         display: flex;
         flex: 1 1 0;
         min-width: 0;
+        .heading span {
+            display: flex;
+            align-items: center;
+        }
     }
 
 
@@ -390,6 +398,17 @@
 
         .markdown-inline-img {
             max-height: 45px;
+        }
+    }
+
+    .has-guest-header {
+        margin-right: 3px;
+
+        &:after {
+            content: '\2022';
+            margin: 0 2px 0 5px;
+            position: relative;
+            top: 1px;
         }
     }
 

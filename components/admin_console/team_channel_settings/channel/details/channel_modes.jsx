@@ -41,7 +41,7 @@ const AllowAllToggle = ({isSynced, isOriginallyPrivate, isPublic, onToggle}) =>
         <LineSwitch
             toggled={isPublic}
             last={true}
-            singleLine={true}
+            disabled={isOriginallyPrivate}
             onToggle={() => {
                 if (!isOriginallyPrivate) {
                     onToggle(isSynced, !isPublic);
@@ -56,7 +56,7 @@ const AllowAllToggle = ({isSynced, isOriginallyPrivate, isPublic, onToggle}) =>
             subTitle={(
                 <FormattedMessage
                     id='admin.channel_settings.channel_details.isPublicDescr'
-                    defaultMessage='If `public` the channel is discoverable and any user can join, or if `private` invitations are required.'
+                    defaultMessage='If `public` the channel is discoverable and any user can join, or if `private` invitations are required. Toggle to convert public channels to private.  Converting private channels to public will be available in a future release.'
                 />
             )}
             onText={(

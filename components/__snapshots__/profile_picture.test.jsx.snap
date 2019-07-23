@@ -4,13 +4,17 @@ exports[`components/ProfilePicture should match snapshot, no user specified, def
 <span
   className="status-wrapper"
 >
-  <img
-    alt=""
-    className="more-modal__image rounded"
-    height="36"
-    src="http://example.com/image.png"
-    width="36"
-  />
+  <span
+    className="profile-icon "
+  >
+    <img
+      alt=""
+      className="more-modal__image"
+      height="36"
+      src="http://example.com/image.png"
+      width="36"
+    />
+  </span>
   <StatusIcon
     button={false}
     className=""
@@ -23,13 +27,17 @@ exports[`components/ProfilePicture should match snapshot, no user specified, ove
 <span
   className="status-wrapper"
 >
-  <img
-    alt=""
-    className="more-modal__image rounded"
-    height="48"
-    src="http://example.com/image.png"
-    width="48"
-  />
+  <span
+    className="profile-icon "
+  >
+    <img
+      alt=""
+      className="more-modal__image"
+      height="48"
+      src="http://example.com/image.png"
+      width="48"
+    />
+  </span>
   <StatusIcon
     button={false}
     className=""
@@ -38,17 +46,61 @@ exports[`components/ProfilePicture should match snapshot, no user specified, ove
 </span>
 `;
 
+exports[`components/ProfilePicture should match snapshot, profile and src, default props 1`] = `
+<OverlayTrigger
+  defaultOverlayShown={false}
+  overlay={
+    <Connect(InjectIntl(ProfilePopover))
+      hasMention={false}
+      hide={[Function]}
+      isBusy={true}
+      isRHS={false}
+      src="http://example.com/image.png"
+      userId="uid"
+    />
+  }
+  placement="right"
+  rootClose={true}
+  trigger="click"
+>
+  <span
+    className="status-wrapper "
+  >
+    <span
+      className="profile-icon "
+    >
+      <img
+        alt="user profile image"
+        className="more-modal__image"
+        height="36"
+        src="http://example.com/emoji.png"
+        width="36"
+      />
+    </span>
+    <StatusIcon
+      button={false}
+      className=""
+      status="away"
+    />
+  </span>
+</OverlayTrigger>
+`;
+
 exports[`components/ProfilePicture should match snapshot, user specified 1`] = `
 <span
   className="status-wrapper"
 >
-  <img
-    alt=""
-    className="more-modal__image rounded"
-    height="36"
-    src="http://example.com/image.png"
-    width="36"
-  />
+  <span
+    className="profile-icon "
+  >
+    <img
+      alt=""
+      className="more-modal__image"
+      height="36"
+      src="http://example.com/image.png"
+      width="36"
+    />
+  </span>
   <StatusIcon
     button={false}
     className=""
@@ -61,13 +113,17 @@ exports[`components/ProfilePicture should match snapshot, user specified, overri
 <span
   className="status-wrapper"
 >
-  <img
-    alt=""
-    className="more-modal__image rounded"
-    height="48"
-    src="http://example.com/image.png"
-    width="48"
-  />
+  <span
+    className="profile-icon "
+  >
+    <img
+      alt=""
+      className="more-modal__image"
+      height="48"
+      src="http://example.com/image.png"
+      width="48"
+    />
+  </span>
   <StatusIcon
     button={false}
     className=""
