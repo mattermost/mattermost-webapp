@@ -606,6 +606,7 @@ export default class CreatePost extends React.Component {
         post.create_at = time;
         post.parent_id = this.state.parentId;
         post.metadata = {};
+        post.props = {};
         const hookResult = await actions.runMessageWillBePostedHooks(post);
 
         if (hookResult.error) {
