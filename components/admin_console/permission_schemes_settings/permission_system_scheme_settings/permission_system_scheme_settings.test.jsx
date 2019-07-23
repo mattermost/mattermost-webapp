@@ -9,25 +9,12 @@ import {DefaultRolePermissions} from 'utils/constants.jsx';
 
 describe('components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings', () => {
     const defaultProps = {
-        config: {
-            EnableGuestAccounts: 'true',
-        },
         license: {
             IsLicensed: 'true',
             CustomPermissionsSchemes: 'true',
-            GuestAccountsPermissions: 'true',
         },
         location: {},
         roles: {
-            system_guest: {
-                permissions: [],
-            },
-            team_guest: {
-                permissions: [],
-            },
-            channel_guest: {
-                permissions: [],
-            },
             system_user: {
                 permissions: [],
             },
@@ -83,15 +70,6 @@ describe('components/admin_console/permission_schemes_settings/permission_system
 
     test('should match snapshot on roles with permissions', (done) => {
         const roles = {
-            system_guest: {
-                permissions: ['create_post'],
-            },
-            team_guest: {
-                permissions: ['invite_user'],
-            },
-            channel_guest: {
-                permissions: ['add_reaction'],
-            },
             system_user: {
                 permissions: ['create_post'],
             },
@@ -137,7 +115,7 @@ describe('components/admin_console/permission_schemes_settings/permission_system
         expect(wrapper).toMatchSnapshot();
 
         await wrapper.instance().handleSubmit();
-        expect(editRole).toHaveBeenCalledTimes(8);
+        expect(editRole).toHaveBeenCalledTimes(5);
     });
 
     test('should show error if editRole fails', async () => {

@@ -2,51 +2,23 @@
 
 .ChannelsInput {
     .channels-input__control {
-        min-height: 44px;
-        background: var(--center-channel-bg);
-        color: var(--center-channel-color-60);
-        box-shadow: none;
-        border-color: var(--center-channel-color-20);
-        padding: 1px;
+        min-height: 48px;
+        border-color: $gray;
         &:hover {
-            border-color: var(--center-channel-color-20);
+            border-color: $gray;
         }
-        &--is-focused, &--menu-is-open {
-            &:hover {
-                border-color: var(--button-bg);
-            }
-            border-color: var(--button-bg);
-            border-width: 2px;
-            padding: 0px;
-            transition: none;
-        }
-    }
-    .channels-input__value-container {
-        margin-left: 0;
-        padding: 0;
-    }
-    .channels-input__placeholder {
-        color: var(--center-channel-color-60);
-        margin-left: 10px;
-    }
-    .channels-input__input {
-        color: var(--center-channel-color);
-        margin-left: 8px;
     }
     input {
         height: inherit;
     }
     .channels-input__menu {
         margin-top: 0px;
-        background: var(--center-channel-bg);
-        color: var(--center-channel-color);
-        box-shadow: 0 0 0 0 hsla(0,0%,0%,0.1), 0 4px 11px hsla(0,0%,0%,0.1);
     }
     .channels-input__menu-list{
         padding: 0px;
     }
     .channels-input__menu-notice{
-        height: 44px;
+        height: 60px;
         padding: 12px;
         display: flex;
         align-items: center;
@@ -54,40 +26,23 @@
         border-radius: 4px 4px 0 0;
     }
     .channels-input__option {
-        height: 44px;
+        height: 60px;
         padding: 12px;
         display: flex;
         align-items: center;
-        font-size: 16px;
-        &--no-matches {
-            color: var(--center-channel-color-50);
-            text-align: center;
-            span {
-                width: 100%;
-            }
-            strong {
-                font-weight: 600;
-            }
-        }
-        &:first-child {
-            border-radius: 4px 4px 0 0;
-        }
-        &:last-child {
-            border-radius: 0 0 4px 4px;
-        }
-        &:hover, &--is-focused {
-            background: var(--button-bg-10);
-        }
+        border-radius: 4px 4px 0 0;
         .public-channel-icon, .private-channel-icon {
-            width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
+            padding: 3px;
             margin-right: 8px;
+            display: inline-block;
             svg {
-                width: 18px;
-                height: 18px;
-                fill: var(--center-channel-color-50);
+                width: 24px;
+                height: 24px;
+                fill: $gray;
+                margin: 3px;
             }
         }
     }
@@ -96,68 +51,39 @@
     }
     .channels-input__multi-value {
         align-items: center;
-        background: var(--center-channel-color-10);
+        background: $bg--gray;
         padding: 4px;
         border-radius: 16px;
-        color: var(--center-channel-color);
-        margin: 5px;
-        &:first-child {
-            margin: 5px 5px 5px 6px;
-        }
-        &:last-child {
-            margin: 5px 0 5px 5px;
-        }
     }
 
     .channels-input__multi-value__label {
         display: flex;
         align-items: center;
-        color: var(--center-channel-color);
-        font-size: 1.6rem;
-        padding: 0px;
+        padding-left: 0px;
         .public-channel-icon, .private-channel-icon {
             display: flex;
             width: 24px;
             height: 24px;
             border-radius: 16px;
-            background: var(--center-channel-color-50);
+            background: $gray;
             padding: 4px;
-            margin-right: 4px;
-        }
-        .public-channel-icon {
+            margin-right: 3px;
             svg {
                 width: 16px;
                 height: 16px;
-                fill: var(--button-color-80);
-            }
-        }
-        .private-channel-icon {
-            svg {
-                width: 14px;
-                height: 14px;
-                margin: 0 1px;
-                fill: var(--button-color-80);
+                fill: $white;
             }
         }
     }
     .channels-input__multi-value__remove {
-        padding: 0px 4px 0px 8px;
+        width: 16px;
+        height: 16px;
+        border-radius: 16px;
+        background: $gray;
+        padding: 1px;
         cursor: pointer;
-        span {
-            height: 16px;
-            width: 16px;
-            display: flex;
-        }
-        &:hover {
-            background: none;
-        }
         svg {
-            height: 16px;
-            width: 16px;
-            fill: var(--center-channel-color-60);
-            &:hover {
-                fill: var(--center-channel-color-80);
-            }
+            fill: $white;
             opacity: .6;
         }
     }

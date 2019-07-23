@@ -24,11 +24,6 @@ export default class LeaveChannel extends React.PureComponent {
         isDefault: PropTypes.bool.isRequired,
 
         /**
-         * Boolean whether the user is a guest or no
-         */
-        isGuestUser: PropTypes.bool.isRequired,
-
-        /**
          * Use for test selector
          */
         id: PropTypes.string,
@@ -44,10 +39,6 @@ export default class LeaveChannel extends React.PureComponent {
             leaveChannel: PropTypes.func.isRequired,
         }).isRequired,
     };
-
-    static defaultProps = {
-        isGuestUser: false,
-    }
 
     handleLeave = (e) => {
         e.preventDefault();
@@ -67,12 +58,12 @@ export default class LeaveChannel extends React.PureComponent {
     }
 
     render() {
-        const {channel, isDefault, isGuestUser, id} = this.props;
+        const {channel, isDefault, id} = this.props;
 
         return (
             <MenuItemAction
                 id={id}
-                show={(!isDefault || isGuestUser) && channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
+                show={!isDefault && channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
                 onClick={this.handleLeave}
                 text={localizeMessage('channel_header.leave', 'Leave Channel')}
             />

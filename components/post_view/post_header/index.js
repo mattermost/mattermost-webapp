@@ -5,8 +5,6 @@ import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
-import {isGuest} from 'utils/utils.jsx';
-
 import PostHeader from './post_header.jsx';
 
 function mapStateToProps(state, ownProps) {
@@ -18,7 +16,6 @@ function mapStateToProps(state, ownProps) {
     return {
         enablePostUsernameOverride,
         isBot,
-        isGuest: Boolean(user && isGuest(user)),
     };
 }
 
