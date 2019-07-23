@@ -26,7 +26,7 @@ export default class InfiniteScroll extends React.PureComponent {
         /**
          * A wrapper class to define styling of the infinite scroll
          */
-        className: PropTypes.string.isRequired,
+        styleClass: PropTypes.string.isRequired,
     }
 
     constructor(props) {
@@ -69,12 +69,12 @@ export default class InfiniteScroll extends React.PureComponent {
     }
 
     render() {
-        const {children, endOfData, endOfDataMessage, className} = this.props;
+        const {children, endOfData, endOfDataMessage, styleClass} = this.props;
         const {isFetching} = this.state;
         return (
             <>
                 <div
-                    className={className}
+                    className={styleClass}
                     style={{overflowY: 'scroll'}}
                     ref={this.node}
                 >

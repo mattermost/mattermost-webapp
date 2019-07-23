@@ -10,11 +10,19 @@ describe('/components/common/InfiniteScroll', () => {
         callBack: jest.fn(),
         endOfData: false,
         endOfDataMessage: 'No more items to fetch',
-        className: 'signup-team-all',
+        styleClass: 'signup-team-all',
     };
-    // const ref = React.createRef().current;
+
     test('should match snapshot', () => {
         const wrapper = mount(<InfiniteScroll {...baseProps}><div/></InfiniteScroll>);
         expect(wrapper).toMatchSnapshot();
+
+        const wrapperDiv = wrapper.find(`.${baseProps.styleClass}`);
+
+        // InfiniteScroll is styled by the user's style
+        expect(wrapperDiv.exists()).toBe(true);
+
+        // Ensure that scroll is added to InfiniteScroll wrapper div
+        expect(wrapperDiv.prop('style')).toHaveProperty('overflowY', 'scroll');
     });
 });

@@ -243,7 +243,7 @@ export default class SelectTeam extends React.Component {
                         callBack={this.fetchMoreTeams}
                         endOfData={endofTeamsData}
                         endOfDataMessage='No more teams to display'
-                        className='signup-team-all'
+                        styleClass='signup-team-all'
                     >
                         <div>
                             {joinableTeamContents}

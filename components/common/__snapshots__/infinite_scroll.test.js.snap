@@ -3,9 +3,9 @@
 exports[`/components/common/InfiniteScroll should match snapshot 1`] = `
 <InfiniteScroll
   callBack={[MockFunction]}
-  className="signup-team-all"
   endOfData={false}
   endOfDataMessage="No more items to fetch"
+  styleClass="signup-team-all"
 >
   <div
     className="signup-team-all"
