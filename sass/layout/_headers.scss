@@ -22,6 +22,10 @@
         display: flex;
         flex: 1 1 0;
         min-width: 0;
+        .heading span {
+            display: flex;
+            align-items: center;
+        }
     }
 
 
