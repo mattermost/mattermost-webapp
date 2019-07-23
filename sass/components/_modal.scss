@@ -803,6 +803,13 @@
         flex: 1 1 auto;
     }
 
+    .multi-select__wrapper {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 500;
+        height: 1px;
+    }
+
     .more-modal__list {
         flex-grow: 500;
         height: 1px;
