@@ -35,7 +35,6 @@ import {
 } from 'mattermost-redux/utils/channel_utils';
 
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
-import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 
 import DraftIcon from 'components/svg/draft_icon';
 import GlobeIcon from 'components/svg/globe_icon';
@@ -117,16 +116,10 @@ class SwitchChannelSuggestion extends Suggestion {
                 teammate = getUser(getState(), channel.userId);
             }
             tag = (
-                <React.Fragment>
-                    <BotBadge
-                        show={Boolean(teammate && teammate.is_bot)}
-                        className='badge-autocomplete'
-                    />
-                    <GuestBadge
-                        show={Boolean(teammate && Utils.isGuest(teammate))}
-                        className='badge-autocomplete'
-                    />
-                </React.Fragment>
+                <BotBadge
+                    show={Boolean(teammate && teammate.is_bot)}
+                    className='badge-autocomplete'
+                />
             );
         }
 

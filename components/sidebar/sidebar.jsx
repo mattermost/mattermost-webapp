@@ -624,7 +624,6 @@ export default class Sidebar extends React.PureComponent {
                                 </li>
                                 {section.items}
                                 <ChannelMore
-                                    currentTeamId={this.props.currentTeam.id}
                                     sectionType={section.type}
                                     moreChannels={this.showMoreChannelsModal}
                                     moreDirectMessages={this.handleOpenMoreDirectChannelsModal}

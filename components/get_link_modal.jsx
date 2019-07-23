@@ -39,7 +39,11 @@ export default class GetLinkModal extends React.PureComponent {
         textarea.setSelectionRange(0, this.props.link.length);
 
         try {
-            this.setState({copiedLink: document.execCommand('copy')});
+            if (document.execCommand('copy')) {
+                this.setState({copiedLink: true});
+            } else {
+                this.setState({copiedLink: false});
+            }
         } catch (err) {
             this.setState({copiedLink: false});
         }

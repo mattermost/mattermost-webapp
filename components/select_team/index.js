@@ -14,7 +14,6 @@ import {getSortedListableTeams, getTeamMemberships} from 'mattermost-redux/selec
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import {addUserToTeam} from 'actions/team_actions';
-import {isGuest} from 'utils/utils';
 
 import SelectTeam from './select_team.jsx';
 
@@ -26,7 +25,6 @@ function mapStateToProps(state) {
     return {
         currentUserId: currentUser.id,
         currentUserRoles: currentUser.roles || '',
-        currentUserIsGuest: isGuest(currentUser),
         customDescriptionText: config.CustomDescriptionText,
         isMemberOfTeam: myTeamMemberships && myTeamMemberships.length > 0,
         listableTeams: getSortedListableTeams(state, currentUser.locale),

@@ -53,7 +53,6 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       permissions={
         Array [
           "add_user_to_team",
-          "invite_guest",
         ]
       }
       teamId="someteamid"
@@ -61,10 +60,62 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
-        id="invitationModal"
-        modalId="invitation"
+        id="addUsersToTeam"
+        modalId="add_user_to_team"
         show={true}
-        text="Invite People"
+        text="Add Members to Team"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "invite_user",
+          ]
+        }
+        teamId="someteamid"
+      >
+        <MenuItemToggleModalRedux
+          dialogType={[Function]}
+          icon={false}
+          id="sendEmailInvite"
+          modalId="email_invite"
+          show={false}
+          text="Send Email Invite"
+        />
+      </Connect(TeamPermissionGate)>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "invite_user",
+          ]
+        }
+        teamId="someteamid"
+      >
+        <MenuItemAction
+          icon={false}
+          id="getTeamInviteLink"
+          onClick={[Function]}
+          show={false}
+          text="Get Team Invite Link"
+        />
+      </Connect(TeamPermissionGate)>
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="addUsersToTeam"
+        modalId="add_user_to_team"
+        show={false}
+        text="Add Members to Team"
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>

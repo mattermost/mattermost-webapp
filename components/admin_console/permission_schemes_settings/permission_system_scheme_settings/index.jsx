@@ -7,7 +7,6 @@ import {bindActionCreators} from 'redux';
 import {loadRolesIfNeeded, editRole} from 'mattermost-redux/actions/roles';
 
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
-import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {setNavigationBlocked} from 'actions/admin_actions.jsx';
 
@@ -15,8 +14,6 @@ import PermissionSystemSchemeSettings from './permission_system_scheme_settings.
 
 function mapStateToProps(state) {
     return {
-        config: getConfig(state),
-        license: getLicense(state),
         roles: getRoles(state),
         rolesRequest: state.requests.roles.getRolesByNames,
     };

@@ -7,7 +7,8 @@ import PropTypes from 'prop-types';
 
 import {Permissions} from 'mattermost-redux/constants';
 
-import {Constants, ModalIdentifiers} from 'utils/constants';
+import * as GlobalActions from 'actions/global_actions.jsx';
+import {Constants} from 'utils/constants';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import ProfilePicture from 'components/profile_picture.jsx';
@@ -18,7 +19,6 @@ import ChannelPermissionGate from 'components/permissions_gates/channel_permissi
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import EditIcon from 'components/icon/edit_icon';
-import InvitationModal from 'components/invitation_modal';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
@@ -245,11 +245,9 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
                     permissions={[Permissions.ADD_USER_TO_TEAM]}
                 >
                     {!teamIsGroupConstrained &&
-                    <ToggleModalButtonRedux
-                        id='introTextInvite'
+                    <span
                         className='intro-links color--link cursor--pointer'
-                        modalId={ModalIdentifiers.INVITATION}
-                        dialogType={InvitationModal}
+                        onClick={GlobalActions.showGetTeamInviteLinkModal}
                     >
                         <FormattedMessage
                             id='generic_icons.add'
@@ -266,7 +264,7 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
                             id='intro_messages.inviteOthers'
                             defaultMessage='Invite others to this team'
                         />
-                    </ToggleModalButtonRedux>
+                    </span>
                     }
                     {teamIsGroupConstrained &&
                     <ToggleModalButton
@@ -290,6 +288,7 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
                             defaultMessage='Add other groups to this team'
                         />
                     </ToggleModalButton>
+
                     }
                 </TeamPermissionGate>
             </TeamPermissionGate>

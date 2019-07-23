@@ -159,6 +159,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault && isGroupConstrained}
                             modalId={ModalIdentifiers.ADD_GROUPS_TO_CHANNEL}
                             dialogType={AddGroupsToChannelModal}
+                            dialogProps={{}}
                             text={localizeMessage('navbar.addGroups', 'Add Groups')}
                         />
                         <MenuItemToggleModalRedux
@@ -279,7 +280,6 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         id='channelLeaveChannel'
                         channel={channel}
                         isDefault={isDefault}
-                        isGuestUser={user.is_guest}
                     />
                     <MenuItemCloseChannel
                         id='channelCloseChannel'

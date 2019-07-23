@@ -69,11 +69,6 @@ export default class PostHeader extends React.PureComponent {
          * If the user that made the post is a bot.
          */
         isBot: PropTypes.bool.isRequired,
-
-        /**
-         * If the user that made the post is a guest.
-         */
-        isGuest: PropTypes.bool.isRequired,
     }
 
     render() {

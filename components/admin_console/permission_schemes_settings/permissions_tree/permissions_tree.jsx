@@ -5,8 +5,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import Permissions from 'mattermost-redux/constants/permissions';
-
 import PermissionGroup from '../permission_group.jsx';
 
 import EditPostTimeLimitButton from '../edit_post_time_limit_button';
@@ -51,30 +49,30 @@ export default class PermissionsTree extends React.Component {
                         id: 'send_invites',
                         combined: true,
                         permissions: [
-                            Permissions.INVITE_USER,
-                            Permissions.GET_PUBLIC_LINK,
-                            Permissions.ADD_USER_TO_TEAM,
+                            'invite_user',
+                            'get_public_link',
+                            'add_user_to_team',
                         ],
                     },
-                    Permissions.CREATE_TEAM,
+                    'create_team',
                 ],
             },
             {
                 id: 'public_channel',
                 permissions: [
-                    Permissions.CREATE_PUBLIC_CHANNEL,
-                    Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES,
-                    Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
-                    Permissions.DELETE_PUBLIC_CHANNEL,
+                    'create_public_channel',
+                    'manage_public_channel_properties',
+                    'manage_public_channel_members',
+                    'delete_public_channel',
                 ],
             },
             {
                 id: 'private_channel',
                 permissions: [
-                    Permissions.CREATE_PRIVATE_CHANNEL,
-                    Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES,
-                    Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
-                    Permissions.DELETE_PRIVATE_CHANNEL,
+                    'create_private_channel',
+                    'manage_private_channel_properties',
+                    'manage_private_channel_members',
+                    'delete_private_channel',
                 ],
             },
             {
@@ -83,23 +81,23 @@ export default class PermissionsTree extends React.Component {
                     {
                         id: 'edit_posts',
                         permissions: [
-                            Permissions.EDIT_POST,
-                            Permissions.EDIT_OTHERS_POSTS,
+                            'edit_post',
+                            'edit_others_posts',
                         ],
                     },
                     {
                         id: 'delete_posts',
                         permissions: [
-                            Permissions.DELETE_POST,
-                            Permissions.DELETE_OTHERS_POSTS,
+                            'delete_post',
+                            'delete_others_posts',
                         ],
                     },
                     {
                         id: 'reactions',
                         combined: true,
                         permissions: [
-                            Permissions.ADD_REACTION,
-                            Permissions.REMOVE_REACTION,
+                            'add_reaction',
+                            'remove_reaction',
                         ],
                     },
                 ],
@@ -116,30 +114,26 @@ export default class PermissionsTree extends React.Component {
     updateGroups = () => {
         const {config, scope} = this.props;
         const integrationsGroup = this.groups[this.groups.length - 1];
-        const teamsGroup = this.groups[0];
-        if (config.EnableIncomingWebhooks === 'true' && integrationsGroup.permissions.indexOf(Permissions.MANAGE_INCOMING_WEBHOOKS) === -1) {
-            integrationsGroup.permissions.push(Permissions.MANAGE_INCOMING_WEBHOOKS);
+        if (config.EnableIncomingWebhooks === 'true' && integrationsGroup.permissions.indexOf('manage_incoming_webhooks') === -1) {
+            integrationsGroup.permissions.push('manage_incoming_webhooks');
         }
-        if (config.EnableOutgoingWebhooks === 'true' && integrationsGroup.permissions.indexOf(Permissions.MANAGE_OUTGOING_WEBHOOKS) === -1) {
-            integrationsGroup.permissions.push(Permissions.MANAGE_OUTGOING_WEBHOOKS);
+        if (config.EnableOutgoingWebhooks === 'true' && integrationsGroup.permissions.indexOf('manage_outgoing_webhooks') === -1) {
+            integrationsGroup.permissions.push('manage_outgoing_webhooks');
         }
-        if (config.EnableOAuthServiceProvider === 'true' && integrationsGroup.permissions.indexOf(Permissions.MANAGE_OAUTH) === -1) {
-            integrationsGroup.permissions.push(Permissions.MANAGE_OAUTH);
+        if (config.EnableOAuthServiceProvider === 'true' && integrationsGroup.permissions.indexOf('manage_oauth') === -1) {
+            integrationsGroup.permissions.push('manage_oauth');
         }
-        if (config.EnableCommands === 'true' && integrationsGroup.permissions.indexOf(Permissions.MANAGE_SLASH_COMMANDS) === -1) {
-            integrationsGroup.permissions.push(Permissions.MANAGE_SLASH_COMMANDS);
+        if (config.EnableCommands === 'true' && integrationsGroup.permissions.indexOf('manage_slash_commands') === -1) {
+            integrationsGroup.permissions.push('manage_slash_commands');
         }
-        if (config.EnableCustomEmoji === 'true' && integrationsGroup.permissions.indexOf(Permissions.CREATE_EMOJIS) === -1) {
-            integrationsGroup.permissions.push(Permissions.CREATE_EMOJIS);
+        if (config.EnableCustomEmoji === 'true' && integrationsGroup.permissions.indexOf('create_emojis') === -1) {
+            integrationsGroup.permissions.push('create_emojis');
         }
-        if (config.EnableCustomEmoji === 'true' && integrationsGroup.permissions.indexOf(Permissions.DELETE_EMOJIS) === -1) {
-            integrationsGroup.permissions.push(Permissions.DELETE_EMOJIS);
+        if (config.EnableCustomEmoji === 'true' && integrationsGroup.permissions.indexOf('delete_emojis') === -1) {
+            integrationsGroup.permissions.push('delete_emojis');
         }
-        if (config.EnableCustomEmoji === 'true' && integrationsGroup.permissions.indexOf(Permissions.DELETE_OTHERS_EMOJIS) === -1) {
-            integrationsGroup.permissions.push(Permissions.DELETE_OTHERS_EMOJIS);
-        }
-        if (config.EnableGuestAccounts === 'true' && teamsGroup.permissions.indexOf(Permissions.INVITE_GUEST) === -1) {
-            teamsGroup.permissions.push(Permissions.INVITE_GUEST);
+        if (config.EnableCustomEmoji === 'true' && integrationsGroup.permissions.indexOf('delete_others_emojis') === -1) {
+            integrationsGroup.permissions.push('delete_others_emojis');
         }
         if (scope === 'team_scope' && this.groups[0].id !== 'teams_team_scope') {
             this.groups[0].id = 'teams_team_scope';
