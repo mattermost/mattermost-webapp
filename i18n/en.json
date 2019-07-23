@@ -1530,6 +1530,7 @@
   "admin.team.noBrandImage": "No brand image uploaded",
   "admin.team.openServerDescription": "When true, anyone can signup for a user account on this server without the need to be invited.",
   "admin.team.openServerTitle": "Enable Open Server: ",
+  "admin.team.removeBrandImage": "Remove brand image",
   "admin.team.restrict_direct_message_any": "Any user on the Mattermost server",
   "admin.team.restrict_direct_message_team": "Any member of the team",
   "admin.team.restrictDescription": "User accounts can only be created from a specific domain (e.g. \"mattermost.org\") or list of comma-separated domains (e.g. \"corp.mattermost.com, mattermost.org\").",
