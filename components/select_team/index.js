@@ -36,7 +36,7 @@ function mapStateToProps(state) {
         canJoinPublicTeams: haveISystemPermission(state, {permission: Permissions.JOIN_PUBLIC_TEAMS}),
         canJoinPrivateTeams: haveISystemPermission(state, {permission: Permissions.JOIN_PRIVATE_TEAMS}),
         siteURL: config.SiteURL,
-        total: state.entities.teams.totalCount || 0,
+        totalTeamsCount: state.entities.teams.totalCount || 0,
     };
 }
 

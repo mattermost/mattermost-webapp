@@ -28,7 +28,7 @@ import InfiniteScroll from '../common/infinite_scroll.jsx';
 
 import SelectTeamItem from './components/select_team_item.jsx';
 
-const TEAMS_PER_PAGE = 10;
+export const TEAMS_PER_PAGE = 10;
 const TEAM_MEMBERSHIP_DENIAL_ERROR_ID = 'api.team.add_members.user_denied';
 
 export default class SelectTeam extends React.Component {
@@ -51,7 +51,7 @@ export default class SelectTeam extends React.Component {
             loadRolesIfNeeded: PropTypes.func.isRequired,
             addUserToTeam: PropTypes.func.isRequired,
         }).isRequired,
-        total: PropTypes.number.isRequired,
+        totalTeamsCount: PropTypes.number.isRequired,
     };
 
     constructor(props) {
@@ -69,11 +69,11 @@ export default class SelectTeam extends React.Component {
     }
 
     fetchMoreTeams = () => {
-        const {actions, total} = this.props;
+        const {actions, totalTeamsCount} = this.props;
         const BATCH_OF_TEAMS_TO_LOAD = 4; // Load 4 extra teams
         const NEW_TEAMS_PER_PAGE = this.props.listableTeams.length + BATCH_OF_TEAMS_TO_LOAD;
         actions.getTeams(0, NEW_TEAMS_PER_PAGE, true);
-        if (this.props.listableTeams.length === total) {
+        if (this.props.listableTeams.length === totalTeamsCount) {
             this.setState({
                 endofTeamsData: true,
             });

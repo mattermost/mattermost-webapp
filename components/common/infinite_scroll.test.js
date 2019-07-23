@@ -20,7 +20,6 @@ describe('/components/common/InfiniteScroll', () => {
     });
 
     test('should match snapshot', () => {
-        // const wrapper = mount(<InfiniteScroll {...baseProps}><div/></InfiniteScroll>);
         expect(wrapper).toMatchSnapshot();
 
         const wrapperDiv = wrapper.find(`.${baseProps.styleClass}`);
@@ -45,5 +44,24 @@ describe('/components/common/InfiniteScroll', () => {
         instance.componentWillUnmount();
 
         expect(node.current.removeEventListener).toHaveBeenCalledTimes(1);
+    });
+
+    test('should execute call back function when scroll reaches the bottom and there \'s more data and no current fetch is taking place', () => {
+        const instance = wrapper.instance();
+
+        expect(baseProps.callBack).toHaveBeenCalledTimes(0);
+
+        instance.handleScroll();
+        expect(wrapper.state().isFetching).toBe(true);
+        expect(baseProps.callBack).toHaveBeenCalledTimes(1);
+    });
+
+    test('should not execute call back even if scroll is a the bottom when there \'s no more data', () => {
+        baseProps.endOfData = true;
+        wrapper = mount(<InfiniteScroll {...baseProps}><div/></InfiniteScroll>);
+        const instance = wrapper.instance();
+
+        instance.handleScroll();
+        expect(baseProps.callBack).toHaveBeenCalledTimes(0);
     });
 });

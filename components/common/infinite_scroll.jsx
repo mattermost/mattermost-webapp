@@ -80,7 +80,7 @@ export default class InfiniteScroll extends React.PureComponent {
                 >
                     {children}
                 </div>
-                {isFetching && 'Fetching more list items...'}
+                {isFetching && 'Fetching more items...'}
                 {endOfData && endOfDataMessage}
             </>
         );
