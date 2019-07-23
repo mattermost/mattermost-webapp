@@ -99,7 +99,7 @@ class ColorInput extends React.Component {
                     <div
                         ref={this.getColorPicker}
                         className='color-popover'
-                        data-test-id={`${id}-ChromePicker`}
+                        data-test-id={`${id}-ChromePickerModal`}
                     >
                         <ChromePicker
                             color={color}
