@@ -432,7 +432,7 @@ export default class PostList extends React.PureComponent {
     }
 
     scrollToLatestMessages = () => {
-        if (this.props.olderPosts.allLoaded) {
+        if (this.props.newerPosts.allLoaded) {
             this.scrollToBottom();
         } else {
             this.props.actions.changeUnreadChunkTimeStamp('');
