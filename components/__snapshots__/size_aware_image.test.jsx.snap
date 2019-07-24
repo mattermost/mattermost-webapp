@@ -34,22 +34,22 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
   <button
     aria-label="file thumbnail"
     className="style--none"
+    style={
+      Object {
+        "height": 1,
+        "overflow": "hidden",
+        "position": "absolute",
+        "top": 0,
+        "visibility": "hidden",
+        "width": 1,
+      }
+    }
   >
     <img
       alt="image placeholder"
       onError={[Function]}
       onLoad={[Function]}
       src="https://example.com/image.png"
-      style={
-        Object {
-          "height": 1,
-          "overflow": "hidden",
-          "position": "absolute",
-          "top": 0,
-          "visibility": "hidden",
-          "width": 1,
-        }
-      }
     />
   </button>
 </Fragment>

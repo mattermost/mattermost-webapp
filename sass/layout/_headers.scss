@@ -14,10 +14,18 @@
         }
     }
 
+    .Badge {
+        display: inline-block;
+    }
+
     .channel-header__trigger {
         display: flex;
         flex: 1 1 0;
         min-width: 0;
+        .heading span {
+            display: flex;
+            align-items: center;
+        }
     }
 
 
@@ -393,6 +401,17 @@
         }
     }
 
+    .has-guest-header {
+        margin-right: 3px;
+
+        &:after {
+            content: '\2022';
+            margin: 0 2px 0 5px;
+            position: relative;
+            top: 1px;
+        }
+    }
+
     .header-status__text {
         margin-right: 3px;
 
@@ -423,7 +442,7 @@
 
 .channel-intro {
     margin: 0 auto 10px;
-    padding: 0 15px;
+    padding: 110px 15px 0;
 
     &.channel-intro--centered {
         max-width: 1020px;

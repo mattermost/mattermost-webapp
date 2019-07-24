@@ -92,6 +92,7 @@ export default class ResetEmailModal extends React.Component {
 
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 show={this.props.show}
                 onHide={this.doCancel}
                 role='dialog'
