@@ -116,7 +116,7 @@ export default class SizeAwareImage extends React.PureComponent {
             placeHolder = (
                 <div
                     className={`image-loading__container ${this.props.className}`}
-                    style={{maxWidth: dimensions.width, maxHeight: dimensions.height}}
+                    style={{maxWidth: dimensions.width}}
                 >
                     <svg
                         xmlns='http://www.w3.org/2000/svg'

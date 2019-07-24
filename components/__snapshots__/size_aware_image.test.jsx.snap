@@ -20,7 +20,6 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
     className="image-loading__container undefined"
     style={
       Object {
-        "maxHeight": 200,
         "maxWidth": 300,
       }
     }
