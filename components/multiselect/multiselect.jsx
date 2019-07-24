@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import ReactSelect from 'react-select';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants, A11yCustomEventTypes} from 'utils/constants.jsx';
 import SaveButton from 'components/save_button.jsx';
 
 import MultiSelectList from './multiselect_list.jsx';
@@ -53,12 +53,26 @@ export default class MultiSelect extends React.Component {
     componentDidMount() {
         document.addEventListener('keydown', this.handleEnterPress);
         if (this.refs.reactSelect) {
+            this.refs.reactSelect.select.inputRef.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+            this.refs.reactSelect.select.inputRef.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+
             this.refs.reactSelect.focus();
         }
     }
 
     componentWillUnmount() {
+        this.refs.reactSelect.select.inputRef.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        this.refs.reactSelect.select.inputRef.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+
         document.removeEventListener('keydown', this.handleEnterPress);
+    }
+
+    handleA11yActivateEvent = () => {
+        this.setState({a11yActive: true});
+    }
+
+    handleA11yDeactivateEvent = () => {
+        this.setState({a11yActive: false});
     }
 
     nextPage = () => {
@@ -324,6 +338,7 @@ export default class MultiSelect extends React.Component {
                             inputValue={this.state.input}
                             getOptionValue={(option) => option.id}
                             aria-label={this.props.placeholderText}
+                            className={this.state.a11yActive ? 'multi-select__focused' : ''}
                         />
                         <SaveButton
                             id='saveItems'
