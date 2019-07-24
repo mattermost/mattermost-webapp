@@ -54,7 +54,7 @@ export class UsersWillBeRemovedError extends React.PureComponent {
                     <span>
                         <FormattedMessage
                             id='admin.team_channel_settings.users_will_be_removed'
-                            defaultMessage='{amount} Users will be removed from this team. They are not in groups linked to this team.'
+                            defaultMessage='{amount, number} {amount, plural, one {User} other {Users}} will be removed from this team. They are not in groups linked to this team.'
                             values={{amount: total}}
                         />
                         <ToggleModalButton
