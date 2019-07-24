@@ -61,9 +61,11 @@ function makeMapStateToProps() {
 
         if (postIds && postIds.length) {
             postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true});
-            const latestPostId = memoizedGetLatestPostId(postIds);
-            const latestPost = getPost(state, latestPostId);
-            latestPostTimeStamp = latestPost.create_at;
+            if (postIds.length) {
+                const latestPostId = memoizedGetLatestPostId(postIds);
+                const latestPost = getPost(state, latestPostId);
+                latestPostTimeStamp = latestPost.create_at;
+            }
         }
 
         return {

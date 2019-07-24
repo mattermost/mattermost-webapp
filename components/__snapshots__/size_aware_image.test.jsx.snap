@@ -18,6 +18,12 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
   </div>
   <div
     className="image-loading__container undefined"
+    style={
+      Object {
+        "maxHeight": 200,
+        "maxWidth": 300,
+      }
+    }
   >
     <svg
       style={

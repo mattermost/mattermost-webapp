@@ -4,6 +4,10 @@
 /* eslint-disable no-magic-numbers */
 import keyMirror from 'key-mirror';
 
+import Permissions from 'mattermost-redux/constants/permissions';
+
+import * as PostListUtils from 'mattermost-redux/utils/post_list';
+
 import audioIcon from 'images/icons/audio.svg';
 import codeIcon from 'images/icons/code.svg';
 import excelIcon from 'images/icons/excel.svg';
@@ -23,9 +27,6 @@ import mattermostDarkThemeImage from 'images/themes/mattermost_dark.png';
 import defaultThemeImage from 'images/themes/organization.png';
 import windows10ThemeImage from 'images/themes/windows_dark.png';
 import logoWebhook from 'images/webhook_icon.jpg';
-
-import Permissions from 'mattermost-redux/constants/permissions';
-import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import {t} from 'utils/i18n';
 
@@ -56,6 +57,11 @@ export const SettingsTypes = {
     TYPE_LANGUAGE: 'language',
     TYPE_JOBSTABLE: 'jobstable',
     TYPE_CUSTOM: 'custom',
+};
+
+export const InviteTypes = {
+    INVITE_MEMBER: 'member',
+    INVITE_GUEST: 'guest',
 };
 
 export const Preferences = {
@@ -200,6 +206,7 @@ export const ModalIdentifiers = {
     EMAIL_INVITE: 'email_invite',
     INTERACTIVE_DIALOG: 'interactive_dialog',
     ADD_TEAMS_TO_SCHEME: 'add_teams_to_scheme',
+    INVITATION: 'invitation',
     ADD_GROUPS_TO_TEAM: 'add_groups_to_team',
     ADD_GROUPS_TO_CHANNEL: 'add_groups_to_channel',
     MANAGE_TEAM_GROUPS: 'manage_team_groups',
@@ -227,6 +234,8 @@ export const EventTypes = Object.assign(
         CLICK: 'click',
         FOCUS: 'focus',
         BLUR: 'blur',
+        MOUSE_DOWN: 'mousedown',
+        MOUSE_UP: 'mouseup',
     },
     keyMirror({
         POST_LIST_SCROLL_CHANGE: null,
@@ -362,6 +371,7 @@ export const SearchUserTeamFilter = {
 export const SearchUserOptionsFilter = {
     ALLOW_INACTIVE: 'inactive',
     SYSTEM_ADMIN: 'system_admin',
+    SYSTEM_GUEST: 'system_guest',
 };
 
 export const SearchTypes = keyMirror({

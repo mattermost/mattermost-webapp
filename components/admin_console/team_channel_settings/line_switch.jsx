@@ -11,6 +11,7 @@ export default class LineSwitch extends React.PureComponent {
         title: PropTypes.node.isRequired,
         last: PropTypes.bool,
         toggled: PropTypes.bool.isRequired,
+        disabled: PropTypes.bool,
         singleLine: PropTypes.bool,
         subTitle: PropTypes.node.isRequired,
         onToggle: PropTypes.func.isRequired,
@@ -20,7 +21,7 @@ export default class LineSwitch extends React.PureComponent {
     };
 
     render() {
-        const {title, subTitle, singleLine, toggled, onToggle, children, offText, onText, last} = this.props;
+        const {title, subTitle, singleLine, toggled, onToggle, children, offText, onText, disabled, last} = this.props;
         return (<div>
             <div className='row align-items-start'>
                 <div className='col-sm-10'>
@@ -28,6 +29,7 @@ export default class LineSwitch extends React.PureComponent {
                 </div>
                 <div className='col-sm-2'>
                     <Toggle
+                        disabled={disabled}
                         onToggle={onToggle}
                         toggled={toggled}
                         onText={onText}
