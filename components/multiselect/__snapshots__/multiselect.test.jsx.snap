@@ -12,6 +12,7 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
       className="multi-select__container"
     >
       <StateManager
+        className=""
         components={
           Object {
             "IndicatorsContainer": [Function],
@@ -171,6 +172,7 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
       className="multi-select__container"
     >
       <StateManager
+        className=""
         components={
           Object {
             "IndicatorsContainer": [Function],
