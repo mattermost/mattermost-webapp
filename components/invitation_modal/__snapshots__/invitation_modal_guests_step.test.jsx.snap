@@ -1,0 +1,118 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/invitation_modal/InvitationModalGuestsStep should match the snapshot 1`] = `
+<div
+  className="InvitationModalGuestsStep"
+>
+  <BackIcon
+    className="back"
+    onClick={[MockFunction]}
+  />
+  <div
+    className="modal-icon"
+  >
+    <InviteIcon />
+  </div>
+  <h1>
+    <InjectIntl(FormattedMarkdownMessage)
+      defaultMessage="Invite **Guests**"
+      id="invitation_modal.guests.title"
+    />
+  </h1>
+  <div
+    className="add-people"
+  >
+    <h2>
+      <FormattedMessage
+        defaultMessage="Invite People"
+        id="invitation_modal.guests.add_people.title"
+        values={Object {}}
+      />
+    </h2>
+    <div>
+      <FormattedMessage
+        defaultMessage="Add guests or email addresses"
+        id="invitation_modal.guests.search-and-add.placeholder"
+        values={Object {}}
+      >
+        <Component />
+      </FormattedMessage>
+    </div>
+    <div
+      className="help-text"
+    >
+      <FormattedMessage
+        defaultMessage="Search and add guests or email invite new users."
+        id="invitation_modal.guests.add_people.description"
+        values={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="add-channels"
+  >
+    <h2>
+      <FormattedMessage
+        defaultMessage="Search and Add Channels"
+        id="invitation_modal.guests.add_channels.title"
+        values={Object {}}
+      />
+    </h2>
+    <div>
+      <FormattedMessage
+        defaultMessage="Search and add channels"
+        id="invitation_modal.guests.add_channels.placeholder"
+        values={Object {}}
+      >
+        <Component />
+      </FormattedMessage>
+    </div>
+    <div
+      className="help-text"
+    >
+      <FormattedMessage
+        defaultMessage="Specify the channels the guests have access to."
+        id="invitation_modal.guests.add-channels.description"
+        values={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="custom-message"
+  >
+    <a
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Set a custom message"
+        id="invitation_modal.guests.custom-message.link"
+        values={Object {}}
+      />
+    </a>
+    <div
+      className="help-text"
+    >
+      <FormattedMessage
+        defaultMessage="Create a custom message to make your invite more personal."
+        id="invitation_modal.guests.custom-message.description"
+        values={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="invite-guests"
+  >
+    <button
+      className="btn btn-inactive"
+      disabled={true}
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Invite Guests"
+        id="invitation_modal.guests.invite_button"
+        values={Object {}}
+      />
+    </button>
+  </div>
+</div>
+`;
