@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import {PropTypes} from 'prop-types';
 
 export default class ChannelMore extends React.PureComponent {
@@ -13,6 +13,10 @@ export default class ChannelMore extends React.PureComponent {
         browsePublicDirectChannels: PropTypes.func.isRequired,
     };
 
+    static contextTypes = {
+        intl: intlShape,
+    };
+
     render() {
         const {
             sectionType,
@@ -20,6 +24,8 @@ export default class ChannelMore extends React.PureComponent {
             moreDirectMessages,
             browsePublicDirectChannels,
         } = this.props;
+
+        const {formatMessage} = this.context.intl;
 
         switch (sectionType) {
         case 'public':
@@ -30,6 +36,7 @@ export default class ChannelMore extends React.PureComponent {
                 >
                     <button
                         id='sidebarChannelsMore'
+                        aria-label={formatMessage({id: 'sidebar.morePublicAria', defaultMessage: 'more public channels'})}
                         className='nav-more cursor--pointer style--none btn--block'
                         onClick={moreChannels}
                     >
@@ -48,6 +55,7 @@ export default class ChannelMore extends React.PureComponent {
                 >
                     <button
                         id='moreDirectMessage'
+                        aria-label={formatMessage({id: 'sidebar.moreDmAria', defaultMessage: 'more direct messages'})}
                         className='nav-more cursor--pointer style--none btn--block'
                         onClick={moreDirectMessages}
                     >
@@ -67,6 +75,7 @@ export default class ChannelMore extends React.PureComponent {
                 >
                     <button
                         id='morePublicDirectChannels'
+                        aria-label={formatMessage({id: 'sidebar.morePublicDmAria', defaultMessage: 'more public channels direct messages'})}
                         className='nav-more cursor--pointer style--none btn--block'
                         onClick={browsePublicDirectChannels}
                     >
