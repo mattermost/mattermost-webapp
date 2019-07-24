@@ -235,37 +235,38 @@ export default class Reaction extends React.PureComponent {
         }
 
         return (
-            <OverlayTrigger
-                trigger={['hover', 'click']}
-                delayShow={1000}
-                placement='top'
-                shouldUpdatePosition={true}
-                overlay={
-                    <Tooltip id={`${this.props.post.id}-${this.props.emojiName}-reaction`}>
-                        {tooltip}
-                        <br/>
-                        {clickTooltip}
-                    </Tooltip>
-                }
-                onEnter={this.loadMissingProfiles}
+            <button
+                id={`postReaction-${this.props.post.id}-${this.props.emojiName}`}
+                aria-label={ariaLabelEmoji}
+                className={`style--none ${className}`}
+                onClick={handleClick}
             >
-                <button
-                    id={`postReaction-${this.props.post.id}-${this.props.emojiName}`}
-                    aria-label={ariaLabelEmoji}
-                    className={`style--none ${className}`}
-                    onClick={handleClick}
+                <OverlayTrigger
+                    delayShow={1000}
+                    placement='top'
+                    shouldUpdatePosition={true}
+                    overlay={
+                        <Tooltip id={`${this.props.post.id}-${this.props.emojiName}-reaction`}>
+                            {tooltip}
+                            <br/>
+                            {clickTooltip}
+                        </Tooltip>
+                    }
+                    onEnter={this.loadMissingProfiles}
                 >
-                    <span
-                        className='post-reaction__emoji emoticon'
-                        style={{backgroundImage: 'url(' + this.props.emojiImageUrl + ')'}}
-                    />
-                    <span
-                        className='post-reaction__count'
-                    >
-                        {this.props.reactionCount}
+                    <span>
+                        <span
+                            className='post-reaction__emoji emoticon'
+                            style={{backgroundImage: 'url(' + this.props.emojiImageUrl + ')'}}
+                        />
+                        <span
+                            className='post-reaction__count'
+                        >
+                            {this.props.reactionCount}
+                        </span>
                     </span>
-                </button>
-            </OverlayTrigger>
+                </OverlayTrigger>
+            </button>
         );
     }
 }

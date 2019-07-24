@@ -309,14 +309,14 @@
             .channel__wrap & {
                 .post__permalink {
                     position: absolute;
-                    left: -50px;
-                    top: 2px;
+                    left: -76px;
+                    top: 1px;
+                    width: 60px;
+                    text-align: right;
                 }
 
                 .post__time {
                     font-size: .85em;
-                    text-align: right;
-                    width: 60px;
                 }
 
                 .star-icon__container {
@@ -502,7 +502,7 @@
                     .post__permalink {
                         position: absolute;
                         left: -18px;
-                        top: 5px;
+                        top: 3px;
 
                         .sidebar--right & {
                             left: -18px;

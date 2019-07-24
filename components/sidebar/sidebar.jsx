@@ -597,7 +597,7 @@ export default class Sidebar extends React.PureComponent {
                                 key={section.type}
                                 aria-label={ariaLabel}
                                 role='presentation'
-                                className='nav nav-pills nav-stacked'
+                                className='nav nav-pills nav-stacked a11y__section'
                                 id={sectionId + 'List'}
                                 tabIndex='-1'
                             >
@@ -624,6 +624,7 @@ export default class Sidebar extends React.PureComponent {
                                 </li>
                                 {section.items}
                                 <ChannelMore
+                                    currentTeamId={this.props.currentTeam.id}
                                     sectionType={section.type}
                                     moreChannels={this.showMoreChannelsModal}
                                     moreDirectMessages={this.handleOpenMoreDirectChannelsModal}
@@ -766,7 +767,8 @@ export default class Sidebar extends React.PureComponent {
                     role='application'
                     aria-label={ariaLabel}
                     tabIndex='-1'
-                    className='sidebar--left__list'
+                    className='sidebar--left__list a11y__region'
+                    data-a11y-sort-order='6'
                 >
                     <UnreadChannelIndicator
                         name='Top'

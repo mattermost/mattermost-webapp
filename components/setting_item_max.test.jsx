@@ -112,8 +112,12 @@ describe('components/SettingItemMin', () => {
             <SettingItemMax {...props}/>
         );
         const instance = wrapper.instance();
-        instance.onKeyDown({preventDefault: jest.fn(), key: Constants.KeyCodes.ENTER[0]});
-        expect(submit).toHaveBeenCalled();
+
+        instance.onKeyDown({preventDefault: jest.fn(), key: Constants.KeyCodes.ENTER[0], target: {tagName: 'SELECT'}});
+        expect(submit).toHaveBeenCalledTimes(0);
+
+        instance.onKeyDown({preventDefault: jest.fn(), key: Constants.KeyCodes.ENTER[0], target: {tagName: ''}});
+        expect(submit).toHaveBeenCalledTimes(1);
         expect(submit).toHaveBeenCalledWith('setting');
     });
 

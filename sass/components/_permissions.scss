@@ -71,6 +71,15 @@
     max-height: 2000px;
     padding: .8em 1.5rem;
 
+    &.guest {
+        .permission-group {
+            .permission-group-row {
+                .permission-name {
+                    min-width: 300px;
+                }
+            }
+        }
+    }
     .permissions-tree--header {
         border-bottom: 1px solid #cccccc;
         display: flex;

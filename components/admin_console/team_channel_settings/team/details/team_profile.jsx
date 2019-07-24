@@ -29,14 +29,14 @@ export function TeamProfile({team}) {
 
                 <div className='group-teams-and-channels--body'>
                     <div className='row'>
-                        <div className='col-sm-2'>
+                        <div className='col-sm-2 large-team-image-col'>
                             <TeamImage
                                 displayName={team.display_name}
                                 teamIconUrl={teamIconUrl}
                             />
                         </div>
                         <div className='col-sm-10'>
-                            <div className='row'>
+                            <div className='row row-bottom-padding'>
                                 <FormattedMarkdownMessage
                                     id='admin.team_settings.team_detail.teamName'
                                     defaultMessage='**Team Name**:'
@@ -50,7 +50,7 @@ export function TeamProfile({team}) {
                                     defaultMessage='**Team Description**:'
                                 />
                                 <br/>
-                                {team.description || Utils.localizeMessage('admin.team_settings.team_detail.profileNoDescription', 'No team description added.')}
+                                {team.description || <span className='greyed-out'>{Utils.localizeMessage('admin.team_settings.team_detail.profileNoDescription', 'No team description added.')}</span>}
                             </div>
 
                         </div>

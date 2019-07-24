@@ -125,6 +125,7 @@ function isMac() {
 Cypress.Commands.add('postMessage', (message) => {
     cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type(message).type('{enter}');
     cy.wait(TIMEOUTS.TINY);
+    cy.get('#post_textbox').should('have.value', '');
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
@@ -368,11 +369,21 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         wait(TIMEOUTS.TINY);
 });
 
-/**
- * Get last recently used emoji and makes sure has given ID
- * @param {emojiId} emojiId - emoji id you want to make sure was the las recently used
- */
-Cypress.Commands.add('assertLastUsedEmojiHasId', (emojiId) => {
-    cy.get('.emoji-picker__item').eq(0).children('div').children('img').should('have.id', emojiId);
-});
+// ***********************************************************
+// File Upload
+// ************************************************************
 
+/**
+ * Upload a file on target input given a filename and mime type
+ * @param {String} targetInput - Target input to upload a file
+ * @param {String} fileName - Filename to upload from the fixture
+ * @param {String} mimeType - Mime type of a file
+ */
+Cypress.Commands.add('fileUpload', (targetInput, fileName = 'mattermost-icon.png', mimeType = 'image/png') => {
+    cy.fixture(fileName).then((fileContent) => {
+        cy.get(targetInput).upload(
+            {fileContent, fileName, mimeType},
+            {subjectType: 'input', force: true},
+        );
+    });
+});

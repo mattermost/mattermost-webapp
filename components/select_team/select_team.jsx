@@ -33,6 +33,7 @@ export default class SelectTeam extends React.Component {
     static propTypes = {
         currentUserId: PropTypes.string.isRequired,
         currentUserRoles: PropTypes.string,
+        currentUserIsGuest: PropTypes.string,
         customDescriptionText: PropTypes.string,
         isMemberOfTeam: PropTypes.bool.isRequired,
         listableTeams: PropTypes.array,
@@ -123,6 +124,7 @@ export default class SelectTeam extends React.Component {
 
     render() {
         const {
+            currentUserIsGuest,
             canManageSystem,
             customDescriptionText,
             isMemberOfTeam,
@@ -141,6 +143,19 @@ export default class SelectTeam extends React.Component {
                 <div className='signup__content'>
                     <div className={'form-group has-error'}>
                         <label className='control-label'>{this.state.error}</label>
+                    </div>
+                </div>
+            );
+        } else if (currentUserIsGuest) {
+            openContent = (
+                <div className='signup__content'>
+                    <div className={'form-group has-error'}>
+                        <label className='control-label'>
+                            <FormattedMessage
+                                id='signup_team.no_teams_for_guests'
+                                defaultMessage={'You don\'t belongs to any team and as a guest you can\'t join any team by yourself, you need to be invited or added by someone else.'}
+                            />
+                        </label>
                     </div>
                 </div>
             );
