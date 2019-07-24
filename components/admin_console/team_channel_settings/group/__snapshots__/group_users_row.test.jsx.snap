@@ -143,7 +143,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
           href="#"
         >
           <FormattedMessage
-            defaultMessage="{amount} Groups"
+            defaultMessage="{amount, number} {amount, plural, one {Group} other {Groups}}"
             id="team_channel_settings.group.group_user_row.numberOfGroups"
             values={
               Object {
