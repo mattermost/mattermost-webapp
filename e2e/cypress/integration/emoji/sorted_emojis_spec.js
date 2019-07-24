@@ -48,7 +48,7 @@ describe('Filtered emojis are sorted by recency, then begins with, then contains
                 emojiList.push(emojiName.dataset.testid);
             }).then(() => {
                 // #Comparing list of emojis obtained from search above and making sure order is same as requirement describes
-                expect(emojiList).to.deep.equal(['guardsman', 'white_small_square', 'small_airplane', 'small_blue_diamond', 'small_orange_diamond', 'small_red_triangle', 'small_red_triangle_down', 'arrow_down_small', 'arrow_up_small', 'black_medium_small_square', 'black_small_square', 'sun_behind_small_cloud', 'white_medium_small_square'])
+                expect(emojiList).to.deep.equal(['guardsman', 'white_small_square', 'small_airplane', 'small_blue_diamond', 'small_orange_diamond', 'small_red_triangle', 'small_red_triangle_down', 'arrow_down_small', 'arrow_up_small', 'black_medium_small_square', 'black_small_square', 'sun_behind_small_cloud', 'white_medium_small_square']);
             });
         });
     });
