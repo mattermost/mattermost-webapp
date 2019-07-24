@@ -2105,6 +2105,7 @@
   "error.channel_not_found.message": "The channel you're requesting is private or does not exist. Please contact an Administrator to be added to the channel.",
   "error.channel_not_found.title": "Channel Not Found",
   "error.channelNotFound.link": "Back to {defaultChannelName}",
+  "error.channelNotFound.guest_link": "Back",
   "error.generic.link": "Back to {siteName}",
   "error.generic.link_login": "Back to login page",
   "error.generic.message": "An error has occurred.",
