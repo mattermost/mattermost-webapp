@@ -30,7 +30,6 @@ describe('components/SearchResultsItem', () => {
     let mockFunc;
     let user;
     let post;
-    let channel;
     let defaultProps;
 
     beforeEach(() => {
