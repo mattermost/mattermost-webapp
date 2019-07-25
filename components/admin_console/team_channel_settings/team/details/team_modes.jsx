@@ -25,7 +25,7 @@ const SyncGroupsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked
         subTitle={(
             <FormattedMarkdownMessage
                 id='admin.team_settings.team_details.syncGroupMembersDescr'
-                defaultMessage='When enabled, adding and removing users from groups will add or remove them from this team. The only way of inviting members to this team is by adding the groups they belong to. [Learn More](https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
+                defaultMessage='When enabled, adding and removing users from groups will add or remove them from this team. The only way of inviting members to this team is by adding the groups they belong to. [Learn More](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
             />
         )}
     />);
