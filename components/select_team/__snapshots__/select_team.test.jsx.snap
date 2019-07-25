@@ -37,6 +37,7 @@ exports[`components/select_team/SelectTeam should match snapshot 1`] = `
           />
         </h4>
         <InfiniteScroll
+          bufferValue={10}
           callBack={[Function]}
           endOfData={false}
           endOfDataMessage="No more teams to display"
@@ -333,6 +334,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
           />
         </h4>
         <InfiniteScroll
+          bufferValue={10}
           callBack={[Function]}
           endOfData={false}
           endOfDataMessage="No more teams to display"
@@ -549,6 +551,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
           />
         </h4>
         <InfiniteScroll
+          bufferValue={10}
           callBack={[Function]}
           endOfData={false}
           endOfDataMessage="No more teams to display"
