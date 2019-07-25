@@ -4,7 +4,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const SCROLL_BUFFER = 10;
+
 export default class InfiniteScroll extends React.PureComponent {
+    static defaultProps = {
+        bufferValue: SCROLL_BUFFER,
+    };
+
     static propTypes = {
         children: PropTypes.node.isRequired,
 
@@ -27,7 +33,13 @@ export default class InfiniteScroll extends React.PureComponent {
          * A wrapper class to define styling of the infinite scroll
          */
         styleClass: PropTypes.string.isRequired,
-    }
+
+        /**
+         * A number that determines how far the scroll is near the bottom before
+         * loading more items
+         */
+        bufferValue: PropTypes.number,
+    };
 
     constructor(props) {
         super(props);
@@ -55,12 +67,21 @@ export default class InfiniteScroll extends React.PureComponent {
         });
     }
 
+    validateBuffer = (buffer) => {
+        if (buffer < SCROLL_BUFFER) {
+            return SCROLL_BUFFER;
+        }
+        return Math.abs(buffer);
+    }
+
     handleScroll = () => {
         const {isFetching} = this.state;
-        const {callBack, endOfData} = this.props;
-        var node = this.node.current;
-        const bottom = node.scrollHeight - node.scrollTop === node.clientHeight;
-        if (bottom && !endOfData && !isFetching) {
+        const {callBack, endOfData, bufferValue} = this.props;
+        const node = this.node.current;
+        const validBuffer = this.validateBuffer(bufferValue);
+        const toScroll = node.scrollHeight - node.clientHeight - validBuffer;
+        const nearBottom = node.scrollTop > toScroll;
+        if (nearBottom && !endOfData && !isFetching) {
             this.setState({
                 isFetching: true,
             });
