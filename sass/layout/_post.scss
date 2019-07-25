@@ -439,6 +439,9 @@
         overflow: hidden;
         padding: 12px 0 12px 15px;
         resize: none;
+        -ms-overflow-style: auto;
+        -webkit-overflow-scrolling: touch;
+        overflow-y: auto;
 
         &:not(.custom-textarea--emoji-picker) {
             padding-right: 40px;
