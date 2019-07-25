@@ -2,6 +2,7 @@
 
 exports[`/components/common/InfiniteScroll should match snapshot 1`] = `
 <InfiniteScroll
+  bufferValue={10}
   callBack={[MockFunction]}
   endOfData={false}
   endOfDataMessage="No more items to fetch"
