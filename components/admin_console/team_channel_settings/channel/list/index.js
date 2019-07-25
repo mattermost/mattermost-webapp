@@ -14,7 +14,7 @@ import {Constants} from 'utils/constants';
 
 import List from './channel_list.jsx';
 
-const compareByName = (a, b) => a.name.localeCompare(b.name);
+const compareByName = (a, b) => a.display_name.localeCompare(b.display_name);
 
 const getSortedListOfChannels = createSelector(
     getAllChannels,
