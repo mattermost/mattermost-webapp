@@ -231,6 +231,10 @@ export default class ChannelHeader extends React.PureComponent {
         }
     }
 
+    removeTooltipLink = () => {
+        this.refs.toggleFavorite.removeAttribute('aria-describedby');
+    }
+
     showEditChannelHeaderModal = () => {
         if (this.refs.headerOverlay) {
             this.refs.headerOverlay.hide();
@@ -500,9 +504,11 @@ export default class ChannelHeader extends React.PureComponent {
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={toggleFavoriteTooltip}
+                    onEntering={this.removeTooltipLink}
                 >
                     <button
                         id='toggleFavorite'
+                        ref='toggleFavorite'
                         onClick={this.toggleFavorite}
                         className={'style--none color--link channel-header__favorites ' + (this.props.isFavorite ? 'active' : 'inactive')}
                         aria-label={ariaLabel}
@@ -559,6 +565,8 @@ export default class ChannelHeader extends React.PureComponent {
                         aria-label={formatMessage({id: 'channel_header.menuAriaLabel', defaultMessage: 'Channel Menu'}).toLowerCase()}
                     >
                         <strong
+                            role='heading'
+                            aria-level='2'
                             id='channelHeaderTitle'
                             className='heading'
                         >
@@ -585,6 +593,8 @@ export default class ChannelHeader extends React.PureComponent {
                 >
                     {toggleFavorite}
                     <strong
+                        role='heading'
+                        aria-level='2'
                         id='channelHeaderTitle'
                         className='heading'
                     >
@@ -617,9 +627,9 @@ export default class ChannelHeader extends React.PureComponent {
                             <div
                                 className='channel-header__title dropdown'
                             >
-                                <h2>
+                                <div>
                                     {title}
-                                </h2>
+                                </div>
                                 {muteTrigger}
                             </div>
                             {headerTextContainer}
