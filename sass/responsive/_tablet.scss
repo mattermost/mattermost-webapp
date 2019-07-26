@@ -307,13 +307,16 @@
             }
 
             .channel__wrap & {
+                .post__permalink {
+                    position: absolute;
+                    left: -76px;
+                    top: 1px;
+                    width: 60px;
+                    text-align: right;
+                }
+
                 .post__time {
                     font-size: .85em;
-                    left: -79px;
-                    position: absolute;
-                    text-align: right;
-                    top: 3px;
-                    width: 60px;
                 }
 
                 .star-icon__container {
@@ -496,21 +499,24 @@
                         }
                     }
 
-                    .post__time {
-                        display: inline-block;
-                        font-size: 11px;
-                        left: -18px;
-                        line-height: 20px;
+                    .post__permalink {
                         position: absolute;
-                        text-align: right;
-                        text-rendering: auto;
-                        top: 5px;
-                        width: 51px;
+                        left: -18px;
+                        top: 3px;
 
                         .sidebar--right & {
                             left: -18px;
                             top: 4px;
                         }
+                    }
+
+                    .post__time {
+                        display: inline-block;
+                        font-size: 12px;
+                        line-height: 20px;
+                        text-align: right;
+                        text-rendering: auto;
+                        width: 51px;
 
                         &:hover {
                             text-decoration: underline;

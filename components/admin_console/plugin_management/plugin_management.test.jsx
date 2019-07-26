@@ -14,6 +14,7 @@ describe('components/PluginManagement', () => {
             PluginSettings: {
                 Enable: true,
                 EnableUploads: true,
+                AllowInsecureDownloadUrl: false,
             },
             ExperimentalSettings: {
                 RestrictSystemAdmin: false,
@@ -88,6 +89,7 @@ describe('components/PluginManagement', () => {
         },
         actions: {
             uploadPlugin: jest.fn(),
+            installPluginFromUrl: jest.fn(),
             removePlugin: jest.fn(),
             getPlugins: jest.fn().mockResolvedValue([]),
             getPluginStatuses: jest.fn().mockResolvedValue([]),
@@ -146,6 +148,29 @@ describe('components/PluginManagement', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, allow insecure URL enabled', () => {
+        const props = {
+            ...defaultProps,
+            config: {
+                ...defaultProps.config,
+                PluginSettings: {
+                    ...defaultProps.config.PluginSettings,
+                    AllowInsecureDownloadUrl: true,
+                },
+            },
+        };
+        const wrapper = shallow(<PluginManagement {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, text entered into the URL install text box', () => {
+        const props = defaultProps;
+
+        const wrapper = shallow(<PluginManagement {...props}/>);
+        wrapper.setState({pluginDownloadUrl: 'https://pluginsite.com/plugin.tar.gz'});
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, No installed plugins', () => {
         const props = {
             config: {
@@ -153,12 +178,14 @@ describe('components/PluginManagement', () => {
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
+                    AllowInsecureDownloadUrl: false,
                 },
             },
             pluginStatuses: {},
             plugins: {},
             actions: {
                 uploadPlugin: jest.fn(),
+                installPluginFromUrl: jest.fn(),
                 removePlugin: jest.fn(),
                 getPlugins: jest.fn().mockResolvedValue([]),
                 getPluginStatuses: jest.fn().mockResolvedValue([]),
@@ -184,6 +211,7 @@ describe('components/PluginManagement', () => {
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
+                    AllowInsecureDownloadUrl: false,
                 },
             },
             pluginStatuses: {
@@ -247,6 +275,7 @@ describe('components/PluginManagement', () => {
             },
             actions: {
                 uploadPlugin: jest.fn(),
+                installPluginFromUrl: jest.fn(),
                 removePlugin: jest.fn(),
                 getPlugins: jest.fn().mockResolvedValue([]),
                 getPluginStatuses: jest.fn().mockResolvedValue([]),
@@ -266,6 +295,7 @@ describe('components/PluginManagement', () => {
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
+                    AllowInsecureDownloadUrl: false,
                 },
             },
             pluginStatuses: {
@@ -301,6 +331,7 @@ describe('components/PluginManagement', () => {
             },
             actions: {
                 uploadPlugin: jest.fn(),
+                installPluginFromUrl: jest.fn(),
                 removePlugin: jest.fn(),
                 getPlugins: jest.fn().mockResolvedValue([]),
                 getPluginStatuses: jest.fn().mockResolvedValue([]),
@@ -320,6 +351,7 @@ describe('components/PluginManagement', () => {
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
+                    AllowInsecureDownloadUrl: false,
                 },
             },
             pluginStatuses: {
@@ -355,6 +387,7 @@ describe('components/PluginManagement', () => {
             },
             actions: {
                 uploadPlugin: jest.fn(),
+                installPluginFromUrl: jest.fn(),
                 removePlugin: jest.fn(),
                 getPlugins: jest.fn().mockResolvedValue([]),
                 getPluginStatuses: jest.fn().mockResolvedValue([]),
@@ -374,6 +407,7 @@ describe('components/PluginManagement', () => {
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
+                    AllowInsecureDownloadUrl: false,
                 },
             },
             pluginStatuses: {
@@ -411,6 +445,7 @@ describe('components/PluginManagement', () => {
             },
             actions: {
                 uploadPlugin: jest.fn(),
+                installPluginFromUrl: jest.fn(),
                 removePlugin: jest.fn(),
                 getPlugins: jest.fn().mockResolvedValue([]),
                 getPluginStatuses: jest.fn().mockResolvedValue([]),
@@ -421,5 +456,35 @@ describe('components/PluginManagement', () => {
         const wrapper = shallow(<PluginManagement {...props}/>);
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should call installPluginFromUrl when the install button is clicked', async () => {
+        const installPluginFromUrl = jest.fn().mockReturnValue(Promise.resolve({}));
+        const getPlugins = jest.fn().mockReturnValue(Promise.resolve());
+
+        const props = {
+            ...defaultProps,
+            actions: {
+                ...defaultProps.actions,
+                getPlugins,
+                installPluginFromUrl,
+            },
+        };
+
+        const wrapper = shallow(<PluginManagement {...props}/>);
+        wrapper.setState({pluginDownloadUrl: 'https://pluginsite.com/plugin.tar.gz'});
+
+        const button = wrapper.find('#installPluginButton');
+
+        expect(wrapper.state().installing).toBe(false);
+        button.simulate('click', {preventDefault: jest.fn()});
+        expect(wrapper.state().installing).toBe(true);
+
+        process.nextTick(() => {
+            expect(installPluginFromUrl).toHaveBeenCalled();
+            expect(getPlugins).toHaveBeenCalled();
+            expect(wrapper.state().installing).toBe(false);
+            expect(wrapper.state().serverError).toBe(null);
+        });
     });
 });

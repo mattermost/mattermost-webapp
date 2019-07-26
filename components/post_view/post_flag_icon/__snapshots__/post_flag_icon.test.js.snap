@@ -1,79 +1,81 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/post_view/PostFlagIcon should match snapshot 1`] = `
-<OverlayTrigger
-  defaultOverlayShown={false}
-  delayShow={400}
-  key="flagtooltipkey"
-  overlay={
-    <Tooltip
-      bsClass="tooltip"
-      id="flagTooltip"
-      placement="right"
-    >
-      <FormattedMessage
-        defaultMessage="Flag for follow up"
-        id="flag_post.flag"
-        values={Object {}}
-      />
-    </Tooltip>
-  }
-  placement="top"
-  trigger={
-    Array [
-      "hover",
-      "focus",
-    ]
-  }
+<button
+  aria-label="flag for follow up"
+  className="style--none flag-icon__container "
+  id="CENTER_flagIcon_post_id"
+  onClick={[Function]}
 >
-  <button
-    className="style--none flag-icon__container "
-    id="CENTER_flagIcon_post_id"
-    onClick={[Function]}
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    key="flagtooltipkey"
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="flagTooltip"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="Flag for follow up"
+          id="flag_post.flag"
+          values={Object {}}
+        />
+      </Tooltip>
+    }
+    placement="top"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
     <FlagIcon
       className="icon"
     />
-  </button>
-</OverlayTrigger>
+  </OverlayTrigger>
+</button>
 `;
 
 exports[`components/post_view/PostFlagIcon should match snapshot 2`] = `
-<OverlayTrigger
-  defaultOverlayShown={false}
-  delayShow={400}
-  key="flagtooltipkeyvisible"
-  overlay={
-    <Tooltip
-      bsClass="tooltip"
-      id="flagTooltip"
-      placement="right"
-    >
-      <FormattedMessage
-        defaultMessage="Unflag"
-        id="flag_post.unflag"
-        values={Object {}}
-      />
-    </Tooltip>
-  }
-  placement="top"
-  trigger={
-    Array [
-      "hover",
-      "focus",
-    ]
-  }
+<button
+  aria-label="unflag"
+  className="style--none flag-icon__container visible"
+  id="CENTER_flagIcon_post_id"
+  onClick={[Function]}
 >
-  <button
-    className="style--none flag-icon__container visible"
-    id="CENTER_flagIcon_post_id"
-    onClick={[Function]}
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    key="flagtooltipkeyvisible"
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="flagTooltip"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="Unflag"
+          id="flag_post.unflag"
+          values={Object {}}
+        />
+      </Tooltip>
+    }
+    placement="top"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
     <FlagIconFilled
       className="icon"
     />
-  </button>
-</OverlayTrigger>
+  </OverlayTrigger>
+</button>
 `;
 
 exports[`components/post_view/PostFlagIcon should match snapshot 3`] = `""`;

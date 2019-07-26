@@ -241,7 +241,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                         />
                     }
                     inputs={[
-                        <div key='formattingSetting'>
+                        <fieldset key='formattingSetting'>
                             <div className='radio'>
                                 <label>
                                     <input
@@ -274,14 +274,13 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                                 </label>
                                 <br/>
                             </div>
-                            <div>
-                                <br/>
+                            <div className='margin-top x3'>
                                 <FormattedMessage
                                     id='user.settings.advance.formattingDesc'
                                     defaultMessage='If enabled, posts will be formatted to create links, show emoji, style the text, and add line breaks. By default, this setting is enabled.'
                                 />
                             </div>
-                        </div>,
+                        </fieldset>,
                     ]}
                     setting={'formatting'}
                     submit={this.handleSubmit}

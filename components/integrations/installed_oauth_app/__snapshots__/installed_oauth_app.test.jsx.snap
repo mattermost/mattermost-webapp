@@ -20,11 +20,11 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
     <div
       className="item-details__row"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         testApp
-      </span>
+      </strong>
     </div>
     <div
       className="item-details__row"
@@ -190,7 +190,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
     <div
       className="item-details__row"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         <FormattedMessage
@@ -198,7 +198,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
           id="installed_integrations.unnamed_oauth_app"
           values={Object {}}
         />
-      </span>
+      </strong>
     </div>
     <FormError
       error="error"
@@ -368,7 +368,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
     <div
       className="item-details__row"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         <FormattedMessage
@@ -376,7 +376,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
           id="installed_integrations.unnamed_oauth_app"
           values={Object {}}
         />
-      </span>
+      </strong>
     </div>
     <div
       className="item-details__row"

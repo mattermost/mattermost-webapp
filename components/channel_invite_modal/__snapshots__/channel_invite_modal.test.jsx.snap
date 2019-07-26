@@ -7,7 +7,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="more-modal"
+  dialogClassName="a11y__modal more-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   id="addUsersToChannelModal"
@@ -56,8 +56,10 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
+    role="application"
   >
     <MultiSelect
+      ariaLabelRenderer={[Function]}
       buttonSubmitLoadingText="Adding..."
       buttonSubmitText="Add"
       handleAdd={[Function]}

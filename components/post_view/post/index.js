@@ -6,9 +6,9 @@ import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
 
 import {Posts} from 'mattermost-redux/constants';
-import {getPost, makeIsPostCommentMention} from 'mattermost-redux/selectors/entities/posts';
+import {getPost, makeIsPostCommentMention, makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {makeGetDisplayName, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {isPostEphemeral, isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
 import {selectPost, selectPostCard} from 'actions/views/rhs';
@@ -50,6 +50,8 @@ export function makeGetReplyCount() {
 function makeMapStateToProps() {
     const getReplyCount = makeGetReplyCount();
     const isPostCommentMention = makeIsPostCommentMention();
+    const getReactionsForPost = makeGetReactionsForPost();
+    const getDisplayName = makeGetDisplayName();
 
     return (state, ownProps) => {
         const post = ownProps.post || getPost(state, ownProps.postId);
@@ -73,7 +75,10 @@ function makeMapStateToProps() {
 
         return {
             post,
+            author: getDisplayName(state, post.user_id),
+            reactions: getReactionsForPost(state, post.id),
             currentUserId: getCurrentUserId(state),
+            isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
             isFirstReply: isFirstReply(post, previousPost),
             consecutivePostByUser,
             previousPostIsComment,

@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/invitation_modal/InvitationModalInitialStep should match the snapshot 1`] = `
+<div
+  className="InvitationModalInitialStep"
+>
+  <div
+    className="modal-icon"
+  >
+    <InviteIcon />
+  </div>
+  <h1>
+    <InjectIntl(FormattedMarkdownMessage)
+      defaultMessage="Invite people to **{teamName}**"
+      id="invitation_modal.title"
+      values={
+        Object {
+          "teamName": "test",
+        }
+      }
+    />
+  </h1>
+  <div
+    className="invitation-modal-option"
+    onClick={[MockFunction]}
+  >
+    <div>
+      <h2>
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="Invite **Members**"
+          id="invitation_modal.invite_members.title"
+        />
+      </h2>
+      <FormattedMessage
+        defaultMessage="Invite new team members with a link or by email. Team members have access to messages and files in open teams and public channels."
+        id="invitation_modal.invite_members.description"
+        values={Object {}}
+      />
+    </div>
+    <ArrowRightIcon
+      className="arrow"
+    />
+  </div>
+  <div
+    className="invitation-modal-option"
+    onClick={[MockFunction]}
+  >
+    <div>
+      <h2>
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="Invite **Guests**"
+          id="invitation_modal.invite_guests.title"
+        />
+      </h2>
+      <FormattedMessage
+        defaultMessage="Invite guests to one or more channels. Guests only have access to messages, files, and people in the channels they are members of."
+        id="invitation_modal.invite_guests.description"
+        values={Object {}}
+      />
+    </div>
+    <ArrowRightIcon
+      className="arrow"
+    />
+  </div>
+</div>
+`;

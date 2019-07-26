@@ -1,0 +1,84 @@
+.team-container {
+    margin-right: 10px;
+}
+
+.team-btn__content {
+    @include single-transition(all, .25s, ease);
+    @include opacity(.5);
+    @include border-radius(3px);
+    background-color: alpha-color($black, .3);
+    overflow: hidden;
+    height: 100%;
+}
+
+.team-btn__content.no-hover {
+    transition:none;
+}
+
+.team-btn__initials {
+    &.team-btn-large__initials {
+        font-size: 3em;
+    }
+    &.team-btn-small__initials {
+        font-size: 14px;
+    }
+}
+.team-btn {
+    @include border-radius(4px);
+    border: 1px solid transparent;
+    font-weight: bold;
+    height: 44px;
+    letter-spacing: -.5px;
+    line-height: 42px;
+    position: relative;
+    text-align: center;
+    text-transform: capitalize;
+    vertical-align: top;
+    width: 44px;
+
+    &.team-btn-large {
+        width: 94px;
+        height: 94px;
+        line-height: 92px;
+    }
+
+    &.team-btn-small {
+        width: 40px;
+        height: 40px;
+        line-height: 38px;
+    }
+
+
+    &:hover {
+        .team-btn__content {
+            @include opacity(.8);
+        }
+        .team-btn__content.no-hover {
+            @include opacity(.5);
+        }
+    }
+
+    .team-btn__image {
+        @include clearfix;
+        @include background-size(100% 100%);
+        background-color: $white;
+        background-repeat: no-repeat;
+        width: 43px;
+        height: 100%;
+        &.team-btn-large__image {
+            width: 98px;
+        }
+
+        &.team-btn-small__image {
+            width: 40px;
+        }
+
+    }
+
+    &.team-btn__add {
+        font-size: 25px;
+        line-height: 41px;
+        vertical-align: middle;
+        background-color: alpha-color($black, .3);
+    }
+}

@@ -245,7 +245,6 @@ export default class SearchBar extends React.Component {
                     className='search-form__container'
                 >
                     <form
-                        role='form'
                         className={searchFormClass}
                         onSubmit={this.handleSubmit}
                         style={style.searchForm}
@@ -258,9 +257,12 @@ export default class SearchBar extends React.Component {
                         />
                         <SuggestionBox
                             ref={this.getSearch}
+                            role='application'
                             id='searchBox'
-                            aria-label={Utils.localizeMessage('accessibility.sections.searchBox', 'search region')}
-                            className='search-bar'
+                            tabIndex='0'
+                            className='search-bar a11y__region'
+                            data-a11y-sort-order='8'
+                            aria-describedby='searchbar-help-popup'
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                             value={this.props.searchTerms}
                             onFocus={this.handleUserFocus}
@@ -282,7 +284,6 @@ export default class SearchBar extends React.Component {
                                 onClick={this.handleClear}
                             >
                                 <OverlayTrigger
-                                    trigger={['hover', 'focus']}
                                     delayShow={Constants.OVERLAY_TIME_DELAY}
                                     placement='bottom'
                                     overlay={searchClearTooltip}

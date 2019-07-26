@@ -4,6 +4,10 @@
 /* eslint-disable no-magic-numbers */
 import keyMirror from 'key-mirror';
 
+import Permissions from 'mattermost-redux/constants/permissions';
+
+import * as PostListUtils from 'mattermost-redux/utils/post_list';
+
 import audioIcon from 'images/icons/audio.svg';
 import codeIcon from 'images/icons/code.svg';
 import excelIcon from 'images/icons/excel.svg';
@@ -23,9 +27,6 @@ import mattermostDarkThemeImage from 'images/themes/mattermost_dark.png';
 import defaultThemeImage from 'images/themes/organization.png';
 import windows10ThemeImage from 'images/themes/windows_dark.png';
 import logoWebhook from 'images/webhook_icon.jpg';
-
-import Permissions from 'mattermost-redux/constants/permissions';
-import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import {t} from 'utils/i18n';
 
@@ -56,6 +57,11 @@ export const SettingsTypes = {
     TYPE_LANGUAGE: 'language',
     TYPE_JOBSTABLE: 'jobstable',
     TYPE_CUSTOM: 'custom',
+};
+
+export const InviteTypes = {
+    INVITE_MEMBER: 'member',
+    INVITE_GUEST: 'guest',
 };
 
 export const Preferences = {
@@ -165,6 +171,14 @@ export const ActionTypes = keyMirror({
     INCREMENT_WS_ERROR_COUNT: null,
     RESET_WS_ERROR_COUNT: null,
     RECEIVED_POSTS_FOR_CHANNEL_AT_TIME: null,
+    CHANNEL_POSTS_STATUS: null,
+    CHANNEL_SYNC_STATUS: null,
+    ALL_CHANNEL_SYNC_STATUS: null,
+});
+
+export const PostRequestTypes = keyMirror({
+    BEFORE_ID: null,
+    AFTER_ID: null,
 });
 
 export const ModalIdentifiers = {
@@ -192,6 +206,7 @@ export const ModalIdentifiers = {
     EMAIL_INVITE: 'email_invite',
     INTERACTIVE_DIALOG: 'interactive_dialog',
     ADD_TEAMS_TO_SCHEME: 'add_teams_to_scheme',
+    INVITATION: 'invitation',
     ADD_GROUPS_TO_TEAM: 'add_groups_to_team',
     ADD_GROUPS_TO_CHANNEL: 'add_groups_to_channel',
     MANAGE_TEAM_GROUPS: 'manage_team_groups',
@@ -212,9 +227,42 @@ export const UserSearchOptions = {
     ROLE: 'role',
 };
 
-export const EventTypes = keyMirror({
-    POST_LIST_SCROLL_CHANGE: null,
-});
+export const EventTypes = Object.assign(
+    {
+        KEY_DOWN: 'keydown',
+        KEY_UP: 'keyup',
+        CLICK: 'click',
+        FOCUS: 'focus',
+        BLUR: 'blur',
+        MOUSE_DOWN: 'mousedown',
+        MOUSE_UP: 'mouseup',
+    },
+    keyMirror({
+        POST_LIST_SCROLL_CHANGE: null,
+    })
+);
+
+export const A11yClassNames = {
+    REGION: 'a11y__region',
+    SECTION: 'a11y__section',
+    ACTIVE: 'a11y--active',
+    FOCUSED: 'a11y--focused',
+    MODAL: 'a11y__modal',
+    POPUP: 'a11y__popup',
+};
+
+export const A11yAttributeNames = {
+    SORT_ORDER: 'data-a11y-sort-order',
+    ORDER_REVERSE: 'data-a11y-order-reversed',
+    FOCUS_CHILD: 'data-a11y-focus-child',
+    LOOP_NAVIGATION: 'data-a11y-loop-navigation',
+};
+
+export const A11yCustomEventTypes = {
+    ACTIVATE: 'a11yactivate',
+    DEACTIVATE: 'a11ydeactivate',
+    UPDATE: 'a11yupdate',
+};
 
 export const SocketEvents = {
     POSTED: 'posted',
@@ -304,6 +352,7 @@ export const StatTypes = keyMirror({
     TOTAL_COMMANDS: null,
     TOTAL_SESSIONS: null,
     POST_PER_DAY: null,
+    BOT_POST_PER_DAY: null,
     USERS_WITH_POSTS_PER_DAY: null,
     RECENTLY_ACTIVE_USERS: null,
     NEWLY_CREATED_USERS: null,
@@ -322,6 +371,7 @@ export const SearchUserTeamFilter = {
 export const SearchUserOptionsFilter = {
     ALLOW_INACTIVE: 'inactive',
     SYSTEM_ADMIN: 'system_admin',
+    SYSTEM_GUEST: 'system_guest',
 };
 
 export const SearchTypes = keyMirror({
@@ -592,9 +642,10 @@ export const PostListRowListIds = {
     DATE_LINE: PostListUtils.DATE_LINE,
     START_OF_NEW_MESSAGES: PostListUtils.START_OF_NEW_MESSAGES,
     CHANNEL_INTRO_MESSAGE: 'CHANNEL_INTRO_MESSAGE',
-    MORE_MESSAGES_LOADER: 'MORE_MESSAGES_LOADER',
-    MAX_MESSAGES_LOADED: 'MAX_MESSAGES_LOADED',
-    MANUAL_TRIGGER_LOAD_MESSAGES: 'MANUAL_TRIGGER_LOAD_MESSAGES',
+    OLDER_MESSAGES_LOADER: 'OLDER_MESSAGES_LOADER',
+    NEWER_MESSAGES_LOADER: 'NEWER_MESSAGES_LOADER',
+    LOAD_OLDER_MESSAGES_TRIGGER: 'LOAD_OLDER_MESSAGES_TRIGGER',
+    LOAD_NEWER_MESSAGES_TRIGGER: 'LOAD_NEWER_MESSAGES_TRIGGER',
 };
 
 export const Constants = {

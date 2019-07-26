@@ -24,8 +24,11 @@ import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox';
+import TextboxLinks from 'components/textbox/textbox_links.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
+
+const KeyCodes = Constants.KeyCodes;
 
 export default class CreateComment extends React.PureComponent {
     static propTypes = {
@@ -256,7 +259,7 @@ export default class CreateComment extends React.PureComponent {
             this.scrollToBottom();
         }
 
-        if (prevProps.rootId !== this.props.rootId || this.props.selectedPostFocussedAt > this.lastBlurAt) {
+        if (prevProps.rootId !== this.props.rootId || prevProps.selectedPostFocussedAt !== this.props.selectedPostFocussedAt) {
             this.focusTextbox();
         }
 
@@ -264,6 +267,10 @@ export default class CreateComment extends React.PureComponent {
             this.scrollToBottom();
             this.doInitialScrollToBottom = false;
         }
+    }
+
+    updatePreview = (newState) => {
+        this.setState({preview: newState});
     }
 
     focusTextboxIfNecessary = (e) => {
@@ -570,6 +577,12 @@ export default class CreateComment extends React.PureComponent {
         }
     }
 
+    handleKeyDownEmojiPicker = (e) => {
+        if (Utils.isKeyPressed(e, KeyCodes.ENTER)) {
+            this.toggleEmojiPicker();
+        }
+    }
+
     handleFileUploadChange = () => {
         this.focusTextbox();
     }
@@ -754,6 +767,7 @@ export default class CreateComment extends React.PureComponent {
         const {formatMessage} = this.context.intl;
         const enableAddButton = this.shouldEnableAddButton();
         const {renderScrollbar} = this.state;
+        const ariaLabelReplyInput = Utils.localizeMessage('accessibility.sections.rhsFooter', 'reply input region');
 
         const notifyAllTitle = (
             <FormattedMessage
@@ -867,14 +881,11 @@ export default class CreateComment extends React.PureComponent {
         }
 
         let emojiPicker = null;
+        const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
+
         if (this.props.enableEmojiPicker && !readOnlyChannel) {
             emojiPicker = (
-                <span
-                    role='button'
-                    tabIndex='0'
-                    aria-label={formatMessage({id: 'create_post.open_emoji_picker', defaultMessage: 'Open emoji picker'})}
-                    className='emoji-picker__container'
-                >
+                <div>
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         target={this.getCreateCommentControls}
@@ -885,11 +896,14 @@ export default class CreateComment extends React.PureComponent {
                         enableGifPicker={this.props.enableGifPicker}
                         topOffset={55}
                     />
-                    <EmojiIcon
-                        className={'icon icon--emoji emoji-rhs ' + (this.state.showEmojiPicker ? 'active' : '')}
+                    <button
+                        aria-label={emojiButtonAriaLabel}
                         onClick={this.toggleEmojiPicker}
-                    />
-                </span>
+                        className='style--none emoji-picker__container post-action'
+                    >
+                        <EmojiIcon className={'icon icon--emoji emoji-rhs ' + (this.state.showEmojiPicker ? 'active' : '')}/>
+                    </button>
+                </div>
             );
         }
 
@@ -909,16 +923,11 @@ export default class CreateComment extends React.PureComponent {
             <form onSubmit={this.handleSubmit}>
                 <div
                     id='rhsFooter'
-                    aria-labelledby='rhs_footer_aria_label'
+                    aria-label={ariaLabelReplyInput}
                     tabIndex='-1'
-                    className={'post-create' + scrollbarClass}
+                    className={`post-create a11y__region${scrollbarClass}`}
+                    data-a11y-sort-order='4'
                 >
-                    <h1
-                        id='rhs_footer_aria_label'
-                        className='hidden-label'
-                    >
-                        {Utils.localizeMessage('accessibility.sections.rhsFooter', 'reply input region')}
-                    </h1>
                     <div
                         id={this.props.rootId}
                         className='post-create-body comment-create-body'
@@ -943,6 +952,7 @@ export default class CreateComment extends React.PureComponent {
                                 ref='textbox'
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
+                                preview={this.state.preview}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                             />
@@ -955,23 +965,33 @@ export default class CreateComment extends React.PureComponent {
                             </span>
                         </div>
                     </div>
-                    <MsgTyping
-                        channelId={this.props.channelId}
-                        postId={this.props.rootId}
-                    />
                     <div
                         className='post-create-footer'
                     >
-                        <input
-                            type='button'
-                            className={addButtonClass}
-                            value={formatMessage({id: 'create_comment.comment', defaultMessage: 'Add Comment'})}
-                            onClick={this.handleSubmit}
-                        />
-                        {uploadsInProgressText}
-                        {postError}
-                        {preview}
-                        {serverError}
+                        <div className='d-flex justify-content-between'>
+                            <MsgTyping
+                                channelId={this.props.channelId}
+                                postId={this.props.rootId}
+                            />
+                            <TextboxLinks
+                                characterLimit={this.props.maxPostSize}
+                                preview={this.state.preview}
+                                updatePreview={this.updatePreview}
+                                message={readOnlyChannel ? '' : this.state.message}
+                            />
+                        </div>
+                        <div>
+                            <input
+                                type='button'
+                                className={addButtonClass}
+                                value={formatMessage({id: 'create_comment.comment', defaultMessage: 'Add Comment'})}
+                                onClick={this.handleSubmit}
+                            />
+                            {uploadsInProgressText}
+                            {postError}
+                            {preview}
+                            {serverError}
+                        </div>
                     </div>
                 </div>
                 <PostDeletedModal

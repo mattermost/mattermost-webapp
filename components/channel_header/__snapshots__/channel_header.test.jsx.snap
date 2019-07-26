@@ -2,18 +2,14 @@
 
 exports[`components/ChannelHeader should render archived view 1`] = `
 <div
-  aria-labelledby="channel_header_aria_label"
-  className="channel-header alt"
+  aria-label="channel header region"
+  className="channel-header alt a11y__region"
+  data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
+  role="navigation"
   tabIndex="-1"
 >
-  <h1
-    className="hidden-label"
-    id="channel_header_aria_label"
-  >
-    channel header region
-  </h1>
   <div
     className="flex-parent"
   >
@@ -27,7 +23,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
         <div
           className="channel-header__title dropdown"
         >
-          <h2>
+          <div>
             <MenuWrapper
               animationComponent={[Function]}
               className=""
@@ -41,8 +37,10 @@ exports[`components/ChannelHeader should render archived view 1`] = `
                   className="channel-header__trigger style--none"
                 >
                   <strong
+                    aria-level="2"
                     className="heading"
                     id="channelHeaderTitle"
+                    role="heading"
                   >
                     <span>
                       <ArchiveIcon
@@ -59,7 +57,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
-          </h2>
+          </div>
         </div>
         <div
           className="channel-header__description light"
@@ -150,18 +148,14 @@ exports[`components/ChannelHeader should render archived view 1`] = `
 
 exports[`components/ChannelHeader should render correct menu when muted 1`] = `
 <div
-  aria-labelledby="channel_header_aria_label"
-  className="channel-header alt"
+  aria-label="channel header region"
+  className="channel-header alt a11y__region"
+  data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
+  role="navigation"
   tabIndex="-1"
 >
-  <h1
-    className="hidden-label"
-    id="channel_header_aria_label"
-  >
-    channel header region
-  </h1>
   <div
     className="flex-parent"
   >
@@ -175,7 +169,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
         <div
           className="channel-header__title dropdown"
         >
-          <h2>
+          <div>
             <MenuWrapper
               animationComponent={[Function]}
               className=""
@@ -187,6 +181,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                 <OverlayTrigger
                   defaultOverlayShown={false}
                   delayShow={400}
+                  onEntering={[Function]}
                   overlay={
                     <Tooltip
                       bsClass="tooltip"
@@ -224,8 +219,10 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                   className="channel-header__trigger style--none"
                 >
                   <strong
+                    aria-level="2"
                     className="heading"
                     id="channelHeaderTitle"
+                    role="heading"
                   >
                     <span />
                   </strong>
@@ -238,7 +235,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
-          </h2>
+          </div>
           <OverlayTrigger
             defaultOverlayShown={false}
             delayShow={400}
@@ -391,18 +388,14 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
 
 exports[`components/ChannelHeader should render properly when populated 1`] = `
 <div
-  aria-labelledby="channel_header_aria_label"
-  className="channel-header alt"
+  aria-label="channel header region"
+  className="channel-header alt a11y__region"
+  data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
+  role="navigation"
   tabIndex="-1"
 >
-  <h1
-    className="hidden-label"
-    id="channel_header_aria_label"
-  >
-    channel header region
-  </h1>
   <div
     className="flex-parent"
   >
@@ -416,7 +409,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
         <div
           className="channel-header__title dropdown"
         >
-          <h2>
+          <div>
             <MenuWrapper
               animationComponent={[Function]}
               className=""
@@ -428,6 +421,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                 <OverlayTrigger
                   defaultOverlayShown={false}
                   delayShow={400}
+                  onEntering={[Function]}
                   overlay={
                     <Tooltip
                       bsClass="tooltip"
@@ -465,8 +459,10 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                   className="channel-header__trigger style--none"
                 >
                   <strong
+                    aria-level="2"
                     className="heading"
                     id="channelHeaderTitle"
+                    role="heading"
                   >
                     <span />
                   </strong>
@@ -479,7 +475,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
-          </h2>
+          </div>
         </div>
         <div
           className="channel-header__description light"
@@ -591,18 +587,14 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
 
 exports[`components/ChannelHeader should render properly when populated with channel props 1`] = `
 <div
-  aria-labelledby="channel_header_aria_label"
-  className="channel-header alt"
+  aria-label="channel header region"
+  className="channel-header alt a11y__region"
+  data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
+  role="navigation"
   tabIndex="-1"
 >
-  <h1
-    className="hidden-label"
-    id="channel_header_aria_label"
-  >
-    channel header region
-  </h1>
   <div
     className="flex-parent"
   >
@@ -616,7 +608,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
         <div
           className="channel-header__title dropdown"
         >
-          <h2>
+          <div>
             <MenuWrapper
               animationComponent={[Function]}
               className=""
@@ -630,8 +622,10 @@ exports[`components/ChannelHeader should render properly when populated with cha
                   className="channel-header__trigger style--none"
                 >
                   <strong
+                    aria-level="2"
                     className="heading"
                     id="channelHeaderTitle"
+                    role="heading"
                   >
                     <span>
                       <ArchiveIcon
@@ -648,7 +642,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
-          </h2>
+          </div>
         </div>
         <OverlayTrigger
           defaultOverlayShown={false}

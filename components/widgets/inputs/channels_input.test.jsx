@@ -28,9 +28,12 @@ describe('components/widgets/inputs/ChannelsInput', () => {
   components={
     Object {
       "IndicatorsContainer": [Function],
+      "MultiValueRemove": [Function],
+      "NoOptionsMessage": [Function],
     }
   }
-  defaultOptions={true}
+  defaultMenuIsOpen={false}
+  defaultOptions={false}
   filterOption={null}
   formatOptionLabel={[Function]}
   getOptionValue={[Function]}
@@ -38,8 +41,8 @@ describe('components/widgets/inputs/ChannelsInput', () => {
   isMulti={true}
   loadOptions={[MockFunction]}
   loadingMessage={[Function]}
-  noOptionsMessage={[Function]}
   onChange={[Function]}
+  openMenuOnClick={false}
   placeholder="test"
   value={
     Array [

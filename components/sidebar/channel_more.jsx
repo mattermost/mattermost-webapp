@@ -2,15 +2,23 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import {PropTypes} from 'prop-types';
+import {Permissions} from 'mattermost-redux/constants';
+
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 export default class ChannelMore extends React.PureComponent {
     static propTypes = {
+        currentTeamId: PropTypes.string.isRequired,
         sectionType: PropTypes.string.isRequired,
         moreChannels: PropTypes.func.isRequired,
         moreDirectMessages: PropTypes.func.isRequired,
         browsePublicDirectChannels: PropTypes.func.isRequired,
+    };
+
+    static contextTypes = {
+        intl: intlShape,
     };
 
     render() {
@@ -21,24 +29,32 @@ export default class ChannelMore extends React.PureComponent {
             browsePublicDirectChannels,
         } = this.props;
 
+        const {formatMessage} = this.context.intl;
+
         switch (sectionType) {
         case 'public':
             return (
-                <li
-                    key='public-channel-more'
-                    id='morePublicButton'
+                <TeamPermissionGate
+                    teamId={this.props.currentTeamId}
+                    permissions={[Permissions.JOIN_PUBLIC_CHANNELS]}
                 >
-                    <button
-                        id='sidebarChannelsMore'
-                        className='nav-more cursor--pointer style--none btn--block'
-                        onClick={moreChannels}
+                    <li
+                        key='public-channel-more'
+                        id='morePublicButton'
                     >
-                        <FormattedMessage
-                            id='sidebar.moreElips'
-                            defaultMessage='More...'
-                        />
-                    </button>
-                </li>
+                        <button
+                            id='sidebarChannelsMore'
+                            aria-label={formatMessage({id: 'sidebar.morePublicAria', defaultMessage: 'more public channels'})}
+                            className='nav-more cursor--pointer style--none btn--block'
+                            onClick={moreChannels}
+                        >
+                            <FormattedMessage
+                                id='sidebar.moreElips'
+                                defaultMessage='More...'
+                            />
+                        </button>
+                    </li>
+                </TeamPermissionGate>
             );
         case 'direct':
             return (
@@ -48,6 +64,7 @@ export default class ChannelMore extends React.PureComponent {
                 >
                     <button
                         id='moreDirectMessage'
+                        aria-label={formatMessage({id: 'sidebar.moreDmAria', defaultMessage: 'more direct messages'})}
                         className='nav-more cursor--pointer style--none btn--block'
                         onClick={moreDirectMessages}
                     >
@@ -67,6 +84,7 @@ export default class ChannelMore extends React.PureComponent {
                 >
                     <button
                         id='morePublicDirectChannels'
+                        aria-label={formatMessage({id: 'sidebar.morePublicDmAria', defaultMessage: 'more public channels direct messages'})}
                         className='nav-more cursor--pointer style--none btn--block'
                         onClick={browsePublicDirectChannels}
                     >

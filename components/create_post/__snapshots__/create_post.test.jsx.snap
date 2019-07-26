@@ -5,7 +5,6 @@ exports[`components/create_post Show tutorial 1`] = `
   className=""
   id="create_post"
   onSubmit={[Function]}
-  role="form"
 >
   <div
     className="post-create"
@@ -14,17 +13,12 @@ exports[`components/create_post Show tutorial 1`] = `
       className="post-create-body"
     >
       <div
-        aria-labelledby="message_input_aria_label"
-        className="post-body__cell"
+        aria-label="message input complimentary region"
+        className="post-body__cell a11y__region"
+        data-a11y-sort-order="2"
         id="centerChannelFooter"
         tabIndex="-1"
       >
-        <h1
-          className="hidden-label"
-          id="message_input_aria_label"
-        >
-          message input complimentary region
-        </h1>
         <Connect(Textbox)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
@@ -41,6 +35,7 @@ exports[`components/create_post Show tutorial 1`] = `
           onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
+          preview={false}
           value=""
         />
         <span
@@ -56,12 +51,7 @@ exports[`components/create_post Show tutorial 1`] = `
             onUploadStart={[Function]}
             postType="post"
           />
-          <span
-            aria-label="Open emoji picker"
-            className="emoji-picker__container"
-            role="button"
-            tabIndex="0"
-          >
+          <div>
             <EmojiPickerOverlay
               enableGifPicker={true}
               onEmojiClick={[Function]}
@@ -74,12 +64,18 @@ exports[`components/create_post Show tutorial 1`] = `
               target={[Function]}
               topOffset={-7}
             />
-            <EmojiIcon
-              className="icon icon--emoji "
-              id="emojiPickerButton"
+            <button
+              aria-label="emoji picker"
+              className="style--none emoji-picker__container post-action"
               onClick={[Function]}
-            />
-          </span>
+              type="button"
+            >
+              <EmojiIcon
+                className="icon icon--emoji "
+                id="emojiPickerButton"
+              />
+            </button>
+          </div>
           <a
             aria-label="Send a message"
             className="send-button theme disabled"
@@ -130,10 +126,21 @@ exports[`components/create_post Show tutorial 1`] = `
       className="post-create-footer"
       id="postCreateFooter"
     >
-      <Connect(MsgTyping)
-        channelId="owsyt8n43jfxjpzh9np93mx1wa"
-        postId=""
-      />
+      <div
+        className="d-flex justify-content-between"
+      >
+        <Connect(MsgTyping)
+          channelId="owsyt8n43jfxjpzh9np93mx1wa"
+          postId=""
+        />
+        <TextboxLinks
+          characterLimit={4000}
+          message=""
+          preview={false}
+          updatePreview={[Function]}
+        />
+      </div>
+      <div />
     </div>
   </div>
   <PostDeletedModal
@@ -180,7 +187,6 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
   className="center"
   id="create_post"
   onSubmit={[Function]}
-  role="form"
 >
   <div
     className="post-create"
@@ -189,17 +195,12 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
       className="post-create-body"
     >
       <div
-        aria-labelledby="message_input_aria_label"
-        className="post-body__cell"
+        aria-label="message input complimentary region"
+        className="post-body__cell a11y__region"
+        data-a11y-sort-order="2"
         id="centerChannelFooter"
         tabIndex="-1"
       >
-        <h1
-          className="hidden-label"
-          id="message_input_aria_label"
-        >
-          message input complimentary region
-        </h1>
         <Connect(Textbox)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
@@ -216,6 +217,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
           onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
+          preview={false}
           value=""
         />
         <span
@@ -231,12 +233,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
             onUploadStart={[Function]}
             postType="post"
           />
-          <span
-            aria-label="Open emoji picker"
-            className="emoji-picker__container"
-            role="button"
-            tabIndex="0"
-          >
+          <div>
             <EmojiPickerOverlay
               enableGifPicker={true}
               onEmojiClick={[Function]}
@@ -249,12 +246,18 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
               target={[Function]}
               topOffset={-7}
             />
-            <EmojiIcon
-              className="icon icon--emoji "
-              id="emojiPickerButton"
+            <button
+              aria-label="emoji picker"
+              className="style--none emoji-picker__container post-action"
               onClick={[Function]}
-            />
-          </span>
+              type="button"
+            >
+              <EmojiIcon
+                className="icon icon--emoji "
+                id="emojiPickerButton"
+              />
+            </button>
+          </div>
           <a
             aria-label="Send a message"
             className="send-button theme disabled"
@@ -274,10 +277,21 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
       className="post-create-footer"
       id="postCreateFooter"
     >
-      <Connect(MsgTyping)
-        channelId="owsyt8n43jfxjpzh9np93mx1wa"
-        postId=""
-      />
+      <div
+        className="d-flex justify-content-between"
+      >
+        <Connect(MsgTyping)
+          channelId="owsyt8n43jfxjpzh9np93mx1wa"
+          postId=""
+        />
+        <TextboxLinks
+          characterLimit={4000}
+          message=""
+          preview={false}
+          updatePreview={[Function]}
+        />
+      </div>
+      <div />
     </div>
   </div>
   <PostDeletedModal
@@ -324,7 +338,6 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
   className=""
   id="create_post"
   onSubmit={[Function]}
-  role="form"
 >
   <div
     className="post-create"
@@ -333,17 +346,12 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
       className="post-create-body"
     >
       <div
-        aria-labelledby="message_input_aria_label"
-        className="post-body__cell"
+        aria-label="message input complimentary region"
+        className="post-body__cell a11y__region"
+        data-a11y-sort-order="2"
         id="centerChannelFooter"
         tabIndex="-1"
       >
-        <h1
-          className="hidden-label"
-          id="message_input_aria_label"
-        >
-          message input complimentary region
-        </h1>
         <Connect(Textbox)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
@@ -360,6 +368,7 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
           onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
+          preview={false}
           value=""
         />
         <span
@@ -384,10 +393,21 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
       className="post-create-footer"
       id="postCreateFooter"
     >
-      <Connect(MsgTyping)
-        channelId="owsyt8n43jfxjpzh9np93mx1wa"
-        postId=""
-      />
+      <div
+        className="d-flex justify-content-between"
+      >
+        <Connect(MsgTyping)
+          channelId="owsyt8n43jfxjpzh9np93mx1wa"
+          postId=""
+        />
+        <TextboxLinks
+          characterLimit={4000}
+          message=""
+          preview={false}
+          updatePreview={[Function]}
+        />
+      </div>
+      <div />
     </div>
   </div>
   <PostDeletedModal
@@ -434,7 +454,6 @@ exports[`components/create_post should match snapshot when file upload disabled 
   className=""
   id="create_post"
   onSubmit={[Function]}
-  role="form"
 >
   <div
     className="post-create post-create--attachment-disabled"
@@ -443,17 +462,12 @@ exports[`components/create_post should match snapshot when file upload disabled 
       className="post-create-body"
     >
       <div
-        aria-labelledby="message_input_aria_label"
-        className="post-body__cell"
+        aria-label="message input complimentary region"
+        className="post-body__cell a11y__region"
+        data-a11y-sort-order="2"
         id="centerChannelFooter"
         tabIndex="-1"
       >
-        <h1
-          className="hidden-label"
-          id="message_input_aria_label"
-        >
-          message input complimentary region
-        </h1>
         <Connect(Textbox)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
@@ -470,6 +484,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
           onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
+          preview={false}
           value=""
         />
         <span
@@ -485,12 +500,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
             onUploadStart={[Function]}
             postType="post"
           />
-          <span
-            aria-label="Open emoji picker"
-            className="emoji-picker__container"
-            role="button"
-            tabIndex="0"
-          >
+          <div>
             <EmojiPickerOverlay
               enableGifPicker={true}
               onEmojiClick={[Function]}
@@ -503,12 +513,18 @@ exports[`components/create_post should match snapshot when file upload disabled 
               target={[Function]}
               topOffset={-7}
             />
-            <EmojiIcon
-              className="icon icon--emoji "
-              id="emojiPickerButton"
+            <button
+              aria-label="emoji picker"
+              className="style--none emoji-picker__container post-action"
               onClick={[Function]}
-            />
-          </span>
+              type="button"
+            >
+              <EmojiIcon
+                className="icon icon--emoji "
+                id="emojiPickerButton"
+              />
+            </button>
+          </div>
           <a
             aria-label="Send a message"
             className="send-button theme disabled"
@@ -528,10 +544,21 @@ exports[`components/create_post should match snapshot when file upload disabled 
       className="post-create-footer"
       id="postCreateFooter"
     >
-      <Connect(MsgTyping)
-        channelId="owsyt8n43jfxjpzh9np93mx1wa"
-        postId=""
-      />
+      <div
+        className="d-flex justify-content-between"
+      >
+        <Connect(MsgTyping)
+          channelId="owsyt8n43jfxjpzh9np93mx1wa"
+          postId=""
+        />
+        <TextboxLinks
+          characterLimit={4000}
+          message=""
+          preview={false}
+          updatePreview={[Function]}
+        />
+      </div>
+      <div />
     </div>
   </div>
   <PostDeletedModal
@@ -578,7 +605,6 @@ exports[`components/create_post should match snapshot, init 1`] = `
   className=""
   id="create_post"
   onSubmit={[Function]}
-  role="form"
 >
   <div
     className="post-create"
@@ -587,17 +613,12 @@ exports[`components/create_post should match snapshot, init 1`] = `
       className="post-create-body"
     >
       <div
-        aria-labelledby="message_input_aria_label"
-        className="post-body__cell"
+        aria-label="message input complimentary region"
+        className="post-body__cell a11y__region"
+        data-a11y-sort-order="2"
         id="centerChannelFooter"
         tabIndex="-1"
       >
-        <h1
-          className="hidden-label"
-          id="message_input_aria_label"
-        >
-          message input complimentary region
-        </h1>
         <Connect(Textbox)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
@@ -614,6 +635,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
           onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
+          preview={false}
           value=""
         />
         <span
@@ -629,12 +651,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
             onUploadStart={[Function]}
             postType="post"
           />
-          <span
-            aria-label="Open emoji picker"
-            className="emoji-picker__container"
-            role="button"
-            tabIndex="0"
-          >
+          <div>
             <EmojiPickerOverlay
               enableGifPicker={true}
               onEmojiClick={[Function]}
@@ -647,12 +664,18 @@ exports[`components/create_post should match snapshot, init 1`] = `
               target={[Function]}
               topOffset={-7}
             />
-            <EmojiIcon
-              className="icon icon--emoji "
-              id="emojiPickerButton"
+            <button
+              aria-label="emoji picker"
+              className="style--none emoji-picker__container post-action"
               onClick={[Function]}
-            />
-          </span>
+              type="button"
+            >
+              <EmojiIcon
+                className="icon icon--emoji "
+                id="emojiPickerButton"
+              />
+            </button>
+          </div>
           <a
             aria-label="Send a message"
             className="send-button theme disabled"
@@ -672,10 +695,21 @@ exports[`components/create_post should match snapshot, init 1`] = `
       className="post-create-footer"
       id="postCreateFooter"
     >
-      <Connect(MsgTyping)
-        channelId="owsyt8n43jfxjpzh9np93mx1wa"
-        postId=""
-      />
+      <div
+        className="d-flex justify-content-between"
+      >
+        <Connect(MsgTyping)
+          channelId="owsyt8n43jfxjpzh9np93mx1wa"
+          postId=""
+        />
+        <TextboxLinks
+          characterLimit={4000}
+          message=""
+          preview={false}
+          updatePreview={[Function]}
+        />
+      </div>
+      <div />
     </div>
   </div>
   <PostDeletedModal
