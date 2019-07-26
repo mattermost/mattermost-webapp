@@ -315,6 +315,12 @@ export default class DotMenu extends Component {
                         text={Utils.localizeMessage('post_info.edit', 'Edit')}
                         onClick={this.handleEditMenuItemActivated}
                     />
+                    {pluginItems.length > 0 &&
+                    <li
+                        className='MenuItem__divider'
+                        role='menuitem'
+                    />
+                    }
                     {pluginItems}
                     <Pluggable
                         postId={this.props.post.id}
