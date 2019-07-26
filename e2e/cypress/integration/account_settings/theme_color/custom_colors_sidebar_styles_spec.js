@@ -148,7 +148,7 @@ describe('AS14318 Theme Colors - Color Picker', () => {
     });
 });
 
-describe('MM-14318 Theme Colors', () => {
+describe.only('MM-14318 Theme Colors', () => {
     beforeEach(() => {
         //Login and navigating to settings
         cy.apiLogin('user-1');
@@ -166,10 +166,10 @@ describe('MM-14318 Theme Colors', () => {
         cy.get('#sidebarStyles').click();
 
         // # Click the Sidebar BG setting
-        cy.get('[data-test-id=sidebarBg-squareColorIcon]:visible').first().click();
+        cy.get('#sidebarBg-squareColorIcon').click();
 
         //Filling up input with value #bb123e
-        cy.get('[data-test-id=sidebarBg-ChromePickerModal]').within(() => {
+        cy.get('#sidebarBg-ChromePickerModal').within(() => {
             cy.get('input').clear().type('#bb123e').type('{enter}');
         });
 
@@ -183,17 +183,17 @@ describe('MM-14318 Theme Colors', () => {
         cy.get('#sidebarStyles').click();
 
         //verifying configuration change was performed correctly
-        cy.get('[data-test-id=sidebarBg-squareColorIconValue]:visible').first().should('have.css', 'background-color', 'rgb(187, 18, 62)');
+        cy.get('#sidebarBg-squareColorIconValue').should('have.css', 'background-color', 'rgb(187, 18, 62)');
     });
 
     it('Should be able to use color picker input and change Center Channel Styles', () => {
         cy.get('#centerChannelStyles').click();
 
         // # Click the Sidebar BG setting
-        cy.get('[data-test-id=centerChannelBg-squareColorIcon]:visible').first().click();
+        cy.get('#centerChannelBg-squareColorIcon').click();
 
         //Filling up input with value #bb123e
-        cy.get('[data-test-id=centerChannelBg-ChromePickerModal]').within(() => {
+        cy.get('#centerChannelBg-ChromePickerModal').within(() => {
             cy.get('input').clear().type('#ff8800').type('{enter}');
         });
 
@@ -204,17 +204,17 @@ describe('MM-14318 Theme Colors', () => {
         cy.get('#centerChannelStyles').click();
 
         //verifying configuration change was performed correctly
-        cy.get('[data-test-id=centerChannelBg-squareColorIconValue]:visible').first().should('have.css', 'background-color', 'rgb(255, 136, 0)');
+        cy.get('#centerChannelBg-squareColorIconValue').should('have.css', 'background-color', 'rgb(255, 136, 0)');
     });
 
     it('Should be able to use color picker input and change Link and Button Styles', () => {
         cy.get('#linkAndButtonsStyles').click();
 
         // # Click the Sidebar BG setting
-        cy.get('[data-test-id=linkColor-squareColorIcon]:visible').first().click();
+        cy.get('#linkColor-squareColorIcon').click();
 
         //Filling up input with value #bb123e
-        cy.get('[data-test-id=linkColor-ChromePickerModal]').within(() => {
+        cy.get('#linkColor-ChromePickerModal').within(() => {
             cy.get('input').clear().type('#ffe577').type('{enter}');
         });
 
@@ -225,6 +225,6 @@ describe('MM-14318 Theme Colors', () => {
         cy.get('#linkAndButtonsStyles').click();
 
         //verifying configuration change was performed correctly
-        cy.get('[data-test-id=linkColor-squareColorIconValue]:visible').first().should('have.css', 'background-color', 'rgb(255, 229, 119)');
+        cy.get('#linkColor-squareColorIconValue').should('have.css', 'background-color', 'rgb(255, 229, 119)');
     });
 });
