@@ -9,6 +9,8 @@ import ReactSelect from 'react-select';
 import * as I18n from 'i18n/i18n.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import {isKeyPressed} from 'utils/utils.jsx';
+import Constants from 'utils/constants.jsx';
 
 export default class ManageLanguage extends React.Component {
     static propTypes = {
@@ -25,6 +27,8 @@ export default class ManageLanguage extends React.Component {
         const locales = I18n.getLanguages();
         const userLocale = props.locale;
         const selectedOption = {value: locales[userLocale].value, label: locales[userLocale].name};
+        this.reactSelect = React.createRef();
+        this.reactSelectContainer = React.createRef();
 
         this.state = {
             locale: props.locale,
@@ -33,11 +37,40 @@ export default class ManageLanguage extends React.Component {
         };
     }
 
+    componentDidMount() {
+        const reactSelectInput = this.reactSelectContainer.current.querySelector('input');
+        reactSelectInput.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    componentWillUnmount() {
+        const reactSelectInput = this.reactSelectContainer.current.querySelector('input');
+        reactSelectInput.removeEventListener('keydown', this.handleKeyDown);
+    }
+
+    handleKeyDown = (e) => {
+        if (isKeyPressed(e, Constants.KeyCodes.ESCAPE) && this.reactSelect.current.state.menuIsOpen) {
+            e.stopPropagation();
+            this.reactSelect.current.onMenuClose();
+        }
+    }
+
     setLanguage = (selectedOption) => {
         this.setState({
             locale: selectedOption.value,
             selectedOption,
         });
+    }
+
+    openDropdown = (e) => {
+        if (isKeyPressed(e, Constants.KeyCodes.ENTER)) {
+            this.reactSelect.current.onMenuOpen();
+        }
+    }
+
+    closeDropdown = (e) => {
+        if (isKeyPressed(e, Constants.KeyCodes.ESC)) {
+            e.stopPropagation();
+        }
     }
 
     changeLanguage = () => {
@@ -109,17 +142,22 @@ export default class ManageLanguage extends React.Component {
                         defaultMessage='Change interface language'
                     />
                 </label>
-                <div className='padding-top'>
+                <div
+                    ref={this.reactSelectContainer}
+                    className='padding-top'
+                >
                     <ReactSelect
                         className='react-select'
                         classNamePrefix='react-select'
                         id='displayLanguage'
-                        ref='language'
+                        isOpen={true}
+                        ref={this.reactSelect}
                         styles={selectStyles}
                         menuPortalTarget={document.querySelector('body')}
                         options={options}
                         clearable={false}
                         onChange={this.setLanguage}
+                        onKeyDown={this.openDropdown}
                         value={this.state.selectedOption}
                     />
                     {serverError}

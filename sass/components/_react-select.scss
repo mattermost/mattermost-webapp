@@ -1,5 +1,9 @@
 .app__body {
     .react-select {
+        .a11y--focused {
+            box-shadow: none;
+        }
+
         .react-select__control--is-focused {
             box-shadow: 0 0 0 1px v(button-bg);
             border-color: v(button-bg);
