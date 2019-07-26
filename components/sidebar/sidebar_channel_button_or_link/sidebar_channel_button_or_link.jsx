@@ -55,6 +55,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
     }
 
     removeTooltipLink = () => {
+        // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
         this.gmItemRef.current.removeAttribute('aria-describedby');
     }
 
