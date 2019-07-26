@@ -81,6 +81,7 @@ export default class ChannelHeader extends React.PureComponent {
 
     constructor(props) {
         super(props);
+        this.toggleFavoriteRef = React.createRef();
 
         const showSearchBar = Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE;
         this.state = {
@@ -232,7 +233,8 @@ export default class ChannelHeader extends React.PureComponent {
     }
 
     removeTooltipLink = () => {
-        this.refs.toggleFavorite.removeAttribute('aria-describedby');
+        // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
+        this.toggleFavoriteRef.current.removeAttribute('aria-describedby');
     }
 
     showEditChannelHeaderModal = () => {
@@ -508,7 +510,7 @@ export default class ChannelHeader extends React.PureComponent {
                 >
                     <button
                         id='toggleFavorite'
-                        ref='toggleFavorite'
+                        ref={this.toggleFavoriteRef}
                         onClick={this.toggleFavorite}
                         className={'style--none color--link channel-header__favorites ' + (this.props.isFavorite ? 'active' : 'inactive')}
                         aria-label={ariaLabel}
