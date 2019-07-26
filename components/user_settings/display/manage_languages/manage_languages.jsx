@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import ReactSelect from 'react-select';
 
 import * as I18n from 'i18n/i18n.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
@@ -21,15 +22,22 @@ export default class ManageLanguage extends React.Component {
 
     constructor(props) {
         super(props);
+        const locales = I18n.getLanguages();
+        const userLocale = props.locale;
+        const selectedOption = {value: locales[userLocale].value, label: locales[userLocale].name};
 
         this.state = {
             locale: props.locale,
+            selectedOption,
             isSaving: false,
         };
     }
 
-    setLanguage = (e) => {
-        this.setState({locale: e.target.value});
+    setLanguage = (selectedOption) => {
+        this.setState({
+            locale: selectedOption.value,
+            selectedOption,
+        });
     }
 
     changeLanguage = () => {
@@ -68,6 +76,13 @@ export default class ManageLanguage extends React.Component {
             serverError = <label className='has-error'>{this.state.serverError}</label>;
         }
 
+        const selectStyles = {
+            menuPortal: (base) => ({
+                ...base,
+                zIndex: '1100',
+            }),
+        };
+
         const options = [];
         const locales = I18n.getLanguages();
 
@@ -81,12 +96,7 @@ export default class ManageLanguage extends React.Component {
 
         languages.forEach((lang) => {
             options.push(
-                <option
-                    key={lang.value}
-                    value={lang.value}
-                >
-                    {lang.name}
-                </option>
+                {value: lang.value, label: lang.name}
             );
         });
 
@@ -100,16 +110,18 @@ export default class ManageLanguage extends React.Component {
                     />
                 </label>
                 <div className='padding-top'>
-                    <select
-                        role='combobox'
+                    <ReactSelect
+                        className='react-select'
+                        classNamePrefix='react-select'
                         id='displayLanguage'
                         ref='language'
-                        className='form-control'
-                        value={this.state.locale}
+                        styles={selectStyles}
+                        menuPortalTarget={document.querySelector('body')}
+                        options={options}
+                        clearable={false}
                         onChange={this.setLanguage}
-                    >
-                        {options}
-                    </select>
+                        value={this.state.selectedOption}
+                    />
                     {serverError}
                 </div>
                 <div>
