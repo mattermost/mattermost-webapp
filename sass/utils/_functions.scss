@@ -4,6 +4,10 @@
 	@return ($pixels / $context * 1em)
 }
 
+@function v($var) {
+    @return var(--#{$var});
+}
+
 @function alpha-color($color, $amount) {
     @return rgba($color, $amount)
 }
