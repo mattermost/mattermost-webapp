@@ -596,6 +596,7 @@
 
     > div {
         display: flex;
+        position: relative;
         width: 43px;
 
         &:first-child {
