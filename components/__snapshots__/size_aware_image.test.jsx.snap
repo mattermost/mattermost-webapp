@@ -36,7 +36,7 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
       xmlns="http://www.w3.org/2000/svg"
     />
   </div>
-  <button
+  <div
     aria-label="file thumbnail"
     className="style--none"
     style={
@@ -49,6 +49,7 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
         "width": 1,
       }
     }
+    tabIndex={0}
   >
     <img
       alt="image placeholder"
@@ -56,6 +57,6 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
       onLoad={[Function]}
       src="https://example.com/image.png"
     />
-  </button>
+  </div>
 </Fragment>
 `;
