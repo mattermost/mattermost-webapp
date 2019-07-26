@@ -38,13 +38,17 @@ export default class ManageLanguage extends React.Component {
     }
 
     componentDidMount() {
-        const reactSelectInput = this.reactSelectContainer.current.querySelector('input');
-        reactSelectInput.addEventListener('keydown', this.handleKeyDown);
+        if (this.reactSelectContainer.current) {
+            const reactSelectInput = this.reactSelectContainer.current.querySelector('input');
+            reactSelectInput.addEventListener('keydown', this.handleKeyDown);
+        }
     }
 
     componentWillUnmount() {
-        const reactSelectInput = this.reactSelectContainer.current.querySelector('input');
-        reactSelectInput.removeEventListener('keydown', this.handleKeyDown);
+        if (this.reactSelectContainer.current) {
+            const reactSelectInput = this.reactSelectContainer.current.querySelector('input');
+            reactSelectInput.removeEventListener('keydown', this.handleKeyDown);
+        }
     }
 
     handleKeyDown = (e) => {

@@ -24,7 +24,6 @@ describe('components/user_settings/display/manage_languages/manage_languages', (
         const wrapper = shallow(<ManageLanguages {...requiredProps}/>);
         const instance = wrapper.instance();
 
-        instance.reactSelectContainer = {current: {querySelector: {}}};
         instance.submitUser(requiredProps.user);
 
         expect(requiredProps.actions.updateMe).toHaveBeenCalledTimes(1);
