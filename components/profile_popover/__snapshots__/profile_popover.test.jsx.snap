@@ -7,7 +7,9 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
   isInCurrentTeam={false}
   placement="right"
   title={
-    <span>
+    <span
+      id="userPopoverUserName-some_username"
+    >
       <span
         className="user-popover__username"
       >
