@@ -6,7 +6,6 @@ import {Client4} from 'mattermost-redux/client';
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url.jsx';
-import tryRequire from 'utils/try_require.js';
 import PluginRegistry from 'plugins/registry';
 import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} from 'actions/websocket_actions.jsx';
 
@@ -81,23 +80,24 @@ export function loadPlugin(manifest) {
             resolve();
         }
 
+        function onError() {
+            reject(new Error('Unable to load bundle for plugin ' + manifest.id));
+        }
+
         // Backwards compatibility for old plugins
         let bundlePath = manifest.webapp.bundle_path;
         if (bundlePath.includes('/static/') && !bundlePath.includes('/static/plugins/')) {
             bundlePath = bundlePath.replace('/static/', '/static/plugins/');
         }
 
+        console.log('Loading ' + manifest.id + ' plugin'); //eslint-disable-line no-console
+
         const script = document.createElement('script');
         script.id = 'plugin_' + manifest.id;
         script.type = 'text/javascript';
         script.src = getSiteURL() + bundlePath;
         script.onload = onLoad;
-        console.log('Loading ' + manifest.id + ' plugin'); //eslint-disable-line no-console
-
-        if (!tryRequire(bundlePath)) {
-            reject(new Error('Unable to load bundle for plugin ' + manifest.id));
-            return;
-        }
+        script.onerror = onError;
 
         document.getElementsByTagName('head')[0].appendChild(script);
         loadedPlugins[manifest.id] = true;
