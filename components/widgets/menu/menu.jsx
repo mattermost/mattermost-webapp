@@ -41,7 +41,7 @@ export default class Menu extends React.PureComponent {
         return this.node.current;
     }
 
-    removeFocus = () => {
+    focus = () => {
         this.node.current.focus();
     }
 
@@ -79,7 +79,7 @@ export default class Menu extends React.PureComponent {
                         style={styles}
                         role='menu'
                         aria-label={ariaLabel}
-                        onMouseOver={this.removeFocus}
+                        onMouseOver={this.focus}
                     >
                         {children}
                     </ul>
