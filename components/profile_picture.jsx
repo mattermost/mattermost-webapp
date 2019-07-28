@@ -17,7 +17,6 @@ export default class ProfilePicture extends React.PureComponent {
         isRHS: false,
         isEmoji: false,
         hasMention: false,
-        wrapperClass: '',
     };
 
     static propTypes = {
@@ -66,7 +65,7 @@ export default class ProfilePicture extends React.PureComponent {
                         />
                     }
                 >
-                    <span className={`status-wrapper ${this.props.wrapperClass}`}>
+                    <span className='status-wrapper'>
                         <span className={profileIconClass}>
                             <img
                                 className='ProfilePicture more-modal__image'

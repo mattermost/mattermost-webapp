@@ -64,14 +64,14 @@ exports[`components/ProfilePicture should match snapshot, profile and src, defau
   trigger="click"
 >
   <span
-    className="status-wrapper "
+    className="status-wrapper"
   >
     <span
       className="profile-icon "
     >
       <img
         alt="user profile image"
-        className="more-modal__image"
+        className="ProfilePicture more-modal__image"
         height="36"
         src="http://example.com/emoji.png"
         width="36"
