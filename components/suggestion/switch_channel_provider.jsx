@@ -135,6 +135,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 onClick={this.handleClick}
                 className={className}
                 id={`switchChannel_${channel.name}`}
+                data-testid={channel.name}
                 {...Suggestion.baseProps}
             >
                 {icon}

@@ -37,7 +37,7 @@ export default class AdminGroupUsersRow extends React.PureComponent {
                 <a href='#'>
                     <FormattedMessage
                         id={t('team_channel_settings.group.group_user_row.numberOfGroups')}
-                        defaultMessage={'{amount} Groups'}
+                        defaultMessage={'{amount, number} {amount, plural, one {Group} other {Groups}}'}
                         values={{amount: member.groups.length}}
                     />
                 </a>

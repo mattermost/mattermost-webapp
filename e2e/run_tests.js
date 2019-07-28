@@ -27,7 +27,7 @@ function generateStatsFieldValue(stats, failedFullTitles) {
     let statsFieldValue = `
 | Key | Value |
 |:---|:---|
-| Passing Rate | ${stats.passPercent.toFixed(2)}% |
+| Passing Rate | ${stats.passPercent.toFixed(2)}%25 |
 | Duration | ${(stats.duration / (60 * 1000)).toFixed(2)} mins |
 | Suites | ${stats.suites} |
 | Tests | ${stats.tests} |
