@@ -37,6 +37,14 @@ export default class Menu extends React.PureComponent {
         this.setState({focusTrapped: false});
     }
 
+    setInitialFocus = () => {
+        return this.node.current;
+    }
+
+    focusContainer = () => {
+        this.node.current.focus();
+    }
+
     render() {
         const {children, openUp, openLeft, id, ariaLabel, customStyles} = this.props;
         let styles = {};
@@ -58,17 +66,20 @@ export default class Menu extends React.PureComponent {
                 active={this.state.focusTrapped}
                 focusTrapOptions={{
                     clickOutsideDeactivates: true,
+                    initialFocus: this.setInitialFocus,
                 }}
             >
                 <div>
                     <ul
                         id={id}
+                        tabIndex='-1'
                         onClick={this.removeFocusTrap}
                         className='a11y__popup Menu dropdown-menu'
                         ref={this.node}
                         style={styles}
                         role='menu'
                         aria-label={ariaLabel}
+                        onMouseOver={this.focusContainer}
                     >
                         {children}
                     </ul>

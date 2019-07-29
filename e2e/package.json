@@ -18,8 +18,9 @@
     "lodash": ">=4.17.13"
   },
   "scripts": {
-    "cypress:run": "cypress run",
+    "cypress:run": "cypress run --config ignoreTestFiles='**/enterprise/**/*.js'",
     "cypress:open": "cypress open",
+    "cypress:run:enterprise": "cypress run --spec='cypress/integration/enterprise/**/*_spec.js'",
     "start:webhook": "node webhook_serve.js",
     "test": "start-test start:webhook 3000 test:ci",
     "test:ci": "node run_tests.js"
