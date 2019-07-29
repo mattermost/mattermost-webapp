@@ -898,6 +898,7 @@ export default class CreateComment extends React.PureComponent {
                     />
                     <button
                         aria-label={emojiButtonAriaLabel}
+                        type='button'
                         onClick={this.toggleEmojiPicker}
                         className='style--none emoji-picker__container post-action'
                     >
