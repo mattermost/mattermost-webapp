@@ -49,6 +49,7 @@ export default class BackstageCategory extends React.Component {
                 <Route
                     path={link}
                     render={() => (
+                        children && children.length > 0 &&
                         <ul className='sections'>
                             {
                                 React.Children.map(children, (child) => {
