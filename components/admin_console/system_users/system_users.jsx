@@ -7,9 +7,10 @@ import {FormattedMessage} from 'react-intl';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
 import {getStandardAnalytics} from 'actions/admin_actions.jsx';
-import {Constants, UserSearchOptions, SearchUserTeamFilter, SearchUserOptionsFilter} from 'utils/constants.jsx';
+import {Constants, UserSearchOptions, SearchUserTeamFilter, UserFilters} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
+import {getUserOptionsFromFilter, searchUserOptionsFromFilter} from 'utils/filter_users';
 
 import LocalizedInput from 'components/localized_input/localized_input';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
@@ -108,11 +109,11 @@ export default class SystemUsers extends React.Component {
         } = this.props.actions;
 
         if (this.props.searchTerm) {
-            this.search(this.props.searchTerm, teamId, filter);
+            this.doSearch(this.props.searchTerm, teamId, filter);
             return;
         }
 
-        const options = this.getFilterOptions(filter);
+        const options = getUserOptionsFromFilter(filter);
 
         if (teamId === SearchUserTeamFilter.ALL_USERS) {
             await Promise.all([
@@ -165,15 +166,20 @@ export default class SystemUsers extends React.Component {
         this.setState({loading: false});
     }
 
-    doSearch = debounce(async (term, teamId, filter = '') => {
+    doSearch = debounce(async (term, teamId, filter = this.props.filter) => {
+        if (!term) {
+            return;
+        }
+
         this.setState({loading: true});
 
         const options = {
-            ...this.getFilterOptions(filter),
+            ...searchUserOptionsFromFilter(filter),
             ...teamId && {team_id: teamId},
             ...teamId === SearchUserTeamFilter.NO_TEAM && {
                 [UserSearchOptions.WITHOUT_TEAM]: true,
             },
+            allow_inactive: true,
         };
 
         const {data: profiles} = await this.props.actions.searchProfiles(term, options);
@@ -183,16 +189,6 @@ export default class SystemUsers extends React.Component {
 
         this.setState({loading: false});
     }, Constants.SEARCH_TIMEOUT_MILLISECONDS, true);
-
-    getFilterOptions = (filter) => {
-        const options = {};
-        if (filter === SearchUserOptionsFilter.SYSTEM_ADMIN) {
-            options[UserSearchOptions.ROLE] = SearchUserOptionsFilter.SYSTEM_ADMIN;
-        } else if (filter === SearchUserOptionsFilter.ALLOW_INACTIVE) {
-            options[SearchUserOptionsFilter.ALLOW_INACTIVE] = true;
-        }
-        return options;
-    }
 
     getUserById = async (id) => {
         if (this.props.users[id]) {
@@ -269,8 +265,8 @@ export default class SystemUsers extends React.Component {
                         onChange={this.handleFilterChange}
                     >
                         <option value=''>{Utils.localizeMessage('admin.system_users.allUsers', 'All Users')}</option>
-                        <option value={SearchUserOptionsFilter.SYSTEM_ADMIN}>{Utils.localizeMessage('admin.system_users.system_admin', 'System Admin')}</option>
-                        <option value={SearchUserOptionsFilter.ALLOW_INACTIVE}>{Utils.localizeMessage('admin.system_users.inactive', 'Inactive')}</option>
+                        <option value={UserFilters.SYSTEM_ADMIN}>{Utils.localizeMessage('admin.system_users.system_admin', 'System Admin')}</option>
+                        <option value={UserFilters.INACTIVE}>{Utils.localizeMessage('admin.system_users.inactive', 'Inactive')}</option>
                     </select>
                 </label>
             </div>
