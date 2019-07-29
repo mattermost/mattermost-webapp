@@ -49,6 +49,10 @@
         }
     }
 
+    .react-select__input {
+        color: v(center-channel-color);
+    }
+
     .react-select__menu {
         background: v(center-channel-bg);
 
@@ -64,6 +68,13 @@
         .react-select__option--is-selected {
             background: v(button-bg);
             color: v(button-color);
+        }
+    }
+
+    .react-select-top {
+        .react-select__menu {
+            top: auto;
+            bottom: 100%;
         }
     }
 }

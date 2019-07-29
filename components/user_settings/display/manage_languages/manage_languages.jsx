@@ -27,34 +27,38 @@ export default class ManageLanguage extends React.Component {
         const locales = I18n.getLanguages();
         const userLocale = props.locale;
         const selectedOption = {value: locales[userLocale].value, label: locales[userLocale].name};
-        this.reactSelect = React.createRef();
         this.reactSelectContainer = React.createRef();
 
         this.state = {
             locale: props.locale,
             selectedOption,
             isSaving: false,
+            openMenu: false,
         };
     }
 
     componentDidMount() {
         if (this.reactSelectContainer.current) {
-            const reactSelectInput = this.reactSelectContainer.current.querySelector('input');
-            reactSelectInput.addEventListener('keydown', this.handleKeyDown);
+            this.reactSelectContainer.current.addEventListener('keydown', this.handleContainerKeyDown);
         }
     }
 
     componentWillUnmount() {
         if (this.reactSelectContainer.current) {
-            const reactSelectInput = this.reactSelectContainer.current.querySelector('input');
-            reactSelectInput.removeEventListener('keydown', this.handleKeyDown);
+            this.reactSelectContainer.current.removeEventListener('keydown', this.handleContainerKeyDown);
+        }
+    }
+
+    handleContainerKeyDown = (e) => {
+        if (isKeyPressed(e, Constants.KeyCodes.ESCAPE) && this.state.openMenu) {
+            this.setState({openMenu: false});
+            e.stopPropagation();
         }
     }
 
     handleKeyDown = (e) => {
-        if (isKeyPressed(e, Constants.KeyCodes.ESCAPE) && this.reactSelect.current.state.menuIsOpen) {
-            e.stopPropagation();
-            this.reactSelect.current.onMenuClose();
+        if (isKeyPressed(e, Constants.KeyCodes.ENTER)) {
+            this.setState({openMenu: true});
         }
     }
 
@@ -63,18 +67,6 @@ export default class ManageLanguage extends React.Component {
             locale: selectedOption.value,
             selectedOption,
         });
-    }
-
-    openDropdown = (e) => {
-        if (isKeyPressed(e, Constants.KeyCodes.ENTER)) {
-            this.reactSelect.current.onMenuOpen();
-        }
-    }
-
-    closeDropdown = (e) => {
-        if (isKeyPressed(e, Constants.KeyCodes.ESC)) {
-            e.stopPropagation();
-        }
     }
 
     changeLanguage = () => {
@@ -107,18 +99,19 @@ export default class ManageLanguage extends React.Component {
             });
     }
 
+    handleMenuClose = () => {
+        this.setState({openMenu: false});
+    }
+
+    handleMenuOpen = () => {
+        this.setState({openMenu: true});
+    }
+
     render() {
         let serverError;
         if (this.state.serverError) {
             serverError = <label className='has-error'>{this.state.serverError}</label>;
         }
-
-        const selectStyles = {
-            menuPortal: (base) => ({
-                ...base,
-                zIndex: '1100',
-            }),
-        };
 
         const options = [];
         const locales = I18n.getLanguages();
@@ -151,18 +144,17 @@ export default class ManageLanguage extends React.Component {
                     className='padding-top'
                 >
                     <ReactSelect
-                        className='react-select'
+                        className='react-select react-select-top'
                         classNamePrefix='react-select'
                         id='displayLanguage'
-                        isOpen={true}
-                        ref={this.reactSelect}
-                        styles={selectStyles}
-                        menuPortalTarget={document.querySelector('body')}
+                        menuIsOpen={this.state.openMenu}
                         options={options}
                         clearable={false}
                         onChange={this.setLanguage}
-                        onKeyDown={this.openDropdown}
+                        onKeyDown={this.handleKeyDown}
                         value={this.state.selectedOption}
+                        onMenuClose={this.handleMenuClose}
+                        onMenuOpen={this.handleMenuOpen}
                     />
                     {serverError}
                 </div>
