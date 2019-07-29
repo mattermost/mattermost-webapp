@@ -3,9 +3,10 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {DATE_LINE} from 'mattermost-redux/utils/post_list';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {PostListRowListIds, PostRequestTypes} from 'utils/constants';
 
