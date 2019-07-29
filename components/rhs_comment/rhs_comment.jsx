@@ -13,6 +13,7 @@ import {
 
 import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
+import {isMobile} from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import PostProfilePicture from 'components/post_profile_picture';
@@ -195,18 +196,8 @@ export default class RhsComment extends React.PureComponent {
         let profilePicture;
         let visibleMessage;
 
-        let userProfile = (
-            <div className='hidden-sm'>
-                <UserProfile
-                    userId={post.user_id}
-                    isBusy={this.props.isBusy}
-                    isRHS={true}
-                    hasMention={true}
-                />
-            </div>
-        );
-
-        if (this.props.compactDisplay) {
+        let userProfile = null;
+        if (this.props.compactDisplay || isMobile()) {
             userProfile = (
                 <UserProfile
                     userId={post.user_id}
