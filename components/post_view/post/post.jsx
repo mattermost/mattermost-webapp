@@ -312,10 +312,12 @@ export default class Post extends React.PureComponent {
                 onMouseLeave={this.unsetHover}
                 onTouchStart={this.setHover}
                 aria-label={this.state.currentAriaLabel}
+                aria-atomic={true}
             >
                 <div
                     id='postContent'
                     className={'post__content ' + centerClass}
+                    aria-hidden={true}
                 >
                     <div className='post__img'>
                         {profilePic}
