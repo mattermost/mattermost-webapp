@@ -196,8 +196,18 @@ export default class RhsComment extends React.PureComponent {
         let profilePicture;
         let visibleMessage;
 
-        let userProfile = null;
-        if (this.props.compactDisplay || isMobile()) {
+        let userProfile = (
+            <div className='hidden-sm'>
+                <UserProfile
+                    userId={post.user_id}
+                    isBusy={this.props.isBusy}
+                    isRHS={true}
+                    hasMention={true}
+                />
+            </div>
+        );
+
+        if (this.props.compactDisplay) {
             userProfile = (
                 <UserProfile
                     userId={post.user_id}
