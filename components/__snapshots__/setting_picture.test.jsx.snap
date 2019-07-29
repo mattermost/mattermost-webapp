@@ -78,6 +78,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           aria-label="Save"
           className="btn btn-sm btn-primary"
           onClick={[Function]}
+          tabIndex="0"
         >
           <LoadingWrapper
             loading={false}
@@ -176,6 +177,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           aria-label="Save"
           className="btn btn-sm btn-primary"
           onClick={[Function]}
+          tabIndex="0"
         >
           <LoadingWrapper
             loading={false}
@@ -284,6 +286,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
           aria-label="Uploading..."
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
+          tabIndex="-1"
         >
           <LoadingWrapper
             loading={true}
@@ -404,6 +407,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
           aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
+          tabIndex="-1"
         >
           <LoadingWrapper
             loading={false}
@@ -512,6 +516,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
           aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
+          tabIndex="-1"
         >
           <LoadingWrapper
             loading={false}
@@ -627,6 +632,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
           aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
+          tabIndex="-1"
         >
           <LoadingWrapper
             loading={false}
@@ -787,6 +793,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
           aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
+          tabIndex="-1"
         >
           <LoadingWrapper
             loading={false}
@@ -952,6 +959,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
           aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
+          tabIndex="-1"
         >
           <LoadingWrapper
             loading={false}
