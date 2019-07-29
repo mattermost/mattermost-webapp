@@ -640,7 +640,6 @@ export function applyTheme(theme) {
         // Fade out effect for collapsed posts (not hovered, not from current user)
         changeCss(
             '.app__body .post-list__table .post:not(.current--user) .post-collapse__gradient, ' +
-            '.app__body .sidebar-right__body .post:not(.current--user) .post-collapse__gradient, ' +
             '.app__body .post-list__table .post.post--compact .post-collapse__gradient, ' +
             '.app__body .sidebar-right__body .post.post--compact .post-collapse__gradient',
             `background:linear-gradient(${changeOpacity(theme.centerChannelBg, 0)}, ${theme.centerChannelBg})`,
@@ -653,9 +652,8 @@ export function applyTheme(theme) {
 
         changeCss(
             '.app__body .post-list__table .post:not(.current--user) .post-collapse__show-more, ' +
-            '.app__body .sidebar-right__body .post:not(.current--user) .post-collapse__show-more, ' +
             '.app__body .post-list__table .post.post--compact .post-collapse__show-more, ' +
-            '.app__body .sidebar-right__body .post.post--compact .post-collapse__show-more',
+            '.app__body .sidebar-right__body .post:not(.post--root) .post-collapse__show-more',
             `background-color:${theme.centerChannelBg}`,
         );
         changeCss(
@@ -786,7 +784,7 @@ export function applyTheme(theme) {
             changeCss(
                 '.app__body .post-list__table .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-collapse__gradient, ' +
                 '.app__body .sidebar-right__body .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-collapse__gradient, ' +
-                '.app__body .thread__root .post-collapse__gradient',
+                '.app__body .post--root .post-collapse__gradient',
                 `background:linear-gradient(${changeOpacity(ownPostBg, 0)}, ${ownPostBg})`,
             );
             changeCss(
@@ -796,19 +794,19 @@ export function applyTheme(theme) {
             changeCss(
                 '.app__body .post-list__table .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-collapse__show-more, ' +
                 '.app__body .sidebar-right__body .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-collapse__show-more, ' +
-                '.app__body .thread__root .post-collapse__show-more',
+                '.app__body .post--root .post-collapse__show-more',
                 `background:${ownPostBg}`,
             );
 
             // Fade out effect for collapsed posts that are being hovered over
             changeCss(
                 '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-collapse__gradient, ' +
-                '.app__body .sidebar-right__body .post:hover .post-collapse__gradient',
+                '.app__body .sidebar-right__body .post:not(.post--root):hover .post-collapse__gradient',
                 `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg})`,
             );
             changeCss(
                 '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-collapse__show-more, ' +
-                '.app__body .sidebar-right__body .post:hover .post-collapse__show-more',
+                '.app__body .sidebar-right__body .post:not(.post--root):hover .post-collapse__show-more',
                 `background:${hoveredPostBg}`,
             );
             changeCss(

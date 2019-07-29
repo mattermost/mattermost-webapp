@@ -109,6 +109,7 @@ export default class AtMentionSuggestion extends Suggestion {
         return (
             <div
                 className={className}
+                data-testid={`mentionSuggestion_${username}`}
                 onClick={this.handleClick}
                 {...Suggestion.baseProps}
             >

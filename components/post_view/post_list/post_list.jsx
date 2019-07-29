@@ -85,6 +85,10 @@ export default class PostList extends React.PureComponent {
         }).isRequired,
     }
 
+    static defaultProps = {
+        postListIds: [],
+    };
+
     constructor(props) {
         super(props);
         this.state = {
