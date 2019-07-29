@@ -309,6 +309,7 @@ export default class CreatePost extends React.Component {
                 message: draft.message,
                 submitting: false,
                 serverError: null,
+                preview: false,
             });
         }
     }

@@ -258,10 +258,11 @@ export default class EmojiPicker extends React.PureComponent {
     };
 
     handleCategoryClick(categoryName) {
-        this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
         this.setState({
             cursor: [Object.keys(this.state.categories).indexOf(categoryName), 0],
+            divTopOffset: this.state.categories[categoryName].offset,
         });
+        this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
         this.searchInput.focus();
     }
 
