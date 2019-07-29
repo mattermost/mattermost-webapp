@@ -12,6 +12,7 @@ import {
 } from 'mattermost-redux/utils/post_utils';
 
 import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants.jsx';
+import {isMobile} from 'utils/user_agent.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -196,7 +197,7 @@ export default class RhsComment extends React.PureComponent {
         let visibleMessage;
 
         let userProfile = null;
-        if (this.props.compactDisplay) {
+        if (this.props.compactDisplay || isMobile()) {
             userProfile = (
                 <UserProfile
                     userId={post.user_id}
