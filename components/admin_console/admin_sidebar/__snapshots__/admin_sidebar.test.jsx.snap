@@ -2345,6 +2345,19 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               />
             }
           />
+          <AdminSidebarSection
+            key="11"
+            name="authentication/guest_access"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Guest Access (Beta)"
+                id="admin.sidebar.guest_access"
+                values={Object {}}
+              />
+            }
+          />
         </AdminSidebarCategory>
         <AdminSidebarCategory
           icon="fa-plug"
@@ -3037,6 +3050,19 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               <FormattedMessage
                 defaultMessage="OAuth 2.0"
                 id="admin.sidebar.oauth"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            key="11"
+            name="authentication/guest_access"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Guest Access (Beta)"
+                id="admin.sidebar.guest_access"
                 values={Object {}}
               />
             }

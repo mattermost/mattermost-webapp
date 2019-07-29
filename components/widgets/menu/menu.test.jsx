@@ -25,6 +25,7 @@ describe('components/Menu', () => {
   focusTrapOptions={
     Object {
       "clickOutsideDeactivates": true,
+      "initialFocus": [Function],
     }
   }
   paused={false}
@@ -34,8 +35,10 @@ describe('components/Menu', () => {
       aria-label="test-label"
       className="a11y__popup Menu dropdown-menu"
       onClick={[Function]}
+      onMouseOver={[Function]}
       role="menu"
       style={Object {}}
+      tabIndex="-1"
     >
       text
     </ul>
@@ -61,6 +64,7 @@ describe('components/Menu', () => {
   focusTrapOptions={
     Object {
       "clickOutsideDeactivates": true,
+      "initialFocus": [Function],
     }
   }
   paused={false}
@@ -71,8 +75,10 @@ describe('components/Menu', () => {
       className="a11y__popup Menu dropdown-menu"
       id="test-id"
       onClick={[Function]}
+      onMouseOver={[Function]}
       role="menu"
       style={Object {}}
+      tabIndex="-1"
     >
       text
     </ul>
@@ -102,6 +108,7 @@ describe('components/Menu', () => {
   focusTrapOptions={
     Object {
       "clickOutsideDeactivates": true,
+      "initialFocus": [Function],
     }
   }
   paused={false}
@@ -111,8 +118,10 @@ describe('components/Menu', () => {
       aria-label="test-label"
       className="a11y__popup Menu dropdown-menu"
       onClick={[Function]}
+      onMouseOver={[Function]}
       role="menu"
       style={Object {}}
+      tabIndex="-1"
     >
       text
     </ul>
@@ -142,6 +151,7 @@ describe('components/Menu', () => {
   focusTrapOptions={
     Object {
       "clickOutsideDeactivates": true,
+      "initialFocus": [Function],
     }
   }
   paused={false}
@@ -151,6 +161,7 @@ describe('components/Menu', () => {
       aria-label="test-label"
       className="a11y__popup Menu dropdown-menu"
       onClick={[Function]}
+      onMouseOver={[Function]}
       role="menu"
       style={
         Object {
@@ -160,6 +171,7 @@ describe('components/Menu', () => {
           "top": "auto",
         }
       }
+      tabIndex="-1"
     >
       text
     </ul>

@@ -25,7 +25,7 @@ const SyncGroupsToggle = ({isSynced, isPublic, onToggle}) => (
         subTitle={(
             <FormattedMarkdownMessage
                 id='admin.channel_settings.channel_details.syncGroupMembersDescr'
-                defaultMessage='When enabled, adding and removing users from groups will add or remove them from this channel. The only way of inviting members to this channel is by adding the groups they belong to. [Learn More](https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
+                defaultMessage='When enabled, adding and removing users from groups will add or remove them from this channel. The only way of inviting members to this channel is by adding the groups they belong to. [Learn More](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
             />
         )}
     />);
@@ -41,7 +41,7 @@ const AllowAllToggle = ({isSynced, isOriginallyPrivate, isPublic, onToggle}) =>
         <LineSwitch
             toggled={isPublic}
             last={true}
-            singleLine={true}
+            disabled={isOriginallyPrivate}
             onToggle={() => {
                 if (!isOriginallyPrivate) {
                     onToggle(isSynced, !isPublic);
@@ -56,7 +56,7 @@ const AllowAllToggle = ({isSynced, isOriginallyPrivate, isPublic, onToggle}) =>
             subTitle={(
                 <FormattedMessage
                     id='admin.channel_settings.channel_details.isPublicDescr'
-                    defaultMessage='If `public` the channel is discoverable and any user can join, or if `private` invitations are required.'
+                    defaultMessage='If `public` the channel is discoverable and any user can join, or if `private` invitations are required. Toggle to convert public channels to private.  Converting private channels to public will be available in a future release.'
                 />
             )}
             onText={(

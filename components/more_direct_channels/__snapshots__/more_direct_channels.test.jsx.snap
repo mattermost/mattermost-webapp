@@ -26,6 +26,10 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
         className="badge-popoverlist"
         show={false}
       />
+      <GuestBadge
+        className="badge-popoverlist"
+        show={false}
+      />
     </div>
     <div
       className="more-modal__description"
