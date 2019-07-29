@@ -98,7 +98,8 @@ export default class EmoticonProvider extends Provider {
     // This results in surprising differences between a fresh load of the application, and the
     // changes to the cache from expanding the cache with emojis found in existing posts.
     //
-    // For now, this behaviour and difference is by design. @see MM-17320.
+    // For now, this behaviour and difference is by design.
+    // See https://mattermost.atlassian.net/browse/MM-17320.
     findAndSuggestEmojis(text, partialName, resultsCallback) {
         const recentMatched = [];
         const matched = [];
