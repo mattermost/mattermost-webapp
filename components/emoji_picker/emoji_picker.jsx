@@ -577,7 +577,7 @@ export default class EmojiPicker extends React.PureComponent {
                             aria-label={ariaLabel}
                             ref={this.emojiSearchInput}
                             className='emoji-picker__search'
-                            data-test-id='emoji-input__search'
+                            data-testid='emoji-input__search'
                             type='text'
                             onChange={this.handleFilterChange}
                             onKeyDown={this.handleKeyDown}
