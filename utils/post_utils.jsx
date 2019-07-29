@@ -4,7 +4,9 @@
 import {Client4} from 'mattermost-redux/client';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getPost, makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {makeGetDisplayName, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Permissions} from 'mattermost-redux/constants';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
@@ -14,7 +16,7 @@ import {getEmojiMap} from 'selectors/emojis';
 
 import store from 'stores/redux_store.jsx';
 
-import Constants, {PostListRowListIds} from 'utils/constants.jsx';
+import Constants, {PostListRowListIds, Preferences} from 'utils/constants.jsx';
 import {formatWithRenderer} from 'utils/markdown';
 import MentionableRenderer from 'utils/markdown/mentionable_renderer';
 import * as Utils from 'utils/utils.jsx';
@@ -308,6 +310,23 @@ export function getLatestPostId(postIds) {
     }
 
     return '';
+}
+
+export function createAriaLabelForPostId(state, postId, intl) {
+    const post = getPost(state, postId);
+
+    if (!post) {
+        return null;
+    }
+
+    const getReactionsForPost = makeGetReactionsForPost();
+    const getDisplayName = makeGetDisplayName();
+
+    const author = getDisplayName(state, post.user_id);
+    const reactions = getReactionsForPost(state, post.id);
+    const isFlagged = get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null;
+
+    return createAriaLabelForPost(post, author, isFlagged, reactions, intl);
 }
 
 export function createAriaLabelForPost(post, author, isFlagged, reactions, intl) {

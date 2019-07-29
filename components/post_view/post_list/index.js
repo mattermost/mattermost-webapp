@@ -8,7 +8,7 @@ import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPost
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 
-import {getLatestPostId} from 'utils/post_utils.jsx';
+import {getLatestPostId, createAriaLabelForPostId} from 'utils/post_utils.jsx';
 import {
     checkAndSetMobileView,
     loadPosts,
@@ -44,6 +44,7 @@ function makeMapStateToProps() {
         let postIds;
         let chunk;
         let atLatestPost = false;
+        let latestAriaLabelFunc;
         const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
 
         if (ownProps.match.params.postid) {
@@ -65,6 +66,7 @@ function makeMapStateToProps() {
                 const latestPostId = memoizedGetLatestPostId(postIds);
                 const latestPost = getPost(state, latestPostId);
                 latestPostTimeStamp = latestPost.create_at;
+                latestAriaLabelFunc = (postId, intl) => createAriaLabelForPostId(state, postId, intl);
             }
         }
 
@@ -75,6 +77,7 @@ function makeMapStateToProps() {
             atLatestPost,
             focusedPostId: ownProps.match.params.postid,
             latestPostTimeStamp,
+            latestAriaLabelFunc,
         };
     };
 }

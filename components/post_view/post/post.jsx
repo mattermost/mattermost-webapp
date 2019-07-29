@@ -22,14 +22,9 @@ export default class Post extends React.PureComponent {
         post: PropTypes.object.isRequired,
 
         /**
-         * The reactions to use for screen readers
+         * The function to create an aria-label
          */
-        reactions: PropTypes.object,
-
-        /**
-         * Author of the post
-         */
-        author: PropTypes.string,
+        createAriaLabel: PropTypes.func.isRequired,
 
         /**
          * The logged in user ID
@@ -50,11 +45,6 @@ export default class Post extends React.PureComponent {
          * Set to render a preview of the parent post above this reply
          */
         isFirstReply: PropTypes.bool,
-
-        /*
-         * Set to mark the post as flagged
-         */
-        isFlagged: PropTypes.bool,
 
         /**
          * Set to highlight the background of the post
@@ -258,8 +248,7 @@ export default class Post extends React.PureComponent {
     }
 
     handlePostFocus = () => {
-        const {post, author, reactions, isFlagged} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)});
+        this.setState({currentAriaLabel: this.props.createAriaLabel(this.context.intl)});
     }
 
     render() {
