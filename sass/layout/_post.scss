@@ -599,6 +599,7 @@
 
     > div {
         display: flex;
+        position: relative;
         width: 43px;
 
         &:first-child {
@@ -1734,7 +1735,7 @@
     .post__visibility {
         @include opacity(.6);
         font-size: .9em;
-        padding: 8px;
+        padding: 4px;
     }
 
     .post__time {
@@ -1745,6 +1746,7 @@
 
     .post__permalink {
         color: inherit;
+        display: inline-block;
 
         &:hover,
         &:focus {
