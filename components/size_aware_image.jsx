@@ -142,7 +142,7 @@ export default class SizeAwareImage extends React.PureComponent {
                 <button
                     {...props}
                     aria-label={ariaLabelImage}
-                    className='style--none'
+                    className='style--none file-preview__button'
                     style={imageStyleChangesOnLoad}
                 >
                     <img
