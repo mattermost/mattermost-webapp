@@ -169,8 +169,11 @@ export default class PluginRegistry {
 
     // Register a component to render a custom embed preview for post links.
     // Accepts the following:
-    // - match - A function that receives the embed link and returns a
-    //   boolean indicating if the plugin is able to process it
+    // - match - A function that receives the embed object and returns a
+    //   boolean indicating if the plugin is able to process it.
+    //   The embed object contains the embed `type`, the `url` of the post link
+    //   and in some cases, a `data` object with information related to the
+    //   link (the opengraph or the image details, for example).
     // - component - The component that renders the embed view for the link
     // - toggleable - A boolean indicating if the embed view should be collapsable
     // Returns a unique identifier.
