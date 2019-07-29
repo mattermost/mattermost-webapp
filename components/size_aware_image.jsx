@@ -139,9 +139,8 @@ export default class SizeAwareImage extends React.PureComponent {
         return (
             <React.Fragment>
                 {placeHolder}
-                <div
+                <button
                     {...props}
-                    tabIndex={0}
                     aria-label={ariaLabelImage}
                     className='style--none'
                     style={imageStyleChangesOnLoad}
@@ -153,7 +152,7 @@ export default class SizeAwareImage extends React.PureComponent {
                         onError={this.handleError}
                         onLoad={this.handleLoad}
                     />
-                </div>
+                </button>
             </React.Fragment>
         );
     }

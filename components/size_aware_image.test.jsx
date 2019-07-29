@@ -29,7 +29,7 @@ describe('components/SizeAwareImage', () => {
 
         const viewBox = wrapper.find('svg').prop('viewBox');
         expect(viewBox).toEqual('0 0 300 200');
-        const style = wrapper.find('div.style--none').prop('style');
+        const style = wrapper.find('button.style--none').prop('style');
         expect(style).toHaveProperty('position', 'absolute');
         expect(style).toHaveProperty('visibility', 'hidden');
     });
@@ -56,7 +56,7 @@ describe('components/SizeAwareImage', () => {
         const wrapper = mount(<SizeAwareImage {...baseProps}/>);
         wrapper.setState({loaded: true, error: false});
 
-        const style = wrapper.find('div.style--none').prop('style');
+        const style = wrapper.find('button.style--none').prop('style');
         expect(style).not.toHaveProperty('position', 'absolute');
     });
 

@@ -196,6 +196,11 @@
                 width: 100%;
                 word-wrap: break-word;
             }
+
+            button {
+                cursor: auto;
+                box-shadow: none;
+            }
         }
 
         .attachment__image__container--opengraph {
