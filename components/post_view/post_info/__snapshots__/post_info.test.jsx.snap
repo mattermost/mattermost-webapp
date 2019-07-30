@@ -39,6 +39,27 @@ exports[`components/post_view/PostInfo should match snapshot, compact display 1`
 </div>
 `;
 
+exports[`components/post_view/PostInfo should match snapshot, deleted post 1`] = `
+<div
+  className="post__header--info"
+>
+  <div
+    className="col"
+  />
+  <div
+    className="col col__remove"
+  >
+    <button
+      className="post__remove theme color--link style--none"
+      onClick={[Function]}
+      type="button"
+    >
+      ×
+    </button>
+  </div>
+</div>
+`;
+
 exports[`components/post_view/PostInfo should match snapshot, enable emoji picker 1`] = `
 <div
   className="post__header--info"
