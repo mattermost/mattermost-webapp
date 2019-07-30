@@ -30,7 +30,6 @@ describe('components/SearchResultsItem', () => {
     let mockFunc;
     let user;
     let post;
-    let channel;
     let defaultProps;
 
     beforeEach(() => {
@@ -60,14 +59,10 @@ describe('components/SearchResultsItem', () => {
             user_id: 'user_id',
         };
 
-        channel = {
-            id: 'channel_id',
-            name: 'channel_name',
-            type: 'O',
-        };
-
         defaultProps = {
-            channel,
+            channelId: 'channel_id',
+            channelName: 'channel_name',
+            channelType: 'O',
             compactDisplay: true,
             post,
             user,
@@ -120,10 +115,7 @@ describe('components/SearchResultsItem', () => {
     test('should match snapshot for DM', () => {
         const props = {
             ...defaultProps,
-            channel: {
-                ...channel,
-                type: 'D',
-            },
+            channelType: 'D',
             post: {
                 ...post,
                 is_pinned: true,
@@ -193,10 +185,7 @@ describe('components/SearchResultsItem', () => {
     test('should match snapshot for archived channel', () => {
         const props = {
             ...defaultProps,
-            channel: {
-                ...channel,
-                delete_at: 1234,
-            },
+            channelIsArchived: true,
         };
 
         const wrapper = shallow(

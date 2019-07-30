@@ -45,7 +45,49 @@ export function renderThumbVertical(props) {
         />);
 }
 
-export default class SearchResults extends React.PureComponent {
+export function shouldRenderFromPropsAndState(props, nextProps, state, nextState) {
+    // Shallow compare for all props except 'results'
+    for (const key in nextProps) {
+        if (!nextProps.hasOwnProperty(key) || key === 'results') {
+            continue;
+        }
+
+        if (nextProps[key] !== props[key]) {
+            return true;
+        }
+    }
+
+    // Shallow compare state
+    for (const key in nextState) {
+        if (!nextState.hasOwnProperty(key)) {
+            continue;
+        }
+
+        if (nextState[key] !== state[key]) {
+            return true;
+        }
+    }
+
+    // Here we do a slightly deeper compare on 'results' because it is frequently a new
+    // array but without any actual changes
+    const results = props.results;
+    const nextResults = nextProps.results;
+
+    if (results.length !== nextResults.length) {
+        return true;
+    }
+
+    for (let i = 0; i < results.length; i++) {
+        // Only need a shallow compare on each post
+        if (results[i] !== nextResults[i]) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+export default class SearchResults extends React.Component {
     static propTypes = {
         results: PropTypes.array,
         matches: PropTypes.object,
@@ -90,6 +132,10 @@ export default class SearchResults extends React.PureComponent {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return shouldRenderFromPropsAndState(this.props, nextProps, this.state, nextState);
     }
 
     componentDidUpdate(prevProps) {
