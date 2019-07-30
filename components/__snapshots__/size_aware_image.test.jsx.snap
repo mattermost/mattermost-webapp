@@ -38,7 +38,7 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
   </div>
   <button
     aria-label="file thumbnail"
-    className="style--none"
+    className="style--none file-preview__button"
     style={
       Object {
         "height": 1,
