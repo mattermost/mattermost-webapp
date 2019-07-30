@@ -11,7 +11,7 @@ import RhsRootPost from 'components/rhs_root_post/rhs_root_post.jsx';
 jest.mock('utils/post_utils.jsx', () => ({
     isEdited: jest.fn().mockReturnValue(true),
     isSystemMessage: jest.fn().mockReturnValue(false),
-    fromAutoResponder: jest.fn().mockReturnValue(false)
+    fromAutoResponder: jest.fn().mockReturnValue(false),
 }));
 
 describe('components/RhsRootPost', () => {
