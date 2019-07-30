@@ -139,6 +139,7 @@ export default class RhsRootPost extends React.PureComponent {
     render() {
         const {post, isReadOnly, teamId, channelIsArchived, channelType, channelDisplayName} = this.props;
 
+        const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
 
@@ -260,7 +261,7 @@ export default class RhsRootPost extends React.PureComponent {
         );
 
         let dotMenuContainer;
-        if (this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
+        if (!isPostDeleted && this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
             dotMenuContainer = (
                 <div
                     ref='dotMenu'
