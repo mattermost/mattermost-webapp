@@ -95,8 +95,7 @@ export default class InfiniteScroll extends React.PureComponent {
         return (
             <>
                 <div
-                    className={styleClass}
-                    style={{overflowY: 'scroll'}}
+                    className={`infinite-scroll ${styleClass}`}
                     ref={this.node}
                 >
                     {children}

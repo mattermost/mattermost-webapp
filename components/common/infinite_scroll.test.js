@@ -28,7 +28,7 @@ describe('/components/common/InfiniteScroll', () => {
         expect(wrapperDiv.exists()).toBe(true);
 
         // Ensure that scroll is added to InfiniteScroll wrapper div
-        expect(wrapperDiv.prop('style')).toHaveProperty('overflowY', 'scroll');
+        expect(wrapperDiv.hasClass('infinite-scroll')).toBe(true);
     });
 
     test('should attach and remove event listeners', () => {

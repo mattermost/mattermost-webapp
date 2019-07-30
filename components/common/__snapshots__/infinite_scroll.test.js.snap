@@ -9,12 +9,7 @@ exports[`/components/common/InfiniteScroll should match snapshot 1`] = `
   styleClass="signup-team-all"
 >
   <div
-    className="signup-team-all"
-    style={
-      Object {
-        "overflowY": "scroll",
-      }
-    }
+    className="infinite-scroll signup-team-all"
   >
     <div />
   </div>
