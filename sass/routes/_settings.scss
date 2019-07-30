@@ -247,8 +247,8 @@
                 }
 
                 .section-max {
-                    @include clearfix;
-                    @include alpha-property(background, $black, .05);
+                    @include legacy-pie-clearfix;
+                    @include alpha-property('background', $black, .05);
                     margin-bottom: 0;
                     padding: 1em 0 1.3em;
 

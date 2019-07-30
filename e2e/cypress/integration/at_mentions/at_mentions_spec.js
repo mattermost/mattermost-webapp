@@ -118,7 +118,8 @@ describe('at-mention', () => {
 
         const body = `@${this.sender.username}: ${message}`;
 
-        cy.get('@notifySpy').should('have.been.calledWithMatch', 'Town Square', {body, tag: body, requireInteraction: false, silent: false});
+        cy.get('@notifySpy').should('have.been.calledWithMatch',
+            'Town Square', {body, tag: body, requireInteraction: false, silent: false});
 
         // * Verify unread mentions badge
         cy.get('#publicChannel').scrollIntoView();

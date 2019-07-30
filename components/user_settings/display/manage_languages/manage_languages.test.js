@@ -13,7 +13,7 @@ describe('components/user_settings/display/manage_languages/manage_languages', (
 
     const requiredProps = {
         user,
-        locale: '',
+        locale: 'en',
         updateSection: jest.fn(),
         actions: {
             updateMe: jest.fn(() => Promise.resolve({})),
@@ -22,8 +22,10 @@ describe('components/user_settings/display/manage_languages/manage_languages', (
 
     test('submitUser() should have called updateMe', () => {
         const wrapper = shallow(<ManageLanguages {...requiredProps}/>);
+        const instance = wrapper.instance();
 
-        wrapper.instance().submitUser(requiredProps.user);
+        instance.submitUser(requiredProps.user);
+
         expect(requiredProps.actions.updateMe).toHaveBeenCalledTimes(1);
         expect(requiredProps.actions.updateMe).toHaveBeenCalledWith(requiredProps.user);
     });

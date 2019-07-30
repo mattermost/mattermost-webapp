@@ -10,6 +10,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
   dialogClassName="a11y__modal more-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="addUsersToChannelModal"
   keyboard={true}
   manager={
     ModalManager {

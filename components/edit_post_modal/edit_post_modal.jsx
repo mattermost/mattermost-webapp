@@ -28,6 +28,7 @@ export default class EditPostModal extends React.PureComponent {
             post: PropTypes.object,
             postId: PropTypes.string,
             refocusId: PropTypes.string,
+            commentCount: PropTypes.number,
             show: PropTypes.bool.isRequired,
             title: PropTypes.string,
             isRHS: PropTypes.bool,

@@ -39,6 +39,11 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         channelIsArchived: PropTypes.bool.isRequired,
     }
 
+    constructor(props) {
+        super(props);
+        this.gmItemRef = React.createRef();
+    }
+
     trackChannelSelectedEvent = () => {
         mark('SidebarChannelLink#click');
         trackEvent('ui', 'ui_channel_selected');
@@ -47,6 +52,11 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
     handleClick = () => {
         this.trackChannelSelectedEvent();
         browserHistory.push(this.props.link);
+    }
+
+    removeTooltipLink = () => {
+        // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
+        this.gmItemRef.current.removeAttribute('aria-describedby');
     }
 
     render = () => {
@@ -155,8 +165,11 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
                     overlay={displayNameToolTip}
+                    onEntering={this.removeTooltipLink}
                 >
-                    {element}
+                    <div ref={this.gmItemRef}>
+                        {element}
+                    </div>
                 </OverlayTrigger>
             );
         }

@@ -181,6 +181,7 @@ export default class MultiSelectList extends React.Component {
                 </div>
                 <div
                     ref='list'
+                    id='multiSelectList'
                     role='presentation'
                 >
                     {optionControls}
