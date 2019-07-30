@@ -28,7 +28,7 @@ describe('ID15888 Interactive Dialog', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-        // # Login as sysadmin and ensure that teammate name display setting us set to default 'username'
+        // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
         cy.apiLogin('sysadmin');
         cy.apiSaveTeammateNameDisplayPreference('username');
 
