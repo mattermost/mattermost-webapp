@@ -452,7 +452,6 @@ describe('PostList', () => {
         });
     });
 
-
     describe('postIds state', () => {
         test('should have LOAD_NEWER_MESSAGES_TRIGGER and LOAD_OLDER_MESSAGES_TRIGGER', () => {
             const wrapper = shallow(<PostList {...baseProps}/>);
