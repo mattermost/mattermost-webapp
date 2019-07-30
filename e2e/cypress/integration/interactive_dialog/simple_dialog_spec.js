@@ -69,8 +69,6 @@ describe('ID17212 Interactive Dialog without element', () => {
                 cy.get('#interactiveDialogIconUrl').should('be.visible').and('have.attr', 'src', simpleDialog.dialog.icon_url);
                 cy.get('#interactiveDialogModalLabel').should('be.visible').and('have.text', simpleDialog.dialog.title);
                 cy.wrap($elForm).find('button.close').should('be.visible').and('contain', '×').and('contain', 'Close');
-
-                cy.get('#interactiveDialogModalLabel').should('be.visible').and('have.text', simpleDialog.dialog.title);
             });
 
             // * Verify that the body is not present
