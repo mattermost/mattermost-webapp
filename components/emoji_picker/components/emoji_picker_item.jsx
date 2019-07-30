@@ -118,7 +118,7 @@ export default class EmojiPickerItem extends React.Component {
                 className={itemClassName}
                 ref={this.emojiItemRef}
             >
-                <div data-testid='emoji__item'>
+                <div data-testid='emojiItem'>
                     {image}
                 </div>
             </div>

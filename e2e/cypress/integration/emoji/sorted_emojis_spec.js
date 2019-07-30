@@ -14,7 +14,7 @@ describe('M16739 - Filtered emojis are sorted', () => {
         cy.clearLocalStorage(/recent_emojis/);
     });
 
-    it('By recency', async () => {
+    it('By recency', () => {
         // #Post a dog emoji
         cy.postMessage(':dog:');
 
@@ -25,10 +25,13 @@ describe('M16739 - Filtered emojis are sorted', () => {
         cy.get('#emojiPickerButton').click();
 
         // #Assert first recently used emoji has the data-test-id value of 'cat' which was the last one we sent
-        cy.queryAllByTestId('emoji__item').first().children("img[data-testid='cat']").should('exist');
+        //cy.queryAllByTestId('emoji__item').first().children("img[data-testid='cat']").should('exist');
+        cy.queryAllByTestId('emojiItem').first().within(($el) => {
+            cy.wrap($el).getByTestId('cat').should('be.visible');
+        });
     });
 
-    it('By recently used emoji first in alphabetical order, Followed by emoji that contain "word" in alphabetical', async () => {
+    it('By recently used emoji first in alphabetical order, Followed by emoji that contain "word" in alphabetical', () => {
         const emojiList = [];
 
         // #Post a guardsman emoji
@@ -41,10 +44,10 @@ describe('M16739 - Filtered emojis are sorted', () => {
         cy.get('#emojiPickerButton').click();
 
         //#Search sma text in emoji searching input
-        cy.queryByTestId('emoji-input__search').should('be.visible').type('sma');
+        cy.queryByTestId('emojiInputSearch').should('be.visible').type('sma');
 
         // #Get list of recent emojis based on search text
-        cy.queryAllByTestId('emoji__item').children('img').each(($el) => {
+        cy.queryAllByTestId('emojiItem').children('img').each(($el) => {
             const emojiName = $el.get(0);
             emojiList.push(emojiName.dataset.testid);
         }).then(() => {
