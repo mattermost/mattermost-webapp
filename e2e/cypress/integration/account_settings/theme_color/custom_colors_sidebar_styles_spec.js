@@ -148,7 +148,7 @@ describe('AS14318 Theme Colors - Color Picker', () => {
     });
 });
 
-describe.only('MM-14318 Theme Colors', () => {
+describe('MM-14318 Theme Colors', () => {
     beforeEach(() => {
         //Login and navigating to settings
         cy.apiLogin('user-1');
@@ -159,7 +159,7 @@ describe.only('MM-14318 Theme Colors', () => {
     });
 
     after(() => {
-        cy.defaultTheme();
+        cy.apiSaveThemePreference()();
     });
 
     it('Should be able to use color picker input and change Sidebar theme color', () => {
