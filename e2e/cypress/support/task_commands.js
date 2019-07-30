@@ -11,7 +11,12 @@
 Cypress.Commands.add('postMessageAs', ({sender, message, channelId, rootId, createAt}) => {
     const baseUrl = Cypress.config('baseUrl');
 
-    cy.task('postMessageAs', {sender, message, channelId, rootId, createAt, baseUrl}).its('status').should('be.equal', 201);
+    cy.task('postMessageAs', {sender, message, channelId, rootId, createAt, baseUrl}).then(({status, data}) => {
+        expect(status).to.equal(201);
+
+        // # Return the data so it can be interacted in a test
+        cy.wrap({id: data.id, status, data});
+    });
 });
 
 /**
