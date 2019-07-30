@@ -3,7 +3,6 @@
 
 module.exports = {
     TINY: 500,
-    SHORT: 3000,
     SMALL: 5000,
     MEDIUM: 10000,
     LARGE: 30000,

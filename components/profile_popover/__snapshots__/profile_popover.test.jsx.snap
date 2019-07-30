@@ -8,7 +8,7 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
   placement="right"
   title={
     <span
-      id="userPopoverUserName-some_username"
+      data-testid="profilePopoverTitle_some_username"
     >
       <span
         className="user-popover__username"
@@ -80,7 +80,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
   placement="right"
   title={
     <span
-      id="userPopoverUserName-some_username"
+      data-testid="profilePopoverTitle_some_username"
     >
       <span
         className="user-popover__username"

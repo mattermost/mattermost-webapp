@@ -159,7 +159,6 @@ export default class ChannelInviteModal extends React.Component {
 
         return (
             <div
-                id={`modalUserRow-${option.id}`}
                 key={option.id}
                 ref={isSelected ? 'selected' : option.id}
                 className={'more-modal__row clickable ' + rowSelected}

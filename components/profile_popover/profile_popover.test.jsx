@@ -43,7 +43,6 @@ describe('components/ProfilePopover', () => {
             user: {
                 is_bot: true,
                 bot_description: 'bot description',
-                username: 'john.doe',
             },
         };
 
