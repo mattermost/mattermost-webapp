@@ -3244,7 +3244,6 @@
   "user.settings.general.emailGitlabCantUpdate": "Login occurs through GitLab. Email cannot be updated. Email address used for notifications is {email}.",
   "user.settings.general.emailGoogleCantUpdate": "Login occurs through Google. Email cannot be updated. Email address used for notifications is {email}.",
   "user.settings.general.emailHelp1": "Email is used for sign-in, notifications, and password reset. Email requires verification if changed.",
-  "user.settings.general.emailHelp2": "Email has been disabled by your System Administrator. No notification emails will be sent until it is enabled.",
   "user.settings.general.emailHelp3": "Email is used for sign-in, notifications, and password reset.",
   "user.settings.general.emailLdapCantUpdate": "Login occurs through AD/LDAP. Email cannot be updated. Email address used for notifications is {email}.",
   "user.settings.general.emailMatch": "The new emails you entered do not match.",
