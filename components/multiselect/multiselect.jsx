@@ -312,10 +312,7 @@ export default class MultiSelect extends React.Component {
 
         return (
             <div className='filtered-user-list'>
-                <div
-                    className='filter-row filter-row--full'
-                    aria-hidden='true'
-                >
+                <div className='filter-row filter-row--full'>
                     <div className='multi-select__container'>
                         <ReactSelect
                             id='selectItems'
@@ -330,6 +327,7 @@ export default class MultiSelect extends React.Component {
                             }}
                             isClearable={false}
                             openMenuOnFocus={false}
+                            menuIsOpen={false}
                             onInputChange={this.onInput}
                             onKeyDown={this.onInputKeyDown}
                             onChange={this.onChange}
@@ -337,6 +335,7 @@ export default class MultiSelect extends React.Component {
                             placeholder={this.props.placeholderText}
                             inputValue={this.state.input}
                             getOptionValue={(option) => option.id}
+                            getOptionLabel={(option) => this.props.ariaLabelRenderer(option)}
                             aria-label={this.props.placeholderText}
                             className={this.state.a11yActive ? 'multi-select__focused' : ''}
                         />
