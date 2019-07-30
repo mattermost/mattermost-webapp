@@ -437,7 +437,7 @@ describe('PostList', () => {
     describe('scrollToLatestMessages', () => {
         test('should call scrollToBottom', () => {
             const wrapper = shallow(<PostList {...baseProps}/>);
-            wrapper.setProps({olderPosts: {allLoaded: true, loading: false}});
+            wrapper.setProps({newerPosts: {allLoaded: true, loading: false}});
             const instance = wrapper.instance();
             instance.scrollToBottom = jest.fn();
             instance.scrollToLatestMessages();

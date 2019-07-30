@@ -42,7 +42,7 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
         const title = (
             <FormattedMarkdownMessage
                 id='admin.team_channel_settings.usersToBeRemovedModal.title'
-                defaultMessage='**{total} Users** To Be Removed'
+                defaultMessage='**{total, number} {total, plural, one {User} other {Users}}** To Be Removed'
                 values={{total}}
             />
         );

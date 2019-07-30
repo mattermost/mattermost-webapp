@@ -439,6 +439,9 @@
         overflow: hidden;
         padding: 12px 0 12px 15px;
         resize: none;
+        -ms-overflow-style: auto;
+        -webkit-overflow-scrolling: touch;
+        overflow-y: auto;
 
         &:not(.custom-textarea--emoji-picker) {
             padding-right: 40px;
@@ -539,7 +542,7 @@
                 position: relative;
                 vertical-align: top;
 
-                input {
+                & + input {
                     cursor: pointer;
                     direction: ltr;
                     filter: alpha(opacity=0);
@@ -596,6 +599,7 @@
 
     > div {
         display: flex;
+        position: relative;
         width: 43px;
 
         &:first-child {
@@ -656,7 +660,7 @@
             }
         }
 
-        input {
+        & + input {
             cursor: pointer;
             direction: ltr;
             filter: alpha(opacity=0);
@@ -1731,7 +1735,7 @@
     .post__visibility {
         @include opacity(.6);
         font-size: .9em;
-        padding: 8px;
+        padding: 4px;
     }
 
     .post__time {
@@ -1742,6 +1746,7 @@
 
     .post__permalink {
         color: inherit;
+        display: inline-block;
 
         &:hover,
         &:focus {

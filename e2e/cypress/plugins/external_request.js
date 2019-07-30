@@ -21,7 +21,7 @@ module.exports = async ({baseUrl, user, method = 'get', path, data = {}}) => {
         cookieString += nameAndValue + ';';
     });
 
-    let response = {status: null, data: {}, error: {}};
+    let response;
 
     try {
         response = await axios({
@@ -34,11 +34,25 @@ module.exports = async ({baseUrl, user, method = 'get', path, data = {}}) => {
             },
             data,
         });
+
+        return {
+            status: response.status,
+            statusText: response.statusText,
+            data: response.data,
+        };
     } catch (error) {
+        // If we have a response for the error, pull out the relevant parts
         if (error.response) {
-            response = error.response;
+            response = {
+                status: error.response.status,
+                statusText: error.response.statusText,
+                data: error.response.data,
+            };
+        } else {
+            // If we get here something else went wrong, so throw
+            throw error;
         }
     }
 
-    return {status: response.status, data: response.data, error: response.error};
+    return response;
 };

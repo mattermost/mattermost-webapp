@@ -90,6 +90,16 @@ export default class EmoticonProvider extends Provider {
         return emojis.map((item) => ':' + item.name + ':');
     }
 
+    // findAndSuggestEmojis uses the provided partialName to match anywhere inside an emoji name.
+    //
+    // For example, typing `:welc` would match both `:welcome:` and `:youre_welcome:` if those
+    // emojis are present in the local store. Note, however, that the server only does prefix
+    // matches, so a query to populate the local store for `:welc` would only return `:welcome:`.
+    // This results in surprising differences between a fresh load of the application, and the
+    // changes to the cache from expanding the cache with emojis found in existing posts.
+    //
+    // For now, this behaviour and difference is by design.
+    // See https://mattermost.atlassian.net/browse/MM-17320.
     findAndSuggestEmojis(text, partialName, resultsCallback) {
         const recentMatched = [];
         const matched = [];
