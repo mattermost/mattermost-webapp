@@ -106,4 +106,34 @@ describe('components/admin_console/system_users', () => {
         expect(loadProfilesWithoutTeam).toHaveBeenCalledWith(1, USERS_PER_PAGE);
         expect(wrapper.state().loading).toEqual(false);
     });
+
+    test('doSearch() should have called searchProfiles with allow_inactive', async () => {
+        const searchProfiles = jest.fn().mockResolvedValue({data: [{}]});
+        const props = {
+            ...defaultProps,
+            teamId: SearchUserTeamFilter.NO_TEAM,
+            actions: {...defaultProps.actions, searchProfiles},
+        };
+        const wrapper = shallow(<SystemUsers {...props}/>);
+
+        await wrapper.instance().doSearch('searchterm', '', '');
+
+        expect(searchProfiles).toHaveBeenCalled();
+        expect(searchProfiles).toHaveBeenCalledWith('searchterm', {allow_inactive: true});
+    });
+
+    test('doSearch() should have called searchProfiles with allow_inactive and system_admin role', async () => {
+        const searchProfiles = jest.fn().mockResolvedValue({data: [{}]});
+        const props = {
+            ...defaultProps,
+            teamId: SearchUserTeamFilter.NO_TEAM,
+            actions: {...defaultProps.actions, searchProfiles},
+        };
+        const wrapper = shallow(<SystemUsers {...props}/>);
+
+        await wrapper.instance().doSearch('searchterm', '', 'system_admin');
+
+        expect(searchProfiles).toHaveBeenCalled();
+        expect(searchProfiles).toHaveBeenCalledWith('searchterm', {allow_inactive: true, role: 'system_admin'});
+    });
 });

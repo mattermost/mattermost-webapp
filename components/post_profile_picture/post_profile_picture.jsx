@@ -51,8 +51,13 @@ export default class PostProfilePicture extends React.PureComponent {
 
     getPostIconURL = (defaultURL, fromAutoResponder, fromWebhook) => {
         const {enablePostIconOverride, hasImageProxy, post} = this.props;
-        const postIconOverrideURL = post.props.override_icon_url;
-        const useUserIcon = post.props.use_user_icon;
+        const postProps = post.props;
+        let postIconOverrideURL = '';
+        let useUserIcon = '';
+        if (postProps) {
+            postIconOverrideURL = postProps.override_icon_url;
+            useUserIcon = postProps.use_user_icon;
+        }
 
         if (this.props.compactDisplay) {
             return '';

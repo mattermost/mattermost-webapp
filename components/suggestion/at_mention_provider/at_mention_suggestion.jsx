@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 
 import Suggestion from '../suggestion.jsx';
 
@@ -108,6 +109,7 @@ export default class AtMentionSuggestion extends Suggestion {
         return (
             <div
                 className={className}
+                data-testid={`mentionSuggestion_${username}`}
                 onClick={this.handleClick}
                 {...Suggestion.baseProps}
             >
@@ -123,6 +125,10 @@ export default class AtMentionSuggestion extends Suggestion {
                     {' '}
                     {description}
                 </span>
+                <GuestBadge
+                    show={Utils.isGuest(user)}
+                    className='badge-autocomplete'
+                />
             </div>
         );
     }

@@ -1,19 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/channel_members_dropdown should match snapshot for channel_members_dropdown 1`] = `
-<button
-  className="btn btn-danger btn-message"
-  disabled={false}
-  id="removeMember"
-  onClick={[Function]}
-  type="button"
->
+<div>
   <FormattedMessage
-    defaultMessage="Remove Member"
-    id="channel_members_dropdown.remove_member"
+    defaultMessage="Channel Admin"
+    id="channel_members_dropdown.channel_admin"
     values={Object {}}
   />
-</button>
+</div>
 `;
 
 exports[`components/channel_members_dropdown should match snapshot for group_constrained channel 1`] = `
@@ -27,17 +21,11 @@ exports[`components/channel_members_dropdown should match snapshot for group_con
 `;
 
 exports[`components/channel_members_dropdown should match snapshot opening dropdown upwards 1`] = `
-<button
-  className="btn btn-danger btn-message"
-  disabled={false}
-  id="removeMember"
-  onClick={[Function]}
-  type="button"
->
+<div>
   <FormattedMessage
-    defaultMessage="Remove Member"
-    id="channel_members_dropdown.remove_member"
+    defaultMessage="Channel Admin"
+    id="channel_members_dropdown.channel_admin"
     values={Object {}}
   />
-</button>
+</div>
 `;

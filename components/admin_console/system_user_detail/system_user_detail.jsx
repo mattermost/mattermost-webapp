@@ -280,6 +280,14 @@ export default class SystemUserDetail extends React.Component {
                     />
                 );
             }
+            if (user.roles.length > 0 && Utils.isGuest(user)) {
+                currentRoles = (
+                    <FormattedMessage
+                        id='team_members_dropdown.guest'
+                        defaultMessage='Guest'
+                    />
+                );
+            }
         }
 
         return (

@@ -114,7 +114,10 @@ export default class SizeAwareImage extends React.PureComponent {
 
         if (dimensions && dimensions.width && !this.state.loaded) {
             placeHolder = (
-                <div className={`image-loading__container ${this.props.className}`}>
+                <div
+                    className={`image-loading__container ${this.props.className}`}
+                    style={{maxWidth: dimensions.width}}
+                >
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
                         viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
@@ -139,7 +142,7 @@ export default class SizeAwareImage extends React.PureComponent {
                 <button
                     {...props}
                     aria-label={ariaLabelImage}
-                    className='style--none'
+                    className='style--none file-preview__button'
                     style={imageStyleChangesOnLoad}
                 >
                     <img

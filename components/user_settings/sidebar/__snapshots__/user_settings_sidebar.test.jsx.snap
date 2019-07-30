@@ -78,7 +78,7 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
           />,
         ]
       }
-      focused={false}
+      focused={true}
       section="groupChannels"
       title={
         <FormattedMessage
