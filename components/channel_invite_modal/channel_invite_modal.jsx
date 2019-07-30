@@ -243,6 +243,7 @@ export default class ChannelInviteModal extends React.Component {
 
         return (
             <Modal
+                id='addUsersToChannelModal'
                 dialogClassName='a11y__modal more-modal'
                 show={this.state.show}
                 onHide={this.onHide}
