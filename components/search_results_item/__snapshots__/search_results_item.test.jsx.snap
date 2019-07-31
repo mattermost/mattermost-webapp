@@ -631,18 +631,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
     <div
       className="search-channel__name"
     >
-      <span
-        className="search-channel__archived"
-      >
-        <ArchiveIcon
-          className="icon icon__archive channel-header-archived-icon svg-text-color"
-        />
-        <FormattedMessage
-          defaultMessage="Archived"
-          id="search_item.channelArchived"
-          values={Object {}}
-        />
-      </span>
+      channel_name
     </div>
     <div
       className="post__content"
