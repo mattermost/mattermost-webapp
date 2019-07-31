@@ -3373,7 +3373,7 @@ export default {
                         label: t('admin.guest_access.enableTitle'),
                         label_default: 'Enable Guest Access: ',
                         help_text: t('admin.guest_access.enableDescription'),
-                        help_text_default: 'When true, external guest can be invited to channels within teams. Prelase see [Permissions Schemes](../user_management/permissions/system_scheme) for which roles can invite guests.',
+                        help_text_default: 'When true, external guest can be invited to channels within teams. Please see [Permissions Schemes](../user_management/permissions/system_scheme) for which roles can invite guests.',
                         help_text_markdown: true,
                     },
                     {
