@@ -6,7 +6,6 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
-import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     before(() => {
@@ -19,21 +18,21 @@ describe('Messaging', () => {
         cy.get('#channelHeaderFlagButton').click();
 
         //#Making sure Flagged Posts is present on the page
-        cy.contains('Flagged Posts');
+        cy.contains('Flagged Posts').should('be.visible');
+        cy.get('#post_textbox').should('not.be.focused');
 
         //#Push a character key such as "A"
-        cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type('A');
+        cy.get('body').type('A');
 
         //#Expect to have "A" value in main input
-        cy.get('#post_textbox').should('have.value', 'A');
+        cy.get('#post_textbox').should('be.focused');
 
         //#Click the @ icon to open the Recent mentions RHS to move the focus out of the main input box
         cy.get('#channelHeaderMentionButton').click();
+        cy.get('#post_textbox').should('not.be.focused');
 
         //#Push a character key such as "B"
-        cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).type('B');
-
-        //#Expect to have "AB" value inside main input
-        cy.get('#post_textbox').should('have.value', 'AB');
+        cy.get('body').type('B');
+        cy.get('#post_textbox').should('be.focused');
     });
 });
