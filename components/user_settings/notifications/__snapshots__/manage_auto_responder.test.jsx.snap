@@ -176,7 +176,9 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                   loading={false}
                   text="Saving"
                 >
-                  Save
+                  <span>
+                    Save
+                  </span>
                 </LoadingWrapper>
               </button>
             </SaveButton>
@@ -465,7 +467,9 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                   loading={false}
                   text="Saving"
                 >
-                  Save
+                  <span>
+                    Save
+                  </span>
                 </LoadingWrapper>
               </button>
             </SaveButton>
