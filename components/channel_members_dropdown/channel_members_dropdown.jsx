@@ -116,9 +116,8 @@ export default class ChannelMembersDropdown extends React.Component {
             return null;
         }
 
+        const role = this.renderRole(isChannelAdmin);
         if (this.props.canChangeMemberRoles) {
-            const role = this.renderRole(isChannelAdmin);
-
             const canRemoveFromChannel = this.props.canRemoveMember && this.props.channel.name !== Constants.DEFAULT_CHANNEL && !this.props.channel.group_constrained;
             const canMakeChannelMember = isChannelAdmin;
             const canMakeChannelAdmin = supportsChannelAdmin && !isChannelAdmin;
@@ -136,8 +135,8 @@ export default class ChannelMembersDropdown extends React.Component {
                             className='dropdown-toggle theme color--link style--none'
                             type='button'
                         >
-                            <span className='sr-only'>{this.props.user.username}</span>
                             <span>{role} </span>
+                            <span className='sr-only'>{this.props.user.username}</span>
                             <DropdownIcon/>
                         </button>
                         <Menu
@@ -176,6 +175,8 @@ export default class ChannelMembersDropdown extends React.Component {
                     onClick={this.handleRemoveFromChannel}
                     disabled={this.state.removing}
                 >
+                    <span className='sr-only'>{role}</span>
+                    <span className='sr-only'>{this.props.user.username}</span>
                     <FormattedMessage
                         id='channel_members_dropdown.remove_member'
                         defaultMessage='Remove Member'

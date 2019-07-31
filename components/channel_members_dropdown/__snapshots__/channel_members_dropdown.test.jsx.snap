@@ -8,6 +8,18 @@ exports[`components/channel_members_dropdown should match snapshot for channel_m
   onClick={[Function]}
   type="button"
 >
+  <span
+    className="sr-only"
+  >
+    <FormattedMessage
+      defaultMessage="Channel Admin"
+      id="channel_members_dropdown.channel_admin"
+      values={Object {}}
+    />
+  </span>
+  <span
+    className="sr-only"
+  />
   <FormattedMessage
     defaultMessage="Remove Member"
     id="channel_members_dropdown.remove_member"
@@ -34,6 +46,18 @@ exports[`components/channel_members_dropdown should match snapshot opening dropd
   onClick={[Function]}
   type="button"
 >
+  <span
+    className="sr-only"
+  >
+    <FormattedMessage
+      defaultMessage="Channel Admin"
+      id="channel_members_dropdown.channel_admin"
+      values={Object {}}
+    />
+  </span>
+  <span
+    className="sr-only"
+  />
   <FormattedMessage
     defaultMessage="Remove Member"
     id="channel_members_dropdown.remove_member"
