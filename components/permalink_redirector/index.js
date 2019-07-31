@@ -10,6 +10,7 @@ import PermalinkRedirector from './permalink_redirector';
 const mapStateToProps = (state, ownProps) => {
     return {
         postId: ownProps.match.params.postid,
+        url: ownProps.match.url,
     };
 };
 
