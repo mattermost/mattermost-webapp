@@ -159,7 +159,7 @@ describe('MM-14318 Theme Colors', () => {
     });
 
     after(() => {
-        cy.apiSaveThemePreference()();
+        cy.apiSaveThemePreference();
     });
 
     it('Should be able to use color picker input and change Sidebar theme color', () => {
