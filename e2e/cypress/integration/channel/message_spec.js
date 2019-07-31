@@ -175,14 +175,14 @@ describe('Message', () => {
             cy.getLastPostId().then((replyId) => {
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyId}`).within(() => {
-                    cy.get('.post__link').should('be.visible').and('have.text', 'Commented on sysadmin\'s message: Hello from yesterday');
+                    cy.get('#postLink').should('be.visible').and('have.text', 'Commented on sysadmin\'s message: Hello from yesterday');
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with attachment');
                     cy.get('.post-image__column').should('be.visible').and('have.text', 'mattermost-icon.png');
                 });
 
                 // * Verify that the reply is in the RHS with matching text
                 cy.get(`#rhsPost_${replyId}`).within(() => {
-                    cy.get('.post__link').should('not.be.visible');
+                    cy.get('#postLink').should('not.be.visible');
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with attachment');
                     cy.get('.post-image__column').should('be.visible').and('have.text', 'mattermost-icon.png');
                 });
