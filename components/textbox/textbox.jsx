@@ -186,6 +186,8 @@ export default class Textbox extends React.Component {
                     ref='preview'
                     className='form-control custom-textarea textbox-preview-area'
                     onKeyPress={this.props.onKeyPress}
+                    onKeyDown={this.handleKeyDown}
+                    onBlur={this.handleBlur}
                 >
                     <PostMarkdown
                         isRHS={this.props.isRHS}
