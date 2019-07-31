@@ -33,22 +33,26 @@ export default class MenuWrapper extends React.PureComponent {
     }
 
     componentDidMount() {
-        document.addEventListener('click', this.mouseClose, true);
-        document.addEventListener('keydown', this.keyboardClose, true);
+        document.addEventListener('click', this.closeOnBlur, true);
+        document.addEventListener('keyup', this.keyboardClose, true);
     }
 
     componentWillUnmount() {
-        document.removeEventListener('click', this.mouseClose, true);
-        document.removeEventListener('keydown', this.keyboardClose, true);
+        document.removeEventListener('click', this.closeOnBlur, true);
+        document.removeEventListener('keyup', this.keyboardClose, true);
     }
 
     keyboardClose = (e) => {
         if (e.key === Constants.KeyCodes.ESCAPE[0]) {
             this.close();
         }
+
+        if (e.key === Constants.KeyCodes.TAB[0]) {
+            this.closeOnBlur(e);
+        }
     }
 
-    mouseClose = (e) => {
+    closeOnBlur = (e) => {
         if (this.node.current.contains(e.target)) {
             return;
         }
@@ -61,6 +65,18 @@ export default class MenuWrapper extends React.PureComponent {
             this.setState({open: false});
             if (this.props.onToggle) {
                 this.props.onToggle(false);
+            }
+        }
+    }
+
+    blur = (e) => {
+        if (e.key === Constants.KeyCodes.TAB[0]) {
+            console.log(this.node.current);
+            console.log(e.target.current);
+            if (this.node.current.contains(e.target.current)) {
+                console.log('contains');
+            } else {
+                console.log('doesnt');
             }
         }
     }
