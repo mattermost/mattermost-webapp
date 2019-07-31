@@ -145,7 +145,7 @@ describe('Message', () => {
     it('MM-16730 Reply to an older message', () => {
         cy.getCurrentChannelId().then((channelId) => {
             // # Get yesterdays date in UTC
-            const yesterdaysDate = new Date().getTime() - 86400000;
+            const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
 
             // # Post a day old message
             cy.postMessageAs({sender: sysadmin, message: 'Hello from yesterday', channelId, createAt: yesterdaysDate}).
