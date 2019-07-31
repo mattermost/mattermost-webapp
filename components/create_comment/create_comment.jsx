@@ -547,6 +547,7 @@ export default class CreateComment extends React.PureComponent {
             Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) &&
             (e.ctrlKey || e.metaKey)
         ) {
+            this.updatePreview();
             this.commentMsgKeyPress(e);
             return;
         }
