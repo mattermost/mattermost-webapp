@@ -97,7 +97,6 @@ describe('components/PermalinkRedirector', () => {
                 await testStore.dispatch(redirect(postUrl));
 
                 expect(getTeam).toHaveBeenCalledWith(expect.any(Object), teamId);
-
                 expect(browserHistory.push).toHaveBeenCalledWith(`/teamName1/${postUrl}`);
             });
 
@@ -113,7 +112,6 @@ describe('components/PermalinkRedirector', () => {
                 await testStore.dispatch(redirect(postId));
 
                 expect(getTeam).toHaveBeenCalledWith(expect.any(Object), teamId);
-
                 expect(browserHistory.push).toHaveBeenCalledTimes(0);
                 expect(browserHistory.replace).toHaveBeenCalledTimes(1);
                 expect(browserHistory.replace).toHaveBeenCalledWith(`/error?type=${ErrorPageTypes.TEAM_NOT_FOUND}`);
