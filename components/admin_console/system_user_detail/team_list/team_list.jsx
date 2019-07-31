@@ -55,13 +55,9 @@ export default class TeamList extends React.PureComponent {
 
     componentDidMount() {
         this.getTeamsAndMemberships().
-            then((data) => this.mergeTeamsWithMemberships(data)).
+            then(this.mergeTeamsWithMemberships).
             then((teamsWithMemberships) => {
-                this.setState(
-                    {teamsWithMemberships},
-
-                    //() => console.log(this.state.teamsWithMemberships),
-                );
+                this.setState({teamsWithMemberships});
             });
     }
 
