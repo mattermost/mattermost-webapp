@@ -8,7 +8,7 @@ import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPost
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 
-import {getLatestPostId, createAriaLabelForPostId} from 'utils/post_utils.jsx';
+import {getLatestPostId, makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
 import {
     checkAndSetMobileView,
     loadPosts,
@@ -39,6 +39,8 @@ const memoizedGetLatestPostId = memoizeResult((postIds) => getLatestPostId(postI
 function makeMapStateToProps() {
     const getPostsChunkAroundPost = makeGetPostsChunkAroundPost();
     const preparePostIdsForPostList = makePreparePostIdsForPostList();
+    const createAriaLabelForPost = makeCreateAriaLabelForPost();
+
     return function mapStateToProps(state, ownProps) {
         let latestPostTimeStamp = 0;
         let postIds;
@@ -66,7 +68,7 @@ function makeMapStateToProps() {
                 const latestPostId = memoizedGetLatestPostId(postIds);
                 const latestPost = getPost(state, latestPostId);
                 latestPostTimeStamp = latestPost.create_at;
-                latestAriaLabelFunc = (postId, intl) => createAriaLabelForPostId(state, postId, intl);
+                latestAriaLabelFunc = createAriaLabelForPost(state, latestPost);
             }
         }
 

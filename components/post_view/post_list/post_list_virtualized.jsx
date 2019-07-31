@@ -454,7 +454,7 @@ export default class PostList extends React.PureComponent {
         const channelId = this.props.channelId;
         let ariaLabel;
         if (this.props.latestAriaLabelFunc && this.props.postListIds.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) >= 0) {
-            ariaLabel = this.props.latestAriaLabelFunc(getLatestPostId(this.props.postListIds), this.context.intl);
+            ariaLabel = this.props.latestAriaLabelFunc(this.context.intl);
         }
         const {dynamicListStyle} = this.state;
 

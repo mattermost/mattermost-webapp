@@ -1,10 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {createSelector} from 'reselect';
+
 import {Client4} from 'mattermost-redux/client';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getPost, makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {makeGetDisplayName, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -312,21 +314,19 @@ export function getLatestPostId(postIds) {
     return '';
 }
 
-export function createAriaLabelForPostId(state, postId, intl) {
-    const post = getPost(state, postId);
-
-    if (!post) {
-        return null;
-    }
-
+export function makeCreateAriaLabelForPost() {
     const getReactionsForPost = makeGetReactionsForPost();
     const getDisplayName = makeGetDisplayName();
 
-    const author = getDisplayName(state, post.user_id);
-    const reactions = getReactionsForPost(state, post.id);
-    const isFlagged = get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null;
-
-    return createAriaLabelForPost(post, author, isFlagged, reactions, intl);
+    return createSelector(
+        (state, post) => post,
+        (state, post) => getDisplayName(state, post.user_id),
+        (state, post) => getReactionsForPost(state, post.id),
+        (state, post) => get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
+        (post, author, reactions, isFlagged) => {
+            return (intl) => createAriaLabelForPost(post, author, isFlagged, reactions, intl);
+        }
+    );
 }
 
 export function createAriaLabelForPost(post, author, isFlagged, reactions, intl) {
