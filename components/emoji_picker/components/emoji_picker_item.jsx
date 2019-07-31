@@ -91,6 +91,7 @@ export default class EmojiPickerItem extends React.Component {
             image = (
                 <img
                     alt={'emoji image'}
+                    data-testid={emoji.aliases}
                     onMouseOver={this.handleMouseOverThrottle}
                     src={imgTrans}
                     className={spriteClassName}
@@ -117,7 +118,7 @@ export default class EmojiPickerItem extends React.Component {
                 className={itemClassName}
                 ref={this.emojiItemRef}
             >
-                <div>
+                <div data-testid='emojiItem'>
                     {image}
                 </div>
             </div>

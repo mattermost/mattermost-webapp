@@ -252,7 +252,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   loading={false}
                   text="Saving"
                 >
-                  Save
+                  <span>
+                    Save
+                  </span>
                 </LoadingWrapper>
               </button>
             </SaveButton>
@@ -693,7 +695,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   loading={false}
                   text="Saving"
                 >
-                  Save
+                  <span>
+                    Save
+                  </span>
                 </LoadingWrapper>
               </button>
             </SaveButton>

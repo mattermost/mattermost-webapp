@@ -451,4 +451,14 @@ describe('PostList', () => {
             expect(baseActions.changeUnreadChunkTimeStamp).toHaveBeenCalledWith('');
         });
     });
+
+    describe('postIds state', () => {
+        test('should have LOAD_NEWER_MESSAGES_TRIGGER and LOAD_OLDER_MESSAGES_TRIGGER', () => {
+            const wrapper = shallow(<PostList {...baseProps}/>);
+            wrapper.setProps({autoRetryEnable: false});
+            const postListIdsState = wrapper.state('postListIds');
+            expect(postListIdsState[0]).toBe(PostListRowListIds.LOAD_NEWER_MESSAGES_TRIGGER);
+            expect(postListIdsState[postListIdsState.length - 1]).toBe(PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER);
+        });
+    });
 });
