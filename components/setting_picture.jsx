@@ -54,7 +54,7 @@ export default class SettingPicture extends Component {
 
     focusFirstElement() {
         if (this.settingList.current) {
-            const focusableElements = this.settingList.current.querySelectorAll('button, [href], input:not([class="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])');
+            const focusableElements = this.settingList.current.querySelectorAll('button, [href], input:not(.hidden), select, textarea, [tabindex]:not([tabindex="-1"])');
             if (focusableElements) {
                 focusableElements[0].focus();
             }
@@ -252,12 +252,12 @@ export default class SettingPicture extends Component {
         const img = this.renderImg();
 
         let confirmButtonClass = 'btn btn-sm';
-        let disableSaveButton = false;
+        let disableSaveButtonFocus = false;
         if (this.props.submitActive || this.state.removeSrc || this.state.setDefaultSrc) {
             confirmButtonClass += ' btn-primary';
         } else {
             confirmButtonClass += ' btn-inactive disabled';
-            disableSaveButton = true;
+            disableSaveButtonFocus = true;
         }
 
         let helpText;
@@ -335,7 +335,7 @@ export default class SettingPicture extends Component {
                                 />
                             </button>
                             <button
-                                tabIndex={disableSaveButton ? '-1' : '0'}
+                                tabIndex={disableSaveButtonFocus ? '-1' : '0'}
                                 ref={this.confirmButton}
                                 className={confirmButtonClass}
                                 onClick={this.props.loadingPicture ? () => true : this.handleSave}
