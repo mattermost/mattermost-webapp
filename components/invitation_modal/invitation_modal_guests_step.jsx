@@ -66,6 +66,8 @@ export default class InvitationModalGuestsStep extends React.Component {
             } else {
                 this.setState({termWithoutResults: null});
             }
+        }).catch(() => {
+            callback([]);
         });
     }, 150);
 
