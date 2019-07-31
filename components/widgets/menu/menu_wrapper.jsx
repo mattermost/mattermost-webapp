@@ -69,18 +69,6 @@ export default class MenuWrapper extends React.PureComponent {
         }
     }
 
-    blur = (e) => {
-        if (e.key === Constants.KeyCodes.TAB[0]) {
-            console.log(this.node.current);
-            console.log(e.target.current);
-            if (this.node.current.contains(e.target.current)) {
-                console.log('contains');
-            } else {
-                console.log('doesnt');
-            }
-        }
-    }
-
     toggle = () => {
         const newState = !this.state.open;
         this.setState({open: newState});
