@@ -671,8 +671,10 @@ export default class CreatePost extends React.Component {
             }
 
             if (withClosedCodeBlock && message) {
+                this.updatePreview();
                 this.setState({message}, () => this.handleSubmit(e));
             } else {
+                this.updatePreview();
                 this.handleSubmit(e);
             }
         }
@@ -1178,7 +1180,7 @@ export default class CreatePost extends React.Component {
         }
 
         let fileUpload;
-        if (!readOnlyChannel) {
+        if (!readOnlyChannel && !this.state.preview) {
             fileUpload = (
                 <FileUpload
                     ref='fileUpload'
@@ -1197,7 +1199,7 @@ export default class CreatePost extends React.Component {
         let emojiPicker = null;
         const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
 
-        if (this.props.enableEmojiPicker && !readOnlyChannel) {
+        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.state.preview) {
             emojiPicker = (
                 <div>
                     <EmojiPickerOverlay

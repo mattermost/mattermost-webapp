@@ -2,7 +2,7 @@
 
 .custom-textarea {
     background: transparent;
-    border: 1px solid #cccccc;
+    border: 1px solid v(center-channel-color-20);
     height: 100%;
     line-height: 20px;
     min-height: 36px;
@@ -12,7 +12,7 @@
     word-wrap: break-word;
 
     &:focus {
-        border-color: #cccccc;
+        border-color: v(center-channel-color-30);
         box-shadow: none;
     }
 
@@ -41,6 +41,10 @@
         position: relative;
         top: 0;
         z-index: 2;
+
+        &:focus {
+            border-color: v(center-channel-color-40);
+        }
 
         p {
             margin: 0;

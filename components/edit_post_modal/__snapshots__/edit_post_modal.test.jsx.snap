@@ -78,6 +78,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
+          tabIndex="0"
           value=""
         />
         <div
@@ -234,6 +235,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
+          tabIndex="0"
           value="new message"
         />
         <div
@@ -390,6 +392,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
+          tabIndex="0"
           value=""
         />
         <div
@@ -546,6 +549,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
+          tabIndex="0"
           value=""
         />
         <div
@@ -677,6 +681,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
+          tabIndex="0"
           value="new message"
         />
         <div
@@ -833,6 +838,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
+          tabIndex="0"
           value=""
         />
         <div
@@ -989,6 +995,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
+          tabIndex="0"
           value=""
         />
         <div
@@ -1145,6 +1152,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
+          tabIndex="0"
           value=""
         />
         <div
@@ -1301,6 +1309,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
+          tabIndex="0"
           value=""
         />
         <div
