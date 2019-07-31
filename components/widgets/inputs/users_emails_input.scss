@@ -7,9 +7,10 @@
         color: var(--center-channel-color-60);
         box-shadow: none;
         border-color: var(--center-channel-color-20);
-        padding: 1px;
+        padding: 3px 3px 3px 3px;
         &:hover {
             border-color: var(--center-channel-color-20);
+            cursor: text;
         }
         &--is-focused, &--menu-is-open {
             &:hover {
@@ -17,7 +18,7 @@
             }
             border-color: var(--button-bg);
             border-width: 2px;
-            padding: 0px;
+            padding: 2px 2px 2px 2px;
             transition: none;
         }
     }
@@ -27,7 +28,7 @@
     }
     .users-emails-input__placeholder {
         color: var(--center-channel-color-60);
-        margin-left: 10px;
+        margin-left: 8px;
     }
     .users-emails-input__input {
         color: var(--center-channel-color);
@@ -55,6 +56,7 @@
     }
     .users-emails-input__option {
         height: 60px;
+        cursor: pointer;
         padding: 12px;
         display: flex;
         align-items: center;
@@ -76,6 +78,10 @@
         }
         &:hover, &--is-focused {
             background: var(--button-bg-10);
+        }
+        &--no-matches:hover{ //Jesus not sure if this is the best way to do this
+            background: none;
+            cursor: default;
         }
         .mail-plus-icon {
             width: 36px;
@@ -109,13 +115,10 @@
         padding: 4px;
         border-radius: 16px;
         color: var(--center-channel-color);
-        margin: 5px;
-        &:first-child {
-            margin: 5px 5px 5px 6px;
-        }
-        &:last-child {
-            margin: 5px 0 5px 5px;
-        }
+        margin: 4px;
+        //&:last-child { /* Jesus I can't get this selector to work */ 
+        //    margin: 14px 0px 4px 4px;
+        //}
     }
 
     .users-emails-input__multi-value__label {
@@ -154,6 +157,7 @@
         }
         &:hover {
             background: none;
+            
         }
         svg {
             height: 16px;
