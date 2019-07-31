@@ -216,7 +216,7 @@ export default class PostList extends React.PureComponent {
             if (props.autoRetryEnable) {
                 newPostListIds = [PostListRowListIds.NEWER_MESSAGES_LOADER, ...newPostListIds];
             } else {
-                newPostListIds = [...postListIds, PostListRowListIds.LOAD_NEWER_MESSAGES_TRIGGER];
+                newPostListIds = [PostListRowListIds.LOAD_NEWER_MESSAGES_TRIGGER, ...newPostListIds];
             }
         }
 
