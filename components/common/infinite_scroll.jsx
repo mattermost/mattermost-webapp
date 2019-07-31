@@ -7,10 +7,6 @@ import PropTypes from 'prop-types';
 const SCROLL_BUFFER = 10;
 
 export default class InfiniteScroll extends React.PureComponent {
-    static defaultProps = {
-        bufferValue: SCROLL_BUFFER,
-    };
-
     static propTypes = {
         children: PropTypes.node.isRequired,
 
@@ -27,18 +23,24 @@ export default class InfiniteScroll extends React.PureComponent {
         /**
          * Message to display when all the data has been scrolled through
          */
-        endOfDataMessage: PropTypes.string.isRequired,
+        endOfDataMessage: PropTypes.string,
 
         /**
          * A wrapper class to define styling of the infinite scroll
          */
-        styleClass: PropTypes.string.isRequired,
+        styleClass: PropTypes.string,
 
         /**
          * A number that determines how far the scroll is near the bottom before
          * loading more items
          */
         bufferValue: PropTypes.number,
+    };
+
+    static defaultProps = {
+        bufferValue: SCROLL_BUFFER,
+        endOfDataMessage: 'No more items to load',
+        styleClass: '',
     };
 
     constructor(props) {
