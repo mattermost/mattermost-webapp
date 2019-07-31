@@ -2,7 +2,7 @@
 
 .UsersEmailsInput {
     .users-emails-input__control {
-        min-height: 44px;
+        min-height: 48px;
         background: var(--center-channel-bg);
         color: var(--center-channel-color-60);
         box-shadow: none;
@@ -31,7 +31,7 @@
     }
     .users-emails-input__input {
         color: var(--center-channel-color);
-        margin-left: 8px;
+        margin-left: 6px;
     }
     input {
         height: inherit;
