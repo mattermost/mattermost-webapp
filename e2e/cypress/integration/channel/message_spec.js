@@ -159,6 +159,9 @@ describe('Message', () => {
         cy.postMessage('Two');
 
         cy.get('@yesterdaysPost').then((postId) => {
+            // # Scroll up to yesterdays message
+            cy.get(`#post_${postId}`).scrollIntoView();
+
             // # Open RHS comment menu
             cy.clickPostCommentIcon(postId);
 
