@@ -4,6 +4,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
+import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
+
 const SCROLL_BUFFER = 10;
 
 export default class InfiniteScroll extends React.PureComponent {
@@ -102,7 +106,9 @@ export default class InfiniteScroll extends React.PureComponent {
                 >
                     {children}
                 </div>
-                {isFetching && 'Fetching more items...'}
+                {isFetching && (
+                    <LoadingSpinner text={localizeMessage('infinite_scroll.loading', 'Loading')}/>
+                )}
                 {endOfData && endOfDataMessage}
             </>
         );

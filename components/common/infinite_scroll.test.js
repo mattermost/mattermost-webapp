@@ -5,6 +5,8 @@ import {mount} from 'enzyme';
 
 import InfiniteScroll from 'components/common/infinite_scroll.jsx';
 
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+
 describe('/components/common/InfiniteScroll', () => {
     const baseProps = {
         callBack: jest.fn(),
@@ -16,7 +18,7 @@ describe('/components/common/InfiniteScroll', () => {
     let wrapper;
 
     beforeEach(() => {
-        wrapper = mount(<InfiniteScroll {...baseProps}><div/></InfiniteScroll>);
+        wrapper = mountWithIntl(<InfiniteScroll {...baseProps}><div/></InfiniteScroll>);
     });
 
     test('should match snapshot', () => {
