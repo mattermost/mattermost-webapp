@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
+import {t} from 'utils/i18n';
 
 import AbstractList from './abstract_list.jsx';
 import TeamRow from './team_row.jsx';
@@ -44,6 +45,11 @@ export default class TeamList extends React.PureComponent {
             getTeamsData: PropTypes.func.isRequired,
             getTeamMembersForUser: PropTypes.func.isRequired,
         }).isRequired,
+    }
+
+    static defaultProps = {
+        emptyListTextId: t('admin.team_settings.team_list.no_teams_found'),
+        emptyListTextDefaultMessage: 'No teams found',
     }
 
     constructor(props) {
