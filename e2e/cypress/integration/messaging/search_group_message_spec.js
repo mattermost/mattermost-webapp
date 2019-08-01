@@ -14,7 +14,19 @@ describe('Messaging', () => {
     });
 
     it('should returns results in GMs', () => {
-        cy.get('moreDirectMessage').click();
+        cy.get('#moreDirectMessage').click();
 
+        cy.get('.more-modal__name').first().click();
+
+        cy.get('.more-modal__name').first().click();
+
+        cy.get('#saveItems').click();
+
+        cy.get('#post_textbox').clear().type('Group Message first text').type('{enter}');
+
+        cy.get('#searchBox').type('in:').then(() => {
+            cy.getAllByTestId('listItem').contains('@aaron.medina,aaron.peterson,user-1').click();
+            cy.get('#searchBox').type('{enter}');
+        });
     });
 });
