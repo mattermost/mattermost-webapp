@@ -57,9 +57,9 @@ exports[`components/SettingItemMin should match snapshot with active Save button
         <input
           accept=".jpg,.png,.bmp"
           aria-hidden={true}
-          className="hidden"
           disabled={false}
           onChange={[Function]}
+          tabIndex="-1"
           type="file"
         />
         <button
@@ -156,9 +156,9 @@ exports[`components/SettingItemMin should match snapshot with active Save button
         <input
           accept=".jpg,.png,.bmp"
           aria-hidden={true}
-          className="hidden"
           disabled={false}
           onChange={[Function]}
+          tabIndex="-1"
           type="file"
         />
         <button
@@ -265,9 +265,9 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
         <input
           accept=".jpg,.png,.bmp"
           aria-hidden={true}
-          className="hidden"
           disabled={true}
           onChange={[Function]}
+          tabIndex="-1"
           type="file"
         />
         <button
@@ -386,9 +386,9 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
         <input
           accept=".jpg,.png,.bmp"
           aria-hidden={true}
-          className="hidden"
           disabled={false}
           onChange={[Function]}
+          tabIndex="-1"
           type="file"
         />
         <button
@@ -495,9 +495,9 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
         <input
           accept=".jpg,.png,.bmp"
           aria-hidden={true}
-          className="hidden"
           disabled={false}
           onChange={[Function]}
+          tabIndex="-1"
           type="file"
         />
         <button
@@ -611,9 +611,9 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
         <input
           accept=".jpg,.png,.bmp"
           aria-hidden={true}
-          className="hidden"
           disabled={false}
           onChange={[Function]}
+          tabIndex="-1"
           type="file"
         />
         <button
@@ -772,9 +772,9 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
         <input
           accept=".jpg,.png,.bmp"
           aria-hidden={true}
-          className="hidden"
           disabled={false}
           onChange={[Function]}
+          tabIndex="-1"
           type="file"
         />
         <button
@@ -938,9 +938,9 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
         <input
           accept=".jpg,.png,.bmp"
           aria-hidden={true}
-          className="hidden"
           disabled={false}
           onChange={[Function]}
+          tabIndex="-1"
           type="file"
         />
         <button
