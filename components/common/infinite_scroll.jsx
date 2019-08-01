@@ -52,11 +52,11 @@ export default class InfiniteScroll extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.node.current.addEventListener('scroll', this.handleScroll.bind(this));
+        this.node.current.addEventListener('scroll', this.handleScroll);
     }
 
     componentWillUnmount() {
-        this.node.current.removeEventListener('scroll', this.handleScroll.bind(this));
+        this.node.current.removeEventListener('scroll', this.handleScroll);
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
