@@ -107,7 +107,7 @@ export default class InfiniteScroll extends React.PureComponent {
                     {children}
                 </div>
                 {isFetching && (
-                    <LoadingSpinner text={localizeMessage('infinite_scroll.loading', 'Loading')}/>
+                    <LoadingSpinner text='Loading'/>
                 )}
                 {endOfData && endOfDataMessage}
             </>

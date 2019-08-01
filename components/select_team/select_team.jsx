@@ -245,9 +245,7 @@ export default class SelectTeam extends React.Component {
                         endOfDataMessage='No more teams to display'
                         styleClass='signup-team-all'
                     >
-                        <div>
-                            {joinableTeamContents}
-                        </div>
+                        {joinableTeamContents}
                     </InfiniteScroll>
                 </div>
             );
