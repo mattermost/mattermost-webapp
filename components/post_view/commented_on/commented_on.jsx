@@ -71,7 +71,7 @@ export default class CommentedOn extends PureComponent {
 
         return (
             <div
-                id='postLink'
+                data-testid='post-link'
                 className='post__link'
             >
                 <span>
