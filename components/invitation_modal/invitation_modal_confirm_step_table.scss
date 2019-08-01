@@ -1,12 +1,7 @@
 @import 'utils/variables';
 
 .InvitationModalConfirmStepTable {
-    //max-width: 720px;
-    //width: 100%;
-    width: 720px;
-    @media screen and (max-width: 768px) { //@jesus this doesn't quiet work right... when i inspect i see that flex box is doing something here
-        width:100%;
-    }
+    width: 100%;
     .table-header {
         display: flex;
         border-bottom: 1px solid green;
