@@ -39,6 +39,7 @@ jest.mock('mattermost-redux/selectors/entities/teams', () => ({
 
 describe('components/PermalinkRedirector', () => {
     const baseProps = {
+        params: {},
         actions: {
             redirect: jest.fn(),
         },
@@ -47,13 +48,13 @@ describe('components/PermalinkRedirector', () => {
     test('calls redirect for pl', async () => {
         const props = {
             ...baseProps,
-            postId: 'post_id',
+            url: 'pl/post_id',
         };
         shallowWithIntl(
             <PermalinkRedirector {...props}/>
         );
 
-        expect(baseProps.actions.redirect).toHaveBeenCalledWith('pl/post_id');
+        expect(baseProps.actions.redirect).toHaveBeenCalledWith(props.url, props.params);
         expect(baseProps.actions.redirect).toHaveBeenCalledTimes(1);
     });
 
@@ -66,7 +67,7 @@ describe('components/PermalinkRedirector', () => {
             <PermalinkRedirector {...props}/>
         );
 
-        expect(baseProps.actions.redirect).toHaveBeenCalledWith('integrations');
+        expect(baseProps.actions.redirect).toHaveBeenCalledWith(props.url, props.params);
         expect(baseProps.actions.redirect).toHaveBeenCalledTimes(1);
     });
 
@@ -94,7 +95,7 @@ describe('components/PermalinkRedirector', () => {
                     teamId,
                 );
 
-                await testStore.dispatch(redirect(postUrl));
+                await testStore.dispatch(redirect(`/_redirect/pl/${postId}`));
 
                 expect(getTeam).toHaveBeenCalledWith(expect.any(Object), teamId);
                 expect(browserHistory.push).toHaveBeenCalledWith(`/teamName1/${postUrl}`);

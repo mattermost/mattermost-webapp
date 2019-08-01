@@ -11,6 +11,8 @@ import LocalStorageStore from 'stores/local_storage_store';
 
 export const redirect = (url) => {
     return (dispatch, getState) => {
+        const sanitizedUrl = url.replace('/_redirect/', '');
+
         const state = getState();
         const teamId = LocalStorageStore.getPreviousTeamId(getCurrentUserId(state));
         const team = getTeam(state, teamId);
@@ -20,7 +22,6 @@ export const redirect = (url) => {
             return;
         }
 
-        browserHistory.push(`/${team.name}/${url}`);
+        browserHistory.push(`/${team.name}/${sanitizedUrl}`);
     };
 };
-

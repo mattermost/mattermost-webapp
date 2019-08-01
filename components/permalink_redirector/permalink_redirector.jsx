@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 export default class PermalinkRedirector extends React.PureComponent {
     static propTypes = {
-        postId: PropTypes.string,
+        params: PropTypes.object,
         url: PropTypes.string,
         actions: PropTypes.shape({
             redirect: PropTypes.func.isRequired,
@@ -14,11 +14,7 @@ export default class PermalinkRedirector extends React.PureComponent {
     };
 
     componentDidMount() {
-        if (this.props.postId) {
-            this.props.actions.redirect(`pl/${this.props.postId}`);
-        } else if (this.props.url === '/_redirect/integrations') {
-            this.props.actions.redirect('integrations');
-        }
+        this.props.actions.redirect(this.props.url, this.props.params);
     }
 
     render() {
