@@ -193,6 +193,7 @@ export default class UsersEmailsInput extends React.Component {
                 defaultMenuIsOpen={false}
                 openMenuOnClick={false}
                 loadingMessage={this.loadingMessage}
+                tabSelectsValue={true}
                 value={values}
             />
         );

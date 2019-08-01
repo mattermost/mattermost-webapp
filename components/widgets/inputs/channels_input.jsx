@@ -128,6 +128,7 @@ export default class ChannelsInput extends React.Component {
                 defaultOptions={false}
                 defaultMenuIsOpen={false}
                 openMenuOnClick={false}
+                tabSelectsValue={true}
                 value={this.props.value}
             />
         );
