@@ -177,14 +177,14 @@ describe('Message', () => {
                 cy.get(`#post_${replyId}`).within(() => {
                     cy.get('#postLink').should('be.visible').and('have.text', 'Commented on sysadmin\'s message: Hello from yesterday');
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with attachment');
-                    cy.get('.post-image__column').should('be.visible').and('have.text', 'mattermost-icon.png');
+                    cy.queryByTestId('image-name').should('be.visible').and('have.text', 'mattermost-icon.png');
                 });
 
                 // * Verify that the reply is in the RHS with matching text
                 cy.get(`#rhsPost_${replyId}`).within(() => {
                     cy.get('#postLink').should('not.be.visible');
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with attachment');
-                    cy.get('.post-image__column').should('be.visible').and('have.text', 'mattermost-icon.png');
+                    cy.queryByTestId('image-name').should('be.visible').and('have.text', 'mattermost-icon.png');
                 });
 
                 cy.get(`#CENTER_time_${postId}`).find('#localDateTime').invoke('attr', 'title').then((originalTimeStamp) => {

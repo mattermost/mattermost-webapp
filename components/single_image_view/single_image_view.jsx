@@ -118,7 +118,10 @@ export default class SingleImageView extends React.PureComponent {
         );
 
         const fileHeader = (
-            <div className='image-name'>
+            <div
+                data-testid='image-name'
+                className='image-name'
+            >
                 {toggle}
                 <div onClick={this.handleImageClick}>
                     {fileInfo.name}

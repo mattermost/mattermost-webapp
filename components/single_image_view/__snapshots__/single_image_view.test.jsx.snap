@@ -9,6 +9,7 @@ exports[`components/SingleImageView should match snapshot 1`] = `
   >
     <div
       className="image-name"
+      data-testid="image-name"
     >
       <button
         aria-label="Toggle Embed Visibility"
@@ -70,6 +71,7 @@ exports[`components/SingleImageView should match snapshot 2`] = `
   >
     <div
       className="image-name"
+      data-testid="image-name"
     >
       <button
         aria-label="Toggle Embed Visibility"
@@ -149,6 +151,7 @@ exports[`components/SingleImageView should match snapshot, SVG image 1`] = `
   >
     <div
       className="image-name"
+      data-testid="image-name"
     >
       <button
         aria-label="Toggle Embed Visibility"
@@ -212,6 +215,7 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
   >
     <div
       className="image-name"
+      data-testid="image-name"
     >
       <button
         aria-label="Toggle Embed Visibility"
@@ -290,6 +294,7 @@ exports[`components/SingleImageView should set loaded state on callback of onIma
   >
     <div
       className="image-name"
+      data-testid="image-name"
     >
       <button
         aria-label="Toggle Embed Visibility"
