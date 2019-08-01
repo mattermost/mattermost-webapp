@@ -54,9 +54,10 @@ export default class SettingPicture extends Component {
 
     focusFirstElement() {
         if (this.settingList.current) {
-            const focusableElements = this.settingList.current.querySelectorAll('button, [href], input:not(.hidden), select, textarea, [tabindex]:not([tabindex="-1"])');
-            if (focusableElements) {
-                focusableElements[0].focus();
+            const focusableElements = this.settingList.current.querySelectorAll('button, [href], input, select, textarea');
+            const filteredElements = Array.from(focusableElements).filter((element) => element.getAttribute('tabindex') !== '-1');
+            if (filteredElements) {
+                filteredElements[0].focus();
             }
         }
     }
@@ -321,7 +322,7 @@ export default class SettingPicture extends Component {
                                 onChange={this.handleFileChange}
                                 disabled={this.props.loadingPicture}
                                 aria-hidden={true}
-                                className='hidden'
+                                tabIndex='-1'
                             />
                             <button
                                 className='btn btn-sm btn-primary btn-file sel-btn'
