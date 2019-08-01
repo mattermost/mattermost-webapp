@@ -79,7 +79,7 @@
         &:hover, &--is-focused {
             background: var(--button-bg-10);
         }
-        &--no-matches:hover{ //Jesus not sure if this is the best way to do this
+        &--no-matches:hover{
             background: none;
             cursor: default;
         }
@@ -116,11 +116,10 @@
         border-radius: 16px;
         color: var(--center-channel-color);
         margin: 4px;
-        //&:last-child { /* Jesus I can't get this selector to work */ 
-        //    margin: 14px 0px 4px 4px;
-        //}
+        &:nth-last-child(2) { 
+            margin: 4px 0px 4px 4px;
+        }
     }
-
     .users-emails-input__multi-value__label {
         display: flex;
         align-items: center;
