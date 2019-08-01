@@ -28,6 +28,8 @@ export default class UsersEmailsInput extends React.Component {
         usersLoader: PropTypes.func,
         onChange: PropTypes.func,
         value: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object, PropTypes.string])),
+        onInputChange: PropTypes.func,
+        inputValue: PropTypes.string,
         noMatchMessageId: PropTypes.string,
         noMatchMessageDefault: PropTypes.string,
         validAddressMessageId: PropTypes.string,
@@ -168,6 +170,12 @@ export default class UsersEmailsInput extends React.Component {
         IndicatorsContainer: () => null,
     };
 
+    handleInputChange = (inputValue, action) => {
+        if (action.action !== 'input-blur' && action.action !== 'menu-close') {
+            this.props.onInputChange(inputValue);
+        }
+    }
+
     render() {
         const values = this.props.value.map((v) => {
             if (v.id) {
@@ -193,6 +201,8 @@ export default class UsersEmailsInput extends React.Component {
                 defaultMenuIsOpen={false}
                 openMenuOnClick={false}
                 loadingMessage={this.loadingMessage}
+                onInputChange={this.handleInputChange}
+                inputValue={this.props.inputValue}
                 value={values}
             />
         );
