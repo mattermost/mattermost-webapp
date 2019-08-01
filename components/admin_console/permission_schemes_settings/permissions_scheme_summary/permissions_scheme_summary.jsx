@@ -133,7 +133,6 @@ export default class PermissionsSchemeSummary extends React.Component {
         if (teams.length > MAX_TEAMS_PER_SCHEME_SUMMARY) {
             extraTeams = (
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={

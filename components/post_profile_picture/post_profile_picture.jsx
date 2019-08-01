@@ -22,35 +22,23 @@ export default class PostProfilePicture extends React.PureComponent {
         status: PropTypes.string,
         user: PropTypes.object,
         isBot: PropTypes.bool,
+        postIconOverrideURL: PropTypes.string,
     };
 
     static defaultProps = {
         status: UserStatuses.OFFLINE,
     };
 
-    getProfilePicSrcForPost = (fromAutoResponder, fromWebhook) => {
+    getProfilePictureURL = () => {
         const {post, user} = this.props;
 
-        if (this.props.compactDisplay) {
-            return '';
-        }
-
-        let src = '';
         if (user && user.id === post.user_id) {
-            src = Utils.imageURLForUser(user);
+            return Utils.imageURLForUser(user);
         } else if (post.user_id) {
-            src = Utils.imageURLForUser(post.user_id);
+            return Utils.imageURLForUser(post.user_id);
         }
 
-        if (!fromAutoResponder && fromWebhook && !post.props.use_user_icon && this.props.enablePostIconOverride) {
-            if (post.props.override_icon_url) {
-                src = PostUtils.getImageSrc(post.props.override_icon_url, this.props.hasImageProxy);
-            } else {
-                src = Constants.DEFAULT_WEBHOOK_LOGO;
-            }
-        }
-
-        return src;
+        return '';
     };
 
     getStatus = (fromAutoResponder, fromWebhook, user) => {
@@ -59,6 +47,31 @@ export default class PostProfilePicture extends React.PureComponent {
         }
 
         return this.props.status;
+    };
+
+    getPostIconURL = (defaultURL, fromAutoResponder, fromWebhook) => {
+        const {enablePostIconOverride, hasImageProxy, post} = this.props;
+        const postProps = post.props;
+        let postIconOverrideURL = '';
+        let useUserIcon = '';
+        if (postProps) {
+            postIconOverrideURL = postProps.override_icon_url;
+            useUserIcon = postProps.use_user_icon;
+        }
+
+        if (this.props.compactDisplay) {
+            return '';
+        }
+
+        if (!fromAutoResponder && fromWebhook && !useUserIcon && enablePostIconOverride) {
+            if (postIconOverrideURL && postIconOverrideURL !== '') {
+                return PostUtils.getImageSrc(postIconOverrideURL, hasImageProxy);
+            }
+
+            return Constants.DEFAULT_WEBHOOK_LOGO;
+        }
+
+        return defaultURL;
     };
 
     render() {
@@ -70,16 +83,21 @@ export default class PostProfilePicture extends React.PureComponent {
             user,
             isBot,
         } = this.props;
+
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromWebhook = PostUtils.isFromWebhook(post);
+
         if (isSystemMessage && !compactDisplay && !fromWebhook && !isBot) {
             return <MattermostLogo className='icon'/>;
         }
-
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
 
         const hasMention = !fromAutoResponder && !fromWebhook;
-        const src = this.getProfilePicSrcForPost(fromAutoResponder, fromWebhook);
+        const profileSrc = this.getProfilePictureURL();
+        const src = this.getPostIconURL(profileSrc, fromAutoResponder, fromWebhook);
+
+        const overrideIconEmoji = post.props ? post.props.override_icon_emoji : '';
+        const isEmoji = typeof overrideIconEmoji == 'string' && overrideIconEmoji !== '';
         const status = this.getStatus(fromAutoResponder, fromWebhook, user);
 
         return (
@@ -88,6 +106,8 @@ export default class PostProfilePicture extends React.PureComponent {
                 isBusy={isBusy}
                 isRHS={isRHS}
                 src={src}
+                profileSrc={profileSrc}
+                isEmoji={isEmoji}
                 status={status}
                 userId={user ? user.id : null}
                 username={user ? user.username : null}

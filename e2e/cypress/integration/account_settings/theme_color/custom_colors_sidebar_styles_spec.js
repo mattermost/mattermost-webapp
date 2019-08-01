@@ -118,9 +118,6 @@ describe('AS14318 Theme Colors - Color Picker', () => {
             // * Check Sidebar Unread Text
             cy.get('.sidebar-item.unread-title').should('have.css', 'color', 'rgb(129, 65, 65)');
 
-            // * Check Sidebar Text Active Color
-            cy.get('#displayButton').should('have.css', 'color', 'rgb(129, 65, 65)');
-
             // * Check Mention Jewel BG color
             cy.get('#unreadIndicatorBottom').should('have.css', 'background-color', 'rgb(129, 65, 65)');
 

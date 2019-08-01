@@ -63,12 +63,17 @@ class ProfilePopover extends React.PureComponent {
         /**
          * @internal
          */
+        currentUserId: PropTypes.string.isRequired,
+
+        /**
+         * @internal
+         */
         hasMention: PropTypes.bool,
 
         /**
          * @internal
          */
-        currentUserId: PropTypes.string.isRequired,
+        isInCurrentTeam: PropTypes.bool.isRequired,
 
         /**
          * @internal
@@ -376,7 +381,7 @@ class ProfilePopover extends React.PureComponent {
                 </div>
             );
 
-            if (this.props.canManageAnyChannelMembersInCurrentTeam) {
+            if (this.props.canManageAnyChannelMembersInCurrentTeam && this.props.isInCurrentTeam) {
                 const addToChannelMessage = formatMessage({id: 'user_profile.add_user_to_channel', defaultMessage: 'Add to a Channel'});
                 dataContent.push(
                     <div
@@ -421,6 +426,8 @@ class ProfilePopover extends React.PureComponent {
         let roleTitle;
         if (this.props.user.is_bot) {
             roleTitle = <span className='user-popover__role'>{Utils.localizeMessage('bots.is_bot', 'BOT')}</span>;
+        } else if (Utils.isGuest(this.props.user)) {
+            roleTitle = <span className='user-popover__role'>{Utils.localizeMessage('post_info.guest', 'GUEST')}</span>;
         } else if (Utils.isSystemAdmin(this.props.user.roles)) {
             roleTitle = <span className='user-popover__role'>{Utils.localizeMessage('admin.permissions.roles.system_admin.name', 'System Admin')}</span>;
         } else if (this.props.isTeamAdmin) {
@@ -433,8 +440,9 @@ class ProfilePopover extends React.PureComponent {
         if (this.props.hasMention) {
             title = <a onClick={this.handleMentionKeyClick}>{title}</a>;
         }
+
         title = (
-            <span>
+            <span data-testid={`profilePopoverTitle_${this.props.user.username}`}>
                 <span className='user-popover__username'>
                     {title}
                 </span>

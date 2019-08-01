@@ -205,9 +205,12 @@ export default class Reaction extends React.PureComponent {
         let handleClick;
         let clickTooltip;
         let className = 'post-reaction';
+        const emojiNameWithSpaces = this.props.emojiName.replace(/_/g, ' ');
+        let ariaLabelEmoji = `${Utils.localizeMessage('reaction.reactWidth.ariaLabel', 'react with')} ${emojiNameWithSpaces}`;
         if (currentUserReacted) {
             if (this.props.canRemoveReaction) {
                 handleClick = this.handleRemoveReaction;
+                ariaLabelEmoji = `${Utils.localizeMessage('reaction.removeReact.ariaLabel', 'remove reaction')} ${emojiNameWithSpaces}`;
                 clickTooltip = (
                     <FormattedMessage
                         id='reaction.clickToRemove'
@@ -232,36 +235,38 @@ export default class Reaction extends React.PureComponent {
         }
 
         return (
-            <OverlayTrigger
-                trigger={['hover', 'focus']}
-                delayShow={1000}
-                placement='top'
-                shouldUpdatePosition={true}
-                overlay={
-                    <Tooltip id={`${this.props.post.id}-${this.props.emojiName}-reaction`}>
-                        {tooltip}
-                        <br/>
-                        {clickTooltip}
-                    </Tooltip>
-                }
-                onEnter={this.loadMissingProfiles}
+            <button
+                id={`postReaction-${this.props.post.id}-${this.props.emojiName}`}
+                aria-label={ariaLabelEmoji}
+                className={`style--none ${className}`}
+                onClick={handleClick}
             >
-                <div
-                    id={`postReaction-${this.props.post.id}-${this.props.emojiName}`}
-                    className={className}
-                    onClick={handleClick}
+                <OverlayTrigger
+                    delayShow={1000}
+                    placement='top'
+                    shouldUpdatePosition={true}
+                    overlay={
+                        <Tooltip id={`${this.props.post.id}-${this.props.emojiName}-reaction`}>
+                            {tooltip}
+                            <br/>
+                            {clickTooltip}
+                        </Tooltip>
+                    }
+                    onEnter={this.loadMissingProfiles}
                 >
-                    <span
-                        className='post-reaction__emoji emoticon'
-                        style={{backgroundImage: 'url(' + this.props.emojiImageUrl + ')'}}
-                    />
-                    <span
-                        className='post-reaction__count'
-                    >
-                        {this.props.reactionCount}
+                    <span>
+                        <span
+                            className='post-reaction__emoji emoticon'
+                            style={{backgroundImage: 'url(' + this.props.emojiImageUrl + ')'}}
+                        />
+                        <span
+                            className='post-reaction__count'
+                        >
+                            {this.props.reactionCount}
+                        </span>
                     </span>
-                </div>
-            </OverlayTrigger>
+                </OverlayTrigger>
+            </button>
         );
     }
 }

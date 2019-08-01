@@ -211,17 +211,19 @@
 
         .sidebar-section__header {
             display: flex;
-            align-items: end;
+            align-items: center;
             justify-content: space-between;
             font-weight: 600;
-            margin: 1.5em 0 .7em;
+            margin: 1em 0 0.3em;
             padding: 0 12px 0 15px;
             text-transform: uppercase;
+            height: 28px;
         }
 
         li {
             > h4 {
                 font-size: 1em;
+                font-weight: 600;
                 margin: 0;
 
                 span {
@@ -364,16 +366,20 @@
         font-weight: 700;
         text-decoration: none;
         border-radius: 50%;
-        margin: -7px 0;
-        width: 28px;
-        height: 28px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         line-height: 0;
+        height: 28px;
 
         &:hover {
             color: #666666;
+        }
+
+        span {
+            margin: -7px 0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     }
 }

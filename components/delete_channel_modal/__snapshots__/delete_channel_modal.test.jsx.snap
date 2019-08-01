@@ -7,6 +7,7 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
+  dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}

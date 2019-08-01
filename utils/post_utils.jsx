@@ -6,9 +6,11 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {Permissions} from 'mattermost-redux/constants';
+import {Permissions, Posts} from 'mattermost-redux/constants';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 import {canEditPost as canEditPostRedux} from 'mattermost-redux/utils/post_utils';
+
+import {getEmojiMap} from 'selectors/emojis';
 
 import store from 'stores/redux_store.jsx';
 
@@ -17,6 +19,8 @@ import {formatWithRenderer} from 'utils/markdown';
 import MentionableRenderer from 'utils/markdown/mentionable_renderer';
 import * as Utils from 'utils/utils.jsx';
 import {isMobile} from 'utils/user_agent.jsx';
+
+import * as Emoticons from './emoticons.jsx';
 
 const CHANNEL_SWITCH_IGNORE_ENTER_THRESHOLD_MS = 500;
 
@@ -87,6 +91,10 @@ export function canEditPost(post) {
 }
 
 export function shouldShowDotMenu(post) {
+    if (post && post.state === Posts.POST_DELETED) {
+        return false;
+    }
+
     if (Utils.isMobile()) {
         return true;
     }
@@ -229,9 +237,7 @@ function isIdNotPost(postId) {
     return (
         PostListUtils.isStartOfNewMessages(postId) ||
         PostListUtils.isDateLine(postId) ||
-        postId === PostListRowListIds.CHANNEL_INTRO_MESSAGE ||
-        postId === PostListRowListIds.MORE_MESSAGES_LOADER ||
-        postId === PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES
+        PostListRowListIds[postId]
     );
 }
 
@@ -306,4 +312,121 @@ export function getLatestPostId(postIds) {
     }
 
     return '';
+}
+
+export function createAriaLabelForPost(post, author, isFlagged, reactions, intl) {
+    const {formatMessage, formatTime, formatDate} = intl;
+
+    const emojiMap = getEmojiMap(store.getState());
+    let message = post.message;
+    let match;
+
+    // Match all the shorthand forms of emojis first
+    for (const name of Object.keys(Emoticons.emoticonPatterns)) {
+        const pattern = Emoticons.emoticonPatterns[name];
+        message = message.replace(pattern, `:${name}:`);
+    }
+
+    while ((match = Emoticons.EMOJI_PATTERN.exec(message)) !== null) {
+        if (emojiMap.has(match[2])) {
+            message = message.replace(match[0], `${match[2].replace(/_/g, ' ')} emoji`);
+        }
+    }
+
+    let ariaLabel;
+    if (post.root_id) {
+        ariaLabel = formatMessage({
+            id: 'post.ariaLabel.replyMessage',
+            defaultMessage: '{authorName} at {time} {date} wrote a reply, {message}',
+        },
+        {
+            authorName: author,
+            time: formatTime(post.create_at),
+            date: formatDate(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
+            message,
+        });
+    } else {
+        ariaLabel = formatMessage({
+            id: 'post.ariaLabel.message',
+            defaultMessage: '{authorName} at {time} {date} wrote, {message}',
+        },
+        {
+            authorName: author,
+            time: formatTime(post.create_at),
+            date: formatDate(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
+            message,
+        });
+    }
+
+    let attachmentCount = 0;
+    if (post.props && post.props.attachments) {
+        attachmentCount += post.props.attachments.length;
+    }
+    if (post.file_ids) {
+        attachmentCount += post.file_ids.length;
+    }
+
+    if (attachmentCount) {
+        if (attachmentCount > 1) {
+            ariaLabel += formatMessage({
+                id: 'post.ariaLabel.attachmentMultiple',
+                defaultMessage: ', {attachmentCount} attachments',
+            },
+            {
+                attachmentCount,
+            });
+        } else {
+            ariaLabel += formatMessage({
+                id: 'post.ariaLabel.attachment',
+                defaultMessage: ', 1 attachment',
+            });
+        }
+    }
+
+    if (reactions) {
+        const emojiNames = [];
+        for (const reaction of Object.values(reactions)) {
+            const emojiName = reaction.emoji_name;
+
+            if (emojiNames.indexOf(emojiName) < 0) {
+                emojiNames.push(emojiName);
+            }
+        }
+
+        if (emojiNames.length > 1) {
+            ariaLabel += formatMessage({
+                id: 'post.ariaLabel.reactionMultiple',
+                defaultMessage: ', {reactionCount} reactions',
+            },
+            {
+                reactionCount: emojiNames.length,
+            });
+        } else {
+            ariaLabel += formatMessage({
+                id: 'post.ariaLabel.reaction',
+                defaultMessage: ', 1 reaction',
+            });
+        }
+    }
+
+    if (isFlagged) {
+        if (post.is_pinned) {
+            ariaLabel += formatMessage({
+                id: 'post.ariaLabel.messageIsFlaggedAndPinned',
+                defaultMessage: ', message is flagged and pinned',
+            });
+        } else {
+            ariaLabel += formatMessage({
+                id: 'post.ariaLabel.messageIsFlagged',
+                defaultMessage: ', message is flagged',
+            });
+        }
+    } else if (!isFlagged && post.is_pinned) {
+        ariaLabel += formatMessage({
+            id: 'post.ariaLabel.messageIsPinned',
+            defaultMessage: ', message is pinned',
+        });
+    }
+
+    return ariaLabel;
 }

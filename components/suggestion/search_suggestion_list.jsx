@@ -16,6 +16,31 @@ export default class SearchSuggestionList extends SuggestionList {
         ...SuggestionList.propTypes,
     };
 
+    constructor(props) {
+        super(props);
+        this.suggestionReadOut = React.createRef();
+    }
+
+    generateLabel(item) {
+        if (item.username) {
+            this.currentLabel = item.username;
+            if ((item.first_name || item.last_name) && item.nickname) {
+                this.currentLabel += ` ${item.first_name} ${item.last_name} ${item.nickname}`;
+            } else if (item.nickname) {
+                this.currentLabel += ` ${item.nickname}`;
+            } else if (item.first_name || item.last_name) {
+                this.currentLabel += ` ${item.first_name} ${item.last_name}`;
+            }
+        } else if (item.type === Constants.DM_CHANNEL || item.type === Constants.GM_CHANNEL) {
+            this.currentLabel = item.display_name;
+        } else {
+            this.currentLabel = item.name;
+        }
+
+        this.currentLabel = this.currentLabel.toLowerCase();
+        this.announceLabel();
+    }
+
     getContent() {
         return $(ReactDOM.findDOMNode(this.refs.popover)).find('.popover-content');
     }
@@ -82,6 +107,10 @@ export default class SearchSuggestionList extends SuggestionList {
                 }
             }
 
+            if (isSelection) {
+                this.currentItem = item;
+            }
+
             items.push(
                 <Component
                     key={term}
@@ -102,6 +131,11 @@ export default class SearchSuggestionList extends SuggestionList {
                 className='search-help-popover autocomplete visible'
                 placement='bottom'
             >
+                <div
+                    ref={this.suggestionReadOut}
+                    aria-live='polite'
+                    className='hidden-label'
+                />
                 {items}
             </Popover>
         );

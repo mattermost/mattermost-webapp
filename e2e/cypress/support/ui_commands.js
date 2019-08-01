@@ -125,6 +125,7 @@ function isMac() {
 Cypress.Commands.add('postMessage', (message) => {
     cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type(message).type('{enter}');
     cy.wait(TIMEOUTS.TINY);
+    cy.get('#post_textbox').should('have.value', '');
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
@@ -167,7 +168,7 @@ Cypress.Commands.add('getNthPostId', (nthPost) => {
  */
 Cypress.Commands.add('postMessageFromFile', (file, target = '#post_textbox') => {
     cy.fixture(file, 'utf-8').then((text) => {
-        cy.get(target).clear().invoke('val', text).wait(TIMEOUTS.TINY).type(' {backspace}{enter}').should('have.text', '');
+        cy.get(target).clear().invoke('val', text).wait(TIMEOUTS.MEDIUM).type(' {backspace}{enter}').should('have.text', '');
     });
 });
 
@@ -366,4 +367,23 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         type(text).
         type('{enter}').
         wait(TIMEOUTS.TINY);
+});
+
+// ***********************************************************
+// File Upload
+// ************************************************************
+
+/**
+ * Upload a file on target input given a filename and mime type
+ * @param {String} targetInput - Target input to upload a file
+ * @param {String} fileName - Filename to upload from the fixture
+ * @param {String} mimeType - Mime type of a file
+ */
+Cypress.Commands.add('fileUpload', (targetInput, fileName = 'mattermost-icon.png', mimeType = 'image/png') => {
+    cy.fixture(fileName).then((fileContent) => {
+        cy.get(targetInput).upload(
+            {fileContent, fileName, mimeType},
+            {subjectType: 'input', force: true},
+        );
+    });
 });

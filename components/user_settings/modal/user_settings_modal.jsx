@@ -259,7 +259,7 @@ class UserSettingsModal extends React.Component {
         return (
             <Modal
                 id='accountSettingsModal'
-                dialogClassName='settings-modal'
+                dialogClassName='a11y__modal settings-modal'
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleHidden}

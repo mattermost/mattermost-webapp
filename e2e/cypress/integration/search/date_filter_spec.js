@@ -8,10 +8,16 @@
 // ***************************************************************
 
 import users from '../../fixtures/users.json';
+import TIMEOUTS from '../../fixtures/timeouts';
 
 function searchAndValidate(query, expectedResults = []) {
     // # Enter in search query, and hit enter
     cy.get('#searchBox').clear().type(query).type('{enter}');
+
+    // # Wait for search request to complete
+    cy.wait('@searchRequest', {requestTimeout: TIMEOUTS.MEDIUM}).its('status').should('equal', 200);
+
+    cy.get('#loadingSpinner').should('not.be.visible');
 
     if (expectedResults.length > 0) {
         // * Verify that there's search item before querying by test ID
@@ -78,6 +84,11 @@ describe('SF15699 Search Date Filter', () => {
     let newAdmin;
 
     before(() => {
+        // # Make fetch null so we falback to XHR requests to be able to listen in on them
+        Cypress.on('window:before:load', (win) => {
+            win.fetch = null;
+        });
+
         // # Login as the sysadmin.
         cy.apiLogin('sysadmin');
 
@@ -104,20 +115,18 @@ describe('SF15699 Search Date Filter', () => {
         // # Set user to be a sysadmin, so it can access the system console
         cy.get('@newAdmin').then((user) => {
             newAdmin = user;
-            cy.task('externalRequest', {user: users.sysadmin, method: 'put', baseUrl, path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}}).
-                its('status').
-                should('be.equal', 200);
+            cy.externalRequest({user: users.sysadmin, method: 'put', baseUrl, path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}});
         });
 
         // # Create messages at specific dates in Town Square
         cy.getCurrentChannelId().then((channelId) => {
             // Post message as new admin to Town Square
             cy.get('@newAdmin').then((user) => {
-                cy.task('postMessageAs', {sender: user, message: firstMessage, channelId, createAt: firstDateEarly.ms, baseUrl});
+                cy.postMessageAs({sender: user, message: firstMessage, channelId, createAt: firstDateEarly.ms, baseUrl});
             });
 
             // Post message as sysadmin to Town Square
-            cy.task('postMessageAs', {sender: users.sysadmin, message: secondMessage, channelId, createAt: secondDateEarly.ms, baseUrl});
+            cy.postMessageAs({sender: users.sysadmin, message: secondMessage, channelId, createAt: secondDateEarly.ms, baseUrl});
         });
 
         // # Create messages at same dates in Off Topic channel
@@ -127,13 +136,19 @@ describe('SF15699 Search Date Filter', () => {
 
         cy.getCurrentChannelId().then((channelId) => {
             // Post message as sysadmin to off topic
-            cy.task('postMessageAs', {sender: users.sysadmin, message: firstOffTopicMessage, channelId, createAt: firstDateLater.ms, baseUrl});
+            cy.postMessageAs({sender: users.sysadmin, message: firstOffTopicMessage, channelId, createAt: firstDateLater.ms, baseUrl});
 
             // Post message as new admin to off topic
             cy.get('@newAdmin').then((user) => {
-                cy.task('postMessageAs', {sender: user, message: secondOffTopicMessage, channelId, createAt: secondDateLater.ms, baseUrl});
+                cy.postMessageAs({sender: user, message: secondOffTopicMessage, channelId, createAt: secondDateLater.ms, baseUrl});
             });
         });
+    });
+
+    beforeEach(() => {
+        // # Setup server and listen for search request
+        cy.server();
+        cy.route({method: 'POST', url: '**/posts/search'}).as('searchRequest');
     });
 
     describe('input date filter', () => {
@@ -195,6 +210,11 @@ describe('SF15699 Search Date Filter', () => {
         });
 
         describe('works without leading 0 in', () => {
+            before(() => {
+                // # Close the search side bar
+                cy.get('#searchResultsCloseButton').should('be.visible').click();
+            });
+
             // These must match the date of the firstMessage, only altering leading zeroes
             const tests = [
                 {name: 'day', date: '2018-06-5'},
@@ -296,10 +316,10 @@ describe('SF15699 Search Date Filter', () => {
 
             // Post same message at different times
             cy.getCurrentChannelId().then((channelId) => {
-                cy.task('postMessageAs', {sender: users.sysadmin, message: 'pretarget ' + identifier, channelId, createAt: preTarget.ms, baseUrl});
-                cy.task('postMessageAs', {sender: users.sysadmin, message: targetAMMessage, channelId, createAt: targetAM.ms, baseUrl});
-                cy.task('postMessageAs', {sender: users.sysadmin, message: targetPMMessage, channelId, createAt: targetPM.ms, baseUrl});
-                cy.task('postMessageAs', {sender: users.sysadmin, message: 'postTarget' + identifier, channelId, createAt: postTarget.ms, baseUrl});
+                cy.postMessageAs({sender: users.sysadmin, message: 'pretarget ' + identifier, channelId, createAt: preTarget.ms, baseUrl});
+                cy.postMessageAs({sender: users.sysadmin, message: targetAMMessage, channelId, createAt: targetAM.ms, baseUrl});
+                cy.postMessageAs({sender: users.sysadmin, message: targetPMMessage, channelId, createAt: targetPM.ms, baseUrl});
+                cy.postMessageAs({sender: users.sysadmin, message: 'postTarget' + identifier, channelId, createAt: postTarget.ms, baseUrl});
             });
 
             // * Verify we only see messages from the expected date, and not outside of it
@@ -347,7 +367,7 @@ describe('SF15699 Search Date Filter', () => {
 
             // # Post message with unique text
             cy.getCurrentChannelId().then((channelId) => {
-                cy.task('postMessageAs', {sender: users.sysadmin, message: targetMessage, channelId, createAt: targetDate.ms, baseUrl});
+                cy.postMessageAs({sender: users.sysadmin, message: targetMessage, channelId, createAt: targetDate.ms, baseUrl});
             });
 
             // # Set clock to custom date, reload page for it to take effect
@@ -372,9 +392,15 @@ describe('SF15699 Search Date Filter', () => {
                 focus().
                 type(`${targetMessage}{enter}`);
 
+            // # Wait for search request to complete
+            cy.wait('@searchRequest', {requestTimeout: TIMEOUTS.MEDIUM}).its('status').should('equal', 200);
+
+            cy.get('#loadingSpinner').should('not.be.visible');
+
             // * Verify we see our single result
             cy.queryAllByTestId('search-item-container').
-                should('have.length', 1).
+                should('be.visible').
+                and('have.length', 1).
                 find('.post-message').
                 should('have.text', targetMessage);
 
@@ -397,6 +423,11 @@ describe('SF15699 Search Date Filter', () => {
                 should('have.value', `on:2019-01-16  ${targetMessage}`).
                 type('{enter}');
 
+            // # Wait for search request to complete
+            cy.wait('@searchRequest', {requestTimeout: TIMEOUTS.MEDIUM}).its('status').should('equal', 200);
+
+            cy.get('#loadingSpinner').should('not.be.visible');
+
             // * There should be no results
             cy.queryAllByTestId('search-item-container').should('have.length', 0);
         });
@@ -410,7 +441,7 @@ describe('SF15699 Search Date Filter', () => {
 
             // # Post message with unique text
             cy.getCurrentChannelId().then((channelId) => {
-                cy.task('postMessageAs', {sender: users.sysadmin, message: targetMessage, channelId, createAt: target.ms, baseUrl});
+                cy.postMessageAs({sender: users.sysadmin, message: targetMessage, channelId, createAt: target.ms, baseUrl});
             });
 
             // * Verify result appears in current timezone
