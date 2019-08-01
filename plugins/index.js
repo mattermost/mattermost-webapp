@@ -39,7 +39,9 @@ export async function initializePlugins() {
     }
 
     await Promise.all(data.map((m) => {
-        return loadPlugin(m);
+        return loadPlugin(m).catch((loadErr) => {
+            console.error(loadErr.message); //eslint-disable-line no-console
+        });
     }));
 }
 
@@ -65,7 +67,7 @@ const loadedPlugins = {};
 // loadPlugin fetches the web app bundle described by the given manifest, waits for the bundle to
 // load, and then ensures the plugin has been initialized.
 export function loadPlugin(manifest) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         // Don't load it again if previously loaded
         if (loadedPlugins[manifest.id]) {
             resolve();
@@ -78,20 +80,26 @@ export function loadPlugin(manifest) {
             resolve();
         }
 
+        function onError() {
+            reject(new Error('Unable to load bundle for plugin ' + manifest.id));
+        }
+
         // Backwards compatibility for old plugins
         let bundlePath = manifest.webapp.bundle_path;
         if (bundlePath.includes('/static/') && !bundlePath.includes('/static/plugins/')) {
             bundlePath = bundlePath.replace('/static/', '/static/plugins/');
         }
 
+        console.log('Loading ' + manifest.id + ' plugin'); //eslint-disable-line no-console
+
         const script = document.createElement('script');
         script.id = 'plugin_' + manifest.id;
         script.type = 'text/javascript';
         script.src = getSiteURL() + bundlePath;
         script.onload = onLoad;
-        console.log('Loading ' + manifest.id + ' plugin'); //eslint-disable-line no-console
-        document.getElementsByTagName('head')[0].appendChild(script);
+        script.onerror = onError;
 
+        document.getElementsByTagName('head')[0].appendChild(script);
         loadedPlugins[manifest.id] = true;
     });
 }
@@ -154,7 +162,9 @@ export async function loadPluginsIfNecessary() {
     Object.values(newManifests).forEach((newManifest) => {
         const oldManifest = oldManifests[newManifest.id];
         if (!oldManifest || oldManifest.version !== newManifest.version) {
-            loadPlugin(newManifest);
+            loadPlugin(newManifest).catch((loadErr) => {
+                console.error(loadErr.message); //eslint-disable-line no-console
+            });
         }
     });
 

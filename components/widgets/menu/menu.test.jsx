@@ -19,14 +19,31 @@ describe('components/Menu', () => {
         const wrapper = shallow(<Menu ariaLabel='test-label'>{'text'}</Menu>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-<ul
-  aria-label="test-label"
-  className="Menu dropdown-menu"
-  role="menu"
-  style={Object {}}
+<FocusTrap
+  _createFocusTrap={[Function]}
+  active={true}
+  focusTrapOptions={
+    Object {
+      "clickOutsideDeactivates": true,
+      "initialFocus": [Function],
+    }
+  }
+  paused={false}
 >
-  text
-</ul>
+  <div>
+    <ul
+      aria-label="test-label"
+      className="a11y__popup Menu dropdown-menu"
+      onClick={[Function]}
+      onMouseOver={[Function]}
+      role="menu"
+      style={Object {}}
+      tabIndex="-1"
+    >
+      text
+    </ul>
+  </div>
+</FocusTrap>
 `);
     });
 
@@ -41,15 +58,32 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<ul
-  aria-label="test-label"
-  className="Menu dropdown-menu"
-  id="test-id"
-  role="menu"
-  style={Object {}}
+<FocusTrap
+  _createFocusTrap={[Function]}
+  active={true}
+  focusTrapOptions={
+    Object {
+      "clickOutsideDeactivates": true,
+      "initialFocus": [Function],
+    }
+  }
+  paused={false}
 >
-  text
-</ul>
+  <div>
+    <ul
+      aria-label="test-label"
+      className="a11y__popup Menu dropdown-menu"
+      id="test-id"
+      onClick={[Function]}
+      onMouseOver={[Function]}
+      role="menu"
+      style={Object {}}
+      tabIndex="-1"
+    >
+      text
+    </ul>
+  </div>
+</FocusTrap>
 `);
     });
 
@@ -68,14 +102,31 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<ul
-  aria-label="test-label"
-  className="Menu dropdown-menu"
-  role="menu"
-  style={Object {}}
+<FocusTrap
+  _createFocusTrap={[Function]}
+  active={true}
+  focusTrapOptions={
+    Object {
+      "clickOutsideDeactivates": true,
+      "initialFocus": [Function],
+    }
+  }
+  paused={false}
 >
-  text
-</ul>
+  <div>
+    <ul
+      aria-label="test-label"
+      className="a11y__popup Menu dropdown-menu"
+      onClick={[Function]}
+      onMouseOver={[Function]}
+      role="menu"
+      style={Object {}}
+      tabIndex="-1"
+    >
+      text
+    </ul>
+  </div>
+</FocusTrap>
 `);
     });
 
@@ -94,21 +145,38 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<ul
-  aria-label="test-label"
-  className="Menu dropdown-menu"
-  role="menu"
-  style={
+<FocusTrap
+  _createFocusTrap={[Function]}
+  active={true}
+  focusTrapOptions={
     Object {
-      "bottom": "100%",
-      "left": "inherit",
-      "right": 0,
-      "top": "auto",
+      "clickOutsideDeactivates": true,
+      "initialFocus": [Function],
     }
   }
+  paused={false}
 >
-  text
-</ul>
+  <div>
+    <ul
+      aria-label="test-label"
+      className="a11y__popup Menu dropdown-menu"
+      onClick={[Function]}
+      onMouseOver={[Function]}
+      role="menu"
+      style={
+        Object {
+          "bottom": "100%",
+          "left": "inherit",
+          "right": 0,
+          "top": "auto",
+        }
+      }
+      tabIndex="-1"
+    >
+      text
+    </ul>
+  </div>
+</FocusTrap>
 `);
     });
 });

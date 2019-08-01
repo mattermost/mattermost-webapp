@@ -23,7 +23,6 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         channelType: PropTypes.string.isRequired,
         channelId: PropTypes.string.isRequired,
         channelName: PropTypes.string.isRequired,
-        botIconUrl: PropTypes.string,
         displayName: PropTypes.string.isRequired,
         channelStatus: PropTypes.string,
         handleClose: PropTypes.func,
@@ -39,7 +38,10 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         channelIsArchived: PropTypes.bool.isRequired,
     }
 
-    overlayTriggerAttr = ['hover', 'focus']
+    constructor(props) {
+        super(props);
+        this.gmItemRef = React.createRef();
+    }
 
     trackChannelSelectedEvent = () => {
         mark('SidebarChannelLink#click');
@@ -49,6 +51,11 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
     handleClick = () => {
         this.trackChannelSelectedEvent();
         browserHistory.push(this.props.link);
+    }
+
+    removeTooltipLink = () => {
+        // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
+        this.gmItemRef.current.removeAttribute('aria-describedby');
     }
 
     render = () => {
@@ -69,7 +76,6 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                 <SidebarChannelButtonOrLinkIcon
                     channelStatus={this.props.channelStatus}
                     channelType={this.props.channelType}
-                    botIconUrl={this.props.botIconUrl}
                     channelIsArchived={this.props.channelIsArchived}
                     hasDraft={this.props.hasDraft}
                     membersCount={this.props.membersCount}
@@ -154,12 +160,14 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
             );
             element = (
                 <OverlayTrigger
-                    trigger={this.overlayTriggerAttr}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
                     overlay={displayNameToolTip}
+                    onEntering={this.removeTooltipLink}
                 >
-                    {element}
+                    <div ref={this.gmItemRef}>
+                        {element}
+                    </div>
                 </OverlayTrigger>
             );
         }

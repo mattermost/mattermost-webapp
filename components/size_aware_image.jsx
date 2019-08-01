@@ -114,7 +114,10 @@ export default class SizeAwareImage extends React.PureComponent {
 
         if (dimensions && dimensions.width && !this.state.loaded) {
             placeHolder = (
-                <div className={`image-loading__container ${this.props.className}`}>
+                <div
+                    className={`image-loading__container ${this.props.className}`}
+                    style={{maxWidth: dimensions.width}}
+                >
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
                         viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
@@ -127,6 +130,8 @@ export default class SizeAwareImage extends React.PureComponent {
         Reflect.deleteProperty(props, 'onImageLoaded');
         Reflect.deleteProperty(props, 'onImageLoadFail');
 
+        //The css hack here for loading images in the background can be removed after IE11 is dropped in 5.16v
+        //We can go back to https://github.com/mattermost/mattermost-webapp/pull/2924/files
         if (!this.state.loaded && dimensions) {
             imageStyleChangesOnLoad = {position: 'absolute', top: 0, height: 1, width: 1, visibility: 'hidden', overflow: 'hidden'};
         }
@@ -137,14 +142,15 @@ export default class SizeAwareImage extends React.PureComponent {
                 <button
                     {...props}
                     aria-label={ariaLabelImage}
-                    className='style--none'
+                    className='style--none file-preview__button'
+                    style={imageStyleChangesOnLoad}
                 >
                     <img
+                        className={this.props.className}
                         alt='image placeholder'
                         src={src}
                         onError={this.handleError}
                         onLoad={this.handleLoad}
-                        style={imageStyleChangesOnLoad}
                     />
                 </button>
             </React.Fragment>

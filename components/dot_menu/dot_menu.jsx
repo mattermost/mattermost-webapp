@@ -239,7 +239,6 @@ export default class DotMenu extends Component {
         return (
             <MenuWrapper onToggle={this.props.handleDropdownOpened}>
                 <OverlayTrigger
-                    trigger={['hover', 'click']}
                     className='hidden-xs'
                     delayShow={500}
                     placement='top'

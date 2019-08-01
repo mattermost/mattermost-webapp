@@ -226,9 +226,9 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
             <div className='backstage-list__item'>
                 <div className='item-details'>
                     <div className='item-details__row'>
-                        <span className='item-details__name'>
+                        <strong className='item-details__name'>
                             {displayName}
-                        </span>
+                        </strong>
                     </div>
                     {description}
                     <div className='item-details__row'>

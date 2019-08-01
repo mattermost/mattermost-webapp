@@ -306,7 +306,6 @@ export default class CustomThemeChooser extends React.Component {
                                 {codeThemeOptions}
                             </select>
                             <OverlayTrigger
-                                trigger={['hover', 'focus']}
                                 placement='top'
                                 overlay={popoverContent}
                                 ref='headerOverlay'
@@ -453,7 +452,7 @@ export default class CustomThemeChooser extends React.Component {
                         {centerChannelElements}
                     </div>
                 </div>
-                <div className='theme-elements row form-group'>
+                <div className='theme-elements row'>
                     <div
                         ref='linkAndButtonStylesHeader'
                         className='theme-elements__header'
@@ -481,7 +480,7 @@ export default class CustomThemeChooser extends React.Component {
                         {linkAndButtonElements}
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row margin-top x2'>
                     {pasteBox}
                 </div>
             </div>
