@@ -175,6 +175,13 @@ export default class MultiSelect extends React.Component {
         this.props.handleSubmit();
     }
 
+    handleSubmitKeyDown = (e) => {
+        if (e.keyCode === KeyCodes.SPACE[1]) {
+            e.preventDefault();
+            this.props.handleSubmit();
+        }
+    }
+
     onChange = (_, change) => {
         if (change.action !== 'remove-value' && change.action !== 'pop-value') {
             return;
@@ -344,6 +351,7 @@ export default class MultiSelect extends React.Component {
                             saving={this.props.saving}
                             disabled={this.props.saving}
                             onClick={this.handleOnClick}
+                            onKeyDown={this.handleSubmitKeyDown}
                             defaultMessage={buttonSubmitText}
                             savingMessage={this.props.buttonSubmitLoadingText}
                         />
