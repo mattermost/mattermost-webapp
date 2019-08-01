@@ -7,7 +7,7 @@
         color: var(--center-channel-color-60);
         box-shadow: none;
         border-color: var(--center-channel-color-20);
-        padding: 3px 3px 3px 3px;
+        padding: 3px;
         &:hover {
             border-color: var(--center-channel-color-20);
             cursor: text;
@@ -18,7 +18,7 @@
             }
             border-color: var(--button-bg);
             border-width: 2px;
-            padding: 2px 2px 2px 2px;
+            padding: 2px;
             transition: none;
         }
     }
