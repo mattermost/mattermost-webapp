@@ -4,8 +4,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {localizeMessage} from 'utils/utils.jsx';
-
 import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
 
 const SCROLL_BUFFER = 10;
