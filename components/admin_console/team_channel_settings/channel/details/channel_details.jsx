@@ -81,11 +81,11 @@ export default class ChannelDetails extends React.Component {
             saveNeeded: true,
             isSynced,
             isPublic: !isSynced && isPublic,
-        });
+        }, () => this.processGroupsChange(this.state.groups));
         this.props.actions.setNavigationBlocked(true);
     }
 
-    processGroupsChange(groups) {
+    async processGroupsChange(groups) {
         const {actions, channelID} = this.props;
         actions.setNavigationBlocked(true);
 
@@ -96,17 +96,17 @@ export default class ChannelDetails extends React.Component {
                 if (groups.length === 0) {
                     serverError = <NeedGroupsError/>;
                 } else {
-                    actions.membersMinusGroupMembers(channelID, groups.map((g) => g.id)).then((result) => {
-                        usersToRemove = result.data.total_count;
-                        if (usersToRemove > 0) {
-                            serverError = (
-                                <UsersWillBeRemovedError
-                                    total={usersToRemove}
-                                    users={result.data.users}
-                                />
-                            );
-                        }
-                    });
+                    const result = await actions.membersMinusGroupMembers(channelID, groups.map((g) => g.id));
+
+                    usersToRemove = result.data.total_count;
+                    if (usersToRemove > 0) {
+                        serverError = (
+                            <UsersWillBeRemovedError
+                                total={usersToRemove}
+                                users={result.data.users}
+                            />
+                        );
+                    }
                 }
             } catch (ex) {
                 serverError = ex;
