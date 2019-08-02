@@ -328,7 +328,6 @@ export default class CreatePost extends React.Component {
     }
 
     updatePreview = (newState) => {
-        console.log(newState);
         this.setState({preview: newState});
     }
 
