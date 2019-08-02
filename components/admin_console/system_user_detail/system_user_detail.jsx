@@ -13,6 +13,7 @@ import {adminResetMfa, adminResetEmail} from 'actions/admin_actions.jsx';
 
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 import BlockableLink from 'components/admin_console/blockable_link';
 import ResetPasswordModal from 'components/admin_console/reset_password_modal';
@@ -345,9 +346,9 @@ export default class SystemUserDetail extends React.Component {
                             }
                         />
                         <AdminPanel
-                            subtitleId={'admin.userManagement.userDetail.teamsSubtitle'}
+                            subtitleId={t('admin.userManagement.userDetail.teamsSubtitle')}
                             subtitleDefault={'Teams to which this user belongs'}
-                            titleId={'admin.userManagement.userDetail.teamsTitle'}
+                            titleId={t('admin.userManagement.userDetail.teamsTitle')}
                             titleDefault={'Team Membership'}
                         >
                             <TeamList userId={this.props.user.id}/>
