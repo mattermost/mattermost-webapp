@@ -39,7 +39,7 @@ exports[`components/select_team/SelectTeam should match snapshot 1`] = `
         <InfiniteScroll
           bufferValue={100}
           callBack={[Function]}
-          endOfDataMessage="Dont forget to remove me!!"
+          endOfDataMessage=""
           itemsPerPage={10}
           pageNumber={2}
           styleClass="signup-team-all"
@@ -315,7 +315,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
         <InfiniteScroll
           bufferValue={100}
           callBack={[Function]}
-          endOfDataMessage="Dont forget to remove me!!"
+          endOfDataMessage=""
           itemsPerPage={10}
           pageNumber={2}
           styleClass="signup-team-all"
@@ -532,7 +532,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
         <InfiniteScroll
           bufferValue={100}
           callBack={[Function]}
-          endOfDataMessage="Dont forget to remove me!!"
+          endOfDataMessage=""
           itemsPerPage={10}
           pageNumber={2}
           styleClass="signup-team-all"
