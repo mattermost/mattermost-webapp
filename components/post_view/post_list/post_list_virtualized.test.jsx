@@ -456,7 +456,7 @@ describe('PostList', () => {
 
     describe('postIds state', () => {
         test('should have LOAD_NEWER_MESSAGES_TRIGGER and LOAD_OLDER_MESSAGES_TRIGGER', () => {
-            const wrapper = shallow(<PostList {...baseProps}/>);
+            const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
             wrapper.setProps({autoRetryEnable: false});
             const postListIdsState = wrapper.state('postListIds');
             expect(postListIdsState[0]).toBe(PostListRowListIds.LOAD_NEWER_MESSAGES_TRIGGER);
@@ -481,7 +481,7 @@ describe('PostList', () => {
                 postListIds,
             };
 
-            const wrapper = shallow(<PostList {...props}/>);
+            const wrapper = shallowWithIntl(<PostList {...props}/>);
             const instance = wrapper.instance();
             const initScrollToIndex = instance.initScrollToIndex();
             expect(initScrollToIndex).toEqual({index: 6, position: 'start'});
@@ -503,7 +503,7 @@ describe('PostList', () => {
             postListIds,
         };
 
-        const wrapper = shallow(<PostList {...props}/>);
+        const wrapper = shallowWithIntl(<PostList {...props}/>);
         const instance = wrapper.instance();
         const initScrollToIndex = instance.initScrollToIndex();
         expect(initScrollToIndex).toEqual({index: 5, position: 'start'});
