@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import loadingGif from 'images/load.gif';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
 
 export default class LoadingBars extends React.PureComponent {
     static propTypes = {
@@ -19,12 +19,8 @@ export default class LoadingBars extends React.PureComponent {
         const {text} = this.props;
 
         return (
-            <span className={'LoadingBars' + (text ? ' with-text' : '')}>
-                <img
-                    alt={'spinner icon'}
-                    className='spinner'
-                    src={loadingGif}
-                />
+            <span className={(text ? ' with-text' : '')}>
+                <LoadingSpinner/>
                 {text}
             </span>
         );
