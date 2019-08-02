@@ -10,7 +10,7 @@ import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {makeGetDisplayName, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {Permissions} from 'mattermost-redux/constants';
+import {Permissions, Posts} from 'mattermost-redux/constants';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 import {canEditPost as canEditPostRedux} from 'mattermost-redux/utils/post_utils';
 
@@ -95,6 +95,10 @@ export function canEditPost(post) {
 }
 
 export function shouldShowDotMenu(post) {
+    if (post && post.state === Posts.POST_DELETED) {
+        return false;
+    }
+
     if (Utils.isMobile()) {
         return true;
     }
