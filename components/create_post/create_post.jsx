@@ -1317,7 +1317,7 @@ export default class CreatePost extends React.Component {
                             />
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.state.showPreview}
+                                showPreview={this.state.showPreview}
                                 updatePreview={this.updatePreview}
                                 message={readOnlyChannel ? '' : this.state.message}
                             />

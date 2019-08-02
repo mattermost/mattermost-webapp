@@ -983,7 +983,7 @@ export default class CreateComment extends React.PureComponent {
                             />
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.state.showPreview}
+                                showPreview={this.state.showPreview}
                                 updatePreview={this.updatePreview}
                                 message={readOnlyChannel ? '' : this.state.message}
                             />
