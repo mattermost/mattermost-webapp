@@ -142,7 +142,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
             </label>
             <br />
           </div>
-          <span
+          <div
             className="margin-top x3"
           >
             <FormattedMessage
@@ -150,7 +150,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
               id="user.settings.notifications.sounds_info"
               values={Object {}}
             />
-          </span>
+          </div>
         </fieldset>
       </div>,
     ]
@@ -440,7 +440,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
             </label>
             <br />
           </div>
-          <span
+          <div
             className="margin-top x3"
           >
             <FormattedMessage
@@ -448,7 +448,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
               id="user.settings.notifications.sounds_info"
               values={Object {}}
             />
-          </span>
+          </div>
         </fieldset>
       </div>,
     ]
