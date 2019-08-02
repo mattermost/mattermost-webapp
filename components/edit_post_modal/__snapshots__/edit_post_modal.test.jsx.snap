@@ -78,6 +78,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
+          tabIndex="0"
           value=""
         />
         <div
@@ -115,7 +116,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
         <TextboxLinks
           characterLimit={4000}
           message=""
-          preview={false}
+          showPreview={false}
           updatePreview={[Function]}
         />
         <div
@@ -234,6 +235,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
+          tabIndex="0"
           value="new message"
         />
         <div
@@ -271,7 +273,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
         <TextboxLinks
           characterLimit={4000}
           message="new message"
-          preview={false}
+          showPreview={false}
           updatePreview={[Function]}
         />
         <div
@@ -390,6 +392,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
+          tabIndex="0"
           value=""
         />
         <div
@@ -427,7 +430,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
         <TextboxLinks
           characterLimit={4000}
           message=""
-          preview={false}
+          showPreview={false}
           updatePreview={[Function]}
         />
         <div
@@ -546,6 +549,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
+          tabIndex="0"
           value=""
         />
         <div
@@ -558,7 +562,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
         <TextboxLinks
           characterLimit={4000}
           message=""
-          preview={false}
+          showPreview={false}
           updatePreview={[Function]}
         />
         <div
@@ -677,6 +681,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
+          tabIndex="0"
           value="new message"
         />
         <div
@@ -714,7 +719,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
         <TextboxLinks
           characterLimit={4000}
           message="new message"
-          preview={false}
+          showPreview={false}
           updatePreview={[Function]}
         />
         <div
@@ -833,6 +838,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
+          tabIndex="0"
           value=""
         />
         <div
@@ -870,7 +876,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
         <TextboxLinks
           characterLimit={4000}
           message=""
-          preview={false}
+          showPreview={false}
           updatePreview={[Function]}
         />
         <div
@@ -989,6 +995,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
+          tabIndex="0"
           value=""
         />
         <div
@@ -1026,7 +1033,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
         <TextboxLinks
           characterLimit={4000}
           message=""
-          preview={false}
+          showPreview={false}
           updatePreview={[Function]}
         />
         <div
@@ -1145,6 +1152,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
+          tabIndex="0"
           value=""
         />
         <div
@@ -1182,7 +1190,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
         <TextboxLinks
           characterLimit={4000}
           message=""
-          preview={false}
+          showPreview={false}
           updatePreview={[Function]}
         />
         <div
@@ -1301,6 +1309,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
+          tabIndex="0"
           value=""
         />
         <div
@@ -1338,7 +1347,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
         <TextboxLinks
           characterLimit={4000}
           message=""
-          preview={false}
+          showPreview={false}
           updatePreview={[Function]}
         />
         <div
