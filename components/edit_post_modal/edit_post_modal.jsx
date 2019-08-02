@@ -280,7 +280,7 @@ export default class EditPostModal extends React.PureComponent {
 
         let emojiPicker = null;
         const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
-        if (this.props.config.EnableEmojiPicker === 'true') {
+        if (this.props.config.EnableEmojiPicker === 'true' && !this.state.preview) {
             emojiPicker = (
                 <div>
                     <EmojiPickerOverlay
@@ -344,6 +344,7 @@ export default class EditPostModal extends React.PureComponent {
                     <div className='post-create__container'>
                         <div className='textarea-wrapper'>
                             <Textbox
+                                tabIndex='0'
                                 onChange={this.handleChange}
                                 onKeyPress={this.handleEditKeyPress}
                                 onKeyDown={this.handleKeyDown}
@@ -366,7 +367,7 @@ export default class EditPostModal extends React.PureComponent {
                         <div className='post-create-footer'>
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.state.preview}
+                                showPreview={this.state.preview}
                                 ref={this.setTextboxLinksRef}
                                 updatePreview={this.updatePreview}
                                 message={this.state.editText}
