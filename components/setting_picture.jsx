@@ -54,10 +54,11 @@ export default class SettingPicture extends Component {
 
     focusFirstElement() {
         if (this.settingList.current) {
-            const focusableElements = this.settingList.current.querySelectorAll('button, [href], input, select, textarea');
-            const filteredElements = Array.from(focusableElements).filter((element) => element.getAttribute('tabindex') !== '-1');
-            if (filteredElements) {
-                filteredElements[0].focus();
+            const focusableTags = ['button', '[href]', 'input', 'select', 'textarea'];
+            const tabIndexFilter = ':not([tabindex="-1"])';
+            const focusableElements = this.settingList.current.querySelectorAll(focusableTags.map((tag) => `${tag}${tabIndexFilter}`).join(', '));
+            if (focusableElements) {
+                focusableElements[0].focus();
             }
         }
     }
