@@ -70,27 +70,6 @@ describe('components/post_view/post_list', () => {
         expect(wrapper.state('olderPosts').allLoaded).toBe(true);
     });
 
-    it('Should have loadingFirstSetOfPosts set to true if postsOnLoad fails', async () => {
-        const loadUnreads = jest.fn().mockImplementation(() => Promise.resolve({error: {}}));
-
-        const props = {
-            ...baseProps,
-            postListIds: undefined,
-            actions: {
-                ...actionsProp,
-                loadUnreads,
-            },
-        };
-
-        const wrapper = shallow(
-            <PostList {...props}/>
-        );
-
-        expect(loadUnreads).toHaveBeenCalledWith(baseProps.channelId);
-        await loadUnreads();
-        expect(wrapper.state('loadingFirstSetOfPosts')).toBe(true);
-    });
-
     it('Should call for before and afterPosts', async () => {
         const postIds = createFakePosIds(2);
         const wrapper = shallow(
@@ -193,7 +172,6 @@ describe('components/post_view/post_list', () => {
     describe('canLoadMorePosts', () => {
         test('Should not call loadLatestPosts if postListIds is empty', async () => {
             const wrapper = shallow(<PostList {...{...baseProps, isFirstLoad: false, postListIds: []}}/>);
-            expect(wrapper.state('loadingFirstSetOfPosts')).toBe(true);
             expect(actionsProp.loadLatestPosts).toHaveBeenCalledWith(baseProps.channelId);
             await actionsProp.loadLatestPosts();
             expect(wrapper.state('olderPosts')).toEqual({allLoaded: true, loading: false});
