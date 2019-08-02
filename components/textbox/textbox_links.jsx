@@ -13,7 +13,7 @@ const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
 export default class TextboxLinks extends React.Component {
     static propTypes = {
-        preview: PropTypes.bool,
+        showPreview: PropTypes.bool,
         characterLimit: PropTypes.number.isRequired,
         previewMessageLink: PropTypes.string,
         updatePreview: PropTypes.func,
@@ -26,7 +26,7 @@ export default class TextboxLinks extends React.Component {
 
     togglePreview = (e) => {
         e.preventDefault();
-        this.props.updatePreview(!this.props.preview);
+        this.props.updatePreview(!this.props.showPreview);
     }
 
     render() {
@@ -62,7 +62,7 @@ export default class TextboxLinks extends React.Component {
                     onClick={this.togglePreview}
                     className='style--none textbox-preview-link color--link'
                 >
-                    {this.props.preview ? (
+                    {this.props.showPreview ? (
                         editHeader
                     ) : (
                         <FormattedMessage

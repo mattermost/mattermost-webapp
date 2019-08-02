@@ -245,7 +245,7 @@ describe('components/create_post', () => {
         wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
 
         wrapper.setState({
-            preview: false,
+            showPreview: false,
         });
 
         const postTextbox = wrapper.find('#post_textbox');
