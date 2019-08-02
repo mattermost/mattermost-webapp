@@ -368,7 +368,7 @@ export default class EditPostModal extends React.PureComponent {
                         <div className='post-create-footer'>
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.state.preview}
+                                showPreview={this.state.preview}
                                 ref={this.setTextboxLinksRef}
                                 updatePreview={this.updatePreview}
                                 message={this.state.editText}
