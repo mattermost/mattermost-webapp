@@ -3,10 +3,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'lodash/debounce';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
 
-const SCROLL_BUFFER = 10;
+const SCROLL_BUFFER = 100;
+const DEBOUNCE_WAIT_TIME = 200;
 
 export default class InfiniteScroll extends React.PureComponent {
     static propTypes = {
@@ -16,11 +18,6 @@ export default class InfiniteScroll extends React.PureComponent {
          * Function that is called to load more items
          */
         callBack: PropTypes.func.isRequired,
-
-        /**
-         * Boolean to indicate that no more data will be loaded
-         */
-        endOfData: PropTypes.bool.isRequired,
 
         /**
          * Message to display when all the data has been scrolled through
@@ -37,11 +34,26 @@ export default class InfiniteScroll extends React.PureComponent {
          * loading more items
          */
         bufferValue: PropTypes.number,
+
+        /**
+         * The total number of items to be scrolled through
+         */
+        totalItems: PropTypes.number.isRequired,
+
+        /**
+         * The number of items to load in a single fetch
+         */
+        itemsPerPage: PropTypes.number.isRequired,
+
+        /**
+         * The current page that has been scrolled to, starting from page 1
+         */
+        pageNumber: PropTypes.number.isRequired,
     };
 
     static defaultProps = {
         bufferValue: SCROLL_BUFFER,
-        endOfDataMessage: 'No more items to load',
+        endOfDataMessage: '',
         styleClass: '',
     };
 
@@ -49,26 +61,17 @@ export default class InfiniteScroll extends React.PureComponent {
         super(props);
         this.state = {
             isFetching: false,
+            isEndofData: false,
         };
         this.node = React.createRef();
     }
 
     componentDidMount() {
-        this.node.current.addEventListener('scroll', this.handleScroll);
+        this.node.current.addEventListener('scroll', this.debounceHandleScroll);
     }
 
     componentWillUnmount() {
         this.node.current.removeEventListener('scroll', this.handleScroll);
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.children === nextProps.children) {
-            return;
-        }
-
-        this.setState({
-            isFetching: false,
-        });
     }
 
     validateBuffer = (buffer) => {
@@ -78,24 +81,45 @@ export default class InfiniteScroll extends React.PureComponent {
         return Math.abs(buffer);
     }
 
+    getAmountOfPages = (total, freq) => {
+        return Math.ceil(total / freq);
+    }
+
     handleScroll = () => {
-        const {isFetching} = this.state;
-        const {callBack, endOfData, bufferValue} = this.props;
+        const {isFetching, isEndofData} = this.state;
+        const {callBack, bufferValue, totalItems, itemsPerPage, pageNumber} = this.props;
+
         const node = this.node.current;
         const validBuffer = this.validateBuffer(bufferValue);
+
         const toScroll = node.scrollHeight - node.clientHeight - validBuffer;
         const nearBottom = node.scrollTop > toScroll;
-        if (nearBottom && !endOfData && !isFetching) {
-            this.setState({
-                isFetching: true,
-            });
-            callBack();
+
+        if (nearBottom && !isEndofData && !isFetching) {
+            this.setState({isFetching: true},
+                async () => {
+                    await callBack();
+
+                    this.setState({
+                        isFetching: false,
+                    });
+
+                    const amountOfPages = this.getAmountOfPages(totalItems, itemsPerPage);
+
+                    if (pageNumber > amountOfPages) {
+                        this.setState({
+                            isEndofData: true,
+                        });
+                    }
+                });
         }
     }
 
+    debounceHandleScroll = debounce(this.handleScroll, DEBOUNCE_WAIT_TIME);
+
     render() {
-        const {children, endOfData, endOfDataMessage, styleClass} = this.props;
-        const {isFetching} = this.state;
+        const {children, endOfDataMessage, styleClass} = this.props;
+        const {isFetching, isEndofData} = this.state;
         return (
             <>
                 <div
@@ -107,7 +131,7 @@ export default class InfiniteScroll extends React.PureComponent {
                 {isFetching && (
                     <LoadingSpinner text='Loading'/>
                 )}
-                {endOfData && endOfDataMessage}
+                {isEndofData && endOfDataMessage}
             </>
         );
     }

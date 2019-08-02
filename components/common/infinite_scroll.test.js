@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import {mount} from 'enzyme';
 
 import InfiniteScroll from 'components/common/infinite_scroll.jsx';
 
@@ -13,6 +12,9 @@ describe('/components/common/InfiniteScroll', () => {
         endOfData: false,
         endOfDataMessage: 'No more items to fetch',
         styleClass: 'signup-team-all',
+        totalItems: 20,
+        itemsPerPage: 10,
+        pageNumber: 1,
     };
 
     let wrapper;
@@ -59,8 +61,8 @@ describe('/components/common/InfiniteScroll', () => {
     });
 
     test('should not execute call back even if scroll is a the bottom when there \'s no more data', () => {
-        baseProps.endOfData = true;
-        wrapper = mount(<InfiniteScroll {...baseProps}><div/></InfiniteScroll>);
+        wrapper = mountWithIntl(<InfiniteScroll {...baseProps}><div/></InfiniteScroll>);
+        wrapper.setState({isEndofData: true});
         const instance = wrapper.instance();
 
         instance.handleScroll();

@@ -2,7 +2,7 @@
 
 exports[`/components/common/InfiniteScroll should match snapshot 1`] = `
 <InfiniteScroll
-  bufferValue={10}
+  bufferValue={100}
   callBack={[MockFunction]}
   endOfData={false}
   endOfDataMessage="No more items to fetch"
@@ -33,7 +33,10 @@ exports[`/components/common/InfiniteScroll should match snapshot 1`] = `
       "timeZone": "Etc/UTC",
     }
   }
+  itemsPerPage={10}
+  pageNumber={1}
   styleClass="signup-team-all"
+  totalItems={20}
 >
   <div
     className="infinite-scroll signup-team-all"

@@ -61,6 +61,8 @@ export default class SelectTeam extends React.Component {
             loadingTeamId: '',
             error: null,
             endofTeamsData: false,
+            currentListableTeams: [],
+            currentPage: 1,
         };
     }
 
@@ -68,16 +70,25 @@ export default class SelectTeam extends React.Component {
         this.props.actions.getTeams(0, TEAMS_PER_PAGE, true);
     }
 
-    fetchMoreTeams = () => {
-        const {actions, totalTeamsCount} = this.props;
-        const BATCH_OF_TEAMS_TO_LOAD = 4; // Load 4 extra teams
-        const NEW_TEAMS_PER_PAGE = this.props.listableTeams.length + BATCH_OF_TEAMS_TO_LOAD;
-        actions.getTeams(0, NEW_TEAMS_PER_PAGE, true);
-        if (this.props.listableTeams.length === totalTeamsCount) {
-            this.setState({
-                endofTeamsData: true,
-            });
-        }
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+        this.setState(
+            {
+                currentListableTeams: [...nextProps.listableTeams],
+            }
+        );
+    }
+
+    fetchMoreTeams = async () => {
+        const {currentPage} = this.state;
+        const {actions} = this.props;
+        this.setState((prevState) => (
+            {
+                currentPage: prevState.currentPage + 1,
+            }
+        ),
+        );
+
+        await actions.getTeams(currentPage, TEAMS_PER_PAGE, true);
     }
 
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
@@ -139,17 +150,17 @@ export default class SelectTeam extends React.Component {
     };
 
     render() {
-        const {endofTeamsData} = this.state;
+        const {currentListableTeams, currentPage} = this.state;
         const {
             currentUserIsGuest,
             canManageSystem,
             customDescriptionText,
             isMemberOfTeam,
-            listableTeams,
             siteName,
             canCreateTeams,
             canJoinPublicTeams,
             canJoinPrivateTeams,
+            totalTeamsCount,
         } = this.props;
 
         let openContent;
@@ -178,7 +189,7 @@ export default class SelectTeam extends React.Component {
             );
         } else {
             let joinableTeamContents = [];
-            listableTeams.forEach((listableTeam) => {
+            currentListableTeams.forEach((listableTeam) => {
                 if ((listableTeam.allow_open_invite && canJoinPublicTeams) || (!listableTeam.allow_open_invite && canJoinPrivateTeams)) {
                     joinableTeamContents.push(
                         <SelectTeamItem
@@ -241,9 +252,10 @@ export default class SelectTeam extends React.Component {
                     </h4>
                     <InfiniteScroll
                         callBack={this.fetchMoreTeams}
-                        endOfData={endofTeamsData}
-                        endOfDataMessage='No more teams to display'
                         styleClass='signup-team-all'
+                        totalItems={totalTeamsCount}
+                        itemsPerPage={TEAMS_PER_PAGE}
+                        pageNumber={currentPage + 1}
                     >
                         {joinableTeamContents}
                     </InfiniteScroll>
