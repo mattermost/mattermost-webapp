@@ -79,6 +79,7 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
       }
     />
     <MultiSelect
+      ariaLabelRenderer={[Function]}
       buttonSubmitText="Add"
       handleAdd={[Function]}
       handleDelete={[Function]}
