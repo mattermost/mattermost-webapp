@@ -24,6 +24,43 @@ export default class InvitationModalConfirmStep extends React.Component {
         invitesNotSent: PropTypes.array.isRequired,
     }
 
+    getInvitesCountsMessage = (invitesSentCount, invitesNotSentCount) => {
+        if (invitesSentCount > 0 && invitesNotSentCount > 0) {
+            return (
+                <FormattedMarkdownMessage
+                    id='invitation_modal.confirm.members_subtitle'
+                    defaultMessage='**{sentCount, number} {sentCount, plural, one {person} other {people}}** {sentCount, plural, one {has} other {have}} been invited, and **{notSentCount, number} {notSentCount, plural, one {invitation} other {invitations}}** {notSentCount, plural, one {was} other {were}} not sent'
+                    values={{sentCount: invitesSentCount, notSentCount: invitesNotSentCount}}
+                />
+            );
+        }
+
+        if (invitesSentCount > 0 && invitesNotSentCount === 0) {
+            return (
+                <FormattedMarkdownMessage
+                    id='invitation_modal.confirm.members_subtitle_without_not_sent'
+                    defaultMessage='**{sentCount, number} {sentCount, plural, one {person} other {people}}** {sentCount, plural, one {has} other {have}} been invited'
+                    values={{sentCount: invitesSentCount}}
+                />
+            );
+        }
+        if (invitesSentCount === 0 && invitesNotSentCount > 0) {
+            return (
+                <FormattedMarkdownMessage
+                    id='invitation_modal.confirm.members_subtitle_without_sent'
+                    defaultMessage='**{notSentCount, number} {notSentCount, plural, one {invitation} other {invitations}}** {notSentCount, plural, one {was} other {were}} not sent'
+                    values={{notSentCount: invitesNotSentCount}}
+                />
+            );
+        }
+        return (
+            <FormattedMarkdownMessage
+                id='invitation_modal.confirm.members_subtitle_without_sent_and_not_sent'
+                defaultMessage='No invitation sent'
+            />
+        );
+    }
+
     render() {
         const {teamName, invitesType, invitesSent, invitesNotSent, onDone} = this.props;
         return (
@@ -53,11 +90,7 @@ export default class InvitationModalConfirmStep extends React.Component {
                         />
                     </h1>}
                 <h2 className='subtitle'>
-                    <FormattedMarkdownMessage
-                        id='invitation_modal.confirm.members_subtitle'
-                        defaultMessage='**{sentCount, number} {sentCount, plural, one {person} other {people}}** {sentCount, plural, one {has} other {have}} been invited, and **{notSentCount, number} {notSentCount, plural, one {invitation} other {invitations}}** {sentCount, plural, one {was} other {were}} not sent'
-                        values={{sentCount: invitesSent.length, notSentCount: invitesNotSent.length}}
-                    />
+                    {this.getInvitesCountsMessage(invitesSent.length, invitesNotSent.length)}
                 </h2>
                 {invitesSent.length > 0 &&
                     <div className='invitation-modal-confirm-sent'>

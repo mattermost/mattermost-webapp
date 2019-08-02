@@ -9,7 +9,7 @@ import {InviteTypes} from 'utils/constants.jsx';
 import InvitationModalConfirmStep from './invitation_modal_confirm_step.jsx';
 
 describe('components/invitation_modal/InvitationModalConfirmStep', () => {
-    test('should match the snapshot for guests', () => {
+    test('should match the snapshot for guests with failures and successes', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStep
                 teamName='test'
@@ -23,7 +23,7 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match the snapshot for members', () => {
+    test('should match the snapshot for members with failures and successes', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStep
                 teamName='test'
@@ -59,6 +59,20 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
                 onDone={jest.fn()}
                 invitesType={InviteTypes.INVITE_MEMBER}
                 invitesSent={[{email: 'invite1@email'}, {email: 'invite2@email'}]}
+                invitesNotSent={[]}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match the snapshot without failures or successes', () => {
+        const wrapper = shallow(
+            <InvitationModalConfirmStep
+                teamName='test'
+                goBack={jest.fn()}
+                onDone={jest.fn()}
+                invitesType={InviteTypes.INVITE_MEMBER}
+                invitesSent={[]}
                 invitesNotSent={[]}
             />
         );
