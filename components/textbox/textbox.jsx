@@ -78,6 +78,8 @@ export default class Textbox extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+        console.log('Prev: ' + prevProps.preview);
+        console.log('Current: ' + this.props.preview);
         if (prevProps.preview === false && this.props.preview === true) {
             this.refs.preview.focus();
         }

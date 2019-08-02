@@ -328,6 +328,7 @@ export default class CreatePost extends React.Component {
     }
 
     updatePreview = (newState) => {
+        console.log(newState);
         this.setState({preview: newState});
     }
 
@@ -671,10 +672,10 @@ export default class CreatePost extends React.Component {
             }
 
             if (withClosedCodeBlock && message) {
-                this.updatePreview();
+                this.updatePreview(false);
                 this.setState({message}, () => this.handleSubmit(e));
             } else {
-                this.updatePreview();
+                this.updatePreview(false);
                 this.handleSubmit(e);
             }
         }

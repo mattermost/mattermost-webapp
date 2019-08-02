@@ -547,7 +547,7 @@ export default class CreateComment extends React.PureComponent {
             Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) &&
             (e.ctrlKey || e.metaKey)
         ) {
-            this.updatePreview();
+            this.updatePreview(false);
             this.commentMsgKeyPress(e);
             return;
         }
@@ -864,7 +864,7 @@ export default class CreateComment extends React.PureComponent {
         }
 
         let fileUpload;
-        if (!readOnlyChannel) {
+        if (!readOnlyChannel && !this.state.preview) {
             fileUpload = (
                 <FileUpload
                     ref='fileUpload'
@@ -884,7 +884,7 @@ export default class CreateComment extends React.PureComponent {
         let emojiPicker = null;
         const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
 
-        if (this.props.enableEmojiPicker && !readOnlyChannel) {
+        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.state.preview) {
             emojiPicker = (
                 <div>
                     <EmojiPickerOverlay
