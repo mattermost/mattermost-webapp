@@ -71,7 +71,7 @@ export default class InfiniteScroll extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        this.node.current.removeEventListener('scroll', this.handleScroll);
+        this.node.current.removeEventListener('scroll', this.debounceHandleScroll);
     }
 
     validateBuffer = (buffer) => {
