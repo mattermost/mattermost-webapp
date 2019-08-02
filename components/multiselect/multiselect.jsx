@@ -21,7 +21,7 @@ export default class MultiSelect extends React.Component {
         optionRenderer: PropTypes.func,
         values: PropTypes.arrayOf(PropTypes.object),
         valueRenderer: PropTypes.func,
-        ariaLabelRenderer: PropTypes.func,
+        ariaLabelRenderer: PropTypes.func.isRequired,
         handleInput: PropTypes.func,
         handleDelete: PropTypes.func,
         perPage: PropTypes.number,
@@ -37,6 +37,10 @@ export default class MultiSelect extends React.Component {
         saving: PropTypes.bool,
         loading: PropTypes.bool,
         placeholderText: PropTypes.string,
+    }
+
+    static defaultProps = {
+        ariaLabelRenderer: defaultAriaLabelRenderer,
     }
 
     constructor(props) {
@@ -191,23 +195,9 @@ export default class MultiSelect extends React.Component {
         this.props.handleDelete(values);
     }
 
-    defaultAriaLabelRenderer(option) {
-        if (!option) {
-            return null;
-        }
-        return option.label;
-    }
-
     render() {
         const options = Object.assign([], this.props.options);
         const {totalCount, users, values} = this.props;
-
-        let renderer;
-        if (this.props.ariaLabelRenderer) {
-            renderer = this.props.ariaLabelRenderer;
-        } else {
-            renderer = this.defaultAriaLabelRenderer;
-        }
 
         let numRemainingText;
         if (this.props.numRemainingText) {
@@ -349,7 +339,7 @@ export default class MultiSelect extends React.Component {
                             placeholder={this.props.placeholderText}
                             inputValue={this.state.input}
                             getOptionValue={(option) => option.id}
-                            getOptionLabel={(option) => renderer(option)}
+                            getOptionLabel={(option) => this.props.ariaLabelRenderer(option)}
                             aria-label={this.props.placeholderText}
                             className={this.state.a11yActive ? 'multi-select__focused' : ''}
                         />
@@ -374,7 +364,7 @@ export default class MultiSelect extends React.Component {
                     ref='list'
                     options={optionsToDisplay}
                     optionRenderer={this.props.optionRenderer}
-                    ariaLabelRenderer={renderer}
+                    ariaLabelRenderer={this.props.ariaLabelRenderer}
                     page={this.state.page}
                     perPage={this.props.perPage}
                     onPageChange={this.props.handlePageChange}
@@ -389,6 +379,13 @@ export default class MultiSelect extends React.Component {
             </div>
         );
     }
+}
+
+function defaultAriaLabelRenderer(option) {
+    if (!option) {
+        return null;
+    }
+    return option.label;
 }
 
 const nullComponent = () => null;
