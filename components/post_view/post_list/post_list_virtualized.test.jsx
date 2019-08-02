@@ -463,8 +463,6 @@ describe('PostList', () => {
             expect(postListIdsState[postListIdsState.length - 1]).toBe(PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER);
         });
     });
-<<<<<<< HEAD
-=======
 
     describe('initScrollToIndex', () => {
         test('return date index if it is just above new message line', () => {
@@ -510,5 +508,4 @@ describe('PostList', () => {
         const initScrollToIndex = instance.initScrollToIndex();
         expect(initScrollToIndex).toEqual({index: 5, position: 'start'});
     });
->>>>>>> 0f7d403f5...  [MM-16723] Reworked post list reading to avoid duplicates (#3290)
 });
