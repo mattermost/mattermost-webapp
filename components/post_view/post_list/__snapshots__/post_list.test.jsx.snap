@@ -51,12 +51,7 @@ exports[`components/post_view/post_list snapshot with couple of posts 1`] = `
               "loading": false,
             }
           }
-          postListIds={
-            Array [
-              "12341",
-              "12342",
-            ]
-          }
+          postListIds={Array []}
         />
       </div>
     </div>
