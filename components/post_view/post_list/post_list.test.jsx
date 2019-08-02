@@ -38,6 +38,7 @@ const baseProps = {
     changeUnreadChunkTimeStamp: jest.fn(),
     isFirstLoad: true,
     atLatestPost: false,
+    formattedPostIds: [],
 };
 
 describe('components/post_view/post_list', () => {
@@ -107,6 +108,28 @@ describe('components/post_view/post_list', () => {
         expect(actionsProp.loadPosts).toHaveBeenCalledWith({channelId: baseProps.channelId, postId: postIds[0], type: PostRequestTypes.AFTER_ID});
         await wrapper.instance().callLoadPosts();
         expect(wrapper.state('newerPosts')).toEqual({allLoaded: true, loading: false});
+    });
+
+    it('VirtPostList Should have formattedPostIds as prop', async () => {
+        const postIds = createFakePosIds(2);
+        const wrapper = shallow(
+            <PostList {...{...baseProps, postListIds: postIds}}/>
+        );
+
+        const formattedPostIds = wrapper.find(VirtPostList).prop('postListIds');
+        expect(formattedPostIds).toEqual([]);
+    });
+
+    it('getOldestVisiblePostId and getLatestVisiblePostId should return based on postListIds', async () => {
+        const postIds = createFakePosIds(10);
+        const formattedPostIds = ['1', '2'];
+        const wrapper = shallow(
+            <PostList {...{...baseProps, postListIds: postIds, formattedPostIds}}/>
+        );
+
+        const instance = wrapper.instance();
+        expect(instance.getOldestVisiblePostId()).toEqual('123410');
+        expect(instance.getLatestVisiblePostId()).toEqual('12341');
     });
 
     it('Should call for permalink posts', async () => {

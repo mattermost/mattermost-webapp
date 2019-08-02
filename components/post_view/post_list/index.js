@@ -44,6 +44,7 @@ function makeMapStateToProps() {
         let postIds;
         let chunk;
         let atLatestPost = false;
+        let formattedPostIds;
         const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
 
         if (ownProps.match.params.postid) {
@@ -59,8 +60,8 @@ function makeMapStateToProps() {
             atLatestPost = chunk.recent;
         }
 
-        if (postIds && postIds.length) {
-            postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true});
+        if (postIds) {
+            formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true});
             if (postIds.length) {
                 const latestPostId = memoizedGetLatestPostId(postIds);
                 const latestPost = getPost(state, latestPostId);
@@ -71,10 +72,11 @@ function makeMapStateToProps() {
         return {
             lastViewedAt,
             isFirstLoad: isFirstLoad(state, ownProps.channelId),
-            postListIds: postIds,
+            formattedPostIds,
             atLatestPost,
             focusedPostId: ownProps.match.params.postid,
             latestPostTimeStamp,
+            postListIds: postIds,
         };
     };
 }
