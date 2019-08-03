@@ -28,7 +28,7 @@ describe('ID15888 Interactive Dialog', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-        // # Login as sysadmin and ensure that teammate name display setting us set to default 'username'
+        // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
         cy.apiLogin('sysadmin');
         cy.apiSaveTeammateNameDisplayPreference('username');
 
@@ -93,7 +93,7 @@ describe('ID15888 Interactive Dialog', () => {
             // * Verify that the footer contains cancel and submit buttons
             cy.get('.modal-footer').should('be.visible').within(($elForm) => {
                 cy.wrap($elForm).find('#interactiveDialogCancel').should('be.visible').and('have.text', 'Cancel');
-                cy.wrap($elForm).find('#interactiveDialogSubmit').should('be.visible').and('have.text', 'Submit');
+                cy.wrap($elForm).find('#interactiveDialogSubmit').should('be.visible').and('have.text', fullDialog.dialog.submit_label);
             });
 
             closeInteractiveDialog();
@@ -170,7 +170,7 @@ describe('ID15888 Interactive Dialog', () => {
             {valid: false, value: 'invalid-email'},
             {valid: true, value: 'test@mattermost.com'},
         ].forEach((testCase) => {
-            cy.get('#someemail').scrollIntoView().type(testCase.value);
+            cy.get('#someemail').scrollIntoView().clear().type(testCase.value);
 
             cy.get('#interactiveDialogSubmit').click();
 
