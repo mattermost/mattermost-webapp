@@ -19,7 +19,7 @@ export default class LoadingBars extends React.PureComponent {
         const {text} = this.props;
 
         return (
-            <span className={(text ? ' with-text' : '')}>
+            <span className={(text ? 'with-text' : '')}>
                 <LoadingSpinner/>
                 {text}
             </span>

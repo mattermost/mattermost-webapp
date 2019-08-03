@@ -11,12 +11,10 @@ describe('components/widgets/loading/LoadingBars', () => {
         const wrapper = shallow(<LoadingBars text='test'/>);
         expect(wrapper).toMatchInlineSnapshot(`
 <span
-  className="LoadingBars with-text"
+  className="with-text"
 >
-  <img
-    alt="spinner icon"
-    className="spinner"
-    src={null}
+  <LoadingSpinner
+    text={null}
   />
   test
 </span>
@@ -26,12 +24,10 @@ describe('components/widgets/loading/LoadingBars', () => {
         const wrapper = shallow(<LoadingBars/>);
         expect(wrapper).toMatchInlineSnapshot(`
 <span
-  className="LoadingBars"
+  className=""
 >
-  <img
-    alt="spinner icon"
-    className="spinner"
-    src={null}
+  <LoadingSpinner
+    text={null}
   />
 </span>
 `);
