@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import FocusTrap from 'focus-trap-react';
 
 import {isMobile} from 'utils/utils';
 
@@ -20,9 +19,6 @@ export default class Menu extends React.PureComponent {
     constructor(props) {
         super(props);
         this.node = React.createRef();
-        this.state = {
-            focusTrapped: true,
-        };
     }
 
     // Used from DotMenu component to know in which direction show the menu
@@ -31,18 +27,6 @@ export default class Menu extends React.PureComponent {
             return this.node.current.getBoundingClientRect();
         }
         return null;
-    }
-
-    removeFocusTrap = () => {
-        this.setState({focusTrapped: false});
-    }
-
-    setInitialFocus = () => {
-        return this.node.current;
-    }
-
-    focusContainer = () => {
-        this.node.current.focus();
     }
 
     render() {
@@ -62,29 +46,16 @@ export default class Menu extends React.PureComponent {
         }
 
         return (
-            <FocusTrap
-                active={this.state.focusTrapped}
-                focusTrapOptions={{
-                    clickOutsideDeactivates: true,
-                    initialFocus: this.setInitialFocus,
-                }}
+            <ul
+                id={id}
+                className='a11y__popup Menu dropdown-menu'
+                ref={this.node}
+                style={styles}
+                role='menu'
+                aria-label={ariaLabel}
             >
-                <div>
-                    <ul
-                        id={id}
-                        tabIndex='-1'
-                        onClick={this.removeFocusTrap}
-                        className='a11y__popup Menu dropdown-menu'
-                        ref={this.node}
-                        style={styles}
-                        role='menu'
-                        aria-label={ariaLabel}
-                        onMouseOver={this.focusContainer}
-                    >
-                        {children}
-                    </ul>
-                </div>
-            </FocusTrap>
+                {children}
+            </ul>
         );
     }
 }

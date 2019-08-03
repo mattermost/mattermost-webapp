@@ -87,6 +87,14 @@ describe('components/post_view/PostInfo', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, deleted post', () => {
+        const deletedPost = {...post, state: Posts.POST_DELETED};
+        const requiredPropsWithDeletedPost = {...requiredProps, post: deletedPost};
+
+        const wrapper = shallow(<PostInfo {...requiredPropsWithDeletedPost}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, ephemeral deleted post', () => {
         const deletedEphemeralPost = {...post, type: Constants.PostTypes.EPHEMERAL, state: Posts.POST_DELETED};
         const requiredPropsWithDeletedEphemeralPost = {...requiredProps, post: deletedEphemeralPost};
