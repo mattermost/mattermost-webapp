@@ -13,6 +13,7 @@ import {
 
 import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
+import {isMobile} from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import PostProfilePicture from 'components/post_profile_picture';
@@ -65,16 +66,21 @@ export default class RhsComment extends React.PureComponent {
             dropdownOpened: false,
             hover: false,
             a11yActive: false,
+            currentAriaLabel: '',
         };
     }
 
     componentDidMount() {
-        this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
-        this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        if (this.postRef.current) {
+            this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+            this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        }
     }
     componentWillUnmount() {
-        this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
-        this.postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        if (this.postRef.current) {
+            this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+            this.postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        }
     }
 
     componentDidUpdate() {
@@ -178,9 +184,15 @@ export default class RhsComment extends React.PureComponent {
         this.setState({a11yActive: false});
     }
 
-    render() {
-        const {post, isConsecutivePost, isReadOnly, channelIsArchived, author, reactions, isFlagged} = this.props;
+    handlePostFocus = () => {
+        const {post, author, reactions, isFlagged} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)});
+    }
 
+    render() {
+        const {post, isConsecutivePost, isReadOnly, channelIsArchived} = this.props;
+
+        const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
@@ -190,7 +202,7 @@ export default class RhsComment extends React.PureComponent {
         let visibleMessage;
 
         let userProfile = null;
-        if (this.props.compactDisplay) {
+        if (this.props.compactDisplay || isMobile()) {
             userProfile = (
                 <UserProfile
                     userId={post.user_id}
@@ -331,6 +343,8 @@ export default class RhsComment extends React.PureComponent {
                     {this.createRemovePostButton()}
                 </div>
             );
+        } else if (isPostDeleted) {
+            options = null;
         } else if (!isSystemMessage && (this.state.hover || this.state.a11yActive || this.state.dropdownOpened || this.state.showEmojiPicker)) {
             const dotMenu = (
                 <DotMenu
@@ -420,7 +434,8 @@ export default class RhsComment extends React.PureComponent {
                 className={`a11y__section ${this.getClassName(post, isSystemMessage)}`}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
-                aria-label={PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)}
+                aria-label={this.state.currentAriaLabel}
+                onFocus={this.handlePostFocus}
             >
                 <div className='post__content'>
                     <div className='post__img'>

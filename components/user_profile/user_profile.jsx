@@ -5,10 +5,11 @@ import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import {OverlayTrigger} from 'react-bootstrap';
 
-import {imageURLForUser, isMobile} from 'utils/utils.jsx';
+import {imageURLForUser, isMobile, isGuest} from 'utils/utils.jsx';
 
 import ProfilePopover from 'components/profile_popover';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 
 export default class UserProfile extends PureComponent {
     static propTypes = {
@@ -92,6 +93,10 @@ export default class UserProfile extends PureComponent {
                 </OverlayTrigger>
                 <BotBadge
                     show={Boolean(user && user.is_bot)}
+                    className='badge-popoverlist'
+                />
+                <GuestBadge
+                    show={Boolean(user && isGuest(user))}
                     className='badge-popoverlist'
                 />
             </React.Fragment>

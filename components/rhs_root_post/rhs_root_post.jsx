@@ -63,6 +63,7 @@ export default class RhsRootPost extends React.PureComponent {
             showEmojiPicker: false,
             testStateObj: true,
             dropdownOpened: false,
+            currentAriaLabel: '',
         };
     }
 
@@ -126,13 +127,19 @@ export default class RhsRootPost extends React.PureComponent {
         });
     };
 
+    handlePostFocus = () => {
+        const {post, author, reactions, isFlagged} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)});
+    }
+
     getDotMenuRef = () => {
         return this.refs.dotMenu;
     };
 
     render() {
-        const {post, isReadOnly, teamId, channelIsArchived, channelType, channelDisplayName, author, reactions, isFlagged} = this.props;
+        const {post, isReadOnly, teamId, channelIsArchived, channelType, channelDisplayName} = this.props;
 
+        const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
 
@@ -254,7 +261,7 @@ export default class RhsRootPost extends React.PureComponent {
         );
 
         let dotMenuContainer;
-        if (this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
+        if (!isPostDeleted && this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
             dotMenuContainer = (
                 <div
                     ref='dotMenu'
@@ -314,7 +321,8 @@ export default class RhsRootPost extends React.PureComponent {
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
                 className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage)}`}
-                aria-label={PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)}
+                aria-label={this.state.currentAriaLabel}
+                onFocus={this.handlePostFocus}
             >
                 <div className='post-right-channel__name'>{channelName}</div>
                 <div className='post__content'>

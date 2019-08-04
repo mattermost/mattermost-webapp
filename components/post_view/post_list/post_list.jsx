@@ -46,6 +46,8 @@ export default class PostList extends React.PureComponent {
          */
         latestPostTimeStamp: PropTypes.number,
 
+        latestAriaLabelFunc: PropTypes.func,
+
         /*
          * Used for padding down to virt list so it can change the chunk of posts selected
          */
@@ -85,6 +87,10 @@ export default class PostList extends React.PureComponent {
         }).isRequired,
     }
 
+    static defaultProps = {
+        postListIds: [],
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -96,7 +102,7 @@ export default class PostList extends React.PureComponent {
                 loading: false,
                 allLoaded: false,
             },
-            loadingFirstSetOfPosts: !props.postListIds,
+            loadingFirstSetOfPosts: !props.postListIds || !props.postListIds.length,
             autoRetryEnable: true,
         };
 
@@ -228,7 +234,7 @@ export default class PostList extends React.PureComponent {
     }
 
     canLoadMorePosts = async (type = PostRequestTypes.BEFORE_ID) => {
-        if (!this.props.postListIds || !this.props.postListIds.length) {
+        if (!this.props.postListIds) {
             return;
         }
 
@@ -307,6 +313,7 @@ export default class PostList extends React.PureComponent {
                                 actions={this.actionsForPostList}
                                 postListIds={this.props.postListIds}
                                 latestPostTimeStamp={this.props.latestPostTimeStamp}
+                                latestAriaLabelFunc={this.props.latestAriaLabelFunc}
                             />
                         </div>
                     </div>

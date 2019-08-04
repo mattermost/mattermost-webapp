@@ -4,12 +4,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function Toggle({onToggle, toggled, onText, offText}) {
+export default function Toggle({onToggle, toggled, onText, offText, disabled}) {
     return (
         <button
             type='button'
             onClick={onToggle}
-            className={`btn btn-lg btn-toggle ${toggled && 'active'}`}
+            className={`btn btn-lg btn-toggle ${toggled && 'active'} ${disabled && 'disabled'}`}
             aria-pressed={toggled ? 'true' : 'false'}
             autoComplete='off'
         >
@@ -28,6 +28,7 @@ function text(toggled, onText, offText) {
 Toggle.propTypes = {
     onToggle: PropTypes.func.isRequired,
     toggled: PropTypes.bool,
+    disabled: PropTypes.bool,
     onText: PropTypes.node,
     offText: PropTypes.node,
 };

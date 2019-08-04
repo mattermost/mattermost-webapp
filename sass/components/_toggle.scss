@@ -72,6 +72,10 @@ $toggle-default-font-size: .75rem;
 // Apply Mixin to different sizes & colors
 .btn-toggle {
     @include toggle-color;
+    &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
 
     &.btn-lg {
         @include toggle-mixin($size: 2.8rem, $font-size: 1rem, $margin: 5rem);

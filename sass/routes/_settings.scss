@@ -127,9 +127,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            border: none;
+            padding: 0;
 
             span {
                 font-size: 22px;
+                margin-top: -3px;
             }
         }
 
@@ -244,8 +247,8 @@
                 }
 
                 .section-max {
-                    @include clearfix;
-                    @include alpha-property(background, $black, .05);
+                    @include legacy-pie-clearfix;
+                    @include alpha-property('background', $black, .05);
                     margin-bottom: 0;
                     padding: 1em 0 1.3em;
 
@@ -379,7 +382,6 @@
                     .custom-label {
                         font-size: 12px;
                         font-weight: normal;
-                        margin-bottom: 0;
                         overflow: hidden;
                         text-overflow: ellipsis;
                         white-space: nowrap;

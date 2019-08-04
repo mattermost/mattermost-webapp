@@ -2,7 +2,7 @@
 
 .custom-textarea {
     background: transparent;
-    border: 1px solid #cccccc;
+    border: 1px solid v(center-channel-color-20);
     height: 100%;
     line-height: 20px;
     min-height: 36px;
@@ -12,7 +12,7 @@
     word-wrap: break-word;
 
     &:focus {
-        border-color: #cccccc;
+        border-color: v(center-channel-color-30);
         box-shadow: none;
     }
 
@@ -42,6 +42,10 @@
         top: 0;
         z-index: 2;
 
+        &:focus {
+            border-color: v(center-channel-color-40);
+        }
+
         p {
             margin: 0;
             white-space: pre-wrap;
@@ -55,26 +59,6 @@
         p + ul,
         p + ol {
             margin-top: .6em;
-        }
-    }
-
-    .help__text {
-        bottom: -23px;
-        font-size: 13px;
-        position: absolute;
-        right: 0;
-        text-align: right;
-        z-index: 3;
-
-        .modal & {
-            bottom: initial;
-            margin-top: -20px;
-            position: relative;
-            top: 30px;
-        }
-
-        a {
-            margin-left: 10px;
         }
     }
 
@@ -459,6 +443,9 @@
         overflow: hidden;
         padding: 12px 0 12px 15px;
         resize: none;
+        -ms-overflow-style: auto;
+        -webkit-overflow-scrolling: touch;
+        overflow-y: auto;
 
         &:not(.custom-textarea--emoji-picker) {
             padding-right: 40px;
@@ -499,93 +486,6 @@
 
             &.custom-textarea--emoji-picker {
                 padding-right: 90px;
-            }
-        }
-    }
-
-    .post-body__actions {
-        display: flex;
-        height: 100%;
-        position: absolute;
-        right: 0;
-        top: 0;
-
-        > span {
-            border-left: 1px solid transparent;
-            width: 42px;
-
-            &:first-child {
-                border: none;
-            }
-
-            > span,
-            div {
-                display: block;
-                height: 49px;
-                line-height: 49px;
-                text-align: center;
-                width: 100%;
-            }
-        }
-
-        &:hover,
-        &:active {
-            box-shadow: none;
-        }
-
-        &.btn-file__disabled {
-            @include opacity(.1);
-
-            &:hover,
-            &:active {
-                @include opacity(.1);
-            }
-        }
-
-        .icon--emoji {
-            @include opacity(.5);
-            @include single-transition(all, .15s);
-            cursor: pointer;
-
-            &:hover {
-                @include opacity(.7);
-            }
-
-            svg {
-                position: relative;
-                top: 1px;
-            }
-        }
-
-        .icon--attachment {
-            @include opacity(.4);
-            @include single-transition(all, .15s);
-            cursor: pointer;
-            overflow: hidden;
-            position: relative;
-            vertical-align: top;
-
-            &:hover {
-                @include opacity(.6);
-            }
-
-            input {
-                cursor: pointer;
-                direction: ltr;
-                filter: alpha(opacity=0);
-                font-size: 23px;
-                height: 100%;
-                margin: 0;
-                opacity: 0;
-                position: absolute;
-                right: 0;
-                top: 0;
-                width: 100%;
-            }
-
-            svg {
-                position: relative;
-                top: 2px;
             }
         }
     }
@@ -646,7 +546,7 @@
                 position: relative;
                 vertical-align: top;
 
-                input {
+                & + input {
                     cursor: pointer;
                     direction: ltr;
                     filter: alpha(opacity=0);
@@ -671,23 +571,6 @@
         }
     }
 
-    .post-create-footer {
-        @include clearfix;
-        font-size: 13px;
-        padding: 3px 0 0;
-        position: relative;
-
-        .post-error {
-            @include opacity(.55);
-            display: inline-block;
-            font-size: .85em;
-            font-weight: normal;
-            margin-bottom: 0;
-            position: absolute;
-            top: 4px;
-        }
-    }
-
     .msg-typing {
         @include opacity(.7);
         display: block;
@@ -708,6 +591,122 @@
 
     .channel-archived__close-btn {
         margin: 10px;
+    }
+}
+
+.post-body__actions {
+    display: flex;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    > div {
+        display: flex;
+        position: relative;
+        width: 43px;
+
+        &:first-child {
+            border-right: 1px solid transparent;
+        }
+
+        .post-action {
+            width: 42px;
+            height: 46px;
+        }
+    }
+
+    &:hover,
+    &:active {
+        box-shadow: none;
+    }
+
+    &.btn-file__disabled {
+        @include opacity(.1);
+
+        &:hover,
+        &:active {
+            @include opacity(.1);
+        }
+    }
+
+    .icon--emoji {
+        @include opacity(.5);
+        @include single-transition(all, .15s);
+        cursor: pointer;
+        top: 1px;
+        position: relative;
+
+        &:hover {
+            @include opacity(.7);
+        }
+
+        svg {
+            position: relative;
+            top: 1px;
+        }
+    }
+
+    .icon--attachment {
+        cursor: pointer;
+        overflow: hidden;
+        position: relative;
+        vertical-align: top;
+
+        > span {
+            @include opacity(.4);
+            @include single-transition(all, .15s);
+        }
+
+        &:hover {
+            span {
+                @include opacity(.6);
+            }
+        }
+
+        & + input {
+            cursor: pointer;
+            direction: ltr;
+            filter: alpha(opacity=0);
+            font-size: 23px;
+            height: 100%;
+            margin: 0;
+            opacity: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 100%;
+        }
+
+        svg {
+            position: relative;
+            top: 1px;
+        }
+    }
+}
+
+.post-create-footer {
+    font-size: 13px;
+    padding: 3px 0 0;
+    position: relative;
+
+    .help__text {
+        text-align: right;
+
+        a,
+        button {
+            margin-left: 10px;
+        }
+    }
+
+    .post-error {
+        @include opacity(.55);
+        display: inline-block;
+        font-size: .85em;
+        font-weight: normal;
+        margin-bottom: 0;
+        position: absolute;
+        top: 4px;
     }
 }
 
@@ -1282,7 +1281,6 @@
     .post__header {
         display: flex;
         margin-bottom: 2px;
-        padding: 0 40px 0 0;
         white-space: nowrap;
         width: 100%;
 
@@ -1296,10 +1294,13 @@
             font-weight: 600;
             margin-right: 7px;
             text-overflow: ellipsis;
+            flex: 0 auto;
+            min-width: 0;
 
             .user-popover {
                 @include clearfix;
                 text-overflow: ellipsis;
+                text-align: left;
                 vertical-align: top;
                 white-space: nowrap;
             }
@@ -1429,12 +1430,27 @@
             fill: inherit;
         }
 
-        img {
+        .profile-icon {
             @include border-radius(50px);
-            height: 32px;
-            max-width: none;
-            vertical-align: inherit;
-            width: 32px;
+            display: inline-flex;
+            overflow: hidden;
+            justify-content: center;
+            align-items: center;
+
+            img {
+                max-width: none;
+                vertical-align: inherit;
+                height: 32px;
+                width: 32px;
+            }
+
+            &.emoji {
+                @include border-radius(unset);
+                img {
+                    height: 28px;
+                    width: 28px;
+                }
+            }
         }
     }
 
@@ -1657,7 +1673,7 @@
             }
 
             .post-reaction__count {
-                top: -1px;
+                top: 1px;
                 position: relative;
             }
 
@@ -1725,7 +1741,7 @@
     .post__visibility {
         @include opacity(.6);
         font-size: .9em;
-        padding: 8px;
+        padding: 4px;
     }
 
     .post__time {
@@ -1736,6 +1752,7 @@
 
     .post__permalink {
         color: inherit;
+        display: inline-block;
 
         &:hover,
         &:focus {
