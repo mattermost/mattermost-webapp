@@ -84,7 +84,7 @@ export default class Markdown extends React.PureComponent {
         /**
          * If specified, code blocks are replaced by components provided by plugins
          */
-        codeBlockPlugins: PropTypes.arrayOf(PropTypes.object),
+        codeBlockComponents: PropTypes.arrayOf(PropTypes.object),
 
         /**
          * Whether or not to place the LinkTooltip component inside links
@@ -113,14 +113,14 @@ export default class Markdown extends React.PureComponent {
             proxyImages: this.props.hasImageProxy && this.props.proxyImages,
             team: this.props.team,
             minimumHashtagLength: this.props.minimumHashtagLength,
-            codeBlockPlugins: this.props.codeBlockPlugins,
+            codeBlockComponents: this.props.codeBlockComponents,
         }, this.props.options);
 
         const htmlFormattedText = TextFormatting.formatText(this.props.message, options);
         return messageHtmlToComponent(htmlFormattedText, this.props.isRHS, {
             imageProps: this.props.imageProps,
             imagesMetadata: this.props.imagesMetadata,
-            codeBlockPlugins: this.props.codeBlockPlugins,
+            codeBlockComponents: this.props.codeBlockComponents,
             hasPluginTooltips: this.props.hasPluginTooltips,
         });
     }

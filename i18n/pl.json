@@ -2256,6 +2256,7 @@
   "invite_member.send2": "Wyślij Zaproszenia",
   "invite_member.sending": " Wysyłanie",
   "invite_member.teamInviteLink": "Możesz także zaprosić ludzi podając im ten {link}.",
+  "katex.error": "Nie można skompilować twojego kodu LaTeX. Sprawdź składnię i spróbuj ponownie.",
   "last_users_message.added_to_channel.type": "zostało **dodanych do kanału** przez {actor}.",
   "last_users_message.added_to_team.type": "zostało **dodanych do zespołu** przez {actor}.",
   "last_users_message.first": "{firstUser} i ",

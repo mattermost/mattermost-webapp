@@ -19,7 +19,7 @@ import Pluggable from 'plugins/pluggable';
  * - imageProps - If specified, any extra props that should be passed into the image component.
  * - latex - If specified, latex is replaced with the LatexBlock component. Defaults to true.
  * - imagesMetadata - the dimensions of the image as retrieved from post.metadata.images.
- * - codeBlockPlugins - If specified, code blocks are replaced by components provided by plugins. Defaults to empty.
+ * - codeBlockComponents - If specified, code blocks are replaced by components provided by plugins. Defaults to empty.
  * - hasPluginTooltips - If specified, the LinkTooltip component is placed inside links. Defaults to false.
  */
 export function messageHtmlToComponent(html, isRHS, options = {}) {
@@ -119,12 +119,12 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
         });
     }
 
-    if (options.codeBlockPlugins) {
+    if (options.codeBlockComponents) {
         processingInstructions.push({
             shouldProcessNode: (node) => node.attribs && node.attribs['data-code'],
             processNode: (node) => {
                 const codeLanguage = node.attribs['data-language'];
-                const plugin = options.codeBlockPlugins.find((p) => p.languages.indexOf(codeLanguage) > -1);
+                const plugin = options.codeBlockComponents.find((p) => p.languages.indexOf(codeLanguage) > -1);
 
                 return (
                     <Pluggable

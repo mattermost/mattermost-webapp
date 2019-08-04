@@ -2256,6 +2256,7 @@
   "invite_member.send2": "發送邀請",
   "invite_member.sending": " 傳送中",
   "invite_member.teamInviteLink": "可以用{link}來邀請他人。",
+  "katex.error": "無法編譯 Latex 碼。請確認語法並重新嘗試。",
   "last_users_message.added_to_channel.type": "已由{actor}**加入至此頻道**。",
   "last_users_message.added_to_team.type": "已由{actor}**加入至此團隊**。",
   "last_users_message.first": "{firstUser}與",

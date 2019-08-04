@@ -23,8 +23,8 @@ export default class Renderer extends marked.Renderer {
         let usedLanguage = language || '';
         usedLanguage = usedLanguage.toLowerCase();
 
-        const codeBlockPlugins = this.formattingOptions.codeBlockPlugins;
-        if (codeBlockPlugins && codeBlockPlugins.find((p) => p.languages.indexOf(usedLanguage) > -1)) {
+        const codeBlockComponents = this.formattingOptions.codeBlockComponents;
+        if (codeBlockComponents && codeBlockComponents.find((p) => p.languages.indexOf(usedLanguage) > -1)) {
             return `<div data-language="${usedLanguage}" data-code="${TextFormatting.escapeHtml(code)}"></div>`;
         }
 

@@ -10,7 +10,7 @@ function mapStateToProps(state, ownProps) {
     return {
         channel: getChannel(state, ownProps.channelId),
         pluginHooks: state.plugins.components.MessageWillFormat,
-        codeBlockPlugins: state.plugins.components.CodeBlockComponent || [],
+        codeBlockComponents: state.plugins.components.CodeBlockComponent || [],
         hasPluginTooltips: Boolean(state.plugins.components.LinkTooltip),
     };
 }

@@ -32,7 +32,7 @@ That was some latex!`;
 
         test('with enabled latex plugin', () => {
             const options = {
-                codeBlockPlugins: [
+                codeBlockComponents: [
                     {
                         id: 'LatexPlugin',
                         languages: ['latex'],

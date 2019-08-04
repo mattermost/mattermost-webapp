@@ -2256,6 +2256,7 @@
   "invite_member.send2": "Trimite invitații",
   "invite_member.sending": " Trimitere",
   "invite_member.teamInviteLink": "De asemenea, puteți invita utilizatorii folosind {link}.",
+  "katex.error": "Nu s-a putut compila codul Latex. Revedeți sintaxa și încercați din nou.",
   "last_users_message.added_to_channel.type": "au fost **adăugați la canalul** de {actor}.",
   "last_users_message.added_to_team.type": "au fost **adăugați echipei** de {actor}.",
   "last_users_message.first": "{firstUser} și ",

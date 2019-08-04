@@ -2256,6 +2256,7 @@
   "invite_member.send2": "Çağrıları Gönder",
   "invite_member.sending": " Gönderiliyor",
   "invite_member.teamInviteLink": "Ayrıca {link} bağlantısını kullanarak kişileri çağırabilirsiniz.",
+  "katex.error": "Latex kodu derlenemedi. Lütfen söz dizimini denetleyip yeniden deneyin.",
   "last_users_message.added_to_channel.type": "{actor} tarafından **kanala eklendiniz**.",
   "last_users_message.added_to_team.type": "{actor} tarafından **takıma eklendiniz**.",
   "last_users_message.first": "{firstUser} ve ",

@@ -463,7 +463,10 @@ export default class PluginRegistry {
     }
 
     // Register a component to replace code blocks with components provided by plugins.
-    // Accepts a React component. Returns a unique identifier.
+    // Accepts the following:
+    // - component - a React component to handle a code block.
+    // - languages - a list of languages that can be handled by the provided component, e.g. ['tex', 'latex'].
+    // Returns a unique identifier.
     registerCodeBlockComponent(component, languages) {
         const id = generateId();
 
