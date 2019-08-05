@@ -2104,6 +2104,7 @@
   "emoji_picker.symbols": "Symbols",
   "error.channel_not_found.message": "The channel you're requesting is private or does not exist. Please contact an Administrator to be added to the channel.",
   "error.channel_not_found.title": "Channel Not Found",
+  "error.channelNotFound.guest_link": "Back",
   "error.channelNotFound.link": "Back to {defaultChannelName}",
   "error.generic.link": "Back to {siteName}",
   "error.generic.link_login": "Back to login page",
