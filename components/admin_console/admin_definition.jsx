@@ -801,7 +801,7 @@ export default {
                         help_text: t('admin.image.amazonS3SSEDescription'),
                         help_text_markdown: true,
                         help_text_default: 'When true, encrypt files in Amazon S3 using server-side encryption with Amazon S3-managed keys. See [documentation](!https://about.mattermost.com/default-server-side-encryption) to learn more.',
-                        isHidden: it.isnt(it.licensed),
+                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
                         isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                     },
                     {
@@ -1830,7 +1830,6 @@ export default {
                         help_text: t('admin.environment.notifications.pushContents.help'),
                         help_text_default: '**Send generic description with only sender name** - Includes only the name of the person who sent the message in push notifications, with no information about channel name or message contents.\n **Send generic description with sender and channel names** - Includes the name of the person who sent the message and the channel it was sent in, but not the message text.\n **Send full message snippet** - Includes a message excerpt in push notifications, which may contain confidential information sent in messages. If your Push Notification Service is outside your firewall, it is *highly recommended* this option only be used with an "https" protocol to encrypt the connection.',
                         help_text_markdown: true,
-                        isHidden: it.isnt(it.licensedForFeature('EmailNotificationContents')),
                         options: [
                             {
                                 value: 'generic_no_channel',
@@ -1948,7 +1947,7 @@ export default {
                         label: t('admin.customization.enableLinkPreviewsTitle'),
                         label_default: 'Enable Link Previews:',
                         help_text: t('admin.customization.enableLinkPreviewsDesc'),
-                        help_text_default: 'Display a preview of website content below messages, when available. Users can disable these previews from Account Settings > Display > Website Link Previews. This setting only applies to websites with OpenGraph metadata and not for image links or YouTube previews.',
+                        help_text_default: 'Display a preview of website content, image links and YouTube links below the message when available. The server must be connected to the internet and have access through the firewall (if applicable) to the websites from which previews are expected. Users can disable these previews from Account Settings > Display > Website Link Previews.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
@@ -3354,6 +3353,52 @@ export default {
                         dynamic_value: () => 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
                         isDisabled: true,
                         isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
+                    },
+                ],
+            },
+        },
+        guest_access: {
+            url: 'authentication/guest_access',
+            title: t('admin.sidebar.guest_access'),
+            title_default: 'Guest Access (Beta)',
+            isHidden: it.isnt(it.licensed),
+            schema: {
+                id: 'GuestAccountsSettings',
+                name: t('admin.authentication.guest_access'),
+                name_default: 'Guest Access (Beta)',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'GuestAccountsSettings.Enable',
+                        label: t('admin.guest_access.enableTitle'),
+                        label_default: 'Enable Guest Access: ',
+                        help_text: t('admin.guest_access.enableDescription'),
+                        help_text_default: 'When true, external guest can be invited to channels within teams. Please see [Permissions Schemes](../user_management/permissions/system_scheme) for which roles can invite guests.',
+                        help_text_markdown: true,
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GuestAccountsSettings.RestrictCreationToDomains',
+                        label: t('admin.guest_access.whitelistedDomainsTitle'),
+                        label_default: 'Whitelisted Guest Domains:',
+                        help_text: t('admin.guest_access.whitelistedDomainsDescription'),
+                        help_text_default: '(Optional) Guest accounts can be created at the system level from this list of allowed guest domains.  These will be in addition to domains listed in [Signup > Restrict account creation to specified email domains](../authentication/signup).',
+                        help_text_markdown: true,
+                        placeholder: t('admin.guest_access.whitelistedDomainsExample'),
+                        placeholder_default: 'E.g.: "company.com, othercorp.org"',
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'GuestAccountsSettings.EnforceMultifactorAuthentication',
+                        label: t('admin.guest_access.mfaTitle'),
+                        label_default: 'Enforce Multi-factor Authentication: ',
+                        help_text: t('admin.guest_access.mfaDescription'),
+                        help_text_default: 'When true, [multi-factor authentication](!https://docs.mattermost.com/deployment/auth.html) for guests is required for login. New guest users will be required to configure MFA on signup. Logged in guest users without MFA configured are redirected to the MFA setup page until configuration is complete.\n \nIf your system has guest users with login methods other than AD/LDAP and email, MFA must be enforced with the authentication provider outside of Mattermost.',
+                        help_text_markdown: true,
+                        isDisabled: it.either(
+                            it.configIsFalse('ServiceSettings', 'EnableMultifactorAuthentication'),
+                            it.configIsFalse('ServiceSettings', 'EnforceMultifactorAuthentication'),
+                        ),
                     },
                 ],
             },

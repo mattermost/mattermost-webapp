@@ -46,6 +46,8 @@ export default class PostList extends React.PureComponent {
          */
         latestPostTimeStamp: PropTypes.number,
 
+        latestAriaLabelFunc: PropTypes.func,
+
         /*
          * Used for padding down to virt list so it can change the chunk of posts selected
          */
@@ -85,6 +87,10 @@ export default class PostList extends React.PureComponent {
         }).isRequired,
     }
 
+    static defaultProps = {
+        postListIds: [],
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -96,7 +102,7 @@ export default class PostList extends React.PureComponent {
                 loading: false,
                 allLoaded: false,
             },
-            loadingFirstSetOfPosts: !props.postListIds,
+            loadingFirstSetOfPosts: !props.postListIds || !props.postListIds.length,
             autoRetryEnable: true,
         };
 
@@ -227,8 +233,8 @@ export default class PostList extends React.PureComponent {
         return getLatestPostId(this.props.postListIds);
     }
 
-    canLoadMorePosts = async () => {
-        if (!this.props.postListIds || !this.props.postListIds.length) {
+    canLoadMorePosts = async (type = PostRequestTypes.BEFORE_ID) => {
+        if (!this.props.postListIds) {
             return;
         }
 
@@ -243,7 +249,7 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        if (!this.state.olderPosts.allLoaded) {
+        if (!this.state.olderPosts.allLoaded && type === PostRequestTypes.BEFORE_ID) {
             const oldestPostId = this.getOldestVisiblePostId();
             await this.getPostsBefore(oldestPostId);
         } else if (!this.state.newerPosts.allLoaded) {
@@ -294,7 +300,7 @@ export default class PostList extends React.PureComponent {
                 >
                     <div className='post-list__table'>
                         <div
-                            id='postListContent'
+                            id='virtualizedPostListContent'
                             ref='postListContent'
                             className='post-list__content'
                         >
@@ -307,6 +313,7 @@ export default class PostList extends React.PureComponent {
                                 actions={this.actionsForPostList}
                                 postListIds={this.props.postListIds}
                                 latestPostTimeStamp={this.props.latestPostTimeStamp}
+                                latestAriaLabelFunc={this.props.latestAriaLabelFunc}
                             />
                         </div>
                     </div>

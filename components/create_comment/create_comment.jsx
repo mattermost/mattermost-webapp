@@ -24,8 +24,11 @@ import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox';
+import TextboxLinks from 'components/textbox/textbox_links.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
+
+const KeyCodes = Constants.KeyCodes;
 
 export default class CreateComment extends React.PureComponent {
     static propTypes = {
@@ -198,6 +201,7 @@ export default class CreateComment extends React.PureComponent {
             showPostDeletedModal: false,
             showConfirmModal: false,
             showEmojiPicker: false,
+            showPreview: false,
             draft: {
                 message: '',
                 uploadsInProgress: [],
@@ -264,6 +268,10 @@ export default class CreateComment extends React.PureComponent {
             this.scrollToBottom();
             this.doInitialScrollToBottom = false;
         }
+    }
+
+    updatePreview = (newState) => {
+        this.setState({showPreview: newState});
     }
 
     focusTextboxIfNecessary = (e) => {
@@ -500,6 +508,11 @@ export default class CreateComment extends React.PureComponent {
             } else {
                 this.handleSubmit(e);
             }
+
+            this.updatePreview(false);
+            setTimeout(() => {
+                this.focusTextbox();
+            });
         }
 
         this.emitTypingEvent();
@@ -540,6 +553,7 @@ export default class CreateComment extends React.PureComponent {
             Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) &&
             (e.ctrlKey || e.metaKey)
         ) {
+            this.updatePreview(false);
             this.commentMsgKeyPress(e);
             return;
         }
@@ -567,6 +581,12 @@ export default class CreateComment extends React.PureComponent {
                 e.preventDefault();
                 this.props.onMoveHistoryIndexForward();
             }
+        }
+    }
+
+    handleKeyDownEmojiPicker = (e) => {
+        if (Utils.isKeyPressed(e, KeyCodes.ENTER)) {
+            this.toggleEmojiPicker();
         }
     }
 
@@ -850,7 +870,7 @@ export default class CreateComment extends React.PureComponent {
         }
 
         let fileUpload;
-        if (!readOnlyChannel) {
+        if (!readOnlyChannel && !this.state.showPreview) {
             fileUpload = (
                 <FileUpload
                     ref='fileUpload'
@@ -868,14 +888,11 @@ export default class CreateComment extends React.PureComponent {
         }
 
         let emojiPicker = null;
-        if (this.props.enableEmojiPicker && !readOnlyChannel) {
+        const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
+
+        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.state.showPreview) {
             emojiPicker = (
-                <span
-                    role='button'
-                    tabIndex='0'
-                    aria-label={formatMessage({id: 'create_post.open_emoji_picker', defaultMessage: 'Open emoji picker'})}
-                    className='emoji-picker__container'
-                >
+                <div>
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         target={this.getCreateCommentControls}
@@ -886,11 +903,15 @@ export default class CreateComment extends React.PureComponent {
                         enableGifPicker={this.props.enableGifPicker}
                         topOffset={55}
                     />
-                    <EmojiIcon
-                        className={'icon icon--emoji emoji-rhs ' + (this.state.showEmojiPicker ? 'active' : '')}
+                    <button
+                        aria-label={emojiButtonAriaLabel}
+                        type='button'
                         onClick={this.toggleEmojiPicker}
-                    />
-                </span>
+                        className='style--none emoji-picker__container post-action'
+                    >
+                        <EmojiIcon className={'icon icon--emoji emoji-rhs ' + (this.state.showEmojiPicker ? 'active' : '')}/>
+                    </button>
+                </div>
             );
         }
 
@@ -939,6 +960,7 @@ export default class CreateComment extends React.PureComponent {
                                 ref='textbox'
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
+                                preview={this.state.showPreview}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                             />
@@ -951,23 +973,33 @@ export default class CreateComment extends React.PureComponent {
                             </span>
                         </div>
                     </div>
-                    <MsgTyping
-                        channelId={this.props.channelId}
-                        postId={this.props.rootId}
-                    />
                     <div
                         className='post-create-footer'
                     >
-                        <input
-                            type='button'
-                            className={addButtonClass}
-                            value={formatMessage({id: 'create_comment.comment', defaultMessage: 'Add Comment'})}
-                            onClick={this.handleSubmit}
-                        />
-                        {uploadsInProgressText}
-                        {postError}
-                        {preview}
-                        {serverError}
+                        <div className='d-flex justify-content-between'>
+                            <MsgTyping
+                                channelId={this.props.channelId}
+                                postId={this.props.rootId}
+                            />
+                            <TextboxLinks
+                                characterLimit={this.props.maxPostSize}
+                                showPreview={this.state.showPreview}
+                                updatePreview={this.updatePreview}
+                                message={readOnlyChannel ? '' : this.state.message}
+                            />
+                        </div>
+                        <div>
+                            <input
+                                type='button'
+                                className={addButtonClass}
+                                value={formatMessage({id: 'create_comment.comment', defaultMessage: 'Add Comment'})}
+                                onClick={this.handleSubmit}
+                            />
+                            {uploadsInProgressText}
+                            {postError}
+                            {preview}
+                            {serverError}
+                        </div>
                     </div>
                 </div>
                 <PostDeletedModal

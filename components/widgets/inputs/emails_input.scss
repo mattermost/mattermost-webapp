@@ -2,17 +2,45 @@
 
 .EmailsInput {
     .emails-input__control {
-        min-height: 48px;
-        border-color: $gray;
+        min-height: 44px;
+        background: var(--center-channel-bg);
+        color: var(--center-channel-color-60);
+        box-shadow: none;
+        border-color: var(--center-channel-color-20);
+        padding: 1px;
         &:hover {
-            border-color: $gray;
+            border-color: var(--center-channel-color-20);
+        }
+        &--is-focused, &--menu-is-open {
+            &:hover {
+                border-color: var(--button-bg);
+            }
+            border-color: var(--button-bg);
+            border-width: 2px;
+            padding: 0px;
+            transition: none;
         }
     }
     input {
         height: inherit;
     }
+    .emails-input__value-container {
+        margin-left: 0;
+        padding: 0;
+    }
+    .emails-input__placeholder {
+        color: var(--center-channel-color-60);
+        margin-left: 10px;
+    }
+    .emails-input__input {
+        color: var(--center-channel-color);
+        margin-left: 8px;
+    }
     .emails-input__menu {
         margin-top: 0px;
+        background: var(--center-channel-bg);
+        color: var(--center-channel-color);
+        box-shadow: 0 0 0 0 hsla(0,0%,0%,0.1), 0 4px 11px hsla(0,0%,0%,0.1);
     }
     .emails-input__menu-list{
         padding: 0px;
@@ -30,19 +58,37 @@
         padding: 12px;
         display: flex;
         align-items: center;
-        border-radius: 4px 4px 0 0;
+        &--no-matches {
+            color: var(--center-channel-color-50);
+            text-align: center;
+            span {
+                width: 100%;
+            }
+            strong {
+                font-weight: 600;
+            }
+        }
+        &:first-child {
+            border-radius: 4px 4px 0 0;
+        }
+        &:last-child {
+            border-radius: 0 0 4px 4px;
+        }
+        &:hover, &--is-focused {
+            background: var(--button-bg-10);
+        }
         .mail-plus-icon {
             width: 36px;
             height: 36px;
             border-radius: 18px;
-            background: $primary-color;
+            background: var(--button-bg);
             padding: 3px;
             margin-right: 8px;
             display: inline-block;
             svg {
                 width: 24px;
                 height: 24px;
-                fill: $white;
+                fill: var(--button-color);
                 margin: 3px;
             }
         }
@@ -52,9 +98,17 @@
     }
     .emails-input__multi-value {
         align-items: center;
-        background: $bg--gray;
+        background: var(--center-channel-color-10);
         padding: 4px;
         border-radius: 16px;
+        color: var(--center-channel-color);
+        margin: 4px;
+        &:first-child {
+            margin: 4px 4px 4px 6px;
+        }
+        &:last-child {
+            margin: 4px 0 4px 4px;
+        }
         .mail-icon {
             width: 24px;
             height: 24px;
@@ -68,15 +122,44 @@
             }
         }
     }
+    .emails-input__multi-value__label {
+        display: flex;
+        align-items: center;
+        padding: 0;
+        color: var(--center-channel-color);
+        font-size: 1.6rem;
+        .mail-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 16px;
+            background: var(--center-channel-color-50);
+            padding: 3px;
+            margin-right: 4px;
+            svg {
+                width: 18px;
+                height: 18px;
+                fill: var(--button-color-90);
+            }
+        }
+    }
     .emails-input__multi-value__remove {
-        width: 16px;
-        height: 16px;
-        border-radius: 16px;
-        background: $gray;
         padding: 1px;
         cursor: pointer;
+        margin-left: 8px;
+        span {
+            height: 19px;
+            width: 19px;
+        }
+        &:hover {
+            background: none;
+        }
         svg {
-            fill: $white;
+            height: 19px;
+            width: 19px;
+            fill: var(--center-channel-color-60);
+            &:hover {
+                fill: var(--center-channel-color-80);
+            }
             opacity: .6;
         }
     }

@@ -26,11 +26,23 @@ export default class AnnouncementBar extends React.PureComponent {
     }
 
     componentDidMount() {
+        let announcementBarCount = document.body.getAttribute('announcementBarCount') || 0;
+        announcementBarCount++;
         document.body.classList.add('announcement-bar--fixed');
+
+        // keeping a track of mounted AnnouncementBars so that on the last AnnouncementBars unmount we can remove the class on body
+        document.body.setAttribute('announcementBarCount', announcementBarCount);
     }
 
     componentWillUnmount() {
-        document.body.classList.remove('announcement-bar--fixed');
+        let announcementBarCount = document.body.getAttribute('announcementBarCount');
+        announcementBarCount--;
+        document.body.setAttribute('announcementBarCount', announcementBarCount);
+
+        // remove the class on body as it is the last announcementBar
+        if (announcementBarCount === 0) {
+            document.body.classList.remove('announcement-bar--fixed');
+        }
     }
 
     handleClose = (e) => {
@@ -93,7 +105,6 @@ export default class AnnouncementBar extends React.PureComponent {
                 style={barStyle}
             >
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={announcementTooltip}

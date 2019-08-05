@@ -350,7 +350,7 @@ export default class GeneralTab extends React.Component {
                         <div>
                             <FormattedMarkdownMessage
                                 id='team_settings.openInviteDescription.groupConstrained'
-                                defaultMessage='No, members of this team are added and removed by linked groups. [Learn More](https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
+                                defaultMessage='No, members of this team are added and removed by linked groups. [Learn More](!https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
                             />
                         </div>
                     </div>,

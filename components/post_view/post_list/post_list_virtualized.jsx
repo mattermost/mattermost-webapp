@@ -5,11 +5,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'react-window';
+import {intlShape} from 'react-intl';
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
-import Constants, {PostListRowListIds, EventTypes} from 'utils/constants.jsx';
+import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import {getPreviousPostId, getLatestPostId} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -46,7 +47,7 @@ export default class PostList extends React.PureComponent {
          * Array of Ids in the channel including date separators, new message indicator, more messages loader,
          * manual load messages trigger and postId in the order of newest to oldest for populating virtual list rows
          */
-        postListIds: PropTypes.array,
+        postListIds: PropTypes.array.isRequired,
 
         /**
          * Set to focus this post
@@ -81,6 +82,8 @@ export default class PostList extends React.PureComponent {
 
         latestPostTimeStamp: PropTypes.number,
 
+        latestAriaLabelFunc: PropTypes.func,
+
         actions: PropTypes.shape({
 
             /**
@@ -110,6 +113,10 @@ export default class PostList extends React.PureComponent {
         }).isRequired,
     }
 
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
+
     constructor(props) {
         super(props);
 
@@ -136,20 +143,18 @@ export default class PostList extends React.PureComponent {
 
         this.initRangeToRender = this.props.focusedPostId ? [0, MAXIMUM_POSTS_FOR_SLICING.permalink] : [0, MAXIMUM_POSTS_FOR_SLICING.channel];
 
-        if (props.postListIds) {
-            let postIndex = 0;
-            if (props.focusedPostId) {
-                postIndex = this.props.postListIds.findIndex((postId) => postId === this.props.focusedPostId);
-            } else {
-                postIndex = this.getNewMessagesSeparatorIndex(props.postListIds);
-            }
-
-            const maxPostsForSlicing = props.focusedPostId ? MAXIMUM_POSTS_FOR_SLICING.permalink : MAXIMUM_POSTS_FOR_SLICING.channel;
-            this.initRangeToRender = [
-                Math.max(postIndex - 30, 0),
-                Math.max(postIndex + 30, Math.min(props.postListIds.length - 1, maxPostsForSlicing)),
-            ];
+        let postIndex = 0;
+        if (props.focusedPostId) {
+            postIndex = this.props.postListIds.findIndex((postId) => postId === this.props.focusedPostId);
+        } else {
+            postIndex = this.getNewMessagesSeparatorIndex(props.postListIds);
         }
+
+        const maxPostsForSlicing = props.focusedPostId ? MAXIMUM_POSTS_FOR_SLICING.permalink : MAXIMUM_POSTS_FOR_SLICING.channel;
+        this.initRangeToRender = [
+            Math.max(postIndex - 30, 0),
+            Math.max(postIndex + 30, Math.min(props.postListIds.length - 1, maxPostsForSlicing)),
+        ];
     }
 
     componentDidMount() {
@@ -163,7 +168,7 @@ export default class PostList extends React.PureComponent {
 
     getSnapshotBeforeUpdate(prevProps) {
         if (this.postListRef && this.postListRef.current) {
-            const postsAddedAtTop = this.props.postListIds.length !== prevProps.postListIds.length && this.props.postListIds[0] === prevProps.postListIds[0];
+            const postsAddedAtTop = this.props.postListIds && this.props.postListIds.length !== prevProps.postListIds.length && this.props.postListIds[0] === prevProps.postListIds[0];
             const channelHeaderAdded = this.props.olderPosts.allLoaded !== prevProps.olderPosts.allLoaded;
             if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom) {
                 const previousScrollTop = this.postListRef.current.scrollTop;
@@ -203,7 +208,7 @@ export default class PostList extends React.PureComponent {
     }
 
     static getDerivedStateFromProps(props) {
-        const postListIds = props.postListIds || [];
+        const postListIds = props.postListIds;
         let newPostListIds;
 
         if (props.olderPosts.allLoaded) {
@@ -218,7 +223,7 @@ export default class PostList extends React.PureComponent {
             if (props.autoRetryEnable) {
                 newPostListIds = [PostListRowListIds.NEWER_MESSAGES_LOADER, ...newPostListIds];
             } else {
-                newPostListIds = [...postListIds, PostListRowListIds.LOAD_NEWER_MESSAGES_TRIGGER];
+                newPostListIds = [PostListRowListIds.LOAD_NEWER_MESSAGES_TRIGGER, ...newPostListIds];
             }
         }
 
@@ -318,9 +323,12 @@ export default class PostList extends React.PureComponent {
         const didUserScrollForwards = scrollDirection === 'forward' && !scrollUpdateWasRequested;
         const isOffsetWithInRange = scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
         const offsetFromBottom = (scrollHeight - clientHeight) - scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
-        if (didUserScrollBackwards && isOffsetWithInRange && !this.props.olderPosts.allLoaded && !this.props.olderPosts.loading) {
+        const canLoadOlderPosts = !this.props.olderPosts.allLoaded && !this.props.olderPosts.loading;
+        const canLoadNewerPosts = !this.props.newerPosts.allLoaded && !this.props.newerPosts.loading;
+
+        if (didUserScrollBackwards && isOffsetWithInRange && canLoadOlderPosts) {
             this.props.actions.loadOlderPosts();
-        } else if (didUserScrollForwards && offsetFromBottom && !this.props.newerPosts.allLoaded && !this.props.newerPosts.loading) {
+        } else if (didUserScrollForwards && offsetFromBottom && canLoadNewerPosts) {
             this.props.actions.loadNewerPosts();
         }
 
@@ -333,6 +341,16 @@ export default class PostList extends React.PureComponent {
 
             if (this.scrollStopAction) {
                 this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
+            }
+        }
+
+        if (scrollUpdateWasRequested) { //if scroll change is programatically requested i.e by calling scrollTo
+            //This is a private method on virtlist
+            const postsRenderedRange = this.listRef.current._getRangeToRender(); //eslint-disable-line no-underscore-dangle
+
+            // postsRenderedRange[3] is the visibleStopIndex which is post at the bottom of the screen
+            if (postsRenderedRange[3] <= 1 && canLoadNewerPosts) {
+                this.props.actions.canLoadMorePosts(PostRequestTypes.AFTER_ID);
             }
         }
 
@@ -407,6 +425,13 @@ export default class PostList extends React.PureComponent {
         );
 
         if (newMessagesSeparatorIndex > 0) {
+            // if there is a dateLine above START_OF_NEW_MESSAGES then scroll to date line
+            if (isDateLine(this.state.postListIds[newMessagesSeparatorIndex + 1])) {
+                return {
+                    index: newMessagesSeparatorIndex + 1,
+                    position: 'start',
+                };
+            }
             return {
                 index: newMessagesSeparatorIndex,
                 position: 'start',
@@ -421,7 +446,7 @@ export default class PostList extends React.PureComponent {
     }
 
     scrollToLatestMessages = () => {
-        if (this.props.olderPosts.allLoaded) {
+        if (this.props.newerPosts.allLoaded) {
             this.scrollToBottom();
         } else {
             this.props.actions.changeUnreadChunkTimeStamp('');
@@ -434,6 +459,10 @@ export default class PostList extends React.PureComponent {
 
     render() {
         const channelId = this.props.channelId;
+        let ariaLabel;
+        if (this.props.latestAriaLabelFunc && this.props.postListIds.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) >= 0) {
+            ariaLabel = this.props.latestAriaLabelFunc(this.context.intl);
+        }
         const {dynamicListStyle} = this.state;
 
         let newMessagesBelow = null;
@@ -484,15 +513,19 @@ export default class PostList extends React.PureComponent {
                         className='post-list__table'
                     >
                         <div
-                            role='presentation'
-                            aria-live='polite'
                             id='postListContent'
                             className='post-list__content'
                         >
+                            <span
+                                className='sr-only'
+                                aria-live='polite'
+                            >
+                                {ariaLabel}
+                            </span>
                             <AutoSizer>
                                 {({height, width}) => (
                                     <DynamicSizeList
-                                        role='presentation'
+                                        role='listbox'
                                         ref={this.listRef}
                                         height={height}
                                         width={width}

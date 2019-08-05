@@ -188,9 +188,9 @@ describe('components/create_post', () => {
 
     it('click toggleEmojiPicker', () => {
         const wrapper = shallowWithIntl(createPost());
-        wrapper.find('.icon.icon--emoji').simulate('click');
+        wrapper.find('.emoji-picker__container').simulate('click');
         expect(wrapper.state('showEmojiPicker')).toBe(true);
-        wrapper.find('.icon.icon--emoji').simulate('click');
+        wrapper.find('.emoji-picker__container').simulate('click');
         wrapper.find('EmojiPickerOverlay').prop('onHide')();
         expect(wrapper.state('showEmojiPicker')).toBe(false);
     });
@@ -198,7 +198,7 @@ describe('components/create_post', () => {
     it('Check for emoji click message states', () => {
         const wrapper = shallowWithIntl(createPost());
 
-        wrapper.find('.icon.icon--emoji').simulate('click');
+        wrapper.find('.emoji-picker__container').simulate('click');
         expect(wrapper.state('showEmojiPicker')).toBe(true);
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
@@ -243,6 +243,10 @@ describe('components/create_post', () => {
     it('onKeyPress textbox should call emitLocalUserTypingEvent', () => {
         const wrapper = shallowWithIntl(createPost());
         wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
+
+        wrapper.setState({
+            showPreview: false,
+        });
 
         const postTextbox = wrapper.find('#post_textbox');
         postTextbox.simulate('KeyPress', {key: KeyCodes.ENTER[0], preventDefault: jest.fn(), persist: jest.fn()});

@@ -59,48 +59,71 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
     bsClass="modal-body edit-modal-body"
     componentClass="div"
   >
-    <Connect(Textbox)
-      channelId="5"
-      characterLimit={4000}
-      createMessage="Edit the post..."
-      emojiEnabled={true}
-      handlePostError={[Function]}
-      id="edit_textbox"
-      onChange={[Function]}
-      onKeyDown={[Function]}
-      onKeyPress={[Function]}
-      suggestionListStyle="bottom"
-      supportsCommands={false}
-      value=""
-    />
-    <span
-      className="edit-post__actions"
-      id="editPostEmoji"
-    >
-      <span
-        className="emoji-picker__container"
-      >
-        <EmojiPickerOverlay
-          container={[Function]}
-          enableGifPicker={false}
-          onEmojiClick={[Function]}
-          onGifClick={[Function]}
-          onHide={[Function]}
-          show={false}
-          spaceRequiredAbove={476}
-          spaceRequiredBelow={497}
-          target={[Function]}
-          topOffset={-20}
-        />
-        <EmojiIcon
-          className="icon icon--emoji"
-          onClick={[Function]}
-        />
-      </span>
-    </span>
     <div
-      className="edit-post-footer"
-    />
+      className="post-create__container"
+    >
+      <div
+        className="textarea-wrapper"
+      >
+        <Connect(Textbox)
+          channelId="5"
+          characterLimit={4000}
+          createMessage="Edit the post..."
+          emojiEnabled={true}
+          handlePostError={[Function]}
+          id="edit_textbox"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          preview={false}
+          suggestionListStyle="bottom"
+          supportsCommands={false}
+          tabIndex="0"
+          value=""
+        />
+        <div
+          className="post-body__actions"
+        >
+          <div>
+            <EmojiPickerOverlay
+              container={[Function]}
+              enableGifPicker={false}
+              onEmojiClick={[Function]}
+              onGifClick={[Function]}
+              onHide={[Function]}
+              show={false}
+              spaceRequiredAbove={476}
+              spaceRequiredBelow={497}
+              target={[Function]}
+              topOffset={-20}
+            />
+            <button
+              aria-label="emoji picker"
+              className="style--none post-action"
+              id="editPostEmoji"
+              onClick={[Function]}
+            >
+              <EmojiIcon
+                className="icon icon--emoji"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        className="post-create-footer"
+      >
+        <TextboxLinks
+          characterLimit={4000}
+          message=""
+          showPreview={false}
+          updatePreview={[Function]}
+        />
+        <div
+          className="edit-post-footer"
+        />
+      </div>
+    </div>
   </ModalBody>
   <ModalFooter
     bsClass="modal-footer"
@@ -193,48 +216,71 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
     bsClass="modal-body edit-modal-body"
     componentClass="div"
   >
-    <Connect(Textbox)
-      channelId="5"
-      characterLimit={4000}
-      createMessage="Edit the post..."
-      emojiEnabled={true}
-      handlePostError={[Function]}
-      id="edit_textbox"
-      onChange={[Function]}
-      onKeyDown={[Function]}
-      onKeyPress={[Function]}
-      suggestionListStyle="bottom"
-      supportsCommands={false}
-      value="new message"
-    />
-    <span
-      className="edit-post__actions"
-      id="editPostEmoji"
-    >
-      <span
-        className="emoji-picker__container"
-      >
-        <EmojiPickerOverlay
-          container={[Function]}
-          enableGifPicker={false}
-          onEmojiClick={[Function]}
-          onGifClick={[Function]}
-          onHide={[Function]}
-          show={false}
-          spaceRequiredAbove={476}
-          spaceRequiredBelow={497}
-          target={[Function]}
-          topOffset={-20}
-        />
-        <EmojiIcon
-          className="icon icon--emoji"
-          onClick={[Function]}
-        />
-      </span>
-    </span>
     <div
-      className="edit-post-footer"
-    />
+      className="post-create__container"
+    >
+      <div
+        className="textarea-wrapper"
+      >
+        <Connect(Textbox)
+          channelId="5"
+          characterLimit={4000}
+          createMessage="Edit the post..."
+          emojiEnabled={true}
+          handlePostError={[Function]}
+          id="edit_textbox"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          preview={false}
+          suggestionListStyle="bottom"
+          supportsCommands={false}
+          tabIndex="0"
+          value="new message"
+        />
+        <div
+          className="post-body__actions"
+        >
+          <div>
+            <EmojiPickerOverlay
+              container={[Function]}
+              enableGifPicker={false}
+              onEmojiClick={[Function]}
+              onGifClick={[Function]}
+              onHide={[Function]}
+              show={false}
+              spaceRequiredAbove={476}
+              spaceRequiredBelow={497}
+              target={[Function]}
+              topOffset={-20}
+            />
+            <button
+              aria-label="emoji picker"
+              className="style--none post-action"
+              id="editPostEmoji"
+              onClick={[Function]}
+            >
+              <EmojiIcon
+                className="icon icon--emoji"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        className="post-create-footer"
+      >
+        <TextboxLinks
+          characterLimit={4000}
+          message="new message"
+          showPreview={false}
+          updatePreview={[Function]}
+        />
+        <div
+          className="edit-post-footer"
+        />
+      </div>
+    </div>
   </ModalBody>
   <ModalFooter
     bsClass="modal-footer"
@@ -327,48 +373,71 @@ exports[`components/EditPostModal should match with default config 1`] = `
     bsClass="modal-body edit-modal-body"
     componentClass="div"
   >
-    <Connect(Textbox)
-      channelId="5"
-      characterLimit={4000}
-      createMessage="Edit the post..."
-      emojiEnabled={true}
-      handlePostError={[Function]}
-      id="edit_textbox"
-      onChange={[Function]}
-      onKeyDown={[Function]}
-      onKeyPress={[Function]}
-      suggestionListStyle="bottom"
-      supportsCommands={false}
-      value=""
-    />
-    <span
-      className="edit-post__actions"
-      id="editPostEmoji"
-    >
-      <span
-        className="emoji-picker__container"
-      >
-        <EmojiPickerOverlay
-          container={[Function]}
-          enableGifPicker={false}
-          onEmojiClick={[Function]}
-          onGifClick={[Function]}
-          onHide={[Function]}
-          show={false}
-          spaceRequiredAbove={476}
-          spaceRequiredBelow={497}
-          target={[Function]}
-          topOffset={-20}
-        />
-        <EmojiIcon
-          className="icon icon--emoji"
-          onClick={[Function]}
-        />
-      </span>
-    </span>
     <div
-      className="edit-post-footer"
-    />
+      className="post-create__container"
+    >
+      <div
+        className="textarea-wrapper"
+      >
+        <Connect(Textbox)
+          channelId="5"
+          characterLimit={4000}
+          createMessage="Edit the post..."
+          emojiEnabled={true}
+          handlePostError={[Function]}
+          id="edit_textbox"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          preview={false}
+          suggestionListStyle="bottom"
+          supportsCommands={false}
+          tabIndex="0"
+          value=""
+        />
+        <div
+          className="post-body__actions"
+        >
+          <div>
+            <EmojiPickerOverlay
+              container={[Function]}
+              enableGifPicker={false}
+              onEmojiClick={[Function]}
+              onGifClick={[Function]}
+              onHide={[Function]}
+              show={false}
+              spaceRequiredAbove={476}
+              spaceRequiredBelow={497}
+              target={[Function]}
+              topOffset={-20}
+            />
+            <button
+              aria-label="emoji picker"
+              className="style--none post-action"
+              id="editPostEmoji"
+              onClick={[Function]}
+            >
+              <EmojiIcon
+                className="icon icon--emoji"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        className="post-create-footer"
+      >
+        <TextboxLinks
+          characterLimit={4000}
+          message=""
+          showPreview={false}
+          updatePreview={[Function]}
+        />
+        <div
+          className="edit-post-footer"
+        />
+      </div>
+    </div>
   </ModalBody>
   <ModalFooter
     bsClass="modal-footer"
@@ -461,27 +530,46 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
     bsClass="modal-body edit-modal-body"
     componentClass="div"
   >
-    <Connect(Textbox)
-      channelId="5"
-      characterLimit={4000}
-      createMessage="Edit the post..."
-      emojiEnabled={false}
-      handlePostError={[Function]}
-      id="edit_textbox"
-      onChange={[Function]}
-      onKeyDown={[Function]}
-      onKeyPress={[Function]}
-      suggestionListStyle="bottom"
-      supportsCommands={false}
-      value=""
-    />
-    <span
-      className="edit-post__actions"
-      id="editPostEmoji"
-    />
     <div
-      className="edit-post-footer"
-    />
+      className="post-create__container"
+    >
+      <div
+        className="textarea-wrapper"
+      >
+        <Connect(Textbox)
+          channelId="5"
+          characterLimit={4000}
+          createMessage="Edit the post..."
+          emojiEnabled={false}
+          handlePostError={[Function]}
+          id="edit_textbox"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          preview={false}
+          suggestionListStyle="bottom"
+          supportsCommands={false}
+          tabIndex="0"
+          value=""
+        />
+        <div
+          className="post-body__actions"
+        />
+      </div>
+      <div
+        className="post-create-footer"
+      >
+        <TextboxLinks
+          characterLimit={4000}
+          message=""
+          showPreview={false}
+          updatePreview={[Function]}
+        />
+        <div
+          className="edit-post-footer"
+        />
+      </div>
+    </div>
   </ModalBody>
   <ModalFooter
     bsClass="modal-footer"
@@ -574,48 +662,71 @@ exports[`components/EditPostModal should not disable the button on not canDelete
     bsClass="modal-body edit-modal-body"
     componentClass="div"
   >
-    <Connect(Textbox)
-      channelId="5"
-      characterLimit={4000}
-      createMessage="Edit the post..."
-      emojiEnabled={true}
-      handlePostError={[Function]}
-      id="edit_textbox"
-      onChange={[Function]}
-      onKeyDown={[Function]}
-      onKeyPress={[Function]}
-      suggestionListStyle="bottom"
-      supportsCommands={false}
-      value="new message"
-    />
-    <span
-      className="edit-post__actions"
-      id="editPostEmoji"
-    >
-      <span
-        className="emoji-picker__container"
-      >
-        <EmojiPickerOverlay
-          container={[Function]}
-          enableGifPicker={false}
-          onEmojiClick={[Function]}
-          onGifClick={[Function]}
-          onHide={[Function]}
-          show={false}
-          spaceRequiredAbove={476}
-          spaceRequiredBelow={497}
-          target={[Function]}
-          topOffset={-20}
-        />
-        <EmojiIcon
-          className="icon icon--emoji"
-          onClick={[Function]}
-        />
-      </span>
-    </span>
     <div
-      className="edit-post-footer"
-    />
+      className="post-create__container"
+    >
+      <div
+        className="textarea-wrapper"
+      >
+        <Connect(Textbox)
+          channelId="5"
+          characterLimit={4000}
+          createMessage="Edit the post..."
+          emojiEnabled={true}
+          handlePostError={[Function]}
+          id="edit_textbox"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          preview={false}
+          suggestionListStyle="bottom"
+          supportsCommands={false}
+          tabIndex="0"
+          value="new message"
+        />
+        <div
+          className="post-body__actions"
+        >
+          <div>
+            <EmojiPickerOverlay
+              container={[Function]}
+              enableGifPicker={false}
+              onEmojiClick={[Function]}
+              onGifClick={[Function]}
+              onHide={[Function]}
+              show={false}
+              spaceRequiredAbove={476}
+              spaceRequiredBelow={497}
+              target={[Function]}
+              topOffset={-20}
+            />
+            <button
+              aria-label="emoji picker"
+              className="style--none post-action"
+              id="editPostEmoji"
+              onClick={[Function]}
+            >
+              <EmojiIcon
+                className="icon icon--emoji"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        className="post-create-footer"
+      >
+        <TextboxLinks
+          characterLimit={4000}
+          message="new message"
+          showPreview={false}
+          updatePreview={[Function]}
+        />
+        <div
+          className="edit-post-footer"
+        />
+      </div>
+    </div>
   </ModalBody>
   <ModalFooter
     bsClass="modal-footer"
@@ -708,48 +819,71 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
     bsClass="modal-body edit-modal-body"
     componentClass="div"
   >
-    <Connect(Textbox)
-      channelId="5"
-      characterLimit={4000}
-      createMessage="Edit the post..."
-      emojiEnabled={true}
-      handlePostError={[Function]}
-      id="edit_textbox"
-      onChange={[Function]}
-      onKeyDown={[Function]}
-      onKeyPress={[Function]}
-      suggestionListStyle="bottom"
-      supportsCommands={false}
-      value=""
-    />
-    <span
-      className="edit-post__actions"
-      id="editPostEmoji"
-    >
-      <span
-        className="emoji-picker__container"
-      >
-        <EmojiPickerOverlay
-          container={[Function]}
-          enableGifPicker={false}
-          onEmojiClick={[Function]}
-          onGifClick={[Function]}
-          onHide={[Function]}
-          show={false}
-          spaceRequiredAbove={476}
-          spaceRequiredBelow={497}
-          target={[Function]}
-          topOffset={-20}
-        />
-        <EmojiIcon
-          className="icon icon--emoji"
-          onClick={[Function]}
-        />
-      </span>
-    </span>
     <div
-      className="edit-post-footer"
-    />
+      className="post-create__container"
+    >
+      <div
+        className="textarea-wrapper"
+      >
+        <Connect(Textbox)
+          channelId="5"
+          characterLimit={4000}
+          createMessage="Edit the post..."
+          emojiEnabled={true}
+          handlePostError={[Function]}
+          id="edit_textbox"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          preview={false}
+          suggestionListStyle="bottom"
+          supportsCommands={false}
+          tabIndex="0"
+          value=""
+        />
+        <div
+          className="post-body__actions"
+        >
+          <div>
+            <EmojiPickerOverlay
+              container={[Function]}
+              enableGifPicker={false}
+              onEmojiClick={[Function]}
+              onGifClick={[Function]}
+              onHide={[Function]}
+              show={false}
+              spaceRequiredAbove={476}
+              spaceRequiredBelow={497}
+              target={[Function]}
+              topOffset={-20}
+            />
+            <button
+              aria-label="emoji picker"
+              className="style--none post-action"
+              id="editPostEmoji"
+              onClick={[Function]}
+            >
+              <EmojiIcon
+                className="icon icon--emoji"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        className="post-create-footer"
+      >
+        <TextboxLinks
+          characterLimit={4000}
+          message=""
+          showPreview={false}
+          updatePreview={[Function]}
+        />
+        <div
+          className="edit-post-footer"
+        />
+      </div>
+    </div>
   </ModalBody>
   <ModalFooter
     bsClass="modal-footer"
@@ -842,48 +976,71 @@ exports[`components/EditPostModal should not disable the save button on not canD
     bsClass="modal-body edit-modal-body"
     componentClass="div"
   >
-    <Connect(Textbox)
-      channelId="5"
-      characterLimit={4000}
-      createMessage="Edit the post..."
-      emojiEnabled={true}
-      handlePostError={[Function]}
-      id="edit_textbox"
-      onChange={[Function]}
-      onKeyDown={[Function]}
-      onKeyPress={[Function]}
-      suggestionListStyle="bottom"
-      supportsCommands={false}
-      value=""
-    />
-    <span
-      className="edit-post__actions"
-      id="editPostEmoji"
-    >
-      <span
-        className="emoji-picker__container"
-      >
-        <EmojiPickerOverlay
-          container={[Function]}
-          enableGifPicker={false}
-          onEmojiClick={[Function]}
-          onGifClick={[Function]}
-          onHide={[Function]}
-          show={false}
-          spaceRequiredAbove={476}
-          spaceRequiredBelow={497}
-          target={[Function]}
-          topOffset={-20}
-        />
-        <EmojiIcon
-          className="icon icon--emoji"
-          onClick={[Function]}
-        />
-      </span>
-    </span>
     <div
-      className="edit-post-footer"
-    />
+      className="post-create__container"
+    >
+      <div
+        className="textarea-wrapper"
+      >
+        <Connect(Textbox)
+          channelId="5"
+          characterLimit={4000}
+          createMessage="Edit the post..."
+          emojiEnabled={true}
+          handlePostError={[Function]}
+          id="edit_textbox"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          preview={false}
+          suggestionListStyle="bottom"
+          supportsCommands={false}
+          tabIndex="0"
+          value=""
+        />
+        <div
+          className="post-body__actions"
+        >
+          <div>
+            <EmojiPickerOverlay
+              container={[Function]}
+              enableGifPicker={false}
+              onEmojiClick={[Function]}
+              onGifClick={[Function]}
+              onHide={[Function]}
+              show={false}
+              spaceRequiredAbove={476}
+              spaceRequiredBelow={497}
+              target={[Function]}
+              topOffset={-20}
+            />
+            <button
+              aria-label="emoji picker"
+              className="style--none post-action"
+              id="editPostEmoji"
+              onClick={[Function]}
+            >
+              <EmojiIcon
+                className="icon icon--emoji"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        className="post-create-footer"
+      >
+        <TextboxLinks
+          characterLimit={4000}
+          message=""
+          showPreview={false}
+          updatePreview={[Function]}
+        />
+        <div
+          className="edit-post-footer"
+        />
+      </div>
+    </div>
   </ModalBody>
   <ModalFooter
     bsClass="modal-footer"
@@ -976,48 +1133,71 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
     bsClass="modal-body edit-modal-body edit-modal-body--add-reaction"
     componentClass="div"
   >
-    <Connect(Textbox)
-      channelId="5"
-      characterLimit={4000}
-      createMessage="Edit the post..."
-      emojiEnabled={true}
-      handlePostError={[Function]}
-      id="edit_textbox"
-      onChange={[Function]}
-      onKeyDown={[Function]}
-      onKeyPress={[Function]}
-      suggestionListStyle="bottom"
-      supportsCommands={false}
-      value=""
-    />
-    <span
-      className="edit-post__actions"
-      id="editPostEmoji"
-    >
-      <span
-        className="emoji-picker__container"
-      >
-        <EmojiPickerOverlay
-          container={[Function]}
-          enableGifPicker={false}
-          onEmojiClick={[Function]}
-          onGifClick={[Function]}
-          onHide={[Function]}
-          show={true}
-          spaceRequiredAbove={476}
-          spaceRequiredBelow={497}
-          target={[Function]}
-          topOffset={-20}
-        />
-        <EmojiIcon
-          className="icon icon--emoji"
-          onClick={[Function]}
-        />
-      </span>
-    </span>
     <div
-      className="edit-post-footer"
-    />
+      className="post-create__container"
+    >
+      <div
+        className="textarea-wrapper"
+      >
+        <Connect(Textbox)
+          channelId="5"
+          characterLimit={4000}
+          createMessage="Edit the post..."
+          emojiEnabled={true}
+          handlePostError={[Function]}
+          id="edit_textbox"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          preview={false}
+          suggestionListStyle="bottom"
+          supportsCommands={false}
+          tabIndex="0"
+          value=""
+        />
+        <div
+          className="post-body__actions"
+        >
+          <div>
+            <EmojiPickerOverlay
+              container={[Function]}
+              enableGifPicker={false}
+              onEmojiClick={[Function]}
+              onGifClick={[Function]}
+              onHide={[Function]}
+              show={true}
+              spaceRequiredAbove={476}
+              spaceRequiredBelow={497}
+              target={[Function]}
+              topOffset={-20}
+            />
+            <button
+              aria-label="emoji picker"
+              className="style--none post-action"
+              id="editPostEmoji"
+              onClick={[Function]}
+            >
+              <EmojiIcon
+                className="icon icon--emoji"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        className="post-create-footer"
+      >
+        <TextboxLinks
+          characterLimit={4000}
+          message=""
+          showPreview={false}
+          updatePreview={[Function]}
+        />
+        <div
+          className="edit-post-footer"
+        />
+      </div>
+    </div>
   </ModalBody>
   <ModalFooter
     bsClass="modal-footer"
@@ -1110,53 +1290,76 @@ exports[`components/EditPostModal should show errors when it is set in the state
     bsClass="modal-body edit-modal-body"
     componentClass="div"
   >
-    <Connect(Textbox)
-      channelId="5"
-      characterLimit={4000}
-      createMessage="Edit the post..."
-      emojiEnabled={true}
-      handlePostError={[Function]}
-      id="edit_textbox"
-      onChange={[Function]}
-      onKeyDown={[Function]}
-      onKeyPress={[Function]}
-      suggestionListStyle="bottom"
-      supportsCommands={false}
-      value=""
-    />
-    <span
-      className="edit-post__actions"
-      id="editPostEmoji"
-    >
-      <span
-        className="emoji-picker__container"
-      >
-        <EmojiPickerOverlay
-          container={[Function]}
-          enableGifPicker={false}
-          onEmojiClick={[Function]}
-          onGifClick={[Function]}
-          onHide={[Function]}
-          show={false}
-          spaceRequiredAbove={476}
-          spaceRequiredBelow={497}
-          target={[Function]}
-          topOffset={-20}
-        />
-        <EmojiIcon
-          className="icon icon--emoji"
-          onClick={[Function]}
-        />
-      </span>
-    </span>
     <div
-      className="edit-post-footer has-error"
+      className="post-create__container"
     >
-      <label
-        className="post-error"
+      <div
+        className="textarea-wrapper"
       >
-        Test error message
-      </label>
+        <Connect(Textbox)
+          channelId="5"
+          characterLimit={4000}
+          createMessage="Edit the post..."
+          emojiEnabled={true}
+          handlePostError={[Function]}
+          id="edit_textbox"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          preview={false}
+          suggestionListStyle="bottom"
+          supportsCommands={false}
+          tabIndex="0"
+          value=""
+        />
+        <div
+          className="post-body__actions"
+        >
+          <div>
+            <EmojiPickerOverlay
+              container={[Function]}
+              enableGifPicker={false}
+              onEmojiClick={[Function]}
+              onGifClick={[Function]}
+              onHide={[Function]}
+              show={false}
+              spaceRequiredAbove={476}
+              spaceRequiredBelow={497}
+              target={[Function]}
+              topOffset={-20}
+            />
+            <button
+              aria-label="emoji picker"
+              className="style--none post-action"
+              id="editPostEmoji"
+              onClick={[Function]}
+            >
+              <EmojiIcon
+                className="icon icon--emoji"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        className="post-create-footer"
+      >
+        <TextboxLinks
+          characterLimit={4000}
+          message=""
+          showPreview={false}
+          updatePreview={[Function]}
+        />
+        <div
+          className="edit-post-footer has-error"
+        >
+          <label
+            className="post-error"
+          >
+            Test error message
+          </label>
+        </div>
+      </div>
     </div>
   </ModalBody>
   <ModalFooter

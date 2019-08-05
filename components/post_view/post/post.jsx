@@ -22,14 +22,9 @@ export default class Post extends React.PureComponent {
         post: PropTypes.object.isRequired,
 
         /**
-         * The reactions to use for screen readers
+         * The function to create an aria-label
          */
-        reactions: PropTypes.object,
-
-        /**
-         * Author of the post
-         */
-        author: PropTypes.string,
+        createAriaLabel: PropTypes.func.isRequired,
 
         /**
          * The logged in user ID
@@ -50,11 +45,6 @@ export default class Post extends React.PureComponent {
          * Set to render a preview of the parent post above this reply
          */
         isFirstReply: PropTypes.bool,
-
-        /*
-         * Set to mark the post as flagged
-         */
-        isFlagged: PropTypes.bool,
 
         /**
          * Set to highlight the background of the post
@@ -110,6 +100,7 @@ export default class Post extends React.PureComponent {
             hover: false,
             a11yActive: false,
             sameRoot: this.hasSameRoot(props),
+            currentAriaLabel: '',
         };
     }
 
@@ -256,8 +247,12 @@ export default class Post extends React.PureComponent {
         this.setState({a11yActive: false});
     }
 
+    handlePostFocus = () => {
+        this.setState({currentAriaLabel: this.props.createAriaLabel(this.context.intl)});
+    }
+
     render() {
-        const {post, author, isFlagged, reactions} = this.props;
+        const {post} = this.props;
         if (!post.id) {
             return null;
         }
@@ -300,16 +295,18 @@ export default class Post extends React.PureComponent {
                 role='listitem'
                 className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}`}
                 tabIndex='0'
-                onFocus={this.setFocus}
+                onFocus={this.handlePostFocus}
                 onBlur={this.removeFocus}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
                 onTouchStart={this.setHover}
-                aria-label={PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)}
+                aria-label={this.state.currentAriaLabel}
+                aria-atomic={true}
             >
                 <div
                     id='postContent'
                     className={'post__content ' + centerClass}
+                    aria-hidden={true}
                 >
                     <div className='post__img'>
                         {profilePic}

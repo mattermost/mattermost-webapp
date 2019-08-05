@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import {Posts} from 'mattermost-redux/constants';
 
 import {browserHistory} from 'utils/browser_history';
 import {getDisplayNameByUser, getDirectTeammate} from 'utils/utils.jsx';
@@ -30,7 +31,6 @@ describe('components/SearchResultsItem', () => {
     let mockFunc;
     let user;
     let post;
-    let channel;
     let defaultProps;
 
     beforeEach(() => {
@@ -60,14 +60,10 @@ describe('components/SearchResultsItem', () => {
             user_id: 'user_id',
         };
 
-        channel = {
-            id: 'channel_id',
-            name: 'channel_name',
-            type: 'O',
-        };
-
         defaultProps = {
-            channel,
+            channelId: 'channel_id',
+            channelName: 'channel_name',
+            channelType: 'O',
             compactDisplay: true,
             post,
             user,
@@ -117,13 +113,31 @@ describe('components/SearchResultsItem', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot for deleted message', () => {
+        const props = {
+            ...defaultProps,
+            post: {
+                ...post,
+                file_ids: ['id', 'id2'],
+                state: Posts.POST_DELETED,
+                props: {
+                    from_webhook: true,
+                    override_username: 'overridden_username',
+                },
+            },
+            enablePostUsernameOverride: true,
+        };
+
+        const wrapper = shallow(
+            <SearchResultsItem {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot for DM', () => {
         const props = {
             ...defaultProps,
-            channel: {
-                ...channel,
-                type: 'D',
-            },
+            channelType: 'D',
             post: {
                 ...post,
                 is_pinned: true,
@@ -193,10 +207,7 @@ describe('components/SearchResultsItem', () => {
     test('should match snapshot for archived channel', () => {
         const props = {
             ...defaultProps,
-            channel: {
-                ...channel,
-                delete_at: 1234,
-            },
+            channelIsArchived: true,
         };
 
         const wrapper = shallow(

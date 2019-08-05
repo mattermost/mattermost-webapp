@@ -110,6 +110,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
         >
           <li
             className="setting-list-item"
+            role="presentation"
           >
             <div
               className="checkbox"
@@ -175,7 +176,9 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                   loading={false}
                   text="Saving"
                 >
-                  Save
+                  <span>
+                    Save
+                  </span>
                 </LoadingWrapper>
               </button>
             </SaveButton>
@@ -334,6 +337,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
         >
           <li
             className="setting-list-item"
+            role="presentation"
           >
             <div
               className="checkbox"
@@ -381,10 +385,12 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                 >
                   <div>
                     <textarea
+                      aria-label="message"
                       className="form-control"
                       id="autoResponderMessageInput"
                       maxLength={200}
                       onChange={[Function]}
+                      role="application"
                       rows="5"
                       style={
                         Object {
@@ -461,7 +467,9 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                   loading={false}
                   text="Saving"
                 >
-                  Save
+                  <span>
+                    Save
+                  </span>
                 </LoadingWrapper>
               </button>
             </SaveButton>

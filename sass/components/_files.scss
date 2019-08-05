@@ -227,6 +227,10 @@
                     }
                }
             }
+            > .file-preview__button {
+               width: 100%;
+               text-align: left;
+            }
         }
 
         .image-fade-in {
@@ -350,12 +354,12 @@
     display: flex;
     font-size: 13px;
     height: 100%;
-    padding-right: 50px;
-    width: 100%;
+    flex: 1;
 
     .post-image__detail_wrapper {
-        padding-left: 15px;
-        width: 100%;
+        padding: 0 45px 0 15px;
+        display: flex;
+        flex: 1;
 
         .post--compact & {
             padding-left: 8px;
@@ -372,6 +376,7 @@
                 margin-bottom: 3px;
                 outline: none;
                 text-decoration: none;
+                word-break: break-word;
 
                 a {
                     border-radius: 100px;
