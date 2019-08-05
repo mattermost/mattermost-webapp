@@ -181,7 +181,7 @@ export default class InvitationModalMembersStep extends React.Component {
                             defaultMessage='Invite People'
                         />
                     </h2>
-                    <div>
+                    <div data-testid='inputPlaceholder'>
                         <FormattedMessage
                             id='invitation_modal.members.search-and-add.placeholder'
                             defaultMessage='Add members or email addresses'
