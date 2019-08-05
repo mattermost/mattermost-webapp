@@ -53,6 +53,8 @@ export default class PostList extends React.PureComponent {
          */
         latestPostTimeStamp: PropTypes.number,
 
+        latestAriaLabelFunc: PropTypes.func,
+
         /*
          * Used for padding down to virt list so it can change the chunk of posts selected
          */
@@ -320,6 +322,7 @@ export default class PostList extends React.PureComponent {
                                 actions={this.actionsForPostList}
                                 postListIds={this.props.formattedPostIds}
                                 latestPostTimeStamp={this.props.latestPostTimeStamp}
+                                latestAriaLabelFunc={this.props.latestAriaLabelFunc}
                             />
                         </div>
                     </div>
