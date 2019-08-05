@@ -41,10 +41,7 @@ export default class PopoverListMembersItem extends React.PureComponent {
         let messageIcon;
         if (this.props.showMessageIcon) {
             messageIcon = (
-                <MessageIcon
-                    className='icon icon__message'
-                    aria-hidden='true'
-                />
+                <MessageIcon aria-hidden='true'/>
             );
         }
 
@@ -54,6 +51,8 @@ export default class PopoverListMembersItem extends React.PureComponent {
 
         return (
             <div
+                tabIndex='0'
+                aria-label={name.toLowerCase()}
                 className={'more-modal__row' + botClass}
                 onClick={this.handleClick}
             >
