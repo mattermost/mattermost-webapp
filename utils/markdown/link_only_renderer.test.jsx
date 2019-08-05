@@ -278,6 +278,11 @@ describe('formatWithRenderer | LinkOnlyRenderer', () => {
             outputText: 'Do you like <a class="theme markdown__link" href="http://www.mattermost.com" target="_blank">' +
             'Mattermost</a>?',
         },
+        {
+            description: 'link: link with curly brackets',
+            inputText: 'Let\'s try http://example/result?things={stuff}',
+            outputText: 'Let&#39;s try <a class="theme markdown__link" href="http://example/result?things={stuff}" target="_blank">http://example/result?things={stuff}</a>',
+        },
     ];
 
     const linkOnlyRenderer = new LinkOnlyRenderer();
