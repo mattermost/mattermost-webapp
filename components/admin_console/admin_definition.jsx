@@ -2296,7 +2296,7 @@ export default {
                         label: t('admin.ldap.skipCertificateVerification'),
                         label_default: 'Skip Certificate Verification:',
                         help_text: t('admin.ldap.skipCertificateVerificationDesc'),
-                        help_text_default: 'Skips the certificate verification step for TLS or STARTTLS connections. Not recommended for production environments where TLS is required. For testing only.',
+                        help_text_default: 'Skips the certificate verification step for TLS or STARTTLS connections. Skipping certificate verification is not recommended for production environments where TLS is required.',
                         isDisabled: it.stateIsFalse('LdapSettings.ConnectionSecurity'),
                     },
                     {
