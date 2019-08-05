@@ -141,15 +141,10 @@ export default class BrandImageSetting extends React.PureComponent {
                 )}
             >
                 <button
+                    className='remove-image__btn'
                     onClick={() => {
                         this.setState({brandImage: null, brandImageExists: false});
                         this.props.onChange('deleteBrandImage', true);
-                    }}
-                    style={{
-                        backgroundColor: 'black',
-                        color: 'white',
-                        position: 'absolute',
-                        top: '-8px',
                     }}
                 >
                     <span aria-hidden={true}>{'×'}</span>
@@ -160,22 +155,22 @@ export default class BrandImageSetting extends React.PureComponent {
             img = (
                 <img
                     ref='image'
-                    className='brand-img'
                     alt='brand image'
                     src=''
                 />
             );
         } else if (this.state.brandImageExists) {
             img = (
-                <img
-                    className='brand-img'
-                    alt='brand image'
-                    src={Client4.getBrandImageUrl(this.state.brandImageTimestamp)}
-                />
+                <div className='remove-image__img margin-bottom x3'>
+                    <img
+                        alt='brand image'
+                        src={Client4.getBrandImageUrl(this.state.brandImageTimestamp)}
+                    />
+                </div>
             );
         } else {
             img = (
-                <p>
+                <p className='margin-top'>
                     <FormattedMessage
                         id='admin.team.noBrandImage'
                         defaultMessage='No brand image uploaded'
@@ -194,12 +189,14 @@ export default class BrandImageSetting extends React.PureComponent {
                     />
                 </label>
                 <div className='col-sm-8'>
-                    {img}
-                    {displayImgOverlay && IMGOVERLAY}
+                    <div className='remove-image'>
+                        {img}
+                        {displayImgOverlay && IMGOVERLAY}
+                    </div>
                 </div>
                 <div className='col-sm-4'/>
                 <div className='col-sm-8'>
-                    <div className='file__upload'>
+                    <div className='file__upload margin-top x3'>
                         <button
                             className={letbtnDefaultClass}
                             disabled={this.props.disabled}
