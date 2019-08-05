@@ -8,8 +8,8 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Client4} from 'mattermost-redux/client';
 
-import {uploadBrandImage} from 'actions/admin_actions.jsx';
-import {UploadStatuses, Constants} from 'utils/constants.jsx';
+import {uploadBrandImage, deleteBrandImage} from 'actions/admin_actions.jsx';
+import {Constants} from 'utils/constants.jsx';
 import FormError from 'components/form_error.jsx';
 
 const HTTP_STATUS_OK = 200;
@@ -26,20 +26,24 @@ export default class BrandImageSetting extends React.PureComponent {
         * Enable save button when image is deleted
         */
         onChange: PropTypes.func.isRequired,
+
+        /*
+        * Is the component saving or not
+        */
+        saving: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
         super(props);
 
         this.handleImageChange = this.handleImageChange.bind(this);
-        this.handleImageSubmit = this.handleImageSubmit.bind(this);
 
         this.state = {
+            deleteBrandImage: false,
             brandImage: null,
             brandImageExists: false,
             brandImageTimestamp: Date.now(),
             error: '',
-            status: UploadStatuses.DEFAULT,
         };
     }
 
@@ -67,37 +71,53 @@ export default class BrandImageSetting extends React.PureComponent {
             reader.readAsDataURL(this.state.brandImage);
         }
 
-        if (this.state.brandImage) {
+        if (this.props.saving && this.state.brandImage && !this.props.disabled) {
             this.handleImageSubmit();
+        }
+
+        if (this.props.saving && this.state.deleteBrandImage && !this.props.disabled) {
+            this.handleImageDelete();
         }
     }
 
     handleImageChange() {
         const element = $(this.refs.fileInput);
-
         if (element.prop('files').length > 0) {
+            this.props.onChange('saveNeeded', 'config');
             this.setState({
                 brandImage: element.prop('files')[0],
-                status: UploadStatuses.DEFAULT,
             });
         }
+    }
+
+    handleImageDelete() {
+        this.setState({
+            error: '',
+        });
+        deleteBrandImage(
+            () => {
+                this.setState({
+                    deleteBrandImage: false,
+                    brandImageExists: false,
+                    brandImage: null,
+                });
+            },
+            (err) => {
+                this.setState({
+                    error: err.message,
+                });
+                this.props.onChange('saveNeeded', 'config');
+            }
+        );
     }
 
     handleImageSubmit() {
         if (!this.state.brandImage) {
             return;
         }
-
-        if (this.state.status === UploadStatuses.LOADING) {
-            return;
-        }
-
         this.setState({
             error: '',
-            status: UploadStatuses.LOADING,
         });
-        this.props.onChange('deleteBrandImage', false);
-
         uploadBrandImage(
             this.state.brandImage,
             () => {
@@ -105,14 +125,13 @@ export default class BrandImageSetting extends React.PureComponent {
                     brandImageExists: true,
                     brandImage: null,
                     brandImageTimestamp: Date.now(),
-                    status: UploadStatuses.COMPLETE,
                 });
             },
             (err) => {
                 this.setState({
                     error: err.message,
-                    status: UploadStatuses.DEFAULT,
                 });
+                this.props.onChange('saveNeeded', 'config');
             }
         );
     }
@@ -124,7 +143,7 @@ export default class BrandImageSetting extends React.PureComponent {
         }
 
         let img = null;
-        let displayImgOverlay = !this.props.disabled;
+        let displayImgOverlay = false;
         const IMGOVERLAY = (
             <OverlayTrigger
                 delayShow={Constants.OVERLAY_TIME_DELAY}
@@ -143,8 +162,8 @@ export default class BrandImageSetting extends React.PureComponent {
                 <button
                     className='remove-image__btn'
                     onClick={() => {
-                        this.setState({brandImage: null, brandImageExists: false});
-                        this.props.onChange('deleteBrandImage', true);
+                        this.setState({deleteBrandImage: true, brandImage: null, brandImageExists: false});
+                        this.props.onChange('saveNeeded', 'config');
                     }}
                 >
                     <span aria-hidden={true}>{'×'}</span>
@@ -153,11 +172,13 @@ export default class BrandImageSetting extends React.PureComponent {
         );
         if (this.state.brandImage) {
             img = (
-                <img
-                    ref='image'
-                    alt='brand image'
-                    src=''
-                />
+                <div className='remove-image__img margin-bottom x3'>
+                    <img
+                        ref='image'
+                        alt='brand image'
+                        src=''
+                    />
+                </div>
             );
         } else if (this.state.brandImageExists) {
             img = (
@@ -168,6 +189,7 @@ export default class BrandImageSetting extends React.PureComponent {
                     />
                 </div>
             );
+            displayImgOverlay = !this.props.disabled;
         } else {
             img = (
                 <p className='margin-top'>
@@ -177,7 +199,6 @@ export default class BrandImageSetting extends React.PureComponent {
                     />
                 </p>
             );
-            displayImgOverlay = false;
         }
 
         return (
