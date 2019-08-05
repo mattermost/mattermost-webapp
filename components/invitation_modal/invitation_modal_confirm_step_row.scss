@@ -6,6 +6,10 @@
         width: 50%;
         display: flex;
         align-items: center;
+        .email {
+            margin: 0 4px 0 8px;
+            overflow-wrap: anywhere;
+        }
         .name {
             margin: 0 4px 0 8px;
         }
