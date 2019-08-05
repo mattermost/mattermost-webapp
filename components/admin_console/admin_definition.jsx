@@ -2794,7 +2794,7 @@ export default {
                         label: t('admin.saml.verifyTitle'),
                         label_default: 'Verify Signature:',
                         help_text: t('admin.saml.verifyDescription'),
-                        help_text_default: 'When false, Mattermost will not verify that the signature sent from a SAML Response matches the Service Provider Login URL. Not recommended for production environments. For testing only.',
+                        help_text_default: 'When false, Mattermost will not verify that the signature sent from a SAML Response matches the Service Provider Login URL. Disabling verification is not recommended for production environments.',
                         isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
@@ -2825,7 +2825,7 @@ export default {
                         label: t('admin.saml.encryptTitle'),
                         label_default: 'Enable Encryption:',
                         help_text: t('admin.saml.encryptDescription'),
-                        help_text_default: 'When false, Mattermost will not decrypt SAML Assertions encrypted with your Service Provider Public Certificate. Not recommended for production environments. For testing only.',
+                        help_text_default: 'When false, Mattermost will not decrypt SAML Assertions encrypted with your Service Provider Public Certificate. Disabling encryption is not recommended for production environments.',
                         isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
