@@ -19,8 +19,8 @@ describe('components/permissions_gates', () => {
             },
             teams: {
                 teams: {
-                    team_id: {id: 'team_id'},
-                    team_id2: {id: 'team_id2'},
+                    team_id: {id: 'team_id', delete_at: 0},
+                    team_id2: {id: 'team_id2', delete_at: 0},
                 },
                 myMembers: {
                     team_id: {team_id: 'team_id', roles: 'team_role'},

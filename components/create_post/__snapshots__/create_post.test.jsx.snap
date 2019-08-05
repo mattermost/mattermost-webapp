@@ -136,7 +136,7 @@ exports[`components/create_post Show tutorial 1`] = `
         <TextboxLinks
           characterLimit={4000}
           message=""
-          preview={false}
+          showPreview={false}
           updatePreview={[Function]}
         />
       </div>
@@ -287,7 +287,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
         <TextboxLinks
           characterLimit={4000}
           message=""
-          preview={false}
+          showPreview={false}
           updatePreview={[Function]}
         />
       </div>
@@ -403,7 +403,7 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
         <TextboxLinks
           characterLimit={4000}
           message=""
-          preview={false}
+          showPreview={false}
           updatePreview={[Function]}
         />
       </div>
@@ -554,7 +554,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
         <TextboxLinks
           characterLimit={4000}
           message=""
-          preview={false}
+          showPreview={false}
           updatePreview={[Function]}
         />
       </div>
@@ -705,7 +705,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
         <TextboxLinks
           characterLimit={4000}
           message=""
-          preview={false}
+          showPreview={false}
           updatePreview={[Function]}
         />
       </div>
