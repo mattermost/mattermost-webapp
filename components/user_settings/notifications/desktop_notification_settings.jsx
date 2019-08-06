@@ -94,12 +94,12 @@ export default class DesktopNotificationSettings extends React.Component {
                             </label>
                             <br/>
                         </div>
-                        <span className='margin-top x3'>
+                        <div className='margin-top x3'>
                             <FormattedMessage
                                 id='user.settings.notifications.sounds_info'
                                 defaultMessage='Notification sounds are available on IE11, Safari, Chrome and Mattermost Desktop Apps.'
                             />
-                        </span>
+                        </div>
                     </fieldset>
                 );
             } else {
