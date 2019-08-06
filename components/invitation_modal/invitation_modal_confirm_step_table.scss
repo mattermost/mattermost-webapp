@@ -1,11 +1,9 @@
 @import 'utils/variables';
 
 .InvitationModalConfirmStepTable {
-    max-width: 720px;
     width: 100%;
     .table-header {
         display: flex;
-        border-bottom: 1px solid green;
         .people-header, .details-header {
             margin: 12px;
             width: 50%;
@@ -15,14 +13,6 @@
         }
         span {
             display: flex;
-        }
-        svg {
-            align-self: end;
-            transform: rotate(90deg);
-            fill: var(--center-channel-color);
-            height: 18px;
-            width: 18px;
-            margin-right: 2px;
         }
     }
 }
