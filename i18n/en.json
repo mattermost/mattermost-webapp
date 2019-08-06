@@ -2995,7 +2995,7 @@
   "signup_team.join_open": "Teams you can join: ",
   "signup_team.no_open_teams": "No teams are available to join. Please ask your administrator for an invite.",
   "signup_team.no_open_teams_canCreate": "No teams are available to join. Please create a new team or ask your administrator for an invite.",
-  "signup_team.no_teams_for_guests": "You don't belongs to any team and as a guest you can't join any team by yourself, you need to be invited or added by someone else.",
+  "signup_team.no_teams_for_guests": "Your guest account has no channels assigned. Please contact an administrator.",
   "signup_user_completed.choosePwd": "Choose your password",
   "signup_user_completed.chooseUser": "Choose your username",
   "signup_user_completed.create": "Create Account",
