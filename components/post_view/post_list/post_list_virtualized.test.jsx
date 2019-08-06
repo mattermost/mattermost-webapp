@@ -269,7 +269,7 @@ describe('PostList', () => {
 
             wrapper.setProps({olderPosts: {allLoaded: true, loading: false}});
             expect(instance.componentDidUpdate).toHaveBeenCalledTimes(1);
-            expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollTop: 10, previousScrollHeight: 100});
+            expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollHeight: 100});
 
             instance.postListRef = {current: {scrollTop: 30, scrollHeight: 200}};
             wrapper.setProps({postListIds: [
@@ -281,7 +281,7 @@ describe('PostList', () => {
             ]});
 
             expect(instance.componentDidUpdate).toHaveBeenCalledTimes(2);
-            expect(instance.componentDidUpdate.mock.calls[1][2]).toEqual({previousScrollTop: 30, previousScrollHeight: 200});
+            expect(instance.componentDidUpdate.mock.calls[1][2]).toEqual({previousScrollHeight: 200});
         });
 
         test('should not return previous scroll position from getSnapshotBeforeUpdate as list is at bottom', () => {
@@ -291,7 +291,7 @@ describe('PostList', () => {
 
             instance.postListRef = {current: {scrollTop: 10, scrollHeight: 100}};
             wrapper.setProps({olderPosts: {allLoaded: true, loading: false}});
-            expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollHeight: 100, previousScrollTop: 10});
+            expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollHeight: 100});
 
             wrapper.setState({atBottom: true});
             instance.postListRef = {current: {scrollTop: 40, scrollHeight: 400}};

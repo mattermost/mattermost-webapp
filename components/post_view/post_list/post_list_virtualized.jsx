@@ -168,14 +168,11 @@ export default class PostList extends React.PureComponent {
 
     getSnapshotBeforeUpdate(prevProps) {
         if (this.postListRef && this.postListRef.current) {
-            const postsAddedAtTop = this.props.postListIds && this.props.postListIds.length !== prevProps.postListIds.length && this.props.postListIds[0] === prevProps.postListIds[0];
+            const postsAddedAtTop = this.props.postListIds && (this.props.postListIds.length !== prevProps.postListIds.length) && (this.props.postListIds[0] === prevProps.postListIds[0]);
             const channelHeaderAdded = this.props.olderPosts.allLoaded !== prevProps.olderPosts.allLoaded;
-            if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom) {
-                const previousScrollTop = this.postListRef.current.scrollTop;
+            if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom && !this.correctionInProgress) {
                 const previousScrollHeight = this.postListRef.current.scrollHeight;
-
                 return {
-                    previousScrollTop,
                     previousScrollHeight,
                 };
             }
@@ -184,18 +181,12 @@ export default class PostList extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (!this.postListRef.current || !snapshot) {
-            return;
-        }
-
-        const postlistScrollHeight = this.postListRef.current.scrollHeight;
-        const postsAddedAtTop = this.props.postListIds.length !== prevProps.postListIds.length && this.props.postListIds[0] === prevProps.postListIds[0];
-        const channelHeaderAdded = this.props.olderPosts.allLoaded !== prevProps.olderPosts.allLoaded;
-        if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom) {
-            const scrollValue = snapshot.previousScrollTop + (postlistScrollHeight - snapshot.previousScrollHeight);
-            if (scrollValue !== 0 && (scrollValue - snapshot.previousScrollTop) !== 0) {
-                //true as third param so chrome can use animationFrame when correcting scroll
-                this.listRef.current.scrollTo(scrollValue, scrollValue - snapshot.previousScrollTop, true);
+        if (this.postListRef.current && snapshot) {
+            const postlistScrollHeight = this.postListRef.current.scrollHeight;
+            const scrollValue = postlistScrollHeight - snapshot.previousScrollHeight;
+            if (scrollValue !== 0) {
+                //true as second param so chrome can use animationFrame when correcting scroll
+                this.listRef.current.scrollTo(scrollValue, true);
             }
         }
     }
