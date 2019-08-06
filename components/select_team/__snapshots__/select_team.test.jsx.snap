@@ -426,7 +426,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
           >
             <FormattedMessage
               defaultMessage="Your guest account has no channels assigned. Please contact an administrator."
-              id="signup_team.no_teams_for_guests"
+              id="signup_team.guest_without_channels"
               values={Object {}}
             />
           </label>
