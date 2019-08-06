@@ -48,11 +48,14 @@ function getLines(e) {
 
 describe('System Message', () => {
     before(() => {
-        // # Login and go to /
+        // # Login and and set user preference
         cy.apiLogin('user-1');
-        cy.visit('/');
-
         cy.apiSaveTeammateNameDisplayPreference('username');
+
+        // # Create new test team
+        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+            cy.visit(`/${response.body.name}`);
+        });
     });
 
     it('MM-14636 - Validate that system message is wrapping properly', () => {
@@ -64,7 +67,7 @@ describe('System Message', () => {
         // * Check the status update
         cy.getLastPost().
             should('contain', 'System').
-            and('contain', '@user-1 updated the channel header from:').
+            and('contain', '@user-1 updated the channel header to:').
             and('contain', newHeader);
 
         const validateSingle = (desc) => {
@@ -81,6 +84,8 @@ describe('System Message', () => {
         cy.getLastPost().
             should('contain', 'System').
             and('contain', '@user-1 updated the channel header from:').
+            and('contain', newHeader).
+            and('contain', 'to:').
             and('contain', newHeader.repeat(20));
 
         const validateMulti = (desc) => {
