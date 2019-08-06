@@ -464,10 +464,10 @@ export default class PluginRegistry {
 
     // Register a component to replace code blocks with components provided by plugins.
     // Accepts the following:
-    // - component - a React component to handle a code block.
     // - languages - a list of languages that can be handled by the provided component, e.g. ['tex', 'latex'].
+    // - component - a React component to handle a code block.
     // Returns a unique identifier.
-    registerCodeBlockComponent(component, languages) {
+    registerCodeBlockComponent(languages, component) {
         const id = generateId();
 
         store.dispatch({
