@@ -45,6 +45,8 @@ export default class InvitationModalMembersStep extends React.Component {
 
         const textField = document.createElement('textarea');
         textField.innerText = input.value;
+        textField.style.position = 'fixed';
+        textField.style.opacity = 0;
 
         document.body.appendChild(textField);
         textField.select();
