@@ -10,6 +10,11 @@ class ColorInput extends React.Component {
     static propTypes = {
 
         /*
+        * The id of setting that we will change
+        */
+        id: PropTypes.string.isRequired,
+
+        /*
          * Selected color
          */
         color: PropTypes.string.isRequired,
@@ -65,22 +70,25 @@ class ColorInput extends React.Component {
     };
 
     render() {
-        const {color} = this.props;
+        const {color, id} = this.props;
         const {isOpened} = this.state;
 
         return (
             <div className='color-input input-group'>
                 <input
+                    id={`${id}-inputColorValue`}
                     className='form-control'
                     type='text'
                     value={color}
                     readOnly={true}
                 />
                 <span
+                    id={`${id}-squareColorIcon`}
                     className='input-group-addon'
                     onClick={this.togglePicker}
                 >
                     <i
+                        id={`${id}-squareColorIconValue`}
                         className='color-icon'
                         style={{
                             backgroundColor: color,
@@ -91,6 +99,7 @@ class ColorInput extends React.Component {
                     <div
                         ref={this.getColorPicker}
                         className='color-popover'
+                        id={`${id}-ChromePickerModal`}
                     >
                         <ChromePicker
                             color={color}

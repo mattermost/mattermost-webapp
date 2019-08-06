@@ -17,6 +17,13 @@ export default class PostList extends React.PureComponent {
     static propTypes = {
 
         /**
+         *  Array of formatted post ids in the channel
+         *  This will be different from postListIds because of grouping and filtering of posts
+         *  This array should be used for making Before and After API calls
+         */
+        formattedPostIds: PropTypes.array,
+
+        /**
          *  Array of post ids in the channel, ordered from newest to oldest
          */
         postListIds: PropTypes.array,
@@ -45,6 +52,8 @@ export default class PostList extends React.PureComponent {
          * Used for syncing posts and is also passed down to virt list for newMessages indicator
          */
         latestPostTimeStamp: PropTypes.number,
+
+        latestAriaLabelFunc: PropTypes.func,
 
         /*
          * Used for padding down to virt list so it can change the chunk of posts selected
@@ -85,10 +94,6 @@ export default class PostList extends React.PureComponent {
         }).isRequired,
     }
 
-    static defaultProps = {
-        postListIds: [],
-    };
-
     constructor(props) {
         super(props);
         this.state = {
@@ -100,7 +105,6 @@ export default class PostList extends React.PureComponent {
                 loading: false,
                 allLoaded: false,
             },
-            loadingFirstSetOfPosts: !props.postListIds || !props.postListIds.length,
             autoRetryEnable: true,
         };
 
@@ -163,7 +167,6 @@ export default class PostList extends React.PureComponent {
                     loading: false,
                     allLoaded: atLatestMessage,
                 },
-                loadingFirstSetOfPosts: false,
             });
         }
     }
@@ -243,7 +246,9 @@ export default class PostList extends React.PureComponent {
         if (this.extraPagesLoaded > MAX_EXTRA_PAGES_LOADED) {
             // Prevent this from loading a lot of pages in a channel with only hidden messages
             // Enable load more messages manual link
-            this.setState({autoRetryEnable: false});
+            if (this.state.autoRetryEnable) {
+                this.setState({autoRetryEnable: false});
+            }
             return;
         }
 
@@ -278,7 +283,7 @@ export default class PostList extends React.PureComponent {
     }
 
     render() {
-        if (this.state.loadingFirstSetOfPosts) {
+        if (!this.props.postListIds) {
             return (
                 <div id='post-list'>
                     <LoadingScreen
@@ -309,8 +314,9 @@ export default class PostList extends React.PureComponent {
                                 channelId={this.props.channelId}
                                 autoRetryEnable={this.state.autoRetryEnable}
                                 actions={this.actionsForPostList}
-                                postListIds={this.props.postListIds}
+                                postListIds={this.props.formattedPostIds}
                                 latestPostTimeStamp={this.props.latestPostTimeStamp}
+                                latestAriaLabelFunc={this.props.latestAriaLabelFunc}
                             />
                         </div>
                     </div>

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'react-window';
+import {intlShape} from 'react-intl';
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
@@ -81,6 +82,8 @@ export default class PostList extends React.PureComponent {
 
         latestPostTimeStamp: PropTypes.number,
 
+        latestAriaLabelFunc: PropTypes.func,
+
         actions: PropTypes.shape({
 
             /**
@@ -109,6 +112,10 @@ export default class PostList extends React.PureComponent {
             changeUnreadChunkTimeStamp: PropTypes.func.isRequired,
         }).isRequired,
     }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
 
     constructor(props) {
         super(props);
@@ -452,6 +459,10 @@ export default class PostList extends React.PureComponent {
 
     render() {
         const channelId = this.props.channelId;
+        let ariaLabel;
+        if (this.props.latestAriaLabelFunc && this.props.postListIds.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) >= 0) {
+            ariaLabel = this.props.latestAriaLabelFunc(this.context.intl);
+        }
         const {dynamicListStyle} = this.state;
 
         let newMessagesBelow = null;
@@ -502,10 +513,15 @@ export default class PostList extends React.PureComponent {
                         className='post-list__table'
                     >
                         <div
-                            aria-live='polite'
                             id='postListContent'
                             className='post-list__content'
                         >
+                            <span
+                                className='sr-only'
+                                aria-live='polite'
+                            >
+                                {ariaLabel}
+                            </span>
                             <AutoSizer>
                                 {({height, width}) => (
                                     <DynamicSizeList
