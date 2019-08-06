@@ -56,14 +56,16 @@ describe('System Message', () => {
     });
 
     it('MM-14636 - Validate that system message is wrapping properly', () => {
+        const newHeader = `${Date.now()} newheader`;
+
         // # Update channel header textbox
-        cy.updateChannelHeader('> newheader');
+        cy.updateChannelHeader(`> ${newHeader}`);
 
         // * Check the status update
         cy.getLastPost().
             should('contain', 'System').
             and('contain', '@user-1 updated the channel header from:').
-            and('contain', 'newheader');
+            and('contain', newHeader);
 
         const validateSingle = (desc) => {
             const lines = getLines(desc.find('p').last());
@@ -73,13 +75,13 @@ describe('System Message', () => {
         cy.getLastPost().then(validateSingle);
 
         // # Update the status to a long string
-        cy.updateChannelHeader('>' + ' newheader'.repeat(20));
+        cy.updateChannelHeader('> ' + newHeader.repeat(20));
 
         // * Check that the status is updated and is spread on more than one line
         cy.getLastPost().
             should('contain', 'System').
             and('contain', '@user-1 updated the channel header from:').
-            and('contain', ' newheader'.repeat(20));
+            and('contain', newHeader.repeat(20));
 
         const validateMulti = (desc) => {
             const lines = getLines(desc.find('p').last());
