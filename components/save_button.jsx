@@ -63,7 +63,7 @@ export default class SaveButton extends React.PureComponent {
                     loading={saving}
                     text={savingMessageComponent}
                 >
-                    {defaultMessageComponent}
+                    <span>{defaultMessageComponent}</span>
                 </LoadingWrapper>
             </button>
         );

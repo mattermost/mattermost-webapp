@@ -77,6 +77,12 @@ export default class Textbox extends React.Component {
         this.props.onChange(e);
     }
 
+    componentDidUpdate(prevProps) {
+        if (!prevProps.preview && this.props.preview) {
+            this.refs.preview.focus();
+        }
+    }
+
     checkMessageLength = (message) => {
         if (this.props.handlePostError) {
             if (message.length > this.props.characterLimit) {
@@ -176,8 +182,12 @@ export default class Textbox extends React.Component {
 
             preview = (
                 <div
+                    tabIndex='0'
                     ref='preview'
                     className='form-control custom-textarea textbox-preview-area'
+                    onKeyPress={this.props.onKeyPress}
+                    onKeyDown={this.handleKeyDown}
+                    onBlur={this.handleBlur}
                 >
                     <PostMarkdown
                         isRHS={this.props.isRHS}

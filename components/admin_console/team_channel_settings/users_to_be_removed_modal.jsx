@@ -22,6 +22,8 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
          * users to be removed
          */
         users: PropTypes.arrayOf(PropTypes.object).isRequired,
+
+        onHide: PropTypes.func,
     }
 
     constructor(props) {
@@ -35,6 +37,12 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
 
     handleHide = () => {
         this.setState({show: false});
+    }
+
+    handleExit = () => {
+        if (this.props.onHide) {
+            this.props.onHide();
+        }
     }
 
     render() {
@@ -66,6 +74,7 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
                 dialogClassName='a11y__modal settings-modal'
                 show={this.state.show}
                 onHide={this.handleHide}
+                onExited={this.handleExit}
                 id='confirmModal'
                 role='dialog'
                 aria-labelledby='confirmModalLabel'

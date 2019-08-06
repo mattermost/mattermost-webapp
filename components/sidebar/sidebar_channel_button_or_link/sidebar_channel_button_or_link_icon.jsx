@@ -4,8 +4,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Svg from 'react-inlinesvg';
-
 import {Constants} from 'utils/constants.jsx';
 
 import ArchiveIcon from 'components/svg/archive_icon';
@@ -17,7 +15,6 @@ import BotIcon from 'components/svg/bot_icon.jsx';
 
 export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent {
     static propTypes = {
-        botIconUrl: PropTypes.string,
         channelIsArchived: PropTypes.bool.isRequired,
         channelType: PropTypes.string.isRequired,
         channelStatus: PropTypes.string,
@@ -27,21 +24,6 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
         teammateDeletedAt: PropTypes.number,
         teammateIsBot: PropTypes.bool,
     };
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            svgError: false,
-            botIconUrl: null,
-        };
-    }
-
-    onSvgLoadError = () => {
-        this.setState({
-            svgError: true,
-            botIconUrl: this.props.botIconUrl,
-        });
-    }
 
     render() {
         let icon = null;
@@ -69,21 +51,9 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
                     <ArchiveIcon className='icon icon__archive'/>
                 );
             } else if (this.props.teammateId && this.props.teammateIsBot) {
-                // Use default bot icon
-                icon = (<BotIcon className='icon icon__bot'/>);
-
-                // Attempt to display custom icon if botIconUrl has changed
-                // or if there was no error when loading custom svg
-                if ((this.props.botIconUrl && !this.state.svgError) ||
-                    this.props.botIconUrl !== this.state.botIconUrl) {
-                    icon = (
-                        <Svg
-                            className='icon icon__bot'
-                            src={this.props.botIconUrl}
-                            onError={this.onSvgLoadError}
-                        />
-                    );
-                }
+                icon = (
+                    <BotIcon className='icon icon__bot'/>
+                );
             } else {
                 icon = (
                     <StatusIcon
