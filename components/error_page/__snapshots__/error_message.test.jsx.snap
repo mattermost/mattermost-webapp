@@ -3,7 +3,7 @@
 exports[`components/error_page/ErrorMessage should match snapshot, channel_not_found type 1`] = `
 <p>
   <FormattedMessage
-    defaultMessage="The team you're requesting is private or does not exist. Please contact your Administrator for an invitation."
+    defaultMessage="The channel you're requesting is private or does not exist. Please contact an Administrator to be added to the channel."
     id="error.channel_not_found.message"
     values={Object {}}
   />

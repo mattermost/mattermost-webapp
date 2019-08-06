@@ -114,6 +114,7 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
     />
   </div>
   <MultiSelectList
+    ariaLabelRenderer={[Function]}
     onAction={[Function]}
     onAdd={[Function]}
     onSelect={[Function]}
@@ -275,6 +276,7 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
     />
   </div>
   <MultiSelectList
+    ariaLabelRenderer={[Function]}
     onAction={[Function]}
     onAdd={[Function]}
     onSelect={[Function]}

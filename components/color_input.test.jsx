@@ -9,7 +9,10 @@ import ColorInput from 'components/color_input.jsx';
 describe('components/ColorInput', () => {
     test('should match snapshot, init', () => {
         const wrapper = shallow(
-            <ColorInput color='#ffffff'/>
+            <ColorInput
+                color='#ffffff'
+                id='sidebarBg'
+            />
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -17,7 +20,10 @@ describe('components/ColorInput', () => {
 
     test('should match snapshot, opened', () => {
         const wrapper = shallow(
-            <ColorInput color='#ffffff'/>
+            <ColorInput
+                color='#ffffff'
+                id='sidebarBg'
+            />
         );
 
         wrapper.find('.input-group-addon').simulate('click');
@@ -27,9 +33,11 @@ describe('components/ColorInput', () => {
 
     test('should match snapshot, toggle picker', () => {
         const wrapper = shallow(
-            <ColorInput color='#ffffff'/>
+            <ColorInput
+                color='#ffffff'
+                id='sidebarBg'
+            />
         );
-
         wrapper.find('.input-group-addon').simulate('click');
         wrapper.find('.input-group-addon').simulate('click');
 
@@ -38,7 +46,10 @@ describe('components/ColorInput', () => {
 
     test('should match snapshot, click on picker', () => {
         const wrapper = shallow(
-            <ColorInput color='#ffffff'/>
+            <ColorInput
+                color='#ffffff'
+                id='sidebarBg'
+            />
         );
 
         wrapper.find('.input-group-addon').simulate('click');
@@ -49,7 +60,10 @@ describe('components/ColorInput', () => {
 
     test('should have match state on togglePicker', () => {
         const wrapper = shallow(
-            <ColorInput color='#ffffff'/>
+            <ColorInput
+                color='#ffffff'
+                id='sidebarBg'
+            />
         );
 
         wrapper.setState({isOpened: true});
@@ -66,6 +80,7 @@ describe('components/ColorInput', () => {
         const wrapper = shallow(
             <ColorInput
                 color='#ffffff'
+                id='sidebarBg'
                 onChange={onChange}
             />
         );
