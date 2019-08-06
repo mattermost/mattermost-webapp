@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import ReactSelect from 'react-select';
 
 import {Constants, A11yCustomEventTypes} from 'utils/constants.jsx';
+import {isKeyPressed} from 'utils/utils.jsx';
 import SaveButton from 'components/save_button.jsx';
 
 import MultiSelectList from './multiselect_list.jsx';
@@ -180,7 +181,7 @@ export default class MultiSelect extends React.Component {
     }
 
     handleSubmitKeyDown = (e) => {
-        if (e.keyCode === KeyCodes.SPACE[1]) {
+        if (isKeyPressed(e, KeyCodes.SPACE)) {
             e.preventDefault();
             this.props.handleSubmit();
         }
