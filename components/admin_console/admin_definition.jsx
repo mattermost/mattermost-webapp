@@ -1729,7 +1729,7 @@ export default {
                         label: t('admin.environment.notifications.enable.label'),
                         label_default: 'Enable Email Notifications:',
                         help_text: t('admin.environment.notifications.enable.help'),
-                        help_text_default: 'Typically set to true in production. When true, Mattermost attempts to send email notifications. Developers may set this field to false to skip email setup for faster development.',
+                        help_text_default: 'Typically set to true in production. When true, Mattermost attempts to send email notifications. When false, email invitations and user account setting change emails are still sent as long as the SMTP server is configured. Developers may set this field to false to skip email setup for faster development.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,

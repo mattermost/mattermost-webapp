@@ -9,6 +9,7 @@ exports[`components/user_settings/display/ColorChooser should match, init 1`] = 
   </label>
   <ColorInput
     color="#ffeec0"
+    id="choose-color"
     onChange={[Function]}
   />
 </div>
