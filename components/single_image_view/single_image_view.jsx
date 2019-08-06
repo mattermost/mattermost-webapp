@@ -130,8 +130,7 @@ export default class SingleImageView extends React.PureComponent {
         let fadeInClass = '';
 
         const fileType = getFileType(fileInfo.extension);
-        let styleIfSvgWithDimentions = {};
-        let imageContainerStyle = {};
+        let styleIfSvgWithDimensions = {};
         let svgClass = '';
         if (fileType === FileTypes.SVG) {
             svgClass = 'svg';
@@ -162,10 +161,7 @@ export default class SingleImageView extends React.PureComponent {
                 >
                     {fileHeader}
                     {this.props.isEmbedVisible &&
-                    <div
-                        className='image-container'
-                        style={imageContainerStyle}
-                    >
+                    <div className='image-container'>
                         <div
                             className={`image-loaded ${fadeInClass} ${svgClass}`}
                             style={styleIfSvgWithDimensions}
