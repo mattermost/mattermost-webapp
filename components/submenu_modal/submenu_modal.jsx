@@ -48,7 +48,7 @@ export default class SubMenuModal extends React.PureComponent {
                             openLeft={true}
                             ariaLabel={'Mobile Submenu'}
                         >
-                            {this.props.elements.map((s) => {
+                            {this.props.elements.map((element) => {
                                 return (
                                     <SubMenuItemAction
                                         key={s.id}
