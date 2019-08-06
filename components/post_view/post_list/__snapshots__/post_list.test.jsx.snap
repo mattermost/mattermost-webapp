@@ -4,11 +4,46 @@ exports[`components/post_view/post_list snapshot for loading when there are no p
 <div
   id="post-list"
 >
-  <LoadingScreen
-    key="loading"
-    position="absolute"
-    style={Object {}}
-  />
+  <div
+    className="post-list-holder-by-time"
+    key="postlist-fake-id"
+  >
+    <div
+      className="post-list__table"
+    >
+      <div
+        className="post-list__content"
+        id="virtualizedPostListContent"
+      >
+        <PostList
+          actions={
+            Object {
+              "canLoadMorePosts": [Function],
+              "changeUnreadChunkTimeStamp": [MockFunction],
+              "checkAndSetMobileView": [MockFunction],
+              "loadNewerPosts": [Function],
+              "loadOlderPosts": [Function],
+            }
+          }
+          autoRetryEnable={true}
+          channelId="fake-id"
+          newerPosts={
+            Object {
+              "allLoaded": false,
+              "loading": false,
+            }
+          }
+          olderPosts={
+            Object {
+              "allLoaded": false,
+              "loading": false,
+            }
+          }
+          postListIds={Array []}
+        />
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -51,12 +86,7 @@ exports[`components/post_view/post_list snapshot with couple of posts 1`] = `
               "loading": false,
             }
           }
-          postListIds={
-            Array [
-              "12341",
-              "12342",
-            ]
-          }
+          postListIds={Array []}
         />
       </div>
     </div>

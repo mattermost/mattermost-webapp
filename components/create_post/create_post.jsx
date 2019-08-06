@@ -268,7 +268,7 @@ export default class CreatePost extends React.Component {
             showEmojiPicker: false,
             showConfirmModal: false,
             channelTimezoneCount: 0,
-            preview: false,
+            showPreview: false,
             uploadsProgressPercent: {},
             renderScrollbar: false,
             orientation: null,
@@ -309,7 +309,7 @@ export default class CreatePost extends React.Component {
                 message: draft.message,
                 submitting: false,
                 serverError: null,
-                preview: false,
+                showPreview: false,
             });
         }
     }
@@ -333,7 +333,7 @@ export default class CreatePost extends React.Component {
     }
 
     updatePreview = (newState) => {
-        this.setState({preview: newState});
+        this.setState({showPreview: newState});
     }
 
     setOrientationListeners = () => {
@@ -680,6 +680,8 @@ export default class CreatePost extends React.Component {
             } else {
                 this.handleSubmit(e);
             }
+
+            this.updatePreview(false);
         }
 
         this.emitTypingEvent();
@@ -1174,7 +1176,7 @@ export default class CreatePost extends React.Component {
         }
 
         let fileUpload;
-        if (!readOnlyChannel) {
+        if (!readOnlyChannel && !this.state.showPreview) {
             fileUpload = (
                 <FileUpload
                     ref='fileUpload'
@@ -1193,7 +1195,7 @@ export default class CreatePost extends React.Component {
         let emojiPicker = null;
         const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
 
-        if (this.props.enableEmojiPicker && !readOnlyChannel) {
+        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.state.showPreview) {
             emojiPicker = (
                 <div>
                     <EmojiPickerOverlay
@@ -1268,7 +1270,7 @@ export default class CreatePost extends React.Component {
                                 ref='textbox'
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.state.preview}
+                                preview={this.state.showPreview}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                             />
@@ -1311,7 +1313,7 @@ export default class CreatePost extends React.Component {
                             />
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.state.preview}
+                                showPreview={this.state.showPreview}
                                 updatePreview={this.updatePreview}
                                 message={readOnlyChannel ? '' : this.state.message}
                             />

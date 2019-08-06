@@ -199,6 +199,7 @@ export default class CreateComment extends React.PureComponent {
             showPostDeletedModal: false,
             showConfirmModal: false,
             showEmojiPicker: false,
+            showPreview: false,
             draft: {
                 message: '',
                 uploadsInProgress: [],
@@ -273,7 +274,7 @@ export default class CreateComment extends React.PureComponent {
     }
 
     updatePreview = (newState) => {
-        this.setState({preview: newState});
+        this.setState({showPreview: newState});
     }
 
     focusTextboxIfNecessary = (e) => {
@@ -508,6 +509,11 @@ export default class CreateComment extends React.PureComponent {
             } else {
                 this.handleSubmit(e);
             }
+
+            this.updatePreview(false);
+            setTimeout(() => {
+                this.focusTextbox();
+            });
         }
 
         this.emitTypingEvent();
@@ -548,6 +554,7 @@ export default class CreateComment extends React.PureComponent {
             Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) &&
             (e.ctrlKey || e.metaKey)
         ) {
+            this.updatePreview(false);
             this.commentMsgKeyPress(e);
             return;
         }
@@ -858,7 +865,7 @@ export default class CreateComment extends React.PureComponent {
         }
 
         let fileUpload;
-        if (!readOnlyChannel) {
+        if (!readOnlyChannel && !this.state.showPreview) {
             fileUpload = (
                 <FileUpload
                     ref='fileUpload'
@@ -878,7 +885,7 @@ export default class CreateComment extends React.PureComponent {
         let emojiPicker = null;
         const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
 
-        if (this.props.enableEmojiPicker && !readOnlyChannel) {
+        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.state.showPreview) {
             emojiPicker = (
                 <div>
                     <EmojiPickerOverlay
@@ -948,7 +955,7 @@ export default class CreateComment extends React.PureComponent {
                                 ref='textbox'
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.state.preview}
+                                preview={this.state.showPreview}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                             />
@@ -971,7 +978,7 @@ export default class CreateComment extends React.PureComponent {
                             />
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.state.preview}
+                                showPreview={this.state.showPreview}
                                 updatePreview={this.updatePreview}
                                 message={readOnlyChannel ? '' : this.state.message}
                             />

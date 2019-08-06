@@ -5,6 +5,11 @@
 }
 
 .InvitationModalConfirmStep {
+    display:block;
+    width: 720px;
+    @media screen and (max-width: 768px) {
+        width:100%;
+    }
     .subtitle {
         margin-bottom: 40px;
         margin-top: 0px;
