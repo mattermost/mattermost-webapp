@@ -135,16 +135,9 @@ export default class SingleImageView extends React.PureComponent {
         let svgClass = '';
         if (fileType === FileTypes.SVG) {
             svgClass = 'svg';
-            if (this.state.dimensions.height) {
-                styleIfSvgWithDimentions = {
-                    width: '100%',
-                };
-            } else {
-                imageContainerStyle = {
-                    height: 150,
-                    width: 'auto',
-                };
-            }
+            styleIfSvgWithDimensions = {
+                width: '100%',
+            };
         }
 
         if (loaded) {
@@ -175,7 +168,7 @@ export default class SingleImageView extends React.PureComponent {
                     >
                         <div
                             className={`image-loaded ${fadeInClass} ${svgClass}`}
-                            style={styleIfSvgWithDimentions}
+                            style={styleIfSvgWithDimensions}
                         >
                             <SizeAwareImage
                                 onClick={this.handleImageClick}
