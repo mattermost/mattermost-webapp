@@ -62,7 +62,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
-        id="invitationModal"
+        id="invitePeople"
         modalId="invitation"
         show={true}
         text="Invite People"
@@ -333,7 +333,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
-        id="invitationModal"
+        id="invitePeople"
         modalId="invitation"
         show={true}
         text="Invite People"
@@ -626,7 +626,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
             className="fa fa-user-plus"
           />
         }
-        id="invitationModal"
+        id="invitePeople"
         modalId="invitation"
         show={true}
         text="Invite People"
@@ -945,7 +945,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
-        id="invitationModal"
+        id="invitePeople"
         modalId="invitation"
         show={true}
         text="Invite People"
@@ -1238,7 +1238,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
             className="fa fa-user-plus"
           />
         }
-        id="invitationModal"
+        id="invitePeople"
         modalId="invitation"
         show={true}
         text="Invite People"
@@ -1557,7 +1557,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
-        id="invitationModal"
+        id="invitePeople"
         modalId="invitation"
         show={true}
         text="Invite People"
@@ -1867,7 +1867,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
             className="fa fa-user-plus"
           />
         }
-        id="invitationModal"
+        id="invitePeople"
         modalId="invitation"
         show={true}
         text="Invite People"

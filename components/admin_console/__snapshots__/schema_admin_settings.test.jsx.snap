@@ -339,7 +339,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 11,
-                  "text": "Yкраїнська (Beta)",
+                  "text": "Yкраїнська (Alpha)",
                   "value": "uk",
                 },
                 Object {
@@ -453,7 +453,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 11,
-                  "text": "Yкраїнська (Beta)",
+                  "text": "Yкраїнська (Alpha)",
                   "value": "uk",
                 },
                 Object {
