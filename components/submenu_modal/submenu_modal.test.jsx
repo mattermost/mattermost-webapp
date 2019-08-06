@@ -14,15 +14,15 @@ describe('components/submenu_modal', () => {
         elements: [
             {
                 id: 'A',
-                text: 'A',
+                text: 'Text A',
             },
             {
                 id: 'B',
-                text: 'B',
+                text: 'Text B',
                 subMenu: [
                     {
                         id: 'C',
-                        text: 'C',
+                        text: 'Text C',
                     },
                 ],
             },
@@ -61,8 +61,21 @@ describe('components/submenu_modal', () => {
         );
 
         wrapper.setState({show: true});
-        wrapper.find('#A').at(1).simulate('click');
-        await expect(action).toHaveBeenCalledTimes(1);
+        await wrapper.find('#A').at(1).simulate('click');
+        expect(action).toHaveBeenCalledTimes(1);
+        expect(action).toHaveBeenCalledWith('A');
+        expect(wrapper.state('show')).toEqual(false);
+
+        wrapper.setState({show: true});
+        await wrapper.find('#B').at(1).simulate('click');
+        expect(action).toHaveBeenCalledTimes(2);
+        expect(action).toHaveBeenCalledWith('B');
+        expect(wrapper.state('show')).toEqual(false);
+
+        wrapper.setState({show: true});
+        await wrapper.find('#C').at(1).simulate('click');
+        expect(action).toHaveBeenCalledTimes(4);
+        expect(action).toHaveBeenCalledWith('C');
         expect(wrapper.state('show')).toEqual(false);
     });
 

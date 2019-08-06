@@ -31,11 +31,11 @@ describe('components/SubMenuItemAction', () => {
                 subMenu={[
                     {
                         id: 'A',
-                        text: 'A',
+                        text: 'Test A',
                     },
                     {
                         id: 'B',
-                        text: 'B',
+                        text: 'Test B',
                     },
                 ]}
                 action={jest.fn()}
@@ -44,7 +44,8 @@ describe('components/SubMenuItemAction', () => {
                 root={true}
             />
         );
-        expect(wrapper.html()).toEqual('<li class="MenuItem" role="menuitem" id="1_menuitem"><div id="1"><span id="channelHeaderDropdownIcon_1" class="fa fa-angle-left SubMenu__icon" aria-label="submenu icon"></span>test<ul class="a11y__popup Menu dropdown-menu SubMenu" style="visibility: hidden;"><li class="MenuItem" role="menuitem" id="A_menuitem"><div id="A"><span id="channelHeaderDropdownIcon_A" class="fa fa-angle-left SubMenu__icon-empty" aria-label="submenu icon"></span>A<ul class="a11y__popup Menu dropdown-menu SubMenu" style="visibility: hidden; right: -1px;"></ul></div></li><li class="MenuItem" role="menuitem" id="B_menuitem"><div id="B"><span id="channelHeaderDropdownIcon_B" class="fa fa-angle-left SubMenu__icon-empty" aria-label="submenu icon"></span>B<ul class="a11y__popup Menu dropdown-menu SubMenu" style="visibility: hidden; right: -1px;"></ul></div></li></ul></div></li>');
+        expect(wrapper.html()).toEqual('<li class="MenuItem" role="menuitem" id="1_menuitem"><div id="1"><span id="channelHeaderDropdownIcon_1" class="fa fa-angle-left SubMenu__icon" aria-label="submenu icon"></span>test<ul class="a11y__popup Menu dropdown-menu SubMenu" style="visibility: hidden;"><li class="MenuItem" role="menuitem" id="A_menuitem"><div id="A"><span id="channelHeaderDropdownIcon_A" class="fa fa-angle-left SubMenu__icon-empty" aria-label="submenu icon"></span>Test A<ul class="a11y__popup Menu dropdown-menu SubMenu" style="visibility: hidden; right: -1px;"></ul></div></li><li class="MenuItem" role="menuitem" id="B_menuitem"><div id="B"><span id="channelHeaderDropdownIcon_B" class="fa fa-angle-left SubMenu__icon-empty" aria-label="submenu icon"></span>Test B<ul class="a11y__popup Menu dropdown-menu SubMenu" style="visibility: hidden; right: -1px;"></ul></div></li></ul></div></li>'
+        );
     });
     test('test subMenu click triggers action', async () => {
         const action = jest.fn().mockReturnValueOnce();
@@ -56,11 +57,11 @@ describe('components/SubMenuItemAction', () => {
                 subMenu={[
                     {
                         id: 'A',
-                        text: 'A',
+                        text: 'Test A',
                     },
                     {
                         id: 'B',
-                        text: 'B',
+                        text: 'Test B',
                     },
                 ]}
                 action={action}

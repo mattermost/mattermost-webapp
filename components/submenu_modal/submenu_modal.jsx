@@ -51,10 +51,10 @@ export default class SubMenuModal extends React.PureComponent {
                             {this.props.elements.map((element) => {
                                 return (
                                     <SubMenuItemAction
-                                        key={s.id}
-                                        id={s.id}
-                                        text={s.text}
-                                        subMenu={s.subMenu}
+                                        key={element.id}
+                                        id={element.id}
+                                        text={element.text}
+                                        subMenu={element.subMenu}
                                         action={this.props.action}
                                         openModal={this.props.openModal}
                                         xOffset={0}

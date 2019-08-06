@@ -51,7 +51,7 @@ exports[`components/submenu_modal should match snapshot 1`] = `
           openModal={[MockFunction]}
           root={false}
           show={true}
-          text="A"
+          text="Text A"
           xOffset={0}
         />
         <SubMenuItemAction
@@ -65,11 +65,11 @@ exports[`components/submenu_modal should match snapshot 1`] = `
             Array [
               Object {
                 "id": "C",
-                "text": "C",
+                "text": "Text C",
               },
             ]
           }
-          text="B"
+          text="Text B"
           xOffset={0}
         />
       </Menu>
