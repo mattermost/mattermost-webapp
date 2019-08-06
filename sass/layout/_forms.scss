@@ -160,6 +160,12 @@
 }
 
 .form-control {
+    border-color: v(center-channel-color-20);
+
+    &:focus {
+        border-color: v(center-channel-color-30);
+    }
+
     &.inline {
         display: inline-block;
         width: auto;
