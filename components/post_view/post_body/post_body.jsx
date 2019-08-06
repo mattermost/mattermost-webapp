@@ -15,7 +15,7 @@ import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageView from 'components/post_view/post_message_view';
 import ReactionList from 'components/post_view/reaction_list';
-import LoadingBars from 'components/widgets/loading/loading_bars.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
 
 const SENDING_ANIMATION_DELAY = 3000;
 
@@ -159,7 +159,7 @@ export default class PostBody extends React.PureComponent {
         const messageWrapper = (
             <React.Fragment>
                 {failedOptions}
-                {this.state.sending && <LoadingBars/>}
+                {this.state.sending && <LoadingSpinner/>}
                 <PostMessageView
                     post={this.props.post}
                     compactDisplay={this.props.compactDisplay}
