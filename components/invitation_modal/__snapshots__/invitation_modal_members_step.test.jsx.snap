@@ -82,7 +82,9 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
         values={Object {}}
       />
     </h2>
-    <div>
+    <div
+      data-testid="inputPlaceholder"
+    >
       <FormattedMessage
         defaultMessage="Add members or email addresses"
         id="invitation_modal.members.search-and-add.placeholder"
