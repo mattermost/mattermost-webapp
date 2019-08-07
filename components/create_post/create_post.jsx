@@ -314,9 +314,14 @@ export default class CreatePost extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         if (prevProps.currentChannel.id !== this.props.currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
+            this.focusTextbox();
+        }
+
+        // Focus on textbox when emoji picker is closed
+        if (prevState.showEmojiPicker && !this.state.showEmojiPicker) {
             this.focusTextbox();
         }
     }
@@ -379,7 +384,7 @@ export default class CreatePost extends React.Component {
     }
 
     hideEmojiPicker = () => {
-        this.setState({showEmojiPicker: false});
+        this.handleEmojiClose();
     }
 
     doSubmit = async (e) => {
@@ -926,12 +931,6 @@ export default class CreatePost extends React.Component {
         }
     }
 
-    handleKeyDownEmojiPicker = (e) => {
-        if (Utils.isKeyPressed(e, KeyCodes.ENTER)) {
-            this.toggleEmojiPicker();
-        }
-    }
-
     editLastPost = (e) => {
         e.preventDefault();
 
@@ -992,7 +991,6 @@ export default class CreatePost extends React.Component {
 
     handleEmojiClose = () => {
         this.setState({showEmojiPicker: false});
-        this.focusTextbox();
     }
 
     handleEmojiClick = (emoji) => {
@@ -1012,8 +1010,7 @@ export default class CreatePost extends React.Component {
             this.setState({message: newMessage});
         }
 
-        this.setState({showEmojiPicker: false});
-        this.focusTextbox();
+        this.handleEmojiClose();
     }
 
     handleGifClick = (gif) => {
@@ -1023,8 +1020,7 @@ export default class CreatePost extends React.Component {
             const newMessage = ((/\s+$/).test(this.state.message)) ? this.state.message + gif : this.state.message + ' ' + gif;
             this.setState({message: newMessage});
         }
-        this.setState({showEmojiPicker: false});
-        this.focusTextbox();
+        this.handleEmojiClose();
     }
 
     createTutorialTip() {
