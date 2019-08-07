@@ -85,10 +85,9 @@ describe('Messaging', () => {
         checkEmojiSize('@newLineMessage', emojis, false);
     });
 
-
     it('MM-17457 Unicode and emoticon', () => {
         // # Create list of emojis we want to post
-        let emojis = [':smiley:', ':thumbsup:','🤟'];
+        const emojis = [':smiley:', ':thumbsup:', '🤟'];
 
         // # Post Emojis list
         cy.postMessage(emojis.join(''));
@@ -98,7 +97,7 @@ describe('Messaging', () => {
             cy.get(`#postMessageText_${postId}`).as('lastMessage');
 
             //# Expect unicode value from last message to have jumbo size
-            cy.get('@lastMessage').find(".emoticon--unicode").should('have.css', 'height', '32px').and('have.css', 'width', '32px');
+            cy.get('@lastMessage').find('.emoticon--unicode').should('have.css', 'height', '32px').and('have.css', 'width', '32px');
 
             //#Removes unicode item
             emojis.pop();
@@ -106,5 +105,5 @@ describe('Messaging', () => {
             //# Expect emoji list to have emoji jumbo size
             checkEmojiSize('@lastMessage', emojis, true);
         });
-      });
     });
+});
