@@ -74,7 +74,7 @@ export default class SettingItemMin extends React.PureComponent {
 
         if (!this.props.disableOpen && isMobile()) {
             editButton = (
-                <li className='col-xs-12 col-sm-3 section-edit'>
+                <div className='section-min__edit'>
                     <button
                         id={this.props.section + 'Edit'}
                         className='color--link cursor--pointer style--none'
@@ -85,11 +85,11 @@ export default class SettingItemMin extends React.PureComponent {
                         <EditIcon/>
                         {this.props.describe}
                     </button>
-                </li>
+                </div>
             );
         } else if (!this.props.disableOpen) {
             editButton = (
-                <li className='col-xs-12 col-sm-3 section-edit'>
+                <div className='section-min__edit'>
                     <button
                         id={this.props.section + 'Edit'}
                         className='color--link cursor--pointer style--none text-left'
@@ -103,33 +103,35 @@ export default class SettingItemMin extends React.PureComponent {
                             defaultMessage='Edit'
                         />
                     </button>
-                </li>
+                </div>
             );
 
             describeSection = (
-                <li
+                <div
                     id={this.props.section + 'Desc'}
-                    className='col-xs-12 section-describe'
+                    className='section-min__describe'
                 >
                     {this.props.describe}
-                </li>
+                </div>
             );
         }
 
         return (
-            <ul
+            <div
                 className='section-min'
                 onClick={this.handleUpdateSection}
             >
-                <li
-                    id={this.props.section + 'Title'}
-                    className='col-xs-12 col-sm-9 section-title'
-                >
-                    {this.props.title}
-                </li>
-                {editButton}
+                <div className='d-flex'>
+                    <div
+                        id={this.props.section + 'Title'}
+                        className='section-min__title'
+                    >
+                        {this.props.title}
+                    </div>
+                    {editButton}
+                </div>
                 {describeSection}
-            </ul>
+            </div>
         );
     }
 }

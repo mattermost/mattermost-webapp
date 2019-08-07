@@ -1,52 +1,60 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/SettingItemMin should match snapshot 1`] = `
-<ul
+<div
   className="section-min"
   onClick={[Function]}
 >
-  <li
-    className="col-xs-12 col-sm-9 section-title"
-    id="sectionTitle"
+  <div
+    className="d-flex"
   >
-    title
-  </li>
-  <li
-    className="col-xs-12 col-sm-3 section-edit"
-  >
-    <button
-      aria-labelledby="sectionTitle sectionEdit"
-      className="color--link cursor--pointer style--none text-left"
-      id="sectionEdit"
-      onClick={[Function]}
+    <div
+      className="section-min__title"
+      id="sectionTitle"
     >
-      <EditIcon />
-      <FormattedMessage
-        defaultMessage="Edit"
-        id="setting_item_min.edit"
-        values={Object {}}
-      />
-    </button>
-  </li>
-  <li
-    className="col-xs-12 section-describe"
+      title
+    </div>
+    <div
+      className="section-min__edit"
+    >
+      <button
+        aria-labelledby="sectionTitle sectionEdit"
+        className="color--link cursor--pointer style--none text-left"
+        id="sectionEdit"
+        onClick={[Function]}
+      >
+        <EditIcon />
+        <FormattedMessage
+          defaultMessage="Edit"
+          id="setting_item_min.edit"
+          values={Object {}}
+        />
+      </button>
+    </div>
+  </div>
+  <div
+    className="section-min__describe"
     id="sectionDesc"
   >
     describe
-  </li>
-</ul>
+  </div>
+</div>
 `;
 
 exports[`components/SettingItemMin should match snapshot, on disableOpen to true 1`] = `
-<ul
+<div
   className="section-min"
   onClick={[Function]}
 >
-  <li
-    className="col-xs-12 col-sm-9 section-title"
-    id="sectionTitle"
+  <div
+    className="d-flex"
   >
-    title
-  </li>
-</ul>
+    <div
+      className="section-min__title"
+      id="sectionTitle"
+    >
+      title
+    </div>
+  </div>
+</div>
 `;
