@@ -113,10 +113,10 @@ describe('components/SettingItemMin', () => {
         );
         const instance = wrapper.instance();
 
-        instance.onKeyDown({preventDefault: jest.fn(), key: Constants.KeyCodes.ENTER[0], target: {tagName: 'SELECT', parentElement: {className: 'react-select__input'}}});
+        instance.onKeyDown({preventDefault: jest.fn(), key: Constants.KeyCodes.ENTER[0], target: {tagName: 'SELECT', classList: {contains: jest.fn()}, parentElement: {className: 'react-select__input'}}});
         expect(submit).toHaveBeenCalledTimes(0);
 
-        instance.onKeyDown({preventDefault: jest.fn(), key: Constants.KeyCodes.ENTER[0], target: {tagName: '', parentElement: {className: ''}}});
+        instance.onKeyDown({preventDefault: jest.fn(), key: Constants.KeyCodes.ENTER[0], target: {tagName: '', classList: {contains: jest.fn()}, parentElement: {className: ''}}});
         expect(submit).toHaveBeenCalledTimes(1);
         expect(submit).toHaveBeenCalledWith('setting');
     });
