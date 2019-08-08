@@ -132,6 +132,7 @@ export function autocompleteUsersInChannel(prefix, channelId) {
 
 export function loadUnreads(channelId) {
     return async (dispatch) => {
+        const time = Date.now();
         const {data, error} = await dispatch(PostActions.getPostsUnread(channelId));
         if (error) {
             return {
@@ -146,6 +147,14 @@ export function loadUnreads(channelId) {
             data: channelId,
             amount: data.order.length,
         });
+
+        if (data.next_post_id === '') {
+            dispatch({
+                type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
+                channelId,
+                time,
+            });
+        }
 
         return {
             atLatestMessage: data.next_post_id === '',
