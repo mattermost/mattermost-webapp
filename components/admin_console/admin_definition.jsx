@@ -3406,7 +3406,7 @@ export default {
                         label: t('admin.guest_access.mfaTitle'),
                         label_default: 'Enforce Multi-factor Authentication: ',
                         help_text: t('admin.guest_access.mfaDescriptionMFANotEnabled'),
-                        help_text_default: '[multi-factor authentication](./mfa) is currently not enabled.',
+                        help_text_default: '[Multi-factor authentication](./mfa) is currently not enabled.',
                         help_text_markdown: true,
                         isDisabled: () => true,
                         isHidden: it.configIsTrue('ServiceSettings', 'EnableMultifactorAuthentication'),
@@ -3417,7 +3417,7 @@ export default {
                         label: t('admin.guest_access.mfaTitle'),
                         label_default: 'Enforce Multi-factor Authentication: ',
                         help_text: t('admin.guest_access.mfaDescriptionMFANotEnforced'),
-                        help_text_default: '[multi-factor authentication](./mfa) is currently not enforced.',
+                        help_text_default: '[Multi-factor authentication](./mfa) is currently not enforced.',
                         help_text_markdown: true,
                         isDisabled: () => true,
                         isHidden: it.either(
