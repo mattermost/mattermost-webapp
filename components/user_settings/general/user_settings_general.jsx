@@ -57,7 +57,7 @@ const holders = defineMessages({
     },
     uploadImageMobile: {
         id: t('user.settings.general.mobile.uploadImage'),
-        defaultMessage: 'Click to upload an image.',
+        defaultMessage: 'Click to upload an image',
     },
     fullName: {
         id: t('user.settings.general.fullName'),
