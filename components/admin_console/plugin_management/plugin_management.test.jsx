@@ -27,6 +27,7 @@ describe('components/PluginManagement', () => {
                 state: PluginState.PLUGIN_STATE_NOT_RUNNING,
                 name: 'Plugin 0',
                 description: 'The plugin 0.',
+                is_compatible: true,
                 is_prepackaged: false,
                 active: false,
                 instances: [
@@ -43,6 +44,7 @@ describe('components/PluginManagement', () => {
                 state: PluginState.PLUGIN_STATE_STOPPING,
                 name: 'Plugin 1',
                 description: 'The plugin.',
+                is_compatible: true,
                 is_prepackaged: false,
                 active: true,
                 instances: [
@@ -66,6 +68,7 @@ describe('components/PluginManagement', () => {
                 id: 'plugin_0',
                 name: 'Plugin 0',
                 version: '0.1.0',
+                is_compatible: true,
                 settings_schema: {
                     footer: 'This is a footer',
                     header: 'This is a header',
@@ -79,6 +82,7 @@ describe('components/PluginManagement', () => {
                 id: 'plugin_1',
                 name: 'Plugin 1',
                 version: '0.1.0',
+                is_compatible: true,
                 settings_schema: {
                     footer: 'This is a footer',
                     header: 'This is a header',
@@ -218,6 +222,7 @@ describe('components/PluginManagement', () => {
                 plugin_0: {
                     id: 'plugin_0',
                     version: '0.1.0',
+                    is_compatible: true,
                     state: PluginState.PLUGIN_STATE_NOT_RUNNING,
                     name: 'Plugin 0',
                     description: 'The plugin 0.',
@@ -234,6 +239,7 @@ describe('components/PluginManagement', () => {
                 plugin_1: {
                     id: 'plugin_1',
                     version: '0.0.1',
+                    is_compatible: true,
                     state: PluginState.PLUGIN_STATE_STOPPING,
                     name: 'Plugin 1',
                     description: 'The plugin.',
@@ -260,6 +266,7 @@ describe('components/PluginManagement', () => {
                     id: 'plugin_0',
                     name: 'Plugin 0',
                     version: '0.1.0',
+                    is_compatible: true,
                     settings_schema: {},
                     webapp: {},
                 },
@@ -269,6 +276,7 @@ describe('components/PluginManagement', () => {
                     id: 'plugin_1',
                     name: 'Plugin 1',
                     version: '0.1.0',
+                    is_compatible: true,
                     settings_schema: {},
                     webapp: {},
                 },
@@ -302,6 +310,7 @@ describe('components/PluginManagement', () => {
                 plugin_0: {
                     id: 'plugin_0',
                     version: '0.1.0',
+                    is_compatible: true,
                     state: PluginState.PLUGIN_STATE_NOT_RUNNING,
                     name: 'Plugin 0',
                     description: 'The plugin 0.',
@@ -323,6 +332,7 @@ describe('components/PluginManagement', () => {
                     id: 'plugin_0',
                     name: 'Plugin 0',
                     version: '0.1.0',
+                    is_compatible: true,
                     settings_schema: {
                         header: 'This is a header',
                     },
@@ -358,6 +368,7 @@ describe('components/PluginManagement', () => {
                 plugin_0: {
                     id: 'plugin_0',
                     version: '0.1.0',
+                    is_compatible: true,
                     state: PluginState.PLUGIN_STATE_NOT_RUNNING,
                     name: 'Plugin 0',
                     description: 'The plugin 0.',
@@ -379,6 +390,7 @@ describe('components/PluginManagement', () => {
                     id: 'plugin_0',
                     name: 'Plugin 0',
                     version: '0.1.0',
+                    is_compatible: true,
                     settings_schema: {
                         footer: 'This is a footer',
                     },
@@ -414,6 +426,7 @@ describe('components/PluginManagement', () => {
                 plugin_0: {
                     id: 'plugin_0',
                     version: '0.1.0',
+                    is_compatible: true,
                     state: PluginState.PLUGIN_STATE_NOT_RUNNING,
                     name: 'Plugin 0',
                     description: 'The plugin 0.',
@@ -435,6 +448,7 @@ describe('components/PluginManagement', () => {
                     id: 'plugin_0',
                     name: 'Plugin 0',
                     version: '0.1.0',
+                    is_compatible: true,
                     settings_schema: {
                         settings: [
                             {bla: 'test', xoxo: 'test2'},

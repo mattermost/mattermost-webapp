@@ -2092,6 +2092,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   handleEnable={[Function]}
                   handleRemove={[Function]}
                   hasSettings={true}
+                  isCompatible={true}
                   key="plugin_0"
                   pluginStatus={
                     Object {
@@ -2105,6 +2106,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                           "version": "0.1.0",
                         },
                       ],
+                      "is_compatible": true,
                       "is_prepackaged": false,
                       "name": "Plugin 0",
                       "state": 0,
@@ -2119,6 +2121,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   handleEnable={[Function]}
                   handleRemove={[Function]}
                   hasSettings={true}
+                  isCompatible={true}
                   key="plugin_1"
                   pluginStatus={
                     Object {
@@ -2137,6 +2140,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                           "version": "0.0.2",
                         },
                       ],
+                      "is_compatible": true,
                       "is_prepackaged": false,
                       "name": "Plugin 1",
                       "state": 5,
@@ -2428,6 +2432,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   handleEnable={[Function]}
                   handleRemove={[Function]}
                   hasSettings={true}
+                  isCompatible={true}
                   key="plugin_0"
                   pluginStatus={
                     Object {
@@ -2441,6 +2446,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                           "version": "0.1.0",
                         },
                       ],
+                      "is_compatible": true,
                       "is_prepackaged": false,
                       "name": "Plugin 0",
                       "state": 0,
@@ -2732,6 +2738,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   handleEnable={[Function]}
                   handleRemove={[Function]}
                   hasSettings={true}
+                  isCompatible={true}
                   key="plugin_0"
                   pluginStatus={
                     Object {
@@ -2745,6 +2752,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                           "version": "0.1.0",
                         },
                       ],
+                      "is_compatible": true,
                       "is_prepackaged": false,
                       "name": "Plugin 0",
                       "state": 0,
@@ -3036,6 +3044,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   handleEnable={[Function]}
                   handleRemove={[Function]}
                   hasSettings={true}
+                  isCompatible={true}
                   key="plugin_0"
                   pluginStatus={
                     Object {
@@ -3049,6 +3058,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                           "version": "0.1.0",
                         },
                       ],
+                      "is_compatible": true,
                       "is_prepackaged": false,
                       "name": "Plugin 0",
                       "state": 0,
@@ -3340,6 +3350,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   handleEnable={[Function]}
                   handleRemove={[Function]}
                   hasSettings={false}
+                  isCompatible={true}
                   key="plugin_0"
                   pluginStatus={
                     Object {
@@ -3353,6 +3364,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                           "version": "0.1.0",
                         },
                       ],
+                      "is_compatible": true,
                       "is_prepackaged": false,
                       "name": "Plugin 0",
                       "state": 0,
@@ -3367,6 +3379,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   handleEnable={[Function]}
                   handleRemove={[Function]}
                   hasSettings={false}
+                  isCompatible={true}
                   key="plugin_1"
                   pluginStatus={
                     Object {
@@ -3385,6 +3398,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                           "version": "0.0.2",
                         },
                       ],
+                      "is_compatible": true,
                       "is_prepackaged": false,
                       "name": "Plugin 1",
                       "state": 5,
