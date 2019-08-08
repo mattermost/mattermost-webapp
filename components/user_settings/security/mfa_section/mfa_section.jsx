@@ -158,7 +158,7 @@ export default class MfaSection extends React.PureComponent {
             return (
                 <FormattedMessage
                     id='user.settings.mfa.removeHelp'
-                    defaultMessage='Removing Multi-factor authentication means you will no longer require a phone-based passcode to sign-in to your account.'
+                    defaultMessage='Removing multi-factor authentication means you will no longer require a phone-based passcode to sign-in to your account.'
                 />
             );
         }
@@ -166,7 +166,7 @@ export default class MfaSection extends React.PureComponent {
         return (
             <FormattedMessage
                 id='user.settings.mfa.addHelp'
-                defaultMessage='Adding Multi-factor authentication will make your account more secure by requiring a code from your mobile phone each time you sign in.'
+                defaultMessage='Adding multi-factor authentication will make your account more secure by requiring a code from your mobile phone each time you sign in.'
             />
         );
     };
