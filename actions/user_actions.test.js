@@ -15,8 +15,9 @@ jest.mock('mattermost-redux/actions/users', () => {
     return {
         ...original,
         getProfilesInTeam: (...args) => ({type: 'MOCK_GET_PROFILES_IN_TEAM', args}),
-        getProfilesInChannel: (...args) => ({type: 'MOCK_GET_PROFILES_IN_CHANNEL', args}),
+        getProfilesInChannel: (...args) => ({type: 'MOCK_GET_PROFILES_IN_CHANNEL', args, data: [{id: 'user_1'}]}),
         getProfilesInGroupChannels: (...args) => ({type: 'MOCK_GET_PROFILES_IN_GROUP_CHANNELS', args}),
+        getStatusesByIds: (...args) => ({type: 'MOCK_GET_STATUSES_BY_ID', args}),
     };
 });
 
@@ -120,6 +121,16 @@ describe('Actions.User', () => {
         },
     };
 
+    test('loadProfilesAndStatusesInChannel', async () => {
+        const testStore = await mockStore(initialState);
+        await testStore.dispatch(UserActions.loadProfilesAndStatusesInChannel('channel_1', 0, 60, 'status'));
+        const actualActions = testStore.getActions();
+        expect(actualActions[0].args).toEqual(['channel_1', 0, 60, 'status']);
+        expect(actualActions[0].type).toEqual('MOCK_GET_PROFILES_IN_CHANNEL');
+        expect(actualActions[1].args).toEqual([['user_1']]);
+        expect(actualActions[1].type).toEqual('MOCK_GET_STATUSES_BY_ID');
+    });
+
     test('loadProfilesAndTeamMembers', async () => {
         const expectedActions = [{type: 'MOCK_GET_PROFILES_IN_TEAM', args: ['team_1', 0, 60]}];
 
@@ -139,7 +150,7 @@ describe('Actions.User', () => {
     test('loadProfilesAndTeamMembersAndChannelMembers', async () => {
         const expectedActions = [{type: 'MOCK_GET_PROFILES_IN_CHANNEL', args: ['current_channel_id', 0, 60]}];
 
-        let testStore = await mockStore({});
+        let testStore = await mockStore(initialState);
         await testStore.dispatch(UserActions.loadProfilesAndTeamMembersAndChannelMembers(0, 60, 'team_1', 'current_channel_id'));
         let actualActions = testStore.getActions();
         expect(actualActions[0].args).toEqual(expectedActions[0].args);
