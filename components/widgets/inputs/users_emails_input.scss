@@ -8,6 +8,7 @@
         box-shadow: none;
         border-color: var(--center-channel-color-20);
         padding: 3px;
+        transition: none;
         &:hover {
             border-color: var(--center-channel-color-20);
             cursor: text;
