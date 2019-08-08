@@ -42,6 +42,9 @@
         background: var(--center-channel-bg);
         color: var(--center-channel-color);
         box-shadow: 0 0 0 0 hsla(0,0%,0%,0.1), 0 4px 11px hsla(0,0%,0%,0.1);
+        .Badge{
+            margin-top:2px;
+        }
     }
     .users-emails-input__menu-list{
         padding: 0px;
@@ -169,6 +172,6 @@
         }
     }
     .Badge {
-        margin-left: 5px;
+        margin-left: 8px;
     }
 }
