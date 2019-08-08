@@ -1093,6 +1093,7 @@
   "admin.plugin.management.title": "Plugin Management",
   "admin.plugin.multiple_versions_warning": "There are multiple versions of this plugin installed across your cluster. Re-install this plugin to ensure it works consistently.",
   "admin.plugin.no_plugins": "No installed plugins.",
+  "admin.plugin.not_compatible.description": "This plugin is not compatible with your system configuration.",
   "admin.plugin.prepackaged": "pre-packaged",
   "admin.plugin.remove": "Remove",
   "admin.plugin.removing": "Removing...",

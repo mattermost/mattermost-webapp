@@ -74,7 +74,18 @@ PluginItemState.propTypes = {
     state: PropTypes.number.isRequired,
 };
 
-const PluginItemStateDescription = ({state}) => {
+const PluginItemStateDescription = ({state, isCompatible}) => {
+    if (!isCompatible) {
+        return (
+            <div className='alert alert-info'>
+                <i className='fa fa-ban'/>
+                <FormattedMessage
+                    id='admin.plugin.not_compatible.description'
+                    defaultMessage='This plugin is not compatible with your system configuration.'
+                />
+            </div>
+        );
+    }
     switch (state) {
     case PluginState.PLUGIN_STATE_NOT_RUNNING:
         return (
@@ -143,6 +154,7 @@ const PluginItemStateDescription = ({state}) => {
 
 PluginItemStateDescription.propTypes = {
     state: PropTypes.number.isRequired,
+    isCompatible: PropTypes.bool.isRequired,
 };
 
 const PluginItem = ({
@@ -153,12 +165,15 @@ const PluginItem = ({
     handleRemove,
     showInstances,
     hasSettings,
+    isCompatible,
 }) => {
     let activateButton;
     const activating = pluginStatus.state === PluginState.PLUGIN_STATE_STARTING;
     const deactivating = pluginStatus.state === PluginState.PLUGIN_STATE_STOPPING;
 
-    if (pluginStatus.active) {
+    if (!isCompatible) {
+        // don't show an activate button
+    } else if (pluginStatus.active) {
         activateButton = (
             <a
                 data-plugin-id={pluginStatus.id}
@@ -235,7 +250,7 @@ const PluginItem = ({
         }
         removeButton = (
             <span>
-                {' - '}
+                { activateButton ? ' - ' : '' }
                 <a
                     data-plugin-id={pluginStatus.id}
                     disabled={removing}
@@ -289,6 +304,7 @@ const PluginItem = ({
         <PluginItemStateDescription
             key='state-description'
             state={pluginStatus.state}
+            isCompatible={isCompatible}
         />
     );
 
@@ -389,6 +405,7 @@ PluginItem.propTypes = {
     handleRemove: PropTypes.func.isRequired,
     showInstances: PropTypes.bool.isRequired,
     hasSettings: PropTypes.bool.isRequired,
+    isCompatible: PropTypes.bool.isRequired,
 };
 
 export default class PluginManagement extends AdminSettings {
@@ -810,6 +827,7 @@ export default class PluginManagement extends AdminSettings {
                         handleRemove={this.handleRemove}
                         showInstances={showInstances}
                         hasSettings={hasSettings}
+                        isCompatible={!p || p.is_compatible}
                     />
                 );
             });
