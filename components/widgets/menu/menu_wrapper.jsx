@@ -53,7 +53,8 @@ export default class MenuWrapper extends React.PureComponent {
     }
 
     closeOnBlur = (e) => {
-        if (this.node.current.contains(e.target)) {
+        console.log(this.node.current);
+        if (this.node.current && this.node.current.contains(e.target)) {
             return;
         }
 
