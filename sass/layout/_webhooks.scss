@@ -302,10 +302,16 @@
         }
 
         .attachment-actions {
-            margin-top: 9px;
+            margin-top: 4px;
             position: relative;
             display: flex;
             flex-wrap: wrap;
+
+            .form-group {
+                &:last-child {
+                    margin: 0;
+                }
+            }
 
             button {
                 @include border-radius(3px);
