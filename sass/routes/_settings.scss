@@ -178,11 +178,12 @@
             text-decoration: none;
             top: -8px;
             width: 24px;
+            border: none;
+            padding: 0;
 
             span {
                 font-size: 22px;
-                left: .5px;
-                position: relative;
+                margin-top: -3px;
             }
         }
 
