@@ -168,6 +168,10 @@ export default class UsersEmailsInput extends React.Component {
         IndicatorsContainer: () => null,
     };
 
+    showAddEmail = (input, values, options) => {
+        return options.length === 0 && isEmail(input);
+    }
+
     render() {
         const values = this.props.value.map((v) => {
             if (v.id) {
@@ -180,7 +184,7 @@ export default class UsersEmailsInput extends React.Component {
                 styles={this.customStyles}
                 onChange={this.onChange}
                 loadOptions={this.props.usersLoader}
-                isValidNewOption={isEmail}
+                isValidNewOption={this.showAddEmail}
                 isMulti={true}
                 isClearable={false}
                 className='UsersEmailsInput'
