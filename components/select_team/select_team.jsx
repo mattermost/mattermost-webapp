@@ -33,7 +33,7 @@ export default class SelectTeam extends React.Component {
     static propTypes = {
         currentUserId: PropTypes.string.isRequired,
         currentUserRoles: PropTypes.string,
-        currentUserIsGuest: PropTypes.string,
+        currentUserIsGuest: PropTypes.bool,
         customDescriptionText: PropTypes.string,
         isMemberOfTeam: PropTypes.bool.isRequired,
         listableTeams: PropTypes.array,
@@ -152,8 +152,8 @@ export default class SelectTeam extends React.Component {
                     <div className={'form-group has-error'}>
                         <label className='control-label'>
                             <FormattedMessage
-                                id='signup_team.no_teams_for_guests'
-                                defaultMessage={'You don\'t belongs to any team and as a guest you can\'t join any team by yourself, you need to be invited or added by someone else.'}
+                                id='signup_team.guest_without_channels'
+                                defaultMessage='Your guest account has no channels assigned. Please contact an administrator.'
                             />
                         </label>
                     </div>
