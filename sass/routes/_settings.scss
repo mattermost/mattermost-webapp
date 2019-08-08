@@ -226,26 +226,6 @@
                     display: none;
                 }
 
-                .section-min {
-                    padding: 1em 0;
-                    margin: 0;
-                    cursor: pointer;
-                    position: relative;
-                    @include clearfix;
-
-                    &:hover {
-                        background: #f9f9f9;
-                    }
-
-                    &:hover .fa {
-                        display: inline-block;
-                    }
-
-                    &:hover .section-edit {
-                        text-decoration: underline;
-                    }
-                }
-
                 .section-max {
                     @include legacy-pie-clearfix;
                     @include alpha-property('background', $black, .05);
@@ -397,31 +377,6 @@
                             font-weight: 600;
                         }
                     }
-                }
-
-                .section-title {
-                    font-weight: 600;
-                    margin-bottom: 5px;
-                    padding-right: 50px;
-                }
-
-                .section-edit {
-                    margin-bottom: 5px;
-                    text-align: right;
-
-                    .fa {
-                        @include opacity(.5);
-                        display: none;
-                        font-size: 12px;
-                        margin-right: 5px;
-                    }
-                }
-
-                .section-describe {
-                    @include clearfix;
-                    @include opacity(.7);
-                    text-overflow: ellipsis;
-                    white-space: pre;
                 }
 
                 .divider-dark {
@@ -652,4 +607,52 @@
 .user-settings__submit-checkbox {
     padding-top: 0px;
     padding-bottom: 20px;
+}
+
+.section-min {
+    padding: 1em;
+    cursor: pointer;
+    position: relative;
+    @include clearfix;
+
+    &:hover {
+        background: #f9f9f9;
+    }
+
+    &:hover .fa {
+        display: inline-block;
+    }
+
+    &:hover .section-min__edit {
+        text-decoration: underline;
+    }
+
+    .d-flex {
+        justify-content: space-between;
+    }
+}
+
+.section-min__title {
+    font-weight: 600;
+    margin-bottom: 5px;
+    padding-right: 50px;
+}
+
+.section-min__edit {
+    margin-bottom: 5px;
+    text-align: right;
+
+    .fa {
+        @include opacity(.5);
+        display: none;
+        font-size: 12px;
+        margin-right: 5px;
+    }
+}
+
+.section-min__describe {
+    @include clearfix;
+    @include opacity(.7);
+    text-overflow: ellipsis;
+    white-space: pre;
 }
