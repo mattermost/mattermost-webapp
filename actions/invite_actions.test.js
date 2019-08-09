@@ -89,7 +89,7 @@ describe('actions/invite_actions', () => {
                         guest2: {id: 'guest2'},
                         guest3: {id: 'guest3'},
                     },
-                }
+                },
             },
             users: {
                 currentUserId: 'user1',
