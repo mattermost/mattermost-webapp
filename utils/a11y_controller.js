@@ -663,7 +663,7 @@ export default class A11yController {
 
     handleKeyDown = (event) => {
         const modifierKeys = {
-            ctrlIsPressed: event.ctrlKey || (!event.ctrlKey && event.metaKey),
+            ctrlIsPressed: event.ctrlKey,
             altIsPressed: event.altKey,
             shiftIsPressed: event.shiftKey,
         };
