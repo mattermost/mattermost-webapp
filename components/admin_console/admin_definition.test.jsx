@@ -3,7 +3,7 @@
 
 import * as yup from 'yup';
 
-import getAdminDefinition from 'components/admin_console/admin_definition.jsx';
+import getAdminDefinition, {registerAdminConsolePlugin, unregisterAdminConsolePlugin} from 'components/admin_console/admin_definition.jsx';
 import {Constants} from 'utils/constants';
 
 const baseShape = {
@@ -176,7 +176,56 @@ var definition = yup.object().shape({
 });
 
 describe('components/admin_console/admin_definition', () => {
-    test('should pass all validations checks', () => {
+    it('should pass all validations checks', () => {
         definition.strict().validateSync(getAdminDefinition);
+    });
+
+    describe('with the admin definition plugins', () => {
+        it('should allow to remove everything with a plugin', () => {
+            const originalLength = Object.values(getAdminDefinition()).length;
+            registerAdminConsolePlugin('clean', () => {
+                return {};
+            });
+            expect(getAdminDefinition()).toEqual({});
+            unregisterAdminConsolePlugin('clean');
+            expect(Object.values(getAdminDefinition())).toHaveLength(originalLength);
+        });
+
+        it('should allow to add a value to the existing definition', () => {
+            expect(getAdminDefinition().something).toBe(undefined);
+            registerAdminConsolePlugin('add-something', (data) => {
+                data.something = 'test';
+                return data;
+            });
+            expect(getAdminDefinition().something).toEqual('test');
+            unregisterAdminConsolePlugin('add-something');
+            expect(getAdminDefinition().something).toBe(undefined);
+        });
+
+        it('should allow to use multiple plugins', () => {
+            const originalLength = Object.values(getAdminDefinition()).length;
+            registerAdminConsolePlugin('add-something', (data) => {
+                data.something = 'test';
+                return data;
+            });
+            expect(getAdminDefinition().something).toEqual('test');
+            expect(getAdminDefinition().otherThing).toEqual(undefined);
+            expect(Object.values(getAdminDefinition())).toHaveLength(originalLength + 1);
+            registerAdminConsolePlugin('add-other-thing', (data) => {
+                data.otherThing = 'other-thing';
+                return data;
+            });
+            expect(getAdminDefinition().something).toEqual('test');
+            expect(getAdminDefinition().otherThing).toEqual('other-thing');
+            expect(Object.values(getAdminDefinition())).toHaveLength(originalLength + 2);
+            unregisterAdminConsolePlugin('add-something');
+            expect(getAdminDefinition().something).toEqual(undefined);
+            expect(getAdminDefinition().otherThing).toEqual('other-thing');
+            expect(Object.values(getAdminDefinition())).toHaveLength(originalLength + 1);
+            unregisterAdminConsolePlugin('add-other-thing');
+            expect(getAdminDefinition().something).toEqual(undefined);
+            expect(getAdminDefinition().otherThing).toEqual(undefined);
+            expect(Object.values(getAdminDefinition())).toHaveLength(originalLength);
+        });
     });
 });
