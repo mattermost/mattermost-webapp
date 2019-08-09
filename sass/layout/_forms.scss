@@ -159,16 +159,24 @@
     }
 }
 
-.form-control {
-    &.inline {
-        display: inline-block;
-        width: auto;
-    }
+.app__body {
+    .form-control {
+        border-color: v(center-channel-color-20);
 
-    &::-moz-placeholder,
-    &:-moz-placeholder {
-        color: inherit !important;
-        opacity: .6;
+        &:focus {
+            border-color: v(center-channel-color-30);
+        }
+
+        &.inline {
+            display: inline-block;
+            width: auto;
+        }
+
+        &::-moz-placeholder,
+        &:-moz-placeholder {
+            color: inherit !important;
+            opacity: .6;
+        }
     }
 }
 

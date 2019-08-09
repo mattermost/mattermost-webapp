@@ -125,14 +125,7 @@
     }
 
     .custom-textarea {
-        border-color: $light-gray;
-        color: inherit;
         padding: 12px 30px 12px 15px;
-
-        &:focus {
-            border-color: $light-gray;
-            box-shadow: none;
-        }
     }
 
     .btn {

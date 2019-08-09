@@ -54,20 +54,20 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           }
           type="modal"
         />
-        <input
-          accept=".jpg,.png,.bmp"
-          aria-hidden={true}
-          className="hidden"
-          disabled={false}
-          onChange={[Function]}
-          type="file"
-        />
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
           onClick={[Function]}
         >
+          <input
+            accept=".jpg,.png,.bmp"
+            aria-hidden={true}
+            disabled={false}
+            onChange={[Function]}
+            tabIndex="-1"
+            type="file"
+          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -78,6 +78,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           aria-label="Save"
           className="btn btn-sm btn-primary"
           onClick={[Function]}
+          tabIndex="0"
         >
           <LoadingWrapper
             loading={false}
@@ -152,20 +153,20 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           }
           type="modal"
         />
-        <input
-          accept=".jpg,.png,.bmp"
-          aria-hidden={true}
-          className="hidden"
-          disabled={false}
-          onChange={[Function]}
-          type="file"
-        />
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
           onClick={[Function]}
         >
+          <input
+            accept=".jpg,.png,.bmp"
+            aria-hidden={true}
+            disabled={false}
+            onChange={[Function]}
+            tabIndex="-1"
+            type="file"
+          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -176,6 +177,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           aria-label="Save"
           className="btn btn-sm btn-primary"
           onClick={[Function]}
+          tabIndex="0"
         >
           <LoadingWrapper
             loading={false}
@@ -260,20 +262,20 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
           }
           type="modal"
         />
-        <input
-          accept=".jpg,.png,.bmp"
-          aria-hidden={true}
-          className="hidden"
-          disabled={true}
-          onChange={[Function]}
-          type="file"
-        />
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={true}
           onClick={[Function]}
         >
+          <input
+            accept=".jpg,.png,.bmp"
+            aria-hidden={true}
+            disabled={true}
+            onChange={[Function]}
+            tabIndex="-1"
+            type="file"
+          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -284,6 +286,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
           aria-label="Uploading..."
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
+          tabIndex="-1"
         >
           <LoadingWrapper
             loading={true}
@@ -380,20 +383,20 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
           }
           type="modal"
         />
-        <input
-          accept=".jpg,.png,.bmp"
-          aria-hidden={true}
-          className="hidden"
-          disabled={false}
-          onChange={[Function]}
-          type="file"
-        />
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
           onClick={[Function]}
         >
+          <input
+            accept=".jpg,.png,.bmp"
+            aria-hidden={true}
+            disabled={false}
+            onChange={[Function]}
+            tabIndex="-1"
+            type="file"
+          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -404,6 +407,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
           aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
+          tabIndex="-1"
         >
           <LoadingWrapper
             loading={false}
@@ -488,20 +492,20 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
           }
           type="modal"
         />
-        <input
-          accept=".jpg,.png,.bmp"
-          aria-hidden={true}
-          className="hidden"
-          disabled={false}
-          onChange={[Function]}
-          type="file"
-        />
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
           onClick={[Function]}
         >
+          <input
+            accept=".jpg,.png,.bmp"
+            aria-hidden={true}
+            disabled={false}
+            onChange={[Function]}
+            tabIndex="-1"
+            type="file"
+          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -512,6 +516,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
           aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
+          tabIndex="-1"
         >
           <LoadingWrapper
             loading={false}
@@ -603,20 +608,20 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
           }
           type="modal"
         />
-        <input
-          accept=".jpg,.png,.bmp"
-          aria-hidden={true}
-          className="hidden"
-          disabled={false}
-          onChange={[Function]}
-          type="file"
-        />
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
           onClick={[Function]}
         >
+          <input
+            accept=".jpg,.png,.bmp"
+            aria-hidden={true}
+            disabled={false}
+            onChange={[Function]}
+            tabIndex="-1"
+            type="file"
+          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -627,6 +632,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
           aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
+          tabIndex="-1"
         >
           <LoadingWrapper
             loading={false}
@@ -763,20 +769,20 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
           }
           type="modal"
         />
-        <input
-          accept=".jpg,.png,.bmp"
-          aria-hidden={true}
-          className="hidden"
-          disabled={false}
-          onChange={[Function]}
-          type="file"
-        />
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
           onClick={[Function]}
         >
+          <input
+            accept=".jpg,.png,.bmp"
+            aria-hidden={true}
+            disabled={false}
+            onChange={[Function]}
+            tabIndex="-1"
+            type="file"
+          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -787,6 +793,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
           aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
+          tabIndex="-1"
         >
           <LoadingWrapper
             loading={false}
@@ -928,20 +935,20 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
           }
           type="modal"
         />
-        <input
-          accept=".jpg,.png,.bmp"
-          aria-hidden={true}
-          className="hidden"
-          disabled={false}
-          onChange={[Function]}
-          type="file"
-        />
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
           onClick={[Function]}
         >
+          <input
+            accept=".jpg,.png,.bmp"
+            aria-hidden={true}
+            disabled={false}
+            onChange={[Function]}
+            tabIndex="-1"
+            type="file"
+          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -952,6 +959,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
           aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
+          tabIndex="-1"
         >
           <LoadingWrapper
             loading={false}

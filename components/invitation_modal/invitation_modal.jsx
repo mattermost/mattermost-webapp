@@ -143,7 +143,10 @@ export default class InvitationModal extends React.Component {
                     show={Boolean(this.props.show)}
                     onClose={this.close}
                 >
-                    <div className='InvitationModal'>
+                    <div
+                        data-testid='invitationModal'
+                        className='InvitationModal'
+                    >
                         <ConfirmModal
                             show={this.state.confirmModal || this.state.confirmBack}
                             title={

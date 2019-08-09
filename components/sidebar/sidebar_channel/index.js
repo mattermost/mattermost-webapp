@@ -4,7 +4,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {Client4} from 'mattermost-redux/client';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 import {
@@ -79,7 +78,6 @@ function makeMapStateToProps() {
         let channelTeammateUsername = '';
         let channelTeammateIsBot = false;
         let channelDisplayName = channel.display_name;
-        let botIconUrl = null;
         if (channel.type === Constants.DM_CHANNEL) {
             teammate = getUser(state, channel.teammate_id);
             if (teammate) {
@@ -87,9 +85,6 @@ function makeMapStateToProps() {
                 channelTeammateDeletedAt = teammate.delete_at;
                 channelTeammateUsername = teammate.username;
                 channelTeammateIsBot = teammate.is_bot;
-            }
-            if (channelTeammateIsBot) {
-                botIconUrl = botIconImageUrl(teammate);
             }
 
             channelDisplayName = displayUsername(teammate, teammateNameDisplay, false);
@@ -110,7 +105,6 @@ function makeMapStateToProps() {
             channelId,
             channelName: channel.name,
             channelDisplayName,
-            botIconUrl,
             channelType: channel.type,
             channelStatus: channel.status,
             channelFake: channel.fake,
@@ -143,13 +137,6 @@ function mapDispatchToProps(dispatch) {
             openLhs,
         }, dispatch),
     };
-}
-
-/**
- * Gets the LHS bot icon url for a given botUser.
- */
-function botIconImageUrl(botUser) {
-    return `${Client4.getBotRoute(botUser.id)}/icon?_=${(botUser.last_picture_update || 0)}`;
 }
 
 export default connect(makeMapStateToProps, mapDispatchToProps, null, {withRef: true})(SidebarChannel);

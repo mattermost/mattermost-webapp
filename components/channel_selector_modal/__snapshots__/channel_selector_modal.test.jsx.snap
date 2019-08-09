@@ -51,6 +51,7 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
     componentClass="div"
   >
     <MultiSelect
+      ariaLabelRenderer={[Function]}
       buttonSubmitText="Add"
       handleAdd={[Function]}
       handleDelete={[Function]}

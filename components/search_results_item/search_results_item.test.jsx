@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import {Posts} from 'mattermost-redux/constants';
 
 import {browserHistory} from 'utils/browser_history';
 import {getDisplayNameByUser, getDirectTeammate} from 'utils/utils.jsx';
@@ -98,6 +99,27 @@ describe('components/SearchResultsItem', () => {
                 ...post,
                 file_ids: ['id', 'id2'],
                 state: 'deleted',
+                props: {
+                    from_webhook: true,
+                    override_username: 'overridden_username',
+                },
+            },
+            enablePostUsernameOverride: true,
+        };
+
+        const wrapper = shallow(
+            <SearchResultsItem {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot for deleted message', () => {
+        const props = {
+            ...defaultProps,
+            post: {
+                ...post,
+                file_ids: ['id', 'id2'],
+                state: Posts.POST_DELETED,
                 props: {
                     from_webhook: true,
                     override_username: 'overridden_username',

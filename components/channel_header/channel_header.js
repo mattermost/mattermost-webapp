@@ -556,36 +556,38 @@ export default class ChannelHeader extends React.PureComponent {
         }
 
         let title = (
-            <MenuWrapper>
-                <div
-                    id='channelHeaderDropdownButton'
-                    className='channel-header__top'
-                >
-                    {toggleFavorite}
-                    <button
-                        className='channel-header__trigger style--none'
-                        aria-label={formatMessage({id: 'channel_header.menuAriaLabel', defaultMessage: 'Channel Menu'}).toLowerCase()}
+            <React.Fragment>
+                {toggleFavorite}
+                <MenuWrapper>
+                    <div
+                        id='channelHeaderDropdownButton'
+                        className='channel-header__top'
                     >
-                        <strong
-                            role='heading'
-                            aria-level='2'
-                            id='channelHeaderTitle'
-                            className='heading'
+                        <button
+                            className='channel-header__trigger style--none'
+                            aria-label={formatMessage({id: 'channel_header.menuAriaLabel', defaultMessage: 'Channel Menu'}).toLowerCase()}
                         >
-                            <span>
-                                {archivedIcon}
-                                {channelTitle}
-                            </span>
-                        </strong>
-                        <span
-                            id='channelHeaderDropdownIcon'
-                            className='fa fa-angle-down header-dropdown__icon'
-                            aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'}).toLowerCase()}
-                        />
-                    </button>
-                </div>
-                <ChannelHeaderDropdown/>
-            </MenuWrapper>
+                            <strong
+                                role='heading'
+                                aria-level='2'
+                                id='channelHeaderTitle'
+                                className='heading'
+                            >
+                                <span>
+                                    {archivedIcon}
+                                    {channelTitle}
+                                </span>
+                            </strong>
+                            <span
+                                id='channelHeaderDropdownIcon'
+                                className='fa fa-angle-down header-dropdown__icon'
+                                aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'}).toLowerCase()}
+                            />
+                        </button>
+                    </div>
+                    <ChannelHeaderDropdown/>
+                </MenuWrapper>
+            </React.Fragment>
         );
         if (isDirect && dmUser.is_bot) {
             title = (

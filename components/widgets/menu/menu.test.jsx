@@ -19,31 +19,14 @@ describe('components/Menu', () => {
         const wrapper = shallow(<Menu ariaLabel='test-label'>{'text'}</Menu>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-<FocusTrap
-  _createFocusTrap={[Function]}
-  active={true}
-  focusTrapOptions={
-    Object {
-      "clickOutsideDeactivates": true,
-      "initialFocus": [Function],
-    }
-  }
-  paused={false}
+<ul
+  aria-label="test-label"
+  className="a11y__popup Menu dropdown-menu"
+  role="menu"
+  style={Object {}}
 >
-  <div>
-    <ul
-      aria-label="test-label"
-      className="a11y__popup Menu dropdown-menu"
-      onClick={[Function]}
-      onMouseOver={[Function]}
-      role="menu"
-      style={Object {}}
-      tabIndex="-1"
-    >
-      text
-    </ul>
-  </div>
-</FocusTrap>
+  text
+</ul>
 `);
     });
 
@@ -58,32 +41,15 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<FocusTrap
-  _createFocusTrap={[Function]}
-  active={true}
-  focusTrapOptions={
-    Object {
-      "clickOutsideDeactivates": true,
-      "initialFocus": [Function],
-    }
-  }
-  paused={false}
+<ul
+  aria-label="test-label"
+  className="a11y__popup Menu dropdown-menu"
+  id="test-id"
+  role="menu"
+  style={Object {}}
 >
-  <div>
-    <ul
-      aria-label="test-label"
-      className="a11y__popup Menu dropdown-menu"
-      id="test-id"
-      onClick={[Function]}
-      onMouseOver={[Function]}
-      role="menu"
-      style={Object {}}
-      tabIndex="-1"
-    >
-      text
-    </ul>
-  </div>
-</FocusTrap>
+  text
+</ul>
 `);
     });
 
@@ -102,31 +68,14 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<FocusTrap
-  _createFocusTrap={[Function]}
-  active={true}
-  focusTrapOptions={
-    Object {
-      "clickOutsideDeactivates": true,
-      "initialFocus": [Function],
-    }
-  }
-  paused={false}
+<ul
+  aria-label="test-label"
+  className="a11y__popup Menu dropdown-menu"
+  role="menu"
+  style={Object {}}
 >
-  <div>
-    <ul
-      aria-label="test-label"
-      className="a11y__popup Menu dropdown-menu"
-      onClick={[Function]}
-      onMouseOver={[Function]}
-      role="menu"
-      style={Object {}}
-      tabIndex="-1"
-    >
-      text
-    </ul>
-  </div>
-</FocusTrap>
+  text
+</ul>
 `);
     });
 
@@ -145,38 +94,21 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<FocusTrap
-  _createFocusTrap={[Function]}
-  active={true}
-  focusTrapOptions={
+<ul
+  aria-label="test-label"
+  className="a11y__popup Menu dropdown-menu"
+  role="menu"
+  style={
     Object {
-      "clickOutsideDeactivates": true,
-      "initialFocus": [Function],
+      "bottom": "100%",
+      "left": "inherit",
+      "right": 0,
+      "top": "auto",
     }
   }
-  paused={false}
 >
-  <div>
-    <ul
-      aria-label="test-label"
-      className="a11y__popup Menu dropdown-menu"
-      onClick={[Function]}
-      onMouseOver={[Function]}
-      role="menu"
-      style={
-        Object {
-          "bottom": "100%",
-          "left": "inherit",
-          "right": 0,
-          "top": "auto",
-        }
-      }
-      tabIndex="-1"
-    >
-      text
-    </ul>
-  </div>
-</FocusTrap>
+  text
+</ul>
 `);
     });
 });

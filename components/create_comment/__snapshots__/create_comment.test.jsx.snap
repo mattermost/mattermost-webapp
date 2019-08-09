@@ -37,6 +37,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           popoverMentionKeyClick={true}
+          preview={false}
           value=""
         />
         <span
@@ -57,6 +58,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
         <TextboxLinks
           characterLimit={4000}
           message=""
+          showPreview={false}
           updatePreview={[Function]}
         />
       </div>
@@ -146,6 +148,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           popoverMentionKeyClick={true}
+          preview={false}
           value="Test message"
         />
         <span
@@ -202,6 +205,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
         <TextboxLinks
           characterLimit={4000}
           message=""
+          showPreview={false}
           updatePreview={[Function]}
         />
       </div>
@@ -291,6 +295,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           popoverMentionKeyClick={true}
+          preview={false}
           value="Test message"
         />
         <span
@@ -323,6 +328,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
         <TextboxLinks
           characterLimit={4000}
           message=""
+          showPreview={false}
           updatePreview={[Function]}
         />
       </div>
@@ -424,6 +430,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           popoverMentionKeyClick={true}
+          preview={false}
           value=""
         />
         <span
@@ -480,6 +487,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
         <TextboxLinks
           characterLimit={4000}
           message=""
+          showPreview={false}
           updatePreview={[Function]}
         />
       </div>
@@ -569,6 +577,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           popoverMentionKeyClick={true}
+          preview={false}
           value="Test message"
         />
         <span
@@ -625,6 +634,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
         <TextboxLinks
           characterLimit={4000}
           message=""
+          showPreview={false}
           updatePreview={[Function]}
         />
       </div>

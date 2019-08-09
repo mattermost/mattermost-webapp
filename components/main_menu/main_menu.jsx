@@ -192,7 +192,7 @@ export default class MainMenu extends React.PureComponent {
                         permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
                     >
                         <MenuItemToggleModalRedux
-                            id='invitationModal'
+                            id='invitePeople'
                             modalId={ModalIdentifiers.INVITATION}
                             dialogType={InvitationModal}
                             text={localizeMessage('navbar_dropdown.invitePeople', 'Invite People')}

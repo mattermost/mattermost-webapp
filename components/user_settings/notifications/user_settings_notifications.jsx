@@ -356,66 +356,69 @@ export default class NotificationsTab extends React.Component {
                 }
 
                 inputs.push(
-                    <fieldset key='userNotificationLevelOption'>
-                        <legend className='form-legend'>
-                            <FormattedMessage
-                                id='user.settings.push_notification.send'
-                                defaultMessage='Send mobile push notifications'
-                            />
-                        </legend>
-                        <div className='radio'>
-                            <label>
-                                <input
-                                    id='pushNotificationAllActivity'
-                                    type='radio'
-                                    name='pushNotificationLevel'
-                                    checked={pushActivityRadio[0]}
-                                    onChange={this.handlePushRadio.bind(this, NotificationLevels.ALL)}
-                                />
+                    <div>
+                        <fieldset key='userNotificationLevelOption'>
+                            <legend className='form-legend'>
                                 <FormattedMessage
-                                    id='user.settings.push_notification.allActivity'
-                                    defaultMessage='For all activity'
+                                    id='user.settings.push_notification.send'
+                                    defaultMessage='Send mobile push notifications'
                                 />
-                            </label>
-                        </div>
-                        <div className='radio'>
-                            <label>
-                                <input
-                                    id='pushNotificationMentions'
-                                    type='radio'
-                                    name='pushNotificationLevel'
-                                    checked={pushActivityRadio[1]}
-                                    onChange={this.handlePushRadio.bind(this, NotificationLevels.MENTION)}
-                                />
+                            </legend>
+                            <div className='radio'>
+                                <label>
+                                    <input
+                                        id='pushNotificationAllActivity'
+                                        type='radio'
+                                        name='pushNotificationLevel'
+                                        checked={pushActivityRadio[0]}
+                                        onChange={this.handlePushRadio.bind(this, NotificationLevels.ALL)}
+                                    />
+                                    <FormattedMessage
+                                        id='user.settings.push_notification.allActivity'
+                                        defaultMessage='For all activity'
+                                    />
+                                </label>
+                            </div>
+                            <div className='radio'>
+                                <label>
+                                    <input
+                                        id='pushNotificationMentions'
+                                        type='radio'
+                                        name='pushNotificationLevel'
+                                        checked={pushActivityRadio[1]}
+                                        onChange={this.handlePushRadio.bind(this, NotificationLevels.MENTION)}
+                                    />
+                                    <FormattedMessage
+                                        id='user.settings.push_notification.onlyMentions'
+                                        defaultMessage='For mentions and direct messages'
+                                    />
+                                </label>
+                            </div>
+                            <div className='radio'>
+                                <label>
+                                    <input
+                                        id='pushNotificationNever'
+                                        type='radio'
+                                        name='pushNotificationLevel'
+                                        checked={pushActivityRadio[2]}
+                                        onChange={this.handlePushRadio.bind(this, NotificationLevels.NONE)}
+                                    />
+                                    <FormattedMessage
+                                        id='user.settings.notifications.never'
+                                        defaultMessage='Never'
+                                    />
+                                </label>
+                            </div>
+                            <div className='margin-top x3'>
                                 <FormattedMessage
-                                    id='user.settings.push_notification.onlyMentions'
-                                    defaultMessage='For mentions and direct messages'
+                                    id='user.settings.push_notification.info'
+                                    defaultMessage='Notification alerts are pushed to your mobile device when there is activity in Mattermost.'
                                 />
-                            </label>
-                        </div>
-                        <div className='radio'>
-                            <label>
-                                <input
-                                    id='pushNotificationNever'
-                                    type='radio'
-                                    name='pushNotificationLevel'
-                                    checked={pushActivityRadio[2]}
-                                    onChange={this.handlePushRadio.bind(this, NotificationLevels.NONE)}
-                                />
-                                <FormattedMessage
-                                    id='user.settings.notifications.never'
-                                    defaultMessage='Never'
-                                />
-                            </label>
-                        </div>
-                        <div className='margin-top x3'>
-                            <FormattedMessage
-                                id='user.settings.push_notification.info'
-                                defaultMessage='Notification alerts are pushed to your mobile device when there is activity in Mattermost.'
-                            />
-                        </div>
+                            </div>
+                        </fieldset>
+                        <hr/>
                         {pushStatusSettings}
-                    </fieldset>
+                    </div>
                 );
 
                 submit = this.handleSubmit;
