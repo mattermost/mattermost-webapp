@@ -3,7 +3,8 @@
 
 import * as yup from 'yup';
 
-import getAdminDefinition, {registerAdminConsolePlugin, unregisterAdminConsolePlugin} from 'components/admin_console/admin_definition.jsx';
+import getAdminDefinition from 'components/admin_console/admin_definition.jsx';
+import {registerAdminConsolePlugin, unregisterAdminConsolePlugin} from 'components/admin_console/admin_definition_plugins.jsx';
 import {Constants} from 'utils/constants';
 
 const baseShape = {

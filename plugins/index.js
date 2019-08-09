@@ -8,7 +8,7 @@ import {ActionTypes} from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import PluginRegistry from 'plugins/registry';
 import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} from 'actions/websocket_actions.jsx';
-import {unregisterAdminConsolePlugin} from 'components/admin_console/admin_definition.jsx';
+import {unregisterAdminConsolePlugin} from 'components/admin_console/admin_definition_plugins.jsx';
 
 // plugins records all active web app plugins by id.
 window.plugins = {};
