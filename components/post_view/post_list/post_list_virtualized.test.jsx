@@ -463,4 +463,49 @@ describe('PostList', () => {
             expect(postListIdsState[postListIdsState.length - 1]).toBe(PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER);
         });
     });
+
+    describe('initScrollToIndex', () => {
+        test('return date index if it is just above new message line', () => {
+            const postListIds = [
+                'post1',
+                'post2',
+                'post3',
+                'post4',
+                PostListRowListIds.START_OF_NEW_MESSAGES,
+                DATE_LINE + 1551711600000,
+                'post5',
+            ];
+
+            const props = {
+                ...baseProps,
+                postListIds,
+            };
+
+            const wrapper = shallow(<PostList {...props}/>);
+            const instance = wrapper.instance();
+            const initScrollToIndex = instance.initScrollToIndex();
+            expect(initScrollToIndex).toEqual({index: 6, position: 'start'});
+        });
+    });
+
+    test('return new message line index if there is no date just above it', () => {
+        const postListIds = [
+            'post1',
+            'post2',
+            'post3',
+            'post4',
+            PostListRowListIds.START_OF_NEW_MESSAGES,
+            'post5',
+        ];
+
+        const props = {
+            ...baseProps,
+            postListIds,
+        };
+
+        const wrapper = shallow(<PostList {...props}/>);
+        const instance = wrapper.instance();
+        const initScrollToIndex = instance.initScrollToIndex();
+        expect(initScrollToIndex).toEqual({index: 5, position: 'start'});
+    });
 });

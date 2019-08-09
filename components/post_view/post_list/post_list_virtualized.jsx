@@ -425,6 +425,13 @@ export default class PostList extends React.PureComponent {
         );
 
         if (newMessagesSeparatorIndex > 0) {
+            // if there is a dateLine above START_OF_NEW_MESSAGES then scroll to date line
+            if (isDateLine(this.state.postListIds[newMessagesSeparatorIndex + 1])) {
+                return {
+                    index: newMessagesSeparatorIndex + 1,
+                    position: 'start',
+                };
+            }
             return {
                 index: newMessagesSeparatorIndex,
                 position: 'start',
