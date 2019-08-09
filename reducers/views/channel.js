@@ -96,7 +96,7 @@ function keepChannelIdAsUnread(state = null, action) {
 
         const msgCount = channel.total_msg_count - member.msg_count;
         const hadMentions = member.mention_count > 0;
-        const hadUnreads = member.notify_props.mark_unread !== NotificationLevels.MENTION && msgCount > 0;
+        const hadUnreads = member.notify_props && member.notify_props.mark_unread !== NotificationLevels.MENTION && msgCount > 0;
 
         if (hadMentions || hadUnreads) {
             return {

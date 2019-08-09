@@ -86,7 +86,7 @@ export default class TeamSettingsModal extends React.Component {
 
         return (
             <Modal
-                dialogClassName='settings-modal settings-modal--action'
+                dialogClassName='a11y__modal settings-modal settings-modal--action'
                 show={this.props.show}
                 onHide={this.handleHide}
                 onExited={this.handleHidden}

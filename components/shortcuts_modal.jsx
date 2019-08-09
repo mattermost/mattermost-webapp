@@ -302,7 +302,7 @@ class ShortcutsModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName='shortcuts-modal'
+                dialogClassName='a11y__modal shortcuts-modal'
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleHide}

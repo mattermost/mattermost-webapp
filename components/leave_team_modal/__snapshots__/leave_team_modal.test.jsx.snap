@@ -8,6 +8,7 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
   backdrop={true}
   bsClass="modal"
   className="modal-confirm"
+  dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   id="leaveTeamModal"

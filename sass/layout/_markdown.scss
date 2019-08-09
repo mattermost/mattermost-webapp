@@ -58,8 +58,10 @@ h6 {
         max-height: 500px;
     }
     div.markdown-inline-img {
-        display: inline;
+        display: inline-block;
         width: 100%;
+        max-width: 960px;
+        vertical-align: middle;
     }
 }
 

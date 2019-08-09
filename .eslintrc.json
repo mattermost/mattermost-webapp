@@ -86,6 +86,7 @@
         "func-names": 0,
         "import/no-unresolved": 0,
         "max-nested-callbacks": 0,
+        "no-process-env": 0,
         "no-unused-expressions": 0
       }
     }

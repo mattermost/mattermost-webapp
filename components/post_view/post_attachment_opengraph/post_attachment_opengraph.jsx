@@ -97,8 +97,8 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
     renderImageToggle() {
         return (
-            <a
-                className={'post__embed-visibility'}
+            <button
+                className={'style--none post__embed-visibility color--link'}
                 data-expanded={this.props.isEmbedVisible}
                 aria-label='Toggle Embed Visibility'
                 onClick={this.props.toggleEmbedVisibility}

@@ -73,7 +73,8 @@ export default class AbstractList extends React.PureComponent {
                 </div>
             );
         }
-        return this.props.data.slice(0, PAGE_SIZE).map(this.props.renderRow);
+        const offset = this.state.page * PAGE_SIZE;
+        return this.props.data.slice(offset, offset + PAGE_SIZE).map(this.props.renderRow);
     }
 
     performSearch = (page) => {
@@ -106,12 +107,12 @@ export default class AbstractList extends React.PureComponent {
         const lastPage = endCount === total;
         const firstPage = this.state.page === 0;
         return (
-            <div className='groups-list'>
-                {this.props.header}
+            <div className='groups-list groups-list-no-padding'>
+                {total > 0 && this.props.header}
                 <div className='groups-list--body'>
                     {this.renderRows()}
                 </div>
-                <div className='groups-list--footer'>
+                {total > 0 && <div className='groups-list--footer'>
                     <div className='counter'>
                         <FormattedMessage
                             id='admin.team_channel_settings.list.paginatorCount'
@@ -137,7 +138,7 @@ export default class AbstractList extends React.PureComponent {
                     >
                         <NextIcon/>
                     </button>
-                </div>
+                </div>}
             </div>
         );
     }

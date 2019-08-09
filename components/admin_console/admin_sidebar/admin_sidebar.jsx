@@ -307,7 +307,6 @@ export default class AdminSidebar extends React.Component {
                                         onClick={this.handleClearFilter}
                                     >
                                         <OverlayTrigger
-                                            trigger={['hover', 'focus']}
                                             delayShow={Constants.OVERLAY_TIME_DELAY}
                                             placement='bottom'
                                             overlay={filterClearTooltip}

@@ -13,6 +13,7 @@ import {
     fileSizeToString,
     getFileType,
     loadImage,
+    localizeMessage,
 } from 'utils/utils.jsx';
 
 import DownloadIcon from 'components/svg/download_icon';
@@ -116,9 +117,12 @@ export default class FileAttachment extends React.PureComponent {
         const trimmedFilename = trimFilename(fileInfo.name);
         let fileThumbnail;
         let fileDetail;
+        const ariaLabelImage = `${localizeMessage('file_attachment.thumbnail', 'file thumbnail')} ${fileInfo.name}`.toLowerCase();
+
         if (!compactDisplay) {
             fileThumbnail = (
                 <a
+                    aria-label={ariaLabelImage}
                     className='post-image__thumbnail'
                     href='#'
                     onClick={this.onAttachmentClick}

@@ -20,6 +20,11 @@ export default class RequestButton extends React.Component {
     static propTypes = {
 
         /**
+         * TD to assign to the form
+         */
+        id: PropTypes.string,
+
+        /**
          * The action to be called to carry out the request.
          */
         requestAction: PropTypes.func.isRequired,
@@ -126,6 +131,7 @@ export default class RequestButton extends React.Component {
     }
 
     static defaultProps = {
+        id: null,
         disabled: false,
         saveNeeded: false,
         showSuccessMessage: true,
@@ -236,7 +242,10 @@ export default class RequestButton extends React.Component {
         }
 
         return (
-            <div className='form-group'>
+            <div
+                className='form-group'
+                id={this.props.id}
+            >
                 {label}
                 <div className={widgetClassNames}>
                     <div>

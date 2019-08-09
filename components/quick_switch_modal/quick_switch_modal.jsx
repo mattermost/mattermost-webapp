@@ -254,7 +254,7 @@ export default class QuickSwitchModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName='channel-switch-modal modal--overflow'
+                dialogClassName='a11y__modal channel-switch-modal modal--overflow'
                 ref='modal'
                 show={true}
                 onHide={this.onHide}

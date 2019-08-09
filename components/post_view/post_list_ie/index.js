@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetPostsAroundPost, makeGetPostsInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
@@ -26,6 +26,7 @@ function makeMapStateToProps() {
             posts: combineUserActivityPosts(posts || []),
             currentUserId: getCurrentUserId(state),
             lastViewedAt: state.views.channel.lastChannelViewTime[ownProps.channelId],
+            channel: getCurrentChannel(state),
         };
     };
 }

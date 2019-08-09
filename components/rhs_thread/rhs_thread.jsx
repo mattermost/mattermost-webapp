@@ -367,7 +367,10 @@ export default class RhsThread extends React.Component {
                         <div
                             id='rhsContent'
                             aria-label={Utils.localizeMessage('accessibility.sections.rhsContent', 'message details complimentary region')}
-                            className='post-right__content'
+                            className='post-right__content a11y__region'
+                            data-a11y-sort-order='3'
+                            data-a11y-focus-child={true}
+                            data-a11y-order-reversed={true}
                         >
                             {!isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
                             <RhsRootPost

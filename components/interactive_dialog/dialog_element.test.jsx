@@ -71,4 +71,19 @@ describe('components/interactive_dialog/DialogElement', () => {
             />
         )).toEqual(true);
     });
+
+    it('subtype password', () => {
+        const wrapper = shallow(
+            <DialogElement
+                {...baseDialogProps}
+                subtype='password'
+            />
+        );
+        expect(wrapper.matchesElement(
+            <TextSetting
+                {...baseTextSettingProps}
+                type='password'
+            />
+        )).toEqual(true);
+    });
 });

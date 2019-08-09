@@ -441,7 +441,14 @@ export default class SchemaAdminSettings extends React.Component {
     }
 
     buildDropdownSetting = (setting) => {
-        const options = setting.options || [];
+        const enterpriseReady = this.props.config.BuildEnterpriseReady === 'true';
+        const options = [];
+        setting.options.forEach((option) => {
+            if (!option.isHidden || !option.isHidden(this.props.config, this.state, this.props.license, enterpriseReady)) {
+                options.push(option);
+            }
+        });
+
         const values = options.map((o) => ({value: o.value, text: Utils.localizeMessage(o.display_name)}));
         const selectedValue = this.state[setting.key] || values[0].value;
 

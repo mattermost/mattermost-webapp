@@ -27,19 +27,36 @@ export default class MobileChannelHeaderPlug extends React.PureComponent {
     }
 
     createButton = (plug) => {
-        return (
-            <li
-                key={'mobileChannelHeaderItem' + plug.id}
-                role='presentation'
-                className='MenuItem'
-            >
-                <a
-                    role='menuitem'
-                    href='#'
-                    onClick={() => this.fireAction(plug)}
+        const onClick = () => this.fireAction(plug);
+
+        if (this.props.isDropdown) {
+            return (
+                <li
+                    key={'mobileChannelHeaderItem' + plug.id}
+                    role='presentation'
+                    className='MenuItem'
                 >
-                    {plug.dropdownText}
-                </a>
+                    <a
+                        role='menuitem'
+                        href='#'
+                        onClick={onClick}
+                    >
+                        {plug.dropdownText}
+                    </a>
+                </li>
+            );
+        }
+
+        return (
+            <li className='flex-parent--center'>
+                <button
+                    className='navbar-toggle navbar-right__icon'
+                    onClick={onClick}
+                >
+                    <span className='icon navbar-plugin-button'>
+                        {plug.icon}
+                    </span>
+                </button>
             </li>
         );
     }

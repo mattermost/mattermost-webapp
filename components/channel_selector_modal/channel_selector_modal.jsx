@@ -191,7 +191,7 @@ export default class ChannelSelectorModal extends React.Component {
 
         return (
             <Modal
-                dialogClassName={'more-modal more-direct-channels channel-selector-modal'}
+                dialogClassName={'a11y__modal more-modal more-direct-channels channel-selector-modal'}
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}

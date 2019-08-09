@@ -34,7 +34,7 @@ export default class TeamMembersModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName='more-modal'
+                dialogClassName='a11y__modal more-modal'
                 show={this.props.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}

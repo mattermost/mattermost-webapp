@@ -127,6 +127,90 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               className="control-label col-sm-4"
             >
               <FormattedMessage
+                defaultMessage="Install Plugin from URL: "
+                id="admin.plugin.installTitle"
+                values={Object {}}
+              />
+            </label>
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <input
+                  onChange={[Function]}
+                  style={
+                    Object {
+                      "width": "100%",
+                    }
+                  }
+                  type="text"
+                  value=""
+                />
+              </p>
+            </div>
+            <div
+              className="col-sm-4"
+            />
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <button
+                  className="btn"
+                  disabled={true}
+                  id="installPluginButton"
+                  onClick={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Install"
+                    id="admin.plugin.install"
+                    values={Object {}}
+                  />
+                </button>
+              </p>
+            </div>
+          </div>
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When false, URLs provided must use the HTTPS protocol."
+                id="admin.plugins.settings.allowInsecureUrlDesc"
+              />
+            }
+            id="allowInsecureDownloadUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Allow Insecure Install URL:"
+                id="admin.plugins.settings.allowInsecureUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
+          />
+          <div
+            className="form-group"
+          >
+            <label
+              className="control-label col-sm-4"
+            >
+              <FormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
                 values={Object {}}
@@ -275,6 +359,90 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               </p>
             </div>
           </div>
+          <div
+            className="form-group"
+          >
+            <label
+              className="control-label col-sm-4"
+            >
+              <FormattedMessage
+                defaultMessage="Install Plugin from URL: "
+                id="admin.plugin.installTitle"
+                values={Object {}}
+              />
+            </label>
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <input
+                  onChange={[Function]}
+                  style={
+                    Object {
+                      "width": "100%",
+                    }
+                  }
+                  type="text"
+                  value=""
+                />
+              </p>
+            </div>
+            <div
+              className="col-sm-4"
+            />
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <button
+                  className="btn"
+                  disabled={true}
+                  id="installPluginButton"
+                  onClick={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Install"
+                    id="admin.plugin.install"
+                    values={Object {}}
+                  />
+                </button>
+              </p>
+            </div>
+          </div>
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When false, URLs provided must use the HTTPS protocol."
+                id="admin.plugins.settings.allowInsecureUrlDesc"
+              />
+            }
+            id="allowInsecureDownloadUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Allow Insecure Install URL:"
+                id="admin.plugins.settings.allowInsecureUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
+          />
           <div
             className="form-group"
           >
@@ -471,6 +639,90 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               className="control-label col-sm-4"
             >
               <FormattedMessage
+                defaultMessage="Install Plugin from URL: "
+                id="admin.plugin.installTitle"
+                values={Object {}}
+              />
+            </label>
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <input
+                  onChange={[Function]}
+                  style={
+                    Object {
+                      "width": "100%",
+                    }
+                  }
+                  type="text"
+                  value=""
+                />
+              </p>
+            </div>
+            <div
+              className="col-sm-4"
+            />
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <button
+                  className="btn"
+                  disabled={true}
+                  id="installPluginButton"
+                  onClick={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Install"
+                    id="admin.plugin.install"
+                    values={Object {}}
+                  />
+                </button>
+              </p>
+            </div>
+          </div>
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When false, URLs provided must use the HTTPS protocol."
+                id="admin.plugins.settings.allowInsecureUrlDesc"
+              />
+            }
+            id="allowInsecureDownloadUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Allow Insecure Install URL:"
+                id="admin.plugins.settings.allowInsecureUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
+          />
+          <div
+            className="form-group"
+          >
+            <label
+              className="control-label col-sm-4"
+            >
+              <FormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
                 values={Object {}}
@@ -494,6 +746,279 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                 id="admin.plugin.no_plugins"
                 values={Object {}}
               />
+            </div>
+          </div>
+        </SettingsGroup>
+      </div>
+    </div>
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
+      </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
+    </div>
+  </div>
+</form>
+`;
+
+exports[`components/PluginManagement should match snapshot, allow insecure URL enabled 1`] = `
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
+>
+  <div
+    className="wrapper--fixed"
+  >
+    <AdminHeader>
+      <FormattedMessage
+        defaultMessage="Management"
+        id="admin.plugin.management.title"
+        values={Object {}}
+      />
+    </AdminHeader>
+    <div
+      className="admin-console__wrapper"
+    >
+      <div
+        className="admin-console__content"
+      >
+        <SettingsGroup
+          container={false}
+          id="PluginSettings"
+          show={true}
+        >
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+                id="admin.plugins.settings.enableDesc"
+              />
+            }
+            id="enable"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Plugins: "
+                id="admin.plugins.settings.enable"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <div
+            className="form-group"
+          >
+            <label
+              className="control-label col-sm-4"
+            >
+              <FormattedMessage
+                defaultMessage="Upload Plugin: "
+                id="admin.plugin.uploadTitle"
+                values={Object {}}
+              />
+            </label>
+            <div
+              className="col-sm-8"
+            >
+              <div
+                className="file__upload"
+              >
+                <button
+                  className="btn btn-primary"
+                  disabled={false}
+                >
+                  <FormattedMessage
+                    defaultMessage="Choose File"
+                    id="admin.plugin.choose"
+                    values={Object {}}
+                  />
+                </button>
+                <input
+                  accept=".gz"
+                  disabled={false}
+                  onChange={[Function]}
+                  type="file"
+                />
+              </div>
+              <button
+                className="btn"
+                disabled={true}
+                onClick={[Function]}
+              >
+                <FormattedMessage
+                  defaultMessage="Upload"
+                  id="admin.plugin.upload"
+                  values={Object {}}
+                />
+              </button>
+              <div
+                className="help-text no-margin"
+              />
+              <p
+                className="help-text"
+              >
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                  id="admin.plugin.uploadDesc"
+                />
+              </p>
+            </div>
+          </div>
+          <div
+            className="form-group"
+          >
+            <label
+              className="control-label col-sm-4"
+            >
+              <FormattedMessage
+                defaultMessage="Install Plugin from URL: "
+                id="admin.plugin.installTitle"
+                values={Object {}}
+              />
+            </label>
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <input
+                  onChange={[Function]}
+                  style={
+                    Object {
+                      "width": "100%",
+                    }
+                  }
+                  type="text"
+                  value=""
+                />
+              </p>
+            </div>
+            <div
+              className="col-sm-4"
+            />
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <button
+                  className="btn"
+                  disabled={true}
+                  id="installPluginButton"
+                  onClick={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Install"
+                    id="admin.plugin.install"
+                    values={Object {}}
+                  />
+                </button>
+              </p>
+            </div>
+          </div>
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When false, URLs provided must use the HTTPS protocol."
+                id="admin.plugins.settings.allowInsecureUrlDesc"
+              />
+            }
+            id="allowInsecureDownloadUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Allow Insecure Install URL:"
+                id="admin.plugins.settings.allowInsecureUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <div
+            className="form-group"
+          >
+            <label
+              className="control-label col-sm-4"
+            >
+              <FormattedMessage
+                defaultMessage="Installed Plugins: "
+                id="admin.plugin.installedTitle"
+                values={Object {}}
+              />
+            </label>
+            <div
+              className="col-sm-8"
+            >
+              <p
+                className="help-text"
+              >
+                <FormattedHTMLMessage
+                  defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
+                  id="admin.plugin.installedDesc"
+                  values={Object {}}
+                />
+              </p>
+              <br />
             </div>
           </div>
         </SettingsGroup>
@@ -658,6 +1183,363 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               </p>
             </div>
           </div>
+          <div
+            className="form-group"
+          >
+            <label
+              className="control-label col-sm-4"
+            >
+              <FormattedMessage
+                defaultMessage="Install Plugin from URL: "
+                id="admin.plugin.installTitle"
+                values={Object {}}
+              />
+            </label>
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <input
+                  onChange={[Function]}
+                  style={
+                    Object {
+                      "width": "100%",
+                    }
+                  }
+                  type="text"
+                  value=""
+                />
+              </p>
+            </div>
+            <div
+              className="col-sm-4"
+            />
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <button
+                  className="btn"
+                  disabled={true}
+                  id="installPluginButton"
+                  onClick={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Install"
+                    id="admin.plugin.install"
+                    values={Object {}}
+                  />
+                </button>
+              </p>
+            </div>
+          </div>
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When false, URLs provided must use the HTTPS protocol."
+                id="admin.plugins.settings.allowInsecureUrlDesc"
+              />
+            }
+            id="allowInsecureDownloadUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Allow Insecure Install URL:"
+                id="admin.plugins.settings.allowInsecureUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
+          />
+        </SettingsGroup>
+      </div>
+    </div>
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
+      </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
+    </div>
+  </div>
+</form>
+`;
+
+exports[`components/PluginManagement should match snapshot, text entered into the URL install text box 1`] = `
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
+>
+  <div
+    className="wrapper--fixed"
+  >
+    <AdminHeader>
+      <FormattedMessage
+        defaultMessage="Management"
+        id="admin.plugin.management.title"
+        values={Object {}}
+      />
+    </AdminHeader>
+    <div
+      className="admin-console__wrapper"
+    >
+      <div
+        className="admin-console__content"
+      >
+        <SettingsGroup
+          container={false}
+          id="PluginSettings"
+          show={true}
+        >
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+                id="admin.plugins.settings.enableDesc"
+              />
+            }
+            id="enable"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Plugins: "
+                id="admin.plugins.settings.enable"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <div
+            className="form-group"
+          >
+            <label
+              className="control-label col-sm-4"
+            >
+              <FormattedMessage
+                defaultMessage="Upload Plugin: "
+                id="admin.plugin.uploadTitle"
+                values={Object {}}
+              />
+            </label>
+            <div
+              className="col-sm-8"
+            >
+              <div
+                className="file__upload"
+              >
+                <button
+                  className="btn btn-primary"
+                  disabled={false}
+                >
+                  <FormattedMessage
+                    defaultMessage="Choose File"
+                    id="admin.plugin.choose"
+                    values={Object {}}
+                  />
+                </button>
+                <input
+                  accept=".gz"
+                  disabled={false}
+                  onChange={[Function]}
+                  type="file"
+                />
+              </div>
+              <button
+                className="btn"
+                disabled={true}
+                onClick={[Function]}
+              >
+                <FormattedMessage
+                  defaultMessage="Upload"
+                  id="admin.plugin.upload"
+                  values={Object {}}
+                />
+              </button>
+              <div
+                className="help-text no-margin"
+              />
+              <p
+                className="help-text"
+              >
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                  id="admin.plugin.uploadDesc"
+                />
+              </p>
+            </div>
+          </div>
+          <div
+            className="form-group"
+          >
+            <label
+              className="control-label col-sm-4"
+            >
+              <FormattedMessage
+                defaultMessage="Install Plugin from URL: "
+                id="admin.plugin.installTitle"
+                values={Object {}}
+              />
+            </label>
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <input
+                  onChange={[Function]}
+                  style={
+                    Object {
+                      "width": "100%",
+                    }
+                  }
+                  type="text"
+                  value="https://pluginsite.com/plugin.tar.gz"
+                />
+              </p>
+            </div>
+            <div
+              className="col-sm-4"
+            />
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <button
+                  className="btn"
+                  disabled={false}
+                  id="installPluginButton"
+                  onClick={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Install"
+                    id="admin.plugin.install"
+                    values={Object {}}
+                  />
+                </button>
+              </p>
+            </div>
+          </div>
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When false, URLs provided must use the HTTPS protocol."
+                id="admin.plugins.settings.allowInsecureUrlDesc"
+              />
+            }
+            id="allowInsecureDownloadUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Allow Insecure Install URL:"
+                id="admin.plugins.settings.allowInsecureUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
+          />
+          <div
+            className="form-group"
+          >
+            <label
+              className="control-label col-sm-4"
+            >
+              <FormattedMessage
+                defaultMessage="Installed Plugins: "
+                id="admin.plugin.installedTitle"
+                values={Object {}}
+              />
+            </label>
+            <div
+              className="col-sm-8"
+            >
+              <p
+                className="help-text"
+              >
+                <FormattedHTMLMessage
+                  defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
+                  id="admin.plugin.installedDesc"
+                  values={Object {}}
+                />
+              </p>
+              <br />
+            </div>
+          </div>
         </SettingsGroup>
       </div>
     </div>
@@ -820,6 +1702,90 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               </p>
             </div>
           </div>
+          <div
+            className="form-group"
+          >
+            <label
+              className="control-label col-sm-4"
+            >
+              <FormattedMessage
+                defaultMessage="Install Plugin from URL: "
+                id="admin.plugin.installTitle"
+                values={Object {}}
+              />
+            </label>
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <input
+                  onChange={[Function]}
+                  style={
+                    Object {
+                      "width": "100%",
+                    }
+                  }
+                  type="text"
+                  value=""
+                />
+              </p>
+            </div>
+            <div
+              className="col-sm-4"
+            />
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <button
+                  className="btn"
+                  disabled={true}
+                  id="installPluginButton"
+                  onClick={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Install"
+                    id="admin.plugin.install"
+                    values={Object {}}
+                  />
+                </button>
+              </p>
+            </div>
+          </div>
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When false, URLs provided must use the HTTPS protocol."
+                id="admin.plugins.settings.allowInsecureUrlDesc"
+              />
+            }
+            id="allowInsecureDownloadUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Allow Insecure Install URL:"
+                id="admin.plugins.settings.allowInsecureUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
+          />
           <div
             className="form-group"
           >
@@ -1009,6 +1975,90 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               </p>
             </div>
           </div>
+          <div
+            className="form-group"
+          >
+            <label
+              className="control-label col-sm-4"
+            >
+              <FormattedMessage
+                defaultMessage="Install Plugin from URL: "
+                id="admin.plugin.installTitle"
+                values={Object {}}
+              />
+            </label>
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <input
+                  onChange={[Function]}
+                  style={
+                    Object {
+                      "width": "100%",
+                    }
+                  }
+                  type="text"
+                  value=""
+                />
+              </p>
+            </div>
+            <div
+              className="col-sm-4"
+            />
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <button
+                  className="btn"
+                  disabled={true}
+                  id="installPluginButton"
+                  onClick={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Install"
+                    id="admin.plugin.install"
+                    values={Object {}}
+                  />
+                </button>
+              </p>
+            </div>
+          </div>
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When false, URLs provided must use the HTTPS protocol."
+                id="admin.plugins.settings.allowInsecureUrlDesc"
+              />
+            }
+            id="allowInsecureDownloadUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Allow Insecure Install URL:"
+                id="admin.plugins.settings.allowInsecureUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
+          />
           <div
             className="form-group"
           >
@@ -1268,6 +2318,90 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               className="control-label col-sm-4"
             >
               <FormattedMessage
+                defaultMessage="Install Plugin from URL: "
+                id="admin.plugin.installTitle"
+                values={Object {}}
+              />
+            </label>
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <input
+                  onChange={[Function]}
+                  style={
+                    Object {
+                      "width": "100%",
+                    }
+                  }
+                  type="text"
+                  value=""
+                />
+              </p>
+            </div>
+            <div
+              className="col-sm-4"
+            />
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <button
+                  className="btn"
+                  disabled={true}
+                  id="installPluginButton"
+                  onClick={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Install"
+                    id="admin.plugin.install"
+                    values={Object {}}
+                  />
+                </button>
+              </p>
+            </div>
+          </div>
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When false, URLs provided must use the HTTPS protocol."
+                id="admin.plugins.settings.allowInsecureUrlDesc"
+              />
+            }
+            id="allowInsecureDownloadUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Allow Insecure Install URL:"
+                id="admin.plugins.settings.allowInsecureUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
+          />
+          <div
+            className="form-group"
+          >
+            <label
+              className="control-label col-sm-4"
+            >
+              <FormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
                 values={Object {}}
@@ -1481,6 +2615,90 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               </p>
             </div>
           </div>
+          <div
+            className="form-group"
+          >
+            <label
+              className="control-label col-sm-4"
+            >
+              <FormattedMessage
+                defaultMessage="Install Plugin from URL: "
+                id="admin.plugin.installTitle"
+                values={Object {}}
+              />
+            </label>
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <input
+                  onChange={[Function]}
+                  style={
+                    Object {
+                      "width": "100%",
+                    }
+                  }
+                  type="text"
+                  value=""
+                />
+              </p>
+            </div>
+            <div
+              className="col-sm-4"
+            />
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <button
+                  className="btn"
+                  disabled={true}
+                  id="installPluginButton"
+                  onClick={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Install"
+                    id="admin.plugin.install"
+                    values={Object {}}
+                  />
+                </button>
+              </p>
+            </div>
+          </div>
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When false, URLs provided must use the HTTPS protocol."
+                id="admin.plugins.settings.allowInsecureUrlDesc"
+              />
+            }
+            id="allowInsecureDownloadUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Allow Insecure Install URL:"
+                id="admin.plugins.settings.allowInsecureUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
+          />
           <div
             className="form-group"
           >
@@ -1708,6 +2926,90 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               className="control-label col-sm-4"
             >
               <FormattedMessage
+                defaultMessage="Install Plugin from URL: "
+                id="admin.plugin.installTitle"
+                values={Object {}}
+              />
+            </label>
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <input
+                  onChange={[Function]}
+                  style={
+                    Object {
+                      "width": "100%",
+                    }
+                  }
+                  type="text"
+                  value=""
+                />
+              </p>
+            </div>
+            <div
+              className="col-sm-4"
+            />
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <button
+                  className="btn"
+                  disabled={true}
+                  id="installPluginButton"
+                  onClick={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Install"
+                    id="admin.plugin.install"
+                    values={Object {}}
+                  />
+                </button>
+              </p>
+            </div>
+          </div>
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When false, URLs provided must use the HTTPS protocol."
+                id="admin.plugins.settings.allowInsecureUrlDesc"
+              />
+            }
+            id="allowInsecureDownloadUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Allow Insecure Install URL:"
+                id="admin.plugins.settings.allowInsecureUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
+          />
+          <div
+            className="form-group"
+          >
+            <label
+              className="control-label col-sm-4"
+            >
+              <FormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
                 values={Object {}}
@@ -1921,6 +3223,90 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               </p>
             </div>
           </div>
+          <div
+            className="form-group"
+          >
+            <label
+              className="control-label col-sm-4"
+            >
+              <FormattedMessage
+                defaultMessage="Install Plugin from URL: "
+                id="admin.plugin.installTitle"
+                values={Object {}}
+              />
+            </label>
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <input
+                  onChange={[Function]}
+                  style={
+                    Object {
+                      "width": "100%",
+                    }
+                  }
+                  type="text"
+                  value=""
+                />
+              </p>
+            </div>
+            <div
+              className="col-sm-4"
+            />
+            <div
+              className="col-sm-8"
+            >
+              <p>
+                <button
+                  className="btn"
+                  disabled={true}
+                  id="installPluginButton"
+                  onClick={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Install"
+                    id="admin.plugin.install"
+                    values={Object {}}
+                  />
+                </button>
+              </p>
+            </div>
+          </div>
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When false, URLs provided must use the HTTPS protocol."
+                id="admin.plugins.settings.allowInsecureUrlDesc"
+              />
+            }
+            id="allowInsecureDownloadUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Allow Insecure Install URL:"
+                id="admin.plugins.settings.allowInsecureUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
+          />
           <div
             className="form-group"
           >

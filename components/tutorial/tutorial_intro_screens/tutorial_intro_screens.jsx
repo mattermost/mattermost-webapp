@@ -6,19 +6,17 @@ import React from 'react';
 import {FormattedMessage, intlShape} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
 import {Constants, Preferences, ModalIdentifiers} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url.jsx';
 import AppIcons from 'images/appIcons.png';
 import ModalToggleButtonRedux from 'components/toggle_modal_button_redux';
-import InviteMemberModal from 'components/invite_member_modal';
+import InvitationModal from 'components/invitation_modal';
 
 const NUM_SCREENS = 3;
 
 export default class TutorialIntroScreens extends React.Component {
     static propTypes = {
         currentUserId: PropTypes.string.isRequired,
-        teamType: PropTypes.string,
         step: PropTypes.number,
         townSquareDisplayName: PropTypes.string.isRequired,
         appDownloadLink: PropTypes.string,
@@ -218,38 +216,21 @@ export default class TutorialIntroScreens extends React.Component {
     createScreenThree() {
         let inviteModalLink;
         let inviteText;
-        const {teamType} = this.props;
-        const {formatMessage} = this.context.intl;
 
         if (!this.props.isLicensed || !this.props.restrictTeamInvite) {
-            if (teamType === Constants.INVITE_TEAM) {
-                const inviteMessage = formatMessage({id: 'tutorial_intro.invite', defaultMessage: 'Invite teammates'});
-                inviteModalLink = (
-                    <ModalToggleButtonRedux
-                        accessibilityLabel={inviteMessage}
-                        id='tutorialIntroInvite'
-                        className='intro-links color--link style--none'
-                        modalId={ModalIdentifiers.EMAIL_INVITE}
-                        dialogType={InviteMemberModal}
-                        dialogProps={{}}
-                    >
-                        {inviteMessage}
-                    </ModalToggleButtonRedux>
-                );
-            } else {
-                inviteModalLink = (
-                    <button
-                        id='tutorialIntroInvite'
-                        className='intro-links color--link style--none'
-                        onClick={GlobalActions.showGetTeamInviteLinkModal}
-                    >
-                        <FormattedMessage
-                            id='tutorial_intro.teamInvite'
-                            defaultMessage='Invite teammates'
-                        />
-                    </button>
-                );
-            }
+            inviteModalLink = (
+                <ModalToggleButtonRedux
+                    id='tutorialIntroInvite'
+                    className='intro-links color--link style--none'
+                    modalId={ModalIdentifiers.INVITATION}
+                    dialogType={InvitationModal}
+                >
+                    <FormattedMessage
+                        id='tutorial_intro.invite'
+                        defaultMessage='Invite teammates'
+                    />
+                </ModalToggleButtonRedux>
+            );
 
             inviteText = (
                 <p>

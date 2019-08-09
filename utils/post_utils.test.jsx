@@ -3,8 +3,12 @@
 
 import assert from 'assert';
 
+import {IntlProvider} from 'react-intl';
+
 import * as PostUtils from 'utils/post_utils.jsx';
 import {PostListRowListIds} from 'utils/constants.jsx';
+
+const enMessages = require('../i18n/en');
 
 describe('PostUtils.containsAtChannel', () => {
     test('should return correct @all (same for @channel)', () => {
@@ -527,13 +531,13 @@ describe('PostUtils.postMessageOnKeyPress', () => {
 });
 
 describe('PostUtils.getOldestPostId', () => {
-    test('Should not return MANUAL_TRIGGER_LOAD_MESSAGES', () => {
-        const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES]);
+    test('Should not return LOAD_OLDER_MESSAGES_TRIGGER', () => {
+        const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER]);
         assert.equal(postId, 'postId2');
     });
 
-    test('Should not return MORE_MESSAGES_LOADER', () => {
-        const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.MORE_MESSAGES_LOADER]);
+    test('Should not return OLDER_MESSAGES_LOADER', () => {
+        const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.OLDER_MESSAGES_LOADER]);
         assert.equal(postId, 'postId2');
     });
 
@@ -571,13 +575,13 @@ describe('PostUtils.getPreviousPostId', () => {
 });
 
 describe('PostUtils.getLatestPostId', () => {
-    test('Should not return MANUAL_TRIGGER_LOAD_MESSAGES', () => {
-        const postId = PostUtils.getLatestPostId([PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES, 'postId1', 'postId2']);
+    test('Should not return LOAD_OLDER_MESSAGES_TRIGGER', () => {
+        const postId = PostUtils.getLatestPostId([PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER, 'postId1', 'postId2']);
         assert.equal(postId, 'postId1');
     });
 
-    test('Should not return MORE_MESSAGES_LOADER', () => {
-        const postId = PostUtils.getLatestPostId([PostListRowListIds.MORE_MESSAGES_LOADER, 'postId1', 'postId2']);
+    test('Should not return OLDER_MESSAGES_LOADER', () => {
+        const postId = PostUtils.getLatestPostId([PostListRowListIds.OLDER_MESSAGES_LOADER, 'postId1', 'postId2']);
         assert.equal(postId, 'postId1');
     });
 
@@ -599,5 +603,73 @@ describe('PostUtils.getLatestPostId', () => {
     test('Should return first postId from combined system messages', () => {
         const postId = PostUtils.getLatestPostId(['user-activity-post1_post2_post3', 'postId1', 'postId2']);
         assert.equal(postId, 'post1');
+    });
+});
+
+describe('PostUtils.createAriaLabelForPost', () => {
+    test('Should show username, timestamp, message, attachments, reactions, flagged and pinned', () => {
+        const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
+        const {intl} = intlProvider.getChildContext();
+
+        const testPost = {
+            message: 'test_message',
+            root_id: null,
+            create_at: (new Date().getTime() / 1000) || 0,
+            props: {
+                attachments: [
+                    {i: 'am attachment 1'},
+                    {and: 'i am attachment 2'},
+                ],
+            },
+            file_ids: ['test_file_id_1'],
+        };
+        const author = 'test_author';
+        const reactions = {
+            reaction1: 'reaction 1',
+            reaction2: 'reaction 2',
+        };
+        const isFlagged = true;
+
+        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl);
+        assert.ok(ariaLabel.indexOf(author) === 0);
+        assert.ok(ariaLabel.indexOf(testPost.message));
+        assert.ok(ariaLabel.indexOf('3 attachments'));
+        assert.ok(ariaLabel.indexOf('2 reactions'));
+        assert.ok(ariaLabel.indexOf('message is flagged and pinned'));
+    });
+    test('Should show that message is a reply', () => {
+        const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
+        const {intl} = intlProvider.getChildContext();
+
+        const testPost = {
+            message: 'test_message',
+            root_id: 'test_id',
+            create_at: (new Date().getTime() / 1000) || 0,
+        };
+        const author = 'test_author';
+        const reactions = {};
+        const isFlagged = true;
+
+        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl);
+        assert.ok(ariaLabel.indexOf('reply'));
+    });
+    test('Should translate emoji into {emoji-name} emoji', () => {
+        const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
+        const {intl} = intlProvider.getChildContext();
+
+        const testPost = {
+            message: 'emoji_test :smile: :+1: :non-potable_water: :space emoji: :not_an_emoji:',
+            create_at: (new Date().getTime() / 1000) || 0,
+        };
+        const author = 'test_author';
+        const reactions = {};
+        const isFlagged = true;
+
+        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl);
+        assert.ok(ariaLabel.indexOf('smile emoji'));
+        assert.ok(ariaLabel.indexOf('+1 emoji'));
+        assert.ok(ariaLabel.indexOf('non-potable water emoji'));
+        assert.ok(ariaLabel.indexOf(':space emoji:'));
+        assert.ok(ariaLabel.indexOf(':not_an_emoji:'));
     });
 });

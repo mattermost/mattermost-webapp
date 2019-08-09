@@ -11,6 +11,25 @@ import LoadingScreen from 'components/loading_screen.jsx';
 import UserListRow from './user_list_row';
 
 export default class UserList extends React.Component {
+    static propTypes = {
+        users: PropTypes.arrayOf(PropTypes.object),
+        extraInfo: PropTypes.object,
+        actions: PropTypes.arrayOf(PropTypes.func),
+        actionProps: PropTypes.object,
+        actionUserProps: PropTypes.object,
+
+        // the type of user list row to render
+        rowComponentType: PropTypes.func,
+    }
+
+    static defaultProps = {
+        users: [],
+        extraInfo: {},
+        actions: [],
+        actionProps: {},
+        rowComponentType: UserListRow,
+    }
+
     constructor(props) {
         super(props);
 
@@ -69,22 +88,3 @@ export default class UserList extends React.Component {
         );
     }
 }
-
-UserList.defaultProps = {
-    users: [],
-    extraInfo: {},
-    actions: [],
-    actionProps: {},
-    rowComponentType: UserListRow,
-};
-
-UserList.propTypes = {
-    users: PropTypes.arrayOf(PropTypes.object),
-    extraInfo: PropTypes.object,
-    actions: PropTypes.arrayOf(PropTypes.func),
-    actionProps: PropTypes.object,
-    actionUserProps: PropTypes.object,
-
-    // the type of user list row to render
-    rowComponentType: PropTypes.func,
-};

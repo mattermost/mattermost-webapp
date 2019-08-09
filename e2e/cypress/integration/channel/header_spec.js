@@ -13,7 +13,11 @@ describe('Header', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+
+        // # Create new test team
+        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+            cy.visit(`/${response.body.name}`);
+        });
     });
 
     it('M13564 Ellipsis indicates the channel header is too long', () => {
@@ -21,6 +25,7 @@ describe('Header', () => {
         cy.updateChannelHeader('> newheader');
 
         // * Check if channel header description has no ellipsis
+        cy.get('#channelHeaderDescription').should('have.text', ' newheader');
         cy.get('#channelHeaderDescription').then(($header) => {
             expect($header.outerWidth()).to.be.closeTo($header[0].scrollWidth, 1);
         });
@@ -29,6 +34,7 @@ describe('Header', () => {
         cy.updateChannelHeader('>' + ' newheader'.repeat(20));
 
         // * Check if channel header description has ellipsis
+        cy.get('#channelHeaderDescription').should('have.text', ' newheader'.repeat(20));
         cy.get('#channelHeaderDescription').then(($header) => {
             expect($header.outerWidth()).lt($header[0].scrollWidth);
         });
@@ -49,9 +55,9 @@ describe('Header', () => {
         cy.changeMessageDisplaySetting('COMPACT');
 
         // # Open a DM with user named 'user-2'
-        cy.get('#directChannel > .add-channel-btn').click().wait(TIMEOUTS.TINY);
+        cy.get('#addDirectChannel').click().wait(TIMEOUTS.TINY);
         cy.focused().type('user-2', {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.TINY);
-        cy.get('#saveItems').click();
+        cy.get('#saveItems').click().wait(TIMEOUTS.TINY);
 
         // # Update DM channel header
         const header = 'quote newheader newheader newheader newheader newheader newheader newheader newheader newheader newheader';
@@ -70,6 +76,7 @@ describe('Header', () => {
 
         cy.apiSaveMessageDisplayPreference();
     });
+
     it('S13483 - Cleared search term should not reappear as RHS is opened and closed', () => {
         // # Place the focus on the search box and search for something
         cy.get('#searchFormContainer').click();

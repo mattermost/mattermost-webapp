@@ -77,6 +77,7 @@ class LeaveTeamModal extends React.PureComponent {
     render() {
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 className='modal-confirm'
                 show={this.props.show}
                 onHide={this.props.onHide}

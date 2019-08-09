@@ -159,6 +159,7 @@ export default class ResetPasswordModal extends React.Component {
 
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 show={this.props.show}
                 onHide={this.doCancel}
                 role='dialog'

@@ -371,22 +371,7 @@ describe('components/CreateComment', () => {
             expect(focusTextbox).toHaveBeenCalled();
         });
 
-        it('is not called when rootId does not change', () => {
-            const props = {...baseProps, draft};
-            const wrapper = shallowWithIntl(
-                <CreateComment {...props}/>
-            );
-
-            const focusTextbox = jest.fn();
-            wrapper.instance().focusTextbox = focusTextbox;
-
-            // Note that setProps doesn't actually trigger componentDidUpdate
-            wrapper.setProps(props);
-            wrapper.instance().componentDidUpdate(props, props);
-            expect(focusTextbox).not.toHaveBeenCalled();
-        });
-
-        it('is called when rootId does not change but the selectPostFocussedAt occurred after the last blur', () => {
+        it('is called when selectPostFocussedAt changes', () => {
             const props = {...baseProps, draft, selectedPostFocussedAt: 1000};
             const wrapper = shallowWithIntl(
                 <CreateComment {...props}/>
@@ -395,13 +380,18 @@ describe('components/CreateComment', () => {
             const focusTextbox = jest.fn();
             wrapper.instance().focusTextbox = focusTextbox;
 
+            const newProps = {
+                ...props,
+                selectedPostFocussedAt: 2000,
+            };
+
             // Note that setProps doesn't actually trigger componentDidUpdate
-            wrapper.setProps(props);
+            wrapper.setProps(newProps);
             wrapper.instance().componentDidUpdate(props, props);
             expect(focusTextbox).toHaveBeenCalled();
         });
 
-        it('is not called when rootId does not change and the selectPostFocussedAt occurred before the last blur', () => {
+        it('is not called when rootId and selectPostFocussedAt have not changed', () => {
             const props = {...baseProps, draft, selectedPostFocussedAt: 1000};
             const wrapper = shallowWithIntl(
                 <CreateComment {...props}/>

@@ -146,6 +146,7 @@ export default class ImportThemeModal extends React.Component {
         return (
             <span>
                 <Modal
+                    dialogClassName='a11y__modal'
                     show={this.state.show}
                     onHide={this.handleOnHide}
                     role='dialog'

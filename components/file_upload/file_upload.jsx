@@ -597,14 +597,23 @@ export default class FileUpload extends PureComponent {
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
 
         let bodyAction;
+        const ariaLabel = formatMessage({id: 'accessibility.button.attachment', defaultMessage: 'attachment'});
+
         if (this.props.pluginFileUploadMethods.length === 0) {
             bodyAction = (
-                <div
-                    id='fileUploadButton'
-                    className='icon icon--attachment'
-                >
-                    <AttachmentIcon/>
+                <div>
+                    <button
+                        type='button'
+                        id='fileUploadButton'
+                        aria-label={ariaLabel}
+                        className='style--none post-action icon icon--attachment'
+                        onClick={this.simulateInputClick}
+                    >
+                        <AttachmentIcon/>
+                    </button>
                     <input
+                        id='fileUploadInput'
+                        tabIndex='-1'
                         aria-label={formatMessage(holders.uploadFile)}
                         ref={this.fileInput}
                         type='file'
@@ -627,7 +636,7 @@ export default class FileUpload extends PureComponent {
                             this.setState({menuOpen: false});
                         }}
                     >
-                        <a>
+                        <a href='#'>
                             <span className='margin-right'>{item.icon}</span>
                             {item.text}
                         </a>
@@ -635,8 +644,9 @@ export default class FileUpload extends PureComponent {
                 );
             });
             bodyAction = (
-                <React.Fragment>
+                <div>
                     <input
+                        tabIndex='-1'
                         aria-label={formatMessage(holders.uploadFile)}
                         ref={this.fileInput}
                         type='file'
@@ -649,7 +659,8 @@ export default class FileUpload extends PureComponent {
                     <MenuWrapper>
                         <button
                             type='button'
-                            className='style--none'
+                            aria-label={ariaLabel}
+                            className='style--none post-action'
                         >
                             <div
                                 id='fileUploadButton'
@@ -665,7 +676,10 @@ export default class FileUpload extends PureComponent {
                             customStyles={customStyles}
                         >
                             <li>
-                                <a onClick={this.simulateInputClick}>
+                                <a
+                                    href='#'
+                                    onClick={this.simulateInputClick}
+                                >
                                     <span className='margin-right'><i className='fa fa-laptop'/></span>
                                     <FormattedMessage
                                         id='yourcomputer'
@@ -676,7 +690,7 @@ export default class FileUpload extends PureComponent {
                             {pluginFileUploadMethods}
                         </Menu>
                     </MenuWrapper>
-                </React.Fragment>
+                </div>
             );
         }
 
@@ -685,12 +699,9 @@ export default class FileUpload extends PureComponent {
         }
 
         return (
-            <span
-                ref='input'
-                className={uploadsRemaining <= 0 ? ' btn-file__disabled' : ''}
-            >
+            <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
                 {bodyAction}
-            </span>
+            </div>
         );
     }
 }

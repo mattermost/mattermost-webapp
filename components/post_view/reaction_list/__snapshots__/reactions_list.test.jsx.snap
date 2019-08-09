@@ -4,6 +4,7 @@ exports[`components/ReactionList should render nothing when no reactions 1`] = `
 
 exports[`components/ReactionList should render when there are reactions 1`] = `
 <div
+  aria-label="reactions"
   className="post-reaction-list"
 >
   <Connect(Reaction)
@@ -75,8 +76,9 @@ exports[`components/ReactionList should render when there are reactions 1`] = `
           }
           teamId="teamId"
         >
-          <div
-            className="post-reaction"
+          <button
+            aria-label="add reaction"
+            className="style--none post-reaction"
             onClick={[Function]}
           >
             <span
@@ -85,7 +87,7 @@ exports[`components/ReactionList should render when there are reactions 1`] = `
             >
               +
             </span>
-          </div>
+          </button>
         </Connect(ChannelPermissionGate)>
       </OverlayTrigger>
     </span>

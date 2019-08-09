@@ -20,7 +20,7 @@ export default class Suggestion extends React.Component {
 
     static baseProps = {
         role: 'button',
-        tabIndex: 0,
+        tabIndex: -1,
     };
 
     constructor(props) {

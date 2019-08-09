@@ -17,6 +17,7 @@ import {
     isCurrentChannelFavorite,
     isCurrentChannelMuted,
     isCurrentChannelReadOnly,
+    getCurrentChannelStats,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
@@ -49,6 +50,7 @@ const mapStateToProps = (state) => {
         const dmUserId = getUserIdFromChannelName(user.id, channel.name);
         dmUser = getUser(state, dmUserId);
     }
+    const stats = getCurrentChannelStats(state) || {member_count: 0, guest_count: 0};
 
     return {
         teamId: getCurrentTeamId(state),
@@ -61,6 +63,7 @@ const mapStateToProps = (state) => {
         isReadOnly: isCurrentChannelReadOnly(state),
         isMuted: isCurrentChannelMuted(state),
         isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
+        hasGuests: stats.guest_count > 0,
     };
 };
 

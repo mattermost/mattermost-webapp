@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Creatable from 'react-select/lib/Creatable';
 import {components} from 'react-select';
-import {FormattedMessage} from 'react-intl';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
@@ -48,15 +47,26 @@ export default class EmailsInput extends React.Component {
     );
 
     NoOptionsMessage = (props) => {
+        const inputValue = props.selectProps.inputValue;
+        if (!inputValue) {
+            return null;
+        }
         return (
-            <components.NoOptionsMessage {...props}>
-                <FormattedMessage
+            <div className='emails-input__option emails-input__option--no-matches'>
+                <FormattedMarkdownMessage
                     id={this.props.noOptionsMessageId}
                     defaultMessage={this.props.noOptionsMessageDefault}
-                />
-            </components.NoOptionsMessage>
+                    values={{text: inputValue}}
+                >
+                    {(message) => (
+                        <components.NoOptionsMessage {...props}>
+                            {message}
+                        </components.NoOptionsMessage>
+                    )}
+                </FormattedMarkdownMessage>
+            </div>
         );
-    }
+    };
 
     MultiValueLabel = (props) => (
         <React.Fragment>

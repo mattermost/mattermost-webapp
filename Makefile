@@ -58,6 +58,9 @@ run: node_modules ## Runs app
 
 	npm run run &
 
+dev: node_modules ## Runs webpack-dev-server
+	npm run dev-server
+
 run-fullmap: node_modules ## Legacy alias to run
 	@echo Running mattermost Webapp for development
 

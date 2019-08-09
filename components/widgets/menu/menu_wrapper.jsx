@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Constants from 'utils/constants.jsx';
+
 import MenuWrapperAnimation from './menu_wrapper_animation.jsx';
 
 export default class MenuWrapper extends React.PureComponent {
@@ -31,18 +33,34 @@ export default class MenuWrapper extends React.PureComponent {
     }
 
     componentDidMount() {
-        document.addEventListener('click', this.close, true);
+        document.addEventListener('click', this.closeOnBlur, true);
+        document.addEventListener('keyup', this.keyboardClose, true);
     }
 
     componentWillUnmount() {
-        document.removeEventListener('click', this.close, true);
+        document.removeEventListener('click', this.closeOnBlur, true);
+        document.removeEventListener('keyup', this.keyboardClose, true);
     }
 
-    close = (e) => {
-        if (this.node.current.contains(e.target)) {
+    keyboardClose = (e) => {
+        if (e.key === Constants.KeyCodes.ESCAPE[0]) {
+            this.close();
+        }
+
+        if (e.key === Constants.KeyCodes.TAB[0]) {
+            this.closeOnBlur(e);
+        }
+    }
+
+    closeOnBlur = (e) => {
+        if (this.node.current && this.node.current.contains(e.target)) {
             return;
         }
 
+        this.close();
+    }
+
+    close = () => {
         if (this.state.open) {
             this.setState({open: false});
             if (this.props.onToggle) {

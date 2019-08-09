@@ -2,9 +2,9 @@
 
 exports[`PostBodyAdditionalContent with a YouTube video should not render content when isEmbedVisible is false 1`] = `
 <div>
-  <a
+  <button
     aria-label="Toggle Embed Visibility"
-    className="post__embed-visibility pull-left"
+    className="style--none post__embed-visibility color--link pull-left"
     data-expanded={false}
     key="toggle"
     onClick={[Function]}
@@ -17,9 +17,9 @@ exports[`PostBodyAdditionalContent with a YouTube video should not render conten
 
 exports[`PostBodyAdditionalContent with a YouTube video should render correctly 1`] = `
 <div>
-  <a
+  <button
     aria-label="Toggle Embed Visibility"
-    className="post__embed-visibility pull-left"
+    className="style--none post__embed-visibility color--link pull-left"
     data-expanded={true}
     key="toggle"
     onClick={[Function]}
@@ -40,9 +40,9 @@ exports[`PostBodyAdditionalContent with a YouTube video should render the toggle
   <span>
     some children
   </span>
-  <a
+  <button
     aria-label="Toggle Embed Visibility"
-    className="post__embed-visibility "
+    className="style--none post__embed-visibility color--link "
     data-expanded={true}
     key="toggle"
     onClick={[Function]}
@@ -70,9 +70,9 @@ exports[`PostBodyAdditionalContent with a message attachment should render corre
 
 exports[`PostBodyAdditionalContent with an image preview should render correctly 1`] = `
 <div>
-  <a
+  <button
     aria-label="Toggle Embed Visibility"
-    className="post__embed-visibility pull-left"
+    className="style--none post__embed-visibility color--link pull-left"
     data-expanded={true}
     key="toggle"
     onClick={[Function]}
@@ -112,9 +112,9 @@ exports[`PostBodyAdditionalContent with an image preview should render the toggl
   <span>
     some children
   </span>
-  <a
+  <button
     aria-label="Toggle Embed Visibility"
-    className="post__embed-visibility "
+    className="style--none post__embed-visibility color--link "
     data-expanded={true}
     key="toggle"
     onClick={[Function]}

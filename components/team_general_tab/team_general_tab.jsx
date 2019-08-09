@@ -350,14 +350,14 @@ export default class GeneralTab extends React.Component {
                         <div>
                             <FormattedMarkdownMessage
                                 id='team_settings.openInviteDescription.groupConstrained'
-                                defaultMessage='No, members of this team are added and removed by linked groups. [Learn More](https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
+                                defaultMessage='No, members of this team are added and removed by linked groups. [Learn More](!https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
                             />
                         </div>
                     </div>,
                 ];
             } else {
                 inputs = [
-                    <div key='userOpenInviteOptions'>
+                    <fieldset key='userOpenInviteOptions'>
                         <div className='radio'>
                             <label>
                                 <input
@@ -390,14 +390,13 @@ export default class GeneralTab extends React.Component {
                             </label>
                             <br/>
                         </div>
-                        <div>
-                            <br/>
+                        <div className='margin-top x3'>
                             <FormattedMessage
                                 id='general_tab.openInviteDesc'
                                 defaultMessage='When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team.'
                             />
                         </div>
-                    </div>,
+                    </fieldset>,
                 ];
             }
 
@@ -669,7 +668,7 @@ export default class GeneralTab extends React.Component {
                 );
             } else {
                 minMessage = Utils.isMobile() ?
-                    Utils.localizeMessage('general_tab.teamIconEditHintMobile', 'Click to upload an image.') :
+                    Utils.localizeMessage('general_tab.teamIconEditHintMobile', 'Click to upload an image') :
                     Utils.localizeMessage('general_tab.teamIconEditHint', 'Click \'Edit\' to upload an image.');
             }
 

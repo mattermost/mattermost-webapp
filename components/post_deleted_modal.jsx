@@ -27,6 +27,7 @@ export default class PostDeletedModal extends React.Component {
     render() {
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 show={this.props.show}
                 onHide={this.props.onHide}
                 role='dialog'

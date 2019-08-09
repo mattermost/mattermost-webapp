@@ -25,10 +25,12 @@ describe('components/widgets/inputs/UsersEmailsInput', () => {
   components={
     Object {
       "IndicatorsContainer": [Function],
+      "MultiValueRemove": [Function],
       "NoOptionsMessage": [Function],
     }
   }
-  defaultOptions={true}
+  defaultMenuIsOpen={false}
+  defaultOptions={false}
   filterOption={null}
   formatOptionLabel={[Function]}
   getOptionValue={[Function]}
@@ -38,6 +40,7 @@ describe('components/widgets/inputs/UsersEmailsInput', () => {
   loadOptions={[MockFunction]}
   loadingMessage={[Function]}
   onChange={[Function]}
+  openMenuOnClick={false}
   placeholder="test"
   value={
     Array [

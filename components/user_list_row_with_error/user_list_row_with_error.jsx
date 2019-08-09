@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
@@ -123,7 +124,7 @@ export default class UserListRowWithError extends React.Component {
                                 id={userCountID}
                                 className='more-modal__name'
                             >
-                                {Utils.displayEntireNameForUser(this.props.user)}
+                                <Link to={'/admin_console/user_management/user/' + this.props.user.id}>{Utils.displayEntireNameForUser(this.props.user)}</Link>
                                 <BotBadge
                                     className='badge-admin'
                                     show={Boolean(this.props.user.is_bot)}

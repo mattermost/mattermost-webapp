@@ -13,6 +13,7 @@ import {isPostEphemeral, isSystemMessage} from 'mattermost-redux/utils/post_util
 
 import {selectPost, selectPostCard} from 'actions/views/rhs';
 import {Preferences} from 'utils/constants.jsx';
+import {makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
 
 import Post from './post.jsx';
 
@@ -50,6 +51,7 @@ export function makeGetReplyCount() {
 function makeMapStateToProps() {
     const getReplyCount = makeGetReplyCount();
     const isPostCommentMention = makeIsPostCommentMention();
+    const createAriaLabelForPost = makeCreateAriaLabelForPost();
 
     return (state, ownProps) => {
         const post = ownProps.post || getPost(state, ownProps.postId);
@@ -73,6 +75,7 @@ function makeMapStateToProps() {
 
         return {
             post,
+            createAriaLabel: createAriaLabelForPost(state, post),
             currentUserId: getCurrentUserId(state),
             isFirstReply: isFirstReply(post, previousPost),
             consecutivePostByUser,

@@ -229,7 +229,7 @@ export default class NewChannelModal extends React.PureComponent {
         let typeOptions = null;
         if (enableTypeSelection) {
             typeOptions = (
-                <div
+                <fieldset
                     key='channelType'
                     className='multi-select__radio'
                 >
@@ -257,7 +257,7 @@ export default class NewChannelModal extends React.PureComponent {
                             {privateChannelDesc}
                         </label>
                     </div>
-                </div>
+                </fieldset>
             );
         } else {
             typeOptions = (
@@ -275,7 +275,7 @@ export default class NewChannelModal extends React.PureComponent {
         return (
             <span>
                 <Modal
-                    dialogClassName='new-channel__modal new-channel'
+                    dialogClassName='a11y__modal new-channel__modal new-channel'
                     show={this.props.show}
                     bsSize='large'
                     onHide={this.props.onModalDismissed}
@@ -290,7 +290,6 @@ export default class NewChannelModal extends React.PureComponent {
                             type='button'
                             className='close'
                             onClick={this.props.onModalDismissed}
-                            tabIndex='5'
                         >
                             <span aria-hidden='true'>{'×'}</span>
                             <span className='sr-only'>{'Close'}</span>
@@ -339,7 +338,6 @@ export default class NewChannelModal extends React.PureComponent {
                                         maxLength={Constants.MAX_CHANNELNAME_LENGTH}
                                         value={this.props.channelData.displayName}
                                         autoFocus={true}
-                                        tabIndex='1'
                                         onKeyDown={this.onEnterKeyDown}
                                     />
                                     {displayNameError}
@@ -348,7 +346,6 @@ export default class NewChannelModal extends React.PureComponent {
                                         <button
                                             className='color--link style--none'
                                             onClick={this.handleOnURLChange}
-                                            tabIndex='7'
                                         >
                                             <FormattedMessage
                                                 id='channel_modal.edit'
@@ -384,7 +381,6 @@ export default class NewChannelModal extends React.PureComponent {
                                         maxLength='250'
                                         value={this.props.channelData.purpose}
                                         onChange={this.handleChange}
-                                        tabIndex='2'
                                     />
                                     <p className='input__help'>
                                         <FormattedMessage
@@ -419,7 +415,6 @@ export default class NewChannelModal extends React.PureComponent {
                                         maxLength='1024'
                                         value={this.props.channelData.header}
                                         onChange={this.handleChange}
-                                        tabIndex='3'
                                     />
                                     <p className='input__help'>
                                         <FormattedMessage
@@ -437,7 +432,6 @@ export default class NewChannelModal extends React.PureComponent {
                                 type='button'
                                 className='btn btn-link'
                                 onClick={this.props.onModalDismissed}
-                                tabIndex='8'
                                 onBlur={() => document.getElementById('newChannelName').focus()}
                             >
                                 <FormattedMessage
@@ -450,7 +444,6 @@ export default class NewChannelModal extends React.PureComponent {
                                 onClick={this.handleSubmit}
                                 type='submit'
                                 className='btn btn-primary'
-                                tabIndex='4'
                             >
                                 <FormattedMessage
                                     id='channel_modal.createNew'

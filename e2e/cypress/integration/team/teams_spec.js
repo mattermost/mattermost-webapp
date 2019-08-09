@@ -15,7 +15,7 @@ function removeTeamMember(teamURL, username) {
     cy.apiLogout();
     cy.apiLogin('sysadmin');
     cy.visit(`/${teamURL}`);
-    cy.get('#sidebarHeaderDropdownButton').click();
+    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#manageMembers').click();
     cy.get(`#teamMembersDropdown_${username}`).should('be.visible').click();
     cy.get('#removeFromTeam').should('be.visible').click();
@@ -60,7 +60,6 @@ describe('Teams Suite', () => {
         const user = users['user-1'];
         const letterCount = 3;
         const nameStartsWith = user.firstName.slice(0, letterCount);
-        const maxSelectableValues = 20;
         const teamName = 'Stub team';
         const max = 9999;
         const teamURL = `stub-team-${getRandomInt(max).toString()}`;
@@ -75,26 +74,26 @@ describe('Teams Suite', () => {
         // # Create team
         cy.createNewTeam(teamName, teamURL);
 
-        // # Click hamburger menu > “Add Members to Team”
+        // # Click hamburger menu > Invite People
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#sidebarDropdownMenu #addUsersToTeam').should('be.visible').click();
+        cy.get('#invitePeople').should('be.visible').and('have.text', 'Invite People').click();
 
-        // * Check that the "add new members modal" opened up
-        cy.get('#addUsersToTeamModal').should('be.visible');
+        // * Check that the Invitation Modal opened up
+        cy.getByTestId('invitationModal', {timeout: TIMEOUTS.TINY}).should('be.visible');
 
-        // # In "Add New Members To [team name] Team" modal, type the first few letters of a user who is on that server but not on the active team in the search box to filter the list
-        cy.focused().type(nameStartsWith, {force: true});
+        cy.getByTestId('inputPlaceholder').should('be.visible').within(($el) => {
+            // # Type the first letters of a user
+            cy.wrap($el).get('input').type(nameStartsWith, {force: true});
 
-        // * Verify list filters as expected
-        cy.get('.filtered-user-list').should('contain', user.username);
+            // * Verify user is on the list, then select by clicking on it
+            cy.wrap($el).get('.users-emails-input__menu').
+                children().should('have.length', 1).
+                eq(0).should('have.text', `@${user.username} - ${user.firstName} ${user.lastName}`).
+                click();
+        });
 
-        // # Select a user from the list, verify number of users who can be added decrements from 20 to 19
-        cy.get('#numPeopleRemaining').should('contain', maxSelectableValues);
-        cy.focused().type('{enter}');
-        cy.get('#numPeopleRemaining').should('contain', maxSelectableValues - 1);
-
-        // # Click Add
-        cy.get('#saveItems').click();
+        // # Click Invite Members
+        cy.getByText(/Invite Members/).click();
 
         // * System message posts in Town Square and Off-Topic "[user2] added to the channel by [user1]"
         cy.visit(townSquareURL);
@@ -137,9 +136,11 @@ describe('Teams Suite', () => {
 
         leaveAllTeams();
 
-        cy.get('a.signup-team-login').should('contain', 'Create a new team');
+        // * Check that it redirects into team selection page after leaving all teams
+        cy.url().should('include', '/select_team');
 
-        cy.logout();
+        // # Check that logout is visible and then click to logout
+        cy.get('#logout').should('be.visible').click();
 
         // * Ensure user is logged out
         cy.url({timeout: TIMEOUTS.LARGE}).should('include', 'login');

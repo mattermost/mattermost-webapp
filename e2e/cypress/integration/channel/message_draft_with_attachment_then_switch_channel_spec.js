@@ -31,13 +31,8 @@ describe('Message Draft with attachment and Switch Channels', () => {
                 // # Validate if the draft icon is not visible on the sidebar before making a draft
                 cy.get(`#sidebarItem_${testChannel1.name} #draftIcon`).should('be.not.visible');
 
-                // # Attach image in text area
-                cy.fixture('mattermost-icon.png').then((fileContent) => {
-                    cy.get('#fileUploadButton input').upload(
-                        {fileContent, fileName: 'mattermost-icon.png', mimeType: 'image/png'},
-                        {subjectType: 'drag-n-drop'},
-                    );
-                });
+                // # Upload a file on center view
+                cy.fileUpload('#fileUploadInput');
             });
 
             cy.apiCreateChannel(teamId, channelName2, channelName2, 'O', 'Test channel').then((response) => {
@@ -50,8 +45,7 @@ describe('Message Draft with attachment and Switch Channels', () => {
                 cy.url().should('include', '/channels/' + testChannel2.name);
 
                 // # Validate if the draft icon is visible in side bar for the previous channel
-                cy.get('#publicChannel').scrollIntoView();
-                cy.get(`#sidebarItem_${testChannel1.name} #draftIcon`).should('be.visible');
+                cy.get(`#sidebarItem_${testChannel1.name} #draftIcon`).scrollIntoView().should('be.visible');
             });
         });
     });

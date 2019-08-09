@@ -69,7 +69,7 @@ export default function ErrorMessage({type, message, service}) {
                 <p>
                     <FormattedMessage
                         id='error.channel_not_found.message'
-                        defaultMessage="The team you're requesting is private or does not exist. Please contact your Administrator for an invitation."
+                        defaultMessage="The channel you're requesting is private or does not exist. Please contact an Administrator to be added to the channel."
                     />
                 </p>
             );

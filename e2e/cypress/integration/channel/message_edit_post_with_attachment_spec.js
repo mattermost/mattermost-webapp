@@ -11,8 +11,9 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('MM-13697 Edit Post with attachment', () => {
     before(() => {
-        // # Login and go to /
+        // # Login, set display preference and go to /
         cy.apiLogin('user-1');
+        cy.apiSaveMessageDisplayPreference();
         cy.visit('/ad-1/channels/town-square');
     });
 
@@ -23,13 +24,8 @@ describe('MM-13697 Edit Post with attachment', () => {
         // * Validate if the channel has been opened
         cy.url().should('include', '/ad-1/channels/town-square');
 
-        // # Attach image
-        cy.fixture('mattermost-icon.png').then((fileContent) => {
-            cy.get('#fileUploadButton input').upload(
-                {fileContent, fileName: 'mattermost-icon.png', mimeType: 'image/png'},
-                {subjectType: 'drag-n-drop'},
-            );
-        });
+        // # Upload a file on center view
+        cy.fileUpload('#fileUploadInput');
 
         // # Type 'This is sample text' and submit
         cy.postMessage('This is sample text');

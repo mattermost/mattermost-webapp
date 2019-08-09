@@ -90,7 +90,7 @@ export default class AdminGroupUsers extends React.PureComponent {
 
     render = () => {
         return (
-            <div className='groups-list'>
+            <div className='groups-list groups-list-less-padding'>
                 <div className='groups-list--header'>
                     <div className='group-name'>
                         <FormattedMessage

@@ -169,7 +169,7 @@ export default class ListModal extends React.PureComponent {
         return (
             <div>
                 <Modal
-                    dialogClassName='more-modal more-modal--action'
+                    dialogClassName='a11y__modal more-modal more-modal--action'
                     show={this.state.show}
                     onHide={this.handleHide}
                     onExited={this.handleExit}

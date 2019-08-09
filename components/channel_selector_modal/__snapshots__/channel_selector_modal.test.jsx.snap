@@ -7,7 +7,7 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="more-modal more-direct-channels channel-selector-modal"
+  dialogClassName="a11y__modal more-modal more-direct-channels channel-selector-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -51,6 +51,7 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
     componentClass="div"
   >
     <MultiSelect
+      ariaLabelRenderer={[Function]}
       buttonSubmitText="Add"
       handleAdd={[Function]}
       handleDelete={[Function]}

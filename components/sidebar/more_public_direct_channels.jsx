@@ -39,7 +39,7 @@ export default class MorePublicDirectChannels extends React.PureComponent {
     render() {
         return (
             <Modal
-                dialogClassName={'more-modal more-direct-channels more-public-direct-channels'}
+                dialogClassName='a11y__modal more-modal more-direct-channels more-public-direct-channels'
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}

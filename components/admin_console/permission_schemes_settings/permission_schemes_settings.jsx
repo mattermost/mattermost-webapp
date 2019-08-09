@@ -334,6 +334,8 @@ t('admin.permissions.permission.view_team.description');
 t('admin.permissions.permission.view_team.name');
 t('admin.permissions.permission.edit_others_posts.description');
 t('admin.permissions.permission.edit_others_posts.name');
+t('admin.permissions.permission.invite_guest.name');
+t('admin.permissions.permission.invite_guest.description');
 t('admin.permissions.roles.all_users.name');
 t('admin.permissions.roles.channel_admin.name');
 t('admin.permissions.roles.channel_user.name');

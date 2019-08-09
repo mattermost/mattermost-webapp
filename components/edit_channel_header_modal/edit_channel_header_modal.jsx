@@ -182,6 +182,7 @@ class EditChannelHeaderModal extends React.PureComponent {
 
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 show={this.state.show}
                 onHide={this.onHide}
                 onEntering={this.handleEntering}

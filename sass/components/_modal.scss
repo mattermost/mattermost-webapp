@@ -35,28 +35,6 @@
         max-height: 150px;
     }
 
-    .edit-post__actions {
-        display: inline-block;
-        height: 30px;
-        line-height: 34px;
-        position: absolute;
-        right: 18px;
-        text-align: center;
-        top: 24px;
-        width: 30px;
-
-        .icon {
-            @include opacity(.5);
-            cursor: pointer;
-        }
-
-        &:hover {
-            .icon {
-                @include opacity(.7);
-            }
-        }
-    }
-
     .edit-post-footer {
         display: inline-block;
         font-size: 13px;
@@ -147,14 +125,7 @@
     }
 
     .custom-textarea {
-        border-color: $light-gray;
-        color: inherit;
         padding: 12px 30px 12px 15px;
-
-        &:focus {
-            border-color: $light-gray;
-            box-shadow: none;
-        }
     }
 
     .btn {
@@ -704,16 +675,22 @@
         align-self: center;
         flex-grow: 1;
         flex-shrink: 1;
+        font-size: .9em;
         overflow: hidden;
         padding-left: 10px;
         text-overflow: ellipsis;
 
         .more-modal__name {
+            margin: 5px 0;
             display: flex;
             min-width: 0;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            .more-modal__name_sub {
+                opacity: 0.5;
+                font-weight: 500;
+            }
         }
     }
 
@@ -797,8 +774,6 @@
     }
 
     p {
-        @include opacity(.8);
-        font-size: .9em;
         margin: 5px 0;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -819,6 +794,13 @@
 
     >div {
         flex: 1 1 auto;
+    }
+
+    .multi-select__wrapper {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 500;
+        height: 1px;
     }
 
     .more-modal__list {

@@ -16,26 +16,20 @@ const LiveReloadPlugin = require('webpack-livereload-plugin');
 
 const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
 
-var DEV = false;
-var TEST = false;
-if (NPM_TARGET === 'run') {
-    DEV = true;
-}
+const targetIsRun = NPM_TARGET === 'run';
+const targetIsTest = NPM_TARGET === 'test';
+const targetIsStats = NPM_TARGET === 'stats';
+const targetIsDevServer = NPM_TARGET === 'dev-server';
 
-if (NPM_TARGET === 'test') {
-    DEV = false;
-    TEST = true;
-}
-
-if (NPM_TARGET === 'stats') {
-    DEV = true;
-    TEST = false;
-}
+const DEV = targetIsRun || targetIsStats || targetIsDevServer;
 
 const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
     path.join(__dirname, 'non_npm_dependencies'),
 ];
+
+// react-hot-loader requires eval
+const CSP_UNSAFE_EVAL_IF_DEV = targetIsDevServer ? ' \'unsafe-eval\'' : '';
 
 var MYSTATS = {
 
@@ -140,11 +134,11 @@ if (DEV) {
 }
 
 var config = {
-    entry: ['@babel/polyfill', 'whatwg-fetch', 'url-search-params-polyfill', './root.jsx', 'root.html'],
+    entry: ['./root.jsx', 'root.html'],
     output: {
         path: path.join(__dirname, 'dist'),
         publicPath,
-        filename: '[name].[contenthash].js',
+        filename: '[name].[hash].js',
         chunkFilename: '[name].[contenthash].js',
     },
     module: {
@@ -177,7 +171,7 @@ var config = {
             {
                 test: /\.scss$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
                     },
@@ -192,7 +186,7 @@ var config = {
             {
                 test: /\.css$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
                     },
@@ -259,6 +253,12 @@ var config = {
             filename: 'root.html',
             inject: 'head',
             template: 'root.html',
+            meta: {
+                csp: {
+                    'http-equiv': 'Content-Security-Policy',
+                    content: 'script-src \'self\' cdn.segment.com/analytics.js/' + CSP_UNSAFE_EVAL_IF_DEV,
+                },
+            },
         }),
         new CopyWebpackPlugin([
             {from: 'images/emoji', to: 'emoji'},
@@ -339,7 +339,7 @@ var config = {
     ],
 };
 
-if (NPM_TARGET !== 'stats') {
+if (!targetIsStats) {
     config.stats = MYSTATS;
 }
 
@@ -364,15 +364,64 @@ if (DEV) {
 } else {
     env.NODE_ENV = JSON.stringify('production');
 }
+
 config.plugins.push(new webpack.DefinePlugin({
     'process.env': env,
 }));
 
 // Test mode configuration
-if (TEST) {
-    config.entry = ['@babel/polyfill', './root.jsx'];
+if (targetIsTest) {
+    config.entry = ['./root.jsx'];
     config.target = 'node';
     config.externals = [nodeExternals()];
+}
+
+if (targetIsDevServer) {
+    config = {
+        ...config,
+        devtool: 'cheap-module-eval-source-map',
+        devServer: {
+            hot: true,
+            injectHot: true,
+            liveReload: false,
+            overlay: true,
+            proxy: [{
+                context: () => true,
+                bypass(req) {
+                    if (req.url.indexOf('/api') === 0 ||
+                        req.url.indexOf('/static/plugins/') === 0 ||
+                        req.url.indexOf('/sockjs-node/') !== -1) {
+                        return null; // send through proxy to the server
+                    }
+                    if (req.url.indexOf('/static/') === 0) {
+                        return path; // return the webpacked asset
+                    }
+
+                    // redirect (root, team routes, etc)
+                    return '/static/root.html';
+                },
+                logLevel: 'silent',
+                target: 'http://localhost:8065',
+                xfwd: true,
+                ws: true,
+            }],
+            port: 9005,
+            watchContentBase: true,
+            writeToDisk: false,
+        },
+        performance: false,
+        optimization: {
+            ...config.optimization,
+            splitChunks: false,
+        },
+        resolve: {
+            ...config.resolve,
+            alias: {
+                ...config.resolve.alias,
+                'react-dom': '@hot-loader/react-dom',
+            },
+        },
+    };
 }
 
 // Export PRODUCTION_PERF_DEBUG=1 when running webpack to enable support for the react profiler

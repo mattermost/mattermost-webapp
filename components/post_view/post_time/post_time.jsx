@@ -51,7 +51,11 @@ export default class PostTime extends React.PureComponent {
             />
         );
         if (isMobile() || !this.props.isPermalink) {
-            return localDateTime;
+            return (
+                <div className='post__permalink'>
+                    {localDateTime}
+                </div>
+            );
         }
 
         const {

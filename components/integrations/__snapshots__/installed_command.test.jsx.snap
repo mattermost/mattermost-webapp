@@ -10,11 +10,11 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
     <div
       className="item-details__row"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         display_name
-      </span>
+      </strong>
       <span
         className="item-details__trigger"
       >
@@ -113,11 +113,11 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
     <div
       className="item-details__row"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         display_name
-      </span>
+      </strong>
       <span
         className="item-details__trigger"
       >
@@ -218,11 +218,11 @@ exports[`components/integrations/InstalledCommand should match snapshot 1`] = `
     <div
       className="item-details__row"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         display_name
-      </span>
+      </strong>
       <span
         className="item-details__trigger"
       >
@@ -292,7 +292,7 @@ exports[`components/integrations/InstalledCommand should match snapshot, not aut
     <div
       className="item-details__row"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         <FormattedMessage
@@ -300,7 +300,7 @@ exports[`components/integrations/InstalledCommand should match snapshot, not aut
           id="installed_commands.unnamed_command"
           values={Object {}}
         />
-      </span>
+      </strong>
       <span
         className="item-details__trigger"
       >

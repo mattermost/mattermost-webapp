@@ -16,7 +16,6 @@ import search from './search';
 import notice from './notice';
 import system from './system';
 import channelSelectorModal from './channel_selector_modal';
-import websocket from './websocket';
 
 export default combineReducers({
     admin,
@@ -32,5 +31,4 @@ export default combineReducers({
     notice,
     system,
     channelSelectorModal,
-    websocket,
 });

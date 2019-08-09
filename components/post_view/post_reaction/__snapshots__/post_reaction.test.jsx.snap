@@ -22,42 +22,43 @@ exports[`components/post_view/PostReaction should match snapshot 1`] = `
       target={[MockFunction]}
       topOffset={-7}
     />
-    <OverlayTrigger
-      className="hidden-xs"
-      defaultOverlayShown={false}
-      delayShow={500}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          className="hidden-xs"
-          id="reaction-icon-tooltip"
-          placement="right"
-        >
-          <FormattedMessage
-            defaultMessage="Add Reaction"
-            id="post_info.tooltip.add_reactions"
-            values={Object {}}
-          />
-        </Tooltip>
-      }
-      placement="top"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
+    <button
+      aria-label="add reaction"
+      className="reacticon__container color--link style--none"
+      id="CENTER_reaction_post_id_1"
+      onClick={[MockFunction]}
     >
-      <button
-        className="reacticon__container color--link style--none"
-        id="CENTER_reaction_post_id_1"
-        onClick={[MockFunction]}
+      <OverlayTrigger
+        className="hidden-xs"
+        defaultOverlayShown={false}
+        delayShow={500}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            className="hidden-xs"
+            id="reaction-icon-tooltip"
+            placement="right"
+          >
+            <FormattedMessage
+              defaultMessage="Add Reaction"
+              id="post_info.tooltip.add_reactions"
+              values={Object {}}
+            />
+          </Tooltip>
+        }
+        placement="top"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
       >
         <EmojiIcon
           className="icon icon--emoji"
         />
-      </button>
-    </OverlayTrigger>
+      </OverlayTrigger>
+    </button>
   </div>
 </Connect(ChannelPermissionGate)>
 `;

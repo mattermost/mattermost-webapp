@@ -253,7 +253,7 @@ export default class AddUserToChannelModal extends React.Component {
 
         return (
             <Modal
-                dialogClassName='modal--overflow'
+                dialogClassName='a11y__modal modal--overflow'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}

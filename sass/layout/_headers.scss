@@ -14,10 +14,18 @@
         }
     }
 
+    .Badge {
+        display: inline-block;
+    }
+
     .channel-header__trigger {
         display: flex;
         flex: 1 1 0;
         min-width: 0;
+        .heading span {
+            display: flex;
+            align-items: center;
+        }
     }
 
 
@@ -304,7 +312,7 @@
             opacity: .5;
         }
 
-        h2 {
+        > div {
             display: flex;
             flex: 0 1 auto;
             min-width: 0;
@@ -314,12 +322,6 @@
             display: inline-block;
             text-decoration: none;
             width: calc(100% - 65px);
-        }
-
-        h2 {
-            font-size: inherit;
-            line-height: inherit;
-            margin: 0;
         }
 
         .MenuWrapper {
@@ -376,7 +378,7 @@
         }
 
         &.light {
-            @include opacity(.8);
+            @include opacity(.6);
             color: inherit;
             overflow: visible;
 
@@ -390,6 +392,17 @@
 
         .markdown-inline-img {
             max-height: 45px;
+        }
+    }
+
+    .has-guest-header {
+        margin-right: 3px;
+
+        &:after {
+            content: '\2022';
+            margin: 0 2px 0 5px;
+            position: relative;
+            top: 1px;
         }
     }
 
@@ -423,7 +436,7 @@
 
 .channel-intro {
     margin: 0 auto 10px;
-    padding: 0 15px;
+    padding: 110px 15px 0;
 
     &.channel-intro--centered {
         max-width: 1020px;

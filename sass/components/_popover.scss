@@ -209,6 +209,7 @@
 
         &.selected {
             background: alpha-color($black, .2);
+            box-shadow: none;
         }
 
         .mention--align {

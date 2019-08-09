@@ -132,34 +132,41 @@ export default class TeamMembersDropdown extends React.Component {
 
         const {currentTeam, teamMember, user} = this.props;
 
-        let currentRoles = (
-            <FormattedMessage
-                id='team_members_dropdown.member'
-                defaultMessage='Member'
-            />
-        );
+        let currentRoles = null;
 
-        if ((teamMember.roles.length > 0 && Utils.isAdmin(teamMember.roles)) || teamMember.scheme_admin) {
+        if (Utils.isGuest(user)) {
             currentRoles = (
                 <FormattedMessage
-                    id='team_members_dropdown.teamAdmin'
-                    defaultMessage='Team Admin'
+                    id='team_members_dropdown.guest'
+                    defaultMessage='Guest'
                 />
             );
-        }
-
-        if (user.roles.length > 0 && Utils.isSystemAdmin(user.roles)) {
+        } else if (user.roles.length > 0 && Utils.isSystemAdmin(user.roles)) {
             currentRoles = (
                 <FormattedMessage
                     id='team_members_dropdown.systemAdmin'
                     defaultMessage='System Admin'
                 />
             );
+        } else if ((teamMember.roles.length > 0 && Utils.isAdmin(teamMember.roles)) || teamMember.scheme_admin) {
+            currentRoles = (
+                <FormattedMessage
+                    id='team_members_dropdown.teamAdmin'
+                    defaultMessage='Team Admin'
+                />
+            );
+        } else {
+            currentRoles = (
+                <FormattedMessage
+                    id='team_members_dropdown.member'
+                    defaultMessage='Member'
+                />
+            );
         }
 
         const me = this.props.currentUser;
-        let showMakeMember = (Utils.isAdmin(teamMember.roles) || teamMember.scheme_admin) && !Utils.isSystemAdmin(user.roles);
-        let showMakeAdmin = !Utils.isAdmin(teamMember.roles) && !Utils.isSystemAdmin(user.roles) && !teamMember.scheme_admin;
+        let showMakeMember = !Utils.isGuest(user) && (Utils.isAdmin(teamMember.roles) || teamMember.scheme_admin) && !Utils.isSystemAdmin(user.roles);
+        let showMakeAdmin = !Utils.isGuest(user) && !Utils.isAdmin(teamMember.roles) && !Utils.isSystemAdmin(user.roles) && !teamMember.scheme_admin;
 
         if (user.delete_at > 0) {
             currentRoles = (

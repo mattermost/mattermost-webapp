@@ -290,15 +290,13 @@ export default class NotificationsTab extends React.Component {
                 let pushStatusSettings;
                 if (this.state.pushActivity !== NotificationLevels.NONE) {
                     pushStatusSettings = (
-                        <div>
-                            <hr/>
-                            <label>
+                        <fieldset>
+                            <legend className='form-legend'>
                                 <FormattedMessage
                                     id='user.settings.notifications.push_notification.status'
                                     defaultMessage='Trigger push notifications when'
                                 />
-                            </label>
-                            <br/>
+                            </legend>
                             <div className='radio'>
                                 <label>
                                     <input
@@ -313,7 +311,6 @@ export default class NotificationsTab extends React.Component {
                                         defaultMessage='Online, away or offline'
                                     />
                                 </label>
-                                <br/>
                             </div>
                             <div className='radio'>
                                 <label>
@@ -329,7 +326,6 @@ export default class NotificationsTab extends React.Component {
                                         defaultMessage='Away or offline'
                                     />
                                 </label>
-                                <br/>
                             </div>
                             <div className='radio'>
                                 <label>
@@ -346,7 +342,7 @@ export default class NotificationsTab extends React.Component {
                                     />
                                 </label>
                             </div>
-                        </div>
+                        </fieldset>
                     );
 
                     extraInfo = (
@@ -360,68 +356,67 @@ export default class NotificationsTab extends React.Component {
                 }
 
                 inputs.push(
-                    <div key='userNotificationLevelOption'>
-                        <label>
-                            <FormattedMessage
-                                id='user.settings.push_notification.send'
-                                defaultMessage='Send mobile push notifications'
-                            />
-                        </label>
-                        <br/>
-                        <div className='radio'>
-                            <label>
-                                <input
-                                    id='pushNotificationAllActivity'
-                                    type='radio'
-                                    name='pushNotificationLevel'
-                                    checked={pushActivityRadio[0]}
-                                    onChange={this.handlePushRadio.bind(this, NotificationLevels.ALL)}
-                                />
+                    <div>
+                        <fieldset key='userNotificationLevelOption'>
+                            <legend className='form-legend'>
                                 <FormattedMessage
-                                    id='user.settings.push_notification.allActivity'
-                                    defaultMessage='For all activity'
+                                    id='user.settings.push_notification.send'
+                                    defaultMessage='Send mobile push notifications'
                                 />
-                            </label>
-                            <br/>
-                        </div>
-                        <div className='radio'>
-                            <label>
-                                <input
-                                    id='pushNotificationMentions'
-                                    type='radio'
-                                    name='pushNotificationLevel'
-                                    checked={pushActivityRadio[1]}
-                                    onChange={this.handlePushRadio.bind(this, NotificationLevels.MENTION)}
-                                />
+                            </legend>
+                            <div className='radio'>
+                                <label>
+                                    <input
+                                        id='pushNotificationAllActivity'
+                                        type='radio'
+                                        name='pushNotificationLevel'
+                                        checked={pushActivityRadio[0]}
+                                        onChange={this.handlePushRadio.bind(this, NotificationLevels.ALL)}
+                                    />
+                                    <FormattedMessage
+                                        id='user.settings.push_notification.allActivity'
+                                        defaultMessage='For all activity'
+                                    />
+                                </label>
+                            </div>
+                            <div className='radio'>
+                                <label>
+                                    <input
+                                        id='pushNotificationMentions'
+                                        type='radio'
+                                        name='pushNotificationLevel'
+                                        checked={pushActivityRadio[1]}
+                                        onChange={this.handlePushRadio.bind(this, NotificationLevels.MENTION)}
+                                    />
+                                    <FormattedMessage
+                                        id='user.settings.push_notification.onlyMentions'
+                                        defaultMessage='For mentions and direct messages'
+                                    />
+                                </label>
+                            </div>
+                            <div className='radio'>
+                                <label>
+                                    <input
+                                        id='pushNotificationNever'
+                                        type='radio'
+                                        name='pushNotificationLevel'
+                                        checked={pushActivityRadio[2]}
+                                        onChange={this.handlePushRadio.bind(this, NotificationLevels.NONE)}
+                                    />
+                                    <FormattedMessage
+                                        id='user.settings.notifications.never'
+                                        defaultMessage='Never'
+                                    />
+                                </label>
+                            </div>
+                            <div className='margin-top x3'>
                                 <FormattedMessage
-                                    id='user.settings.push_notification.onlyMentions'
-                                    defaultMessage='For mentions and direct messages'
+                                    id='user.settings.push_notification.info'
+                                    defaultMessage='Notification alerts are pushed to your mobile device when there is activity in Mattermost.'
                                 />
-                            </label>
-                            <br/>
-                        </div>
-                        <div className='radio'>
-                            <label>
-                                <input
-                                    id='pushNotificationNever'
-                                    type='radio'
-                                    name='pushNotificationLevel'
-                                    checked={pushActivityRadio[2]}
-                                    onChange={this.handlePushRadio.bind(this, NotificationLevels.NONE)}
-                                />
-                                <FormattedMessage
-                                    id='user.settings.notifications.never'
-                                    defaultMessage='Never'
-                                />
-                            </label>
-                        </div>
-                        <br/>
-                        <span>
-                            <FormattedMessage
-                                id='user.settings.push_notification.info'
-                                defaultMessage='Notification alerts are pushed to your mobile device when there is activity in Mattermost.'
-                            />
-                        </span>
+                            </div>
+                        </fieldset>
+                        <hr/>
                         {pushStatusSettings}
                     </div>
                 );
@@ -635,6 +630,7 @@ export default class NotificationsTab extends React.Component {
                         defaultValue={this.state.customKeys}
                         onChange={this.onCustomChange}
                         onFocus={Utils.moveCursorToEnd}
+                        aria-labelledby='notificationTriggerCustom'
                     />
                 </div>
             );
@@ -723,7 +719,10 @@ export default class NotificationsTab extends React.Component {
             const inputs = [];
 
             inputs.push(
-                <div key='userNotificationLevelOption'>
+                <fieldset key='userNotificationLevelOption'>
+                    <legend className='form-legend hidden-label'>
+                        {Utils.localizeMessage('user.settings.notifications.comments', 'Reply notifications')}
+                    </legend>
                     <div className='radio'>
                         <label>
                             <input
@@ -771,7 +770,7 @@ export default class NotificationsTab extends React.Component {
                             />
                         </label>
                     </div>
-                </div>
+                </fieldset>
             );
 
             const extraInfo = (
@@ -861,7 +860,6 @@ export default class NotificationsTab extends React.Component {
                 );
 
                 autoResponderSection = (
-
                     <SettingItemMin
                         title={
                             <FormattedMessage

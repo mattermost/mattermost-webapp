@@ -8,7 +8,7 @@ exports[`admin_console/team_channel_settings/team/TeamImage should match snapsho
     className="team-btn team-btn-large"
   >
     <div
-      className="team-btn__content"
+      className="team-btn__content no-hover"
     >
       <div
         className="team-btn__initials team-btn-large__initials"

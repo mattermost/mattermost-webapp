@@ -242,6 +242,10 @@ export async function getAdvancedAnalytics(teamId) {
     await AdminActions.getAdvancedAnalytics(teamId)(dispatch, getState);
 }
 
+export async function getBotPostsPerDayAnalytics(teamId) {
+    await AdminActions.getBotPostsPerDayAnalytics(teamId)(dispatch, getState);
+}
+
 export async function getPostsPerDayAnalytics(teamId) {
     await AdminActions.getPostsPerDayAnalytics(teamId)(dispatch, getState);
 }

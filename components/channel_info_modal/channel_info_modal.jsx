@@ -135,7 +135,7 @@ export default class ChannelInfoModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName='about-modal'
+                dialogClassName='a11y__modal about-modal'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}

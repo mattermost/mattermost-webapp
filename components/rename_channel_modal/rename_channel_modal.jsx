@@ -268,6 +268,7 @@ export class RenameChannelModal extends React.PureComponent {
 
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 show={this.state.show}
                 onHide={this.handleCancel}
                 onEntering={this.handleEntering}
@@ -312,7 +313,6 @@ export class RenameChannelModal extends React.PureComponent {
 
                             <div className='input-group input-group--limit'>
                                 <OverlayTrigger
-                                    trigger={['hover', 'focus']}
                                     delayShow={Constants.OVERLAY_TIME_DELAY}
                                     placement='top'
                                     overlay={urlTooltip}

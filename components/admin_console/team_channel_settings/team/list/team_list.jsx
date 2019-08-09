@@ -10,13 +10,13 @@ import {browserHistory} from 'utils/browser_history';
 
 const Header = () => (
     <div className='groups-list--header'>
-        <div className='group-name'>
+        <div className='group-name adjusted'>
             <FormattedMessage
                 id='admin.team_settings.team_list.nameHeader'
                 defaultMessage='Name'
             />
         </div>
-        <div className='group-description'>
+        <div className='group-description adjusted'>
             <FormattedMessage
                 id='admin.team_settings.team_list.mappingHeader'
                 defaultMessage='Management'

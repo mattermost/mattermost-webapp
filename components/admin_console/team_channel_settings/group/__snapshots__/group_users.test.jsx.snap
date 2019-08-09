@@ -2,7 +2,7 @@
 
 exports[`admin_console/team_channel_settings/group/GroupUsers should match snapshot, loaded with multiple pages 1`] = `
 <div
-  className="groups-list"
+  className="groups-list groups-list-less-padding"
 >
   <div
     className="groups-list--header"
@@ -381,7 +381,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
 
 exports[`admin_console/team_channel_settings/group/GroupUsers should match snapshot, loaded with multiple pages 2`] = `
 <div
-  className="groups-list"
+  className="groups-list groups-list-less-padding"
 >
   <div
     className="groups-list--header"
@@ -760,7 +760,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
 
 exports[`admin_console/team_channel_settings/group/GroupUsers should match snapshot, loaded with multiple pages 3`] = `
 <div
-  className="groups-list"
+  className="groups-list groups-list-less-padding"
 >
   <div
     className="groups-list--header"
@@ -1139,7 +1139,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
 
 exports[`admin_console/team_channel_settings/group/GroupUsers should match snapshot, on loading with data 1`] = `
 <div
-  className="groups-list"
+  className="groups-list groups-list-less-padding"
 >
   <div
     className="groups-list--header"
@@ -1518,7 +1518,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
 
 exports[`admin_console/team_channel_settings/group/GroupUsers should match snapshot, on loading without data 1`] = `
 <div
-  className="groups-list"
+  className="groups-list groups-list-less-padding"
 >
   <div
     className="groups-list--header"

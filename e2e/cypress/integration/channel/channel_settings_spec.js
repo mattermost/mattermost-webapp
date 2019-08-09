@@ -24,7 +24,7 @@ describe('Channel Settings', () => {
         });
 
         // add a direct message incase there is not one
-        cy.get('#directChannel button').click();
+        cy.get('#addDirectChannel').click();
         cy.get('.more-modal__row.clickable').first().click();
         cy.get('#saveItems').click();
 

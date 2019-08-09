@@ -5,6 +5,10 @@
     height: 32px;
     position: relative;
     align-self: center;
+    &.admin-user-card {
+        height: 134px;
+        align-self: flex-start;
+    }
 
     .sidebar--left & {
         height: 36px;

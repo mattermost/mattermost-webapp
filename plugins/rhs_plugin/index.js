@@ -12,7 +12,8 @@ function mapStateToProps(state) {
     const rhsPlugins = state.plugins.components.RightHandSidebarComponent;
     const pluginId = getPluginId(state);
 
-    const pluginName = rhsPlugins.find((element) => element.id === pluginId).title;
+    const plugin = rhsPlugins.find((element) => element.id === pluginId);
+    const pluginName = plugin ? plugin.title : '';
 
     return {
         title: pluginName,

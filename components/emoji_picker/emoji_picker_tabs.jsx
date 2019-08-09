@@ -120,7 +120,7 @@ export default class EmojiPickerTabs extends PureComponent {
             <div
                 id='emojiPicker'
                 style={pickerStyle}
-                className={pickerClass + ' emoji-picker--single'}
+                className={`a11y__popup ${pickerClass} emoji-picker--single`}
             >
                 <EmojiPickerHeader handleEmojiPickerClose={this.handleEmojiPickerClose}/>
                 <EmojiPicker

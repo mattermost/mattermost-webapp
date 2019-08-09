@@ -231,7 +231,7 @@ export default class ChannelNotificationsModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName='settings-modal settings-modal--tabless'
+                dialogClassName='a11y__modal settings-modal settings-modal--tabless'
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
