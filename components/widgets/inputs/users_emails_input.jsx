@@ -51,6 +51,14 @@ export default class UsersEmailsInput extends React.Component {
         loadingMessageDefault: 'Loading',
     };
 
+    constructor(props) {
+        super(props);
+        this.selectRef = React.createRef();
+        this.state = {
+            options: [],
+        };
+    }
+
     loadingMessage = () => {
         let text = 'Loading';
         if (this.context.intl) {
@@ -171,9 +179,51 @@ export default class UsersEmailsInput extends React.Component {
     };
 
     handleInputChange = (inputValue, action) => {
+        if (action.action === 'input-blur') {
+            const values = this.props.value.map((v) => {
+                if (v.id) {
+                    return v;
+                }
+                return {label: v, value: v};
+            });
+
+            for (const option of this.state.options) {
+                if (this.props.inputValue === option.username) {
+                    this.onChange([...values, option]);
+                    this.props.onInputChange('');
+                    return;
+                } else if (this.props.inputValue === option.email) {
+                    this.onChange([...values, option]);
+                    this.props.onInputChange('');
+                    return;
+                }
+            }
+
+            if (isEmail(this.props.inputValue)) {
+                const email = this.props.inputValue;
+                this.onChange([...values, {value: email, label: email}]);
+                this.props.onInputChange('');
+            }
+        }
         if (action.action !== 'input-blur' && action.action !== 'menu-close') {
             this.props.onInputChange(inputValue);
         }
+    }
+
+    optionsLoader = (input, callback) => {
+        const customCallback = (options) => {
+            this.setState({options});
+            callback(options);
+        };
+        this.props.usersLoader(this.props.inputValue, customCallback);
+    }
+
+    showAddEmail = (input, values, options) => {
+        return options.length === 0 && isEmail(input);
+    }
+
+    onFocus = () => {
+        this.selectRef.current.handleInputChange(this.props.inputValue, {action: 'custom'});
     }
 
     render() {
@@ -185,13 +235,14 @@ export default class UsersEmailsInput extends React.Component {
         });
         return (
             <AsyncSelect
+                ref={this.selectRef}
                 styles={this.customStyles}
                 onChange={this.onChange}
-                loadOptions={this.props.usersLoader}
-                isValidNewOption={isEmail}
+                loadOptions={this.optionsLoader}
+                isValidNewOption={this.showAddEmail}
                 isMulti={true}
                 isClearable={false}
-                className='UsersEmailsInput'
+                className={'UsersEmailsInput ' + (this.props.inputValue === '' ? 'empty' : '')}
                 classNamePrefix='users-emails-input'
                 placeholder={this.props.placeholder}
                 components={this.components}
@@ -203,6 +254,8 @@ export default class UsersEmailsInput extends React.Component {
                 loadingMessage={this.loadingMessage}
                 onInputChange={this.handleInputChange}
                 inputValue={this.props.inputValue}
+                openMenuOnFocus={true}
+                onFocus={this.onFocus}
                 value={values}
             />
         );
