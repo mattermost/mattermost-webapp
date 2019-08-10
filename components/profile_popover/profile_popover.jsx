@@ -314,6 +314,7 @@ class ProfilePopover extends React.PureComponent {
                 key='profilePopoverPluggable2'
                 pluggableName='PopoverUserAttributes'
                 user={this.props.user}
+                hide={this.props.hide}
                 status={this.props.hideStatus ? null : this.props.status}
             />
         );
@@ -419,6 +420,7 @@ class ProfilePopover extends React.PureComponent {
                 key='profilePopoverPluggable3'
                 pluggableName='PopoverUserActions'
                 user={this.props.user}
+                hide={this.props.hide}
                 status={this.props.hideStatus ? null : this.props.status}
             />
         );
