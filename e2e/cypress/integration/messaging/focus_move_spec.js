@@ -33,17 +33,14 @@ function verifyFocusInAddChannelMemberModal() {
     cy.get('#channelInviteModalLabel').click();
 
     // * Note the focus has been removed from the search box
-    cy.get('#selectItems').should('not.be.focused');
+    cy.get('#selectItems input').should('not.be.focused');
 
     // # Push a character key such as "A"
     cy.get('body').type('A');
 
     // * Focus is not moved anywhere. Neither the search box or main input box has the focus
-    cy.get('#selectItems').should('not.be.focused');
+    cy.get('#selectItems input').should('not.be.focused').and('have.value', 'A');
     cy.get('#post_textbox').should('not.be.focused');
-
-    // * Check that input still has the single character
-    cy.get('#selectItems input').should('have.value', 'A');
 }
 
 describe('Messaging', () => {
