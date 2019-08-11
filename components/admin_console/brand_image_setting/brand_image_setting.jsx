@@ -88,12 +88,12 @@ export default class BrandImageSetting extends React.PureComponent {
         this.props.setSaveNeeded();
     }
 
-    handleImageDelete() {
+    async handleImageDelete() {
         this.setState({
             error: '',
         });
 
-        deleteBrandImage(
+        await deleteBrandImage(
             () => {
                 this.setState({
                     deleteBrandImage: false,
@@ -109,12 +109,12 @@ export default class BrandImageSetting extends React.PureComponent {
         );
     }
 
-    handleImageSave() {
+    async handleImageSave() {
         this.setState({
             error: '',
         });
 
-        uploadBrandImage(
+        await uploadBrandImage(
             this.state.brandImage,
             () => {
                 this.setState({
