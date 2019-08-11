@@ -76,8 +76,6 @@ export default class SchemaAdminSettings extends React.Component {
             serverError: null,
             errorTooltip: false,
             customComponentWrapperClass: '',
-            uploadingImage: false,
-            deletingImage: false,
         };
     }
 
