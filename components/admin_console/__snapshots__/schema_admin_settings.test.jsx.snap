@@ -562,8 +562,8 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             id="custom"
             key="Config_userautocomplete_custom"
             onChange={[Function]}
-            saving={false}
             setByEnv={false}
+            setSaveNeeded={[Function]}
             value=""
           />
           <Connect(InjectIntl(JobTable))

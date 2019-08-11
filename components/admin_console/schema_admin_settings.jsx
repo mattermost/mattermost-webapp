@@ -50,6 +50,8 @@ export default class SchemaAdminSettings extends React.Component {
         super(props);
         this.isPlugin = false;
 
+        this.brandImageSettingRef = React.createRef();
+
         this.buildSettingFunctions = {
             [Constants.SettingsTypes.TYPE_TEXT]: this.buildTextSetting,
             [Constants.SettingsTypes.TYPE_LONG_TEXT]: this.buildTextSetting,
@@ -593,8 +595,6 @@ export default class SchemaAdminSettings extends React.Component {
             saveNeeded,
             [id]: value,
         });
-
-        this.props.setNavigationBlocked(Boolean(saveNeeded));
     }
 
     handlePermissionChange = (id, value) => {
@@ -716,15 +716,21 @@ export default class SchemaAdminSettings extends React.Component {
         const CustomComponent = setting.component;
         return (
             <CustomComponent
+                ref={this.brandImageSettingRef}
                 key={this.props.schema.id + '_userautocomplete_' + setting.key}
                 id={setting.key}
                 value={this.state[setting.key] || ''}
                 disabled={this.isDisabled(setting)}
                 setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
-                saving={this.state.saving}
+                setSaveNeeded={this.setSaveNeeded}
             />
         );
+    }
+
+    setSaveNeeded = () => {
+        this.setState({saveNeeded: 'config'});
+        this.props.setNavigationBlocked(true);
     }
 
     renderSettings = () => {
@@ -791,7 +797,9 @@ export default class SchemaAdminSettings extends React.Component {
         this.setState({errorTooltip: isElipsis});
     }
 
-    doSubmit = (callback, getStateFromConfig) => {
+    doSubmit = async (callback, getStateFromConfig) => {
+        const brandImageSettingComponent = this.brandImageSettingRef.current;
+
         this.setState({
             saving: true,
             serverError: null,
@@ -801,25 +809,21 @@ export default class SchemaAdminSettings extends React.Component {
         let config = JSON.parse(JSON.stringify(this.props.config));
         config = this.getConfigFromState(config);
 
-        saveConfig(
+        await saveConfig(
             config,
             (savedConfig) => {
                 this.setState(getStateFromConfig(savedConfig));
 
-                this.setState({
-                    saveNeeded: false,
-                    saving: false,
-                });
-
-                this.props.setNavigationBlocked(false);
-
                 if (callback) {
                     callback();
+                }
+
+                if (this.handleSaved) {
+                    this.handleSaved(config);
                 }
             },
             (err) => {
                 this.setState({
-                    saving: false,
                     serverError: err.message,
                     serverErrorId: err.id,
                 });
@@ -827,8 +831,26 @@ export default class SchemaAdminSettings extends React.Component {
                 if (callback) {
                     callback();
                 }
+
+                if (this.handleSaved) {
+                    this.handleSaved(config);
+                }
             }
         );
+
+        if (brandImageSettingComponent.state.brandImage) {
+            await brandImageSettingComponent.handleImageSave();
+        } else if (brandImageSettingComponent.state.deleteBrandImage) {
+            await brandImageSettingComponent.handleImageDelete();
+        }
+
+        const hasError = this.state.serverError || brandImageSettingComponent.state.error;
+        if (hasError) {
+            this.setState({saving: false});
+        } else {
+            this.setState({saving: false, saveNeeded: false});
+            this.props.setNavigationBlocked(false);
+        }
     };
 
     static getConfigValue(config, path) {

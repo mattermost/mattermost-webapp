@@ -25,7 +25,7 @@ export default class BrandImageSetting extends React.PureComponent {
         /*
         * Enable save button when image is deleted
         */
-        onChange: PropTypes.func.isRequired,
+        setSaveNeeded: PropTypes.func.isRequired,
 
         /*
         * Is the component saving or not
@@ -37,6 +37,7 @@ export default class BrandImageSetting extends React.PureComponent {
         super(props);
 
         this.handleImageChange = this.handleImageChange.bind(this);
+        this.handleDeleteButtonPressed = this.handleDeleteButtonPressed.bind(this);
 
         this.state = {
             deleteBrandImage: false,
@@ -70,30 +71,28 @@ export default class BrandImageSetting extends React.PureComponent {
 
             reader.readAsDataURL(this.state.brandImage);
         }
-
-        if (this.props.saving && this.state.brandImage && !this.props.disabled) {
-            this.handleImageSubmit();
-        }
-
-        if (this.props.saving && this.state.deleteBrandImage && !this.props.disabled) {
-            this.handleImageDelete();
-        }
     }
 
     handleImageChange() {
         const element = $(this.refs.fileInput);
         if (element.prop('files').length > 0) {
-            this.props.onChange('saveNeeded', 'config');
+            this.props.setSaveNeeded();
             this.setState({
                 brandImage: element.prop('files')[0],
             });
         }
     }
 
+    handleDeleteButtonPressed() {
+        this.setState({deleteBrandImage: true, brandImage: null, brandImageExists: false});
+        this.props.setSaveNeeded();
+    }
+
     handleImageDelete() {
         this.setState({
             error: '',
         });
+
         deleteBrandImage(
             () => {
                 this.setState({
@@ -106,18 +105,15 @@ export default class BrandImageSetting extends React.PureComponent {
                 this.setState({
                     error: err.message,
                 });
-                this.props.onChange('saveNeeded', 'config');
             }
         );
     }
 
-    handleImageSubmit() {
-        if (!this.state.brandImage) {
-            return;
-        }
+    handleImageSave() {
         this.setState({
             error: '',
         });
+
         uploadBrandImage(
             this.state.brandImage,
             () => {
@@ -131,7 +127,6 @@ export default class BrandImageSetting extends React.PureComponent {
                 this.setState({
                     error: err.message,
                 });
-                this.props.onChange('saveNeeded', 'config');
             }
         );
     }
@@ -143,33 +138,6 @@ export default class BrandImageSetting extends React.PureComponent {
         }
 
         let img = null;
-        let displayImgOverlay = false;
-        const IMGOVERLAY = (
-            <OverlayTrigger
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='right'
-                overlay={(
-                    <Tooltip id='removeIcon'>
-                        <div aria-hidden={true}>
-                            <FormattedMessage
-                                id='admin.team.removeBrandImage'
-                                defaultMessage='Remove brand image'
-                            />
-                        </div>
-                    </Tooltip>
-                )}
-            >
-                <button
-                    className='remove-image__btn'
-                    onClick={() => {
-                        this.setState({deleteBrandImage: true, brandImage: null, brandImageExists: false});
-                        this.props.onChange('saveNeeded', 'config');
-                    }}
-                >
-                    <span aria-hidden={true}>{'×'}</span>
-                </button>
-            </OverlayTrigger>
-        );
         if (this.state.brandImage) {
             img = (
                 <div className='remove-image__img margin-bottom x3'>
@@ -181,15 +149,41 @@ export default class BrandImageSetting extends React.PureComponent {
                 </div>
             );
         } else if (this.state.brandImageExists) {
+            let overlay;
+            if (!this.props.disabled) {
+                overlay = (
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='right'
+                        overlay={(
+                            <Tooltip id='removeIcon'>
+                                <div aria-hidden={true}>
+                                    <FormattedMessage
+                                        id='admin.team.removeBrandImage'
+                                        defaultMessage='Remove brand image'
+                                    />
+                                </div>
+                            </Tooltip>
+                        )}
+                    >
+                        <button
+                            className='remove-image__btn'
+                            onClick={this.handleDeleteButtonPressed}
+                        >
+                            <span aria-hidden={true}>{'×'}</span>
+                        </button>
+                    </OverlayTrigger>
+                );
+            }
             img = (
                 <div className='remove-image__img margin-bottom x3'>
                     <img
                         alt='brand image'
                         src={Client4.getBrandImageUrl(this.state.brandImageTimestamp)}
                     />
+                    {overlay}
                 </div>
             );
-            displayImgOverlay = !this.props.disabled;
         } else {
             img = (
                 <p className='margin-top'>
@@ -212,7 +206,6 @@ export default class BrandImageSetting extends React.PureComponent {
                 <div className='col-sm-8'>
                     <div className='remove-image'>
                         {img}
-                        {displayImgOverlay && IMGOVERLAY}
                     </div>
                 </div>
                 <div className='col-sm-4'/>
