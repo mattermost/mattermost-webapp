@@ -88,6 +88,7 @@ export default class BrandImageSetting extends React.PureComponent {
         this.props.setSaveNeeded();
     }
 
+    // This function is used from the outside to trigger the delete of the image when needed.
     async handleImageDelete() {
         this.setState({
             error: '',
@@ -109,6 +110,7 @@ export default class BrandImageSetting extends React.PureComponent {
         );
     }
 
+    // This function is used from the outside to trigger the save of the image when needed.
     async handleImageSave() {
         this.setState({
             error: '',
