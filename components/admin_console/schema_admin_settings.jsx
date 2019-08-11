@@ -593,6 +593,8 @@ export default class SchemaAdminSettings extends React.Component {
             saveNeeded,
             [id]: value,
         });
+
+        this.props.setNavigationBlocked(true);
     }
 
     handlePermissionChange = (id, value) => {

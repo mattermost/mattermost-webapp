@@ -23,14 +23,9 @@ export default class BrandImageSetting extends React.PureComponent {
         disabled: PropTypes.bool.isRequired,
 
         /*
-        * Enable save button when image is deleted
+        * Set the save needed in the admin schema settings to trigger the save button to turn on
         */
         setSaveNeeded: PropTypes.func.isRequired,
-
-        /*
-        * Is the component saving or not
-        */
-        saving: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
