@@ -52,10 +52,10 @@ export default class AdminGroupUsersRow extends React.PureComponent {
                 className={'group '}
             >
                 <div
-                    className='group-row'
+                    className='group-row roc'
                     style={{padding: '30px 0px'}}
                 >
-                    <div className='group-name'>
+                    <div className='group-name col-sm-8'>
                         <div className='row'>
                             <div className='col-sm-2'>
                                 <img
@@ -70,7 +70,7 @@ export default class AdminGroupUsersRow extends React.PureComponent {
                                     {'-'}&nbsp;
                                     {displayName}
                                 </div>
-                                <div className='row'>
+                                <div className='row email-group-row'>
                                     {user.email}
                                 </div>
 
@@ -79,10 +79,10 @@ export default class AdminGroupUsersRow extends React.PureComponent {
 
                     </div>
                     <span
-                        className='group-user-removal-column group-description'
+                        className='col-sm-2 group-user-removal-column group-description'
                     >{this.renderRolesColumn(user)}</span>
                     <span
-                        className='group-user-removal-column group-description group-description-link'
+                        className='col-sm-2 group-user-removal-column group-description group-description-link'
                     >{this.renderGroupsColumn(user)}</span>
                 </div>
             </div>
