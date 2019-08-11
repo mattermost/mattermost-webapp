@@ -50,7 +50,7 @@ export default class SchemaAdminSettings extends React.Component {
         super(props);
         this.isPlugin = false;
 
-        this.brandImageSettingRef = React.createRef();
+        this.customComponentRef = React.createRef();
 
         this.buildSettingFunctions = {
             [Constants.SettingsTypes.TYPE_TEXT]: this.buildTextSetting,
@@ -716,7 +716,7 @@ export default class SchemaAdminSettings extends React.Component {
         const CustomComponent = setting.component;
         return (
             <CustomComponent
-                ref={this.brandImageSettingRef}
+                ref={this.customComponentRef}
                 key={this.props.schema.id + '_userautocomplete_' + setting.key}
                 id={setting.key}
                 value={this.state[setting.key] || ''}
@@ -798,7 +798,8 @@ export default class SchemaAdminSettings extends React.Component {
     }
 
     doSubmit = async (callback, getStateFromConfig) => {
-        const brandImageSettingComponent = this.brandImageSettingRef.current;
+        const customComponent = this.customComponentRef.current;
+        const isBrandImageSetting = customComponent && customComponent.props.id === 'CustomBrandImage';
 
         this.setState({
             saving: true,
@@ -838,13 +839,13 @@ export default class SchemaAdminSettings extends React.Component {
             }
         );
 
-        if (brandImageSettingComponent.state.brandImage) {
-            await brandImageSettingComponent.handleImageSave();
-        } else if (brandImageSettingComponent.state.deleteBrandImage) {
-            await brandImageSettingComponent.handleImageDelete();
+        if (isBrandImageSetting && customComponent.state.brandImage) {
+            await customComponent.handleImageSave();
+        } else if (isBrandImageSetting && customComponent.state.deleteBrandImage) {
+            await customComponent.handleImageDelete();
         }
 
-        const hasError = this.state.serverError || brandImageSettingComponent.state.error;
+        const hasError = this.state.serverError || (isBrandImageSetting && customComponent.state.error);
         if (hasError) {
             this.setState({saving: false});
         } else {
