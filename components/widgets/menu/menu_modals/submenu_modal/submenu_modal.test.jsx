@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 
 import {browserHistory} from 'utils/browser_history';
 
-import SubMenuModal from 'components/submenu_modal/submenu_modal.jsx';
+import SubMenuModal from 'components/widgets/menu/menu_modals/submenu_modal/submenu_modal.jsx';
 
 describe('components/submenu_modal', () => {
     const baseProps = {
@@ -29,7 +29,6 @@ describe('components/submenu_modal', () => {
         ],
         action: jest.fn(),
         onHide: jest.fn(),
-        openModal: jest.fn(),
     };
 
     test('should match snapshot', () => {

@@ -5,16 +5,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 
-import MenuWrapper from '../widgets/menu/menu_wrapper';
-import Menu from '../widgets/menu/menu';
-import SubMenuItemAction from '../widgets/menu/menu_items/submenu_item_action';
+import MenuWrapper from '../../menu_wrapper';
+import Menu from '../../menu';
+import SubMenuItem from '../../menu_items/submenu_item';
 
 export default class SubMenuModal extends React.PureComponent {
     static propTypes = {
         elements: PropTypes.array,
         action: PropTypes.func,
         onHide: PropTypes.func.isRequired,
-        openModal: PropTypes.func,
     }
 
     constructor(props) {
@@ -50,13 +49,12 @@ export default class SubMenuModal extends React.PureComponent {
                         >
                             {this.props.elements.map((element) => {
                                 return (
-                                    <SubMenuItemAction
+                                    <SubMenuItem
                                         key={element.id}
                                         id={element.id}
                                         text={element.text}
                                         subMenu={element.subMenu}
                                         action={this.props.action}
-                                        openModal={this.props.openModal}
                                         xOffset={0}
                                         root={false}
                                     />

@@ -4,18 +4,17 @@
 import React from 'react';
 import {mount} from 'enzyme';
 
-import SubMenuItemAction from './submenu_item_action';
+import SubMenuItem from './submenu_item';
 
 describe('components/SubMenuItemAction', () => {
     test('empty subMenu should match snapshot', () => {
         const wrapper = mount(
-            <SubMenuItemAction
+            <SubMenuItem
                 key={'_pluginmenuitem'}
                 id={'1'}
                 text={'test'}
                 subMenu={[]}
                 action={jest.fn()}
-                openModal={jest.fn()}
                 width={10}
                 root={true}
             />
@@ -24,7 +23,7 @@ describe('components/SubMenuItemAction', () => {
     });
     test('present subMenu should match snapshot with submenu', () => {
         const wrapper = mount(
-            <SubMenuItemAction
+            <SubMenuItem
                 key={'_pluginmenuitem'}
                 id={'1'}
                 text={'test'}
@@ -39,7 +38,6 @@ describe('components/SubMenuItemAction', () => {
                     },
                 ]}
                 action={jest.fn()}
-                openModal={jest.fn()}
                 width={10}
                 root={true}
             />
@@ -50,7 +48,7 @@ describe('components/SubMenuItemAction', () => {
     test('test subMenu click triggers action', async () => {
         const action = jest.fn().mockReturnValueOnce();
         const wrapper = mount(
-            <SubMenuItemAction
+            <SubMenuItem
                 key={'_pluginmenuitem'}
                 id={'1'}
                 text={'test'}
@@ -65,7 +63,6 @@ describe('components/SubMenuItemAction', () => {
                     },
                 ]}
                 action={action}
-                openModal={jest.fn()}
                 width={10}
                 root={true}
             />

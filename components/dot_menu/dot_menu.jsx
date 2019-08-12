@@ -21,7 +21,7 @@ import Pluggable from 'plugins/pluggable';
 import Menu from 'components/widgets/menu/menu.jsx';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
 import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action.jsx';
-import SubMenuItemAction from 'components/widgets/menu/menu_items/submenu_item_action.jsx';
+import SubMenuItem from 'components/widgets/menu/menu_items/submenu_item.jsx';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -228,7 +228,7 @@ export default class DotMenu extends Component {
             map((item) => {
                 if (item.text.subMenu) {
                     return (
-                        <SubMenuItemAction
+                        <SubMenuItem
                             key={item.id + '_pluginmenuitem'}
                             id={item.text.id}
                             text={item.text.text}
@@ -238,7 +238,6 @@ export default class DotMenu extends Component {
                                     item.action(this.props.post.id, id);
                                 }
                             }}
-                            openModal={this.props.actions.openModal}
                             xOffset={this.state.width}
                             root={true}
                         />
