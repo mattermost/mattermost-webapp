@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallow} from 'enzyme';
 
 import DotMenu from 'components/dot_menu/dot_menu.jsx';
 
@@ -44,7 +44,7 @@ describe('components/dot_menu/DotMenu', () => {
     };
 
     test('should match snapshot, on Center', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <DotMenu {...baseProps}/>
         );
 
@@ -61,10 +61,21 @@ describe('components/dot_menu/DotMenu', () => {
         const utils = require('utils/post_utils'); //eslint-disable-line global-require
         utils.canDeletePost.mockReturnValue(true);
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <DotMenu {...baseProps}/>
         );
 
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should have divider when plugin menu item exists', () => {
+        const wrapper = shallow(
+            <DotMenu {...baseProps}/>
+        );
+
+        expect(wrapper.find('#divider_post_post_post_id_1').exists()).toBe(false);
+
+        wrapper.setProps({pluginMenuItems: [{id: 'test_plugin_menu_item_1', text: 'woof'}]});
+        expect(wrapper.find('#divider_post_post_post_id_1').length).toBe(1);
     });
 });
