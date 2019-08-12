@@ -69,9 +69,15 @@ const loadedPlugins = {};
 export function loadPlugin(manifest) {
     return new Promise((resolve, reject) => {
         // Don't load it again if previously loaded
-        if (loadedPlugins[manifest.id]) {
+        const oldManifest = loadedPlugins[manifest.id];
+        if (oldManifest && oldManifest.webapp.bundle_path === manifest.webapp.bundle_path) {
             resolve();
             return;
+        }
+
+        if (oldManifest) {
+            // upgrading, perform cleanup
+            store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
         }
 
         function onLoad() {
@@ -100,7 +106,7 @@ export function loadPlugin(manifest) {
         script.onerror = onError;
 
         document.getElementsByTagName('head')[0].appendChild(script);
-        loadedPlugins[manifest.id] = true;
+        loadedPlugins[manifest.id] = manifest;
     });
 }
 
@@ -121,7 +127,9 @@ function initializePlugin(manifest) {
 export function removePlugin(manifest) {
     console.log('Removing ' + manifest.id + ' plugin'); //eslint-disable-line no-console
 
-    loadedPlugins[manifest.id] = false;
+    loadedPlugins[manifest.id] = null;
+
+    store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
 
     const plugin = window.plugins[manifest.id];
     if (plugin && plugin.uninitialize) {
