@@ -62,7 +62,7 @@ import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
-import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
+import {Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url.jsx';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
@@ -879,7 +879,6 @@ function handleChannelViewedEvent(msg) {
 
 function handlePluginEnabled(msg) {
     const manifest = msg.data.manifest;
-    store.dispatch({type: ActionTypes.RECEIVED_WEBAPP_PLUGIN, data: manifest});
     loadPlugin(manifest).catch((error) => {
         console.error(error.message); //eslint-disable-line no-console
     });
@@ -887,7 +886,6 @@ function handlePluginEnabled(msg) {
 
 function handlePluginDisabled(msg) {
     const manifest = msg.data.manifest;
-    store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
     removePlugin(manifest);
 }
 
