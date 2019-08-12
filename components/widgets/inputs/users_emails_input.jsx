@@ -215,7 +215,10 @@ export default class UsersEmailsInput extends React.Component {
             this.setState({options});
             callback(options);
         };
-        this.props.usersLoader(this.props.inputValue, customCallback);
+        const result = this.props.usersLoader(this.props.inputValue, customCallback);
+        if (result && result.then) {
+            result.then(customCallback);
+        }
     }
 
     showAddEmail = (input, values, options) => {
