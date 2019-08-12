@@ -481,7 +481,7 @@ describe('PostList', () => {
                 postListIds,
             };
 
-            const wrapper = shallow(<PostList {...props}/>);
+            const wrapper = shallowWithIntl(<PostList {...props}/>);
             const instance = wrapper.instance();
             const initScrollToIndex = instance.initScrollToIndex();
             expect(initScrollToIndex).toEqual({index: 6, position: 'start'});
@@ -503,7 +503,7 @@ describe('PostList', () => {
             postListIds,
         };
 
-        const wrapper = shallow(<PostList {...props}/>);
+        const wrapper = shallowWithIntl(<PostList {...props}/>);
         const instance = wrapper.instance();
         const initScrollToIndex = instance.initScrollToIndex();
         expect(initScrollToIndex).toEqual({index: 5, position: 'start'});
