@@ -112,7 +112,7 @@ export default class InvitationModalMembersStep extends React.Component {
                 users.push(userOrEmail);
             }
         }
-        this.props.onSubmit(users, emails);
+        this.props.onSubmit(users, emails, this.state.usersInputValue);
     }
 
     render() {

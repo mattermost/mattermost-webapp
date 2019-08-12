@@ -127,7 +127,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                 users.push(userOrEmail);
             }
         }
-        this.props.onSubmit(users, emails, this.state.channels, this.state.customMessageOpen ? this.state.customMessage : '');
+        this.props.onSubmit(users, emails, this.state.channels, this.state.customMessageOpen ? this.state.customMessage : '', this.state.usersInputValue, this.state.channelsInputValue);
     }
 
     render() {
