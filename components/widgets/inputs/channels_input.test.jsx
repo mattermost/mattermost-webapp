@@ -23,7 +23,7 @@ describe('components/widgets/inputs/ChannelsInput', () => {
         expect(wrapper).toMatchInlineSnapshot(`
 <Async
   cacheOptions={false}
-  className="ChannelsInput"
+  className="ChannelsInput "
   classNamePrefix="channels-input"
   components={
     Object {
@@ -39,10 +39,13 @@ describe('components/widgets/inputs/ChannelsInput', () => {
   getOptionValue={[Function]}
   isClearable={false}
   isMulti={true}
-  loadOptions={[MockFunction]}
+  loadOptions={[Function]}
   loadingMessage={[Function]}
   onChange={[Function]}
+  onFocus={[Function]}
+  onInputChange={[Function]}
   openMenuOnClick={false}
+  openMenuOnFocus={true}
   placeholder="test"
   value={
     Array [
