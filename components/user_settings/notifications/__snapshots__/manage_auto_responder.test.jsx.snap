@@ -183,7 +183,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
               </button>
             </SaveButton>
             <button
-              className="btn btn-sm cursor--pointer style--none"
+              className="btn btn-sm btn-cancel cursor--pointer style--none"
               id="cancelSetting"
               onClick={[Function]}
             >
@@ -474,7 +474,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
               </button>
             </SaveButton>
             <button
-              className="btn btn-sm cursor--pointer style--none"
+              className="btn btn-sm btn-cancel cursor--pointer style--none"
               id="cancelSetting"
               onClick={[Function]}
             >
