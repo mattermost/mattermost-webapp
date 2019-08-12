@@ -188,7 +188,7 @@ export default class UsersEmailsInput extends React.Component {
             });
 
             for (const option of this.state.options) {
-                if (this.props.inputValue === option.username) {
+                if (this.props.inputValue === option.username || this.props.inputValue === ('@' + option.username)) {
                     this.onChange([...values, option]);
                     this.props.onInputChange('');
                     return;
