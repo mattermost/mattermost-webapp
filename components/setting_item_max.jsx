@@ -134,7 +134,7 @@ export default class SettingItemMax extends React.PureComponent {
         if (this.props.shiftEnter && e.keyCode === Constants.KeyCodes.ENTER && e.shiftKey) {
             return;
         }
-        if (isKeyPressed(e, Constants.KeyCodes.ENTER) && this.props.submit && e.target.tagName !== 'SELECT' && e.target.parentElement && e.target.parentElement.className !== 'react-select__input') {
+        if (isKeyPressed(e, Constants.KeyCodes.ENTER) && this.props.submit && e.target.tagName !== 'SELECT' && e.target.parentElement && e.target.parentElement.className !== 'react-select__input' && !e.target.classList.contains('btn-cancel')) {
             this.handleSubmit(e);
         }
     }
@@ -279,7 +279,7 @@ export default class SettingItemMax extends React.PureComponent {
                             {submit}
                             <button
                                 id={'cancelSetting'}
-                                className='btn btn-sm cursor--pointer style--none'
+                                className='btn btn-sm btn-cancel cursor--pointer style--none'
                                 onClick={this.handleUpdateSection}
                             >
                                 {cancelButtonText}
