@@ -15,7 +15,7 @@ import MailPlusIcon from 'components/svg/mail_plus_icon';
 import CloseCircleSolidIcon from 'components/svg/close_circle_solid_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
-import {imageURLForUser, getDisplayName, getLongDisplayName} from 'utils/utils.jsx';
+import {imageURLForUser, getDisplayName, getLongDisplayNameParts} from 'utils/utils.jsx';
 
 import {t} from 'utils/i18n.jsx';
 import {isGuest} from 'utils/utils';
@@ -59,6 +59,26 @@ export default class UsersEmailsInput extends React.Component {
         };
     }
 
+    renderUserName = (user) => {
+        const parts = getLongDisplayNameParts(user);
+        let fullName = null;
+        if (parts.fullName) {
+            fullName = (<span className='fullname'>{parts.fullName}</span>);
+        }
+        let nickname = null;
+        if (parts.nickname) {
+            nickname = (<span className='nickname'>{parts.nickname}</span>);
+        }
+
+        return (
+            <>
+                {parts.displayName}
+                {fullName}
+                {nickname}
+            </>
+        );
+    }
+
     loadingMessage = () => {
         let text = 'Loading';
         if (this.context.intl) {
@@ -97,7 +117,7 @@ export default class UsersEmailsInput extends React.Component {
             return (
                 <React.Fragment>
                     {avatar}
-                    {getLongDisplayName(user)}
+                    {this.renderUserName(user)}
                     {guestBadge}
                 </React.Fragment>
             );
