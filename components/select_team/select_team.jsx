@@ -152,7 +152,7 @@ export default class SelectTeam extends React.Component {
                     <div className={'form-group has-error'}>
                         <label className='control-label'>
                             <FormattedMessage
-                                id='signup_team.no_teams_for_guests'
+                                id='signup_team.guest_without_channels'
                                 defaultMessage='Your guest account has no channels assigned. Please contact an administrator.'
                             />
                         </label>
