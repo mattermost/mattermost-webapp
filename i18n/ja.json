@@ -3208,7 +3208,7 @@
   "user.settings.general.mobile.emptyName": "フルネームを追加するためにクリックしてください",
   "user.settings.general.mobile.emptyNickname": "ニックネームを追加するためにクリックしてください",
   "user.settings.general.mobile.emptyPosition": "職業/役職を追加するためにクリックしてください",
-  "user.settings.general.mobile.uploadImage": "画像をアップロードするためにクリックしてください",
+  "user.settings.general.mobile.uploadImage": "クリックして画像をアップロードしてください",
   "user.settings.general.newEmail": "新しい電子メールアドレス",
   "user.settings.general.nickname": "ニックネーム",
   "user.settings.general.nicknameExtra": "ニックネームを使用する(氏名とは異なります)。これにより、同じような氏名とユーザー名を持つ人たちを区別しやすくなります。",
