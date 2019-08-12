@@ -533,10 +533,11 @@
             width: 100%;
 
             .MenuWrapper {
-                flex: auto;
+                flex: 1;
 
                 &:first-child {
-                    flex: 0 0 36px;
+                    flex: 0 0 52px;
+                    width: auto;
                 }
             }
         }
