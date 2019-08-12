@@ -34,7 +34,7 @@ exports[`components/SettingItemMin should match snapshot 1`] = `
           saving={false}
         />
         <button
-          className="btn btn-sm cursor--pointer style--none"
+          className="btn btn-sm btn-cancel cursor--pointer style--none"
           id="cancelSetting"
           onClick={[Function]}
         >
@@ -94,7 +94,7 @@ exports[`components/SettingItemMin should match snapshot, on clientError 1`] = `
           saving={false}
         />
         <button
-          className="btn btn-sm cursor--pointer style--none"
+          className="btn btn-sm btn-cancel cursor--pointer style--none"
           id="cancelSetting"
           onClick={[Function]}
         >
@@ -154,7 +154,7 @@ exports[`components/SettingItemMin should match snapshot, on serverError 1`] = `
           saving={false}
         />
         <button
-          className="btn btn-sm cursor--pointer style--none"
+          className="btn btn-sm btn-cancel cursor--pointer style--none"
           id="cancelSetting"
           onClick={[Function]}
         >
@@ -205,7 +205,7 @@ exports[`components/SettingItemMin should match snapshot, with new saveTextButto
           saving={false}
         />
         <button
-          className="btn btn-sm cursor--pointer style--none"
+          className="btn btn-sm btn-cancel cursor--pointer style--none"
           id="cancelSetting"
           onClick={[Function]}
         >
@@ -248,7 +248,7 @@ exports[`components/SettingItemMin should match snapshot, without submit 1`] = `
       >
         <hr />
         <button
-          className="btn btn-sm cursor--pointer style--none"
+          className="btn btn-sm btn-cancel cursor--pointer style--none"
           id="cancelSetting"
           onClick={[Function]}
         >
