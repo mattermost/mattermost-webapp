@@ -74,6 +74,7 @@ export default class BrandImageSetting extends React.PureComponent {
             this.props.setSaveNeeded();
             this.setState({
                 brandImage: element.prop('files')[0],
+                deleteBrandImage: false,
             });
         }
     }
@@ -83,49 +84,49 @@ export default class BrandImageSetting extends React.PureComponent {
         this.props.setSaveNeeded();
     }
 
-    // This function is used from the outside to trigger the delete of the image when needed.
-    async handleImageDelete() {
+    // This function is used from the outside to trigger the save/delete of the image when needed.
+    async handleSave() {
+        if (!this.state.deleteBrandImage && !this.state.brandImage) {
+            return;
+        }
+
         this.setState({
             error: '',
         });
 
-        await deleteBrandImage(
-            () => {
-                this.setState({
-                    deleteBrandImage: false,
-                    brandImageExists: false,
-                    brandImage: null,
-                });
-            },
-            (err) => {
-                this.setState({
-                    error: err.message,
-                });
-            }
-        );
-    }
-
-    // This function is used from the outside to trigger the save of the image when needed.
-    async handleImageSave() {
-        this.setState({
-            error: '',
-        });
-
-        await uploadBrandImage(
-            this.state.brandImage,
-            () => {
-                this.setState({
-                    brandImageExists: true,
-                    brandImage: null,
-                    brandImageTimestamp: Date.now(),
-                });
-            },
-            (err) => {
-                this.setState({
-                    error: err.message,
-                });
-            }
-        );
+        if (this.state.deleteBrandImage) {
+            await deleteBrandImage(
+                () => {
+                    this.setState({
+                        deleteBrandImage: false,
+                        brandImageExists: false,
+                        brandImage: null,
+                    });
+                },
+                (err) => {
+                    this.setState({
+                        error: err.message,
+                    });
+                }
+            );
+        } else if (this.state.brandImage) {
+            await uploadBrandImage(
+                this.state.brandImage,
+                () => {
+                    this.setState({
+                        brandImageExists: true,
+                        brandImage: null,
+                        brandImageTimestamp: Date.now(),
+                    });
+                },
+                (err) => {
+                    this.setState({
+                        error: err.message,
+                    });
+                }
+            );
+        }
+        return this.state.error;
     }
 
     render() {
