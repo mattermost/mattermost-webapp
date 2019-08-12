@@ -84,6 +84,25 @@
             background: none;
             cursor: default;
         }
+        .fullname {
+            opacity: .5;
+            &::before {
+                padding: 5px;
+                content: "-";
+            }
+        }
+        .nickname {
+            opacity: .5;
+            &::before {
+                opacity: .5;
+                padding-left: 5px;
+                content: "(";
+            }
+            &::after {
+                opacity: .5;
+                content: ")";
+            }
+        }
         .mail-plus-icon {
             width: 36px;
             height: 36px;
