@@ -34,7 +34,7 @@ describe('components/PopoverListMembers', () => {
     };
 
     const actions = {
-        getProfilesInChannel: jest.fn(),
+        loadProfilesAndStatusesInChannel: jest.fn(),
         openDirectChannelToUserId: jest.fn().mockResolvedValue({data: {name: 'channelname'}}),
         openModal: jest.fn(),
     };
