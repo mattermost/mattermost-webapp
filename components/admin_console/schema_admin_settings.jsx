@@ -716,7 +716,6 @@ export default class SchemaAdminSettings extends React.Component {
         this.customComponentRef.push(ref);
     }
 
-
     buildCustomSetting = (setting) => {
         const CustomComponent = setting.component;
         return (
@@ -840,7 +839,7 @@ export default class SchemaAdminSettings extends React.Component {
                 }
             }
         );
-        
+
         let customComponentError = false;
         await Promise.all(this.customComponentRef.map(async (component) => {
             if (component.handleSave) {

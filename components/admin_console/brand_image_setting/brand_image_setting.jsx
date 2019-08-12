@@ -87,7 +87,7 @@ export default class BrandImageSetting extends React.PureComponent {
     // This function is used from the outside to trigger the save/delete of the image when needed.
     async handleSave() {
         if (!this.state.deleteBrandImage && !this.state.brandImage) {
-            return;
+            return null;
         }
 
         this.setState({
