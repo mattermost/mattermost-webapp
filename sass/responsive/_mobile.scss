@@ -886,11 +886,11 @@
                         display: block;
 
                         .settings-content {
-                            .section-title {
+                            .section-min__title {
                                 padding-right: 15px;
                             }
 
-                            .section-edit {
+                            .section-min__edit {
                                 position: relative;
                                 right: 0;
                                 text-align: left;
@@ -975,7 +975,7 @@
                     }
 
                     .settings-content {
-                        .section-edit {
+                        .section-min__edit {
                             text-align: left;
 
                             button {
@@ -1615,6 +1615,10 @@
         &.browser--ie {
             min-width: 600px;
         }
+    }
+
+    .section-min .d-flex {
+        flex-direction: column;
     }
 
     .multi-select__help {

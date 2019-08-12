@@ -10,7 +10,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStepTable should matc
     <div
       className="people-header"
     >
-      <BackIcon />
       <FormattedMessage
         defaultMessage="People"
         id="invitation-modal.confirm.people-header"
