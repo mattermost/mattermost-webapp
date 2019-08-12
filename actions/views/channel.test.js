@@ -226,6 +226,23 @@ describe('channel view actions', () => {
             expect(result).toEqual({atLatestMessage: false, atOldestmessage: false});
             expect(PostActions.getPostsUnread).toHaveBeenCalledWith('channel');
         });
+
+        test('when there are no posts after RECEIVED_POSTS_FOR_CHANNEL_AT_TIME should be dispatched', async () => {
+            const posts = {posts: {}, order: [], next_post_id: '', prev_post_id: ''};
+            Date.now = jest.fn().mockReturnValue(12344);
+
+            PostActions.getPostsUnread.mockReturnValue(() => ({data: posts}));
+
+            await store.dispatch(Actions.loadUnreads('channel', 'post'));
+
+            expect(store.getActions()).toEqual([
+                {amount: 0, data: 'channel', type: 'INCREASE_POST_VISIBILITY'},
+                {
+                    channelId: 'channel',
+                    time: 12344,
+                    type: 'RECEIVED_POSTS_FOR_CHANNEL_AT_TIME'},
+            ]);
+        });
     });
 
     describe('loadPostsAround', () => {
