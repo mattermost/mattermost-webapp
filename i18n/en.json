@@ -3524,8 +3524,6 @@
   "web.root.signup_info": "All team communication in one place, searchable and accessible anywhere",
   "widgets.channels_input.empty": "No channels found",
   "widgets.channels_input.loading": "Loading",
-  "widgets.emails_input.invalid_email": "Type email address",
-  "widgets.emails_input.valid_email": "Add **{email}**",
   "widgets.users_emails_input.loading": "Loading",
   "widgets.users_emails_input.no_user_found_matching": "No one found matching **{text}**, type email address",
   "widgets.users_emails_input.valid_email": "Add **{email}**",
