@@ -14,7 +14,7 @@ function verifyFocusInAddChannelMemberModal() {
     // * The dropdown menu of the channel header should be visible;
     cy.get('#channelHeaderDropdownMenu').should('be.visible');
 
-    // # 1. Click 'Add Members'
+    // # Click 'Add Members'
     cy.get('#channelAddMembers').click();
 
     // * Assert that modal appears
@@ -72,7 +72,7 @@ describe('Messaging', () => {
         cy.get('#post_textbox').should('be.focused');
     });
 
-    it('M47742 Focus does not move when it has already been set elsewhere', () => {
+    it('M17452 Focus does not move when it has already been set elsewhere', () => {
         let channel;
 
         cy.getCurrentTeamId().then((teamId) => {
