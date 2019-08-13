@@ -153,13 +153,16 @@ package model
 
 eos
 
-    emoji_array = []
+    emoji_dict = {}
     emojis.each do |emoji|
       emoji['aliases'].each do |emoji_alias|
-        emoji_array.append(%{"#{emoji_alias}": "#{emoji['filename']}"})
+        # There are duplicity in some emojis, for example blonde_woman_light_skin_tone,
+        # so we get the last one of them because we only check for the alias/name
+        # in the server-side part
+        emoji_dict[emoji_alias] = %{"#{emoji_alias}": "#{emoji['filename']}"}
       end
     end
-    f.write("var SystemEmojis = map[string]string{#{emoji_array.join(', ')}}\n")
+    f.write("var SystemEmojis = map[string]string{#{emoji_dict.values.join(', ')}}\n")
 
     puts "\nwrote #{emojis.length} emojis to utils/server/emoji_data.go"
 end
