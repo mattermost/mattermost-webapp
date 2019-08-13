@@ -17,7 +17,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       />
     </div>
     <div
-      className="group-description"
+      className="group-description group-users--header-padded"
     >
       <FormattedMessage
         defaultMessage="Role"
@@ -26,7 +26,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       />
     </div>
     <div
-      className="group-description"
+      className="group-description group-users--header-padded"
     >
       <FormattedMessage
         defaultMessage="Groups"
@@ -396,7 +396,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       />
     </div>
     <div
-      className="group-description"
+      className="group-description group-users--header-padded"
     >
       <FormattedMessage
         defaultMessage="Role"
@@ -405,7 +405,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       />
     </div>
     <div
-      className="group-description"
+      className="group-description group-users--header-padded"
     >
       <FormattedMessage
         defaultMessage="Groups"
@@ -775,7 +775,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       />
     </div>
     <div
-      className="group-description"
+      className="group-description group-users--header-padded"
     >
       <FormattedMessage
         defaultMessage="Role"
@@ -784,7 +784,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       />
     </div>
     <div
-      className="group-description"
+      className="group-description group-users--header-padded"
     >
       <FormattedMessage
         defaultMessage="Groups"
@@ -1154,7 +1154,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       />
     </div>
     <div
-      className="group-description"
+      className="group-description group-users--header-padded"
     >
       <FormattedMessage
         defaultMessage="Role"
@@ -1163,7 +1163,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       />
     </div>
     <div
-      className="group-description"
+      className="group-description group-users--header-padded"
     >
       <FormattedMessage
         defaultMessage="Groups"
@@ -1533,7 +1533,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       />
     </div>
     <div
-      className="group-description"
+      className="group-description group-users--header-padded"
     >
       <FormattedMessage
         defaultMessage="Role"
@@ -1542,7 +1542,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       />
     </div>
     <div
-      className="group-description"
+      className="group-description group-users--header-padded"
     >
       <FormattedMessage
         defaultMessage="Groups"

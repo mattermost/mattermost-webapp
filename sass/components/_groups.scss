@@ -508,3 +508,13 @@
         z-index: 5;
     }
 }
+
+.email-group-row {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 90%;
+}
+
+.group-users--header-padded {
+    padding-left: 24px;
+}
