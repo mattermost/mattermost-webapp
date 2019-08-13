@@ -167,8 +167,8 @@ eos
     puts "\nwrote #{emojis.length} emojis to utils/server/emoji_data.go"
 end
 
-# If SERVER_DIR is defined we can update the file emoji_data.go file in
-# the server directoy
+# If SERVER_DIR is defined we can update the file emoji_data.go in
+# the server directory
 if ENV.key?('SERVER_DIR')
   server_dir = File.join(ENV['SERVER_DIR'], 'model')
   FileUtils.cp(File.join(webapp_server_dir, 'emoji_data.go'), server_dir)
