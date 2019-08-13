@@ -42,15 +42,22 @@ export default class InvitationModalMembersStep extends React.Component {
 
     copyLink = () => {
         const input = this.inviteLinkRef.current;
-        input.focus();
-        input.setSelectionRange(0, input.value.length);
+
+        const textField = document.createElement('textarea');
+        textField.innerText = input.value;
+        textField.style.position = 'fixed';
+        textField.style.opacity = 0;
+
+        document.body.appendChild(textField);
+        textField.select();
 
         try {
             this.setState({copiedLink: document.execCommand('copy')});
         } catch (err) {
             this.setState({copiedLink: false});
         }
-        input.setSelectionRange(0, 0);
+        textField.remove();
+
         if (this.timeout) {
             clearTimeout(this.timeout);
         }

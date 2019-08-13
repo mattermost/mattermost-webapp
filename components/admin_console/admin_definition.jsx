@@ -2296,7 +2296,7 @@ export default {
                         label: t('admin.ldap.skipCertificateVerification'),
                         label_default: 'Skip Certificate Verification:',
                         help_text: t('admin.ldap.skipCertificateVerificationDesc'),
-                        help_text_default: 'Skips the certificate verification step for TLS or STARTTLS connections. Not recommended for production environments where TLS is required. For testing only.',
+                        help_text_default: 'Skips the certificate verification step for TLS or STARTTLS connections. Skipping certificate verification is not recommended for production environments where TLS is required.',
                         isDisabled: it.stateIsFalse('LdapSettings.ConnectionSecurity'),
                     },
                     {
@@ -2794,7 +2794,7 @@ export default {
                         label: t('admin.saml.verifyTitle'),
                         label_default: 'Verify Signature:',
                         help_text: t('admin.saml.verifyDescription'),
-                        help_text_default: 'When false, Mattermost will not verify that the signature sent from a SAML Response matches the Service Provider Login URL. Not recommended for production environments. For testing only.',
+                        help_text_default: 'When false, Mattermost will not verify that the signature sent from a SAML Response matches the Service Provider Login URL. Disabling verification is not recommended for production environments.',
                         isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
@@ -2825,7 +2825,7 @@ export default {
                         label: t('admin.saml.encryptTitle'),
                         label_default: 'Enable Encryption:',
                         help_text: t('admin.saml.encryptDescription'),
-                        help_text_default: 'When false, Mattermost will not decrypt SAML Assertions encrypted with your Service Provider Public Certificate. Not recommended for production environments. For testing only.',
+                        help_text_default: 'When false, Mattermost will not decrypt SAML Assertions encrypted with your Service Provider Public Certificate. Disabling encryption is not recommended for production environments.',
                         isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
@@ -3395,9 +3395,34 @@ export default {
                         help_text: t('admin.guest_access.mfaDescription'),
                         help_text_default: 'When true, [multi-factor authentication](!https://docs.mattermost.com/deployment/auth.html) for guests is required for login. New guest users will be required to configure MFA on signup. Logged in guest users without MFA configured are redirected to the MFA setup page until configuration is complete.\n \nIf your system has guest users with login methods other than AD/LDAP and email, MFA must be enforced with the authentication provider outside of Mattermost.',
                         help_text_markdown: true,
-                        isDisabled: it.either(
+                        isHidden: it.either(
                             it.configIsFalse('ServiceSettings', 'EnableMultifactorAuthentication'),
                             it.configIsFalse('ServiceSettings', 'EnforceMultifactorAuthentication'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'GuestAccountsSettings.EnforceMultifactorAuthentication',
+                        label: t('admin.guest_access.mfaTitle'),
+                        label_default: 'Enforce Multi-factor Authentication: ',
+                        help_text: t('admin.guest_access.mfaDescriptionMFANotEnabled'),
+                        help_text_default: '[Multi-factor authentication](./mfa) is currently not enabled.',
+                        help_text_markdown: true,
+                        isDisabled: () => true,
+                        isHidden: it.configIsTrue('ServiceSettings', 'EnableMultifactorAuthentication'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'GuestAccountsSettings.EnforceMultifactorAuthentication',
+                        label: t('admin.guest_access.mfaTitle'),
+                        label_default: 'Enforce Multi-factor Authentication: ',
+                        help_text: t('admin.guest_access.mfaDescriptionMFANotEnforced'),
+                        help_text_default: '[Multi-factor authentication](./mfa) is currently not enforced.',
+                        help_text_markdown: true,
+                        isDisabled: () => true,
+                        isHidden: it.either(
+                            it.configIsFalse('ServiceSettings', 'EnableMultifactorAuthentication'),
+                            it.configIsTrue('ServiceSettings', 'EnforceMultifactorAuthentication'),
                         ),
                     },
                 ],
