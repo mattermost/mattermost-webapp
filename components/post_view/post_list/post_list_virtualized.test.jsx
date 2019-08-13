@@ -265,13 +265,13 @@ describe('PostList', () => {
             const instance = wrapper.instance();
             instance.componentDidUpdate = jest.fn();
 
-            instance.postListRef = {current: {scrollTop: 10, scrollHeight: 100}};
+            instance.postListRef = {current: {scrollHeight: 100, parentElement: {scrollTop : 10}}};
 
             wrapper.setProps({olderPosts: {allLoaded: true, loading: false}});
             expect(instance.componentDidUpdate).toHaveBeenCalledTimes(1);
             expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollTop: 10, previousScrollHeight: 100});
 
-            instance.postListRef = {current: {scrollTop: 30, scrollHeight: 200}};
+            instance.postListRef = {current: {scrollHeight: 200, parentElement: {scrollTop : 30}}};
             wrapper.setProps({postListIds: [
                 'post1',
                 'post2',
@@ -289,12 +289,12 @@ describe('PostList', () => {
             const instance = wrapper.instance();
             instance.componentDidUpdate = jest.fn();
 
-            instance.postListRef = {current: {scrollTop: 10, scrollHeight: 100}};
+            instance.postListRef = {current: {scrollHeight: 100, parentElement: {scrollTop : 10}}};
             wrapper.setProps({olderPosts: {allLoaded: true, loading: false}});
             expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollHeight: 100, previousScrollTop: 10});
 
             wrapper.setState({atBottom: true});
-            instance.postListRef = {current: {scrollTop: 40, scrollHeight: 400}};
+            instance.postListRef = {current: {scrollHeight: 400, parentElement: {scrollTop : 40}}};
             wrapper.setProps({postListIds: [
                 'post1',
                 'post2',
