@@ -15,6 +15,7 @@ import MailPlusIcon from 'components/svg/mail_plus_icon';
 import CloseCircleSolidIcon from 'components/svg/close_circle_solid_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+import Avatar from 'components/widgets/users/avatar';
 import {imageURLForUser, getDisplayName, getLongDisplayNameParts} from 'utils/utils.jsx';
 
 import {t} from 'utils/i18n.jsx';
@@ -88,10 +89,10 @@ export default class UsersEmailsInput extends React.Component {
     formatOptionLabel = (user, options) => {
         const profileImg = imageURLForUser(user);
         const avatar = (
-            <img
-                className='avatar'
-                alt={`${user.username || 'user'} profile image`}
-                src={profileImg}
+            <Avatar
+                size='lg'
+                username={user.username}
+                url={profileImg}
             />
         );
 

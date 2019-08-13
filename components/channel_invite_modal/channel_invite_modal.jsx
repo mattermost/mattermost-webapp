@@ -166,8 +166,7 @@ export default class ChannelInviteModal extends React.Component {
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
-                    width='32'
-                    height='32'
+                    size='md'
                 />
                 <div className='more-modal__details'>
                     <div className='more-modal__name'>

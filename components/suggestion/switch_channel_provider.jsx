@@ -36,6 +36,7 @@ import {
 
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
+import Avatar from 'components/widgets/users/avatar.jsx';
 
 import DraftIcon from 'components/svg/draft_icon';
 import GlobeIcon from 'components/svg/globe_icon';
@@ -101,10 +102,9 @@ class SwitchChannelSuggestion extends Suggestion {
         } else {
             icon = (
                 <div className='pull-left'>
-                    <img
-                        alt={''}
-                        className='mention__image'
-                        src={Utils.imageURLForUser(channel.userId)}
+                    <Avatar
+                        size='xs'
+                        url={Utils.imageURLForUser(channel.userId)}
                     />
                 </div>
             );

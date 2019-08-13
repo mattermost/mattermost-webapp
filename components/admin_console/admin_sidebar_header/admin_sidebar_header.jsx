@@ -9,6 +9,7 @@ import {Client4} from 'mattermost-redux/client';
 import MenuIcon from 'components/svg/menu_icon';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import Avatar from 'components/widgets/users/avatar';
 
 import AdminNavbarDropdown from 'components/admin_console/admin_navbar_dropdown';
 
@@ -27,10 +28,9 @@ export default class SidebarHeader extends React.Component {
 
         if (me.last_picture_update) {
             profilePicture = (
-                <img
-                    alt={''}
-                    className='user__picture'
-                    src={Client4.getProfilePictureUrl(me.id, me.last_picture_update)}
+                <Avatar
+                    username={me.username}
+                    url={Client4.getProfilePictureUrl(me.id, me.last_picture_update)}
                 />
             );
         }

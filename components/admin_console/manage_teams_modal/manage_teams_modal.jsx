@@ -10,6 +10,7 @@ import {Client4} from 'mattermost-redux/client';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+import Avatar from 'components/widgets/users/avatar';
 
 import ManageTeamsDropdown from './manage_teams_dropdown.jsx';
 import RemoveFromTeamButton from './remove_from_team_button.jsx';
@@ -185,10 +186,9 @@ export default class ManageTeamsModal extends React.Component {
         return (
             <div>
                 <div className='manage-teams__user'>
-                    <img
-                        alt={''}
-                        className='manage-teams__profile-picture'
-                        src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
+                    <Avatar
+                        username={user.username}
+                        url={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
                     />
                     <div className='manage-teams__info'>
                         <div className='manage-teams__name'>

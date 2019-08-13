@@ -7,6 +7,7 @@ import {autocompleteUsersInTeam} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 import SelectIcon from 'components/icon/select_icon';
+import Avatar from 'components/widgets/users/avatar';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -38,9 +39,9 @@ class SearchUserSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 <SelectIcon/>
-                <img
-                    alt={''}
-                    className='profile-img rounded'
+                <Avatar
+                    size='xs'
+                    username={username}
                     src={Utils.imageURLForUser(item)}
                 />
                 <div className='mention--align'>
