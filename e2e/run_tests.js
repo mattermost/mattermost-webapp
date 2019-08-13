@@ -27,7 +27,7 @@ function generateStatsFieldValue(stats, failedFullTitles) {
     let statsFieldValue = `
 | Key | Value |
 |:---|:---|
-| Passing Rate | ${stats.passPercent.toFixed(2)}%25 |
+| Passing Rate | ${stats.passPercent.toFixed(2)}% |
 | Duration | ${(stats.duration / (60 * 1000)).toFixed(2)} mins |
 | Suites | ${stats.suites} |
 | Tests | ${stats.tests} |
@@ -42,7 +42,7 @@ function generateStatsFieldValue(stats, failedFullTitles) {
     if (failedFullTitles && failedFullTitles.length > 0) {
         const failed = failedFullTitles;
         if (failed.length > MAX_FAILED_TITLES) {
-            failedTests = failed.slice(0, MAX_FAILED_TITLES - 1).map((f) => `- ${f}`).join('\n');
+            failedTests = failed.slice(0, MAX_FAILED_TITLES - 1).map((f) => `- ${f.replace(/[:'"\\]/gi, '')}`).join('\n');
             failedTests += '\n- more...';
         } else {
             failedTests = failed.map((f) => `- ${f}`).join('\n');
