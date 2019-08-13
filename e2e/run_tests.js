@@ -40,12 +40,13 @@ function generateStatsFieldValue(stats, failedFullTitles) {
     // Only show per maximum number of failed titles with the last item as "more..." if failing tests are more than that.
     let failedTests;
     if (failedFullTitles && failedFullTitles.length > 0) {
+        const re = /[:'"\\]/gi;
         const failed = failedFullTitles;
         if (failed.length > MAX_FAILED_TITLES) {
-            failedTests = failed.slice(0, MAX_FAILED_TITLES - 1).map((f) => `- ${f.replace(/[:'"\\]/gi, '')}`).join('\n');
+            failedTests = failed.slice(0, MAX_FAILED_TITLES - 1).map((f) => `- ${f.replace(re, '')}`).join('\n');
             failedTests += '\n- more...';
         } else {
-            failedTests = failed.map((f) => `- ${f}`).join('\n');
+            failedTests = failed.map((f) => `- ${f.replace(re, '')}`).join('\n');
         }
     }
 
