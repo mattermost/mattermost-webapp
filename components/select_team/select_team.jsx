@@ -62,12 +62,12 @@ export default class SelectTeam extends React.Component {
             error: null,
             endofTeamsData: false,
             currentListableTeams: [],
-            currentPage: 1,
+            currentPage: 0,
         };
     }
 
     componentDidMount() {
-        this.props.actions.getTeams(0, TEAMS_PER_PAGE, true);
+        this.fetchMoreTeams();
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -81,14 +81,15 @@ export default class SelectTeam extends React.Component {
     fetchMoreTeams = async () => {
         const {currentPage} = this.state;
         const {actions} = this.props;
+
+        await actions.getTeams(currentPage, TEAMS_PER_PAGE, true);
+
         this.setState((prevState) => (
             {
                 currentPage: prevState.currentPage + 1,
             }
         ),
         );
-
-        await actions.getTeams(currentPage, TEAMS_PER_PAGE, true);
     }
 
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
@@ -255,7 +256,7 @@ export default class SelectTeam extends React.Component {
                         styleClass='signup-team-all'
                         totalItems={totalTeamsCount}
                         itemsPerPage={TEAMS_PER_PAGE}
-                        pageNumber={currentPage + 1}
+                        pageNumber={currentPage}
                     >
                         {joinableTeamContents}
                     </InfiniteScroll>

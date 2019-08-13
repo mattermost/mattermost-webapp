@@ -46,7 +46,7 @@ export default class InfiniteScroll extends React.PureComponent {
         itemsPerPage: PropTypes.number.isRequired,
 
         /**
-         * The current page that has been scrolled to, starting from page 1
+         * The current page that has been scrolled to
          */
         pageNumber: PropTypes.number.isRequired,
     };
@@ -106,7 +106,7 @@ export default class InfiniteScroll extends React.PureComponent {
 
                     const amountOfPages = this.getAmountOfPages(totalItems, itemsPerPage);
 
-                    if (pageNumber > amountOfPages) {
+                    if (pageNumber === amountOfPages) {
                         this.setState({
                             isEndofData: true,
                         });

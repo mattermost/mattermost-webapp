@@ -41,7 +41,7 @@ exports[`components/select_team/SelectTeam should match snapshot 1`] = `
           callBack={[Function]}
           endOfDataMessage=""
           itemsPerPage={10}
-          pageNumber={2}
+          pageNumber={0}
           styleClass="signup-team-all"
           totalItems={15}
         >
@@ -317,7 +317,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
           callBack={[Function]}
           endOfDataMessage=""
           itemsPerPage={10}
-          pageNumber={2}
+          pageNumber={0}
           styleClass="signup-team-all"
           totalItems={15}
         >
@@ -534,7 +534,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
           callBack={[Function]}
           endOfDataMessage=""
           itemsPerPage={10}
-          pageNumber={2}
+          pageNumber={0}
           styleClass="signup-team-all"
           totalItems={15}
         >
