@@ -140,9 +140,7 @@ File.open(File.join(project_root, 'utils', 'emoji.jsx'), 'w') do |f|
     puts "\nwrote #{emojis.length} emojis to utils/emoji.jsx"
 end
 
-webapp_server_dir = File.join(project_root, 'utils', 'server')
-Dir.mkdir(webapp_server_dir) unless Dir.exist?(webapp_server_dir)
-File.open(File.join(webapp_server_dir, 'emoji_data.go'), 'w') do |f|
+File.open(File.join(project_root, 'emoji_data.go'), 'w') do |f|
     f.write <<-eos
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
