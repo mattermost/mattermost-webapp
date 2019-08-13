@@ -333,6 +333,8 @@
   "admin.customization.enableGifPickerTitle": "Enable GIF Picker:",
   "admin.customization.enableLinkPreviewsDesc": "Display a preview of website content below messages, when available. Users can disable these previews from Account Settings > Display > Website Link Previews. This setting only applies to websites with OpenGraph metadata and not for image links or YouTube previews.",
   "admin.customization.enableLinkPreviewsTitle": "Enable Link Previews:",
+  "admin.customization.enableSVGsDesc": "Enable previews for SVG file attachments and allow them to appear in messages.",
+  "admin.customization.enableSVGsTitle": "Enable SVGs:",
   "admin.customization.gfycatApiKey": "Gfycat API Key:",
   "admin.customization.gfycatApiKeyDescription": "Request an API key at [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#). Enter the client ID you receive via email to this field. When blank, uses the default API key provided by Gfycat.",
   "admin.customization.gfycatApiSecret": "Gfycat API Secret:",

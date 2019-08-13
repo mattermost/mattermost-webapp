@@ -1950,6 +1950,14 @@ export default {
                         help_text_default: 'Display a preview of website content below messages, when available. Users can disable these previews from Account Settings > Display > Website Link Previews. This setting only applies to websites with OpenGraph metadata and not for image links or YouTube previews.',
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableSVGs',
+                        label: t('admin.customization.enableSVGsTitle'),
+                        label_default: 'Enable SVGs:',
+                        help_text: t('admin.customization.enableSVGsDesc'),
+                        help_text_default: 'Enable previews for SVG file attachments and allow them to appear in messages.',
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: CustomUrlSchemesSetting,
                         key: 'DisplaySettings.CustomUrlSchemes',
