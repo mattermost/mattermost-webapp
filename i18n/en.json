@@ -1473,7 +1473,7 @@
   "admin.team_channel_settings.user_list.groupsHeader": "Groups",
   "admin.team_channel_settings.user_list.nameHeader": "Name",
   "admin.team_channel_settings.user_list.roleHeader": "Role",
-  "admin.team_channel_settings.users_will_be_removed": "{amount, number} {amount, plural, one {User} other {Users}} will be removed from this team. They are not in groups linked to this team.",
+  "admin.team_channel_settings.users_will_be_removed": "{amount, number} {amount, plural, one {user} other {users}} will be removed from this team. They are not in groups linked to this team.",
   "admin.team_channel_settings.usersToBeRemovedModal.close": "Close",
   "admin.team_channel_settings.usersToBeRemovedModal.message": "The members listed below are not in any of the groups currently linked to this team. Because this team is set to be managed by group sync they will all be removed once saved.",
   "admin.team_channel_settings.usersToBeRemovedModal.title": "**{total, number} {total, plural, one {User} other {Users}}** To Be Removed",
