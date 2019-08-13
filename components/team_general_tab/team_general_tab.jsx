@@ -668,7 +668,7 @@ export default class GeneralTab extends React.Component {
                 );
             } else {
                 minMessage = Utils.isMobile() ?
-                    Utils.localizeMessage('general_tab.teamIconEditHintMobile', 'Click to upload an image.') :
+                    Utils.localizeMessage('general_tab.teamIconEditHintMobile', 'Click to upload an image') :
                     Utils.localizeMessage('general_tab.teamIconEditHint', 'Click \'Edit\' to upload an image.');
             }
 

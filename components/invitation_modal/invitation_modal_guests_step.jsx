@@ -153,7 +153,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                         >
                             {(placeholder) => (
                                 <UsersEmailsInput
-                                    usersLoader={this.debouncedUsersLoader}
+                                    usersLoader={this.usersLoader}
                                     placeholder={placeholder}
                                     onChange={this.onUsersEmailsChange}
                                     value={this.state.usersAndEmails}
