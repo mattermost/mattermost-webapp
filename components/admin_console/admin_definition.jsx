@@ -1950,6 +1950,14 @@ export default {
                         help_text_default: 'Display a preview of website content, image links and YouTube links below the message when available. The server must be connected to the internet and have access through the firewall (if applicable) to the websites from which previews are expected. Users can disable these previews from Account Settings > Display > Website Link Previews.',
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableSVGs',
+                        label: t('admin.customization.enableSVGsTitle'),
+                        label_default: 'Enable SVGs:',
+                        help_text: t('admin.customization.enableSVGsDesc'),
+                        help_text_default: 'Enable previews for SVG file attachments and allow them to appear in messages.',
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: CustomUrlSchemesSetting,
                         key: 'DisplaySettings.CustomUrlSchemes',
