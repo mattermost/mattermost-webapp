@@ -13,7 +13,10 @@ exports[`components/SettingItemMin should match snapshot with active Save button
     className="col-xs-offset-3 col-xs-8"
   >
     <ul
+      aria-describedby="setting-picture__helptext"
+      aria-label="Profile Picture"
       className="setting-list"
+      tabIndex="-1"
     >
       <li
         className="setting-list-item"
@@ -27,6 +30,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
       </li>
       <li
         className="setting-list-item padding-top x2"
+        id="setting-picture__helptext"
         role="presentation"
       >
         <FormattedMessage
@@ -54,20 +58,20 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           }
           type="modal"
         />
-        <input
-          accept=".jpg,.png,.bmp"
-          aria-hidden={true}
-          disabled={false}
-          onChange={[Function]}
-          tabIndex="-1"
-          type="file"
-        />
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
           onClick={[Function]}
         >
+          <input
+            accept=".jpg,.png,.bmp"
+            aria-hidden={true}
+            disabled={false}
+            onChange={[Function]}
+            tabIndex="-1"
+            type="file"
+          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -122,10 +126,14 @@ exports[`components/SettingItemMin should match snapshot with active Save button
     className="col-xs-offset-3 col-xs-8"
   >
     <ul
+      aria-describedby="setting-picture__helptext"
+      aria-label="Profile Picture"
       className="setting-list"
+      tabIndex="-1"
     >
       <li
         className="setting-list-item padding-top x2"
+        id="setting-picture__helptext"
         role="presentation"
       >
         <FormattedMessage
@@ -153,20 +161,20 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           }
           type="modal"
         />
-        <input
-          accept=".jpg,.png,.bmp"
-          aria-hidden={true}
-          disabled={false}
-          onChange={[Function]}
-          tabIndex="-1"
-          type="file"
-        />
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
           onClick={[Function]}
         >
+          <input
+            accept=".jpg,.png,.bmp"
+            aria-hidden={true}
+            disabled={false}
+            onChange={[Function]}
+            tabIndex="-1"
+            type="file"
+          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -221,7 +229,10 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
     className="col-xs-offset-3 col-xs-8"
   >
     <ul
+      aria-describedby="setting-picture__helptext"
+      aria-label="Profile Picture"
       className="setting-list"
+      tabIndex="-1"
     >
       <li
         className="setting-list-item"
@@ -235,6 +246,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
       </li>
       <li
         className="setting-list-item padding-top x2"
+        id="setting-picture__helptext"
         role="presentation"
       >
         <FormattedMessage
@@ -262,20 +274,20 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
           }
           type="modal"
         />
-        <input
-          accept=".jpg,.png,.bmp"
-          aria-hidden={true}
-          disabled={true}
-          onChange={[Function]}
-          tabIndex="-1"
-          type="file"
-        />
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={true}
           onClick={[Function]}
         >
+          <input
+            accept=".jpg,.png,.bmp"
+            aria-hidden={true}
+            disabled={true}
+            onChange={[Function]}
+            tabIndex="-1"
+            type="file"
+          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -330,7 +342,10 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
     className="col-xs-offset-3 col-xs-8"
   >
     <ul
+      aria-describedby="setting-picture__helptext"
+      aria-label="Profile Picture"
       className="setting-list"
+      tabIndex="-1"
     >
       <li
         className="setting-list-item"
@@ -356,6 +371,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
       </li>
       <li
         className="setting-list-item padding-top x2"
+        id="setting-picture__helptext"
         role="presentation"
       >
         <FormattedMessage
@@ -383,20 +399,20 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
           }
           type="modal"
         />
-        <input
-          accept=".jpg,.png,.bmp"
-          aria-hidden={true}
-          disabled={false}
-          onChange={[Function]}
-          tabIndex="-1"
-          type="file"
-        />
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
           onClick={[Function]}
         >
+          <input
+            accept=".jpg,.png,.bmp"
+            aria-hidden={true}
+            disabled={false}
+            onChange={[Function]}
+            tabIndex="-1"
+            type="file"
+          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -451,7 +467,10 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
     className="col-xs-offset-3 col-xs-8"
   >
     <ul
+      aria-describedby="setting-picture__helptext"
+      aria-label="Profile Picture"
       className="setting-list"
+      tabIndex="-1"
     >
       <li
         className="setting-list-item"
@@ -465,6 +484,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
       </li>
       <li
         className="setting-list-item padding-top x2"
+        id="setting-picture__helptext"
         role="presentation"
       >
         <FormattedMessage
@@ -492,20 +512,20 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
           }
           type="modal"
         />
-        <input
-          accept=".jpg,.png,.bmp"
-          aria-hidden={true}
-          disabled={false}
-          onChange={[Function]}
-          tabIndex="-1"
-          type="file"
-        />
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
           onClick={[Function]}
         >
+          <input
+            accept=".jpg,.png,.bmp"
+            aria-hidden={true}
+            disabled={false}
+            onChange={[Function]}
+            tabIndex="-1"
+            type="file"
+          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -560,7 +580,10 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
     className="col-xs-offset-3 col-xs-8"
   >
     <ul
+      aria-describedby="setting-picture__helptext"
+      aria-label="Profile Picture"
       className="setting-list"
+      tabIndex="-1"
     >
       <li
         className="setting-list-item"
@@ -586,6 +609,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
       </li>
       <li
         className="setting-list-item padding-top x2"
+        id="setting-picture__helptext"
         role="presentation"
       >
         <InjectIntl(FormattedMarkdownMessage)
@@ -608,20 +632,20 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
           }
           type="modal"
         />
-        <input
-          accept=".jpg,.png,.bmp"
-          aria-hidden={true}
-          disabled={false}
-          onChange={[Function]}
-          tabIndex="-1"
-          type="file"
-        />
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
           onClick={[Function]}
         >
+          <input
+            accept=".jpg,.png,.bmp"
+            aria-hidden={true}
+            disabled={false}
+            onChange={[Function]}
+            tabIndex="-1"
+            type="file"
+          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -676,7 +700,10 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
     className="col-xs-offset-3 col-xs-8"
   >
     <ul
+      aria-describedby="setting-picture__helptext"
+      aria-label="Profile Picture"
       className="setting-list"
+      tabIndex="-1"
     >
       <li
         className="setting-list-item"
@@ -747,6 +774,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
       </li>
       <li
         className="setting-list-item padding-top x2"
+        id="setting-picture__helptext"
         role="presentation"
       >
         <InjectIntl(FormattedMarkdownMessage)
@@ -769,20 +797,20 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
           }
           type="modal"
         />
-        <input
-          accept=".jpg,.png,.bmp"
-          aria-hidden={true}
-          disabled={false}
-          onChange={[Function]}
-          tabIndex="-1"
-          type="file"
-        />
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
           onClick={[Function]}
         >
+          <input
+            accept=".jpg,.png,.bmp"
+            aria-hidden={true}
+            disabled={false}
+            onChange={[Function]}
+            tabIndex="-1"
+            type="file"
+          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
@@ -837,7 +865,10 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
     className="col-xs-offset-3 col-xs-8"
   >
     <ul
+      aria-describedby="setting-picture__helptext"
+      aria-label="Profile Picture"
       className="setting-list"
+      tabIndex="-1"
     >
       <li
         className="setting-list-item"
@@ -908,6 +939,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
       </li>
       <li
         className="setting-list-item padding-top x2"
+        id="setting-picture__helptext"
         role="presentation"
       >
         <FormattedMessage
@@ -935,20 +967,20 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
           }
           type="modal"
         />
-        <input
-          accept=".jpg,.png,.bmp"
-          aria-hidden={true}
-          disabled={false}
-          onChange={[Function]}
-          tabIndex="-1"
-          type="file"
-        />
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
           onClick={[Function]}
         >
+          <input
+            accept=".jpg,.png,.bmp"
+            aria-hidden={true}
+            disabled={false}
+            onChange={[Function]}
+            tabIndex="-1"
+            type="file"
+          />
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
