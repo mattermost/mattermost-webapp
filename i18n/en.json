@@ -2784,6 +2784,7 @@
   "post_info.system": "System",
   "post_info.tooltip.add_reactions": "Add Reaction",
   "post_info.unpin": "Un-pin from channel",
+  "post_info.unread": "Mark as Unread",
   "post_message_view.edited": "(edited)",
   "post.ariaLabel.attachment": ", 1 attachment",
   "post.ariaLabel.attachmentMultiple": ", {attachmentCount} attachments",
