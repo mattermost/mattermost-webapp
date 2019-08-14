@@ -77,6 +77,11 @@ export default class PostList extends React.PureComponent {
              * Function to check and set if app is in mobile view
              */
             checkAndSetMobileView: PropTypes.func.isRequired,
+
+            /**
+             * Function to load permalink posts
+             */
+            loadPostsAround: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -386,7 +391,12 @@ export default class PostList extends React.PureComponent {
         }
 
         let posts;
-        const {atOldestmessage} = await this.props.actions.loadLatestPosts(channelId, focusedPostId);
+        let atOldestmessage;
+        if (focusedPostId) {
+            ({atOldestmessage} = await this.props.actions.loadPostsAround(channelId, focusedPostId));
+        } else {
+            ({atOldestmessage} = await this.props.actions.loadLatestPosts(channelId));
+        }
 
         if (this.mounted) {
             this.setState({

@@ -134,7 +134,7 @@ const languages = {
     },
     uk: {
         value: 'uk',
-        name: 'Yкраїнська (Beta)',
+        name: 'Yкраїнська (Alpha)',
         order: 11,
         url: uk,
     },
