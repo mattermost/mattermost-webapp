@@ -115,9 +115,11 @@ export default class SettingItemMax extends React.PureComponent {
 
     componentDidMount() {
         if (this.settingList.current) {
-            const focusableElements = this.settingList.current.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-            if (focusableElements) {
+            const focusableElements = this.settingList.current.querySelectorAll('.btn:not(.save-button):not(.btn-cancel), input.form-control, select, textarea, [tabindex]:not([tabindex="-1"])');
+            if (focusableElements.length > 0) {
                 focusableElements[0].focus();
+            } else {
+                this.settingList.current.focus();
             }
         }
 
@@ -263,8 +265,10 @@ export default class SettingItemMax extends React.PureComponent {
                 {title}
                 <li className={widthClass}>
                     <ul
-                        className='setting-list'
+                        tabIndex='-1'
                         ref={this.settingList}
+                        role='presentation'
+                        className='setting-list'
                     >
                         {listContent}
                         <li className='setting-list-item'>
