@@ -25,6 +25,7 @@ exports[`components/SingleImageView should match snapshot 1`] = `
     </div>
     <div
       className="image-container"
+      style={Object {}}
     >
       <div
         className="image-loaded  "
@@ -85,6 +86,7 @@ exports[`components/SingleImageView should match snapshot 2`] = `
     </div>
     <div
       className="image-container"
+      style={Object {}}
     >
       <div
         className="image-loaded image-fade-in "
@@ -163,14 +165,16 @@ exports[`components/SingleImageView should match snapshot, SVG image 1`] = `
     </div>
     <div
       className="image-container"
+      style={
+        Object {
+          "height": 350,
+          "maxWidth": "100%",
+        }
+      }
     >
       <div
         className="image-loaded  svg"
-        style={
-          Object {
-            "width": "100%",
-          }
-        }
+        style={Object {}}
       >
         <SizeAwareImage
           className=""
@@ -224,14 +228,16 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
     </div>
     <div
       className="image-container"
+      style={
+        Object {
+          "height": 350,
+          "maxWidth": "100%",
+        }
+      }
     >
       <div
         className="image-loaded image-fade-in svg"
-        style={
-          Object {
-            "width": "100%",
-          }
-        }
+        style={Object {}}
       >
         <SizeAwareImage
           className=""
@@ -300,6 +306,7 @@ exports[`components/SingleImageView should set loaded state on callback of onIma
     </div>
     <div
       className="image-container"
+      style={Object {}}
     >
       <div
         className="image-loaded image-fade-in "
