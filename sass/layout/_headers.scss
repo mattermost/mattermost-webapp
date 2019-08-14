@@ -18,6 +18,11 @@
         display: flex;
         flex: 1 1 0;
         min-width: 0;
+
+        .heading span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
 
 
@@ -74,7 +79,7 @@
         &:first-child {
             flex: 1;
             min-width: 0;
-            padding: 0 8px 0 0;
+            padding: 0 28px 0 0;
         }
 
         .markdown__paragraph-inline {
@@ -232,7 +237,6 @@
     .heading {
         font-size: 14px;
         font-weight: 600;
-        flex: 1 1 0;
         overflow: hidden;
         text-overflow: ellipsis;
     }
@@ -274,6 +278,7 @@
 
 .channel-header__top {
     display: flex;
+    align-items: center;
     min-width: 0;
 }
 
@@ -306,7 +311,7 @@
 
         > div {
             display: flex;
-            flex: 0 1 auto;
+            flex: 1;
             min-width: 0;
         }
 
