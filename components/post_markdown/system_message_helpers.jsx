@@ -50,7 +50,7 @@ function renderGuestJoinChannelMessage(post) {
     return (
         <FormattedMessage
             id='api.channel.guest_join_channel.post_and_forget'
-            defaultMessage='{username} joined the channel as guets.'
+            defaultMessage='{username} joined the channel as a guest.'
             values={{username}}
         />
     );
@@ -91,7 +91,7 @@ function renderAddGuestToChannelMessage(post) {
     return (
         <FormattedMessage
             id='api.channel.add_guest.added'
-            defaultMessage='{addedUsername} added to the channel as guest by {username}.'
+            defaultMessage='{addedUsername} added to the channel as a guest by {username}.'
             values={{
                 username,
                 addedUsername,
