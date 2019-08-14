@@ -21,6 +21,44 @@ export default class Menu extends React.PureComponent {
         this.node = React.createRef();
     }
 
+    hideUnneededDividers() {
+        const children = Object.values(this.node.current.children).slice(0, this.node.current.children.length);
+
+        // Hiding formers dividers and duplicated ones
+        let prevWasDivider = false;
+        let isAtBeginning = true;
+        for (const child of children) {
+            if (child.classList.contains('menu-divider') || child.classList.contains('mobile-menu-divider')) {
+                if (isAtBeginning) {
+                    child.style.display = 'none';
+                } else if (prevWasDivider) {
+                    child.style.display = 'none';
+                }
+                prevWasDivider = true;
+            } else {
+                isAtBeginning = false;
+                prevWasDivider = false;
+            }
+        }
+
+        // Hiding trailing dividers
+        for (const child of children.reverse()) {
+            if (child.classList.contains('menu-divider') || child.classList.contains('mobile-menu-divider')) {
+                child.style.display = 'none';
+            } else {
+                break;
+            }
+        }
+    }
+
+    componentDidMount() {
+        this.hideUnneededDividers();
+    }
+
+    componentDidUpdate() {
+        this.hideUnneededDividers();
+    }
+
     // Used from DotMenu component to know in which direction show the menu
     rect() {
         if (this.node && this.node.current) {
