@@ -50,7 +50,7 @@ export default class SchemaAdminSettings extends React.Component {
         super(props);
         this.isPlugin = false;
 
-        this.customComponentRef = [];
+        this.saveActions = [];
 
         this.buildSettingFunctions = {
             [Constants.SettingsTypes.TYPE_TEXT]: this.buildTextSetting,
@@ -588,7 +588,6 @@ export default class SchemaAdminSettings extends React.Component {
         if (this.state.saveNeeded === 'permissions') {
             saveNeeded = 'both';
         }
-
         this.setState({
             saveNeeded,
             [id]: value,
@@ -712,24 +711,24 @@ export default class SchemaAdminSettings extends React.Component {
         );
     }
 
-    setCustomComponentRef = (ref) => {
-        this.customComponentRef.push(ref);
-    }
-
     buildCustomSetting = (setting) => {
         const CustomComponent = setting.component;
         return (
             <CustomComponent
-                ref={this.setCustomComponentRef}
                 key={this.props.schema.id + '_userautocomplete_' + setting.key}
                 id={setting.key}
                 value={this.state[setting.key] || ''}
                 disabled={this.isDisabled(setting)}
                 setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
+                registerSaveAction={this.registerSaveAction}
                 setSaveNeeded={this.setSaveNeeded}
             />
         );
+    }
+
+    registerSaveAction = (saveAction) => {
+        this.saveActions.push(saveAction);
     }
 
     setSaveNeeded = () => {
@@ -840,15 +839,16 @@ export default class SchemaAdminSettings extends React.Component {
             }
         );
 
-        let customComponentError = false;
-        await Promise.all(this.customComponentRef.map(async (component) => {
-            if (component.handleSave) {
-                const result = await component.handleSave();
-                customComponentError = customComponentError || result;
-            }
-        }));
+        const results = [];
+        for (const saveAction of this.saveActions) {
+            results.push(saveAction());
+        }
 
-        const hasError = this.state.serverError || customComponentError;
+        // This waits for all the save actions to be complete and then checks to see if any of the values are truthy value to determine
+        // if they failed or not (since they should return either null or '' on a successfull call and some error text on a failed operation)
+        const hasSaveActionError = await Promise.all(results).then((values) => values.some(((value) => value))).then((value) => value);
+
+        const hasError = this.state.serverError || hasSaveActionError;
         if (hasError) {
             this.setState({saving: false});
         } else {

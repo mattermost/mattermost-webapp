@@ -26,6 +26,11 @@ export default class BrandImageSetting extends React.PureComponent {
         * Set the save needed in the admin schema settings to trigger the save button to turn on
         */
         setSaveNeeded: PropTypes.func.isRequired,
+
+        /*
+        * Registers the function suppose to be run when the save button is pressed
+        */
+        registerSaveAction: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -53,6 +58,10 @@ export default class BrandImageSetting extends React.PureComponent {
                 }
             }
         );
+    }
+
+    componentDidMount() {
+        this.props.registerSaveAction(this.handleSave);
     }
 
     componentDidUpdate() {
@@ -84,8 +93,7 @@ export default class BrandImageSetting extends React.PureComponent {
         this.props.setSaveNeeded();
     }
 
-    // This function is used from the outside to trigger the save/delete of the image when needed.
-    async handleSave() {
+    handleSave = async () => {
         if (!this.state.deleteBrandImage && !this.state.brandImage) {
             return null;
         }
