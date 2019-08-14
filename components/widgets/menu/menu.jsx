@@ -28,14 +28,12 @@ export default class Menu extends React.PureComponent {
 
         const children = Object.values(this.node.current.children).slice(0, this.node.current.children.length);
 
-        // Hiding formers dividers and duplicated ones
+        // Hiding dividers at beginning and duplicated ones
         let prevWasDivider = false;
         let isAtBeginning = true;
         for (const child of children) {
             if (child.classList.contains('menu-divider') || child.classList.contains('mobile-menu-divider')) {
-                if (isAtBeginning) {
-                    child.style.display = 'none';
-                } else if (prevWasDivider) {
+                if (isAtBeginning || prevWasDivider) {
                     child.style.display = 'none';
                 }
                 prevWasDivider = true;
