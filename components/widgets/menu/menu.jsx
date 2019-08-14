@@ -21,7 +21,11 @@ export default class Menu extends React.PureComponent {
         this.node = React.createRef();
     }
 
-    hideUnneededDividers() {
+    hideUnneededDividers = () => {
+        if (this.node.current === null) {
+            return;
+        }
+
         const children = Object.values(this.node.current.children).slice(0, this.node.current.children.length);
 
         // Hiding formers dividers and duplicated ones
