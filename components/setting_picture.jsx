@@ -315,21 +315,22 @@ export default class SettingPicture extends Component {
                                 errors={[this.props.clientError, this.props.serverError]}
                                 type={'modal'}
                             />
+                            <input
+                                ref={this.selectInput}
+                                className='hidden'
+                                accept='.jpg,.png,.bmp'
+                                type='file'
+                                onChange={this.handleFileChange}
+                                disabled={this.props.loadingPicture}
+                                aria-hidden={true}
+                                tabIndex='-1'
+                            />
                             <button
                                 className='btn btn-sm btn-primary btn-file sel-btn'
                                 disabled={this.props.loadingPicture}
                                 onClick={this.handleInputFile}
                                 aria-label={localizeMessage('setting_picture.select', 'Select')}
                             >
-                                <input
-                                    ref={this.selectInput}
-                                    accept='.jpg,.png,.bmp'
-                                    type='file'
-                                    onChange={this.handleFileChange}
-                                    disabled={this.props.loadingPicture}
-                                    aria-hidden={true}
-                                    tabIndex='-1'
-                                />
                                 <FormattedMessage
                                     id='setting_picture.select'
                                     defaultMessage='Select'
