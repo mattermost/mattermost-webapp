@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {postListScrollChange} from 'actions/global_actions';
+import ExternalImage from 'components/external_image';
 import SizeAwareImage from 'components/size_aware_image';
-import * as PostUtils from 'utils/post_utils.jsx';
 
 export default class PostImage extends React.PureComponent {
     static propTypes = {
@@ -31,15 +31,7 @@ export default class PostImage extends React.PureComponent {
          */
         handleImageClick: PropTypes.func,
 
-        /**
-         * If an image proxy is enabled.
-         */
-        hasImageProxy: PropTypes.bool.isRequired,
-
-        /**
-         * dimensions for empty space to prevent scroll popup.
-         */
-        dimensions: PropTypes.object,
+        imageMetadata: PropTypes.object,
     }
 
     componentDidMount() {
@@ -55,7 +47,7 @@ export default class PostImage extends React.PureComponent {
             return;
         }
 
-        if (!this.props.dimensions) {
+        if (!this.props.imageMetadata) {
             postListScrollChange();
         }
         if (this.props.onLinkLoaded) {
@@ -83,15 +75,22 @@ export default class PostImage extends React.PureComponent {
             <div
                 className='post__embed-container'
             >
-                <SizeAwareImage
-                    className='img-div attachment__image cursor--pointer'
-                    src={PostUtils.getImageSrc(this.props.link, this.props.hasImageProxy)}
-                    dimensions={this.props.dimensions}
-                    showLoader={true}
-                    onHeightReceived={this.handleLoadComplete}
-                    onImageLoadFail={this.handleLoadError}
-                    onClick={this.onImageClick}
-                />
+                <ExternalImage
+                    src={this.props.link}
+                    imageMetadata={this.props.imageMetadata}
+                >
+                    {(safeLink) => (
+                        <SizeAwareImage
+                            className='img-div attachment__image cursor--pointer'
+                            src={safeLink}
+                            dimensions={this.props.imageMetadata}
+                            showLoader={true}
+                            onHeightReceived={this.handleLoadComplete}
+                            onImageLoadFail={this.handleLoadError}
+                            onClick={this.onImageClick}
+                        />
+                    )}
+                </ExternalImage>
             </div>
         );
     }

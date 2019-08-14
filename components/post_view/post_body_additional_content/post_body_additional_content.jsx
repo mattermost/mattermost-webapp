@@ -231,7 +231,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
 
         if (this.isLinkImage(link)) {
-            const dimensions = this.props.post.metadata && this.props.post.metadata.images && this.props.post.metadata.images[link];
+            const imageMetadata = this.props.post.metadata && this.props.post.metadata.images && this.props.post.metadata.images[link];
             return (
                 <PostImage
                     channelId={this.props.post.channel_id}
@@ -239,7 +239,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                     onLinkLoadError={this.handleLinkLoadError}
                     onLinkLoaded={this.handleLinkLoaded}
                     handleImageClick={this.handleImageClick}
-                    dimensions={dimensions}
+                    imageMetadata={imageMetadata}
                 />
             );
         }

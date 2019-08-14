@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Client4} from 'mattermost-redux/client';
-
 import PostAttachmentOpenGraph from './post_attachment_opengraph';
 
 describe('PostAttachmentOpenGraph', () => {
@@ -10,13 +8,13 @@ describe('PostAttachmentOpenGraph', () => {
         test('should return nothing with no OpenGraph metadata', () => {
             const data = null;
 
-            expect(PostAttachmentOpenGraph.getBestImageUrl(data, false)).toEqual(null);
+            expect(PostAttachmentOpenGraph.getBestImageUrl(data)).toEqual(null);
         });
 
         test('should return nothing with missing OpenGraph images', () => {
             const data = {};
 
-            expect(PostAttachmentOpenGraph.getBestImageUrl(data, false)).toEqual(null);
+            expect(PostAttachmentOpenGraph.getBestImageUrl(data)).toEqual(null);
         });
 
         test('should return nothing with no OpenGraph images', () => {
@@ -24,7 +22,7 @@ describe('PostAttachmentOpenGraph', () => {
                 images: [],
             };
 
-            expect(PostAttachmentOpenGraph.getBestImageUrl(data, false)).toEqual(null);
+            expect(PostAttachmentOpenGraph.getBestImageUrl(data)).toEqual(null);
         });
 
         test('should return secure_url if specified', () => {
@@ -35,7 +33,7 @@ describe('PostAttachmentOpenGraph', () => {
                 }],
             };
 
-            expect(PostAttachmentOpenGraph.getBestImageUrl(data, false)).toEqual(data.images[0].secure_url);
+            expect(PostAttachmentOpenGraph.getBestImageUrl(data)).toEqual(data.images[0].secure_url);
         });
 
         test('should return url if secure_url is not specified', () => {
@@ -46,27 +44,7 @@ describe('PostAttachmentOpenGraph', () => {
                 }],
             };
 
-            expect(PostAttachmentOpenGraph.getBestImageUrl(data, false)).toEqual(data.images[0].url);
-        });
-
-        test('should return a proxied image URL if the image proxy is enabled', () => {
-            const data = {
-                images: [{
-                    url: 'http://example.com/image.png',
-                }],
-            };
-
-            expect(PostAttachmentOpenGraph.getBestImageUrl(data, true).endsWith(`/api/v4/image?url=${encodeURIComponent(data.images[0].url)}`)).toEqual(true);
-        });
-
-        test('should not mangle a URL that is already proxied if the image proxy is enabled', () => {
-            const data = {
-                images: [{
-                    url: `${Client4.getBaseRoute()}/image?url=${encodeURIComponent('http://example.com/image.png')}`,
-                }],
-            };
-
-            expect(PostAttachmentOpenGraph.getBestImageUrl(data, true)).toEqual(data.images[0].url);
+            expect(PostAttachmentOpenGraph.getBestImageUrl(data)).toEqual(data.images[0].url);
         });
     });
 });

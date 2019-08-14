@@ -6,7 +6,7 @@ import {Parser, ProcessNodeDefinitions} from 'html-to-react';
 
 import AtMention from 'components/at_mention';
 import LatexBlock from 'components/latex_block';
-import SizeAwareImage from 'components/size_aware_image';
+import MarkdownImage from 'components/markdown_image';
 import PostEmoji from 'components/post_emoji';
 
 /*
@@ -80,9 +80,9 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                 } = node.attribs;
 
                 return (
-                    <SizeAwareImage
+                    <MarkdownImage
                         className={className}
-                        dimensions={options.imagesMetadata && options.imagesMetadata[attribs.src]}
+                        imageMetadata={options.imagesMetadata && options.imagesMetadata[attribs.src]}
                         {...attribs}
                         {...options.imageProps}
                     />

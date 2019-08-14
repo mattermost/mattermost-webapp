@@ -1,12 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
 import {shallow} from 'enzyme';
+import React from 'react';
 
-import FilePreview from './file_preview.jsx';
+import {getFileUrl} from 'mattermost-redux/utils/file_utils';
 
-describe('component/FilePreview', () => {
+import FilePreview from './file_preview';
+
+describe('FilePreview', () => {
     const onRemove = jest.fn();
     const fileInfos = [
         {
@@ -27,6 +29,7 @@ describe('component/FilePreview', () => {
     };
 
     const baseProps = {
+        enableSVGs: false,
         fileInfos,
         uploadsInProgress,
         onRemove,
@@ -68,5 +71,36 @@ describe('component/FilePreview', () => {
         );
         wrapper.instance().handleRemove();
         expect(newOnRemove).toHaveBeenCalled();
+    });
+
+    test('should not render an SVG when SVGs are disabled', () => {
+        const fileId = 'file_id_1';
+        const props = {
+            ...baseProps,
+            fileInfos: [{id: fileId, extension: 'svg'}],
+        };
+
+        const wrapper = shallow(
+            <FilePreview {...props}/>
+        );
+
+        expect(wrapper.find('img').find({src: getFileUrl(fileId)}).exists()).toBe(false);
+        expect(wrapper.find('div').find('.file-icon.generic').exists()).toBe(true);
+    });
+
+    test('should render an SVG when SVGs are enabled', () => {
+        const fileId = 'file_id_1';
+        const props = {
+            ...baseProps,
+            enableSVGs: true,
+            fileInfos: [{id: fileId, extension: 'svg'}],
+        };
+
+        const wrapper = shallow(
+            <FilePreview {...props}/>
+        );
+
+        expect(wrapper.find('img').find({src: getFileUrl(fileId)}).exists()).toBe(true);
+        expect(wrapper.find('div').find('.file-icon.generic').exists()).toBe(false);
     });
 });

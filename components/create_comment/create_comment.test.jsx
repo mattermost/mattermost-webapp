@@ -8,7 +8,7 @@ import Constants from 'utils/constants.jsx';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
 import FileUpload from 'components/file_upload';
-import FilePreview from 'components/file_preview/file_preview.jsx';
+import FilePreview from 'components/file_preview';
 
 describe('components/CreateComment', () => {
     const channelId = 'g6139tbospd18cmxroesdk3kkc';

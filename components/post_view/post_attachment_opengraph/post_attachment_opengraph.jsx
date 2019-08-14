@@ -5,11 +5,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {postListScrollChange} from 'actions/global_actions.jsx';
+
+import ExternalImage from 'components/external_image';
+import SizeAwareImage from 'components/size_aware_image';
+
 import * as CommonUtils from 'utils/commons.jsx';
 import {PostTypes} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
-import {getImageSrc, isSystemMessage} from 'utils/post_utils.jsx';
+import {isSystemMessage} from 'utils/post_utils.jsx';
 import {getFileDimensionsForDisplay} from 'utils/file_utils';
 
 const MAX_DIMENSIONS_LARGE_IMAGE = {
@@ -72,7 +76,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         super(props);
 
         const removePreview = this.isRemovePreview(props.post, props.currentUser);
-        const imageUrl = PostAttachmentOpenGraph.getBestImageUrl(props.openGraphData, props.hasImageProxy);
+        const imageUrl = PostAttachmentOpenGraph.getBestImageUrl(props.openGraphData);
         const {metadata} = props.post;
         const hasLargeImage = metadata && metadata.images && metadata.images[imageUrl] && imageUrl ? this.hasLargeImage(metadata.images[imageUrl]) : false;
 
@@ -103,7 +107,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         }
 
         if (!Utils.areObjectsEqual(nextProps.openGraphData, this.props.openGraphData)) {
-            const imageUrl = PostAttachmentOpenGraph.getBestImageUrl(nextProps.openGraphData, nextProps.hasImageProxy);
+            const imageUrl = PostAttachmentOpenGraph.getBestImageUrl(nextProps.openGraphData);
             const {metadata} = nextProps.post;
             const hasLargeImage = metadata && metadata.images && metadata.images[imageUrl] && imageUrl ? this.hasLargeImage(metadata.images[imageUrl]) : false;
 
@@ -203,23 +207,37 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                 const imagesDimensions = metadata && metadata.images && metadata.images[imageUrl];
 
                 if (renderingForLargeImage) {
-                    const imageDimensions = getFileDimensionsForDisplay(imagesDimensions, MAX_DIMENSIONS_LARGE_IMAGE);
+                    const imageMetadata = getFileDimensionsForDisplay(imagesDimensions, MAX_DIMENSIONS_LARGE_IMAGE);
 
                     element = (
-                        <img
-                            className={'attachment__image attachment__image--opengraph large_image'}
+                        <ExternalImage
                             src={imageUrl}
-                            {...imageDimensions}
-                        />
+                            imageMetadata={imageMetadata}
+                        >
+                            {(safeImageUrl) => (
+                                <SizeAwareImage
+                                    className='attachment__image attachment__image--opengraph large_image'
+                                    src={safeImageUrl}
+                                    dimensions={imageMetadata}
+                                />
+                            )}
+                        </ExternalImage>
                     );
                 } else {
-                    const imageDimensions = getFileDimensionsForDisplay(imagesDimensions, MAX_DIMENSIONS_SMALL_IMAGE);
+                    const imageMetadata = getFileDimensionsForDisplay(imagesDimensions, MAX_DIMENSIONS_SMALL_IMAGE);
                     element = this.wrapInSmallImageContainer(
-                        <img
-                            className={'attachment__image attachment__image--opengraph'}
+                        <ExternalImage
                             src={imageUrl}
-                            {...imageDimensions}
-                        />
+                            imageMetadata={imageMetadata}
+                        >
+                            {(safeImageUrl) => (
+                                <SizeAwareImage
+                                    className='attachment__image attachment__image--opengraph'
+                                    src={safeImageUrl}
+                                    dimensions={imageMetadata}
+                                />
+                            )}
+                        </ExternalImage>
                     );
                 }
             } else if (renderingForLargeImage) {
@@ -352,13 +370,13 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         );
     }
 
-    static getBestImageUrl(data, hasImageProxy) {
+    static getBestImageUrl(data) {
         if (!data || !data.images || data.images.length === 0) {
             return null;
         }
 
         const bestImage = CommonUtils.getNearestPoint(DIMENSIONS_NEAREST_POINT_IMAGE, data.images, 'width', 'height');
 
-        return getImageSrc(bestImage.secure_url || bestImage.url, hasImageProxy);
+        return bestImage.secure_url || bestImage.url;
     }
 }
