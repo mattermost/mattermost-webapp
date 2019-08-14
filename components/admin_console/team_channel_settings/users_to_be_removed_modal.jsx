@@ -22,6 +22,8 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
          * users to be removed
          */
         users: PropTypes.arrayOf(PropTypes.object).isRequired,
+
+        onHide: PropTypes.func,
     }
 
     constructor(props) {
@@ -37,12 +39,18 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
         this.setState({show: false});
     }
 
+    handleExit = () => {
+        if (this.props.onHide) {
+            this.props.onHide();
+        }
+    }
+
     render() {
         const {users, total} = this.props;
         const title = (
             <FormattedMarkdownMessage
                 id='admin.team_channel_settings.usersToBeRemovedModal.title'
-                defaultMessage='**{total} Users** To Be Removed'
+                defaultMessage='**{total, number} {total, plural, one {User} other {Users}}** To Be Removed'
                 values={{total}}
             />
         );
@@ -66,6 +74,7 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
                 dialogClassName='a11y__modal settings-modal'
                 show={this.state.show}
                 onHide={this.handleHide}
+                onExited={this.handleExit}
                 id='confirmModal'
                 role='dialog'
                 aria-labelledby='confirmModalLabel'

@@ -4,10 +4,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import ReactSelect from 'react-select';
 
 import * as I18n from 'i18n/i18n.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import {isKeyPressed} from 'utils/utils.jsx';
+import Constants from 'utils/constants.jsx';
 
 export default class ManageLanguage extends React.Component {
     static propTypes = {
@@ -21,15 +24,51 @@ export default class ManageLanguage extends React.Component {
 
     constructor(props) {
         super(props);
+        const locales = I18n.getLanguages();
+        const userLocale = props.locale;
+        const selectedOption = {value: locales[userLocale].value, label: locales[userLocale].name};
+        this.reactSelectContainer = React.createRef();
 
         this.state = {
             locale: props.locale,
+            selectedOption,
             isSaving: false,
+            openMenu: false,
         };
     }
 
-    setLanguage = (e) => {
-        this.setState({locale: e.target.value});
+    componentDidMount() {
+        if (this.reactSelectContainer.current) {
+            this.reactSelectContainer.current.addEventListener('keydown', this.handleContainerKeyDown);
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.reactSelectContainer.current) {
+            this.reactSelectContainer.current.removeEventListener('keydown', this.handleContainerKeyDown);
+        }
+    }
+
+    handleContainerKeyDown = (e) => {
+        if (isKeyPressed(e, Constants.KeyCodes.ESCAPE) && this.state.openMenu) {
+            document.querySelector('.modal-body').classList.remove('no-scroll');
+            this.setState({openMenu: false});
+            e.stopPropagation();
+        }
+    }
+
+    handleKeyDown = (e) => {
+        if (isKeyPressed(e, Constants.KeyCodes.ENTER)) {
+            document.querySelector('.modal-body').classList.add('no-scroll');
+            this.setState({openMenu: true});
+        }
+    }
+
+    setLanguage = (selectedOption) => {
+        this.setState({
+            locale: selectedOption.value,
+            selectedOption,
+        });
     }
 
     changeLanguage = () => {
@@ -62,6 +101,16 @@ export default class ManageLanguage extends React.Component {
             });
     }
 
+    handleMenuClose = () => {
+        document.querySelector('.modal-body').classList.remove('no-scroll');
+        this.setState({openMenu: false});
+    }
+
+    handleMenuOpen = () => {
+        document.querySelector('.modal-body').classList.add('no-scroll');
+        this.setState({openMenu: true});
+    }
+
     render() {
         let serverError;
         if (this.state.serverError) {
@@ -81,14 +130,16 @@ export default class ManageLanguage extends React.Component {
 
         languages.forEach((lang) => {
             options.push(
-                <option
-                    key={lang.value}
-                    value={lang.value}
-                >
-                    {lang.name}
-                </option>
+                {value: lang.value, label: lang.name}
             );
         });
+
+        const reactStyles = {
+            menuPortal: (provided) => ({
+                ...provided,
+                zIndex: 9999,
+            }),
+        };
 
         const input = (
             <div key='changeLanguage'>
@@ -99,17 +150,25 @@ export default class ManageLanguage extends React.Component {
                         defaultMessage='Change interface language'
                     />
                 </label>
-                <div className='padding-top'>
-                    <select
-                        role='combobox'
+                <div
+                    ref={this.reactSelectContainer}
+                    className='padding-top'
+                >
+                    <ReactSelect
+                        className='react-select react-select-top'
+                        classNamePrefix='react-select'
                         id='displayLanguage'
-                        ref='language'
-                        className='form-control'
-                        value={this.state.locale}
+                        menuIsOpen={this.state.openMenu}
+                        menuPortalTarget={document.body}
+                        styles={reactStyles}
+                        options={options}
+                        clearable={false}
                         onChange={this.setLanguage}
-                    >
-                        {options}
-                    </select>
+                        onKeyDown={this.handleKeyDown}
+                        value={this.state.selectedOption}
+                        onMenuClose={this.handleMenuClose}
+                        onMenuOpen={this.handleMenuOpen}
+                    />
                     {serverError}
                 </div>
                 <div>

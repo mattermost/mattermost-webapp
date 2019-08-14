@@ -7,7 +7,7 @@ function getFullDialog(triggerId, webhookBaseUrl) {
         url: `${webhookBaseUrl}/dialog_submit`,
         dialog: {
             callback_id: 'somecallbackid',
-            title: 'Test Title',
+            title: 'Title for Full Dialog Test',
             icon_url:
                 'http://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
             elements: [
@@ -138,7 +138,7 @@ function getSimpleDialog(triggerId, webhookBaseUrl) {
         url: `${webhookBaseUrl}/dialog_submit`,
         dialog: {
             callback_id: 'somecallbackid',
-            title: 'Test Title',
+            title: 'Title for Dialog Test without elements',
             icon_url:
                 'http://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
             submit_label: 'Submit Test',

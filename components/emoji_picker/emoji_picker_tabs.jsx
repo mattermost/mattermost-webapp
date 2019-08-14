@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import {Tab, Tabs} from 'react-bootstrap';
-import FocusTrap from 'focus-trap-react';
 
 import GifPicker from 'components/gif_picker/gif_picker.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
@@ -118,25 +117,19 @@ export default class EmojiPickerTabs extends PureComponent {
             );
         }
         return (
-            <FocusTrap
-                focusTrapOptions={{
-                    clickOutsideDeactivates: true,
-                }}
+            <div
+                id='emojiPicker'
+                style={pickerStyle}
+                className={`a11y__popup ${pickerClass} emoji-picker--single`}
             >
-                <div
-                    id='emojiPicker'
-                    style={pickerStyle}
-                    className={`a11y__popup ${pickerClass} emoji-picker--single`}
-                >
-                    <EmojiPickerHeader handleEmojiPickerClose={this.handleEmojiPickerClose}/>
-                    <EmojiPicker
-                        style={this.props.style}
-                        onEmojiClose={this.props.onEmojiClose}
-                        onEmojiClick={this.props.onEmojiClick}
-                        customEmojis={this.props.customEmojis}
-                    />
-                </div>
-            </FocusTrap>
+                <EmojiPickerHeader handleEmojiPickerClose={this.handleEmojiPickerClose}/>
+                <EmojiPicker
+                    style={this.props.style}
+                    onEmojiClose={this.props.onEmojiClose}
+                    onEmojiClick={this.props.onEmojiClick}
+                    customEmojis={this.props.customEmojis}
+                />
+            </div>
         );
     }
 }

@@ -2,14 +2,16 @@
 
 .ChannelsInput {
     .channels-input__control {
-        min-height: 44px;
+        min-height: 48px;
         background: var(--center-channel-bg);
         color: var(--center-channel-color-60);
         box-shadow: none;
         border-color: var(--center-channel-color-20);
-        padding: 1px;
+        padding: 3px;
+        transition: none;
         &:hover {
             border-color: var(--center-channel-color-20);
+            cursor: text;
         }
         &--is-focused, &--menu-is-open {
             &:hover {
@@ -17,7 +19,7 @@
             }
             border-color: var(--button-bg);
             border-width: 2px;
-            padding: 0px;
+            padding: 2px;
             transition: none;
         }
     }
@@ -27,11 +29,11 @@
     }
     .channels-input__placeholder {
         color: var(--center-channel-color-60);
-        margin-left: 10px;
+        margin-left: 8px;
     }
     .channels-input__input {
         color: var(--center-channel-color);
-        margin-left: 8px;
+        margin-left: 6px;
     }
     input {
         height: inherit;
@@ -55,6 +57,7 @@
     }
     .channels-input__option {
         height: 44px;
+        cursor: pointer;
         padding: 12px;
         display: flex;
         align-items: center;
@@ -78,6 +81,10 @@
         &:hover, &--is-focused {
             background: var(--button-bg-10);
         }
+        &--no-matches:hover{
+            background: none;
+            cursor: default;
+        }
         .public-channel-icon, .private-channel-icon {
             width: 18px;
             height: 18px;
@@ -100,12 +107,9 @@
         padding: 4px;
         border-radius: 16px;
         color: var(--center-channel-color);
-        margin: 5px;
-        &:first-child {
-            margin: 5px 5px 5px 6px;
-        }
-        &:last-child {
-            margin: 5px 0 5px 5px;
+        margin: 4px;
+        &:nth-last-child(2) {
+            margin: 4px 0px 4px 4px;
         }
     }
 

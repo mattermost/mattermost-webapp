@@ -440,8 +440,9 @@ class ProfilePopover extends React.PureComponent {
         if (this.props.hasMention) {
             title = <a onClick={this.handleMentionKeyClick}>{title}</a>;
         }
+
         title = (
-            <span>
+            <span data-testid={`profilePopoverTitle_${this.props.user.username}`}>
                 <span className='user-popover__username'>
                     {title}
                 </span>

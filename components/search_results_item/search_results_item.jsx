@@ -40,10 +40,10 @@ export default class SearchResultsItem extends React.PureComponent {
         */
         matches: PropTypes.array,
 
-        /**
-        *  channel object for rendering channel name on top of result
-        */
-        channel: PropTypes.object,
+        channelId: PropTypes.string,
+        channelName: PropTypes.string,
+        channelType: PropTypes.string,
+        channelIsArchived: PropTypes.bool,
 
         /**
         *  Flag for determining result display setting
@@ -98,6 +98,7 @@ export default class SearchResultsItem extends React.PureComponent {
 
     static defaultProps = {
         isBot: false,
+        channelIsArchived: false,
     };
 
     constructor(props) {
@@ -167,24 +168,19 @@ export default class SearchResultsItem extends React.PureComponent {
     };
 
     render() {
-        let channelName = null;
-        const {channel, post} = this.props;
+        const {post, channelIsArchived, channelId, channelType} = this.props;
+        let {channelName} = this.props;
 
-        const channelIsArchived = channel ? channel.delete_at !== 0 : true;
-
-        if (channel) {
-            channelName = channel.display_name;
-            if (channel.type === Constants.DM_CHANNEL) {
-                channelName = (
-                    <FormattedMessage
-                        id='search_item.direct'
-                        defaultMessage='Direct Message (with {username})'
-                        values={{
-                            username: Utils.getDisplayNameByUser(Utils.getDirectTeammate(channel.id)),
-                        }}
-                    />
-                );
-            }
+        if (channelType === Constants.DM_CHANNEL) {
+            channelName = (
+                <FormattedMessage
+                    id='search_item.direct'
+                    defaultMessage='Direct Message (with {username})'
+                    values={{
+                        username: Utils.getDisplayNameByUser(Utils.getDirectTeammate(channelId)),
+                    }}
+                />
+            );
         }
 
         let overrideUsername;
@@ -226,7 +222,7 @@ export default class SearchResultsItem extends React.PureComponent {
         let flagContent;
         let postInfoIcon;
         let rhsControls;
-        if (post.state === Constants.POST_DELETED) {
+        if (post.state === Constants.POST_DELETED || post.state === Posts.POST_DELETED) {
             message = (
                 <p>
                     <FormattedMessage

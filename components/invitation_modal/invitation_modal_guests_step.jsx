@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {isEmail} from 'mattermost-redux/utils/helpers';
+import {debounce} from 'mattermost-redux/actions/helpers';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteIcon from 'components/svg/invite_icon';
@@ -17,7 +18,6 @@ import BackIcon from 'components/svg/back_icon';
 
 import './invitation_modal_guests_step.scss';
 
-import debouncePromise from 'utils/debounce_promise.jsx';
 import {t} from 'utils/i18n.jsx';
 
 export default class InvitationModalGuestsStep extends React.Component {
@@ -58,18 +58,34 @@ export default class InvitationModalGuestsStep extends React.Component {
         this.props.onEdit(this.state.usersAndEmails.length > 0 || this.state.channels.length > 0 || e.target.value !== '');
     }
 
-    usersLoader = async (term) => {
+    debouncedSearchProfiles = debounce((term, callback) => {
+        this.props.searchProfiles(term).then(({data}) => {
+            callback(data);
+            if (data.length === 0) {
+                this.setState({termWithoutResults: term});
+            } else {
+                this.setState({termWithoutResults: null});
+            }
+        }).catch(() => {
+            callback([]);
+        });
+    }, 150);
+
+    usersLoader = (term, callback) => {
         if (isEmail(term)) {
-            return [];
+            callback([]);
+            return;
+        }
+        if (this.state.termWithoutResults && term.startsWith(this.state.termWithoutResults)) {
+            callback([]);
+            return;
         }
         try {
-            const {data} = await this.props.searchProfiles(term);
-            return data;
+            this.debouncedSearchProfiles(term, callback);
         } catch (error) {
-            return [];
+            callback([]);
         }
     }
-    debouncedUsersLoader = debouncePromise(this.usersLoader, 150);
 
     channelsLoader = async (value) => {
         if (!value) {
@@ -137,7 +153,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                         >
                             {(placeholder) => (
                                 <UsersEmailsInput
-                                    usersLoader={this.debouncedUsersLoader}
+                                    usersLoader={this.usersLoader}
                                     placeholder={placeholder}
                                     onChange={this.onUsersEmailsChange}
                                     value={this.state.usersAndEmails}

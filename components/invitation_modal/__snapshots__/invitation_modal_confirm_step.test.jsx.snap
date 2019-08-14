@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/invitation_modal/InvitationModalConfirmStep should match the snapshot for guests 1`] = `
+exports[`components/invitation_modal/InvitationModalConfirmStep should match the snapshot for guests with failures and successes 1`] = `
 <div
   className="InvitationModalConfirmStep"
 >
@@ -28,7 +28,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
     className="subtitle"
   >
     <InjectIntl(FormattedMarkdownMessage)
-      defaultMessage="**{sentCount, number} {sentCount, plural, one {person} other {people}}** {sentCount, plural, one {has} other {have}} been invited, and **{notSentCount, number} {notSentCount, plural, one {invitation} other {invitations}}** {sentCount, plural, one {was} other {were}} not sent"
+      defaultMessage="**{sentCount, number} {sentCount, plural, one {person} other {people}}** {sentCount, plural, one {has} other {have}} been invited, and **{notSentCount, number} {notSentCount, plural, one {invitation} other {invitations}}** {notSentCount, plural, one {was} other {were}} not sent"
       id="invitation_modal.confirm.members_subtitle"
       values={
         Object {
@@ -101,7 +101,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
 </div>
 `;
 
-exports[`components/invitation_modal/InvitationModalConfirmStep should match the snapshot for members 1`] = `
+exports[`components/invitation_modal/InvitationModalConfirmStep should match the snapshot for members with failures and successes 1`] = `
 <div
   className="InvitationModalConfirmStep"
 >
@@ -129,7 +129,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
     className="subtitle"
   >
     <InjectIntl(FormattedMarkdownMessage)
-      defaultMessage="**{sentCount, number} {sentCount, plural, one {person} other {people}}** {sentCount, plural, one {has} other {have}} been invited, and **{notSentCount, number} {notSentCount, plural, one {invitation} other {invitations}}** {sentCount, plural, one {was} other {were}} not sent"
+      defaultMessage="**{sentCount, number} {sentCount, plural, one {person} other {people}}** {sentCount, plural, one {has} other {have}} been invited, and **{notSentCount, number} {notSentCount, plural, one {invitation} other {invitations}}** {notSentCount, plural, one {was} other {were}} not sent"
       id="invitation_modal.confirm.members_subtitle"
       values={
         Object {
@@ -230,11 +230,10 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
     className="subtitle"
   >
     <InjectIntl(FormattedMarkdownMessage)
-      defaultMessage="**{sentCount, number} {sentCount, plural, one {person} other {people}}** {sentCount, plural, one {has} other {have}} been invited, and **{notSentCount, number} {notSentCount, plural, one {invitation} other {invitations}}** {sentCount, plural, one {was} other {were}} not sent"
-      id="invitation_modal.confirm.members_subtitle"
+      defaultMessage="**{sentCount, number} {sentCount, plural, one {person} other {people}}** {sentCount, plural, one {has} other {have}} been invited"
+      id="invitation_modal.confirm.members_subtitle_without_not_sent"
       values={
         Object {
-          "notSentCount": 0,
           "sentCount": 2,
         }
       }
@@ -280,6 +279,55 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
 </div>
 `;
 
+exports[`components/invitation_modal/InvitationModalConfirmStep should match the snapshot without failures or successes 1`] = `
+<div
+  className="InvitationModalConfirmStep"
+>
+  <BackIcon
+    className="back"
+    onClick={[MockFunction]}
+  />
+  <div
+    className="modal-icon"
+  >
+    <InviteIcon />
+  </div>
+  <h1>
+    <InjectIntl(FormattedMarkdownMessage)
+      defaultMessage="**Members** Invited to **{teamName}**"
+      id="invitation_modal.confirm.members_title"
+      values={
+        Object {
+          "teamName": "test",
+        }
+      }
+    />
+  </h1>
+  <h2
+    className="subtitle"
+  >
+    <InjectIntl(FormattedMarkdownMessage)
+      defaultMessage="No invitation sent"
+      id="invitation_modal.confirm.members_subtitle_without_sent_and_not_sent"
+    />
+  </h2>
+  <div
+    className="confirm-done"
+  >
+    <button
+      className="btn btn-primary"
+      onClick={[MockFunction]}
+    >
+      <FormattedMessage
+        defaultMessage="Done"
+        id="invitation_modal.confirm.done"
+        values={Object {}}
+      />
+    </button>
+  </div>
+</div>
+`;
+
 exports[`components/invitation_modal/InvitationModalConfirmStep should match the snapshot without successes 1`] = `
 <div
   className="InvitationModalConfirmStep"
@@ -308,12 +356,11 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
     className="subtitle"
   >
     <InjectIntl(FormattedMarkdownMessage)
-      defaultMessage="**{sentCount, number} {sentCount, plural, one {person} other {people}}** {sentCount, plural, one {has} other {have}} been invited, and **{notSentCount, number} {notSentCount, plural, one {invitation} other {invitations}}** {sentCount, plural, one {was} other {were}} not sent"
-      id="invitation_modal.confirm.members_subtitle"
+      defaultMessage="**{notSentCount, number} {notSentCount, plural, one {invitation} other {invitations}}** {notSentCount, plural, one {was} other {were}} not sent"
+      id="invitation_modal.confirm.members_subtitle_without_sent"
       values={
         Object {
           "notSentCount": 2,
-          "sentCount": 0,
         }
       }
     />

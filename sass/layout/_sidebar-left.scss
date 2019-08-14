@@ -275,14 +275,6 @@
                     &.icon__bot {
                         @include opacity(.5);
                     }
-
-                    &.icon__bot {
-                        // Restrict icon size for user customized bot icons
-                        svg {
-                            max-width: 16px;
-                            max-height: 15px;
-                        }
-                    }
                 }
 
                 &.has-close {

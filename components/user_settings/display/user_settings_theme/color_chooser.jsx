@@ -38,11 +38,12 @@ class ColorChooser extends React.Component {
     }
 
     render() {
-        const {label, color} = this.props;
+        const {label, color, id} = this.props;
         return (
             <div>
                 <label className='custom-label'>{label}</label>
                 <ColorInput
+                    id={id}
                     color={color}
                     onChange={this.handleChange}
                 />

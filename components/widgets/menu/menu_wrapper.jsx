@@ -33,23 +33,27 @@ export default class MenuWrapper extends React.PureComponent {
     }
 
     componentDidMount() {
-        document.addEventListener('click', this.mouseClose, true);
-        document.addEventListener('keydown', this.keyboardClose, true);
+        document.addEventListener('click', this.closeOnBlur, true);
+        document.addEventListener('keyup', this.keyboardClose, true);
     }
 
     componentWillUnmount() {
-        document.removeEventListener('click', this.mouseClose, true);
-        document.removeEventListener('keydown', this.keyboardClose, true);
+        document.removeEventListener('click', this.closeOnBlur, true);
+        document.removeEventListener('keyup', this.keyboardClose, true);
     }
 
     keyboardClose = (e) => {
         if (e.key === Constants.KeyCodes.ESCAPE[0]) {
             this.close();
         }
+
+        if (e.key === Constants.KeyCodes.TAB[0]) {
+            this.closeOnBlur(e);
+        }
     }
 
-    mouseClose = (e) => {
-        if (this.node.current.contains(e.target)) {
+    closeOnBlur = (e) => {
+        if (this.node.current && this.node.current.contains(e.target)) {
             return;
         }
 

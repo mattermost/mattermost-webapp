@@ -5,13 +5,13 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
   className="filtered-user-list"
 >
   <div
-    aria-hidden="true"
     className="filter-row filter-row--full"
   >
     <div
       className="multi-select__container"
     >
       <StateManager
+        className=""
         components={
           Object {
             "IndicatorsContainer": [Function],
@@ -22,11 +22,13 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
         defaultInputValue=""
         defaultMenuIsOpen={false}
         defaultValue={null}
+        getOptionLabel={[Function]}
         getOptionValue={[Function]}
         id="selectItems"
         inputValue=""
         isClearable={false}
         isMulti={true}
+        menuIsOpen={false}
         onChange={[Function]}
         onInputChange={[Function]}
         onKeyDown={[Function]}
@@ -90,6 +92,7 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
         extraClasses=""
         id="saveItems"
         onClick={[Function]}
+        onKeyDown={[Function]}
         saving={false}
       />
     </div>
@@ -111,11 +114,8 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
       className="multi-select__help"
     />
   </div>
-  <div
-    aria-live="polite"
-    className="sr-only"
-  />
   <MultiSelectList
+    ariaLabelRenderer={[Function]}
     onAction={[Function]}
     onAdd={[Function]}
     onSelect={[Function]}
@@ -168,13 +168,13 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
   className="filtered-user-list"
 >
   <div
-    aria-hidden="true"
     className="filter-row filter-row--full"
   >
     <div
       className="multi-select__container"
     >
       <StateManager
+        className=""
         components={
           Object {
             "IndicatorsContainer": [Function],
@@ -185,11 +185,13 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
         defaultInputValue=""
         defaultMenuIsOpen={false}
         defaultValue={null}
+        getOptionLabel={[Function]}
         getOptionValue={[Function]}
         id="selectItems"
         inputValue=""
         isClearable={false}
         isMulti={true}
+        menuIsOpen={false}
         onChange={[Function]}
         onInputChange={[Function]}
         onKeyDown={[Function]}
@@ -253,6 +255,7 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
         extraClasses=""
         id="saveItems"
         onClick={[Function]}
+        onKeyDown={[Function]}
         saving={false}
       />
     </div>
@@ -274,11 +277,8 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
       className="multi-select__help"
     />
   </div>
-  <div
-    aria-live="polite"
-    className="sr-only"
-  />
   <MultiSelectList
+    ariaLabelRenderer={[Function]}
     onAction={[Function]}
     onAdd={[Function]}
     onSelect={[Function]}
