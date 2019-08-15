@@ -510,7 +510,7 @@ export function handleNewPostEvents(queue) {
         myDispatch(batchActions(actions));
 
         // Load the posts' threads
-        getThreadsForPosts(posts, myDispatch, myGetState);
+        myDispatch(getThreadsForPosts(posts));
 
         // And any other data needed for them
         getProfilesAndStatusesForPosts(posts, myDispatch, myGetState);
