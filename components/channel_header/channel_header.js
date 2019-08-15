@@ -567,7 +567,7 @@ export default class ChannelHeader extends React.PureComponent {
             <div
                 id='channel-header'
                 aria-label={ariaLabelChannelHeader}
-                role='navigation'
+                role='application'
                 tabIndex='-1'
                 data-channelid={`${channel.id}`}
                 className='channel-header alt a11y__region'
