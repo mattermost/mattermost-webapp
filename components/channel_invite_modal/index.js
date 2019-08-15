@@ -9,9 +9,16 @@ import {getProfilesNotInChannel, searchProfiles} from 'mattermost-redux/actions/
 import {getProfilesNotInCurrentChannel} from 'mattermost-redux/selectors/entities/users';
 
 // import {addUsersToChannel} from 'actions/channel_actions';
-import {addChannelMember as addUsersToChannel} from 'mattermost-redux/actions/channels';
+import {addChannelMember} from 'mattermost-redux/actions/channels';
 
 import ChannelInviteModal from './channel_invite_modal.jsx';
+
+function addUsersToChannel(channelId, userIds) {
+    return async (dispatch) => {
+        const requests = userIds.map((uId) => dispatch(addChannelMember(channelId, uId)));
+        return Promise.all(requests);
+    };
+}
 
 function mapStateToProps(state) {
     return {

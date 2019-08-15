@@ -109,19 +109,7 @@ export default class ChannelInviteModal extends React.Component {
 
         this.setState({saving: true});
 
-        // actions.addUsersToChannel(channel.id, userIds[0]).then((result) => {
-        //     if (result.error) {
-        //         this.handleInviteError(result.error);
-        //     } else {
-        //         this.setState({
-        //             saving: false,
-        //             inviteError: null,
-        //         });
-        //         this.onHide();
-        //     }
-        // });
-
-        this.addMultipleChannelMembers(channel.id, userIds, actions).then((result) => {
+        actions.addUsersToChannel(channel.id, userIds).then((result) => {
             if (result.error) {
                 this.handleInviteError(result.error);
             } else {
@@ -132,12 +120,24 @@ export default class ChannelInviteModal extends React.Component {
                 this.onHide();
             }
         });
+
+    //     this.addMultipleChannelMembers(channel.id, userIds, actions).then((result) => {
+    //         if (result.error) {
+    //             this.handleInviteError(result.error);
+    //         } else {
+    //             this.setState({
+    //                 saving: false,
+    //                 inviteError: null,
+    //             });
+    //             this.onHide();
+    //         }
+    //     });
     };
 
-    addMultipleChannelMembers = (channelId, userIds, actions) => {
-        const requests = userIds.map((uId) => actions.addUsersToChannel(channelId, uId));
-        return Promise.all(requests);
-    }
+    // addMultipleChannelMembers = (channelId, userIds, actions) => {
+    //     const requests = userIds.map((uId) => actions.addUsersToChannel(channelId, uId));
+    //     return Promise.all(requests);
+    // }
 
     search = (searchTerm) => {
         const term = searchTerm.trim();
