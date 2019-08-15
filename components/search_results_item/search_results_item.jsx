@@ -351,7 +351,10 @@ export default class SearchResultsItem extends React.PureComponent {
                             </span>
                         }
                     </div>
-                    <div className='post__content'>
+                    <div
+                        role='application'
+                        className='post__content'
+                    >
                         {profilePicContainer}
                         <div>
                             <div className='post__header'>
