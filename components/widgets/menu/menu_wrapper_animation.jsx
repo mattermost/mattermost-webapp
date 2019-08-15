@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {tween, styler} from 'popmotion';
+import {chain, tween, styler, action} from 'popmotion';
 import {CSSTransition} from 'react-transition-group';
 
 import {isMobile} from 'utils/utils.jsx';
@@ -18,12 +18,24 @@ export default class MenuWrapperAnimation extends React.PureComponent {
 
     onEntering = (node) => {
         const nodeStyler = styler(node);
-        tween({from: {opacity: 0}, to: {opacity: 1}, duration: ANIMATION_DURATION}).start(nodeStyler.set);
+        chain(
+            action(({update, complete}) => {
+                update({display: 'block'});
+                complete();
+            }),
+            tween({from: {opacity: 0}, to: {opacity: 1}, duration: ANIMATION_DURATION}),
+        ).start(nodeStyler.set);
     }
 
     onExiting = (node) => {
         const nodeStyler = styler(node);
-        tween({from: {opacity: 1}, to: {opacity: 0}, duration: ANIMATION_DURATION}).start(nodeStyler.set);
+        chain(
+            tween({from: {opacity: 1}, to: {opacity: 0}, duration: ANIMATION_DURATION}),
+            action(({update, complete}) => {
+                update({display: 'none'});
+                complete();
+            }),
+        ).start(nodeStyler.set);
     }
 
     render() {
