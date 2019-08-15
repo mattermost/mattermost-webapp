@@ -162,7 +162,7 @@ eos
     end
     f.write("var SystemEmojis = map[string]string{#{emoji_dict.values.join(', ')}}\n")
 
-    puts "\nwrote #{emojis.length} emojis to utils/server/emoji_data.go"
+    puts "\nwrote #{emojis.length} emojis to emoji_data.go"
 end
 
 # If SERVER_DIR is defined we can update the file emoji_data.go in
