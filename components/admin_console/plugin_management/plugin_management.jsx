@@ -755,23 +755,6 @@ export default class PluginManagement extends AdminSettings {
             );
         }
 
-        let installButtonText;
-        if (this.state.installing) {
-            installButtonText = (
-                <FormattedMessage
-                    id='admin.plugin.installing'
-                    defaultMessage='Installing...'
-                />
-            );
-        } else {
-            installButtonText = (
-                <FormattedMessage
-                    id='admin.plugin.install'
-                    defaultMessage='Install'
-                />
-            );
-        }
-
         let pluginsList;
         let pluginsContainer;
         let pluginsListContainer;
@@ -879,12 +862,6 @@ export default class PluginManagement extends AdminSettings {
             onCancel: this.handleOverwriteUploadPluginCancel,
         });
 
-        const overwriteInstallPluginModal = this.state.confirmOverwriteInstallModal && this.renderOverwritePluginModal({
-            show: this.state.confirmOverwriteInstallModal,
-            onConfirm: this.handleOverwriteInstallPlugin,
-            onCancel: this.handleOverwriteInstallPluginCancel,
-        });
-
         return (
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
@@ -939,63 +916,9 @@ export default class PluginManagement extends AdminSettings {
                                 </p>
                             </div>
                         </div>
-                        <div className='form-group'>
-                            <label
-                                className='control-label col-sm-4'
-                            >
-                                <FormattedMessage
-                                    id='admin.plugin.installTitle'
-                                    defaultMessage='Install Plugin from URL: '
-                                />
-                            </label>
-
-                            <div className='col-sm-8'>
-                                <p>
-                                    <input
-                                        style={{width: '100%'}}
-                                        onChange={this.onPluginDownloadUrlChange}
-                                        value={this.state.pluginDownloadUrl}
-                                        type='text'
-                                    />
-                                </p>
-                            </div>
-                            <div className='col-sm-4'/>
-                            <div className='col-sm-8'>
-                                <p>
-                                    <button
-                                        id='installPluginButton'
-                                        className={btnClass}
-                                        disabled={this.state.installing || !this.state.pluginDownloadUrl}
-                                        onClick={this.handleSubmitInstall}
-                                    >
-                                        {installButtonText}
-                                    </button>
-                                </p>
-                            </div>
-                        </div>
-
-                        <BooleanSetting
-                            id='allowInsecureDownloadUrl'
-                            label={
-                                <FormattedMessage
-                                    id='admin.plugins.settings.allowInsecureUrl'
-                                    defaultMessage='Allow Insecure Install URL:'
-                                />
-                            }
-                            helpText={
-                                <FormattedMarkdownMessage
-                                    id='admin.plugins.settings.allowInsecureUrlDesc'
-                                    defaultMessage='When false, URLs provided must use the HTTPS protocol.'
-                                />
-                            }
-                            value={this.state.allowInsecureDownloadUrl}
-                            onChange={this.handleChange}
-                            setByEnv={this.isSetByEnv('PluginSettings.AllowInsecureDownloadUrl')}
-                        />
                         {pluginsContainer}
                     </SettingsGroup>
                     {overwriteUploadPluginModal}
-                    {overwriteInstallPluginModal}
                 </div>
             </div>
         );
