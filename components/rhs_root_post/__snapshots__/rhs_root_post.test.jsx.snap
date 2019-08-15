@@ -16,6 +16,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
   </div>
   <div
     className="post__content"
+    role="application"
   >
     <div
       className="post__img"
@@ -194,6 +195,7 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
   </div>
   <div
     className="post__content"
+    role="application"
   >
     <div
       className="post__img"

@@ -311,6 +311,7 @@ export default class Post extends React.PureComponent {
                 aria-atomic={true}
             >
                 <div
+                    role='application'
                     id='postContent'
                     className={'post__content ' + centerClass}
                     aria-hidden={this.state.ariaHidden}
