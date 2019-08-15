@@ -274,7 +274,8 @@ export default class RhsRootPost extends React.PureComponent {
         }
 
         let postFlagIcon;
-        if (this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
+        const showFlagIcon = !isEphemeral && !post.failed && !isSystemMessage;
+        if (showFlagIcon) {
             postFlagIcon = (
                 <PostFlagIcon
                     location={Locations.RHS_ROOT}
