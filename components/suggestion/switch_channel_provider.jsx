@@ -37,10 +37,10 @@ import {
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 
-import DraftIcon from 'components/svg/draft_icon';
-import GlobeIcon from 'components/svg/globe_icon';
-import LockIcon from 'components/svg/lock_icon';
-import ArchiveIcon from 'components/svg/archive_icon';
+import DraftIcon from 'components/widgets/icons/draft_icon';
+import GlobeIcon from 'components/widgets/icons/globe_icon';
+import LockIcon from 'components/widgets/icons/lock_icon';
+import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants.jsx';

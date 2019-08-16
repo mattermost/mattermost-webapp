@@ -10,9 +10,9 @@ import {components} from 'react-select';
 import {Constants} from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import PublicChannelIcon from 'components/svg/globe_icon.jsx';
-import PrivateChannelIcon from 'components/svg/lock_icon.jsx';
-import CloseCircleSolidIcon from 'components/svg/close_circle_solid_icon';
+import PublicChannelIcon from 'components/widgets/icons/globe_icon.jsx';
+import PrivateChannelIcon from 'components/widgets/icons/lock_icon.jsx';
+import CloseCircleSolidIcon from 'components/widgets/icons/close_circle_solid_icon';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 import {t} from 'utils/i18n.jsx';

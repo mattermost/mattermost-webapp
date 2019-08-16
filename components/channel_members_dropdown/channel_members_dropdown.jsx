@@ -7,8 +7,8 @@ import {FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-import DropdownIcon from '../icon/dropdown_icon';
 
+import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';

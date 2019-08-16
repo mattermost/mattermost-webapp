@@ -16,9 +16,9 @@ import SearchDateProvider from 'components/suggestion/search_date_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import SearchHint from 'components/search_hint/search_hint';
-import FlagIcon from 'components/svg/flag_icon';
-import MentionsIcon from 'components/svg/mentions_icon';
-import SearchIcon from 'components/svg/search_icon';
+import FlagIcon from 'components/widgets/icons/flag_icon';
+import MentionsIcon from 'components/widgets/icons/mentions_icon';
+import SearchIcon from 'components/widgets/icons/search_icon';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
 
 const {KeyCodes} = Constants;

@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {browserHistory} from 'utils/browser_history';
 import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
-import DropdownIcon from 'components/icon/dropdown_icon';
+import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';

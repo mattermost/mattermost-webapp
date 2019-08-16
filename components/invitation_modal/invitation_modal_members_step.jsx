@@ -9,11 +9,11 @@ import {debounce} from 'mattermost-redux/actions/helpers';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import InviteIcon from 'components/svg/invite_icon';
+import InviteIcon from 'components/widgets/icons/invite_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 
-import BackIcon from 'components/svg/back_icon';
-import LinkIcon from 'components/svg/link_icon';
+import BackIcon from 'components/widgets/icons/back_icon';
+import LinkIcon from 'components/widgets/icons/link_icon';
 
 import {getSiteURL} from 'utils/url.jsx';
 import {t} from 'utils/i18n.jsx';

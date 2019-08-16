@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import EmailIcon from 'components/svg/mail_icon';
+import EmailIcon from 'components/widgets/icons/mail_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 
 import {imageURLForUser, isGuest, getLongDisplayName} from 'utils/utils.jsx';
