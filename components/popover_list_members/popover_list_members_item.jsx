@@ -10,8 +10,8 @@ import ProfilePicture from 'components/profile_picture';
 import MessageIcon from 'components/svg/message_icon';
 import {UserStatuses} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
-import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import GuestBadge from 'components/widgets/badges/guest_badge';
 
 export default class PopoverListMembersItem extends React.PureComponent {
     static propTypes = {

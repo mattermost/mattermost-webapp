@@ -6,7 +6,13 @@ import PropTypes from 'prop-types';
 
 import './badge.scss';
 
-export default class Badge extends React.Component {
+type Props = {
+    show: boolean,
+    children: React.ReactNode,
+    className: string,
+};
+
+export default class Badge extends React.Component<Props> {
     static propTypes = {
         show: PropTypes.bool.isRequired,
         children: PropTypes.node.isRequired,

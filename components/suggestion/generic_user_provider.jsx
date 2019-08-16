@@ -7,8 +7,8 @@ import {Client4} from 'mattermost-redux/client';
 import {autocompleteUsers} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import GuestBadge from 'components/widgets/badges/guest_badge';
+import BotBadge from 'components/widgets/badges/bot_badge';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';

@@ -20,7 +20,7 @@ import PostFlagIcon from 'components/post_view/post_flag_icon';
 import ArchiveIcon from 'components/svg/archive_icon';
 import PostTime from 'components/post_view/post_time';
 import {browserHistory} from 'utils/browser_history';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/svg/info_small_icon';
 
 import Constants, {Locations} from 'utils/constants.jsx';

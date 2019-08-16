@@ -5,28 +5,33 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import Badge from './badge.jsx';
+import Badge from './badge';
 
-export default function BotBadge(props) {
+type Props = {
+    className: string,
+    show: boolean,
+};
+
+export default function GuestBadge(props: Props) {
     return (
         <Badge
-            className={'BotBadge ' + props.className}
+            className={'GuestBadge ' + props.className}
             show={props.show}
         >
             <FormattedMessage
-                id='post_info.bot'
-                defaultMessage='BOT'
+                id='post_info.guest'
+                defaultMessage='GUEST'
             />
         </Badge>
     );
 }
 
-BotBadge.propTypes = {
+GuestBadge.propTypes = {
     className: PropTypes.string,
     show: PropTypes.bool,
 };
 
-BotBadge.defaultProps = {
+GuestBadge.defaultProps = {
     show: true,
     className: '',
 };

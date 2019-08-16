@@ -34,8 +34,8 @@ import {
     isUnreadChannel,
 } from 'mattermost-redux/utils/channel_utils';
 
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
-import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import GuestBadge from 'components/widgets/badges/guest_badge';
 
 import DraftIcon from 'components/svg/draft_icon';
 import GlobeIcon from 'components/svg/globe_icon';
