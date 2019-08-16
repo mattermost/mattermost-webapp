@@ -12,7 +12,6 @@ import DropdownIcon from 'components/icon/dropdown_icon';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
 
 const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
 
@@ -255,18 +254,18 @@ export default class TeamMembersDropdown extends React.Component {
                         openUp={openUp}
                         ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
                     >
-                        <MenuItemAction
+                        <Menu.ItemAction
                             id='removeFromTeam'
                             show={canRemoveFromTeam}
                             onClick={this.handleRemoveFromTeam}
                             text={Utils.localizeMessage('team_members_dropdown.leave_team', 'Remove From Team')}
                         />
-                        <MenuItemAction
+                        <Menu.ItemAction
                             show={showMakeAdmin}
                             onClick={this.handleMakeAdmin}
                             text={Utils.localizeMessage('team_members_dropdown.makeAdmin', 'Make Team Admin')}
                         />
-                        <MenuItemAction
+                        <Menu.ItemAction
                             show={showMakeMember}
                             onClick={this.handleMakeMember}
                             text={Utils.localizeMessage('team_members_dropdown.makeMember', 'Make Member')}

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import {localizeMessage} from 'utils/utils';
 
-import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
+import Menu from 'components/widgets/menu/menu';
 
 export default class ViewPinnedPosts extends React.PureComponent {
     static propTypes = {
@@ -40,7 +40,7 @@ export default class ViewPinnedPosts extends React.PureComponent {
 
     render() {
         return (
-            <MenuItemAction
+            <Menu.ItemAction
                 show={this.props.show}
                 onClick={this.handleClick}
                 text={localizeMessage('navbar.viewPinnedPosts', 'View Pinned Posts')}
