@@ -6,6 +6,7 @@ import React from 'react';
 import AsyncSelect from 'react-select/lib/AsyncCreatable';
 import {components} from 'react-select';
 import {intlShape} from 'react-intl';
+import classNames from 'classnames';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
@@ -265,7 +266,7 @@ export default class UsersEmailsInput extends React.Component {
                 isValidNewOption={this.showAddEmail}
                 isMulti={true}
                 isClearable={false}
-                className={'UsersEmailsInput ' + (this.props.inputValue === '' ? 'empty' : '')}
+                className={classNames('UsersEmailsInput', {empty: this.props.inputValue === ''})}
                 classNamePrefix='users-emails-input'
                 placeholder={this.props.placeholder}
                 components={this.components}

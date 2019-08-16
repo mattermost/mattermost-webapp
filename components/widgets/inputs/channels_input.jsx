@@ -6,6 +6,7 @@ import React from 'react';
 import AsyncSelect from 'react-select/lib/Async';
 import {intlShape} from 'react-intl';
 import {components} from 'react-select';
+import classNames from 'classnames';
 
 import {Constants} from 'utils/constants';
 
@@ -159,7 +160,7 @@ export default class ChannelsInput extends React.Component {
                 loadOptions={this.optionsLoader}
                 isMulti={true}
                 isClearable={false}
-                className={'ChannelsInput ' + (this.props.inputValue === '' ? 'empty' : '')}
+                className={classNames('ChannelsInput', {empty: this.props.inputValue === ''})}
                 classNamePrefix='channels-input'
                 placeholder={this.props.placeholder}
                 components={this.components}

@@ -100,7 +100,7 @@ export default class InvitationModalGuestsStep extends React.Component {
             return this.props.myInvitableChannels;
         }
         return this.props.myInvitableChannels.filter((channel) => {
-            return channel.display_name.toLowerCase().indexOf(value.toLowerCase()) === 0 || channel.name.toLowerCase().indexOf(value.toLowerCase()) === 0;
+            return channel.display_name.toLowerCase().startsWith(value.toLowerCase()) || channel.name.toLowerCase().startsWith(value.toLowerCase());
         });
     }
 
