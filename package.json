@@ -6,6 +6,15 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@types/enzyme": "3.10.3",
+    "@types/jest": "24.0.17",
+    "@types/node": "12.7.0",
+    "@types/react": "16.8.24",
+    "@types/react-dom": "16.8.5",
+    "@types/react-router-dom": "4.3.4",
+    "@types/react-transition-group": "4.2.2",
+    "@typescript-eslint/eslint-plugin": "1.13.0",
+    "@typescript-eslint/parser": "1.13.0",
     "bootstrap": "3.4.1",
     "bootstrap-colorpicker": "2.5.2",
     "chart.js": "2.8.0",
@@ -61,6 +70,7 @@
     "redux-persist": "4.10.2",
     "reselect": "4.0.0",
     "superagent": "5.1.0",
+    "typescript": "3.5.3",
     "xregexp": "4.2.4",
     "zen-observable": "0.8.14"
   },
@@ -68,10 +78,13 @@
     "@babel/cli": "7.5.5",
     "@babel/core": "7.5.5",
     "@babel/plugin-proposal-class-properties": "7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "7.5.5",
     "@babel/plugin-syntax-dynamic-import": "7.2.0",
     "@babel/preset-env": "7.5.5",
     "@babel/preset-react": "7.0.0",
+    "@babel/preset-typescript": "7.3.3",
     "@hot-loader/react-dom": "16.8.6",
+    "@types/react-intl": "2.3.18",
     "babel-eslint": "10.0.2",
     "babel-jest": "24.8.0",
     "babel-loader": "8.0.6",
@@ -103,7 +116,7 @@
     "jest-junit": "6.4.0",
     "jquery-deferred": "0.3.1",
     "mini-css-extract-plugin": "0.8.0",
-    "mmjstool": "github:mattermost/mattermost-utilities#89543752e9c3b7fe4ad41d3af3821d3923198c20",
+    "mmjstool": "github:mattermost/mattermost-utilities#c7e59207d553dcd0b8513ba5772d3ddc80dd5970",
     "node-sass": "4.12.0",
     "react-router-enzyme-context": "1.2.0",
     "redux-mock-store": "1.5.3",
@@ -111,6 +124,7 @@
     "remote-redux-devtools": "0.5.16",
     "sass-loader": "7.1.0",
     "style-loader": "0.23.1",
+    "ts-jest": "24.0.2",
     "webpack": "4.36.1",
     "webpack-cli": "3.3.6",
     "webpack-dev-server": "3.7.2",
@@ -154,6 +168,13 @@
       "node_modules",
       "non_npm_dependencies"
     ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ],
     "reporters": [
       "default",
       "jest-junit"
@@ -167,7 +188,8 @@
     "setupFilesAfterEnv": [
       "<rootDir>/tests/setup.js"
     ],
-    "testURL": "http://localhost:8065"
+    "testURL": "http://localhost:8065",
+    "preset": "ts-jest/presets/js-with-ts"
   },
   "jest-junit": {
     "output": "build/test-results.xml"
