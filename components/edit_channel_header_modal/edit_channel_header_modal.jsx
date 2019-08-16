@@ -8,6 +8,7 @@ import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-int
 import {RequestStatus} from 'mattermost-redux/constants';
 
 import Textbox from 'components/textbox';
+import TextboxLinks from 'components/textbox/textbox_links.jsx';
 import Constants from 'utils/constants.jsx';
 import {isMobile} from 'utils/user_agent.jsx';
 import {isKeyPressed, localizeMessage} from 'utils/utils.jsx';
@@ -71,6 +72,7 @@ class EditChannelHeaderModal extends React.PureComponent {
         super(props);
 
         this.state = {
+            preview: false,
             header: props.channel.header,
             show: true,
             showError: false,
@@ -88,6 +90,10 @@ class EditChannelHeaderModal extends React.PureComponent {
         } else {
             this.setState({showError: false});
         }
+    }
+
+    updatePreview = (newState) => {
+        this.setState({preview: newState});
     }
 
     handleChange = (e) => {
@@ -206,20 +212,32 @@ class EditChannelHeaderModal extends React.PureComponent {
                                 defaultMessage='Edit the text appearing next to the channel name in the channel header.'
                             />
                         </p>
-                        <Textbox
-                            value={this.state.header}
-                            onChange={this.handleChange}
-                            onKeyPress={this.handleKeyPress}
-                            onKeyDown={this.handleKeyDown}
-                            supportsCommands={false}
-                            suggestionListStyle='bottom'
-                            createMessage={localizeMessage('edit_channel_header.editHeader', 'Edit the Channel Header...')}
-                            previewMessageLink={localizeMessage('edit_channel_header.previewHeader', 'Edit Header')}
-                            handlePostError={this.handlePostError}
-                            id='edit_textbox'
-                            ref='editChannelHeaderTextbox'
-                            characterLimit={1024}
-                        />
+                        <div className='textarea-wrapper'>
+                            <Textbox
+                                value={this.state.header}
+                                onChange={this.handleChange}
+                                onKeyPress={this.handleKeyPress}
+                                onKeyDown={this.handleKeyDown}
+                                supportsCommands={false}
+                                suggestionListStyle='bottom'
+                                createMessage={localizeMessage('edit_channel_header.editHeader', 'Edit the Channel Header...')}
+                                previewMessageLink={localizeMessage('edit_channel_header.previewHeader', 'Edit Header')}
+                                handlePostError={this.handlePostError}
+                                id='edit_textbox'
+                                ref='editChannelHeaderTextbox'
+                                characterLimit={1024}
+                                preview={this.state.preview}
+                            />
+                        </div>
+                        <div className='post-create-footer'>
+                            <TextboxLinks
+                                characterLimit={1024}
+                                showPreview={this.state.preview}
+                                ref={this.setTextboxLinksRef}
+                                updatePreview={this.updatePreview}
+                                message={this.state.editText}
+                            />
+                        </div>
                         <br/>
                         {serverError}
                     </div>

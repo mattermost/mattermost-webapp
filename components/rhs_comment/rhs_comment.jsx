@@ -437,7 +437,10 @@ export default class RhsComment extends React.PureComponent {
                 aria-label={this.state.currentAriaLabel}
                 onFocus={this.handlePostFocus}
             >
-                <div className='post__content'>
+                <div
+                    role='application'
+                    className='post__content'
+                >
                     <div className='post__img'>
                         {profilePicture}
                     </div>

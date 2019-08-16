@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {Client4} from 'mattermost-redux/client';
 
 import ProfilePicture from 'components/profile_picture.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 import './admin_user_card.scss';
 
@@ -30,6 +31,9 @@ const AdminUserCard = (props) => (
                 <span>{props.user.first_name} {props.user.last_name}</span>
                 <Bullet user={props.user}/>
                 <span className='AdminUserCard__user-nickname'>{props.user.nickname}</span>
+            </div>
+            <div className='AdminUserCard__user-id'>
+                {Utils.localizeMessage('admin.userManagement.userDetail.userId', 'User ID:')} {props.user.id}
             </div>
         </div>
         <div className='AdminUserCard__body'>

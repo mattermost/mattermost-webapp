@@ -633,7 +633,7 @@ function handleDeleteTeamEvent(msg) {
 function handleUpdateMemberRoleEvent(msg) {
     dispatch({
         type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
-        data: msg.data.member,
+        data: JSON.parse(msg.data.member),
     });
 }
 
