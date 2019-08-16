@@ -4,10 +4,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import AdminHeader from 'components/widgets/admin_console/admin_header.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-const FormattedAdminHeader = (props) => (
+import AdminHeader from './admin_header';
+
+type Props = {
+    id: string,
+    defaultMessage: string,
+    values?: any,
+};
+
+const FormattedAdminHeader = (props:Props) => (
     <AdminHeader>
         <FormattedMarkdownMessage
             id={props.id}

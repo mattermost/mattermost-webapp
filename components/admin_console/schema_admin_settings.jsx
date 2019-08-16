@@ -32,8 +32,8 @@ import FormError from 'components/form_error.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import AdminHeader from 'components/widgets/admin_console/admin_header.jsx';
-import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
+import AdminHeader from 'components/widgets/admin_console/admin_header';
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
 export default class SchemaAdminSettings extends React.Component {
     static propTypes = {

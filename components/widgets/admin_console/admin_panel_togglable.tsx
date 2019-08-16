@@ -6,9 +6,21 @@ import PropTypes from 'prop-types';
 
 import AccordionToggleIcon from 'components/svg/accordion_toggle_icon.jsx';
 
-import AdminPanel from './admin_panel.jsx';
+import AdminPanel from './admin_panel';
 
-const AdminPanelTogglable = (props) => {
+type Props = {
+    children?: React.ReactNode,
+    className: string,
+    id?: string,
+    open: boolean,
+    titleId: string,
+    titleDefault: string,
+    subtitleId: string,
+    subtitleDefault: string,
+    onToggle?: React.EventHandler<React.MouseEvent>,
+};
+
+const AdminPanelTogglable = (props: Props) => {
     return (
         <AdminPanel
             className={'AdminPanelTogglable ' + props.className + (props.open ? '' : ' closed')}

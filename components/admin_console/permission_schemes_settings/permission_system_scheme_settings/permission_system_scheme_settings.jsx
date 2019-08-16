@@ -18,7 +18,7 @@ import SaveButton from 'components/save_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 import FormError from 'components/form_error.jsx';
 import BlockableLink from 'components/admin_console/blockable_link';
-import AdminPanelTogglable from 'components/widgets/admin_console/admin_panel_togglable.jsx';
+import AdminPanelTogglable from 'components/widgets/admin_console/admin_panel_togglable';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 

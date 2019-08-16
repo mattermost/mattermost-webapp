@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import AdminHeader from './admin_header.jsx';
+import AdminHeader from './admin_header';
 
 describe('components/widgets/admin_console/AdminHeader', () => {
     test('render component with child', () => {
@@ -20,7 +20,7 @@ describe('components/widgets/admin_console/AdminHeader', () => {
     });
 
     test('children prop is mandatory', () => {
-        console.originalError = console.error;
+        const originalError = console.error;
         console.error = jest.fn();
 
         shallow(<AdminHeader/>);
@@ -28,6 +28,6 @@ describe('components/widgets/admin_console/AdminHeader', () => {
         expect(console.error).toBeCalledTimes(1);
         expect(console.error).toBeCalledWith('Warning: Failed prop type: The prop `children` is marked as required in `AdminHeader`, but its value is `undefined`.\n    in AdminHeader');
 
-        console.error = console.originalError;
+        console.error = originalError;
     });
 });

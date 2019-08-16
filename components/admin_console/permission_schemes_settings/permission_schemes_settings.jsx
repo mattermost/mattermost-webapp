@@ -13,8 +13,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import LoadingScreen from 'components/loading_screen.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
-import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
-import AdminPanelWithLink from 'components/widgets/admin_console/admin_panel_with_link.jsx';
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
+import AdminPanelWithLink from 'components/widgets/admin_console/admin_panel_with_link';
 
 import PermissionsSchemeSummary from './permissions_scheme_summary';
 

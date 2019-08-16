@@ -9,7 +9,7 @@ import {removeLicenseFile, uploadLicenseFile} from 'actions/admin_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
 export default class LicenseSettings extends React.Component {
     static propTypes = {

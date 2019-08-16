@@ -5,21 +5,37 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import AdminPanel from './admin_panel.jsx';
+import AdminPanel from './admin_panel';
 
-const AdminPanelWithButton = (props) => {
-    const button = (
-        <a
-            className='btn btn-primary'
-            onClick={props.onButtonClick}
-            disabled={props.disabled}
-        >
-            <FormattedMessage
-                id={props.buttonTextId}
-                defaultMessage={props.buttonTextDefault}
-            />
-        </a>
-    );
+type Props = {
+    children?: React.ReactNode,
+    className: string,
+    id?: string,
+    titleId: string,
+    titleDefault: string,
+    subtitleId: string,
+    subtitleDefault: string,
+    onButtonClick?: React.EventHandler<React.MouseEvent>,
+    disabled?: boolean,
+    buttonTextId?: string,
+    buttonTextDefault?: string,
+}
+
+const AdminPanelWithButton = (props: Props) => {
+    let button;
+    if (props.onButtonClick && props.buttonTextId) {
+        button = (
+            <a
+                className='btn btn-primary'
+                onClick={props.disabled ? (e) => e.preventDefault() : props.onButtonClick}
+            >
+                <FormattedMessage
+                    id={props.buttonTextId}
+                    defaultMessage={props.buttonTextDefault}
+                />
+            </a>
+        );
+    }
 
     return (
         <AdminPanel
