@@ -331,6 +331,7 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
   </div>
   <div
     className="post__content"
+    role="application"
   >
     <div
       className="post__img"
@@ -469,6 +470,7 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
   </div>
   <div
     className="post__content"
+    role="application"
   >
     <div
       className="post__img"
