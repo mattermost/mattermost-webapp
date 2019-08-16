@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
+import configureStore from 'redux-mock-store';
 
 import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
@@ -32,6 +34,14 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         },
         prevActiveSection: 'dummySectionName',
     };
+    const mockStore = configureStore();
+    const state = {
+        views: {
+            settings: {},
+        },
+    };
+
+    const store = mockStore(state);
 
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(<UserSettingsSidebar {...defaultProps}/>);
@@ -64,7 +74,13 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
 
     test('should pass handleChange for channel grouping', () => {
         const props = {...defaultProps, activeSection: 'groupChannels'};
-        const wrapper = mountWithIntl(<UserSettingsSidebar {...props}/>);
+        const wrapper = mountWithIntl(
+            <UserSettingsSidebar {...props}/>,
+            {
+                context: {store},
+                childContextTypes: {store: PropTypes.object},
+            },
+        );
 
         wrapper.find('#noneOption').simulate('change');
         expect(wrapper.state('settings')).toEqual({
@@ -135,7 +151,13 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
                 ...defaultProps.sidebarPreference,
                 grouping: 'none',
             }};
-        const wrapper = mountWithIntl(<UserSettingsSidebar {...props}/>);
+        const wrapper = mountWithIntl(
+            <UserSettingsSidebar {...props}/>,
+            {
+                context: {store},
+                childContextTypes: {store: PropTypes.object},
+            },
+        );
 
         wrapper.find('#recentSectionEnabled').simulate('change');
         expect(wrapper.state('settings')).toEqual({

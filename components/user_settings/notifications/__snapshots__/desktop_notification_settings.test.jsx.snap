@@ -267,7 +267,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
 `;
 
 exports[`components/user_settings/notifications/DesktopNotificationSettings should match snapshot, on buildMinimizedSetting 1`] = `
-<SettingItemMin
+<Connect(SettingItemMin)
   describe={
     <FormattedMessage
       defaultMessage="For mentions and direct messages, without sound"
@@ -283,7 +283,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
 `;
 
 exports[`components/user_settings/notifications/DesktopNotificationSettings should match snapshot, on buildMinimizedSetting 2`] = `
-<SettingItemMin
+<Connect(SettingItemMin)
   describe={
     <FormattedMessage
       defaultMessage="Off"
@@ -463,7 +463,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
 `;
 
 exports[`components/user_settings/notifications/DesktopNotificationSettings should match snapshot, on min setting 1`] = `
-<SettingItemMin
+<Connect(SettingItemMin)
   describe={
     <FormattedMessage
       defaultMessage="For mentions and direct messages, without sound"

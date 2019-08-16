@@ -9,7 +9,7 @@ import {FormattedMessage, FormattedDate} from 'react-intl';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
-import SettingItemMin from 'components/setting_item_min.jsx';
+import SettingItemMin from 'components/setting_item_min';
 import SettingPicture from 'components/setting_picture.jsx';
 import BackIcon from 'components/icon/back_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
