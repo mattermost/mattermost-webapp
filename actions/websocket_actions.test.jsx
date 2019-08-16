@@ -36,7 +36,7 @@ import {
 
 jest.mock('mattermost-redux/actions/posts', () => ({
     ...jest.requireActual('mattermost-redux/actions/posts'),
-    getThreadsForPosts: jest.fn(),
+    getThreadsForPosts: jest.fn(() => ({type: 'GET_THREADS_FOR_POSTS'})),
     getProfilesAndStatusesForPosts: jest.fn(),
 }));
 
@@ -229,8 +229,11 @@ describe('handleNewPostEvents', () => {
                 payload: posts.map(receivedNewPost),
                 type: 'BATCHING_REDUCER.BATCH',
             },
+            {
+                type: 'GET_THREADS_FOR_POSTS',
+            },
         ]);
-        expect(getThreadsForPosts).toHaveBeenCalledWith(posts, expect.anything(), expect.anything());
+        expect(getThreadsForPosts).toHaveBeenCalledWith(posts);
         expect(getProfilesAndStatusesForPosts).toHaveBeenCalledWith(posts, expect.anything(), expect.anything());
     });
 });
