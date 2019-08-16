@@ -45,17 +45,24 @@ export default class SettingItemMin extends React.PureComponent {
          * Settings description
          */
         describe: PropTypes.node,
+
+        /**
+         * Shows the previous active section for focusing
+         */
+        previousActiveSection: PropTypes.string,
+
+        /**
+         * Actions
+         */
+        actions: PropTypes.shape({
+            updateActiveSection: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     componentDidMount() {
-        if (this.props.focused && this.edit) {
+        if (this.props.previousActiveSection === this.props.section) {
             this.edit.focus();
-        }
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.focused && this.edit) {
-            this.edit.focus();
+            this.props.actions.updateActiveSection(null);
         }
     }
 
@@ -65,6 +72,7 @@ export default class SettingItemMin extends React.PureComponent {
 
     handleUpdateSection = (e) => {
         e.preventDefault();
+        this.props.actions.updateActiveSection(this.props.section);
         this.props.updateSection(this.props.section);
     }
 
