@@ -7,7 +7,7 @@ import {ActionTypes} from 'utils/constants.jsx';
 
 function previousActiveSection(state = null, action) {
     switch (action.type) {
-    case ActionTypes.UPDATE_PREVIOUS_ACTIVE_SECTION:
+    case ActionTypes.UPDATE_ACTIVE_SECTION:
         return action.data;
     default:
         return state;

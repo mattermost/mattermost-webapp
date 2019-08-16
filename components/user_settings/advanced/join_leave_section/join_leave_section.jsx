@@ -18,7 +18,6 @@ export default class JoinLeaveSection extends React.PureComponent {
         currentUserId: PropTypes.string.isRequired,
         joinLeave: PropTypes.string,
         onUpdateSection: PropTypes.func.isRequired,
-        prevActiveSection: PropTypes.string,
         renderOnOffLabel: PropTypes.func.isRequired,
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
@@ -128,7 +127,6 @@ export default class JoinLeaveSection extends React.PureComponent {
                     />
                 }
                 describe={this.props.renderOnOffLabel(joinLeaveState)}
-                focused={this.props.prevActiveSection === AdvancedSections.JOIN_LEAVE}
                 section={AdvancedSections.JOIN_LEAVE}
                 updateSection={this.handleUpdateSection}
             />

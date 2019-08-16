@@ -11,7 +11,6 @@ import EditIcon from 'components/icon/edit_icon';
 export default class SettingItemMin extends React.PureComponent {
     static defaultProps = {
         section: '',
-        focused: false,
     };
 
     static propTypes = {
@@ -25,11 +24,6 @@ export default class SettingItemMin extends React.PureComponent {
          * Option to disable opening the setting
          */
         disableOpen: PropTypes.bool,
-
-        /**
-         * Indicates whether the focus should be on the "Edit" button
-         */
-        focused: PropTypes.bool,
 
         /**
          * Settings or tab section
@@ -55,6 +49,10 @@ export default class SettingItemMin extends React.PureComponent {
          * Actions
          */
         actions: PropTypes.shape({
+
+            /**
+             * Update the active section for focusing
+             */
             updateActiveSection: PropTypes.func.isRequired,
         }).isRequired,
     };

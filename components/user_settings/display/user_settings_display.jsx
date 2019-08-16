@@ -39,7 +39,6 @@ export default class UserSettingsDisplay extends React.Component {
         user: PropTypes.object,
         updateSection: PropTypes.func,
         activeSection: PropTypes.string,
-        prevActiveSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
         setRequireConfirm: PropTypes.func.isRequired,
@@ -383,7 +382,6 @@ export default class UserSettingsDisplay extends React.Component {
                 <SettingItemMin
                     title={messageTitle}
                     describe={describe}
-                    focused={this.props.prevActiveSection === this.prevSections[section]}
                     section={section}
                     updateSection={this.updateSection}
                 />
@@ -658,7 +656,6 @@ export default class UserSettingsDisplay extends React.Component {
                         }
                         width='medium'
                         describe={locale}
-                        focused={this.props.prevActiveSection === this.prevSections.languages}
                         section={'languages'}
                         updateSection={this.updateSection}
                     />
@@ -681,7 +678,6 @@ export default class UserSettingsDisplay extends React.Component {
                         setRequireConfirm={this.props.setRequireConfirm}
                         setEnforceFocus={this.props.setEnforceFocus}
                         allowCustomThemes={this.props.allowCustomThemes}
-                        focused={this.props.prevActiveSection === this.prevSections.theme}
                     />
                     <div className='divider-dark'/>
                 </div>

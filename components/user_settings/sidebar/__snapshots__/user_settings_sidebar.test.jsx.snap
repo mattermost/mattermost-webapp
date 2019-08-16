@@ -78,7 +78,6 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
           />,
         ]
       }
-      focused={true}
       section="groupChannels"
       title={
         <FormattedMessage
@@ -100,7 +99,6 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
           values={Object {}}
         />
       }
-      focused={false}
       section="channelSwitcher"
       title={
         <FormattedMessage

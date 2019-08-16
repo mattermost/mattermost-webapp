@@ -2,7 +2,6 @@
 
 exports[`components/user_settings/advanced/JoinLeaveSection should match snapshot 1`] = `
 <Connect(SettingItemMin)
-  focused={false}
   section="joinLeave"
   title={
     <FormattedMessage

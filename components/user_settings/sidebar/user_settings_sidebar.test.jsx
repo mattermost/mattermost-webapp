@@ -32,7 +32,6 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         actions: {
             savePreferences: () => true,
         },
-        prevActiveSection: 'dummySectionName',
     };
     const mockStore = configureStore();
     const state = {
