@@ -17,7 +17,6 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
         currentUserId: 'current_user_id',
         joinLeave: 'true',
         onUpdateSection: jest.fn(),
-        prevActiveSection: AdvancedSections.FORMATTING,
         renderOnOffLabel: jest.fn(),
         actions: {
             savePreferences: jest.fn(() => {

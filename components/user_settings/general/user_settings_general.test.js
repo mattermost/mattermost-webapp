@@ -20,7 +20,6 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         updateSection: jest.fn(),
         updateTab: jest.fn(),
         activeSection: '',
-        prevActiveSection: '',
         closeModal: jest.fn(),
         collapseModal: jest.fn(),
         actions: {
