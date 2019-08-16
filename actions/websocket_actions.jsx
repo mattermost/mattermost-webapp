@@ -26,6 +26,7 @@ import {
     getCustomEmojiForReaction,
     getPosts,
     getProfilesAndStatusesForPosts,
+    getThreadsForPosts,
     postDeleted,
     receivedNewPost,
     receivedPost,
@@ -507,6 +508,9 @@ export function handleNewPostEvents(queue) {
         // Receive the posts as one continuous block since they were received within a short period
         const actions = posts.map(receivedNewPost);
         myDispatch(batchActions(actions));
+
+        // Load the posts' threads
+        myDispatch(getThreadsForPosts(posts));
 
         // And any other data needed for them
         getProfilesAndStatusesForPosts(posts, myDispatch, myGetState);
