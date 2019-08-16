@@ -5,14 +5,21 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {CSSTransition} from 'react-transition-group';
 
-import CloseIcon from 'components/svg/close_icon';
+import CloseIcon from 'components/svg/close_icon.jsx';
 
 import './full_screen_modal.scss';
 
 // This must be on sync with the animation time in ./full_screen_modal.scss
 const ANIMATION_DURATION = 100;
 
-export default class FullScreenModal extends React.Component {
+type Props = {
+    show: boolean;
+    onClose: () => void;
+};
+
+type State = {};
+
+export default class FullScreenModal extends React.Component<Props, State> {
     static propTypes = {
         show: PropTypes.bool.isRequired,
         children: PropTypes.node.isRequired,
@@ -27,7 +34,7 @@ export default class FullScreenModal extends React.Component {
         document.removeEventListener('keydown', this.handleKeypress);
     }
 
-    handleKeypress = (e) => {
+    handleKeypress = (e: KeyboardEvent) => {
         if (e.key === 'Escape' && this.props.show) {
             this.close();
         }

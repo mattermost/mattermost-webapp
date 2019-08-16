@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, intlShape} from 'react-intl';
 
-import FullScreenModal from 'components/widgets/modals/full_screen_modal';
+import FullScreenModal from 'components/widgets/modals/full_screen_modal.tsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import RootPortal from 'components/root_portal';
 

@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import CloseIcon from 'components/svg/close_icon';
+import CloseIcon from 'components/svg/close_icon.jsx';
 
-import FullScreenModal from './full_screen_modal.jsx';
+import FullScreenModal from './full_screen_modal';
 
 describe('components/widgets/modals/FullScreenModal', () => {
     test('showing content', () => {
