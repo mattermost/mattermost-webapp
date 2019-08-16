@@ -127,8 +127,6 @@ function initializePlugin(manifest) {
 export function removePlugin(manifest) {
     console.log('Removing ' + manifest.id + ' plugin'); //eslint-disable-line no-console
 
-    loadedPlugins[manifest.id] = null;
-
     store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
 
     const plugin = window.plugins[manifest.id];
@@ -146,6 +144,8 @@ export function removePlugin(manifest) {
         return;
     }
     script.parentNode.removeChild(script);
+
+    delete loadedPlugins[manifest.id];
     console.log('Removed ' + manifest.id + ' plugin'); //eslint-disable-line no-console
 }
 
