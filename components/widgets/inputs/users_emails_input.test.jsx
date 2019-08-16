@@ -45,6 +45,7 @@ describe('components/widgets/inputs/UsersEmailsInput', () => {
   openMenuOnClick={false}
   openMenuOnFocus={true}
   placeholder="test"
+  tabSelectsValue={true}
   value={
     Array [
       Object {

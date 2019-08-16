@@ -175,6 +175,7 @@ export default class ChannelsInput extends React.Component {
                 inputValue={this.props.inputValue}
                 openMenuOnFocus={true}
                 onFocus={this.onFocus}
+                tabSelectsValue={true}
                 value={this.props.value}
             />
         );

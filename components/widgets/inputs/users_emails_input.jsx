@@ -280,6 +280,7 @@ export default class UsersEmailsInput extends React.Component {
                 inputValue={this.props.inputValue}
                 openMenuOnFocus={true}
                 onFocus={this.onFocus}
+                tabSelectsValue={true}
                 value={values}
             />
         );

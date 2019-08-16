@@ -47,6 +47,7 @@ describe('components/widgets/inputs/ChannelsInput', () => {
   openMenuOnClick={false}
   openMenuOnFocus={true}
   placeholder="test"
+  tabSelectsValue={true}
   value={
     Array [
       Object {
