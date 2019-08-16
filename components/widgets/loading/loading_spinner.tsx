@@ -5,7 +5,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {intlShape} from 'react-intl';
 
-export default class LoadingSpinner extends React.PureComponent {
+type Props = {
+    text: React.ReactNode,
+}
+
+export default class LoadingSpinner extends React.PureComponent<Props> {
     static propTypes = {
         text: PropTypes.node,
     }

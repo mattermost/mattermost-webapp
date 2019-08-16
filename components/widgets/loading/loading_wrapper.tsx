@@ -4,9 +4,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import LoadingSpinner from './loading_spinner.jsx';
+import LoadingSpinner from './loading_spinner';
 
-export default class LoadingWrapper extends React.Component {
+type Props = {
+    loading: boolean,
+    text: React.ReactNode,
+    children: React.ReactNode,
+}
+
+export default class LoadingWrapper extends React.Component<Props> {
     static propTypes = {
         loading: PropTypes.bool.isRequired,
         text: PropTypes.node,

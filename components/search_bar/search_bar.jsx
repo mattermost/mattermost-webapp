@@ -19,7 +19,7 @@ import SearchHint from 'components/search_hint/search_hint';
 import FlagIcon from 'components/svg/flag_icon';
 import MentionsIcon from 'components/svg/mentions_icon';
 import SearchIcon from 'components/svg/search_icon';
-import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 const {KeyCodes} = Constants;
 
