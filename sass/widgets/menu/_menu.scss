@@ -20,7 +20,7 @@
         &.dropdown-menu {
             opacity: 0;
 
-            @media screen and (min-width: 641px) {
+            @media screen and (min-width: 768px) {
                 max-height: 0;
                 overflow: hidden;
                 overflow-y: hidden;
@@ -31,7 +31,7 @@
     &.Menu-enter-active {
         &.dropdown-menu {
             opacity: 1;
-            @media screen and (min-width: 641px) {
+            @media screen and (min-width: 768px) {
                 max-height: 80vh;
                 transition: max-height 1000ms ease-in, opacity 250ms linear;
                 overflow-y: hidden;
@@ -45,7 +45,7 @@
     &.Menu-enter-done {
         &.dropdown-menu {
             opacity: 1;
-            @media screen and (min-width: 641px) {
+            @media screen and (min-width: 768px) {
                 max-height: 80vh;
                 overflow-y: auto;
             }
@@ -55,12 +55,12 @@
     &.Menu-exit {
         &.dropdown-menu {
             opacity: 0;
-            @media screen and (min-width: 641px) {
+            @media screen and (min-width: 768px) {
                 max-height: 0;
                 transition: max-height 1000ms ease-in 0ms, opacity 250ms linear 750ms;
                 overflow-y: hidden;
             }
-            @media screen and (max-width: 640px) {
+            @media screen and (max-width: 768px) {
                 transition: opacity 1000ms linear;
             }
         }

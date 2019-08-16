@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component/FileAttachment should match snapshot, after change from file to image 1`] = `
+exports[`FileAttachment should match snapshot, after change from file to image 1`] = `
 <div
   className="post-image__column"
 >
@@ -62,7 +62,7 @@ exports[`component/FileAttachment should match snapshot, after change from file 
 </div>
 `;
 
-exports[`component/FileAttachment should match snapshot, file with long name 1`] = `
+exports[`FileAttachment should match snapshot, file with long name 1`] = `
 <div
   className="post-image__column"
 >
@@ -72,7 +72,7 @@ exports[`component/FileAttachment should match snapshot, file with long name 1`]
     href="#"
     onClick={[Function]}
   >
-    <FileThumbnail
+    <Connect(FileThumbnail)
       fileInfo={
         Object {
           "extension": "pdf",
@@ -129,7 +129,7 @@ exports[`component/FileAttachment should match snapshot, file with long name 1`]
 </div>
 `;
 
-exports[`component/FileAttachment should match snapshot, regular file 1`] = `
+exports[`FileAttachment should match snapshot, regular file 1`] = `
 <div
   className="post-image__column"
 >
@@ -139,7 +139,7 @@ exports[`component/FileAttachment should match snapshot, regular file 1`] = `
     href="#"
     onClick={[Function]}
   >
-    <FileThumbnail
+    <Connect(FileThumbnail)
       fileInfo={
         Object {
           "extension": "pdf",
@@ -196,7 +196,7 @@ exports[`component/FileAttachment should match snapshot, regular file 1`] = `
 </div>
 `;
 
-exports[`component/FileAttachment should match snapshot, regular image 1`] = `
+exports[`FileAttachment should match snapshot, regular image 1`] = `
 <div
   className="post-image__column"
 >
@@ -206,7 +206,7 @@ exports[`component/FileAttachment should match snapshot, regular image 1`] = `
     href="#"
     onClick={[Function]}
   >
-    <FileThumbnail
+    <Connect(FileThumbnail)
       fileInfo={
         Object {
           "extension": "png",
@@ -267,7 +267,7 @@ exports[`component/FileAttachment should match snapshot, regular image 1`] = `
 </div>
 `;
 
-exports[`component/FileAttachment should match snapshot, small image 1`] = `
+exports[`FileAttachment should match snapshot, small image 1`] = `
 <div
   className="post-image__column"
 >
@@ -277,7 +277,7 @@ exports[`component/FileAttachment should match snapshot, small image 1`] = `
     href="#"
     onClick={[Function]}
   >
-    <FileThumbnail
+    <Connect(FileThumbnail)
       fileInfo={
         Object {
           "extension": "png",
@@ -338,7 +338,7 @@ exports[`component/FileAttachment should match snapshot, small image 1`] = `
 </div>
 `;
 
-exports[`component/FileAttachment should match snapshot, svg image 1`] = `
+exports[`FileAttachment should match snapshot, svg image 1`] = `
 <div
   className="post-image__column"
 >
@@ -348,7 +348,7 @@ exports[`component/FileAttachment should match snapshot, svg image 1`] = `
     href="#"
     onClick={[Function]}
   >
-    <FileThumbnail
+    <Connect(FileThumbnail)
       fileInfo={
         Object {
           "extension": "svg",
@@ -409,7 +409,7 @@ exports[`component/FileAttachment should match snapshot, svg image 1`] = `
 </div>
 `;
 
-exports[`component/FileAttachment should match snapshot, when file is not loaded 1`] = `
+exports[`FileAttachment should match snapshot, when file is not loaded 1`] = `
 <div
   className="post-image__column"
 >
@@ -469,7 +469,7 @@ exports[`component/FileAttachment should match snapshot, when file is not loaded
 </div>
 `;
 
-exports[`component/FileAttachment should match snapshot, with compact display 1`] = `
+exports[`FileAttachment should match snapshot, with compact display 1`] = `
 <div
   className="post-image__column"
 >
@@ -496,7 +496,7 @@ exports[`component/FileAttachment should match snapshot, with compact display 1`
 </div>
 `;
 
-exports[`component/FileAttachment should match snapshot, without compact display and without can download 1`] = `
+exports[`FileAttachment should match snapshot, without compact display and without can download 1`] = `
 <div
   className="post-image__column"
 >
@@ -506,7 +506,7 @@ exports[`component/FileAttachment should match snapshot, without compact display
     href="#"
     onClick={[Function]}
   >
-    <FileThumbnail
+    <Connect(FileThumbnail)
       fileInfo={
         Object {
           "extension": "pdf",

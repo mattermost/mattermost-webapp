@@ -26,6 +26,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
     </div>
     <div
       className="post__content"
+      role="application"
     >
       <div
         className="post__img"
@@ -243,6 +244,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
     </div>
     <div
       className="post__content"
+      role="application"
     >
       <div
         className="post__img"
@@ -439,6 +441,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
     </div>
     <div
       className="post__content"
+      role="application"
     >
       <div
         className="post__img"
@@ -635,6 +638,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
     </div>
     <div
       className="post__content"
+      role="application"
     >
       <div
         className="post__img"
@@ -769,6 +773,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
     </div>
     <div
       className="post__content"
+      role="application"
     >
       <div
         className="post__img"

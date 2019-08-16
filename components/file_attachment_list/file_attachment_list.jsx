@@ -31,13 +31,9 @@ export default class FileAttachmentList extends React.Component {
          */
         fileInfos: PropTypes.arrayOf(PropTypes.object),
 
-        /*
-         * Set to render compactly
-         */
         compactDisplay: PropTypes.bool,
-
+        enableSVGs: PropTypes.bool,
         isEmbedVisible: PropTypes.bool,
-
         locale: PropTypes.string.isRequired,
     }
 
@@ -60,6 +56,7 @@ export default class FileAttachmentList extends React.Component {
     render() {
         const {
             compactDisplay,
+            enableSVGs,
             fileInfos,
             fileCount,
             locale,
@@ -69,7 +66,7 @@ export default class FileAttachmentList extends React.Component {
             if (fileInfos && fileInfos.length === 1) {
                 const fileType = getFileType(fileInfos[0].extension);
 
-                if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
+                if (fileType === FileTypes.IMAGE || (fileType === FileTypes.SVG && enableSVGs)) {
                     return (
                         <SingleImageView
                             fileInfo={fileInfos[0]}
