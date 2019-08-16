@@ -20,7 +20,7 @@ describe('components/widgets/inputs/UsersEmailsInput', () => {
         expect(wrapper).toMatchInlineSnapshot(`
 <Async
   cacheOptions={false}
-  className="UsersEmailsInput "
+  className="UsersEmailsInput"
   classNamePrefix="users-emails-input"
   components={
     Object {
