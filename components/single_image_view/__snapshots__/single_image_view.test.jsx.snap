@@ -167,8 +167,8 @@ exports[`components/SingleImageView should match snapshot, SVG image 1`] = `
       className="image-container"
       style={
         Object {
-          "height": 150,
-          "width": "auto",
+          "height": 350,
+          "maxWidth": "100%",
         }
       }
     >
@@ -230,8 +230,8 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
       className="image-container"
       style={
         Object {
-          "height": 150,
-          "width": "auto",
+          "height": 350,
+          "maxWidth": "100%",
         }
       }
     >
