@@ -1636,6 +1636,7 @@
 
         .post-reaction-list {
             display: flex;
+            flex-wrap: wrap;
             padding: 4px 0 0;
             align-items: center;
             min-height: 30px;
