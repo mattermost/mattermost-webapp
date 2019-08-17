@@ -8,7 +8,7 @@ import './avatar.scss';
 
 const Avatar = ({url, username, size}) => (
     <img
-        className={'Avatar ' + size}
+        className={'Avatar Avatar-' + size}
         alt={`${username || 'user'} profile image`}
         src={url}
     />
