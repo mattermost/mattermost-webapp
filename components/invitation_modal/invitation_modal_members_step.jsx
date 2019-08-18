@@ -80,10 +80,6 @@ export default class InvitationModalMembersStep extends React.Component {
     }, 150);
 
     usersLoader = (term, callback) => {
-        if (isEmail(term)) {
-            callback([]);
-            return;
-        }
         if (this.state.termWithoutResults && term.startsWith(this.state.termWithoutResults)) {
             callback([]);
             return;

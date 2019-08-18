@@ -26,6 +26,7 @@ import {
     getCustomEmojiForReaction,
     getPosts,
     getProfilesAndStatusesForPosts,
+    getThreadsForPosts,
     postDeleted,
     receivedNewPost,
     receivedPost,
@@ -508,6 +509,9 @@ export function handleNewPostEvents(queue) {
         const actions = posts.map(receivedNewPost);
         myDispatch(batchActions(actions));
 
+        // Load the posts' threads
+        myDispatch(getThreadsForPosts(posts));
+
         // And any other data needed for them
         getProfilesAndStatusesForPosts(posts, myDispatch, myGetState);
     };
@@ -629,7 +633,7 @@ function handleDeleteTeamEvent(msg) {
 function handleUpdateMemberRoleEvent(msg) {
     dispatch({
         type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
-        data: msg.data.member,
+        data: JSON.parse(msg.data.member),
     });
 }
 
