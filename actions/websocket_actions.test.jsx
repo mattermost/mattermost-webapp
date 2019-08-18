@@ -434,6 +434,11 @@ describe('handleChannelUpdatedEvent', () => {
 });
 
 describe('handlePluginEnabled', () => {
+    const origLog = console.log;
+    const origError = console.error;
+    const origCreateElement = document.createElement;
+    const origGetElementsByTagName = document.getElementsByTagName;
+
     const baseManifest = {
         name: 'Demo Plugin',
         description: 'This plugin demonstrates the capabilities of a Mattermost plugin.',
@@ -460,6 +465,12 @@ describe('handlePluginEnabled', () => {
         document.getElementsByTagName.mockReturnValue([{
             appendChild: jest.fn(),
         }]);
+    });
+    afterEach(() => {
+        console.log = origLog;
+        console.error = origError;
+        document.createElement = origCreateElement;
+        document.getElementsByTagName = origGetElementsByTagName;
     });
 
     test('when a plugin is enabled', () => {
@@ -583,6 +594,11 @@ describe('handlePluginEnabled', () => {
 });
 
 describe('handlePluginDisabled', () => {
+    const origLog = console.log;
+    const origError = console.error;
+    const origCreateElement = document.createElement;
+    const origGetElementsByTagName = document.getElementsByTagName;
+
     const baseManifest = {
         name: 'Demo Plugin',
         description: 'This plugin demonstrates the capabilities of a Mattermost plugin.',
@@ -610,11 +626,17 @@ describe('handlePluginDisabled', () => {
             appendChild: jest.fn(),
         }]);
     });
+    afterEach(() => {
+        console.log = origLog;
+        console.error = origError;
+        document.createElement = origCreateElement;
+        document.getElementsByTagName = origGetElementsByTagName;
+    });
 
     test('when a plugin is disabled', () => {
         const manifest = {
             ...baseManifest,
-            id: 'com.mattermost.demo-plugin',
+            id: 'com.mattermost.demo-3-plugin',
         };
         const initialize = jest.fn();
         window.plugins = {
