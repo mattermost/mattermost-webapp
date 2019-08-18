@@ -422,239 +422,234 @@ describe('handleChannelUpdatedEvent', () => {
     });
 });
 
-describe('handlePluginEnabled', () => {
+describe('pluginEnabled/handlePluginDisabled', () => {
     const origLog = console.log;
     const origError = console.error;
     const origCreateElement = document.createElement;
     const origGetElementsByTagName = document.getElementsByTagName;
+    const origWindowPlugins = window.plugins;
 
-    const baseManifest = {
-        name: 'Demo Plugin',
-        description: 'This plugin demonstrates the capabilities of a Mattermost plugin.',
-        version: '0.2.0',
-        min_server_version: '5.12.0',
-        server: {
-            executables: {
-                'linux-amd64': 'server/dist/plugin-linux-amd64',
-                'darwin-amd64': 'server/dist/plugin-darwin-amd64',
-                'windows-amd64': 'server/dist/plugin-windows-amd64.exe',
-            },
-        },
-        webapp: {
-            bundle_path: 'webapp/dist/main.js',
-        },
-    };
-
-    beforeEach(async () => {
-        console.log = jest.fn();
-        console.error = jest.fn();
-
-        document.createElement = jest.fn();
-        document.getElementsByTagName = jest.fn();
-        document.getElementsByTagName.mockReturnValue([{
-            appendChild: jest.fn(),
-        }]);
-    });
     afterEach(() => {
         console.log = origLog;
         console.error = origError;
         document.createElement = origCreateElement;
         document.getElementsByTagName = origGetElementsByTagName;
+        window.plugins = origWindowPlugins;
     });
 
-    test('when a plugin is enabled', () => {
-        const manifest = {
-            ...baseManifest,
-            id: 'com.mattermost.demo-plugin',
-        };
-        const initialize = jest.fn();
-        window.plugins = {
-            [manifest.id]: {
-                initialize,
+    describe('handlePluginEnabled', () => {
+        const baseManifest = {
+            name: 'Demo Plugin',
+            description: 'This plugin demonstrates the capabilities of a Mattermost plugin.',
+            version: '0.2.0',
+            min_server_version: '5.12.0',
+            server: {
+                executables: {
+                    'linux-amd64': 'server/dist/plugin-linux-amd64',
+                    'darwin-amd64': 'server/dist/plugin-darwin-amd64',
+                    'windows-amd64': 'server/dist/plugin-windows-amd64.exe',
+                },
             },
-        };
-
-        const mockScript = {};
-        document.createElement.mockReturnValue(mockScript);
-
-        expect(mockScript.onload).toBeUndefined();
-        handlePluginEnabled({data: {manifest}});
-
-        expect(document.createElement).toHaveBeenCalledWith('script');
-        expect(document.getElementsByTagName).toHaveBeenCalledTimes(1);
-        expect(document.getElementsByTagName()[0].appendChild).toHaveBeenCalledTimes(1);
-        expect(mockScript.onload).toBeInstanceOf(Function);
-
-        // Pretend to be a browser, invoke onload
-        mockScript.onload();
-        expect(initialize).toHaveBeenCalledWith(expect.anything(), store);
-        const registery = initialize.mock.calls[0][0];
-        const mockComponent = 'mockRootComponent';
-        registery.registerRootComponent(mockComponent);
-
-        const dispatchArg = store.dispatch.mock.calls[0][0];
-        expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
-        expect(dispatchArg.name).toBe('Root');
-        expect(dispatchArg.data.component).toBe(mockComponent);
-        expect(dispatchArg.data.pluginId).toBe(manifest.id);
-
-        // Assert handlePluginEnabled is idempotent
-        mockScript.onload = undefined;
-        handlePluginEnabled({data: {manifest}});
-        expect(mockScript.onload).toBeUndefined();
-
-        expect(store.dispatch).toHaveBeenCalledTimes(1);
-        expect(console.error).toHaveBeenCalledTimes(0);
-    });
-
-    test('when plugin is upgraded', () => {
-        const manifest = {
-            ...baseManifest,
-            id: 'com.mattermost.demo-2-plugin',
-        };
-        const initialize = jest.fn();
-        window.plugins = {
-            [manifest.id]: {
-                initialize,
-            },
-        };
-
-        const manifestv2 = {
-            ...manifest,
             webapp: {
-                bundle_path: 'webapp/dist/main2.0.js',
+                bundle_path: 'webapp/dist/main.js',
             },
         };
 
-        const mockScript = {};
-        document.createElement.mockReturnValue(mockScript);
+        beforeEach(async () => {
+            console.log = jest.fn();
+            console.error = jest.fn();
 
-        expect(mockScript.onload).toBeUndefined();
-        handlePluginEnabled({data: {manifest}});
+            document.createElement = jest.fn();
+            document.getElementsByTagName = jest.fn();
+            document.getElementsByTagName.mockReturnValue([{
+                appendChild: jest.fn(),
+            }]);
+        });
 
-        expect(document.createElement).toHaveBeenCalledWith('script');
-        expect(document.getElementsByTagName).toHaveBeenCalledTimes(1);
-        expect(document.getElementsByTagName()[0].appendChild).toHaveBeenCalledTimes(1);
-        expect(mockScript.onload).toBeInstanceOf(Function);
+        test('when a plugin is enabled', () => {
+            const manifest = {
+                ...baseManifest,
+                id: 'com.mattermost.demo-plugin',
+            };
+            const initialize = jest.fn();
+            window.plugins = {
+                [manifest.id]: {
+                    initialize,
+                },
+            };
 
-        // Pretend to be a browser, invoke onload
-        mockScript.onload();
-        expect(initialize).toHaveBeenCalledWith(expect.anything(), store);
-        const registry = initialize.mock.calls[0][0];
-        const mockComponent = 'mockRootComponent';
-        registry.registerRootComponent(mockComponent);
+            const mockScript = {};
+            document.createElement.mockReturnValue(mockScript);
 
-        const dispatchReceivedArg = store.dispatch.mock.calls[0][0];
-        expect(dispatchReceivedArg.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
-        expect(dispatchReceivedArg.name).toBe('Root');
-        expect(dispatchReceivedArg.data.component).toBe(mockComponent);
-        expect(dispatchReceivedArg.data.pluginId).toBe(manifest.id);
+            expect(mockScript.onload).toBeUndefined();
+            handlePluginEnabled({data: {manifest}});
 
-        // Upgrade plugin
-        mockScript.onload = undefined;
-        handlePluginEnabled({data: {manifest: manifestv2}});
+            expect(document.createElement).toHaveBeenCalledWith('script');
+            expect(document.getElementsByTagName).toHaveBeenCalledTimes(1);
+            expect(document.getElementsByTagName()[0].appendChild).toHaveBeenCalledTimes(1);
+            expect(mockScript.onload).toBeInstanceOf(Function);
 
-        // Assert upgrade is idempotent
-        handlePluginEnabled({data: {manifest: manifestv2}});
+            // Pretend to be a browser, invoke onload
+            mockScript.onload();
+            expect(initialize).toHaveBeenCalledWith(expect.anything(), store);
+            const registery = initialize.mock.calls[0][0];
+            const mockComponent = 'mockRootComponent';
+            registery.registerRootComponent(mockComponent);
 
-        expect(mockScript.onload).toBeInstanceOf(Function);
-        expect(document.createElement).toHaveBeenCalledTimes(2);
+            const dispatchArg = store.dispatch.mock.calls[0][0];
+            expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
+            expect(dispatchArg.name).toBe('Root');
+            expect(dispatchArg.data.component).toBe(mockComponent);
+            expect(dispatchArg.data.pluginId).toBe(manifest.id);
 
-        mockScript.onload();
-        expect(initialize).toHaveBeenCalledWith(expect.anything(), store);
-        expect(initialize).toHaveBeenCalledTimes(2);
-        const registry2 = initialize.mock.calls[0][0];
-        const mockComponent2 = 'mockRootComponent2';
-        registry2.registerRootComponent(mockComponent2);
+            // Assert handlePluginEnabled is idempotent
+            mockScript.onload = undefined;
+            handlePluginEnabled({data: {manifest}});
+            expect(mockScript.onload).toBeUndefined();
 
-        expect(store.dispatch).toHaveBeenCalledTimes(3);
-        const dispatchRemovedArg = store.dispatch.mock.calls[1][0];
-        expect(dispatchRemovedArg.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
-        expect(dispatchRemovedArg.data).toBe(manifestv2);
+            expect(store.dispatch).toHaveBeenCalledTimes(1);
+            expect(console.error).toHaveBeenCalledTimes(0);
+        });
 
-        const dispatchReceivedArg2 = store.dispatch.mock.calls[2][0];
-        expect(dispatchReceivedArg2.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
-        expect(dispatchReceivedArg2.name).toBe('Root');
-        expect(dispatchReceivedArg2.data.component).toBe(mockComponent2);
-        expect(dispatchReceivedArg2.data.pluginId).toBe(manifest.id);
+        test('when a plugin is upgraded', () => {
+            const manifest = {
+                ...baseManifest,
+                id: 'com.mattermost.demo-2-plugin',
+            };
+            const initialize = jest.fn();
+            window.plugins = {
+                [manifest.id]: {
+                    initialize,
+                },
+            };
 
-        expect(console.error).toHaveBeenCalledTimes(0);
+            const manifestv2 = {
+                ...manifest,
+                webapp: {
+                    bundle_path: 'webapp/dist/main2.0.js',
+                },
+            };
+
+            const mockScript = {};
+            document.createElement.mockReturnValue(mockScript);
+
+            expect(mockScript.onload).toBeUndefined();
+            handlePluginEnabled({data: {manifest}});
+
+            expect(document.createElement).toHaveBeenCalledWith('script');
+            expect(document.getElementsByTagName).toHaveBeenCalledTimes(1);
+            expect(document.getElementsByTagName()[0].appendChild).toHaveBeenCalledTimes(1);
+            expect(mockScript.onload).toBeInstanceOf(Function);
+
+            // Pretend to be a browser, invoke onload
+            mockScript.onload();
+            expect(initialize).toHaveBeenCalledWith(expect.anything(), store);
+            const registry = initialize.mock.calls[0][0];
+            const mockComponent = 'mockRootComponent';
+            registry.registerRootComponent(mockComponent);
+
+            const dispatchReceivedArg = store.dispatch.mock.calls[0][0];
+            expect(dispatchReceivedArg.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
+            expect(dispatchReceivedArg.name).toBe('Root');
+            expect(dispatchReceivedArg.data.component).toBe(mockComponent);
+            expect(dispatchReceivedArg.data.pluginId).toBe(manifest.id);
+
+            // Upgrade plugin
+            mockScript.onload = undefined;
+            handlePluginEnabled({data: {manifest: manifestv2}});
+
+            // Assert upgrade is idempotent
+            handlePluginEnabled({data: {manifest: manifestv2}});
+
+            expect(mockScript.onload).toBeInstanceOf(Function);
+            expect(document.createElement).toHaveBeenCalledTimes(2);
+
+            mockScript.onload();
+            expect(initialize).toHaveBeenCalledWith(expect.anything(), store);
+            expect(initialize).toHaveBeenCalledTimes(2);
+            const registry2 = initialize.mock.calls[0][0];
+            const mockComponent2 = 'mockRootComponent2';
+            registry2.registerRootComponent(mockComponent2);
+
+            expect(store.dispatch).toHaveBeenCalledTimes(3);
+            const dispatchRemovedArg = store.dispatch.mock.calls[1][0];
+            expect(dispatchRemovedArg.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
+            expect(dispatchRemovedArg.data).toBe(manifestv2);
+
+            const dispatchReceivedArg2 = store.dispatch.mock.calls[2][0];
+            expect(dispatchReceivedArg2.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
+            expect(dispatchReceivedArg2.name).toBe('Root');
+            expect(dispatchReceivedArg2.data.component).toBe(mockComponent2);
+            expect(dispatchReceivedArg2.data.pluginId).toBe(manifest.id);
+
+            expect(console.error).toHaveBeenCalledTimes(0);
+        });
+    });
+
+    describe('handlePluginDisabled', () => {
+        const baseManifest = {
+            name: 'Demo Plugin',
+            description: 'This plugin demonstrates the capabilities of a Mattermost plugin.',
+            version: '0.2.0',
+            min_server_version: '5.12.0',
+            server: {
+                executables: {
+                    'linux-amd64': 'server/dist/plugin-linux-amd64',
+                    'darwin-amd64': 'server/dist/plugin-darwin-amd64',
+                    'windows-amd64': 'server/dist/plugin-windows-amd64.exe',
+                },
+            },
+            webapp: {
+                bundle_path: 'webapp/dist/main.js',
+            },
+        };
+
+        beforeEach(async () => {
+            console.log = jest.fn();
+            console.error = jest.fn();
+
+            document.createElement = jest.fn();
+            document.getElementsByTagName = jest.fn();
+            document.getElementsByTagName.mockReturnValue([{
+                appendChild: jest.fn(),
+            }]);
+        });
+
+        test('when a plugin is disabled', () => {
+            const manifest = {
+                ...baseManifest,
+                id: 'com.mattermost.demo-3-plugin',
+            };
+            const initialize = jest.fn();
+            window.plugins = {
+                [manifest.id]: {
+                    initialize,
+                },
+            };
+
+            const mockScript = {};
+            document.createElement.mockReturnValue(mockScript);
+
+            expect(mockScript.onload).toBeUndefined();
+
+            // Enable plugin
+            handlePluginEnabled({data: {manifest}});
+
+            expect(document.createElement).toHaveBeenCalledWith('script');
+            expect(document.createElement).toHaveBeenCalledTimes(1);
+
+            // Disable plugin
+            handlePluginDisabled({data: {manifest}});
+
+            // Assert handlePluginDisabled is idempotent
+            handlePluginDisabled({data: {manifest}});
+
+            expect(store.dispatch).toHaveBeenCalledTimes(1);
+            const dispatchRemovedArg = store.dispatch.mock.calls[0][0];
+            expect(dispatchRemovedArg.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
+            expect(dispatchRemovedArg.data).toBe(manifest);
+            expect(console.error).toHaveBeenCalledTimes(0);
+        });
     });
 });
 
-describe('handlePluginDisabled', () => {
-    const origLog = console.log;
-    const origError = console.error;
-    const origCreateElement = document.createElement;
-    const origGetElementsByTagName = document.getElementsByTagName;
-
-    const baseManifest = {
-        name: 'Demo Plugin',
-        description: 'This plugin demonstrates the capabilities of a Mattermost plugin.',
-        version: '0.2.0',
-        min_server_version: '5.12.0',
-        server: {
-            executables: {
-                'linux-amd64': 'server/dist/plugin-linux-amd64',
-                'darwin-amd64': 'server/dist/plugin-darwin-amd64',
-                'windows-amd64': 'server/dist/plugin-windows-amd64.exe',
-            },
-        },
-        webapp: {
-            bundle_path: 'webapp/dist/main.js',
-        },
-    };
-
-    beforeEach(async () => {
-        console.log = jest.fn();
-        console.error = jest.fn();
-
-        document.createElement = jest.fn();
-        document.getElementsByTagName = jest.fn();
-        document.getElementsByTagName.mockReturnValue([{
-            appendChild: jest.fn(),
-        }]);
-    });
-    afterEach(() => {
-        console.log = origLog;
-        console.error = origError;
-        document.createElement = origCreateElement;
-        document.getElementsByTagName = origGetElementsByTagName;
-    });
-
-    test('when a plugin is disabled', () => {
-        const manifest = {
-            ...baseManifest,
-            id: 'com.mattermost.demo-3-plugin',
-        };
-        const initialize = jest.fn();
-        window.plugins = {
-            [manifest.id]: {
-                initialize,
-            },
-        };
-
-        const mockScript = {};
-        document.createElement.mockReturnValue(mockScript);
-
-        expect(mockScript.onload).toBeUndefined();
-
-        // Enable plugin
-        handlePluginEnabled({data: {manifest}});
-
-        expect(document.createElement).toHaveBeenCalledWith('script');
-        expect(document.createElement).toHaveBeenCalledTimes(1);
-
-        // Disable plugin
-        handlePluginDisabled({data: {manifest}});
-
-        // Assert handlePluginDisabled is idempotent
-        handlePluginDisabled({data: {manifest}});
-
-        expect(store.dispatch).toHaveBeenCalledTimes(1);
-        const dispatchRemovedArg = store.dispatch.mock.calls[0][0];
-        expect(dispatchRemovedArg.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
-        expect(dispatchRemovedArg.data).toBe(manifest);
-        expect(console.error).toHaveBeenCalledTimes(0);
-    });
-});
