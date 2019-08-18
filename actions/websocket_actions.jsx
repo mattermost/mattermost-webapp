@@ -877,14 +877,14 @@ function handleChannelViewedEvent(msg) {
     }
 }
 
-function handlePluginEnabled(msg) {
+export function handlePluginEnabled(msg) {
     const manifest = msg.data.manifest;
     loadPlugin(manifest).catch((error) => {
         console.error(error.message); //eslint-disable-line no-console
     });
 }
 
-function handlePluginDisabled(msg) {
+export function handlePluginDisabled(msg) {
     const manifest = msg.data.manifest;
     removePlugin(manifest);
 }
