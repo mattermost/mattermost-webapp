@@ -446,7 +446,7 @@ describe('handlePluginEnabled', () => {
 
         document.createElement = jest.fn();
         document.getElementsByTagName = jest.fn();
-        document.getElementsByTagName.mockReturnValueOnce([{
+        document.getElementsByTagName.mockReturnValue([{
             appendChild: jest.fn(),
         }]);
     });
@@ -470,6 +470,8 @@ describe('handlePluginEnabled', () => {
         handlePluginEnabled({data: {manifest}});
 
         expect(document.createElement).toHaveBeenCalledWith('script');
+        expect(document.getElementsByTagName).toHaveBeenCalledTimes(1);
+        expect(document.getElementsByTagName()[0].appendChild).toHaveBeenCalledTimes(1);
         expect(mockScript.onload).toBeInstanceOf(Function);
 
         // Pretend to be a browser, invoke onload
@@ -479,7 +481,6 @@ describe('handlePluginEnabled', () => {
         const mockComponent = 'mockRootComponent';
         registery.registerRootComponent(mockComponent);
 
-        expect(store.dispatch).toHaveBeenCalledTimes(1);
         const dispatchArg = store.dispatch.mock.calls[0][0];
         expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
         expect(dispatchArg.name).toBe('Root');
@@ -521,6 +522,8 @@ describe('handlePluginEnabled', () => {
         handlePluginEnabled({data: {manifest}});
 
         expect(document.createElement).toHaveBeenCalledWith('script');
+        expect(document.getElementsByTagName).toHaveBeenCalledTimes(1);
+        expect(document.getElementsByTagName()[0].appendChild).toHaveBeenCalledTimes(1);
         expect(mockScript.onload).toBeInstanceOf(Function);
 
         // Pretend to be a browser, invoke onload
@@ -530,11 +533,11 @@ describe('handlePluginEnabled', () => {
         const mockComponent = 'mockRootComponent';
         registry.registerRootComponent(mockComponent);
 
-        const dispatchArg = store.dispatch.mock.calls[0][0];
-        expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
-        expect(dispatchArg.name).toBe('Root');
-        expect(dispatchArg.data.component).toBe(mockComponent);
-        expect(dispatchArg.data.pluginId).toBe(manifest.id);
+        const dispatchReceivedArg = store.dispatch.mock.calls[0][0];
+        expect(dispatchReceivedArg.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
+        expect(dispatchReceivedArg.name).toBe('Root');
+        expect(dispatchReceivedArg.data.component).toBe(mockComponent);
+        expect(dispatchReceivedArg.data.pluginId).toBe(manifest.id);
 
         // Upgrade plugin
         mockScript.onload = undefined;
@@ -554,15 +557,15 @@ describe('handlePluginEnabled', () => {
         registry2.registerRootComponent(mockComponent2);
 
         expect(store.dispatch).toHaveBeenCalledTimes(3);
-        const dispatchCleanArg2 = store.dispatch.mock.calls[1][0];
-        expect(dispatchCleanArg2.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
-        expect(dispatchCleanArg2.data).toBe(manifestv2);
+        const dispatchRemovedArg = store.dispatch.mock.calls[1][0];
+        expect(dispatchRemovedArg.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
+        expect(dispatchRemovedArg.data).toBe(manifestv2);
 
-        const dispatchArg2 = store.dispatch.mock.calls[2][0];
-        expect(dispatchArg2.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
-        expect(dispatchArg2.name).toBe('Root');
-        expect(dispatchArg2.data.component).toBe(mockComponent2);
-        expect(dispatchArg2.data.pluginId).toBe(manifest.id);
+        const dispatchReceivedArg2 = store.dispatch.mock.calls[2][0];
+        expect(dispatchReceivedArg2.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
+        expect(dispatchReceivedArg2.name).toBe('Root');
+        expect(dispatchReceivedArg2.data.component).toBe(mockComponent2);
+        expect(dispatchReceivedArg2.data.pluginId).toBe(manifest.id);
 
         expect(console.error).toHaveBeenCalledTimes(0);
     });
@@ -592,7 +595,7 @@ describe('handlePluginDisabled', () => {
 
         document.createElement = jest.fn();
         document.getElementsByTagName = jest.fn();
-        document.getElementsByTagName.mockReturnValueOnce([{
+        document.getElementsByTagName.mockReturnValue([{
             appendChild: jest.fn(),
         }]);
     });
@@ -627,9 +630,9 @@ describe('handlePluginDisabled', () => {
         handlePluginDisabled({data: {manifest}});
 
         expect(store.dispatch).toHaveBeenCalledTimes(1);
-        const dispatchArg = store.dispatch.mock.calls[0][0];
-        expect(dispatchArg.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
-        expect(dispatchArg.data).toBe(manifest);
+        const dispatchRemovedArg = store.dispatch.mock.calls[0][0];
+        expect(dispatchRemovedArg.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
+        expect(dispatchRemovedArg.data).toBe(manifest);
         expect(console.error).toHaveBeenCalledTimes(0);
     });
 });

@@ -149,7 +149,6 @@ export function removePlugin(manifest) {
         return;
     }
     script.parentNode.removeChild(script);
-
     console.log('Removed ' + manifest.id + ' plugin'); //eslint-disable-line no-console
 }
 
