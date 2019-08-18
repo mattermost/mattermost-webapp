@@ -125,7 +125,12 @@ function initializePlugin(manifest) {
 // event handlers, and removes the plugin script from the DOM entirely. The plugin is responsible
 // for removing any of its registered components.
 export function removePlugin(manifest) {
+    if (!loadedPlugins[manifest.id]) {
+        return;
+    }
     console.log('Removing ' + manifest.id + ' plugin'); //eslint-disable-line no-console
+
+    delete loadedPlugins[manifest.id];
 
     store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
 
@@ -145,7 +150,6 @@ export function removePlugin(manifest) {
     }
     script.parentNode.removeChild(script);
 
-    delete loadedPlugins[manifest.id];
     console.log('Removed ' + manifest.id + ' plugin'); //eslint-disable-line no-console
 }
 
