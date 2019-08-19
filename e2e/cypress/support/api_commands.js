@@ -747,3 +747,27 @@ Cypress.Commands.add('promoteUser', (userId) => {
     const baseUrl = Cypress.config('baseUrl');
     cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: `users/${userId}/promote`});
 });
+
+/**
+ * Creates a new Direct channel directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} userids - array of userids
+ * All parameters required
+ */
+Cypress.Commands.add('apiCreateDirectChannel', (userids) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/channels/direct',
+        method: 'POST',
+        body: userids,
+    });
+});
+
+Cypress.Commands.add('apiGetUsers', (usernames = []) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/usernames',
+        method: 'POST',
+        body: usernames,
+    });
+});
