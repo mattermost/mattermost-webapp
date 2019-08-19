@@ -844,9 +844,7 @@ export default class SchemaAdminSettings extends React.Component {
             results.push(saveAction());
         }
 
-        // This waits for all the save actions to be complete and then checks to see if any of the values are truthy value to determine
-        // if they failed or not (since they should return either null or '' on a successfull call and some error text on a failed operation)
-        const hasSaveActionError = await Promise.all(results).then((values) => values.some(((value) => value))).then((value) => value);
+        const hasSaveActionError = await Promise.all(results).then((values) => values.some(((value) => value.error && value.error.message)));
 
         const hasError = this.state.serverError || hasSaveActionError;
         if (hasError) {

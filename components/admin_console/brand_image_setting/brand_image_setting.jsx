@@ -94,14 +94,11 @@ export default class BrandImageSetting extends React.PureComponent {
     }
 
     handleSave = async () => {
-        if (!this.state.deleteBrandImage && !this.state.brandImage) {
-            return null;
-        }
-
         this.setState({
             error: '',
         });
 
+        let error;
         if (this.state.deleteBrandImage) {
             await deleteBrandImage(
                 () => {
@@ -112,6 +109,7 @@ export default class BrandImageSetting extends React.PureComponent {
                     });
                 },
                 (err) => {
+                    error = err;
                     this.setState({
                         error: err.message,
                     });
@@ -128,13 +126,14 @@ export default class BrandImageSetting extends React.PureComponent {
                     });
                 },
                 (err) => {
+                    error = err;
                     this.setState({
                         error: err.message,
                     });
                 }
             );
         }
-        return this.state.error;
+        return {error};
     }
 
     render() {
