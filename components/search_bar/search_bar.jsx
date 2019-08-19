@@ -147,6 +147,10 @@ export default class SearchBar extends React.Component {
     }
 
     renderHintPopover() {
+        if (Utils.isMobile()) {
+            return null;
+        }
+
         let helpClass = 'search-help-popover';
         if (!this.props.searchTerms && this.state.focused) {
             helpClass += ' visible';
@@ -284,7 +288,6 @@ export default class SearchBar extends React.Component {
                                 onClick={this.handleClear}
                             >
                                 <OverlayTrigger
-                                    trigger={['hover', 'focus']}
                                     delayShow={Constants.OVERLAY_TIME_DELAY}
                                     placement='bottom'
                                     overlay={searchClearTooltip}

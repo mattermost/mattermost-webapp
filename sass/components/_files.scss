@@ -194,6 +194,10 @@
             max-height: 350px;
             max-width: 100%;
 
+            .file-preview__button {
+                display: block;
+            }
+
             img {
                 @include border-radius(4px);
                 @include single-transition(all, .1s, linear);
@@ -203,9 +207,11 @@
                 overflow: hidden;
                 position: relative;
                 z-index: 2;
+
                 &:hover {
                     @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 10px 0 rgba($black, 0.1));
                 }
+
                 &.min-preview {
                     max-height: 50px;
                     max-width: 100%;
@@ -216,16 +222,25 @@
                     max-width: 50px;
                 }
             }
+
             &.svg {
-                  width: 100%;
-                  height: inherit;
-                  display: block;
+                width: 100%;
+                height: inherit;
+                display: block;
+
                 img {
                     height: inherit;
+
                     &:hover {
                         @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 10px 0 rgba($black, 0.1));
                     }
-               }
+                }
+            }
+
+            >.file-preview__button {
+                min-height: 40px;
+                min-width: 40px;
+                text-align: left;
             }
         }
 
@@ -350,12 +365,12 @@
     display: flex;
     font-size: 13px;
     height: 100%;
-    padding-right: 50px;
-    width: 100%;
+    flex: 1;
 
     .post-image__detail_wrapper {
-        padding-left: 15px;
-        width: 100%;
+        padding: 0 45px 0 15px;
+        display: flex;
+        flex: 1;
 
         .post--compact & {
             padding-left: 8px;
@@ -372,6 +387,7 @@
                 margin-bottom: 3px;
                 outline: none;
                 text-decoration: none;
+                word-break: break-word;
 
                 a {
                     border-radius: 100px;
@@ -417,6 +433,7 @@
             }
         }
     }
+
     .post-image__progressBar {
         margin-bottom: 0px;
         height: 7px;
@@ -430,6 +447,7 @@
     .progress-bar {
         background-color: rgb(40, 90, 185);
     }
+
     .post-image__uploadingTxt {
         opacity: 0.6;
     }
@@ -511,7 +529,13 @@
 .image-loading__container {
     max-height: inherit;
     overflow: hidden;
+
     &.markdown-inline-img svg {
         margin: 5px 0px;
     }
+}
+
+.file-preview__button {
+    display: inline-block;
+    vertical-align: top;
 }

@@ -213,7 +213,6 @@ export default class ChangeURLModal extends React.PureComponent {
                             <div className='col-sm-9'>
                                 <div className={urlClass}>
                                     <OverlayTrigger
-                                        trigger={['hover', 'focus']}
                                         delayShow={Constants.OVERLAY_TIME_DELAY}
                                         placement='top'
                                         overlay={urlTooltip}

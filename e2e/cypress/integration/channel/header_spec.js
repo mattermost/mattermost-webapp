@@ -13,7 +13,11 @@ describe('Header', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+
+        // # Create new test team
+        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+            cy.visit(`/${response.body.name}`);
+        });
     });
 
     it('M13564 Ellipsis indicates the channel header is too long', () => {
@@ -53,7 +57,7 @@ describe('Header', () => {
         // # Open a DM with user named 'user-2'
         cy.get('#addDirectChannel').click().wait(TIMEOUTS.TINY);
         cy.focused().type('user-2', {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.TINY);
-        cy.get('#saveItems').click();
+        cy.get('#saveItems').click().wait(TIMEOUTS.TINY);
 
         // # Update DM channel header
         const header = 'quote newheader newheader newheader newheader newheader newheader newheader newheader newheader newheader';
@@ -72,6 +76,7 @@ describe('Header', () => {
 
         cy.apiSaveMessageDisplayPreference();
     });
+
     it('S13483 - Cleared search term should not reappear as RHS is opened and closed', () => {
         // # Place the focus on the search box and search for something
         cy.get('#searchFormContainer').click();

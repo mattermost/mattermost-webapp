@@ -150,7 +150,6 @@ export default class ReactionList extends React.PureComponent {
                         topOffset={-5}
                     />
                     <OverlayTrigger
-                        trigger={['hover', 'focus']}
                         placement='top'
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         overlay={addReactionTooltip}

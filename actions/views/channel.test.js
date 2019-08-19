@@ -64,7 +64,11 @@ describe('channel view actions', () => {
             channels: {
                 currentChannelId: 'channelid1',
                 channels: {channelid1: channel1, channelid2: townsquare, gmchannelid: gmChannel},
-                myMembers: {gmchannelid: {channel_id: 'gmchannelid', user_id: 'userid1'}},
+                myMembers: {
+                    gmchannelid: {channel_id: 'gmchannelid', user_id: 'userid1'},
+                    channelid1: {channel_id: 'channelid1', user_id: 'userid1'},
+                    townsquare: {channel_id: 'townsquare', user_id: 'userid1'},
+                },
                 channelsInTeam: {
                     [team1.id]: [channel1.id, townsquare.id],
                 },
@@ -118,6 +122,23 @@ describe('channel view actions', () => {
         test('leave a channel successfully', async () => {
             await store.dispatch(Actions.leaveChannel('channelid1'));
             expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}`);
+            expect(leaveChannel).toHaveBeenCalledWith('channelid1');
+        });
+        test('leave the last channel successfully', async () => {
+            store = mockStore({
+                ...initialState,
+                entities: {
+                    ...initialState.entities,
+                    channels: {
+                        ...initialState.channels,
+                        myMembers: {
+                            channelid1: {channel_id: 'channelid1', user_id: 'userid1'},
+                        },
+                    },
+                },
+            });
+            await store.dispatch(Actions.leaveChannel('channelid1'));
+            expect(browserHistory.push).toHaveBeenCalledWith('/');
             expect(leaveChannel).toHaveBeenCalledWith('channelid1');
         });
     });
@@ -204,6 +225,23 @@ describe('channel view actions', () => {
             const result = await store.dispatch(Actions.loadUnreads('channel', 'post'));
             expect(result).toEqual({atLatestMessage: false, atOldestmessage: false});
             expect(PostActions.getPostsUnread).toHaveBeenCalledWith('channel');
+        });
+
+        test('when there are no posts after RECEIVED_POSTS_FOR_CHANNEL_AT_TIME should be dispatched', async () => {
+            const posts = {posts: {}, order: [], next_post_id: '', prev_post_id: ''};
+            Date.now = jest.fn().mockReturnValue(12344);
+
+            PostActions.getPostsUnread.mockReturnValue(() => ({data: posts}));
+
+            await store.dispatch(Actions.loadUnreads('channel', 'post'));
+
+            expect(store.getActions()).toEqual([
+                {amount: 0, data: 'channel', type: 'INCREASE_POST_VISIBILITY'},
+                {
+                    channelId: 'channel',
+                    time: 12344,
+                    type: 'RECEIVED_POSTS_FOR_CHANNEL_AT_TIME'},
+            ]);
         });
     });
 

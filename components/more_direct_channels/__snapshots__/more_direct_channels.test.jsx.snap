@@ -8,10 +8,12 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
   <ProfilePicture
     hasMention={false}
     height="32"
+    isEmoji={false}
     isRHS={false}
     src="/api/v4/users/user_id_1/image"
     status="online"
     width="32"
+    wrapperClass=""
   />
   <div
     className="more-modal__details"
@@ -21,6 +23,10 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
     >
       @undefined
       <BotBadge
+        className="badge-popoverlist"
+        show={false}
+      />
+      <GuestBadge
         className="badge-popoverlist"
         show={false}
       />
@@ -91,8 +97,10 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
+    role="application"
   >
     <MultiSelect
+      ariaLabelRenderer={[Function]}
       buttonSubmitLoadingText="Loading.."
       buttonSubmitText="Go"
       handleAdd={[Function]}

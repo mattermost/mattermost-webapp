@@ -5,7 +5,7 @@ import {getChannelAndMyMember, getChannelMembersByIds} from 'mattermost-redux/ac
 import {savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
 import {getTeamMembersByIds} from 'mattermost-redux/actions/teams';
 import * as UserActions from 'mattermost-redux/actions/users';
-import {Preferences as PreferencesRedux} from 'mattermost-redux/constants';
+import {Preferences as PreferencesRedux, General} from 'mattermost-redux/constants';
 import {
     getChannel,
     getCurrentChannelId,
@@ -24,6 +24,16 @@ import {Constants, Preferences, UserStatuses} from 'utils/constants.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
+
+export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = General.PROFILE_CHUNK_SIZE, sort = '') {
+    return async (doDispatch) => {
+        const {data} = await doDispatch(UserActions.getProfilesInChannel(channelId, page, perPage, sort));
+        if (data) {
+            doDispatch(loadStatusesForProfilesList(data));
+        }
+        return {data: true};
+    };
+}
 
 export function loadProfilesAndTeamMembers(page, perPage, teamId) {
     return async (doDispatch, doGetState) => {

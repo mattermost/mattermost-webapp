@@ -19,14 +19,29 @@ export default class SearchSuggestionList extends SuggestionList {
     constructor(props) {
         super(props);
         this.suggestionReadOut = React.createRef();
-        this.currentLabel = '';
     }
 
-    announceLabel() {
-        const suggestionReadOut = this.suggestionReadOut.current;
-        if (suggestionReadOut) {
-            suggestionReadOut.innerHTML = this.currentLabel;
+    generateLabel(item) {
+        if (item.username) {
+            this.currentLabel = item.username;
+            if ((item.first_name || item.last_name) && item.nickname) {
+                this.currentLabel += ` ${item.first_name} ${item.last_name} ${item.nickname}`;
+            } else if (item.nickname) {
+                this.currentLabel += ` ${item.nickname}`;
+            } else if (item.first_name || item.last_name) {
+                this.currentLabel += ` ${item.first_name} ${item.last_name}`;
+            }
+        } else if (item.type === Constants.DM_CHANNEL || item.type === Constants.GM_CHANNEL) {
+            this.currentLabel = item.display_name;
+        } else {
+            this.currentLabel = item.name;
         }
+
+        if (this.currentLabel) {
+            this.currentLabel = this.currentLabel.toLowerCase();
+        }
+
+        this.announceLabel();
     }
 
     getContent() {
@@ -96,18 +111,7 @@ export default class SearchSuggestionList extends SuggestionList {
             }
 
             if (isSelection) {
-                if (item.type === Constants.DM_CHANNEL || item.type === Constants.GM_CHANNEL) {
-                    this.currentLabel = item.display_name;
-                } else if (item.username) {
-                    this.currentLabel = item.username;
-                } else {
-                    this.currentLabel = item.name;
-                }
-
-                // Pause the event loop and Wait for the aria-live element to be up
-                setTimeout(() => {
-                    this.announceLabel();
-                }, Constants.OVERLAY_TIME_DELAY_SMALL);
+                this.currentItem = item;
             }
 
             items.push(

@@ -246,9 +246,9 @@ export default class InstalledOAuthApp extends React.PureComponent {
                 {icon}
                 <div className='item-details'>
                     <div className='item-details__row'>
-                        <span className='item-details__name'>
+                        <strong className='item-details__name'>
                             {name}
-                        </span>
+                        </strong>
                     </div>
                     {error}
                     {description}

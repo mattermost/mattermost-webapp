@@ -21,6 +21,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
             'authentication/saml',
             'experimental/features',
             'authentication/email',
+            'authentication/guest_access',
         ]);
         expect(idx.search('saml')).toEqual([
             'authentication/saml',
@@ -51,6 +52,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
             'authentication/saml',
             'experimental/features',
             'authentication/email',
+            'authentication/guest_access',
         ]);
         expect(idx.search('saml')).toEqual([
             'authentication/saml',

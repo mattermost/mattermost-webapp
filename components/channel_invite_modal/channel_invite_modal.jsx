@@ -9,10 +9,11 @@ import {Client4} from 'mattermost-redux/client';
 
 import {filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
 
-import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
+import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import AddIcon from 'components/icon/add_icon';
+import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import Constants from 'utils/constants.jsx';
@@ -143,6 +144,13 @@ export default class ChannelInviteModal extends React.Component {
         );
     };
 
+    renderAriaLabel = (option) => {
+        if (!option) {
+            return null;
+        }
+        return option.username;
+    }
+
     renderOption = (option, isSelected, onAdd) => {
         var rowSelected = '';
         if (isSelected) {
@@ -167,6 +175,10 @@ export default class ChannelInviteModal extends React.Component {
                         <BotBadge
                             show={Boolean(option.is_bot)}
                             className='badge-popoverlist'
+                        />
+                        <GuestBadge
+                            show={isGuest(option)}
+                            className='popoverlist'
                         />
                     </div>
                 </div>
@@ -212,6 +224,7 @@ export default class ChannelInviteModal extends React.Component {
                 optionRenderer={this.renderOption}
                 values={this.state.values}
                 valueRenderer={this.renderValue}
+                ariaLabelRenderer={this.renderAriaLabel}
                 perPage={USERS_PER_PAGE}
                 handlePageChange={this.handlePageChange}
                 handleInput={this.search}
@@ -230,6 +243,7 @@ export default class ChannelInviteModal extends React.Component {
 
         return (
             <Modal
+                id='addUsersToChannelModal'
                 dialogClassName='a11y__modal more-modal'
                 show={this.state.show}
                 onHide={this.onHide}
@@ -249,7 +263,9 @@ export default class ChannelInviteModal extends React.Component {
                         <span className='name'>{this.props.channel.display_name}</span>
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body
+                    role='application'
+                >
                     {inviteError}
                     {content}
                 </Modal.Body>

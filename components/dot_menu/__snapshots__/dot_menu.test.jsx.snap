@@ -29,7 +29,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     trigger={
       Array [
         "hover",
-        "click",
+        "focus",
       ]
     }
   >
@@ -141,7 +141,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     trigger={
       Array [
         "hover",
-        "click",
+        "focus",
       ]
     }
   >

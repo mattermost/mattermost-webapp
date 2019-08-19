@@ -188,7 +188,7 @@ export default class AddGroupsToTeamModal extends React.Component {
                     className='more-modal__details'
                 >
                     <div className='more-modal__name'>
-                        {option.display_name} {'-'} <span>
+                        {option.display_name}&nbsp;{'-'}&nbsp;<span className='more-modal__name_sub'>
                             <FormattedMessage
                                 id='numMembers'
                                 defaultMessage='{num, number} {num, plural, one {member} other {members}}'
@@ -235,10 +235,12 @@ export default class AddGroupsToTeamModal extends React.Component {
 
         let groupsToShow = this.props.groups;
         if (this.props.excludeGroups) {
-            groupsToShow = groupsToShow.filter((g) => !this.props.excludeGroups.includes(g));
+            const hasGroup = (og) => !this.props.excludeGroups.find((g) => g.id === og.id);
+            groupsToShow = groupsToShow.filter(hasGroup);
         }
         if (this.props.includeGroups) {
-            groupsToShow = [...groupsToShow, ...this.props.includeGroups.filter((g) => !groupsToShow.includes(g))];
+            const hasGroup = (og) => this.props.includeGroups.find((g) => g.id === og.id);
+            groupsToShow = [...groupsToShow, ...this.props.includeGroups.filter(hasGroup)];
         }
 
         return (

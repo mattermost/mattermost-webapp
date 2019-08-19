@@ -10,6 +10,7 @@ describe('admin_console/team_channel_settings/channel/ChannelProfile', () => {
     test('should match snapshot', () => {
         const wrapper = shallow(
             <ChannelProfile
+                team={{display_name: 'test'}}
                 channel={{name: 'test'}}
             />
         );

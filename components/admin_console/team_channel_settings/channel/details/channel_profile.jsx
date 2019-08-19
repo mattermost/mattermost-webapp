@@ -9,7 +9,7 @@ import {t} from 'utils/i18n';
 import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export const ChannelProfile = (props) => (
+export const ChannelProfile = ({team, channel}) => (
     <AdminPanel
         id='channel_profile'
         titleId={t('admin.channel_settings.channel_detail.profileTitle')}
@@ -26,7 +26,14 @@ export const ChannelProfile = (props) => (
                     defaultMessage='**Name**'
                 />
                 <br/>
-                {props.channel.name}
+                {channel.name}
+                <br/>
+                <FormattedMarkdownMessage
+                    id='admin.channel_settings.channel_detail.channelTeam'
+                    defaultMessage='**Team**'
+                />
+                <br/>
+                {team.display_name}
             </div>
         </div>
 
@@ -34,4 +41,5 @@ export const ChannelProfile = (props) => (
 
 ChannelProfile.propTypes = {
     channel: PropTypes.object.isRequired,
+    team: PropTypes.object.isRequired,
 };

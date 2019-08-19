@@ -28,7 +28,7 @@ export default class PopoverListMembers extends React.Component {
         teamUrl: PropTypes.string,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequired,
-            getProfilesInChannel: PropTypes.func.isRequired,
+            loadProfilesAndStatusesInChannel: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
         }).isRequired,
     };
@@ -106,7 +106,7 @@ export default class PopoverListMembers extends React.Component {
 
     handleGetProfilesInChannel = (e) => {
         this.setState({popoverTarget: e.target, showPopover: !this.state.showPopover});
-        this.props.actions.getProfilesInChannel(this.props.channel.id, 0, undefined, 'status'); // eslint-disable-line no-undefined
+        this.props.actions.loadProfilesAndStatusesInChannel(this.props.channel.id, 0, undefined, 'status'); // eslint-disable-line no-undefined
     };
 
     getTargetPopover = () => {
@@ -219,18 +219,17 @@ export default class PopoverListMembers extends React.Component {
 
         return (
             <div id='channelMember'>
-                <OverlayTrigger
-                    trigger={['hover', 'click']}
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
-                    overlay={channelMembersTooltip}
+                <button
+                    id='member_popover'
+                    aria-label={ariaLabel}
+                    className={'style--none member-popover__trigger channel-header__icon wide ' + (this.state.showPopover ? 'active' : '')}
+                    ref='member_popover_target'
+                    onClick={this.handleGetProfilesInChannel}
                 >
-                    <button
-                        id='member_popover'
-                        aria-label={ariaLabel}
-                        className={'style--none member-popover__trigger channel-header__icon wide ' + (this.state.showPopover ? 'active' : '')}
-                        ref='member_popover_target'
-                        onClick={this.handleGetProfilesInChannel}
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='bottom'
+                        overlay={channelMembersTooltip}
                     >
                         <div>
                             <span
@@ -245,8 +244,8 @@ export default class PopoverListMembers extends React.Component {
                                 aria-hidden='true'
                             />
                         </div>
-                    </button>
-                </OverlayTrigger>
+                    </OverlayTrigger>
+                </button>
                 <Overlay
                     rootClose={true}
                     onHide={this.closePopover}

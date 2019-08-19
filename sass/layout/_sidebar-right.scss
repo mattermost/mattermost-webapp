@@ -82,14 +82,6 @@
 
         .post__header {
             .col__name {
-                .user-popover {
-                    width: 100%;
-                }
-
-                + .col {
-                    flex: auto;
-                }
-
                 &.Badge {
                     flex: none;
                 }
@@ -111,11 +103,6 @@
         }
 
         .post-create-footer {
-            @include clearfix;
-            clear: both;
-            font-size: 13px;
-            position: relative;
-
             .post-error {
                 @include opacity(.55);
                 display: inline-block;

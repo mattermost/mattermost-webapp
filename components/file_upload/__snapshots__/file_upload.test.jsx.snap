@@ -1,22 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/FileUpload should match snapshot 1`] = `
-<span
-  className=""
+<div
+  className="style--none"
 >
-  <div
-    className="icon icon--attachment"
-    id="fileUploadButton"
-  >
-    <AttachmentIcon />
+  <div>
+    <button
+      aria-label="attachment"
+      className="style--none post-action icon icon--attachment"
+      id="fileUploadButton"
+      onClick={[Function]}
+      type="button"
+    >
+      <AttachmentIcon />
+    </button>
     <input
       accept=""
       aria-label="Upload files"
+      id="fileUploadInput"
       multiple={true}
       onChange={[Function]}
       onClick={[Function]}
+      tabIndex="-1"
       type="file"
     />
   </div>
-</span>
+</div>
 `;

@@ -3,6 +3,7 @@
 
 import {
     getProfilesAndStatusesForPosts,
+    getThreadsForPosts,
     receivedNewPost,
 } from 'mattermost-redux/actions/posts';
 import {ChannelTypes, UserTypes} from 'mattermost-redux/action_types';
@@ -35,6 +36,7 @@ import {
 
 jest.mock('mattermost-redux/actions/posts', () => ({
     ...jest.requireActual('mattermost-redux/actions/posts'),
+    getThreadsForPosts: jest.fn(() => ({type: 'GET_THREADS_FOR_POSTS'})),
     getProfilesAndStatusesForPosts: jest.fn(),
 }));
 
@@ -227,7 +229,11 @@ describe('handleNewPostEvents', () => {
                 payload: posts.map(receivedNewPost),
                 type: 'BATCHING_REDUCER.BATCH',
             },
+            {
+                type: 'GET_THREADS_FOR_POSTS',
+            },
         ]);
+        expect(getThreadsForPosts).toHaveBeenCalledWith(posts);
         expect(getProfilesAndStatusesForPosts).toHaveBeenCalledWith(posts, expect.anything(), expect.anything());
     });
 });

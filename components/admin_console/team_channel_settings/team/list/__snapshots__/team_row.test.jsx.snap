@@ -9,27 +9,23 @@ exports[`admin_console/team_channel_settings/team/TeamRow should match snapshot 
     className="group-row group-row-large"
   >
     <div
-      className="group-name"
+      className="group-name adjusted center-row row-content"
     >
-      <div
-        className="col-sm-auto"
-      >
+      <div>
         <TeamButton
           displayName="team"
           small={true}
           teamIconUrl={null}
         />
       </div>
-      <div
-        className="col-sm-auto"
-      >
+      <div>
         <b>
           team
         </b>
       </div>
     </div>
     <span
-      className="group-description"
+      className="group-description adjusted row-content"
     >
       <FormattedMessage
         defaultMessage="Manual Invites"

@@ -41,7 +41,6 @@ export default class SelectTeamItem extends React.PureComponent {
 
         return (
             <OverlayTrigger
-                trigger={['hover', 'focus', 'click']}
                 delayShow={1000}
                 placement='top'
                 overlay={descriptionTooltip}

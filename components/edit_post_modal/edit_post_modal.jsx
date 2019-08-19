@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
@@ -13,6 +13,7 @@ import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox';
+import TextboxLinks from 'components/textbox/textbox_links.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -27,6 +28,7 @@ export default class EditPostModal extends React.PureComponent {
             post: PropTypes.object,
             postId: PropTypes.string,
             refocusId: PropTypes.string,
+            commentCount: PropTypes.number,
             show: PropTypes.bool.isRequired,
             title: PropTypes.string,
             isRHS: PropTypes.bool,
@@ -40,10 +42,15 @@ export default class EditPostModal extends React.PureComponent {
         }).isRequired,
     }
 
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
+
     constructor(props) {
         super(props);
 
         this.state = {
+            preview: false,
             editText: '',
             postError: '',
             errorClass: null,
@@ -57,6 +64,10 @@ export default class EditPostModal extends React.PureComponent {
                 editText: nextProps.editingPost.post.message_source || nextProps.editingPost.post.message,
             });
         }
+    }
+
+    updatePreview = (newState) => {
+        this.setState({preview: newState});
     }
 
     getContainer = () => {
@@ -217,9 +228,7 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     handleExit = () => {
-        if (this.editbox) {
-            this.editbox.hidePreview();
-        }
+        this.setState({preview: false});
     }
 
     handleExited = () => {
@@ -234,7 +243,7 @@ export default class EditPostModal extends React.PureComponent {
         }
 
         this.refocusId = null;
-        this.setState({editText: '', postError: '', errorClass: null, showEmojiPicker: false});
+        this.setState({editText: '', postError: '', errorClass: null, preview: false, showEmojiPicker: false});
     }
 
     setEditboxRef = (ref) => {
@@ -262,6 +271,7 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     render() {
+        const {formatMessage} = this.context.intl;
         const errorBoxClass = 'edit-post-footer' + (this.state.postError ? ' has-error' : '');
         let postError = null;
         if (this.state.postError) {
@@ -270,9 +280,10 @@ export default class EditPostModal extends React.PureComponent {
         }
 
         let emojiPicker = null;
-        if (this.props.config.EnableEmojiPicker === 'true') {
+        const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
+        if (this.props.config.EnableEmojiPicker === 'true' && !this.state.preview) {
             emojiPicker = (
-                <span className='emoji-picker__container'>
+                <div>
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         container={this.getContainer}
@@ -283,11 +294,19 @@ export default class EditPostModal extends React.PureComponent {
                         enableGifPicker={this.props.config.EnableGifPicker === 'true'}
                         topOffset={-20}
                     />
-                    <EmojiIcon
-                        className='icon icon--emoji'
+                    <button
+                        aria-label={emojiButtonAriaLabel}
+                        id='editPostEmoji'
+                        ref='editPostEmoji'
+                        className='style--none post-action'
                         onClick={this.toggleEmojiPicker}
-                    />
-                </span>
+                    >
+                        <EmojiIcon
+                            className='icon icon--emoji'
+
+                        />
+                    </button>
+                </div>
             );
         }
 
@@ -323,30 +342,41 @@ export default class EditPostModal extends React.PureComponent {
                     bsClass={`modal-body edit-modal-body${this.state.showEmojiPicker ? ' edit-modal-body--add-reaction' : ''}`}
                     ref='editModalBody'
                 >
-                    <Textbox
-                        onChange={this.handleChange}
-                        onKeyPress={this.handleEditKeyPress}
-                        onKeyDown={this.handleKeyDown}
-                        handlePostError={this.handlePostError}
-                        value={this.state.editText}
-                        channelId={this.props.editingPost.post && this.props.editingPost.post.channel_id}
-                        emojiEnabled={this.props.config.EnableEmojiPicker === 'true'}
-                        createMessage={Utils.localizeMessage('edit_post.editPost', 'Edit the post...')}
-                        supportsCommands={false}
-                        suggestionListStyle='bottom'
-                        id='edit_textbox'
-                        ref={this.setEditboxRef}
-                        characterLimit={this.props.maxPostSize}
-                    />
-                    <span
-                        id='editPostEmoji'
-                        ref='editPostEmoji'
-                        className='edit-post__actions'
-                    >
-                        {emojiPicker}
-                    </span>
-                    <div className={errorBoxClass}>
-                        {postError}
+                    <div className='post-create__container'>
+                        <div className='textarea-wrapper'>
+                            <Textbox
+                                tabIndex='0'
+                                onChange={this.handleChange}
+                                onKeyPress={this.handleEditKeyPress}
+                                onKeyDown={this.handleKeyDown}
+                                handlePostError={this.handlePostError}
+                                value={this.state.editText}
+                                channelId={this.props.editingPost.post && this.props.editingPost.post.channel_id}
+                                emojiEnabled={this.props.config.EnableEmojiPicker === 'true'}
+                                createMessage={Utils.localizeMessage('edit_post.editPost', 'Edit the post...')}
+                                supportsCommands={false}
+                                suggestionListStyle='bottom'
+                                id='edit_textbox'
+                                ref={this.setEditboxRef}
+                                characterLimit={this.props.maxPostSize}
+                                preview={this.state.preview}
+                            />
+                            <div className='post-body__actions'>
+                                {emojiPicker}
+                            </div>
+                        </div>
+                        <div className='post-create-footer'>
+                            <TextboxLinks
+                                characterLimit={this.props.maxPostSize}
+                                showPreview={this.state.preview}
+                                ref={this.setTextboxLinksRef}
+                                updatePreview={this.updatePreview}
+                                message={this.state.editText}
+                            />
+                            <div className={errorBoxClass}>
+                                {postError}
+                            </div>
+                        </div>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>

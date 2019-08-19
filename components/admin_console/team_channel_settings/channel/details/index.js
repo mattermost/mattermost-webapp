@@ -5,7 +5,8 @@ import {bindActionCreators} from 'redux';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getAllGroups, getGroupsAssociatedToChannel} from 'mattermost-redux/selectors/entities/groups';
-import {getChannel as fetchChannel, membersMinusGroupMembers, patchChannel} from 'mattermost-redux/actions/channels';
+import {convertChannelToPrivate, getChannel as fetchChannel, membersMinusGroupMembers, patchChannel} from 'mattermost-redux/actions/channels';
+
 import {
     getGroupsAssociatedToChannel as fetchAssociatedGroups,
     linkGroupSyncable,
@@ -14,6 +15,8 @@ import {
 
 import {connect} from 'react-redux';
 
+import {getTeam} from 'mattermost-redux/selectors/entities/teams';
+
 import {setNavigationBlocked} from 'actions/admin_actions';
 
 import ChannelDetails from './channel_details';
@@ -21,11 +24,14 @@ import ChannelDetails from './channel_details';
 function mapStateToProps(state, props) {
     const channelID = props.match.params.channel_id;
     const channel = getChannel(state, channelID) || {};
+    const team = channel.team_id ? getTeam(state, channel.team_id) : {};
     const groups = getGroupsAssociatedToChannel(state, channelID);
+    const associatedGroups = state.entities.channels.groupsAssociatedToChannel;
     const allGroups = getAllGroups(state, channel.team_id);
-    const totalGroups = state.entities.channels.groupsAssociatedToChannel && state.entities.channels.groupsAssociatedToChannel[channelID] ? state.entities.channels.groupsAssociatedToChannel[channelID].totalCount : 0;
+    const totalGroups = associatedGroups && associatedGroups[channelID] && associatedGroups[channelID].totalCount ? associatedGroups[channelID].totalCount : 0;
     return {
         channel,
+        team,
         allGroups,
         totalGroups,
         groups,
@@ -38,6 +44,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getChannel: fetchChannel,
             getGroups: fetchAssociatedGroups,
+            convertChannelToPrivate,
             linkGroupSyncable,
             unlinkGroupSyncable,
             membersMinusGroupMembers,

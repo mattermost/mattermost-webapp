@@ -42,8 +42,14 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
             "type": "O",
           }
         }
+        team={
+          Object {
+            "display_name": "test",
+          }
+        }
       />
       <ChannelModes
+        isOriginallyPrivate={false}
         isPublic={true}
         isSynced={false}
         onToggle={[Function]}

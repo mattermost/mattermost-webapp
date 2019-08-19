@@ -145,7 +145,9 @@ export default class Root extends React.Component {
         };
 
         // Keyboard navigation for accessibility
-        this.a11yController = new A11yController();
+        if (!UserAgent.isInternetExplorer()) {
+            this.a11yController = new A11yController();
+        }
     }
 
     onConfigLoaded = () => {

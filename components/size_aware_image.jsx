@@ -39,6 +39,11 @@ export default class SizeAwareImage extends React.PureComponent {
         onImageLoadFail: PropTypes.func,
 
         /*
+         * Fetch the onClick function
+         */
+        onClick: PropTypes.func,
+
+        /*
          * css classes that can added to the img as well as parent div on svg for placeholder
          */
         className: PropTypes.string,
@@ -84,6 +89,12 @@ export default class SizeAwareImage extends React.PureComponent {
         }
     };
 
+    onEnterKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            this.props.onClick(e);
+        }
+    }
+
     renderImageLoaderIfNeeded = () => {
         if (!this.state.loaded && this.props.showLoader && !this.state.error) {
             return (
@@ -114,7 +125,10 @@ export default class SizeAwareImage extends React.PureComponent {
 
         if (dimensions && dimensions.width && !this.state.loaded) {
             placeHolder = (
-                <div className={`image-loading__container ${this.props.className}`}>
+                <div
+                    className={`image-loading__container ${this.props.className}`}
+                    style={{maxWidth: dimensions.width}}
+                >
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
                         viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
@@ -136,20 +150,21 @@ export default class SizeAwareImage extends React.PureComponent {
         return (
             <React.Fragment>
                 {placeHolder}
-                <button
-                    {...props}
-                    aria-label={ariaLabelImage}
-                    className='style--none'
+                <div
+                    className='style--none file-preview__button'
                     style={imageStyleChangesOnLoad}
                 >
                     <img
+                        {...props}
+                        aria-label={ariaLabelImage}
+                        tabIndex='0'
+                        onKeyDown={this.onEnterKeyDown}
                         className={this.props.className}
-                        alt='image placeholder'
                         src={src}
                         onError={this.handleError}
                         onLoad={this.handleLoad}
                     />
-                </button>
+                </div>
             </React.Fragment>
         );
     }

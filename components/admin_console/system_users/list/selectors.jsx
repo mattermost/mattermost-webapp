@@ -3,7 +3,7 @@
 
 import {getUser, getProfiles, getProfilesInTeam, getProfilesWithoutTeam, searchProfiles, searchProfilesInTeam} from 'mattermost-redux/selectors/entities/users';
 
-import {getFilterOptions} from 'utils/get_users';
+import {userSelectorOptionsFromFilter} from 'utils/filter_users';
 
 const ALL_USERS = '';
 const NO_TEAM = 'no_team';
@@ -14,7 +14,7 @@ export function getUsers(state, loading, teamId, term, filter) {
         // Show no users while loading.
         return [];
     }
-    const filters = getFilterOptions(filter);
+    const filters = userSelectorOptionsFromFilter(filter);
     if (term) {
         let users = [];
         if (teamId) {

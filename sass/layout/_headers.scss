@@ -14,10 +14,19 @@
         }
     }
 
+    .Badge {
+        display: inline-block;
+    }
+
     .channel-header__trigger {
         display: flex;
         flex: 1 1 0;
         min-width: 0;
+
+        .heading span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
 
 
@@ -74,7 +83,7 @@
         &:first-child {
             flex: 1;
             min-width: 0;
-            padding: 0 8px 0 0;
+            padding: 0 28px 0 0;
         }
 
         .markdown__paragraph-inline {
@@ -232,7 +241,6 @@
     .heading {
         font-size: 14px;
         font-weight: 600;
-        flex: 1 1 0;
         overflow: hidden;
         text-overflow: ellipsis;
     }
@@ -274,6 +282,7 @@
 
 .channel-header__top {
     display: flex;
+    align-items: center;
     min-width: 0;
 }
 
@@ -304,9 +313,9 @@
             opacity: .5;
         }
 
-        h2 {
+        > div {
             display: flex;
-            flex: 0 1 auto;
+            flex: 1;
             min-width: 0;
         }
 
@@ -314,12 +323,6 @@
             display: inline-block;
             text-decoration: none;
             width: calc(100% - 65px);
-        }
-
-        h2 {
-            font-size: inherit;
-            line-height: inherit;
-            margin: 0;
         }
 
         .MenuWrapper {
@@ -393,6 +396,17 @@
         }
     }
 
+    .has-guest-header {
+        margin-right: 3px;
+
+        &:after {
+            content: '\2022';
+            margin: 0 2px 0 5px;
+            position: relative;
+            top: 1px;
+        }
+    }
+
     .header-status__text {
         margin-right: 3px;
 
@@ -423,7 +437,7 @@
 
 .channel-intro {
     margin: 0 auto 10px;
-    padding: 0 15px;
+    padding: 110px 15px 0;
 
     &.channel-intro--centered {
         max-width: 1020px;
@@ -539,10 +553,11 @@
             width: 100%;
 
             .MenuWrapper {
-                flex: auto;
+                flex: 1;
 
                 &:first-child {
-                    flex: 0 0 36px;
+                    flex: 0 0 50px;
+                    width: auto;
                 }
             }
         }

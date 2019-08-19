@@ -38,13 +38,13 @@ const baseProps = {
     changeUnreadChunkTimeStamp: jest.fn(),
     isFirstLoad: true,
     atLatestPost: false,
+    formattedPostIds: [],
 };
 
 describe('components/post_view/post_list', () => {
     it('snapshot for loading when there are no posts', () => {
-        const noPostList = undefined;
         const wrapper = shallow(
-            <PostList {...{...baseProps, postListIds: noPostList}}/>
+            <PostList {...{...baseProps, postListIds: []}}/>
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -70,27 +70,6 @@ describe('components/post_view/post_list', () => {
         expect(wrapper.state('olderPosts').allLoaded).toBe(true);
     });
 
-    it('Should have loadingFirstSetOfPosts set to true if postsOnLoad fails', async () => {
-        const loadUnreads = jest.fn().mockImplementation(() => Promise.resolve({error: {}}));
-
-        const props = {
-            ...baseProps,
-            postListIds: undefined,
-            actions: {
-                ...actionsProp,
-                loadUnreads,
-            },
-        };
-
-        const wrapper = shallow(
-            <PostList {...props}/>
-        );
-
-        expect(loadUnreads).toHaveBeenCalledWith(baseProps.channelId);
-        await loadUnreads();
-        expect(wrapper.state('loadingFirstSetOfPosts')).toBe(true);
-    });
-
     it('Should call for before and afterPosts', async () => {
         const postIds = createFakePosIds(2);
         const wrapper = shallow(
@@ -108,6 +87,28 @@ describe('components/post_view/post_list', () => {
         expect(actionsProp.loadPosts).toHaveBeenCalledWith({channelId: baseProps.channelId, postId: postIds[0], type: PostRequestTypes.AFTER_ID});
         await wrapper.instance().callLoadPosts();
         expect(wrapper.state('newerPosts')).toEqual({allLoaded: true, loading: false});
+    });
+
+    it('VirtPostList Should have formattedPostIds as prop', async () => {
+        const postIds = createFakePosIds(2);
+        const wrapper = shallow(
+            <PostList {...{...baseProps, postListIds: postIds}}/>
+        );
+
+        const formattedPostIds = wrapper.find(VirtPostList).prop('postListIds');
+        expect(formattedPostIds).toEqual([]);
+    });
+
+    it('getOldestVisiblePostId and getLatestVisiblePostId should return based on postListIds', async () => {
+        const postIds = createFakePosIds(10);
+        const formattedPostIds = ['1', '2'];
+        const wrapper = shallow(
+            <PostList {...{...baseProps, postListIds: postIds, formattedPostIds}}/>
+        );
+
+        const instance = wrapper.instance();
+        expect(instance.getOldestVisiblePostId()).toEqual('123410');
+        expect(instance.getLatestVisiblePostId()).toEqual('12341');
     });
 
     it('Should call for permalink posts', async () => {
@@ -169,11 +170,12 @@ describe('components/post_view/post_list', () => {
     });
 
     describe('canLoadMorePosts', () => {
-        test('Should not call loadPosts if postListIds is empty', async () => {
+        test('Should not call loadLatestPosts if postListIds is empty', async () => {
             const wrapper = shallow(<PostList {...{...baseProps, isFirstLoad: false, postListIds: []}}/>);
-            wrapper.find(VirtPostList).prop('actions').canLoadMorePosts();
-
-            expect(actionsProp.loadPosts).not.toHaveBeenCalled();
+            expect(actionsProp.loadLatestPosts).toHaveBeenCalledWith(baseProps.channelId);
+            await actionsProp.loadLatestPosts();
+            expect(wrapper.state('olderPosts')).toEqual({allLoaded: true, loading: false});
+            expect(wrapper.state('newerPosts')).toEqual({allLoaded: true, loading: false});
         });
 
         test('Should not call loadPosts if olderPosts or newerPosts are loading', async () => {
@@ -210,6 +212,15 @@ describe('components/post_view/post_list', () => {
             wrapper.setState({olderPosts: {allLoaded: true, loading: false}});
             wrapper.setState({newerPosts: {allLoaded: false, loading: false}});
             wrapper.find(VirtPostList).prop('actions').canLoadMorePosts();
+            expect(actionsProp.loadPosts).toHaveBeenCalledWith({channelId: baseProps.channelId, postId: postIds[0], type: PostRequestTypes.AFTER_ID});
+        });
+
+        test('Should call getPostsAfter canLoadMorePosts is requested with AFTER_ID', async () => {
+            const postIds = createFakePosIds(2);
+            const wrapper = shallow(<PostList {...{...baseProps, isFirstLoad: false, postListIds: postIds}}/>);
+            wrapper.setState({olderPosts: {allLoaded: false, loading: false}});
+            wrapper.setState({newerPosts: {allLoaded: false, loading: false}});
+            wrapper.find(VirtPostList).prop('actions').canLoadMorePosts(PostRequestTypes.AFTER_ID);
             expect(actionsProp.loadPosts).toHaveBeenCalledWith({channelId: baseProps.channelId, postId: postIds[0], type: PostRequestTypes.AFTER_ID});
         });
     });

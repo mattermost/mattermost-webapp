@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {updateUserActive, revokeAllSessionsForUser} from 'mattermost-redux/actions/users';
+import {updateUserActive, revokeAllSessionsForUser, promoteGuestToUser, demoteUserToGuest} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
 import {loadBots} from 'mattermost-redux/actions/bots';
@@ -27,6 +27,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             updateUserActive,
             revokeAllSessionsForUser,
+            promoteGuestToUser,
+            demoteUserToGuest,
             loadBots,
         }, dispatch),
     };

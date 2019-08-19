@@ -9,10 +9,11 @@ import {Client4} from 'mattermost-redux/client';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
-import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
+import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import AddIcon from 'components/icon/add_icon';
+import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import GroupMessageOption from './group_message_option';
@@ -269,6 +270,13 @@ export default class MoreDirectChannels extends React.Component {
         this.setState({values});
     }
 
+    renderAriaLabel = (option) => {
+        if (!option) {
+            return null;
+        }
+        return option.username;
+    }
+
     renderOption = (option, isSelected, onAdd) => {
         if (option.type && option.type === 'G') {
             return (
@@ -334,6 +342,10 @@ export default class MoreDirectChannels extends React.Component {
                         {modalName}
                         <BotBadge
                             show={Boolean(option.is_bot)}
+                            className='badge-popoverlist'
+                        />
+                        <GuestBadge
+                            show={isGuest(option)}
                             className='badge-popoverlist'
                         />
                     </div>
@@ -415,6 +427,7 @@ export default class MoreDirectChannels extends React.Component {
                 optionRenderer={this.renderOption}
                 values={this.state.values}
                 valueRenderer={this.renderValue}
+                ariaLabelRenderer={this.renderAriaLabel}
                 perPage={USERS_PER_PAGE}
                 handlePageChange={this.handlePageChange}
                 handleInput={this.search}
@@ -459,7 +472,9 @@ export default class MoreDirectChannels extends React.Component {
                         />
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body
+                    role='application'
+                >
                     {body}
                 </Modal.Body>
                 <Modal.Footer className='modal-footer--invisible'>

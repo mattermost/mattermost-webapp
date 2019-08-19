@@ -395,6 +395,93 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
 </div>
 `;
 
+exports[`components/select_team/SelectTeam should match snapshot, on no joinable team and user is guest 1`] = `
+<div>
+  <Connect(AnnouncementBarController) />
+  <BackButton
+    url="/"
+  />
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="signup-team__container"
+    >
+      <img
+        alt="signup team logo"
+        className="signup-team-logo"
+        src={null}
+      />
+      <SiteNameAndDescription
+        siteName="Mattermost"
+      />
+      <div
+        className="signup__content"
+      >
+        <div
+          className="form-group has-error"
+        >
+          <label
+            className="control-label"
+          >
+            <FormattedMessage
+              defaultMessage="Your guest account has no channels assigned. Please contact an administrator."
+              id="signup_team.guest_without_channels"
+              values={Object {}}
+            />
+          </label>
+        </div>
+      </div>
+      <Connect(SystemPermissionGate)
+        permissions={
+          Array [
+            "create_team",
+          ]
+        }
+      >
+        <div
+          className="margin--extra"
+        >
+          <Link
+            className="signup-team-login"
+            id="createNewTeamLink"
+            to="/create_team"
+          >
+            <FormattedMessage
+              defaultMessage="Create a new team"
+              id="login.createTeam"
+              values={Object {}}
+            />
+          </Link>
+        </div>
+      </Connect(SystemPermissionGate)>
+      <Connect(SystemPermissionGate)
+        permissions={
+          Array [
+            "manage_system",
+          ]
+        }
+      >
+        <div
+          className="margin--extra hidden-xs"
+        >
+          <Link
+            className="signup-team-login"
+            to="/admin_console"
+          >
+            <FormattedMessage
+              defaultMessage="Go to System Console"
+              id="signup_team_system_console"
+              values={Object {}}
+            />
+          </Link>
+        </div>
+      </Connect(SystemPermissionGate)>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`components/select_team/SelectTeam should match snapshot, on no joinable team but can create team 1`] = `
 <div>
   <Connect(AnnouncementBarController) />

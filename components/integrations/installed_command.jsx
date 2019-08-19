@@ -142,9 +142,9 @@ export default class InstalledCommand extends React.PureComponent {
             <div className='backstage-list__item'>
                 <div className='item-details'>
                     <div className='item-details__row'>
-                        <span className='item-details__name'>
+                        <strong className='item-details__name'>
                             {name}
-                        </span>
+                        </strong>
                         <span className='item-details__trigger'>
                             {trigger}
                         </span>

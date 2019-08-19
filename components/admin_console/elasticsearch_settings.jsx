@@ -294,6 +294,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                     setByEnv={this.isSetByEnv('ElasticsearchSettings.Sniff')}
                 />
                 <RequestButton
+                    id='testConfig'
                     requestAction={this.doTestConfig}
                     helpText={
                         <FormattedMessage
@@ -345,6 +346,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                     </div>
                 </div>
                 <RequestButton
+                    id='purgeIndexesSection'
                     requestAction={elasticsearchPurgeIndexes}
                     helpText={
                         <FormattedMessage

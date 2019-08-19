@@ -4,18 +4,24 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: white;
-    z-index: 1000;
+    background: var(--center-channel-bg);
+    z-index: 2000;
+    overflow: auto;
 
     .close-x {
-        position: absolute;
-        top: 58px;
-        right: 58px;
+        position: fixed;
+        top: 48px;
+        right: 48px;
         cursor: pointer;
         svg {
-            width: 32px;
-            height: 32px;
-            opacity: .6;
+            fill: var(--center-channel-color-90);
+            padding: 4px;
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            &:hover {
+                background: var(--button-bg-10);
+            }
         }
     }
 

@@ -29,8 +29,8 @@ export default class TeamRow extends React.Component {
                 onClick={this.handleRowClick}
             >
                 <div className='group-row group-row-large'>
-                    <div className='group-name'>
-                        <div className='col-sm-auto'>
+                    <div className='group-name adjusted center-row row-content'>
+                        <div>
                             <TeamImage
                                 small={true}
                                 teamIconUrl={teamIconUrl}
@@ -38,13 +38,10 @@ export default class TeamRow extends React.Component {
                             />
 
                         </div>
-                        <div className='col-sm-auto'>
+                        <div>
                             <b>{team.display_name}</b>
                             {team.description && (
-                                <div
-                                    className='overflow--ellipsis text-nowrap'
-                                    style={{maxWidth: 500}}
-                                >
+                                <div className='overflow--ellipsis text-nowrap team-descr-list-column'>
                                     {team.description}
                                 </div>)}
 
@@ -52,7 +49,7 @@ export default class TeamRow extends React.Component {
 
                     </div>
 
-                    <span className='group-description'>
+                    <span className='group-description adjusted row-content'>
                         <FormattedMessage
                             id={`admin.team_settings.team_row.managementMethod.${team.group_constrained ? 'group' : 'manual'}`}
                             defaultMessage={team.group_constrained ? 'Group Sync' : 'Manual Invites'}

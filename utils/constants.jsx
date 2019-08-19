@@ -4,6 +4,10 @@
 /* eslint-disable no-magic-numbers */
 import keyMirror from 'key-mirror';
 
+import Permissions from 'mattermost-redux/constants/permissions';
+
+import * as PostListUtils from 'mattermost-redux/utils/post_list';
+
 import audioIcon from 'images/icons/audio.svg';
 import codeIcon from 'images/icons/code.svg';
 import excelIcon from 'images/icons/excel.svg';
@@ -23,9 +27,6 @@ import mattermostDarkThemeImage from 'images/themes/mattermost_dark.png';
 import defaultThemeImage from 'images/themes/organization.png';
 import windows10ThemeImage from 'images/themes/windows_dark.png';
 import logoWebhook from 'images/webhook_icon.jpg';
-
-import Permissions from 'mattermost-redux/constants/permissions';
-import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import {t} from 'utils/i18n';
 
@@ -56,6 +57,11 @@ export const SettingsTypes = {
     TYPE_LANGUAGE: 'language',
     TYPE_JOBSTABLE: 'jobstable',
     TYPE_CUSTOM: 'custom',
+};
+
+export const InviteTypes = {
+    INVITE_MEMBER: 'member',
+    INVITE_GUEST: 'guest',
 };
 
 export const Preferences = {
@@ -200,6 +206,7 @@ export const ModalIdentifiers = {
     EMAIL_INVITE: 'email_invite',
     INTERACTIVE_DIALOG: 'interactive_dialog',
     ADD_TEAMS_TO_SCHEME: 'add_teams_to_scheme',
+    INVITATION: 'invitation',
     ADD_GROUPS_TO_TEAM: 'add_groups_to_team',
     ADD_GROUPS_TO_CHANNEL: 'add_groups_to_channel',
     MANAGE_TEAM_GROUPS: 'manage_team_groups',
@@ -214,12 +221,6 @@ export const UserStatuses = {
     DND: 'dnd',
 };
 
-export const UserSearchOptions = {
-    ALLOW_INACTIVE: 'allow_inactive',
-    WITHOUT_TEAM: 'without_team',
-    ROLE: 'role',
-};
-
 export const EventTypes = Object.assign(
     {
         KEY_DOWN: 'keydown',
@@ -227,6 +228,8 @@ export const EventTypes = Object.assign(
         CLICK: 'click',
         FOCUS: 'focus',
         BLUR: 'blur',
+        MOUSE_DOWN: 'mousedown',
+        MOUSE_UP: 'mouseup',
     },
     keyMirror({
         POST_LIST_SCROLL_CHANGE: null,
@@ -359,9 +362,37 @@ export const SearchUserTeamFilter = {
     NO_TEAM: 'no_team',
 };
 
-export const SearchUserOptionsFilter = {
-    ALLOW_INACTIVE: 'inactive',
+// UserSearchOptions are the possible option keys for a user search request
+export const UserSearchOptions = {
+    ALLOW_INACTIVE: 'allow_inactive',
+    TEAM_ID: 'team_id',
+    NOT_IN_TEAM_ID: 'not_in_team_id',
+    WITHOUT_TEAM: 'without_team',
+    IN_CHANNEL_ID: 'in_channel_id',
+    NOT_IN_CHANNEL_ID: 'not_in_channel_id',
+    GROUP_CONSTRAINED: 'group_constrained',
+    ROLE: 'role',
+    LIMIT: 'limit',
+};
+
+// UserListOptions are the possible option keys for get users page request
+export const UserListOptions = {
+    INACTIVE: 'inactive',
+    IN_TEAM: 'in_team',
+    NOT_IN_TEAM: 'not_in_team',
+    WITHOUT_TEAM: 'without_team',
+    IN_CHANNEL: 'in_channel',
+    NOT_IN_CHANNEL: 'not_in_channel',
+    GROUP_CONSTRAINED: 'group_constrained',
+    SORT: 'sort',
+    ROLE: 'role',
+};
+
+// UserFilters are the values for UI get/search user filters
+export const UserFilters = {
+    INACTIVE: 'inactive',
     SYSTEM_ADMIN: 'system_admin',
+    SYSTEM_GUEST: 'system_guest',
 };
 
 export const SearchTypes = keyMirror({

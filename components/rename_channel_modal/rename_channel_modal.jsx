@@ -313,7 +313,6 @@ export class RenameChannelModal extends React.PureComponent {
 
                             <div className='input-group input-group--limit'>
                                 <OverlayTrigger
-                                    trigger={['hover', 'focus']}
                                     delayShow={Constants.OVERLAY_TIME_DELAY}
                                     placement='top'
                                     overlay={urlTooltip}

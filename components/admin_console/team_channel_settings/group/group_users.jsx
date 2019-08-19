@@ -90,7 +90,7 @@ export default class AdminGroupUsers extends React.PureComponent {
 
     render = () => {
         return (
-            <div className='groups-list'>
+            <div className='groups-list groups-list-less-padding'>
                 <div className='groups-list--header'>
                     <div className='group-name'>
                         <FormattedMessage
@@ -98,13 +98,13 @@ export default class AdminGroupUsers extends React.PureComponent {
                             defaultMessage='Name'
                         />
                     </div>
-                    <div className='group-description'>
+                    <div className='group-description group-users--header-padded'>
                         <FormattedMessage
                             id='admin.team_channel_settings.user_list.roleHeader'
                             defaultMessage='Role'
                         />
                     </div>
-                    <div className='group-description'>
+                    <div className='group-description group-users--header-padded'>
                         <FormattedMessage
                             id='admin.team_channel_settings.user_list.groupsHeader'
                             defaultMessage='Groups'

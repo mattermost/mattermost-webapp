@@ -17,6 +17,13 @@ export default class PostList extends React.PureComponent {
     static propTypes = {
 
         /**
+         *  Array of formatted post ids in the channel
+         *  This will be different from postListIds because of grouping and filtering of posts
+         *  This array should be used for making Before and After API calls
+         */
+        formattedPostIds: PropTypes.array,
+
+        /**
          *  Array of post ids in the channel, ordered from newest to oldest
          */
         postListIds: PropTypes.array,
@@ -45,6 +52,8 @@ export default class PostList extends React.PureComponent {
          * Used for syncing posts and is also passed down to virt list for newMessages indicator
          */
         latestPostTimeStamp: PropTypes.number,
+
+        latestAriaLabelFunc: PropTypes.func,
 
         /*
          * Used for padding down to virt list so it can change the chunk of posts selected
@@ -96,7 +105,6 @@ export default class PostList extends React.PureComponent {
                 loading: false,
                 allLoaded: false,
             },
-            loadingFirstSetOfPosts: !props.postListIds,
             autoRetryEnable: true,
         };
 
@@ -159,7 +167,6 @@ export default class PostList extends React.PureComponent {
                     loading: false,
                     allLoaded: atLatestMessage,
                 },
-                loadingFirstSetOfPosts: false,
             });
         }
     }
@@ -227,8 +234,8 @@ export default class PostList extends React.PureComponent {
         return getLatestPostId(this.props.postListIds);
     }
 
-    canLoadMorePosts = async () => {
-        if (!this.props.postListIds || !this.props.postListIds.length) {
+    canLoadMorePosts = async (type = PostRequestTypes.BEFORE_ID) => {
+        if (!this.props.postListIds) {
             return;
         }
 
@@ -239,11 +246,13 @@ export default class PostList extends React.PureComponent {
         if (this.extraPagesLoaded > MAX_EXTRA_PAGES_LOADED) {
             // Prevent this from loading a lot of pages in a channel with only hidden messages
             // Enable load more messages manual link
-            this.setState({autoRetryEnable: false});
+            if (this.state.autoRetryEnable) {
+                this.setState({autoRetryEnable: false});
+            }
             return;
         }
 
-        if (!this.state.olderPosts.allLoaded) {
+        if (!this.state.olderPosts.allLoaded && type === PostRequestTypes.BEFORE_ID) {
             const oldestPostId = this.getOldestVisiblePostId();
             await this.getPostsBefore(oldestPostId);
         } else if (!this.state.newerPosts.allLoaded) {
@@ -274,7 +283,7 @@ export default class PostList extends React.PureComponent {
     }
 
     render() {
-        if (this.state.loadingFirstSetOfPosts) {
+        if (!this.props.postListIds) {
             return (
                 <div id='post-list'>
                     <LoadingScreen
@@ -294,7 +303,7 @@ export default class PostList extends React.PureComponent {
                 >
                     <div className='post-list__table'>
                         <div
-                            id='postListContent'
+                            id='virtualizedPostListContent'
                             ref='postListContent'
                             className='post-list__content'
                         >
@@ -305,8 +314,9 @@ export default class PostList extends React.PureComponent {
                                 channelId={this.props.channelId}
                                 autoRetryEnable={this.state.autoRetryEnable}
                                 actions={this.actionsForPostList}
-                                postListIds={this.props.postListIds}
+                                postListIds={this.props.formattedPostIds}
                                 latestPostTimeStamp={this.props.latestPostTimeStamp}
+                                latestAriaLabelFunc={this.props.latestAriaLabelFunc}
                             />
                         </div>
                     </div>

@@ -70,7 +70,7 @@ exports[`components/file_attachment/FilenameOverlay should match snapshot, stand
       trigger={
         Array [
           "hover",
-          "click",
+          "focus",
         ]
       }
     >
@@ -107,7 +107,7 @@ exports[`components/file_attachment/FilenameOverlay should match snapshot, with 
       trigger={
         Array [
           "hover",
-          "click",
+          "focus",
         ]
       }
     >

@@ -8,10 +8,16 @@
 // ***************************************************************
 
 import users from '../../fixtures/users.json';
+import TIMEOUTS from '../../fixtures/timeouts';
 
 function searchAndValidate(query, expectedResults = []) {
     // # Enter in search query, and hit enter
     cy.get('#searchBox').clear().type(query).type('{enter}');
+
+    // # Wait for search request to complete
+    cy.wait('@searchRequest', {requestTimeout: TIMEOUTS.MEDIUM}).its('status').should('equal', 200);
+
+    cy.get('#loadingSpinner').should('not.be.visible');
 
     if (expectedResults.length > 0) {
         // * Verify that there's search item before querying by test ID
@@ -78,6 +84,11 @@ describe('SF15699 Search Date Filter', () => {
     let newAdmin;
 
     before(() => {
+        // # Make fetch null so we falback to XHR requests to be able to listen in on them
+        Cypress.on('window:before:load', (win) => {
+            win.fetch = null;
+        });
+
         // # Login as the sysadmin.
         cy.apiLogin('sysadmin');
 
@@ -132,6 +143,12 @@ describe('SF15699 Search Date Filter', () => {
                 cy.postMessageAs({sender: user, message: secondOffTopicMessage, channelId, createAt: secondDateLater.ms, baseUrl});
             });
         });
+    });
+
+    beforeEach(() => {
+        // # Setup server and listen for search request
+        cy.server();
+        cy.route({method: 'POST', url: '**/posts/search'}).as('searchRequest');
     });
 
     describe('input date filter', () => {
@@ -375,9 +392,15 @@ describe('SF15699 Search Date Filter', () => {
                 focus().
                 type(`${targetMessage}{enter}`);
 
+            // # Wait for search request to complete
+            cy.wait('@searchRequest', {requestTimeout: TIMEOUTS.MEDIUM}).its('status').should('equal', 200);
+
+            cy.get('#loadingSpinner').should('not.be.visible');
+
             // * Verify we see our single result
             cy.queryAllByTestId('search-item-container').
-                should('have.length', 1).
+                should('be.visible').
+                and('have.length', 1).
                 find('.post-message').
                 should('have.text', targetMessage);
 
@@ -399,6 +422,11 @@ describe('SF15699 Search Date Filter', () => {
             cy.get('#searchBox').
                 should('have.value', `on:2019-01-16  ${targetMessage}`).
                 type('{enter}');
+
+            // # Wait for search request to complete
+            cy.wait('@searchRequest', {requestTimeout: TIMEOUTS.MEDIUM}).its('status').should('equal', 200);
+
+            cy.get('#loadingSpinner').should('not.be.visible');
 
             // * There should be no results
             cy.queryAllByTestId('search-item-container').should('have.length', 0);

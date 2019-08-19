@@ -1,0 +1,18 @@
+@import 'utils/variables';
+
+.InvitationModalConfirmStepTable {
+    width: 100%;
+    .table-header {
+        display: flex;
+        .people-header, .details-header {
+            margin: 12px;
+            width: 50%;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        span {
+            display: flex;
+        }
+    }
+}

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import debounce from 'lodash/debounce';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
+import {intlShape} from 'react-intl';
 
 import imgTrans from 'images/img_trans.gif';
 
@@ -25,6 +26,10 @@ export default class EmojiPickerItem extends React.Component {
         containerBottom: PropTypes.number.isRequired,
     };
 
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
+
     shouldComponentUpdate(nextProps) {
         return nextProps.isSelected !== this.props.isSelected;
     }
@@ -32,6 +37,17 @@ export default class EmojiPickerItem extends React.Component {
     emojiItemRef = (emojiItem) => {
         this.emojiItem = emojiItem;
     };
+
+    emojiName = () => {
+        const {formatMessage} = this.context.intl;
+        return formatMessage({
+            id: 'emoji_picker_item.emoji_aria_label',
+            defaultMessage: '{emojiName} emoji',
+        },
+        {
+            emojiName: this.props.emoji.aliases[0].replace(/_/g, ' '),
+        });
+    }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (!this.props.isSelected && nextProps.isSelected) {
@@ -75,11 +91,14 @@ export default class EmojiPickerItem extends React.Component {
             image = (
                 <img
                     alt={'emoji image'}
+                    data-testid={emoji.aliases}
                     onMouseOver={this.handleMouseOverThrottle}
                     src={imgTrans}
                     className={spriteClassName}
                     onClick={this.handleClick}
                     id={'emoji-' + emoji.filename}
+                    aria-label={this.emojiName()}
+                    role='button'
                 />
             );
         } else {
@@ -99,7 +118,7 @@ export default class EmojiPickerItem extends React.Component {
                 className={itemClassName}
                 ref={this.emojiItemRef}
             >
-                <div>
+                <div data-testid='emojiItem'>
                     {image}
                 </div>
             </div>

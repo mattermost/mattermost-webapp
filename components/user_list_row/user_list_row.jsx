@@ -7,6 +7,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
+import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -103,6 +104,10 @@ export default class UserListRow extends React.Component {
                         <BotBadge
                             className='badge-popoverlist'
                             show={Boolean(this.props.user.is_bot)}
+                        />
+                        <GuestBadge
+                            className='badge-popoverlist'
+                            show={Utils.isGuest(this.props.user)}
                         />
                     </div>
                     <div

@@ -30,6 +30,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         actions: {
             savePreferences: () => true,
         },
+        prevActiveSection: 'dummySectionName',
     };
 
     test('should match snapshot', () => {

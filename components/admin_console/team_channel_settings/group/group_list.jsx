@@ -13,16 +13,16 @@ import GroupRow from './group_row';
 const Header = () => {
     return (
         <div className='groups-list--header'>
-            <div className='group-name'>
+            <div className='group-name group-name-adjusted'>
                 <FormattedMessage
                     id='admin.team_channel_settings.group_list.nameHeader'
                     defaultMessage='Name'
                 />
             </div>
-            <div className='group-description'>
+            <div className='group-description group-description-adjusted'>
                 <FormattedMessage
                     id='admin.team_channel_settings.group_list.membersHeader'
-                    defaultMessage='Members'
+                    defaultMessage='Member Count'
                 />
             </div>
             <div className='group-actions'/>

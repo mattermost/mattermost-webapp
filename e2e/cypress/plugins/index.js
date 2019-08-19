@@ -22,11 +22,5 @@ module.exports = (on, config) => {
         return args;
     });
 
-    if (process.env.NODE_ENV === 'qa') { // eslint-disable-line no-process-env
-        config.webhookBaseUrl = 'https://cypress.test.mattermost.com/webhook';
-    } else {
-        config.webhookBaseUrl = 'http://localhost:3000';
-    }
-
     return config;
 };

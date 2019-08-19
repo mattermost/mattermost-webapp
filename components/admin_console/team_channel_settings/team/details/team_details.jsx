@@ -12,7 +12,7 @@ import BlockableLink from 'components/admin_console/blockable_link';
 import FormError from 'components/form_error';
 
 import RemoveConfirmModal from '../../remove_confirm_modal';
-import {NeedGroupsError, UsersWillBeRemovedError} from '../../errors';
+import {NeedDomainsError, NeedGroupsError, UsersWillBeRemovedError} from '../../errors';
 
 import SaveChangesPanel from '../../save_changes_panel';
 
@@ -49,8 +49,8 @@ export default class TeamDetails extends React.Component {
             groups: props.groups,
             syncChecked: Boolean(team.group_constrained),
             allAllowedChecked: team.allow_open_invite,
-            allowedDomainsChecked: team.allowed_domains !== '',
-            allowedDomains: team.allowed_domains,
+            allowedDomainsChecked: Boolean(team.allowed_domains && team.allowed_domains !== ''),
+            allowedDomains: team.allowed_domains || '',
             saving: false,
             showRemoveConfirmation: false,
             usersToRemove: 0,
@@ -60,10 +60,17 @@ export default class TeamDetails extends React.Component {
         };
     }
 
-    componentDidUpdate(prevProps) { // TODO: find out how to do this without the lifecycle
-        if (prevProps.totalGroups !== this.props.totalGroups) {
+    componentDidUpdate(prevProps) {
+        const {totalGroups, team} = this.props;
+        if (prevProps.team.id !== team.id) {
             // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({totalGroups: this.props.totalGroups});
+            this.setState({
+                totalGroups,
+                syncChecked: Boolean(team.group_constrained),
+                allAllowedChecked: team.allow_open_invite,
+                allowedDomainsChecked: Boolean(team.allowed_domains && team.allowed_domains !== ''),
+                allowedDomains: team.allowed_domains || '',
+            });
         }
     }
 
@@ -82,26 +89,27 @@ export default class TeamDetails extends React.Component {
         let saveNeeded = false;
 
         const {team, groups: origGroups, teamID, actions} = this.props;
-        if (this.state.groups.length === 0 && syncChecked) {
+        if (allowedDomainsChecked && allowedDomains.trim().length === 0) {
+            saveNeeded = true;
+            serverError = <NeedDomainsError/>;
+        } else if (this.state.groups.length === 0 && syncChecked) {
             serverError = <NeedGroupsError/>;
             saveNeeded = true;
         } else {
-            const {error} = await actions.patchTeam({
+            const patchTeamPromise = actions.patchTeam({
                 ...team,
                 group_constrained: syncChecked,
                 allowed_domains: allowedDomainsChecked ? allowedDomains : '',
                 allow_open_invite: allAllowedChecked,
             });
-            if (error) {
-                serverError = <FormError error={error.message}/>;
+            const unlink = origGroups.filter((g) => !groups.includes(g)).map((g) => actions.unlinkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM));
+            const link = groups.filter((g) => !origGroups.includes(g)).map((g) => actions.linkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true}));
+            const result = await Promise.all([patchTeamPromise, ...unlink, ...link]);
+            const resultWithError = result.find((r) => r.error);
+            if (resultWithError) {
+                serverError = <FormError error={resultWithError.error.message}/>;
             } else {
-                const unlink = origGroups.filter((g) => !groups.includes(g)).map((g) => actions.unlinkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM));
-                const link = groups.filter((g) => !origGroups.includes(g)).map((g) => actions.linkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM));
-                const result = await Promise.all([...unlink, ...link]);
-                const resultWithError = result.find((r) => r.error);
-                if (resultWithError) {
-                    serverError = <FormError error={resultWithError.error.message}/>;
-                }
+                await actions.getGroups(teamID);
             }
         }
 
@@ -116,11 +124,7 @@ export default class TeamDetails extends React.Component {
             allAllowedChecked: !syncChecked && allAllowedChecked,
             allowedDomainsChecked: !syncChecked && allowedDomainsChecked,
             allowedDomains,
-        }, () => {
-            if (syncChecked) {
-                this.processGroupsChange(this.state.groups);
-            }
-        });
+        }, () => this.processGroupsChange(this.state.groups));
         this.props.actions.setNavigationBlocked(true);
     }
 
@@ -133,7 +137,7 @@ export default class TeamDetails extends React.Component {
         if (this.state.syncChecked) {
             try {
                 if (groups.length === 0) {
-                    serverError = <NeedGroupsError/>;
+                    serverError = <NeedGroupsError warning={true}/>;
                 } else {
                     const result = await actions.membersMinusGroupMembers(teamID, groups.map((g) => g.id));
                     usersToRemove = result.data.total_count;
@@ -179,7 +183,8 @@ export default class TeamDetails extends React.Component {
     render = () => {
         const {team} = this.props;
         const {totalGroups, saving, saveNeeded, serverError, groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, showRemoveConfirmation, usersToRemove} = this.state;
-        const removedGroups = this.props.groups.filter((g) => !groups.includes(g));
+        const missingGroup = (og) => !groups.find((g) => g.id === og.id);
+        const removedGroups = this.props.groups.filter(missingGroup);
 
         return (
             <div className='wrapper--fixed'>

@@ -80,6 +80,8 @@ export default class SystemUsersDropdown extends React.PureComponent {
         actions: PropTypes.shape({
             updateUserActive: PropTypes.func.isRequired,
             revokeAllSessionsForUser: PropTypes.func.isRequired,
+            promoteGuestToUser: PropTypes.func.isRequired,
+            demoteUserToGuest: PropTypes.func.isRequired,
             loadBots: PropTypes.func.isRequired,
         }).isRequired,
         config: PropTypes.object.isRequired,
@@ -93,6 +95,8 @@ export default class SystemUsersDropdown extends React.PureComponent {
         this.state = {
             showDeactivateMemberModal: false,
             showRevokeSessionsModal: false,
+            showPromoteToUserModal: false,
+            showDemoteToGuestModal: false,
             user: null,
             role: null,
         };
@@ -210,7 +214,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
         let messageForUsersWithBotAccounts;
         if (this.shouldDisableBotsWhenOwnerIsDeactivated()) {
             for (const bot of Object.values(this.props.bots)) {
-                if (bot.owner_id === user.id) {
+                if ((bot.owner_id === user.id) && this.state.showDeactivateMemberModal && (bot.delete_at === 0)) {
                     messageForUsersWithBotAccounts = (
                         <FormattedMarkdownMessage
                             id='deactivate_member_modal.desc.for_users_with_bot_accounts'
@@ -279,6 +283,121 @@ export default class SystemUsersDropdown extends React.PureComponent {
 
     handleRevokeSessionsCancel = () => {
         this.setState({showRevokeSessionsModal: false});
+    }
+
+    handlePromoteToUser = () => {
+        this.setState({showPromoteToUserModal: true});
+    }
+
+    handlePromoteToUserConfirm = async () => {
+        const {error} = await this.props.actions.promoteGuestToUser(this.props.user.id);
+        if (error) {
+            this.props.onError(error);
+        }
+
+        this.setState({showPromoteToUserModal: false});
+    }
+
+    handlePromoteToUserCancel = () => {
+        this.setState({showPromoteToUserModal: false});
+    }
+
+    handleDemoteToGuest = () => {
+        this.setState({showDemoteToGuestModal: true});
+    }
+
+    handleDemoteToGuestConfirm = async () => {
+        const {error} = await this.props.actions.demoteUserToGuest(this.props.user.id);
+        if (error) {
+            this.props.onError(error);
+        }
+        this.setState({showDemoteToGuestModal: false});
+    }
+
+    handleDemoteToGuestCancel = () => {
+        this.setState({showDemoteToGuestModal: false});
+    }
+
+    renderPromoteToUserModal = () => {
+        const title = (
+            <FormattedMessage
+                id='promote_to_user_modal.title'
+                defaultMessage='Promote guest {username} to user'
+                values={{
+                    username: this.props.user.username,
+                }}
+            />
+        );
+
+        const message = (
+            <FormattedMessage
+                id='promote_to_user_modal.desc'
+                defaultMessage='This action promotes the guest {username} to a member. It will allow the user to join public channels and interact with users outside of the channels they are currently members of. Are you sure you want to promote guest {username} to user?'
+                values={{
+                    username: this.props.user.username,
+                }}
+            />
+        );
+
+        const promoteUserButton = (
+            <FormattedMessage
+                id='promote_to_user_modal.promote'
+                defaultMessage='Promote'
+            />
+        );
+
+        return (
+            <ConfirmModal
+                show={this.state.showPromoteToUserModal}
+                title={title}
+                message={message}
+                confirmButtonClass='btn btn-danger'
+                confirmButtonText={promoteUserButton}
+                onConfirm={this.handlePromoteToUserConfirm}
+                onCancel={this.handlePromoteToUserCancel}
+            />
+        );
+    }
+
+    renderDemoteToGuestModal = () => {
+        const title = (
+            <FormattedMessage
+                id='demote_to_user_modal.title'
+                defaultMessage='Demote user {username} to guest'
+                values={{
+                    username: this.props.user.username,
+                }}
+            />
+        );
+
+        const message = (
+            <FormattedMessage
+                id='demote_to_user_modal.desc'
+                defaultMessage={'This action demotes the user {username} to a guest. It will restrict the user\'s ability to join public channels and interact with users outside of the channels they are currently members of. Are you sure you want to demote user {username} to guest?'}
+                values={{
+                    username: this.props.user.username,
+                }}
+            />
+        );
+
+        const demoteGuestButton = (
+            <FormattedMessage
+                id='demote_to_user_modal.demote'
+                defaultMessage='Demote'
+            />
+        );
+
+        return (
+            <ConfirmModal
+                show={this.state.showDemoteToGuestModal}
+                title={title}
+                message={message}
+                confirmButtonClass='btn btn-danger'
+                confirmButtonText={demoteGuestButton}
+                onConfirm={this.handleDemoteToGuestConfirm}
+                onCancel={this.handleDemoteToGuestCancel}
+            />
+        );
     }
 
     renderRevokeSessionsModal = () => {
@@ -360,7 +479,8 @@ export default class SystemUsersDropdown extends React.PureComponent {
     }
 
     render() {
-        const user = this.props.user;
+        const {currentUser, user} = this.props;
+        const isGuest = Utils.isGuest(user);
         if (!user) {
             return <div/>;
         }
@@ -371,6 +491,15 @@ export default class SystemUsersDropdown extends React.PureComponent {
                 defaultMessage='Member'
             />
         );
+
+        if (isGuest) {
+            currentRoles = (
+                <FormattedMessage
+                    id='team_members_dropdown.guest'
+                    defaultMessage='Guest'
+                />
+            );
+        }
 
         if (user.roles.length > 0 && Utils.isSystemAdmin(user.roles)) {
             currentRoles = (
@@ -407,6 +536,8 @@ export default class SystemUsersDropdown extends React.PureComponent {
 
         const deactivateMemberModal = this.renderDeactivateMemberModal();
         const revokeSessionsModal = this.renderRevokeSessionsModal();
+        const promoteToUserModal = this.renderPromoteToUserModal();
+        const demoteToGuestModal = this.renderDemoteToGuestModal();
 
         const {index, totalUsers} = this.props;
         let openUp = false;
@@ -418,6 +549,8 @@ export default class SystemUsersDropdown extends React.PureComponent {
             <React.Fragment>
                 {deactivateMemberModal}
                 {revokeSessionsModal}
+                {promoteToUserModal}
+                {demoteToGuestModal}
                 <MenuWrapper>
                     <div className='text-right'>
                         <a>
@@ -445,6 +578,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
                                 disabled={disableActivationToggle}
                             />
                             <MenuItemAction
+                                show={!isGuest}
                                 onClick={this.handleManageRoles}
                                 text={Utils.localizeMessage('admin.user_item.manageRoles', 'Manage Roles')}
                             />
@@ -474,9 +608,19 @@ export default class SystemUsersDropdown extends React.PureComponent {
                                 text={Utils.localizeMessage('admin.user_item.resetPwd', 'Reset Password')}
                             />
                             <MenuItemAction
-                                show={!user.auth_service && user.id !== this.state.userId}
+                                show={!user.auth_service && user.id !== currentUser.id}
                                 onClick={this.handleResetEmail}
                                 text={Utils.localizeMessage('admin.user_item.resetEmail', 'Update Email')}
+                            />
+                            <MenuItemAction
+                                show={isGuest}
+                                onClick={this.handlePromoteToUser}
+                                text={Utils.localizeMessage('admin.user_item.promoteToUser', 'Promote to User')}
+                            />
+                            <MenuItemAction
+                                show={!isGuest && user.id !== currentUser.id}
+                                onClick={this.handleDemoteToGuest}
+                                text={Utils.localizeMessage('admin.user_item.demoteToGuest', 'Demote to Guest')}
                             />
                             <SystemPermissionGate permissions={[Permissions.REVOKE_USER_ACCESS_TOKEN]}>
                                 <MenuItemAction
