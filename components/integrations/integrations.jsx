@@ -58,7 +58,7 @@ export default class Integrations extends React.Component {
                         title={
                             <FormattedMessage
                                 id='integrations.incomingWebhook.title'
-                                defaultMessage='Incoming Webhook'
+                                defaultMessage='Incoming Webhooks'
                             />
                         }
                         description={
@@ -86,7 +86,7 @@ export default class Integrations extends React.Component {
                         title={
                             <FormattedMessage
                                 id='integrations.outgoingWebhook.title'
-                                defaultMessage='Outgoing Webhook'
+                                defaultMessage='Outgoing Webhooks'
                             />
                         }
                         description={
@@ -114,7 +114,7 @@ export default class Integrations extends React.Component {
                         title={
                             <FormattedMessage
                                 id='integrations.command.title'
-                                defaultMessage='Slash Command'
+                                defaultMessage='Slash Commands'
                             />
                         }
                         description={

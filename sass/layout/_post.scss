@@ -2,7 +2,7 @@
 
 .custom-textarea {
     background: transparent;
-    border: 1px solid #cccccc;
+    border: 1px solid v(center-channel-color-20);
     height: 100%;
     line-height: 20px;
     min-height: 36px;
@@ -12,7 +12,7 @@
     word-wrap: break-word;
 
     &:focus {
-        border-color: #cccccc;
+        border-color: v(center-channel-color-30);
         box-shadow: none;
     }
 
@@ -41,6 +41,10 @@
         position: relative;
         top: 0;
         z-index: 2;
+
+        &:focus {
+            border-color: v(center-channel-color-40);
+        }
 
         p {
             margin: 0;
@@ -1277,7 +1281,6 @@
     .post__header {
         display: flex;
         margin-bottom: 2px;
-        padding: 0 40px 0 0;
         white-space: nowrap;
         width: 100%;
 
@@ -1291,10 +1294,13 @@
             font-weight: 600;
             margin-right: 7px;
             text-overflow: ellipsis;
+            flex: 0 auto;
+            min-width: 0;
 
             .user-popover {
                 @include clearfix;
                 text-overflow: ellipsis;
+                text-align: left;
                 vertical-align: top;
                 white-space: nowrap;
             }
@@ -1630,6 +1636,7 @@
 
         .post-reaction-list {
             display: flex;
+            flex-wrap: wrap;
             padding: 4px 0 0;
             align-items: center;
             min-height: 30px;

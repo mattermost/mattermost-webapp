@@ -24,7 +24,7 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
-import FilePreview from 'components/file_preview/file_preview.jsx';
+import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
@@ -268,7 +268,7 @@ export default class CreatePost extends React.Component {
             showEmojiPicker: false,
             showConfirmModal: false,
             channelTimezoneCount: 0,
-            preview: false,
+            showPreview: false,
             uploadsProgressPercent: {},
             renderScrollbar: false,
             orientation: null,
@@ -309,14 +309,19 @@ export default class CreatePost extends React.Component {
                 message: draft.message,
                 submitting: false,
                 serverError: null,
-                preview: false,
+                showPreview: false,
             });
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         if (prevProps.currentChannel.id !== this.props.currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
+            this.focusTextbox();
+        }
+
+        // Focus on textbox when emoji picker is closed
+        if (prevState.showEmojiPicker && !this.state.showEmojiPicker) {
             this.focusTextbox();
         }
     }
@@ -328,7 +333,7 @@ export default class CreatePost extends React.Component {
     }
 
     updatePreview = (newState) => {
-        this.setState({preview: newState});
+        this.setState({showPreview: newState});
     }
 
     setOrientationListeners = () => {
@@ -379,7 +384,7 @@ export default class CreatePost extends React.Component {
     }
 
     hideEmojiPicker = () => {
-        this.setState({showEmojiPicker: false});
+        this.handleEmojiClose();
     }
 
     doSubmit = async (e) => {
@@ -675,6 +680,8 @@ export default class CreatePost extends React.Component {
             } else {
                 this.handleSubmit(e);
             }
+
+            this.updatePreview(false);
         }
 
         this.emitTypingEvent();
@@ -924,12 +931,6 @@ export default class CreatePost extends React.Component {
         }
     }
 
-    handleKeyDownEmojiPicker = (e) => {
-        if (Utils.isKeyPressed(e, KeyCodes.ENTER)) {
-            this.toggleEmojiPicker();
-        }
-    }
-
     editLastPost = (e) => {
         e.preventDefault();
 
@@ -990,7 +991,6 @@ export default class CreatePost extends React.Component {
 
     handleEmojiClose = () => {
         this.setState({showEmojiPicker: false});
-        this.focusTextbox();
     }
 
     handleEmojiClick = (emoji) => {
@@ -1010,8 +1010,7 @@ export default class CreatePost extends React.Component {
             this.setState({message: newMessage});
         }
 
-        this.setState({showEmojiPicker: false});
-        this.focusTextbox();
+        this.handleEmojiClose();
     }
 
     handleGifClick = (gif) => {
@@ -1021,8 +1020,7 @@ export default class CreatePost extends React.Component {
             const newMessage = ((/\s+$/).test(this.state.message)) ? this.state.message + gif : this.state.message + ' ' + gif;
             this.setState({message: newMessage});
         }
-        this.setState({showEmojiPicker: false});
-        this.focusTextbox();
+        this.handleEmojiClose();
     }
 
     createTutorialTip() {
@@ -1178,7 +1176,7 @@ export default class CreatePost extends React.Component {
         }
 
         let fileUpload;
-        if (!readOnlyChannel) {
+        if (!readOnlyChannel && !this.state.showPreview) {
             fileUpload = (
                 <FileUpload
                     ref='fileUpload'
@@ -1197,7 +1195,7 @@ export default class CreatePost extends React.Component {
         let emojiPicker = null;
         const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
 
-        if (this.props.enableEmojiPicker && !readOnlyChannel) {
+        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.state.showPreview) {
             emojiPicker = (
                 <div>
                     <EmojiPickerOverlay
@@ -1250,6 +1248,7 @@ export default class CreatePost extends React.Component {
                 <div className={'post-create' + attachmentsDisabled + scrollbarClass}>
                     <div className='post-create-body'>
                         <div
+                            role='application'
                             id='centerChannelFooter'
                             aria-label={ariaLabelMessageInput}
                             tabIndex='-1'
@@ -1272,7 +1271,7 @@ export default class CreatePost extends React.Component {
                                 ref='textbox'
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.state.preview}
+                                preview={this.state.showPreview}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                             />
@@ -1315,7 +1314,7 @@ export default class CreatePost extends React.Component {
                             />
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.state.preview}
+                                showPreview={this.state.showPreview}
                                 updatePreview={this.updatePreview}
                                 message={readOnlyChannel ? '' : this.state.message}
                             />

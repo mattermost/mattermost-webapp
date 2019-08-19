@@ -9,6 +9,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     id="rhsFooter"
+    role="application"
     tabIndex="-1"
   >
     <div
@@ -37,6 +38,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           popoverMentionKeyClick={true}
+          preview={false}
           value=""
         />
         <span
@@ -57,6 +59,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
         <TextboxLinks
           characterLimit={4000}
           message=""
+          showPreview={false}
           updatePreview={[Function]}
         />
       </div>
@@ -118,6 +121,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     id="rhsFooter"
+    role="application"
     tabIndex="-1"
   >
     <div
@@ -146,6 +150,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           popoverMentionKeyClick={true}
+          preview={false}
           value="Test message"
         />
         <span
@@ -202,6 +207,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
         <TextboxLinks
           characterLimit={4000}
           message=""
+          showPreview={false}
           updatePreview={[Function]}
         />
       </div>
@@ -263,6 +269,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     id="rhsFooter"
+    role="application"
     tabIndex="-1"
   >
     <div
@@ -291,6 +298,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           popoverMentionKeyClick={true}
+          preview={false}
           value="Test message"
         />
         <span
@@ -323,6 +331,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
         <TextboxLinks
           characterLimit={4000}
           message=""
+          showPreview={false}
           updatePreview={[Function]}
         />
       </div>
@@ -333,7 +342,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           type="button"
           value="Add Comment"
         />
-        <FilePreview
+        <Connect(FilePreview)
           fileInfos={
             Array [
               Object {},
@@ -396,6 +405,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     id="rhsFooter"
+    role="application"
     tabIndex="-1"
   >
     <div
@@ -424,6 +434,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           popoverMentionKeyClick={true}
+          preview={false}
           value=""
         />
         <span
@@ -480,6 +491,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
         <TextboxLinks
           characterLimit={4000}
           message=""
+          showPreview={false}
           updatePreview={[Function]}
         />
       </div>
@@ -541,6 +553,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     id="rhsFooter"
+    role="application"
     tabIndex="-1"
   >
     <div
@@ -569,6 +582,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           popoverMentionKeyClick={true}
+          preview={false}
           value="Test message"
         />
         <span
@@ -625,6 +639,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
         <TextboxLinks
           characterLimit={4000}
           message=""
+          showPreview={false}
           updatePreview={[Function]}
         />
       </div>
@@ -644,7 +659,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             values={Object {}}
           />
         </span>
-        <FilePreview
+        <Connect(FilePreview)
           fileInfos={
             Array [
               Object {},

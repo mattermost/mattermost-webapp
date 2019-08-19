@@ -56,6 +56,7 @@ exports[`components/AddGroupsToChannelModal should match snapshot 1`] = `
     componentClass="div"
   >
     <MultiSelect
+      ariaLabelRenderer={[Function]}
       buttonSubmitLoadingText="Adding..."
       buttonSubmitText="Add"
       handleAdd={[Function]}

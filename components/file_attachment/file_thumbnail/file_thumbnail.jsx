@@ -15,10 +15,7 @@ import {
 
 export default class FileThumbnail extends React.PureComponent {
     static propTypes = {
-
-        /*
-         * File detailed information
-         */
+        enableSVGs: PropTypes.bool.isRequired,
         fileInfo: PropTypes.object.isRequired,
     }
 
@@ -50,7 +47,7 @@ export default class FileThumbnail extends React.PureComponent {
                     }}
                 />
             );
-        } else if (fileInfo.extension === FileTypes.SVG) {
+        } else if (fileInfo.extension === FileTypes.SVG && this.props.enableSVGs) {
             thumbnail = (
                 <img
                     alt={'file thumbnail image'}

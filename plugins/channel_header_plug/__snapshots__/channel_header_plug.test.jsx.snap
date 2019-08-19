@@ -181,32 +181,40 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with two extended compo
                     key="channelHeaderPlugsomeid"
                   >
                     <a
-                      className="overflow--ellipsis"
+                      className="d-flex align-items-center"
                       href="#"
                       onClick={[Function]}
                     >
-                      <span>
+                      <span
+                        className="d-flex align-items-center overflow--ellipsis"
+                      >
                         <i
                           className="fa fa-anchor"
                         />
                       </span>
-                      some dropdown text
+                      <span>
+                        some dropdown text
+                      </span>
                     </a>
                   </li>
                   <li
                     key="channelHeaderPlugsomeid2"
                   >
                     <a
-                      className="overflow--ellipsis"
+                      className="d-flex align-items-center"
                       href="#"
                       onClick={[Function]}
                     >
-                      <span>
+                      <span
+                        className="d-flex align-items-center overflow--ellipsis"
+                      >
                         <i
                           className="fa fa-anchor"
                         />
                       </span>
-                      some dropdown text
+                      <span>
+                        some dropdown text
+                      </span>
                     </a>
                   </li>
                 </ul>

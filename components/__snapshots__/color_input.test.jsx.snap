@@ -6,16 +6,19 @@ exports[`components/ColorInput should match snapshot, click on picker 1`] = `
 >
   <input
     className="form-control"
+    id="sidebarBg-inputColorValue"
     readOnly={true}
     type="text"
     value="#ffffff"
   />
   <span
     className="input-group-addon"
+    id="sidebarBg-squareColorIcon"
     onClick={[Function]}
   >
     <i
       className="color-icon"
+      id="sidebarBg-squareColorIconValue"
       style={
         Object {
           "backgroundColor": "#ffffff",
@@ -25,6 +28,7 @@ exports[`components/ColorInput should match snapshot, click on picker 1`] = `
   </span>
   <div
     className="color-popover"
+    id="sidebarBg-ChromePickerModal"
   >
     <ColorPicker
       color="#ffffff"
@@ -43,16 +47,19 @@ exports[`components/ColorInput should match snapshot, init 1`] = `
 >
   <input
     className="form-control"
+    id="sidebarBg-inputColorValue"
     readOnly={true}
     type="text"
     value="#ffffff"
   />
   <span
     className="input-group-addon"
+    id="sidebarBg-squareColorIcon"
     onClick={[Function]}
   >
     <i
       className="color-icon"
+      id="sidebarBg-squareColorIconValue"
       style={
         Object {
           "backgroundColor": "#ffffff",
@@ -69,16 +76,19 @@ exports[`components/ColorInput should match snapshot, opened 1`] = `
 >
   <input
     className="form-control"
+    id="sidebarBg-inputColorValue"
     readOnly={true}
     type="text"
     value="#ffffff"
   />
   <span
     className="input-group-addon"
+    id="sidebarBg-squareColorIcon"
     onClick={[Function]}
   >
     <i
       className="color-icon"
+      id="sidebarBg-squareColorIconValue"
       style={
         Object {
           "backgroundColor": "#ffffff",
@@ -88,6 +98,7 @@ exports[`components/ColorInput should match snapshot, opened 1`] = `
   </span>
   <div
     className="color-popover"
+    id="sidebarBg-ChromePickerModal"
   >
     <ColorPicker
       color="#ffffff"
@@ -106,16 +117,19 @@ exports[`components/ColorInput should match snapshot, toggle picker 1`] = `
 >
   <input
     className="form-control"
+    id="sidebarBg-inputColorValue"
     readOnly={true}
     type="text"
     value="#ffffff"
   />
   <span
     className="input-group-addon"
+    id="sidebarBg-squareColorIcon"
     onClick={[Function]}
   >
     <i
       className="color-icon"
+      id="sidebarBg-squareColorIconValue"
       style={
         Object {
           "backgroundColor": "#ffffff",

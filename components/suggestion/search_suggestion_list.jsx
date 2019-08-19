@@ -37,7 +37,10 @@ export default class SearchSuggestionList extends SuggestionList {
             this.currentLabel = item.name;
         }
 
-        this.currentLabel = this.currentLabel.toLowerCase();
+        if (this.currentLabel) {
+            this.currentLabel = this.currentLabel.toLowerCase();
+        }
+
         this.announceLabel();
     }
 

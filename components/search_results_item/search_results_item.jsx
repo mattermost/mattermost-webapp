@@ -222,7 +222,7 @@ export default class SearchResultsItem extends React.PureComponent {
         let flagContent;
         let postInfoIcon;
         let rhsControls;
-        if (post.state === Constants.POST_DELETED) {
+        if (post.state === Constants.POST_DELETED || post.state === Posts.POST_DELETED) {
             message = (
                 <p>
                     <FormattedMessage
@@ -351,7 +351,10 @@ export default class SearchResultsItem extends React.PureComponent {
                             </span>
                         }
                     </div>
-                    <div className='post__content'>
+                    <div
+                        role='application'
+                        className='post__content'
+                    >
                         {profilePicContainer}
                         <div>
                             <div className='post__header'>

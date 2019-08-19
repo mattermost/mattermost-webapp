@@ -6,13 +6,14 @@ import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
 
 import {Posts} from 'mattermost-redux/constants';
-import {getPost, makeIsPostCommentMention, makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
+import {getPost, makeIsPostCommentMention} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
-import {makeGetDisplayName, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {isPostEphemeral, isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
 import {selectPost, selectPostCard} from 'actions/views/rhs';
 import {Preferences} from 'utils/constants.jsx';
+import {makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
 
 import Post from './post.jsx';
 
@@ -50,8 +51,7 @@ export function makeGetReplyCount() {
 function makeMapStateToProps() {
     const getReplyCount = makeGetReplyCount();
     const isPostCommentMention = makeIsPostCommentMention();
-    const getReactionsForPost = makeGetReactionsForPost();
-    const getDisplayName = makeGetDisplayName();
+    const createAriaLabelForPost = makeCreateAriaLabelForPost();
 
     return (state, ownProps) => {
         const post = ownProps.post || getPost(state, ownProps.postId);
@@ -75,10 +75,8 @@ function makeMapStateToProps() {
 
         return {
             post,
-            author: getDisplayName(state, post.user_id),
-            reactions: getReactionsForPost(state, post.id),
+            createAriaLabel: createAriaLabelForPost(state, post),
             currentUserId: getCurrentUserId(state),
-            isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
             isFirstReply: isFirstReply(post, previousPost),
             consecutivePostByUser,
             previousPostIsComment,
