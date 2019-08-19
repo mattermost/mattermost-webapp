@@ -741,6 +741,7 @@
     padding: 8px .5em 0 1.5em; // If this needs to be changed then .post-row__padding needs to be adjusted accordingly
     position: relative;
     word-wrap: break-word;
+    overflow: hidden;
 
     .browser--ie & {
         .post__header {
