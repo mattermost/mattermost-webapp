@@ -268,6 +268,9 @@ Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
 Cypress.Commands.add('getCurrentTeamId', () => {
     return cy.get('#headerTeamName').invoke('attr', 'data-teamid');
 });
+Cypress.Commands.add('getCurrentTeamName', () => {
+    return cy.get('#headerTeamName').invoke('text');
+});
 
 Cypress.Commands.add('leaveTeam', () => {
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
