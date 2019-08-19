@@ -248,7 +248,7 @@ function handleClose(failCount) {
     ]));
 }
 
-function handleEvent(msg) {
+export function handleEvent(msg) {
     switch (msg.event) {
     case SocketEvents.POSTED:
     case SocketEvents.EPHEMERAL_MESSAGE:
@@ -320,7 +320,7 @@ function handleEvent(msg) {
         break;
 
     case SocketEvents.CHANNEL_UPDATED:
-        handleChannelUpdatedEvent(msg);
+        dispatch(handleChannelUpdatedEvent(msg));
         break;
 
     case SocketEvents.CHANNEL_MEMBER_UPDATED:
