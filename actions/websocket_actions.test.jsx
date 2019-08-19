@@ -22,7 +22,7 @@ import store from 'stores/redux_store.jsx';
 import configureStore from 'tests/test_store';
 
 import {browserHistory} from 'utils/browser_history';
-import Constants, {UserStatuses} from 'utils/constants';
+import Constants, {UserStatuses, SocketEvents} from 'utils/constants';
 
 import {
     handleChannelUpdatedEvent,
@@ -32,6 +32,7 @@ import {
     handleUserRemovedEvent,
     handleUserTypingEvent,
     reconnect,
+    handleEvent,
 } from './websocket_actions';
 
 jest.mock('mattermost-redux/actions/posts', () => ({
@@ -382,6 +383,13 @@ describe('handleChannelUpdatedEvent', () => {
             },
         },
     };
+
+    test('called from handleEvent', () => {
+        const channel = {id: 'channel'};
+        const msg = {event: SocketEvents.CHANNEL_UPDATED, data: {channel: JSON.stringify(channel)}};
+        handleEvent(msg);
+        expect(store.dispatch).toHaveBeenCalled();
+    });
 
     test('when a channel is updated', () => {
         const testStore = configureStore(initialState);
