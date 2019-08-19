@@ -29,7 +29,7 @@ exports[`components/admin_console/system_user_detail should match default snapsh
         body={
           <React.Fragment>
             <span
-              className="SystemUserDetail__field-label"
+              className="SystemUserDetail__position"
             />
             <span
               className="SystemUserDetail__field-label"
@@ -98,6 +98,17 @@ exports[`components/admin_console/system_user_detail should match default snapsh
           }
         }
       />
+      <AdminPanel
+        className=""
+        subtitleDefault="Teams to which this user belongs"
+        subtitleId="admin.userManagement.userDetail.teamsSubtitle"
+        titleDefault="Team Membership"
+        titleId="admin.userManagement.userDetail.teamsTitle"
+      >
+        <Connect(TeamList)
+          userId="1234"
+        />
+      </AdminPanel>
     </div>
   </div>
   <div
@@ -227,7 +238,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if MF
         body={
           <React.Fragment>
             <span
-              className="SystemUserDetail__field-label"
+              className="SystemUserDetail__position"
             />
             <span
               className="SystemUserDetail__field-label"
@@ -303,6 +314,17 @@ exports[`components/admin_console/system_user_detail should match snapshot if MF
           }
         }
       />
+      <AdminPanel
+        className=""
+        subtitleDefault="Teams to which this user belongs"
+        subtitleId="admin.userManagement.userDetail.teamsSubtitle"
+        titleDefault="Team Membership"
+        titleId="admin.userManagement.userDetail.teamsTitle"
+      >
+        <Connect(TeamList)
+          userId="1234"
+        />
+      </AdminPanel>
     </div>
   </div>
   <div
@@ -433,7 +455,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if no
         body={
           <React.Fragment>
             <span
-              className="SystemUserDetail__field-label"
+              className="SystemUserDetail__position"
             />
             <span
               className="SystemUserDetail__field-label"
@@ -502,6 +524,17 @@ exports[`components/admin_console/system_user_detail should match snapshot if no
           }
         }
       />
+      <AdminPanel
+        className=""
+        subtitleDefault="Teams to which this user belongs"
+        subtitleId="admin.userManagement.userDetail.teamsSubtitle"
+        titleDefault="Team Membership"
+        titleId="admin.userManagement.userDetail.teamsTitle"
+      >
+        <Connect(TeamList)
+          userId="1234"
+        />
+      </AdminPanel>
     </div>
   </div>
   <div
@@ -631,7 +664,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if us
         body={
           <React.Fragment>
             <span
-              className="SystemUserDetail__field-label"
+              className="SystemUserDetail__position"
             />
             <span
               className="SystemUserDetail__field-label"
@@ -701,6 +734,17 @@ exports[`components/admin_console/system_user_detail should match snapshot if us
           }
         }
       />
+      <AdminPanel
+        className=""
+        subtitleDefault="Teams to which this user belongs"
+        subtitleId="admin.userManagement.userDetail.teamsSubtitle"
+        titleDefault="Team Membership"
+        titleId="admin.userManagement.userDetail.teamsTitle"
+      >
+        <Connect(TeamList)
+          userId="1234"
+        />
+      </AdminPanel>
     </div>
   </div>
   <div

@@ -3,9 +3,14 @@
     display: block;
     font-weight: bold;
     margin-top: 12px;
+    margin-bottom: 4px;
 }
 
 .SystemUserDetail__input {
     height: 40px;
     max-width: 320px;
+}
+
+.SystemUserDetail .TeamRow__col-description {
+    max-width: 400px;
 }

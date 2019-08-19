@@ -10,22 +10,28 @@ import {Overlay, Tooltip} from 'react-bootstrap';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {adminResetMfa, adminResetEmail} from 'actions/admin_actions.jsx';
+
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 import BlockableLink from 'components/admin_console/blockable_link';
 import ResetPasswordModal from 'components/admin_console/reset_password_modal';
 import AdminButtonOutline from 'components/admin_console/admin_button_outline/admin_button_outline';
 import AdminUserCard from 'components/admin_console/admin_user_card/admin_user_card';
+import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import SaveButton from 'components/save_button.jsx';
 import FormError from 'components/form_error.jsx';
+
+import TeamList from 'components/admin_console/system_user_detail/team_list';
 
 import './system_user_detail.scss';
 
 export default class SystemUserDetail extends React.Component {
     static propTypes = {
         user: PropTypes.object.isRequired,
+        teams: PropTypes.object,
         actions: PropTypes.shape({
             updateUserActive: PropTypes.func.isRequired,
             setNavigationBlocked: PropTypes.func.isRequired,
@@ -310,7 +316,7 @@ export default class SystemUserDetail extends React.Component {
                             user={user}
                             body={
                                 <React.Fragment>
-                                    <span className='SystemUserDetail__field-label'>{user.position}</span>
+                                    <span className='SystemUserDetail__position'>{user.position}</span>
                                     <span className='SystemUserDetail__field-label'>{Utils.localizeMessage('admin.userManagement.userDetail.email', 'Email')}</span>
                                     <input
                                         className='SystemUserDetail__input form-control'
@@ -339,6 +345,14 @@ export default class SystemUserDetail extends React.Component {
                                 </React.Fragment>
                             }
                         />
+                        <AdminPanel
+                            subtitleId={t('admin.userManagement.userDetail.teamsSubtitle')}
+                            subtitleDefault={'Teams to which this user belongs'}
+                            titleId={t('admin.userManagement.userDetail.teamsTitle')}
+                            titleDefault={'Team Membership'}
+                        >
+                            <TeamList userId={this.props.user.id}/>
+                        </AdminPanel>
                     </div>
                 </div>
                 <div className='admin-console-save'>
