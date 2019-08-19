@@ -19,7 +19,7 @@ import {
 import DownloadIcon from 'components/svg/download_icon';
 
 import FilenameOverlay from './filename_overlay.jsx';
-import FileThumbnail from './file_thumbnail.jsx';
+import FileThumbnail from './file_thumbnail';
 
 export default class FileAttachment extends React.PureComponent {
     static propTypes = {
@@ -45,6 +45,7 @@ export default class FileAttachment extends React.PureComponent {
         compactDisplay: PropTypes.bool,
 
         canDownloadFiles: PropTypes.bool,
+        enableSVGs: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -65,7 +66,7 @@ export default class FileAttachment extends React.PureComponent {
             const extension = nextProps.fileInfo.extension;
 
             this.setState({
-                loaded: getFileType(extension) !== FileTypes.IMAGE && extension !== FileTypes.SVG,
+                loaded: getFileType(extension) !== FileTypes.IMAGE && !(nextProps.enableSVGs && extension === FileTypes.SVG),
             });
         }
     }
@@ -88,7 +89,7 @@ export default class FileAttachment extends React.PureComponent {
             const thumbnailUrl = getFileThumbnailUrl(fileInfo.id);
 
             loadImage(thumbnailUrl, this.handleImageLoaded);
-        } else if (fileInfo.extension === FileTypes.SVG) {
+        } else if (fileInfo.extension === FileTypes.SVG && this.props.enableSVGs) {
             loadImage(getFileUrl(fileInfo.id), this.handleImageLoaded);
         }
     }

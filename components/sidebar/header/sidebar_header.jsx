@@ -37,7 +37,7 @@ export default class SidebarHeader extends React.PureComponent {
                 id='lhsHeader'
                 aria-label={ariaLabel}
                 tabIndex='-1'
-                role='navigation'
+                role='application'
                 className='SidebarHeader team__header theme a11y__region'
                 data-a11y-sort-order='5'
             >
