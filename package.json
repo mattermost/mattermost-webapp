@@ -124,7 +124,6 @@
     "remote-redux-devtools": "0.5.16",
     "sass-loader": "7.1.0",
     "style-loader": "0.23.1",
-    "ts-jest": "24.0.2",
     "webpack": "4.36.1",
     "webpack-cli": "3.3.6",
     "webpack-dev-server": "3.7.2",
@@ -188,8 +187,7 @@
     "setupFilesAfterEnv": [
       "<rootDir>/tests/setup.js"
     ],
-    "testURL": "http://localhost:8065",
-    "preset": "ts-jest/presets/js-with-ts"
+    "testURL": "http://localhost:8065"
   },
   "jest-junit": {
     "output": "build/test-results.xml"

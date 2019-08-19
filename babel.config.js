@@ -3,10 +3,6 @@
 
 const config = {
     presets: [
-        ['@babel/typescript', {
-            allExtensions: true,
-            isTSX: true,
-        }],
         ['@babel/preset-env', {
             targets: {
                 chrome: 66,
@@ -22,6 +18,10 @@ const config = {
         }],
         ['@babel/preset-react', {
             useBuiltIns: true,
+        }],
+        ['@babel/typescript', {
+            allExtensions: true,
+            isTSX: true,
         }],
     ],
     plugins: [
