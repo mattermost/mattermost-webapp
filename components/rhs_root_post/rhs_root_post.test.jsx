@@ -45,7 +45,7 @@ describe('components/RhsRootPost', () => {
             commentCount: 0,
             author: 'Author',
             reactions: {},
-            isFlagged: true,
+            isFlagged: false,
             isBusy: false,
             previewCollapsed: '',
             previewEnabled: false,
@@ -69,12 +69,40 @@ describe('components/RhsRootPost', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot when flagged', () => {
+        const props = {
+            ...defaultProps,
+            isFlagged: true,
+        };
+        const wrapper = shallowWithIntl(
+            <RhsRootPost {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot on deleted post', () => {
         const props = {
             ...defaultProps,
             post: {
                 ...defaultProps.post,
                 state: Posts.POST_DELETED,
+            },
+        };
+        const wrapper = shallowWithIntl(
+            <RhsRootPost {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot on flagged, deleted post', () => {
+        const props = {
+            ...defaultProps,
+            post: {
+                ...defaultProps.post,
+                state: Posts.POST_DELETED,
+                isFlagged: true,
             },
         };
         const wrapper = shallowWithIntl(
