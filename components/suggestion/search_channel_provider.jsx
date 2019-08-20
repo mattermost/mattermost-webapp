@@ -12,6 +12,8 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 
 import {getDirectTeammate} from 'utils/utils.jsx';
 
+import store from 'stores/redux_store.jsx';
+
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
 
@@ -71,7 +73,7 @@ export default class SearchChannelProvider extends Provider {
 
             this.startNewRequest(channelPrefix);
 
-            autocompleteChannelsForSearch(
+            store.dispatch(autocompleteChannelsForSearch(
                 channelPrefix,
                 (data) => {
                     if (this.shouldCancelDispatch(channelPrefix)) {
@@ -90,8 +92,9 @@ export default class SearchChannelProvider extends Provider {
                         items: channels,
                         component: SearchChannelSuggestion,
                     });
-                }
-            );
+                },
+                (err) => console.log('ERROR', err),
+            ));
         }
 
         return Boolean(captured);
