@@ -28,8 +28,6 @@ import TextboxLinks from 'components/textbox/textbox_links.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
 
-const KeyCodes = Constants.KeyCodes;
-
 export default class CreateComment extends React.PureComponent {
     static propTypes = {
 
@@ -260,6 +258,11 @@ export default class CreateComment extends React.PureComponent {
             this.scrollToBottom();
         }
 
+        // Focus on textbox when emoji picker is closed
+        if (prevState.showEmojiPicker && !this.state.showEmojiPicker) {
+            this.focusTextbox();
+        }
+
         if (prevProps.rootId !== this.props.rootId || prevProps.selectedPostFocussedAt !== this.props.selectedPostFocussedAt) {
             this.focusTextbox();
         }
@@ -365,8 +368,6 @@ export default class CreateComment extends React.PureComponent {
             showEmojiPicker: false,
             draft: modifiedDraft,
         });
-
-        this.focusTextbox();
     }
 
     handleGifClick = (gif) => {
@@ -581,12 +582,6 @@ export default class CreateComment extends React.PureComponent {
                 e.preventDefault();
                 this.props.onMoveHistoryIndexForward();
             }
-        }
-    }
-
-    handleKeyDownEmojiPicker = (e) => {
-        if (Utils.isKeyPressed(e, KeyCodes.ENTER)) {
-            this.toggleEmojiPicker();
         }
     }
 
