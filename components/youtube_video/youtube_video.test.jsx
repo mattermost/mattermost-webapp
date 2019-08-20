@@ -4,8 +4,6 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import {getYoutubeVideoInfo} from 'actions/integration_actions';
-
 import YoutubeVideo from './youtube_video';
 
 jest.mock('actions/integration_actions');
@@ -23,7 +21,7 @@ describe('YoutubeVideo', () => {
             images: [{
                 secure_url: 'linkForThumbnail',
             }],
-        }
+        },
     };
 
     test('should correctly parse youtube start time formats', () => {
