@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import ReactSelect from 'react-select';
 
 import {Constants, A11yCustomEventTypes} from 'utils/constants.jsx';
+import {isKeyPressed} from 'utils/utils.jsx';
 import SaveButton from 'components/save_button.jsx';
 
 import MultiSelectList from './multiselect_list.jsx';
@@ -179,6 +180,13 @@ export default class MultiSelect extends React.Component {
         this.props.handleSubmit();
     }
 
+    handleSubmitKeyDown = (e) => {
+        if (isKeyPressed(e, KeyCodes.SPACE)) {
+            e.preventDefault();
+            this.props.handleSubmit();
+        }
+    }
+
     onChange = (_, change) => {
         if (change.action !== 'remove-value' && change.action !== 'pop-value') {
             return;
@@ -348,6 +356,7 @@ export default class MultiSelect extends React.Component {
                             saving={this.props.saving}
                             disabled={this.props.saving}
                             onClick={this.handleOnClick}
+                            onKeyDown={this.handleSubmitKeyDown}
                             defaultMessage={buttonSubmitText}
                             savingMessage={this.props.buttonSubmitLoadingText}
                         />
