@@ -57,4 +57,19 @@ describe('YoutubeVideo', () => {
         wrapper.setState({playing: true});
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should use url if secure_url is not present', () => {
+        const props = {
+            ...baseProps,
+            metadata: {
+                title: 'Youtube title',
+                images: [{
+                    url: 'linkUrl',
+                }],
+            },
+        };
+        const wrapper = shallow(<YoutubeVideo {...props}/>);
+
+        expect(wrapper.find('img').prop('src')).toEqual('linkUrl');
+    });
 });

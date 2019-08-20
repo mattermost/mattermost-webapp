@@ -124,13 +124,15 @@ export default class YoutubeVideo extends React.PureComponent {
                 />
             );
         } else {
+            const images = metadata.images[0];
+
             content = (
                 <div className='embed-responsive video-div__placeholder'>
                     <div className='video-thumbnail__container'>
                         <img
                             alt='youtube video thumbnail'
                             className='video-thumbnail'
-                            src={metadata.images[0].secure_url}
+                            src={images.secure_url || images.url}
                         />
                         <div className='block'>
                             <span className='play-button'><span/></span>
