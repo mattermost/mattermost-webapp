@@ -60,7 +60,6 @@ export default class SettingItemMin extends React.PureComponent {
     componentDidMount() {
         if (this.props.previousActiveSection === this.props.section) {
             this.edit.focus();
-            this.props.actions.updateActiveSection(null);
         }
     }
 

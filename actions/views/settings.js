@@ -4,12 +4,8 @@
 import {ActionTypes} from 'utils/constants.jsx';
 
 export function updateActiveSection(newActiveSection) {
-    return (dispatch) => {
-        const action = {
-            type: ActionTypes.UPDATE_ACTIVE_SECTION,
-            data: newActiveSection,
-        };
-
-        dispatch(action);
+    return {
+        type: ActionTypes.UPDATE_ACTIVE_SECTION,
+        data: newActiveSection,
     };
 }
